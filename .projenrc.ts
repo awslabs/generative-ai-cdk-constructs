@@ -41,6 +41,5 @@ const project = new awscdk.AwsCdkConstructLibrary({
   copyrightPeriod: '2023-',
   copyrightOwner: 'Amazon.com, Inc. or its affiliates. All Rights Reserved.',
   gitignore: ['*.DS_STORE'],
-  mutableBuild: false,
 });
 project.synth();
