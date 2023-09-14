@@ -12,11 +12,12 @@
 /.mergify.yml linguist-generated
 /.npmignore linguist-generated
 /.npmrc linguist-generated
+/.prettierignore linguist-generated
+/.prettierrc.json linguist-generated
 /.projen/** linguist-generated
 /.projen/deps.json linguist-generated
 /.projen/files.json linguist-generated
 /.projen/tasks.json linguist-generated
-/API.md linguist-generated
 /LICENSE linguist-generated
 /package.json linguist-generated
 /tsconfig.dev.json linguist-generated
