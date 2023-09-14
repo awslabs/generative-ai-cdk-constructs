@@ -4,9 +4,9 @@ import { PrettierOptions, ArrowParens } from 'projen/lib/javascript';
 // Constants
 const CDK_VERSION: string = '2.93.0';
 const DEFAULT_RELEASE_BRANCH: string = 'main';
-const AUTHOR_EMAIL: string = 'pace@amazon.com';
+const AUTHOR_EMAIL: string = 'emerging-tech-cdk-constructs@amazon.com';
 const AUTHOR_NAME: string = 'Amazon Web Services';
-//const NODE_VERSION: string = '20.5.1';
+const NODE_VERSION: string = '18.17.1';
 
 // Prettier settings
 const prettierConf: PrettierOptions = {
@@ -24,7 +24,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   author: AUTHOR_NAME,
   authorAddress: AUTHOR_EMAIL,
   cdkVersion: CDK_VERSION,
-  //minNodeVersion: NODE_VERSION,
+  minNodeVersion: NODE_VERSION,
   defaultReleaseBranch: DEFAULT_RELEASE_BRANCH,
   jsiiVersion: '~5.0.0',
   name: 'emerging-tech-cdk-constructs',

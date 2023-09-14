@@ -2,6 +2,14 @@
 
 Emerging Tech Constructs are built in typescript using Projen (http://projen.io/). This is to support all the associated testing, code checking and compilation for Java, Python and .NET client. At the moment, there is no dedicated development container, thus you need to configure your local development environment following the steps described below.
 
+## Security
+
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
+## License
+
+This library is licensed under the MIT-0 License. See the LICENSE file.
+
 ### Pre-requisites
 
 - An AWS account. We recommend to deploy this solution in a new account
@@ -15,7 +23,7 @@ Default region name [None]: us-east-1
 Default output format [None]: json
 ```
 
-- Node.js: v20.5.1
+- Node.js: v18.17.1
 - [AWS CDK](https://github.com/aws/aws-cdk/releases/tag/v2.93.0): 2.93.0
 - [Python >=3.9](https://www.python.org/downloads/)
 
