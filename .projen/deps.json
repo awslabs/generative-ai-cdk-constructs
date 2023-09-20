@@ -60,10 +60,6 @@
       "type": "build"
     },
     {
-      "name": "jsii-docgen",
-      "type": "build"
-    },
-    {
       "name": "jsii-pacmak",
       "type": "build"
     },
