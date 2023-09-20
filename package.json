@@ -1,8 +1,8 @@
 {
-  "name": "@scottschreckengaust/emerging-tech-cdk-constructs",
+  "name": "@aws-samples/emerging-tech-cdk-constructs",
   "repository": {
     "type": "git",
-    "url": "https://github.com/scottschreckengaust/emerging-tech-cdk-constructs"
+    "url": "https://github.com/aws-samples/emerging-tech-cdk-constructs"
   },
   "scripts": {
     "build": "npx projen build",

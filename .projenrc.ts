@@ -1,6 +1,6 @@
 import { awscdk } from 'projen';
 
-const gitHubUser = 'scottschreckengaust';
+const gitHubUser = 'aws-samples';
 const projectName = 'emerging-tech-cdk-constructs';
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Amazon Web Services - Prototyping and Cloud Engineering',
