@@ -36,8 +36,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
       contributorStatementOptions: {
         exemptUsers: [
           'github-actions@github.org',
-        ]
-      }
+        ],
+      },
     },
   },
   docgen: false,
