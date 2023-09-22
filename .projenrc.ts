@@ -43,5 +43,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   docgen: false,
   licensed: true,
   license: 'Apache-2.0',
+  codeCov: true,
+  codeCovTokenSecret: 'CODECOV_TOKEN',
 });
 project.synth();
