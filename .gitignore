@@ -30,6 +30,7 @@ jspm_packages/
 *.tgz
 .yarn-integrity
 .cache
+*.DS_STORE
 !/.projenrc.js
 /test-reports/
 junit.xml
