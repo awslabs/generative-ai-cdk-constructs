@@ -130,7 +130,7 @@ BREAKING CHANGE: Description of what broke and how to achieve this behavior now
 * Submit a Pull Requests on GitHub.
 * Please follow the PR checklist written above. We trust our contributors to self-check, and this helps that process!
 * Discuss review comments and iterate until you get at least one “Approve”. When iterating, push new commits to the
-  same branch. Usually all these are going to be squashed when you merge to master. The commit messages should be hints
+  same branch. Usually all these are going to be squashed when you merge to main. The commit messages should be hints
   for you when you finalize your merge commit message.
 * Make sure to update the PR title/description if things change. The PR title/description are going to be used as the
   commit title/message and will appear in the CHANGELOG, so maintain them all the way throughout the process.
@@ -155,7 +155,7 @@ Packages are published to all target package managers.
 
 ### Step 6: Merge
 
-* Once approved and tested, a maintainer will squash-merge to master and will use your PR title/description as the
+* Once approved and tested, a maintainer will squash-merge to main and will use your PR title/description as the
   commit message.
 
 Projen automatically performs semantic versioning based on [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/).
