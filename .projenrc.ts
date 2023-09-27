@@ -43,6 +43,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   docgen: false,
   licensed: true,
   license: 'Apache-2.0',
+  gitignore: ['*.DS_STORE'],
+  stability: 'experimental',
   codeCov: true,
   codeCovTokenSecret: 'CODECOV_TOKEN',
 });
