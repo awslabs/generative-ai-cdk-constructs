@@ -39,7 +39,7 @@ export interface RagAppsyncStepfnOpensearchProps {
    */
   readonly vpcProps?: ec2.VpcProps;
   /**
-   * An existing VPC in which to deploy the construct. Providing both this and
+   * Optional An existing VPC in which to deploy the construct. Providing both this and
    * vpcProps is an error.
    *
    * @default - none
@@ -53,7 +53,7 @@ export interface RagAppsyncStepfnOpensearchProps {
    */
   readonly existingSecurityGroup?: ec2.ISecurityGroup;
   /**
-   * Existing instance of an Eventbridge bus.
+   * Optional Existing instance of an Eventbridge bus. If not provided, the construct will create one.
    *
    * @default - None
    */
@@ -119,7 +119,7 @@ export interface RagAppsyncStepfnOpensearchProps {
    *
    * @default - None
    */
-  readonly mergedApiGraphQL?: string;
+  readonly mergedApiGraphQLEndpoint?: string;
   /**
    * Cognito user pool used for authentication.
    *
@@ -161,7 +161,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     super(scope, id);
 
     // stage
-    let stage = '_dev';
+    let stage = '-dev';
     if (props?.stage) {
       stage = props.stage;
     }
@@ -195,11 +195,11 @@ export class RagAppsyncStepfnOpensearch extends Construct {
 
     if (!props.existingInputAssetsBucketObj) {
       if (!props.bucketInputsAssetsProps) {
-        inputAssetsBucket = new s3.Bucket(this, 'InputAssetsBucket'+stage,
+        inputAssetsBucket = new s3.Bucket(this, 'inputAssetsBucket'+stage,
           {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
-            bucketName: 'InputAssetsBucket'+stage+'_'+Aws.ACCOUNT_ID,
+            bucketName: 'input-assets-bucket'+stage+'-'+Aws.ACCOUNT_ID,
           });
       } else {
         inputAssetsBucket = new s3.Bucket(this, 'InputAssetsBucket'+stage, props.bucketInputsAssetsProps);
@@ -219,7 +219,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
           {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
-            bucketName: 'processedAssetsBucket'+stage+'_'+Aws.ACCOUNT_ID,
+            bucketName: 'processed-assets-bucket'+stage+'-'+Aws.ACCOUNT_ID,
           });
       } else {
         processedAssetsBucket = new s3.Bucket(this, 'processedAssetsBucket'+stage, props.bucketProcessedAssetsProps);
@@ -236,7 +236,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       'ingestionGraphqlApi',
       {
         name: 'ingestionGraphqlApi'+stage,
-        schema: appsync.SchemaFile.fromAsset(path.join(__dirname, '../../../../resources/aws-rag-appsync-stepfn-opensearch.graphql')),
+        schema: appsync.SchemaFile.fromAsset(path.join(__dirname, '../../../../resources/gen-ai/aws-rag-appsync-stepfn-opensearch/schema.graphql')),
         authorizationConfig: {
           defaultAuthorization: {
             authorizationType: appsync.AuthorizationType.USER_POOL,
@@ -306,6 +306,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       {
         code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/input_validation/src')),
         functionName: 'ingestion_input_validation_docker'+stage,
+        description: 'Lambda function for validating input files formats',
         vpc: this.vpc,
         tracing: lambda.Tracing.ACTIVE,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
@@ -313,7 +314,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         memorySize: 1_769 * 4,
         timeout: Duration.minutes(15),
         environment: {
-          GRAPHQL_URL: props.mergedApiGraphQL!,
+          GRAPHQL_URL: props.mergedApiGraphQLEndpoint!,
         },
       },
     );
@@ -324,6 +325,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       {
         code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/s3_file_transformer/src')),
         functionName: 's3_file_transformer_docker'+stage,
+        description: 'Lambda function for converting files from their input format to text',
         vpc: this.vpc,
         tracing: lambda.Tracing.ACTIVE,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
@@ -333,7 +335,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         environment: {
           INPUT_BUCKET: this.s3InputAssetsBucket?.bucketName!,
           OUTPUT_BUCKET: this.s3ProcessedAssetsBucket?.bucketName!,
-          GRAPHQL_URL: props.mergedApiGraphQL!,
+          GRAPHQL_URL: props.mergedApiGraphQLEndpoint!,
         },
       },
     );
@@ -350,6 +352,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       {
         code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/embeddings_job/src')),
         functionName: 'embeddings_job_docker'+stage,
+        description: 'Lambda function for creating documents chunks, embeddings and storing them in Amazon Opensearch',
         vpc: this.vpc,
         tracing: lambda.Tracing.ACTIVE,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
@@ -359,7 +362,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         environment: {
           INPUT_BUCKET: this.s3InputAssetsBucket?.bucketName!,
           OUTPUT_BUCKET: this.s3ProcessedAssetsBucket?.bucketName!,
-          GRAPHQL_URL: props.mergedApiGraphQL!,
+          GRAPHQL_URL: props.mergedApiGraphQLEndpoint!,
           OPENSEARCH_INDEX: props.openSearchIndexName,
           OPENSEARCH_DOMAIN_ENDPOINT: props.openSearchDomainEndpoint,
           BEDROCK_REGION: props.bedrockRegion,
@@ -461,9 +464,9 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     this.ingestionBus.grantPutEventsTo(event_bridge_datasource.grantPrincipal);
 
     event_bridge_datasource.createResolver(
-      'ingestDocumentResolver'+stage,
+      'ingestDocumentResolver',
       {
-        fieldName: 'ingestDocuments'+stage,
+        fieldName: 'ingestDocuments',
         typeName: 'Mutation',
         requestMappingTemplate: appsync.MappingTemplate.fromString(
           `
