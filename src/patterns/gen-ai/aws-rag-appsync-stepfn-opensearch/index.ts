@@ -236,7 +236,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       'ingestionGraphqlApi',
       {
         name: 'ingestionGraphqlApi'+stage,
-        schema: appsync.SchemaFile.fromAsset(path.join(__dirname, 'schema.graphql')),
+        schema: appsync.SchemaFile.fromAsset(path.join(__dirname, '../../../../resources/aws-rag-appsync-stepfn-opensearch.graphql')),
         authorizationConfig: {
           defaultAuthorization: {
             authorizationType: appsync.AuthorizationType.USER_POOL,
@@ -304,9 +304,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       this,
       'lambda_function_validation_input'+stage,
       {
-        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, './functions/input_validation/src')),
+        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/input_validation/src')),
         functionName: 'ingestion_input_validation_docker'+stage,
-        allowAllOutbound: true,
         vpc: this.vpc,
         tracing: lambda.Tracing.ACTIVE,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
@@ -323,9 +322,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       this,
       'lambda_function_s3_file_transformer'+stage,
       {
-        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, './functions/s3_file_transformer/src')),
+        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/s3_file_transformer/src')),
         functionName: 's3_file_transformer_docker'+stage,
-        allowAllOutbound: true,
         vpc: this.vpc,
         tracing: lambda.Tracing.ACTIVE,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
@@ -350,9 +348,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       this,
       'lambda_function_embeddings_job'+stage,
       {
-        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, './functions/embeddings_job/src')),
+        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/embeddings_job/src')),
         functionName: 'embeddings_job_docker'+stage,
-        allowAllOutbound: true,
         vpc: this.vpc,
         tracing: lambda.Tracing.ACTIVE,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },

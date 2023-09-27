@@ -10,4 +10,4 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-export { RagAppsyncStepfnOpensearch, RagAppsyncStepfnOpensearchProps } from './patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index';
+export * from './patterns/gen-ai/aws-rag-appsync-stepfn-opensearch';
