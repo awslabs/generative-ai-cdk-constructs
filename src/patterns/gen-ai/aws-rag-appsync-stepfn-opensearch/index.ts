@@ -1,0 +1,511 @@
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
+import * as path from 'path';
+import { Duration, Aws } from 'aws-cdk-lib';
+import * as appsync from 'aws-cdk-lib/aws-appsync';
+import * as cognito from 'aws-cdk-lib/aws-cognito';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as events from 'aws-cdk-lib/aws-events';
+import * as targets from 'aws-cdk-lib/aws-events-targets';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as logs from 'aws-cdk-lib/aws-logs';
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as stepfn from 'aws-cdk-lib/aws-stepfunctions';
+import * as stepfn_task from 'aws-cdk-lib/aws-stepfunctions-tasks';
+import { Construct } from 'constructs';
+import * as vpc_helper from '../../../common/helpers/vpc-helper';
+
+/**
+ * The properties for the RagAppsyncStepfnOpensearch class.
+ */
+export interface RagAppsyncStepfnOpensearchProps {
+  /**
+   * Optional custom properties for a VPC the construct will create. This VPC will
+   * be used by the Lambda functions the construct creates. Providing
+   * both this and existingVpc is an error.
+   *
+   * @default - none
+   */
+  readonly vpcProps?: ec2.VpcProps;
+  /**
+   * An existing VPC in which to deploy the construct. Providing both this and
+   * vpcProps is an error.
+   *
+   * @default - none
+   */
+  readonly existingVpc?: ec2.IVpc;
+  /**
+   * Optional existing security group allowing access to opensearch. Used by the lambda functions
+   * built by this construct. If not provided, the construct will create one.
+   *
+   * @default - none
+   */
+  readonly existingSecurityGroup?: ec2.ISecurityGroup;
+  /**
+   * Existing instance of an Eventbridge bus.
+   *
+   * @default - None
+   */
+  readonly existingIngestionBusInterface?: events.IEventBus;
+  /**
+   * Existing instance of S3 Bucket object, providing both this and `bucketInputsAssetsProps` will cause an error.
+   *
+   * @default - None
+   */
+  readonly existingInputAssetsBucketObj?: s3.IBucket;
+  /**
+   * Optional user provided props to override the default props for the S3 Bucket.
+   * Providing both this and `existingInputAssetsBucketObj` will cause an error.
+   *
+   * @default - Default props are used
+   */
+  readonly bucketInputsAssetsProps?: s3.BucketProps;
+  /**
+   * Existing instance of S3 Bucket object, providing both this and `bucketProcessedAssetsProps` will cause an error.
+   *
+   * @default - None
+   */
+  readonly existingProcessedAssetsBucketObj?: s3.IBucket;
+  /**
+   * Optional user provided props to override the default props for the S3 Bucket.
+   * Providing both this and `existingProcessedAssetsBucketObj` will cause an error.
+   *
+   * @default - Default props are used
+   */
+  readonly bucketProcessedAssetsProps?: s3.BucketProps;
+  /**
+   * Domain name for the OpenSearch Service.
+   *
+   * @default - None
+   */
+  readonly openSearchDomainName: string;
+  /**
+   * Domain endpoint for the OpenSearch Service.
+   *
+   * @default - None
+   */
+  readonly openSearchDomainEndpoint: string;
+  /**
+   * Index name for the OpenSearch Service.
+   *
+   * @default - None
+   */
+  readonly openSearchIndexName: string;
+  /**
+   * Region name for the Bedrock Service.
+   *
+   * @default - None
+   */
+  readonly bedrockRegion: string;
+  /**
+   * Endpoint for the Bedrock Service.
+   *
+   * @default - None
+   */
+  readonly bedrockURL: string;
+  /**
+   * URL endpoint of the appsync merged api.
+   *
+   * @default - None
+   */
+  readonly mergedApiGraphQL?: string;
+  /**
+   * Cognito user pool used for authentication.
+   *
+   * @default - None
+   */
+  readonly cognitoUserPool: cognito.IUserPool;
+  /**
+   * Value will be appended to resources name.
+   *
+   * @default - _dev
+   */
+  readonly stage?: string;
+}
+
+/**
+   * @summary The RagApiGatewayOpensearch class.
+   */
+export class RagAppsyncStepfnOpensearch extends Construct {
+
+  public readonly vpc: ec2.IVpc;
+  public readonly securityGroup: ec2.ISecurityGroup;
+  public readonly ingestionBus: events.IEventBus;
+  public readonly s3InputAssetsBucketInterface: s3.IBucket;
+  public readonly s3InputAssetsBucket?: s3.Bucket;
+  public readonly s3ProcessedAssetsBucketInterface: s3.IBucket;
+  public readonly s3ProcessedAssetsBucket?: s3.Bucket;
+  public readonly graphqlApi: appsync.IGraphqlApi;
+  public readonly stateMachine: stepfn.StateMachine;
+
+  /**
+     * @summary Constructs a new instance of the RagAppsyncStepfnOpensearch class.
+     * @param {cdk.App} scope - represents the scope for all the resources.
+     * @param {string} id - this is a a scope-unique id.
+     * @param {RagAppsyncStepfnOpensearchProps} props - user provided props for the construct.
+     * @since 0.0.0
+     * @access public
+     */
+  constructor(scope: Construct, id: string, props: RagAppsyncStepfnOpensearchProps) {
+    super(scope, id);
+
+    // stage
+    let stage = '_dev';
+    if (props?.stage) {
+      stage = props.stage;
+    }
+
+    // Verify that both existingVpc and vpcProps are not provided
+    vpc_helper.CheckVpcProps(props);
+
+    if (props?.existingVpc) {
+      this.vpc = props.existingVpc;
+    } else {
+      this.vpc = new ec2.Vpc(this, 'Vpc', props.vpcProps);
+    }
+
+    // Security group
+    if (props?.existingSecurityGroup) {
+      this.securityGroup = props.existingSecurityGroup;
+    } else {
+      this.securityGroup = new ec2.SecurityGroup(
+        this,
+        'securityGroup',
+        {
+          vpc: this.vpc,
+          allowAllOutbound: true,
+          securityGroupName: 'securityGroup'+stage,
+        },
+      );
+    }
+
+    // Bucket containing the inputs assets (documents - multiple modalities) uploaded by the user
+    let inputAssetsBucket: s3.IBucket;
+
+    if (!props.existingInputAssetsBucketObj) {
+      if (!props.bucketInputsAssetsProps) {
+        inputAssetsBucket = new s3.Bucket(this, 'InputAssetsBucket'+stage,
+          {
+            blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+            encryption: s3.BucketEncryption.S3_MANAGED,
+            bucketName: 'InputAssetsBucket'+stage+'_'+Aws.ACCOUNT_ID,
+          });
+      } else {
+        inputAssetsBucket = new s3.Bucket(this, 'InputAssetsBucket'+stage, props.bucketInputsAssetsProps);
+      }
+    } else {
+      inputAssetsBucket = props.existingInputAssetsBucketObj;
+    }
+
+    this.s3InputAssetsBucketInterface = inputAssetsBucket;
+
+    // Bucket containing the processed assets (documents - text format) uploaded by the user
+    let processedAssetsBucket: s3.IBucket;
+
+    if (!props.existingProcessedAssetsBucketObj) {
+      if (!props.bucketInputsAssetsProps) {
+        processedAssetsBucket = new s3.Bucket(this, 'processedAssetsBucket'+stage,
+          {
+            blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+            encryption: s3.BucketEncryption.S3_MANAGED,
+            bucketName: 'processedAssetsBucket'+stage+'_'+Aws.ACCOUNT_ID,
+          });
+      } else {
+        processedAssetsBucket = new s3.Bucket(this, 'processedAssetsBucket'+stage, props.bucketProcessedAssetsProps);
+      }
+    } else {
+      processedAssetsBucket = props.existingProcessedAssetsBucketObj;
+    }
+
+    this.s3ProcessedAssetsBucketInterface = processedAssetsBucket;
+
+    // GraphQL API
+    const ingestion_graphql_api = new appsync.GraphqlApi(
+      this,
+      'ingestionGraphqlApi',
+      {
+        name: 'ingestionGraphqlApi'+stage,
+        schema: appsync.SchemaFile.fromAsset(path.join(__dirname, 'schema.graphql')),
+        authorizationConfig: {
+          defaultAuthorization: {
+            authorizationType: appsync.AuthorizationType.USER_POOL,
+            userPoolConfig: { userPool: props.cognitoUserPool },
+          },
+        },
+        xrayEnabled: true,
+        logConfig: {
+          fieldLogLevel: appsync.FieldLogLevel.ALL,
+          retention: logs.RetentionDays.ONE_YEAR,
+        },
+      },
+    );
+
+    this.graphqlApi=ingestion_graphql_api;
+
+    const job_status_data_source = new appsync.NoneDataSource(
+      this,
+      'NoneDataSourceIngestion',
+      {
+        api: this.graphqlApi,
+        name: 'JobStatusDataSource',
+      },
+    );
+
+    job_status_data_source.createResolver(
+      'updateIngestionJobStatusResolver',
+      {
+        fieldName: 'updateIngestionJobStatus',
+        typeName: 'Mutation',
+        requestMappingTemplate: appsync.MappingTemplate.fromString(
+          `
+                    {
+                        "version": "2017-02-28",
+                        "payload": $util.toJson($context.args)
+                    }
+                    `,
+        ),
+        responseMappingTemplate: appsync.MappingTemplate.fromString('$util.toJson($context.result)'),
+      },
+
+    );
+
+    if (!props.existingIngestionBusInterface) {
+      this.ingestionBus = new events.EventBus(this, 'ingestionEventBus'+stage,
+        {
+          eventBusName: 'ingestionEventBus'+stage,
+        },
+      );
+    } else {
+      this.ingestionBus = props.existingIngestionBusInterface;
+    }
+
+    // create httpdatasource with ingestion_graphql_api
+    const event_bridge_datasource = this.graphqlApi.addEventBridgeDataSource(
+      'ingestionEventBridgeDataSource'+stage,
+      this.ingestionBus,
+      {
+        name: 'ingestionEventBridgeDataSource'+stage,
+      },
+    );
+
+    // Lambda function used to validate inputs in the step function
+    const validate_input_function = new lambda.DockerImageFunction(
+      this,
+      'lambda_function_validation_input'+stage,
+      {
+        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, './functions/input_validation/src')),
+        functionName: 'ingestion_input_validation_docker'+stage,
+        allowAllOutbound: true,
+        vpc: this.vpc,
+        tracing: lambda.Tracing.ACTIVE,
+        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+        securityGroups: [this.securityGroup],
+        memorySize: 1_769 * 4,
+        timeout: Duration.minutes(15),
+        environment: {
+          GRAPHQL_URL: props.mergedApiGraphQL!,
+        },
+      },
+    );
+
+    const s3_transformer_job_function = new lambda.DockerImageFunction(
+      this,
+      'lambda_function_s3_file_transformer'+stage,
+      {
+        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, './functions/s3_file_transformer/src')),
+        functionName: 's3_file_transformer_docker'+stage,
+        allowAllOutbound: true,
+        vpc: this.vpc,
+        tracing: lambda.Tracing.ACTIVE,
+        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+        securityGroups: [this.securityGroup],
+        memorySize: 1_769 * 4,
+        timeout: Duration.minutes(15),
+        environment: {
+          INPUT_BUCKET: this.s3InputAssetsBucket?.bucketName!,
+          OUTPUT_BUCKET: this.s3ProcessedAssetsBucket?.bucketName!,
+          GRAPHQL_URL: props.mergedApiGraphQL!,
+        },
+      },
+    );
+
+    // The lambda will pull documents from the input bucket, transform them, and upload
+    // the artifacts to the processed bucket
+    this.s3InputAssetsBucket?.grantRead(s3_transformer_job_function);
+    this.s3ProcessedAssetsBucket?.grantReadWrite(s3_transformer_job_function);
+
+    // Lambda function performing the embedding job
+    const embeddings_job_function = new lambda.DockerImageFunction(
+      this,
+      'lambda_function_embeddings_job'+stage,
+      {
+        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, './functions/embeddings_job/src')),
+        functionName: 'embeddings_job_docker'+stage,
+        allowAllOutbound: true,
+        vpc: this.vpc,
+        tracing: lambda.Tracing.ACTIVE,
+        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+        securityGroups: [this.securityGroup],
+        memorySize: 1_769 * 4,
+        timeout: Duration.minutes(15),
+        environment: {
+          INPUT_BUCKET: this.s3InputAssetsBucket?.bucketName!,
+          OUTPUT_BUCKET: this.s3ProcessedAssetsBucket?.bucketName!,
+          GRAPHQL_URL: props.mergedApiGraphQL!,
+          OPENSEARCH_INDEX: props.openSearchIndexName,
+          OPENSEARCH_DOMAIN_ENDPOINT: props.openSearchDomainEndpoint,
+          BEDROCK_REGION: props.bedrockRegion,
+          BEDROCK_ENDPOINT_URL: props.bedrockURL,
+        },
+      },
+    );
+
+    // The lambda will pull processed files and create embeddings
+    this.s3ProcessedAssetsBucket?.grantRead(embeddings_job_function);
+
+    embeddings_job_function.addToRolePolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: ['es:*'],
+      resources: [
+        'arn:aws:es:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':domain/'+props.openSearchDomainName+'/*',
+        'arn:aws:es:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':domain/'+props.openSearchDomainName,
+      ],
+    }));
+
+    // Add Amazon Bedrock permissions to the IAM role for the Lambda function
+    embeddings_job_function.addToRolePolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: ['bedrock:*'],
+      resources: [
+        '*',
+      ],
+    }));
+
+    // Step function definition
+    const inputValidationTask = new stepfn_task.LambdaInvoke(
+      this,
+      'Validate Ingestion Input',
+      {
+        lambdaFunction: validate_input_function,
+        resultPath: '$.validation_result',
+      },
+    );
+
+    const fileTransformationTask = new stepfn_task.LambdaInvoke(
+      this,
+      'Download and transform document to raw text',
+      {
+        lambdaFunction: s3_transformer_job_function,
+        resultPath: '$.s3_transformer_result',
+      },
+    );
+
+    const embeddingsTask = new stepfn_task.LambdaInvoke(
+      this,
+      'Generate embeddings from processed documents and store them',
+      {
+        lambdaFunction: embeddings_job_function,
+        resultPath: '$.Payload',
+      },
+    );
+
+    const validate_input_choice = new stepfn.Choice(
+      this,
+      'Is Valid Ingestion Parameters?',
+      {
+        outputPath: '$.validation_result.Payload.files',
+      },
+    );
+
+    const run_files_in_parallel = new stepfn.Map(
+      this,
+      'Map State',
+      {
+        maxConcurrency: 100,
+      },
+    ).iterator(fileTransformationTask);
+
+    const jobFailed = new stepfn.Fail(this, 'Job Failed', {
+      cause: 'Validation job failed',
+      error: 'DescribeJob returned FAILED',
+    });
+
+    const definition = inputValidationTask.next(validate_input_choice.when(
+      stepfn.Condition.booleanEquals('$.validation_result.Payload.isValid', false), jobFailed).otherwise(run_files_in_parallel.next(embeddingsTask)));
+
+    const ingestion_step_function = new stepfn.StateMachine(
+      this,
+      'IngestionStateMachine',
+      {
+        stateMachineName: 'IngestionStateMachine'+stage,
+        definitionBody: stepfn.DefinitionBody.fromChainable(definition),
+        timeout: Duration.minutes(30),
+        logs: {
+          destination: new logs.LogGroup(this, 'ingestionStepFunctionLogGroup'),
+          level: stepfn.LogLevel.ALL,
+        },
+        tracingEnabled: true,
+      },
+    );
+
+    this.stateMachine=ingestion_step_function;
+
+    this.ingestionBus.grantPutEventsTo(event_bridge_datasource.grantPrincipal);
+
+    event_bridge_datasource.createResolver(
+      'ingestDocumentResolver'+stage,
+      {
+        fieldName: 'ingestDocuments'+stage,
+        typeName: 'Mutation',
+        requestMappingTemplate: appsync.MappingTemplate.fromString(
+          `
+                    {
+                        "version": "2018-05-29",
+                        "operation": "PutEvents",
+                        "events": [{
+                            "source": "ingestion",
+                            "detail": $util.toJson($context.arguments),
+                            "detailType": "genAIdemo"
+                        }
+                        ]
+                    } 
+                    `,
+        ),
+        responseMappingTemplate: appsync.MappingTemplate.fromString(
+          `
+                    #if($ctx.error)
+                        $util.error($ctx.error.message, $ctx.error.type, $ctx.result)
+                    #end
+                        $util.toJson($ctx.result)
+                    `,
+        ),
+      },
+    );
+
+    const rule = new events.Rule(
+      this,
+      'ingestionRule'+stage,
+      {
+        description: 'Rule to trigger ingestion function',
+        eventBus: props.existingIngestionBusInterface,
+        eventPattern: {
+          source: ['ingestion'],
+        },
+      },
+    );
+
+    rule.addTarget(new targets.SfnStateMachine(this.stateMachine));
+
+  }
+}
