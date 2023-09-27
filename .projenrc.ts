@@ -36,6 +36,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
       contributorStatementOptions: {
         exemptUsers: [
           'github-actions@github.org',
+          'emerging-tech-cdk-constructs-bot',
         ],
       },
     },
