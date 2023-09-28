@@ -4,7 +4,7 @@ import { awscdk } from 'projen';
 //   JobCallingReusableWorkflow,
 //  } from 'projen/lib/github/workflows-model';
 
-import { GithubWorkflow } from 'projen/lib/github/workflows';
+//import { GithubWorkflow } from 'projen/lib/github/workflows';
 
 //import { GithubCredentials } from 'projen/lib/github';
 
@@ -72,15 +72,19 @@ const project = new awscdk.AwsCdkConstructLibrary({
 });
 
 
-//TODO: https://github.com/projen/projen/issues/2675
-(project.buildWorkflow?.["workflow"] as GithubWorkflow).file?.addOverride(
-  "jobs.build.permissions.id-token",
-  "write"
-);
-(project.buildWorkflow?.["workflow"] as GithubWorkflow).file?.addOverride(
-  `jobs.build.steps.0.with.token`,
-  "${{ secrets.PROJEN_GITHUB_TOKEN }}"
-);
+// //TODO: https://github.com/projen/projen/issues/2675
+// (project.buildWorkflow?.["workflow"] as GithubWorkflow).file?.addOverride(
+//   "jobs.build.permissions.id-token",
+//   "write"
+// );
+// (project.buildWorkflow?.["workflow"] as GithubWorkflow).file?.addOverride(
+//   `jobs.build.steps.0.with.token`,
+//   "${{ secrets.PROJEN_GITHUB_TOKEN }}"
+// );
+
+
+
+
 
 //console.log(project.buildWorkflow?.["workflow"]);
 
