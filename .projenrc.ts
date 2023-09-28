@@ -1,5 +1,11 @@
 import { awscdk } from 'projen';
-//import { Job } from 'projen/lib/github/workflows-model';
+// import { 
+//   //Job, 
+//   JobCallingReusableWorkflow,
+//  } from 'projen/lib/github/workflows-model';
+
+import { GithubWorkflow } from 'projen/lib/github/workflows';
+
 //import { GithubCredentials } from 'projen/lib/github';
 
 const gitHubUser = 'aws-samples';
@@ -37,6 +43,11 @@ const project = new awscdk.AwsCdkConstructLibrary({
   //     secret: "PROJEN_GITHUB_TOKEN",
   //   }
   // ),
+  workflowGitIdentity: {
+    name: "emerging-tech-cdk-constructs-bot",
+    email: "emerging-tech-cdk-constructs-bot@@users.noreply.github.com",
+  },
+
   githubOptions: {
     // projenCredentials: GithubCredentials.fromPersonalAccessToken({
     //   secret: "PROJEN_GITHUB_TOKEN_ALT",
@@ -61,20 +72,53 @@ const project = new awscdk.AwsCdkConstructLibrary({
 });
 
 
+// (project.buildWorkflow?.["workflow"] as GithubWorkflow).file?.addOverride(
+//   "jobs.build.permissions.id-token",
+//   "write"
+// );
+(project.buildWorkflow?.["workflow"] as GithubWorkflow).file?.addOverride(
+  `jobs.build.steps.0.with.token`,
+  "${{ secrets.PROJEN_GITHUB_TOKEN }}"
+);
+
+
+
+
+
+//console.log(project.buildWorkflow?.["workflow"]);
+
+//console.log((project.buildWorkflow?.["workflow"] as GithubWorkflow));
+
+// (project.buildWorkflow?.["workflow"] as GithubWorkflow).file?.addOverride(
+//   `jobs.build.steps.["Dvoyy"].with.token`,
+//   "PROJEN_GITHUB_TOKEN"
+// );
+
+
+project.synth();
+
 
 // project.github?.workflows.forEach(function(workflow) {
-//   console.log("workflows: " + workflow.name);
 //   if (workflow.name == "build") {
-//     const job = workflow.getJob("self-mutation");
-//     if (job === undefined) {
-//       console.warn("how to access this job???");
+//     console.log(workflow.file);
+//     // console.log("BUILD workflow.projenCredentials.tokenRef: ", workflow.projenCredentials.tokenRef);
+//     // const job = workflow.getJob("build");
+//     // console.log("BUILD job: ", job);
+// //    console.log("BUILD job.permissions.idToken: ", job);
+
+//     // for the "build" workflow's "build" job the `steps: [Function: steps]`
+//     /*
+//     {
+//         runsOn: [ 'ubuntu-latest' ],
+//         container: undefined,
+//         env: { CI: 'true' },
+//         permissions: { contents: 'write', idToken: undefined },
+//         steps: [Function: steps],
+//         outputs: {
+//           self_mutation_happened: { stepId: 'self_mutation', outputName: 'self_mutation_happened' }
+//         }
 //     }
-//     (job as Job).steps.forEach(function(step) {
-//       if (step.name === "Checkout") {
-//         console.log(step);
-//       }
-//     });
+//     */
 //   }
 // });
 
-project.synth();
