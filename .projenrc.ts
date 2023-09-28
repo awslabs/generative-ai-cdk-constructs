@@ -72,18 +72,15 @@ const project = new awscdk.AwsCdkConstructLibrary({
 });
 
 
-// (project.buildWorkflow?.["workflow"] as GithubWorkflow).file?.addOverride(
-//   "jobs.build.permissions.id-token",
-//   "write"
-// );
+//TODO: https://github.com/projen/projen/issues/2675
+(project.buildWorkflow?.["workflow"] as GithubWorkflow).file?.addOverride(
+  "jobs.build.permissions.id-token",
+  "write"
+);
 (project.buildWorkflow?.["workflow"] as GithubWorkflow).file?.addOverride(
   `jobs.build.steps.0.with.token`,
   "${{ secrets.PROJEN_GITHUB_TOKEN }}"
 );
-
-
-
-
 
 //console.log(project.buildWorkflow?.["workflow"]);
 
