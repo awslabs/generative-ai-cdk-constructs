@@ -1,4 +1,5 @@
 import { awscdk } from 'projen';
+import { GithubCredentials } from 'projen/lib/github';
 
 const gitHubUser = 'aws-samples';
 const projectName = 'emerging-tech-cdk-constructs';
@@ -30,7 +31,15 @@ const project = new awscdk.AwsCdkConstructLibrary({
   npmRegistryUrl: 'https://npm.pkg.github.com',
   npmTokenSecret: 'GITHUB_TOKEN',
 
+  // projenCredentials: GithubCredentials.fromPersonalAccessToken(
+  //   {
+  //     secret: "PROJEN_GITHUB_TOKEN",
+  //   }
+  // ),
   githubOptions: {
+    projenCredentials: GithubCredentials.fromPersonalAccessToken({
+      secret: "PROJEN_GITHUB_TOKEN_ALT",
+    }),
     pullRequestLintOptions: {
       contributorStatement: 'By submitting this pull request, I confirm that you can use, modify, copy, and redistribute this contribution, under the terms of the project license.',
       contributorStatementOptions: {
@@ -48,5 +57,11 @@ const project = new awscdk.AwsCdkConstructLibrary({
   stability: 'experimental',
   codeCov: true,
   codeCovTokenSecret: 'CODECOV_TOKEN',
+});
+project.github?.workflows.forEach(function(workflow) {
+  if (workflow.name == "build") {
+    console.log(workflow.name);
+    console.log(workflow.projenCredentials.tokenRef);
+  }
 });
 project.synth();
