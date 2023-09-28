@@ -1,5 +1,6 @@
 import { awscdk } from 'projen';
-import { GithubCredentials } from 'projen/lib/github';
+//import { Job } from 'projen/lib/github/workflows-model';
+//import { GithubCredentials } from 'projen/lib/github';
 
 const gitHubUser = 'aws-samples';
 const projectName = 'emerging-tech-cdk-constructs';
@@ -37,9 +38,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
   //   }
   // ),
   githubOptions: {
-    projenCredentials: GithubCredentials.fromPersonalAccessToken({
-      secret: "PROJEN_GITHUB_TOKEN_ALT",
-    }),
+    // projenCredentials: GithubCredentials.fromPersonalAccessToken({
+    //   secret: "PROJEN_GITHUB_TOKEN_ALT",
+    // }),
     pullRequestLintOptions: {
       contributorStatement: 'By submitting this pull request, I confirm that you can use, modify, copy, and redistribute this contribution, under the terms of the project license.',
       contributorStatementOptions: {
@@ -58,10 +59,22 @@ const project = new awscdk.AwsCdkConstructLibrary({
   codeCov: true,
   codeCovTokenSecret: 'CODECOV_TOKEN',
 });
-project.github?.workflows.forEach(function(workflow) {
-  if (workflow.name == "build") {
-    console.log(workflow.name);
-    console.log(workflow.projenCredentials.tokenRef);
-  }
-});
+
+
+
+// project.github?.workflows.forEach(function(workflow) {
+//   console.log("workflows: " + workflow.name);
+//   if (workflow.name == "build") {
+//     const job = workflow.getJob("self-mutation");
+//     if (job === undefined) {
+//       console.warn("how to access this job???");
+//     }
+//     (job as Job).steps.forEach(function(step) {
+//       if (step.name === "Checkout") {
+//         console.log(step);
+//       }
+//     });
+//   }
+// });
+
 project.synth();
