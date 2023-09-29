@@ -47,7 +47,7 @@ npm install -g npm aws-cdk pnpm @aws/pdk projen
 | (optional)<br/>`git checkout -b your-branch-name` | If you're working in a different branch than main in your forked repo and haven't changed your local branch, now is a good time to do so.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | `mkdir src/patterns/<emerging tech area>/<construct name> `                     | Creates a dedicated folder to work on your construct.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 | `cd src/patterns/<emerging tech area>/<construct name>`                         | Change directory to the folder where you want to change code.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| *Do all your code editing*                        | Open your code editor and create the construct or perform your edits on an existing construct. Your construct code must be located in the src folder. Put only your Typescript files related to your construct in that folder. If you need to bundle additional code, add it to a separate folder in the root folder of this repo (see existing examples, like `lambda` and `resources` folders.) Use an existing construct as an example of the structure that is expected (architecture.png, README.md, index.ts). For the architecture diagram of your construct, please use the provided Draw.io project located in the /docs folder. Create a new tab with your construct name. Finally, export  your construct in the src/index.ts file.                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| *Do all your code editing*                        | Open your code editor and create the construct or perform your edits on an existing construct. Your construct code must be located in the src folder. Put only your Typescript files related to your construct in that folder. If you need to bundle additional code, add it to a separate folder in the root folder of this repo (see existing examples, like `lambda` and `resources` folders.) Use an existing construct as an example of the structure that is expected (architecture.png, README.md, index.ts). For the architecture diagram of your construct, please use the provided Draw.io project located in the /docs folder. Create a new tab with your construct name. Finally, export  your construct in the src/index.ts file. An example of the expected project structure is provided at the end of this document. Common code containing helper functions to standardize and accelerate development is located in the src/common folder.                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | `npx projen build`                                | This is the build command for the library. It will build, lint, add license header files and run the unit and integration tests. If you make any substantive changes to the code, you will almost certainly see some or all of the tests fail. The next section will describe how testing works in AWS Emerging Tech Constructs and how to write, refresh and execute tests. In the meantime, you can at least check if your code transpiles correctly without running the tests by running `npm run build`. If you've edited any modules in /core in addition to a construct, be sure to build /core before building your construct. This command also packages locally the constructs to the /dist folder. |
 
 ## Testing
@@ -65,5 +65,36 @@ All test files can be found in the /test directory under each construct (or core
 | `npx projen test` | This will run all tests (unit+integration) |
 
 ---
+
+## Project structure
+
+```
+.
+|--docs/ (draw.io project containing architecture diagrams for all constructs)
+|--lib/ (Build output)
+|--lambda/ (Lambda functions code)
+|--resources (If you need additional resources packaged with your library)
+|--src/ (Source .ts files)
+    |--common/ (Common code reused accross constructs)
+        |--helpers
+            |-- README.md (Documentation for helper functions)
+            |-- *-helper.ts (Helper source file)
+    |--patterns/ (Constructs source files are here)
+        |--<emerging-tech-area>
+            |--<pattern-name>
+                |--index.ts (Construct source file)
+                |--README.md (Construct documentation)
+                |--architecture.png (Construct diagram)
+    |--index.ts (Constructs need to be exported from this index.ts file)
+|--test/
+    |--common/ (Common code reused accross constructs)
+        |--helpers
+            |-- *-helper.test.ts (Helper source file)
+    |--patterns/
+        |--<emerging-tech-area>
+            |--<pattern-name>
+                |--*.test.ts (construct test files)
+```
+
 
 &copy; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.

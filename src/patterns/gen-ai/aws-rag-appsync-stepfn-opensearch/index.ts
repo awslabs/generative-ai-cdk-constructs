@@ -25,6 +25,7 @@ import * as stepfn from 'aws-cdk-lib/aws-stepfunctions';
 import * as stepfn_task from 'aws-cdk-lib/aws-stepfunctions-tasks';
 import { Construct } from 'constructs';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
+import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
 
 /**
  * The properties for the RagAppsyncStepfnOpensearch class.
@@ -103,18 +104,6 @@ export interface RagAppsyncStepfnOpensearchProps {
    */
   readonly openSearchIndexName: string;
   /**
-   * Region name for the Bedrock Service.
-   *
-   * @default - None
-   */
-  readonly bedrockRegion: string;
-  /**
-   * Endpoint for the Bedrock Service.
-   *
-   * @default - None
-   */
-  readonly bedrockURL: string;
-  /**
    * URL endpoint of the appsync merged api.
    *
    * @default - None
@@ -166,8 +155,18 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       stage = props.stage;
     }
 
-    // Verify that both existingVpc and vpcProps are not provided
     vpc_helper.CheckVpcProps(props);
+    s3_bucket_helper.CheckS3Props({ 
+      existingBucketObj:props.existingInputAssetsBucketObj,
+      bucketProps:props.bucketInputsAssetsProps
+    });
+    s3_bucket_helper.CheckS3Props({ 
+      existingBucketObj:props.existingProcessedAssetsBucketObj,
+      bucketProps:props.bucketProcessedAssetsProps
+    });
+
+    // This helper will take care of the props combination
+    //this.vpc = vpc_helper.buildVpc(this, {defaultVpcProps: {}, userVpcProps: props.vpcProps});
 
     if (props?.existingVpc) {
       this.vpc = props.existingVpc;
@@ -242,6 +241,11 @@ export class RagAppsyncStepfnOpensearch extends Construct {
             authorizationType: appsync.AuthorizationType.USER_POOL,
             userPoolConfig: { userPool: props.cognitoUserPool },
           },
+          additionalAuthorizationModes: [
+          {
+            authorizationType: appsync.AuthorizationType.IAM,
+          },
+          ],
         },
         xrayEnabled: true,
         logConfig: {
@@ -250,6 +254,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         },
       },
     );
+
+    //ingestion_graphql_api.grantQuery
 
     this.graphqlApi=ingestion_graphql_api;
 
@@ -365,8 +371,6 @@ export class RagAppsyncStepfnOpensearch extends Construct {
           GRAPHQL_URL: props.mergedApiGraphQLEndpoint!,
           OPENSEARCH_INDEX: props.openSearchIndexName,
           OPENSEARCH_DOMAIN_ENDPOINT: props.openSearchDomainEndpoint,
-          BEDROCK_REGION: props.bedrockRegion,
-          BEDROCK_ENDPOINT_URL: props.bedrockURL,
         },
       },
     );

@@ -22,6 +22,8 @@
 
 ## Overview
 
+This construct provides an ingestion pipeline.
+
 Here is a minimal deployable pattern definition:
 
 Typescript
@@ -52,8 +54,6 @@ Parameters
 | openSearchDomainEndpoint | string | ![Required](https://img.shields.io/badge/required-ff0000) | Domain endpoint for the OpenSearch Service. |
 | openSearchDomainName | string| ![Required](https://img.shields.io/badge/required-ff0000) | Domain name for the OpenSearch Service. |
 | openSearchIndexName | string | ![Required](https://img.shields.io/badge/required-ff0000) | Domain endpoint for the OpenSearch Service. |
-| bedrockRegion | string | ![Required](https://img.shields.io/badge/required-ff0000) | Domain endpoint for the OpenSearch Service. |
-| bedrockURL | string | ![Required](https://img.shields.io/badge/required-ff0000) | Domain endpoint for the OpenSearch Service. |
 | cognitoUserPool | [cognito.IUserPool](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cognito.IUserPool.html) | ![Required](https://img.shields.io/badge/required-ff0000) | Cognito user pool used for authentication. |
 | vpcProps | [ec2.VpcProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.VpcProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Custom properties for a VPC the construct will create. This VPC will be used by the Lambda functions the construct creates. Providing both this and existingVpc is an error. |
 | existingVpc | [ec2.IVpc](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.IVpc.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | An existing VPC in which to deploy the construct. Providing both this and vpcProps is an error. |
@@ -90,6 +90,14 @@ Out of the box implementation of the Construct without any override will set the
 
 - Sets up two Amazon S3 Buckets
     - Uses existing buckets if provided, otherwise creates new ones
+
+
+
+## Troubleshooting
+
+| **Error Code**     | **Message**        | **Description** |**Fix** |
+|:-------------|:----------------|-----------------|-----------------|
+| 601 | <>message | This error happens when <> | Provide a valid value for the <> |
 
 ## Architecture
 ![Architecture Diagram](architecture.png)
