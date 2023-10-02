@@ -60,6 +60,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   copyrightOwner: 'Amazon.com, Inc. or its affiliates. All Rights Reserved.',
   gitignore: ['*.DS_STORE'],
   stability: 'experimental',
+  sampleCode: false,
 });
 
 // Add License header automatically
