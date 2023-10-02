@@ -49,7 +49,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     pullRequestLintOptions: {
       contributorStatement: 'By submitting this pull request, I confirm that you can use, modify, copy, and redistribute this contribution, under the terms of the project license.',
       contributorStatementOptions: {
-        exemptUsers: ['amazon-auto', 'dependabot[bot]','emerging-tech-cdk-constructs-bot','github-actions'],
+        exemptUsers: ['amazon-auto', 'dependabot[bot]', 'emerging-tech-cdk-constructs-bot', 'github-actions'],
       },
     },
   },

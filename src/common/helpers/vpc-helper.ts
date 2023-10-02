@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import { Construct } from "constructs";
+import { Construct } from 'constructs';
 
 export interface VpcPropsSet {
   readonly existingVpc?: ec2.IVpc;
@@ -57,14 +57,14 @@ export function buildVpc(scope: Construct, props: BuildVpcProps): ec2.IVpc {
   if (props?.existingVpc) {
     return props?.existingVpc;
   }
-  
+
   let cumulativeProps: ec2.VpcProps = props?.defaultVpcProps;
 
   // Merge props provided by construct builder and by the end user
   // If user provided props are empty, the vpc will use only the builder provided props
   //cumulativeProps = consolidateProps(cumulativeProps, props?.userVpcProps, props?.constructVpcProps);
 
-  const vpc = new ec2.Vpc(scope, "Vpc", cumulativeProps);
+  const vpc = new ec2.Vpc(scope, 'Vpc', cumulativeProps);
 
   return vpc;
 }

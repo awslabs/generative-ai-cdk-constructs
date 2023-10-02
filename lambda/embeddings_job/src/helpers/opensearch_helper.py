@@ -11,15 +11,7 @@ logger = Logger(service="INGESTION_EMBEDDING_JOB")
 tracer = Tracer(service="INGESTION_EMBEDDING_JOB")
 metrics = Metrics(namespace="ingestion_pipeline", service="INGESTION_EMBEDDING_JOB")
 
-def get_bedrock_client():
-    """Until Bedrock goes GA, we need to assume a role to use it."""
-    region_name = os.environ["BEDROCK_REGION"]
-    endpoint_url = os.environ["BEDROCK_ENDPOINT_URL"]
-    return boto3.client(
-        "bedrock",
-        region_name=region_name,
-        endpoint_url=endpoint_url,
-    )
+bedrock_client = boto3.client("bedrock")
 
 @tracer.capture_method
 def check_if_index_exists(index_name: str, region: str, host: str, http_auth: Tuple[str, str]) -> OpenSearch:
@@ -36,9 +28,7 @@ def check_if_index_exists(index_name: str, region: str, host: str, http_auth: Tu
 
 def process_shard(shard, os_index_name, os_domain_ep, os_http_auth) -> int: 
     print(f'Starting process_shard of {len(shard)} chunks.')
-    embeddings = BedrockEmbeddings(
-        client=get_bedrock_client(),
-    )
+    embeddings = BedrockEmbeddings(client=bedrock_client)
     docsearch = OpenSearchVectorSearch(index_name=os_index_name,
                                        embedding_function=embeddings,
                                        opensearch_url=os_domain_ep,

@@ -24,8 +24,8 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as stepfn from 'aws-cdk-lib/aws-stepfunctions';
 import * as stepfn_task from 'aws-cdk-lib/aws-stepfunctions-tasks';
 import { Construct } from 'constructs';
-import * as vpc_helper from '../../../common/helpers/vpc-helper';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
+import * as vpc_helper from '../../../common/helpers/vpc-helper';
 
 /**
  * The properties for the RagAppsyncStepfnOpensearch class.
@@ -156,13 +156,13 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     }
 
     vpc_helper.CheckVpcProps(props);
-    s3_bucket_helper.CheckS3Props({ 
-      existingBucketObj:props.existingInputAssetsBucketObj,
-      bucketProps:props.bucketInputsAssetsProps
+    s3_bucket_helper.CheckS3Props({
+      existingBucketObj: props.existingInputAssetsBucketObj,
+      bucketProps: props.bucketInputsAssetsProps,
     });
-    s3_bucket_helper.CheckS3Props({ 
-      existingBucketObj:props.existingProcessedAssetsBucketObj,
-      bucketProps:props.bucketProcessedAssetsProps
+    s3_bucket_helper.CheckS3Props({
+      existingBucketObj: props.existingProcessedAssetsBucketObj,
+      bucketProps: props.bucketProcessedAssetsProps,
     });
 
     // This helper will take care of the props combination
@@ -242,9 +242,9 @@ export class RagAppsyncStepfnOpensearch extends Construct {
             userPoolConfig: { userPool: props.cognitoUserPool },
           },
           additionalAuthorizationModes: [
-          {
-            authorizationType: appsync.AuthorizationType.IAM,
-          },
+            {
+              authorizationType: appsync.AuthorizationType.IAM,
+            },
           ],
         },
         xrayEnabled: true,
@@ -254,8 +254,6 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         },
       },
     );
-
-    //ingestion_graphql_api.grantQuery
 
     this.graphqlApi=ingestion_graphql_api;
 
@@ -502,7 +500,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       'ingestionRule'+stage,
       {
         description: 'Rule to trigger ingestion function',
-        eventBus: props.existingIngestionBusInterface,
+        eventBus: this.ingestionBus,
         eventPattern: {
           source: ['ingestion'],
         },
