@@ -21,6 +21,7 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as secrets from 'aws-cdk-lib/aws-secretsmanager';
 import * as stepfn from 'aws-cdk-lib/aws-stepfunctions';
 import * as stepfn_task from 'aws-cdk-lib/aws-stepfunctions-tasks';
 import { Construct } from 'constructs';
@@ -104,11 +105,23 @@ export interface RagAppsyncStepfnOpensearchProps {
    */
   readonly openSearchIndexName: string;
   /**
+   * SecretsManager secret id to access the OpenSearch Service.
+   *
+   * @default - None
+   */
+  readonly openSearchSecretId: string;
+  /**
    * URL endpoint of the appsync merged api.
    *
    * @default - None
    */
   readonly mergedApiGraphQLEndpoint?: string;
+  /**
+   * ApiId of the appsync merged api.
+   *
+   * @default - None
+   */
+  readonly mergedApiGraphQLId?: string;
   /**
    * Cognito user pool used for authentication.
    *
@@ -121,21 +134,58 @@ export interface RagAppsyncStepfnOpensearchProps {
    * @default - _dev
    */
   readonly stage?: string;
+  /**
+   * Enable observability. Warning: associated cost with the services
+   * used. Best practive to enable by default.
+   *
+   * @default - true
+   */
+  readonly observability?: boolean;
 }
 
 /**
    * @summary The RagApiGatewayOpensearch class.
    */
 export class RagAppsyncStepfnOpensearch extends Construct {
-
+  /**
+   * Returns the instance of ec2.IVpc used by the construct
+   */
   public readonly vpc: ec2.IVpc;
+  /**
+   * Returns the instance of ec2.ISecurityGroup used by the construct
+   */
   public readonly securityGroup: ec2.ISecurityGroup;
+  /**
+   * Returns the instance of events.IEventBus used by the construct
+   */
   public readonly ingestionBus: events.IEventBus;
+  /**
+   * Returns an instance of s3.IBucket created by the construct
+   */
   public readonly s3InputAssetsBucketInterface: s3.IBucket;
+  /**
+   * Returns an instance of s3.Bucket created by the construct.
+   * IMPORTANT: If existingInputAssetsBucketObj was provided in Pattern Construct Props,
+   * this property will be undefined
+   */
   public readonly s3InputAssetsBucket?: s3.Bucket;
+  /**
+   * Returns an instance of s3.IBucket created by the construct
+   */
   public readonly s3ProcessedAssetsBucketInterface: s3.IBucket;
+  /**
+   * Returns an instance of s3.Bucket created by the construct.
+   * IMPORTANT: If existingProcessedAssetsBucketObj was provided in Pattern Construct Props,
+   * this property will be undefined
+   */
   public readonly s3ProcessedAssetsBucket?: s3.Bucket;
+  /**
+   * Returns an instance of appsync.IGraphqlApi created by the construct
+   */
   public readonly graphqlApi: appsync.IGraphqlApi;
+  /**
+   * Returns an instance of stepfn.StateMachine created by the construct
+   */
   public readonly stateMachine: stepfn.StateMachine;
 
   /**
@@ -193,40 +243,48 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     let inputAssetsBucket: s3.IBucket;
 
     if (!props.existingInputAssetsBucketObj) {
+      let tmpBucket: s3.Bucket;
       if (!props.bucketInputsAssetsProps) {
-        inputAssetsBucket = new s3.Bucket(this, 'inputAssetsBucket'+stage,
+        tmpBucket = new s3.Bucket(this, 'inputAssetsBucket'+stage,
           {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
             bucketName: 'input-assets-bucket'+stage+'-'+Aws.ACCOUNT_ID,
           });
       } else {
-        inputAssetsBucket = new s3.Bucket(this, 'InputAssetsBucket'+stage, props.bucketInputsAssetsProps);
+        tmpBucket = new s3.Bucket(this, 'InputAssetsBucket'+stage, props.bucketInputsAssetsProps);
       }
+      inputAssetsBucket = tmpBucket;
+      this.s3InputAssetsBucket = tmpBucket;
     } else {
       inputAssetsBucket = props.existingInputAssetsBucketObj;
     }
 
+    // this is the one we manipulate, we know it exists
     this.s3InputAssetsBucketInterface = inputAssetsBucket;
 
     // Bucket containing the processed assets (documents - text format) uploaded by the user
     let processedAssetsBucket: s3.IBucket;
 
     if (!props.existingProcessedAssetsBucketObj) {
+      let tmpBucket: s3.Bucket;
       if (!props.bucketInputsAssetsProps) {
-        processedAssetsBucket = new s3.Bucket(this, 'processedAssetsBucket'+stage,
+        tmpBucket = new s3.Bucket(this, 'processedAssetsBucket'+stage,
           {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
             bucketName: 'processed-assets-bucket'+stage+'-'+Aws.ACCOUNT_ID,
           });
       } else {
-        processedAssetsBucket = new s3.Bucket(this, 'processedAssetsBucket'+stage, props.bucketProcessedAssetsProps);
+        tmpBucket = new s3.Bucket(this, 'processedAssetsBucket'+stage, props.bucketProcessedAssetsProps);
       }
+      processedAssetsBucket = tmpBucket;
+      this.s3ProcessedAssetsBucket = tmpBucket;
     } else {
       processedAssetsBucket = props.existingProcessedAssetsBucketObj;
     }
 
+    // this is the one we manipulate, we know it exists
     this.s3ProcessedAssetsBucketInterface = processedAssetsBucket;
 
     // GraphQL API
@@ -256,6 +314,11 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     );
 
     this.graphqlApi=ingestion_graphql_api;
+
+    // If the user provides a mergedApi endpoint, the lambda
+    // functions will use this endpoint to send their status updates
+    const updateGraphQlApiEndpoint = !props.mergedApiGraphQLEndpoint ? ingestion_graphql_api.graphqlUrl : props.mergedApiGraphQLEndpoint;
+    const updateGraphQlApiId = !props.mergedApiGraphQLId ? ingestion_graphql_api.apiId : props.mergedApiGraphQLId;
 
     const job_status_data_source = new appsync.NoneDataSource(
       this,
@@ -318,10 +381,21 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         memorySize: 1_769 * 4,
         timeout: Duration.minutes(15),
         environment: {
-          GRAPHQL_URL: props.mergedApiGraphQLEndpoint!,
+          GRAPHQL_URL: updateGraphQlApiEndpoint,
         },
       },
     );
+
+    // Add GraphQl permissions to the IAM role for the Lambda function
+    validate_input_function.addToRolePolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'appsync:GraphQL',
+      ],
+      resources: [
+        'arn:aws:appsync:'+ Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*',
+      ],
+    }));
 
     const s3_transformer_job_function = new lambda.DockerImageFunction(
       this,
@@ -337,9 +411,9 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         memorySize: 1_769 * 4,
         timeout: Duration.minutes(15),
         environment: {
-          INPUT_BUCKET: this.s3InputAssetsBucket?.bucketName!,
-          OUTPUT_BUCKET: this.s3ProcessedAssetsBucket?.bucketName!,
-          GRAPHQL_URL: props.mergedApiGraphQLEndpoint!,
+          INPUT_BUCKET: this.s3InputAssetsBucketInterface.bucketName,
+          OUTPUT_BUCKET: this.s3ProcessedAssetsBucketInterface.bucketName,
+          GRAPHQL_URL: updateGraphQlApiEndpoint,
         },
       },
     );
@@ -348,6 +422,17 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     // the artifacts to the processed bucket
     this.s3InputAssetsBucket?.grantRead(s3_transformer_job_function);
     this.s3ProcessedAssetsBucket?.grantReadWrite(s3_transformer_job_function);
+
+    // Add GraphQl permissions to the IAM role for the Lambda function
+    s3_transformer_job_function.addToRolePolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'appsync:GraphQL',
+      ],
+      resources: [
+        'arn:aws:appsync:'+ Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*',
+      ],
+    }));
 
     // Lambda function performing the embedding job
     const embeddings_job_function = new lambda.DockerImageFunction(
@@ -364,14 +449,19 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         memorySize: 1_769 * 4,
         timeout: Duration.minutes(15),
         environment: {
-          INPUT_BUCKET: this.s3InputAssetsBucket?.bucketName!,
-          OUTPUT_BUCKET: this.s3ProcessedAssetsBucket?.bucketName!,
-          GRAPHQL_URL: props.mergedApiGraphQLEndpoint!,
+          INPUT_BUCKET: this.s3InputAssetsBucketInterface.bucketName,
+          OUTPUT_BUCKET: this.s3ProcessedAssetsBucketInterface.bucketName,
+          GRAPHQL_URL: updateGraphQlApiEndpoint,
           OPENSEARCH_INDEX: props.openSearchIndexName,
           OPENSEARCH_DOMAIN_ENDPOINT: props.openSearchDomainEndpoint,
+          OPENSEARCH_SECRET_ID: props.openSearchSecretId,
         },
       },
     );
+
+    // The lambda will access the opensearch credentials
+    const openSearchSecret = secrets.Secret.fromSecretNameV2(this, 'openSearchSecret', props.openSearchSecretId);
+    openSearchSecret.grantRead(embeddings_job_function);
 
     // The lambda will pull processed files and create embeddings
     this.s3ProcessedAssetsBucket?.grantRead(embeddings_job_function);
@@ -391,6 +481,17 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       actions: ['bedrock:*'],
       resources: [
         '*',
+      ],
+    }));
+
+    // Add GraphQl permissions to the IAM role for the Lambda function
+    embeddings_job_function.addToRolePolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'appsync:GraphQL',
+      ],
+      resources: [
+        'arn:aws:appsync:'+ Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*',
       ],
     }));
 

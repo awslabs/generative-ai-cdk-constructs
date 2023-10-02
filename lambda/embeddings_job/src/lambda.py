@@ -22,7 +22,11 @@ tracer = Tracer(service="INGESTION_EMBEDDING_JOB")
 metrics = Metrics(namespace="ingestion_pipeline", service="INGESTION_EMBEDDING_JOB")
 
 aws_region = boto3.Session().region_name
-bedrock_client = boto3.client("bedrock")
+bedrock_client = boto3.client(
+    service_name='bedrock', 
+    region_name=aws_region,
+    endpoint_url=f'https://bedrock.{aws_region}.amazonaws.com'
+)
 
 opensearch_secret_id = os.environ['OPENSEARCH_SECRET_ID']
 bucket_name = os.environ['OUTPUT_BUCKET']

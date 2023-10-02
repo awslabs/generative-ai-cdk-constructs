@@ -11,7 +11,12 @@ logger = Logger(service="INGESTION_EMBEDDING_JOB")
 tracer = Tracer(service="INGESTION_EMBEDDING_JOB")
 metrics = Metrics(namespace="ingestion_pipeline", service="INGESTION_EMBEDDING_JOB")
 
-bedrock_client = boto3.client("bedrock")
+aws_region = boto3.Session().region_name
+bedrock_client = boto3.client(
+    service_name='bedrock', 
+    region_name=aws_region,
+    endpoint_url=f'https://bedrock.{aws_region}.amazonaws.com'
+)
 
 @tracer.capture_method
 def check_if_index_exists(index_name: str, region: str, host: str, http_auth: Tuple[str, str]) -> OpenSearch:

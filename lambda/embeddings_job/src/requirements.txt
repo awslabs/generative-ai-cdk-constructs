@@ -2,6 +2,8 @@ aws-lambda-powertools
 aws-xray-sdk
 fastjsonschema
 typing-extensions
+boto3-1.28.57-py3-none-any.whl
+botocore-1.31.57-py3-none-any.whl
 requests
 requests-aws4auth
 sagemaker
