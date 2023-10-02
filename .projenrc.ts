@@ -38,7 +38,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   //peerDeps: [],
 
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
-  minNodeVersion: '16.13.0', // 'MAINTENANCE' (first LTS)
+  minNodeVersion: '18.12.0', // 'MAINTENANCE' (first LTS)
   maxNodeVersion: '20.7.0', // 'CURRENT'
   workflowNodeVersion: '18.x', // 'ACTIVE'
 
