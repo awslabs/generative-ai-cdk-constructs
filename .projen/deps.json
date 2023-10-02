@@ -84,7 +84,7 @@
     },
     {
       "name": "projen",
-      "version": "~0.73.28",
+      "version": "~0.73.33",
       "type": "build"
     },
     {

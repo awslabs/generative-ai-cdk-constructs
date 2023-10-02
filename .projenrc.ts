@@ -22,7 +22,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   authorAddress: PROJECT_NAME+'@amazon.com',
   authorOrganization: true,
   cdkVersion: CDK_VERSION,
-  projenVersion: '~0.73.28',
+  projenVersion: '~0.73.33',
   constructsVersion: '10.0.5',
   cdkVersionPinning: true,
   defaultReleaseBranch: 'main',
