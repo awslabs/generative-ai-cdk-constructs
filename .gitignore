@@ -51,3 +51,4 @@ junit.xml
 !/.eslintrc.json
 .jsii
 tsconfig.json
+!/.github/workflows/github-merit-badger.yml

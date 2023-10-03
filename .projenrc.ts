@@ -11,6 +11,7 @@
  *  and limitations under the License.
  */
 import { awscdk } from 'projen';
+import { buildMeritBadgerWorkflow } from './projenrc/github-workflows';
 
 // Constants
 const GITHUB_USER = 'aws-samples';
@@ -62,6 +63,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
   stability: 'experimental',
   sampleCode: false,
 });
+
+// Add some useful github workflows
+buildMeritBadgerWorkflow(project);
 
 // Add License header automatically
 project.eslint?.addPlugins('header');
