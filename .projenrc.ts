@@ -15,7 +15,7 @@ import { awscdk } from 'projen';
 // Constants
 const GITHUB_USER = 'aws-samples';
 const PROJECT_NAME = 'emerging-tech-cdk-constructs';
-const CDK_VERSION: string = '2.96.2';
+const CDK_VERSION: string = '2.99.1';
 
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Amazon Web Services - Prototyping and Cloud Engineering',
