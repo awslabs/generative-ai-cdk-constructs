@@ -4,5 +4,5 @@ fastjsonschema
 typing-extensions
 boto3
 requests
-langchain==0.0.190
+langchain==0.0.246
 pypdf2
