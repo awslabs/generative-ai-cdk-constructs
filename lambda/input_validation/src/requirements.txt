@@ -1,0 +1,7 @@
+aws-lambda-powertools
+aws-xray-sdk
+fastjsonschema
+typing-extensions
+boto3
+requests
+requests-aws4auth

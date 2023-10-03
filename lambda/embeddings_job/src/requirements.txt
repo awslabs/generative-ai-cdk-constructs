@@ -1,0 +1,11 @@
+aws-lambda-powertools
+aws-xray-sdk
+fastjsonschema
+typing-extensions
+boto3>=1.28.57
+requests
+requests-aws4auth
+sagemaker
+opensearch-py
+numpy
+langchain

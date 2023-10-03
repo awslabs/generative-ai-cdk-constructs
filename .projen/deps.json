@@ -6,7 +6,7 @@
     },
     {
       "name": "@types/node",
-      "version": "^16",
+      "version": "^18",
       "type": "build"
     },
     {
@@ -35,6 +35,10 @@
     },
     {
       "name": "eslint-import-resolver-typescript",
+      "type": "build"
+    },
+    {
+      "name": "eslint-plugin-header",
       "type": "build"
     },
     {
@@ -80,6 +84,7 @@
     },
     {
       "name": "projen",
+      "version": "~0.73.33",
       "type": "build"
     },
     {
@@ -101,7 +106,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.96.2",
+      "version": "2.96.2",
       "type": "peer"
     },
     {
