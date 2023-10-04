@@ -46,6 +46,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
   npmRegistryUrl: 'https://npm.pkg.github.com',
   npmTokenSecret: 'GITHUB_TOKEN',
 
+  codeCov: true,
+  codeCovTokenSecret: 'CODECOV_TOKEN',
+
   githubOptions: {
     pullRequestLintOptions: {
       contributorStatement: 'By submitting this pull request, I confirm that you can use, modify, copy, and redistribute this contribution, under the terms of the project license.',
