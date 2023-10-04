@@ -10,13 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-    if: github.repository == "aws-samples/emerging-tech-cdk-constructs"
+    if: github.repository == 'aws-samples/emerging-tech-cdk-constructs'
     steps:
       - uses: actions/checkout@v4
       - name: Update a projects CONTRIBUTORS file
         uses: minicli/action-contributors@v3.3
         env:
-          CONTRIB_REPOSITORY: aws-samples/emerging-tech-cdk-constructs
+          CONTRIB_REPOSITORY: "'aws-samples/emerging-tech-cdk-constructs'"
           CONTRIB_OUTPUT_FILE: CONTRIBUTORS.md
           CONTRIB_IGNORE: emerging-tech-cdk-constructs-bot, dependabot[bot], amazon-auto, github-actions
       - name: Create a PR

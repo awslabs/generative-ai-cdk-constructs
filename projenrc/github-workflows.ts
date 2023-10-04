@@ -66,7 +66,7 @@ export function buildMonthlyIssuesMetricsWorkflow(project: AwsCdkConstructLibrar
       issues: JobPermission.WRITE,
       pullRequests: JobPermission.READ,
     },
-    if: 'github.repository == "aws-samples/emerging-tech-cdk-constructs"',
+    if: "github.repository == 'aws-samples/emerging-tech-cdk-constructs'",
     runsOn: ['ubuntu-latest'],
     name: 'metrics',
     steps: [
@@ -152,7 +152,7 @@ export function buildUpdateContributorsWorkflow(project: AwsCdkConstructLibrary)
     permissions: {
       pullRequests: JobPermission.WRITE,
     },
-    if: 'github.repository == "aws-samples/emerging-tech-cdk-constructs"',
+    if: "github.repository == 'aws-samples/emerging-tech-cdk-constructs'",
     runsOn: ['ubuntu-latest'],
     steps: [
       {
@@ -206,7 +206,7 @@ export function buildUpdateContributorsWorkflow(project: AwsCdkConstructLibrary)
 export function buildAutoApproveWorkflow(project: AwsCdkConstructLibrary) {
   const autoapprove: Job = {
     runsOn: ['ubuntu-latest'],
-    if: 'github.repository == "aws-samples/emerging-tech-cdk-constructs" && github.actor == "emerging-tech-cdk-constructs-bot"',
+    if: "github.repository == 'aws-samples/emerging-tech-cdk-constructs' && github.actor == 'emerging-tech-cdk-constructs-bot' && contains(github.event.pull_request.labels.*.name, 'auto-approve')",
     permissions: {
       pullRequests: JobPermission.WRITE,
     },

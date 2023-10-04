@@ -12,7 +12,7 @@ jobs:
     permissions:
       issues: write
       pull-requests: read
-    if: github.repository == "aws-samples/emerging-tech-cdk-constructs"
+    if: github.repository == 'aws-samples/emerging-tech-cdk-constructs'
     steps:
       - name: Get dates for last month
         run: |-
