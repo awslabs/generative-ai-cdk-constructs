@@ -206,7 +206,7 @@ export function buildUpdateContributorsWorkflow(project: AwsCdkConstructLibrary)
 export function buildAutoApproveWorkflow(project: AwsCdkConstructLibrary) {
   const autoapprove: Job = {
     runsOn: ['ubuntu-latest'],
-    if: "(github.repository == 'aws-samples/emerging-tech-cdk-constructs') && (github.event.pull_request.user.login == 'emerging-tech-cdk-constructs-bot') && contains(github.event.pull_request.labels.*.name, 'auto-approve')",
+    if: "(github.event.pull_request.user.login == 'emerging-tech-cdk-constructs-bot') && contains(github.event.pull_request.labels.*.name, 'auto-approve')",
     permissions: {
       pullRequests: JobPermission.WRITE,
     },
