@@ -100,7 +100,7 @@ Out of the box implementation of the Construct without any override will set the
 | 601 | <>message | This error happens when <> | Provide a valid value for the <> |
 
 ## Architecture
-![Architecture Diagram](summary_architecture.gif)
+![Architecture Diagram](architecture.png)
 
 ***
 &copy; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.

@@ -13,28 +13,48 @@
 import * as events from 'aws-cdk-lib/aws-events';
 import { Construct } from 'constructs';
 
-export interface eventBridgeProps {
+export interface buildEventBridgeProps {
+  /**
+   * Existing instance of SNS Topic object, providing both this and `topicProps` will cause an error.
+   *
+   * @default - None.
+   */
+  readonly existingEventBusInterface?: events.IEventBus;
+
   /**
    * Event bus to receive the request
    * @default 'eventbus'
    */
   readonly eventBusName: string;
-  /**
-   * event bus to receive the response
-   * @default ' subscriptionEventbus'
-   */
-  readonly subscriptionEventBusName: string;
+
 }
 
-export function buildRequestEventBus(scope: Construct, props: eventBridgeProps) {
-
-  return new events.EventBus(scope, props.eventBusName, {
-    eventBusName: props.eventBusName,
-  });
+export function buildEventBus(scope: Construct, props: buildEventBridgeProps) {
+  if (props.existingEventBusInterface) {
+    return props.existingEventBusInterface;
+  } else {
+    return new events.EventBus(scope, props.eventBusName, {
+      eventBusName: props.eventBusName,
+    });
+  }
 }
 
-export function buildResponseEventBus(scope: Construct, props: eventBridgeProps) {
-  return new events.EventBus(scope, props.subscriptionEventBusName, {
-    eventBusName: props.subscriptionEventBusName,
-  });
+
+export interface EventBridgeProps {
+  readonly existingEventBusInterface: events.IEventBus;
+  readonly eventBusProps: events.EventBusProps;
+}
+
+export function CheckEventBridgeProps(propsObject: EventBridgeProps | any) {
+  let errorMessages = '';
+  let errorFound = false;
+
+  if (propsObject.existingEventBusInterface && propsObject.eventBusProps) {
+    errorMessages += 'Error - Either provide existingEventBusInterface or eventBusProps, but not both.\n';
+    errorFound = true;
+  }
+
+  if (errorFound) {
+    throw new Error(errorMessages);
+  }
 }

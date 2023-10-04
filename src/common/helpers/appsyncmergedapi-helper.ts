@@ -53,8 +53,80 @@ export interface AppsyncMergedApiProps {
    *  @default None
    */
   readonly appsyncMergedApiContact: string;
+
+  /**
+   * Security configuration for your GraphQL API.
+   * Allowed values - API_KEY , AWS_IAM , AMAZON_COGNITO_USER_POOLS , OPENID_CONNECT , or AWS_LAMBDA
+   *  @default None
+   */
+  readonly authenticationType: string;
+
+  /**
+   * Configuration for AWS Lambda function authorization.
+   * Use this if APP sync authentication Type is AWS_LAMBDA
+   */
+  readonly authorizerResultTtlInSeconds: number;
+
+  /**
+   * Configuration for AWS Lambda function authorization.
+   * Use this if APP sync authentication Type is AWS_LAMBDA
+   */
+  readonly authorizerUri: string;
+
+  /**
+   * Configuration for AWS Lambda function authorization.
+   * Use this if APP sync authentication Type is AWS_LAMBDA
+   */
+  readonly identityValidationExpression: string;
+
+
+  /**
+   * Configuration for openIdConnectConfig authorization.
+   * Use this if APP sync authentication Type is OPENID_CONNECT
+   */
+  readonly authTtl: number;
+
+  /**
+   * Configuration for AWS Lambda function authorization.
+   * Use this if APP sync authentication Type is OPENID_CONNECT
+   */
+  readonly clientId: string;
+
+  /**
+   * Configuration for AWS Lambda function authorization.
+   * Use this if APP sync authentication Type is OPENID_CONNECT
+   */
+  readonly iatTtl: number;
+
+  /**
+   * Configuration for AWS Lambda function authorization.
+   * Use this if APP sync authentication Type is OPENID_CONNECT
+   */
+  readonly issuer: string;
+
 }
 
+export interface LogConfigProps {
+  /**
+   * The service role that AWS AppSync assumes to publish to CloudWatch logs in your account.
+   *  @default None
+   */
+  readonly cloudWatchLogsRoleArn: string;
+
+  /**
+   * Log level
+   *  @default None
+   */
+  readonly fieldLogLevel: string;
+
+  /**
+   * Set to TRUE to exclude sections that contain information such as
+   * headers, context, and evaluated mapping templates, regardless of logging level.
+   *  @default false
+   */
+  readonly excludeVerboseContent: boolean;
+
+}
 /**
  * @internal This is an internal core function and should not be called directly by Solutions Constructs clients.
  *
@@ -63,17 +135,17 @@ export interface AppsyncMergedApiProps {
  * @param AppsyncMergedApiProps The  props to be used by the construct
  * @returns App sync merge api
  */
-export function buildMergedAPI(scope: Construct, props: AppsyncMergedApiProps) {
+export function buildMergedAPI(scope: Construct, props: AppsyncMergedApiProps, logProps: LogConfigProps) {
 
   let mergedapi = new appsync.CfnGraphQLApi(scope, props?.appsyncmergedApiName, {
     apiType: 'MERGED',
     name: props?.appsyncmergedApiName,
-    authenticationType: 'API_KEY',
+    authenticationType: props?.authenticationType,
     additionalAuthenticationProviders: [getAdditionalAuthenticationMode(props)],
     logConfig: {
       cloudWatchLogsRoleArn: setAppsyncCloudWatchlogsRole(scope, props).roleArn,
-      fieldLogLevel: 'ALL',
-      excludeVerboseContent: false,
+      fieldLogLevel: logProps?.fieldLogLevel,
+      excludeVerboseContent: logProps.excludeVerboseContent,
     },
     xrayEnabled: true,
     mergedApiExecutionRoleArn: getMergedAPIRole(scope, props).roleArn,
@@ -85,12 +157,41 @@ export function buildMergedAPI(scope: Construct, props: AppsyncMergedApiProps) {
 }
 
 function getAdditionalAuthenticationMode(props: AppsyncMergedApiProps) {
+
+  if (props.authenticationType == 'AMAZON_COGNITO_USER_POOLS') {
+    const additionalAuthenticationMode: appsync.CfnGraphQLApi.AdditionalAuthenticationProviderProperty = {
+      authenticationType: props?.authenticationType,
+      userPoolConfig: {
+        awsRegion: props?.region,
+        userPoolId: props?.userpoolid,
+      },
+    };
+    return additionalAuthenticationMode;
+  } else if (props.authenticationType == 'AWS_LAMBDA') {
+    const additionalAuthenticationMode: appsync.CfnGraphQLApi.AdditionalAuthenticationProviderProperty = {
+      authenticationType: props?.authenticationType,
+      lambdaAuthorizerConfig: {
+        authorizerResultTtlInSeconds: props?.authorizerResultTtlInSeconds,
+        authorizerUri: props?.authorizerUri,
+        identityValidationExpression: props?.identityValidationExpression,
+      },
+
+    };
+    return additionalAuthenticationMode;
+  } else if (props.authenticationType == 'OPENID_CONNECT') {
+    const additionalAuthenticationMode: appsync.CfnGraphQLApi.AdditionalAuthenticationProviderProperty = {
+      authenticationType: props?.authenticationType,
+      openIdConnectConfig: {
+        authTtl: props?.authTtl,
+        clientId: props?.clientId,
+        iatTtl: props?.iatTtl,
+        issuer: props?.issuer,
+      },
+    };
+    return additionalAuthenticationMode;
+  }
   const additionalAuthenticationMode: appsync.CfnGraphQLApi.AdditionalAuthenticationProviderProperty = {
-    authenticationType: props?.cognitoAuthenticationUserpool,
-    userPoolConfig: {
-      awsRegion: props?.region,
-      userPoolId: props?.userpoolid,
-    },
+    authenticationType: props?.authenticationType,
   };
   return additionalAuthenticationMode;
 }
