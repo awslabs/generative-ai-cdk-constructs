@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-    if: github.repository == 'aws-samples/emerging-tech-cdk-constructs' && github.actor == 'emerging-tech-cdk-constructs-bot' && contains(github.event.pull_request.labels.*.name, 'auto-approve')
+    if: (github.repository == 'aws-samples/emerging-tech-cdk-constructs') && (github.event.pull_request.user.login == 'emerging-tech-cdk-constructs-bot') && contains(github.event.pull_request.labels.*.name, 'auto-approve')
     steps:
       - uses: hmarr/auto-approve-action@v3.2.1
         with:
