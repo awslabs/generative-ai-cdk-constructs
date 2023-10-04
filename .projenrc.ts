@@ -11,6 +11,7 @@
  *  and limitations under the License.
  */
 import { awscdk } from 'projen';
+import { buildLLMModelInterfaceLambdaLayerUseCase } from './projenrc/use-cases';
 
 // Constants
 const GITHUB_USER = 'aws-samples';
@@ -65,6 +66,12 @@ const project = new awscdk.AwsCdkConstructLibrary({
   stability: 'experimental',
   sampleCode: false,
 });
+
+// We don't want to package the use cases
+project.npmignore?.addPatterns('/use-cases/');
+
+// Add use cases
+buildLLMModelInterfaceLambdaLayerUseCase(project.cdkVersion);
 
 // Add License header automatically
 project.eslint?.addPlugins('header');
