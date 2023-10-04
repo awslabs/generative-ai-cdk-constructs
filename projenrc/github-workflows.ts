@@ -34,7 +34,7 @@ export function buildMeritBadgerWorkflow(project: AwsCdkConstructLibrary) {
           'github-token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
           'badges': '[beginning-contributor,repeat-contributor,valued-contributor,admired-contributor,star-contributor,distinguished-contributor]',
           'thresholds': '[0,3,6,13,25,50]',
-          'ignore-usernames': '[krokoko, scottschreckengaust, hvital, dineshSajwan, BenWillettAWS, emerging-tech-cdk-constructs-bot, dependabot[bot], amazon-auto, github-actions]',
+          'ignore-usernames': '[emerging-tech-cdk-constructs-bot, dependabot[bot], amazon-auto, github-actions]',
         },
       },
     ],
@@ -165,7 +165,7 @@ export function buildUpdateContributorsWorkflow(project: AwsCdkConstructLibrary)
         {
           CONTRIB_REPOSITORY: 'aws-samples/emerging-tech-cdk-constructs',
           CONTRIB_OUTPUT_FILE: 'CONTRIBUTORS.md',
-          CONTRIB_IGNORE: 'krokoko, scottschreckengaust, hvital, dineshSajwan, BenWillettAWS, emerging-tech-cdk-constructs-bot, dependabot[bot], amazon-auto, github-actions',
+          CONTRIB_IGNORE: 'emerging-tech-cdk-constructs-bot, dependabot[bot], amazon-auto, github-actions',
         },
       },
       {
@@ -206,7 +206,7 @@ export function buildUpdateContributorsWorkflow(project: AwsCdkConstructLibrary)
 export function buildAutoApproveWorkflow(project: AwsCdkConstructLibrary) {
   const autoapprove: Job = {
     runsOn: ['ubuntu-latest'],
-    if: 'github.repository == aws-samples/emerging-tech-cdk-constructs',
+    if: 'github.repository == aws-samples/emerging-tech-cdk-constructs && github.actor == emerging-tech-cdk-constructs-bot',
     permissions: {
       pullRequests: JobPermission.WRITE,
     },
