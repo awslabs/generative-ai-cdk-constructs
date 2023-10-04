@@ -194,3 +194,43 @@ export function buildUpdateContributorsWorkflow(project: AwsCdkConstructLibrary)
     }
     } 
 }
+
+/**
+ * https://github.com/aws/aws-cdk/blob/main/.github/workflows/auto-approve.yml
+ * Approves merging PRs with the auto-approve label.
+ * @param project AwsCdkConstructLibrary 
+ */
+export function buildAutoApproveWorkflow(project: AwsCdkConstructLibrary)
+{
+  const autoapprove: Job = { 
+    runsOn: ["ubuntu-latest"],
+    if: 'github.repository == aws-samples/emerging-tech-cdk-constructs', 
+    permissions: { 
+      pullRequests: JobPermission.WRITE, 
+    },
+    steps: [ 
+      { 
+        uses: 'hmarr/auto-approve-action@v3.2.1',
+        with: { 
+            "github-token": "${{ secrets.PROJEN_GITHUB_TOKEN }}",
+        }, 
+      }, 
+    ], 
+  }; 
+  
+if (project.github)
+{
+const workflow = project.github.addWorkflow('auto-approve');
+if (workflow)
+{
+    workflow.on({ 
+    pullRequestTarget: { 
+        types: [ 
+          "labeled", "unlabeled", "opened", "synchronize", "reopened", "ready_for_review", "review_requested"
+        ], 
+    }, 
+    }); 
+    workflow.addJobs({ 'auto-approve': autoapprove }); 
+}
+}   
+}
