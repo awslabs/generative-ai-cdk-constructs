@@ -62,7 +62,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   gitignore: ['*.DS_STORE'],
   stability: 'experimental',
   sampleCode: false,
-  stale: true
+  stale: true,
 });
 
 // Add some useful github workflows
