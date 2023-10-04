@@ -11,6 +11,7 @@
  *  and limitations under the License.
  */
 import { awscdk } from 'projen';
+import { buildMeritBadgerWorkflow, buildMonthlyIssuesMetricsWorkflow, buildUpdateContributorsWorkflow, buildAutoApproveWorkflow } from './projenrc/github-workflows';
 
 // Constants
 const GITHUB_USER = 'aws-samples';
@@ -45,6 +46,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
   npmRegistryUrl: 'https://npm.pkg.github.com',
   npmTokenSecret: 'GITHUB_TOKEN',
 
+  codeCov: true,
+  codeCovTokenSecret: 'CODECOV_TOKEN',
+
   githubOptions: {
     pullRequestLintOptions: {
       contributorStatement: 'By submitting this pull request, I confirm that you can use, modify, copy, and redistribute this contribution, under the terms of the project license.',
@@ -61,7 +65,14 @@ const project = new awscdk.AwsCdkConstructLibrary({
   gitignore: ['*.DS_STORE'],
   stability: 'experimental',
   sampleCode: false,
+  stale: true,
 });
+
+// Add some useful github workflows
+buildMeritBadgerWorkflow(project);
+buildMonthlyIssuesMetricsWorkflow(project);
+buildUpdateContributorsWorkflow(project);
+buildAutoApproveWorkflow(project);
 
 // Add License header automatically
 project.eslint?.addPlugins('header');
