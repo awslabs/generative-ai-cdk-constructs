@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-    if: github.repository == aws-samples/emerging-tech-cdk-constructs
+    if: github.repository == "aws-samples/emerging-tech-cdk-constructs"
     steps:
       - uses: actions/checkout@v4
       - name: Update a projects CONTRIBUTORS file
