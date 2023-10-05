@@ -21,7 +21,7 @@ const CDK_VERSION: string = '2.99.1';
 
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Amazon Web Services - Prototyping and Cloud Engineering',
-  authorAddress: PROJECT_NAME+'@amazon.com',
+  authorAddress: PROJECT_NAME + '@amazon.com',
   authorOrganization: true,
   cdkVersion: CDK_VERSION,
   projenVersion: '~0.73.33',
@@ -31,13 +31,13 @@ const project = new awscdk.AwsCdkConstructLibrary({
   jsiiVersion: '~5.0.0',
   name: PROJECT_NAME,
   projenrcTs: true,
-  repositoryUrl: 'https://github.com/'+GITHUB_USER+'/'+PROJECT_NAME,
+  repositoryUrl: 'https://github.com/' + GITHUB_USER + '/' + PROJECT_NAME,
 
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
-  packageName: '@'+GITHUB_USER+'/'+PROJECT_NAME, /* The "name" in package.json. */
+  packageName: '@' + GITHUB_USER + '/' + PROJECT_NAME, /* The "name" in package.json. */
   keywords: ['constructs', 'aws-cdk', 'generative-ai', 'emerging-tech'],
   devDeps: ['eslint-plugin-header'],
-  //peerDeps: [],
+  bundledDeps: ['deepmerge', '@types/deep-diff', '@types/npmlog'],
 
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
   minNodeVersion: '18.12.0', // 'MAINTENANCE' (first LTS)
@@ -85,5 +85,6 @@ project.eslint?.addPlugins('header');
 project.eslint?.addRules({
   'header/header': [2, 'header.js'],
 });
+
 
 project.synth();
