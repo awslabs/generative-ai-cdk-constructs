@@ -34,7 +34,7 @@ export function buildMeritBadgerWorkflow(project: AwsCdkConstructLibrary) {
           'github-token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
           'badges': '[beginning-contributor,repeat-contributor,valued-contributor,admired-contributor,star-contributor,distinguished-contributor]',
           'thresholds': '[0,3,6,13,25,50]',
-          'ignore-usernames': '[emerging-tech-cdk-constructs-bot, dependabot[bot], amazon-auto, github-actions]',
+          'ignore-usernames': '[emerging-tech-cdk-constructs-bot, dependabot[bot], dependabot, amazon-auto, github-actions]',
         },
       },
     ],
@@ -165,7 +165,7 @@ export function buildUpdateContributorsWorkflow(project: AwsCdkConstructLibrary)
         {
           CONTRIB_REPOSITORY: 'aws-samples/emerging-tech-cdk-constructs',
           CONTRIB_OUTPUT_FILE: 'CONTRIBUTORS.md',
-          CONTRIB_IGNORE: 'emerging-tech-cdk-constructs-bot, dependabot[bot], amazon-auto, github-actions',
+          CONTRIB_IGNORE: 'emerging-tech-cdk-constructs-bot, dependabot[bot], dependabot, amazon-auto, github-actions',
         },
       },
       {
