@@ -4,6 +4,7 @@
 !/.projen/deps.json
 !/.projen/files.json
 !/.github/workflows/pull-request-lint.yml
+!/.github/workflows/stale.yml
 !/package.json
 !/LICENSE
 !/.npmignore
@@ -51,3 +52,7 @@ junit.xml
 !/.eslintrc.json
 .jsii
 tsconfig.json
+!/.github/workflows/github-merit-badger.yml
+!/.github/workflows/monthly-repo-metrics.yml
+!/.github/workflows/update-contributors.yml
+!/.github/workflows/auto-approve.yml

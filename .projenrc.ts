@@ -11,6 +11,7 @@
  *  and limitations under the License.
  */
 import { awscdk } from 'projen';
+import { buildMeritBadgerWorkflow, buildMonthlyIssuesMetricsWorkflow, buildUpdateContributorsWorkflow, buildAutoApproveWorkflow } from './projenrc/github-workflows';
 import { buildLLMModelInterfaceLambdaLayerUseCase } from './projenrc/use-cases';
 
 // Constants
@@ -65,7 +66,13 @@ const project = new awscdk.AwsCdkConstructLibrary({
   gitignore: ['*.DS_STORE'],
   stability: 'experimental',
   sampleCode: false,
+  stale: true,
 });
+// Add some useful github workflows
+buildMeritBadgerWorkflow(project);
+buildMonthlyIssuesMetricsWorkflow(project);
+buildUpdateContributorsWorkflow(project);
+buildAutoApproveWorkflow(project);
 
 // We don't want to package the use cases
 project.npmignore?.addPatterns('/use-cases/');
