@@ -13,7 +13,6 @@
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as elasticache from 'aws-cdk-lib/aws-elasticache';
 import { Construct } from 'constructs';
-import * as vpc_helper from './vpc-helper';
 
 export interface RedisProps {
 
@@ -23,11 +22,12 @@ export interface RedisProps {
    */
   readonly existingVpc?: ec2.IVpc;
 
-  // /**
-  //  * security group for lambda
-  //  * @default 'lambdaSecurityGroup'
-  //  */
-  // readonly lambdaSecurityGroup: ec2.ISecurityGroup;
+  /**
+   * cfnCacheClusterProps
+   * @default cacheNodeType -  'cache.r6g.xlarge'
+   * @default numCacheNodes- 1
+   */
+  readonly cfnCacheClusterProps: elasticache.CfnCacheClusterProps;
 
   /**
    * name  of redis Security Group
@@ -36,16 +36,18 @@ export interface RedisProps {
   readonly redisSecurityGroupname: string;
 
   /**
-   * cache node type
-   *  @default 'cache.r6g.xlarge'
+   * list of subnet Ids
+   * @default None
    */
-  readonly cacheNodeType: string;
+  readonly subnetIds: string [];
 
   /**
-   * redis cluster name
-   * @default 'redisCluster'
+   * redis Subnet Group Id
+   * @default redisSubnetGroup
    */
-  readonly redisclustername: string;
+  readonly redisSubnetGroupId: string;
+
+
 }
 
 /**
@@ -59,39 +61,41 @@ export interface RedisProps {
  */
 export function buildRedisCluster(scope: Construct, props: RedisProps): elasticache.CfnCacheCluster {
 
-  const redisclustername = props.redisclustername || 'redisCluster';
-  const cacheNodeType = props.cacheNodeType || 'cache.r6g.xlarge';
+  const redisclustername = props.cfnCacheClusterProps?.clusterName || 'redisCluster';
+  const cacheNodeType = props.cfnCacheClusterProps?.cacheNodeType || 'cache.r6g.xlarge';
+  const engine = props.cfnCacheClusterProps?.engine || 'redis';
+  const numCacheNodes = props.cfnCacheClusterProps?.numCacheNodes || 1;
 
   let redisCulster = new elasticache.CfnCacheCluster(scope, 'redisCluster', {
     clusterName: redisclustername,
     cacheNodeType: cacheNodeType,
-    engine: 'redis',
-    numCacheNodes: 1,
+    engine: engine,
+    numCacheNodes: numCacheNodes,
     cacheSubnetGroupName: getRedisSubnetGroup(scope, props).ref,
     vpcSecurityGroupIds: [getRedisSecurityGroup(scope, props).securityGroupId],
   });
-  //this.redisHost = redisCluster.attrRedisEndpointAddress;
-  //this.redisPort = redisCluster.attrRedisEndpointPort;
+
   return redisCulster;
 }
 
 
 // get redis subnet group from existing vpc
 function getRedisSubnetGroup(scope: Construct, props: RedisProps): elasticache.CfnSubnetGroup {
-  let redisSubnetGroup = new elasticache.CfnSubnetGroup(scope, 'redisSubnetGroup', {
-    description: 'redis subnet group',
-    subnetIds: vpc_helper.getPrivateSubnetIDs(props?.existingVpc!),
+  let redisSubnetGroup = new elasticache.CfnSubnetGroup(scope, props.redisSubnetGroupId, {
+    description: 'Redis subnet group',
+    subnetIds: props.subnetIds,
   });
   return redisSubnetGroup;
 }
 
 // get redis security group from existing vpc
 function getRedisSecurityGroup(scope: Construct, props: RedisProps): ec2.SecurityGroup {
-  let redisSecurityGroup = new ec2.SecurityGroup(scope, 'redisSecurityGroup', {
+  const redisSecurityGroupName = props?.redisSecurityGroupname || 'redisSecuritygroup';
+  let redisSecurityGroup = new ec2.SecurityGroup(scope, props.redisSecurityGroupname, {
     vpc: props?.existingVpc!,
     allowAllOutbound: true,
     description: 'security group for elasticache',
-    securityGroupName: props?.redisSecurityGroupname,
+    securityGroupName: redisSecurityGroupName,
   });
   return redisSecurityGroup;
 }

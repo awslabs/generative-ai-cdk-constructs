@@ -15,17 +15,18 @@ import { Construct } from 'constructs';
 
 export interface buildEventBridgeProps {
   /**
-   * Existing instance of SNS Topic object, providing both this and `topicProps` will cause an error.
+   * Optional Existing instance of SNS Topic object, providing both this and `topicProps` will cause an error.
    *
    * @default - None.
    */
   readonly existingEventBusInterface?: events.IEventBus;
 
   /**
-   * Event bus to receive the request
-   * @default 'eventbus'
+   * Optional user provided event bus props
+   *
+   * @default - Default props are used.
    */
-  readonly eventBusName: string;
+  readonly eventBusProps?: events.EventBusProps;
 
 }
 
@@ -33,9 +34,8 @@ export function buildEventBus(scope: Construct, props: buildEventBridgeProps) {
   if (props.existingEventBusInterface) {
     return props.existingEventBusInterface;
   } else {
-    return new events.EventBus(scope, props.eventBusName, {
-      eventBusName: props.eventBusName,
-    });
+    const eventBusName = props.eventBusProps?.eventBusName || 'customEventBus';
+    return new events.EventBus(scope, eventBusName, props.eventBusProps);
   }
 }
 

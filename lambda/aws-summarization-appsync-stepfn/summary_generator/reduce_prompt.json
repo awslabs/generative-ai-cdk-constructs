@@ -1,0 +1,6 @@
+{
+    "_type": "prompt",
+    "input_variables": ["doc_summaries"],
+    "template": "TThe following is set of summaries:\\n {doc_summaries}\\n Take these and distill it into a final, consolidated summary of the main themes.\\n Helpful Answer:"
+
+}

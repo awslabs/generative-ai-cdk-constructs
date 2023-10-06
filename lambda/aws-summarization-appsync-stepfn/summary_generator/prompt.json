@@ -1,0 +1,6 @@
+{
+    "_type": "prompt",
+    "input_variables": ["text"],
+    "template": "Write a concise summary of the following in 300 words: \\n{text} \\nCONCISE SUMMARY IN 300 WORDS:"
+
+}

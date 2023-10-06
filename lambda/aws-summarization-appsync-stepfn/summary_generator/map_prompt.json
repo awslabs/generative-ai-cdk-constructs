@@ -1,0 +1,6 @@
+{
+    "_type": "prompt",
+    "input_variables": ["docs"],
+    "template": "The following is a set of documents\\n {docs}\\n Based on this list of docs, please identify the main themes\\n Helpful Answer:"
+
+}
