@@ -40,7 +40,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
   minNodeVersion: '18.12.0', // 'MAINTENANCE' (first LTS)
-  maxNodeVersion: '20.7.0', // 'CURRENT'
+  maxNodeVersion: '20.8.0', // 'CURRENT'
   workflowNodeVersion: '18.x', // 'ACTIVE'
 
   npmRegistryUrl: 'https://npm.pkg.github.com',
@@ -62,7 +62,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   license: 'Apache-2.0',
   copyrightPeriod: '2023-',
   copyrightOwner: 'Amazon.com, Inc. or its affiliates. All Rights Reserved.',
-  gitignore: ['*.DS_STORE'],
+  gitignore: ['*.DS_STORE', '!.node-version'],
   stability: 'experimental',
   sampleCode: false,
   stale: true,
