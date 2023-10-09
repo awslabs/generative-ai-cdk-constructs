@@ -1,5 +1,6 @@
 import os
 from enum import Enum
+from langchain import LLMChain
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain.chains import ConversationalRetrievalChain, ConversationChain
 from langchain.memory import ConversationBufferMemory
@@ -8,23 +9,28 @@ from langchain.chains.conversational_retrieval.prompts import (
     QA_PROMPT,
     CONDENSE_QUESTION_PROMPT,
 )
+from genai_core.utils import PredictionException
 
 
 class Mode(Enum):
-    CHAIN = "chain"
+    CHAIN = "qa_chain"
 
 
 class ModelAdapter:
-    def __init__(self, session_id, user_id, mode="chain", model_kwargs={}):
+    def __init__(self, session_id, user_id, model_kwargs={}, adapter_kwargs={}):
         self.session_id = session_id
         self.user_id = user_id
-        self._mode = mode
+        self._mode = adapter_kwargs.get("mode", "qa_chain")
         self.model_kwargs = model_kwargs
 
         self.callback_handler = BaseCallbackHandler()
         self.__bind_callbacks()
 
-        self.chat_history = self.get_chat_history()
+        history_enabled = adapter_kwargs.get("chat_history", False)
+        if (history_enabled == True):
+            self.chat_history = self.get_chat_history()
+        else:
+            self.chat_history = None
         self.llm = self.get_llm(model_kwargs)
 
     def __bind_callbacks(self):
@@ -53,6 +59,14 @@ class ModelAdapter:
             return_messages=True,
             output_key=output_key,
         )
+    
+    def get_prompt_no_history(self):
+        template = """\n\nHuman: {context}
+        Answer from this text: {question}
+        \n\nAssistant:"""
+        prompt_template = PromptTemplate(template=template, input_variables=["context", "question"])
+
+        return prompt_template
 
     def get_prompt(self):
         template = """The following is a friendly conversation between a human and an AI. If the AI does not know the answer to a question, it truthfully says it does not know.
@@ -120,40 +134,66 @@ class ModelAdapter:
                 "metadata": metadata,
             }
 
-        conversation = ConversationChain(
-            llm=self.llm,
-            prompt=self.get_prompt(),
-            memory=self.get_memory(),
-            verbose=True,
-        )
-        answer = conversation.predict(
-            input=user_prompt, callbacks=[self.callback_handler]
-        )
+        if self.chat_history != None:
+            conversation = ConversationChain(
+                llm=self.llm,
+                prompt=self.get_prompt(),
+                memory=self.get_memory(),
+                verbose=True,
+            )
+            answer = conversation.predict(
+                input=user_prompt, callbacks=[self.callback_handler]
+            )
+
+            metadata = {
+                "modelId": self.model_id,
+                "modelKwargs": self.model_kwargs,
+                "mode": self._mode,
+                "sessionId": self.session_id,
+                "userId": self.user_id,
+                "documents": [],
+            }
+
+            self.chat_history.add_metadata(metadata)
+
+            return {
+                "sessionId": self.session_id,
+                "type": "text",
+                "content": answer,
+                "metadata": metadata,
+            }
+        
+        chain = LLMChain(llm=self.llm, prompt=self.get_prompt_no_history(), verbose=True)
+        try:
+            response = chain.predict(context='', question=user_prompt, callbacks=[self.callback_handler])
+            raise PredictionException("claude")
+        except PredictionException as e:
+            print(e.message)
+            #TODO return response 
+
 
         metadata = {
-            "modelId": self.model_id,
-            "modelKwargs": self.model_kwargs,
-            "mode": self._mode,
-            "sessionId": self.session_id,
-            "userId": self.user_id,
-            "documents": [],
-        }
-
-        self.chat_history.add_metadata(metadata)
-
+                "modelId": self.model_id,
+                "modelKwargs": self.model_kwargs,
+                "mode": self._mode,
+                "sessionId": self.session_id,
+                "userId": self.user_id,
+                "documents": [],
+            }
+        
         return {
-            "sessionId": self.session_id,
-            "type": "text",
-            "content": answer,
-            "metadata": metadata,
-        }
+                "sessionId": self.session_id,
+                "type": "text",
+                "content": response,
+                "metadata": metadata,
+            }
 
     def run(self, prompt, workspace_id=None, *args, **kwargs):
         print(f"run with {kwargs}")
         print(f"workspace_id {workspace_id}")
         print(f"mode: {self._mode}")
 
-        if self._mode == "chain":
+        if self._mode == "qa_chain":
             return self.run_with_chain(prompt, workspace_id)
 
         raise ValueError(f"unknown mode {self._mode}")

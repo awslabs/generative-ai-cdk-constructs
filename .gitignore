@@ -33,6 +33,8 @@ jspm_packages/
 .cache
 *.DS_STORE
 !.node-version
+*.pyc
+__pycache__/
 !/.projenrc.js
 /test-reports/
 junit.xml

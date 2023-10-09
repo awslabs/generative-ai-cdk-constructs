@@ -63,7 +63,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   license: 'Apache-2.0',
   copyrightPeriod: '2023-',
   copyrightOwner: 'Amazon.com, Inc. or its affiliates. All Rights Reserved.',
-  gitignore: ['*.DS_STORE', '!.node-version'],
+  gitignore: ['*.DS_STORE', '!.node-version','*.pyc','__pycache__/'],
   stability: 'experimental',
   sampleCode: false,
   stale: true,
