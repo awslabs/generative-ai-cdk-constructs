@@ -50,7 +50,7 @@ Coming soon
 
 # Roadmap
 
-Coming soon
+Roadmap is available through the [Github Project](https://github.com/orgs/aws-samples/projects/72)
 
 ***
 &copy; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.

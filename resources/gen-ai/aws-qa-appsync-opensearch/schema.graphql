@@ -1,0 +1,64 @@
+type QADocs @@aws_iam @aws_cognito_user_pools {
+	jobid: ID
+	workflow_type: String
+	handler_type: String
+	llm_endpoint: String
+	question: String
+	max_docs: Int
+	verbose: Boolean
+	filename: String
+	session_id: String
+	answer: String
+	sources: [String]
+	jobstatus: String
+}
+
+input QADocsInput {
+	jobid: ID
+	workflow_type: String
+	handler_type: String
+	llm_endpoint: String
+	question: String
+	max_docs: Int
+	filename: String
+	verbose: Boolean
+	session_id: String
+}
+
+type Mutation @@aws_iam @aws_cognito_user_pools {
+	postQuestion(
+		jobid: ID,
+		jobstatus: String,
+		workflow_type: String,
+		handler_type: String,
+		filename: String,
+		llm_endpoint: String,
+		question: String,
+		max_docs: Int,
+		verbose: Boolean,
+		session_id: String
+	): QADocs
+	updateQAJobStatus(
+		jobid: ID,
+		jobstatus: String,
+		sources: [String],
+		answer: String,
+		filename: String,
+		question: String
+	): QADocs
+}
+
+type Query @@aws_iam @aws_cognito_user_pools {
+  getAnswer(answerparams: QADocsInput!): QADocs
+}
+
+type Subscription @@aws_iam @aws_cognito_user_pools {
+	updateQAJobStatus(jobid: ID!): QADocs
+		@aws_subscribe(mutations: ["updateQAJobStatus"])
+}
+
+schema {
+	query: Query
+	mutation: Mutation
+	subscription: Subscription
+}
