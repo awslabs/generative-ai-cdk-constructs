@@ -20,4 +20,4 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Points to the handler function of your lambda function
-CMD ["index.handler"]
+CMD ["lambda.handler"]

@@ -6,7 +6,7 @@ from requests_aws4auth import AWS4Auth
 
 from aws_lambda_powertools import Logger, Tracer
 
-logger = Logger(service="SUMMARY_INPUT_VALIDATION")
+logger = Logger(service="SUMMARY_")
 tracer = Tracer(service="SUMMARY_INPUT_VALIDATION")
 
 aws_region = boto3.Session().region_name

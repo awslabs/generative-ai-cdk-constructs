@@ -32,7 +32,7 @@ export interface AppsyncMergedApiProps {
    * @default - name - appsyncmergeAPI
    *
    */
-  readonly cfnGraphQLApiProps?: appsync.CfnGraphQLApiProps;
+  readonly cfnGraphQLApiProps: appsync.CfnGraphQLApiProps;
 
   /**
    * OPTIONAL cognito user pool id for appsync auth
@@ -78,17 +78,21 @@ export function buildMergedAPI(scope: Construct, id: string, props: AppsyncMerge
   if (props.existingMergeApi) {
     return props.existingMergeApi;
   } else {
+    console.log('build merge api');
     const mergeAPIname = props.cfnGraphQLApiProps?.name || 'appsyncmergeAPI';
     const apiType = props.cfnGraphQLApiProps?.apiType || 'MERGED';
-    const fieldLogLevel = props?.fieldLogLevel || 'None';
+    const fieldLogLevel = props?.fieldLogLevel || appsync.FieldLogLevel.NONE;
     const excludeVerboseContent = props?.excludeVerboseContent || false;
     const xRayEnabled = props?.xRayEnabled || false;
 
     let mergedApi = new appsync.CfnGraphQLApi(scope, id, {
       apiType: apiType,
       name: mergeAPIname,
-      authenticationType: props?.cfnGraphQLApiProps!.authenticationType,
-      additionalAuthenticationProviders: [getAdditionalAuthenticationMode(props)],
+      authenticationType: props.cfnGraphQLApiProps.authenticationType,
+      userPoolConfig: props.cfnGraphQLApiProps.userPoolConfig,
+      additionalAuthenticationProviders: [{
+        authenticationType: 'AWS_IAM',
+      }],
       logConfig: {
         cloudWatchLogsRoleArn: setAppsyncCloudWatchlogsRole(scope, props).roleArn,
         fieldLogLevel: fieldLogLevel,
@@ -111,64 +115,14 @@ export function checkAppsyncMergedApiProps(propsObject: AppsyncMergedApiProps | 
     errorMessages += 'Error - Either provide existingMergeApi or cfnGraphQLApiProps, but not both.\n';
     errorFound = true;
   }
-
-  if (errorFound) {
-    throw new Error(errorMessages);
-  }
-}
-
-export function checkAuthenticationTypeProps(props: AppsyncMergedApiProps | any) {
-
-  let errorMessages = '';
-  let errorFound = false;
-
-  if (props.cfnGraphQLApiProps.authenticationType == 'AMAZON_COGNITO_USER_POOLS'
-    && (!props.cfnGraphQLApiProps.userPoolConfig)) {
-    errorMessages += 'Error - User pool config is required for authentication type of cognito user pools.\n';
-    errorFound = true;
-  } if (props.cfnGraphQLApiProps.authenticationType == 'OPENID_CONNECT'
-  && (!props.cfnGraphQLApiProps.openIdConnectConfig)) {
-    errorMessages += 'Error - open id config is required for authentication type of open id connect.\n';
-    errorFound = true;
-  } else if (props.cfnGraphQLApiProps.authenticationType == 'AWS_LAMBDA'
-  && (!props.cfnGraphQLApiProps.lambdaAuthorizerConfig)) {
-    errorMessages += 'Error - lambda authorizer config is required for authentication type of aws lambda.\n';
+  if (!propsObject.existingMergeApi && !propsObject.cfnGraphQLApiProps) {
+    errorMessages += 'Error - Atleast one is required either existingMergeApi or cfnGraphQLApiProps.\n';
     errorFound = true;
   }
 
   if (errorFound) {
     throw new Error(errorMessages);
   }
-
-}
-function getAdditionalAuthenticationMode(props: AppsyncMergedApiProps) {
-
-  if (props?.cfnGraphQLApiProps!.authenticationType == 'AWS_LAMBDA') {
-    const additionalAuthenticationMode:
-    appsync.CfnGraphQLApi.AdditionalAuthenticationProviderProperty = {
-      authenticationType: props?.cfnGraphQLApiProps.authenticationType,
-      lambdaAuthorizerConfig: props?.cfnGraphQLApiProps.lambdaAuthorizerConfig,
-    };
-    return additionalAuthenticationMode;
-  } else if (props.cfnGraphQLApiProps!.authenticationType == 'OPENID_CONNECT') {
-    const additionalAuthenticationMode:
-    appsync.CfnGraphQLApi.AdditionalAuthenticationProviderProperty = {
-      authenticationType: props?.cfnGraphQLApiProps!.authenticationType,
-      openIdConnectConfig: props?.cfnGraphQLApiProps!.openIdConnectConfig,
-    };
-    return additionalAuthenticationMode;
-  }
-  // default authentication type
-  const additionalAuthenticationMode:
-  appsync.CfnGraphQLApi.AdditionalAuthenticationProviderProperty = {
-    authenticationType: 'AMAZON_COGNITO_USER_POOLS',
-    userPoolConfig: {
-      awsRegion: Aws.REGION,
-      userPoolId: props?.userPoolId,
-    },
-  };
-  return additionalAuthenticationMode;
-
 }
 
 function getMergedAPIRole(scope: Construct, props: AppsyncMergedApiProps) {

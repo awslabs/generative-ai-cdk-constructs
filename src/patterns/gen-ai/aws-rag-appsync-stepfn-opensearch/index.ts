@@ -111,7 +111,7 @@ export interface RagAppsyncStepfnOpensearchProps {
    */
   readonly openSearchSecretId: string;
   /**
-   * URL endpoint of the appsync merged api.
+   * URL endpoint of the appsync   d api.
    *
    * @default - None
    */

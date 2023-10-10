@@ -54,7 +54,7 @@ export interface SummarizationAppsyncStepfnProps {
    *
    * @default - none
    */
-  readonly redisCulster?: elasticache.CfnCacheCluster;
+  readonly existingRedisCulster?: elasticache.CfnCacheCluster;
 
 
   /**
@@ -82,7 +82,7 @@ export interface SummarizationAppsyncStepfnProps {
    *
    * @default - none
    */
-  readonly mergeApiKeySecret: string;
+  //readonly mergeApiKeySecret: string;
 
   /**
    * TODO- THIS IS NOT REQUIRED ANY MORE.
@@ -140,7 +140,7 @@ export interface SummarizationAppsyncStepfnProps {
    * schema for multiple source api.
    * @default None
    */
-  readonly existingMergeApi: appsync.CfnGraphQLApi;
+  readonly existingMergeApi?: appsync.CfnGraphQLApi;
 
   /**
    * Optional, Name  of merged api on appsync. merge api is used to provide federated
@@ -219,6 +219,12 @@ export class SummarizationAppsyncStepfn extends Construct {
    */
   public readonly assetBucket: s3.IBucket | undefined;
 
+  /**
+   * Logging configuration for AppSync
+   * @default - fieldLogLevel - None
+   */
+  public readonly logConfig?: appsync.LogConfig;
+
 
   /**
      * @summary Constructs a new instance of the SummarizationAppsyncStepfn class.
@@ -241,7 +247,7 @@ export class SummarizationAppsyncStepfn extends Construct {
     } else {
       this.vpc = vpcHelper.buildVpc(this, props);
     }
-
+    console.log('step1: built VPC');
     // Security group
     if (props?.existingSecurityGroup) {
       this.securityGroup = props.existingSecurityGroup;
@@ -256,7 +262,7 @@ export class SummarizationAppsyncStepfn extends Construct {
         },
       );
     }
-
+    console.log('step2: built Security Group');
     // bucket for input document
     s3BucketHelper.CheckS3Props({
       existingBucketObj: props.existingInputAssetsBucket,
@@ -264,135 +270,180 @@ export class SummarizationAppsyncStepfn extends Construct {
     });
 
     if (props?.existingInputAssetsBucket) {
-      this.assetBucket = props?.existingInputAssetsBucket;
-      if (props?.bucketInputsAssetsProps) {
-        this.assetBucket = new s3.Bucket(this, 'processedAssetsBucket'+stage, props.bucketInputsAssetsProps);
-      } else {
-        this.assetBucket = new s3.Bucket(this, 'processedAssetsBucket'+stage,
-          {
-            blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-            encryption: s3.BucketEncryption.S3_MANAGED,
-            bucketName: 'processed-assets-bucket'+stage+'-'+cdk.Aws.ACCOUNT_ID,
-          });
-      }
+      console.log('get existingbucket');
+      this.assetBucket = props.existingInputAssetsBucket;
+    } else if (props?.bucketInputsAssetsProps) {
+      console.log('create new with props');
+      this.assetBucket = new s3.Bucket(this, 'processedAssetsBucket'+stage, props.bucketInputsAssetsProps);
+      'processedAssetsBucket'+stage;
+    } else {
+      console.log('create new');
 
+      const bucketName= 'processed-assets-bucket'+stage+'-'+cdk.Aws.ACCOUNT_ID;
 
-      // build redis cluster only when cfnCacheClusterProps is set
-      if (props?.cfnCacheClusterProps) {
-        this.redisCluster = redisHelper.buildRedisCluster(this, {
-          existingVpc: this.vpc,
-          cfnCacheClusterProps: props.cfnCacheClusterProps,
-          redisSecurityGroupname: 'redisSecuritygroup'+stage,
-          subnetIds: vpcHelper.getPrivateSubnetIDs(this.vpc),
-          redisSubnetGroupId: 'redisSecuritygroup'+stage,
+      this.assetBucket = new s3.Bucket(this, 'processedAssetsBucket'+stage,
+        {
+          blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+          encryption: s3.BucketEncryption.S3_MANAGED,
+          bucketName: bucketName,
         });
-      }
+    }
 
-      eventBridge.CheckEventBridgeProps(props);
-      // Create event bridge
-      this.eventBridgeBus = eventBridge.buildEventBus(this, {
-        existingEventBusInterface: props.existingEventBusInterface,
-        eventBusProps: props.eventBusProps,
+    console.log('step2: built S3');
+
+    redisHelper.CheckRedisClusterProps(props);
+
+    const redisSecurityGroupname= 'redisSCgroup'+stage;
+
+    const redisSecurityGroup =redisHelper.getRedisSecurityGroup(this, props, redisSecurityGroupname);
+
+    // build redis cluster only when cfnCacheClusterProps is set
+    if (props?.cfnCacheClusterProps) {
+      this.redisCluster = redisHelper.buildRedisCluster(this, {
+        existingVpc: this.vpc,
+        cfnCacheClusterProps: props.cfnCacheClusterProps,
+        redisSecurityGroupname: redisSecurityGroupname,
+        subnetIds: vpcHelper.getPrivateSubnetIDs(this.vpc),
+        redisSubnetGroupId: 'redisSecuritygroup'+stage,
+        inboundSecurityGroup: this.securityGroup,
+        redisSecurityGroup: redisSecurityGroup,
       });
 
-      // NOT REQUIRED BECAUSE NO API KEY IS USED, LAMBDA WILL DIRECTLY CALL APPSYNC MUTATION
-      //const summaryEventbus = this.eventBridge.eventBus;
+    } else {
+      this.redisCluster= props?.existingRedisCulster;
+    }
+    // convert string to number
+    const redisHost = this.redisCluster?.attrRedisEndpointAddress || 'Invalid host';
+    const redisPort = this.redisCluster?.attrRedisEndpointPort || '6379';
+
+    redisHelper.setInboundRules(redisSecurityGroup, this.securityGroup);
 
 
-      appsyncMergedApi.checkAuthenticationTypeProps(props);
+    console.log('step4: built redis');
 
-      // Create merge api with default settings only when cfnGraphQLApiProps is set
+    eventBridge.CheckEventBridgeProps(props);
+    // Create event bridge
+    this.eventBridgeBus = eventBridge.buildEventBus(this, {
+      existingEventBusInterface: props.existingEventBusInterface,
+      eventBusProps: props.eventBusProps,
+    });
 
-      appsyncMergedApi.checkAppsyncMergedApiProps(props);
+    console.log('step5: built event bus');
+    // NOT REQUIRED BECAUSE NO API KEY IS USED, LAMBDA WILL DIRECTLY CALL APPSYNC MUTATION
+    //const summaryEventbus = this.eventBridge.eventBus;
 
-      if (props?.cfnGraphQLApiProps) {
-        this.mergeApi = appsyncMergedApi.buildMergedAPI(this, 'appsyncMergedApi'+stage, {
-          cfnGraphQLApiProps: props.cfnGraphQLApiProps,
-          userPoolId: props.userPoolId,
-          appsyncServicePrincipleRole: props.appsyncServicePrincipleRole,
-        });
-      } else {
-        this.mergeApi = props.existingMergeApi;
-      }
 
-      const mergeApiRole = new iam.Role(this, 'mergedapirole'+stage, {
-        assumedBy: new iam.ServicePrincipal(props.appsyncServicePrincipleRole),
+    console.log('step5.1: check authentication type');
+    appsyncMergedApi.checkAppsyncMergedApiProps(props);
+
+
+    // Create merge api with default settings only when cfnGraphQLApiProps is set
+
+
+    if (props?.cfnGraphQLApiProps) {
+      console.log('prep merge api');
+      this.mergeApi = appsyncMergedApi.buildMergedAPI(this, 'appsyncMergedApi-'+stage, {
+        cfnGraphQLApiProps: props.cfnGraphQLApiProps,
+        appsyncServicePrincipleRole: props.appsyncServicePrincipleRole,
       });
-      const mergeApiId = this.mergeApi.attrApiId;
-      const mergeapiurl = this.mergeApi.attrGraphQlUrl;
+    } else {
+      this.mergeApi = props.existingMergeApi;
+    }
+    console.log('step6: built merge api');
 
-      // const logConfig: appsync.LogConfig = {
-      //   retention: logs.RetentionDays.ONE_WEEK,
-      //   fieldLogLevel: appsync.FieldLogLevel.ALL,
-      // };
+    const mergeApiRole = new iam.Role(this, 'mergedapirole'+stage, {
+      assumedBy: new iam.ServicePrincipal(props.appsyncServicePrincipleRole),
+    });
+    const mergeApiId = this.mergeApi?.attrApiId;
+    const mergeapiurl = this.mergeApi?.attrGraphQlUrl;
 
-      // cognito auth for app sync
-      const cognitoUserPool = cognito.UserPool.fromUserPoolId(this,
-        'cognitoUserPool'+stage, props.userPoolId);
+    // const logConfig: appsync.LogConfig = {
+    //   retention: logs.RetentionDays.ONE_WEEK,
+    //   fieldLogLevel: appsync.FieldLogLevel.ALL,
+    // };
 
-      const authorizationConfig: appsync.AuthorizationConfig = {
-        defaultAuthorization: {
-          authorizationType: appsync.AuthorizationType.USER_POOL,
-          userPoolConfig: { userPool: cognitoUserPool },
+    // cognito auth for app sync
+    const cognitoUserPool = cognito.UserPool.fromUserPoolId(this,
+      'cognitoUserPool'+stage, props.userPoolId);
+
+    // make it generic for other auth config as well
+    const authorizationConfig: appsync.AuthorizationConfig = {
+      defaultAuthorization: {
+        authorizationType: appsync.AuthorizationType.USER_POOL,
+        userPoolConfig: { userPool: cognitoUserPool },
+      },
+      additionalAuthorizationModes: [
+        {
+          authorizationType: appsync.AuthorizationType.IAM,
         },
-        additionalAuthorizationModes: [
-          {
-            authorizationType: appsync.AuthorizationType.IAM,
-          },
-        ],
+      ],
+    };
+
+
+    const isXrayEnabled= props?.xrayEnabled || false;
+    const apiName = props.summaryApiName || 'summaryApi';
+
+
+    if (props?.logConfig) {
+      this.logConfig = props.logConfig;
+    } else {
+      this.logConfig= {
+        fieldLogLevel: appsync.FieldLogLevel.NONE,
       };
+    }
+    // const logConfig: appsync.LogConfig = {
+    //   retention: logs.RetentionDays.ONE_WEEK,
+    //   fieldLogLevel: appsync.FieldLogLevel.ALL,
+    // };
+    console.log('step7: built summary api');
+    // graphql api for summary. client invoke this api with given schema and cognito user pool auth.
+    const summarizationGraphqlApi = new appsync.GraphqlApi(this, 'summarizationGraphqlApi'+stage,
+      {
+        name: apiName+stage,
+        logConfig: this.logConfig,
+        schema: appsync.SchemaFile.fromAsset(path.join(__dirname, '../../../../resources/gen-ai/aws-summarization-appsync-stepfn/schema.graphql')),
+        authorizationConfig: authorizationConfig,
+        xrayEnabled: isXrayEnabled,
+      });
+    this.summaryGraphqlApi= summarizationGraphqlApi;
+
+    // If the user provides a mergedApi endpoint, the lambda
+    // functions will use this endpoint to send their status updates
+
+    const updateGraphQlApiId = !mergeApiId ? summarizationGraphqlApi.apiId : mergeApiId;
 
 
-      const isXrayEnabled= props?.xrayEnabled || false;
-      const apiName = props?.summaryApiName+stage || 'summaryApi'+stage;
+    // associate source api with merge api
+    const sourceApiAssociationConfigProperty:
+    appsync.CfnSourceApiAssociation.SourceApiAssociationConfigProperty = {
+      mergeType: 'AUTO_MERGE',
+    };
 
-      // graphql api for summary. client invoke this api with given schema and cognito user pool auth.
-      const summarizationGraphqlApi = new appsync.GraphqlApi(this, 'summarizationGraphqlApi'+stage,
-        {
-          name: apiName,
-          logConfig: props.logConfig,
-          schema: appsync.SchemaFile.fromAsset(path.join(__dirname, '../../../../resources/gen-ai/aws-summarization-appsync-stepfn/schema.graphql')),
-          authorizationConfig: authorizationConfig,
-          xrayEnabled: isXrayEnabled,
-        });
-      this.summaryGraphqlApi= summarizationGraphqlApi;
+    const sourceApiAssociation = new appsync.CfnSourceApiAssociation(this,
+      'sourceApiAssociations'+stage,
+      {
+        mergedApiIdentifier: mergeApiId,
+        sourceApiAssociationConfig: sourceApiAssociationConfigProperty,
+        sourceApiIdentifier: summarizationGraphqlApi.apiId,
+      });
 
-      // If the user provides a mergedApi endpoint, the lambda
-      // functions will use this endpoint to send their status updates
-
-      const updateGraphQlApiId = !mergeApiId ? summarizationGraphqlApi.apiId : mergeApiId;
+    sourceApiAssociation.node.addDependency(summarizationGraphqlApi);
 
 
-      // associate source api with merge api
-      const sourceApiAssociationConfigProperty:
-      appsync.CfnSourceApiAssociation.SourceApiAssociationConfigProperty = {
-        mergeType: 'mergeType',
-      };
-
-      const sourceApiAssociation = new appsync.CfnSourceApiAssociation(this,
-        'sourceApiAssociations'+stage,
-        {
-          mergedApiIdentifier: mergeApiId,
-          sourceApiAssociationConfig: sourceApiAssociationConfigProperty,
-          sourceApiIdentifier: summarizationGraphqlApi.apiId,
-        });
-
-      sourceApiAssociation.node.addDependency(summarizationGraphqlApi);
-
-
-      mergeApiRole.addToPolicy(
-        new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          actions: ['appsync:SourceGraphQL'],
-          resources: [
-            'arn:aws:appsync:' + cdk.Aws.REGION + ':' + cdk.Aws.ACCOUNT_ID
+    mergeApiRole.addToPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['appsync:SourceGraphQL'],
+        resources: [
+          'arn:aws:appsync:' + cdk.Aws.REGION + ':' + cdk.Aws.ACCOUNT_ID
            + ':apis/' + summarizationGraphqlApi.apiId + '/*',
-          ],
-        }),
-      );
+        ],
+      }),
+    );
 
-      // Lambda function to validate Input
-      const inputValidatorLambda =
+    // Lambda function to validate Input
+    console.log('step8: add lambda');
+    const inputValidatorLambda =
     new lambdaFunction.DockerImageFunction(this, 'inputValidatorLambda'+stage,
       {
         code: lambdaFunction.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/input_validator')),
@@ -410,322 +461,338 @@ export class SummarizationAppsyncStepfn extends Construct {
       });
 
 
-      // set default redisport and redishost value if cluster is not present
-      const redisHost = this.redisCluster?.attrRedisEndpointAddress || '0000';
-      const redisPort = this.redisCluster?.attrRedisEndpointPort || '0000';
-      const bucketName = this.assetBucket.bucketName;
+    // set default redisport and redishost value if cluster is not present
 
-      const documentReaderLambda = new lambdaFunction.DockerImageFunction(this, 'documentReaderLambda'+stage, {
-        code: lambdaFunction.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/document_reader')),
-        functionName: 'summary_document_reader'+stage,
-        description: 'Lambda function to read the input transformed document',
-        vpc: this.vpc,
-        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-        securityGroups: [this.securityGroup],
-        memorySize: 1_769 * 1,
-        tracing: lambdaFunction.Tracing.ACTIVE,
-        timeout: cdk.Duration.minutes(5),
-        environment: {
-          REDISHOST: redisHost,
-          REDISPORT: redisPort,
-          ASSETBUCKETNAME: bucketName,
+    const bucketName = this.assetBucket.bucketName;
+
+    const documentReaderLambda = new lambdaFunction.DockerImageFunction(this, 'documentReaderLambda'+stage, {
+      code: lambdaFunction.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/document_reader')),
+      functionName: 'summary_document_reader'+stage,
+      description: 'Lambda function to read the input transformed document',
+      vpc: this.vpc,
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      securityGroups: [this.securityGroup],
+      memorySize: 1_769 * 1,
+      tracing: lambdaFunction.Tracing.ACTIVE,
+      timeout: cdk.Duration.minutes(5),
+      environment: {
+        REDISHOST: redisHost,
+        REDISPORT: redisPort,
+        ASSETBUCKETNAME: bucketName,
         // NEED BOTO 3 FOR BEDROCK AS LAYER
         //ANTHROPICSECRETID: props.anthropicSecretId,
-        },
-      });
+      },
+    });
 
-      const generateSummarylambda = new lambdaFunction.DockerImageFunction(this, 'generateSummarylambda'+stage, {
-        code: lambdaFunction.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/summary_generator')),
-        vpc: this.vpc,
-        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-        securityGroups: [this.securityGroup],
-        memorySize: 1_769 * 4,
-        timeout: cdk.Duration.minutes(10),
-        environment: {
-          REDISHOST: redisHost,
-          REDISPORT: redisPort,
-          ASSETBUCKETNAME: bucketName,
-          // NEED BOTO 3 FOR BEDROCK AS LAYER
-          // ANTHROPICSECRETID: props.anthropicSecretId,
-          TRANSFORMERSCACHE: '/tmp',
-        },
-      });
+    const generateSummarylambda = new lambdaFunction.DockerImageFunction(this, 'generateSummarylambda'+stage, {
+      functionName: 'summary_generator'+stage,
+      description: 'Lambda function to generate the summary',
+      code: lambdaFunction.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/summary_generator')),
+      vpc: this.vpc,
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      securityGroups: [this.securityGroup],
+      memorySize: 1_769 * 4,
+      timeout: cdk.Duration.minutes(10),
+      environment: {
+        REDISHOST: redisHost,
+        REDISPORT: redisPort,
+        ASSETBUCKETNAME: bucketName,
+        // NEED BOTO 3 FOR BEDROCK AS LAYER
+        // ANTHROPICSECRETID: props.anthropicSecretId,
+        TRANSFORMERSCACHE: '/tmp',
+      },
+    });
 
-      documentReaderLambda.addToRolePolicy(
-        new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          actions: ['s3:GetObject',
-            's3:GetBucketLocation',
-            's3:ListBucket',
-            's3:PutObject',
-            'appsync:GraphQL'],
-          resources: ['arn:aws:s3:::' + bucketName + '/*',
-            'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*'],
-        }),
-      );
+    documentReaderLambda.addToRolePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['s3:GetObject',
+          's3:GetBucketLocation',
+          's3:ListBucket',
+          's3:PutObject',
+          'appsync:GraphQL'],
+        resources: ['arn:aws:s3:::' + bucketName + '/*',
+          'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*'],
+      }),
+    );
 
-      generateSummarylambda.addToRolePolicy(
-        new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          actions: ['appsync:GraphQL'],
-          resources: ['arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*'],
-        }),
-      );
+    generateSummarylambda.addToRolePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['appsync:GraphQL'],
+        resources: ['arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*'],
+      }),
+    );
 
-      inputValidatorLambda.addToRolePolicy(
-        new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          actions: ['s3:GetObject',
-            's3:GetBucketLocation',
-            's3:ListBucket',
-            'appsync:GraphQL'],
+    inputValidatorLambda.addToRolePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['s3:GetObject',
+          's3:GetBucketLocation',
+          's3:ListBucket',
+          'appsync:GraphQL'],
 
-          resources: ['arn:aws:s3:::' + bucketName + '/*',
-            'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*'],
-        }),
-      );
+        resources: ['arn:aws:s3:::' + bucketName + '/*',
+          'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*'],
+      }),
+    );
 
-      // use bedrock
-      //const anthropicSecretId = secrets.Secret.fromSecretNameV2(this, 'anthropicSecretId', props.anthropicSecretId);
+    // use bedrock
+    //const anthropicSecretId = secrets.Secret.fromSecretNameV2(this, 'anthropicSecretId', props.anthropicSecretId);
 
-      // api key not needed
-      //const graphqlApiKey = secrets.Secret.fromSecretNameV2(this, 'apiKeySecret', props.mergeApiKeySecret);
+    // api key not needed
+    //const graphqlApiKey = secrets.Secret.fromSecretNameV2(this, 'apiKeySecret', props.mergeApiKeySecret);
 
-      //anthropicSecretId.grantRead(generateSummarylambda);
-      //anthropicSecretId.grantRead(documentReaderLambda);
+    //anthropicSecretId.grantRead(generateSummarylambda);
+    //anthropicSecretId.grantRead(documentReaderLambda);
 
-      // graphqlApiKey.grantRead(generateSummarylambda);
-      //graphqlApiKey.grantRead(documentReaderLambda);
+    // graphqlApiKey.grantRead(generateSummarylambda);
+    //graphqlApiKey.grantRead(documentReaderLambda);
 
+    console.log('step9: add resolvers');
 
-      // create datasource at appsync
-      const noneDataSource = new appsync.NoneDataSource(this, 'noneDataSource'+stage, {
-        api: summarizationGraphqlApi,
-        name: 'noneDataSource',
-      });
+    // create datasource at appsync
+    const SummaryStatusDataSource = new appsync.NoneDataSource
+    (this, 'noneDataSource'+stage, {
+      api: summarizationGraphqlApi,
+      name: 'SummaryStatusDataSource',
+    });
 
-      noneDataSource.createResolver('summaryResponseresolver'+stage, {
-        typeName: 'Query',
-        fieldName: 'none',
-        requestMappingTemplate: appsync.MappingTemplate.fromString(
-          '{ "version": "2017-02-28", "payload": $util.toJson($context.args) ',
-        ),
+    SummaryStatusDataSource.createResolver
+    ('summaryResponseresolver'+stage, {
+      typeName: 'Mutation',
+      fieldName: 'updateSummaryJobStatus',
+      requestMappingTemplate: appsync.MappingTemplate.fromString(
+        '{ "version": "2017-02-28", "payload": $util.toJson($context.args) ',
+      ),
 
-        responseMappingTemplate: appsync.MappingTemplate.fromString('$util.toJson($context.result)'),
-      });
+      responseMappingTemplate: appsync.MappingTemplate.fromString(
+        '$util.toJson($context.result)'),
+    });
 
-      // step functions
-      const inputValidationTask = new sfnTask.LambdaInvoke(this, 'Validate Input ', {
-        lambdaFunction: inputValidatorLambda,
-        outputPath: '$.Payload',
-        resultPath: '$.validation_result',
-      });
+    // step functions
+    const inputValidationTask = new sfnTask.LambdaInvoke(this, 'Validate Input ', {
+      lambdaFunction: inputValidatorLambda,
+      resultPath: '$.validation_result',
+    });
 
-      const documentReaderTask = new sfnTask.LambdaInvoke(this, 'Read document and check summary in cache ', {
-        lambdaFunction: documentReaderLambda,
-        outputPath: '$.Payload',
-        resultPath: '$.document_result',
-      });
+    const documentReaderTask = new sfnTask.LambdaInvoke(this, 'Read document and check summary in cache ', {
+      lambdaFunction: documentReaderLambda,
+      resultPath: '$.document_result',
+    });
 
-      const createChunksAndSummarizeTask = new sfnTask.LambdaInvoke(this, 'Create chunks and summarize ', {
-        lambdaFunction: generateSummarylambda,
-        outputPath: '$.Payload',
-      });
+    const createChunksAndSummarizeTask = new sfnTask.LambdaInvoke(this, 'Create chunks and summarize ', {
+      lambdaFunction: generateSummarylambda,
+      outputPath: '$.Payload',
+    });
 
-      const generateSummaryTask = new sfnTask.LambdaInvoke(this, 'Generate Summary with llm', {
-        lambdaFunction: generateSummarylambda,
-        outputPath: '$.Payload',
-        resultPath: '$.summary_result',
-      });
+    const generateSummaryTask = new sfnTask.LambdaInvoke(this, 'Generate Summary with llm', {
+      lambdaFunction: generateSummarylambda,
+      outputPath: '$.Payload',
+      resultPath: '$.summary_result',
+    });
 
-      // event bridge api connection, NOT NEEDED AS NO API KEY AUTH IS USED
+    // event bridge api connection, NOT NEEDED AS NO API KEY AUTH IS USED
 
-      // const eventBridgeApiconnection = new events.Connection(this, 'Connection', {
-      //   authorization: events.Authorization.apiKey('x-api-key', cdk.SecretValue.secretsManager(props.mergeApiKeySecret)),
-      //   description: 'Connection with API Key x-api-key',
-      // });
+    // const eventBridgeApiconnection = new events.Connection(this, 'Connection', {
+    //   authorization: events.Authorization.apiKey('x-api-key', cdk.SecretValue.secretsManager(props.mergeApiKeySecret)),
+    //   description: 'Connection with API Key x-api-key',
+    // });
 
-      //eventBridgeApiconnection.node.addDependency(graphqlApiKey);
+    //eventBridgeApiconnection.node.addDependency(graphqlApiKey);
 
-      const dlq: sqs.Queue = new sqs.Queue(this, 'dlq', {
-        queueName: 'summarydlq'+stage,
-        retentionPeriod: cdk.Duration.days(7),
-      });
+    const dlq: sqs.Queue = new sqs.Queue(this, 'dlq', {
+      queueName: 'summarydlq'+stage,
+      retentionPeriod: cdk.Duration.days(7),
+    });
 
-      // const destination = new events.ApiDestination(this, 'destination', {
-      //   apiDestinationName: 'summarization_destination_api',
-      //   connection: eventBridgeApiconnection,
-      //   endpoint: mergeapiurl,
-      //   description: 'Calling summary subscription with API key x-api-key',
-      // });
+    // const destination = new events.ApiDestination(this, 'destination', {
+    //   apiDestinationName: 'summarization_destination_api',
+    //   connection: eventBridgeApiconnection,
+    //   endpoint: mergeapiurl,
+    //   description: 'Calling summary subscription with API key x-api-key',
+    // });
 
-      // summary subscription rule
-      // new events.Rule(this, 'SummarySubscriptionRule', {
+    // summary subscription rule
+    // new events.Rule(this, 'SummarySubscriptionRule', {
 
-      //   eventBus: summaryEventbus,
-      //   eventPattern: {
-      //     source: ['aws.events.summarization'],
-      //   },
-      //   targets: [
-      //     new targets.ApiDestination(destination, {
-      //       deadLetterQueue: dlq,
-      //       retryAttempts: 1,
-      //       event: events.RuleTargetInput.fromObject({
-      //         query:
-      //           'mutation updateSummaryJobStatus($summaryjobid:ID,$summary:String,$summaryjobstatus:String,$filename:String){updateSummaryJobStatus(summaryjobid:$summaryjobid,summary:$summary,summaryjobstatus:$summaryjobstatus,filename:$filename){summaryjobid summary summaryjobstatus filename}}',
-      //         operationName: 'updateSummaryJobStatus',
-      //         variables: {
-      //           filename: events.EventField.fromPath('$.detail.filename'),
-      //           summary: events.EventField.fromPath('$.detail.summary'),
-      //           summaryjobid: events.EventField.fromPath('$.detail.summaryjobid'),
-      //           summaryjobstatus: events.EventField.fromPath('$.detail.summaryjobstatus'),
-      //         },
-      //       }),
-      //     }),
-      //   ],
-      //   enabled: true,
-      //   description: 'Summary Subscription Rule',
-      // });
+    //   eventBus: summaryEventbus,
+    //   eventPattern: {
+    //     source: ['aws.events.summarization'],
+    //   },
+    //   targets: [
+    //     new targets.ApiDestination(destination, {
+    //       deadLetterQueue: dlq,
+    //       retryAttempts: 1,
+    //       event: events.RuleTargetInput.fromObject({
+    //         query:
+    //           'mutation updateSummaryJobStatus($summaryjobid:ID,$summary:String,$summaryjobstatus:String,$filename:String){updateSummaryJobStatus(summaryjobid:$summaryjobid,summary:$summary,summaryjobstatus:$summaryjobstatus,filename:$filename){summaryjobid summary summaryjobstatus filename}}',
+    //         operationName: 'updateSummaryJobStatus',
+    //         variables: {
+    //           filename: events.EventField.fromPath('$.detail.filename'),
+    //           summary: events.EventField.fromPath('$.detail.summary'),
+    //           summaryjobid: events.EventField.fromPath('$.detail.summaryjobid'),
+    //           summaryjobstatus: events.EventField.fromPath('$.detail.summaryjobstatus'),
+    //         },
+    //       }),
+    //     }),
+    //   ],
+    //   enabled: true,
+    //   description: 'Summary Subscription Rule',
+    // });
 
-      //  NOT REQUIRED
-      // const publishStatusMessage = new sfnTask.EventBridgePutEvents(this, 'publish status message', {
-      //   entries: [
-      //     {
-      //       detail: sfn.TaskInput.fromObject({
-      //         'summary.$': '$.summary',
-      //         'summaryjobstatus.$': '$.summaryjobstatus',
-      //         'summaryjobid.$': '$.summaryjobid',
-      //         'filename.$': '$.filename',
-      //       }),
-      //       eventBus: this.eventBridgeBus,
-      //       detailType: 'MessageFromStepFunctions',
-      //       source: 'step.functions',
-      //     },
-      //   ],
-      // });
+    //  NOT REQUIRED
+    // const publishStatusMessage = new sfnTask.EventBridgePutEvents(this, 'publish status message', {
+    //   entries: [
+    //     {
+    //       detail: sfn.TaskInput.fromObject({
+    //         'summary.$': '$.summary',
+    //         'summaryjobstatus.$': '$.summaryjobstatus',
+    //         'summaryjobid.$': '$.summaryjobid',
+    //         'filename.$': '$.filename',
+    //       }),
+    //       eventBus: this.eventBridgeBus,
+    //       detailType: 'MessageFromStepFunctions',
+    //       source: 'step.functions',
+    //     },
+    //   ],
+    // });
 
-      const publishValidationFailureMessage = new sfnTask.EventBridgePutEvents(
-        this,
-        'publish validation failure message',
-        {
-          entries: [
-            {
-              detail: sfn.TaskInput.fromObject({
-                'summary.$': '$.summary',
-                'summaryjobstatus.$': '$.summaryjobstatus',
-                'summaryjobid.$': '$.summaryjobid',
-                'filename.$': '$.filename',
-              }),
-              eventBus: this.eventBridgeBus,
-              detailType: 'MessageFromStepFunctions',
-              source: 'step.functions',
-            },
-          ],
-        },
-      );
+    console.log('step10: add step function');
 
-      const jobSuccess= new sfn.Succeed(this, 'succeeded', {
-        comment: 'AWS summary Job succeeded',
-      });
-      const jobFailed= new sfn.Fail(this, 'failed', {
-        comment: 'AWS summary Job failed',
-      });
-      // step function choice steps
-      const validateInputChoice = new sfn.Choice(this, 'is Valid Parameters?', {
-        outputPath: '$.validation_result.Payload.results',
-      });
-
-      const summaryfromCacheChoice = new sfn.Choice(this, 'is Summary in Cache?', {
-        outputPath: '$.s3_reader_result.Payload',
-      });
-
-      const tokenLimitBurstChoice = new sfn.Choice(this, 'is Token Limit breached?', {
-        outputPath: '$',
-      });
-
-      // step function, run files in parallel
-      const runFilesInparallel = new sfn.Map(this, 'Run Files in Parallel', {
-        maxConcurrency: 100,
-      }).iterator(
-        documentReaderTask.next(
-          summaryfromCacheChoice
-            .when(
-              sfn.Condition.booleanEquals('$.s3_reader_result.Payload.isSummaryAvailable', true),
-              jobSuccess,
-            )
-            .when(
-              sfn.Condition.stringEquals('$.s3_reader_result.Payload.summaryjobstatus', 'Error'),
-              jobFailed,
-            )
-            .otherwise(
-              tokenLimitBurstChoice
-                .when(
-                  sfn.Condition.booleanEquals('$.isTokenLimitBreached', true),
-                  createChunksAndSummarizeTask.next(jobSuccess),
-                )
-                .otherwise(generateSummaryTask.next(jobSuccess)),
-            ),
-        ),
-      );
-
-      const summarizationLogGroup = new logs.LogGroup(this, 'summarizationLogGroup', {});
-
-      // step function definition
-      const definition = inputValidationTask.next(
-        validateInputChoice
-          .when(
-            sfn.Condition.booleanEquals('$.validation_result.Payload.isValid', false),
-            publishValidationFailureMessage,
-          )
-          .otherwise(runFilesInparallel),
-      );
-
-      // step function
-
-      const summarizationStepFunction = new sfn.StateMachine(this, 'summarizationStepFunction', {
-        definition,
-        timeout: cdk.Duration.minutes(15),
-        logs: {
-          destination: summarizationLogGroup,
-          level: sfn.LogLevel.ALL,
-        },
-        tracingEnabled: true,
-      });
-
-      // event bridge datasource for summarization api
-      const eventBridgeDataSource = summarizationGraphqlApi.addEventBridgeDataSource(
-        'eventBridgeDataSource',
-        this.eventBridgeBus,
-      );
-
-      this.eventBridgeBus.grantPutEventsTo(eventBridgeDataSource.grantPrincipal);
-
-      // add resolver on summary graphql schema
-      eventBridgeDataSource.createResolver('generateSummary', {
-        typeName: 'Mutation',
-        fieldName: 'createSummary',
-        requestMappingTemplate: appsync.MappingTemplate.fromString(
-          ' { "version": "2018-05-29", "operation": "PutEvents",  "events": [{"source":"summary", } ',
-        ),
-
-        responseMappingTemplate: appsync.MappingTemplate.fromString(
-          '#if($ctx.error)$utilerror($ctx.error.message, $ctx.error.type, $ctx.result) #end $util.toJson($ctx.result)',
-        ),
-      });
-
-      new events.Rule(this, 'SummaryMutationRule', {
-        description: 'Summary Mutation Rule',
-        eventBus: this.eventBridgeBus,
-        eventPattern: {
-          source: ['summarization'],
-        },
-        targets: [
-          new targets.SfnStateMachine(summarizationStepFunction, {
-            deadLetterQueue: dlq,
-            retryAttempts: 1,
-          }),
+    const publishValidationFailureMessage = new sfnTask.EventBridgePutEvents(
+      this,
+      'publish validation failure message',
+      {
+        entries: [
+          {
+            detail: sfn.TaskInput.fromObject({
+              'summary.$': '$.summary',
+              'summaryjobstatus.$': '$.summaryjobstatus',
+              'summaryjobid.$': '$.summaryjobid',
+              'filename.$': '$.filename',
+            }),
+            eventBus: this.eventBridgeBus,
+            detailType: 'MessageFromStepFunctions',
+            source: 'step.functions',
+          },
         ],
-      });
-    }
+      },
+    );
+
+    const jobSuccess= new sfn.Succeed(this, 'succeeded', {
+      comment: 'AWS summary Job succeeded',
+    });
+    const jobFailed= new sfn.Fail(this, 'failed', {
+      comment: 'AWS summary Job failed',
+    });
+      // step function choice steps
+    const validateInputChoice = new sfn.Choice(this, 'is Valid Parameters?', {
+      outputPath: '$.validation_result.Payload.files',
+    });
+
+    const summaryfromCacheChoice = new sfn.Choice(this, 'is Summary in Cache?', {
+      outputPath: '$.document_result.Payload',
+    });
+
+    const tokenLimitBurstChoice = new sfn.Choice(this, 'is Token Limit breached?', {
+      outputPath: '$',
+    });
+
+    // step function, run files in parallel
+    const runFilesInparallel = new sfn.Map(this, 'Run Files in Parallel', {
+      maxConcurrency: 100,
+    }).iterator(
+      documentReaderTask.next(
+        summaryfromCacheChoice
+          .when(
+            sfn.Condition.booleanEquals('$.document_result.Payload.isSummaryAvailable', true),
+            jobSuccess,
+          )
+          .when(
+            sfn.Condition.stringEquals('$.document_result.Payload.status', 'Error'),
+            jobFailed,
+          )
+          .otherwise(
+            tokenLimitBurstChoice
+              .when(
+                sfn.Condition.booleanEquals('$.isTokenLimitBreached', true),
+                createChunksAndSummarizeTask.next(jobSuccess),
+              )
+              .otherwise(generateSummaryTask.next(jobSuccess)),
+          ),
+      ),
+    );
+
+    const summarizationLogGroup = new logs.LogGroup(this, 'summarizationLogGroup', {});
+
+    // step function definition
+    const definition = inputValidationTask.next(
+      validateInputChoice
+        .when(
+          sfn.Condition.booleanEquals('$.validation_result.Payload.isValid', false),
+          publishValidationFailureMessage,
+        )
+        .otherwise(runFilesInparallel),
+    );
+
+    // step function
+
+    const summarizationStepFunction = new sfn.StateMachine(this, 'summarizationStepFunction', {
+      definition,
+      timeout: cdk.Duration.minutes(15),
+      logs: {
+        destination: summarizationLogGroup,
+        level: sfn.LogLevel.ALL,
+      },
+      tracingEnabled: true,
+    });
+
+    // event bridge datasource for summarization api
+    const eventBridgeDataSource = summarizationGraphqlApi.addEventBridgeDataSource(
+      'eventBridgeDataSource',
+      this.eventBridgeBus,
+    );
+
+    this.eventBridgeBus.grantPutEventsTo(eventBridgeDataSource.grantPrincipal);
+
+    // add resolver on summary graphql schema
+    eventBridgeDataSource.createResolver('generateSummary', {
+      typeName: 'Mutation',
+      fieldName: 'generateSummary',
+      requestMappingTemplate: appsync.MappingTemplate.fromString(
+        `
+         {
+          "version": "2018-05-29",
+          "operation": "PutEvents",
+          "events": [{
+              "source": "summary",
+              "detail": $util.toJson($context.arguments),
+              "detailType": "genAIdemo"
+          }
+          ]
+  } 
+  `,
+      ),
+
+      responseMappingTemplate: appsync.MappingTemplate.fromString(
+        '#if($ctx.error)$utilerror($ctx.error.message, $ctx.error.type, $ctx.result) #end $util.toJson($ctx.result)',
+      ),
+    });
+
+    new events.Rule(this, 'SummaryMutationRule', {
+      description: 'Summary Mutation Rule',
+      eventBus: this.eventBridgeBus,
+      eventPattern: {
+        source: ['summary'],
+      },
+      targets: [
+        new targets.SfnStateMachine(summarizationStepFunction, {
+          deadLetterQueue: dlq,
+          retryAttempts: 1,
+        }),
+      ],
+    });
+
   }
 }

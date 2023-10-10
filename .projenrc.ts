@@ -36,7 +36,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   packageName: '@' + GITHUB_USER + '/' + PROJECT_NAME, /* The "name" in package.json. */
   keywords: ['constructs', 'aws-cdk', 'generative-ai', 'emerging-tech'],
   devDeps: ['eslint-plugin-header'],
-  bundledDeps: ['deepmerge', '@types/deep-diff', '@types/npmlog'],
+  //bundledDeps: ['deepmerge', '@types/deep-diff', '@types/npmlog'],
 
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
   minNodeVersion: '18.12.0', // 'MAINTENANCE' (first LTS)

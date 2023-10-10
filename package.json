@@ -61,16 +61,6 @@
     "aws-cdk-lib": "2.99.1",
     "constructs": "^10.0.5"
   },
-  "dependencies": {
-    "@types/deep-diff": "^1.0.3",
-    "@types/npmlog": "^4.1.4",
-    "deepmerge": "^4.3.1"
-  },
-  "bundledDependencies": [
-    "@types/deep-diff",
-    "@types/npmlog",
-    "deepmerge"
-  ],
   "keywords": [
     "aws-cdk",
     "cdk",

@@ -10,8 +10,8 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import * as deepdiff from 'deep-diff';
-import * as deepmerge from 'deepmerge';
+//import * as deepdiff from 'deep-diff';
+//import * as deepmerge from 'deepmerge';
 //import * as log from 'npmlog';
 
 function isObject(val: object) {
@@ -62,42 +62,42 @@ function isPlainObject(o: object) {
  *  2) clientProps value
  *  3) defaultProps value
  */
-export function consolidateProps(defaultProps: object, clientProps?: object, constructProps?: object, concatArray: boolean = false): any {
-  let result: object = defaultProps;
+// export function consolidateProps(defaultProps: object, clientProps?: object, constructProps?: object, concatArray: boolean = false): any {
+//   let result: object = defaultProps;
 
-  if (clientProps) {
-    result = overrideProps(result, clientProps, concatArray);
-  }
+//   if (clientProps) {
+//     result = overrideProps(result, clientProps, concatArray);
+//   }
 
-  if (constructProps) {
-    result = overrideProps(result, constructProps, concatArray);
-  }
+//   if (constructProps) {
+//     result = overrideProps(result, constructProps, concatArray);
+//   }
 
-  return result;
-}
+//   return result;
+// }
 
 /**
  * @internal This is an internal core function and should not be called directly by Solutions Constructs clients.
  */
-function overrideProps(DefaultProps: object, userProps: object, concatArray: boolean = false): any {
-  // Notify the user via console output if defaults are overridden
-  const overrideWarningsEnabled = (process.env.overrideWarningsEnabled !== 'false');
-  if (overrideWarningsEnabled) {
-    flagOverriddenDefaults(DefaultProps, userProps);
-  }
-  // Override the sensible defaults with user provided props
-  if (concatArray) {
-    return deepmerge(DefaultProps, userProps, {
-      arrayMerge: (destinationArray, sourceArray) => destinationArray.concat(sourceArray),
-      isMergeableObject: isPlainObject,
-    });
-  } else {
-    return deepmerge(DefaultProps, userProps, {
-      arrayMerge: (_destinationArray, sourceArray) => sourceArray, // underscore allows arg to be ignored
-      isMergeableObject: isPlainObject,
-    });
-  }
-}
+// function overrideProps(DefaultProps: object, userProps: object, concatArray: boolean = false): any {
+//   // Notify the user via console output if defaults are overridden
+//   const overrideWarningsEnabled = (process.env.overrideWarningsEnabled !== 'false');
+//   if (overrideWarningsEnabled) {
+//     flagOverriddenDefaults(DefaultProps, userProps);
+//   }
+//   // Override the sensible defaults with user provided props
+//   if (concatArray) {
+//     return deepmerge(DefaultProps, userProps, {
+//       arrayMerge: (destinationArray, sourceArray) => destinationArray.concat(sourceArray),
+//       isMergeableObject: isPlainObject,
+//     });
+//   } else {
+//     return deepmerge(DefaultProps, userProps, {
+//       arrayMerge: (_destinationArray, sourceArray) => sourceArray, // underscore allows arg to be ignored
+//       isMergeableObject: isPlainObject,
+//     });
+//   }
+// }
 
 /** The prefilter function returns true for any filtered path/key that should be excluded from the diff check.
  * Any Construct Props using cdk.Duration type is not properly handled by
@@ -119,15 +119,15 @@ function _prefilter(_path: any[], _key: string): boolean {
  * @param {object} userProps the properties provided by the user, to be compared against the defaultProps.
  * @return {Array} an array containing the overridden values.
  */
-function findOverrides(defaultProps: object, userProps: object) {
-  const diff = deepdiff.diff(defaultProps, userProps, _prefilter);
-  // Filter the results
-  return (diff !== undefined) ? diff?.filter((e:any) => (
-    e.kind === 'E' && // only return overrides
-      !e.path?.includes('node') && // stop traversing once the object graph hits the node
-      !e.path?.includes('bind') // stop traversing once the object graph hits internal functions
-  )) : [];
-}
+// function findOverrides(defaultProps: object, userProps: object) {
+//   const diff = deepdiff.diff(defaultProps, userProps, _prefilter);
+//   // Filter the results
+//   return (diff !== undefined) ? diff?.filter((e:any) => (
+//     e.kind === 'E' && // only return overrides
+//       !e.path?.includes('node') && // stop traversing once the object graph hits the node
+//       !e.path?.includes('bind') // stop traversing once the object graph hits internal functions
+//   )) : [];
+// }
 
 /**
  * @internal This is an internal core function and should not be called directly by Solutions Constructs clients.
@@ -136,24 +136,24 @@ function findOverrides(defaultProps: object, userProps: object) {
  * @param {object} defaultProps the prescriptive defaults for the pattern.
  * @param {object} userProps the properties provided by the user, to be compared against the defaultProps.
  */
-export function flagOverriddenDefaults(defaultProps: object, userProps: object) {
-  // Compare the properties and return any overrides
-  const overrides = findOverrides(defaultProps, userProps);
-  // Emit a warning for each override
-  for (let i = 0; i < ((overrides !== undefined) ? overrides.length : 0); i++) {
-    const e = Object.assign(overrides[i]);
-    // Determine appropriate logging granularity
-    const valuesAreReadable = (
-      checkReadability(e.lhs) &&
-        checkReadability(e.rhs)
-    );
-      // Format the path for readability
-    const path = formatOverridePath(e.path);
-    // Output
-    const details = (valuesAreReadable) ? ` Default value: '${e.lhs}'. You provided: '${e.rhs}'.` : '';
-    printWarning(`An override has been provided for the property: ${path}.` + details);
-  }
-}
+// export function flagOverriddenDefaults(defaultProps: object, userProps: object) {
+//   // Compare the properties and return any overrides
+//   const overrides = findOverrides(defaultProps, userProps);
+//   // Emit a warning for each override
+//   for (let i = 0; i < ((overrides !== undefined) ? overrides.length : 0); i++) {
+//     const e = Object.assign(overrides[i]);
+//     // Determine appropriate logging granularity
+//     const valuesAreReadable = (
+//       checkReadability(e.lhs) &&
+//         checkReadability(e.rhs)
+//     );
+//       // Format the path for readability
+//     const path = formatOverridePath(e.path);
+//     // Output
+//     const details = (valuesAreReadable) ? ` Default value: '${e.lhs}'. You provided: '${e.rhs}'.` : '';
+//     printWarning(`An override has been provided for the property: ${path}.` + details);
+//   }
+// }
 /**
  * @internal This is an internal core function and should not be called directly by Solutions Constructs clients.
  */

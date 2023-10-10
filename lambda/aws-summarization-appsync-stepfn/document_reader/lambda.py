@@ -14,7 +14,8 @@ tracer = Tracer(service="SUMMARY_DOCUMENT_READER")
 metrics = Metrics(namespace="summary_pipeline", service="SUMMARY_DOCUMENT_READER")
 
 transformed_bucket_name = os.environ["ASSETBUCKETNAME"]
-
+# TODO: for local dev
+#transformed_bucket_name = 'processed-assets-bucket-dev-383119320704'
 configs = Properties()
 #property_file= path.join(path.dirname(path.abspath(__file__)),"../app.properties")
 with open('app.properties', 'rb') as config_file:
@@ -29,7 +30,7 @@ def handler(event, context: LambdaContext):
     print(f"{event=}")
 
     file_name = event["name"]
-    job_id = event["summaryjobid"]
+    job_id = event["jobid"]
 
     logger.set_correlation_id(job_id)
     metrics.add_metadata(key='correlationId', value=job_id)
@@ -85,9 +86,12 @@ def handler(event, context: LambdaContext):
 
 def get_summary_from_cache(file_name):
 
-    logger.info({"Searching Redis for cached summary file: file_name"})
+    logger.info({"Searching Redis for cached summary file: "+file_name})
     redis_host = os.environ.get("REDISHOST", "N/A")
     redis_port = os.environ.get("REDISPORT", "N/A")
+    
+    logger.info({"Redis host: "+redis_host})
+    logger.info({"Redis port: "+redis_port})
 
     try:
         redis_client = redis.Redis(host=redis_host, port=redis_port)
@@ -102,3 +106,12 @@ def get_summary_from_cache(file_name):
 
 
     logger.info("File summary not found in cache, generating it from llm")
+
+# TODO-REMOVE BEFORE CHECK IN
+# input= {
+#     'status': 'Supported',
+#     'name': 'light_speed.pdf',
+#     'jobid': '1234'
+#     }
+
+# handler(input,LambdaContext)
