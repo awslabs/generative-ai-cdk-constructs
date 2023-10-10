@@ -20,19 +20,20 @@ import { Layer } from '../../../common/helpers/python-lambda-layer-helper';
  */
 export interface LangchainLayerProps{
   /**
-   * Lambda function runtime compatible with this Layer.
+   * Required. Lambda function runtime compatible with this Layer.
    *
    * @default - none
    */
   readonly runtime: lambda.Runtime;
   /**
-   * Lambda function architecture compatible with this Layer.
+   * Required. Lambda function architecture compatible with this Layer.
    *
    * @default - none
    */
   readonly architecture: lambda.Architecture;
   /**
-   * Add '--upgrade' to pip install requirements.txt
+   * Optional: Add '--upgrade' to pip install requirements.txt
+   * In case of a LangchainCommonLayer, this parameter is not used.
    *
    * @default - none
    */
