@@ -12,7 +12,6 @@
  */
 import { awscdk } from 'projen';
 import { buildMeritBadgerWorkflow, buildMonthlyIssuesMetricsWorkflow, buildUpdateContributorsWorkflow, buildAutoApproveWorkflow } from './projenrc/github-workflows';
-import { buildLLMModelInterfaceLambdaLayerUseCase } from './projenrc/use-cases';
 
 // Constants
 const GITHUB_USER = 'aws-samples';
@@ -76,9 +75,6 @@ buildAutoApproveWorkflow(project);
 
 // We don't want to package the use cases
 project.npmignore?.addPatterns('/use-cases/');
-
-// Add use cases
-buildLLMModelInterfaceLambdaLayerUseCase(project.cdkVersion);
 
 // Add License header automatically
 project.eslint?.addPlugins('header');
