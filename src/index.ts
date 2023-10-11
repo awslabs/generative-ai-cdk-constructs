@@ -11,3 +11,4 @@
  *  and limitations under the License.
  */
 export * from './patterns/gen-ai/aws-rag-appsync-stepfn-opensearch';
+export * from './patterns/gen-ai/aws-langchain-common-layer';

@@ -73,7 +73,9 @@ All test files can be found in the /test directory under each construct (or core
 |--docs/ (draw.io project containing architecture diagrams for all constructs)
 |--lib/ (Build output)
 |--lambda/ (Lambda functions code)
+|--layers/ (Lambda layers code)
 |--resources (If you need additional resources packaged with your library)
+|--projenrc (folder containing utilities for the main projenrc file)
 |--src/ (Source .ts files)
     |--common/ (Common code reused accross constructs)
         |--helpers
@@ -94,6 +96,8 @@ All test files can be found in the /test directory under each construct (or core
         |--<emerging-tech-area>
             |--<pattern-name>
                 |--*.test.ts (construct test files)
+|--use-cases 
+    |--<use case name>
 ```
 
 
