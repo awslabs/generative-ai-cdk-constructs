@@ -30,40 +30,33 @@ metrics = Metrics(namespace="summary_pipeline", service="SUMMARY_GENERATION")
 from helper import set_nltk_data, set_transformer_cache_dir, read_file_from_s3
 
 transformed_bucket_name = os.environ["ASSET_BUCKET_NAME"]
-#transformed_bucket_name = "processed-assets-bucket-dev-383119320704"
+chain_type = os.environ["SUMMARY_LLM_CHAIN_TYPE"]
 
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler
 @metrics.log_metrics(capture_cold_start_metric=True)
 def handler(event, context: LambdaContext)-> dict:
     logger.info("Starting summary agent with input", event)
-    logger.info("boto 3 version "+boto3.__version__)
 
     # set input params
     set_transformer_cache_dir(os.environ["TRANSFORMERS_CACHE"])
-    #set_transformer_cache_dir(os.environ["/tmp"])
     set_nltk_data()
 
-    job_id = event["summaryjobid"]
+    job_id = event["summary_job_id"]
 
     logger.set_correlation_id(job_id)
     metrics.add_metadata(key='correlationId', value=job_id)
     tracer.put_annotation(key="correlationId", value=job_id)
 
-    original_file_name = event["filename"]
-    text_file_name = original_file_name.replace(".pdf", "_transformed.txt")
-    chain_type = get_chain_type(event)
-    #isTokenLimitBreached = event["isTokenLimitBreached"]
-    #chunk_size = event["suggestedchunksize"]
-
+    original_file_name = event["file_name"]
+    transformed_file_name = event["transformed_file_name"]
+    
     # create response
     response = {
-        "summaryjobid": job_id,
-        "files": [{
-            "name": original_file_name,
-            "status": "Pending",
-            "summary": ""
-        }]
+        "summary_job_id": job_id,
+        "file_name": original_file_name,
+        "status": "Pending",
+        "summary": ""
     }
   
     aws_region = boto3.Session().region_name
@@ -77,6 +70,7 @@ def handler(event, context: LambdaContext)-> dict:
         model_id="anthropic.claude-v2",
         client=bedrock_client,
     )
+    
     redis_host = os.environ.get("REDIS_HOST", "N/A")
     redis_port = os.environ.get("REDIS_PORT", "N/A")
 
@@ -86,14 +80,12 @@ def handler(event, context: LambdaContext)-> dict:
     else:
         logger.info("Redis host or port not set in environment variables")
 
-    inputFile = read_file_from_s3(transformed_bucket_name, text_file_name)
+    inputFile = read_file_from_s3(transformed_bucket_name, transformed_file_name)
     if inputFile is None:
-        response['files'][0]["status"] = "Failed to load file from S3"
+        response["status"] = "Failed to load file from S3"
         return response
 
-    # read pdf text and split it into chunks'
-    metrics.add_metric(name="summary_from_llm", unit=MetricUnit.Count, value=1)
-    finalsummary = generate_summary(summary_llm,"stuff",inputFile)
+    finalsummary = generate_summary(summary_llm,chain_type,inputFile)
     
     llm_answer_bytes = finalsummary.encode("utf-8")
     base64_bytes = base64.b64encode(llm_answer_bytes)
@@ -101,14 +93,10 @@ def handler(event, context: LambdaContext)-> dict:
     logger.info(finalsummary)
     logger.info("Summarization done")
 
-    file_result = {
-            'name':original_file_name,
-            'status':"Completed",
-            'summary':llm_answer_base64_string
-        }
-
     response.update({
-        'files':[file_result]
+        'file_name':original_file_name,
+        'status':"Completed",
+        'summary':llm_answer_base64_string
     }
     )
 
@@ -123,7 +111,10 @@ def handler(event, context: LambdaContext)-> dict:
             f'Host: "{redis_host}", Port: "{redis_port}".\n'
             f"Exception: {e}"
         )
-    updateSummaryJobStatus({'jobid': job_id, 'files': response['files']})
+    updateSummaryJobStatus({'jobid': job_id, 
+                            'file_name':response["file_name"]
+                            ,'status':response['status']  ,
+                            'summary':response["summary"]})
     return response
 
 
@@ -131,12 +122,10 @@ def handler(event, context: LambdaContext)-> dict:
 
 def generate_summary(_summary_llm,chain_type,inputFile)-> str:
     
-    logger.info(" Using chain_type as stuff for the document")
-    
+    logger.info(f" Using chain_type as {chain_type} for the document")    
     docs = [Document(page_content=inputFile)]
          # run LLM
    # prompt = load_prompt("prompt.json")
-    logger.info("Start summary genration")
     chain = load_summarize_chain(
                 _summary_llm, 
                 chain_type=chain_type, 
@@ -184,30 +173,3 @@ def map_reduce_summary(_summary_llm,chunk_size,inputFile)-> str:
 
     return map_reduce_chain.run(split_docs)
 
-
-def get_chain_type(input_params: Dict) -> str:
-    chain_type = input_params.get("chain_type")
-
-    if chain_type:
-        logger.info(f"{chain_type=}")
-    else:
-        chain_type = "stuff"
-        logger.info("Using default chain type", chain_type)
-
-    return chain_type
-
-# input={
-#         "isTokenLimitBreached": False,
-#         "isSummaryAvailable": False,
-#         "summary": "",
-#         "summaryjobid": "1234",
-#         "filename": "light_speed.pdf",
-#         "status": "Pending",
-#         "suggestedchunksize": 4096,
-#         "key": "light_speed_transformed.txt",
-#         "bucket": "processed-assets-bucket-dev-383119320704",
-#         "errorcode": "",
-#         "errormessage": ""
-#     }
-
-# handler(input,LambdaContext)

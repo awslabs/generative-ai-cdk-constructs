@@ -30,18 +30,18 @@ def get_credentials(secret_id: str, region_name: str) -> str:
     return secrets_value
 
 @tracer.capture_method
-def updateSummaryJobStatus(variables):
+def updateFileStatus(variables):
 
     print(f"send  status variables :: {variables}")
     query = """
-        mutation updateSummaryJobStatus {
-            updateSummaryJobStatus(files: $files, summaryjobid: \"$jobid\") {
+        mutation updateFileStatus {
+            updateFileStatus(files: $files, summary_job_id: \"$jobid\") {
                 files {
                     name
                     status
                     summary
                 }
-                summaryjobid
+                summary_job_id
             }
         }
     """

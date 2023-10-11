@@ -1,5 +1,5 @@
 import os
-from helper import read_file_from_s3
+from helper import check_file_exists,get_file_transformation
 import redis
 from jproperties import Properties
 import os.path as path
@@ -13,81 +13,87 @@ logger = Logger(service="SUMMARY_DOCUMENT_READER")
 tracer = Tracer(service="SUMMARY_DOCUMENT_READER")
 metrics = Metrics(namespace="summary_pipeline", service="SUMMARY_DOCUMENT_READER")
 
-transformed_bucket_name = os.environ["ASSET_BUCKET_NAME"]
-# TODO: for local dev
-#transformed_bucket_name = 'processed-assets-bucket-dev-383119320704'
-configs = Properties()
-#property_file= path.join(path.dirname(path.abspath(__file__)),"../app.properties")
-with open('app.properties', 'rb') as config_file:
-    configs.load(config_file)
+transformed_bucket_name = os.environ["TRANSFORMED_ASSET_BUCKET"]
+input_bucket_name = os.environ["INPUT_ASSET_BUCKET"]
+is_file_tranformation_required = os.environ["IS_FILE_TRANSFORMED"]
 
 
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler
 @metrics.log_metrics(capture_cold_start_metric=True)
 def handler(event, context: LambdaContext):
+      
+    logger.info(f"{event=}")
     
-    print(f"{event=}")
-
-    file_name = event["name"]
+    original_file_name = event["name"]
     job_id = event["jobid"]
+
+    response = {
+        "is_summary_available": False,
+        "summary_job_id": job_id,
+        "file_name": original_file_name,
+        "status": "Pending",
+        "summary": "",
+        "transformed_file_name":'',
+    }
 
     logger.set_correlation_id(job_id)
     metrics.add_metadata(key='correlationId', value=job_id)
     tracer.put_annotation(key="correlationId", value=job_id)
     
-    filesummary = get_summary_from_cache(file_name)
-    transformed_file_name = file_name.replace(".pdf", "_transformed.txt")
-
-    response = {
-        "isTokenLimitBreached": False,
-        "isSummaryAvailable": False,
-        "summaryjobid": job_id,
-        "files": [{
-            "name": file_name,
-            "status": "Pending",
-            "summary": ""
-        }],
-        "suggestedchunksize": 4096,
-        "errorcode":"",
-        "errormessage":""
-    }
-
+    filesummary = get_summary_from_cache(original_file_name)
+    
     if filesummary is not None:
-        metrics.add_metric(name="summary_from_cache", unit=MetricUnit.Count, value=1)
+        metrics.add_metric(name="summary_from_cache",unit=MetricUnit.Count, value=1)
         response.update(
             {
-                "files":
-                  [{"name": file_name, 
-                    "status": "Completed", 
-                    "summary": filesummary
-                    }],
-                "isSummaryAvailable": True,
+                "file_name": original_file_name, 
+                "status": "Completed", 
+                "summary": filesummary,
+                "is_summary_available": True,
             }
         )
     else:
-        pdf_transformed_file = read_file_from_s3(transformed_bucket_name, transformed_file_name)
-        if not pdf_transformed_file:
-            response.update(
+        metrics.add_metric(name="summary_from_llm", unit=MetricUnit.Count, value=1)
+        transformed_file_name = original_file_name.replace(".pdf", "_transformed.txt")
+        
+        if(is_file_tranformation_required):
+             transformed_file  = get_file_transformation(transformed_bucket_name, 
+                                                         transformed_file_name,
+                                                         input_bucket_name,
+                                                         original_file_name)
+             response.update(
                 {
-                  "files":
-                         [{"name": file_name, 
-                            "status": "Error", 
-                            "summary": f"No file {transformed_file_name} available to generate the summary.",
-                        }],
-                    "errorcode":configs.get("FILE_NOT_PRESENT_ERROR_CODE").data,
-                    "errormessage":configs.get("FILE_NOT_PRESENT_ERROR").data
+                  "file_name": original_file_name, 
+                  "status": transformed_file['status'], 
+                  "summary": '',
+                  "transformed_file_name":transformed_file_name,
+                  "is_summary_available": False  
                 }
             )
-            logger.exception({"No file {transformed_file_name} available to generate the summary."})
-            return response
-      
+        else:
+             pdf_transformed_file = check_file_exists(transformed_bucket_name,
+                                                      transformed_file_name)
+             if not pdf_transformed_file:
+                response.update(
+                    {
+                     "file_name": original_file_name, 
+                     "status": "Error", 
+                     "summary": f"No file {transformed_file_name} available to generate the summary.",   
+                    }
+                )
+                logger.exception({"No file {transformed_file_name} available to generate the summary."})
+                return response
+            
 
     logger.info({"document reader response:": response})
-    updateSummaryJobStatus({'jobid': job_id, 'files': response['files']})
+    updateSummaryJobStatus({'jobid': job_id, 
+                            'file_name':response["file_name"]
+                            ,'status':response['status']  ,
+                            'summary':response["summary"]})
     return response
 
-
+@tracer.capture_method
 def get_summary_from_cache(file_name):
 
     logger.info({"Searching Redis for cached summary file: "+file_name})
@@ -111,11 +117,3 @@ def get_summary_from_cache(file_name):
 
     logger.info("File summary not found in cache, generating it from llm")
 
-# TODO-REMOVE BEFORE CHECK IN
-# input= {
-#     'status': 'Supported',
-#     'name': 'light_speed.pdf',
-#     'jobid': '1234'
-#     }
-
-# handler(input,LambdaContext)

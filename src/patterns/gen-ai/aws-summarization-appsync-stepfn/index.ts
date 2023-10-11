@@ -34,23 +34,24 @@ import * as vpcHelper from '../../../common/helpers/vpc-helper';
 
 export interface SummarizationAppsyncStepfnProps {
   /**
-   * Optional custom properties for a VPC the construct will create. This VPC will
-   * be used by the Lambda functions the construct creates. Providing
-   * both this and existingVpc is an error.
+   * Optional. The construct creates a custom VPC based on userVpcProps.
+   * Providing both this and existingVpc is an error.
    *
    * @default - none
    */
   readonly userVpcProps?: ec2.VpcProps;
+
   /**
-   * Optional An existing VPC in which to deploy the construct. Providing both this and
-   * vpcProps is an error.
+   * Optional. An existing VPC can be used to deploy the construct.
+   * Providing both this and vpcProps is an error.
    *
    * @default - none
    */
   readonly existingVpc?: ec2.IVpc;
 
   /**
-   * Optional redis cluster to cache the generated summary for subsequent request of same document.
+   * Optional. Existing Redis cluster to cache the generated summary
+   * for subsequent request of same document.
    *
    * @default - none
    */
@@ -58,42 +59,30 @@ export interface SummarizationAppsyncStepfnProps {
 
 
   /**
-   * cfnCacheClusterProps
+   * Optional. Custom cfnCacheClusterProps for Redis.
+   * Providing existingRedisCulster and cfnCacheClusterProps together will result in error.
    * @default cacheNodeType -  'cache.r6g.xlarge'
    * @default numCacheNodes- 1
    */
   readonly cfnCacheClusterProps?: elasticache.CfnCacheClusterProps;
 
   /**
-   * security group for the lambda function which this construct will create.
-   *
+   * Optional. Security group for the lambda function which this construct will use.
+   * If no exisiting security group is provided it will create one from the vpc.
    * @default - none
    */
   readonly existingSecurityGroup?: ec2.SecurityGroup;
 
   /**
-   *  user pool id is required if the app sync authentication type is
-   * AMAZON_COGNITO_USER_POOLS
+   * Required. This construct use Cognito Auth for Appsync authorization.
+   * User pool id is required  with authentication type of AMAZON_COGNITO_USER_POOLS.
    * @default None
    */
   readonly userPoolId: string;
-  /**
-   * TODO- THIS IS NOT REQUIRED ANY MORE.
-   *
-   * @default - none
-   */
-  //readonly mergeApiKeySecret: string;
-
-  /**
-   * TODO- THIS IS NOT REQUIRED ANY MORE.
-   *
-   * @default - none
-   */
-  //anthropicSecretId: string;
 
 
   /**
-   * Optional Existing s3 Bucket to store the input document which needs to be summarized.
+   * Optional. Existing s3 Bucket to store the input document which needs to be summarized.
    * pdf is the supported input document format. If transformed (txt format) file is
    * available then this bucket is optional.
    *
@@ -102,7 +91,7 @@ export interface SummarizationAppsyncStepfnProps {
   readonly existingInputAssetsBucket?: s3.IBucket;
 
   /**
-   * Optional user provided props to override the default props for the S3 Bucket.
+   * Optional. User provided props to override the default props for the S3 Bucket.
    * Providing both this and `existingInputAssetsBucketObj` will cause an error.
    *
    * @default - Default props are used
@@ -110,73 +99,97 @@ export interface SummarizationAppsyncStepfnProps {
   readonly bucketInputsAssetsProps?: s3.BucketProps;
 
   /**
-   * Optional Existing s3 Bucket to store the transformed document (in txt format) which needs to be summarized.
+   * Optional. The summary construct transform the input document into txt format. If the
+   * transformation is not required then this flag can be set to false. If set to true
+   * then a transformed asset bucket is created which transform the input document from
+   * input asset bucket to txt format.
    *
-   *
+   * @default - False
+   */
+  readonly isFileTransformationRequired?: string;
+
+  /**
+   * Optional. This bucket stores the transformed (txt) assets for generating summary.
+   * If None is provided then this contruct will create one.
    * @default - None
    */
-  readonly existingTransformedAssetsBucketObj?: s3.IBucket;
+  readonly existingTransformedAssetsBucket?: s3.IBucket;
+
 
   /**
-   *  Optional s3 Bucket props to create S3 bucket for this construct.
-
+   * Optional. User provided props to override the default props for the S3 Bucket.
+   * Providing both this and `existingTransformedAssetsBucket` will cause an error.
+   *
+   * @default - Default props are used
    */
-  readonly bucketProps?: s3.BucketProps;
+  readonly bucketTransformedAssetsProps?: s3.BucketProps;
+
   /**
-   * Existing instance of a custom EventBus.
+   * Optional. Existing instance of EventBus. The summary construct integrate appsync with event bridge'
+   * to route the request to step functions.
    *
    * @default - None
    */
   readonly existingEventBusInterface?: events.IEventBus;
+
   /**
-    * A new custom EventBus is created with provided props.
+    * Optional. A new custom EventBus is created with provided props.
+    * Providing existingEventBusInterface and eventBusProps both will result in validation error.
     *
     * @default - None
     */
   readonly eventBusProps?: events.EventBusProps;
 
   /**
-   * Optional, existing merge api
-   * schema for multiple source api.
+   * Optional. Existing merge api instance. This  construct create a merge API to support
+   * multiple modalities with different source APIs. The merge API provode a fedeareted schema over source API schemas.
+   *
    * @default None
    */
   readonly existingMergeApi?: appsync.CfnGraphQLApi;
 
   /**
-   * Optional, Name  of merged api on appsync. merge api is used to provide federated
-   * schema for multiple source api.
-   * @default 'mergedApi'
-   */
-  readonly appsyncMergedApiName?: string;
-
-  /**
-   * Name  of summary api on appsync.
+   * Optional. User provided Name for summary api on appsync.
+   * A graphql api will be created by this construct with this name.
    * @default 'summaryApi'
    */
   readonly summaryApiName?: string;
+
   /**
-   * user provided appsync props
+   * Optional. User provided appsync props.
    *
    * @default - Default props are used.
    */
   readonly cfnGraphQLApiProps?: appsync.CfnGraphQLApiProps;
 
   /**
-   * Service principle role which Appsync assumes.
+   * Optional. Service principle role which Appsync assumes.
    * @default None
    */
-  readonly appsyncServicePrincipleRole: string;
+  readonly appsyncServicePrincipleRoleName?: string;
 
   /**
-   * Logging configuration for AppSync
+   * Optional. Logging configuration for AppSync
    * @default - fieldLogLevel - None
    */
   readonly logConfig?: appsync.LogConfig;
+
   /**
-   * x ray enablement for AppSync
+   * Optional.  xray enablement for AppSync
    * @default - false
    */
   readonly xrayEnabled?: boolean;
+
+  /**
+   * Optional. Chain type defines how to pass the document to LLM.
+   * there are three types of chain types.
+   * Stuff: Simply "stuff" all your documents into a single prompt.
+   * Map-reduce: Summarize each document on it's own in a "map" step and then "reduce" the summaries into a final summary
+   * Refine :  This constructs a response by looping over the input documents and iteratively updating its answer
+   * @default - Stuff
+   */
+  readonly summaryChainType?: string;
+
   /**
    * Value will be appended to resources name.
    *
@@ -217,7 +230,12 @@ export class SummarizationAppsyncStepfn extends Construct {
   /**
    * Returns the instance of s3.IBucket used by the construct
    */
-  public readonly assetBucket: s3.IBucket | undefined;
+  public readonly inputAssetBucket: s3.IBucket | undefined;
+
+  /**
+   * Returns the instance of s3.IBucket used by the construct
+   */
+  public readonly processedAssetBucket: s3.IBucket | undefined;
 
   /**
    * Logging configuration for AppSync
@@ -242,12 +260,12 @@ export class SummarizationAppsyncStepfn extends Construct {
       stage = props.stage;
     }
 
+    // vpc
     if (props?.existingVpc) {
       this.vpc = props.existingVpc;
     } else {
-      this.vpc = vpcHelper.buildVpc(this, props);
+      this.vpc = new ec2.Vpc(this, 'Vpc', props.userVpcProps);
     }
-    console.log('step1: built VPC');
     // Security group
     if (props?.existingSecurityGroup) {
       this.securityGroup = props.existingSecurityGroup;
@@ -262,7 +280,6 @@ export class SummarizationAppsyncStepfn extends Construct {
         },
       );
     }
-    console.log('step2: built Security Group');
     // bucket for input document
     s3BucketHelper.CheckS3Props({
       existingBucketObj: props.existingInputAssetsBucket,
@@ -270,18 +287,13 @@ export class SummarizationAppsyncStepfn extends Construct {
     });
 
     if (props?.existingInputAssetsBucket) {
-      console.log('get existingbucket');
-      this.assetBucket = props.existingInputAssetsBucket;
+      this.inputAssetBucket = props.existingInputAssetsBucket;
     } else if (props?.bucketInputsAssetsProps) {
-      console.log('create new with props');
-      this.assetBucket = new s3.Bucket(this, 'processedAssetsBucket'+stage, props.bucketInputsAssetsProps);
-      'processedAssetsBucket'+stage;
+      this.inputAssetBucket = new s3.Bucket(this,
+        'inputAssetsBucket'+stage, props.bucketInputsAssetsProps);
     } else {
-      console.log('create new');
-
-      const bucketName= 'processed-assets-bucket'+stage+'-'+cdk.Aws.ACCOUNT_ID;
-
-      this.assetBucket = new s3.Bucket(this, 'processedAssetsBucket'+stage,
+      const bucketName= 'input-assets-bucket'+stage+'-'+cdk.Aws.ACCOUNT_ID;
+      this.inputAssetBucket = new s3.Bucket(this, 'inputAssetsBucket'+stage,
         {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
@@ -289,16 +301,36 @@ export class SummarizationAppsyncStepfn extends Construct {
         });
     }
 
-    console.log('step2: built S3');
+    // bucket for transformed document
+    s3BucketHelper.CheckS3Props({
+      existingBucketObj: props.existingTransformedAssetsBucket,
+      bucketProps: props.bucketTransformedAssetsProps,
+    });
 
+    if (props?.existingTransformedAssetsBucket) {
+      this.processedAssetBucket = props.existingTransformedAssetsBucket;
+    } else if (props?.bucketTransformedAssetsProps) {
+      this.processedAssetBucket = new s3.Bucket(this,
+        'processedAssetsBucket'+stage, props.bucketTransformedAssetsProps);
+    } else {
+      const bucketName= 'processed-assets-bucket'+stage+'-'+cdk.Aws.ACCOUNT_ID;
+
+      this.processedAssetBucket = new s3.Bucket(this, 'processedAssetsBucket'+stage,
+        {
+          blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+          encryption: s3.BucketEncryption.S3_MANAGED,
+          bucketName: bucketName,
+        });
+    }
+
+    // set up redis cluster
     redisHelper.CheckRedisClusterProps(props);
 
-    const redisSecurityGroupname= 'redisSCgroup'+stage;
-
-    const redisSecurityGroup =redisHelper.getRedisSecurityGroup(this, props, redisSecurityGroupname);
 
     // build redis cluster only when cfnCacheClusterProps is set
     if (props?.cfnCacheClusterProps) {
+      const redisSecurityGroupname= 'redisSCgroup'+stage;
+      const redisSecurityGroup =redisHelper.getRedisSecurityGroup(this, props, redisSecurityGroupname);
       this.redisCluster = redisHelper.buildRedisCluster(this, {
         existingVpc: this.vpc,
         cfnCacheClusterProps: props.cfnCacheClusterProps,
@@ -308,18 +340,14 @@ export class SummarizationAppsyncStepfn extends Construct {
         inboundSecurityGroup: this.securityGroup,
         redisSecurityGroup: redisSecurityGroup,
       });
-
+      redisHelper.setInboundRules(redisSecurityGroup, this.securityGroup);
     } else {
       this.redisCluster= props?.existingRedisCulster;
     }
-    // convert string to number
-    const redisHost = this.redisCluster?.attrRedisEndpointAddress || 'Invalid host';
-    const redisPort = this.redisCluster?.attrRedisEndpointPort || '6379';
 
-    redisHelper.setInboundRules(redisSecurityGroup, this.securityGroup);
+    const redisHost = this.redisCluster?.attrRedisEndpointAddress!;
+    const redisPort = this.redisCluster?.attrRedisEndpointPort!;
 
-
-    console.log('step4: built redis');
 
     eventBridge.CheckEventBridgeProps(props);
     // Create event bridge
@@ -328,39 +356,31 @@ export class SummarizationAppsyncStepfn extends Construct {
       eventBusProps: props.eventBusProps,
     });
 
-    console.log('step5: built event bus');
-    // NOT REQUIRED BECAUSE NO API KEY IS USED, LAMBDA WILL DIRECTLY CALL APPSYNC MUTATION
-    //const summaryEventbus = this.eventBridge.eventBus;
 
-
-    console.log('step5.1: check authentication type');
     appsyncMergedApi.checkAppsyncMergedApiProps(props);
 
+    const appsyncServicePrincipleRoleName = 'appsync.amazonaws.com';
+
+    const mergeApiRole = new iam.Role(this, 'mergedapirole'+stage, {
+      assumedBy: new iam.ServicePrincipal(appsyncServicePrincipleRoleName),
+    });
 
     // Create merge api with default settings only when cfnGraphQLApiProps is set
 
 
     if (props?.cfnGraphQLApiProps) {
-      console.log('prep merge api');
       this.mergeApi = appsyncMergedApi.buildMergedAPI(this, 'appsyncMergedApi-'+stage, {
         cfnGraphQLApiProps: props.cfnGraphQLApiProps,
-        appsyncServicePrincipleRole: props.appsyncServicePrincipleRole,
+        appsyncServicePrincipleRole: appsyncServicePrincipleRoleName,
+        mergedApiRole: mergeApiRole,
       });
     } else {
       this.mergeApi = props.existingMergeApi;
     }
-    console.log('step6: built merge api');
 
-    const mergeApiRole = new iam.Role(this, 'mergedapirole'+stage, {
-      assumedBy: new iam.ServicePrincipal(props.appsyncServicePrincipleRole),
-    });
-    const mergeApiId = this.mergeApi?.attrApiId;
-    const mergeapiurl = this.mergeApi?.attrGraphQlUrl;
 
-    // const logConfig: appsync.LogConfig = {
-    //   retention: logs.RetentionDays.ONE_WEEK,
-    //   fieldLogLevel: appsync.FieldLogLevel.ALL,
-    // };
+    const mergeApiId = this.mergeApi?.attrApiId!;
+    const mergeapiurl = this.mergeApi?.attrGraphQlUrl!;
 
     // cognito auth for app sync
     const cognitoUserPool = cognito.UserPool.fromUserPoolId(this,
@@ -391,11 +411,7 @@ export class SummarizationAppsyncStepfn extends Construct {
         fieldLogLevel: appsync.FieldLogLevel.NONE,
       };
     }
-    // const logConfig: appsync.LogConfig = {
-    //   retention: logs.RetentionDays.ONE_WEEK,
-    //   fieldLogLevel: appsync.FieldLogLevel.ALL,
-    // };
-    console.log('step7: built summary api');
+
     // graphql api for summary. client invoke this api with given schema and cognito user pool auth.
     const summarizationGraphqlApi = new appsync.GraphqlApi(this, 'summarizationGraphqlApi'+stage,
       {
@@ -429,20 +445,10 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     sourceApiAssociation.node.addDependency(summarizationGraphqlApi);
 
-
-    mergeApiRole.addToPolicy(
-      new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        actions: ['appsync:SourceGraphQL'],
-        resources: [
-          'arn:aws:appsync:' + cdk.Aws.REGION + ':' + cdk.Aws.ACCOUNT_ID
-           + ':apis/' + summarizationGraphqlApi.apiId + '/*',
-        ],
-      }),
-    );
+    // update merge api role with access
+    appsyncMergedApi.setMergedApiRole(mergeApiId, summarizationGraphqlApi.apiId, mergeApiRole);
 
     // Lambda function to validate Input
-    console.log('step8: add lambda');
     const inputValidatorLambda =
     new lambdaFunction.DockerImageFunction(this, 'inputValidatorLambda'+stage,
       {
@@ -461,9 +467,9 @@ export class SummarizationAppsyncStepfn extends Construct {
       });
 
 
-    // set default redisport and redishost value if cluster is not present
-
-    const bucketName = this.assetBucket.bucketName;
+    const transformedAssetBucketName = this.processedAssetBucket.bucketName;
+    const inputAssetBucketName = this.inputAssetBucket.bucketName;
+    const isFileTransformationRequired = props?.isFileTransformationRequired || 'false';
 
     const documentReaderLambda = new lambdaFunction.DockerImageFunction(this, 'documentReaderLambda'+stage, {
       code: lambdaFunction.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/document_reader')),
@@ -478,12 +484,15 @@ export class SummarizationAppsyncStepfn extends Construct {
       environment: {
         REDIS_HOST: redisHost,
         REDIS_PORT: redisPort,
-        ASSET_BUCKET_NAME: bucketName,
+        TRANSFORMED_ASSET_BUCKET: transformedAssetBucketName,
+        INPUT_ASSET_BUCKET: inputAssetBucketName,
+        IS_FILE_TRANSFORMED: isFileTransformationRequired,
         GRAPHQL_URL: !mergeapiurl ? summarizationGraphqlApi.graphqlUrl : mergeapiurl,
-        // NEED BOTO 3 FOR BEDROCK AS LAYER
-        //ANTHROPICSECRETID: props.anthropicSecretId,
+
       },
     });
+
+    const summaryChainType = props?.summaryChainType || 'stuff';
 
     const generateSummarylambda = new lambdaFunction.DockerImageFunction(this, 'generateSummarylambda'+stage, {
       functionName: 'summary_generator'+stage,
@@ -497,13 +506,18 @@ export class SummarizationAppsyncStepfn extends Construct {
       environment: {
         REDIS_HOST: redisHost,
         REDIS_PORT: redisPort,
-        ASSET_BUCKET_NAME: bucketName,
+        ASSET_BUCKET_NAME: transformedAssetBucketName,
         GRAPHQL_URL: !mergeapiurl ? summarizationGraphqlApi.graphqlUrl : mergeapiurl,
-        // NEED BOTO 3 FOR BEDROCK AS LAYER
-        // ANTHROPICSECRETID: props.anthropicSecretId,
+        SUMMARY_LLM_CHAIN_TYPE: summaryChainType,
         TRANSFORMERS_CACHE: '/tmp',
       },
     });
+
+    this.inputAssetBucket?.grantRead(generateSummarylambda);
+    this.processedAssetBucket?.grantReadWrite(generateSummarylambda);
+    this.inputAssetBucket?.grantRead(documentReaderLambda);
+    this.processedAssetBucket?.grantReadWrite(documentReaderLambda);
+
 
     documentReaderLambda.addToRolePolicy(
       new iam.PolicyStatement({
@@ -513,7 +527,8 @@ export class SummarizationAppsyncStepfn extends Construct {
           's3:ListBucket',
           's3:PutObject',
           'appsync:GraphQL'],
-        resources: ['arn:aws:s3:::' + bucketName + '/*',
+        resources: ['arn:aws:s3:::' + inputAssetBucketName + '/*',
+          'arn:aws:s3:::' + transformedAssetBucketName + '/*',
           'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*'],
       }),
     );
@@ -527,7 +542,8 @@ export class SummarizationAppsyncStepfn extends Construct {
           's3:PutObject',
           'appsync:GraphQL',
           'bedrock:*'],
-        resources: ['arn:aws:s3:::' + bucketName + '/*',
+        resources: ['arn:aws:s3:::' + inputAssetBucketName + '/*',
+          'arn:aws:s3:::' + transformedAssetBucketName + '/*',
           'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*'
           , '*'],
 
@@ -543,24 +559,11 @@ export class SummarizationAppsyncStepfn extends Construct {
           's3:ListBucket',
           'appsync:GraphQL'],
 
-        resources: ['arn:aws:s3:::' + bucketName + '/*',
+        resources: ['arn:aws:s3:::' + inputAssetBucketName + '/*',
+          'arn:aws:s3:::' + transformedAssetBucketName + '/*',
           'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*'],
       }),
     );
-
-    // use bedrock
-    //const anthropicSecretId = secrets.Secret.fromSecretNameV2(this, 'anthropicSecretId', props.anthropicSecretId);
-
-    // api key not needed
-    //const graphqlApiKey = secrets.Secret.fromSecretNameV2(this, 'apiKeySecret', props.mergeApiKeySecret);
-
-    //anthropicSecretId.grantRead(generateSummarylambda);
-    //anthropicSecretId.grantRead(documentReaderLambda);
-
-    // graphqlApiKey.grantRead(generateSummarylambda);
-    //graphqlApiKey.grantRead(documentReaderLambda);
-
-    console.log('step9: add resolvers');
 
     // create datasource at appsync
     const SummaryStatusDataSource = new appsync.NoneDataSource
@@ -592,82 +595,17 @@ export class SummarizationAppsyncStepfn extends Construct {
       resultPath: '$.document_result',
     });
 
-    const createChunksAndSummarizeTask = new sfnTask.LambdaInvoke(this, 'Create chunks and summarize ', {
-      lambdaFunction: generateSummarylambda,
-    });
 
     const generateSummaryTask = new sfnTask.LambdaInvoke(this, 'Generate Summary with llm', {
       lambdaFunction: generateSummarylambda,
       resultPath: '$.summary_result',
     });
 
-    // event bridge api connection, NOT NEEDED AS NO API KEY AUTH IS USED
-
-    // const eventBridgeApiconnection = new events.Connection(this, 'Connection', {
-    //   authorization: events.Authorization.apiKey('x-api-key', cdk.SecretValue.secretsManager(props.mergeApiKeySecret)),
-    //   description: 'Connection with API Key x-api-key',
-    // });
-
-    //eventBridgeApiconnection.node.addDependency(graphqlApiKey);
-
     const dlq: sqs.Queue = new sqs.Queue(this, 'dlq', {
       queueName: 'summarydlq'+stage,
       retentionPeriod: cdk.Duration.days(7),
     });
 
-    // const destination = new events.ApiDestination(this, 'destination', {
-    //   apiDestinationName: 'summarization_destination_api',
-    //   connection: eventBridgeApiconnection,
-    //   endpoint: mergeapiurl,
-    //   description: 'Calling summary subscription with API key x-api-key',
-    // });
-
-    // summary subscription rule
-    // new events.Rule(this, 'SummarySubscriptionRule', {
-
-    //   eventBus: summaryEventbus,
-    //   eventPattern: {
-    //     source: ['aws.events.summarization'],
-    //   },
-    //   targets: [
-    //     new targets.ApiDestination(destination, {
-    //       deadLetterQueue: dlq,
-    //       retryAttempts: 1,
-    //       event: events.RuleTargetInput.fromObject({
-    //         query:
-    //           'mutation updateSummaryJobStatus($summaryjobid:ID,$summary:String,$summaryjobstatus:String,$filename:String){updateSummaryJobStatus(summaryjobid:$summaryjobid,summary:$summary,summaryjobstatus:$summaryjobstatus,filename:$filename){summaryjobid summary summaryjobstatus filename}}',
-    //         operationName: 'updateSummaryJobStatus',
-    //         variables: {
-    //           filename: events.EventField.fromPath('$.detail.filename'),
-    //           summary: events.EventField.fromPath('$.detail.summary'),
-    //           summaryjobid: events.EventField.fromPath('$.detail.summaryjobid'),
-    //           summaryjobstatus: events.EventField.fromPath('$.detail.summaryjobstatus'),
-    //         },
-    //       }),
-    //     }),
-    //   ],
-    //   enabled: true,
-    //   description: 'Summary Subscription Rule',
-    // });
-
-    //  NOT REQUIRED
-    // const publishStatusMessage = new sfnTask.EventBridgePutEvents(this, 'publish status message', {
-    //   entries: [
-    //     {
-    //       detail: sfn.TaskInput.fromObject({
-    //         'summary.$': '$.summary',
-    //         'summaryjobstatus.$': '$.summaryjobstatus',
-    //         'summaryjobid.$': '$.summaryjobid',
-    //         'filename.$': '$.filename',
-    //       }),
-    //       eventBus: this.eventBridgeBus,
-    //       detailType: 'MessageFromStepFunctions',
-    //       source: 'step.functions',
-    //     },
-    //   ],
-    // });
-
-    console.log('step10: add step function');
 
     const publishValidationFailureMessage = new sfnTask.EventBridgePutEvents(
       this,
@@ -677,8 +615,8 @@ export class SummarizationAppsyncStepfn extends Construct {
           {
             detail: sfn.TaskInput.fromObject({
               'summary.$': '$.summary',
-              'summaryjobstatus.$': '$.summaryjobstatus',
-              'summaryjobid.$': '$.summaryjobid',
+              'summaryjobstatus.$': '$.status',
+              'summary_job_id.$': '$.summary_job_id',
               'filename.$': '$.filename',
             }),
             eventBus: this.eventBridgeBus,
@@ -692,10 +630,8 @@ export class SummarizationAppsyncStepfn extends Construct {
     const jobSuccess= new sfn.Succeed(this, 'succeeded', {
       comment: 'AWS summary Job succeeded',
     });
-    const jobFailed= new sfn.Fail(this, 'failed', {
-      comment: 'AWS summary Job failed',
-    });
-      // step function choice steps
+
+    // step function choice steps
     const validateInputChoice = new sfn.Choice(this, 'is Valid Parameters?', {
       outputPath: '$.validation_result.Payload.files',
     });
@@ -704,9 +640,6 @@ export class SummarizationAppsyncStepfn extends Construct {
       outputPath: '$.document_result.Payload',
     });
 
-    const tokenLimitBurstChoice = new sfn.Choice(this, 'is Token Limit breached?', {
-      outputPath: '$',
-    });
 
     // step function, run files in parallel
     const runFilesInparallel = new sfn.Map(this, 'Run Files in Parallel', {
@@ -715,20 +648,10 @@ export class SummarizationAppsyncStepfn extends Construct {
       documentReaderTask.next(
         summaryfromCacheChoice
           .when(
-            sfn.Condition.booleanEquals('$.document_result.Payload.isSummaryAvailable', true),
+            sfn.Condition.booleanEquals('$.document_result.Payload.is_summary_available', true),
             jobSuccess,
-          )
-          .when(
-            sfn.Condition.stringEquals('$.document_result.Payload.status', 'Error'),
-            jobFailed,
-          )
-          .otherwise(
-            tokenLimitBurstChoice
-              .when(
-                sfn.Condition.booleanEquals('$.isTokenLimitBreached', true),
-                createChunksAndSummarizeTask.next(jobSuccess),
-              )
-              .otherwise(generateSummaryTask.next(jobSuccess)),
+          ).otherwise(
+            generateSummaryTask.next(jobSuccess),
           ),
       ),
     );

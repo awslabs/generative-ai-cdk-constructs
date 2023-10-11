@@ -2,7 +2,7 @@
 from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_lambda_powertools.metrics import MetricUnit
-from update_summary_status import updateSummaryJobStatus
+from update_file_status import updateFileStatus
 
 logger = Logger(service="SUMMARY_VALIDATE_INPUT_JOB")
 tracer = Tracer(service="SUMMARY_VALIDATE_INPUT_JOB")
@@ -14,7 +14,7 @@ metrics = Metrics(namespace="summary_pipeline", service="SUMMARY_INPUT_VALIDATIO
 @metrics.log_metrics(capture_cold_start_metric=True)
 def handler(event, context: LambdaContext)-> dict:
      summary_input = event["detail"]["summaryInput"]
-     job_id = summary_input['summaryjobid']
+     job_id = summary_input['summary_job_id']
 
      # Add a correlationId (tracking code).
      logger.set_correlation_id(job_id)
@@ -25,7 +25,7 @@ def handler(event, context: LambdaContext)-> dict:
 
      response = process_files(input_files)
 
-     updateSummaryJobStatus({'jobid': job_id, 'files': response['files']})
+     updateFileStatus({'jobid': job_id, 'files': response['files']})
 
      response_transformed = add_job_id_to_response(response, job_id)
     

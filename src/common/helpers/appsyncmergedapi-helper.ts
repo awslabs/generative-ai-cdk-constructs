@@ -63,6 +63,12 @@ export interface AppsyncMergedApiProps {
    */
   readonly xRayEnabled?: boolean;
 
+  /**
+   * Required mergedApiRole for app sync
+   * @default
+   */
+  readonly mergedApiRole: iam.Role;
+
 }
 /**
  * @internal This is an internal core function and should not be called directly by Solutions Constructs clients.
@@ -99,7 +105,7 @@ export function buildMergedAPI(scope: Construct, id: string, props: AppsyncMerge
         excludeVerboseContent: excludeVerboseContent,
       },
       xrayEnabled: xRayEnabled,
-      mergedApiExecutionRoleArn: getMergedAPIRole(scope, props).roleArn,
+      mergedApiExecutionRoleArn: props.mergedApiRole.roleArn,
       ownerContact: props?.cfnGraphQLApiProps!.ownerContact,
     });
 
@@ -125,11 +131,6 @@ export function checkAppsyncMergedApiProps(propsObject: AppsyncMergedApiProps | 
   }
 }
 
-function getMergedAPIRole(scope: Construct, props: AppsyncMergedApiProps) {
-  return new iam.Role(scope, 'mergedApiRole', {
-    assumedBy: new iam.ServicePrincipal(props.appsyncServicePrincipleRole),
-  });
-}
 
 /**
  * @internal This is an internal core function and should not be called directly
@@ -141,14 +142,17 @@ function getMergedAPIRole(scope: Construct, props: AppsyncMergedApiProps) {
  * @param mergedApiRole iam role
  * @returns App sync merge api role
  */
-export function setMergedApiRole(mergedAPI: appsync.CfnGraphQLApi, mergedApiRole: iam.Role ) {
+export function setMergedApiRole(mergedApiID: String, sourceApiId: String, mergedApiRole: iam.Role ) {
   mergedApiRole.addToPolicy(
     new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
-      actions: ['appsync:StartSchemaMerge'],
+      actions: ['appsync:SourceGraphQL',
+        'appsync:StartSchemaMerge'],
       resources: [
-        'arn:aws:appsync:' + Aws.REGION + ':' + Aws.ACCOUNT_ID+ ':apis/'
-        + mergedAPI.attrApiId + '/sourceApiAssociations/*',
+        'arn:aws:appsync:' + Aws.REGION + ':' + Aws.ACCOUNT_ID
+           + ':apis/' + sourceApiId + '/*',
+        'arn:aws:appsync:'+ Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+mergedApiID+'/sourceApiAssociations/*',
+        'arn:aws:appsync:'+ Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+sourceApiId+'/sourceApiAssociations/*',
       ],
     }),
   );
