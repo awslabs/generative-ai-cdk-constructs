@@ -4,8 +4,18 @@ import requests
 import os
 import boto3
 import json
+from requests_aws4auth import AWS4Auth
 
 aws_region = boto3.Session().region_name
+credentials = boto3.Session().get_credentials()
+service = 'appsync'
+aws_auth = AWS4Auth(
+    credentials.access_key,
+    credentials.secret_key,
+    aws_region,
+    service,
+    session_token=credentials.token,
+)
 
 def get_credentials(secret_id: str, region_name: str) -> str:
     client = boto3.client('secretsmanager', region_name=region_name)
@@ -66,16 +76,14 @@ def send_job_status(variables):
     print(request)
 
     GRAPHQL_URL = os.environ['GRAPHQL_API_ENDPOINT']
-    api_key_secret_name = os.environ['GRAPHQL_API_KEY']
-    GRAPHQL_API_KEY= get_credentials_string(api_key_secret_name, aws_region)
     HEADERS={
         "Content-Type": "application/json",
-        "x-api-key":GRAPHQL_API_KEY
         }
     
     responseJobstatus = requests.post(
         json=request,
         url=GRAPHQL_URL,
-        headers=HEADERS
+        headers=HEADERS,
+        auth=aws_auth
     )
     print('res :: {}',responseJobstatus)

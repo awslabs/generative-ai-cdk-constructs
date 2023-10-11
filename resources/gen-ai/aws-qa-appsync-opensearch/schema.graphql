@@ -1,4 +1,4 @@
-type QADocs @@aws_iam @aws_cognito_user_pools {
+type QADocs @aws_iam @aws_cognito_user_pools {
 	jobid: ID
 	workflow_type: String
 	handler_type: String
@@ -25,7 +25,7 @@ input QADocsInput {
 	session_id: String
 }
 
-type Mutation @@aws_iam @aws_cognito_user_pools {
+type Mutation @aws_iam @aws_cognito_user_pools {
 	postQuestion(
 		jobid: ID,
 		jobstatus: String,
@@ -48,11 +48,11 @@ type Mutation @@aws_iam @aws_cognito_user_pools {
 	): QADocs
 }
 
-type Query @@aws_iam @aws_cognito_user_pools {
+type Query @aws_iam @aws_cognito_user_pools {
   getAnswer(answerparams: QADocsInput!): QADocs
 }
 
-type Subscription @@aws_iam @aws_cognito_user_pools {
+type Subscription @aws_iam @aws_cognito_user_pools {
 	updateQAJobStatus(jobid: ID!): QADocs
 		@aws_subscribe(mutations: ["updateQAJobStatus"])
 }

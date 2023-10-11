@@ -26,6 +26,8 @@ This construct provides a question answering workflow (RAG + long context window
 - If a document is provided as an input to the Appsync query, the AWS Lambda function will first verify the length of the document. If the document size is above the max number of tokens for the selected model, the Lambda will query the knowledge base (similarity search) and filter by document name. This assumes that the chunks of texts stored in the knowledge base have the document name as metadata. Otherwise, the content of the document is provided to the LLM as part of the context.
 - If no document is provided as input, the Lambda will perform a similarity search against the entire knowledge base.
 
+This construct builds a Lambda function from a Docker image, thus you need to have [Docker desktop](https://www.docker.com/products/docker-desktop/) running on your machine.
+
 Here is a minimal deployable pattern definition:
 
 Typescript
