@@ -4,7 +4,7 @@ import redis
 from jproperties import Properties
 import os.path as path
 
-
+from update_summary_status import updateSummaryJobStatus
 from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_lambda_powertools.metrics import MetricUnit
@@ -13,7 +13,7 @@ logger = Logger(service="SUMMARY_DOCUMENT_READER")
 tracer = Tracer(service="SUMMARY_DOCUMENT_READER")
 metrics = Metrics(namespace="summary_pipeline", service="SUMMARY_DOCUMENT_READER")
 
-transformed_bucket_name = os.environ["ASSETBUCKETNAME"]
+transformed_bucket_name = os.environ["ASSET_BUCKET_NAME"]
 # TODO: for local dev
 #transformed_bucket_name = 'processed-assets-bucket-dev-383119320704'
 configs = Properties()
@@ -42,13 +42,13 @@ def handler(event, context: LambdaContext):
     response = {
         "isTokenLimitBreached": False,
         "isSummaryAvailable": False,
-        "summary": "",
         "summaryjobid": job_id,
-        "filename": file_name,
-        "status": "Pending",
+        "files": [{
+            "name": file_name,
+            "status": "Pending",
+            "summary": ""
+        }],
         "suggestedchunksize": 4096,
-        "key": "",
-        "bucket": "",
         "errorcode":"",
         "errormessage":""
     }
@@ -57,9 +57,12 @@ def handler(event, context: LambdaContext):
         metrics.add_metric(name="summary_from_cache", unit=MetricUnit.Count, value=1)
         response.update(
             {
+                "files":
+                  [{"name": file_name, 
+                    "status": "Completed", 
+                    "summary": filesummary
+                    }],
                 "isSummaryAvailable": True,
-                "summary": filesummary,
-                "status": "Completed",
             }
         )
     else:
@@ -67,8 +70,11 @@ def handler(event, context: LambdaContext):
         if not pdf_transformed_file:
             response.update(
                 {
-                    "summary": f"No file {transformed_file_name} available to generate the summary.",
-                    "status": "Error",
+                  "files":
+                         [{"name": file_name, 
+                            "status": "Error", 
+                            "summary": f"No file {transformed_file_name} available to generate the summary.",
+                        }],
                     "errorcode":configs.get("FILE_NOT_PRESENT_ERROR_CODE").data,
                     "errormessage":configs.get("FILE_NOT_PRESENT_ERROR").data
                 }
@@ -76,19 +82,17 @@ def handler(event, context: LambdaContext):
             logger.exception({"No file {transformed_file_name} available to generate the summary."})
             return response
       
-        response.update(
-            {"key": transformed_file_name, "bucket": transformed_bucket_name}
-        )
 
-    logger.info({"S3 reader response:": response})
+    logger.info({"document reader response:": response})
+    updateSummaryJobStatus({'jobid': job_id, 'files': response['files']})
     return response
 
 
 def get_summary_from_cache(file_name):
 
     logger.info({"Searching Redis for cached summary file: "+file_name})
-    redis_host = os.environ.get("REDISHOST", "N/A")
-    redis_port = os.environ.get("REDISPORT", "N/A")
+    redis_host = os.environ.get("REDIS_HOST", "N/A")
+    redis_port = os.environ.get("REDIS_PORT", "N/A")
     
     logger.info({"Redis host: "+redis_host})
     logger.info({"Redis port: "+redis_port})

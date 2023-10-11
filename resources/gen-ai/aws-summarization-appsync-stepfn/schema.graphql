@@ -8,6 +8,7 @@ type FileStatus @aws_iam @aws_cognito_user_pools {
 input FileStatusInput {
 	name: String
 	status: String
+	summary: String
 }
 
 type SummaryDocs @aws_iam @aws_cognito_user_pools {
@@ -30,9 +31,9 @@ type Query @aws_iam @aws_cognito_user_pools {
 }
 
 type Subscription @aws_iam @aws_cognito_user_pools {
-	generateSummary(summaryjobid: ID!): SummaryDocs
+	generateSummary(summaryInput: SummaryDocsInput!): SummaryDocs
 		@aws_subscribe(mutations: ["generateSummary"])
-	updateSummaryJobStatus(summaryjobid: ID!): SummaryDocs
+	updateSummaryJobStatus(summaryjobid: ID, files: [FileStatusInput]): SummaryDocs
 		@aws_subscribe(mutations: ["updateSummaryJobStatus"])
 }
 

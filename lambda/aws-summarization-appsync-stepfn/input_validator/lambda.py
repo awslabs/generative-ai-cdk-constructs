@@ -48,7 +48,8 @@ def process_files(input_files):
             metrics.add_metric(name="UnsupportedFile", unit=MetricUnit.Count, value=1)
         file_to_process = {
             'status':status,
-            'name':filename
+            'name':filename,
+            'summary':''
         }
         files_to_process.append(file_to_process)
 

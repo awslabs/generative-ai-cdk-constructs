@@ -476,9 +476,10 @@ export class SummarizationAppsyncStepfn extends Construct {
       tracing: lambdaFunction.Tracing.ACTIVE,
       timeout: cdk.Duration.minutes(5),
       environment: {
-        REDISHOST: redisHost,
-        REDISPORT: redisPort,
-        ASSETBUCKETNAME: bucketName,
+        REDIS_HOST: redisHost,
+        REDIS_PORT: redisPort,
+        ASSET_BUCKET_NAME: bucketName,
+        GRAPHQL_URL: !mergeapiurl ? summarizationGraphqlApi.graphqlUrl : mergeapiurl,
         // NEED BOTO 3 FOR BEDROCK AS LAYER
         //ANTHROPICSECRETID: props.anthropicSecretId,
       },
@@ -494,12 +495,13 @@ export class SummarizationAppsyncStepfn extends Construct {
       memorySize: 1_769 * 4,
       timeout: cdk.Duration.minutes(10),
       environment: {
-        REDISHOST: redisHost,
-        REDISPORT: redisPort,
-        ASSETBUCKETNAME: bucketName,
+        REDIS_HOST: redisHost,
+        REDIS_PORT: redisPort,
+        ASSET_BUCKET_NAME: bucketName,
+        GRAPHQL_URL: !mergeapiurl ? summarizationGraphqlApi.graphqlUrl : mergeapiurl,
         // NEED BOTO 3 FOR BEDROCK AS LAYER
         // ANTHROPICSECRETID: props.anthropicSecretId,
-        TRANSFORMERSCACHE: '/tmp',
+        TRANSFORMERS_CACHE: '/tmp',
       },
     });
 
@@ -519,10 +521,19 @@ export class SummarizationAppsyncStepfn extends Construct {
     generateSummarylambda.addToRolePolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
-        actions: ['appsync:GraphQL'],
-        resources: ['arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*'],
+        actions: ['s3:GetObject',
+          's3:GetBucketLocation',
+          's3:ListBucket',
+          's3:PutObject',
+          'appsync:GraphQL',
+          'bedrock:*'],
+        resources: ['arn:aws:s3:::' + bucketName + '/*',
+          'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*'
+          , '*'],
+
       }),
     );
+
 
     inputValidatorLambda.addToRolePolicy(
       new iam.PolicyStatement({
@@ -583,12 +594,10 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     const createChunksAndSummarizeTask = new sfnTask.LambdaInvoke(this, 'Create chunks and summarize ', {
       lambdaFunction: generateSummarylambda,
-      outputPath: '$.Payload',
     });
 
     const generateSummaryTask = new sfnTask.LambdaInvoke(this, 'Generate Summary with llm', {
       lambdaFunction: generateSummarylambda,
-      outputPath: '$.Payload',
       resultPath: '$.summary_result',
     });
 

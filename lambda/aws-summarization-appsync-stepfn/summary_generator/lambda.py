@@ -1,8 +1,8 @@
-import os,json
+import os,boto3,json
 import base64
 from typing import Dict
 
-from langchain.llms import Bedrock
+from langchain.llms.bedrock import Bedrock
 from update_summary_status import updateSummaryJobStatus
 
 # external files
@@ -29,17 +29,19 @@ metrics = Metrics(namespace="summary_pipeline", service="SUMMARY_GENERATION")
 # internal files
 from helper import set_nltk_data, set_transformer_cache_dir, read_file_from_s3
 
-transformed_bucket_name = os.environ["TRANSFORMED_ASSET_BUCKET"]
-
+transformed_bucket_name = os.environ["ASSET_BUCKET_NAME"]
+#transformed_bucket_name = "processed-assets-bucket-dev-383119320704"
 
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler
 @metrics.log_metrics(capture_cold_start_metric=True)
 def handler(event, context: LambdaContext)-> dict:
     logger.info("Starting summary agent with input", event)
+    logger.info("boto 3 version "+boto3.__version__)
 
     # set input params
     set_transformer_cache_dir(os.environ["TRANSFORMERS_CACHE"])
+    #set_transformer_cache_dir(os.environ["/tmp"])
     set_nltk_data()
 
     job_id = event["summaryjobid"]
@@ -48,7 +50,7 @@ def handler(event, context: LambdaContext)-> dict:
     metrics.add_metadata(key='correlationId', value=job_id)
     tracer.put_annotation(key="correlationId", value=job_id)
 
-    original_file_name = event["name"]
+    original_file_name = event["filename"]
     text_file_name = original_file_name.replace(".pdf", "_transformed.txt")
     chain_type = get_chain_type(event)
     #isTokenLimitBreached = event["isTokenLimitBreached"]
@@ -57,14 +59,23 @@ def handler(event, context: LambdaContext)-> dict:
     # create response
     response = {
         "summaryjobid": job_id,
-        "status": "Error",
-        "summary": "",
-        "name": original_file_name,
+        "files": [{
+            "name": original_file_name,
+            "status": "Pending",
+            "summary": ""
+        }]
     }
   
+    aws_region = boto3.Session().region_name
+    bedrock_client = boto3.client(
+        service_name='bedrock-runtime', 
+        region_name=aws_region,
+        endpoint_url=f'https://bedrock-runtime.{aws_region}.amazonaws.com'
+    )
+
     summary_llm = Bedrock(
-        credentials_profile_name="bedrock-admin",
-        model_id="anthropic.claude-v2"
+        model_id="anthropic.claude-v2",
+        client=bedrock_client,
     )
     redis_host = os.environ.get("REDIS_HOST", "N/A")
     redis_port = os.environ.get("REDIS_PORT", "N/A")
@@ -77,12 +88,12 @@ def handler(event, context: LambdaContext)-> dict:
 
     inputFile = read_file_from_s3(transformed_bucket_name, text_file_name)
     if inputFile is None:
-        response["status"] = "Failed to load file from S3"
+        response['files'][0]["status"] = "Failed to load file from S3"
         return response
 
     # read pdf text and split it into chunks'
     metrics.add_metric(name="summary_from_llm", unit=MetricUnit.Count, value=1)
-    finalsummary = generate_summary(summary_llm,chain_type,inputFile)
+    finalsummary = generate_summary(summary_llm,"stuff",inputFile)
     
     llm_answer_bytes = finalsummary.encode("utf-8")
     base64_bytes = base64.b64encode(llm_answer_bytes)
@@ -90,11 +101,18 @@ def handler(event, context: LambdaContext)-> dict:
     logger.info(finalsummary)
     logger.info("Summarization done")
 
-    response.update(
-        {"status": "Completed", "summary": llm_answer_base64_string}
+    file_result = {
+            'name':original_file_name,
+            'status':"Completed",
+            'summary':llm_answer_base64_string
+        }
+
+    response.update({
+        'files':[file_result]
+    }
     )
 
-    logger.info("Saving summary in Redis")
+    logger.info("Saving respone in Redis :: ",response)
     try:
         redis_client.set(original_file_name,
                          llm_answer_base64_string, ex=604800)
@@ -117,12 +135,12 @@ def generate_summary(_summary_llm,chain_type,inputFile)-> str:
     
     docs = [Document(page_content=inputFile)]
          # run LLM
-    prompt = load_prompt("prompt.json")
+   # prompt = load_prompt("prompt.json")
     logger.info("Start summary genration")
     chain = load_summarize_chain(
                 _summary_llm, 
                 chain_type=chain_type, 
-                prompt=prompt
+                verbose=False
                 )
     return chain.run(docs)
 
@@ -178,3 +196,18 @@ def get_chain_type(input_params: Dict) -> str:
 
     return chain_type
 
+# input={
+#         "isTokenLimitBreached": False,
+#         "isSummaryAvailable": False,
+#         "summary": "",
+#         "summaryjobid": "1234",
+#         "filename": "light_speed.pdf",
+#         "status": "Pending",
+#         "suggestedchunksize": 4096,
+#         "key": "light_speed_transformed.txt",
+#         "bucket": "processed-assets-bucket-dev-383119320704",
+#         "errorcode": "",
+#         "errormessage": ""
+#     }
+
+# handler(input,LambdaContext)

@@ -6,3 +6,5 @@ urllib3<2
 aws-xray-sdk
 aws-lambda-powertools
 jproperties
+requests==2.31.0
+requests-aws4auth==1.2.3
