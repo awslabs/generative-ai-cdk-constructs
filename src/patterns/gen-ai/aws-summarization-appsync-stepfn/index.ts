@@ -162,12 +162,7 @@ export interface SummarizationAppsyncStepfnProps {
    */
   readonly cfnGraphQLApiProps?: appsync.CfnGraphQLApiProps;
 
-  /**
-   * Optional. Service principle role which Appsync assumes.
-   * @default None
-   */
-  readonly appsyncServicePrincipleRoleName?: string;
-
+  
   /**
    * Optional. Logging configuration for AppSync
    * @default - fieldLogLevel - None
