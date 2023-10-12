@@ -9,5 +9,5 @@ requests
 requests-aws4auth
 opensearch-py
 numpy
-langchain==0.0.309
+langchain==0.0.312
 opensearch-py

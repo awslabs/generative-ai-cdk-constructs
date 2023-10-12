@@ -1,6 +1,5 @@
-from llms import gptj6b
-from langchain.llms import BedrockEmbeddings, Bedrock
-from enum import Enum
+from langchain.llms.bedrock import Bedrock
+from langchain.embeddings import BedrockEmbeddings
 import os
 import boto3
 from .helper import get_credentials
@@ -56,13 +55,11 @@ def get_bedrock_client(service_name="bedrock-runtime"):
 def get_llm():
     bedrock = get_bedrock_client(service_name="bedrock-runtime")
     params = {
-        "maxTokens": 2048, 
+        "max_tokens_to_sample": 600,
         "temperature": 0, 
-        "topP": 0.5, 
-        "stopSequences": [], 
-        "countPenalty": {"scale": 0 }, 
-        "presencePenalty": {"scale": 0 }, 
-        "frequencyPenalty": {"scale": 0 } 
+        "top_k": 250,
+        "top_p": 1,
+        "stop_sequences": ["\\n\\nHuman:"],
     }
 
     return Bedrock(

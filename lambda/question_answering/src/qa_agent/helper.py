@@ -75,7 +75,7 @@ def send_job_status(variables):
 
     print(request)
 
-    GRAPHQL_URL = os.environ['GRAPHQL_API_ENDPOINT']
+    GRAPHQL_URL = os.environ['GRAPHQL_URL']
     HEADERS={
         "Content-Type": "application/json",
         }

@@ -1,6 +1,3 @@
-#kendra
-from aws_langchain.kendra_index_retriever import KendraIndexRetriever
-
 #opensearch
 from .helper import load_vector_db_opensearch, send_job_status
 
@@ -8,28 +5,16 @@ from .helper import load_vector_db_opensearch, send_job_status
 from .s3inmemoryloader import S3FileLoaderInMemory
 
 # all
-from langchain.chains import ConversationalRetrievalChain, RetrievalQA
-from langchain.memory import ConversationBufferMemory, RedisChatMessageHistory
 from langchain import PromptTemplate
 from llms import get_llm, get_max_tokens
 from langchain import LLMChain
 
 import boto3
 import os
-import redis
 import base64
 from typing import Dict ,List,Union
 import re
 import json
-
-from langchain.agents import ZeroShotAgent, Tool, AgentExecutor, AgentOutputParser, LLMSingleActionAgent
-from langchain.memory import ConversationBufferMemory
-from langchain.memory.chat_memory import ChatMessageHistory
-from langchain.memory.chat_message_histories import RedisChatMessageHistory
-from langchain.prompts import StringPromptTemplate
-from langchain import LLMChain
-from tools.kendra import tools
-from langchain.schema import AgentAction, AgentFinish
 
 from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
@@ -45,7 +30,7 @@ def run_question_answering(arguments):
     filename = arguments['filename']
     name, extension = os.path.splitext(filename)
     txt_file_name = name + '_transformed.txt'
-    bucket_name = os.environ['OUTPUT_BUCKET_NAME']
+    bucket_name = os.environ['INPUT_BUCKET']
 
     document_number_of_tokens = S3FileLoaderInMemory(bucket_name, txt_file_name).get_document_tokens()
 
@@ -213,7 +198,7 @@ def run_qa_agent_from_single_document_no_memory(input_params):
     global _file_content
     global _current_file_name
 
-    bucket_name = os.environ['OUTPUT_BUCKET_NAME']
+    bucket_name = os.environ['INPUT_BUCKET']
     filename = input_params['filename']
     name, extension = os.path.splitext(filename)
     txt_file_name = name + '_transformed.txt'
@@ -256,6 +241,8 @@ def run_qa_agent_from_single_document_no_memory(input_params):
     chain = LLMChain(llm=_qa_llm, prompt=prompt, verbose=input_params['verbose'])
 
     try:
+        logger.info(f'file content is: {_file_content}')
+        logger.info(f'decoded_question is: {decoded_question}')
         tmp = chain.predict(context=_file_content, question=decoded_question)
         answer = tmp.removeprefix(' ')
     except Exception as err:
