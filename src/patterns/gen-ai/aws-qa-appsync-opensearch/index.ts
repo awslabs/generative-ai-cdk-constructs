@@ -20,7 +20,9 @@ import * as targets from 'aws-cdk-lib/aws-events-targets';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as logs from 'aws-cdk-lib/aws-logs';
+import * as opensearchservice from 'aws-cdk-lib/aws-opensearchservice';
 import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as secret from 'aws-cdk-lib/aws-secretsmanager';
 import { Construct } from 'constructs';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
@@ -71,41 +73,29 @@ export interface QaAppsyncOpensearchProps {
      */
   readonly bucketInputsAssetsProps?: s3.BucketProps;
   /**
-     * Domain name for the OpenSearch Service.
+     * Existing Amazon OpenSearch Service domain.
      *
      * @default - None
      */
-  readonly openSearchDomainName: string;
+  readonly existinOpensearchDomain: opensearchservice.CfnDomain;
   /**
-     * Domain endpoint for the OpenSearch Service.
-     *
-     * @default - None
-     */
-  readonly openSearchDomainEndpoint: string;
-  /**
-     * Index name for the OpenSearch Service.
+     * Data Index name for the OpenSearch Service.
      *
      * @default - None
      */
   readonly openSearchIndexName: string;
   /**
-     * SecretsManager secret id to access the OpenSearch Service.
+     * SecretsManager secret to authenticate against the OpenSearch Service domain.
      *
      * @default - None
      */
-  readonly openSearchSecretId: string;
+  readonly openSearchSecret: secret.ISecret;
   /**
-     * URL endpoint of the appsync merged api.
-     *
-     * @default - None
-     */
-  readonly mergedApiGraphQLEndpoint?: string;
-  /**
-     * ApiId of the appsync merged api.
-     *
-     * @default - None
-     */
-  readonly mergedApiGraphQLId?: string;
+   * Existing merged Appsync GraphQL api.
+   *
+   * @default - None
+   */
+  readonly existingMergedApi?: appsync.CfnGraphQLApi;
   /**
      * Cognito user pool used for authentication.
      *
@@ -256,8 +246,8 @@ export class QaAppsyncOpensearch extends Construct {
 
     // If the user provides a mergedApi endpoint, the lambda
     // functions will use this endpoint to send their status updates
-    const updateGraphQlApiEndpoint = !props.mergedApiGraphQLEndpoint ? question_answering_graphql_api.graphqlUrl : props.mergedApiGraphQLEndpoint;
-    const updateGraphQlApiId = !props.mergedApiGraphQLId ? question_answering_graphql_api.apiId : props.mergedApiGraphQLId;
+    const updateGraphQlApiEndpoint = !props.existingMergedApi ? question_answering_graphql_api.graphqlUrl : props.existingMergedApi.attrGraphQlUrl;
+    const updateGraphQlApiId = !props.existingMergedApi ? question_answering_graphql_api.apiId : props.existingMergedApi.attrApiId;
 
     const job_status_data_source = new appsync.NoneDataSource(
       this,
@@ -321,12 +311,15 @@ export class QaAppsyncOpensearch extends Construct {
         environment: {
           GRAPHQL_URL: updateGraphQlApiEndpoint,
           INPUT_BUCKET: this.s3InputAssetsBucketInterface.bucketName,
-          OPENSEARCH_DOMAIN_ENDPOINT: props.openSearchDomainEndpoint,
+          OPENSEARCH_DOMAIN_ENDPOINT: props.existinOpensearchDomain.attrDomainEndpoint,
           OPENSEARCH_INDEX: props.openSearchIndexName,
-          OPENSEARCH_SECRET_ID: props.openSearchSecretId,
+          OPENSEARCH_SECRET_ID: props.openSearchSecret.secretName,
         },
       },
     );
+
+    // The lambda will access the opensearch credentials
+    props.openSearchSecret.grantRead(question_answering_function);
 
     // The lambda will pull processed files and create embeddings
     this.s3InputAssetsBucketInterface.grantRead(question_answering_function);
@@ -335,8 +328,8 @@ export class QaAppsyncOpensearch extends Construct {
       effect: iam.Effect.ALLOW,
       actions: ['es:*'],
       resources: [
-        'arn:aws:es:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':domain/'+props.openSearchDomainName+'/*',
-        'arn:aws:es:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':domain/'+props.openSearchDomainName,
+        'arn:aws:es:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':domain/'+props.existinOpensearchDomain.domainName+'/*',
+        'arn:aws:es:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':domain/'+props.existinOpensearchDomain.domainName,
       ],
     }));
 
