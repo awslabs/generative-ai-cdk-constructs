@@ -13,4 +13,4 @@
 export * from './patterns/gen-ai/aws-rag-appsync-stepfn-opensearch';
 export * from './patterns/gen-ai/aws-summarization-appsync-stepfn';
 export * from './patterns/gen-ai/aws-langchain-common-layer';
-
+export * from './patterns/gen-ai/aws-qa-appsync-opensearch';
