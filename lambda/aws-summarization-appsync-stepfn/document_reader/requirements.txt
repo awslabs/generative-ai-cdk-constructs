@@ -1,0 +1,8 @@
+redis
+pypdf2
+langchain==0.0.309
+urllib3<2
+aws-xray-sdk
+aws-lambda-powertools
+requests==2.31.0
+requests-aws4auth==1.2.3

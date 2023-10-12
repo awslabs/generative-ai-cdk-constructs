@@ -105,18 +105,6 @@
       "type": "build"
     },
     {
-      "name": "@types/deep-diff",
-      "type": "bundled"
-    },
-    {
-      "name": "@types/npmlog",
-      "type": "bundled"
-    },
-    {
-      "name": "deepmerge",
-      "type": "bundled"
-    },
-    {
       "name": "aws-cdk-lib",
       "version": "2.99.1",
       "type": "peer"

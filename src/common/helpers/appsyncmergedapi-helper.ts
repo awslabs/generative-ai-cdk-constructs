@@ -10,121 +10,65 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+import { Aws } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as iam from 'aws-cdk-lib/aws-iam';
-
 import { Construct } from 'constructs';
 
 
 export interface AppsyncMergedApiProps {
+
   /**
-   * name  of merged api on appsync
-   * @default 'mergedApi'
-   */
-  readonly appsyncmergedApiName: string;
-  /**
-   * cognito user pool id for appsync auth
+   * Optional, existing merge api
+   * schema for multiple source api.
    * @default None
    */
-  readonly userpoolid: string;
+  readonly existingMergeApi?: appsync.CfnGraphQLApi;
 
   /**
-   * cognito authentication user pool is used as authentication Type
+   * Optional user provided appsync props
+   * @default - authentication type - AMAZON_COGNITO_USER_POOL
+   * @default - api type -MERGED
+   * @default - name - appsyncmergeAPI
+   *
    */
-  readonly cognitoAuthenticationUserpool: string;
+  readonly cfnGraphQLApiProps?: appsync.CfnGraphQLApiProps;
 
   /**
-   * AWS region
+   * OPTIONAL cognito user pool id for appsync auth
+   * @default None
    */
-  readonly region: string;
+  readonly userPoolId?: string;
 
   /**
-   * AWS account
-   */
-  readonly accountid: string;
-
-  /**
-   * appsync service principle role
+   * Required appsync service principle role
+   * @default - appsync.amazonaws.com
    */
   readonly appsyncServicePrincipleRole: string;
 
   /**
-   * owner contact for merged api appsync notification
-   *  @default None
+   * Optional Field log level
+   * @default None
    */
-  readonly appsyncMergedApiContact: string;
+  readonly fieldLogLevel?: string;
 
   /**
-   * Security configuration for your GraphQL API.
-   * Allowed values - API_KEY , AWS_IAM , AMAZON_COGNITO_USER_POOLS , OPENID_CONNECT , or AWS_LAMBDA
-   *  @default None
+   * Optional log verbose content
+   * @default false
    */
-  readonly authenticationType: string;
+  readonly excludeVerboseContent?: boolean;
 
   /**
-   * Configuration for AWS Lambda function authorization.
-   * Use this if APP sync authentication Type is AWS_LAMBDA
+   * Optional x ray enablement for app sync
+   * @default false
    */
-  readonly authorizerResultTtlInSeconds: number;
+  readonly xRayEnabled?: boolean;
 
   /**
-   * Configuration for AWS Lambda function authorization.
-   * Use this if APP sync authentication Type is AWS_LAMBDA
+   * Required mergedApiRole for app sync
+   * @default
    */
-  readonly authorizerUri: string;
-
-  /**
-   * Configuration for AWS Lambda function authorization.
-   * Use this if APP sync authentication Type is AWS_LAMBDA
-   */
-  readonly identityValidationExpression: string;
-
-
-  /**
-   * Configuration for openIdConnectConfig authorization.
-   * Use this if APP sync authentication Type is OPENID_CONNECT
-   */
-  readonly authTtl: number;
-
-  /**
-   * Configuration for AWS Lambda function authorization.
-   * Use this if APP sync authentication Type is OPENID_CONNECT
-   */
-  readonly clientId: string;
-
-  /**
-   * Configuration for AWS Lambda function authorization.
-   * Use this if APP sync authentication Type is OPENID_CONNECT
-   */
-  readonly iatTtl: number;
-
-  /**
-   * Configuration for AWS Lambda function authorization.
-   * Use this if APP sync authentication Type is OPENID_CONNECT
-   */
-  readonly issuer: string;
-
-}
-
-export interface LogConfigProps {
-  /**
-   * The service role that AWS AppSync assumes to publish to CloudWatch logs in your account.
-   *  @default None
-   */
-  readonly cloudWatchLogsRoleArn: string;
-
-  /**
-   * Log level
-   *  @default None
-   */
-  readonly fieldLogLevel: string;
-
-  /**
-   * Set to TRUE to exclude sections that contain information such as
-   * headers, context, and evaluated mapping templates, regardless of logging level.
-   *  @default false
-   */
-  readonly excludeVerboseContent: boolean;
+  readonly mergedApiRole: iam.Role;
 
 }
 /**
@@ -133,72 +77,93 @@ export interface LogConfigProps {
  * build app sync merge api with source api associations
  *
  * @param AppsyncMergedApiProps The  props to be used by the construct
+ * @param  apiType - MERGED, GRAPHQL
  * @returns App sync merge api
  */
-export function buildMergedAPI(scope: Construct, props: AppsyncMergedApiProps, logProps: LogConfigProps) {
+export function buildMergedAPI(scope: Construct, id: string, props: AppsyncMergedApiProps) {
 
-  let mergedapi = new appsync.CfnGraphQLApi(scope, props?.appsyncmergedApiName, {
-    apiType: 'MERGED',
-    name: props?.appsyncmergedApiName,
-    authenticationType: props?.authenticationType,
-    additionalAuthenticationProviders: [getAdditionalAuthenticationMode(props)],
-    logConfig: {
-      cloudWatchLogsRoleArn: setAppsyncCloudWatchlogsRole(scope, props).roleArn,
-      fieldLogLevel: logProps?.fieldLogLevel,
-      excludeVerboseContent: logProps.excludeVerboseContent,
-    },
-    xrayEnabled: true,
-    mergedApiExecutionRoleArn: getMergedAPIRole(scope, props).roleArn,
-    ownerContact: props.appsyncMergedApiContact,
-  });
+  if (props.existingMergeApi) {
+    return props.existingMergeApi;
+  } else {
+    const mergeAPIname = props.cfnGraphQLApiProps?.name || 'appsyncmergeAPI';
+    const apiType = props.cfnGraphQLApiProps?.apiType || 'MERGED';
+    const fieldLogLevel = props?.fieldLogLevel || appsync.FieldLogLevel.NONE;
+    const excludeVerboseContent = props?.excludeVerboseContent || false;
+    const xRayEnabled = props?.xRayEnabled || false;
 
-  return mergedapi;
+    let mergedApi = new appsync.CfnGraphQLApi(scope, id, {
+      apiType: apiType,
+      name: mergeAPIname,
+      authenticationType: props.cfnGraphQLApiProps!.authenticationType,
+      userPoolConfig: props.cfnGraphQLApiProps?.userPoolConfig,
+      additionalAuthenticationProviders: [{
+        authenticationType: 'AWS_IAM',
+      }],
+      logConfig: {
+        cloudWatchLogsRoleArn: setAppsyncCloudWatchlogsRole(scope, props).roleArn,
+        fieldLogLevel: fieldLogLevel,
+        excludeVerboseContent: excludeVerboseContent,
+      },
+      xrayEnabled: xRayEnabled,
+      mergedApiExecutionRoleArn: props.mergedApiRole.roleArn,
+      ownerContact: props?.cfnGraphQLApiProps!.ownerContact,
+    });
 
+    return mergedApi;
+  }
 }
 
-function getAdditionalAuthenticationMode(props: AppsyncMergedApiProps) {
+export function checkAppsyncMergedApiProps(propsObject: AppsyncMergedApiProps | any) {
+  let errorMessages = '';
+  let errorFound = false;
 
-  if (props.authenticationType == 'AMAZON_COGNITO_USER_POOLS') {
-    const additionalAuthenticationMode: appsync.CfnGraphQLApi.AdditionalAuthenticationProviderProperty = {
-      authenticationType: props?.authenticationType,
-      userPoolConfig: {
-        awsRegion: props?.region,
-        userPoolId: props?.userpoolid,
-      },
-    };
-    return additionalAuthenticationMode;
-  } else if (props.authenticationType == 'AWS_LAMBDA') {
-    const additionalAuthenticationMode: appsync.CfnGraphQLApi.AdditionalAuthenticationProviderProperty = {
-      authenticationType: props?.authenticationType,
-      lambdaAuthorizerConfig: {
-        authorizerResultTtlInSeconds: props?.authorizerResultTtlInSeconds,
-        authorizerUri: props?.authorizerUri,
-        identityValidationExpression: props?.identityValidationExpression,
-      },
-
-    };
-    return additionalAuthenticationMode;
-  } else if (props.authenticationType == 'OPENID_CONNECT') {
-    const additionalAuthenticationMode: appsync.CfnGraphQLApi.AdditionalAuthenticationProviderProperty = {
-      authenticationType: props?.authenticationType,
-      openIdConnectConfig: {
-        authTtl: props?.authTtl,
-        clientId: props?.clientId,
-        iatTtl: props?.iatTtl,
-        issuer: props?.issuer,
-      },
-    };
-    return additionalAuthenticationMode;
+  if (propsObject.existingMergeApi && propsObject.cfnGraphQLApiProps) {
+    errorMessages += 'Error - Either provide existingMergeApi or cfnGraphQLApiProps, but not both.\n';
+    errorFound = true;
   }
-  const additionalAuthenticationMode: appsync.CfnGraphQLApi.AdditionalAuthenticationProviderProperty = {
-    authenticationType: props?.authenticationType,
-  };
-  return additionalAuthenticationMode;
+  if (!propsObject.existingMergeApi && !propsObject.cfnGraphQLApiProps) {
+    errorMessages += 'Error - Atleast one is required either existingMergeApi or cfnGraphQLApiProps.\n';
+    errorFound = true;
+  }
+
+  if (errorFound) {
+    throw new Error(errorMessages);
+  }
+}
+
+
+/**
+ * @internal This is an internal core function and should not be called directly
+ * by Solutions Constructs clients.
+ * set the merge api role to access source api associations
+ *
+ * @param AppsyncMergedApiProps The  props to be used by the construct
+ * @param mergedAPI app sync graphql api
+ * @param mergedApiRole iam role
+ * @returns App sync merge api role
+ */
+export function setMergedApiRole(mergedApiID: String, sourceApiId: String, mergedApiRole: iam.Role ) {
+  mergedApiRole.addToPolicy(
+    new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: ['appsync:SourceGraphQL',
+        'appsync:StartSchemaMerge'],
+      resources: [
+        'arn:aws:appsync:' + Aws.REGION + ':' + Aws.ACCOUNT_ID
+           + ':apis/' + sourceApiId + '/*',
+        'arn:aws:appsync:'+ Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+mergedApiID+'/sourceApiAssociations/*',
+        'arn:aws:appsync:'+ Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+sourceApiId+'/sourceApiAssociations/*',
+      ],
+    }),
+  );
+
+  return mergedApiRole;
 }
 
 function setAppsyncCloudWatchlogsRole(scope: Construct, props: AppsyncMergedApiProps) {
+  const appsyncServicePrincipleRole = props.appsyncServicePrincipleRole || 'appsync.amazonaws.com';
   let appsynccloudWatchlogsRole = new iam.Role(scope, 'appsynccloudWatchlogsRole', {
-    assumedBy: new iam.ServicePrincipal(props.appsyncServicePrincipleRole),
+    assumedBy: new iam.ServicePrincipal(appsyncServicePrincipleRole),
   });
   appsynccloudWatchlogsRole.addToPolicy(
     new iam.PolicyStatement({
@@ -208,35 +173,4 @@ function setAppsyncCloudWatchlogsRole(scope: Construct, props: AppsyncMergedApiP
     }),
   );
   return appsynccloudWatchlogsRole;
-}
-
-function getMergedAPIRole(scope: Construct, props: AppsyncMergedApiProps) {
-  return new iam.Role(scope, 'mergedapirole', {
-    assumedBy: new iam.ServicePrincipal(props.appsyncServicePrincipleRole),
-  });
-}
-
-/**
- * @internal This is an internal core function and should not be called directly by Solutions Constructs clients.
- *
- * set the merge api role to access source api associations
- *
- * @param AppsyncMergedApiProps The  props to be used by the construct
- * @param mergedAPI app sync graphql api
- * @param mergedApiRole iam role
- * @returns App sync merge api role
- */
-export function setMergedApiRole(props: AppsyncMergedApiProps, mergedAPI: appsync.CfnGraphQLApi, mergedApiRole: iam.Role ) {
-  mergedApiRole.addToPolicy(
-    new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW,
-      actions: ['appsync:StartSchemaMerge'],
-      resources: [
-        'arn:aws:appsync:' + props.region + ':' + props.accountid + ':apis/'
-        + mergedAPI.attrApiId + '/sourceApiAssociations/*',
-      ],
-    }),
-  );
-
-  return mergedApiRole;
 }
