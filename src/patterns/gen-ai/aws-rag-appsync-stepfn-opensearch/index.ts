@@ -20,8 +20,9 @@ import * as targets from 'aws-cdk-lib/aws-events-targets';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as logs from 'aws-cdk-lib/aws-logs';
+import * as opensearchservice from 'aws-cdk-lib/aws-opensearchservice';
 import * as s3 from 'aws-cdk-lib/aws-s3';
-import * as secrets from 'aws-cdk-lib/aws-secretsmanager';
+import * as secret from 'aws-cdk-lib/aws-secretsmanager';
 import * as stepfn from 'aws-cdk-lib/aws-stepfunctions';
 import * as stepfn_task from 'aws-cdk-lib/aws-stepfunctions-tasks';
 import { Construct } from 'constructs';
@@ -87,17 +88,11 @@ export interface RagAppsyncStepfnOpensearchProps {
    */
   readonly bucketProcessedAssetsProps?: s3.BucketProps;
   /**
-   * Domain name for the OpenSearch Service.
-   *
-   * @default - None
-   */
-  readonly openSearchDomainName: string;
-  /**
-   * Domain endpoint for the OpenSearch Service.
-   *
-   * @default - None
-   */
-  readonly openSearchDomainEndpoint: string;
+     * Existing Amazon OpenSearch Service domain.
+     *
+     * @default - None
+     */
+  readonly existinOpensearchDomain: opensearchservice.IDomain;
   /**
    * Index name for the OpenSearch Service.
    *
@@ -105,23 +100,17 @@ export interface RagAppsyncStepfnOpensearchProps {
    */
   readonly openSearchIndexName: string;
   /**
-   * SecretsManager secret id to access the OpenSearch Service.
-   *
-   * @default - None
-   */
-  readonly openSearchSecretId: string;
+     * SecretsManager secret to authenticate against the OpenSearch Service domain.
+     *
+     * @default - None
+     */
+  readonly openSearchSecret: secret.ISecret;
   /**
-   * URL endpoint of the appsync merged api.
+   * Existing merged Appsync GraphQL api.
    *
    * @default - None
    */
-  readonly mergedApiGraphQLEndpoint?: string;
-  /**
-   * ApiId of the appsync merged api.
-   *
-   * @default - None
-   */
-  readonly mergedApiGraphQLId?: string;
+  readonly existingMergedApi?: appsync.CfnGraphQLApi;
   /**
    * Cognito user pool used for authentication.
    *
@@ -317,8 +306,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
 
     // If the user provides a mergedApi endpoint, the lambda
     // functions will use this endpoint to send their status updates
-    const updateGraphQlApiEndpoint = !props.mergedApiGraphQLEndpoint ? ingestion_graphql_api.graphqlUrl : props.mergedApiGraphQLEndpoint;
-    const updateGraphQlApiId = !props.mergedApiGraphQLId ? ingestion_graphql_api.apiId : props.mergedApiGraphQLId;
+    const updateGraphQlApiEndpoint = !props.existingMergedApi ? ingestion_graphql_api.graphqlUrl : props.existingMergedApi.attrGraphQlUrl;
+    const updateGraphQlApiId = !props.existingMergedApi ? ingestion_graphql_api.apiId : props.existingMergedApi.attrApiId;
 
     const job_status_data_source = new appsync.NoneDataSource(
       this,
@@ -453,15 +442,14 @@ export class RagAppsyncStepfnOpensearch extends Construct {
           OUTPUT_BUCKET: this.s3ProcessedAssetsBucketInterface.bucketName,
           GRAPHQL_URL: updateGraphQlApiEndpoint,
           OPENSEARCH_INDEX: props.openSearchIndexName,
-          OPENSEARCH_DOMAIN_ENDPOINT: props.openSearchDomainEndpoint,
-          OPENSEARCH_SECRET_ID: props.openSearchSecretId,
+          OPENSEARCH_DOMAIN_ENDPOINT: props.existinOpensearchDomain.domainEndpoint,
+          OPENSEARCH_SECRET_ID: props.openSearchSecret.secretName,
         },
       },
     );
 
     // The lambda will access the opensearch credentials
-    const openSearchSecret = secrets.Secret.fromSecretNameV2(this, 'openSearchSecret', props.openSearchSecretId);
-    openSearchSecret.grantRead(embeddings_job_function);
+    props.openSearchSecret.grantRead(embeddings_job_function);
 
     // The lambda will pull processed files and create embeddings
     this.s3ProcessedAssetsBucket?.grantRead(embeddings_job_function);
@@ -470,8 +458,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       effect: iam.Effect.ALLOW,
       actions: ['es:*'],
       resources: [
-        'arn:aws:es:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':domain/'+props.openSearchDomainName+'/*',
-        'arn:aws:es:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':domain/'+props.openSearchDomainName,
+        'arn:aws:es:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':domain/'+props.existinOpensearchDomain.domainName+'/*',
+        'arn:aws:es:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':domain/'+props.existinOpensearchDomain.domainName,
       ],
     }));
 
