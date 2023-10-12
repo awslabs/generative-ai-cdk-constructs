@@ -8,8 +8,8 @@ from langchain.text_splitter import NLTKTextSplitter
 from PyPDF2 import PdfReader
 from aws_lambda_powertools import Logger, Tracer
 
-logger = Logger(service="INGESTION_FILE_TRANSFORMER")
-tracer = Tracer(service="INGESTION_FILE_TRANSFORMER")
+logger = Logger(service="SUMMARY_DOCUMENT_READER")
+tracer = Tracer(service="SUMMARY_DOCUMENT_READER")
 
 @tracer.capture_method
 class S3FileLoaderInMemory(BaseLoader):

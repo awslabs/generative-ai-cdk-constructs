@@ -17,50 +17,58 @@ import { Construct } from 'constructs';
 export interface RedisProps {
 
   /**
-   * Existing instance of a VPC, if this is set then the all Props are ignored,
+   * Required. Existing instance of a VPC, if this is set then the all Props are ignored,
    * if this is not set then deafultVPC Props are used.
    */
   readonly existingVpc: ec2.IVpc;
 
   /**
-   * cfnCacheClusterProps
+   * Optional cfnCacheClusterProps
    * @default cacheNodeType -  'cache.r6g.xlarge'
    * @default numCacheNodes- 1
    */
-  readonly cfnCacheClusterProps: elasticache.CfnCacheClusterProps;
+  readonly cfnCacheClusterProps?: elasticache.CfnCacheClusterProps;
 
   /**
-   * name  of redis Security Group
+  * Optional. Existing Redis cluster to cache the generated summary
+  * for subsequent request of same document.
+  *
+  * @default - none
+  */
+  readonly existingRedisCulster?:  elasticache.CfnCacheCluster;
+
+  /**
+   * Optional .name  of redis Security Group
    * @default 'redisSecurityGroup'
    */
-  readonly redisSecurityGroupname: string;
+  readonly redisSecurityGroupname?: string;
 
   /**
-   * redis Security Group
+   * Required. redis Security Group
    *
    */
   readonly redisSecurityGroup: ec2.SecurityGroup;
 
   /**
-   * list of subnet Ids
+   * Required. list of subnet Ids
    * @default None
    */
   readonly subnetIds: string [];
 
   /**
-   * redis Subnet Group Id
+   * Required. redis Subnet Group Id
    * @default redisSubnetGroup
    */
   readonly redisSubnetGroupId: string;
 
   /**
-   * lambda security group which will acces the redis cluster
+   * Required. lambda security group which will acces the redis cluster
    *
    */
   readonly inboundSecurityGroup: ec2.ISecurityGroup;
 
   /**
-   * redis port number
+   * Optional. redis port number
    * @default redisPort
    */
   readonly redisPort?: number;

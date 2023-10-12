@@ -1,6 +1,6 @@
 aws-lambda-powertools
 fastjsonschema
 aws-xray-sdk
-boto3
-requests
-requests-aws4auth
+boto3>=1.28.61
+requests==2.31.0
+requests-aws4auth==1.2.3

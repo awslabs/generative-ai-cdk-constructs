@@ -6,8 +6,8 @@ from requests_aws4auth import AWS4Auth
 
 from aws_lambda_powertools import Logger, Tracer
 
-logger = Logger(service="SUMMARY_")
-tracer = Tracer(service="SUMMARY_INPUT_VALIDATION")
+logger = Logger(service="SUMMARY_GENERATION")
+tracer = Tracer(service="SUMMARY_GENERATION")
 
 aws_region = boto3.Session().region_name
 credentials = boto3.Session().get_credentials()
@@ -49,8 +49,6 @@ def updateSummaryJobStatus(variables):
     query = query.replace("$summary", variables['summary'])
     
 
-    # query = query.replace("\"file_name\"", "file_name")
-    # query = query.replace("\"status\"", "status")
     query = query.replace("\n", "")
     
     request = {'query':query}

@@ -1,8 +1,6 @@
 import os
 from helper import check_file_exists,get_file_transformation
 import redis
-from jproperties import Properties
-import os.path as path
 
 from update_summary_status import updateSummaryJobStatus
 from aws_lambda_powertools import Logger, Tracer, Metrics

@@ -162,7 +162,7 @@ export interface SummarizationAppsyncStepfnProps {
    */
   readonly cfnGraphQLApiProps?: appsync.CfnGraphQLApiProps;
 
-  
+
   /**
    * Optional. Logging configuration for AppSync
    * @default - fieldLogLevel - None

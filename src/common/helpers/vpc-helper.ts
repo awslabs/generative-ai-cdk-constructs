@@ -12,7 +12,6 @@
  */
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import { Construct } from 'constructs';
-//import { consolidateProps } from './utils';
 
 
 export interface VpcPropsSet {

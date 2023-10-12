@@ -12,10 +12,7 @@ RUN pip install -r requirements.txt
 
 # Be sure to copy over the function itself!
 # Goes last to take advantage of Docker caching.
-# COPY main.py ./
-# COPY whiskeylangchainfunction ./whiskeylangchainfunction
-# COPY llms ./llms
-# COPY claims_agent ./claims_agent
+# COPY lambda.py ./
 COPY . .
 
 # Points to the handler function of your lambda function

@@ -32,7 +32,7 @@ export interface AppsyncMergedApiProps {
    * @default - name - appsyncmergeAPI
    *
    */
-  readonly cfnGraphQLApiProps: appsync.CfnGraphQLApiProps;
+  readonly cfnGraphQLApiProps?: appsync.CfnGraphQLApiProps;
 
   /**
    * OPTIONAL cognito user pool id for appsync auth
@@ -41,16 +41,17 @@ export interface AppsyncMergedApiProps {
   readonly userPoolId?: string;
 
   /**
-   * appsync service principle role
+   * Required appsync service principle role
+   * @default - appsync.amazonaws.com
    */
   readonly appsyncServicePrincipleRole: string;
-
 
   /**
    * Optional Field log level
    * @default None
    */
   readonly fieldLogLevel?: string;
+
   /**
    * Optional log verbose content
    * @default false
@@ -84,7 +85,6 @@ export function buildMergedAPI(scope: Construct, id: string, props: AppsyncMerge
   if (props.existingMergeApi) {
     return props.existingMergeApi;
   } else {
-    console.log('build merge api');
     const mergeAPIname = props.cfnGraphQLApiProps?.name || 'appsyncmergeAPI';
     const apiType = props.cfnGraphQLApiProps?.apiType || 'MERGED';
     const fieldLogLevel = props?.fieldLogLevel || appsync.FieldLogLevel.NONE;
@@ -94,8 +94,8 @@ export function buildMergedAPI(scope: Construct, id: string, props: AppsyncMerge
     let mergedApi = new appsync.CfnGraphQLApi(scope, id, {
       apiType: apiType,
       name: mergeAPIname,
-      authenticationType: props.cfnGraphQLApiProps.authenticationType,
-      userPoolConfig: props.cfnGraphQLApiProps.userPoolConfig,
+      authenticationType: props.cfnGraphQLApiProps!.authenticationType,
+      userPoolConfig: props.cfnGraphQLApiProps?.userPoolConfig,
       additionalAuthenticationProviders: [{
         authenticationType: 'AWS_IAM',
       }],
@@ -161,8 +161,9 @@ export function setMergedApiRole(mergedApiID: String, sourceApiId: String, merge
 }
 
 function setAppsyncCloudWatchlogsRole(scope: Construct, props: AppsyncMergedApiProps) {
+  const appsyncServicePrincipleRole = props.appsyncServicePrincipleRole || 'appsync.amazonaws.com';
   let appsynccloudWatchlogsRole = new iam.Role(scope, 'appsynccloudWatchlogsRole', {
-    assumedBy: new iam.ServicePrincipal(props.appsyncServicePrincipleRole),
+    assumedBy: new iam.ServicePrincipal(appsyncServicePrincipleRole),
   });
   appsynccloudWatchlogsRole.addToPolicy(
     new iam.PolicyStatement({
