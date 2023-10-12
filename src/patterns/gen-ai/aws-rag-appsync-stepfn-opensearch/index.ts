@@ -92,7 +92,7 @@ export interface RagAppsyncStepfnOpensearchProps {
      *
      * @default - None
      */
-  readonly existinOpensearchDomain: opensearchservice.CfnDomain;
+  readonly existinOpensearchDomain: opensearchservice.IDomain;
   /**
    * Index name for the OpenSearch Service.
    *
@@ -442,7 +442,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
           OUTPUT_BUCKET: this.s3ProcessedAssetsBucketInterface.bucketName,
           GRAPHQL_URL: updateGraphQlApiEndpoint,
           OPENSEARCH_INDEX: props.openSearchIndexName,
-          OPENSEARCH_DOMAIN_ENDPOINT: props.existinOpensearchDomain.attrDomainEndpoint,
+          OPENSEARCH_DOMAIN_ENDPOINT: props.existinOpensearchDomain.domainEndpoint,
           OPENSEARCH_SECRET_ID: props.openSearchSecret.secretName,
         },
       },

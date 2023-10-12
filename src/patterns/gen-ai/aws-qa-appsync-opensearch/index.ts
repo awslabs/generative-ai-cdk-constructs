@@ -77,7 +77,7 @@ export interface QaAppsyncOpensearchProps {
      *
      * @default - None
      */
-  readonly existinOpensearchDomain: opensearchservice.CfnDomain;
+  readonly existinOpensearchDomain: opensearchservice.IDomain;
   /**
      * Data Index name for the OpenSearch Service.
      *
@@ -311,7 +311,7 @@ export class QaAppsyncOpensearch extends Construct {
         environment: {
           GRAPHQL_URL: updateGraphQlApiEndpoint,
           INPUT_BUCKET: this.s3InputAssetsBucketInterface.bucketName,
-          OPENSEARCH_DOMAIN_ENDPOINT: props.existinOpensearchDomain.attrDomainEndpoint,
+          OPENSEARCH_DOMAIN_ENDPOINT: props.existinOpensearchDomain.domainEndpoint,
           OPENSEARCH_INDEX: props.openSearchIndexName,
           OPENSEARCH_SECRET_ID: props.openSearchSecret.secretName,
         },
