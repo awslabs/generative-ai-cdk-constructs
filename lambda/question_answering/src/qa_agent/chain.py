@@ -24,6 +24,7 @@ logger = Logger(service="QUESTION_ANSWERING")
 tracer = Tracer(service="QUESTION_ANSWERING")
 metrics = Metrics(namespace="question_answering", service="QUESTION_ANSWERING")
 
+@tracer.capture_method
 def run_question_answering(arguments):
 
     # select the methodology based on the input size
@@ -38,6 +39,7 @@ def run_question_answering(arguments):
         logger.exception(f'Failed to compute the number of tokens for file {filename} in bucket {bucket_name}, returning')
         status_variables = {
             'jobstatus':'Failed to load information about the requested file',
+            #Sorry, but I am not able to access the document specified.
             'answer':'U29ycnksIGJ1dCBJIGFtIG5vdCBhYmxlIHRvIGFjY2VzcyB0aGUgZG9jdW1lbnQgc3BlY2lmaWVkLg==',
             'jobid': arguments['jobid'],
             'filename': filename,
@@ -149,6 +151,7 @@ def run_qa_agent_rag_single_document_no_memory(input_params):
     except Exception as err:
         logger.exception(err)
         status_variables['jobstatus'] = 'Exception during prediction'
+        #Sorry, it seems an issue happened on my end, and I'm not able to answer your question. Please contact an administrator to understand why !
         status_variables['answer'] = "U29ycnksIGl0IHNlZW1zIGFuIGlzc3VlIGhhcHBlbmVkIG9uIG15IGVuZCwgYW5kIEknbSBub3QgYWJsZSB0byBhbnN3ZXIgeW91ciBxdWVzdGlvbi4gUGxlYXNlIGNvbnRhY3QgYW4gYWRtaW5pc3RyYXRvciB0byB1bmRlcnN0YW5kIHdoeSAh"
         send_job_status(status_variables)
         return
@@ -218,6 +221,7 @@ def run_qa_agent_from_single_document_no_memory(input_params):
 
     if _file_content is None:
         status_variables['jobstatus'] = 'Failed to load document content'
+        #It seems I cannot load the document you are referring to, please verify that the document was correctly ingested or contect an administrator to get more information.
         status_variables['answer'] = 'SXQgc2VlbXMgSSBjYW5ub3QgbG9hZCB0aGUgZG9jdW1lbnQgeW91IGFyZSByZWZlcnJpbmcgdG8sIHBsZWFzZSB2ZXJpZnkgdGhhdCB0aGUgZG9jdW1lbnQgd2FzIGNvcnJlY3RseSBpbmdlc3RlZCBvciBjb250ZWN0IGFuIGFkbWluaXN0cmF0b3IgdG8gZ2V0IG1vcmUgaW5mb3JtYXRpb24u'
         send_job_status(status_variables)
         return
@@ -228,6 +232,7 @@ def run_qa_agent_from_single_document_no_memory(input_params):
     if (_qa_llm is None):
         logger.info('llm is None, returning')
         status_variables['jobstatus'] = 'Failed to load the llm'
+        #An internal error happened, and I am not able to load my brain, please contact an administrator 
         status_variables['answer'] = 'QW4gaW50ZXJuYWwgZXJyb3IgaGFwcGVuZWQsIGFuZCBJIGFtIG5vdCBhYmxlIHRvIGxvYWQgbXkgYnJhaW4sIHBsZWFzZSBjb250YWN0IGFuIGFkbWluaXN0cmF0b3Ig'
         send_job_status(status_variables)
         return
@@ -248,6 +253,7 @@ def run_qa_agent_from_single_document_no_memory(input_params):
     except Exception as err:
         logger.exception(err)
         status_variables['jobstatus'] = 'Exception during prediction'
+        #Sorry, it seems an issue happened on my end, and I'm not able to answer your question. Please contact an administrator to understand why !
         status_variables['answer'] = "U29ycnksIGl0IHNlZW1zIGFuIGlzc3VlIGhhcHBlbmVkIG9uIG15IGVuZCwgYW5kIEknbSBub3QgYWJsZSB0byBhbnN3ZXIgeW91ciBxdWVzdGlvbi4gUGxlYXNlIGNvbnRhY3QgYW4gYWRtaW5pc3RyYXRvciB0byB1bmRlcnN0YW5kIHdoeSAh"
         send_job_status(status_variables)
         return

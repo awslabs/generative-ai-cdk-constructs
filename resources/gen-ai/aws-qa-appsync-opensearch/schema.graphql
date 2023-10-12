@@ -1,13 +1,10 @@
 type QADocs @aws_iam @aws_cognito_user_pools {
 	jobid: ID
-	workflow_type: String
 	handler_type: String
-	llm_endpoint: String
 	question: String
 	max_docs: Int
 	verbose: Boolean
 	filename: String
-	session_id: String
 	answer: String
 	sources: [String]
 	jobstatus: String
@@ -15,28 +12,22 @@ type QADocs @aws_iam @aws_cognito_user_pools {
 
 input QADocsInput {
 	jobid: ID
-	workflow_type: String
 	handler_type: String
-	llm_endpoint: String
 	question: String
 	max_docs: Int
 	filename: String
 	verbose: Boolean
-	session_id: String
 }
 
 type Mutation @aws_iam @aws_cognito_user_pools {
 	postQuestion(
 		jobid: ID,
 		jobstatus: String,
-		workflow_type: String,
 		handler_type: String,
 		filename: String,
-		llm_endpoint: String,
 		question: String,
 		max_docs: Int,
 		verbose: Boolean,
-		session_id: String
 	): QADocs
 	updateQAJobStatus(
 		jobid: ID,
