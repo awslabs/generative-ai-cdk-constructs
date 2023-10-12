@@ -141,12 +141,12 @@ export interface SummarizationAppsyncStepfnProps {
   readonly eventBusProps?: events.EventBusProps;
 
   /**
-   * Optional. Existing merge api instance. This  construct create a merge API to support
+   * Required. Existing merge api instance. This  construct create a merge API to support
    * multiple modalities with different source APIs. The merge API provode a fedeareted schema over source API schemas.
    *
    * @default None
    */
-  readonly existingMergeApi?: appsync.CfnGraphQLApi;
+  readonly existingMergeApi: appsync.CfnGraphQLApi;
 
   /**
    * Optional. User provided Name for summary api on appsync.
@@ -154,13 +154,6 @@ export interface SummarizationAppsyncStepfnProps {
    * @default 'summaryApi'
    */
   readonly summaryApiName?: string;
-
-  /**
-   * Optional. User provided appsync props.
-   *
-   * @default - Default props are used.
-   */
-  readonly cfnGraphQLApiProps?: appsync.CfnGraphQLApiProps;
 
 
   /**
@@ -360,22 +353,11 @@ export class SummarizationAppsyncStepfn extends Construct {
       assumedBy: new iam.ServicePrincipal(appsyncServicePrincipleRoleName),
     });
 
-    // Create merge api with default settings only when cfnGraphQLApiProps is set
 
+    this.mergeApi = props.existingMergeApi;
 
-    if (props?.cfnGraphQLApiProps) {
-      this.mergeApi = appsyncMergedApi.buildMergedAPI(this, 'appsyncMergedApi-'+stage, {
-        cfnGraphQLApiProps: props.cfnGraphQLApiProps,
-        appsyncServicePrincipleRole: appsyncServicePrincipleRoleName,
-        mergedApiRole: mergeApiRole,
-      });
-    } else {
-      this.mergeApi = props.existingMergeApi;
-    }
-
-
-    const mergeApiId = this.mergeApi?.attrApiId!;
-    const mergeapiurl = this.mergeApi?.attrGraphQlUrl!;
+    const mergeApiId = this.mergeApi.attrApiId;
+    const mergeapiurl = this.mergeApi.attrGraphQlUrl;
 
     // cognito auth for app sync
     const cognitoUserPool = cognito.UserPool.fromUserPoolId(this,

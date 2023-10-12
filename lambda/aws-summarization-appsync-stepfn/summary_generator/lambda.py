@@ -25,15 +25,19 @@ from helper import  read_file_from_s3
 transformed_bucket_name = os.environ["ASSET_BUCKET_NAME"]
 chain_type = os.environ["SUMMARY_LLM_CHAIN_TYPE"]
 
+aws_region = boto3.Session().region_name
+bedrock_client = boto3.client(
+        service_name='bedrock-runtime', 
+        region_name=aws_region,
+        endpoint_url=f'https://bedrock-runtime.{aws_region}.amazonaws.com'
+    )
+
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler
 @metrics.log_metrics(capture_cold_start_metric=True)
 def handler(event, context: LambdaContext)-> dict:
     logger.info("Starting summary agent with input", event)
 
-    # set input params
-    #set_transformer_cache_dir(os.environ["TRANSFORMERS_CACHE"])
-    #set_nltk_data()
 
     job_id = event["summary_job_id"]
 
@@ -52,12 +56,7 @@ def handler(event, context: LambdaContext)-> dict:
         "summary": ""
     }
   
-    aws_region = boto3.Session().region_name
-    bedrock_client = boto3.client(
-        service_name='bedrock-runtime', 
-        region_name=aws_region,
-        endpoint_url=f'https://bedrock-runtime.{aws_region}.amazonaws.com'
-    )
+    
 
     summary_llm = Bedrock(
         model_id="anthropic.claude-v2",

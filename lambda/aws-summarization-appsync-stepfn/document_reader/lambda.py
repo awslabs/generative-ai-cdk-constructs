@@ -42,7 +42,7 @@ def handler(event, context: LambdaContext):
     filesummary = get_summary_from_cache(original_file_name)
     
     if filesummary is not None:
-        metrics.add_metric(name="summary_from_cache",unit=MetricUnit.Count, value=1)
+        metrics.add_metric(name="summary_cache_hit",unit=MetricUnit.Count, value=1)
         response.update(
             {
                 "file_name": original_file_name, 
@@ -52,7 +52,7 @@ def handler(event, context: LambdaContext):
             }
         )
     else:
-        metrics.add_metric(name="summary_from_llm", unit=MetricUnit.Count, value=1)
+        metrics.add_metric(name="summary_llm_hit", unit=MetricUnit.Count, value=1)
         transformed_file_name = original_file_name.replace(".pdf", "_transformed.txt")
         
         if(is_file_tranformation_required):
