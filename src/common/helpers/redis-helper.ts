@@ -35,7 +35,7 @@ export interface RedisProps {
   *
   * @default - none
   */
-  readonly existingRedisCulster?:  elasticache.CfnCacheCluster;
+  readonly existingRedisCulster?: elasticache.CfnCacheCluster;
 
   /**
    * Optional .name  of redis Security Group
