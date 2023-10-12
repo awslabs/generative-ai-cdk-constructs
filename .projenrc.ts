@@ -62,17 +62,19 @@ const project = new awscdk.AwsCdkConstructLibrary({
   license: 'Apache-2.0',
   copyrightPeriod: '2023-',
   copyrightOwner: 'Amazon.com, Inc. or its affiliates. All Rights Reserved.',
-  gitignore: ['*.DS_STORE', '!.node-version'],
+  gitignore: ['*.DS_STORE', '!.node-version', '*.pyc', '__pycache__/'],
   stability: 'experimental',
   sampleCode: false,
   stale: true,
 });
-
 // Add some useful github workflows
 buildMeritBadgerWorkflow(project);
 buildMonthlyIssuesMetricsWorkflow(project);
 buildUpdateContributorsWorkflow(project);
 buildAutoApproveWorkflow(project);
+
+// We don't want to package the use cases
+project.npmignore?.addPatterns('/use-cases/');
 
 // Add License header automatically
 project.eslint?.addPlugins('header');
