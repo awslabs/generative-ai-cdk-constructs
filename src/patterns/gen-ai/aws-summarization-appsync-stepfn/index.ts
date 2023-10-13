@@ -26,7 +26,6 @@ import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as sfn from 'aws-cdk-lib/aws-stepfunctions';
 import * as sfnTask from 'aws-cdk-lib/aws-stepfunctions-tasks';
 import { Construct } from 'constructs';
-import * as appsyncMergedApi from '../../../common/helpers/appsyncmergedapi-helper';
 import * as eventBridge from '../../../common/helpers/eventbridge-helper';
 import * as redisHelper from '../../../common/helpers/redis-helper';
 import * as s3BucketHelper from '../../../common/helpers/s3-bucket-helper';
@@ -190,21 +189,21 @@ export class SummarizationAppsyncStepfn extends Construct {
   /**
    * Returns an instance of events.IEventBus created by the construct
    */
-  public readonly eventBridgeBus: events.IEventBus | undefined;
+  public readonly eventBridgeBus: events.IEventBus;
   /**
    * Returns an instance of appsync.CfnGraphQLApi for merge api created by the construct
    */
-  public readonly mergeApi: appsync.CfnGraphQLApi | undefined;
+  public readonly mergeApi: appsync.CfnGraphQLApi;
 
   /**
    * Returns an instance of appsync.CfnGraphQLApi for summary created by the construct
    */
-  public readonly summaryGraphqlApi: appsync.IGraphqlApi | undefined;
+  public readonly summaryGraphqlApi: appsync.IGraphqlApi ;
 
   /**
    * Returns an instance of redis cluster created by the construct
    */
-  public readonly redisCluster: elasticache.CfnCacheCluster | undefined;
+  public readonly redisCluster: elasticache.CfnCacheCluster;
 
   /**
    * Returns the instance of ec2.IVpc used by the construct
@@ -218,12 +217,12 @@ export class SummarizationAppsyncStepfn extends Construct {
   /**
    * Returns the instance of s3.IBucket used by the construct
    */
-  public readonly inputAssetBucket: s3.IBucket | undefined;
+  public readonly inputAssetBucket: s3.IBucket;
 
   /**
    * Returns the instance of s3.IBucket used by the construct
    */
-  public readonly processedAssetBucket: s3.IBucket | undefined;
+  public readonly processedAssetBucket: s3.IBucket;
 
   /**
    * Logging configuration for AppSync
@@ -330,7 +329,7 @@ export class SummarizationAppsyncStepfn extends Construct {
       });
       redisHelper.setInboundRules(redisSecurityGroup, this.securityGroup);
     } else {
-      this.redisCluster= props?.existingRedisCulster;
+      this.redisCluster= props?.existingRedisCulster!;
     }
 
     const redisHost = this.redisCluster?.attrRedisEndpointAddress!;
@@ -343,16 +342,6 @@ export class SummarizationAppsyncStepfn extends Construct {
       existingEventBusInterface: props.existingEventBusInterface,
       eventBusProps: props.eventBusProps,
     });
-
-
-    appsyncMergedApi.checkAppsyncMergedApiProps(props);
-
-    const appsyncServicePrincipleRoleName = 'appsync.amazonaws.com';
-
-    const mergeApiRole = new iam.Role(this, 'mergedapirole'+stage, {
-      assumedBy: new iam.ServicePrincipal(appsyncServicePrincipleRoleName),
-    });
-
 
     this.mergeApi = props.existingMergeApi;
 
@@ -405,25 +394,6 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     const updateGraphQlApiId = !mergeApiId ? summarizationGraphqlApi.apiId : mergeApiId;
 
-
-    // associate source api with merge api
-    const sourceApiAssociationConfigProperty:
-    appsync.CfnSourceApiAssociation.SourceApiAssociationConfigProperty = {
-      mergeType: 'AUTO_MERGE',
-    };
-
-    const sourceApiAssociation = new appsync.CfnSourceApiAssociation(this,
-      'sourceApiAssociations'+stage,
-      {
-        mergedApiIdentifier: mergeApiId,
-        sourceApiAssociationConfig: sourceApiAssociationConfigProperty,
-        sourceApiIdentifier: summarizationGraphqlApi.apiId,
-      });
-
-    sourceApiAssociation.node.addDependency(summarizationGraphqlApi);
-
-    // update merge api role with access
-    appsyncMergedApi.setMergedApiRole(mergeApiId, summarizationGraphqlApi.apiId, mergeApiRole);
 
     // Lambda function to validate Input
     const inputValidatorLambda =
