@@ -134,7 +134,7 @@ BREAKING CHANGE: Description of what broke and how to achieve this behavior now
   for you when you finalize your merge commit message.
 * Make sure to update the PR title/description if things change. The PR title/description are going to be used as the
   commit title/message and will appear in the CHANGELOG, so maintain them all the way throughout the process.
-* Make sure your PR builds successfully (we have Github actions setup to automatically build all PRs)
+* Make sure your PR builds successfully (we have GitHub actions setup to automatically build all PRs)
 
 #### Build steps
 
