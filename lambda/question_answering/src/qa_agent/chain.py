@@ -1,9 +1,3 @@
-#opensearch
-from .helper import load_vector_db_opensearch, send_job_status
-
-#s3
-from .s3inmemoryloader import S3FileLoaderInMemory
-
 # all
 #
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
@@ -17,6 +11,8 @@ from .s3inmemoryloader import S3FileLoaderInMemory
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
+from .helper import load_vector_db_opensearch, send_job_status
+from .s3inmemoryloader import S3FileLoaderInMemory
 from langchain import PromptTemplate
 from llms import get_llm, get_max_tokens
 from langchain import LLMChain
