@@ -228,7 +228,13 @@ export class SummarizationAppsyncStepfn extends Construct {
    * Logging configuration for AppSync
    * @default - fieldLogLevel - None
    */
-  public readonly logConfig?: appsync.LogConfig;
+  public readonly logConfig: appsync.LogConfig;
+
+  /**
+   * Step function
+   * @default - fieldLogLevel - None
+   */
+  public readonly stateMachine: sfn.StateMachine;
 
 
   /**
@@ -605,6 +611,7 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     const summarizationLogGroup = new logs.LogGroup(this, 'summarizationLogGroup', {});
 
+
     // step function definition
     const definition = inputValidationTask.next(
       validateInputChoice
@@ -618,7 +625,7 @@ export class SummarizationAppsyncStepfn extends Construct {
     // step function
 
     const summarizationStepFunction = new sfn.StateMachine(this, 'summarizationStepFunction', {
-      definition,
+      definitionBody: sfn.DefinitionBody.fromChainable(definition),
       timeout: cdk.Duration.minutes(15),
       logs: {
         destination: summarizationLogGroup,
@@ -626,7 +633,7 @@ export class SummarizationAppsyncStepfn extends Construct {
       },
       tracingEnabled: true,
     });
-
+    this.stateMachine=summarizationStepFunction;
     // event bridge datasource for summarization api
     const eventBridgeDataSource = summarizationGraphqlApi.addEventBridgeDataSource(
       'eventBridgeDataSource',
