@@ -77,7 +77,7 @@ export interface QaAppsyncOpensearchProps {
      *
      * @default - None
      */
-  readonly existinOpensearchDomain: opensearchservice.IDomain;
+  readonly existingOpensearchDomain: opensearchservice.IDomain;
   /**
      * Data Index name for the OpenSearch Service.
      *
@@ -85,11 +85,12 @@ export interface QaAppsyncOpensearchProps {
      */
   readonly openSearchIndexName: string;
   /**
-     * SecretsManager secret to authenticate against the OpenSearch Service domain.
+     * Optional. SecretsManager secret to authenticate against the OpenSearch Service domain if 
+     * domain is configured with Username/Password.
      *
      * @default - None
      */
-  readonly openSearchSecret: secret.ISecret;
+  readonly openSearchSecret?: secret.ISecret;
   /**
    * Existing merged Appsync GraphQL api.
    *
@@ -294,6 +295,10 @@ export class QaAppsyncOpensearch extends Construct {
       },
     );
 
+    let SecretId = 'None';
+    if (props.openSearchSecret)
+      SecretId = props.openSearchSecret.secretName;
+
     // Lambda function used to validate inputs in the step function
     const question_answering_function = new lambda.DockerImageFunction(
       this,
@@ -311,15 +316,16 @@ export class QaAppsyncOpensearch extends Construct {
         environment: {
           GRAPHQL_URL: updateGraphQlApiEndpoint,
           INPUT_BUCKET: this.s3InputAssetsBucketInterface.bucketName,
-          OPENSEARCH_DOMAIN_ENDPOINT: props.existinOpensearchDomain.domainEndpoint,
+          OPENSEARCH_DOMAIN_ENDPOINT: props.existingOpensearchDomain.domainEndpoint,
           OPENSEARCH_INDEX: props.openSearchIndexName,
-          OPENSEARCH_SECRET_ID: props.openSearchSecret.secretName,
+          OPENSEARCH_SECRET_ID: SecretId,
         },
       },
     );
 
     // The lambda will access the opensearch credentials
-    props.openSearchSecret.grantRead(question_answering_function);
+    if (props.openSearchSecret)
+      props.openSearchSecret.grantRead(question_answering_function);
 
     // The lambda will pull processed files and create embeddings
     this.s3InputAssetsBucketInterface.grantRead(question_answering_function);
@@ -328,8 +334,8 @@ export class QaAppsyncOpensearch extends Construct {
       effect: iam.Effect.ALLOW,
       actions: ['es:*'],
       resources: [
-        'arn:aws:es:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':domain/'+props.existinOpensearchDomain.domainName+'/*',
-        'arn:aws:es:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':domain/'+props.existinOpensearchDomain.domainName,
+        'arn:aws:es:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':domain/'+props.existingOpensearchDomain.domainName+'/*',
+        'arn:aws:es:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':domain/'+props.existingOpensearchDomain.domainName,
       ],
     }));
 

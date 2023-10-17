@@ -20,12 +20,20 @@ from requests_aws4auth import AWS4Auth
 
 aws_region = boto3.Session().region_name
 credentials = boto3.Session().get_credentials()
-service = 'appsync'
-aws_auth = AWS4Auth(
+service = 
+aws_auth_appsync = AWS4Auth(
     credentials.access_key,
     credentials.secret_key,
     aws_region,
-    service,
+    'appsync',
+    session_token=credentials.token,
+)
+
+aws_auth_os = AWS4Auth(
+    credentials.access_key,
+    credentials.secret_key,
+    aws_region,
+    'es',
     session_token=credentials.token,
 )
 
@@ -48,8 +56,11 @@ def load_vector_db_opensearch(region: str,
     print(f"load_vector_db_opensearch, region={region}, "
                 f"opensearch_domain_endpoint={opensearch_domain_endpoint}, opensearch_index={opensearch_index}")
     
-    creds = get_credentials(secret_id, region)
-    http_auth = (creds['username'], creds['password'])
+    if secret_id != 'NONE': # user uses username/password 
+        creds = get_credentials(secret_id, aws_region)
+        http_auth = (creds['username'], creds['password'])
+    else: # sigv4
+        http_auth = aws_auth_os
 
     embedding_function = get_embeddings_llm()
 
@@ -96,6 +107,6 @@ def send_job_status(variables):
         json=request,
         url=GRAPHQL_URL,
         headers=HEADERS,
-        auth=aws_auth
+        auth=aws_auth_appsync
     )
     print('res :: {}',responseJobstatus)
