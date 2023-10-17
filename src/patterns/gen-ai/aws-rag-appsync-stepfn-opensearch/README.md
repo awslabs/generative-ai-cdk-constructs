@@ -51,6 +51,14 @@ If you have multiple workflows using GraphQL endpoints and want to use a single 
 
 This construct will require an existing Amazon OpenSearch provisioned cluster with fine grain access control enabled. You can follow the steps in the official [AWS Developer Guide](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html) to create and manage your OpenSearch domain.
 
+AWS Lambda functions provisioned in this construct use [Powertools for AWS Lambda (Python)](https://github.com/aws-powertools/powertools-lambda-python) for tracing, structured logging and custom metrics creation. The table below provides the metrics created and the name of the service (logging key customers can use to search log operations) which can be access from Amazon Cloudwatch Logs.
+
+| **AWS Lambda**     | **Service**        | **Custom Metrics** |
+|:-------------|:----------------|-----------------|
+| input_validation |INGESTION_INPUT_VALIDATION | SupportedFile (number of requests which provide a supported file format), UnsupportedFile (number of requests which provide an unsupported file format) |
+| s3_file_transformer | INGESTION_FILE_TRANSFORMER | N/A |
+| embeddings_job | INGESTION_EMBEDDING_JOB | N/A |
+
 Here is a minimal deployable pattern definition:
 
 Typescript
