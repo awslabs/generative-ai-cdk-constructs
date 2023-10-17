@@ -13,7 +13,7 @@
 
 import * as cdk from 'aws-cdk-lib';
 import { aws_appsync as appsync } from 'aws-cdk-lib';
-import { Template } from 'aws-cdk-lib/assertions';
+import { Template, Match } from 'aws-cdk-lib/assertions';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import {
   SummarizationAppsyncStepfn,
@@ -23,25 +23,30 @@ import {
 
 describe('Summarization Appsync Stepfn construct', () => {
 
-  // pass it from console
+
+  let summarizationTestTemplate: Template;
+  let summarizationTestConstruct: SummarizationAppsyncStepfn;
+  const cognitoPoolId = 'us-east-1_1RVagE46n';
 
 
-  test('Summarization Appsync Stepfn', () => {
+  afterAll(() => {
+    console.log('Test completed');
+  });
 
-    const testStack = new cdk.Stack(undefined, undefined, {
+
+  beforeAll(() => {
+    const summarizationTestStack = new cdk.Stack(undefined, undefined, {
       env: { account: cdk.Aws.ACCOUNT_ID, region: cdk.Aws.REGION },
     });
-
-    const cognitoPoolId = 'us-east-1_1RVagE46n';
-
     const mergedapiRole = new iam.Role(
-      testStack, 'summaryMergedapirole',
+      summarizationTestStack, 'summaryMergedapirole',
       {
         assumedBy: new iam.ServicePrincipal('appsync.amazonaws.com'),
       },
     );
+
     const mergedapi = new appsync.CfnGraphQLApi(
-      testStack, 'summaryMergedapi',
+      summarizationTestStack, 'summaryMergedapi',
       {
         apiType: 'MERGED',
         name: 'summaryMergedapi',
@@ -54,47 +59,93 @@ describe('Summarization Appsync Stepfn construct', () => {
         additionalAuthenticationProviders: [{
           authenticationType: 'AWS_IAM',
         }],
-
         mergedApiExecutionRoleArn: mergedapiRole.roleArn,
       },
     );
 
-
     const props: SummarizationAppsyncStepfnProps = {
       userPoolId: cognitoPoolId,
       existingMergeApi: mergedapi,
-
     };
-    new SummarizationAppsyncStepfn(testStack, 'test-one', props);
 
-    const monitorTemplate = Template.fromStack(testStack);
+    summarizationTestConstruct = new SummarizationAppsyncStepfn(summarizationTestStack, 'test', props);
+    summarizationTestTemplate = Template.fromStack(summarizationTestStack);
+  });
 
-    monitorTemplate.hasResourceProperties('AWS::Lambda::Function', {
+  test('Lambda properties', () => {
+    summarizationTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
       PackageType: 'Image',
       FunctionName: 'summary_input_validator-dev',
-
     });
-    monitorTemplate.hasResourceProperties('AWS::Lambda::Function', {
+    summarizationTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
       PackageType: 'Image',
       FunctionName: 'summary_document_reader-dev',
-
     });
-    monitorTemplate.hasResourceProperties('AWS::Lambda::Function', {
+    summarizationTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
       PackageType: 'Image',
       FunctionName: 'summary_generator-dev',
-
     });
-
 
   });
 
+  test('Lambda function count', () => {
+    summarizationTestTemplate.resourceCountIs('AWS::Lambda::Function', 3);
+  });
+
+  test('Appsync Merge Graphql Properties', () => {
+    summarizationTestTemplate.hasResourceProperties('AWS::AppSync::GraphQLApi', {
+      ApiType: 'MERGED',
+      AuthenticationType: 'AMAZON_COGNITO_USER_POOLS',
+    });
+  });
+
+  test('Appsync Summary Graphql Properties', () => {
+    summarizationTestTemplate.hasResourceProperties('AWS::AppSync::GraphQLApi', {
+      AuthenticationType: 'AMAZON_COGNITO_USER_POOLS',
+
+    });
+  });
+
+
+  test('Appsync Graphql Count', () => {
+    summarizationTestTemplate.resourceCountIs('AWS::AppSync::GraphQLApi', 2);
+  });
+
+
+  test('Event Bus rule Target', () => {
+    summarizationTestTemplate.hasResourceProperties('AWS::Events::Rule',
+      Match.objectEquals
+      ({
+        Description: 'Summary Mutation Rule',
+        EventBusName: { Ref: Match.stringLikeRegexp('testcustomEventBus') },
+        EventPattern: { source: ['summary'] },
+        State: 'ENABLED',
+        Targets:
+                        [{
+                          Arn:
+                                { Ref: Match.stringLikeRegexp('testsummarizationStepFunction') },
+                          DeadLetterConfig: {
+                            Arn: { 'Fn::GetAtt': [Match.stringLikeRegexp('testdlq'), 'Arn'] },
+                          },
+                          Id: 'Target0',
+                          RetryPolicy: {
+                            MaximumRetryAttempts: 1,
+                          },
+                          RoleArn: { 'Fn::GetAtt': [Match.stringLikeRegexp('testsummarizationStepFunctionEventsRole'), 'Arn'] },
+
+                        }],
+      },
+      ));
+  });
+
+  test('Step function count', () => {
+    summarizationTestTemplate.resourceCountIs('AWS::StepFunctions::StateMachine', 1);
+  });
+
+  test('Step function defined ', () => {
+    expect(summarizationTestConstruct.stateMachine).toBeDefined;
+    expect(summarizationTestConstruct.stateMachine).not.toBeNull;
+  });
+
+
 });
-
-// test('Simple test', () => {
-//     const app = new cdk.App();
-//     const stack = new cdk.Stack(app, 'TestStack');
-
-//     new SummarizationAppsyncStepfn
-
-//     expectCDK(stack).to(countResources('AWS::Lambda::Function', 5));
-//   });
