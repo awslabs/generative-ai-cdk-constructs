@@ -101,7 +101,7 @@ The steps here are usually AWS CLI commands but they need not be.
 
 Create a commit with the proposed changes:
 
-* Commit title and message (and PR title and description) must adhere to [conventionalcommits](https://www.conventionalcommits.org).
+* Commit title and message (and PR title and description) must adhere to [Conventional Commits](https://www.conventionalcommits.org).
   * The title must begin with `feat(module): title`, `fix(module): title` or `chore(module): title`.
   * Title should be lowercase.
   * No period at the end of the title.
@@ -145,7 +145,7 @@ By default, for every commit to the default (main) branch, a new version is rele
 
 - Compile, lint and test the code.
 - Use JSII to produce library artifacts for all target languages.
-- Determine the next minor/patch version based on conventional commits. Major versions must be explicitly bumped to protect consumers against breaking changes.
+- Determine the next minor/patch version based on [Conventional Commits](https://www.conventionalcommits.org). Major versions must be explicitly bumped to protect consumers against breaking changes.
 - A changelog entry is generated based on commit history.
 Packages are published to all target package managers.
 
