@@ -56,7 +56,7 @@ export interface RagAppsyncStepfnOpensearchProps {
    */
   readonly existingSecurityGroup?: ec2.ISecurityGroup;
   /**
-   * Optional Existing instance of an Eventbridge bus. If not provided, the construct will create one.
+   * Optional Existing instance of an EventBridge bus. If not provided, the construct will create one.
    *
    * @default - None
    */
@@ -125,7 +125,7 @@ export interface RagAppsyncStepfnOpensearchProps {
   readonly stage?: string;
   /**
    * Enable observability. Warning: associated cost with the services
-   * used. Best practive to enable by default.
+   * used. Best practice to enable by default.
    *
    * @default - true
    */

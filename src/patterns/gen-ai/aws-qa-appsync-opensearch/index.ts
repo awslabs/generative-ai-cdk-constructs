@@ -54,7 +54,7 @@ export interface QaAppsyncOpensearchProps {
      */
   readonly existingSecurityGroup?: ec2.ISecurityGroup;
   /**
-     * Optional Existing instance of an Eventbridge bus. If not provided, the construct will create one.
+     * Optional Existing instance of an EventBridge bus. If not provided, the construct will create one.
      *
      * @default - None
      */
