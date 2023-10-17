@@ -158,7 +158,7 @@ Parameters
 | bucketProcessedAssetsProps | [s3.BucketProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.BucketProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | User provided props to override the default props for the S3 Bucket. Providing both this and `existingProcessedAssetsBucketObj` will cause an error. |
 | stage | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | Value will be appended to resources name Service. |
 | existingMergedApi | [appsync.CfnGraphQLApi](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_appsync.CfnGraphQLApi.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing merged api instance. The merge API provode a federated schema over source API schemas.|
-| observability | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Enables observability on all services used. Warning: associated cost with the services used. Best practice to enable by default.|
+| observability | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Enables observability on all services used. Warning: associated cost with the services used. Best practice to enable by default. Defaults to true.|
 
 ## Pattern Properties
 
@@ -199,7 +199,7 @@ Out of the box implementation of the Construct without any override will set the
 
 ### Observability
 
-By default the construct will enable logging and tracing on all services which support those features. Observability can be turned off by setting the pattern property  
+By default the construct will enable logging and tracing on all services which support those features. Observability can be turned off by setting the pattern property ```observability``` to false. 
 - AWS Lambda: AWS X-Ray, Amazon Cloudwatch Logs
 - AWS Step Function: AWS X-Ray, Amazon Cloudwatch Logs
 - AWS AppSync GraphQL api: AWS X-Ray, Amazon Cloudwatch Logs
@@ -219,12 +219,13 @@ You are responsible for the cost of the AWS services used while running this con
 
 We recommend creating a budget through [AWS Cost Explorer](http://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this solution.
 
-The following table provides a sample cost breakdown for deploying this solution with the default parameters in the US East (N. Virginia) Region for one month.
+The following table provides a sample cost breakdown for deploying this solution with the default parameters in the **US East (N. Virginia)** Region for **one month**.
 
 
 | **AWS Service**     | **Dimensions**        | **Cost [USD]** |
 |:-------------|:----------------|-----------------|
-| AWS Step Functions |  |  |
+| AWS Step Functions | |  |
+| Amazon Virtual Private Cloud |  |  |
 | AWS AppSync |  |  |
 | Amazon EventBridge |  |  |
 | AWS Lambda |  |  |
@@ -232,11 +233,14 @@ The following table provides a sample cost breakdown for deploying this solution
 | Amazon Bedrock |  |  |
 | Amazon Cloudwatch | | |
 | AWS X-Ray | | |
+| AWS X-Ray | | |
+| Total Deployment cost | | |
 
-The resources not created by this construct (Amazon Cognito User Pool, Amazon OpenSearch provisioned cluster, AppSync Merged API) do not appear in the table above. You can refer to the decicated pages to get an estimate of the cost related to those services:
+The resources not created by this construct (Amazon Cognito User Pool, Amazon OpenSearch provisioned cluster, AppSync Merged API, AWS Secrets Manager secret) do not appear in the table above. You can refer to the decicated pages to get an estimate of the cost related to those services:
 - [Amazon Opensearch Service Pricing](https://aws.amazon.com/opensearch-service/pricing/)
-- [AWS AppSync pricing](https://aws.amazon.com/appsync/pricing/)
+- [AWS AppSync pricing (for Merged API if used)](https://aws.amazon.com/appsync/pricing/)
 - [Amazon Cognito Pricing](https://aws.amazon.com/cognito/pricing/)
+- [AWS Secrets Manager Pricing](https://aws.amazon.com/secrets-manager/pricing/)
 
 > **Note**
 >You can share the Amazon OpenSearch provisioned cluster between use cases, but this can drive up the number of queries per index and additional charge will apply.
