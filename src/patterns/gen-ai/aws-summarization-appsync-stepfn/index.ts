@@ -462,7 +462,6 @@ export class SummarizationAppsyncStepfn extends Construct {
         ASSET_BUCKET_NAME: transformedAssetBucketName,
         GRAPHQL_URL: !mergeapiurl ? summarizationGraphqlApi.graphqlUrl : mergeapiurl,
         SUMMARY_LLM_CHAIN_TYPE: summaryChainType,
-        TRANSFORMERS_CACHE: '/tmp',
       },
     });
 
