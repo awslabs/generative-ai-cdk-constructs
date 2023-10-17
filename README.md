@@ -35,7 +35,7 @@ AWS Emerging Tech Constructs and the AWS CDK are independent teams and have diff
 
 # Contributing
 
-Contributions of all kinds are welcome! Check out our [contributor's guide](./CONTRIBUTING.md)
+Contributions of all kinds are welcome! Check out our [contributors guide](./CONTRIBUTING.md)
 
 # Design guidelines and Development guide
 
