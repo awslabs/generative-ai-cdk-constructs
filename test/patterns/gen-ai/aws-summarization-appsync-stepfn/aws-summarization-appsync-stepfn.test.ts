@@ -107,14 +107,54 @@ describe('Summarization Appsync Stepfn construct', () => {
     summarizationTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
       PackageType: 'Image',
       FunctionName: 'summary_input_validator-dev',
+      Environment: {
+        Variables: {
+          GRAPHQL_URL: {
+            'Fn::GetAtt': [
+              Match.stringLikeRegexp('summaryMergedapi'),
+              'GraphQLUrl',
+            ],
+          },
+        },
+      },
+
     });
     summarizationTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
       PackageType: 'Image',
       FunctionName: 'summary_document_reader-dev',
+      Environment: {
+        Variables: {
+          GRAPHQL_URL: {
+            'Fn::GetAtt': [
+              Match.stringLikeRegexp('summaryMergedapi'),
+              'GraphQLUrl',
+            ],
+          },
+          INPUT_ASSET_BUCKET: { Ref: Match.stringLikeRegexp('testinputAssetsBucketdev') },
+          IS_FILE_TRANSFORMED: 'false',
+          REDIS_HOST: { 'Fn::GetAtt': [Match.stringLikeRegexp('testredisCluster'), 'RedisEndpoint.Address'] },
+          REDIS_PORT: { 'Fn::GetAtt': [Match.stringLikeRegexp('testredisCluster'), 'RedisEndpoint.Port'] },
+          TRANSFORMED_ASSET_BUCKET: { Ref: Match.stringLikeRegexp('testprocessedAssetsBucket') },
+        },
+      },
     });
     summarizationTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
       PackageType: 'Image',
       FunctionName: 'summary_generator-dev',
+      Environment: {
+        Variables: {
+          ASSET_BUCKET_NAME: { Ref: 'testprocessedAssetsBucketdevF293824A' },
+          GRAPHQL_URL: {
+            'Fn::GetAtt': [
+              Match.stringLikeRegexp('summaryMergedapi'),
+              'GraphQLUrl',
+            ],
+          },
+          REDIS_HOST: { 'Fn::GetAtt': [Match.stringLikeRegexp('testredisCluster'), 'RedisEndpoint.Address'] },
+          REDIS_PORT: { 'Fn::GetAtt': [Match.stringLikeRegexp('testredisCluster'), 'RedisEndpoint.Port'] },
+          SUMMARY_LLM_CHAIN_TYPE: 'stuff',
+        },
+      },
     });
 
   });
@@ -179,6 +219,10 @@ describe('Summarization Appsync Stepfn construct', () => {
     summarizationTestTemplate.resourceCountIs('AWS::StepFunctions::StateMachine', 1);
   });
 
+  test('S3 Bucket Count', () => {
+    summarizationTestTemplate.resourceCountIs('AWS::S3::Bucket', 2);
+    expect(summarizationTestConstruct.inputAssetBucket).not.toBeNull;
+  });
 
   test('Step function defined ', () => {
     expect(summarizationTestConstruct.stateMachine).toBeDefined;
