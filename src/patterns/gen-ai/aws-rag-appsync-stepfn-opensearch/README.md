@@ -84,7 +84,7 @@ const rag_source = new emergingTech.RagAppsyncStepfnOpensearch(
       this,
       'RagAppsyncStepfnOpensearch',
       {
-        existinOpensearchDomain: osDomain,
+        existingOpensearchDomain: osDomain,
         openSearchIndexName: 'demoindex',
         cognitoUserPool: userPoolLoaded
       }
