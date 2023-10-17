@@ -22,7 +22,7 @@
 
 ## Overview
 
-This construct provides a gen-ai summarization implementation using AWS Appsync ,Amazon EventBridge, AWS Step function and AWS Lambda.
+This construct provides a gen-ai summarization implementation using AWS AppSync ,Amazon EventBridge, AWS Step function and AWS Lambda.
 
 Here is a minimal deployable pattern definition:
 
@@ -51,7 +51,7 @@ Parameters
 
 | **Name**     | **Type**        | **Required** |**Description** |
 |:-------------|:----------------|-----------------|-----------------|
-| userPoolId | string | ![Required](https://img.shields.io/badge/required-ff0000) | Amazon Cognito user pool id for AWS Appsync authentication and authorization. |
+| userPoolId | string | ![Required](https://img.shields.io/badge/required-ff0000) | Amazon Cognito user pool id for AWS AppSync authentication and authorization. |
 | userVpcProps | [ec2.VpcProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.VpcProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | The construct creates a custom VPC based on userVpcProps. Providing both this and existingVpc is an error. |
 | existingVpc | [ec2.IVpc](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.IVpc.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | An existing VPC can be used to deploy the construct.|
 | existingRedisCulster | [elasticache.CfnCacheCluster](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_elasticache.CfnCacheClusterProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing Redis cluster to cache the generated summary for subsequent request of same document. |
@@ -94,8 +94,8 @@ Out of the box implementation of the Construct without any override will set the
 ### Amazon ElastiCache for Redis
 - Sets up amazon elastic cache for redis cluster.
 
-### Appsync
-- Sets up AWS Appsync merge api
+### AppSync
+- Sets up AWS AppSync merge api
     - Associate the source api with merge api using 'AUTO-MERGE'
 
 ### Amazon S3 Buckets

@@ -125,7 +125,7 @@ export interface RagAppsyncStepfnOpensearchProps {
   readonly stage?: string;
   /**
    * Enable observability. Warning: associated cost with the services
-   * used. Best practive to enable by default.
+   * used. Best practice to enable by default.
    *
    * @default - true
    */

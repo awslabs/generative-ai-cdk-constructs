@@ -89,7 +89,7 @@ def handler(event,  context: LambdaContext) -> dict:
     # we can augment data here probably (PII present ? ...)
     for doc in docs:
         doc.metadata['timestamp'] = time.time()
-        doc.metadata['embeddings_model'] = ''
+        doc.metadata['embeddings_model'] = 'amazon.titan-embed-text-v1'
     chunks = text_splitter.create_documents([doc.page_content for doc in docs], metadatas=[doc.metadata for doc in docs])
 
     db_shards = (len(chunks) // MAX_OS_DOCS_PER_PUT) + 1
