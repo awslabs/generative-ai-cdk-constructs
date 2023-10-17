@@ -14,6 +14,8 @@
 import * as cdk from 'aws-cdk-lib';
 import { aws_appsync as appsync } from 'aws-cdk-lib';
 import { Template, Match } from 'aws-cdk-lib/assertions';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as elasticache from 'aws-cdk-lib/aws-elasticache';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import {
   SummarizationAppsyncStepfn,
@@ -38,6 +40,26 @@ describe('Summarization Appsync Stepfn construct', () => {
     const summarizationTestStack = new cdk.Stack(undefined, undefined, {
       env: { account: cdk.Aws.ACCOUNT_ID, region: cdk.Aws.REGION },
     });
+
+    const vpc = new ec2.Vpc(summarizationTestStack, 'test-vpc',
+      {
+        ipAddresses: ec2.IpAddresses.cidr('10.0.0.0/16'),
+        enableDnsHostnames: true,
+        enableDnsSupport: true,
+        subnetConfiguration: [
+          {
+            name: 'public',
+            subnetType: ec2.SubnetType.PUBLIC,
+            cidrMask: 24,
+          },
+          {
+            name: 'private',
+            subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+            cidrMask: 24,
+          },
+        ],
+      },
+    );
     const mergedapiRole = new iam.Role(
       summarizationTestStack, 'summaryMergedapirole',
       {
@@ -63,10 +85,19 @@ describe('Summarization Appsync Stepfn construct', () => {
       },
     );
 
+    const cfnCacheClusterProps: elasticache.CfnCacheClusterProps = {
+      cacheNodeType: 'cache.r6g.xlarge',
+      engine: 'redis',
+      numCacheNodes: 1,
+    };
+
     const props: SummarizationAppsyncStepfnProps = {
       userPoolId: cognitoPoolId,
       existingMergeApi: mergedapi,
+      existingVpc: vpc,
+      cfnCacheClusterProps: cfnCacheClusterProps,
     };
+
 
     summarizationTestConstruct = new SummarizationAppsyncStepfn(summarizationTestStack, 'test', props);
     summarizationTestTemplate = Template.fromStack(summarizationTestStack);
@@ -138,9 +169,16 @@ describe('Summarization Appsync Stepfn construct', () => {
       ));
   });
 
+  test('AWS elastic cache properties', () => {
+    summarizationTestTemplate.resourceCountIs('AWS::ElastiCache::CacheCluster', 1);
+    expect(summarizationTestConstruct.redisCluster.attrRedisEndpointPort).not.toBeNull;
+    expect(summarizationTestConstruct.redisCluster.attrRedisEndpointAddress).not.toBeNull;
+  });
+
   test('Step function count', () => {
     summarizationTestTemplate.resourceCountIs('AWS::StepFunctions::StateMachine', 1);
   });
+
 
   test('Step function defined ', () => {
     expect(summarizationTestConstruct.stateMachine).toBeDefined;
