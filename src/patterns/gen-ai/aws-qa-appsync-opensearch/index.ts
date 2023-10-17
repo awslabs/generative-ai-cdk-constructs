@@ -85,7 +85,7 @@ export interface QaAppsyncOpensearchProps {
      */
   readonly openSearchIndexName: string;
   /**
-     * Optional. SecretsManager secret to authenticate against the OpenSearch Service domain if 
+     * Optional. SecretsManager secret to authenticate against the OpenSearch Service domain if
      * domain is configured with Username/Password.
      *
      * @default - None
@@ -296,8 +296,7 @@ export class QaAppsyncOpensearch extends Construct {
     );
 
     let SecretId = 'None';
-    if (props.openSearchSecret)
-      SecretId = props.openSearchSecret.secretName;
+    if (props.openSearchSecret) {SecretId = props.openSearchSecret.secretName;}
 
     // Lambda function used to validate inputs in the step function
     const question_answering_function = new lambda.DockerImageFunction(
@@ -324,8 +323,7 @@ export class QaAppsyncOpensearch extends Construct {
     );
 
     // The lambda will access the opensearch credentials
-    if (props.openSearchSecret)
-      props.openSearchSecret.grantRead(question_answering_function);
+    if (props.openSearchSecret) {props.openSearchSecret.grantRead(question_answering_function);}
 
     // The lambda will pull processed files and create embeddings
     this.s3InputAssetsBucketInterface.grantRead(question_answering_function);

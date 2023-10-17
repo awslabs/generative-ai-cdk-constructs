@@ -100,7 +100,7 @@ export interface RagAppsyncStepfnOpensearchProps {
    */
   readonly openSearchIndexName: string;
   /**
-     * Optional. SecretsManager secret to authenticate against the OpenSearch Service domain if 
+     * Optional. SecretsManager secret to authenticate against the OpenSearch Service domain if
      * domain is configured with Username/Password.
      *
      * @default - None
@@ -425,8 +425,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     }));
 
     let SecretId = 'None';
-    if (props.openSearchSecret)
-      SecretId = props.openSearchSecret.secretName;
+    if (props.openSearchSecret) {SecretId = props.openSearchSecret.secretName;}
 
     // Lambda function performing the embedding job
     const embeddings_job_function = new lambda.DockerImageFunction(
@@ -454,8 +453,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     );
 
     // The lambda will access the opensearch credentials
-    if (props.openSearchSecret)
-      props.openSearchSecret.grantRead(embeddings_job_function);
+    if (props.openSearchSecret) {props.openSearchSecret.grantRead(embeddings_job_function);}
 
     // The lambda will pull processed files and create embeddings
     this.s3ProcessedAssetsBucket?.grantRead(embeddings_job_function);
