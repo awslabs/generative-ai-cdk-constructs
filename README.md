@@ -62,7 +62,7 @@ Coming soon
 
 # Roadmap
 
-Roadmap is available through the [GitHub Project](https://github.com/orgs/aws-samples/projects/72)
+The roadmap is available through our [GitHub Project](https://github.com/orgs/aws-samples/projects/72)
 
 ***
 &copy; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
