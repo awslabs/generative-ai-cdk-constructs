@@ -39,7 +39,7 @@ Contributions of all kinds are welcome! Check out our [contributor's guide](./CO
 
 # Design guidelines and Development guide
 
-If you want to add a new construct to the library, check out our first our [design guidelines](./DESIGN_GUIDELINES.md), then follow the [development guide](./DEVELOPER_GUIDE.md)
+If you want to add a new construct to the library, first check out our [design guidelines](./DESIGN_GUIDELINES.md), then follow the [development guide](./DEVELOPER_GUIDE.md)
 
 # Catalog
 
