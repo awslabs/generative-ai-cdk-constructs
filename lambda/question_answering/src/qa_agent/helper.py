@@ -20,7 +20,6 @@ from requests_aws4auth import AWS4Auth
 
 aws_region = boto3.Session().region_name
 credentials = boto3.Session().get_credentials()
-service = 
 aws_auth_appsync = AWS4Auth(
     credentials.access_key,
     credentials.secret_key,
