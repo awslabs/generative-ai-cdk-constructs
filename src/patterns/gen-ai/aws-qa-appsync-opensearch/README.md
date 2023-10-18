@@ -113,6 +113,9 @@ subscription MySubscription {
 
 Where:
 - jobid: id which can be used to filter subscriptions on client side
+- answer: response to the question from the Large Language Model as a base64 encoded string
+- sources: sources from the knowledge base used as context to answer the question
+- jobstatus: status update of the question answering process for the file specified
 
 ## Initializer
 

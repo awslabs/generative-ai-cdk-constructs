@@ -12,17 +12,43 @@
 ---
 <!--END STABILITY BANNER-->
 
-| **Reference Documentation**:| <span style="font-weight: normal">TODO</span>|
-|:-------------|:-------------|
-<div style="height:8px"></div>
-
 | **Language**     | **Package**        |
 |:-------------|-----------------|
 |![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@aws-samples/@emerging_tech_cdk_constructs`|
 
+## Table of contents
+
+- [Overview](#overview)
+- [Initializer](#initializer)
+- [Pattern Construct Props](#pattern-construct-props)
+- [Pattern Properties](#pattern-properties)
+- [Default properties](#default-properties)
+- [Troubleshooting](#troubleshooting)
+- [Architecture](#architecture)
+- [Cost](#cost)
+- [Security](#security)
+- [Supported AWS Regions](#supported-aws-regions)
+- [Quotas](#quotas)
+
 ## Overview
 
-This construct provides a gen-ai summarization implementation using AWS AppSync ,Amazon EventBridge, AWS Step function and AWS Lambda.
+This construct provides a workflow to summarize multiple pdf documents with Amazon Bedrock using Anthropic Claude V2 as foundation model, AWS AppSync for Graphql apis, AWS Step Functions and AWS Lambda functions.
+
+A Graphql request is submitted with the list of files which needs to be summarized by the construct.
+
+AWS AppSync forward the request to an Amazon EventBridge through an event bridge data source resolver. Amazon EventBridge decouple the whole architecture and it forwards the request to AWS Step Function for further processing.
+
+AWS Step Function implements a workflow to validate the input request, then process and transform the files in parallel and finally generate the summary of each file. For user specific configuration please refer to the Pattern construct Props.
+
+The status of each file is sent back to the client through an AppSync subscription.
+
+This construct builds a Lambda function from a Docker image, thus you need to have [Docker desktop](https://www.docker.com/products/docker-desktop/) running on your machine.
+
+The input document(s) must be stored in the input Amazon Simple Storage Service bucket in text format (.txt). Another construct is available to ingest and process files to text format: [aws-rag-appsync-stepfn-opensearch](../aws-rag-appsync-stepfn-opensearch/README.md).
+
+Make sure the model (anthropic.claude-v2) is enabled in your account. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
+
+AWS Lambda functions provisioned in this construct use [Powertools for AWS Lambda (Python)](https://github.com/aws-powertools/powertools-lambda-python) for tracing, structured logging and custom metrics creation.
 
 Here is a minimal deployable pattern definition:
 
@@ -32,8 +58,56 @@ import { Construct } from 'constructs';
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { SummarizationAppsyncStepfn, SummarizationAppsyncStepfnProps } from '@aws-samples/aws-emerging-tech-constructs';
 
-new SummarizationAppsyncStepfn(this, 'new-construct', constructProps);
+// get an existing userpool 
+const cognitoPoolId = 'us-east-1_XXXXX';
+const userPoolLoaded = cognito.UserPool.fromUserPoolId(this, 'myuserpool', cognitoPoolId);
+
+summarizationTestConstruct = new SummarizationAppsyncStepfn(
+    this, 
+    'SummarizationAppsyncStepfn', 
+    {
+        cognitoUserPool: userPoolLoaded
+    });
+    
 ```
+
+The code below provides an example of a mutation call and associated subscription to trigger the summarization workflow and get response notifications:
+
+Mutation call to trigger the question:
+
+```
+mutation MyMutation {
+  generateSummary(summaryInput:{files:[{name: "document1.txt", status: ""}], summary_job_id:"81"}) {
+    file_name
+    status
+    summary
+    summary_job_id
+  }
+}
+```
+
+Where:
+- summary_job_id: id which can be used to filter subscriptions on client side
+- status: this field will be used by the subscription to update the status of the summarization process for the file(s) specified
+- name: name of the file(s) stored in the input S3 bucket, in txt format.
+
+Subscription call to get notifications about the summarization process:
+```
+subscription MySubscription {
+  updateSummaryJobStatus(file_name: "document1.txt", summary_job_id: "81") {
+    file_name
+    status
+    summary
+    summary_job_id
+  }
+}
+```
+
+Where:
+- summary_job_id: id which can be used to filter subscriptions on client side
+- status: status update of the summarization process for the file(s) specified
+- file_name: name of the file stored in the input S3 bucket, in txt format.
+- summary: summary returned by the Large Language Model for the document specified, as a base64 encoded string
 
 ## Initializer
 
@@ -105,6 +179,12 @@ Out of the box implementation of the Construct without any override will set the
 - If isFileTransformationRequired is set to False then 
 only one bucket is created for inout assets.
 
+### Observability
+
+By default the construct will enable logging and tracing on all services which support those features. Observability can be turned off through the pattern properties.
+- AWS Lambda: AWS X-Ray, Amazon Cloudwatch Logs
+- AWS Step Function: AWS X-Ray, Amazon Cloudwatch Logs
+- AWS AppSync GraphQL api: AWS X-Ray, Amazon Cloudwatch Logs
 
 
 ## Troubleshooting
@@ -115,6 +195,53 @@ only one bucket is created for inout assets.
 
 ## Architecture
 ![Architecture Diagram](architecture.png)
+
+## Cost
+
+You are responsible for the cost of the AWS services used while running this construct. As of this revision, the cost for running this construct with the default settings in the US East (N. Virginia) Region is approximately $X per month.
+
+We recommend creating a budget through [AWS Cost Explorer](http://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this solution.
+
+The following table provides a sample cost breakdown for deploying this solution with the default parameters in the **US East (N. Virginia)** Region for **one month**.
+
+
+| **AWS Service**     | **Dimensions**        | **Cost [USD]** |
+|:-------------|:----------------|-----------------|
+| Amazon Virtual Private Cloud |  |  |
+| AWS AppSync |  |  |
+| Amazon EventBridge |  |  |
+| AWS Lambda |  |  |
+| Amazon Simple Storage Service |  |  |
+| Amazon Bedrock |  |  |
+| Amazon Cloudwatch | | |
+| AWS X-Ray | | |
+| AWS X-Ray | | |
+| Total Deployment cost | | |
+
+The resources not created by this construct (Amazon Cognito User Pool, AppSync Merged API, AWS Secrets Manager secret) do not appear in the table above. You can refer to the decicated pages to get an estimate of the cost related to those services:
+- [AWS AppSync pricing (for Merged API if used)](https://aws.amazon.com/appsync/pricing/)
+- [Amazon Cognito Pricing](https://aws.amazon.com/cognito/pricing/)
+- [AWS Secrets Manager Pricing](https://aws.amazon.com/secrets-manager/pricing/)
+
+## Security
+
+When you build systems on AWS infrastructure, security responsibilities are shared between you and AWS. This [shared responsibility](http://aws.amazon.com/compliance/shared-responsibility-model/) model reduces your operational burden because AWS operates, manages, and controls the components including the host operating system, virtualization layer, and physical security of the facilities in which the services operate. For more information about AWS security, visit [AWS Cloud Security](http://aws.amazon.com/security/).
+
+## Supported AWS Regions
+
+This solution optionally uses the Amazon Bedrock service, which is not currently available in all AWS Regions. You must launch this construct in an AWS Region where these services are available. For the most current availability of AWS services by Region, see the [AWS Regional Services List](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/).
+
+> **Note**
+>You need to explicity enable access to models before they are available for use in the Amazon Bedrock service. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
+
+## Quotas
+
+Service quotas, also referred to as limits, are the maximum number of service resources or operations for your AWS account.
+
+Make sure you have sufficient quota for each of the services implemented in this solution. For more information, refer to [AWS service quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html).
+
+To view the service quotas for all AWS services in the documentation without switching pages, view the information in the [Service endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/aws-general.pdf#aws-service-information) page in the PDF instead.
+
 
 ***
 &copy; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
