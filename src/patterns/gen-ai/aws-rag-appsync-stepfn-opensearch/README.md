@@ -12,10 +12,6 @@
 ---
 <!--END STABILITY BANNER-->
 
-| **Reference Documentation**:| <span style="font-weight: normal">TODO</span>|
-|:-------------|:-------------|
-<div style="height:8px"></div>
-
 | **Language**     | **Package**        |
 |:-------------|-----------------|
 |![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@aws-samples/@emerging_tech_cdk_constructs`|
@@ -41,7 +37,7 @@ This CDK construct creates a pipeline for RAG (Retrieval augmented generation) s
 Files in PDF format are uploaded to an input Amazon Simple Storage Service (S3) bucket. Authorized clients (Amazon Cognito user pool) will trigger an AWS AppSync mutation to start the ingestion process, and can use subscriptions to get notifications on the ingestion status. The mutation call will trigger an AWS Step Function with three different steps:
 - Input validation: an AWS Lambda function will verify the input formats of the files requested for ingestion. If the files are in a format which is not supported by the pipeline, an error message will be returned.
 - Transformation: the input files are processed in parallel using a [Map](https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-map-state.html) state through an AWS Lambda. The function uses the [Langchain](https://www.langchain.com/) client to get the content of each file and store in the output bucket the file in text format. This is useful for workflows which want to use a long context window approach and send the entire file as context to a Large Language Model. If the file name already exists in the output bucket, the input file will not be processed.
-- Embeddings step: Files processed and stored in the output S3 bucket are consumed by an AWS Lambda function. Chunks from documents are created as well as text embeddings using Amazon Bedrock (model: amazon.titan-embed-text-v1). Those information are then stored in a knowledge base (OpenSearch provisioned cluster).
+- Embeddings step: Files processed and stored in the output S3 bucket are consumed by an AWS Lambda function. Chunks from documents are created as well as text embeddings using Amazon Bedrock (model: amazon.titan-embed-text-v1). Those information are then stored in a knowledge base (OpenSearch provisioned cluster). Make sure the model is enabled in your account. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
 
 Documents stored in the knowledge base contain the following metadata:
 - Timestamp: when the embeddings was created (current time in seconds since the Epoch)
@@ -65,7 +61,6 @@ Typescript
 ``` typescript
 import { Construct } from 'constructs';
 import { Stack, StackProps } from 'aws-cdk-lib';
-import * as secret from 'aws-cdk-lib/aws-secretsmanager';
 import * as os from 'aws-cdk-lib/aws-opensearchservice';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import { RagApiGatewayOpensearch, RagApiGatewayOpensearchProps } from '@aws-samples/aws-emerging-tech-constructs';
