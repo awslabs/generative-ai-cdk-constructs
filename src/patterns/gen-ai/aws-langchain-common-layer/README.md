@@ -20,6 +20,21 @@
 |:-------------|-----------------|
 |![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@aws-samples/@emerging_tech_cdk_constructs`|
 
+## Table of contents
+
+- [Credits](#credits)
+- [Overview](#overview)
+- [Initializer](#initializer)
+- [Pattern Construct Props](#pattern-construct-props)
+- [Pattern Properties](#pattern-properties)
+- [Default properties](#default-properties)
+- [Troubleshooting](#troubleshooting)
+- [Architecture](#architecture)
+- [Cost](#cost)
+- [Security](#security)
+- [Supported AWS Regions](#supported-aws-regions)
+- [Quotas](#quotas)
+
 ## Credits
 
 This construct is a modified version of the following construct: https://github.com/aws-samples/aws-genai-llm-chatbot/tree/main/lib/model-interfaces/langchain 
@@ -27,12 +42,6 @@ This construct is a modified version of the following construct: https://github.
 Thanks to the original authors: 
 - [Bigad Soleiman](https://www.linkedin.com/in/bigadsoleiman/)
 - [Sergey Pugachev](https://www.linkedin.com/in/spugachev/)
-
-## Precautions
-
-- Cost Management with self-hosted models on SageMaker: Be mindful of the costs associated with AWS resources, especially with SageMaker models billed by the hour.
-
-- Licensing obligations: If you choose to use any datasets or models alongside the provided samples, ensure you check the LLM code and comply with all licensing obligations attached to them.
 
 ## Overview
 
@@ -161,6 +170,53 @@ response = model.run(
 
 ## Architecture
 ![Architecture Diagram](architecture.png)
+
+## Cost
+
+You are responsible for the cost of the AWS services used while running this construct. As of this revision, the cost for running this construct with the default settings in the US East (N. Virginia) Region is approximately $X per month.
+
+We recommend creating a budget through [AWS Cost Explorer](http://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this solution.
+
+The following table provides a sample cost breakdown for deploying this solution with the default parameters in the **US East (N. Virginia)** Region for **one month**.
+
+
+| **AWS Service**     | **Dimensions**        | **Cost [USD]** |
+|:-------------|:----------------|-----------------|
+| AWS Lambda | |  |
+| Total Deployment cost | | |
+
+> **Note**
+> The costs of API calls to third-party LLM providers are not included in these estimates. See the pricing guide of your LLM provider.
+
+## Security
+
+When you build systems on AWS infrastructure, security responsibilities are shared between you and AWS. This [shared responsibility](http://aws.amazon.com/compliance/shared-responsibility-model/) model reduces your operational burden because AWS operates, manages, and controls the components including the host operating system, virtualization layer, and physical security of the facilities in which the services operate. For more information about AWS security, visit [AWS Cloud Security](http://aws.amazon.com/security/).
+
+If choosing to interface with a third-party LLM provider (outside of Amazon Bedrock), customers must evaluate the security considerations of data leaving their AWS account. The customer is required to provide a valid API key at the time of deployment.
+
+The primary piece of data sent to the third-party LLM provider is the prompt to perform inference on. Depending on the use case, the prompt can contain the user’s input, previous interactions (for example, chat history), and document excerpts sourced from the configured knowledge base (for example, Amazon OpenSearch search result).
+
+> **Warning**
+> This construct allows you to interact with models from third party providers. Your use of the third-party Generative AI models is governed by the terms provided to you by the third-party GAI model providers when you acquired your license to use them (for example, their terms of service, license agreement, acceptable use policy, and privacy policy).
+
+>You are responsible for ensuring that your use of the third-party GAI models comply with the terms governing them, and any laws, rules, regulations, policies, or standards that apply to you.
+
+>You are also responsible for making your own independent assessment of the third-party GAI models that you use, including their outputs and how third-party GAI model providers use any data that might be transmitted to them based on your deployment configuration. AWS does not make any representations, warranties, or guarantees regarding the third-party GAI models, which are “Third-Party Content” under your agreement with AWS. This construct is offered to you as “AWS Content” under your agreement with AWS.
+
+## Supported AWS Regions
+
+This solution optionally uses the Amazon Bedrock and Amazon OpenSearch service, which is not currently available in all AWS Regions. You must launch this construct in an AWS Region where these services are available. For the most current availability of AWS services by Region, see the [AWS Regional Services List](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/).
+
+> **Note**
+>You need to explicity enable access to models before they are available for use in the Amazon Bedrock service. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
+
+## Quotas
+
+Service quotas, also referred to as limits, are the maximum number of service resources or operations for your AWS account.
+
+Make sure you have sufficient quota for each of the services implemented in this solution. For more information, refer to [AWS service quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html).
+
+To view the service quotas for all AWS services in the documentation without switching pages, view the information in the [Service endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/aws-general.pdf#aws-service-information) page in the PDF instead.
 
 ***
 &copy; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
