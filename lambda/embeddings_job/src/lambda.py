@@ -1,3 +1,15 @@
+#
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+# with the License. A copy of the License is located at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+# OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+# and limitations under the License.
+#
 import os
 import sys
 import time
@@ -13,6 +25,7 @@ from langchain.vectorstores import OpenSearchVectorSearch
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import multiprocessing as mp
 from functools import partial
+from requests_aws4auth import AWS4Auth
 from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_lambda_powertools.metrics import MetricUnit
@@ -22,6 +35,8 @@ tracer = Tracer(service="INGESTION_EMBEDDING_JOB")
 metrics = Metrics(namespace="ingestion_pipeline", service="INGESTION_EMBEDDING_JOB")
 
 aws_region = boto3.Session().region_name
+session = boto3.session.Session()
+credentials = session.get_credentials()
 bedrock_client = boto3.client(
     service_name='bedrock', 
     region_name=aws_region,
@@ -47,8 +62,17 @@ INDEX_FILE="index_file"
 @metrics.log_metrics(capture_cold_start_metric=True)
 def handler(event,  context: LambdaContext) -> dict:
 
-    creds = get_credentials(opensearch_secret_id, aws_region)
-    http_auth = (creds['username'], creds['password'])
+    if opensearch_secret_id != 'NONE': # user uses username/password 
+        creds = get_credentials(opensearch_secret_id, aws_region)
+        http_auth = (creds['username'], creds['password'])
+    else: #
+        http_auth = AWS4Auth(
+            credentials.access_key,
+            credentials.secret_key,
+            aws_region,
+            'es',
+            session_token=credentials.token
+        )
     job_id = event[0]['s3_transformer_result']['Payload']['jobid']
 
     logger.set_correlation_id(job_id)
@@ -89,7 +113,7 @@ def handler(event,  context: LambdaContext) -> dict:
     # we can augment data here probably (PII present ? ...)
     for doc in docs:
         doc.metadata['timestamp'] = time.time()
-        doc.metadata['embeddings_model'] = ''
+        doc.metadata['embeddings_model'] = 'amazon.titan-embed-text-v1'
     chunks = text_splitter.create_documents([doc.page_content for doc in docs], metadatas=[doc.metadata for doc in docs])
 
     db_shards = (len(chunks) // MAX_OS_DOCS_PER_PUT) + 1

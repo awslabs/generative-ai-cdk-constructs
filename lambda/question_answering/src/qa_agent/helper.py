@@ -1,3 +1,15 @@
+#
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+# with the License. A copy of the License is located at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+# OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+# and limitations under the License.
+#
 from langchain.vectorstores import OpenSearchVectorSearch
 from llms import get_embeddings_llm
 import requests
@@ -8,12 +20,19 @@ from requests_aws4auth import AWS4Auth
 
 aws_region = boto3.Session().region_name
 credentials = boto3.Session().get_credentials()
-service = 'appsync'
-aws_auth = AWS4Auth(
+aws_auth_appsync = AWS4Auth(
     credentials.access_key,
     credentials.secret_key,
     aws_region,
-    service,
+    'appsync',
+    session_token=credentials.token,
+)
+
+aws_auth_os = AWS4Auth(
+    credentials.access_key,
+    credentials.secret_key,
+    aws_region,
+    'es',
     session_token=credentials.token,
 )
 
@@ -36,8 +55,11 @@ def load_vector_db_opensearch(region: str,
     print(f"load_vector_db_opensearch, region={region}, "
                 f"opensearch_domain_endpoint={opensearch_domain_endpoint}, opensearch_index={opensearch_index}")
     
-    creds = get_credentials(secret_id, region)
-    http_auth = (creds['username'], creds['password'])
+    if secret_id != 'NONE': # user uses username/password 
+        creds = get_credentials(secret_id, aws_region)
+        http_auth = (creds['username'], creds['password'])
+    else: # sigv4
+        http_auth = aws_auth_os
 
     embedding_function = get_embeddings_llm()
 
@@ -84,6 +106,6 @@ def send_job_status(variables):
         json=request,
         url=GRAPHQL_URL,
         headers=HEADERS,
-        auth=aws_auth
+        auth=aws_auth_appsync
     )
     print('res :: {}',responseJobstatus)
