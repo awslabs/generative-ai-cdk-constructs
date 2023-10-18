@@ -73,13 +73,11 @@ export interface SummarizationAppsyncStepfnProps {
   readonly existingSecurityGroup?: ec2.SecurityGroup;
 
   /**
-   * Required. This construct use Cognito Auth for Appsync authorization.
-   * User pool id is required  with authentication type of AMAZON_COGNITO_USER_POOLS.
-   * @default None
+   * Required. Cognito user pool used for authentication.
+   *
+   * @default - None
    */
-  readonly userPoolId: string;
-
-
+  readonly cognitoUserPool: cognito.IUserPool;
   /**
    * Optional. Existing s3 Bucket to store the input document which needs to be summarized.
    * pdf is the supported input document format. If transformed (txt format) file is
@@ -140,12 +138,11 @@ export interface SummarizationAppsyncStepfnProps {
   readonly eventBusProps?: events.EventBusProps;
 
   /**
-   * Required. Existing merge api instance. This  construct create a merge API to support
-   * multiple modalities with different source APIs. The merge API provode a fedeareted schema over source API schemas.
+   * Optional - Existing merged Appsync GraphQL api.
    *
-   * @default None
+   * @default - None
    */
-  readonly existingMergeApi: appsync.CfnGraphQLApi;
+  readonly existingMergedApi?: appsync.CfnGraphQLApi;
 
   /**
    * Optional. User provided Name for summary api on appsync.
@@ -191,14 +188,9 @@ export class SummarizationAppsyncStepfn extends Construct {
    */
   public readonly eventBridgeBus: events.IEventBus;
   /**
-   * Returns an instance of appsync.CfnGraphQLApi for merge api created by the construct
-   */
-  public readonly mergeApi: appsync.CfnGraphQLApi;
-
-  /**
    * Returns an instance of appsync.CfnGraphQLApi for summary created by the construct
    */
-  public readonly summaryGraphqlApi: appsync.IGraphqlApi ;
+  public readonly graphqlApi: appsync.IGraphqlApi ;
 
   /**
    * Returns an instance of redis cluster created by the construct
@@ -349,20 +341,11 @@ export class SummarizationAppsyncStepfn extends Construct {
       eventBusProps: props.eventBusProps,
     });
 
-    this.mergeApi = props.existingMergeApi;
-
-    const mergeApiId = this.mergeApi.attrApiId;
-    const mergeapiurl = this.mergeApi.attrGraphQlUrl;
-
-    // cognito auth for app sync
-    const cognitoUserPool = cognito.UserPool.fromUserPoolId(this,
-      'cognitoUserPool'+stage, props.userPoolId);
-
     // make it generic for other auth config as well
     const authorizationConfig: appsync.AuthorizationConfig = {
       defaultAuthorization: {
         authorizationType: appsync.AuthorizationType.USER_POOL,
-        userPoolConfig: { userPool: cognitoUserPool },
+        userPoolConfig: { userPool: props.cognitoUserPool },
       },
       additionalAuthorizationModes: [
         {
@@ -393,13 +376,12 @@ export class SummarizationAppsyncStepfn extends Construct {
         authorizationConfig: authorizationConfig,
         xrayEnabled: isXrayEnabled,
       });
-    this.summaryGraphqlApi= summarizationGraphqlApi;
+    this.graphqlApi= summarizationGraphqlApi;
 
     // If the user provides a mergedApi endpoint, the lambda
     // functions will use this endpoint to send their status updates
-
-    const updateGraphQlApiId = !mergeApiId ? summarizationGraphqlApi.apiId : mergeApiId;
-
+    const updateGraphQlApiEndpoint = !props.existingMergedApi ? summarizationGraphqlApi.graphqlUrl : props.existingMergedApi.attrGraphQlUrl;
+    const updateGraphQlApiId = !props.existingMergedApi ? summarizationGraphqlApi.apiId : props.existingMergedApi.attrApiId;
 
     // Lambda function to validate Input
     const inputValidatorLambda =
@@ -415,7 +397,7 @@ export class SummarizationAppsyncStepfn extends Construct {
         memorySize: 1_769 * 1,
         timeout: cdk.Duration.minutes(5),
         environment: {
-          GRAPHQL_URL: !mergeapiurl ? summarizationGraphqlApi.graphqlUrl : mergeapiurl,
+          GRAPHQL_URL: updateGraphQlApiEndpoint,
         },
       });
 
@@ -440,7 +422,7 @@ export class SummarizationAppsyncStepfn extends Construct {
         TRANSFORMED_ASSET_BUCKET: transformedAssetBucketName,
         INPUT_ASSET_BUCKET: inputAssetBucketName,
         IS_FILE_TRANSFORMED: isFileTransformationRequired,
-        GRAPHQL_URL: !mergeapiurl ? summarizationGraphqlApi.graphqlUrl : mergeapiurl,
+        GRAPHQL_URL: updateGraphQlApiEndpoint,
 
       },
     });
@@ -460,7 +442,7 @@ export class SummarizationAppsyncStepfn extends Construct {
         REDIS_HOST: redisHost,
         REDIS_PORT: redisPort,
         ASSET_BUCKET_NAME: transformedAssetBucketName,
-        GRAPHQL_URL: !mergeapiurl ? summarizationGraphqlApi.graphqlUrl : mergeapiurl,
+        GRAPHQL_URL: updateGraphQlApiEndpoint,
         SUMMARY_LLM_CHAIN_TYPE: summaryChainType,
       },
     });

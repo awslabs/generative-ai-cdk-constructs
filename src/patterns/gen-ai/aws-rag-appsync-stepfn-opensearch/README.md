@@ -12,10 +12,6 @@
 ---
 <!--END STABILITY BANNER-->
 
-| **Reference Documentation**:| <span style="font-weight: normal">TODO</span>|
-|:-------------|:-------------|
-<div style="height:8px"></div>
-
 | **Language**     | **Package**        |
 |:-------------|-----------------|
 |![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@aws-samples/@emerging_tech_cdk_constructs`|
@@ -41,7 +37,7 @@ This CDK construct creates a pipeline for RAG (Retrieval augmented generation) s
 Files in PDF format are uploaded to an input Amazon Simple Storage Service (S3) bucket. Authorized clients (Amazon Cognito user pool) will trigger an AWS AppSync mutation to start the ingestion process, and can use subscriptions to get notifications on the ingestion status. The mutation call will trigger an AWS Step Function with three different steps:
 - Input validation: an AWS Lambda function will verify the input formats of the files requested for ingestion. If the files are in a format which is not supported by the pipeline, an error message will be returned.
 - Transformation: the input files are processed in parallel using a [Map](https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-map-state.html) state through an AWS Lambda. The function uses the [Langchain](https://www.langchain.com/) client to get the content of each file and store in the output bucket the file in text format. This is useful for workflows which want to use a long context window approach and send the entire file as context to a Large Language Model. If the file name already exists in the output bucket, the input file will not be processed.
-- Embeddings step: Files processed and stored in the output S3 bucket are consumed by an AWS Lambda function. Chunks from documents are created as well as text embeddings using Amazon Bedrock (model: amazon.titan-embed-text-v1). Those information are then stored in a knowledge base (OpenSearch provisioned cluster).
+- Embeddings step: Files processed and stored in the output S3 bucket are consumed by an AWS Lambda function. Chunks from documents are created as well as text embeddings using Amazon Bedrock (model: amazon.titan-embed-text-v1). Those information are then stored in a knowledge base (OpenSearch provisioned cluster). Make sure the model (amazon.titan-embed-text-v1) is enabled in your account. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
 
 Documents stored in the knowledge base contain the following metadata:
 - Timestamp: when the embeddings was created (current time in seconds since the Epoch)
@@ -65,7 +61,6 @@ Typescript
 ``` typescript
 import { Construct } from 'constructs';
 import { Stack, StackProps } from 'aws-cdk-lib';
-import * as secret from 'aws-cdk-lib/aws-secretsmanager';
 import * as os from 'aws-cdk-lib/aws-opensearchservice';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import { RagApiGatewayOpensearch, RagApiGatewayOpensearchProps } from '@aws-samples/aws-emerging-tech-constructs';
@@ -123,6 +118,8 @@ subscription MySubscription {
 Where:
 - ingestionjobid: id which can be used to filter subscriptions on client side
 The subscription will display the status and name for each file 
+- files.status: status update of the ingestion for the file specified
+- files.name: name of the file stored in the input S3 bucket
 
 ## Initializer
 
@@ -153,7 +150,7 @@ Parameters
 | existingProcessedAssetsBucketObj | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.IBucket.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing instance of S3 Bucket object, providing both this and `bucketProcessedAssetsProps` will cause an error. |
 | bucketProcessedAssetsProps | [s3.BucketProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.BucketProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | User provided props to override the default props for the S3 Bucket. Providing both this and `existingProcessedAssetsBucketObj` will cause an error. |
 | stage | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | Value will be appended to resources name Service. |
-| existingMergedApi | [appsync.CfnGraphQLApi](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_appsync.CfnGraphQLApi.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing merged api instance. The merge API provode a federated schema over source API schemas.|
+| existingMergedApi | [appsync.CfnGraphQLApi](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_appsync.CfnGraphQLApi.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing merged api instance. The merge API provides a federated schema over source API schemas.|
 | observability | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Enables observability on all services used. Warning: associated cost with the services used. Best practice to enable by default. Defaults to true.|
 
 ## Pattern Properties

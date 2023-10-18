@@ -12,9 +12,9 @@
 ---
 <!--END STABILITY BANNER-->
 
-| **Reference Documentation**:| TODO|
-|:-------------|:-------------|
-<div style="height:8px"></div>
+Most of the helper functions in this folder are extracted from: https://github.com/awslabs/aws-solutions-constructs 
 
 The helper library includes the basic building blocks of the Emerging Tech construct library. It defines the core classes that are used in the rest of the library. The purpose is to standardize and accelerate development for builders.
 These methods should not be used by end customers.
+
+

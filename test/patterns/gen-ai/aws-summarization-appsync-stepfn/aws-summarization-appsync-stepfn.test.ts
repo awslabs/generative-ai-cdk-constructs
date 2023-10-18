@@ -14,6 +14,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { aws_appsync as appsync } from 'aws-cdk-lib';
 import { Template, Match } from 'aws-cdk-lib/assertions';
+import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as elasticache from 'aws-cdk-lib/aws-elasticache';
 import * as iam from 'aws-cdk-lib/aws-iam';
@@ -91,9 +92,11 @@ describe('Summarization Appsync Stepfn construct', () => {
       numCacheNodes: 1,
     };
 
+    const userPoolLoaded = cognito.UserPool.fromUserPoolId(summarizationTestStack, 'testUserPool', cognitoPoolId);
+
     const props: SummarizationAppsyncStepfnProps = {
-      userPoolId: cognitoPoolId,
-      existingMergeApi: mergedapi,
+      cognitoUserPool: userPoolLoaded,
+      existingMergedApi: mergedapi,
       existingVpc: vpc,
       cfnCacheClusterProps: cfnCacheClusterProps,
     };
