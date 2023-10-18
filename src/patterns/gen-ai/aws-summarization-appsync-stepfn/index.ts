@@ -73,13 +73,11 @@ export interface SummarizationAppsyncStepfnProps {
   readonly existingSecurityGroup?: ec2.SecurityGroup;
 
   /**
-   * Required. This construct use Cognito Auth for Appsync authorization.
-   * User pool id is required  with authentication type of AMAZON_COGNITO_USER_POOLS.
-   * @default None
+   * Required. Cognito user pool used for authentication.
+   *
+   * @default - None
    */
-  readonly userPoolId: string;
-
-
+  readonly cognitoUserPool: cognito.IUserPool;
   /**
    * Optional. Existing s3 Bucket to store the input document which needs to be summarized.
    * pdf is the supported input document format. If transformed (txt format) file is
@@ -354,15 +352,11 @@ export class SummarizationAppsyncStepfn extends Construct {
     const mergeApiId = this.mergeApi.attrApiId;
     const mergeapiurl = this.mergeApi.attrGraphQlUrl;
 
-    // cognito auth for app sync
-    const cognitoUserPool = cognito.UserPool.fromUserPoolId(this,
-      'cognitoUserPool'+stage, props.userPoolId);
-
     // make it generic for other auth config as well
     const authorizationConfig: appsync.AuthorizationConfig = {
       defaultAuthorization: {
         authorizationType: appsync.AuthorizationType.USER_POOL,
-        userPoolConfig: { userPool: cognitoUserPool },
+        userPoolConfig: { userPool: props.cognitoUserPool },
       },
       additionalAuthorizationModes: [
         {
