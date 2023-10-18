@@ -66,7 +66,7 @@ describe('RAG Appsync Stepfn Open search construct', () => {
 
     const ragTestprops: RagAppsyncStepfnOpensearchProps = {
       existingVpc: vpc,
-      existinOpensearchDomain: osDomain,
+      existingOpensearchDomain: osDomain,
       openSearchIndexName: 'demoindex',
       openSearchSecret: osSecret,
       cognitoUserPool: userPoolLoaded,
