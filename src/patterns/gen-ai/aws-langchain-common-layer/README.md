@@ -12,10 +12,6 @@
 ---
 <!--END STABILITY BANNER-->
 
-| **Reference Documentation**:| <span style="font-weight: normal">TODO</span>|
-|:-------------|:-------------|
-<div style="height:8px"></div>
-
 | **Language**     | **Package**        |
 |:-------------|-----------------|
 |![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@aws-samples/@emerging_tech_cdk_constructs`|
