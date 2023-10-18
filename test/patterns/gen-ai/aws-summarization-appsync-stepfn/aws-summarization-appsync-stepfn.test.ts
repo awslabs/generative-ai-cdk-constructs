@@ -96,7 +96,7 @@ describe('Summarization Appsync Stepfn construct', () => {
 
     const props: SummarizationAppsyncStepfnProps = {
       cognitoUserPool: userPoolLoaded,
-      existingMergeApi: mergedapi,
+      existingMergedApi: mergedapi,
       existingVpc: vpc,
       cfnCacheClusterProps: cfnCacheClusterProps,
     };
