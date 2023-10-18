@@ -29,7 +29,7 @@ describe('Summarization Appsync Stepfn construct', () => {
 
   let summarizationTestTemplate: Template;
   let summarizationTestConstruct: SummarizationAppsyncStepfn;
-  const cognitoPoolId = 'us-east-1_1RVagE46n';
+  const cognitoPoolId = 'region_XXXXX';
 
 
   afterAll(() => {
@@ -109,7 +109,7 @@ describe('Summarization Appsync Stepfn construct', () => {
   test('Lambda properties', () => {
     summarizationTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
       PackageType: 'Image',
-      FunctionName: 'summary_input_validator-dev',
+      FunctionName: Match.stringLikeRegexp('summary_input_validator'),
       Environment: {
         Variables: {
           GRAPHQL_URL: {
@@ -124,7 +124,7 @@ describe('Summarization Appsync Stepfn construct', () => {
     });
     summarizationTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
       PackageType: 'Image',
-      FunctionName: 'summary_document_reader-dev',
+      FunctionName: Match.stringLikeRegexp('summary_document_reader'),
       Environment: {
         Variables: {
           GRAPHQL_URL: {
@@ -143,7 +143,7 @@ describe('Summarization Appsync Stepfn construct', () => {
     });
     summarizationTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
       PackageType: 'Image',
-      FunctionName: 'summary_generator-dev',
+      FunctionName: Match.stringLikeRegexp('summary_generator-dev'),
       Environment: {
         Variables: {
           ASSET_BUCKET_NAME: { Ref: 'testprocessedAssetsBucketdevF293824A' },
@@ -180,6 +180,19 @@ describe('Summarization Appsync Stepfn construct', () => {
     });
   });
 
+  test('Appsync resolver Properties', () => {
+    summarizationTestTemplate.hasResourceProperties('AWS::AppSync::Resolver', {
+      DataSourceName: Match.stringLikeRegexp('eventBridgeDataSource'),
+      FieldName: 'generateSummary',
+      TypeName: 'Mutation',
+    });
+
+    summarizationTestTemplate.hasResourceProperties('AWS::AppSync::Resolver', {
+      DataSourceName: Match.stringLikeRegexp('SummaryStatusDataSource'),
+      FieldName: 'updateSummaryJobStatus',
+      TypeName: 'Mutation',
+    });
+  });
 
   test('Appsync Graphql Count', () => {
     summarizationTestTemplate.resourceCountIs('AWS::AppSync::GraphQLApi', 2);
