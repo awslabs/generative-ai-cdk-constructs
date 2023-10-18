@@ -47,7 +47,7 @@ describe('QA Appsync Open search construct', () => {
 
     const qaTestProps: QaAppsyncOpensearchProps =
         {
-          existinOpensearchDomain: osDomain,
+          existingOpensearchDomain: osDomain,
           openSearchIndexName: 'demoindex',
           openSearchSecret: osSecret,
           cognitoUserPool: userPoolLoaded,
