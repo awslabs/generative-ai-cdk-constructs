@@ -198,9 +198,9 @@ The primary piece of data sent to the third-party LLM provider is the prompt to 
 
 > **Warning**
 > This construct allows you to interact with models from third party providers. Your use of the third-party Generative AI models is governed by the terms provided to you by the third-party GAI model providers when you acquired your license to use them (for example, their terms of service, license agreement, acceptable use policy, and privacy policy).
-
+>
 >You are responsible for ensuring that your use of the third-party GAI models comply with the terms governing them, and any laws, rules, regulations, policies, or standards that apply to you.
-
+>
 >You are also responsible for making your own independent assessment of the third-party GAI models that you use, including their outputs and how third-party GAI model providers use any data that might be transmitted to them based on your deployment configuration. AWS does not make any representations, warranties, or guarantees regarding the third-party GAI models, which are “Third-Party Content” under your agreement with AWS. This construct is offered to you as “AWS Content” under your agreement with AWS.
 
 ## Supported AWS Regions
