@@ -56,6 +56,7 @@ Typescript
 ``` typescript
 import { Construct } from 'constructs';
 import { Stack, StackProps } from 'aws-cdk-lib';
+import * as cognito from 'aws-cdk-lib/aws-cognito';
 import { SummarizationAppsyncStepfn, SummarizationAppsyncStepfnProps } from '@aws-samples/aws-emerging-tech-constructs';
 
 // get an existing userpool 
