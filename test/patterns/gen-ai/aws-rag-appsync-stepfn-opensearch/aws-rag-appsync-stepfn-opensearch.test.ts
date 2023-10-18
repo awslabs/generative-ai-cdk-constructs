@@ -22,9 +22,8 @@ import { RagAppsyncStepfnOpensearch, RagAppsyncStepfnOpensearchProps } from '../
 describe('RAG Appsync Stepfn Open search construct', () => {
 
   let ragTestTemplate: Template;
-  let stage = '-dev';
   let ragTestConstruct: RagAppsyncStepfnOpensearch;
-  const cognitoPoolId = 'us-east-1_1RVagE46n';
+  const cognitoPoolId = 'region_XXXXX';
 
   afterAll(() => {
     console.log('Test completed');
@@ -56,11 +55,11 @@ describe('RAG Appsync Stepfn Open search construct', () => {
     );
 
     const osDomain = os.Domain.fromDomainAttributes(ragTestStack, 'osdomain', {
-      domainArn: 'arn:aws:es:us-east-1:383119320704:domain/whiskeyosmanagedcluster',
-      domainEndpoint: 'https://vpc-whiskeyosmanagedcluster-4pkv5sj6vhoz5lrxn35wfidrie.us-east-1.es.amazonaws.com',
+      domainArn: 'arn:aws:es:region:account:domain/',
+      domainEndpoint: 'https://osendppint.amazon.aws.com',
     });
 
-    const osSecret = secret.Secret.fromSecretNameV2(ragTestStack, 'ossecret', 'OSSecret4A7B7484-NJb2Ppu2AmvJ');
+    const osSecret = secret.Secret.fromSecretNameV2(ragTestStack, 'ossecret', 'OSSecretID');
 
     const userPoolLoaded = cognito.UserPool.fromUserPoolId(ragTestStack, 'testUserPool', cognitoPoolId);
 
@@ -79,12 +78,12 @@ describe('RAG Appsync Stepfn Open search construct', () => {
   test('Lambda properties', () => {
     ragTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
       PackageType: 'Image',
-      FunctionName: 'embeddings_job_docker'+stage,
+      FunctionName: Match.stringLikeRegexp('embeddings_job_docker'),
       Environment: {
         Variables: {
           GRAPHQL_URL: { 'Fn::GetAtt': [Match.stringLikeRegexp('testingestionGraphqlApi'), 'GraphQLUrl'] },
           INPUT_BUCKET: { Ref: Match.stringLikeRegexp('testinputAssetsBucket') },
-          OPENSEARCH_DOMAIN_ENDPOINT: Match.stringLikeRegexp('vpc-whiskeyosmanagedcluster-'),
+          OPENSEARCH_DOMAIN_ENDPOINT: Match.stringLikeRegexp('osendppint.amazon.aws.com'),
           OPENSEARCH_INDEX: 'demoindex',
           OPENSEARCH_SECRET_ID: Match.stringLikeRegexp('OSSecret'),
           OUTPUT_BUCKET: { Ref: Match.stringLikeRegexp('testprocessedAssetsBucketdev') },
@@ -93,7 +92,7 @@ describe('RAG Appsync Stepfn Open search construct', () => {
     });
     ragTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
       PackageType: 'Image',
-      FunctionName: 's3_file_transformer_docker'+stage,
+      FunctionName: Match.stringLikeRegexp('s3_file_transformer_docker'),
       Environment: {
         Variables: {
           GRAPHQL_URL: { 'Fn::GetAtt': [Match.stringLikeRegexp('testingestionGraphqlApi'), 'GraphQLUrl'] },
@@ -104,7 +103,7 @@ describe('RAG Appsync Stepfn Open search construct', () => {
     });
     ragTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
       PackageType: 'Image',
-      FunctionName: 'ingestion_input_validation_docker'+stage,
+      FunctionName: Match.stringLikeRegexp('ingestion_input_validation_docker'),
       Environment: {
         Variables:
                          {
@@ -124,10 +123,24 @@ describe('RAG Appsync Stepfn Open search construct', () => {
     ragTestTemplate.resourceCountIs('AWS::Lambda::Function', 4);
   });
 
-  test('Appsync Merge Graphql Properties', () => {
+  test('Appsync Graphql Properties', () => {
     ragTestTemplate.hasResourceProperties('AWS::AppSync::GraphQLApi', {
       UserPoolConfig: {},
       AuthenticationType: 'AMAZON_COGNITO_USER_POOLS',
+    });
+  });
+
+  test('Appsync resolver Properties', () => {
+    ragTestTemplate.hasResourceProperties('AWS::AppSync::Resolver', {
+      DataSourceName: Match.stringLikeRegexp('ingestionEventBridgeDataSource'),
+      FieldName: 'ingestDocuments',
+      TypeName: 'Mutation',
+    });
+
+    ragTestTemplate.hasResourceProperties('AWS::AppSync::Resolver', {
+      DataSourceName: Match.stringLikeRegexp('JobStatusDataSource'),
+      FieldName: 'updateIngestionJobStatus',
+      TypeName: 'Mutation',
     });
   });
 
