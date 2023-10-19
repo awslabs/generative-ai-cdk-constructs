@@ -35,14 +35,18 @@ metrics = Metrics(namespace="question_answering", service="QUESTION_ANSWERING")
 @tracer.capture_method
 def run_question_answering(arguments):
 
-    # select the methodology based on the input size
-    filename = arguments['filename']
+    try:
+        filename = arguments['filename']
+    except:
+        filename = ''
+        arguments['filename'] = ''
     if not filename: # user didn't provide a specific file as input, we use the RAG source against the entire knowledge base
         llm_response = run_qa_agent_rag_no_memory(arguments)
         return llm_response
     
     bucket_name = os.environ['INPUT_BUCKET']
 
+    # select the methodology based on the input size
     document_number_of_tokens = S3FileLoaderInMemory(bucket_name, filename).get_document_tokens()
 
     if document_number_of_tokens is None:
