@@ -37,11 +37,13 @@ def run_question_answering(arguments):
 
     # select the methodology based on the input size
     filename = arguments['filename']
-    name, extension = os.path.splitext(filename)
-    txt_file_name = name + '_transformed.txt'
+    if not filename: # user didn't provide a specific file as input, we use the RAG source against the entire knowledge base
+        llm_response = run_qa_agent_rag_no_memory(arguments)
+        return llm_response
+    
     bucket_name = os.environ['INPUT_BUCKET']
 
-    document_number_of_tokens = S3FileLoaderInMemory(bucket_name, txt_file_name).get_document_tokens()
+    document_number_of_tokens = S3FileLoaderInMemory(bucket_name, filename).get_document_tokens()
 
     if document_number_of_tokens is None:
         logger.exception(f'Failed to compute the number of tokens for file {filename} in bucket {bucket_name}, returning')
@@ -66,14 +68,14 @@ def run_question_answering(arguments):
         llm_response = run_qa_agent_from_single_document_no_memory(arguments)
     else:
         logger.info('Running qa agent with a RAG approach')
-        llm_response = run_qa_agent_rag_single_document_no_memory(arguments)
+        llm_response = run_qa_agent_rag_no_memory(arguments)
     
     return llm_response
 
 _doc_index = None
 _current_doc_index = None
 
-def run_qa_agent_rag_single_document_no_memory(input_params):
+def run_qa_agent_rag_no_memory(input_params):
     logger.info("starting qa agent with rag approach without memory single document")
 
     base64_bytes = input_params['question'].encode("utf-8")
@@ -121,22 +123,26 @@ def run_qa_agent_rag_single_document_no_memory(input_params):
     _current_doc_index = _doc_index
 
     logger.info("Starting similarity search")
-    name, extension = os.path.splitext(input_params['filename'])
-    output_file_name = name + '_transformed.txt'
-    logger.info(f'Similarity search on {output_file_name}')
-    # since we want to get a response only by looking at chuncks related to a specific file, we add a filter.
-    # the source metadata is added when creating embeddings in the ingestion pipeline
-    filter = {"bool": {"filter": {"term": {"source":output_file_name}}}}
-    docs = doc_index.similarity_search(decoded_question, pre_filter=filter, k=50)
-
-    #TODO: hopefully we can get rid of this : filtering doesn't seem to work properly
-    # so doing a manual filtering
+    max_docs = input_params['max_docs']
+    output_file_name = input_params['filename']
     source_documents = []
-    for doc in docs:
-        if doc.metadata['source'] == output_file_name:
-            source_documents.append(doc)
+    if not output_file_name: # no input file provided, question against the whole knowledge base
+        logger.info(f'Similarity search on the entire knowledge base')
+        source_documents = doc_index.similarity_search(decoded_question, k=max_docs)
+    else: #a file has been specified, using a filter for similarity search against the knowledge base
+        logger.info(f'Similarity search on {output_file_name}')
+        # since we want to get a response only by looking at chuncks related to a specific file, we add a filter.
+        # the source metadata is added when creating embeddings in the ingestion pipeline
+        filter = {"bool": {"filter": {"term": {"source":output_file_name}}}}
+        docs = doc_index.similarity_search(decoded_question, pre_filter=filter, k=max_docs)
 
-    logger.info(source_documents)
+        #TODO: hopefully we can get rid of this : filtering doesn't seem to work properly
+        # so doing a manual filtering
+        for doc in docs:
+            if doc.metadata['source'] == output_file_name:
+                source_documents.append(doc)
+
+        logger.info(source_documents)
 
     # 2 : load llm using the selector
     _qa_llm = get_llm()
@@ -211,19 +217,17 @@ def run_qa_agent_from_single_document_no_memory(input_params):
 
     bucket_name = os.environ['INPUT_BUCKET']
     filename = input_params['filename']
-    name, extension = os.path.splitext(filename)
-    txt_file_name = name + '_transformed.txt'
     logger.info(f"Generating response to question for file {filename}")
 
     if _current_file_name != filename:
         logger.info('loading file content')
-        _file_content = S3FileLoaderInMemory(bucket_name, txt_file_name).load()
+        _file_content = S3FileLoaderInMemory(bucket_name, filename).load()
     else:
         if _file_content is None:
             logger.info('loading cached file content')
         else:
             logger.info('same file as before, but nothing cached')
-            _file_content = S3FileLoaderInMemory(bucket_name, txt_file_name).load()
+            _file_content = S3FileLoaderInMemory(bucket_name, filename).load()
     
     _current_file_name = filename
 
