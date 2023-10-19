@@ -65,7 +65,7 @@ def handler(event, context: LambdaContext):
         )
     else:
         metrics.add_metric(name="summary_llm_hit", unit=MetricUnit.Count, value=1)
-        transformed_file_name = original_file_name.replace(".pdf", "_transformed.txt")
+        transformed_file_name = original_file_name.replace(".pdf", ".txt")
         
         if(is_file_tranformation_required):
              transformed_file  = get_file_transformation(transformed_bucket_name, 
