@@ -90,7 +90,8 @@ mutation MyMutation {
 Where:
 - summary_job_id: id which can be used to filter subscriptions on client side
 - status: this field will be used by the subscription to update the status of the summarization process for the file(s) specified
-- name: name of the file(s) stored in the input S3 bucket, in txt format.
+- name: Two formats are supported for files to be summarized. If the file is in text format, it needs to be stored in the trasformed S3 bucket, no file transformation is required. 
+If pdf format is selected, the file needs to be in the input S3 bucket and the construct prop ```isFileTransformationRequired``` needs to be set to true. The file will be transformed to text format.
 
 Subscription call to get notifications about the summarization process:
 ```
@@ -107,7 +108,7 @@ subscription MySubscription {
 Where:
 - summary_job_id: id which can be used to filter subscriptions on client side
 - status: status update of the summarization process for the file(s) specified
-- file_name: name of the file stored in the input S3 bucket, in txt format.
+- file_name: name of the file stored in the input S3 bucket, same name + extension as passed to the previous mutation call.
 - summary: summary returned by the Large Language Model for the document specified, as a base64 encoded string
 
 ## Initializer
