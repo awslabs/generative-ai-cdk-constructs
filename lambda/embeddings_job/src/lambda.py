@@ -93,6 +93,7 @@ def handler(event,  context: LambdaContext) -> dict:
             filename = transformed_file['s3_transformer_result']['Payload']['name']
             loader = S3TxtFileLoaderInMemory(bucket_name, filename)
             sub_docs = loader.load()
+            sub_docs.metadata['source'] = filename
             docs.extend(sub_docs)
 
     if not docs:
