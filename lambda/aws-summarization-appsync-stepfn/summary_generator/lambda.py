@@ -49,7 +49,7 @@ bedrock_client = boto3.client(
 @metrics.log_metrics(capture_cold_start_metric=True)
 def handler(event, context: LambdaContext)-> dict:
     logger.info("Starting summary agent with input", event)
-
+    processed_files = []
 
     job_id = event["summary_job_id"]
 
@@ -60,16 +60,11 @@ def handler(event, context: LambdaContext)-> dict:
     original_file_name = event["file_name"]
     transformed_file_name = event["transformed_file_name"]
     
-    # create response
+   
     response = {
         "summary_job_id": job_id,
-        "file_name": original_file_name,
-        "status": "Pending",
-        "summary": ""
+        "files": processed_files,
     }
-  
-    
-
     summary_llm = Bedrock(
         model_id="anthropic.claude-v2",
         client=bedrock_client,
@@ -86,23 +81,36 @@ def handler(event, context: LambdaContext)-> dict:
 
     inputFile = read_file_from_s3(transformed_bucket_name, transformed_file_name)
     if inputFile is None:
-        response["status"] = "Failed to load file from S3"
+        processed_file = {
+            'status':"Error",
+            'name':original_file_name,
+            'summary':"No file available to read."
+        }
+        processed_files.append(processed_file)
+        logger.exception(f"Error occured:: {response}")
         return response
 
     finalsummary = generate_summary(summary_llm,chain_type,inputFile)
     
-    llm_answer_bytes = finalsummary.encode("utf-8")
-    base64_bytes = base64.b64encode(llm_answer_bytes)
-    llm_answer_base64_string = base64_bytes.decode("utf-8")
-    logger.info(finalsummary)
-    logger.info("Summarization done")
-
-    response.update({
-        'file_name':original_file_name,
-        'status':"Completed",
-        'summary':llm_answer_base64_string
-    }
-    )
+    if not finalsummary:
+        logger.exception("Error occured while generating summary")
+        processed_file = {
+            'status':"Error",
+            'name':original_file_name,
+            'summary':"Something went wrong while generating summary!"
+        }
+    else:
+        llm_answer_bytes = finalsummary.encode("utf-8")
+        base64_bytes = base64.b64encode(llm_answer_bytes)
+        llm_answer_base64_string = base64_bytes.decode("utf-8")
+        logger.info(f" Generated summary is:: {finalsummary}")
+        processed_file = {
+            'status':"Completed",
+            'name':original_file_name,
+            'summary':llm_answer_base64_string
+        }
+    processed_files.append(processed_file)
+    
 
     logger.info("Saving respone in Redis :: ",response)
     try:
@@ -115,10 +123,7 @@ def handler(event, context: LambdaContext)-> dict:
             f'Host: "{redis_host}", Port: "{redis_port}".\n'
             f"Exception: {e}"
         )
-    updateSummaryJobStatus({'jobid': job_id, 
-                            'file_name':response["file_name"]
-                            ,'status':response['status']  ,
-                            'summary':response["summary"]})
+    updateSummaryJobStatus({'jobid': job_id, 'files': processed_files})
     return response
 
 
@@ -128,8 +133,6 @@ def generate_summary(_summary_llm,chain_type,inputFile)-> str:
     
     logger.info(f" Using chain_type as {chain_type} for the document")    
     docs = [Document(page_content=inputFile)]
-         # run LLM
-   # prompt = load_prompt("prompt.json")
     chain = load_summarize_chain(
                 _summary_llm, 
                 chain_type=chain_type, 

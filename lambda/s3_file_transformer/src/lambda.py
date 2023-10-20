@@ -65,7 +65,7 @@ def handler(event,  context: LambdaContext) -> dict:
     
     # verify that the file doesn't already exist in the output bucket, otherwise we will process a duplicate
     name, extension = os.path.splitext(event['name'])
-    output_file_name = name + '_transformed.txt'
+    output_file_name = name + '.txt'
     if (file_exists_in_bucket(output_bucket, output_file_name) == False):
         #load the file from input S3 bucket and save its content as a txt file in the output bucket
         if (event['name'].lower().endswith('.pdf')):

@@ -326,7 +326,21 @@ export class QaAppsyncOpensearch extends Construct {
     if (props.openSearchSecret) {props.openSearchSecret.grantRead(question_answering_function);}
 
     // The lambda will pull processed files and create embeddings
-    this.s3InputAssetsBucketInterface.grantRead(question_answering_function);
+    question_answering_function.addToRolePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [
+          's3:GetObject',
+          's3:GetObject*',
+          's3:GetBucket*',
+          's3:List*',
+        ],
+        resources: [
+          'arn:aws:s3:::' + this.s3InputAssetsBucketInterface?.bucketName,
+          'arn:aws:s3:::' + this.s3InputAssetsBucketInterface?.bucketName + '/*',
+        ],
+      }),
+    );
 
     question_answering_function.addToRolePolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
