@@ -442,7 +442,6 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         memorySize: 1_769 * 4,
         timeout: Duration.minutes(15),
         environment: {
-          INPUT_BUCKET: this.s3InputAssetsBucketInterface.bucketName,
           OUTPUT_BUCKET: this.s3ProcessedAssetsBucketInterface.bucketName,
           GRAPHQL_URL: updateGraphQlApiEndpoint,
           OPENSEARCH_INDEX: props.openSearchIndexName,
