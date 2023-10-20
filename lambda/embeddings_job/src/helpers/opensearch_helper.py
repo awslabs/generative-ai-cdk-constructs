@@ -25,7 +25,7 @@ metrics = Metrics(namespace="ingestion_pipeline", service="INGESTION_EMBEDDING_J
 
 aws_region = boto3.Session().region_name
 bedrock_client = boto3.client(
-    service_name='bedrock', 
+    service_name='bedrock-runtime', 
     region_name=aws_region,
     endpoint_url=f'https://bedrock.{aws_region}.amazonaws.com'
 )
@@ -49,7 +49,10 @@ def process_shard(shard, os_index_name, os_domain_ep, os_http_auth) -> int:
     docsearch = OpenSearchVectorSearch(index_name=os_index_name,
                                        embedding_function=embeddings,
                                        opensearch_url=os_domain_ep,
-                                       http_auth=os_http_auth)    
+                                       http_auth=os_http_auth,
+                                       use_ssl = True,
+                                       verify_certs = True,
+                                       connection_class = RequestsHttpConnection)    
     docsearch.add_documents(documents=shard)
     print(f'Shard completed')
     return 0

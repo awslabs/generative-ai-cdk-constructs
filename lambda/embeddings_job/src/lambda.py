@@ -52,7 +52,7 @@ DATA_DIR = "/tmp"
 CHUNCK_SIZE_DOC_SPLIT=500
 OVERLAP_FOR_DOC_SPLIT=20
 MAX_OS_DOCS_PER_PUT = 500
-TOTAL_INDEX_CREATION_WAIT_TIME = 60
+TOTAL_INDEX_CREATION_WAIT_TIME = 1
 PER_ITER_SLEEP_TIME = 5
 PROCESS_COUNT=5
 INDEX_FILE="index_file"
@@ -93,7 +93,8 @@ def handler(event,  context: LambdaContext) -> dict:
             filename = transformed_file['s3_transformer_result']['Payload']['name']
             loader = S3TxtFileLoaderInMemory(bucket_name, filename)
             sub_docs = loader.load()
-            sub_docs.metadata['source'] = filename
+            for doc in sub_docs:
+                doc.metadata['source'] = filename
             docs.extend(sub_docs)
 
     if not docs:
@@ -125,7 +126,7 @@ def handler(event,  context: LambdaContext) -> dict:
     # otherwise call the from_documents function which would first create the index
     # and then do a bulk add. Both add_documents and from_documents do a bulk add
     # but it is important to call from_documents first so that the index is created
-    # correctly for K-NN
+    # correctly for K-NN    
     try:
         index_exists = check_if_index_exists(opensearch_index,
                                                 aws_region,

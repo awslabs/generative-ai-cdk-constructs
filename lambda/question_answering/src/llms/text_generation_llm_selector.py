@@ -29,7 +29,7 @@ sts_client = boto3.client("sts")
 
 aws_region = boto3.Session().region_name
 bedrock_client = boto3.client(
-    service_name='bedrock', 
+    service_name='bedrock-runtime', 
     region_name=aws_region,
     endpoint_url=f'https://bedrock.{aws_region}.amazonaws.com'
 )

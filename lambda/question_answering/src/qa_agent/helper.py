@@ -10,7 +10,7 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
-from langchain.vectorstores import OpenSearchVectorSearch
+from langchain.vectorstores import OpenSearchVectorSearch, RequestsHttpConnection
 from llms import get_embeddings_llm
 import requests
 import os
@@ -66,7 +66,10 @@ def load_vector_db_opensearch(region: str,
     vector_db = OpenSearchVectorSearch(index_name=opensearch_index,
                                        embedding_function=embedding_function,
                                        opensearch_url=opensearch_domain_endpoint,
-                                       http_auth=http_auth)
+                                       http_auth=http_auth,
+                                       use_ssl = True,
+                                       verify_certs = True,
+                                       connection_class = RequestsHttpConnection)
     print(f"returning handle to OpenSearchVectorSearch, vector_db={vector_db}")
     return vector_db
 

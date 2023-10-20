@@ -458,7 +458,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       ],
     }));
 
-    let SecretId = 'None';
+    let SecretId = 'NONE';
     if (props.openSearchSecret) {SecretId = props.openSearchSecret.secretName;}
 
     // Lambda function performing the embedding job
