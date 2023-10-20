@@ -333,10 +333,12 @@ export class QaAppsyncOpensearch extends Construct {
           's3:GetObject',
           's3:GetObject*',
           's3:GetBucket*',
-          's3:List*'],
-          resources: [
-            'arn:aws:s3:::' + this.s3InputAssetsBucketInterface?.bucketName,
-            'arn:aws:s3:::' + this.s3InputAssetsBucketInterface?.bucketName + '/*'],
+          's3:List*',
+        ],
+        resources: [
+          'arn:aws:s3:::' + this.s3InputAssetsBucketInterface?.bucketName,
+          'arn:aws:s3:::' + this.s3InputAssetsBucketInterface?.bucketName + '/*',
+        ],
       }),
     );
 
