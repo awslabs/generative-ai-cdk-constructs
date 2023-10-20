@@ -111,6 +111,8 @@ Where:
 - file_name: name of the file stored in the input S3 bucket, same name + extension as passed to the previous mutation call.
 - summary: summary returned by the Large Language Model for the document specified, as a base64 encoded string
 
+```If multiple files are requested for summarization , then the client should filter response based on summary_job_id and file_name for each file. ```
+
 ## Initializer
 
 ```
@@ -179,7 +181,7 @@ Out of the box implementation of the Construct without any override will set the
 - Sets up two Amazon S3 Buckets
     - Uses existing buckets if provided, otherwise creates new ones
 - If isFileTransformationRequired is set to False then 
-only one bucket is created for inout assets.
+only one bucket is created for input assets.
 
 ### Observability
 
@@ -193,7 +195,11 @@ By default the construct will enable logging and tracing on all services which s
 
 | **Error Code**     | **Message**        | **Description** |**Fix** |
 |:-------------|:----------------|-----------------|-----------------|
-| 601 | <>message | This error happens when <> | Provide a valid value for the <> |
+| 601 | Invalid file format. | Only .txt and .pdf file format are supported | Provide a valid file with .pdf or .txt extension |
+| 602 | Not able to transform the file. | File transformation from .pdf to .txt failed| Check if valid file exist in input bucket |
+| 603 | No file available to read. | Couldn't read file from input bucket| Check if valid file exist in input bucket |
+| 604 | Something went wrong while generating summary! | LLM threw an exception| Check if your account has access to Amazon Bedrock |
+
 
 ## Architecture
 ![Architecture Diagram](architecture.png)
