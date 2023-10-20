@@ -420,8 +420,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
           's3:GetBucket*',
           's3:List*'],
           resources: [
-            'arn:aws:s3:::' + this.s3InputAssetsBucket?.bucketName,
-            'arn:aws:s3:::' + this.s3InputAssetsBucket?.bucketName + '/*'],
+            'arn:aws:s3:::' + this.s3InputAssetsBucketInterface?.bucketName,
+            'arn:aws:s3:::' + this.s3InputAssetsBucketInterface?.bucketName + '/*'],
       }),
     );
 
@@ -439,8 +439,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
           's3:PutObject',
           's3:GetObject*'],
         resources: [
-          'arn:aws:s3:::' + this.s3ProcessedAssetsBucket?.bucketName,
-          'arn:aws:s3:::' + this.s3ProcessedAssetsBucket?.bucketName + '/*'],
+          'arn:aws:s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName,
+          'arn:aws:s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName + '/*'],
       }),
     );
 
@@ -494,8 +494,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
           's3:GetBucket*',
           's3:List*'],
         resources: [
-          'arn:aws:s3:::' + this.s3ProcessedAssetsBucket?.bucketName,
-          'arn:aws:s3:::' + this.s3ProcessedAssetsBucket?.bucketName + '/*'],
+          'arn:aws:s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName,
+          'arn:aws:s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName + '/*'],
       }),
     );
 
