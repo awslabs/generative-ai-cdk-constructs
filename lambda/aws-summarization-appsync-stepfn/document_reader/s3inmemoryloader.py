@@ -44,6 +44,7 @@ class S3FileLoaderInMemory(BaseLoader):
          # read S3
         try:
             s3 = boto3.resource('s3')
+            logger.info(f"Reading file from s3: bucket: {self.bucket}, key: {self.key}")
             obj = s3.Object(self.bucket, self.key)
             encodedpdf = obj.get()['Body'].read()
             pdfFile = PdfReader(BytesIO(encodedpdf))

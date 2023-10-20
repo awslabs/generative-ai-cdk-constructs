@@ -1,14 +1,20 @@
+type FileStatus @aws_iam
+@aws_cognito_user_pools {
+	name: String
+	status: String
+	summary: String
+}
 
 input FileStatusInput {
 	name: String
 	status: String
+	summary: String
 }
 
-type SummaryDocs @aws_iam @aws_cognito_user_pools {
+type SummaryDocs @aws_iam
+@aws_cognito_user_pools {
 	summary_job_id: ID
-	file_name: String, 
-	status: String, 
-	summary: String
+	files: [FileStatus]
 }
 
 input SummaryDocsInput {
@@ -16,23 +22,24 @@ input SummaryDocsInput {
 	files: [FileStatusInput]
 }
 
-type Mutation @aws_iam @aws_cognito_user_pools {
+type Mutation @aws_iam
+@aws_cognito_user_pools {
 	generateSummary(summaryInput: SummaryDocsInput!): SummaryDocs
-	updateSummaryJobStatus(summary_job_id: ID, file_name: String, status: String, summary: String): SummaryDocs
-	updateFileStatus(summaryjobid: ID, files: [FileStatusInput]): SummaryDocs
+	updateSummaryJobStatus(summary_job_id: ID,files: [FileStatusInput]
+	): SummaryDocs
 }
 
-type Query @aws_iam @aws_cognito_user_pools {
+type Query @aws_iam
+@aws_cognito_user_pools {
 	getSummary: SummaryDocs
 }
 
-type Subscription @aws_iam @aws_cognito_user_pools {
+type Subscription @aws_iam
+@aws_cognito_user_pools {
 	generateSummary(summaryInput: SummaryDocsInput!): SummaryDocs
 		@aws_subscribe(mutations: ["generateSummary"])
-	updateSummaryJobStatus(summary_job_id: ID, file_name: String): SummaryDocs
+	updateSummaryJobStatus(summary_job_id: ID): SummaryDocs
 		@aws_subscribe(mutations: ["updateSummaryJobStatus"])
-	updateFileStatus(summaryjobid: ID, files: [FileStatusInput]): SummaryDocs
-		@aws_subscribe(mutations: ["updateFileStatus"])
 }
 
 schema {
@@ -40,4 +47,3 @@ schema {
 	mutation: Mutation
 	subscription: Subscription
 }
-

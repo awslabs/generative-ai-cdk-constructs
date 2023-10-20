@@ -34,10 +34,8 @@ def handler(event, context: LambdaContext)-> dict:
 
      input_files = summary_input['files']
 
-     response = process_files(input_files)
-
-     updateFileStatus({'jobid': job_id, 'files': response['files']})
-
+     response = process_files(input_files,job_id)
+     
      response_transformed = add_job_id_to_response(response, job_id)
     
      logger.info({"response": response_transformed})
@@ -45,28 +43,45 @@ def handler(event, context: LambdaContext)-> dict:
        
 
 @tracer.capture_method
-def process_files(input_files):
+def process_files(input_files,job_id):
+    files_list = []
     files_to_process = []
+    files_to_reject = []
     valid = True
+
     for i in range(len(input_files)):
         filename = input_files[i]['name']
-        status = "Unsupported"
-        if filename.lower().endswith(('.pdf')):
-            status = "Supported"
-            metrics.add_metric(name="SupportedFile", unit=MetricUnit.Count, value=1)
+        file_list = {
+                'status':"Pending",
+                'name':filename  , 
+                'summary':""     
+            }       
+        if filename.lower().endswith(('.pdf')) or filename.lower().endswith(('.txt')):
+            metrics.add_metric(name="SupportedFile", unit=MetricUnit.Count, value=1)          
+            file_list.update({'status':'Supported'})
         else:
-            logger.info("file {filename} extension is currently not supported")
+            file_list.update({'status':"Error"})
+            file_list.update({'summary':"Invalid file format"})
+            logger.info(f"file {filename} extension is currently not supported, skipping this file from summary generation")
             metrics.add_metric(name="UnsupportedFile", unit=MetricUnit.Count, value=1)
-        file_to_process = {
-            'status':status,
-            'name':filename,
-            'summary':''
-        }
-        files_to_process.append(file_to_process)
+        
+        files_list.append(file_list)
+
+    for file in files_list:
+        if file['status'] == "Error":
+            files_to_reject.append(file)
+            logger.info({" Rejected file :: file_name":file['name'],"status":file['status']})
+        else:
+            files_to_process.append(file)
+            logger.info({"Valid file :: file_name":file['name'],"status":file['status']})
+        
+
+    updateFileStatus({'jobid': job_id, 'files': files_list})
 
     if not files_to_process:
         valid = False
-
+        logger.info("No valid file to process. Stopping the job.")
+    
     response = {
         'isValid':valid,
         'files':files_to_process

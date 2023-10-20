@@ -55,11 +55,6 @@ export interface RedisProps {
    */
   readonly subnetIds: string [];
 
-  /**
-   * Required. redis Subnet Group Id
-   * @default redisSubnetGroup
-   */
-  readonly redisSubnetGroupId: string;
 
   /**
    * Required. lambda security group which will acces the redis cluster
@@ -80,13 +75,11 @@ export interface RedisProps {
 export function buildRedisCluster(scope: Construct, props: RedisProps): elasticache.CfnCacheCluster {
 
 
-  const redisclustername = props.cfnCacheClusterProps?.clusterName || 'redisCluster';
   const cacheNodeType = props.cfnCacheClusterProps?.cacheNodeType || 'cache.r6g.xlarge';
   const engine = props.cfnCacheClusterProps?.engine || 'redis';
   const numCacheNodes = props.cfnCacheClusterProps?.numCacheNodes || 1;
 
   let redisCulster = new elasticache.CfnCacheCluster(scope, 'redisCluster', {
-    clusterName: redisclustername,
     cacheNodeType: cacheNodeType,
     engine: engine,
     numCacheNodes: numCacheNodes,
@@ -99,7 +92,7 @@ export function buildRedisCluster(scope: Construct, props: RedisProps): elastica
 
 // get redis subnet group from existing vpc
 function getRedisSubnetGroup(scope: Construct, props: RedisProps): elasticache.CfnSubnetGroup {
-  let redisSubnetGroup = new elasticache.CfnSubnetGroup(scope, props.redisSubnetGroupId, {
+  let redisSubnetGroup = new elasticache.CfnSubnetGroup(scope, 'redisSubnetGroup', {
     description: 'Redis subnet group',
     subnetIds: props.subnetIds,
   });
@@ -108,13 +101,11 @@ function getRedisSubnetGroup(scope: Construct, props: RedisProps): elasticache.C
 
 // get redis security group from existing vpc
 export function getRedisSecurityGroup(scope: Construct,
-  props: RedisProps | any, redisSecurityGroupname: string ): ec2.SecurityGroup {
-  const redisSecurityGroupName = props.redisSecurityGroupname || 'redisSecuritygroup';
-  let redisSecurityGroup = new ec2.SecurityGroup(scope, redisSecurityGroupname, {
+  props: RedisProps | any ): ec2.SecurityGroup {
+  let redisSecurityGroup = new ec2.SecurityGroup(scope, 'redisSecurityGroup', {
     vpc: props.existingVpc,
     allowAllOutbound: true,
     description: 'security group for elasticache',
-    securityGroupName: redisSecurityGroupName,
   });
 
   return redisSecurityGroup;

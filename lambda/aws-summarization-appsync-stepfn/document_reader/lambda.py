@@ -36,8 +36,7 @@ def handler(event, context: LambdaContext):
     logger.info(f"{event=}")
     
     original_file_name = event["name"]
-    job_id = event["jobid"]
-
+    job_id = event["jobid"]  
     response = {
         "is_summary_available": False,
         "summary_job_id": job_id,
@@ -68,6 +67,7 @@ def handler(event, context: LambdaContext):
         transformed_file_name = original_file_name.replace(".pdf", ".txt")
         
         if(is_file_tranformation_required):
+             logger.info("File transformation required")
              transformed_file  = get_file_transformation(transformed_bucket_name, 
                                                          transformed_file_name,
                                                          input_bucket_name,
@@ -76,7 +76,7 @@ def handler(event, context: LambdaContext):
                 {
                   "file_name": original_file_name, 
                   "status": transformed_file['status'], 
-                  "summary": '',
+                  "summary": transformed_file['summary'],
                   "transformed_file_name":transformed_file_name,
                   "is_summary_available": False  
                 }
@@ -84,45 +84,48 @@ def handler(event, context: LambdaContext):
         else:
              pdf_transformed_file = check_file_exists(transformed_bucket_name,
                                                       transformed_file_name)
-             if not pdf_transformed_file:
+             if pdf_transformed_file is False:
                 response.update(
                     {
                      "file_name": original_file_name, 
-                     "status": "Error", 
-                     "summary": f"No file {transformed_file_name} available to generate the summary.",   
+                     "status": "Error",
+                     "summary": f"Error occured. No file {transformed_file_name} available to generate the summary."   
                     }
                 )
                 logger.exception({"No file {transformed_file_name} available to generate the summary."})
-                return response
             
 
-    logger.info({"document reader response:": response})
-    updateSummaryJobStatus({'jobid': job_id, 
-                            'file_name':response["file_name"]
-                            ,'status':response['status']  ,
-                            'summary':response["summary"]})
+    logger.info({"document reader response:::": response})
+    updateSummaryJobStatus({'jobid': job_id, 'files':
+                            [{ 'status':response["status"],
+                              'name':response['file_name'] , 
+                              'summary':response["summary"] }]})
     return response
 
 @tracer.capture_method
 def get_summary_from_cache(file_name):
 
     logger.info({"Searching Redis for cached summary file: "+file_name})
-    redis_host = os.environ.get("REDIS_HOST", "N/A")
-    redis_port = os.environ.get("REDIS_PORT", "N/A")
+    redis_host = os.environ.get("REDIS_HOST")
+    redis_port = os.environ.get("REDIS_PORT")
     
-    logger.info({"Redis host: "+redis_host})
-    logger.info({"Redis port: "+redis_port})
+    logger.info(f"Redis host: {redis_host}")
+    logger.info(f"Redis port: {redis_port}")
+    
+    if redis_host is None or redis_port is None:
+        logger.exception({"Redis host or port is not set"})
+    else:
+        try:
+            logger.info({"Connecting Redis......"})
+            redis_client = redis.Redis(host=redis_host, port=redis_port)
+            fileSummary = redis_client.get(file_name)
+        except (ValueError, redis.ConnectionError) as e:
+            logger.exception({"An error occured while connecting to Redis" : e})
+            return
 
-    try:
-        redis_client = redis.Redis(host=redis_host, port=redis_port)
-        fileSummary = redis_client.get(file_name)
-    except (ValueError, redis.ConnectionError) as e:
-        logger.exception({"An error occured while connecting to Redis" : e})
-        return
-
-    if fileSummary:
-        logger.info({"File summary found in cache: ": fileSummary})
-        return fileSummary.decode()
+        if fileSummary:
+            logger.info({"File summary found in cache: ": fileSummary})
+            return fileSummary.decode()
 
 
     logger.info("File summary not found in cache, generating it from llm")

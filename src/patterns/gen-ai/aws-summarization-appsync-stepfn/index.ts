@@ -261,7 +261,6 @@ export class SummarizationAppsyncStepfn extends Construct {
         {
           vpc: this.vpc,
           allowAllOutbound: true,
-          securityGroupName: 'securityGroup'+stage,
         },
       );
     }
@@ -314,14 +313,13 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     // build redis cluster only when cfnCacheClusterProps is set
     if (props?.cfnCacheClusterProps) {
-      const redisSecurityGroupname= 'redisSCgroup'+stage;
-      const redisSecurityGroup =redisHelper.getRedisSecurityGroup(this, props, redisSecurityGroupname);
+      const redisSecurityGroup =redisHelper.getRedisSecurityGroup(this, {
+        existingVpc: this.vpc,
+      });
       this.redisCluster = redisHelper.buildRedisCluster(this, {
         existingVpc: this.vpc,
         cfnCacheClusterProps: props.cfnCacheClusterProps,
-        redisSecurityGroupname: redisSecurityGroupname,
         subnetIds: vpcHelper.getPrivateSubnetIDs(this.vpc),
-        redisSubnetGroupId: 'redisSecuritygroup'+stage,
         inboundSecurityGroup: this.securityGroup,
         redisSecurityGroup: redisSecurityGroup,
       });
@@ -511,7 +509,7 @@ export class SummarizationAppsyncStepfn extends Construct {
       typeName: 'Mutation',
       fieldName: 'updateSummaryJobStatus',
       requestMappingTemplate: appsync.MappingTemplate.fromString(
-        '{ "version": "2017-02-28", "payload": $util.toJson($context.args) ',
+        '{ "version": "2017-02-28", "payload": $util.toJson($context.args) }',
       ),
 
       responseMappingTemplate: appsync.MappingTemplate.fromString(
@@ -540,26 +538,9 @@ export class SummarizationAppsyncStepfn extends Construct {
       retentionPeriod: cdk.Duration.days(7),
     });
 
-
-    const publishValidationFailureMessage = new sfnTask.EventBridgePutEvents(
-      this,
-      'publish validation failure message',
-      {
-        entries: [
-          {
-            detail: sfn.TaskInput.fromObject({
-              'summary.$': '$.summary',
-              'summaryjobstatus.$': '$.status',
-              'summary_job_id.$': '$.summary_job_id',
-              'filename.$': '$.filename',
-            }),
-            eventBus: this.eventBridgeBus,
-            detailType: 'MessageFromStepFunctions',
-            source: 'step.functions',
-          },
-        ],
-      },
-    );
+    const jobFailed= new sfn.Fail(this, 'Failed', {
+      comment: 'AWS summary Job failed',
+    });
 
     const jobSuccess= new sfn.Succeed(this, 'succeeded', {
       comment: 'AWS summary Job succeeded',
@@ -574,6 +555,10 @@ export class SummarizationAppsyncStepfn extends Construct {
       outputPath: '$.document_result.Payload',
     });
 
+    const fileStatusForSummarization = new sfn.Choice(this, 'is file status ready for summarization?', {
+      outputPath: '$.document_result.Payload',
+    });
+
 
     // step function, run files in parallel
     const runFilesInparallel = new sfn.Map(this, 'Run Files in Parallel', {
@@ -585,7 +570,12 @@ export class SummarizationAppsyncStepfn extends Construct {
             sfn.Condition.booleanEquals('$.document_result.Payload.is_summary_available', true),
             jobSuccess,
           ).otherwise(
-            generateSummaryTask.next(jobSuccess),
+            fileStatusForSummarization.when(
+              sfn.Condition.stringMatches('$.document_result.Payload.status', 'Error'),
+              jobSuccess,
+            ).otherwise(
+              generateSummaryTask.next(jobSuccess),
+            ),
           ),
       ),
     );
@@ -598,7 +588,7 @@ export class SummarizationAppsyncStepfn extends Construct {
       validateInputChoice
         .when(
           sfn.Condition.booleanEquals('$.validation_result.Payload.isValid', false),
-          publishValidationFailureMessage,
+          jobFailed,
         )
         .otherwise(runFilesInparallel),
     );
