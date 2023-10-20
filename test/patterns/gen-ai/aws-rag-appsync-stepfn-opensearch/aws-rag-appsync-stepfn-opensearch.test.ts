@@ -82,7 +82,6 @@ describe('RAG Appsync Stepfn Open search construct', () => {
       Environment: {
         Variables: {
           GRAPHQL_URL: { 'Fn::GetAtt': [Match.stringLikeRegexp('testingestionGraphqlApi'), 'GraphQLUrl'] },
-          INPUT_BUCKET: { Ref: Match.stringLikeRegexp('testinputAssetsBucket') },
           OPENSEARCH_DOMAIN_ENDPOINT: Match.stringLikeRegexp('osendppint.amazon.aws.com'),
           OPENSEARCH_INDEX: 'demoindex',
           OPENSEARCH_SECRET_ID: Match.stringLikeRegexp('OSSecret'),
