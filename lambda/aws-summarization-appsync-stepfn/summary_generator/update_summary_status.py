@@ -45,20 +45,24 @@ def get_credentials(secret_id: str, region_name: str) -> str:
 def updateSummaryJobStatus(variables):
 
     logger.info(f"send  status variables :: {variables}")
-    query = """mutation updateSummaryJobStatus {
-            updateSummaryJobStatus(summary_job_id: \"$jobid\",file_name: \"$file_name\", status: \"$status\", summary: \"$summary\") {
-                    summary_job_id
-                    file_name
+    query = """
+        mutation updateSummaryJobStatus {
+            updateSummaryJobStatus(files: $files, summary_job_id: \"$jobid\") {
+                files {
+                    name
                     status
                     summary
+                }
+                summary_job_id
             }
         }
     """
 
     query = query.replace("$jobid", variables['jobid'])
-    query = query.replace("$file_name", variables['file_name'])
-    query = query.replace("$status", variables['status'])
-    query = query.replace("$summary", variables['summary'])
+    query = query.replace("$files", str(variables['files']).replace("\'", "\""))
+    query = query.replace("\"name\"", "name")
+    query = query.replace("\"status\"", "status")
+    query = query.replace("\"summary\"", "summary")
     
 
     query = query.replace("\n", "")

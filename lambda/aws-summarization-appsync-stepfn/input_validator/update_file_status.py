@@ -46,8 +46,8 @@ def updateFileStatus(variables):
 
     print(f"send  status variables :: {variables}")
     query = """
-        mutation updateFileStatus {
-            updateFileStatus(files: $files, summary_job_id: \"$jobid\") {
+        mutation updateSummaryJobStatus {
+            updateSummaryJobStatus(files: $files, summary_job_id: \"$jobid\") {
                 files {
                     name
                     status

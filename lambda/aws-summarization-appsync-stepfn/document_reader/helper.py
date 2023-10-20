@@ -34,6 +34,7 @@ def read_file_from_s3(bucket, key):
 
 @tracer.capture_method
 def check_file_exists(bucket,key):
+    logger.info(f"Checking if file exists: bucket: {bucket}, key: {key}")
     s3_client = boto3.client('s3')
     try:
         resp = s3_client.head_object(Bucket=bucket, Key=key)
@@ -50,22 +51,26 @@ def check_file_exists(bucket,key):
 @tracer.capture_method
 def get_file_transformation(transformed_asset_bucket,transformed_file_name,
                             input_asset_bucket,original_file_name):
+    
     response = {
         'status':'File transformation Pending',
         'name':original_file_name,
+        'summary':''
     }
-    if (check_file_exists(transformed_asset_bucket, transformed_file_name) == False):
+    if (check_file_exists(transformed_asset_bucket, transformed_file_name) is False):
+            logger.info("Starting file transformation")
             loader = S3FileLoaderInMemory(input_asset_bucket, original_file_name)
             document_content = loader.load()
             if not document_content:
                 response['status'] = 'Error'
-                response['name'] = ''
+                response['summary'] = 'Not able to transform the file.'
                 return response 
             encoded_string = document_content.encode("utf-8")
             s3.Bucket(transformed_asset_bucket).put_object(Key=transformed_file_name, Body=encoded_string)
             response['status'] = 'File transformed'
             response['name'] = transformed_file_name
-    else:
-            response['status'] = 'File already exists'
+            response['summary']=''
+    else:   
+            logger.info("File already exists,skip transformation.")
             
     return response
