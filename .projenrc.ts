@@ -46,6 +46,11 @@ const project = new awscdk.AwsCdkConstructLibrary({
   npmRegistryUrl: 'https://npm.pkg.github.com',
   npmTokenSecret: 'GITHUB_TOKEN',
 
+  publishToPypi: {
+    distName: 'emerging-tech-cdk-constructs',
+    module: 'emerging-tech-cdk-constructs',
+  },
+
   codeCov: true,
   codeCovTokenSecret: 'CODECOV_TOKEN',
 

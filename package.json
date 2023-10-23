@@ -16,6 +16,7 @@
     "package": "npx projen package",
     "package-all": "npx projen package-all",
     "package:js": "npx projen package:js",
+    "package:python": "npx projen package:python",
     "post-compile": "npx projen post-compile",
     "post-upgrade": "npx projen post-upgrade",
     "pre-compile": "npx projen pre-compile",
@@ -121,7 +122,12 @@
   "stability": "experimental",
   "jsii": {
     "outdir": "dist",
-    "targets": {},
+    "targets": {
+      "python": {
+        "distName": "emerging-tech-cdk-constructs",
+        "module": "emerging-tech-cdk-constructs"
+      }
+    },
     "tsc": {
       "outDir": "lib",
       "rootDir": "src"
