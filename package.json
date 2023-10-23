@@ -125,7 +125,7 @@
     "targets": {
       "python": {
         "distName": "emerging-tech-cdk-constructs",
-        "module": "aws-samples"
+        "module": "emerging_tech_cdk_constructs"
       }
     },
     "tsc": {

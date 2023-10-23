@@ -48,7 +48,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
   publishToPypi: {
     distName: PROJECT_NAME,
-    module: GITHUB_USER,
+    module: PROJECT_NAME.replace(/-/g, '_'), // PEP 8, convert hypens
     twineRegistryUrl: '${{ secrets.TWINE_REGISTRY_URL }}',
   },
 
