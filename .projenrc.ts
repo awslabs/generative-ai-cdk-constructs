@@ -82,11 +82,6 @@ buildAutoApproveWorkflow(project);
 // We don't want to package certain things
 project.npmignore?.addPatterns(
   '/docs/',
-  'CHANGELOG.md',
-  'CODE_OF_CONDUCT.md',
-  'CONTRIBUTING.md',
-  'DESIGN_GUIDELINES.md',
-  'DEVELOPER_GUIDE.md',
   'header.js',
   '.gitattributes',
   '.eslintrc.json',
