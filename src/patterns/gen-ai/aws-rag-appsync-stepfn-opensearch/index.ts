@@ -361,7 +361,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       this,
       'lambda_function_validation_input'+stage,
       {
-        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/input_validation/src')),
+        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/input_validation/src')),
         functionName: 'ingestion_input_validation_docker'+stage,
         description: 'Lambda function for validating input files formats',
         vpc: this.vpc,
@@ -391,7 +391,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       this,
       'lambda_function_s3_file_transformer'+stage,
       {
-        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/s3_file_transformer/src')),
+        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/s3_file_transformer/src')),
         functionName: 's3_file_transformer_docker'+stage,
         description: 'Lambda function for converting files from their input format to text',
         vpc: this.vpc,
@@ -466,7 +466,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       this,
       'lambda_function_embeddings_job'+stage,
       {
-        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/embeddings_job/src')),
+        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/embeddings_job/src')),
         functionName: 'embeddings_job_docker'+stage,
         description: 'Lambda function for creating documents chunks, embeddings and storing them in Amazon Opensearch',
         vpc: this.vpc,

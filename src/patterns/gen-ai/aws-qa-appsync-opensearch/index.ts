@@ -303,7 +303,7 @@ export class QaAppsyncOpensearch extends Construct {
       this,
       'lambda_question_answering'+stage,
       {
-        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/question_answering/src')),
+        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-qa-appsync-opensearch/question_answering/src')),
         functionName: 'lambda_question_answering'+stage,
         description: 'Lambda function for question answering',
         vpc: this.vpc,
