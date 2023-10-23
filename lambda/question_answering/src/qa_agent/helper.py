@@ -65,7 +65,7 @@ def load_vector_db_opensearch(region: str,
 
     vector_db = OpenSearchVectorSearch(index_name=opensearch_index,
                                        embedding_function=embedding_function,
-                                       opensearch_url=opensearch_domain_endpoint,
+                                       opensearch_url=f"https://{opensearch_domain_endpoint}",
                                        http_auth=http_auth,
                                        use_ssl = True,
                                        verify_certs = True,
