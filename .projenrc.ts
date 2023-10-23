@@ -47,8 +47,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   npmTokenSecret: 'GITHUB_TOKEN',
 
   publishToPypi: {
-    distName: 'emerging-tech-cdk-constructs',
-    module: 'emerging-tech-cdk-constructs',
+    distName: PROJECT_NAME,
+    module: GITHUB_USER,
     twineRegistryUrl: '${{ secrets.TWINE_REGISTRY_URL }}',
   },
 
