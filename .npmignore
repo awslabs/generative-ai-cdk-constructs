@@ -41,8 +41,3 @@ header.js
 projenrc
 tsconfig.dev.json
 yarn.lock
-
-
-# Include .jsii and .jsii.gz
-!.jsii
-!.jsii.gz

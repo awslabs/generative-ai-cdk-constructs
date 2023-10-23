@@ -49,6 +49,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   publishToPypi: {
     distName: 'emerging-tech-cdk-constructs',
     module: 'emerging-tech-cdk-constructs',
+    twineRegistryUrl: '${{ secrets.TWINE_REGISTRY_URL }}',
   },
 
   codeCov: true,
