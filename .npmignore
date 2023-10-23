@@ -21,6 +21,7 @@ dist
 /.projenrc.js
 tsconfig.tsbuildinfo
 /.eslintrc.json
+!.jsii
 /docs/
 CHANGELOG.md
 CODE_OF_CONDUCT.md
@@ -28,7 +29,6 @@ CONTRIBUTING.md
 DESIGN_GUIDELINES.md
 DEVELOPER_GUIDE.md
 header.js
-.jsii
 .eslintrc.json
 .gitattributes
 .github

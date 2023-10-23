@@ -89,7 +89,6 @@ project.npmignore?.addPatterns(
   'DEVELOPER_GUIDE.md',
   'header.js',
   '.gitattributes',
-  '.jsii',
   '.eslintrc.json',
   '.gitattributes',
   '.github',
