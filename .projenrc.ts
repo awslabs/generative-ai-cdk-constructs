@@ -78,8 +78,30 @@ buildMonthlyIssuesMetricsWorkflow(project);
 buildUpdateContributorsWorkflow(project);
 buildAutoApproveWorkflow(project);
 
-// We don't want to package the use cases
-project.npmignore?.addPatterns('/use-cases/');
+// We don't want to package certain things
+project.npmignore?.addPatterns(
+  '/docs/',
+  'CHANGELOG.md',
+  'CODE_OF_CONDUCT.md',
+  'CONTRIBUTING.md',
+  'DESIGN_GUIDELINES.md',
+  'DEVELOPER_GUIDE.md',
+  'header.js',
+  '.gitattributes',
+  '.jsii',
+  '.eslintrc.json',
+  '.gitattributes',
+  '.github',
+  '.gitignore',
+  '.mergify.yml',
+  '.node-version',
+  '.npmignore',
+  '.projen',
+  '.projenrc.ts',
+  'projenrc',
+  'tsconfig.dev.json',
+  'yarn.lock',
+);
 
 // Add License header automatically
 project.eslint?.addPlugins('header');
