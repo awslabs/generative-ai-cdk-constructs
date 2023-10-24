@@ -10,7 +10,8 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
-from langchain.vectorstores import OpenSearchVectorSearch, RequestsHttpConnection
+from langchain.vectorstores import OpenSearchVectorSearch
+from opensearchpy import RequestsHttpConnection
 from llms import get_embeddings_llm
 import requests
 import os
