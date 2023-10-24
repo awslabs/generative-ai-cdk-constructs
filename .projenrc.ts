@@ -40,8 +40,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
   minNodeVersion: '18.12.0', // 'MAINTENANCE' (first LTS)
-  maxNodeVersion: '20.8.0', // 'CURRENT'
-  workflowNodeVersion: '18.x', // 'ACTIVE'
+  maxNodeVersion: '20.x', // 'CURRENT'
+  workflowNodeVersion: '20.x', // 'ACTIVE'
 
   npmRegistryUrl: 'https://npm.pkg.github.com',
   npmTokenSecret: 'GITHUB_TOKEN',
