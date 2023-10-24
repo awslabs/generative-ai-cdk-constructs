@@ -25,8 +25,6 @@ import re
 import json
 
 from aws_lambda_powertools import Logger, Tracer, Metrics
-from aws_lambda_powertools.utilities.typing import LambdaContext
-from aws_lambda_powertools.metrics import MetricUnit
 
 logger = Logger(service="QUESTION_ANSWERING")
 tracer = Tracer(service="QUESTION_ANSWERING")
@@ -80,7 +78,7 @@ _doc_index = None
 _current_doc_index = None
 
 def run_qa_agent_rag_no_memory(input_params):
-    logger.info("starting qa agent with rag approach without memory single document")
+    logger.info("starting qa agent with rag approach without memory")
 
     base64_bytes = input_params['question'].encode("utf-8")
 
@@ -101,15 +99,8 @@ def run_qa_agent_rag_no_memory(input_params):
 
     # 1. Load index and question related content
 
-    handler_type = input_params['handler_type']
-
     global _doc_index
     global _current_doc_index
-
-    if handler_type != _current_doc_index:
-        logger.info(f"_retriever={handler_type} does not match _current_retriever={_current_doc_index}, "
-                    f"resetting retriever")
-        _doc_index = None
 
     if _doc_index is None:
         logger.info("loading opensearch retriever")
@@ -118,11 +109,8 @@ def run_qa_agent_rag_no_memory(input_params):
                                                os.environ.get('OPENSEARCH_INDEX'),
                                                os.environ.get('OPENSEARCH_SECRET_ID'))
 
-    elif _doc_index is not None:
+    else :
         logger.info("_retriever already exists")
-    else:
-        logger.exception(f"requested retriever type={handler_type} which is not supported, _retriever={_doc_index}")
-        return
 
     _current_doc_index = _doc_index
 
