@@ -46,6 +46,12 @@ const project = new awscdk.AwsCdkConstructLibrary({
   npmRegistryUrl: 'https://npm.pkg.github.com',
   npmTokenSecret: 'GITHUB_TOKEN',
 
+  publishToPypi: {
+    distName: PROJECT_NAME,
+    module: PROJECT_NAME.replace(/-/g, '_'), // PEP 8, convert hypens
+    twineRegistryUrl: '${{ secrets.TWINE_REGISTRY_URL }}',
+  },
+
   codeCov: true,
   codeCovTokenSecret: 'CODECOV_TOKEN',
 
@@ -73,8 +79,24 @@ buildMonthlyIssuesMetricsWorkflow(project);
 buildUpdateContributorsWorkflow(project);
 buildAutoApproveWorkflow(project);
 
-// We don't want to package the use cases
-project.npmignore?.addPatterns('/use-cases/');
+// We don't want to package certain things
+project.npmignore?.addPatterns(
+  '/docs/',
+  'header.js',
+  '.gitattributes',
+  '.eslintrc.json',
+  '.gitattributes',
+  '.github',
+  '.gitignore',
+  '.mergify.yml',
+  '.node-version',
+  '.npmignore',
+  '.projen',
+  '.projenrc.ts',
+  'projenrc',
+  'tsconfig.dev.json',
+  'yarn.lock',
+);
 
 // Add License header automatically
 project.eslint?.addPlugins('header');
