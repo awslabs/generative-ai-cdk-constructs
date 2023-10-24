@@ -24,7 +24,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   authorOrganization: true,
   cdkVersion: CDK_VERSION,
   projenVersion: '~0.73.33',
-  constructsVersion: '10.0.5', // 10.3.0
+  constructsVersion: '10.3.0',
   cdkVersionPinning: true,
   defaultReleaseBranch: 'main',
   jsiiVersion: '~5.0.0',
