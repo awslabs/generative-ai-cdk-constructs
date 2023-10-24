@@ -16,7 +16,7 @@ import { buildMeritBadgerWorkflow, buildMonthlyIssuesMetricsWorkflow, buildUpdat
 // Constants
 const GITHUB_USER = 'aws-samples';
 const PROJECT_NAME = 'emerging-tech-cdk-constructs';
-const CDK_VERSION: string = '2.99.1';
+const CDK_VERSION: string = '2.102.0';
 
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Amazon Web Services - Prototyping and Cloud Engineering',
@@ -24,7 +24,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   authorOrganization: true,
   cdkVersion: CDK_VERSION,
   projenVersion: '~0.73.33',
-  constructsVersion: '10.0.5',
+  constructsVersion: '10.0.5', // 10.3.0
   cdkVersionPinning: true,
   defaultReleaseBranch: 'main',
   jsiiVersion: '~5.0.0',
