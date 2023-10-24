@@ -295,7 +295,7 @@ export class QaAppsyncOpensearch extends Construct {
       },
     );
 
-    let SecretId = 'None';
+    let SecretId = 'NONE';
     if (props.openSearchSecret) {SecretId = props.openSearchSecret.secretName;}
 
     // Lambda function used to validate inputs in the step function
