@@ -70,7 +70,8 @@ def load_vector_db_opensearch(region: str,
                                        http_auth=http_auth,
                                        use_ssl = True,
                                        verify_certs = True,
-                                       connection_class = RequestsHttpConnection)
+                                       connection_class = RequestsHttpConnection,
+                                       is_aoss=False)
     print(f"returning handle to OpenSearchVectorSearch, vector_db={vector_db}")
     return vector_db
 

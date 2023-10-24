@@ -162,6 +162,11 @@ def run_qa_agent_rag_no_memory(input_params):
         send_job_status(status_variables)
         return
     
+    sources_list = []
+    for doc in source_documents:
+        sources_list.append(doc.metadata['source'])
+    sources_list = list(set(sources_list))
+    
     logger.info(f'answer is: {answer}')
 
     llm_answer_bytes = answer.encode("utf-8")
@@ -172,10 +177,10 @@ def run_qa_agent_rag_no_memory(input_params):
     status_variables['jobstatus'] = 'Done'
     status_variables['answer'] = llm_answer_base64_string
     status_variables['question'] = input_params['question']
-    status_variables['sources'] = ['']
+    status_variables['sources'] = sources_list
     send_job_status(status_variables)
 
-    response = {'question': input_params['question'], 'answer': answer, 'sources': [''], 'filename': input_params['filename']}
+    response = {'question': input_params['question'], 'answer': answer, 'sources': sources_list, 'filename': input_params['filename']}
 
     return response
 
@@ -272,9 +277,9 @@ def run_qa_agent_from_single_document_no_memory(input_params):
     status_variables['jobstatus'] = 'Done'
     status_variables['answer'] = llm_answer_base64_string
     status_variables['question'] = input_params['question']
-    status_variables['sources'] = ['']
+    status_variables['sources'] = filename
     send_job_status(status_variables)
 
-    response = {'question': input_params['question'], 'answer': answer, 'sources': [''], 'filename': input_params['filename']}
+    response = {'question': input_params['question'], 'answer': answer, 'sources': input_params['filename'], 'filename': input_params['filename']}
 
     return response
