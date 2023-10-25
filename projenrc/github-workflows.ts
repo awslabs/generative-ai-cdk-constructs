@@ -76,7 +76,7 @@ export function buildMonthlyIssuesMetricsWorkflow(project: AwsCdkConstructLibrar
           '# Calculate the first day of the previous month',
           'first_day=$(date -d "last month" +%Y-%m-01)',
           '# Calculate the last day of the previous month',
-          'last_day=$(date -d $first_day +1 month -1 day +%Y-%m-%d)',
+          'last_day=$(date -d "$first_day +1 month -1 day" +%Y-%m-%d)',
           '# Set an environment variable with the date range',
           'echo "$first_day..$last_day"',
           'echo "last_month=$first_day..$last_day" >> "$GITHUB_ENV"',
@@ -156,7 +156,7 @@ export function buildUpdateContributorsWorkflow(project: AwsCdkConstructLibrary)
     runsOn: ['ubuntu-latest'],
     steps: [
       {
-        uses: 'actions/checkout@v4',
+        uses: 'actions/checkout@v3',
       },
       {
         uses: 'minicli/action-contributors@v3.3',
@@ -234,3 +234,43 @@ export function buildAutoApproveWorkflow(project: AwsCdkConstructLibrary) {
     }
   }
 }
+
+/**
+ * https://github.com/oss-review-toolkit/ort-ci-github-action
+ * Runs ORT toolkit on the repository.
+ * @param project AwsCdkConstructLibrary
+ */
+export function buildOrtToolkitWorkflow(project: AwsCdkConstructLibrary) {
+  const orttoolkit: Job = {
+    runsOn: ['ubuntu-latest'],
+    permissions: {
+      contents: JobPermission.WRITE,
+    },
+    steps: [
+      {
+        name: 'Checkout project',
+        uses: 'actions/checkout@v3',
+      },
+      {
+        name: 'Run GitHub Action for ORT',
+        uses: 'oss-review-toolkit/ort-ci-github-action@v1',
+      },
+    ],
+  };
+
+  if (project.github) {
+    const workflow = project.github.addWorkflow('ort-checker');
+    if (workflow) {
+      workflow.on({
+        push: {
+          branches: [
+            'main',
+          ],
+        },
+        workflowDispatch: {},
+      });
+      workflow.addJobs({ ort: orttoolkit });
+    }
+  }
+}
+
