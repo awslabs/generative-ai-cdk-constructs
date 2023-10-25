@@ -2,12 +2,11 @@ aws-lambda-powertools
 aws-xray-sdk
 fastjsonschema
 typing-extensions
-aiohttp
 boto3>=1.28.61
 botocore>=1.31.61
-requests
-requests-aws4auth
-opensearch-py
-numpy
+requests==2.31.0
+requests-aws4auth==1.2.3
 langchain==0.0.312
-opensearch-py
+opensearch-py==2.3.1
+sagemaker
+numpy

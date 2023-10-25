@@ -552,7 +552,6 @@ export class SummarizationAppsyncStepfn extends Construct {
     });
 
     const summaryfromCacheChoice = new sfn.Choice(this, 'is Summary in Cache?', {
-      outputPath: '$.document_result.Payload',
     });
 
     const fileStatusForSummarization = new sfn.Choice(this, 'is file status ready for summarization?', {
