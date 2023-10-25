@@ -37,11 +37,38 @@ metrics = Metrics(namespace="ingestion_pipeline", service="INGESTION_EMBEDDING_J
 aws_region = boto3.Session().region_name
 session = boto3.session.Session()
 credentials = session.get_credentials()
-bedrock_client = boto3.client(
-    service_name='bedrock', 
-    region_name=aws_region,
-    endpoint_url=f'https://bedrock.{aws_region}.amazonaws.com'
-)
+sts_client = boto3.client("sts")
+
+def get_bedrock_client(service_name="bedrock-runtime"):
+    config = {}
+    bedrock_config = config.get("bedrock", {})
+    bedrock_enabled = bedrock_config.get("enabled", False)
+    if not bedrock_enabled:
+        print("bedrock not enabled")
+        return None
+
+    bedrock_config_data = {"service_name": service_name}
+    region_name = bedrock_config.get("region")
+    endpoint_url = bedrock_config.get("endpointUrl")
+    role_arn = bedrock_config.get("roleArn")
+
+    if region_name:
+        bedrock_config_data["region_name"] = region_name
+    if endpoint_url:
+        bedrock_config_data["endpoint_url"] = endpoint_url
+
+    if role_arn:
+        assumed_role_object = sts_client.assume_role(
+            RoleArn=role_arn,
+            RoleSessionName="AssumedRoleSession",
+        )
+
+        credentials = assumed_role_object["Credentials"]
+        bedrock_config_data["aws_access_key_id"] = credentials["AccessKeyId"]
+        bedrock_config_data["aws_secret_access_key"] = credentials["SecretAccessKey"]
+        bedrock_config_data["aws_session_token"] = credentials["SessionToken"]
+
+    return boto3.client(**bedrock_config_data)
 
 opensearch_secret_id = os.environ['OPENSEARCH_SECRET_ID']
 bucket_name = os.environ['OUTPUT_BUCKET']
@@ -52,7 +79,7 @@ DATA_DIR = "/tmp"
 CHUNCK_SIZE_DOC_SPLIT=500
 OVERLAP_FOR_DOC_SPLIT=20
 MAX_OS_DOCS_PER_PUT = 500
-TOTAL_INDEX_CREATION_WAIT_TIME = 60
+TOTAL_INDEX_CREATION_WAIT_TIME = 1
 PER_ITER_SLEEP_TIME = 5
 PROCESS_COUNT=5
 INDEX_FILE="index_file"
@@ -93,7 +120,8 @@ def handler(event,  context: LambdaContext) -> dict:
             filename = transformed_file['s3_transformer_result']['Payload']['name']
             loader = S3TxtFileLoaderInMemory(bucket_name, filename)
             sub_docs = loader.load()
-            sub_docs.metadata['source'] = filename
+            for doc in sub_docs:
+                doc.metadata['source'] = filename
             docs.extend(sub_docs)
 
     if not docs:
@@ -125,7 +153,7 @@ def handler(event,  context: LambdaContext) -> dict:
     # otherwise call the from_documents function which would first create the index
     # and then do a bulk add. Both add_documents and from_documents do a bulk add
     # but it is important to call from_documents first so that the index is created
-    # correctly for K-NN
+    # correctly for K-NN    
     try:
         index_exists = check_if_index_exists(opensearch_index,
                                                 aws_region,
@@ -140,7 +168,7 @@ def handler(event,  context: LambdaContext) -> dict:
             'status':'failed'
         }
 
-
+    bedrock_client = get_bedrock_client()
     embeddings = BedrockEmbeddings(client=bedrock_client)
 
     if index_exists is False:

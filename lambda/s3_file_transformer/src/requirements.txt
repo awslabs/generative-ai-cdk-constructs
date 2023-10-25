@@ -1,8 +1,0 @@
-aws-lambda-powertools
-aws-xray-sdk
-fastjsonschema
-typing-extensions
-boto3
-requests
-langchain==0.0.312
-pypdf2

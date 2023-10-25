@@ -2,6 +2,6 @@ boto3>=1.28.61
 botocore>=1.31.61
 requests==2.31.0
 requests-aws4auth==1.2.3
-langchain==0.0.312
+langchain==0.0.317
 opensearch-py==2.3.1
 openai==0.28.1

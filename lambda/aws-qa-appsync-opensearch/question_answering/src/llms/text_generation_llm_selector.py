@@ -28,17 +28,13 @@ metrics = Metrics(namespace="question_answering", service="QUESTION_ANSWERING")
 sts_client = boto3.client("sts")
 
 aws_region = boto3.Session().region_name
-bedrock_client = boto3.client(
-    service_name='bedrock', 
-    region_name=aws_region,
-    endpoint_url=f'https://bedrock.{aws_region}.amazonaws.com'
-)
 
 def get_bedrock_client(service_name="bedrock-runtime"):
     config = {}
     bedrock_config = config.get("bedrock", {})
     bedrock_enabled = bedrock_config.get("enabled", False)
     if not bedrock_enabled:
+        print("bedrock not enabled")
         return None
 
     bedrock_config_data = {"service_name": service_name}
@@ -82,7 +78,8 @@ def get_llm():
     )
 
 def get_embeddings_llm():
-    return BedrockEmbeddings(client=bedrock_client)
+    bedrock = get_bedrock_client(service_name="bedrock-runtime")
+    return BedrockEmbeddings(client=bedrock, model_id="amazon.titan-embed-text-v1")
     
 def get_max_tokens():
     return 100000
