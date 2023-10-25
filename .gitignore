@@ -59,4 +59,4 @@ tsconfig.json
 !/.github/workflows/monthly-repo-metrics.yml
 !/.github/workflows/update-contributors.yml
 !/.github/workflows/auto-approve.yml
-!/.github/workflows/ort-checker.yml
+!/.github/workflows/ort-toolkit.yml

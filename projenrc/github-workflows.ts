@@ -259,7 +259,7 @@ export function buildOrtToolkitWorkflow(project: AwsCdkConstructLibrary) {
   };
 
   if (project.github) {
-    const workflow = project.github.addWorkflow('ort-checker');
+    const workflow = project.github.addWorkflow('ort-toolkit');
     if (workflow) {
       workflow.on({
         push: {
