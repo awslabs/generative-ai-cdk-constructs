@@ -12,7 +12,7 @@ jobs:
     permissions:
       issues: write
       pull-requests: read
-    if: github.repository == 'aws-samples/emerging-tech-cdk-constructs'
+    if: github.repository == 'awslabs/generative-ai-cdk-constructs'
     steps:
       - name: Get dates for last month
         run: |-
@@ -27,7 +27,7 @@ jobs:
         uses: github/issue-metrics@v2
         env:
           GH_TOKEN: ${{ secrets.PROJEN_GITHUB_TOKEN }}
-          SEARCH_QUERY: repo:aws-samples/emerging-tech-cdk-constructs is:issue created:${{ env.last_month }} -reason:"not planned"
+          SEARCH_QUERY: repo:awslabs/generative-ai-cdk-constructs is:issue created:${{ env.last_month }} -reason:"not planned"
       - name: Create report for issues
         uses: peter-evans/create-issue-from-file@v4
         with:
@@ -39,7 +39,7 @@ jobs:
         uses: github/issue-metrics@v2
         env:
           GH_TOKEN: ${{ secrets.PROJEN_GITHUB_TOKEN }}
-          SEARCH_QUERY: repo:aws-samples/emerging-tech-cdk-constructs is:pr created:${{ env.last_month }} -is:draft
+          SEARCH_QUERY: repo:awslabs/generative-ai-cdk-constructs is:pr created:${{ env.last_month }} -is:draft
       - name: Create report for PRs
         uses: peter-evans/create-issue-from-file@v4
         with:
