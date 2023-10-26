@@ -277,7 +277,7 @@ def run_qa_agent_from_single_document_no_memory(input_params):
     status_variables['jobstatus'] = 'Done'
     status_variables['answer'] = llm_answer_base64_string
     status_variables['question'] = input_params['question']
-    status_variables['sources'] = filename
+    status_variables['sources'] = [filename]
     send_job_status(status_variables)
 
     response = {'question': input_params['question'], 'answer': answer, 'sources': input_params['filename'], 'filename': input_params['filename']}
