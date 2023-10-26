@@ -52,7 +52,8 @@ AWS Lambda functions provisioned in this construct use [Powertools for AWS Lambd
 
 Here is a minimal deployable pattern definition:
 
-Typescript
+Create a CDK typescript project and then update the stack with below configuration.
+
 ``` typescript
 import { Construct } from 'constructs';
 import { Stack, StackProps } from 'aws-cdk-lib';
@@ -72,6 +73,23 @@ summarizationTestConstruct = new SummarizationAppsyncStepfn(
     
 ```
 
+For optional props like redis cluster set cfnCacheClusterProps.
+
+```
+const cfnCacheClusterProps: elasticache.CfnCacheClusterProps = {
+      cacheNodeType: 'cache.r6g.xlarge',
+      engine: 'redis',
+      numCacheNodes: 1,
+    };
+```
+If file transformation is required set isFileTransformationRequired to 'True'
+
+ ```
+ isFileTransformationRequired: 'True'
+ ```
+
+For existing resource like Amazon VPC , Amazon S3 buckets use props like existingVpc, existingInputAssetsBucket and existingTransformedAssetsBucket.
+
 The code below provides an example of a mutation call and associated subscription to trigger the summarization workflow and get response notifications:
 
 Mutation call to trigger the question:
@@ -79,7 +97,7 @@ Mutation call to trigger the question:
 ```
 mutation MyMutation {
   generateSummary(summaryInput:{files:[{name: "document1.txt", status: ""}], summary_job_id:"81"}) {
-    file_name
+    name
     status
     summary
     summary_job_id
@@ -96,8 +114,8 @@ If pdf format is selected, the file needs to be in the input S3 bucket and the c
 Subscription call to get notifications about the summarization process:
 ```
 subscription MySubscription {
-  updateSummaryJobStatus(file_name: "document1.txt", summary_job_id: "81") {
-    file_name
+  updateSummaryJobStatus(name: "document1.txt", summary_job_id: "81") {
+    name
     status
     summary
     summary_job_id
@@ -108,10 +126,10 @@ subscription MySubscription {
 Where:
 - summary_job_id: id which can be used to filter subscriptions on client side
 - status: status update of the summarization process for the file(s) specified
-- file_name: name of the file stored in the input S3 bucket, same name + extension as passed to the previous mutation call.
+- name: name of the file stored in the input S3 bucket, same name + extension as passed to the previous mutation call.
 - summary: summary returned by the Large Language Model for the document specified, as a base64 encoded string
 
-```If multiple files are requested for summarization , then the client should filter response based on summary_job_id and file_name for each file. ```
+```If multiple files are requested for summarization , then the client should filter response based on summary_job_id and name for each file. ```
 
 ## Initializer
 
