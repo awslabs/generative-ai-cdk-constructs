@@ -175,6 +175,13 @@ export interface SummarizationAppsyncStepfnProps {
   readonly summaryChainType?: string;
 
   /**
+   * Optional.
+   *
+   * @default - False
+   */
+  readonly operationalMetricOptOut?: boolean;
+
+  /**
    * Value will be appended to resources name.
    *
    * @default - _dev
@@ -239,6 +246,9 @@ export class SummarizationAppsyncStepfn extends Construct {
      */
   constructor(scope: Construct, id: string, props: SummarizationAppsyncStepfnProps) {
     super(scope, id);
+
+    const operationalMetricOptOut = props.operationalMetricOptOut || false;
+    const solution_id = operationalMetricOptOut? 'U_APP_EMT_GAI_NON_PROD':'NA';
 
     let stage = '-dev';
     if (props?.stage) {
@@ -396,6 +406,7 @@ export class SummarizationAppsyncStepfn extends Construct {
         timeout: cdk.Duration.minutes(5),
         environment: {
           GRAPHQL_URL: updateGraphQlApiEndpoint,
+
         },
       });
 
@@ -421,6 +432,7 @@ export class SummarizationAppsyncStepfn extends Construct {
         INPUT_ASSET_BUCKET: inputAssetBucketName,
         IS_FILE_TRANSFORMED: isFileTransformationRequired,
         GRAPHQL_URL: updateGraphQlApiEndpoint,
+        SOLUTION_IDENTIFIER: solution_id,
 
       },
     });
@@ -442,6 +454,7 @@ export class SummarizationAppsyncStepfn extends Construct {
         ASSET_BUCKET_NAME: transformedAssetBucketName,
         GRAPHQL_URL: updateGraphQlApiEndpoint,
         SUMMARY_LLM_CHAIN_TYPE: summaryChainType,
+        SOLUTION_IDENTIFIER: solution_id,
       },
     });
 

@@ -10,7 +10,7 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
-import os
+import os,json
 from helper import check_file_exists,get_file_transformation
 import redis
 
@@ -26,6 +26,10 @@ metrics = Metrics(namespace="summary_pipeline", service="SUMMARY_DOCUMENT_READER
 transformed_bucket_name = os.environ["TRANSFORMED_ASSET_BUCKET"]
 input_bucket_name = os.environ["INPUT_ASSET_BUCKET"]
 is_file_tranformation_required = os.environ["IS_FILE_TRANSFORMED"]
+
+solution_identifier= json.loads(os.environ['SOLUTION_IDENTIFIER'])
+
+
 
 
 @logger.inject_lambda_context(log_event=True)
@@ -71,7 +75,7 @@ def handler(event, context: LambdaContext):
              transformed_file  = get_file_transformation(transformed_bucket_name, 
                                                          transformed_file_name,
                                                          input_bucket_name,
-                                                         original_file_name)
+                                                         original_file_name,solution_identifier)
              response.update(
                 {
                   "file_name": original_file_name, 
@@ -83,7 +87,7 @@ def handler(event, context: LambdaContext):
             )
         else:
              pdf_transformed_file = check_file_exists(transformed_bucket_name,
-                                                      transformed_file_name)
+                                                      transformed_file_name,solution_identifier)
              if pdf_transformed_file is False:
                 response.update(
                     {
