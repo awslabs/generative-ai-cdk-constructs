@@ -1,9 +1,0 @@
----
-excludes:
-  paths:
-  scopes:
-resolutions:
-  issues:
-  vulnerabilities:
-curations:
-  license_findings:
