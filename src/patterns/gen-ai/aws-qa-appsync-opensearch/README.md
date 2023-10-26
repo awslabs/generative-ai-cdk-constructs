@@ -188,7 +188,12 @@ By default the construct will enable logging and tracing on all services which s
 
 | **Error Code**     | **Message**        | **Description** |**Fix** |
 |:-------------|:----------------|-----------------|-----------------|
-| 601 | <>message | This error happens when <> | Provide a valid value for the <> |
+| | Failed to load information about the requested file | This error happens when the Lambda function was not able to load metadata about the file provided as input parameter | Ensure the file is present in the input bucket |
+| | Working on the question | The Lambda function started the question processing | Not an error, informational only |
+| | Exception during prediction | An issue happened during the prediction process (call to the Large Language Model via Amazon Bedrock) | Verify the Lambda CloudWatch Logs to get access to the related error. One common issue is throtlling. |
+| | Done | The process ended successfully | Not an error, informational only |
+| | Failed to load document content | This error happens when the Lambda function was not able to load the content of the file provided as input parameter | Ensure the file is present in the input bucket | Ensure the file is present in the input bucket |
+| | Failed to load the llm | Internal error related to loading the Large Language Model client | Verify the Lambda error logs to get a detailed description of the issue |
 
 ## Architecture
 ![Architecture Diagram](architecture.png)
