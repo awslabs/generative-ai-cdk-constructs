@@ -82,7 +82,7 @@ def send_job_status(variables):
 
     query = """
     mutation updateQAJobStatus {
-        updateQAJobStatus (jobstatus: \"$jobstatus\", jobid: $jobid, answer: \""""+answer+"""\", question: \""""+question+"""\", filename: \"$filename\", sources: $sources) 
+        updateQAJobStatus (jobstatus: \"$jobstatus\", jobid: \"$jobid\", answer: \""""+answer+"""\", question: \""""+question+"""\", filename: \"$filename\", sources: $sources) 
         {
             jobstatus, 
             jobid, 
@@ -95,7 +95,7 @@ def send_job_status(variables):
 
     query = query.replace("$jobstatus", variables['jobstatus'])
     query = query.replace("$filename", variables['filename'])
-    query = query.replace("$jobid", str(variables['jobid']))
+    query = query.replace("$jobid", variables['jobid'])
     query = query.replace("$sources", str(variables['sources']).replace("\'", "\""))
 
     request = {'query':query}
