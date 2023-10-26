@@ -73,7 +73,7 @@ def handler(event,  context: LambdaContext) -> dict:
             loader = S3FileLoaderInMemory(input_bucket, event['name'])
             document_content = loader.load()
             if not document_content:
-                response['status'] = 'Error'
+                response['status'] = 'Unable to load document'
                 response['name'] = ''
                 return response 
             encoded_string = document_content.encode("utf-8")
@@ -81,7 +81,7 @@ def handler(event,  context: LambdaContext) -> dict:
             response['status'] = 'File transformed'
             response['name'] = output_file_name
         else:
-            response['status'] = 'Duplicate'
+            response['status'] = 'Unsupported'
             response['name'] = ''
     else:
         response['status'] = 'File already exists'

@@ -201,7 +201,11 @@ By default the construct will enable logging and tracing on all services which s
 
 | **Error Code**     | **Message**        | **Description** |**Fix** |
 |:-------------|:----------------|-----------------|-----------------|
-| 601 | <>message | This error happens when <> | Provide a valid value for the <> |
+| | Ingested | The file provided as input was correctly ingested | Not an error, informational only |
+| | Error - internal os error cannot connect | The embeddings Lambda function is not able to connect to the Amazon OpenSearch instance | Verify the credentials and network settings to ensure that the Lambda function is authorized to access the cluster | 
+| | Error_File already exists | The file provided as input is already transformed in the output bucket | Remove the file from the transformed output bucket, and if needed also from the knowledge base | 
+| | Error_Unable to load document | The Lambda transformer function was unable to load the document provided as input argument | Verify that the input file is located in the input bucket| 
+| | Error_Unsupported | The input file document is in a format not supported by the workflow | Provide a file in a supported format | 
 
 ## Architecture
 ![Architecture Diagram](architecture.png)
