@@ -11,7 +11,13 @@
  *  and limitations under the License.
  */
 import { awscdk } from 'projen';
-import { buildMeritBadgerWorkflow, buildMonthlyIssuesMetricsWorkflow, buildUpdateContributorsWorkflow, buildAutoApproveWorkflow } from './projenrc/github-workflows';
+import {
+  buildMeritBadgerWorkflow,
+  buildMonthlyIssuesMetricsWorkflow,
+  buildUpdateContributorsWorkflow,
+  buildAutoApproveWorkflow,
+  buildOrtToolkitWorkflow,
+} from './projenrc/github-workflows';
 
 // Constants
 const GITHUB_USER = 'aws-samples';
@@ -78,6 +84,7 @@ buildMeritBadgerWorkflow(project);
 buildMonthlyIssuesMetricsWorkflow(project);
 buildUpdateContributorsWorkflow(project);
 buildAutoApproveWorkflow(project);
+buildOrtToolkitWorkflow(project);
 
 // We don't want to package certain things
 project.npmignore?.addPatterns(
