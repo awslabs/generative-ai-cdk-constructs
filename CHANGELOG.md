@@ -1,3 +1,7 @@
+# CDK Emerging Tech Constructs V0.0.35 (2023-10-25)
+
+Based on CDK library version 2.102.0
+
 # CDK Emerging Tech Constructs V0.0.24 (2023-10-16)
 
 Based on CDK library version 2.99.1
