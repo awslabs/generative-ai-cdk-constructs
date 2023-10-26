@@ -70,7 +70,8 @@ def load_vector_db_opensearch(region: str,
                                        http_auth=http_auth,
                                        use_ssl = True,
                                        verify_certs = True,
-                                       connection_class = RequestsHttpConnection)
+                                       connection_class = RequestsHttpConnection,
+                                       is_aoss=False)
     print(f"returning handle to OpenSearchVectorSearch, vector_db={vector_db}")
     return vector_db
 
@@ -81,7 +82,7 @@ def send_job_status(variables):
 
     query = """
     mutation updateQAJobStatus {
-        updateQAJobStatus (jobstatus: \"$jobstatus\", jobid: $jobid, answer: \""""+answer+"""\", question: \""""+question+"""\", filename: \"$filename\", sources: $sources) 
+        updateQAJobStatus (jobstatus: \"$jobstatus\", jobid: \"$jobid\", answer: \""""+answer+"""\", question: \""""+question+"""\", filename: \"$filename\", sources: $sources) 
         {
             jobstatus, 
             jobid, 
@@ -94,7 +95,7 @@ def send_job_status(variables):
 
     query = query.replace("$jobstatus", variables['jobstatus'])
     query = query.replace("$filename", variables['filename'])
-    query = query.replace("$jobid", str(variables['jobid']))
+    query = query.replace("$jobid", variables['jobid'])
     query = query.replace("$sources", str(variables['sources']).replace("\'", "\""))
 
     request = {'query':query}

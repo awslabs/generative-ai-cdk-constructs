@@ -24,11 +24,38 @@ tracer = Tracer(service="INGESTION_EMBEDDING_JOB")
 metrics = Metrics(namespace="ingestion_pipeline", service="INGESTION_EMBEDDING_JOB")
 
 aws_region = boto3.Session().region_name
-bedrock_client = boto3.client(
-    service_name='bedrock-runtime', 
-    region_name=aws_region,
-    endpoint_url=f'https://bedrock.{aws_region}.amazonaws.com'
-)
+sts_client = boto3.client("sts")
+
+def get_bedrock_client(service_name="bedrock-runtime"):
+    config = {}
+    bedrock_config = config.get("bedrock", {})
+    bedrock_enabled = bedrock_config.get("enabled", False)
+    if not bedrock_enabled:
+        print("bedrock not enabled")
+        return None
+
+    bedrock_config_data = {"service_name": service_name}
+    region_name = bedrock_config.get("region")
+    endpoint_url = bedrock_config.get("endpointUrl")
+    role_arn = bedrock_config.get("roleArn")
+
+    if region_name:
+        bedrock_config_data["region_name"] = region_name
+    if endpoint_url:
+        bedrock_config_data["endpoint_url"] = endpoint_url
+
+    if role_arn:
+        assumed_role_object = sts_client.assume_role(
+            RoleArn=role_arn,
+            RoleSessionName="AssumedRoleSession",
+        )
+
+        credentials = assumed_role_object["Credentials"]
+        bedrock_config_data["aws_access_key_id"] = credentials["AccessKeyId"]
+        bedrock_config_data["aws_secret_access_key"] = credentials["SecretAccessKey"]
+        bedrock_config_data["aws_session_token"] = credentials["SessionToken"]
+
+    return boto3.client(**bedrock_config_data)
 
 @tracer.capture_method
 def check_if_index_exists(index_name: str, region: str, host: str, http_auth: Tuple[str, str]) -> OpenSearch:
@@ -45,7 +72,10 @@ def check_if_index_exists(index_name: str, region: str, host: str, http_auth: Tu
 
 def process_shard(shard, os_index_name, os_domain_ep, os_http_auth) -> int: 
     print(f'Starting process_shard of {len(shard)} chunks.')
-    embeddings = BedrockEmbeddings(client=bedrock_client)
+    bedrock_client = get_bedrock_client()
+    embeddings = BedrockEmbeddings(
+        client=bedrock_client, 
+        model_id="amazon.titan-embed-text-v1")
     docsearch = OpenSearchVectorSearch(index_name=os_index_name,
                                        embedding_function=embeddings,
                                        opensearch_url=f"https://{os_domain_ep}",

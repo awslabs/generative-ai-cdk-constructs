@@ -16,7 +16,7 @@ import { buildMeritBadgerWorkflow, buildMonthlyIssuesMetricsWorkflow, buildUpdat
 // Constants
 const GITHUB_USER = 'aws-samples';
 const PROJECT_NAME = 'emerging-tech-cdk-constructs';
-const CDK_VERSION: string = '2.99.1';
+const CDK_VERSION: string = '2.102.0';
 
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Amazon Web Services - Prototyping and Cloud Engineering',
@@ -24,7 +24,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   authorOrganization: true,
   cdkVersion: CDK_VERSION,
   projenVersion: '~0.73.33',
-  constructsVersion: '10.0.5',
+  constructsVersion: '10.3.0',
   cdkVersionPinning: true,
   defaultReleaseBranch: 'main',
   jsiiVersion: '~5.0.0',
@@ -40,11 +40,17 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
   minNodeVersion: '18.12.0', // 'MAINTENANCE' (first LTS)
-  maxNodeVersion: '20.8.0', // 'CURRENT'
-  workflowNodeVersion: '18.x', // 'ACTIVE'
+  maxNodeVersion: '20.x', // 'CURRENT'
+  workflowNodeVersion: '20.x', // 'ACTIVE'
 
   npmRegistryUrl: 'https://npm.pkg.github.com',
   npmTokenSecret: 'GITHUB_TOKEN',
+
+  publishToPypi: {
+    distName: PROJECT_NAME,
+    module: PROJECT_NAME.replace(/-/g, '_'), // PEP 8, convert hypens
+    twineRegistryUrl: '${{ secrets.TWINE_REGISTRY_URL }}',
+  },
 
   codeCov: true,
   codeCovTokenSecret: 'CODECOV_TOKEN',
@@ -73,8 +79,24 @@ buildMonthlyIssuesMetricsWorkflow(project);
 buildUpdateContributorsWorkflow(project);
 buildAutoApproveWorkflow(project);
 
-// We don't want to package the use cases
-project.npmignore?.addPatterns('/use-cases/');
+// We don't want to package certain things
+project.npmignore?.addPatterns(
+  '/docs/',
+  'header.js',
+  '.gitattributes',
+  '.eslintrc.json',
+  '.gitattributes',
+  '.github',
+  '.gitignore',
+  '.mergify.yml',
+  '.node-version',
+  '.npmignore',
+  '.projen',
+  '.projenrc.ts',
+  'projenrc',
+  'tsconfig.dev.json',
+  'yarn.lock',
+);
 
 // Add License header automatically
 project.eslint?.addPlugins('header');
