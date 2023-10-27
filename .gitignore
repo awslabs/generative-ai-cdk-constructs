@@ -35,6 +35,7 @@ jspm_packages/
 !.node-version
 *.pyc
 __pycache__/
+!.ort.yml
 !/.projenrc.js
 /test-reports/
 junit.xml

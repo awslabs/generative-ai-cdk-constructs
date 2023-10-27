@@ -1,8 +1,8 @@
 {
-  "name": "@aws-samples/emerging-tech-cdk-constructs",
+  "name": "@awslabs/generative-ai-cdk-constructs",
   "repository": {
     "type": "git",
-    "url": "https://github.com/aws-samples/emerging-tech-cdk-constructs"
+    "url": "https://github.com/awslabs/generative-ai-cdk-constructs"
   },
   "scripts": {
     "build": "npx projen build",
@@ -30,7 +30,7 @@
   },
   "author": {
     "name": "Amazon Web Services - Prototyping and Cloud Engineering",
-    "email": "emerging-tech-cdk-constructs@amazon.com",
+    "email": "generative-ai-cdk-constructs@amazon.com",
     "organization": true
   },
   "devDependencies": {
@@ -124,8 +124,8 @@
     "outdir": "dist",
     "targets": {
       "python": {
-        "distName": "emerging-tech-cdk-constructs",
-        "module": "emerging_tech_cdk_constructs"
+        "distName": "generative-ai-cdk-constructs",
+        "module": "generative_ai_cdk_constructs"
       }
     },
     "tsc": {

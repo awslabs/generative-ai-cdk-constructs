@@ -14,7 +14,7 @@
 
 | **Language**     | **Package**        |
 |:-------------|-----------------|
-|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@aws-samples/@emerging_tech_cdk_constructs`|
+|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@awslabs/@emerging_tech_cdk_constructs`|
 
 ## Table of contents
 
@@ -63,7 +63,7 @@ import { Construct } from 'constructs';
 import { Stack, StackProps } from 'aws-cdk-lib';
 import * as os from 'aws-cdk-lib/aws-opensearchservice';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
-import { RagApiGatewayOpensearch, RagApiGatewayOpensearchProps } from '@aws-samples/aws-emerging-tech-constructs';
+import { RagApiGatewayOpensearch, RagApiGatewayOpensearchProps } from '@awslabs/generative-ai-cdk-constructs';
 
 // get an existing OpenSearch provisioned cluster
 const osDomain = os.Domain.fromDomainAttributes(this, 'osdomain', {

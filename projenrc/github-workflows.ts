@@ -34,7 +34,7 @@ export function buildMeritBadgerWorkflow(project: AwsCdkConstructLibrary) {
           'github-token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
           'badges': '[beginning-contributor,repeat-contributor,valued-contributor,admired-contributor,star-contributor,distinguished-contributor]',
           'thresholds': '[0,3,6,13,25,50]',
-          'ignore-usernames': '[emerging-tech-cdk-constructs-bot, dependabot[bot], dependabot, amazon-auto, github-actions]',
+          'ignore-usernames': '[emerging-tech-cdk-constructs-bot, generative-ai-cdk-constructs-bot, dependabot[bot], dependabot, amazon-auto, github-actions]',
         },
       },
     ],
@@ -66,7 +66,7 @@ export function buildMonthlyIssuesMetricsWorkflow(project: AwsCdkConstructLibrar
       issues: JobPermission.WRITE,
       pullRequests: JobPermission.READ,
     },
-    if: "github.repository == 'aws-samples/emerging-tech-cdk-constructs'",
+    if: "github.repository == 'awslabs/generative-ai-cdk-constructs'",
     runsOn: ['ubuntu-latest'],
     name: 'metrics',
     steps: [
@@ -88,7 +88,7 @@ export function buildMonthlyIssuesMetricsWorkflow(project: AwsCdkConstructLibrar
         env:
         {
           GH_TOKEN: '${{ secrets.PROJEN_GITHUB_TOKEN }}',
-          SEARCH_QUERY: 'repo:aws-samples/emerging-tech-cdk-constructs is:issue created:${{ env.last_month }} -reason:"not planned"',
+          SEARCH_QUERY: 'repo:awslabs/generative-ai-cdk-constructs is:issue created:${{ env.last_month }} -reason:"not planned"',
         },
       },
       {
@@ -108,7 +108,7 @@ export function buildMonthlyIssuesMetricsWorkflow(project: AwsCdkConstructLibrar
         env:
         {
           GH_TOKEN: '${{ secrets.PROJEN_GITHUB_TOKEN }}',
-          SEARCH_QUERY: 'repo:aws-samples/emerging-tech-cdk-constructs is:pr created:${{ env.last_month }} -is:draft',
+          SEARCH_QUERY: 'repo:awslabs/generative-ai-cdk-constructs is:pr created:${{ env.last_month }} -is:draft',
         },
       },
       {
@@ -152,10 +152,11 @@ export function buildUpdateContributorsWorkflow(project: AwsCdkConstructLibrary)
     permissions: {
       pullRequests: JobPermission.WRITE,
     },
-    if: "github.repository == 'aws-samples/emerging-tech-cdk-constructs'",
+    if: "github.repository == 'awslabs/generative-ai-cdk-constructs'",
     runsOn: ['ubuntu-latest'],
     steps: [
       {
+        name: 'Checkout project',
         uses: 'actions/checkout@v3',
       },
       {
@@ -163,9 +164,9 @@ export function buildUpdateContributorsWorkflow(project: AwsCdkConstructLibrary)
         name: 'Update a projects CONTRIBUTORS file',
         env:
         {
-          CONTRIB_REPOSITORY: 'aws-samples/emerging-tech-cdk-constructs',
+          CONTRIB_REPOSITORY: 'awslabs/generative-ai-cdk-constructs',
           CONTRIB_OUTPUT_FILE: 'CONTRIBUTORS.md',
-          CONTRIB_IGNORE: 'emerging-tech-cdk-constructs-bot, dependabot[bot], dependabot, amazon-auto, github-actions',
+          CONTRIB_IGNORE: 'emerging-tech-cdk-constructs-bot, generative-ai-cdk-constructs-bot, dependabot[bot], dependabot, amazon-auto, github-actions',
         },
       },
       {
@@ -206,7 +207,7 @@ export function buildUpdateContributorsWorkflow(project: AwsCdkConstructLibrary)
 export function buildAutoApproveWorkflow(project: AwsCdkConstructLibrary) {
   const autoapprove: Job = {
     runsOn: ['ubuntu-latest'],
-    if: "(github.event.pull_request.user.login == 'emerging-tech-cdk-constructs-bot') && contains(github.event.pull_request.labels.*.name, 'auto-approve')",
+    if: "(github.event.pull_request.user.login == 'emerging-tech-cdk-constructs-bot' || github.event.pull_request.user.login == 'generative-ai-cdk-constructs-bot') && contains(github.event.pull_request.labels.*.name, 'auto-approve')",
     permissions: {
       pullRequests: JobPermission.WRITE,
     },

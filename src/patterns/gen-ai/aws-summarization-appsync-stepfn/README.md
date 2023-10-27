@@ -14,7 +14,7 @@
 
 | **Language**     | **Package**        |
 |:-------------|-----------------|
-|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@aws-samples/@emerging_tech_cdk_constructs`|
+|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@awslabs/@emerging_tech_cdk_constructs`|
 
 ## Table of contents
 
@@ -58,7 +58,7 @@ Create a CDK typescript project and then update the stack with below configurati
 import { Construct } from 'constructs';
 import { Stack, StackProps } from 'aws-cdk-lib';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
-import { SummarizationAppsyncStepfn, SummarizationAppsyncStepfnProps } from '@aws-samples/aws-emerging-tech-constructs';
+import { SummarizationAppsyncStepfn, SummarizationAppsyncStepfnProps } from '@awslabs/generative-ai-cdk-constructs';
 
 // get an existing userpool 
 const cognitoPoolId = 'us-east-1_XXXXX';
