@@ -12,7 +12,8 @@ jobs:
       pull-requests: write
     if: github.repository == 'awslabs/generative-ai-cdk-constructs'
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout project
+        uses: actions/checkout@v3
       - name: Update a projects CONTRIBUTORS file
         uses: minicli/action-contributors@v3.3
         env:

@@ -156,6 +156,7 @@ export function buildUpdateContributorsWorkflow(project: AwsCdkConstructLibrary)
     runsOn: ['ubuntu-latest'],
     steps: [
       {
+        name: 'Checkout project',
         uses: 'actions/checkout@v3',
       },
       {
