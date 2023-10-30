@@ -60,7 +60,7 @@ export interface RagAppsyncStepfnOpensearchProps {
    *
    * @default - None
    */
-  readonly existingIngestionBusInterface?: events.IEventBus;
+  readonly existingBusInterface?: events.IEventBus;
   /**
    * Existing instance of S3 Bucket object, providing both this and `bucketInputsAssetsProps` will cause an error.
    *
@@ -347,14 +347,14 @@ export class RagAppsyncStepfnOpensearch extends Construct {
 
     );
 
-    if (!props.existingIngestionBusInterface) {
+    if (!props.existingBusInterface) {
       this.ingestionBus = new events.EventBus(this, 'ingestionEventBus'+stage,
         {
           eventBusName: 'ingestionEventBus'+stage,
         },
       );
     } else {
-      this.ingestionBus = props.existingIngestionBusInterface;
+      this.ingestionBus = props.existingBusInterface;
     }
 
     // create httpdatasource with ingestion_graphql_api

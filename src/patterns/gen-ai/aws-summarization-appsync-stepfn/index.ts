@@ -127,7 +127,7 @@ export interface SummarizationAppsyncStepfnProps {
    *
    * @default - None
    */
-  readonly existingEventBusInterface?: events.IEventBus;
+  readonly existingBusInterface?: events.IEventBus;
 
   /**
     * Optional. A new custom EventBus is created with provided props.
@@ -335,7 +335,7 @@ export class SummarizationAppsyncStepfn extends Construct {
     eventBridge.CheckEventBridgeProps(props);
     // Create event bridge
     this.eventBridgeBus = eventBridge.buildEventBus(this, {
-      existingEventBusInterface: props.existingEventBusInterface,
+      existingEventBusInterface: props.existingBusInterface,
       eventBusProps: props.eventBusProps,
     });
 

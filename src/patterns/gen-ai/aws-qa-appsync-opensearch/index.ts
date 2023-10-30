@@ -58,7 +58,7 @@ export interface QaAppsyncOpensearchProps {
      *
      * @default - None
      */
-  readonly existingqaBusInterface?: events.IEventBus;
+  readonly existingBusInterface?: events.IEventBus;
   /**
      * Existing instance of S3 Bucket object, providing both this and `bucketInputsAssetsProps` will cause an error.
      *
@@ -289,14 +289,14 @@ export class QaAppsyncOpensearch extends Construct {
       },
     );
 
-    if (!props.existingqaBusInterface) {
+    if (!props.existingBusInterface) {
       this.qaBus = new events.EventBus(this, 'questionAnsweringEventBus'+stage,
         {
           eventBusName: 'questionAnsweringEventBus'+stage,
         },
       );
     } else {
-      this.qaBus = props.existingqaBusInterface;
+      this.qaBus = props.existingBusInterface;
     }
 
     // create httpdatasource with question_answering_graphql_api
