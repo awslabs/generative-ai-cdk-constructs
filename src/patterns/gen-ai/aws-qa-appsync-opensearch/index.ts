@@ -58,7 +58,7 @@ export interface QaAppsyncOpensearchProps {
      *
      * @default - None
      */
-  readonly existingqaBusInterface?: events.IEventBus;
+  readonly existingBusInterface?: events.IEventBus;
   /**
      * Existing instance of S3 Bucket object, providing both this and `bucketInputsAssetsProps` will cause an error.
      *
@@ -178,6 +178,22 @@ export class QaAppsyncOpensearch extends Construct {
       stage = props.stage;
     }
 
+    // observability
+    let lambda_tracing = lambda.Tracing.ACTIVE;
+    let enable_xray = true;
+    let api_log_config = {
+      fieldLogLevel: appsync.FieldLogLevel.ALL,
+      retention: logs.RetentionDays.ONE_YEAR,
+    };
+    if (props.observability == false) {
+      enable_xray = false;
+      lambda_tracing = lambda.Tracing.DISABLED;
+      api_log_config = {
+        fieldLogLevel: appsync.FieldLogLevel.NONE,
+        retention: logs.RetentionDays.ONE_YEAR,
+      };
+    };
+
     vpc_helper.CheckVpcProps(props);
     s3_bucket_helper.CheckS3Props({
       existingBucketObj: props.existingInputAssetsBucketObj,
@@ -247,11 +263,8 @@ export class QaAppsyncOpensearch extends Construct {
             },
           ],
         },
-        xrayEnabled: true,
-        logConfig: {
-          fieldLogLevel: appsync.FieldLogLevel.ALL,
-          retention: logs.RetentionDays.ONE_YEAR,
-        },
+        xrayEnabled: enable_xray,
+        logConfig: api_log_config,
       },
     );
 
@@ -288,14 +301,14 @@ export class QaAppsyncOpensearch extends Construct {
       },
     );
 
-    if (!props.existingqaBusInterface) {
+    if (!props.existingBusInterface) {
       this.qaBus = new events.EventBus(this, 'questionAnsweringEventBus'+stage,
         {
           eventBusName: 'questionAnsweringEventBus'+stage,
         },
       );
     } else {
-      this.qaBus = props.existingqaBusInterface;
+      this.qaBus = props.existingBusInterface;
     }
 
     // create httpdatasource with question_answering_graphql_api
@@ -319,7 +332,7 @@ export class QaAppsyncOpensearch extends Construct {
         functionName: 'lambda_question_answering'+stage,
         description: 'Lambda function for question answering',
         vpc: this.vpc,
-        tracing: lambda.Tracing.ACTIVE,
+        tracing: lambda_tracing,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
         securityGroups: [this.securityGroup],
         memorySize: 1_769 * 4,

@@ -60,7 +60,7 @@ export interface RagAppsyncStepfnOpensearchProps {
    *
    * @default - None
    */
-  readonly existingIngestionBusInterface?: events.IEventBus;
+  readonly existingBusInterface?: events.IEventBus;
   /**
    * Existing instance of S3 Bucket object, providing both this and `bucketInputsAssetsProps` will cause an error.
    *
@@ -208,6 +208,22 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       stage = props.stage;
     }
 
+    // observability
+    let lambda_tracing = lambda.Tracing.ACTIVE;
+    let enable_xray = true;
+    let api_log_config = {
+      fieldLogLevel: appsync.FieldLogLevel.ALL,
+      retention: logs.RetentionDays.ONE_YEAR,
+    };
+    if (props.observability == false) {
+      enable_xray = false;
+      lambda_tracing = lambda.Tracing.DISABLED;
+      api_log_config = {
+        fieldLogLevel: appsync.FieldLogLevel.NONE,
+        retention: logs.RetentionDays.ONE_YEAR,
+      };
+    };
+
     vpc_helper.CheckVpcProps(props);
     s3_bucket_helper.CheckS3Props({
       existingBucketObj: props.existingInputAssetsBucketObj,
@@ -217,9 +233,6 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       existingBucketObj: props.existingProcessedAssetsBucketObj,
       bucketProps: props.bucketProcessedAssetsProps,
     });
-
-    // This helper will take care of the props combination
-    //this.vpc = vpc_helper.buildVpc(this, {defaultVpcProps: {}, userVpcProps: props.vpcProps});
 
     if (props?.existingVpc) {
       this.vpc = props.existingVpc;
@@ -308,11 +321,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
             },
           ],
         },
-        xrayEnabled: true,
-        logConfig: {
-          fieldLogLevel: appsync.FieldLogLevel.ALL,
-          retention: logs.RetentionDays.ONE_YEAR,
-        },
+        xrayEnabled: enable_xray,
+        logConfig: api_log_config,
       },
     );
 
@@ -350,14 +360,14 @@ export class RagAppsyncStepfnOpensearch extends Construct {
 
     );
 
-    if (!props.existingIngestionBusInterface) {
+    if (!props.existingBusInterface) {
       this.ingestionBus = new events.EventBus(this, 'ingestionEventBus'+stage,
         {
           eventBusName: 'ingestionEventBus'+stage,
         },
       );
     } else {
-      this.ingestionBus = props.existingIngestionBusInterface;
+      this.ingestionBus = props.existingBusInterface;
     }
 
     // create httpdatasource with ingestion_graphql_api
@@ -378,7 +388,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         functionName: 'ingestion_input_validation_docker'+stage,
         description: 'Lambda function for validating input files formats',
         vpc: this.vpc,
-        tracing: lambda.Tracing.ACTIVE,
+        tracing: lambda_tracing,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
         securityGroups: [this.securityGroup],
         memorySize: 1_769 * 4,
@@ -408,7 +418,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         functionName: 's3_file_transformer_docker'+stage,
         description: 'Lambda function for converting files from their input format to text',
         vpc: this.vpc,
-        tracing: lambda.Tracing.ACTIVE,
+        tracing: lambda_tracing,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
         securityGroups: [this.securityGroup],
         memorySize: 1_769 * 4,
@@ -483,7 +493,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         functionName: 'embeddings_job_docker'+stage,
         description: 'Lambda function for creating documents chunks, embeddings and storing them in Amazon Opensearch',
         vpc: this.vpc,
-        tracing: lambda.Tracing.ACTIVE,
+        tracing: lambda_tracing,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
         securityGroups: [this.securityGroup],
         memorySize: 1_769 * 4,
@@ -624,7 +634,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
           destination: new logs.LogGroup(this, 'ingestionStepFunctionLogGroup'),
           level: stepfn.LogLevel.ALL,
         },
-        tracingEnabled: true,
+        tracingEnabled: enable_xray,
       },
     );
 

@@ -19,7 +19,7 @@ import * as elasticache from 'aws-cdk-lib/aws-elasticache';
 import * as events from 'aws-cdk-lib/aws-events';
 import * as targets from 'aws-cdk-lib/aws-events-targets';
 import * as iam from 'aws-cdk-lib/aws-iam';
-import * as lambdaFunction from 'aws-cdk-lib/aws-lambda';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
@@ -33,12 +33,12 @@ import * as vpcHelper from '../../../common/helpers/vpc-helper';
 
 export interface SummarizationAppsyncStepfnProps {
   /**
-   * Optional. The construct creates a custom VPC based on userVpcProps.
+   * Optional. The construct creates a custom VPC based on vpcProps.
    * Providing both this and existingVpc is an error.
    *
    * @default - none
    */
-  readonly userVpcProps?: ec2.VpcProps;
+  readonly vpcProps?: ec2.VpcProps;
 
   /**
    * Optional. An existing VPC can be used to deploy the construct.
@@ -70,7 +70,7 @@ export interface SummarizationAppsyncStepfnProps {
    * If no exisiting security group is provided it will create one from the vpc.
    * @default - none
    */
-  readonly existingSecurityGroup?: ec2.SecurityGroup;
+  readonly existingSecurityGroup?: ec2.ISecurityGroup;
 
   /**
    * Required. Cognito user pool used for authentication.
@@ -85,7 +85,7 @@ export interface SummarizationAppsyncStepfnProps {
    *
    * @default - None
    */
-  readonly existingInputAssetsBucket?: s3.IBucket;
+  readonly existingInputAssetsBucketObj?: s3.IBucket;
 
   /**
    * Optional. User provided props to override the default props for the S3 Bucket.
@@ -110,16 +110,16 @@ export interface SummarizationAppsyncStepfnProps {
    * If None is provided then this contruct will create one.
    * @default - None
    */
-  readonly existingTransformedAssetsBucket?: s3.IBucket;
+  readonly existingProcessedAssetsBucketObj?: s3.IBucket;
 
 
   /**
    * Optional. User provided props to override the default props for the S3 Bucket.
-   * Providing both this and `existingTransformedAssetsBucket` will cause an error.
+   * Providing both this and `existingProcessedAssetsBucketObj` will cause an error.
    *
    * @default - Default props are used
    */
-  readonly bucketTransformedAssetsProps?: s3.BucketProps;
+  readonly bucketProcessedAssetsProps?: s3.BucketProps;
 
   /**
    * Optional. Existing instance of EventBus. The summary construct integrate appsync with event bridge'
@@ -127,7 +127,7 @@ export interface SummarizationAppsyncStepfnProps {
    *
    * @default - None
    */
-  readonly existingEventBusInterface?: events.IEventBus;
+  readonly existingBusInterface?: events.IEventBus;
 
   /**
     * Optional. A new custom EventBus is created with provided props.
@@ -150,20 +150,13 @@ export interface SummarizationAppsyncStepfnProps {
    * @default 'summaryApi'
    */
   readonly summaryApiName?: string;
-
-
   /**
-   * Optional. Logging configuration for AppSync
-   * @default - fieldLogLevel - None
+   * Enable observability. Warning: associated cost with the services
+   * used. Best practice to enable by default.
+   *
+   * @default - true
    */
-  readonly logConfig?: appsync.LogConfig;
-
-  /**
-   * Optional.  xray enablement for AppSync
-   * @default - false
-   */
-  readonly xrayEnabled?: boolean;
-
+  readonly observability?: boolean;
   /**
    * Optional. Chain type defines how to pass the document to LLM.
    * there are three types of chain types.
@@ -173,18 +166,6 @@ export interface SummarizationAppsyncStepfnProps {
    * @default - Stuff
    */
   readonly summaryChainType?: string;
-
-  /**
-   * Optional.CDK constructs provided collects anonymous operational
-   * metrics to help AWS improve the quality and features of the
-   * constructs. Data collection is subject to the AWS Privacy Policy
-   * (https://aws.amazon.com/privacy/). To opt out of this feature,
-   * simply disable it by setting the construct property
-   * "enableOperationalmetric" to false for each construct used.
-   *
-   * @default -true
-   */
-  readonly enableOperationalmetric?: boolean;
 
   /**
    * Value will be appended to resources name.
@@ -217,23 +198,14 @@ export class SummarizationAppsyncStepfn extends Construct {
    * Returns the instance of ec2.ISecurityGroup used by the construct
    */
   public readonly securityGroup: ec2.ISecurityGroup;
-
   /**
    * Returns the instance of s3.IBucket used by the construct
    */
   public readonly inputAssetBucket: s3.IBucket;
-
   /**
    * Returns the instance of s3.IBucket used by the construct
    */
   public readonly processedAssetBucket: s3.IBucket;
-
-  /**
-   * Logging configuration for AppSync
-   * @default - fieldLogLevel - None
-   */
-  public readonly logConfig: appsync.LogConfig;
-
   /**
    * Step function
    * @default - fieldLogLevel - None
@@ -252,19 +224,32 @@ export class SummarizationAppsyncStepfn extends Construct {
   constructor(scope: Construct, id: string, props: SummarizationAppsyncStepfnProps) {
     super(scope, id);
 
-
     let stage = '-dev';
     if (props?.stage) {
       stage = props.stage;
     }
 
-    
+    // observability
+    let lambda_tracing = lambda.Tracing.ACTIVE;
+    let enable_xray = true;
+    let api_log_config = {
+      fieldLogLevel: appsync.FieldLogLevel.ALL,
+      retention: logs.RetentionDays.ONE_YEAR,
+    };
+    if (props.observability == false) {
+      enable_xray = false;
+      lambda_tracing = lambda.Tracing.DISABLED;
+      api_log_config = {
+        fieldLogLevel: appsync.FieldLogLevel.NONE,
+        retention: logs.RetentionDays.ONE_YEAR,
+      };
+    };
 
     // vpc
     if (props?.existingVpc) {
       this.vpc = props.existingVpc;
     } else {
-      this.vpc = new ec2.Vpc(this, 'Vpc', props.userVpcProps);
+      this.vpc = new ec2.Vpc(this, 'Vpc', props.vpcProps);
     }
     // Security group
     if (props?.existingSecurityGroup) {
@@ -281,12 +266,12 @@ export class SummarizationAppsyncStepfn extends Construct {
     }
     // bucket for input document
     s3BucketHelper.CheckS3Props({
-      existingBucketObj: props.existingInputAssetsBucket,
+      existingBucketObj: props.existingInputAssetsBucketObj,
       bucketProps: props.bucketInputsAssetsProps,
     });
 
-    if (props?.existingInputAssetsBucket) {
-      this.inputAssetBucket = props.existingInputAssetsBucket;
+    if (props?.existingInputAssetsBucketObj) {
+      this.inputAssetBucket = props.existingInputAssetsBucketObj;
     } else if (props?.bucketInputsAssetsProps) {
       this.inputAssetBucket = new s3.Bucket(this,
         'inputAssetsBucket'+stage, props.bucketInputsAssetsProps);
@@ -302,15 +287,15 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     // bucket for transformed document
     s3BucketHelper.CheckS3Props({
-      existingBucketObj: props.existingTransformedAssetsBucket,
-      bucketProps: props.bucketTransformedAssetsProps,
+      existingBucketObj: props.existingProcessedAssetsBucketObj,
+      bucketProps: props.bucketProcessedAssetsProps,
     });
 
-    if (props?.existingTransformedAssetsBucket) {
-      this.processedAssetBucket = props.existingTransformedAssetsBucket;
-    } else if (props?.bucketTransformedAssetsProps) {
+    if (props?.existingProcessedAssetsBucketObj) {
+      this.processedAssetBucket = props.existingProcessedAssetsBucketObj;
+    } else if (props?.bucketProcessedAssetsProps) {
       this.processedAssetBucket = new s3.Bucket(this,
-        'processedAssetsBucket'+stage, props.bucketTransformedAssetsProps);
+        'processedAssetsBucket'+stage, props.bucketProcessedAssetsProps);
     } else {
       const bucketName= 'processed-assets-bucket'+stage+'-'+cdk.Aws.ACCOUNT_ID;
 
@@ -350,7 +335,7 @@ export class SummarizationAppsyncStepfn extends Construct {
     eventBridge.CheckEventBridgeProps(props);
     // Create event bridge
     this.eventBridgeBus = eventBridge.buildEventBus(this, {
-      existingEventBusInterface: props.existingEventBusInterface,
+      existingEventBusInterface: props.existingBusInterface,
       eventBusProps: props.eventBusProps,
     });
 
@@ -367,27 +352,16 @@ export class SummarizationAppsyncStepfn extends Construct {
       ],
     };
 
-
-    const isXrayEnabled= props?.xrayEnabled || false;
     const apiName = props.summaryApiName || 'summaryApi';
-
-
-    if (props?.logConfig) {
-      this.logConfig = props.logConfig;
-    } else {
-      this.logConfig= {
-        fieldLogLevel: appsync.FieldLogLevel.NONE,
-      };
-    }
 
     // graphql api for summary. client invoke this api with given schema and cognito user pool auth.
     const summarizationGraphqlApi = new appsync.GraphqlApi(this, 'summarizationGraphqlApi'+stage,
       {
         name: apiName+stage,
-        logConfig: this.logConfig,
+        logConfig: api_log_config,
         schema: appsync.SchemaFile.fromAsset(path.join(__dirname, '../../../../resources/gen-ai/aws-summarization-appsync-stepfn/schema.graphql')),
         authorizationConfig: authorizationConfig,
-        xrayEnabled: isXrayEnabled,
+        xrayEnabled: enable_xray,
       });
     this.graphqlApi= summarizationGraphqlApi;
 
@@ -398,20 +372,19 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     // Lambda function to validate Input
     const inputValidatorLambda =
-    new lambdaFunction.DockerImageFunction(this, 'inputValidatorLambda'+stage,
+    new lambda.DockerImageFunction(this, 'inputValidatorLambda'+stage,
       {
-        code: lambdaFunction.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/input_validator')),
+        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/input_validator')),
         functionName: 'summary_input_validator'+stage,
         description: 'Lambda function to validate input for summary api',
         vpc: this.vpc,
-        tracing: lambdaFunction.Tracing.ACTIVE,
+        tracing: lambda_tracing,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
         securityGroups: [this.securityGroup],
         memorySize: 1_769 * 1,
         timeout: cdk.Duration.minutes(5),
         environment: {
           GRAPHQL_URL: updateGraphQlApiEndpoint,
-
         },
       });
 
@@ -420,19 +393,17 @@ export class SummarizationAppsyncStepfn extends Construct {
     const inputAssetBucketName = this.inputAssetBucket.bucketName;
     const isFileTransformationRequired = props?.isFileTransformationRequired || 'false';
 
-
-    const documentReaderLambda = new lambdaFunction.DockerImageFunction(this, 'documentReaderLambda'+stage, {
-      code: lambdaFunction.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/document_reader')),
+    const documentReaderLambda = new lambda.DockerImageFunction(this, 'documentReaderLambda'+stage, {
+      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/document_reader')),
       functionName: 'summary_document_reader'+stage,
       description: 'Lambda function to read the input transformed document',
       vpc: this.vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: 1_769 * 1,
-      tracing: lambdaFunction.Tracing.ACTIVE,
+      tracing: lambda_tracing,
       timeout: cdk.Duration.minutes(5),
       environment: {
-
         REDIS_HOST: redisHost,
         REDIS_PORT: redisPort,
         TRANSFORMED_ASSET_BUCKET: transformedAssetBucketName,
@@ -443,18 +414,18 @@ export class SummarizationAppsyncStepfn extends Construct {
       },
     });
 
-
     const summaryChainType = props?.summaryChainType || 'stuff';
 
-    const generateSummarylambda = new lambdaFunction.DockerImageFunction(this, 'generateSummarylambda'+stage, {
+    const generateSummarylambda = new lambda.DockerImageFunction(this, 'generateSummarylambda'+stage, {
       functionName: 'summary_generator'+stage,
       description: 'Lambda function to generate the summary',
-      code: lambdaFunction.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/summary_generator')),
+      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/summary_generator')),
       vpc: this.vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: 1_769 * 4,
       timeout: cdk.Duration.minutes(10),
+      tracing: lambda_tracing,
       environment: {
         REDIS_HOST: redisHost,
         REDIS_PORT: redisPort,
@@ -501,20 +472,6 @@ export class SummarizationAppsyncStepfn extends Construct {
       }),
     );
 
-    const enableOperationalmetric = props.enableOperationalmetric || true;
-    const solution_id = "SummarizationAppsyncStepfn_"+scope.toString;
-
-    if (enableOperationalmetric) {
-      documentReaderLambda.addEnvironment(
-        'AWS_SDK_UA_APP_ID', solution_id,
-      );
-      generateSummarylambda.addEnvironment(
-        'AWS_SDK_UA_APP_ID', solution_id,
-      );
-      inputValidatorLambda.addEnvironment(
-        'AWS_SDK_UA_APP_ID', solution_id,
-      );
-    };
 
     inputValidatorLambda.addToRolePolicy(
       new iam.PolicyStatement({
@@ -634,7 +591,7 @@ export class SummarizationAppsyncStepfn extends Construct {
         destination: summarizationLogGroup,
         level: sfn.LogLevel.ALL,
       },
-      tracingEnabled: true,
+      tracingEnabled: enable_xray,
     });
     this.stateMachine=summarizationStepFunction;
     // event bridge datasource for summarization api

@@ -84,6 +84,18 @@ class SMFalconLiteAdapter(ModelAdapter):
         prompt_template = PromptTemplate(**prompt_template_args)
 
         return prompt_template
+    
+    def get_prompt_no_history_no_context(self):
+        template = """<|prompter|>{input}<|endoftext|><|assistant|>"""
+
+        input_variables = ["input"]
+        prompt_template_args = {
+            "input_variables": input_variables,
+            "template": template,
+        }
+        prompt_template = PromptTemplate(**prompt_template_args)
+
+        return prompt_template
 
 
 # Register the adapter

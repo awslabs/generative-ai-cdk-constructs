@@ -20,8 +20,8 @@ import {
 } from './projenrc/github-workflows';
 
 // Constants
-const GITHUB_USER = 'aws-samples';
-const PROJECT_NAME = 'emerging-tech-cdk-constructs';
+const GITHUB_USER = 'awslabs';
+const PROJECT_NAME = 'generative-ai-cdk-constructs';
 const CDK_VERSION: string = '2.102.0';
 
 const project = new awscdk.AwsCdkConstructLibrary({
@@ -65,7 +65,13 @@ const project = new awscdk.AwsCdkConstructLibrary({
     pullRequestLintOptions: {
       contributorStatement: 'By submitting this pull request, I confirm that you can use, modify, copy, and redistribute this contribution, under the terms of the project license.',
       contributorStatementOptions: {
-        exemptUsers: ['amazon-auto', 'dependabot[bot]', 'emerging-tech-cdk-constructs-bot', 'github-actions'],
+        exemptUsers: [
+          'amazon-auto',
+          'dependabot[bot]',
+          'emerging-tech-cdk-constructs-bot',
+          'generative-ai-cdk-constructs-bot',
+          'github-actions',
+        ],
       },
     },
   },
@@ -74,7 +80,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   license: 'Apache-2.0',
   copyrightPeriod: '2023-',
   copyrightOwner: 'Amazon.com, Inc. or its affiliates. All Rights Reserved.',
-  gitignore: ['*.DS_STORE', '!.node-version', '*.pyc', '__pycache__/'],
+  gitignore: ['*.DS_STORE', '!.node-version', '*.pyc', '__pycache__/', '!.ort.yml'],
   stability: 'experimental',
   sampleCode: false,
   stale: true,

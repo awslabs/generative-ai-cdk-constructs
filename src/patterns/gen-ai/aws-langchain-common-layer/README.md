@@ -14,7 +14,7 @@
 
 | **Language**     | **Package**        |
 |:-------------|-----------------|
-|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@aws-samples/@emerging_tech_cdk_constructs`|
+|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@awslabs/@emerging_tech_cdk_constructs`|
 
 ## Table of contents
 
@@ -53,7 +53,7 @@ Typescript
 ``` typescript
 import { Construct } from 'constructs';
 import { Stack, StackProps, Aws } from 'aws-cdk-lib';
-import { LangchainCommonDepsLayer, LangchainCommonLayer } from '@aws-samples/aws-emerging-tech-constructs';
+import { LangchainCommonDepsLayer, LangchainCommonLayer } from '@awslabs/generative-ai-cdk-constructs';
 
 const lambdaArchitecture = lambda.Architecture.ARM_64;
 const lambdaRuntime = lambda.Runtime.PYTHON_3_10;
@@ -77,6 +77,87 @@ architecture: lambdaArchitecture,
 
 //Then pass the layers above to your lambda function constructor
 ```
+
+Here is an example of a Lambda handler which uses the layers above:
+
+```
+import json
+import boto3
+import uuid
+from genai_core.adapters.registry import registry
+
+sequence_number = 0
+
+def on_llm_new_token(
+    connection_id, user_id, session_id, self, token, run_id, *args, **kwargs
+):
+    global sequence_number
+    sequence_number += 1
+    run_id = str(run_id)
+    
+    print(token)
+
+def handler(event, context):
+    print(event)
+    connection_id = event["connection_id"]
+    provider = event["provider"]
+    model_id = event["model_id"]
+    session_id=event["session_id"]
+    user_id=event["user_id"]
+    prompt = event["text"]
+
+    model_kwargs=json.loads(event["model_kwargs"])
+    adapter_args=json.loads(event["adapter_args"])
+    
+    if not session_id:
+        session_id = str(uuid.uuid4())
+
+    if not user_id:
+        user_id = str(uuid.uuid4())
+    
+    adapter = registry.get_adapter(f"{provider}.{model_id}")
+    
+    adapter.on_llm_new_token = lambda *args, **kwargs: on_llm_new_token(
+        connection_id, user_id, session_id, *args, **kwargs
+    )
+
+    model = adapter(
+        model_id=model_id,
+        session_id=session_id,
+        user_id=user_id,
+        model_kwargs=model_kwargs,
+        adapter_kwargs=adapter_args
+    )
+
+    response = model.run(
+        prompt=prompt,
+        tools=[],
+    )
+```
+
+An example of an event:
+```
+event = {
+  "connection_id": "234",
+  "provider": "bedrock",
+  "model_id": "anthropic.claude-v2",
+  "session_id": "123",
+  "user_id": "873",
+  "text": "What is your name ?",
+  "model_kwargs": "{\"streaming\":true}",
+  "adapter_args": "{}"
+}
+```
+
+Where:
+- connection_id: a unique connection id
+- provider: LLM provider (currently supported: bedrock, sagemaker, openai)
+- model_id: model identified as specified by the model provider
+- session_id: session identified, used if chat history is enabled
+- user_id: identified for a specific user
+- text: user question
+- model_kwargs: dictionnary containing model arguments (temperature, ...). Please refer to the model documentation for a complete list of arguments available.
+- adapter_kwargs: used to control the configuration of the adapter (enable chat history, RAG,...). Currently, values for this parameter are not used.
 
 ## Initializer
 

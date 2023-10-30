@@ -14,7 +14,7 @@
 
 | **Language**     | **Package**        |
 |:-------------|-----------------|
-|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@aws-samples/@emerging_tech_cdk_constructs`|
+|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@awslabs/@emerging_tech_cdk_constructs`|
 
 ## Table of contents
 
@@ -52,12 +52,13 @@ AWS Lambda functions provisioned in this construct use [Powertools for AWS Lambd
 
 Here is a minimal deployable pattern definition:
 
-Typescript
+Create a CDK typescript project and then update the stack with below configuration.
+
 ``` typescript
 import { Construct } from 'constructs';
 import { Stack, StackProps } from 'aws-cdk-lib';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
-import { SummarizationAppsyncStepfn, SummarizationAppsyncStepfnProps } from '@aws-samples/aws-emerging-tech-constructs';
+import { SummarizationAppsyncStepfn, SummarizationAppsyncStepfnProps } from '@awslabs/generative-ai-cdk-constructs';
 
 // get an existing userpool 
 const cognitoPoolId = 'us-east-1_XXXXX';
@@ -72,6 +73,23 @@ summarizationTestConstruct = new SummarizationAppsyncStepfn(
     
 ```
 
+For optional props like redis cluster set cfnCacheClusterProps.
+
+```
+const cfnCacheClusterProps: elasticache.CfnCacheClusterProps = {
+      cacheNodeType: 'cache.r6g.xlarge',
+      engine: 'redis',
+      numCacheNodes: 1,
+    };
+```
+If file transformation is required set isFileTransformationRequired to 'True'
+
+ ```
+ isFileTransformationRequired: 'True'
+ ```
+
+For existing resource like Amazon VPC , Amazon S3 buckets use props like existingVpc, existingInputAssetsBucketObj and existingProcessedAssetsBucketObj.
+
 The code below provides an example of a mutation call and associated subscription to trigger the summarization workflow and get response notifications:
 
 Mutation call to trigger the question:
@@ -79,7 +97,7 @@ Mutation call to trigger the question:
 ```
 mutation MyMutation {
   generateSummary(summaryInput:{files:[{name: "document1.txt", status: ""}], summary_job_id:"81"}) {
-    file_name
+    name
     status
     summary
     summary_job_id
@@ -96,8 +114,8 @@ If pdf format is selected, the file needs to be in the input S3 bucket and the c
 Subscription call to get notifications about the summarization process:
 ```
 subscription MySubscription {
-  updateSummaryJobStatus(file_name: "document1.txt", summary_job_id: "81") {
-    file_name
+  updateSummaryJobStatus(name: "document1.txt", summary_job_id: "81") {
+    name
     status
     summary
     summary_job_id
@@ -108,10 +126,10 @@ subscription MySubscription {
 Where:
 - summary_job_id: id which can be used to filter subscriptions on client side
 - status: status update of the summarization process for the file(s) specified
-- file_name: name of the file stored in the input S3 bucket, same name + extension as passed to the previous mutation call.
+- name: name of the file stored in the input S3 bucket, same name + extension as passed to the previous mutation call.
 - summary: summary returned by the Large Language Model for the document specified, as a base64 encoded string
 
-```If multiple files are requested for summarization , then the client should filter response based on summary_job_id and file_name for each file. ```
+```If multiple files are requested for summarization , then the client should filter response based on summary_job_id and name for each file. ```
 
 ## Initializer
 
@@ -130,22 +148,21 @@ Parameters
 | **Name**     | **Type**        | **Required** |**Description** |
 |:-------------|:----------------|-----------------|-----------------|
 | cognitoUserPool | [cognito.IUserPool](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cognito.IUserPool.html) | ![Required](https://img.shields.io/badge/required-ff0000) | Cognito user pool used for authentication. |
-| userVpcProps | [ec2.VpcProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.VpcProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | The construct creates a custom VPC based on userVpcProps. Providing both this and existingVpc is an error. |
+| vpcProps | [ec2.VpcProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.VpcProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | The construct creates a custom VPC based on vpcProps. Providing both this and existingVpc is an error. |
 | existingVpc | [ec2.IVpc](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.IVpc.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | An existing VPC can be used to deploy the construct.|
 | existingRedisCulster | [elasticache.CfnCacheCluster](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_elasticache.CfnCacheClusterProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing Redis cluster to cache the generated summary for subsequent request of same document. |
 | cfnCacheClusterProps | [elasticache.CfnCacheClusterProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_elasticache.CfnCacheClusterProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Properties defining cfnCacheClusterProps. If there is no existing redis cluster cfnCacheClusterProps can be used to create a new cluster|
-| existingSecurityGroup | [ec2.SecurityGroup](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.SecurityGroup.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Security group for the lambda function which this construct will use. If no exisiting security group is provided it will create one from the vpc.|
-| existingInputAssetsBucket | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing s3 Bucket to store the input document which needs to be summarized. pdf is the supported input document format. If transformed (txt format) file is available then this bucket is optional. |
+| existingSecurityGroup | [ec2.ISecurityGroup](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.ISecurityGroup.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Security group for the lambda function which this construct will use. If no exisiting security group is provided it will create one from the vpc.|
+| existingInputAssetsBucketObj | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing s3 Bucket to store the input document which needs to be summarized. pdf is the supported input document format. If transformed (txt format) file is available then this bucket is optional. |
 | bucketInputsAssetsProps | [s3.BucketProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.BucketProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | User provided props to override the default props for the S3 Bucket.Providing both this and `existingInputAssetsBucketObj` will cause an error.|
 | isFileTransformationRequired | [string] | ![Optional](https://img.shields.io/badge/optional-4169E1) | The summary construct transform the input document into txt format. If the transformation is not required then this flag can be set to false. If set to true then a transformed asset bucket is created which transform the input document from input asset bucket to txt format.|
-| existingTransformedAssetsBucket | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | This bucket stores the transformed (txt) assets for generating summary.If None is provided then this contruct will create one.|
-| bucketTransformedAssetsProps | [s3.BucketProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.BucketProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | User provided props to override the default props for the S3 Bucket.Providing both this and `existingTransformedAssetsBucket` will cause an error.|
-| existingEventBusInterface | [events.IEventBus](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_events.IEventBus.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing instance of EventBus. The summary construct integrate appsync with event bridge' to route the request to step functions.|
-| eventBusProps | [events.EventBusProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_events.EventBusProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | A new custom EventBus is created with provided props. Providing existingEventBusInterface and eventBusProps both will result in validation error.|
+| existingProcessedAssetsBucketObj | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.IBucket.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | This bucket stores the transformed (txt) assets for generating summary.If None is provided then this contruct will create one.|
+| bucketProcessedAssetsProps | [s3.BucketProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.BucketProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | User provided props to override the default props for the S3 Bucket.Providing both this and `existingProcessedAssetsBucket` will cause an error.|
+| existingBusInterface | [events.IEventBus](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_events.IEventBus.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing instance of EventBus. The summary construct integrate appsync with event bridge' to route the request to step functions.|
+| eventBusProps | [events.EventBusProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_events.EventBusProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | A new custom EventBus is created with provided props. Providing ```existingBusInterface``` and ```eventBusProps``` both will result in validation error.|
 | existingMergedApi | [appsync.CfnGraphQLApi](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_appsync.CfnGraphQLApi.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing merged api instance. The merge API provides a federated schema over source API schemas.|
 | summaryApiName | [string] | ![Optional](https://img.shields.io/badge/optional-4169E1) | User provided Name for summary api on appsync.A graphql api will be created by this construct with this name.|
-| logConfig | [appsync.LogConfig](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_appsync.LogConfig.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Logging configuration for AppSync. |
-| xrayEnabled | [boolean] | ![Optional](https://img.shields.io/badge/optional-4169E1) | Enable AWS Xray for appsync |
+| observability | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Enables observability on all services used. Warning: associated cost with the services used. Best practice to enable by default. Defaults to true.|
 | summaryChainType | [string] | ![Optional](https://img.shields.io/badge/optional-4169E1) | Chain type defines how to pass the document to LLM. there are three types of chain types. Stuff: Simply "stuff" all your documents into a single prompt. Map-reduce: Summarize each document on it's own in a "map" step and then "reduce" the summaries into a final summary Refine :  This constructs a response by looping over the input documents and iteratively updating its answer. |
 
 ## Pattern Properties
@@ -160,7 +177,6 @@ Parameters
 | securityGroup | [ec2.ISecurityGroup](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.ISecurityGroup.html) | Returns the instance of ec2.ISecurityGroup used by the construct. |
 | inputAssetBucket | [s3.Bucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html) | Instance of s3.IBucket used by the construct |
 | processedAssetBucket | [s3.Bucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html) |Instance of s3.IBucket used by the construct|
-| logConfig | [appsync.LogConfig](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_appsync.LogConfig.html)|Instance of appsync.LogConfig used by the construct|
 
 ## Default properties
 
