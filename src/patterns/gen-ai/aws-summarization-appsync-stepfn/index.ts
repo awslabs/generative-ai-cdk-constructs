@@ -85,7 +85,7 @@ export interface SummarizationAppsyncStepfnProps {
    *
    * @default - None
    */
-  readonly existingInputAssetsBucket?: s3.IBucket;
+  readonly existingInputAssetsBucketObj?: s3.IBucket;
 
   /**
    * Optional. User provided props to override the default props for the S3 Bucket.
@@ -266,12 +266,12 @@ export class SummarizationAppsyncStepfn extends Construct {
     }
     // bucket for input document
     s3BucketHelper.CheckS3Props({
-      existingBucketObj: props.existingInputAssetsBucket,
+      existingBucketObj: props.existingInputAssetsBucketObj,
       bucketProps: props.bucketInputsAssetsProps,
     });
 
-    if (props?.existingInputAssetsBucket) {
-      this.inputAssetBucket = props.existingInputAssetsBucket;
+    if (props?.existingInputAssetsBucketObj) {
+      this.inputAssetBucket = props.existingInputAssetsBucketObj;
     } else if (props?.bucketInputsAssetsProps) {
       this.inputAssetBucket = new s3.Bucket(this,
         'inputAssetsBucket'+stage, props.bucketInputsAssetsProps);
