@@ -386,7 +386,7 @@ export class QaAppsyncOpensearch extends Construct {
     }));
 
     const enableOperationalmetric = props.enableOperationalmetric || true;
-    const solution_id = "QaAppsyncOpensearch_"+id;
+    const solution_id = 'QaAppsyncOpensearch_'+id;
 
     if (enableOperationalmetric) {
       question_answering_function.addEnvironment(

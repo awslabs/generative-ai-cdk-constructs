@@ -10,7 +10,7 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
-import os,boto3,json
+import os,boto3
 import base64
 
 from langchain.llms.bedrock import Bedrock
@@ -25,48 +25,24 @@ import redis
 
 from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
-from helper import  read_file_from_s3
-
 
 logger = Logger(service="SUMMARY_GENERATION")
 tracer = Tracer(service="SUMMARY_GENERATION")
 metrics = Metrics(namespace="summary_pipeline", service="SUMMARY_GENERATION")
 
+
+# internal files
+from helper import  read_file_from_s3
+
 transformed_bucket_name = os.environ["ASSET_BUCKET_NAME"]
 chain_type = os.environ["SUMMARY_LLM_CHAIN_TYPE"]
-solution_identifier= json.loads(os.environ['SOLUTION_IDENTIFIER'])
-
-
-@tracer.capture_method
-def get_boto3_config(solution_identifier):
-        logger.info("solution_identifier:: "+solution_identifier)
-        user_agent_extra_param = {"user_agent_extra":solution_identifier}
-        config = config.Config(**user_agent_extra_param)
-        return config
-
 
 aws_region = boto3.Session().region_name
-@tracer.capture_method
-def get_bedrock_client(solution_identifier):
-    if solution_identifier != 'NA':
-        config= get_boto3_config(solution_identifier)
-        bedrock_client = boto3.client(
-        service_name='bedrock-runtime', 
-        region_name=aws_region,
-        config=config,
-        endpoint_url=f'https://bedrock-runtime.{aws_region}.amazonaws.com'
-    )
-        logger.info("bedrock_client with operational metric ")
-    else:
-        bedrock_client = boto3.client(
+bedrock_client = boto3.client(
         service_name='bedrock-runtime', 
         region_name=aws_region,
         endpoint_url=f'https://bedrock-runtime.{aws_region}.amazonaws.com'
     )
-    return bedrock_client
-
-
-
 
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler
@@ -91,7 +67,7 @@ def handler(event, context: LambdaContext)-> dict:
     }
     summary_llm = Bedrock(
         model_id="anthropic.claude-v2",
-        client=get_bedrock_client(solution_identifier),
+        client=bedrock_client,
     )
     
     redis_host = os.environ.get("REDIS_HOST", "N/A")
@@ -163,6 +139,5 @@ def generate_summary(_summary_llm,chain_type,inputFile)-> str:
                 verbose=False
                 )
     return chain.run(docs)
-
 
 
