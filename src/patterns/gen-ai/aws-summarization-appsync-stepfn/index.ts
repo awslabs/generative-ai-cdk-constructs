@@ -484,8 +484,8 @@ export class SummarizationAppsyncStepfn extends Construct {
       }),
     );
 
-const enableOperationalmetric = props.enableOperationalmetric || true;
-    const solution_id = "SummarizationAppsyncStepfn_"+scope.toString;
+    const enableOperationalmetric = props.enableOperationalmetric || true;
+    const solution_id = 'SummarizationAppsyncStepfn_'+id;
 
     if (enableOperationalmetric) {
       documentReaderLambda.addEnvironment(
@@ -513,7 +513,6 @@ const enableOperationalmetric = props.enableOperationalmetric || true;
       }),
     );
 
-    
 
     // create datasource at appsync
     const SummaryStatusDataSource = new appsync.NoneDataSource

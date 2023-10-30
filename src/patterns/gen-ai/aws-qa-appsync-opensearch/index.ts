@@ -117,7 +117,7 @@ export interface QaAppsyncOpensearchProps {
      */
   readonly observability?: boolean;
 
-   /**
+  /**
    * Optional.CDK constructs provided collects anonymous operational
    * metrics to help AWS improve the quality and features of the
    * constructs. Data collection is subject to the AWS Privacy Policy
@@ -127,7 +127,7 @@ export interface QaAppsyncOpensearchProps {
    *
    * @default -true
    */
-   readonly enableOperationalmetric?: boolean;
+  readonly enableOperationalmetric?: boolean;
 }
 
 /**
@@ -386,7 +386,7 @@ export class QaAppsyncOpensearch extends Construct {
     }));
 
     const enableOperationalmetric = props.enableOperationalmetric || true;
-    const solution_id = "QaAppsyncOpensearch_"+scope.toString;
+    const solution_id = "QaAppsyncOpensearch_"+id;
 
     if (enableOperationalmetric) {
       question_answering_function.addEnvironment(

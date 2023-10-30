@@ -546,7 +546,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     }));
 
     const enableOperationalmetric = props.enableOperationalmetric || true;
-    const solution_id = "RagAppsyncStepfnOpensearch_"+scope.toString;
+    const solution_id = 'RagAppsyncStepfnOpensearch_'+id;
 
     if (enableOperationalmetric) {
       embeddings_job_function.addEnvironment(
