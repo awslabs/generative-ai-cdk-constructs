@@ -116,6 +116,18 @@ export interface QaAppsyncOpensearchProps {
      * @default - true
      */
   readonly observability?: boolean;
+
+   /**
+   * Optional.CDK constructs provided collects anonymous operational
+   * metrics to help AWS improve the quality and features of the
+   * constructs. Data collection is subject to the AWS Privacy Policy
+   * (https://aws.amazon.com/privacy/). To opt out of this feature,
+   * simply disable it by setting the construct property
+   * "enableOperationalmetric" to false for each construct used.
+   *
+   * @default -true
+   */
+   readonly enableOperationalmetric?: boolean;
 }
 
 /**
@@ -359,6 +371,15 @@ export class QaAppsyncOpensearch extends Construct {
         '*',
       ],
     }));
+
+    const enableOperationalmetric = props.enableOperationalmetric || true;
+    const solution_id = "QaAppsyncOpensearch_"+scope.toString;
+
+    if (enableOperationalmetric) {
+      question_answering_function.addEnvironment(
+        'AWS_SDK_UA_APP_ID', solution_id,
+      );
+    };
 
     // Add GraphQl permissions to the IAM role for the Lambda function
     question_answering_function.addToRolePolicy(new iam.PolicyStatement({

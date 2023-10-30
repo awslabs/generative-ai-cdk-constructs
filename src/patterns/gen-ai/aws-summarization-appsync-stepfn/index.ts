@@ -175,11 +175,16 @@ export interface SummarizationAppsyncStepfnProps {
   readonly summaryChainType?: string;
 
   /**
-   * Optional.
+   * Optional.CDK constructs provided collects anonymous operational
+   * metrics to help AWS improve the quality and features of the
+   * constructs. Data collection is subject to the AWS Privacy Policy
+   * (https://aws.amazon.com/privacy/). To opt out of this feature,
+   * simply disable it by setting the construct property
+   * "enableOperationalmetric" to false for each construct used.
    *
-   * @default - False
+   * @default -true
    */
-  readonly operationalMetricOptOut?: boolean;
+  readonly enableOperationalmetric?: boolean;
 
   /**
    * Value will be appended to resources name.
@@ -247,13 +252,13 @@ export class SummarizationAppsyncStepfn extends Construct {
   constructor(scope: Construct, id: string, props: SummarizationAppsyncStepfnProps) {
     super(scope, id);
 
-    const operationalMetricOptOut = props.operationalMetricOptOut || false;
-    const solution_id = operationalMetricOptOut? 'U_APP_EMT_GAI_NON_PROD':'NA';
 
     let stage = '-dev';
     if (props?.stage) {
       stage = props.stage;
     }
+
+    
 
     // vpc
     if (props?.existingVpc) {
@@ -415,6 +420,7 @@ export class SummarizationAppsyncStepfn extends Construct {
     const inputAssetBucketName = this.inputAssetBucket.bucketName;
     const isFileTransformationRequired = props?.isFileTransformationRequired || 'false';
 
+
     const documentReaderLambda = new lambdaFunction.DockerImageFunction(this, 'documentReaderLambda'+stage, {
       code: lambdaFunction.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/document_reader')),
       functionName: 'summary_document_reader'+stage,
@@ -426,16 +432,17 @@ export class SummarizationAppsyncStepfn extends Construct {
       tracing: lambdaFunction.Tracing.ACTIVE,
       timeout: cdk.Duration.minutes(5),
       environment: {
+
         REDIS_HOST: redisHost,
         REDIS_PORT: redisPort,
         TRANSFORMED_ASSET_BUCKET: transformedAssetBucketName,
         INPUT_ASSET_BUCKET: inputAssetBucketName,
         IS_FILE_TRANSFORMED: isFileTransformationRequired,
         GRAPHQL_URL: updateGraphQlApiEndpoint,
-        SOLUTION_IDENTIFIER: solution_id,
 
       },
     });
+
 
     const summaryChainType = props?.summaryChainType || 'stuff';
 
@@ -454,7 +461,6 @@ export class SummarizationAppsyncStepfn extends Construct {
         ASSET_BUCKET_NAME: transformedAssetBucketName,
         GRAPHQL_URL: updateGraphQlApiEndpoint,
         SUMMARY_LLM_CHAIN_TYPE: summaryChainType,
-        SOLUTION_IDENTIFIER: solution_id,
       },
     });
 
@@ -495,6 +501,20 @@ export class SummarizationAppsyncStepfn extends Construct {
       }),
     );
 
+    const enableOperationalmetric = props.enableOperationalmetric || true;
+    const solution_id = "SummarizationAppsyncStepfn_"+scope.toString;
+
+    if (enableOperationalmetric) {
+      documentReaderLambda.addEnvironment(
+        'AWS_SDK_UA_APP_ID', solution_id,
+      );
+      generateSummarylambda.addEnvironment(
+        'AWS_SDK_UA_APP_ID', solution_id,
+      );
+      inputValidatorLambda.addEnvironment(
+        'AWS_SDK_UA_APP_ID', solution_id,
+      );
+    };
 
     inputValidatorLambda.addToRolePolicy(
       new iam.PolicyStatement({
