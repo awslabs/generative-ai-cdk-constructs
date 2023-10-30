@@ -163,7 +163,7 @@ describe('Summarization Appsync Stepfn construct', () => {
   });
 
   test('Lambda function count', () => {
-    summarizationTestTemplate.resourceCountIs('AWS::Lambda::Function', 3);
+    summarizationTestTemplate.resourceCountIs('AWS::Lambda::Function', 4);
   });
 
   test('Appsync Merge Graphql Properties', () => {

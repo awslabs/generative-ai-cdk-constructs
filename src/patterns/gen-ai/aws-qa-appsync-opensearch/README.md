@@ -140,7 +140,7 @@ Parameters
 | vpcProps | [ec2.VpcProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.VpcProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Custom properties for a VPC the construct will create. This VPC will be used by the Lambda functions the construct creates. Providing both this and existingVpc is an error. |
 | existingVpc | [ec2.IVpc](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.IVpc.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | An existing VPC in which to deploy the construct. Providing both this and vpcProps is an error. |
 | existingSecurityGroup | [ec2.ISecurityGroup](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.ISecurityGroup.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing security group allowing access to opensearch. Used by the lambda functions built by this construct. If not provided, the construct will create one. |
-| existingqaBusInterface | [events.IEventBus](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_events.IEventBus.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing instance of an Amazon EventBridge bus. If not provided, the construct will create one. |
+| existingBusInterface | [events.IEventBus](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_events.IEventBus.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing instance of an Amazon EventBridge bus. If not provided, the construct will create one. |
 | existingInputAssetsBucketObj | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.IBucket.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing instance of S3 Bucket object, providing both this and `bucketInputsAssetsProps` will cause an error. |
 | bucketInputsAssetsProps | [s3.BucketProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.BucketProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | User provided props to override the default props for the S3 Bucket. Providing both this and `existingInputAssetsBucketObj` will cause an error. |
 | stage | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | Value will be appended to resources name Service. |
@@ -188,7 +188,12 @@ By default the construct will enable logging and tracing on all services which s
 
 | **Error Code**     | **Message**        | **Description** |**Fix** |
 |:-------------|:----------------|-----------------|-----------------|
-| 601 | <>message | This error happens when <> | Provide a valid value for the <> |
+| | Failed to load information about the requested file | This error happens when the Lambda function was not able to load metadata about the file provided as input parameter | Ensure the file is present in the input bucket |
+| | Working on the question | The Lambda function started the question processing | Not an error, informational only |
+| | Exception during prediction | An issue happened during the prediction process (call to the Large Language Model via Amazon Bedrock) | Verify the Lambda CloudWatch Logs to get access to the related error. One common issue is throtlling. |
+| | Done | The process ended successfully | Not an error, informational only |
+| | Failed to load document content | This error happens when the Lambda function was not able to load the content of the file provided as input parameter | Ensure the file is present in the input bucket | Ensure the file is present in the input bucket |
+| | Failed to load the llm | Internal error related to loading the Large Language Model client | Verify the Lambda error logs to get a detailed description of the issue |
 
 ## Architecture
 ![Architecture Diagram](architecture.png)
