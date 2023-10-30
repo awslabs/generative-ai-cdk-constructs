@@ -70,7 +70,7 @@ export interface SummarizationAppsyncStepfnProps {
    * If no exisiting security group is provided it will create one from the vpc.
    * @default - none
    */
-  readonly existingSecurityGroup?: ec2.SecurityGroup;
+  readonly existingSecurityGroup?: ec2.ISecurityGroup;
 
   /**
    * Required. Cognito user pool used for authentication.
