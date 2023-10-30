@@ -33,12 +33,12 @@ import * as vpcHelper from '../../../common/helpers/vpc-helper';
 
 export interface SummarizationAppsyncStepfnProps {
   /**
-   * Optional. The construct creates a custom VPC based on userVpcProps.
+   * Optional. The construct creates a custom VPC based on vpcProps.
    * Providing both this and existingVpc is an error.
    *
    * @default - none
    */
-  readonly userVpcProps?: ec2.VpcProps;
+  readonly vpcProps?: ec2.VpcProps;
 
   /**
    * Optional. An existing VPC can be used to deploy the construct.
@@ -249,7 +249,7 @@ export class SummarizationAppsyncStepfn extends Construct {
     if (props?.existingVpc) {
       this.vpc = props.existingVpc;
     } else {
-      this.vpc = new ec2.Vpc(this, 'Vpc', props.userVpcProps);
+      this.vpc = new ec2.Vpc(this, 'Vpc', props.vpcProps);
     }
     // Security group
     if (props?.existingSecurityGroup) {
