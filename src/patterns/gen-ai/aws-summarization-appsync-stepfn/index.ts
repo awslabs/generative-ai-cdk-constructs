@@ -19,7 +19,7 @@ import * as elasticache from 'aws-cdk-lib/aws-elasticache';
 import * as events from 'aws-cdk-lib/aws-events';
 import * as targets from 'aws-cdk-lib/aws-events-targets';
 import * as iam from 'aws-cdk-lib/aws-iam';
-import * as lambdaFunction from 'aws-cdk-lib/aws-lambda';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
@@ -150,20 +150,13 @@ export interface SummarizationAppsyncStepfnProps {
    * @default 'summaryApi'
    */
   readonly summaryApiName?: string;
-
-
   /**
-   * Optional. Logging configuration for AppSync
-   * @default - fieldLogLevel - None
+   * Enable observability. Warning: associated cost with the services
+   * used. Best practice to enable by default.
+   *
+   * @default - true
    */
-  readonly logConfig?: appsync.LogConfig;
-
-  /**
-   * Optional.  xray enablement for AppSync
-   * @default - false
-   */
-  readonly xrayEnabled?: boolean;
-
+  readonly observability?: boolean;
   /**
    * Optional. Chain type defines how to pass the document to LLM.
    * there are three types of chain types.
@@ -205,23 +198,14 @@ export class SummarizationAppsyncStepfn extends Construct {
    * Returns the instance of ec2.ISecurityGroup used by the construct
    */
   public readonly securityGroup: ec2.ISecurityGroup;
-
   /**
    * Returns the instance of s3.IBucket used by the construct
    */
   public readonly inputAssetBucket: s3.IBucket;
-
   /**
    * Returns the instance of s3.IBucket used by the construct
    */
   public readonly processedAssetBucket: s3.IBucket;
-
-  /**
-   * Logging configuration for AppSync
-   * @default - fieldLogLevel - None
-   */
-  public readonly logConfig: appsync.LogConfig;
-
   /**
    * Step function
    * @default - fieldLogLevel - None
@@ -244,6 +228,22 @@ export class SummarizationAppsyncStepfn extends Construct {
     if (props?.stage) {
       stage = props.stage;
     }
+
+    // observability
+    let lambda_tracing = lambda.Tracing.ACTIVE;
+    let enable_xray = true;
+    let api_log_config = {
+      fieldLogLevel: appsync.FieldLogLevel.ALL,
+      retention: logs.RetentionDays.ONE_YEAR,
+    };
+    if (props.observability == false) {
+      enable_xray = false;
+      lambda_tracing = lambda.Tracing.DISABLED;
+      api_log_config = {
+        fieldLogLevel: appsync.FieldLogLevel.NONE,
+        retention: logs.RetentionDays.ONE_YEAR,
+      };
+    };
 
     // vpc
     if (props?.existingVpc) {
@@ -352,27 +352,16 @@ export class SummarizationAppsyncStepfn extends Construct {
       ],
     };
 
-
-    const isXrayEnabled= props?.xrayEnabled || false;
     const apiName = props.summaryApiName || 'summaryApi';
-
-
-    if (props?.logConfig) {
-      this.logConfig = props.logConfig;
-    } else {
-      this.logConfig= {
-        fieldLogLevel: appsync.FieldLogLevel.NONE,
-      };
-    }
 
     // graphql api for summary. client invoke this api with given schema and cognito user pool auth.
     const summarizationGraphqlApi = new appsync.GraphqlApi(this, 'summarizationGraphqlApi'+stage,
       {
         name: apiName+stage,
-        logConfig: this.logConfig,
+        logConfig: api_log_config,
         schema: appsync.SchemaFile.fromAsset(path.join(__dirname, '../../../../resources/gen-ai/aws-summarization-appsync-stepfn/schema.graphql')),
         authorizationConfig: authorizationConfig,
-        xrayEnabled: isXrayEnabled,
+        xrayEnabled: enable_xray,
       });
     this.graphqlApi= summarizationGraphqlApi;
 
@@ -383,13 +372,13 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     // Lambda function to validate Input
     const inputValidatorLambda =
-    new lambdaFunction.DockerImageFunction(this, 'inputValidatorLambda'+stage,
+    new lambda.DockerImageFunction(this, 'inputValidatorLambda'+stage,
       {
-        code: lambdaFunction.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/input_validator')),
+        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/input_validator')),
         functionName: 'summary_input_validator'+stage,
         description: 'Lambda function to validate input for summary api',
         vpc: this.vpc,
-        tracing: lambdaFunction.Tracing.ACTIVE,
+        tracing: lambda_tracing,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
         securityGroups: [this.securityGroup],
         memorySize: 1_769 * 1,
@@ -404,15 +393,15 @@ export class SummarizationAppsyncStepfn extends Construct {
     const inputAssetBucketName = this.inputAssetBucket.bucketName;
     const isFileTransformationRequired = props?.isFileTransformationRequired || 'false';
 
-    const documentReaderLambda = new lambdaFunction.DockerImageFunction(this, 'documentReaderLambda'+stage, {
-      code: lambdaFunction.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/document_reader')),
+    const documentReaderLambda = new lambda.DockerImageFunction(this, 'documentReaderLambda'+stage, {
+      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/document_reader')),
       functionName: 'summary_document_reader'+stage,
       description: 'Lambda function to read the input transformed document',
       vpc: this.vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: 1_769 * 1,
-      tracing: lambdaFunction.Tracing.ACTIVE,
+      tracing: lambda_tracing,
       timeout: cdk.Duration.minutes(5),
       environment: {
         REDIS_HOST: redisHost,
@@ -427,15 +416,16 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     const summaryChainType = props?.summaryChainType || 'stuff';
 
-    const generateSummarylambda = new lambdaFunction.DockerImageFunction(this, 'generateSummarylambda'+stage, {
+    const generateSummarylambda = new lambda.DockerImageFunction(this, 'generateSummarylambda'+stage, {
       functionName: 'summary_generator'+stage,
       description: 'Lambda function to generate the summary',
-      code: lambdaFunction.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/summary_generator')),
+      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/summary_generator')),
       vpc: this.vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: 1_769 * 4,
       timeout: cdk.Duration.minutes(10),
+      tracing: lambda_tracing,
       environment: {
         REDIS_HOST: redisHost,
         REDIS_PORT: redisPort,
@@ -601,7 +591,7 @@ export class SummarizationAppsyncStepfn extends Construct {
         destination: summarizationLogGroup,
         level: sfn.LogLevel.ALL,
       },
-      tracingEnabled: true,
+      tracingEnabled: enable_xray,
     });
     this.stateMachine=summarizationStepFunction;
     // event bridge datasource for summarization api

@@ -166,6 +166,22 @@ export class QaAppsyncOpensearch extends Construct {
       stage = props.stage;
     }
 
+    // observability
+    let lambda_tracing = lambda.Tracing.ACTIVE;
+    let enable_xray = true;
+    let api_log_config = {
+      fieldLogLevel: appsync.FieldLogLevel.ALL,
+      retention: logs.RetentionDays.ONE_YEAR,
+    };
+    if (props.observability == false) {
+      enable_xray = false;
+      lambda_tracing = lambda.Tracing.DISABLED;
+      api_log_config = {
+        fieldLogLevel: appsync.FieldLogLevel.NONE,
+        retention: logs.RetentionDays.ONE_YEAR,
+      };
+    };
+
     vpc_helper.CheckVpcProps(props);
     s3_bucket_helper.CheckS3Props({
       existingBucketObj: props.existingInputAssetsBucketObj,
@@ -235,11 +251,8 @@ export class QaAppsyncOpensearch extends Construct {
             },
           ],
         },
-        xrayEnabled: true,
-        logConfig: {
-          fieldLogLevel: appsync.FieldLogLevel.ALL,
-          retention: logs.RetentionDays.ONE_YEAR,
-        },
+        xrayEnabled: enable_xray,
+        logConfig: api_log_config,
       },
     );
 
@@ -307,7 +320,7 @@ export class QaAppsyncOpensearch extends Construct {
         functionName: 'lambda_question_answering'+stage,
         description: 'Lambda function for question answering',
         vpc: this.vpc,
-        tracing: lambda.Tracing.ACTIVE,
+        tracing: lambda_tracing,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
         securityGroups: [this.securityGroup],
         memorySize: 1_769 * 4,
