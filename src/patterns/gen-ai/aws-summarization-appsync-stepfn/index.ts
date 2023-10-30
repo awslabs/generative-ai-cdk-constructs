@@ -110,16 +110,16 @@ export interface SummarizationAppsyncStepfnProps {
    * If None is provided then this contruct will create one.
    * @default - None
    */
-  readonly existingTransformedAssetsBucket?: s3.IBucket;
+  readonly existingProcessedAssetsBucketObj?: s3.IBucket;
 
 
   /**
    * Optional. User provided props to override the default props for the S3 Bucket.
-   * Providing both this and `existingTransformedAssetsBucket` will cause an error.
+   * Providing both this and `existingProcessedAssetsBucketObj` will cause an error.
    *
    * @default - Default props are used
    */
-  readonly bucketTransformedAssetsProps?: s3.BucketProps;
+  readonly bucketProcessedAssetsProps?: s3.BucketProps;
 
   /**
    * Optional. Existing instance of EventBus. The summary construct integrate appsync with event bridge'
@@ -287,15 +287,15 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     // bucket for transformed document
     s3BucketHelper.CheckS3Props({
-      existingBucketObj: props.existingTransformedAssetsBucket,
-      bucketProps: props.bucketTransformedAssetsProps,
+      existingBucketObj: props.existingProcessedAssetsBucketObj,
+      bucketProps: props.bucketProcessedAssetsProps,
     });
 
-    if (props?.existingTransformedAssetsBucket) {
-      this.processedAssetBucket = props.existingTransformedAssetsBucket;
-    } else if (props?.bucketTransformedAssetsProps) {
+    if (props?.existingProcessedAssetsBucketObj) {
+      this.processedAssetBucket = props.existingProcessedAssetsBucketObj;
+    } else if (props?.bucketProcessedAssetsProps) {
       this.processedAssetBucket = new s3.Bucket(this,
-        'processedAssetsBucket'+stage, props.bucketTransformedAssetsProps);
+        'processedAssetsBucket'+stage, props.bucketProcessedAssetsProps);
     } else {
       const bucketName= 'processed-assets-bucket'+stage+'-'+cdk.Aws.ACCOUNT_ID;
 
