@@ -88,7 +88,7 @@ If file transformation is required set isFileTransformationRequired to 'True'
  isFileTransformationRequired: 'True'
  ```
 
-For existing resource like Amazon VPC , Amazon S3 buckets use props like existingVpc, existingInputAssetsBucketObj and existingTransformedAssetsBucket.
+For existing resource like Amazon VPC , Amazon S3 buckets use props like existingVpc, existingInputAssetsBucketObj and existingProcessedAssetsBucket.
 
 The code below provides an example of a mutation call and associated subscription to trigger the summarization workflow and get response notifications:
 
