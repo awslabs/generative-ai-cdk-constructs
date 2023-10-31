@@ -1,4 +1,4 @@
-# Amazon Emerging Tech CDK Constructs
+# Amazon Generative AI CDK Constructs
 
 ![Stability: Experimental](https://img.shields.io/badge/stability-Experimental-important.svg?style=for-the-badge)
 
@@ -20,13 +20,13 @@
 
 # Introduction
 
-The AWS Emerging Tech Constructs library is an open-source extension of the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/v2/guide/home.html) that provides multi-service, well-architected patterns for quickly defining solutions in code to create predictable and repeatable infrastructure, called [constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html). The goal of AWS Emerging Tech Constructs is to accelerate the experience for developers to build solutions of any size using pattern-based definitions for their architecture, around emerging technologies (Generative AI, IoT, Spatial, Robotics, AI/ML)
+The AWS Generative AI Constructs library is an open-source extension of the [AWS Cloud Development Kit (AWS CDK)](https://docs.aws.amazon.com/cdk/v2/guide/home.html) that provides multi-service, well-architected patterns for quickly defining solutions in code to create predictable and repeatable infrastructure, called [constructs](https://docs.aws.amazon.com/cdk/v2/guide/constructs.html). The goal of AWS Generative AI Constructs is to accelerate the experience for developers to build solutions of any size using pattern-based definitions for their architecture, around Generative AI.
 
-The patterns defined in AWS Emerging Tech Constructs are high level, multi-service abstractions of AWS CDK constructs that have default configurations based on well-architected best practices. The library is organized into logical modules using object-oriented techniques to create each architectural pattern model.
+The patterns defined in AWS Generative AI Constructs are high level, multi-service abstractions of AWS CDK constructs that have default configurations based on well-architected best practices. The library is organized into logical modules using object-oriented techniques to create each architectural pattern model.
 
 # CDK Versions
 
-AWS Emerging Tech Constructs and the AWS CDK are independent teams and have different release schedules. Each release of AWS Emerging Tech Constructs is built against a specific version of the AWS CDK. The [CHANGELOG.md](./CHANGELOG.md) file lists the CDK version associated with each AWS Emerging Tech Constructs release. For instance, AWS Emerging Tech Constructs v0.0.0 was built against AWS CDK v2.96.2. This means that to use AWS Emerging Tech Constructs v0.0.0, your application must include AWS CDK v2.96.2 or later. You can continue to use the latest AWS CDK versions and upgrade the your AWS Emerging Tech Constructs version when new releases become available.
+AWS Generative AI Constructs and the AWS CDK are independent teams and have different release schedules. Each release of AWS Generative AI Constructs is built against a specific version of the AWS CDK. The [CHANGELOG.md](./CHANGELOG.md) file lists the CDK version associated with each AWS Generative AI Constructs release. For instance, AWS Generative AI Constructs v0.0.0 was built against AWS CDK v2.96.2. This means that to use AWS Generative AI Constructs v0.0.0, your application must include AWS CDK v2.96.2 or later. You can continue to use the latest AWS CDK versions and upgrade the your AWS Generative AI Constructs version when new releases become available.
 
 # Contributing
 
@@ -40,7 +40,7 @@ If you want to add a new construct to the library, check out our [design guideli
 
 The following constructs are available in the library:
 
-| **Construct**| Emerging Tech Area |Description| AWS Services used |
+| **Construct**| Generative AI Area |Description| AWS Services used |
 |:-------------|:-------------|:-------------|:-------------|
 | [Data ingestion pipeline](./src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/) | Generative AI | Ingestion pipeline providing a RAG (Retrieval Augmented Generation) source for storing documents in a knowledge base. | Amazon OpenSearch, AWS Step Functions, Amazon Bedrock, AWS AppSync, AWS Lambda | 
 | [Question answering](./src/patterns/gen-ai/aws-qa-appsync-opensearch/) | Generative AI | Question answering against a Large Language Model (Anthropic Claude V2) using a RAG (Retrieval Augmented Generation) source and/or long context window. | Amazon OpenSearch, AWS Lambda, Amazon Bedrock, AWS AppSync | 
@@ -49,7 +49,7 @@ The following constructs are available in the library:
 
 # Sample Use Cases
 
-This library includes a collection of functional use case implementations to demonstrate the usage of AWS Emerging Tech Constructs architectural patterns. These can be used in the same way as architectural patterns, and can be conceptualized as an additional "higher-level" abstraction of those patterns. Those patterns (constructs) are composed together into [stacks](https://docs.aws.amazon.com/cdk/latest/guide/stacks.html), forming a "CDK app".
+This library includes a collection of functional use case implementations to demonstrate the usage of AWS Generative AI Constructs architectural patterns. These can be used in the same way as architectural patterns, and can be conceptualized as an additional "higher-level" abstraction of those patterns. Those patterns (constructs) are composed together into [stacks](https://docs.aws.amazon.com/cdk/latest/guide/stacks.html), forming a "CDK app".
 
 The following use cases are provided as functional examples:
 

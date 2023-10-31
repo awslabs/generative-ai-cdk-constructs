@@ -14,7 +14,7 @@
 
 | **Language**     | **Package**        |
 |:-------------|-----------------|
-|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@awslabs/@emerging_tech_cdk_constructs`|
+|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@awslabs/generative-ai-cdk-constructs`|
 
 ## Table of contents
 
@@ -64,13 +64,13 @@ const powerToolsArn =
           ? `arn:aws:lambda:${cdk.Aws.REGION}:017000801446:layer:AWSLambdaPowertoolsPythonV2:42`
           : `arn:aws:lambda:${cdk.Aws.REGION}:017000801446:layer:AWSLambdaPowertoolsPythonV2-Arm64:42`;
 
-const lambdaDepsLayer = new emergingTech.LangchainCommonDepsLayer(this, 'lambdagenaidepslayer', {
+const lambdaDepsLayer = new LangchainCommonDepsLayer(this, 'lambdagenaidepslayer', {
         runtime: lambdaRuntime,
         architecture: lambdaArchitecture,
         autoUpgrade: true
       });
 
-const lambdaCommonLayer = new emergingTech.LangchainCommonLayer(this, 'lambdagenaicommonlayer', {
+const lambdaCommonLayer = new LangchainCommonLayer(this, 'lambdagenaicommonlayer', {
 runtime: lambdaRuntime,
 architecture: lambdaArchitecture,
 });

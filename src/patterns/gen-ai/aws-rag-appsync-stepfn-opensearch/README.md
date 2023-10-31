@@ -14,7 +14,7 @@
 
 | **Language**     | **Package**        |
 |:-------------|-----------------|
-|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@awslabs/@emerging_tech_cdk_constructs`|
+|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@awslabs/generative-ai-cdk-constructs`|
 
 ## Table of contents
 
@@ -75,7 +75,7 @@ const osDomain = os.Domain.fromDomainAttributes(this, 'osdomain', {
 const cognitoPoolId = 'us-east-1_XXXXX';
 const userPoolLoaded = cognito.UserPool.fromUserPoolId(this, 'myuserpool', cognitoPoolId);
 
-const rag_source = new emergingTech.RagAppsyncStepfnOpensearch(
+const rag_source = new RagAppsyncStepfnOpensearch(
       this,
       'RagAppsyncStepfnOpensearch',
       {
