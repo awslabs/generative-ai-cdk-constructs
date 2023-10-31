@@ -58,7 +58,7 @@ Coming soon
 
 # Operational Metrics Collection
 
-CDK constructs provided collects anonymous operational metrics to help AWS improve the quality and features of the constructs. Data collection is subject to the AWS Privacy Policy (https://aws.amazon.com/privacy/). To opt out of this feature, simply disable it by setting the construct property "enableOperationalmetric" to false for each construct used. Defaults to true.
+CDK constructs provided collects anonymous operational metrics to help AWS improve the quality and features of the constructs. Data collection is subject to the AWS Privacy Policy (https://aws.amazon.com/privacy/). To opt out of this feature, simply disable it by setting the construct property "enableOperationalMetric" to false for each construct used. Defaults to true.
 
 # Roadmap
 
