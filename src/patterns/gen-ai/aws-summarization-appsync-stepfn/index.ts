@@ -168,6 +168,18 @@ export interface SummarizationAppsyncStepfnProps {
   readonly summaryChainType?: string;
 
   /**
+   * Optional.CDK constructs provided collects anonymous operational
+   * metrics to help AWS improve the quality and features of the
+   * constructs. Data collection is subject to the AWS Privacy Policy
+   * (https://aws.amazon.com/privacy/). To opt out of this feature,
+   * simply disable it by setting the construct property
+   * "enableOperationalMetric" to false for each construct used.
+   *
+   * @default -true
+   */
+  readonly enableOperationalMetric?: boolean;
+
+  /**
    * Value will be appended to resources name.
    *
    * @default - _dev
@@ -472,6 +484,20 @@ export class SummarizationAppsyncStepfn extends Construct {
       }),
     );
 
+    const enableOperationalMetric = props.enableOperationalMetric || true;
+    const solution_id = 'SummarizationAppsyncStepfn_'+id;
+
+    if (enableOperationalMetric) {
+      documentReaderLambda.addEnvironment(
+        'AWS_SDK_UA_APP_ID', solution_id,
+      );
+      generateSummarylambda.addEnvironment(
+        'AWS_SDK_UA_APP_ID', solution_id,
+      );
+      inputValidatorLambda.addEnvironment(
+        'AWS_SDK_UA_APP_ID', solution_id,
+      );
+    };
 
     inputValidatorLambda.addToRolePolicy(
       new iam.PolicyStatement({
@@ -486,6 +512,7 @@ export class SummarizationAppsyncStepfn extends Construct {
           'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*'],
       }),
     );
+
 
     // create datasource at appsync
     const SummaryStatusDataSource = new appsync.NoneDataSource

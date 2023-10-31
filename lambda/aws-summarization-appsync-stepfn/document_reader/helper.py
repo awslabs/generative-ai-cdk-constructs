@@ -71,6 +71,5 @@ def get_file_transformation(transformed_asset_bucket,transformed_file_name,
             response['name'] = transformed_file_name
             response['summary']=''
     else:   
-            logger.info("File already exists,skip transformation.")
-            
+            logger.info("File already exists,skip transformation.")           
     return response
