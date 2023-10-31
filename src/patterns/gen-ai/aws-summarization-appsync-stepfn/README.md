@@ -231,15 +231,16 @@ The following table provides a sample cost breakdown for deploying this solution
 
 | **AWS Service**     | **Dimensions**        | **Cost [USD]** |
 |:-------------|:----------------|-----------------|
-| Amazon Virtual Private Cloud |  |  |
-| AWS AppSync |  |  |
-| Amazon EventBridge |  |  |
-| AWS Lambda |  |  |
-| Amazon Simple Storage Service |  |  |
+| AWS Step Functions | 15 requests per hour for summarization, each with 2 files (4 steps per workflow) | 0.99 |
+| Amazon Virtual Private Cloud |  | 0.00 |
+| AWS AppSync | 15 requests per hour to trigger summarization + (15 x 4 calls to notify clients through subscriptions) = 54,000 requests per month | 0.22 |
+| Amazon EventBridge | 15 requests per hour = 10800 custom events per month | 0.01 |
+| AWS Lambda | 15 summarization requests per hour with 2 files each time, through 4 Lambda functions each allocated with 7076 MB of memory allocated and 512 MB of ephemeral storage allocated and an average run time of 30 seconds = 43200 requests per month | 142.59 |
+| Amazon Simple Storage Service | 15 requests per hour for summarization with 2 files in input format (PDF) with an average size of 1MB and transformed files to text format with an average size of 1 MB = 43.2 GB per month in S3 Standard Storage | 0.99 |
 | Amazon Bedrock |  |  |
-| Amazon Cloudwatch | | |
-| AWS X-Ray | | |
-| AWS X-Ray | | |
+| Amazon ElastiCache for Redis |  |  |
+| Amazon Cloudwatch | 15 metrics using 5 GB data ingested for logs | 7.02 |
+| AWS X-Ray | 100,000 requests per month through AppSync and Lambda calls | 0.50 |
 | Total Deployment cost | | |
 
 The resources not created by this construct (Amazon Cognito User Pool, AppSync Merged API, AWS Secrets Manager secret) do not appear in the table above. You can refer to the decicated pages to get an estimate of the cost related to those services:
