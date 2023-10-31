@@ -28,7 +28,6 @@ input_bucket_name = os.environ["INPUT_ASSET_BUCKET"]
 is_file_tranformation_required = os.environ["IS_FILE_TRANSFORMED"]
 
 
-
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler
 @metrics.log_metrics(capture_cold_start_metric=True)

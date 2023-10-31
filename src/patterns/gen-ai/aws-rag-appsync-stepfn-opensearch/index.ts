@@ -131,11 +131,11 @@ export interface RagAppsyncStepfnOpensearchProps {
    * constructs. Data collection is subject to the AWS Privacy Policy
    * (https://aws.amazon.com/privacy/). To opt out of this feature,
    * simply disable it by setting the construct property
-   * "enableOperationalmetric" to false for each construct used.
+   * "enableOperationalMetric" to false for each construct used.
    *
    * @default -true
    */
-  readonly enableOperationalmetric?: boolean;
+  readonly enableOperationalMetric?: boolean;
 
   /**
    * Enable observability. Warning: associated cost with the services
@@ -545,10 +545,10 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       ],
     }));
 
-    const enableOperationalmetric = props.enableOperationalmetric || true;
+    const enableOperationalMetric = props.enableOperationalMetric || true;
     const solution_id = 'RagAppsyncStepfnOpensearch_'+id;
 
-    if (enableOperationalmetric) {
+    if (enableOperationalMetric) {
       embeddings_job_function.addEnvironment(
         'AWS_SDK_UA_APP_ID', solution_id,
       );
