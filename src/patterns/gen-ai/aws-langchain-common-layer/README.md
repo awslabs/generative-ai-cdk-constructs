@@ -261,7 +261,7 @@ The following table provides a sample cost breakdown for deploying this solution
 |:-------------|:----------------|-----------------|
 | AWS Lambda | 1 Lambda function with 128 MB memory and 512 MB ephemeral storage with an average duration of 10 seconds | 0.00 |
 | Amazon Bedrock | An application developer makes the following API calls to Amazon Bedrock: A request to Anthropic’s Claude V2 model to summarize an input of 11K tokens of input text to an output of 4K tokens. Total cost incurred is = 11K tokens/1000 * $0.01102 + 4K tokens/1000 * $0.03268 = $0.25 | 0.25 |
-| Total Deployment cost | | 0.25 |
+| Total monthly cost | | 0.25 |
 
 > **Note**
 > The costs of API calls to third-party LLM providers are not included in these estimates. See the pricing guide of your LLM provider.

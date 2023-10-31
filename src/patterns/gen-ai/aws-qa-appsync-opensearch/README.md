@@ -209,16 +209,15 @@ The following table provides a sample cost breakdown for deploying this solution
 
 | **AWS Service**     | **Dimensions**        | **Cost [USD]** |
 |:-------------|:----------------|-----------------|
-| Amazon Virtual Private Cloud |  |  |
-| AWS AppSync |  |  |
-| Amazon EventBridge |  |  |
-| AWS Lambda |  |  |
-| Amazon Simple Storage Service |  |  |
-| Amazon Bedrock |  |  |
-| Amazon Cloudwatch | | |
-| AWS X-Ray | | |
-| AWS X-Ray | | |
-| Total Deployment cost | | |
+| Amazon Virtual Private Cloud |  | 0.00 |
+| AWS AppSync | 15 requests per hour to trigger questions + (15 x 4 calls to notify clients through subscriptions) = 54,000 requests per month | 0.22 |
+| Amazon EventBridge | 15 requests per hour = 10800 custom events per month | 0.01 |
+| AWS Lambda | 15 q/a requests per hour through 1 Lambda function with 7076 MB of memory allocated and 512 MB of ephemeral storage allocated and an average run time of 30 seconds = 10800 requests per month | 30.65 |
+| Amazon Simple Storage Service | 15 transformed files to text format added every hour with an average size of 1 MB = 21.6 GB per month in S3 Standard Storage | 0.50 |
+| Amazon Bedrock | Prompt template is 1,500 characters (~400 tokens), OpenSearch returns 200 tokens per excerpt and only uses top 5 documents (~1000 tokens), User inputs average 1 sentence long (~20 tokens), LLM outputs average 8 sentences (~160 tokens). Using those assumptions: Input Tokens = promptTemplate + context + query -> Input tokens = 1,900 and Output tokens = 160. Using Anthropic Claude V2 for question answering and Amazon Titan for embeddings, with 360 (15x24h) transactions a day, daily cost is 2K tokens/1000 * $0.01102 + 1K tokens/1000 * $0.03268 = $0.05472 * 360 = 19.70 | 19.70 |
+| Amazon Cloudwatch | 15 metrics using 5 GB data ingested for logs | 7.02 |
+| AWS X-Ray | 100,000 requests per month through AppSync and Lambda calls | 0.50 |
+| Total monthly cost | | 58.60 |
 
 The resources not created by this construct (Amazon Cognito User Pool, Amazon OpenSearch provisioned cluster, AppSync Merged API, AWS Secrets Manager secret) do not appear in the table above. You can refer to the decicated pages to get an estimate of the cost related to those services:
 - [Amazon OpenSearch Service Pricing](https://aws.amazon.com/opensearch-service/pricing/)
