@@ -16,6 +16,7 @@
 - [Adding new constructs](#design-guidelines-and-development-guide)
 - [Catalog](#catalog)
 - [Sample Use Cases](#sample-use-cases)
+- [Operational Metrics Collection](#operational-metrics-collection)
 - [Roadmap](#roadmap)
 
 # Introduction
@@ -54,6 +55,10 @@ This library includes a collection of functional use case implementations to dem
 The following use cases are provided as functional examples:
 
 Coming soon
+
+# Operational Metrics Collection
+
+CDK constructs provided collects anonymous operational metrics to help AWS improve the quality and features of the constructs. Data collection is subject to the AWS Privacy Policy (https://aws.amazon.com/privacy/). To opt out of this feature, simply disable it by setting the construct property "enableOperationalMetric" to false for each construct used. Defaults to true.
 
 # Roadmap
 

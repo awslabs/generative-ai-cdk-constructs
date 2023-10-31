@@ -124,6 +124,19 @@ export interface RagAppsyncStepfnOpensearchProps {
    * @default - _dev
    */
   readonly stage?: string;
+
+  /**
+   * Optional.CDK constructs provided collects anonymous operational
+   * metrics to help AWS improve the quality and features of the
+   * constructs. Data collection is subject to the AWS Privacy Policy
+   * (https://aws.amazon.com/privacy/). To opt out of this feature,
+   * simply disable it by setting the construct property
+   * "enableOperationalMetric" to false for each construct used.
+   *
+   * @default -true
+   */
+  readonly enableOperationalMetric?: boolean;
+
   /**
    * Enable observability. Warning: associated cost with the services
    * used. Best practice to enable by default.
@@ -531,6 +544,21 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         '*',
       ],
     }));
+
+    const enableOperationalMetric = props.enableOperationalMetric || true;
+    const solution_id = 'RagAppsyncStepfnOpensearch_'+id;
+
+    if (enableOperationalMetric) {
+      embeddings_job_function.addEnvironment(
+        'AWS_SDK_UA_APP_ID', solution_id,
+      );
+      s3_transformer_job_function.addEnvironment(
+        'AWS_SDK_UA_APP_ID', solution_id,
+      );
+      validate_input_function.addEnvironment(
+        'AWS_SDK_UA_APP_ID', solution_id,
+      );
+    };
 
     // Add GraphQl permissions to the IAM role for the Lambda function
     embeddings_job_function.addToRolePolicy(new iam.PolicyStatement({
