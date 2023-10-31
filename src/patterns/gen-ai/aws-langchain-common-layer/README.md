@@ -14,7 +14,7 @@
 
 | **Language**     | **Package**        |
 |:-------------|-----------------|
-|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@awslabs/@emerging_tech_cdk_constructs`|
+|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@awslabs/generative-ai-cdk-constructs`|
 
 ## Table of contents
 
@@ -64,13 +64,13 @@ const powerToolsArn =
           ? `arn:aws:lambda:${cdk.Aws.REGION}:017000801446:layer:AWSLambdaPowertoolsPythonV2:42`
           : `arn:aws:lambda:${cdk.Aws.REGION}:017000801446:layer:AWSLambdaPowertoolsPythonV2-Arm64:42`;
 
-const lambdaDepsLayer = new emergingTech.LangchainCommonDepsLayer(this, 'lambdagenaidepslayer', {
+const lambdaDepsLayer = new LangchainCommonDepsLayer(this, 'lambdagenaidepslayer', {
         runtime: lambdaRuntime,
         architecture: lambdaArchitecture,
         autoUpgrade: true
       });
 
-const lambdaCommonLayer = new emergingTech.LangchainCommonLayer(this, 'lambdagenaicommonlayer', {
+const lambdaCommonLayer = new LangchainCommonLayer(this, 'lambdagenaicommonlayer', {
 runtime: lambdaRuntime,
 architecture: lambdaArchitecture,
 });
@@ -250,7 +250,7 @@ response = model.run(
 
 ## Cost
 
-You are responsible for the cost of the AWS services used while running this construct. As of this revision, the cost for running this construct with the default settings in the US East (N. Virginia) Region is approximately $X per month.
+You are responsible for the cost of the AWS services used while running this construct. As of this revision, the cost for running this construct with the default settings in the US East (N. Virginia) Region is approximately $0.25 per month.
 
 We recommend creating a budget through [AWS Cost Explorer](http://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this solution.
 
@@ -259,8 +259,9 @@ The following table provides a sample cost breakdown for deploying this solution
 
 | **AWS Service**     | **Dimensions**        | **Cost [USD]** |
 |:-------------|:----------------|-----------------|
-| AWS Lambda | |  |
-| Total Deployment cost | | |
+| AWS Lambda | 1 Lambda function with 128 MB memory and 512 MB ephemeral storage with an average duration of 10 seconds | 0.00 |
+| Amazon Bedrock | An application developer makes the following API calls to Amazon Bedrock: A request to Anthropic’s Claude V2 model to summarize an input of 11K tokens of input text to an output of 4K tokens. Total cost incurred is = 11K tokens/1000 * $0.01102 + 4K tokens/1000 * $0.03268 = $0.25 | 0.25 |
+| Total monthly cost | | 0.25 |
 
 > **Note**
 > The costs of API calls to third-party LLM providers are not included in these estimates. See the pricing guide of your LLM provider.

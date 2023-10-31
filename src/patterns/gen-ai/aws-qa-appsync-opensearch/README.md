@@ -14,7 +14,7 @@
 
 | **Language**     | **Package**        |
 |:-------------|-----------------|
-|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@awslabs/@emerging_tech_cdk_constructs`|
+|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@awslabs/generative-ai-cdk-constructs`|
 
 ## Table of contents
 
@@ -62,7 +62,7 @@ const osDomain = os.Domain.fromDomainAttributes(this, 'osdomain', {
 const cognitoPoolId = 'us-east-1_XXXXX';
 const userPoolLoaded = cognito.UserPool.fromUserPoolId(this, 'myuserpool', cognitoPoolId);
 
-const rag_source = new emergingTech.QaAppsyncOpensearch(
+const rag_source = new QaAppsyncOpensearch(
       this,
       'QaAppsyncOpensearch',
       {
@@ -133,10 +133,10 @@ Parameters
 
 | **Name**     | **Type**        | **Required** |**Description** |
 |:-------------|:----------------|-----------------|-----------------|
-| existingOpenSearchDomain | [aws_opensearchservice.IDomain](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_opensearchservice.IDomain.html)| ![Required](https://img.shields.io/badge/required-ff0000) | Existing domain for the OpenSearch Service. |
-| openSearchIndexName | string | ![Required](https://img.shields.io/badge/required-ff0000) | Domain endpoint for the OpenSearch Service. |
+| existingOpenSearchDomain | [opensearchservice.IDomain](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_opensearchservice.IDomain.html)| ![Required](https://img.shields.io/badge/required-ff0000) | Existing domain for the OpenSearch Service. |
+| openSearchIndexName | string | ![Required](https://img.shields.io/badge/required-ff0000) | Index name for the Amazon OpenSearch Service. If doesn't exist, the pattern will create the index in the cluster. |
 | cognitoUserPool | [cognito.IUserPool](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cognito.IUserPool.html) | ![Required](https://img.shields.io/badge/required-ff0000) | Cognito user pool used for authentication. |
-| openSearchSecret | [aws_secrets_manager.ISecret](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_secretsmanager.ISecret.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Optional. Secret containing credentials to authenticate to the existing Amazon OpenSearch domain if fine grain control access if configured. If not provided, the Lambda function will use [AWS Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html). |
+| openSearchSecret | [secret.ISecret](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_secretsmanager.ISecret.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Optional. Secret containing credentials to authenticate to the existing Amazon OpenSearch domain if fine grain control access if configured. If not provided, the Lambda function will use [AWS Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html). |
 | vpcProps | [ec2.VpcProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.VpcProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Custom properties for a VPC the construct will create. This VPC will be used by the Lambda functions the construct creates. Providing both this and existingVpc is an error. |
 | existingVpc | [ec2.IVpc](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.IVpc.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | An existing VPC in which to deploy the construct. Providing both this and vpcProps is an error. |
 | existingSecurityGroup | [ec2.ISecurityGroup](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.ISecurityGroup.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing security group allowing access to opensearch. Used by the lambda functions built by this construct. If not provided, the construct will create one. |
@@ -201,7 +201,7 @@ By default the construct will enable logging and tracing on all services which s
 
 ## Cost
 
-You are responsible for the cost of the AWS services used while running this construct. As of this revision, the cost for running this construct with the default settings in the US East (N. Virginia) Region is approximately $X per month.
+You are responsible for the cost of the AWS services used while running this construct. As of this revision, the cost for running this construct with the default settings in the US East (N. Virginia) Region is approximately $58.60 per month.
 
 We recommend creating a budget through [AWS Cost Explorer](http://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this solution.
 
@@ -210,16 +210,15 @@ The following table provides a sample cost breakdown for deploying this solution
 
 | **AWS Service**     | **Dimensions**        | **Cost [USD]** |
 |:-------------|:----------------|-----------------|
-| Amazon Virtual Private Cloud |  |  |
-| AWS AppSync |  |  |
-| Amazon EventBridge |  |  |
-| AWS Lambda |  |  |
-| Amazon Simple Storage Service |  |  |
-| Amazon Bedrock |  |  |
-| Amazon Cloudwatch | | |
-| AWS X-Ray | | |
-| AWS X-Ray | | |
-| Total Deployment cost | | |
+| Amazon Virtual Private Cloud |  | 0.00 |
+| AWS AppSync | 15 requests per hour to trigger questions + (15 x 4 calls to notify clients through subscriptions) = 54,000 requests per month | 0.22 |
+| Amazon EventBridge | 15 requests per hour = 10800 custom events per month | 0.01 |
+| AWS Lambda | 15 q/a requests per hour through 1 Lambda function with 7076 MB of memory allocated and 512 MB of ephemeral storage allocated and an average run time of 30 seconds = 10800 requests per month | 30.65 |
+| Amazon Simple Storage Service | 15 transformed files to text format added every hour with an average size of 1 MB = 21.6 GB per month in S3 Standard Storage | 0.50 |
+| Amazon Bedrock | Prompt template is 1,500 characters (~400 tokens), OpenSearch returns 200 tokens per excerpt and only uses top 5 documents (~1000 tokens), User inputs average 1 sentence long (~20 tokens), LLM outputs average 8 sentences (~160 tokens). Using those assumptions: Input Tokens = promptTemplate + context + query -> Input tokens = 1,900 and Output tokens = 160. Using Anthropic Claude V2 for question answering and Amazon Titan for embeddings, with 360 (15x24h) transactions a day, daily cost is 2K tokens/1000 * $0.01102 + 1K tokens/1000 * $0.03268 = $0.05472 * 360 = 19.70 | 19.70 |
+| Amazon Cloudwatch | 15 metrics using 5 GB data ingested for logs | 7.02 |
+| AWS X-Ray | 100,000 requests per month through AppSync and Lambda calls | 0.50 |
+| Total monthly cost | | 58.60 |
 
 The resources not created by this construct (Amazon Cognito User Pool, Amazon OpenSearch provisioned cluster, AppSync Merged API, AWS Secrets Manager secret) do not appear in the table above. You can refer to the decicated pages to get an estimate of the cost related to those services:
 - [Amazon OpenSearch Service Pricing](https://aws.amazon.com/opensearch-service/pricing/)
