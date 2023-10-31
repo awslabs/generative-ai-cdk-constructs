@@ -567,7 +567,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       'Generate embeddings from processed documents and store them',
       {
         lambdaFunction: embeddings_job_function,
-        resultPath: '$.Payload',
+        resultPath: '$',
       },
     );
 
