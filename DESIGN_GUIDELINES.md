@@ -1,24 +1,24 @@
 # Design Guidelines
 
-# Emerging Tech Constructs Design Guidelines
+# Generative AI Constructs Design Guidelines
 
-One of the Emerging Tech Constructs tenets states:
+One of the Generative AI Constructs tenets states:
 
 > **Constructs are Consistent** - once customers are familiar with the use of Constructs, they can adopt additional constructs easily. Customers familiar with using the CDK can easily adopt Constructs.
 
-This document defines the ways in which Constructs are consistent. When proposing a Emerging Tech Construct, use this document to drive your design.
+This document defines the ways in which Constructs are consistent. When proposing a Generative AI Construct, use this document to drive your design.
 
 ## Overall Guidelines
 
 **Constructs Can Be Self Contained**
 
-While passing an existing resource to Construct is essential to the ability to link Constructs together, it should never be required. If your Construct requires the client to create a resource to pass in as an argument to the constructor then you have probably not defined your Construct correctly or what you are designing is not a good fit for the Emerging Tech Constructs library.
+While passing an existing resource to Construct is essential to the ability to link Constructs together, it should never be required. If your Construct requires the client to create a resource to pass in as an argument to the constructor then you have probably not defined your Construct correctly or what you are designing is not a good fit for the Generative AI Constructs library.
 
 **Use CDK definitions to define a service or resource**
 
-The construct should not create new classes or interfaces to describe services or resources. Although the new class may seem simpler now, as new capabilities are added to the construct the new class will acquire new properties – the ultimate result would be something equivalent to the CDK definition, but not compatible. The CDK definitions are well thought out and interact predictably with other CDK constructs, use them. If you want a client the ability to specify a few attributes of a ConstructProps without specifying every required value, then make the type of that attribute ConstructProps | any. This pattern exists several places in the Emerging Tech Constructs library.
+The construct should not create new classes or interfaces to describe services or resources. Although the new class may seem simpler now, as new capabilities are added to the construct the new class will acquire new properties – the ultimate result would be something equivalent to the CDK definition, but not compatible. The CDK definitions are well thought out and interact predictably with other CDK constructs, use them. If you want a client the ability to specify a few attributes of a ConstructProps without specifying every required value, then make the type of that attribute ConstructProps | any. This pattern exists several places in the Generative AI Constructs library.
 
-Another practice that this rule prohibits is putting specific attributes of sub resources in your Emerging Tech Constructs Props object. For instance - if your VPC needs an Internet Gateway, then the client should send VPC Props that create the Internet Gateway, don't create a property at in your Construct Props object of InternetGateway: true.
+Another practice that this rule prohibits is putting specific attributes of sub resources in your Generative AI Constructs Props object. For instance - if your VPC needs an Internet Gateway, then the client should send VPC Props that create the Internet Gateway, don't create a property at in your Construct Props object of InternetGateway: true.
 
 **The client should have the option (but not requirement) to provide any props used within the construct**
 
@@ -40,11 +40,11 @@ While a client should have great flexibility to fully specify how a Construct is
 
 **Business Logic**
 
-The Construct don't have to be restricted to deploying infrastructure (eg – implemented Lambda functions). This is because we want to abstract the complexity of the underlying emerging technology area. However, the business logic should be configurable to adapt to different use cases.
+The Construct don't have to be restricted to deploying infrastructure (eg – implemented Lambda functions). This is because we want to abstract the complexity of the underlying Generative AInology area. However, the business logic should be configurable to adapt to different use cases.
 
 **Favor L2 CDK Constructs over L1**
 
-L1 CDK constructs are merely thin code wrappers over the raw CloudFormation definitions – they bring little if any additional value to the table. L2 CDK constructs provide additional functionality, security and interoperability. Whenever possible, Emerging Tech Constructs interfaces should speak in terms of L2 CDK constructs. If your definition includes L1 constructs it may not be rejected, but you will be asked to explain the reasons requiring their use. 
+L1 CDK constructs are merely thin code wrappers over the raw CloudFormation definitions – they bring little if any additional value to the table. L2 CDK constructs provide additional functionality, security and interoperability. Whenever possible, Generative AI Constructs interfaces should speak in terms of L2 CDK constructs. If your definition includes L1 constructs it may not be rejected, but you will be asked to explain the reasons requiring their use. 
 
 ## VPCs
 
@@ -52,7 +52,7 @@ Clients may choose to deploy their architectures for any number of reasons. VPC 
 
 ## Naming
 
-The name of a Emerging Tech Construct is composed by concatenating the construct's purpose and the names of the individual services or resources configured by the construct. When it is obvious what resource is being deployed by the service, use just the service name, such as SQS, SNS, DynamoDB, etc. When just the service name is ambiguous, append the specific resource type to the service name, such as SagemakerEndpoint (also do this for a different flavor of an already deployed service, such as DynamoDBStream). If you use a specific library, you can also add it to the name.
+The name of a Generative AI Construct is composed by concatenating the construct's purpose and the names of the individual services or resources configured by the construct. When it is obvious what resource is being deployed by the service, use just the service name, such as SQS, SNS, DynamoDB, etc. When just the service name is ambiguous, append the specific resource type to the service name, such as SagemakerEndpoint (also do this for a different flavor of an already deployed service, such as DynamoDBStream). If you use a specific library, you can also add it to the name.
 
 For the construct file name, separate the all lower-case service names by dashes and preface the whole name with “aws-“. For Example:
 
@@ -67,7 +67,7 @@ For the Typescript class name, use Pascal casing and concatenate the names separ
 Once again, these rules became clear as we wrote all of the existing constructs and not all of the early constructs comply with these rules.
 
 # Service Usage in Constructs
-It's important for consistency that services are implemented consistently across Emerging Tech Constructs – that clients specify the same properties. This section specifies the require attributes on your Construct Props interface for each service currently in the library, as well as the reasons behind any exceptions. We are unlikely to approve a construct with additional attributes, although we may if the proposed new attribute is appropriate for us to implement across all constructs using that service.
+It's important for consistency that services are implemented consistently across Generative AI Constructs – that clients specify the same properties. This section specifies the require attributes on your Construct Props interface for each service currently in the library, as well as the reasons behind any exceptions. We are unlikely to approve a construct with additional attributes, although we may if the proposed new attribute is appropriate for us to implement across all constructs using that service.
 
 If you are creating a construct that uses a service for the first time, defining the appropriate interface is a key step and we will work with you.
 

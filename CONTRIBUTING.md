@@ -44,13 +44,13 @@ If there isn't one already, open an issue describing what you intend to contribu
 
 ### Step 2: Design
 
-If you are proposing a new Emerging Tech Construct, the best way to do this is create the full README.md document for the Construct in advance (defining all interfaces, the minimal deployment scenario, the architecture diagram, etc.). This will give us all the information we need to provide feedback and the document will live on as documentation (saving you that effort labor). Not all groups of CDK L2 objects is a Solutions Construct - you will want to follow our [design guidelines](./DESIGN_GUIDELINES.md).
+If you are proposing a new Generative AI Construct, the best way to do this is create the full README.md document for the Construct in advance (defining all interfaces, the minimal deployment scenario, the architecture diagram, etc.). This will give us all the information we need to provide feedback and the document will live on as documentation (saving you that effort labor). Not all groups of CDK L2 objects is a Solutions Construct - you will want to follow our [design guidelines](./DESIGN_GUIDELINES.md).
 
 Once the design is finalized, you can re-purpose this PR for the implementation, or open a new PR to that end.
 
-Good AWS Emerging Tech Constructs have the following characteristics:
-  1) Multi-service: The goal of AWS Emerging Tech Constructs is to weave multiple services together in a well-architected way. 
-  2) Configurable Business Logic: AWS Emerging Tech Constructs should be applicable to all businesses and workloads as much as possible so that they are easily reusable.
+Good AWS Generative AI Constructs have the following characteristics:
+  1) Multi-service: The goal of AWS Generative AI Constructs is to weave multiple services together in a well-architected way. 
+  2) Configurable Business Logic: AWS Generative AI Constructs should be applicable to all businesses and workloads as much as possible so that they are easily reusable.
   3) Reusable across multiple use-cases: We would rather have a small library of Constructs that are wildly popular with customers rather than a huge library of Constructs that customers find irrelevant.
   4) Well Architected: AWS Solutions Constructs should be secure, reliable, scalable and cost efficient.
 
@@ -73,7 +73,7 @@ Now it's time to work your magic. Here are some guidelines:
   Feel free to start your contribution by copy&pasting files from that project,
   and then edit and rename them as appropriate -
   it might be easier to get started that way.
-* To ensure CDKv2 compatibility of all the Emerging Tech Constructs, please ensure the code meets the following guidelines:
+* To ensure CDKv2 compatibility of all the Generative AI Constructs, please ensure the code meets the following guidelines:
   * Import statement for `Construct` is standalone, for example, `import { Construct } from '@aws-cdk/core';` instead of `import { Construct, App, Aws } from '@aws-cdk/core';`
   * Check to make sure the usage of `Construct` in the code is also standalone, for example, `export class IotToSqs extends Construct` insted of `export class IotToSqs extends cdk.Construct`
   * Core classes are imported from `@aws-cdk/core` only, for example, `import { Duration } from "@aws-cdk/core;` instead of `import { Duration } from "@aws-cdk/core/lib/duration";`

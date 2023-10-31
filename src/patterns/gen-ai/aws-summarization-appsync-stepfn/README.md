@@ -14,7 +14,7 @@
 
 | **Language**     | **Package**        |
 |:-------------|-----------------|
-|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@awslabs/@emerging_tech_cdk_constructs`|
+|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@awslabs/generative-ai-cdk-constructs`|
 
 ## Table of contents
 
@@ -155,16 +155,17 @@ Parameters
 | existingSecurityGroup | [ec2.ISecurityGroup](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.ISecurityGroup.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Security group for the lambda function which this construct will use. If no exisiting security group is provided it will create one from the vpc.|
 | existingInputAssetsBucketObj | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing s3 Bucket to store the input document which needs to be summarized. pdf is the supported input document format. If transformed (txt format) file is available then this bucket is optional. |
 | bucketInputsAssetsProps | [s3.BucketProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.BucketProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | User provided props to override the default props for the S3 Bucket.Providing both this and `existingInputAssetsBucketObj` will cause an error.|
-| isFileTransformationRequired | [string] | ![Optional](https://img.shields.io/badge/optional-4169E1) | The summary construct transform the input document into txt format. If the transformation is not required then this flag can be set to false. If set to true then a transformed asset bucket is created which transform the input document from input asset bucket to txt format.|
+| isFileTransformationRequired | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | The summary construct transform the input document into txt format. If the transformation is not required then this flag can be set to false. If set to true then a transformed asset bucket is created which transform the input document from input asset bucket to txt format.|
 | existingProcessedAssetsBucketObj | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.IBucket.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | This bucket stores the transformed (txt) assets for generating summary.If None is provided then this contruct will create one.|
 | bucketProcessedAssetsProps | [s3.BucketProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.BucketProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | User provided props to override the default props for the S3 Bucket.Providing both this and `existingProcessedAssetsBucket` will cause an error.|
 | existingBusInterface | [events.IEventBus](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_events.IEventBus.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing instance of EventBus. The summary construct integrate appsync with event bridge' to route the request to step functions.|
 | eventBusProps | [events.EventBusProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_events.EventBusProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | A new custom EventBus is created with provided props. Providing ```existingBusInterface``` and ```eventBusProps``` both will result in validation error.|
 | existingMergedApi | [appsync.CfnGraphQLApi](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_appsync.CfnGraphQLApi.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing merged api instance. The merge API provides a federated schema over source API schemas.|
-| summaryApiName | [string] | ![Optional](https://img.shields.io/badge/optional-4169E1) | User provided Name for summary api on appsync.A graphql api will be created by this construct with this name.|
+| summaryApiName | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | User provided Name for summary api on appsync.A graphql api will be created by this construct with this name.|
 | observability | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Enables observability on all services used. Warning: associated cost with the services used. Best practice to enable by default. Defaults to true.|
 | enableOperationalMetric | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | CDK construct collect anonymous operational metrics to help AWS improve the quality and features of the constructs. Data collection is subject to the AWS Privacy Policy (https://aws.amazon.com/privacy/). To opt out of this feature, simply disable it by setting the construct property "enableOperationalMetric" to false for each construct used. Defaults to true.|
-| summaryChainType | [string] | ![Optional](https://img.shields.io/badge/optional-4169E1) | Chain type defines how to pass the document to LLM. there are three types of chain types. Stuff: Simply "stuff" all your documents into a single prompt. Map-reduce: Summarize each document on it's own in a "map" step and then "reduce" the summaries into a final summary Refine :  This constructs a response by looping over the input documents and iteratively updating its answer. |
+| summaryChainType | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | Chain type defines how to pass the document to LLM. there are three types of chain types. Stuff: Simply "stuff" all your documents into a single prompt. Map-reduce: Summarize each document on it's own in a "map" step and then "reduce" the summaries into a final summary Refine :  This constructs a response by looping over the input documents and iteratively updating its answer. |
+| stage | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | Value will be appended to resources name Service. |
 
 ## Pattern Properties
 
@@ -232,15 +233,16 @@ The following table provides a sample cost breakdown for deploying this solution
 
 | **AWS Service**     | **Dimensions**        | **Cost [USD]** |
 |:-------------|:----------------|-----------------|
-| Amazon Virtual Private Cloud |  |  |
-| AWS AppSync |  |  |
-| Amazon EventBridge |  |  |
-| AWS Lambda |  |  |
-| Amazon Simple Storage Service |  |  |
-| Amazon Bedrock |  |  |
-| Amazon Cloudwatch | | |
-| AWS X-Ray | | |
-| AWS X-Ray | | |
+| AWS Step Functions | 15 requests per hour for summarization, each with 2 files (4 steps per workflow) | 0.99 |
+| Amazon Virtual Private Cloud |  | 0.00 |
+| AWS AppSync | 15 requests per hour to trigger summarization + (15 x 4 calls to notify clients through subscriptions) = 54,000 requests per month | 0.22 |
+| Amazon EventBridge | 15 requests per hour = 10800 custom events per month | 0.01 |
+| AWS Lambda | 15 summarization requests per hour with 2 files each time, through 4 Lambda functions each allocated with 7076 MB of memory allocated and 512 MB of ephemeral storage allocated and an average run time of 30 seconds = 43200 requests per month. This cost would reduce if redis cache is used which will skip lambda invocation. | 142.59 |
+| Amazon Simple Storage Service | 15 requests per hour for summarization with 2 files in input format (PDF) with an average size of 1MB and transformed files to text format with an average size of 1 MB = 43.2 GB per month in S3 Standard Storage | 0.99 |
+| Amazon Bedrock | With the on-demand mode, for text generation models, you are charged for every input token processed and every output token generated. Anthropic.claude model price for 1000 input tokens= $0.01102 and for 1000 output tokens = $0.03268. With a pdf of 50 pages (asumming each page having 200 words) , 50 * 200 , there are 10000 words, which are ~= 7500 tokens. Input token cost for 200 request per month = 7.5 * 0.01102 * 200 = 16.53. Asumming a summary of 200 words (150 tokens) for 200 requests per month cost of output token  = 150 * (0.03268/1000) * 200 = 9.804. Total cost for 200 summary requests , 16.53 + 9.804 = $26.334| 26.334 |
+| Amazon ElastiCache for Redis | With on-demand Instance type as 'cache.m4.large' and with 1 node the expecxted cost is  1 instance(s) x 0.156 USD hourly x (100 / 100 Utilized/Month) x 730 hours in a month = 113.8800 | 113.88 |
+| Amazon Cloudwatch | 15 metrics using 5 GB data ingested for logs | 7.02 |
+| AWS X-Ray | 100,000 requests per month through AppSync and Lambda calls | 0.50 |
 | Total Deployment cost | | |
 
 The resources not created by this construct (Amazon Cognito User Pool, AppSync Merged API, AWS Secrets Manager secret) do not appear in the table above. You can refer to the decicated pages to get an estimate of the cost related to those services:
