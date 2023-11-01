@@ -15,7 +15,7 @@ import base64
 
 from langchain.llms.bedrock import Bedrock
 from update_summary_status import updateSummaryJobStatus
-
+from langchain import PromptTemplate
 # external files
 from langchain.docstore.document import Document
 from langchain.chains.summarize import load_summarize_chain
@@ -38,6 +38,15 @@ transformed_bucket_name = os.environ["ASSET_BUCKET_NAME"]
 chain_type = os.environ["SUMMARY_LLM_CHAIN_TYPE"]
 
 aws_region = boto3.Session().region_name
+
+params = {
+        "max_tokens_to_sample": 4000,
+        "temperature": 0, 
+        "top_k": 250,
+        "top_p": 1,
+        "stop_sequences": ["\\n\\nHuman:"],
+    }
+
 bedrock_client = boto3.client(
         service_name='bedrock-runtime', 
         region_name=aws_region,
@@ -68,6 +77,8 @@ def handler(event, context: LambdaContext)-> dict:
     summary_llm = Bedrock(
         model_id="anthropic.claude-v2",
         client=bedrock_client,
+        model_kwargs=params,
+        streaming=False,
     )
     
     redis_host = os.environ.get("REDIS_HOST", "N/A")
@@ -133,10 +144,16 @@ def generate_summary(_summary_llm,chain_type,inputFile)-> str:
     
     logger.info(f" Using chain_type as {chain_type} for the document")    
     docs = [Document(page_content=inputFile)]
+    template = """\n\nHuman: Please read the text:\n{text}\n
+    Summarize the text in 300 words: 
+    \n\nAssistant:"""
+    prompt = PromptTemplate(template=template, input_variables=["text"])
+    
     chain = load_summarize_chain(
                 _summary_llm, 
                 chain_type=chain_type, 
-                verbose=False
+                verbose=False,
+                prompt=prompt
                 )
     return chain.run(docs)
 
