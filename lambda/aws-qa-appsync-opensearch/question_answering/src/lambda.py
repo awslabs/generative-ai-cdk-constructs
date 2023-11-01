@@ -32,6 +32,9 @@ def handler(event,  context: LambdaContext) -> dict:
 
     job_id = arguments['jobid']
 
+    # Default value is set to True. This will be exposed as Pattern Construct Properties in the future.
+    arguments["streaming"] = True
+
     # Add a correlationId (tracking code).
     logger.set_correlation_id(job_id)
     metrics.add_metadata(key='correlationId', value=job_id)

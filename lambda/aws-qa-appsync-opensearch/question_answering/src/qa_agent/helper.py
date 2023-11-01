@@ -17,7 +17,50 @@ import requests
 import os
 import boto3
 import json
+import base64
+from enum import Enum
 from requests_aws4auth import AWS4Auth
+
+class JobStatus(Enum):
+    DONE = (
+        'Done', 
+        ''
+    )
+    WORKING = (
+        'Working on the question', 
+        ''
+    )
+    STREAMING_NEW_TOKEN = (
+        'New LLM token.', 
+        ''
+    )
+    STREAMING_ENDED = (
+        'LLM streaming ended.', 
+        ''
+    )
+    ERROR_LOAD_DOC = (
+        'Failed to load document content',
+        base64.b64encode("It seems I cannot load the document you are referring to, please verify that the document was correctly ingested or contect an administrator to get more information.".encode('utf-8'))
+    )
+    ERROR_LOAD_LLM = (
+        'Failed to load the llm', 
+        base64.b64encode("An internal error happened, and I am not able to load my brain, please contact an administrator.".encode('utf-8'))
+    )
+    ERROR_LOAD_INFO = (
+        'Failed to load information about the requested file', 
+        base64.b64encode("Sorry, but I am not able to access the document specified.".encode('utf-8'))
+    )
+    ERROR_PREDICTION = (
+        'Exception during prediction', 
+        base64.b64encode("Sorry, it seems an issue happened on my end, and I'm not able to answer your question. Please contact an administrator to understand why !".encode('utf-8'))
+    )
+
+    def __init__(self, status, message):
+        self.status = status
+        self.message = message
+
+    def get_message(self):
+        return self.message
 
 aws_region = boto3.Session().region_name
 credentials = boto3.Session().get_credentials()

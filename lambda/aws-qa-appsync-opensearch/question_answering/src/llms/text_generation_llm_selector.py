@@ -60,22 +60,29 @@ def get_bedrock_client(service_name="bedrock-runtime"):
 
     return boto3.client(**bedrock_config_data)
 
-def get_llm():
+def get_llm(callbacks=None):
     bedrock = get_bedrock_client(service_name="bedrock-runtime")
+
     params = {
         "max_tokens_to_sample": 600,
-        "temperature": 0, 
+        "temperature": 0,
         "top_k": 250,
         "top_p": 1,
         "stop_sequences": ["\\n\\nHuman:"],
     }
 
-    return Bedrock(
-        client=bedrock,
-        model_id='anthropic.claude-v2',
-        model_kwargs=params,
-        streaming=False,
-    )
+    kwargs = {
+        "client": bedrock,
+        "model_id": "anthropic.claude-v2",
+        "model_kwargs": params,
+        "streaming": False 
+    }
+
+    if callbacks:
+        kwargs["callbacks"] = callbacks
+        kwargs["streaming"] = True
+
+    return Bedrock(**kwargs)
 
 def get_embeddings_llm():
     bedrock = get_bedrock_client(service_name="bedrock-runtime")
