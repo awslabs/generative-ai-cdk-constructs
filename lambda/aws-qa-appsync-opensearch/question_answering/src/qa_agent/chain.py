@@ -30,7 +30,6 @@ logger = Logger(service="QUESTION_ANSWERING")
 tracer = Tracer(service="QUESTION_ANSWERING")
 metrics = Metrics(namespace="question_answering", service="QUESTION_ANSWERING")
 
-# https://stackoverflow.com/questions/76057076/how-to-stream-agents-response-in-langchain
 class StreamingCallbackHandler(BaseCallbackHandler):
     def __init__(self, status_variables: Dict):
         self.status_variables = status_variables
