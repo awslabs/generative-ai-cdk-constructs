@@ -31,11 +31,11 @@ class JobStatus(Enum):
         ''
     )
     STREAMING_NEW_TOKEN = (
-        'New LLM token.', 
+        'New LLM token', 
         ''
     )
     STREAMING_ENDED = (
-        'LLM streaming ended.', 
+        'LLM streaming ended', 
         ''
     )
     ERROR_LOAD_DOC = (
