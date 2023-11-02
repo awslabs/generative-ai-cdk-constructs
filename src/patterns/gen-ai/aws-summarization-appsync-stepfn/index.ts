@@ -485,7 +485,7 @@ export class SummarizationAppsyncStepfn extends Construct {
     );
 
     const enableOperationalMetric = props.enableOperationalMetric || true;
-    const solution_id = 'SummarizationAppsyncStepfn_'+id;
+    const solution_id = 'genai_cdk_'+id;
 
     if (enableOperationalMetric) {
       documentReaderLambda.addEnvironment(

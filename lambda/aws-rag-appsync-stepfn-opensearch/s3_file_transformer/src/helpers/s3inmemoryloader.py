@@ -47,14 +47,18 @@ class S3FileLoaderInMemory(BaseLoader):
             obj = s3.Object(self.bucket, self.key)
             encodedpdf = obj.get()['Body'].read()
             pdfFile = PdfReader(BytesIO(encodedpdf))
+            # read pdf
+            raw_text = []
+            for page in pdfFile.pages:
+                raw_text.append(page.extract_text())
+            return '\n'.join(raw_text)
         except s3.meta.client.exceptions.NoSuchBucket as exception:
             logger.exception('NoSuchBucket')
             return ""
         except s3.meta.client.exceptions.NoSuchKey as exception:
             logger.exception('NoSuchKey')
             return ""
-        # read pdf
-        raw_text = []
-        for page in pdfFile.pages:
-            raw_text.append(page.extract_text())
-        return '\n'.join(raw_text)
+        except Exception as exception:
+            logger.exception(f"Reason: {exception}")
+            return ""
+        
