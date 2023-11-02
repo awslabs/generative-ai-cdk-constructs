@@ -386,7 +386,7 @@ export class QaAppsyncOpensearch extends Construct {
     }));
 
     const enableOperationalMetric = props.enableOperationalMetric || true;
-    const solution_id = 'QaAppsyncOpensearch_'+id;
+    const solution_id = 'genai_cdk_'+id;
 
     if (enableOperationalMetric) {
       question_answering_function.addEnvironment(

@@ -546,7 +546,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     }));
 
     const enableOperationalMetric = props.enableOperationalMetric || true;
-    const solution_id = 'RagAppsyncStepfnOpensearch_'+id;
+    const solution_id = 'genai_cdk_'+id;
 
     if (enableOperationalMetric) {
       embeddings_job_function.addEnvironment(
