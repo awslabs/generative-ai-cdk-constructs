@@ -22,7 +22,7 @@ import {
 // Constants
 const GITHUB_USER = 'awslabs';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
-const CDK_VERSION: string = '2.102.0';
+const CDK_VERSION: string = '2.103.1';
 
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Amazon Web Services - Prototyping and Cloud Engineering',
