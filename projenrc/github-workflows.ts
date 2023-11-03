@@ -302,14 +302,14 @@ export function runSemGrepWorkflow(project: AwsCdkConstructLibrary) {
       },
       {
         name: 'Run Semgrep CI',
-        run: 'semgrep --sarif --output=semgrep.sarif && cat semgrep.sarif',
+        run: 'semgrep scan --json --output=semgrep.json',
       },
       {
         name: 'Store Semgrep as Artifact',
         uses: 'actions/upload-artifact@v3',
         with: {
-          name: 'semgrep.sarif',
-          path: 'semgrep.sarif',
+          name: 'semgrep.json',
+          path: 'semgrep.json',
         },
       },
       // `awslabs` has the Advanced Security disabled.
