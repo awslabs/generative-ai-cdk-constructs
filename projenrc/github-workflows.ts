@@ -282,10 +282,10 @@ export function buildOrtToolkitWorkflow(project: AwsCdkConstructLibrary) {
  */
 export function runSemGrepWorkflow(project: AwsCdkConstructLibrary) {
   const semgrep: Job = {
-    name: "semgrep/ci",
+    name: 'semgrep/ci',
     runsOn: ['ubuntu-latest'],
     container: {
-      image: "returntocorp/semgrep",
+      image: 'returntocorp/semgrep',
     },
     permissions: {
       contents: JobPermission.READ,
@@ -300,16 +300,16 @@ export function runSemGrepWorkflow(project: AwsCdkConstructLibrary) {
       },
       {
         name: 'Run Semgrep CI',
-        run: 'semgrep ci --sarif --output=semgrep.sarif'
+        run: 'semgrep ci --sarif --output=semgrep.sarif',
       },
       {
         name: 'Upload SARIF file for GitHub Advanced Security Dashboard',
         uses: 'github/codeql-action/upload-sarif@v2',
         with: {
-          'sarif_file': 'semgrep.sarif',
+          sarif_file: 'semgrep.sarif',
         },
         if: 'always()',
-      }
+      },
     ],
   };
 
@@ -326,11 +326,11 @@ export function runSemGrepWorkflow(project: AwsCdkConstructLibrary) {
           ],
         },
         schedule: [
-          {cron: '20 17 * * *'},
-        ]
+          { cron: '20 17 * * *' },
+        ],
       });
       workflow.addJobs({
-        "semgrep": semgrep
+        semgrep: semgrep,
       });
     }
   }
