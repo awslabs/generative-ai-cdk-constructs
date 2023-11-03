@@ -302,7 +302,7 @@ export function runSemGrepWorkflow(project: AwsCdkConstructLibrary) {
       },
       {
         name: 'Run Semgrep CI',
-        run: 'semgrep scan --json --output=semgrep.json',
+        run: 'semgrep scan --verbose --json --output=semgrep.json',
       },
       {
         name: 'Store Semgrep as Artifact',

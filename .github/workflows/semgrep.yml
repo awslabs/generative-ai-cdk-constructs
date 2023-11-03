@@ -23,7 +23,7 @@ jobs:
       - name: Checkout project
         uses: actions/checkout@v3
       - name: Run Semgrep CI
-        run: semgrep scan --json --output=semgrep.json
+        run: semgrep scan --verbose --json --output=semgrep.json
       - name: Store Semgrep as Artifact
         uses: actions/upload-artifact@v3
         with:
