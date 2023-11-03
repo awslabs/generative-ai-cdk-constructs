@@ -290,6 +290,7 @@ export function runSemGrepWorkflow(project: AwsCdkConstructLibrary) {
     permissions: {
       contents: JobPermission.READ,
       pullRequests: JobPermission.READ,
+      securityEvents: JobPermission.WRITE,
     },
     if: "(github.actor != 'dependabot[bot]')",
 
