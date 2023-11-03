@@ -17,6 +17,7 @@ jobs:
       contents: read
       pull-requests: read
       security-events: write
+      actions: read
     if: (github.actor != 'dependabot[bot]')
     steps:
       - name: Checkout project
