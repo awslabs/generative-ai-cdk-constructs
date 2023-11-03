@@ -305,13 +305,22 @@ export function runSemGrepWorkflow(project: AwsCdkConstructLibrary) {
         run: 'semgrep ci --sarif --output=semgrep.sarif',
       },
       {
-        name: 'Upload SARIF file for GitHub Advanced Security Dashboard',
-        uses: 'github/codeql-action/upload-sarif@v2',
+        name: 'Store Semgrep as Artifact',
+        uses: 'actions/upload-artifact@v3',
         with: {
-          sarif_file: 'semgrep.sarif',
+          name: 'semgrep.sarif',
+          path: 'semgrep.sarif',
         },
-        if: 'always()',
       },
+      // `awslabs` has the Advanced Security disabled.
+      // {
+      //   name: 'Upload SARIF file for GitHub Advanced Security Dashboard',
+      //   uses: 'github/codeql-action/upload-sarif@v2',
+      //   with: {
+      //     sarif_file: 'semgrep.sarif',
+      //   },
+      //   if: 'always()',
+      // },
     ],
   };
 
