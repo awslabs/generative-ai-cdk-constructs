@@ -302,7 +302,7 @@ export function runSemGrepWorkflow(project: AwsCdkConstructLibrary) {
       },
       {
         name: 'Run Semgrep CI',
-        run: 'semgrep ci --sarif --output=semgrep.sarif',
+        run: 'semgrep ci --sarif --output=semgrep.sarif; ls -l',
       },
       {
         name: 'Store Semgrep as Artifact',
