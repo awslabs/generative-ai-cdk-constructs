@@ -275,3 +275,74 @@ export function buildOrtToolkitWorkflow(project: AwsCdkConstructLibrary) {
   }
 }
 
+/**
+ * https://semgrep.dev/docs/semgrep-ci/sample-ci-configs/#sample-github-actions-configuration-file
+ * Runs Semgrep on the repository.
+ * @param project AwsCdkConstructLibrary
+ */
+export function runSemGrepWorkflow(project: AwsCdkConstructLibrary) {
+  const semgrep: Job = {
+    name: 'semgrep/ci',
+    runsOn: ['ubuntu-latest'],
+    container: {
+      image: 'returntocorp/semgrep',
+    },
+    permissions: {
+      contents: JobPermission.READ,
+      pullRequests: JobPermission.READ,
+      securityEvents: JobPermission.WRITE,
+      actions: JobPermission.READ,
+    },
+    if: "(github.actor != 'dependabot[bot]')",
+
+    steps: [
+      {
+        name: 'Checkout project',
+        uses: 'actions/checkout@v3',
+      },
+      {
+        name: 'Run Semgrep CI',
+        run: 'semgrep scan --verbose --json --output=semgrep.json',
+      },
+      {
+        name: 'Store Semgrep as Artifact',
+        uses: 'actions/upload-artifact@v3',
+        with: {
+          name: 'semgrep.json',
+          path: 'semgrep.json',
+        },
+      },
+      // `awslabs` has the Advanced Security disabled.
+      // {
+      //   name: 'Upload SARIF file for GitHub Advanced Security Dashboard',
+      //   uses: 'github/codeql-action/upload-sarif@v2',
+      //   with: {
+      //     sarif_file: 'semgrep.sarif',
+      //   },
+      //   if: 'always()',
+      // },
+    ],
+  };
+
+  if (project.github) {
+    const workflow = project.github.addWorkflow('semgrep');
+    if (workflow) {
+      workflow.on({
+        pullRequest: {},
+        workflowDispatch: {
+        },
+        push: {
+          branches: [
+            'main',
+          ],
+        },
+        schedule: [
+          { cron: '20 17 * * *' },
+        ],
+      });
+      workflow.addJobs({
+        semgrep: semgrep,
+      });
+    }
+  }
+}
