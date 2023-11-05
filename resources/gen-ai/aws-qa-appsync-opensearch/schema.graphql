@@ -1,6 +1,7 @@
 type QADocs @aws_iam @aws_cognito_user_pools {
 	jobid: ID
 	question: String
+	streaming: Boolean
 	max_docs: Int
 	verbose: Boolean
 	filename: String
@@ -12,6 +13,7 @@ type QADocs @aws_iam @aws_cognito_user_pools {
 input QADocsInput {
 	jobid: ID
 	question: String
+	streaming: Boolean
 	max_docs: Int
 	filename: String
 	verbose: Boolean

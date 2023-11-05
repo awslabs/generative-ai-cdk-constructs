@@ -79,7 +79,7 @@ Mutation call to trigger the question:
 
 ```
 mutation MyMutation {
-  postQuestion(jobid: "123", jobstatus: "", max_docs: 10, question: "d2hhdCBpcyB0aGlzIGRvY3VtZW50IGFib3V0ID8=", verbose: true, filename: "document.txt") {
+  postQuestion(jobid: "123", jobstatus: "", max_docs: 10, question: "d2hhdCBpcyB0aGlzIGRvY3VtZW50IGFib3V0ID8=", streaming:true, verbose: true, filename: "document.txt") {
     answer
     jobid
     jobstatus
@@ -96,6 +96,7 @@ Where:
 - max_docs: maximum number of documents (chunks) retrieved from the knowledge base if the Retrieveal Augmented Generation (RAG) approach is used 
 - question: question to ask as a base64 encoded string
 - verbose: boolean indicating if the Langchain chain call verbosity should be enabled or not
+- streaming: boolean indicating if the streaming capability of Bedrock is used. If set to true, tokens will be send back to the subscriber as they are generated. If set to false, the entire response will be sent back to the subscriber once generated. 
 - filename: optional. Name of the file stored in the input S3 bucket, in txt format.
 
 Subscription call to get notifications about the question answering process:
