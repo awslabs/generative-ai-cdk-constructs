@@ -17,6 +17,7 @@ import {
   buildUpdateContributorsWorkflow,
   buildAutoApproveWorkflow,
   buildOrtToolkitWorkflow,
+  runSemGrepWorkflow,
 } from './projenrc/github-workflows';
 
 // Constants
@@ -91,6 +92,7 @@ buildMonthlyIssuesMetricsWorkflow(project);
 buildUpdateContributorsWorkflow(project);
 buildAutoApproveWorkflow(project);
 buildOrtToolkitWorkflow(project);
+runSemGrepWorkflow(project);
 
 // We don't want to package certain things
 project.npmignore?.addPatterns(
