@@ -30,6 +30,7 @@
 - [Security](#security)
 - [Supported AWS Regions](#supported-aws-regions)
 - [Quotas](#quotas)
+- [Clean up](#clean-up)
 
 ## Credits
 
@@ -295,6 +296,11 @@ Service quotas, also referred to as limits, are the maximum number of service re
 Make sure you have sufficient quota for each of the services implemented in this solution. For more information, refer to [AWS service quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html).
 
 To view the service quotas for all AWS services in the documentation without switching pages, view the information in the [Service endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/aws-general.pdf#aws-service-information) page in the PDF instead.
+
+## Clean up
+
+When deleting your stack which uses this construct, do not forget to go over the following instructions to avoid unexpected charges:
+  - delete the lambda layers uploaded to the account
 
 ***
 &copy; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
