@@ -26,6 +26,7 @@ metrics = Metrics(namespace="summary_pipeline", service="SUMMARY_INPUT_VALIDATIO
 def handler(event, context: LambdaContext)-> dict:
      summary_input = event["detail"]["summaryInput"]
      job_id = summary_input['summary_job_id']
+     ignore_existing = summary_input.get("ignore_existing", False)
 
      # Add a correlationId (tracking code).
      logger.set_correlation_id(job_id)
@@ -36,7 +37,7 @@ def handler(event, context: LambdaContext)-> dict:
 
      response = process_files(input_files,job_id)
      
-     response_transformed = add_job_id_to_response(response, job_id)
+     response_transformed = append_job_info(response, job_id, ignore_existing)
     
      logger.info({"response": response_transformed})
      return response_transformed
@@ -90,7 +91,12 @@ def process_files(input_files,job_id):
     return response
 
 @tracer.capture_method
-def add_job_id_to_response(response, job_id):
+def append_job_info(response, job_id, ignore_existing):
+    """
+    Append job ID and ignore_existing flag to 
+    each file in the provided response
+    """
     for file in response['files']:
         file['jobid'] = job_id
+        file['ignore_existing'] = ignore_existing
     return response
