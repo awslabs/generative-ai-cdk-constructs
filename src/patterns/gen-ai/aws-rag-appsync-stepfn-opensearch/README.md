@@ -93,7 +93,7 @@ Mutation call to trigger the ingestion process:
 
 ```
 mutation MyMutation {
-  ingestDocuments(ingestioninput: {files: [{status: "", name: "a.pdf"}, {status: "", name: "b.pdf"}], ingestionjobid: "123"}) {
+  ingestDocuments(ingestioninput: {files: [{status: "", name: "a.pdf"}, {status: "", name: "b.pdf"}], ingestionjobid: "123", ignore_existing: false}) {
     ingestionjobid
   }
 }
@@ -103,6 +103,7 @@ Where:
 - files.status: this field will be used by the subscription to update the status of the ingestion for the file specified
 - files.name: name of the file stored in the input S3 bucket
 - ingestionjobid: id which can be used to filter subscriptions on client side
+- ignore_existing: boolean indicating if existing transformed files in the output bucket should be ignored. If true, the input document will be re-transformed (txt format), overwriting any existing transformed file for that document.
 
 Subscription call to get notifications about the ingestion process:
 
