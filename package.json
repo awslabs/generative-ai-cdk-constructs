@@ -1,5 +1,5 @@
 {
-  "name": "@awslabs/generative-ai-cdk-constructs",
+  "name": "@awscdk/generative-ai-cdk-constructs",
   "repository": {
     "type": "git",
     "url": "https://github.com/awslabs/generative-ai-cdk-constructs"

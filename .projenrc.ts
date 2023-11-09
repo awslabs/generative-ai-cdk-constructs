@@ -22,6 +22,7 @@ import {
 
 // Constants
 const GITHUB_USER = 'awslabs';
+const PUBLICATION_NAMESPACE = 'awscdk';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
 const CDK_VERSION: string = '2.103.1';
 
@@ -40,7 +41,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   repositoryUrl: 'https://github.com/' + GITHUB_USER + '/' + PROJECT_NAME,
 
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
-  packageName: '@' + GITHUB_USER + '/' + PROJECT_NAME, /* The "name" in package.json. */
+  packageName: '@' + PUBLICATION_NAMESPACE + '/' + PROJECT_NAME, /* The "name" in package.json. */
   keywords: ['constructs', 'aws-cdk', 'generative-ai', 'emerging-tech'],
   devDeps: ['eslint-plugin-header'],
   //bundledDeps: ['deepmerge', '@types/deep-diff', '@types/npmlog'],
