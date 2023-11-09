@@ -78,7 +78,7 @@ For optional props like redis cluster set cfnCacheClusterProps.
 
 ```
 const cfnCacheClusterProps: elasticache.CfnCacheClusterProps = {
-      cacheNodeType: 'cache.r6g.xlarge',
+      cacheNodeType: 'cache.m4.large',
       engine: 'redis',
       numCacheNodes: 1,
     };
@@ -91,9 +91,48 @@ If file transformation is required set isFileTransformationRequired to 'True'
 
 For existing resource like Amazon VPC , Amazon S3 buckets use props like existingVpc, existingInputAssetsBucketObj and existingProcessedAssetsBucketObj.
 
-The code below provides an example of a mutation call and associated subscription to trigger the summarization workflow and get response notifications:
+After deploying the CDK stack, the document summarization workflow can be invoked using Graphql APIs. The API Schema details are present here - resources/gen-ai/aws-summarization-appsync-stepfn/schema.graphql.
 
-Mutation call to trigger the question:
+The code below provides an example of a subscription call and associated mutation to trigger the summarization workflow and get response notifications. The subscription call wait for mutation request to send the notifications.
+
+Subscription call to receive notifications:
+
+```
+subscription MySubscription {
+  updateSummaryJobStatus(name: "document1.txt", summary_job_id: "81") {
+    name
+    status
+    summary
+    summary_job_id
+  }
+}
+_______________________________________
+
+Expected response:
+
+{
+  "data": {
+    "updateSummaryJobStatus": {
+      "files": [
+        {
+          "name": "document1.txt",
+          "status": "Completed",
+          "summary": "<base 64 encoded summary>"
+        }
+      ],
+      "summary_job_id": "81"
+    }
+  }
+}
+```
+
+Where:
+- summary_job_id: id which can be used to filter subscriptions on client side
+- status: status update of the summarization process for the file(s) specified
+- name: name of the file stored in the input S3 bucket, same name + extension as passed to the previous mutation call.
+- summary: summary returned by the Large Language Model for the document specified, as a base64 encoded string
+
+Mutation call to trigger the summarization:
 
 ```
 mutation MyMutation {
@@ -104,6 +143,20 @@ mutation MyMutation {
     summary_job_id
   }
 }
+
+_______________________________________
+
+Expected response: It invoke an asynchronous summarization process thus the response notification are send on subscription channel.
+
+{
+  "data": {
+    "generateSummary": {
+      "files": null,
+      "summary_job_id": null
+    }
+  }
+}
+
 ```
 
 Where:
@@ -113,23 +166,7 @@ Where:
 If pdf format is selected, the file needs to be in the input S3 bucket and the construct prop ```isFileTransformationRequired``` needs to be set to true. The file will be transformed to text format.
 - ignore_existing: boolean indicating if existing summaries in the cache should be ignored. If true, the input document will be re-summarized, overwriting any existing cached summary for that document.
 
-Subscription call to get notifications about the summarization process:
-```
-subscription MySubscription {
-  updateSummaryJobStatus(name: "document1.txt", summary_job_id: "81") {
-    name
-    status
-    summary
-    summary_job_id
-  }
-}
-```
 
-Where:
-- summary_job_id: id which can be used to filter subscriptions on client side
-- status: status update of the summarization process for the file(s) specified
-- name: name of the file stored in the input S3 bucket, same name + extension as passed to the previous mutation call.
-- summary: summary returned by the Large Language Model for the document specified, as a base64 encoded string
 
 ```If multiple files are requested for summarization , then the client should filter response based on summary_job_id and name for each file. ```
 
