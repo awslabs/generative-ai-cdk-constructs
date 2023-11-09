@@ -97,7 +97,7 @@ Mutation call to trigger the question:
 
 ```
 mutation MyMutation {
-  generateSummary(summaryInput:{files:[{name: "document1.txt", status: ""}], summary_job_id:"81"}) {
+  generateSummary(summaryInput:{files:[{name: "document1.txt", status: ""}], summary_job_id:"81", ignore_existing: false}) {
     name
     status
     summary
@@ -111,6 +111,7 @@ Where:
 - status: this field will be used by the subscription to update the status of the summarization process for the file(s) specified
 - name: Two formats are supported for files to be summarized. If the file is in text format, it needs to be stored in the trasformed S3 bucket, no file transformation is required. 
 If pdf format is selected, the file needs to be in the input S3 bucket and the construct prop ```isFileTransformationRequired``` needs to be set to true. The file will be transformed to text format.
+- ignore_existing: boolean indicating if existing summaries in the cache should be ignored. If true, the input document will be re-summarized, overwriting any existing cached summary for that document.
 
 Subscription call to get notifications about the summarization process:
 ```
