@@ -22,7 +22,7 @@ import {
 
 // Constants
 const GITHUB_USER = 'awslabs';
-const PUBLICATION_NAMESPACE = 'awscdk';
+const PUBLICATION_NAMESPACE = 'aws-cdk';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
 const CDK_VERSION: string = '2.103.1';
 

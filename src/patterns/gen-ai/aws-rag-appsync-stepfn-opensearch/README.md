@@ -14,7 +14,7 @@
 
 | **Language**     | **Package**        |
 |:-------------|-----------------|
-|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@awscdk/generative-ai-cdk-constructs`|
+|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@aws-cdk/generative-ai-cdk-constructs`|
 
 ## Table of contents
 
