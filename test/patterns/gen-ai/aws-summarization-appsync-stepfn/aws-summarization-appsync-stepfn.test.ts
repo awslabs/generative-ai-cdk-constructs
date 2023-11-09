@@ -133,11 +133,11 @@ describe('Summarization Appsync Stepfn construct', () => {
               'GraphQLUrl',
             ],
           },
-          INPUT_ASSET_BUCKET: { Ref: Match.stringLikeRegexp('testinputAssetsBucketdev') },
+          INPUT_ASSET_BUCKET: { Ref: Match.stringLikeRegexp('testinputAssetsSummaryBucketdev') },
           IS_FILE_TRANSFORMED: 'false',
           REDIS_HOST: { 'Fn::GetAtt': [Match.stringLikeRegexp('testredisCluster'), 'RedisEndpoint.Address'] },
           REDIS_PORT: { 'Fn::GetAtt': [Match.stringLikeRegexp('testredisCluster'), 'RedisEndpoint.Port'] },
-          TRANSFORMED_ASSET_BUCKET: { Ref: Match.stringLikeRegexp('testprocessedAssetsBucket') },
+          TRANSFORMED_ASSET_BUCKET: { Ref: Match.stringLikeRegexp('testprocessedAssetsSummaryBucket') },
         },
       },
     });
@@ -146,7 +146,10 @@ describe('Summarization Appsync Stepfn construct', () => {
       FunctionName: Match.stringLikeRegexp('summary_generator-dev'),
       Environment: {
         Variables: {
-          ASSET_BUCKET_NAME: { Ref: 'testprocessedAssetsBucketdevF293824A' },
+          ASSET_BUCKET_NAME: {
+            Ref: Match.stringLikeRegexp
+            ('testprocessedAssetsSummaryBucket'),
+          },
           GRAPHQL_URL: {
             'Fn::GetAtt': [
               Match.stringLikeRegexp('summaryMergedapi'),

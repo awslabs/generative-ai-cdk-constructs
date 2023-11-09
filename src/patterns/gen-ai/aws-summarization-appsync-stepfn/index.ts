@@ -286,10 +286,10 @@ export class SummarizationAppsyncStepfn extends Construct {
       this.inputAssetBucket = props.existingInputAssetsBucketObj;
     } else if (props?.bucketInputsAssetsProps) {
       this.inputAssetBucket = new s3.Bucket(this,
-        'inputAssetsBucket'+stage, props.bucketInputsAssetsProps);
+        'inputAssetsSummaryBucket'+stage, props.bucketInputsAssetsProps);
     } else {
-      const bucketName= 'input-assets-bucket'+stage+'-'+cdk.Aws.ACCOUNT_ID;
-      this.inputAssetBucket = new s3.Bucket(this, 'inputAssetsBucket'+stage,
+      const bucketName= 'input-assets-summary-bucket'+stage+'-'+cdk.Aws.ACCOUNT_ID;
+      this.inputAssetBucket = new s3.Bucket(this, 'inputAssetsSummaryBucket'+stage,
         {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
@@ -307,11 +307,11 @@ export class SummarizationAppsyncStepfn extends Construct {
       this.processedAssetBucket = props.existingProcessedAssetsBucketObj;
     } else if (props?.bucketProcessedAssetsProps) {
       this.processedAssetBucket = new s3.Bucket(this,
-        'processedAssetsBucket'+stage, props.bucketProcessedAssetsProps);
+        'processedAssetsSummaryBucket'+stage, props.bucketProcessedAssetsProps);
     } else {
-      const bucketName= 'processed-assets-bucket'+stage+'-'+cdk.Aws.ACCOUNT_ID;
+      const bucketName= 'processed-assets-summary-bucket'+stage+'-'+cdk.Aws.ACCOUNT_ID;
 
-      this.processedAssetBucket = new s3.Bucket(this, 'processedAssetsBucket'+stage,
+      this.processedAssetBucket = new s3.Bucket(this, 'processedAssetsSummaryBucket'+stage,
         {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,

@@ -66,7 +66,8 @@ import * as os from 'aws-cdk-lib/aws-opensearchservice';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import { RagApiGatewayOpensearch, RagApiGatewayOpensearchProps } from '@awslabs/generative-ai-cdk-constructs';
 
-// get an existing OpenSearch provisioned cluster
+// get an existing OpenSearch provisioned cluster in the same VPC as of RagAppsyncStepfnOpensearch construct 
+// Security group for the existing opensearch cluster should allow traffic on 443.
 const osDomain = os.Domain.fromDomainAttributes(this, 'osdomain', {
     domainArn: 'arn:aws:es:us-east-1:XXXXXX',
     domainEndpoint: 'https://XXXXX.us-east-1.es.amazonaws.com'
@@ -105,6 +106,7 @@ Where:
 - ingestionjobid: id which can be used to filter subscriptions on client side
 - ignore_existing: boolean indicating if existing transformed files in the output bucket should be ignored. If true, the input document will be re-transformed (txt format), overwriting any existing transformed file for that document.
 
+
 Subscription call to get notifications about the ingestion process:
 
 ```
@@ -116,12 +118,57 @@ subscription MySubscription {
     }
   }
 }
+_________________________________________________
+Expected response:
+
+{
+  "data": {
+    "updateIngestionJobStatus": {
+      "files": [
+        {
+          "name": "a.pdf",
+          "status": "succeed"
+        }
+         {
+          "name": "b.pdf",
+          "status": "succeed"
+        }
+      ]
+    }
+  }
+}
 ```
 Where:
 - ingestionjobid: id which can be used to filter subscriptions on client side
 The subscription will display the status and name for each file 
 - files.status: status update of the ingestion for the file specified
 - files.name: name of the file stored in the input S3 bucket
+
+Mutation call to trigger the ingestion process:
+
+```
+mutation MyMutation {
+  ingestDocuments(ingestioninput: {files: [{status: "", name: "a.pdf"}, {status: "", name: "b.pdf"}], ingestionjobid: "123"}) {
+    ingestionjobid
+  }
+}
+_________________________________________________
+Expected response:
+
+{
+  "data": {
+    "ingestDocuments": {
+      "ingestionjobid": null
+    }
+  }
+}
+```
+Where:
+- files.status: this field will be used by the subscription to update the status of the ingestion for the file specified
+- files.name: name of the file stored in the input S3 bucket
+- ingestionjobid: id which can be used to filter subscriptions on client side
+
+
 
 ## Initializer
 

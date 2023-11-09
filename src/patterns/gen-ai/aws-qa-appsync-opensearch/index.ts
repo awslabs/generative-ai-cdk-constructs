@@ -227,14 +227,14 @@ export class QaAppsyncOpensearch extends Construct {
     if (!props.existingInputAssetsBucketObj) {
       let tmpBucket: s3.Bucket;
       if (!props.bucketInputsAssetsProps) {
-        tmpBucket = new s3.Bucket(this, 'inputAssetsBucket'+stage,
+        tmpBucket = new s3.Bucket(this, 'inputAssetsQABucket'+stage,
           {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
-            bucketName: 'input-assets-bucket'+stage+'-'+Aws.ACCOUNT_ID,
+            bucketName: 'input-asset-qa-bucket'+stage+'-'+Aws.ACCOUNT_ID,
           });
       } else {
-        tmpBucket = new s3.Bucket(this, 'InputAssetsBucket'+stage, props.bucketInputsAssetsProps);
+        tmpBucket = new s3.Bucket(this, 'InputAssetsQABucket'+stage, props.bucketInputsAssetsProps);
       }
       inputAssetsBucket = tmpBucket;
       this.s3InputAssetsBucket = tmpBucket;
