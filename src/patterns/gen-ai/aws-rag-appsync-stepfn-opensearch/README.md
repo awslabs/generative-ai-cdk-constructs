@@ -66,7 +66,8 @@ import * as os from 'aws-cdk-lib/aws-opensearchservice';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import { RagApiGatewayOpensearch, RagApiGatewayOpensearchProps } from '@awslabs/generative-ai-cdk-constructs';
 
-// get an existing OpenSearch provisioned cluster
+// get an existing OpenSearch provisioned cluster in the same VPC as of RagAppsyncStepfnOpensearch construct 
+// Security group for the existing opensearch cluster should allow traffic on 443.
 const osDomain = os.Domain.fromDomainAttributes(this, 'osdomain', {
     domainArn: 'arn:aws:es:us-east-1:XXXXXX',
     domainEndpoint: 'https://XXXXX.us-east-1.es.amazonaws.com'
@@ -87,22 +88,9 @@ const rag_source = new RagAppsyncStepfnOpensearch(
     )
 ```
 
-The code below provides an example of a mutation call and associated subscription to trigger a pipeline call and get status notifications:
+After deploying the CDK stack, the ingestion pipeline can be invoked using Graphql APIs. The API Schema details are present here - resources/gen-ai/aws-rag-appsync-stepfn-opensearch/schema.graphql.
 
-Mutation call to trigger the ingestion process:
-
-```
-mutation MyMutation {
-  ingestDocuments(ingestioninput: {files: [{status: "", name: "a.pdf"}, {status: "", name: "b.pdf"}], ingestionjobid: "123"}) {
-    ingestionjobid
-  }
-}
-
-```
-Where:
-- files.status: this field will be used by the subscription to update the status of the ingestion for the file specified
-- files.name: name of the file stored in the input S3 bucket
-- ingestionjobid: id which can be used to filter subscriptions on client side
+The code below provides an example of a mutation call and associated subscription to trigger a pipeline call and get status notifications. The subscription call wait for mutation request to send the notifications.
 
 Subscription call to get notifications about the ingestion process:
 
@@ -115,12 +103,57 @@ subscription MySubscription {
     }
   }
 }
+_________________________________________________
+Expected response:
+
+{
+  "data": {
+    "updateIngestionJobStatus": {
+      "files": [
+        {
+          "name": "a.pdf",
+          "status": "succeed"
+        }
+         {
+          "name": "b.pdf",
+          "status": "succeed"
+        }
+      ]
+    }
+  }
+}
 ```
 Where:
 - ingestionjobid: id which can be used to filter subscriptions on client side
 The subscription will display the status and name for each file 
 - files.status: status update of the ingestion for the file specified
 - files.name: name of the file stored in the input S3 bucket
+
+Mutation call to trigger the ingestion process:
+
+```
+mutation MyMutation {
+  ingestDocuments(ingestioninput: {files: [{status: "", name: "a.pdf"}, {status: "", name: "b.pdf"}], ingestionjobid: "123"}) {
+    ingestionjobid
+  }
+}
+_________________________________________________
+Expected response:
+
+{
+  "data": {
+    "ingestDocuments": {
+      "ingestionjobid": null
+    }
+  }
+}
+```
+Where:
+- files.status: this field will be used by the subscription to update the status of the ingestion for the file specified
+- files.name: name of the file stored in the input S3 bucket
+- ingestionjobid: id which can be used to filter subscriptions on client side
+
+
 
 ## Initializer
 

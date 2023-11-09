@@ -73,8 +73,43 @@ const rag_source = new QaAppsyncOpensearch(
       }
     )
 ```
+After deploying the CDK stack, the ingestion pipeline can be invoked using Graphql APIs. The API Schema details are present here - resources/gen-ai/aws-qa-appsync-opensearch/schema.graphql.
 
-The code below provides an example of a mutation call and associated subscription to trigger a question and get response notifications:
+The code below provides an example of a mutation call and associated subscription to trigger a question and get response notifications.The subscription call wait for mutation request to send the notifications.
+
+Subscription call to get notifications about the question answering process:
+
+```
+subscription MySubscription {
+  updateQAJobStatus(jobid: "123") {
+    sources
+    question
+    answer
+    jobstatus
+  }
+}
+____________________________________________________________________
+Expected response:
+
+{
+  "data": {
+    "updateQAJobStatus": {
+      "sources": [
+        ""
+      ],
+      "question": "<base 64 encoded question>",
+      "answer": "<base 64 encoded answer>",
+      "jobstatus": "Succeed"
+    }
+  }
+}
+```
+
+Where:
+- jobid: id which can be used to filter subscriptions on client side
+- answer: response to the question from the Large Language Model as a base64 encoded string
+- sources: sources from the knowledge base used as context to answer the question
+- jobstatus: status update of the question answering process for the file specified
 
 Mutation call to trigger the question:
 
@@ -89,6 +124,21 @@ mutation MyMutation {
     verbose
   }
 }
+____________________________________________________________________
+Expected response:
+
+{
+  "data": {
+    "postQuestion": {
+      "answer": null,
+      "jobid": null,
+      "jobstatus": null,
+      "max_docs": null,
+      "question": null,
+      "verbose": null
+    }
+  }
+}
 ```
 
 Where:
@@ -100,24 +150,7 @@ Where:
 - streaming: boolean indicating if the streaming capability of Bedrock is used. If set to true, tokens will be send back to the subscriber as they are generated. If set to false, the entire response will be sent back to the subscriber once generated. 
 - filename: optional. Name of the file stored in the input S3 bucket, in txt format.
 
-Subscription call to get notifications about the question answering process:
 
-```
-subscription MySubscription {
-  updateQAJobStatus(jobid: "123") {
-    sources
-    question
-    answer
-    jobstatus
-  }
-}
-```
-
-Where:
-- jobid: id which can be used to filter subscriptions on client side
-- answer: response to the question from the Large Language Model as a base64 encoded string
-- sources: sources from the knowledge base used as context to answer the question
-- jobstatus: status update of the question answering process for the file specified
 
 ## Initializer
 
