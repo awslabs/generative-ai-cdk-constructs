@@ -49,9 +49,14 @@ def process_files(input_files):
     return response
 
 @tracer.capture_method
-def add_job_id_to_response(response, job_id):
+def append_job_info(response, job_id, ignore_existing):
+    """
+    Append job ID and ignore_existing flag to 
+    each file in the provided response
+    """
     for file in response['files']:
         file['jobid'] = job_id
+        file['ignore_existing'] = ignore_existing
     return response
 
 @logger.inject_lambda_context(log_event=True)
@@ -61,6 +66,7 @@ def handler(event,  context: LambdaContext) -> dict:
     
     ingestion_input = event['detail']['ingestioninput']
     job_id = ingestion_input['ingestionjobid']
+    ignore_existing = ingestion_input.get("ignore_existing", False)
 
     # Add a correlationId (tracking code).
     logger.set_correlation_id(job_id)
@@ -73,7 +79,7 @@ def handler(event,  context: LambdaContext) -> dict:
 
     updateIngestionJobStatus({'jobid': job_id, 'files': response['files']})
 
-    response_transformed = add_job_id_to_response(response, job_id)
+    response_transformed = append_job_info(response, job_id, ignore_existing)
     
     logger.info({"response": response_transformed})
     return response_transformed

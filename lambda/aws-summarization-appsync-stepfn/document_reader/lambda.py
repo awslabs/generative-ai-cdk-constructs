@@ -34,6 +34,7 @@ is_file_tranformation_required = os.environ["IS_FILE_TRANSFORMED"]
 def handler(event, context: LambdaContext):
       
     logger.info(f"{event=}")
+    ignore_existing = event.get("ignore_existing", False)
     
     original_file_name = event["name"]
     job_id = event["jobid"]  
@@ -50,7 +51,7 @@ def handler(event, context: LambdaContext):
     metrics.add_metadata(key='correlationId', value=job_id)
     tracer.put_annotation(key="correlationId", value=job_id)
     
-    filesummary = get_summary_from_cache(original_file_name)
+    filesummary = get_summary_from_cache(original_file_name) if not ignore_existing else None
     
     if filesummary is not None:
         metrics.add_metric(name="summary_cache_hit",unit=MetricUnit.Count, value=1)

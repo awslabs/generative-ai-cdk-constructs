@@ -49,6 +49,8 @@ def file_exists_in_bucket(bucket_name, object_name):
 def handler(event,  context: LambdaContext) -> dict:
 
     job_id = event['jobid']
+    ignore_existing = event.get("ignore_existing", False)
+
     # Add a correlationId (tracking code).
     logger.set_correlation_id(job_id)
     metrics.add_metadata(key='correlationId', value=job_id)
@@ -66,7 +68,7 @@ def handler(event,  context: LambdaContext) -> dict:
     # verify that the file doesn't already exist in the output bucket, otherwise we will process a duplicate
     name, extension = os.path.splitext(event['name'])
     output_file_name = name + '.txt'
-    if (file_exists_in_bucket(output_bucket, output_file_name) == False):
+    if (ignore_existing or file_exists_in_bucket(output_bucket, output_file_name) == False):
         #load the file from input S3 bucket and save its content as a txt file in the output bucket
         if (event['name'].lower().endswith('.pdf')):
             metrics.add_metric(name="pdf", unit=MetricUnit.Count, value=1)

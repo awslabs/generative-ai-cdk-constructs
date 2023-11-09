@@ -20,6 +20,7 @@ type SummaryDocs @aws_iam
 input SummaryDocsInput {
 	summary_job_id: ID
 	files: [FileStatusInput]
+	ignore_existing: Boolean
 }
 
 type Mutation @aws_iam
