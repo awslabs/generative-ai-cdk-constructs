@@ -73,7 +73,7 @@ const rag_source = new QaAppsyncOpensearch(
       }
     )
 ```
-After deploying the CDK stack, the ingestion pipeline can be invoked using Graphql APIs. The API Schema details are present here - resources/gen-ai/aws-qa-appsync-opensearch/schema.graphql.
+After deploying the CDK stack, the QA  process can be invoked using Graphql APIs. The API Schema details are present here - resources/gen-ai/aws-qa-appsync-opensearch/schema.graphql.
 
 The code below provides an example of a mutation call and associated subscription to trigger a question and get response notifications.The subscription call wait for mutation request to send the notifications.
 
