@@ -15,11 +15,11 @@ import * as sagemaker from 'aws-cdk-lib/aws-sagemaker';
 import { Stack, Token } from 'aws-cdk-lib/core';
 import { Construct } from 'constructs';
 import { InstanceType } from './instance-type';
-import { JumpStartModel, JumpStartModelSpec } from './jumpstart-model';
+import { JumpStartModel, IJumpStartModelSpec } from './jumpstart-model';
 import { JumpStartConstants } from './private/jumpstart-constants';
 import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
 
-export interface JumpStartSageMakerEndpointProps {
+export interface IJumpStartSageMakerEndpointProps {
   model: JumpStartModel;
   endpointName?: string;
   instanceType?: InstanceType;
@@ -45,15 +45,11 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
   public readonly role: iam.Role;
 
   private readonly region: string;
-  private readonly spec: JumpStartModelSpec;
+  private readonly spec: IJumpStartModelSpec;
   private readonly startupHealthCheckTimeoutInSeconds: number;
   private readonly environment?: { [key: string]: string };
 
-  constructor(
-    scope: Construct,
-    id: string,
-    props: JumpStartSageMakerEndpointProps,
-  ) {
+  constructor(scope: Construct, id: string, props: IJumpStartSageMakerEndpointProps) {
     super(scope, id);
 
     this.model = props.model;
@@ -62,10 +58,9 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
     this.role = props.role ?? this.createSageMakerRole();
     this.grantPrincipal = this.role;
 
-    this.startupHealthCheckTimeoutInSeconds =
-      props.startupHealthCheckTimeoutInSeconds ?? 600;
+    this.startupHealthCheckTimeoutInSeconds = props.startupHealthCheckTimeoutInSeconds ?? 600;
     this.environment = props.environment;
-    this.spec = this.model.bind(this, this.role);
+    this.spec = this.model.bind();
     this.region = Stack.of(this).region;
 
     if (Token.isUnresolved(this.region)) {
@@ -80,52 +75,34 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
     let model: sagemaker.CfnModel;
     if (this.spec.modelPackageArns) {
       if (this.environment) {
-        throw new Error(
-          'Environment variables are not supported for model packages.',
-        );
+        throw new Error('Environment variables are not supported for model packages.');
       }
 
       model = this.getModelFromPackage(scope);
     } else {
       const environment = this.buildEnvironment(instanceType);
-      model = this.getModelFromArtifact(
-        scope,
-        instanceType,
-        instanseBaseType,
-        environment,
-      );
+      model = this.getModelFromArtifact(scope, instanceType, instanseBaseType, environment);
     }
 
-    const endpointConfig = new sagemaker.CfnEndpointConfig(
-      scope,
-      'EndpointConfig',
-      {
-        productionVariants: [
-          {
-            instanceType,
-            initialVariantWeight: 1,
-            initialInstanceCount: this.instanceCount,
-            variantName: 'AllTraffic',
-            modelName: model.getAtt('ModelName').toString(),
-            containerStartupHealthCheckTimeoutInSeconds:
-              this.startupHealthCheckTimeoutInSeconds,
-          },
-        ],
-      },
-    );
+    const endpointConfig = new sagemaker.CfnEndpointConfig(scope, 'EndpointConfig', {
+      productionVariants: [
+        {
+          instanceType,
+          initialVariantWeight: 1,
+          initialInstanceCount: this.instanceCount,
+          variantName: 'AllTraffic',
+          modelName: model.getAtt('ModelName').toString(),
+          containerStartupHealthCheckTimeoutInSeconds: this.startupHealthCheckTimeoutInSeconds,
+        },
+      ],
+    });
 
     endpointConfig.addDependency(model);
 
-    const endpoint = new sagemaker.CfnEndpoint(
-      scope,
-      `${this.spec.modelId}-endpoint`,
-      {
-        endpointConfigName: endpointConfig
-          .getAtt('EndpointConfigName')
-          .toString(),
-        endpointName: props.endpointName,
-      },
-    );
+    const endpoint = new sagemaker.CfnEndpoint(scope, `${this.spec.modelId}-endpoint`, {
+      endpointConfigName: endpointConfig.getAtt('EndpointConfigName').toString(),
+      endpointName: props.endpointName,
+    });
 
     endpoint.addDependency(endpointConfig);
 
@@ -170,8 +147,8 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
   }
 
   private buildEnvironment(instanceType: string) {
-    const configEnvironment = (this.spec.instanceVariants || {})[instanceType]
-      ?.properties?.environment_variables;
+    const configEnvironment = (this.spec.instanceVariants || {})[instanceType]?.properties
+      ?.environment_variables;
 
     const environment = {
       ...(this.spec.environment ?? {}),
@@ -189,12 +166,9 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
     environment: { [key: string]: string | number | boolean },
   ) {
     const key = this.spec.prepackedArtifactKey ?? this.spec.artifactKey;
-    const bucket =
-      JumpStartConstants.JUMPSTART_LAUNCHED_REGIONS[this.region]?.contentBucket;
+    const bucket = JumpStartConstants.JUMPSTART_LAUNCHED_REGIONS[this.region]?.contentBucket;
     if (!bucket) {
-      throw new Error(
-        `JumpStart is not available in the region ${this.region}.`,
-      );
+      throw new Error(`JumpStart is not available in the region ${this.region}.`);
     }
 
     const modelDataUrl = `s3://${bucket}/${key}`;
@@ -202,9 +176,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
       instanceBaseType
     ]?.regional_properties?.image_uri?.replace('$', '');
     if (!imageUriKey) {
-      throw new Error(
-        `The image uri is not available for instance type ${instanceType}.`,
-      );
+      throw new Error(`The image uri is not available for instance type ${instanceType}.`);
     }
     const image = (this.spec.instanceAliases ?? {})[this.region]?.[imageUriKey];
     if (!image) {
