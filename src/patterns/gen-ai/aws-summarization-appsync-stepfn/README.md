@@ -29,6 +29,7 @@
 - [Security](#security)
 - [Supported AWS Regions](#supported-aws-regions)
 - [Quotas](#quotas)
+- [Clean up](#clean-up)
 
 ## Overview
 
@@ -77,7 +78,7 @@ For optional props like redis cluster set cfnCacheClusterProps.
 
 ```
 const cfnCacheClusterProps: elasticache.CfnCacheClusterProps = {
-      cacheNodeType: 'cache.r6g.xlarge',
+      cacheNodeType: 'cache.m4.large',
       engine: 'redis',
       numCacheNodes: 1,
     };
@@ -90,28 +91,12 @@ If file transformation is required set isFileTransformationRequired to 'True'
 
 For existing resource like Amazon VPC , Amazon S3 buckets use props like existingVpc, existingInputAssetsBucketObj and existingProcessedAssetsBucketObj.
 
-The code below provides an example of a mutation call and associated subscription to trigger the summarization workflow and get response notifications:
+After deploying the CDK stack, the document summarization workflow can be invoked using Graphql APIs. The API Schema details are present here - resources/gen-ai/aws-summarization-appsync-stepfn/schema.graphql.
 
-Mutation call to trigger the question:
+The code below provides an example of a subscription call and associated mutation to trigger the summarization workflow and get response notifications. The subscription call wait for mutation request to send the notifications.
 
-```
-mutation MyMutation {
-  generateSummary(summaryInput:{files:[{name: "document1.txt", status: ""}], summary_job_id:"81"}) {
-    name
-    status
-    summary
-    summary_job_id
-  }
-}
-```
+Subscription call to receive notifications:
 
-Where:
-- summary_job_id: id which can be used to filter subscriptions on client side
-- status: this field will be used by the subscription to update the status of the summarization process for the file(s) specified
-- name: Two formats are supported for files to be summarized. If the file is in text format, it needs to be stored in the trasformed S3 bucket, no file transformation is required. 
-If pdf format is selected, the file needs to be in the input S3 bucket and the construct prop ```isFileTransformationRequired``` needs to be set to true. The file will be transformed to text format.
-
-Subscription call to get notifications about the summarization process:
 ```
 subscription MySubscription {
   updateSummaryJobStatus(name: "document1.txt", summary_job_id: "81") {
@@ -121,6 +106,24 @@ subscription MySubscription {
     summary_job_id
   }
 }
+_______________________________________
+
+Expected response:
+
+{
+  "data": {
+    "updateSummaryJobStatus": {
+      "files": [
+        {
+          "name": "document1.txt",
+          "status": "Completed",
+          "summary": "<base 64 encoded summary>"
+        }
+      ],
+      "summary_job_id": "81"
+    }
+  }
+}
 ```
 
 Where:
@@ -128,6 +131,42 @@ Where:
 - status: status update of the summarization process for the file(s) specified
 - name: name of the file stored in the input S3 bucket, same name + extension as passed to the previous mutation call.
 - summary: summary returned by the Large Language Model for the document specified, as a base64 encoded string
+
+Mutation call to trigger the summarization:
+
+```
+mutation MyMutation {
+  generateSummary(summaryInput:{files:[{name: "document1.txt", status: ""}], summary_job_id:"81", ignore_existing: false}) {
+    name
+    status
+    summary
+    summary_job_id
+  }
+}
+
+_______________________________________
+
+Expected response: It invoke an asynchronous summarization process thus the response notification are send on subscription channel.
+
+{
+  "data": {
+    "generateSummary": {
+      "files": null,
+      "summary_job_id": null
+    }
+  }
+}
+
+```
+
+Where:
+- summary_job_id: id which can be used to filter subscriptions on client side
+- status: this field will be used by the subscription to update the status of the summarization process for the file(s) specified
+- name: Two formats are supported for files to be summarized. If the file is in text format, it needs to be stored in the trasformed S3 bucket, no file transformation is required. 
+If pdf format is selected, the file needs to be in the input S3 bucket and the construct prop ```isFileTransformationRequired``` needs to be set to true. The file will be transformed to text format.
+- ignore_existing: boolean indicating if existing summaries in the cache should be ignored. If true, the input document will be re-summarized, overwriting any existing cached summary for that document.
+
+
 
 ```If multiple files are requested for summarization , then the client should filter response based on summary_job_id and name for each file. ```
 
@@ -254,6 +293,9 @@ The resources not created by this construct (Amazon Cognito User Pool, AppSync M
 
 When you build systems on AWS infrastructure, security responsibilities are shared between you and AWS. This [shared responsibility](http://aws.amazon.com/compliance/shared-responsibility-model/) model reduces your operational burden because AWS operates, manages, and controls the components including the host operating system, virtualization layer, and physical security of the facilities in which the services operate. For more information about AWS security, visit [AWS Cloud Security](http://aws.amazon.com/security/).
 
+This construct requires you to provide an existing Amazon Cognito User Pool. Please refer to the official documentation on best practices to secure this service:
+- [Amazon Cognito](https://docs.aws.amazon.com/cognito/latest/developerguide/security.html)
+
 ## Supported AWS Regions
 
 This solution optionally uses the Amazon Bedrock service, which is not currently available in all AWS Regions. You must launch this construct in an AWS Region where these services are available. For the most current availability of AWS services by Region, see the [AWS Regional Services List](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/).
@@ -269,6 +311,12 @@ Make sure you have sufficient quota for each of the services implemented in this
 
 To view the service quotas for all AWS services in the documentation without switching pages, view the information in the [Service endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/aws-general.pdf#aws-service-information) page in the PDF instead.
 
+## Clean up
+
+When deleting your stack which uses this construct, do not forget to go over the following instructions to avoid unexpected charges:
+  - empty and delete the Amazon Simple Storage Bucket(s) created by this construct if you didn't provide existing ones during the construct creation
+  - empty the Amazon ElastiCache cluster for Redis
+  - if the observability flag is turned on, delete all the associated logs created by the different services in Amazon CloudWatch logs
 
 ***
 &copy; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.

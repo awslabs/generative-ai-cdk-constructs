@@ -29,6 +29,7 @@
 - [Security](#security)
 - [Supported AWS Regions](#supported-aws-regions)
 - [Quotas](#quotas)
+- [Clean up](#clean-up)
 
 ## Overview
 
@@ -65,7 +66,8 @@ import * as os from 'aws-cdk-lib/aws-opensearchservice';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import { RagApiGatewayOpensearch, RagApiGatewayOpensearchProps } from '@awslabs/generative-ai-cdk-constructs';
 
-// get an existing OpenSearch provisioned cluster
+// get an existing OpenSearch provisioned cluster in the same VPC as of RagAppsyncStepfnOpensearch construct 
+// Security group for the existing opensearch cluster should allow traffic on 443.
 const osDomain = os.Domain.fromDomainAttributes(this, 'osdomain', {
     domainArn: 'arn:aws:es:us-east-1:XXXXXX',
     domainEndpoint: 'https://XXXXX.us-east-1.es.amazonaws.com'
@@ -85,23 +87,9 @@ const rag_source = new RagAppsyncStepfnOpensearch(
       }
     )
 ```
+After deploying the CDK stack, the document summarization workflow can be invoked using Graphql APIs. The API Schema details are present here - resources/gen-ai/aws-rag-appsync-stepfn-opensearch/schema.graphql.
 
 The code below provides an example of a mutation call and associated subscription to trigger a pipeline call and get status notifications:
-
-Mutation call to trigger the ingestion process:
-
-```
-mutation MyMutation {
-  ingestDocuments(ingestioninput: {files: [{status: "", name: "a.pdf"}, {status: "", name: "b.pdf"}], ingestionjobid: "123"}) {
-    ingestionjobid
-  }
-}
-
-```
-Where:
-- files.status: this field will be used by the subscription to update the status of the ingestion for the file specified
-- files.name: name of the file stored in the input S3 bucket
-- ingestionjobid: id which can be used to filter subscriptions on client side
 
 Subscription call to get notifications about the ingestion process:
 
@@ -114,12 +102,57 @@ subscription MySubscription {
     }
   }
 }
+_________________________________________________
+Expected response:
+
+{
+  "data": {
+    "updateIngestionJobStatus": {
+      "files": [
+        {
+          "name": "a.pdf",
+          "status": "succeed"
+        }
+         {
+          "name": "b.pdf",
+          "status": "succeed"
+        }
+      ]
+    }
+  }
+}
 ```
 Where:
 - ingestionjobid: id which can be used to filter subscriptions on client side
 The subscription will display the status and name for each file 
 - files.status: status update of the ingestion for the file specified
 - files.name: name of the file stored in the input S3 bucket
+
+Mutation call to trigger the ingestion process:
+
+```
+mutation MyMutation {
+  ingestDocuments(ingestioninput: {files: [{status: "", name: "a.pdf"}, {status: "", name: "b.pdf"}], ingestionjobid: "123"}) {
+    ingestionjobid
+  }
+}
+_________________________________________________
+Expected response:
+
+{
+  "data": {
+    "ingestDocuments": {
+      "ingestionjobid": null
+    }
+  }
+}
+```
+Where:
+- files.status: this field will be used by the subscription to update the status of the ingestion for the file specified
+- files.name: name of the file stored in the input S3 bucket
+- ingestionjobid: id which can be used to filter subscriptions on client side
+
+
 
 ## Initializer
 
@@ -246,6 +279,10 @@ The resources not created by this construct (Amazon Cognito User Pool, Amazon Op
 
 When you build systems on AWS infrastructure, security responsibilities are shared between you and AWS. This [shared responsibility](http://aws.amazon.com/compliance/shared-responsibility-model/) model reduces your operational burden because AWS operates, manages, and controls the components including the host operating system, virtualization layer, and physical security of the facilities in which the services operate. For more information about AWS security, visit [AWS Cloud Security](http://aws.amazon.com/security/).
 
+This construct requires you to provide an existing Amazon Cognito User Pool and a provisioned Amazon OpenSearch cluster. Please refer to the official documentation on best practices to secure those services:
+- [Amazon Cognito](https://docs.aws.amazon.com/cognito/latest/developerguide/security.html)
+- [Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/security.html)
+
 ## Supported AWS Regions
 
 This solution optionally uses the Amazon Bedrock and Amazon OpenSearch service, which is not currently available in all AWS Regions. You must launch this construct in an AWS Region where these services are available. For the most current availability of AWS services by Region, see the [AWS Regional Services List](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/).
@@ -260,6 +297,13 @@ Service quotas, also referred to as limits, are the maximum number of service re
 Make sure you have sufficient quota for each of the services implemented in this solution. For more information, refer to [AWS service quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html).
 
 To view the service quotas for all AWS services in the documentation without switching pages, view the information in the [Service endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/aws-general.pdf#aws-service-information) page in the PDF instead.
+
+## Clean up
+
+When deleting your stack which uses this construct, do not forget to go over the following instructions to avoid unexpected charges:
+  - empty and delete the Amazon Simple Storage Bucket(s) created by this construct if you didn't provide existing ones during the construct creation
+  - empty the data stored in the knowledge base (Amazon OpenSearch provisioned cluster), as well as the index created if an existing one was not provided
+  - if the observability flag is turned on, delete all the associated logs created by the different services in Amazon CloudWatch logs
 
 ***
 &copy; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.

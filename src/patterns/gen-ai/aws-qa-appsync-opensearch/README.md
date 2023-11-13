@@ -29,6 +29,7 @@
 - [Security](#security)
 - [Supported AWS Regions](#supported-aws-regions)
 - [Quotas](#quotas)
+- [Clean up](#clean-up)
 
 ## Overview
 
@@ -72,8 +73,43 @@ const rag_source = new QaAppsyncOpensearch(
       }
     )
 ```
+After deploying the CDK stack, the QA  process can be invoked using Graphql APIs. The API Schema details are present here - resources/gen-ai/aws-qa-appsync-opensearch/schema.graphql.
 
-The code below provides an example of a mutation call and associated subscription to trigger a question and get response notifications:
+The code below provides an example of a mutation call and associated subscription to trigger a question and get response notifications.The subscription call wait for mutation request to send the notifications.
+
+Subscription call to get notifications about the question answering process:
+
+```
+subscription MySubscription {
+  updateQAJobStatus(jobid: "123") {
+    sources
+    question
+    answer
+    jobstatus
+  }
+}
+____________________________________________________________________
+Expected response:
+
+{
+  "data": {
+    "updateQAJobStatus": {
+      "sources": [
+        ""
+      ],
+      "question": "<base 64 encoded question>",
+      "answer": "<base 64 encoded answer>",
+      "jobstatus": "Succeed"
+    }
+  }
+}
+```
+
+Where:
+- jobid: id which can be used to filter subscriptions on client side
+- answer: response to the question from the Large Language Model as a base64 encoded string
+- sources: sources from the knowledge base used as context to answer the question
+- jobstatus: status update of the question answering process for the file specified
 
 Mutation call to trigger the question:
 
@@ -88,6 +124,21 @@ mutation MyMutation {
     verbose
   }
 }
+____________________________________________________________________
+Expected response:
+
+{
+  "data": {
+    "postQuestion": {
+      "answer": null,
+      "jobid": null,
+      "jobstatus": null,
+      "max_docs": null,
+      "question": null,
+      "verbose": null
+    }
+  }
+}
 ```
 
 Where:
@@ -99,24 +150,7 @@ Where:
 - streaming: boolean indicating if the streaming capability of Bedrock is used. If set to true, tokens will be send back to the subscriber as they are generated. If set to false, the entire response will be sent back to the subscriber once generated. 
 - filename: optional. Name of the file stored in the input S3 bucket, in txt format.
 
-Subscription call to get notifications about the question answering process:
 
-```
-subscription MySubscription {
-  updateQAJobStatus(jobid: "123") {
-    sources
-    question
-    answer
-    jobstatus
-  }
-}
-```
-
-Where:
-- jobid: id which can be used to filter subscriptions on client side
-- answer: response to the question from the Large Language Model as a base64 encoded string
-- sources: sources from the knowledge base used as context to answer the question
-- jobstatus: status update of the question answering process for the file specified
 
 ## Initializer
 
@@ -234,6 +268,10 @@ The resources not created by this construct (Amazon Cognito User Pool, Amazon Op
 
 When you build systems on AWS infrastructure, security responsibilities are shared between you and AWS. This [shared responsibility](http://aws.amazon.com/compliance/shared-responsibility-model/) model reduces your operational burden because AWS operates, manages, and controls the components including the host operating system, virtualization layer, and physical security of the facilities in which the services operate. For more information about AWS security, visit [AWS Cloud Security](http://aws.amazon.com/security/).
 
+This construct requires you to provide an existing Amazon Cognito User Pool and a provisioned Amazon OpenSearch cluster. Please refer to the official documentation on best practices to secure those services:
+- [Amazon Cognito](https://docs.aws.amazon.com/cognito/latest/developerguide/security.html)
+- [Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/security.html)
+
 ## Supported AWS Regions
 
 This solution optionally uses the Amazon Bedrock and Amazon OpenSearch service, which is not currently available in all AWS Regions. You must launch this construct in an AWS Region where these services are available. For the most current availability of AWS services by Region, see the [AWS Regional Services List](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/).
@@ -248,6 +286,12 @@ Service quotas, also referred to as limits, are the maximum number of service re
 Make sure you have sufficient quota for each of the services implemented in this solution. For more information, refer to [AWS service quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html).
 
 To view the service quotas for all AWS services in the documentation without switching pages, view the information in the [Service endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/aws-general.pdf#aws-service-information) page in the PDF instead.
+
+## Clean up
+
+When deleting your stack which uses this construct, do not forget to go over the following instructions to avoid unexpected charges:
+  - empty and delete the Amazon Simple Storage Bucket created by this construct if you didn't provide an existing one during the construct creation
+  - if the observability flag is turned on, delete all the associated logs created by the different services in Amazon CloudWatch logs
 
 ***
 &copy; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.

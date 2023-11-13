@@ -30,6 +30,7 @@
 - [Security](#security)
 - [Supported AWS Regions](#supported-aws-regions)
 - [Quotas](#quotas)
+- [Clean up](#clean-up)
 
 ## Credits
 
@@ -270,6 +271,9 @@ The following table provides a sample cost breakdown for deploying this solution
 
 When you build systems on AWS infrastructure, security responsibilities are shared between you and AWS. This [shared responsibility](http://aws.amazon.com/compliance/shared-responsibility-model/) model reduces your operational burden because AWS operates, manages, and controls the components including the host operating system, virtualization layer, and physical security of the facilities in which the services operate. For more information about AWS security, visit [AWS Cloud Security](http://aws.amazon.com/security/).
 
+This construct requires you to provide an existing AWS Lambda function. Please refer to the official documentation on best practices to secure this service:
+- [AWS Lambda](https://docs.aws.amazon.com/lambda/latest/dg/lambda-security.html)
+
 If choosing to interface with a third-party LLM provider (outside of Amazon Bedrock), customers must evaluate the security considerations of data leaving their AWS account. The customer is required to provide a valid API key at the time of deployment.
 
 The primary piece of data sent to the third-party LLM provider is the prompt to perform inference on. Depending on the use case, the prompt can contain the user’s input, previous interactions (for example, chat history), and document excerpts sourced from the configured knowledge base (for example, Amazon OpenSearch search result).
@@ -295,6 +299,11 @@ Service quotas, also referred to as limits, are the maximum number of service re
 Make sure you have sufficient quota for each of the services implemented in this solution. For more information, refer to [AWS service quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html).
 
 To view the service quotas for all AWS services in the documentation without switching pages, view the information in the [Service endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/aws-general.pdf#aws-service-information) page in the PDF instead.
+
+## Clean up
+
+When deleting your stack which uses this construct, do not forget to go over the following instructions to avoid unexpected charges:
+  - delete the lambda layers uploaded to the account
 
 ***
 &copy; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.

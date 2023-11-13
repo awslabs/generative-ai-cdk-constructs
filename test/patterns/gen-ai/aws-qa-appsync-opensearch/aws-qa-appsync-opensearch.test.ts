@@ -74,7 +74,7 @@ describe('QA Appsync Open search construct', () => {
               'GraphQLUrl',
             ],
           },
-          INPUT_BUCKET: { Ref: Match.stringLikeRegexp('testinputAssetsBucketdev') },
+          INPUT_BUCKET: { Ref: Match.stringLikeRegexp('testinputAssetsQABucketdev') },
           OPENSEARCH_DOMAIN_ENDPOINT: 'osendppint.amazon.aws.com',
           OPENSEARCH_INDEX: 'demoindex',
           OPENSEARCH_SECRET_ID: 'OSSecretId',
