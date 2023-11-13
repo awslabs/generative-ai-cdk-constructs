@@ -14,15 +14,15 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import * as sagemaker from 'aws-cdk-lib/aws-sagemaker';
 import { Stack, Token } from 'aws-cdk-lib/core';
 import { Construct } from 'constructs';
-import { InstanceType } from './instance-type';
 import { JumpStartModel, IJumpStartModelSpec } from './jumpstart-model';
 import { JumpStartConstants } from './private/jumpstart-constants';
 import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
+import { SageMakerInstanceType } from './sagemaker-instance-type';
 
 export interface IJumpStartSageMakerEndpointProps {
   model: JumpStartModel;
   endpointName?: string;
-  instanceType?: InstanceType;
+  instanceType?: SageMakerInstanceType;
   instanceCount?: number;
   role?: iam.Role;
   environment?: { [key: string]: string };
@@ -40,7 +40,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
   public readonly cfnEndpointConfig: sagemaker.CfnEndpointConfig;
 
   public readonly model: JumpStartModel;
-  public readonly instanceType?: InstanceType;
+  public readonly instanceType?: SageMakerInstanceType;
   public readonly instanceCount: number;
   public readonly role: iam.Role;
 
