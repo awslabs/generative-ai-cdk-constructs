@@ -224,7 +224,8 @@ function generateCode() {
         delete spec.prepackedArtifactKey;
       }
 
-      modelsStr += `\tpublic static readonly ${modelName} = this.of(${JSON.stringify(spec)});\n`;
+      modelsStr +=
+        '  ' + `public static readonly ${modelName} = this.of(${JSON.stringify(spec)});\n`;
     }
   }
 
