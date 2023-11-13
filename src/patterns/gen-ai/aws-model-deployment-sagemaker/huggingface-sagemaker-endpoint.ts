@@ -62,7 +62,7 @@ export class HuggingFaceSageMakerEndpoint extends SageMakerEndpointBase implemen
     const image = props.container.bind(this, this.grantPrincipal).imageName;
     const modelIdStr = this.modelId.split('/').join('-').split('.').join('-');
 
-    const model = new sagemaker.CfnModel(scope, `${modelIdStr}-model`, {
+    const model = new sagemaker.CfnModel(scope, `${modelIdStr}-model-${id}`, {
       executionRoleArn: this.role.roleArn,
       primaryContainer: {
         image,
@@ -97,7 +97,7 @@ export class HuggingFaceSageMakerEndpoint extends SageMakerEndpointBase implemen
 
     endpointConfig.addDependency(model);
 
-    const endpoint = new sagemaker.CfnEndpoint(scope, `${modelIdStr}-endpoint`, {
+    const endpoint = new sagemaker.CfnEndpoint(scope, `${modelIdStr}-endpoint-${id}`, {
       endpointName: props.endpointName,
       endpointConfigName: endpointConfig.getAtt('EndpointConfigName').toString(),
       tags: [

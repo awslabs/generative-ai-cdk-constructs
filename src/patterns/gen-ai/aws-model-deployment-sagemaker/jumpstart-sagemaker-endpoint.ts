@@ -99,7 +99,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
 
     endpointConfig.addDependency(model);
 
-    const endpoint = new sagemaker.CfnEndpoint(scope, `${this.spec.modelId}-endpoint`, {
+    const endpoint = new sagemaker.CfnEndpoint(scope, `${this.spec.modelId}-endpoint-${id}`, {
       endpointConfigName: endpointConfig.getAtt('EndpointConfigName').toString(),
       endpointName: props.endpointName,
     });
