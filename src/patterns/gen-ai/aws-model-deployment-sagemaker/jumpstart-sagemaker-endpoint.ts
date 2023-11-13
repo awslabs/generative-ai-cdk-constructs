@@ -147,8 +147,9 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
   }
 
   private buildEnvironment(instanceType: string) {
-    const configEnvironment = (this.spec.instanceVariants || {})[instanceType]?.properties
-      ?.environment_variables;
+    const configEnvironment = this.spec.instanceVariants?.find(
+      (v) => v.instanceType === instanceType,
+    )?.environment;
 
     const environment = {
       ...(this.spec.environment ?? {}),
@@ -172,13 +173,17 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
     }
 
     const modelDataUrl = `s3://${bucket}/${key}`;
-    const imageUriKey = (this.spec.instanceVariants || {})[
-      instanceBaseType
-    ]?.regional_properties?.image_uri?.replace('$', '');
+    const imageUriKey = this.spec.instanceVariants
+      ?.find((v) => v.instanceType === instanceBaseType)
+      ?.imageUri?.replace('$', '');
+
     if (!imageUriKey) {
       throw new Error(`The image uri is not available for instance type ${instanceType}.`);
     }
-    const image = (this.spec.instanceAliases ?? {})[this.region]?.[imageUriKey];
+
+    const image = this.spec.instanceAliases?.find((v) => v.region === this.region)?.aliases[
+      imageUriKey
+    ];
     if (!image) {
       throw new Error(
         `The image uri is not available for instance type ${instanceType} in region ${this.region}.`,

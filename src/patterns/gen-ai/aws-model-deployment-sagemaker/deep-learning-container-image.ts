@@ -15,7 +15,7 @@ import * as ecr from 'aws-cdk-lib/aws-ecr';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { FactName } from 'aws-cdk-lib/region-info';
 import { Construct } from 'constructs';
-import { ContainerImage, ContainerImageConfig } from './container-image';  
+import { ContainerImage, ContainerImageConfig } from './container-image';
 
 export class DeepLearningContainerImage extends ContainerImage {
 	public static readonly DJL_INFERENCE_0_19_0_DEEPSPEED0_7_3_CU113 = this.fromDeepLearningContainerImage('djl-inference','0.19.0-deepspeed0.7.3-cu113');

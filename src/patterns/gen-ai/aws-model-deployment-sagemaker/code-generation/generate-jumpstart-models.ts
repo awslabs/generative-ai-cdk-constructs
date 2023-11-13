@@ -177,6 +177,35 @@ function generateCode() {
         environment[env.name] = env.default;
       }
 
+      const instanceVariants = specSource.hosting_instance_type_variants?.variants;
+      const instanceAliases = specSource.hosting_instance_type_variants?.regional_aliases;
+      let instanceVariantsArr: any[] | undefined;
+      let instanceAliasesArr: any[] | undefined;
+      if (instanceVariants) {
+        instanceVariantsArr = [];
+        for (const instanceType of Object.keys(instanceVariants)) {
+          const current = instanceVariants[instanceType];
+
+          instanceVariantsArr.push({
+            instanceType,
+            imageUri: current.regional_properties?.image_uri,
+            environment: current.properties?.environment_variables,
+          });
+        }
+      }
+
+      if (instanceAliases) {
+        instanceAliasesArr = [];
+        for (const region of Object.keys(instanceAliases)) {
+          const current = instanceAliases[region];
+
+          instanceAliasesArr.push({
+            region,
+            aliases: current,
+          });
+        }
+      }
+
       const spec = {
         modelId,
         version,
@@ -186,8 +215,8 @@ function generateCode() {
         prepackedArtifactKey: specSource.hosting_prepacked_artifact_key,
         artifactKey: specSource.hosting_artifact_key,
         environment,
-        instanceAliases: specSource.hosting_instance_type_variants?.regional_aliases,
-        instanceVariants: specSource.hosting_instance_type_variants?.variants,
+        instanceAliases: instanceAliasesArr,
+        instanceVariants: instanceVariantsArr,
       };
 
       if (spec.modelPackageArns) {
@@ -212,6 +241,17 @@ function generateCode() {
  *  and limitations under the License.
  */
 
+export interface IInstanceAliase {
+  region: string;
+  aliases: { [key: string]: string };
+}
+
+export interface IInstanceValiant {
+  instanceType: string;
+  imageUri?: string;
+  environment?: { [key: string]: string };
+}
+
 export interface IJumpStartModelSpec {
   modelId: string;
   version: string;
@@ -220,32 +260,21 @@ export interface IJumpStartModelSpec {
   modelPackageArns?: { [region: string]: string };
   prepackedArtifactKey?: string;
   artifactKey?: string;
-  environment: { [key: string]: string | number | boolean  },
-  instanceAliases?:  { [region: string]: { [key: string]: string } },
-  instanceVariants?: {
-    [key: string]: {
-      regional_properties?: {
-        image_uri: string;
-      };
-      properties?: {
-        environment_variables: {
-          [key: string]: string;
-        };
-      };
-    };
-  };
+  environment: { [key: string]: string | number | boolean };
+  instanceAliases?: IInstanceAliase[];
+  instanceVariants?: IInstanceValiant[];
 }
 
 export class JumpStartModel {
 ${modelsStr}
-
-  constructor(private readonly spec: IJumpStartModelSpec) {}
 
   public static of(
     spec: IJumpStartModelSpec
   ): JumpStartModel {
     return new JumpStartModel(spec);
   }
+
+  constructor(private readonly spec: IJumpStartModelSpec) {}
 
   public bind(): IJumpStartModelSpec {
     return this.spec;
