@@ -78,10 +78,10 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
         throw new Error('Environment variables are not supported for model packages.');
       }
 
-      model = this.getModelFromPackage(scope);
+      model = this.getModelFromPackage(scope, id);
     } else {
       const environment = this.buildEnvironment(instanceType);
-      model = this.getModelFromArtifact(scope, instanceType, instanseBaseType, environment);
+      model = this.getModelFromArtifact(scope, id, instanceType, instanseBaseType, environment);
     }
 
     const endpointConfig = new sagemaker.CfnEndpointConfig(scope, `EndpointConfig-${id}`, {
@@ -162,6 +162,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
 
   private getModelFromArtifact(
     scope: Construct,
+    id: string,
     instanceType: string,
     instanceBaseType: string,
     environment: { [key: string]: string | number | boolean },
@@ -190,7 +191,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
       );
     }
 
-    const model = new sagemaker.CfnModel(scope, `${this.spec.modelId}-model`, {
+    const model = new sagemaker.CfnModel(scope, `${this.spec.modelId}-model-${id}`, {
       executionRoleArn: this.role.roleArn,
       enableNetworkIsolation: true,
       primaryContainer: {
@@ -213,7 +214,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
     return model;
   }
 
-  private getModelFromPackage(scope: Construct) {
+  private getModelFromPackage(scope: Construct, id: string) {
     const modelPackageArns = this.spec.modelPackageArns || {};
     const supportedRegions = Object.keys(modelPackageArns);
     if (!supportedRegions.includes(this.region)) {
@@ -226,7 +227,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
 
     const modelPackageArn = modelPackageArns[this.region];
 
-    const model = new sagemaker.CfnModel(scope, `${this.spec.modelId}-model`, {
+    const model = new sagemaker.CfnModel(scope, `${this.spec.modelId}-model-${id}`, {
       executionRoleArn: this.role.roleArn,
       enableNetworkIsolation: true,
       primaryContainer: {
