@@ -15,14 +15,14 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import * as sagemaker from 'aws-cdk-lib/aws-sagemaker';
 import { Construct } from 'constructs';
 import { ContainerImage } from './container-image';
-import { InstanceType } from './instance-type';
 import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
+import { SageMakerInstanceType } from './sagemaker-instance-type';
 
 export interface IHuggingFaceSageMakerEndpointProps {
   modelId: string;
   container: ContainerImage;
   endpointName?: string;
-  instanceType: InstanceType;
+  instanceType: SageMakerInstanceType;
   instanceCount?: number;
   role?: iam.Role;
   environment?: { [key: string]: string };
@@ -40,7 +40,7 @@ export class HuggingFaceSageMakerEndpoint extends SageMakerEndpointBase implemen
   public readonly cfnEndpointConfig: sagemaker.CfnEndpointConfig;
 
   public readonly modelId: string;
-  public readonly instanceType: InstanceType;
+  public readonly instanceType: SageMakerInstanceType;
   public readonly instanceCount: number;
   public readonly role: iam.Role;
 
