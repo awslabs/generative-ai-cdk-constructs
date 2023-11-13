@@ -1,0 +1,33 @@
+{
+  "name": "code-generation",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/awslabs/generative-ai-cdk-constructs"
+  },
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate": "ts-node index.ts"
+  },
+  "keywords": [
+    "aws-cdk",
+    "cdk",
+    "constructs",
+    "emerging-tech",
+    "generative-ai"
+  ],
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "ts-node": "^10.9.1"
+  },
+  "author": {
+    "name": "Amazon Web Services - Prototyping and Cloud Engineering",
+    "email": "generative-ai-cdk-constructs@amazon.com",
+    "organization": true
+  },
+  "dependencies": {
+    "-": "^0.0.1"
+  }
+}

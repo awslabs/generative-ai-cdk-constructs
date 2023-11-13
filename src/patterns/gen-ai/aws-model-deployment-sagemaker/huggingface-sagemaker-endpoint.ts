@@ -18,7 +18,7 @@ import { ContainerImage } from './container-image';
 import { InstanceType } from './instance-type';
 import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
 
-export interface HuggingFaceSageMakerEndpointProps {
+export interface IHuggingFaceSageMakerEndpointProps {
   modelId: string;
   container: ContainerImage;
   endpointName?: string;
@@ -32,10 +32,7 @@ export interface HuggingFaceSageMakerEndpointProps {
 /**
  * @summary The HuggingFaceSageMakerEndpoint class.
  */
-export class HuggingFaceSageMakerEndpoint
-  extends SageMakerEndpointBase
-  implements iam.IGrantable
-{
+export class HuggingFaceSageMakerEndpoint extends SageMakerEndpointBase implements iam.IGrantable {
   public readonly grantPrincipal: iam.IPrincipal;
   public readonly endpointArn: string;
   public readonly cfnModel: sagemaker.CfnModel;
@@ -50,11 +47,7 @@ export class HuggingFaceSageMakerEndpoint
   private readonly startupHealthCheckTimeoutInSeconds: number;
   private readonly environment?: { [key: string]: string };
 
-  constructor(
-    scope: Construct,
-    id: string,
-    props: HuggingFaceSageMakerEndpointProps,
-  ) {
+  constructor(scope: Construct, id: string, props: IHuggingFaceSageMakerEndpointProps) {
     super(scope, id);
 
     this.modelId = props.modelId;
@@ -63,8 +56,7 @@ export class HuggingFaceSageMakerEndpoint
     this.role = props.role ?? this.createSageMakerRole();
     this.grantPrincipal = this.role;
 
-    this.startupHealthCheckTimeoutInSeconds =
-      props.startupHealthCheckTimeoutInSeconds ?? 600;
+    this.startupHealthCheckTimeoutInSeconds = props.startupHealthCheckTimeoutInSeconds ?? 600;
     this.environment = props.environment;
 
     const image = props.container.bind(this, this.grantPrincipal).imageName;
@@ -90,42 +82,31 @@ export class HuggingFaceSageMakerEndpoint
       ],
     });
 
-    const endpointConfig = new sagemaker.CfnEndpointConfig(
-      scope,
-      'EndpointConfig',
-      {
-        productionVariants: [
-          {
-            instanceType: this.instanceType.toString(),
-            initialVariantWeight: 1,
-            initialInstanceCount: this.instanceCount,
-            variantName: 'AllTraffic',
-            modelName: model.getAtt('ModelName').toString(),
-            containerStartupHealthCheckTimeoutInSeconds:
-              this.startupHealthCheckTimeoutInSeconds,
-          },
-        ],
-      },
-    );
+    const endpointConfig = new sagemaker.CfnEndpointConfig(scope, 'EndpointConfig', {
+      productionVariants: [
+        {
+          instanceType: this.instanceType.toString(),
+          initialVariantWeight: 1,
+          initialInstanceCount: this.instanceCount,
+          variantName: 'AllTraffic',
+          modelName: model.getAtt('ModelName').toString(),
+          containerStartupHealthCheckTimeoutInSeconds: this.startupHealthCheckTimeoutInSeconds,
+        },
+      ],
+    });
 
     endpointConfig.addDependency(model);
 
-    const endpoint = new sagemaker.CfnEndpoint(
-      scope,
-      `${modelIdStr}-endpoint`,
-      {
-        endpointName: props.endpointName,
-        endpointConfigName: endpointConfig
-          .getAtt('EndpointConfigName')
-          .toString(),
-        tags: [
-          {
-            key: 'modelId',
-            value: this.modelId,
-          },
-        ],
-      },
-    );
+    const endpoint = new sagemaker.CfnEndpoint(scope, `${modelIdStr}-endpoint`, {
+      endpointName: props.endpointName,
+      endpointConfigName: endpointConfig.getAtt('EndpointConfigName').toString(),
+      tags: [
+        {
+          key: 'modelId',
+          value: this.modelId,
+        },
+      ],
+    });
 
     endpoint.addDependency(endpointConfig);
 

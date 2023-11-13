@@ -63,10 +63,7 @@ interface ModelsData {
   };
 }
 
-const JUMPSTART_CACHE_PATH = path.join(
-  __dirname,
-  './.cache/jumpstart-models-cache.json',
-);
+const JUMPSTART_CACHE_PATH = path.join(__dirname, './.cache/jumpstart-models-cache.json');
 
 const JUMPSTART_MODEL_PATH = path.join(__dirname, '../jumpstart-model.ts');
 
@@ -85,7 +82,7 @@ export async function generateJumpStartModels() {
   generateCode();
 }
 
-async function download_data() {
+export async function download_data() {
   console.log('Downloading JumpStart models data');
 
   const regions = JumpStartConstants.JUMPSTART_LAUNCHED_REGIONS;
@@ -96,16 +93,13 @@ async function download_data() {
   for (const regionName of regionNames) {
     console.log(`Processing region ${regionName}`);
     const regionData = regions[regionName];
-    const manifestS3Key =
-      JumpStartConstants.JUMPSTART_DEFAULT_MANIFEST_FILE_S3_KEY;
+    const manifestS3Key = JumpStartConstants.JUMPSTART_DEFAULT_MANIFEST_FILE_S3_KEY;
     const url = `https://${regionData.contentBucket}.s3.${regionName}.amazonaws.com/${manifestS3Key}`;
-    const [manifest]: [JumpStartModelManifest[]] =
-      await GenerateUtils.downloadJSON(url);
+    const [manifest]: [JumpStartModelManifest[]] = await GenerateUtils.downloadJSON(url);
 
     for (const model of manifest) {
       const specUrl = `https://${regionData.contentBucket}.s3.${regionName}.amazonaws.com/${model.spec_key}`;
-      const [modelSpec]: [JumpStartModelSpec] =
-        await GenerateUtils.downloadJSON(specUrl);
+      const [modelSpec]: [JumpStartModelSpec] = await GenerateUtils.downloadJSON(specUrl);
 
       const {
         deprecated,
@@ -121,9 +115,7 @@ async function download_data() {
         hosting_instance_type_variants,
       } = modelSpec;
 
-      const allowedFramework = ALLOWED_FRAMEWORKS.includes(
-        hosting_ecr_specs.framework,
-      );
+      const allowedFramework = ALLOWED_FRAMEWORKS.includes(hosting_ecr_specs.framework);
 
       console.log(
         `${deprecated ? '[DEPRECATED] ' : ''}${
@@ -136,16 +128,13 @@ async function download_data() {
       if (!ALLOWED_FRAMEWORKS.includes(hosting_ecr_specs.framework)) continue;
       if (
         hosting_use_script_uri ||
-        (!hosting_prepacked_artifact_key &&
-          !hosting_model_package_arns &&
-          !hosting_artifact_key)
+        (!hosting_prepacked_artifact_key && !hosting_model_package_arns && !hosting_artifact_key)
       ) {
         throw new Error('No model data');
       }
 
       models[model.model_id] = models[model.model_id] ?? {};
-      models[model.model_id][model.version] =
-        models[model.model_id][model.version] ?? {};
+      models[model.model_id][model.version] = models[model.model_id][model.version] ?? {};
 
       models[model.model_id][model.version] = {
         deprecated,
@@ -163,10 +152,7 @@ async function download_data() {
     }
   }
 
-  GenerateUtils.writeFileSyncWithDirs(
-    JUMPSTART_CACHE_PATH,
-    JSON.stringify(models),
-  );
+  GenerateUtils.writeFileSyncWithDirs(JUMPSTART_CACHE_PATH, JSON.stringify(models));
 
   console.log('Frameworks', Array.from(frameworks));
 }
@@ -179,11 +165,11 @@ function generateCode() {
   let modelsStr = '';
   for (const modelId of Object.keys(data)) {
     for (const version of Object.keys(data[modelId])) {
-      const modelName = `${GenerateUtils.replaceAll(
-        modelId,
-        '-',
+      const modelName = `${GenerateUtils.replaceAll(modelId, '-', '_')}_${GenerateUtils.replaceAll(
+        version,
+        '\\.',
         '_',
-      )}_${GenerateUtils.replaceAll(version, '\\.', '_')}`.toUpperCase();
+      )}`.toUpperCase();
 
       const specSource = data[modelId][version];
       const environment: { [key: string]: string | number | boolean } = {};
@@ -200,8 +186,7 @@ function generateCode() {
         prepackedArtifactKey: specSource.hosting_prepacked_artifact_key,
         artifactKey: specSource.hosting_artifact_key,
         environment,
-        instanceAliases:
-          specSource.hosting_instance_type_variants?.regional_aliases,
+        instanceAliases: specSource.hosting_instance_type_variants?.regional_aliases,
         instanceVariants: specSource.hosting_instance_type_variants?.variants,
       };
 
@@ -210,9 +195,7 @@ function generateCode() {
         delete spec.prepackedArtifactKey;
       }
 
-      modelsStr += `\tpublic static readonly ${modelName} = this.of(${JSON.stringify(
-        spec,
-      )});\n`;
+      modelsStr += `\tpublic static readonly ${modelName} = this.of(${JSON.stringify(spec)});\n`;
     }
   }
 
@@ -228,10 +211,8 @@ function generateCode() {
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import { Construct } from 'constructs';
-import * as iam from 'aws-cdk-lib/aws-iam';
 
-export interface JumpStartModelSpec {
+export interface IJumpStartModelSpec {
   modelId: string;
   version: string;
   defaultInstanceType: string;
@@ -258,15 +239,15 @@ export interface JumpStartModelSpec {
 export class JumpStartModel {
 ${modelsStr}
 
-  constructor(private readonly spec: JumpStartModelSpec) {}
+  constructor(private readonly spec: IJumpStartModelSpec) {}
 
   public static of(
-    spec: JumpStartModelSpec
+    spec: IJumpStartModelSpec
   ): JumpStartModel {
     return new JumpStartModel(spec);
   }
 
-  public bind(scope: Construct, grantable: iam.IGrantable): JumpStartModelSpec {
+  public bind(): IJumpStartModelSpec {
     return this.spec;
   }
 }`;

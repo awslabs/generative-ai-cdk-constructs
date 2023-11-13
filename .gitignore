@@ -62,4 +62,3 @@ tsconfig.json
 !/.github/workflows/auto-approve.yml
 !/.github/workflows/ort-toolkit.yml
 !/.github/workflows/semgrep.yml
-cache

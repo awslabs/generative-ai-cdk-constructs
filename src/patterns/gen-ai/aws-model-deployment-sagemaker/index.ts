@@ -11,6 +11,8 @@
  *  and limitations under the License.
  */
 
+export * from './sagemaker-endpoint-base';
+export * from './huggingface-sagemaker-endpoint';
 export * from './huggingface-sagemaker-endpoint';
 export * from './jumpstart-sagemaker-endpoint';
 export * from './container-image';
