@@ -84,7 +84,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
       model = this.getModelFromArtifact(scope, instanceType, instanseBaseType, environment);
     }
 
-    const endpointConfig = new sagemaker.CfnEndpointConfig(scope, 'EndpointConfig', {
+    const endpointConfig = new sagemaker.CfnEndpointConfig(scope, `EndpointConfig-${id}`, {
       productionVariants: [
         {
           instanceType,

@@ -82,7 +82,7 @@ export class HuggingFaceSageMakerEndpoint extends SageMakerEndpointBase implemen
       ],
     });
 
-    const endpointConfig = new sagemaker.CfnEndpointConfig(scope, 'EndpointConfig', {
+    const endpointConfig = new sagemaker.CfnEndpointConfig(scope, `EndpointConfig-${id}`, {
       productionVariants: [
         {
           instanceType: this.instanceType.toString(),
