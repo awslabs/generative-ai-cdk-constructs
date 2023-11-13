@@ -154,7 +154,9 @@ function generateCode(repositoryTagData: { [repositoryName: string]: string[] })
 
       const name = `${repositoryNameStr}_${tagNameStr}`;
 
-      imagesStr += `\tpublic static readonly ${name} = this.fromDeepLearningContainerImage('${repositoryName}', '${tagName}');\n`;
+      imagesStr +=
+        '  ' +
+        `public static readonly ${name} = this.fromDeepLearningContainerImage('${repositoryName}', '${tagName}');\n`;
     }
   }
 

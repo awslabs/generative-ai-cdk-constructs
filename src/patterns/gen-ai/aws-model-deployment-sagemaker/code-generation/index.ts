@@ -11,10 +11,10 @@
  *  and limitations under the License.
  */
 import { generateDLCContainerImages } from './generate-dlc-container-images';
-//import { generateJumpStartModels } from './generate-jumpstart-models';
+import { generateJumpStartModels } from './generate-jumpstart-models';
 
 async function main() {
-  //await generateJumpStartModels();
+  await generateJumpStartModels();
   await generateDLCContainerImages();
 }
 
