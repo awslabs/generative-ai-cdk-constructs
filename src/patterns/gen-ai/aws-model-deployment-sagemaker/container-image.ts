@@ -1,8 +1,20 @@
-import { Construct } from 'constructs';
-import { md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
-import * as assets from 'aws-cdk-lib/aws-ecr-assets';
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
 import * as ecr from 'aws-cdk-lib/aws-ecr';
+import * as assets from 'aws-cdk-lib/aws-ecr-assets';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import { md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
+import { Construct } from 'constructs';
 
 export interface ContainerImageConfig {
   /**
@@ -20,37 +32,37 @@ export interface ContainerImageConfig {
  * https://github.com/aws/deep-learning-containers/blob/master/available_images.md
  */
 export abstract class ContainerImage {
-  public abstract bind(
-    scope: Construct,
-    grantable: iam.IGrantable
-  ): ContainerImageConfig;
-
   public static fromEcrRepository(
     repository: ecr.IRepository,
-    tag: string = 'latest'
+    tag: string = 'latest',
   ): ContainerImage {
     return new EcrImage(repository, tag);
   }
 
   public static fromAsset(
     directory: string,
-    options: assets.DockerImageAssetOptions = {}
+    options: assets.DockerImageAssetOptions = {},
   ): ContainerImage {
     return new AssetImage(directory, options);
   }
+
+  public abstract bind(
+    scope: Construct,
+    grantable: iam.IGrantable,
+  ): ContainerImageConfig;
 }
 
 class EcrImage extends ContainerImage {
   constructor(
     private readonly repository: ecr.IRepository,
-    private readonly tag: string
+    private readonly tag: string,
   ) {
     super();
   }
 
   public bind(
     _scope: Construct,
-    grantable: iam.IGrantable
+    grantable: iam.IGrantable,
   ): ContainerImageConfig {
     this.repository.grantPull(grantable);
 
@@ -65,14 +77,14 @@ class AssetImage extends ContainerImage {
 
   constructor(
     private readonly directory: string,
-    private readonly options: assets.DockerImageAssetOptions = {}
+    private readonly options: assets.DockerImageAssetOptions = {},
   ) {
     super();
   }
 
   public bind(
     scope: Construct,
-    grantable: iam.IGrantable
+    grantable: iam.IGrantable,
   ): ContainerImageConfig {
     // Retain the first instantiation of this asset
     if (!this.asset) {
@@ -82,7 +94,7 @@ class AssetImage extends ContainerImage {
         {
           directory: this.directory,
           ...this.options,
-        }
+        },
       );
     }
 
