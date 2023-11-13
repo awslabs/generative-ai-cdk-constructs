@@ -154,7 +154,7 @@ function generateCode(repositoryTagData: { [repositoryName: string]: string[] })
 
       const name = `${repositoryNameStr}_${tagNameStr}`;
 
-      imagesStr += `\tpublic static readonly ${name} = this.fromDeepLearningContainerImage('${repositoryName}','${tagName}');\n`;
+      imagesStr += `\tpublic static readonly ${name} = this.fromDeepLearningContainerImage('${repositoryName}', '${tagName}');\n`;
     }
   }
 
@@ -183,7 +183,7 @@ ${imagesStr}
   public static fromDeepLearningContainerImage(
     repositoryName: string,
     tag: string,
-    accountId?: string
+    accountId?: string,
   ): ContainerImage {
     return new DeepLearningContainerImage(repositoryName, tag, accountId);
   }
@@ -191,14 +191,14 @@ ${imagesStr}
   constructor(
     private readonly repositoryName: string,
     private readonly tag: string,
-    private readonly accountId?: string
+    private readonly accountId?: string,
   ) {
     super();
   }
 
   public bind(
     scope: Construct,
-    grantable: iam.IGrantable
+    grantable: iam.IGrantable,
   ): ContainerImageConfig {
     const accountId =
       this.accountId ??
@@ -212,9 +212,9 @@ ${imagesStr}
         repositoryArn: ecr.Repository.arnForLocalRepository(
           this.repositoryName,
           scope,
-          accountId
+          accountId,
         ),
-      }
+      },
     );
 
     repository.grantPull(grantable);
