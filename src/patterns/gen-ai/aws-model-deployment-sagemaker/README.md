@@ -25,6 +25,8 @@ new JumpStartSageMakerEndpoint(this, 'RedPajama', {
 new HuggingFaceSageMakerEndpoint(this, 'Mistral', {
   modelId: 'mistralai/Mistral-7B-Instruct-v0.1',
   instanceType: InstanceType.ML_G5_2XLARGE,
+  container:
+    DeepLearningContainerImage.HUGGINGFACE_PYTORCH_TGI_INFERENCE_2_0_1_TGI1_1_0_GPU_PY39_CU118_UBUNTU20_04,
   environment: {
     SM_NUM_GPUS: '1',
     MAX_INPUT_LENGTH: '2048',

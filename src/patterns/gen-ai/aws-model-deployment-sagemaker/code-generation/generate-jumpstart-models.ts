@@ -87,15 +87,13 @@ async function download_data() {
     const manifestS3Key =
       JumpStartConstants.JUMPSTART_DEFAULT_MANIFEST_FILE_S3_KEY;
     const url = `https://${regionData.contentBucket}.s3.${regionName}.amazonaws.com/${manifestS3Key}`;
-    const manifest: JumpStartModelManifest[] = await GenerateUtils.downloadJSON(
-      url
-    );
+    const [manifest]: [JumpStartModelManifest[]] =
+      await GenerateUtils.downloadJSON(url);
 
     for (const model of manifest) {
       const specUrl = `https://${regionData.contentBucket}.s3.${regionName}.amazonaws.com/${model.spec_key}`;
-      const modelSpec: JumpStartModelSpec = await GenerateUtils.downloadJSON(
-        specUrl
-      );
+      const [modelSpec]: [JumpStartModelSpec] =
+        await GenerateUtils.downloadJSON(specUrl);
 
       const {
         deprecated,

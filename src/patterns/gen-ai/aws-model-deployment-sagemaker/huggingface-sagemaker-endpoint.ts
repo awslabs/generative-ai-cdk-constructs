@@ -1,7 +1,6 @@
 import { Construct } from 'constructs';
-import { Names } from 'aws-cdk-lib/core';
 import { InstanceType } from './instance-type';
-import { ContainerImage, DeepLearningContainerImage } from './container-image';
+import { ContainerImage } from './container-image';
 import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
 import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
@@ -9,7 +8,7 @@ import * as sagemaker from 'aws-cdk-lib/aws-sagemaker';
 
 export interface HuggingFaceSageMakerEndpointProps {
   modelId: string;
-  container?: ContainerImage;
+  container: ContainerImage;
   endpointName?: string;
   instanceType: InstanceType;
   instanceCount?: number;
@@ -56,10 +55,7 @@ export class HuggingFaceSageMakerEndpoint
       props.startupHealthCheckTimeoutInSeconds ?? 600;
     this.environment = props.environment;
 
-    const container =
-      props.container ??
-      DeepLearningContainerImage.HF_PYTORCH_TGI_INFERENCE_GPU_1_1_0;
-    const image = container.bind(this, this.grantPrincipal).imageName;
+    const image = props.container.bind(this, this.grantPrincipal).imageName;
     const modelIdStr = this.modelId.split('/').join('-').split('.').join('-');
 
     const model = new sagemaker.CfnModel(scope, `${modelIdStr}-model`, {

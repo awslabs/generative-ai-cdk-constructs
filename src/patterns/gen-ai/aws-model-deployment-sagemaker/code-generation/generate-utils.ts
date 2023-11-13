@@ -7,6 +7,14 @@ export abstract class GenerateUtils {
     return str.replace(new RegExp(find, 'g'), replace);
   }
 
+  static replaceAllBatch(str: string, find: string[], replace: string) {
+    for (const f of find) {
+      str = str.replace(new RegExp(f, 'g'), replace);
+    }
+
+    return str;
+  }
+
   static writeFileSyncWithDirs(
     filePath: string,
     data: string | NodeJS.ArrayBufferView,
@@ -21,7 +29,9 @@ export abstract class GenerateUtils {
     fs.writeFileSync(filePath, data, options);
   }
 
-  static async downloadJSON(url: string): Promise<any> {
+  static async downloadJSON(
+    options: string | URL | https.RequestOptions
+  ): Promise<any> {
     let retryCount = 0;
     let error: Error | undefined;
     let result: any;
@@ -29,7 +39,7 @@ export abstract class GenerateUtils {
     while (retryCount < 5) {
       try {
         result = await new Promise((resolve, reject) => {
-          const request = https.get(url, (response) => {
+          const request = https.get(options, (response) => {
             if (response.statusCode === 200) {
               let rawData = '';
               response.setEncoding('utf8');
@@ -39,11 +49,10 @@ export abstract class GenerateUtils {
               response.on('error', (e) => {
                 reject(e);
               });
-
               response.on('end', () => {
                 try {
                   const parsedData = JSON.parse(rawData);
-                  resolve(parsedData);
+                  resolve([parsedData, response]);
                 } catch (e) {
                   reject(e);
                 }

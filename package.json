@@ -26,7 +26,8 @@
     "unbump": "npx projen unbump",
     "upgrade": "npx projen upgrade",
     "watch": "npx projen watch",
-    "projen": "npx projen"
+    "projen": "npx projen",
+    "codegen:model-deployment": "ts-node src/patterns/gen-ai/aws-model-deployment-sagemaker/code-generation/index.ts"
   },
   "author": {
     "name": "Amazon Web Services - Prototyping and Cloud Engineering",
