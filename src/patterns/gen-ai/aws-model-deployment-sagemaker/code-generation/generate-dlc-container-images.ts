@@ -142,25 +142,15 @@ export async function getRepositories() {
   return repositoryNames;
 }
 
-function generateCode(repositoryTagData: {
-  [repositoryName: string]: string[];
-}) {
+function generateCode(repositoryTagData: { [repositoryName: string]: string[] }) {
   let imagesStr = '';
 
   for (const repositoryName of Object.keys(repositoryTagData).sort()) {
     const tags = repositoryTagData[repositoryName].sort();
-    const repositoryNameStr = GenerateUtils.replaceAll(
-      repositoryName,
-      '-',
-      '_',
-    ).toUpperCase();
+    const repositoryNameStr = GenerateUtils.replaceAll(repositoryName, '-', '_').toUpperCase();
 
     for (const tagName of tags) {
-      const tagNameStr = GenerateUtils.replaceAllBatch(
-        tagName,
-        ['\\.', '-'],
-        '_',
-      ).toUpperCase();
+      const tagNameStr = GenerateUtils.replaceAllBatch(tagName, ['\\.', '-'], '_').toUpperCase();
 
       const name = `${repositoryNameStr}_${tagNameStr}`;
 
@@ -185,7 +175,7 @@ import * as ecr from 'aws-cdk-lib/aws-ecr';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { FactName } from 'aws-cdk-lib/region-info';
 import { Construct } from 'constructs';
-import { ContainerImage, ContainerImageConfig } from './container-image';  
+import { ContainerImage, ContainerImageConfig } from './container-image';
 
 export class DeepLearningContainerImage extends ContainerImage {
 ${imagesStr}
@@ -234,8 +224,5 @@ ${imagesStr}
 }
 `;
 
-  GenerateUtils.writeFileSyncWithDirs(
-    DEEP_LEARNING_CONTAINER_IMAGE_PATH,
-    fileStr,
-  );
+  GenerateUtils.writeFileSyncWithDirs(DEEP_LEARNING_CONTAINER_IMAGE_PATH, fileStr);
 }
