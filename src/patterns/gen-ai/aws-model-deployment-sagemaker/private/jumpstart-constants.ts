@@ -1,11 +1,25 @@
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
+
+type JumpStartRegion = {
+  [region: string]: { contentBucket: string; gatedContentBucket?: string };
+};
+
 export abstract class JumpStartConstants {
   /*
   https://github.com/aws/sagemaker-python-sdk/blob/8462f1a1975da59304da4441aea956a43deec380/src/sagemaker/jumpstart/constants.py
   */
-  public static JUMPSTART_LAUNCHED_REGIONS: Record<
-    string,
-    { contentBucket: string; gatedContentBucket?: string }
-  > = {
+  public static JUMPSTART_LAUNCHED_REGIONS: JumpStartRegion = {
     'us-west-2': {
       contentBucket: 'jumpstart-cache-prod-us-west-2',
       gatedContentBucket: 'jumpstart-private-cache-prod-us-west-2',

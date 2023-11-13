@@ -1,10 +1,22 @@
-import { Construct } from 'constructs';
-import { InstanceType } from './instance-type';
-import { ContainerImage } from './container-image';
-import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
 import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as sagemaker from 'aws-cdk-lib/aws-sagemaker';
+import { Construct } from 'constructs';
+import { ContainerImage } from './container-image';
+import { InstanceType } from './instance-type';
+import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
 
 export interface HuggingFaceSageMakerEndpointProps {
   modelId: string;
@@ -41,7 +53,7 @@ export class HuggingFaceSageMakerEndpoint
   constructor(
     scope: Construct,
     id: string,
-    props: HuggingFaceSageMakerEndpointProps
+    props: HuggingFaceSageMakerEndpointProps,
   ) {
     super(scope, id);
 
@@ -93,7 +105,7 @@ export class HuggingFaceSageMakerEndpoint
               this.startupHealthCheckTimeoutInSeconds,
           },
         ],
-      }
+      },
     );
 
     endpointConfig.addDependency(model);
@@ -112,7 +124,7 @@ export class HuggingFaceSageMakerEndpoint
             value: this.modelId,
           },
         ],
-      }
+      },
     );
 
     endpoint.addDependency(endpointConfig);

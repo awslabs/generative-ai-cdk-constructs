@@ -1,5 +1,17 @@
-import * as path from 'path';
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
 import { execSync } from 'node:child_process';
+import * as path from 'path';
 import { GenerateUtils } from './generate-utils';
 
 const regionName = 'us-west-2';
@@ -16,14 +28,14 @@ const repositories = [
 
 const DEEP_LEARNING_CONTAINER_IMAGE_PATH = path.join(
   __dirname,
-  '../deep-learning-container-image.ts'
+  '../deep-learning-container-image.ts',
 );
 
 export async function generateDLCContainerImages() {
   console.log('Getting DLC container image data');
 
   const output = execSync(
-    `aws ecr get-authorization-token --output text --query 'authorizationData[].authorizationToken' --region ${regionName}`
+    `aws ecr get-authorization-token --output text --query 'authorizationData[].authorizationToken' --region ${regionName}`,
   );
 
   const token = output.toString();
@@ -47,9 +59,9 @@ export async function generateDLCContainerImages() {
         },
       });
 
-      tags.push(...data['tags']);
+      tags.push(...data.tags);
 
-      link = response.headers['link'];
+      link = response.headers.link;
       if (link) {
         console.log(link);
         link = link.substring(1, link.indexOf('>')).split(hostname)[1];
@@ -71,7 +83,7 @@ export async function generateDLCContainerImages() {
         (tag: string) =>
           tag.includes('-deepspeed') ||
           tag.includes('-fastertransformer') ||
-          tag.includes('-neuronx')
+          tag.includes('-neuronx'),
       );
     }
 
@@ -85,8 +97,8 @@ export async function generateDLCContainerImages() {
   generateCode(repositoryTagData);
 }
 
-async function getRepositories() {
-  const repositories = new Set<string>();
+export async function getRepositories() {
+  const repositoryNames = new Set<string>();
 
   const GITHUB_URL =
     'https://raw.githubusercontent.com/aws/sagemaker-python-sdk/master/src/sagemaker/image_uri_config';
@@ -103,11 +115,11 @@ async function getRepositories() {
     const [data] = await GenerateUtils.downloadJSON(fileName);
 
     console.log('Processing file:', fileName);
-    const versions = data['versions'] || data['inference']['versions'];
+    const versions = data.versions || data.inference.versions;
 
     for (const version of Object.keys(versions)) {
       const versionData = versions[version];
-      const versionAliases = versionData['version_aliases'];
+      const versionAliases = versionData.version_aliases;
 
       const items: any[] = [];
       if (versionAliases) {
@@ -119,15 +131,15 @@ async function getRepositories() {
       }
 
       for (const item of items) {
-        const repositoryName = item['repository'];
-        repositories.add(repositoryName);
+        const repositoryName = item.repository;
+        repositoryNames.add(repositoryName);
       }
     }
   }
 
   console.log('Repositories:', new Array(...repositories));
 
-  return repositories;
+  return repositoryNames;
 }
 
 function generateCode(repositoryTagData: {
@@ -140,14 +152,14 @@ function generateCode(repositoryTagData: {
     const repositoryNameStr = GenerateUtils.replaceAll(
       repositoryName,
       '-',
-      '_'
+      '_',
     ).toUpperCase();
 
     for (const tagName of tags) {
       const tagNameStr = GenerateUtils.replaceAllBatch(
         tagName,
         ['\\.', '-'],
-        '_'
+        '_',
       ).toUpperCase();
 
       const name = `${repositoryNameStr}_${tagNameStr}`;
@@ -156,12 +168,24 @@ function generateCode(repositoryTagData: {
     }
   }
 
-  const fileStr = `import { Stack } from 'aws-cdk-lib';
-import { FactName } from 'aws-cdk-lib/region-info';
-import { Construct } from 'constructs';
-import { ContainerImage, ContainerImageConfig } from './container-image';
+  const fileStr = `/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
+import { Stack } from 'aws-cdk-lib';
 import * as ecr from 'aws-cdk-lib/aws-ecr';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import { FactName } from 'aws-cdk-lib/region-info';
+import { Construct } from 'constructs';
+import { ContainerImage, ContainerImageConfig } from './container-image';  
 
 export class DeepLearningContainerImage extends ContainerImage {
 ${imagesStr}
@@ -212,6 +236,6 @@ ${imagesStr}
 
   GenerateUtils.writeFileSyncWithDirs(
     DEEP_LEARNING_CONTAINER_IMAGE_PATH,
-    fileStr
+    fileStr,
   );
 }

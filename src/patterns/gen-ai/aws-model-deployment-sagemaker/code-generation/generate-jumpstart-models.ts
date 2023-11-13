@@ -1,7 +1,19 @@
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
 import * as fs from 'fs';
 import * as path from 'path';
-import { JumpStartConstants } from '../private/jumpstart-constants';
 import { GenerateUtils } from './generate-utils';
+import { JumpStartConstants } from '../private/jumpstart-constants';
 
 interface JumpStartModelManifest {
   model_id: string;
@@ -53,7 +65,7 @@ interface ModelsData {
 
 const JUMPSTART_CACHE_PATH = path.join(
   __dirname,
-  './cache/jumpstart-models-cache.json'
+  './.cache/jumpstart-models-cache.json',
 );
 
 const JUMPSTART_MODEL_PATH = path.join(__dirname, '../jumpstart-model.ts');
@@ -110,13 +122,13 @@ async function download_data() {
       } = modelSpec;
 
       const allowedFramework = ALLOWED_FRAMEWORKS.includes(
-        hosting_ecr_specs.framework
+        hosting_ecr_specs.framework,
       );
 
       console.log(
         `${deprecated ? '[DEPRECATED] ' : ''}${
           !allowedFramework ? '[SKIP:' + hosting_ecr_specs.framework + '] ' : ''
-        }${model.model_id}/${model.version}`
+        }${model.model_id}/${model.version}`,
       );
 
       frameworks.add(hosting_ecr_specs.framework);
@@ -153,7 +165,7 @@ async function download_data() {
 
   GenerateUtils.writeFileSyncWithDirs(
     JUMPSTART_CACHE_PATH,
-    JSON.stringify(models)
+    JSON.stringify(models),
   );
 
   console.log('Frameworks', Array.from(frameworks));
@@ -170,7 +182,7 @@ function generateCode() {
       const modelName = `${GenerateUtils.replaceAll(
         modelId,
         '-',
-        '_'
+        '_',
       )}_${GenerateUtils.replaceAll(version, '\\.', '_')}`.toUpperCase();
 
       const specSource = data[modelId][version];
@@ -199,12 +211,24 @@ function generateCode() {
       }
 
       modelsStr += `\tpublic static readonly ${modelName} = this.of(${JSON.stringify(
-        spec
+        spec,
       )});\n`;
     }
   }
 
-  const fileStr = `import { Construct } from 'constructs';
+  const fileStr = `/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
+import { Construct } from 'constructs';
 import * as iam from 'aws-cdk-lib/aws-iam';
 
 export interface JumpStartModelSpec {

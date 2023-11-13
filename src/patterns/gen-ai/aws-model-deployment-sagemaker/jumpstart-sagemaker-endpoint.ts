@@ -1,11 +1,23 @@
-import { Construct } from 'constructs';
-import { Stack, Token } from 'aws-cdk-lib/core';
-import { InstanceType } from './instance-type';
-import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
-import { JumpStartModel, JumpStartModelSpec } from './jumpstart-model';
-import { JumpStartConstants } from './private/jumpstart-constants';
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as sagemaker from 'aws-cdk-lib/aws-sagemaker';
+import { Stack, Token } from 'aws-cdk-lib/core';
+import { Construct } from 'constructs';
+import { InstanceType } from './instance-type';
+import { JumpStartModel, JumpStartModelSpec } from './jumpstart-model';
+import { JumpStartConstants } from './private/jumpstart-constants';
+import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
 
 export interface JumpStartSageMakerEndpointProps {
   model: JumpStartModel;
@@ -40,7 +52,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
   constructor(
     scope: Construct,
     id: string,
-    props: JumpStartSageMakerEndpointProps
+    props: JumpStartSageMakerEndpointProps,
   ) {
     super(scope, id);
 
@@ -58,7 +70,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
 
     if (Token.isUnresolved(this.region)) {
       throw new Error(
-        'Region is unresolved. You should explicitly specify the region in the environment.'
+        'Region is unresolved. You should explicitly specify the region in the environment.',
       );
     }
 
@@ -69,7 +81,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
     if (this.spec.modelPackageArns) {
       if (this.environment) {
         throw new Error(
-          'Environment variables are not supported for model packages.'
+          'Environment variables are not supported for model packages.',
         );
       }
 
@@ -80,7 +92,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
         scope,
         instanceType,
         instanseBaseType,
-        environment
+        environment,
       );
     }
 
@@ -99,7 +111,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
               this.startupHealthCheckTimeoutInSeconds,
           },
         ],
-      }
+      },
     );
 
     endpointConfig.addDependency(model);
@@ -112,7 +124,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
           .getAtt('EndpointConfigName')
           .toString(),
         endpointName: props.endpointName,
-      }
+      },
     );
 
     endpoint.addDependency(endpointConfig);
@@ -150,7 +162,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
       throw new Error(
         `The instance type ${instanceType} is not supported. Default instance type: ${
           this.spec.defaultInstanceType
-        }. Supported instance types: ${supportedInstanceTypes.join(', ')}.`
+        }. Supported instance types: ${supportedInstanceTypes.join(', ')}.`,
       );
     }
 
@@ -174,14 +186,14 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
     scope: Construct,
     instanceType: string,
     instanceBaseType: string,
-    environment: { [key: string]: string | number | boolean }
+    environment: { [key: string]: string | number | boolean },
   ) {
     const key = this.spec.prepackedArtifactKey ?? this.spec.artifactKey;
     const bucket =
       JumpStartConstants.JUMPSTART_LAUNCHED_REGIONS[this.region]?.contentBucket;
     if (!bucket) {
       throw new Error(
-        `JumpStart is not available in the region ${this.region}.`
+        `JumpStart is not available in the region ${this.region}.`,
       );
     }
 
@@ -191,13 +203,13 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
     ]?.regional_properties?.image_uri?.replace('$', '');
     if (!imageUriKey) {
       throw new Error(
-        `The image uri is not available for instance type ${instanceType}.`
+        `The image uri is not available for instance type ${instanceType}.`,
       );
     }
     const image = (this.spec.instanceAliases ?? {})[this.region]?.[imageUriKey];
     if (!image) {
       throw new Error(
-        `The image uri is not available for instance type ${instanceType} in region ${this.region}.`
+        `The image uri is not available for instance type ${instanceType} in region ${this.region}.`,
       );
     }
 
@@ -231,7 +243,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
       throw new Error(
         `The model package is not available in the region ${
           this.region
-        }. Supported regions: ${supportedRegions.join(', ')}.`
+        }. Supported regions: ${supportedRegions.join(', ')}.`,
       );
     }
 
