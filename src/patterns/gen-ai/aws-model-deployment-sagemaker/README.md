@@ -34,7 +34,7 @@
 
 ## Overview
 
-Two constructs are provided here to simplify the deployment of Large Language Models on Amazon SageMaker from two different hubs:
+Two constructs are provided here to simplify the deployment of foundation models on Amazon SageMaker from two different hubs:
 - Models from SageMaker Foundation Models / SageMaker JumpStart
 - Models supported by [Hugging Face LLM Inference Container for Amazon SageMaker](https://huggingface.co/blog/sagemaker-huggingface-llm)
 
