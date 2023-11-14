@@ -38,13 +38,20 @@ Two constructs are provided here to simplify the deployment of Large Language Mo
 - Models from SageMaker Foundation Models / SageMaker Jumpstart
 - Models supported by [HuggingFace LLM Inference container](https://huggingface.co/blog/sagemaker-huggingface-llm)
 
+This constructs only work when region of the stack is specified explicitly:
+```
+env: {
+    region: 'eu-west-1',
+},
+```
+
 Here is a minimal deployable pattern definition:
 
 ```typescript
 
 import { Construct } from 'constructs';
 import { Stack, StackProps, Aws } from 'aws-cdk-lib';
-import { JumpStartSageMakerEndpoint, HuggingFaceSageMakerEndpoint, SageMakerInstanceType, DeepLearningContainerImage, JumpStartModel } from '@awslabs/generative-ai-cdk-constructs';
+import { JumpStartSageMakerEndpoint, JumpStartModel, SageMakerInstanceType, HuggingFaceSageMakerEndpoint, DeepLearningContainerImage } from '@awslabs/generative-ai-cdk-constructs';
 
 // Deploy a model from SageMaker Foundation Models or SageMaker Jumpstart
 new JumpStartSageMakerEndpoint(this, 'LLAMA2', {
