@@ -34,11 +34,11 @@
 
 ## Overview
 
-Two constructs are provided here to simplify the deployment of Large Language Models on Amazon SageMaker from two different hubs :
-- Models from SageMaker Foundation Models / SageMaker Jumpstart
-- Models supported by [HuggingFace LLM Inference container](https://huggingface.co/blog/sagemaker-huggingface-llm)
+Two constructs are provided here to simplify the deployment of Large Language Models on Amazon SageMaker from two different hubs:
+- Models from SageMaker Foundation Models / SageMaker JumpStart
+- Models supported by [Hugging Face LLM Inference Container for Amazon SageMaker](https://huggingface.co/blog/sagemaker-huggingface-llm)
 
-This constructs only work when region of the stack is specified explicitly:
+These constructs only work when region of the stack is specified explicitly:
 ```
 env: {
     region: 'eu-west-1',
@@ -53,13 +53,13 @@ import { Construct } from 'constructs';
 import { Stack, StackProps, Aws } from 'aws-cdk-lib';
 import { JumpStartSageMakerEndpoint, JumpStartModel, SageMakerInstanceType, HuggingFaceSageMakerEndpoint, DeepLearningContainerImage } from '@awslabs/generative-ai-cdk-constructs';
 
-// Deploy a model from SageMaker Foundation Models or SageMaker Jumpstart
+// Deploy a model from SageMaker Foundation Models or SageMaker JumpStart
 new JumpStartSageMakerEndpoint(this, 'LLAMA2', {
   model: JumpStartModel.META_TEXTGENERATION_LLAMA_2_7B_F_2_0_2,
   instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
 });
 
-// Deploy a model supported by HuggingFace LLM Inference container
+// Deploy a model supported by HuggingFace LLM Inference Container
 new HuggingFaceSageMakerEndpoint(this, 'Mistral', {
   modelId: 'mistralai/Mistral-7B-Instruct-v0.1',
   instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
