@@ -47,7 +47,8 @@ The following constructs are available in the library:
 | [Data ingestion pipeline](./src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/) | Generative AI | Ingestion pipeline providing a RAG (Retrieval Augmented Generation) source for storing documents in a knowledge base. | Amazon OpenSearch, AWS Step Functions, Amazon Bedrock, AWS AppSync, AWS Lambda | 
 | [Question answering](./src/patterns/gen-ai/aws-qa-appsync-opensearch/) | Generative AI | Question answering against a Large Language Model (Anthropic Claude V2) using a RAG (Retrieval Augmented Generation) source and/or long context window. | Amazon OpenSearch, AWS Lambda, Amazon Bedrock, AWS AppSync | 
 | [Summarization](./src/patterns/gen-ai/aws-summarization-appsync-stepfn/) | Generative AI | Document summarization using a Large Language Model (Anthropic Claude V2). | AWS Lambda, Amazon Bedrock, AWS AppSync and Amazon Elasticache for Redis.  |
-| [Lambda layer](./src/patterns/gen-ai/aws-langchain-common-layer/) | Generative AI | Python lambda layer providing dependencies and utilities to develop Generative AI applications on AWS. | AWS Lambda, Amazon Bedrock, Amazon SageMaker |  
+| [Lambda layer](./src/patterns/gen-ai/aws-langchain-common-layer/) | Generative AI | Python lambda layer providing dependencies and utilities to develop Generative AI applications on AWS. | AWS Lambda, Amazon Bedrock, Amazon SageMaker | 
+| [SageMaker model deployment](./src/patterns/gen-ai/aws-model-deployment-sagemaker/) | Generative AI | Deploy a Large Language model from Amazon Jumpstart or Hugging Face to an Amazon SageMaker endpoint. | Amazon SageMaker | 
 
 # Sample Use Cases
 
