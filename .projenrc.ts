@@ -50,8 +50,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   maxNodeVersion: '20.x', // 'CURRENT'
   workflowNodeVersion: '20.x', // 'ACTIVE'
 
-  npmRegistryUrl: 'https://npm.pkg.github.com',
-  npmTokenSecret: 'GITHUB_TOKEN',
+  npmTokenSecret: '${{ secrets.NPM_TOKEN }}',
 
   publishToPypi: {
     distName: PROJECT_NAME,
