@@ -11,6 +11,7 @@
  *  and limitations under the License.
  */
 import { awscdk } from 'projen';
+import { NpmAccess } from 'projen/lib/javascript';
 import {
   buildMeritBadgerWorkflow,
   buildMonthlyIssuesMetricsWorkflow,
@@ -50,6 +51,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   workflowNodeVersion: '20.x', // 'ACTIVE'
 
   npmTokenSecret: 'NPM_TOKEN',
+  npmAccess: NpmAccess.PUBLIC,
 
   publishToPypi: {
     distName: PUBLICATION_NAMESPACE+'.'+PROJECT_NAME,
