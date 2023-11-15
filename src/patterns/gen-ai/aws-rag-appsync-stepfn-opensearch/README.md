@@ -33,22 +33,22 @@
 
 ## Overview
 
-This CDK construct creates a pipeline for RAG (Retrieval augmented generation) source. It ingests documents and then converts them into text formats. This output can be used for scenarios with long context windows. This means that your system can now consider and analyze a significant amount of surrounding information when processing and understanding text. This is especially valuable in tasks like language understanding and document summarization.
+This CDK construct creates a pipeline for RAG (retrieval augmented generation) source. It ingests documents and then converts them into text formats. The output can be used for scenarios with long context windows. This means that your system can now consider and analyze a significant amount of surrounding information when processing and understanding text. This is especially valuable in tasks like language understanding and document summarization.
 
 Files in PDF format are uploaded to an input Amazon Simple Storage Service (S3) bucket. Authorized clients (Amazon Cognito user pool) will trigger an AWS AppSync mutation to start the ingestion process, and can use subscriptions to get notifications on the ingestion status. The mutation call will trigger an AWS Step Function with three different steps:
 - Input validation: an AWS Lambda function will verify the input formats of the files requested for ingestion. If the files are in a format which is not supported by the pipeline, an error message will be returned.
-- Transformation: the input files are processed in parallel using a [Map](https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-map-state.html) state through an AWS Lambda. The function uses the [Langchain](https://www.langchain.com/) client to get the content of each file and store in the output bucket the file in text format. This is useful for workflows which want to use a long context window approach and send the entire file as context to a Large Language Model. If the file name already exists in the output bucket, the input file will not be processed.
-- Embeddings step: Files processed and stored in the output S3 bucket are consumed by an AWS Lambda function. Chunks from documents are created as well as text embeddings using Amazon Bedrock (model: amazon.titan-embed-text-v1). Those information are then stored in a knowledge base (OpenSearch provisioned cluster). Make sure the model (amazon.titan-embed-text-v1) is enabled in your account. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
+- Transformation: the input files are processed in parallel using a [Map](https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-map-state.html) state through an AWS Lambda. The function uses the [LangChain](https://www.langchain.com/) client to get the content of each file and store the text file in the output bucket. This is useful for workflows which want to use a long context window approach and send the entire file as context to a large language model. If the file name already exists in the output bucket, the input file will not be processed.
+- Embeddings step: Files processed and stored in the output S3 bucket are consumed by an AWS Lambda function. Chunks from documents are created, as well as text embeddings using Amazon Bedrock (model: amazon.titan-embed-text-v1). The chunks and embeddings are then stored in a knowledge base (OpenSearch provisioned cluster). Make sure the model (amazon.titan-embed-text-v1) is enabled in your account. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
 
 Documents stored in the knowledge base contain the following metadata:
-- Timestamp: when the embeddings was created (current time in seconds since the Epoch)
+- Timestamp: when the embeddings were created (current time in seconds since the Epoch)
 - Embeddings model used: amazon.titan-embed-text-v1 
 
-If you have multiple workflows using GraphQL endpoints and want to use a single endpoint, you can use an [AppSync Merged API](https://docs.aws.amazon.com/appsync/latest/devguide/merged-api.html). This construct can take as a parameter an existing AppSync Merged API. In case one is provided to the construct, the mutation call and subsription updates will be targeted at the Merged API.
+If you have multiple workflows using GraphQL endpoints and want to use a single endpoint, you can use an [AppSync Merged API](https://docs.aws.amazon.com/appsync/latest/devguide/merged-api.html). This construct can take as a parameter an existing AppSync Merged API; if provided, the mutation call and subscription updates will be targeted at the Merged API.
 
 This construct will require an existing Amazon OpenSearch provisioned cluster with fine grain access control enabled. You can follow the steps in the official [AWS Developer Guide](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html) to create and manage your OpenSearch domain.
 
-AWS Lambda functions provisioned in this construct use [Powertools for AWS Lambda (Python)](https://github.com/aws-powertools/powertools-lambda-python) for tracing, structured logging and custom metrics creation. The table below provides the metrics created and the name of the service (logging key customers can use to search log operations) which can be access from Amazon Cloudwatch Logs.
+AWS Lambda functions provisioned in this construct use [Powertools for AWS Lambda (Python)](https://github.com/aws-powertools/powertools-lambda-python) for tracing, structured logging, and custom metrics creation. The table below provides the created metrics and the name of the service used, and can be accessed from Amazon CloudWatch Logs.
 
 | **AWS Lambda**     | **Service**        | **Custom Metrics** |
 |:-------------|:----------------|-----------------|
@@ -87,7 +87,7 @@ const rag_source = new RagAppsyncStepfnOpensearch(
       }
     )
 ```
-After deploying the CDK stack, the document summarization workflow can be invoked using Graphql APIs. The API Schema details are present here - resources/gen-ai/aws-rag-appsync-stepfn-opensearch/schema.graphql.
+After deploying the CDK stack, the document summarization workflow can be invoked using GraphQL APIs. The API schema details are here: resources/gen-ai/aws-rag-appsync-stepfn-opensearch/schema.graphql.
 
 The code below provides an example of a mutation call and associated subscription to trigger a pipeline call and get status notifications:
 
@@ -203,12 +203,12 @@ Parameters
 
 ## Default properties
 
-Out of the box implementation of the Construct without any override will set the following defaults:
+Out of the box implementation of the construct without any override will set the following defaults:
 
 ### Authentication
 
 - Primary authentication method for the AppSync GraphQL API is Amazon Cognito User Pool.
-- Secondary authentication method for the AppSync graphQL API is IAM role.
+- Secondary authentication method for the AppSync GraphQL API is IAM role.
 
 ### Networking
 
@@ -227,9 +227,9 @@ Out of the box implementation of the Construct without any override will set the
 ### Observability
 
 By default the construct will enable logging and tracing on all services which support those features. Observability can be turned off by setting the pattern property ```observability``` to false. 
-- AWS Lambda: AWS X-Ray, Amazon Cloudwatch Logs
-- AWS Step Function: AWS X-Ray, Amazon Cloudwatch Logs
-- AWS AppSync GraphQL api: AWS X-Ray, Amazon Cloudwatch Logs
+- AWS Lambda: AWS X-Ray, Amazon CloudWatch Logs
+- AWS Step Function: AWS X-Ray, Amazon CloudWatch Logs
+- AWS AppSync GraphQL API: AWS X-Ray, Amazon CloudWatch Logs
 
 ## Troubleshooting
 
@@ -273,7 +273,7 @@ The resources not created by this construct (Amazon Cognito User Pool, Amazon Op
 - [AWS Secrets Manager Pricing](https://aws.amazon.com/secrets-manager/pricing/)
 
 > **Note**
->You can share the Amazon OpenSearch provisioned cluster between use cases, but this can drive up the number of queries per index and additional charge will apply.
+>You can share the Amazon OpenSearch provisioned cluster between use cases, but this can drive up the number of queries per index and additional charges will apply.
 
 ## Security
 
