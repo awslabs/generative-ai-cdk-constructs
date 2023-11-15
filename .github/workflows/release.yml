@@ -85,7 +85,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
     if: needs.release.outputs.latest_commit == github.sha
     steps:
       - uses: actions/setup-node@v3
@@ -110,8 +109,8 @@ jobs:
       - name: Release
         env:
           NPM_DIST_TAG: latest
-          NPM_REGISTRY: npm.pkg.github.com
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_REGISTRY: registry.npmjs.org
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx -p publib@latest publib-npm
   release_pypi:
     name: Publish to PyPI
