@@ -15,7 +15,7 @@
 
 | **Language**     | **Package**        |
 |:-------------|-----------------|
-|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@aws-cdk/generative-ai-cdk-constructs`|
+|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@cdklabs/generative-ai-cdk-constructs`|
 
 ## Table of contents
 
@@ -51,7 +51,7 @@ Here is a minimal deployable pattern definition:
 
 import { Construct } from 'constructs';
 import { Stack, StackProps, Aws } from 'aws-cdk-lib';
-import { JumpStartSageMakerEndpoint, JumpStartModel, SageMakerInstanceType, HuggingFaceSageMakerEndpoint, DeepLearningContainerImage } from '@aws-cdk/generative-ai-cdk-constructs';
+import { JumpStartSageMakerEndpoint, JumpStartModel, SageMakerInstanceType, HuggingFaceSageMakerEndpoint, DeepLearningContainerImage } from '@cdklabs/generative-ai-cdk-constructs';
 
 // Deploy a model from SageMaker Foundation Models or SageMaker JumpStart
 new JumpStartSageMakerEndpoint(this, 'LLAMA2', {

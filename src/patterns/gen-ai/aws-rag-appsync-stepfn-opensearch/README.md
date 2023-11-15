@@ -14,7 +14,7 @@
 
 | **Language**     | **Package**        |
 |:-------------|-----------------|
-|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@aws-cdk/generative-ai-cdk-constructs`|
+|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@cdklabs/generative-ai-cdk-constructs`|
 
 ## Table of contents
 
@@ -64,7 +64,7 @@ import { Construct } from 'constructs';
 import { Stack, StackProps } from 'aws-cdk-lib';
 import * as os from 'aws-cdk-lib/aws-opensearchservice';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
-import { RagApiGatewayOpensearch, RagApiGatewayOpensearchProps } from '@aws-cdk/generative-ai-cdk-constructs';
+import { RagApiGatewayOpensearch, RagApiGatewayOpensearchProps } from '@cdklabs/generative-ai-cdk-constructs';
 
 // get an existing OpenSearch provisioned cluster in the same VPC as of RagAppsyncStepfnOpensearch construct 
 // Security group for the existing opensearch cluster should allow traffic on 443.
