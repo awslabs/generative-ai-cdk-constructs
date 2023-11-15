@@ -121,8 +121,8 @@
     "outdir": "dist",
     "targets": {
       "python": {
-        "distName": "generative-ai-cdk-constructs",
-        "module": "generative_ai_cdk_constructs"
+        "distName": "cdklabs.generative-ai-cdk-constructs",
+        "module": "cdklabs.generative_ai_cdk_constructs"
       }
     },
     "tsc": {

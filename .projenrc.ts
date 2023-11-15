@@ -52,8 +52,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   npmTokenSecret: 'NPM_TOKEN',
 
   publishToPypi: {
-    distName: PROJECT_NAME,
-    module: PROJECT_NAME.replace(/-/g, '_'), // PEP 8, convert hypens
+    distName: PUBLICATION_NAMESPACE+'.'+PROJECT_NAME,
+    module: PUBLICATION_NAMESPACE+'.'+(PROJECT_NAME.replace(/-/g, '_')), // PEP 8, convert hypens
     twineRegistryUrl: '${{ secrets.TWINE_REGISTRY_URL }}',
   },
 
