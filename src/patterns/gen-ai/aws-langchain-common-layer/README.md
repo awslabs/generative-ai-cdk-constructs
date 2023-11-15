@@ -14,7 +14,7 @@
 
 | **Language**     | **Package**        |
 |:-------------|-----------------|
-|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@aws-cdk/generative-ai-cdk-constructs`|
+|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@cdklabs/generative-ai-cdk-constructs`|
 
 ## Table of contents
 
@@ -54,7 +54,7 @@ Typescript
 ``` typescript
 import { Construct } from 'constructs';
 import { Stack, StackProps, Aws } from 'aws-cdk-lib';
-import { LangchainCommonDepsLayer, LangchainCommonLayer } from '@aws-cdk/generative-ai-cdk-constructs';
+import { LangchainCommonDepsLayer, LangchainCommonLayer } from '@cdklabs/generative-ai-cdk-constructs';
 
 const lambdaArchitecture = lambda.Architecture.ARM_64;
 const lambdaRuntime = lambda.Runtime.PYTHON_3_10;
