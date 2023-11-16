@@ -256,6 +256,7 @@ export function buildOrtToolkitWorkflow(project: AwsCdkConstructLibrary) {
         name: 'Run GitHub Action for ORT',
         uses: 'oss-review-toolkit/ort-ci-github-action@7f23c1f8d169dad430e41df223d3b8409c7a156e',
         with: {
+          'allow-dynamic-versions': 'true',
           'ort-cli-args': '-P ort.forceOverwrite=true -P ort.enableRepositoryPackageConfigurations=true -P ort.enableRepositoryPackageCurations=true --stacktrace',
         }
       },
