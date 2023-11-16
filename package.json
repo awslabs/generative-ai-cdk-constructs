@@ -30,7 +30,7 @@
   },
   "author": {
     "name": "Amazon Web Services - Prototyping and Cloud Engineering",
-    "email": "noreply@amazon.com",
+    "url": "https://aws.amazon.com",
     "organization": true
   },
   "devDependencies": {

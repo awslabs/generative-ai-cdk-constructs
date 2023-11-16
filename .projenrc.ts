@@ -29,7 +29,7 @@ const CDK_VERSION: string = '2.103.1';
 
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Amazon Web Services - Prototyping and Cloud Engineering',
-  authorAddress: 'noreply@amazon.com',
+  authorAddress: 'https://aws.amazon.com',
   authorOrganization: true,
   cdkVersion: CDK_VERSION,
   projenVersion: '~0.73.33',
