@@ -43,10 +43,10 @@ Thanks to the original authors:
 ## Overview
 
 This construct provides two AWS Lambda layers:
-- one dependency layer which contains needed python pip packages to build Generative AI applications based on the [Langchain](https://python.langchain.com/docs/get_started/introduction) client. The list of libraries installed and their version is available [here](../../../../layers/langchain-common-deps/requirements.txt)
-- one Python code layer which contains helper functions to accelerate development of Generative AI applications on AWS based on the [Langchain](https://python.langchain.com/docs/get_started/introduction) client.
+- one dependency layer which contains needed python pip packages to build generative AI applications based on the [LangChain](https://python.langchain.com/docs/get_started/introduction) client. The list of libraries installed and their version is available [here](../../../../layers/langchain-common-deps/requirements.txt)
+- one Python code layer which contains helper functions to accelerate development of generative AI applications on AWS based on the [LangChain](https://python.langchain.com/docs/get_started/introduction) client.
 
-This construct has a dependency on [Lambda Power Tools](https://github.com/aws-powertools/powertools-lambda-python).
+This construct has a dependency on [Powertools for AWS Lambda (Python)](https://github.com/aws-powertools/powertools-lambda-python).
 
 Here is a minimal deployable pattern definition:
 
@@ -157,7 +157,7 @@ Where:
 - session_id: session identified, used if chat history is enabled
 - user_id: identified for a specific user
 - text: user question
-- model_kwargs: dictionnary containing model arguments (temperature, ...). Please refer to the model documentation for a complete list of arguments available.
+- model_kwargs: dictionary containing model arguments (temperature, ...). Please refer to the model documentation for a complete list of arguments available.
 - adapter_kwargs: used to control the configuration of the adapter (enable chat history, RAG,...). Currently, values for this parameter are not used.
 
 ## Initializer
@@ -180,8 +180,8 @@ Parameters
 
 | **Name**     | **Type**        | **Required** |**Description** |
 |:-------------|:----------------|-----------------|-----------------|
-| runtime | [lambda.Runtime](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Runtime.html) | ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function runtime compatible with this Layer. |
-| architecture | [lambda.Architecture](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Architecture.html)| ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function architecture compatible with this Layer. |
+| runtime | [lambda.Runtime](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Runtime.html) | ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function runtime compatible with this layer. |
+| architecture | [lambda.Architecture](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Architecture.html)| ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function architecture compatible with this layer. |
 | autoUpgrade | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Add '--upgrade' to pip install requirements.txt. In case of a LangchainCommonLayer, this parameter is not used. |
 
 ## Pattern Properties
@@ -192,16 +192,16 @@ Parameters
 
 ## Default properties
 
-Out of the box implementation of the Construct without any override will not set any default values. Depending on the features enabled, user will need to provide environmental variable values to the AWS Lambda function used by the LangchainCommonLayer. For the available 
+Out-of-the-box implementation of the construct without any override will not set any default values. Depending on the features enabled, user will need to provide environmental variable values to the AWS Lambda function used by the LangchainCommonLayer.
 
 ## Python utility layer (LangchainCommonLayer)
 
-This utility layer provides helper functions to accelerate the development of Generative AI applications on AWS. 
+This utility layer provides helper functions to accelerate the development of generative AI applications on AWS. 
 
 | **Provider** | **Prediction (waiting)** | **Streaming** |
 |:-------------|:----------------|-----------------|
 | OpenAI | ✅ | ✅  |
-| Sagemaker | ✅ | ❌ |
+| Amazon SageMaker | ✅ | ❌ |
 | Amazon Bedrock | ✅ | ✅  |
 
 ### Registry
@@ -213,7 +213,7 @@ Available models in the registry:
 | **Provider** | **Model** |
 |:-------------|:----------------|
 | OpenAI | All |
-| Sagemaker | FalconLite, Llama2 |
+| Amazon SageMaker | FalconLite, Llama2 |
 | Amazon Bedrock | All |
 
 ### Adapters
@@ -244,7 +244,7 @@ response = model.run(
 
 | **Error Code**     | **Message**        | **Description** |**Fix** |
 |:-------------|:----------------|-----------------|-----------------|
-| 601 | <llm_name> Exception during prediction | An exception happened while the Langchain client was running a prediction with the selected LLM | Verify logs to get the proper error message from the Langchain client |
+| 601 | <llm_name> Exception during prediction | An exception happened while the LangChain client was running a prediction with the selected LLM | Verify logs to get the proper error message from the LangChain client |
 
 ## Architecture
 ![Architecture Diagram](architecture.png)
@@ -279,7 +279,7 @@ If choosing to interface with a third-party LLM provider (outside of Amazon Bedr
 The primary piece of data sent to the third-party LLM provider is the prompt to perform inference on. Depending on the use case, the prompt can contain the user’s input, previous interactions (for example, chat history), and document excerpts sourced from the configured knowledge base (for example, Amazon OpenSearch search result).
 
 > **Warning**
-> This construct allows you to interact with models from third party providers. Your use of the third-party Generative AI models is governed by the terms provided to you by the third-party GAI model providers when you acquired your license to use them (for example, their terms of service, license agreement, acceptable use policy, and privacy policy).
+> This construct allows you to interact with models from third party providers. Your use of the third-party generative AI (GAI) models is governed by the terms provided to you by the third-party GAI model providers when you acquired your license to use them (for example, their terms of service, license agreement, acceptable use policy, and privacy policy).
 >
 >You are responsible for ensuring that your use of the third-party GAI models comply with the terms governing them, and any laws, rules, regulations, policies, or standards that apply to you.
 >

@@ -31,6 +31,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Amazon Web Services - Prototyping and Cloud Engineering',
   authorAddress: 'https://aws.amazon.com',
   authorOrganization: true,
+  description: 'AWS Generative AI CDK Constructs is a library for well-architected generative AI patterns.',
   cdkVersion: CDK_VERSION,
   projenVersion: '~0.73.33',
   constructsVersion: '10.3.0',
