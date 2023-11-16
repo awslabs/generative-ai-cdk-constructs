@@ -68,10 +68,7 @@ Roadmap is available through the [GitHub Project](https://github.com/orgs/awslab
 
 # Legal Disclaimer
 
-You are responsible for testing, securing, and optimizing the CDK constructs and other content, provided in this library, based on your specific quality control practices and standards. You are also responsible for making sure your use of the CDK constructs and other content, provided in this library, complies with all applicable laws, regulations, and any relevant terms. AWS makes no warranties or representations regarding the CDK constructs contained within this library, and assumes no liability for your use of the CDK constructs. 
-
-By using the content contained within this library, you acknowledge and agree to the terms in this Legal Disclaimer.  
-
+You should consider doing your own independent assessment before using the content in this library for production purposes. This may include (amongst other things) testing, securing, and optimizing the CDK constructs and other content, provided in this library, based on your specific quality control practices and standards.
 
 ***
 &copy; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
