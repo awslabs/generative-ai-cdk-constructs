@@ -1,14 +1,14 @@
 # Design Guidelines
 
-# Generative AI CDK Constructs Design Guidelines
+# AWS Generative AI CDK Constructs Design Guidelines
 
-This document defines the ways in which our constructs are consistent with CDK and with one another, helping developers easily adopt the constructs. When proposing a new Generative AI CDK Construct, use this document to drive your design.
+This document defines the ways in which our constructs are consistent with CDK and with one another, helping developers easily adopt the constructs. When proposing a new AWS Generative AI CDK Construct, use this document to drive your design.
 
 ## Overall Guidelines
 
 **Constructs Can Be Self Contained**
 
-While passing an existing resource to a construct is essential to the ability to link constructs together, it should never be required. If your construct requires the client to create a resource to pass in as an argument to the constructor, then you have probably not defined your construct correctly or what you are designing is not a good fit for the Generative AI CDK Constructs.
+While passing an existing resource to a construct is essential to the ability to link constructs together, it should never be required. If your construct requires the client to create a resource to pass in as an argument to the constructor, then you have probably not defined your construct correctly or what you are designing is not a good fit for the AWS Generative AI CDK Constructs.
 
 **Use CDK definitions to define a service or resource**
 
@@ -48,7 +48,7 @@ Clients may choose to deploy their architectures for any number of reasons. VPC 
 
 ## Naming
 
-The name of a Generative AI CDK Construct is composed by concatenating the construct's purpose and the names of the individual services or resources configured by the construct. When it is obvious what resource is being deployed by the service, use just the service name, such as SQS, SNS, DynamoDB, etc. When just the service name is ambiguous, append the specific resource type to the service name, such as SagemakerEndpoint (also do this for a different flavor of an already deployed service, such as DynamoDBStream). If you use a specific library, you can also add it to the name.
+The name of an AWS Generative AI CDK Construct is composed by concatenating the construct's purpose and the names of the individual services or resources configured by the construct. When it is obvious what resource is being deployed by the service, use just the service name, such as SQS, SNS, DynamoDB, etc. When just the service name is ambiguous, append the specific resource type to the service name, such as SagemakerEndpoint (also do this for a different flavor of an already deployed service, such as DynamoDBStream). If you use a specific library, you can also add it to the name.
 
 For the construct file name, separate the all lower-case service names by dashes and preface the whole name with “aws-“. For Example:
 
@@ -63,7 +63,7 @@ For the TypeScript class name, use Pascal casing and concatenate the names separ
 Once again, these rules became clear as we wrote all of the existing constructs and not all of the early constructs comply with these rules.
 
 # Service Usage in Constructs
-It's important for consistency that services are implemented consistently across Generative AI CDK Constructs – that clients specify the same properties. This section specifies the require attributes on your Construct Props interface for each service currently in the library, as well as the reasons behind any exceptions. We are unlikely to approve a construct with additional attributes, although we may if the proposed new attribute is appropriate for us to implement across all constructs using that service.
+It's important for consistency that services are implemented consistently across AWS Generative AI CDK Constructs – that clients specify the same properties. This section specifies the require attributes on your Construct Props interface for each service currently in the library, as well as the reasons behind any exceptions. We are unlikely to approve a construct with additional attributes, although we may if the proposed new attribute is appropriate for us to implement across all constructs using that service.
 
 If you are creating a construct that uses a service for the first time, defining the appropriate interface is a key step and we will work with you.
 
