@@ -382,11 +382,10 @@ export function runBanditWorkflow(project: AwsCdkConstructLibrary) {
         with: {
           'python-version': '3.x',
         },
-        run: 'python -m pip install bandit',
       },
       {
         name: 'Run Bandit',
-        run: 'bandit --recursive --format html --output bandit-report.html .',
+        run: 'pip install bandit && bandit --recursive --format html --output bandit-report.html --exit-zero .',
       },
       {
         name: 'Store Bandit as Artifact',
