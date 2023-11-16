@@ -16,6 +16,7 @@ import time
 import json
 import boto3, json
 import numpy as np
+import tempfile
 from helpers.credentials_helper import get_credentials
 from helpers.opensearch_helper import check_if_index_exists, process_shard
 from helpers.update_ingestion_status import updateIngestionJobStatus
@@ -75,7 +76,7 @@ bucket_name = os.environ['OUTPUT_BUCKET']
 opensearch_index = os.environ['OPENSEARCH_INDEX']
 opensearch_domain = os.environ['OPENSEARCH_DOMAIN_ENDPOINT']
 
-DATA_DIR = "/tmp"
+DATA_DIR = tempfile.gettempdir()
 CHUNCK_SIZE_DOC_SPLIT=500
 OVERLAP_FOR_DOC_SPLIT=20
 MAX_OS_DOCS_PER_PUT = 500
