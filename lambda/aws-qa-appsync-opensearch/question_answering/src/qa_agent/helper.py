@@ -99,7 +99,9 @@ def load_vector_db_opensearch(region: str,
     print(f"load_vector_db_opensearch, region={region}, "
                 f"opensearch_domain_endpoint={opensearch_domain_endpoint}, opensearch_index={opensearch_index}")
     
-    if secret_id != 'NONE': # user uses username/password 
+    # if the secret id is not provided
+    # uses username password
+    if secret_id != 'NONE': # nosec
         creds = get_credentials(secret_id, aws_region)
         http_auth = (creds['username'], creds['password'])
     else: # sigv4
