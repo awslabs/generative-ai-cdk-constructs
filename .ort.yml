@@ -1,0 +1,39 @@
+---
+curations:
+  packages:
+  - id: "PyPI::numpy:1.26.2"
+    curations:
+      comment: "The https://github.com/numpy/numpy/blob/v1.26.2/LICENSE.txt, as a\
+        \ permissive license similar to the BSD 2-Clause License, but with a 3rd clause\
+        \ that prohibits others from using the name of the copyright holder or its\
+        \ contributors to promote derived products without written consent."
+      concluded_license: "BSD-3-Clause"
+      declared_license_mapping:
+        BSD License: "BSD-3-Clause"
+  - id: "PyPI::pypdf2:3.0.1"
+    curations:
+      comment: "The https://github.com/py-pdf/pypdf/blob/3.0.0/LICENSE, is a\
+      \ three-clause BSD."
+      concluded_license: "BSD-3-Clause"
+      declared_license_mapping:
+        BSD License: "BSD-3-Clause"
+  - id: "PyPI::pandas:2.1.3"
+    curations:
+      comment: "From https://github.com/pandas-dev/pandas/blob/v2.1.3/LICENSE,\
+      \ A permissive license similar to the BSD 2-Clause License,\
+      \ but with a 3rd clause that prohibits others from using the name\
+      \ of the copyright holder or its contributors to promote derived products\
+      \ without written consent."
+      concluded_license: "BSD-3-Clause"
+      declared_license_mapping:
+        BSD License: "BSD-3-Clause"
+  - id: "NPM::case:1.6.3"
+    curations:
+      comment: "From https://github.com/nbubna/Case/blob/1.6.3/LICENSE:\
+      \ A short and simple permissive license with conditions only requiring\
+      \ preservation of copyright and license notices. Licensed works,\
+      \ modifications, and larger works may be distributed\
+      \ under different terms and without source code."
+      concluded_license: "MIT-0"
+      declared_license_mapping:
+        BSD License: "MIT-0"
