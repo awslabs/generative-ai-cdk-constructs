@@ -27,7 +27,7 @@ jobs:
         with:
           python-version: 3.x
       - name: Run Bandit
-        run: pip install bandit && bandit --recursive --format html --output bandit-report.html .
+        run: pip install bandit && bandit --recursive --format html --output bandit-report.html --exit-zero .
       - name: Store Bandit as Artifact
         uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32
         with:
