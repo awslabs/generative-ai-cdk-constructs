@@ -30,7 +30,7 @@
   },
   "author": {
     "name": "Amazon Web Services - Prototyping and Cloud Engineering",
-    "email": "generative-ai-cdk-constructs@amazon.com",
+    "email": "noreply@amazon.com",
     "organization": true
   },
   "devDependencies": {
