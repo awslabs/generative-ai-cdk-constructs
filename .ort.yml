@@ -1,12 +1,16 @@
 ---
 curations:
   packages:
-  - id: "PyPI::numpy:1.26.1"
+  - id: "PyPI::numpy:1.26.2"
     curations:
-      comment: "The https://github.com/numpy/numpy/blob/v1.26.1/LICENSE.txt, as a\
+      comment: "The https://github.com/numpy/numpy/blob/v1.26.2/LICENSE.txt, as a\
         \ permissive license similar to the BSD 2-Clause License, but with a 3rd clause\
         \ that prohibits others from using the name of the copyright holder or its\
         \ contributors to promote derived products without written consent."
       concluded_license: "BSD-3-Clause"
       declared_license_mapping:
         BSD License: "BSD-3-Clause"
+  - id: "PyPI::pypdf2:3.0.1"
+  - id: "PyPI::pandas:2.1.3"
+  - id: "NPM::-:0.0.1"
+  - id: "NPM::case:1.6.3"
