@@ -376,7 +376,7 @@ export function runBanditWorkflow(project: AwsCdkConstructLibrary) {
         name: 'Setup Python',
         uses: 'actions/setup-python@v4',
         with: {
-          "python-version" : "3.x"
+          'python-version': '3.x',
         },
         run: 'python -m pip install bandit',
       },
