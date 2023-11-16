@@ -258,7 +258,7 @@ export function buildOrtToolkitWorkflow(project: AwsCdkConstructLibrary) {
         with: {
           'allow-dynamic-versions': 'true',
           'ort-cli-args': '-P ort.forceOverwrite=true -P ort.enableRepositoryPackageConfigurations=true -P ort.enableRepositoryPackageCurations=true --stacktrace',
-        }
+        },
       },
     ],
   };
