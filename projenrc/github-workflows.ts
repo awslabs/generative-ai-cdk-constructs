@@ -346,3 +346,79 @@ export function runSemGrepWorkflow(project: AwsCdkConstructLibrary) {
     }
   }
 }
+
+/**
+ * https://github.com/mdegis/bandit-action
+ * Runs Bandit on the repository.
+ * @param project AwsCdkConstructLibrary
+ */
+export function runBanditWorkflow(project: AwsCdkConstructLibrary) {
+  const bandit: Job = {
+    name: 'bandit/ci',
+    runsOn: ['ubuntu-latest'],
+    // container: {
+    //   image: 'returntocorp/semgrep',
+    // },
+    permissions: {
+      contents: JobPermission.READ,
+      pullRequests: JobPermission.READ,
+      securityEvents: JobPermission.WRITE,
+      actions: JobPermission.READ,
+    },
+    if: "(github.actor != 'dependabot[bot]')",
+
+    steps: [
+      {
+        name: 'Checkout project',
+        uses: 'actions/checkout@v3',
+      },
+      {
+        name: 'Setup Python',
+        uses: 'actions/setup-python@v4',
+      },
+      {
+        name: 'Run Bandit',
+        run: 'bandit --recursive --format html --output bandit-report.html .',
+      },
+      {
+        name: 'Store Bandit as Artifact',
+        uses: 'actions/upload-artifact@v3',
+        with: {
+          name: 'bandit-report.html',
+          path: 'bandit-report.html',
+        },
+      },
+      // `awslabs` has the Advanced Security disabled.
+      // {
+      //   name: 'Upload SARIF file for GitHub Advanced Security Dashboard',
+      //   uses: 'github/codeql-action/upload-sarif@v2',
+      //   with: {
+      //     sarif_file: 'semgrep.sarif',
+      //   },
+      //   if: 'always()',
+      // },
+    ],
+  };
+
+  if (project.github) {
+    const workflow = project.github.addWorkflow('bandit');
+    if (workflow) {
+      workflow.on({
+        pullRequest: {},
+        workflowDispatch: {
+        },
+        push: {
+          branches: [
+            'main',
+          ],
+        },
+        schedule: [
+          { cron: '20 17 * * *' },
+        ],
+      });
+      workflow.addJobs({
+        bandit: bandit,
+      });
+    }
+  }
+}

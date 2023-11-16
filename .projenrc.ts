@@ -19,6 +19,7 @@ import {
   buildAutoApproveWorkflow,
   buildOrtToolkitWorkflow,
   runSemGrepWorkflow,
+  runBanditWorkflow,
 } from './projenrc/github-workflows';
 
 // Constants
@@ -94,6 +95,7 @@ buildUpdateContributorsWorkflow(project);
 buildAutoApproveWorkflow(project);
 buildOrtToolkitWorkflow(project);
 runSemGrepWorkflow(project);
+runBanditWorkflow(project);
 
 // Add specific overrides https://projen.io/github.html#actions-versions
 project.github?.actions.set("actions/checkout@v3", "actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744");
