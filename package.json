@@ -1,5 +1,6 @@
 {
   "name": "@cdklabs/generative-ai-cdk-constructs",
+  "description": "AWS Generative AI CDK Constructs is a library for well-architected generative AI patterns.",
   "repository": {
     "type": "git",
     "url": "https://github.com/awslabs/generative-ai-cdk-constructs"
@@ -30,7 +31,7 @@
   },
   "author": {
     "name": "Amazon Web Services - Prototyping and Cloud Engineering",
-    "email": "generative-ai-cdk-constructs@amazon.com",
+    "url": "https://aws.amazon.com",
     "organization": true
   },
   "devDependencies": {

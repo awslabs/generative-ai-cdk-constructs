@@ -44,15 +44,15 @@ If there isn't one already, open an issue describing what you intend to contribu
 
 ### Step 2: Design
 
-If you are proposing a new Generative AI Construct, the best way to do this is create the full README.md document for the Construct in advance (defining all interfaces, the minimal deployment scenario, the architecture diagram, etc.). This will give us all the information we need to provide feedback and the document will live on as documentation (saving you that effort labor). Not all groups of CDK L2 objects is a Solutions Construct - you will want to follow our [design guidelines](./DESIGN_GUIDELINES.md).
+If you are proposing a new AWS Generative AI CDK Construct, the best way to do this is create the full README.md document for the construct in advance (defining all interfaces, the minimal deployment scenario, the architecture diagram, etc.). This will give us all the information we need to provide feedback and the document will live on as documentation (saving you that effort labor). You will want to follow our [design guidelines](./DESIGN_GUIDELINES.md).
 
 Once the design is finalized, you can re-purpose this PR for the implementation, or open a new PR to that end.
 
-Good AWS Generative AI Constructs have the following characteristics:
-  1) Multi-service: The goal of AWS Generative AI Constructs is to weave multiple services together in a well-architected way. 
-  2) Configurable Business Logic: AWS Generative AI Constructs should be applicable to all businesses and workloads as much as possible so that they are easily reusable.
-  3) Reusable across multiple use-cases: We would rather have a small library of Constructs that are wildly popular with customers rather than a huge library of Constructs that customers find irrelevant.
-  4) Well Architected: AWS Solutions Constructs should be secure, reliable, scalable and cost efficient.
+Good AWS Generative AI CDK Constructs have the following characteristics:
+  1) Multi-service: The goal of AWS Generative AI CDK Constructs is to weave multiple services together in a well-architected way. 
+  2) Configurable Business Logic: AWS Generative AI CDK Constructs should be applicable to all businesses and workloads as much as possible so that they are easily reusable.
+  3) Reusable across multiple use-cases: We would rather have a small library of constructs that are wildly popular with customers rather than a huge library of constructs that customers find irrelevant.
+  4) Well Architected: AWS Generative AI CDK Constructs should be secure, reliable, scalable, and cost efficient.
 
 ### Step 3: Work your Magic
 

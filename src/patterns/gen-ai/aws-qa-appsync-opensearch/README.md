@@ -34,10 +34,10 @@
 ## Overview
 
 This construct provides a question answering workflow (RAG + long context window) using Amazon Bedrock and a provisioned Amazon OpenSearch cluster. 
-- If a document is provided as an input to the Appsync query, the AWS Lambda function will first verify the length of the document. If the document size is above the max number of tokens for the selected model, the Lambda will query the knowledge base (similarity search) and filter by document name. This assumes that the chunks of texts stored in the knowledge base have the document name as metadata. Otherwise, the content of the document is provided to the LLM as part of the context.
+- If a document is provided as an input to the AppSync query, the AWS Lambda function will first verify the length of the document. If the document size is above the max number of tokens for the selected model, the Lambda will query the knowledge base (similarity search) and filter by document name. This assumes that the chunks of texts stored in the knowledge base have the document name as metadata. Otherwise, the content of the document is provided to the LLM as part of the context.
 - If no document is provided as input, the Lambda will perform a similarity search against the entire knowledge base.
 
-The construct uses Amazon Bedrock as the Large Language Model provider. amazon.titan-embed-text-v1 is used as the embeddings model to query the knowledge base (provisioned Amazon OpenSearch cluster), and anthropic.claude-v2 for question answering. Make sure both models are enabled in your account. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
+The construct uses Amazon Bedrock as the large language model provider. amazon.titan-embed-text-v1 is used as the embeddings model to query the knowledge base (provisioned Amazon OpenSearch cluster), and anthropic.claude-v2 for question answering. Make sure both models are enabled in your account. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
 
 The input document must be stored in the input Amazon Simple Storage Service bucket in text format (.txt). Another construct is available to ingest and process files to text format and store them in a knowledge base: [aws-rag-appsync-stepfn-opensearch](../aws-rag-appsync-stepfn-opensearch/README.md).
 
@@ -73,9 +73,9 @@ const rag_source = new QaAppsyncOpensearch(
       }
     )
 ```
-After deploying the CDK stack, the QA  process can be invoked using Graphql APIs. The API Schema details are present here - resources/gen-ai/aws-qa-appsync-opensearch/schema.graphql.
+After deploying the CDK stack, the QA process can be invoked using GraphQL APIs. The API Schema details are present here: resources/gen-ai/aws-qa-appsync-opensearch/schema.graphql.
 
-The code below provides an example of a mutation call and associated subscription to trigger a question and get response notifications.The subscription call wait for mutation request to send the notifications.
+The code below provides an example of a mutation call and associated subscription to trigger a question and get response notifications. The subscription call will wait for mutation requests to send the notifications.
 
 Subscription call to get notifications about the question answering process:
 
@@ -107,7 +107,7 @@ Expected response:
 
 Where:
 - jobid: id which can be used to filter subscriptions on client side
-- answer: response to the question from the Large Language Model as a base64 encoded string
+- answer: response to the question from the large language model as a base64 encoded string
 - sources: sources from the knowledge base used as context to answer the question
 - jobstatus: status update of the question answering process for the file specified
 
@@ -171,54 +171,54 @@ Parameters
 | existingOpenSearchDomain | [opensearchservice.IDomain](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_opensearchservice.IDomain.html)| ![Required](https://img.shields.io/badge/required-ff0000) | Existing domain for the OpenSearch Service. |
 | openSearchIndexName | string | ![Required](https://img.shields.io/badge/required-ff0000) | Index name for the Amazon OpenSearch Service. If doesn't exist, the pattern will create the index in the cluster. |
 | cognitoUserPool | [cognito.IUserPool](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cognito.IUserPool.html) | ![Required](https://img.shields.io/badge/required-ff0000) | Cognito user pool used for authentication. |
-| openSearchSecret | [secret.ISecret](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_secretsmanager.ISecret.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Optional. Secret containing credentials to authenticate to the existing Amazon OpenSearch domain if fine grain control access if configured. If not provided, the Lambda function will use [AWS Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html). |
-| vpcProps | [ec2.VpcProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.VpcProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Custom properties for a VPC the construct will create. This VPC will be used by the Lambda functions the construct creates. Providing both this and existingVpc is an error. |
-| existingVpc | [ec2.IVpc](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.IVpc.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | An existing VPC in which to deploy the construct. Providing both this and vpcProps is an error. |
-| existingSecurityGroup | [ec2.ISecurityGroup](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.ISecurityGroup.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing security group allowing access to opensearch. Used by the lambda functions built by this construct. If not provided, the construct will create one. |
+| openSearchSecret | [secret.ISecret](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_secretsmanager.ISecret.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Optional. Secret containing credentials to authenticate to the existing Amazon OpenSearch domain if fine grain control access is configured. If not provided, the Lambda function will use [AWS Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html). |
+| vpcProps | [ec2.VpcProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.VpcProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Custom properties for a VPC the construct will create. This VPC will be used by the Lambda functions the construct creates. Providing both this and existingVpc will result in an error.. |
+| existingVpc | [ec2.IVpc](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.IVpc.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | An existing VPC to deploy the construct. Providing both this and vpcProps will result in an error.. |
+| existingSecurityGroup | [ec2.ISecurityGroup](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.ISecurityGroup.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing security group allowing access to OpenSearch. Used by the Lambda functions built by this construct. If not provided, the construct will create one. |
 | existingBusInterface | [events.IEventBus](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_events.IEventBus.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing instance of an Amazon EventBridge bus. If not provided, the construct will create one. |
-| existingInputAssetsBucketObj | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.IBucket.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing instance of S3 Bucket object, providing both this and `bucketInputsAssetsProps` will cause an error. |
+| existingInputAssetsBucketObj | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.IBucket.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing instance of S3 Bucket object, providing both this and `bucketInputsAssetsProps` will result in an error. |
 | bucketInputsAssetsProps | [s3.BucketProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.BucketProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | User provided props to override the default props for the S3 Bucket. Providing both this and `existingInputAssetsBucketObj` will cause an error. |
 | stage | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | Value will be appended to resources name Service. |
-| existingMergedApi | [appsync.CfnGraphQLApi](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_appsync.CfnGraphQLApi.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing merged api instance. The merge API provides a federated schema over source API schemas.|
+| existingMergedApi | [appsync.CfnGraphQLApi](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_appsync.CfnGraphQLApi.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing Merged API instance. The Merged API provides a federated schema over source API schemas.|
 | observability | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Enables observability on all services used. Warning: associated cost with the services used. Best practice to enable by default. Defaults to true.|
-| enableOperationalMetric | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | CDK construct collect anonymous operational metrics to help AWS improve the quality and features of the constructs. Data collection is subject to the AWS Privacy Policy (https://aws.amazon.com/privacy/). To opt out of this feature, simply disable it by setting the construct property "enableOperationalMetric" to false for each construct used. Defaults to true.|
+| enableOperationalMetric | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | CDK construct collects anonymous operational metrics to help AWS improve the quality and features of the constructs. Data collection is subject to the AWS Privacy Policy (https://aws.amazon.com/privacy/). To opt out of this feature, simply disable it by setting the construct property "enableOperationalMetric" to false for each construct used. Defaults to true.|
 
 ## Pattern Properties
 
 | **Name**     | **Type**        | **Description** |
 |:-------------|:----------------|-----------------|
-| vpc | [ec2.IVpc](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.IVpc.html) | The VPC used by the construct (whether created by the construct or providedb by the client) |
-| securityGroup | [ec2.ISecurityGroup](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.ISecurityGroup.html) | The VPC used by the construct (whether created by the construct or providedb by the client) |
-| qaBus | [events.IEventBus](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_events.IEventBus.html) | The Event bus used by the construct (whether created by the construct or providedb by the client) |
+| vpc | [ec2.IVpc](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.IVpc.html) | The VPC used by the construct (whether created by the construct or provided by the client) |
+| securityGroup | [ec2.ISecurityGroup](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.ISecurityGroup.html) | The security group used by the construct (whether created by the construct or provided by the client) |
+| qaBus | [events.IEventBus](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_events.IEventBus.html) | The event bus used by the construct (whether created by the construct or provided by the client) |
 | s3InputAssetsBucketInterface | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.IBucket.html) | Returns an instance of s3.IBucket created by the construct |
 | s3InputAssetsBucket | [s3.Bucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html) | Returns an instance of s3.Bucket created by the construct. IMPORTANT: If existingInputAssetsBucketObj was provided in Pattern Construct Props, this property will be undefined |
 | graphqlApi| [appsync.IGraphqlApi](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_appsync.GraphqlApi.html) | Returns an instance of appsync.IGraphqlApi created by the construct | 
 
 ## Default properties
 
-Out of the box implementation of the Construct without any override will set the following defaults:
+Out-of-the-box implementation of the construct without any override will set the following defaults:
 
 ### Authentication
 
 - Primary authentication method for the AppSync GraphQL API is Amazon Cognito User Pool.
-- Secondary authentication method for the AppSync graphQL API is IAM role.
+- Secondary authentication method for the AppSync GraphQL API is IAM role.
 
 ### Networking
 
 - Set up a VPC
     - Uses existing VPC if provided, otherwise creates a new one
-- Set up a Security Group used by the AWS Lambda functions
-    - Uses existing Security Group, otherwise creates a new one
+- Set up a security group used by the AWS Lambda functions
+    - Uses existing security group, otherwise creates a new one
 
 ### Amazon S3 Bucket
 
-- Uses existing bucket if provided, otherwise creates a new one
+- Uses existing S3 bucket if provided, otherwise creates a new one
 
 ### Observability
 
 By default the construct will enable logging and tracing on all services which support those features. Observability can be turned off by setting the pattern property ```observability``` to false. 
-- AWS Lambda: AWS X-Ray, Amazon Cloudwatch Logs
-- AWS AppSync GraphQL api: AWS X-Ray, Amazon Cloudwatch Logs
+- AWS Lambda: AWS X-Ray, Amazon CloudWatch Logs
+- AWS AppSync GraphQL API: AWS X-Ray, Amazon CloudWatch Logs
 
 ## Troubleshooting
 
@@ -226,10 +226,10 @@ By default the construct will enable logging and tracing on all services which s
 |:-------------|:----------------|-----------------|-----------------|
 | | Failed to load information about the requested file | This error happens when the Lambda function was not able to load metadata about the file provided as input parameter | Ensure the file is present in the input bucket |
 | | Working on the question | The Lambda function started the question processing | Not an error, informational only |
-| | Exception during prediction | An issue happened during the prediction process (call to the Large Language Model via Amazon Bedrock) | Verify the Lambda CloudWatch Logs to get access to the related error. One common issue is throtlling. |
+| | Exception during prediction | An issue happened during the prediction process (call to the large language model via Amazon Bedrock) | Verify the Lambda CloudWatch Logs to get access to the related error. One common issue is throttling. |
 | | Done | The process ended successfully | Not an error, informational only |
 | | Failed to load document content | This error happens when the Lambda function was not able to load the content of the file provided as input parameter | Ensure the file is present in the input bucket | Ensure the file is present in the input bucket |
-| | Failed to load the llm | Internal error related to loading the Large Language Model client | Verify the Lambda error logs to get a detailed description of the issue |
+| | Failed to load the LLM | Internal error related to loading the large language model client | Check the Lambda error logs to get a detailed description of the issue |
 
 ## Architecture
 ![Architecture Diagram](architecture.png)
@@ -251,7 +251,7 @@ The following table provides a sample cost breakdown for deploying this solution
 | AWS Lambda | 15 q/a requests per hour through 1 Lambda function with 7076 MB of memory allocated and 512 MB of ephemeral storage allocated and an average run time of 30 seconds = 10800 requests per month | 30.65 |
 | Amazon Simple Storage Service | 15 transformed files to text format added every hour with an average size of 1 MB = 21.6 GB per month in S3 Standard Storage | 0.50 |
 | Amazon Bedrock | Prompt template is 1,500 characters (~400 tokens), OpenSearch returns 200 tokens per excerpt and only uses top 5 documents (~1000 tokens), User inputs average 1 sentence long (~20 tokens), LLM outputs average 8 sentences (~160 tokens). Using those assumptions: Input Tokens = promptTemplate + context + query -> Input tokens = 1,900 and Output tokens = 160. Using Anthropic Claude V2 for question answering and Amazon Titan for embeddings, with 360 (15x24h) transactions a day, daily cost is 2K tokens/1000 * $0.01102 + 1K tokens/1000 * $0.03268 = $0.05472 * 360 = 19.70 | 19.70 |
-| Amazon Cloudwatch | 15 metrics using 5 GB data ingested for logs | 7.02 |
+| Amazon CloudWatch | 15 metrics using 5 GB data ingested for logs | 7.02 |
 | AWS X-Ray | 100,000 requests per month through AppSync and Lambda calls | 0.50 |
 | Total monthly cost | | 58.60 |
 
@@ -262,7 +262,7 @@ The resources not created by this construct (Amazon Cognito User Pool, Amazon Op
 - [AWS Secrets Manager Pricing](https://aws.amazon.com/secrets-manager/pricing/)
 
 > **Note**
->You can share the Amazon OpenSearch provisioned cluster between use cases, but this can drive up the number of queries per index and additional charge will apply.
+>You can share the Amazon OpenSearch provisioned cluster between use cases, but this can drive up the number of queries per index and additional charges will apply.
 
 ## Security
 
@@ -274,10 +274,10 @@ This construct requires you to provide an existing Amazon Cognito User Pool and 
 
 ## Supported AWS Regions
 
-This solution optionally uses the Amazon Bedrock and Amazon OpenSearch service, which is not currently available in all AWS Regions. You must launch this construct in an AWS Region where these services are available. For the most current availability of AWS services by Region, see the [AWS Regional Services List](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/).
+This solution optionally uses the Amazon Bedrock and Amazon OpenSearch Service, which is not currently available in all AWS Regions. You must launch this construct in an AWS Region where these services are available. For the most current availability of AWS services by Region, see the [AWS Regional Services List](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/).
 
 > **Note**
->You need to explicity enable access to models before they are available for use in the Amazon Bedrock service. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
+>You need to explicity enable access to models before they are available for use in Amazon Bedrock. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
 
 ## Quotas
 

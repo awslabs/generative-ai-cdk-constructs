@@ -10,10 +10,6 @@ This document defines the ways in which Constructs are consistent. When proposin
 
 ## Overall Guidelines
 
-**Constructs Can Be Self Contained**
-
-While passing an existing resource to Construct is essential to the ability to link Constructs together, it should never be required. If your Construct requires the client to create a resource to pass in as an argument to the constructor then you have probably not defined your Construct correctly or what you are designing is not a good fit for the Generative AI Constructs library.
-
 **Use CDK definitions to define a service or resource**
 
 The construct should not create new classes or interfaces to describe services or resources. Although the new class may seem simpler now, as new capabilities are added to the construct the new class will acquire new properties – the ultimate result would be something equivalent to the CDK definition, but not compatible. The CDK definitions are well thought out and interact predictably with other CDK constructs, use them. If you want a client the ability to specify a few attributes of a ConstructProps without specifying every required value, then make the type of that attribute ConstructProps | any. This pattern exists several places in the Generative AI Constructs library.
