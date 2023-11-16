@@ -90,7 +90,9 @@ INDEX_FILE="index_file"
 @metrics.log_metrics(capture_cold_start_metric=True)
 def handler(event,  context: LambdaContext) -> dict:
 
-    if opensearch_secret_id != 'NONE': # user uses username/password 
+    # if the secret id is not provided
+    # uses username password
+    if opensearch_secret_id != 'NONE': # nosec 
         creds = get_credentials(opensearch_secret_id, aws_region)
         http_auth = (creds['username'], creds['password'])
     else: #
