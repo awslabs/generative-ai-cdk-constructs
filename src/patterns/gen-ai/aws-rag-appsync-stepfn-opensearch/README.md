@@ -262,7 +262,7 @@ The following table provides a sample cost breakdown for deploying this solution
 | AWS Lambda | 15 ingestion requests per hour with 2 files each time, through 4 Lambda functions each allocated with 7076 MB of memory allocated and 512 MB of ephemeral storage allocated and an average run time of 30 seconds = 43200 requests per month | 142.59 |
 | Amazon Simple Storage Service | 15 requests per hour for ingestion with 2 files in input format (PDF) with an average size of 1MB and transformed files to text format with an average size of 1 MB = 43.2 GB per month in S3 Standard Storage | 0.99 |
 | Amazon Bedrock | Assumptions: On-Demand pricing with Titan Embeddings model to generate embeddings for 2 files of 1MB each per request at 15 requests per hour, which would represent ~2,5 million tokens per request as input. Max model input is 8k tokens per request and produces 1,536 tokens as output. 312.5 calls x $0.0001 for 1000 input tokens x 8k tokens/1000 = $0.25 per ingestion request x 15 requests per hour $3.75/h = $90/day x 30 = $2.7k per month | 2,700 |
-| Amazon Cloudwatch | 15 metrics using 5 GB data ingested for logs | 7.02 |
+| Amazon CloudWatch | 15 metrics using 5 GB data ingested for logs | 7.02 |
 | AWS X-Ray | 100,000 requests per month through AppSync and Lambda calls | 0.50 |
 | Total monthly cost | | 2,852.32 |
 
