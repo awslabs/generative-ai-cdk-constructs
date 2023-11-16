@@ -12,6 +12,7 @@
  */
 import * as fs from 'fs';
 import * as path from 'path';
+import * as zlib from 'zlib';
 import { GenerateUtils } from './generate-utils';
 import { JumpStartConstants } from '../private/jumpstart-constants';
 
@@ -64,8 +65,8 @@ interface ModelsData {
 }
 
 const JUMPSTART_CACHE_PATH = path.join(__dirname, './.cache/jumpstart-models-cache.json');
-
 const JUMPSTART_MODEL_PATH = path.join(__dirname, '../jumpstart-model.ts');
+const JUMPSTART_MODELS_PATH = path.join(__dirname, '../jumpstart-models.json');
 
 const ALLOWED_FRAMEWORKS = [
   'huggingface',
@@ -163,6 +164,8 @@ function generateCode() {
   const data = JSON.parse(fs.readFileSync(JUMPSTART_CACHE_PATH, 'utf8'));
 
   let modelsStr = '';
+  let specs: Record<string, any> = {};
+
   for (const modelId of Object.keys(data)) {
     for (const version of Object.keys(data[modelId])) {
       const modelName = `${GenerateUtils.replaceAll(modelId, '-', '_')}_${GenerateUtils.replaceAll(
@@ -224,8 +227,8 @@ function generateCode() {
         delete spec.prepackedArtifactKey;
       }
 
-      modelsStr +=
-        '  ' + `public static readonly ${modelName} = this.of(${JSON.stringify(spec)});\n`;
+      specs[modelName] = spec;
+      modelsStr += '  ' + `public static readonly ${modelName} = this.of('${modelName}');\n`;
     }
   }
 
@@ -241,6 +244,8 @@ function generateCode() {
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+import * as zlib from 'zlib';
+import * as data from './jumpstart-models.json';
 
 export interface IInstanceAliase {
   region: string;
@@ -269,18 +274,25 @@ export interface IJumpStartModelSpec {
 export class JumpStartModel {
 ${modelsStr}
 
-  public static of(
-    spec: IJumpStartModelSpec
-  ): JumpStartModel {
-    return new JumpStartModel(spec);
+  public static of(name: string): JumpStartModel {
+    return new JumpStartModel(name);
   }
 
-  constructor(private readonly spec: IJumpStartModelSpec) {}
+  constructor(private readonly name: string) {}
 
   public bind(): IJumpStartModelSpec {
-    return this.spec;
+    const bufferSource = (data as { data: number[] }).data;
+    const buffer = Buffer.from(bufferSource);
+    const bufferStr = zlib.inflateRawSync(buffer);
+    const json = JSON.parse(bufferStr.toString());
+
+    return json[this.name];
   }
 }`;
 
+  GenerateUtils.writeFileSyncWithDirs(
+    JUMPSTART_MODELS_PATH,
+    JSON.stringify(zlib.deflateRawSync(JSON.stringify(specs)).toJSON()),
+  );
   GenerateUtils.writeFileSyncWithDirs(JUMPSTART_MODEL_PATH, fileStr);
 }
