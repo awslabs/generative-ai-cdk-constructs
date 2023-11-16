@@ -254,7 +254,11 @@ export function buildOrtToolkitWorkflow(project: AwsCdkConstructLibrary) {
       },
       {
         name: 'Run GitHub Action for ORT',
-        uses: 'oss-review-toolkit/ort-ci-github-action@v1',
+        uses: 'oss-review-toolkit/ort-ci-github-action@7f23c1f8d169dad430e41df223d3b8409c7a156e',
+        with: {
+          'allow-dynamic-versions': 'true',
+          'ort-cli-args': '-P ort.forceOverwrite=true -P ort.enableRepositoryPackageConfigurations=true -P ort.enableRepositoryPackageCurations=true --stacktrace',
+        },
       },
     ],
   };
@@ -342,6 +346,85 @@ export function runSemGrepWorkflow(project: AwsCdkConstructLibrary) {
       });
       workflow.addJobs({
         semgrep: semgrep,
+      });
+    }
+  }
+}
+
+/**
+ * https://github.com/mdegis/bandit-action
+ * Runs Bandit on the repository.
+ * @param project AwsCdkConstructLibrary
+ */
+export function runBanditWorkflow(project: AwsCdkConstructLibrary) {
+  const bandit: Job = {
+    name: 'bandit/ci',
+    runsOn: ['ubuntu-latest'],
+    // container: {
+    //   image: 'returntocorp/semgrep',
+    // },
+    permissions: {
+      contents: JobPermission.READ,
+      pullRequests: JobPermission.READ,
+      securityEvents: JobPermission.WRITE,
+      actions: JobPermission.READ,
+    },
+    if: "(github.actor != 'dependabot[bot]')",
+
+    steps: [
+      {
+        name: 'Checkout project',
+        uses: 'actions/checkout@v3',
+      },
+      {
+        name: 'Setup Python',
+        uses: 'actions/setup-python@v4',
+        with: {
+          'python-version': '3.x',
+        },
+      },
+      {
+        name: 'Run Bandit',
+        run: 'pip install bandit && bandit --recursive --format html --output bandit-report.html --exit-zero .',
+      },
+      {
+        name: 'Store Bandit as Artifact',
+        uses: 'actions/upload-artifact@v3',
+        with: {
+          name: 'bandit-report.html',
+          path: 'bandit-report.html',
+        },
+      },
+      // `awslabs` has the Advanced Security disabled.
+      // {
+      //   name: 'Upload SARIF file for GitHub Advanced Security Dashboard',
+      //   uses: 'github/codeql-action/upload-sarif@v2',
+      //   with: {
+      //     sarif_file: 'semgrep.sarif',
+      //   },
+      //   if: 'always()',
+      // },
+    ],
+  };
+
+  if (project.github) {
+    const workflow = project.github.addWorkflow('bandit');
+    if (workflow) {
+      workflow.on({
+        pullRequest: {},
+        workflowDispatch: {
+        },
+        push: {
+          branches: [
+            'main',
+          ],
+        },
+        schedule: [
+          { cron: '20 17 * * *' },
+        ],
+      });
+      workflow.addJobs({
+        bandit: bandit,
       });
     }
   }

@@ -12,7 +12,7 @@ jobs:
       pull-requests: write
     steps:
       - id: github-merit-badger
-        uses: aws-github-ops/github-merit-badger@main
+        uses: aws-github-ops/github-merit-badger@70d1c47f7051d6e324d4ddc48d676ba61ef69a3e
         with:
           github-token: ${{ secrets.PROJEN_GITHUB_TOKEN }}
           badges: "[beginning-contributor,repeat-contributor,valued-contributor,admired-contributor,star-contributor,distinguished-contributor]"

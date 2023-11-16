@@ -24,24 +24,24 @@ jobs:
           echo "$first_day..$last_day"
           echo "last_month=$first_day..$last_day" >> "$GITHUB_ENV"
       - name: Report on issues
-        uses: github/issue-metrics@v2
+        uses: github/issue-metrics@6bc5254e72971dbb7462db077779f1643f772afd
         env:
           GH_TOKEN: ${{ secrets.PROJEN_GITHUB_TOKEN }}
           SEARCH_QUERY: repo:awslabs/generative-ai-cdk-constructs is:issue created:${{ env.last_month }} -reason:"not planned"
       - name: Create report for issues
-        uses: peter-evans/create-issue-from-file@v4
+        uses: peter-evans/create-issue-from-file@433e51abf769039ee20ba1293a088ca19d573b7f
         with:
           title: Monthly issue metrics report
           token: ${{ secrets.PROJEN_GITHUB_TOKEN }}
           content-filepath: ./issue_metrics.md
           assignees: krokoko
       - name: Report on PRs
-        uses: github/issue-metrics@v2
+        uses: github/issue-metrics@6bc5254e72971dbb7462db077779f1643f772afd
         env:
           GH_TOKEN: ${{ secrets.PROJEN_GITHUB_TOKEN }}
           SEARCH_QUERY: repo:awslabs/generative-ai-cdk-constructs is:pr created:${{ env.last_month }} -is:draft
       - name: Create report for PRs
-        uses: peter-evans/create-issue-from-file@v4
+        uses: peter-evans/create-issue-from-file@433e51abf769039ee20ba1293a088ca19d573b7f
         with:
           title: Monthly issue metrics report
           token: ${{ secrets.PROJEN_GITHUB_TOKEN }}
