@@ -154,6 +154,7 @@ def send_job_status(variables):
         json=request,
         url=GRAPHQL_URL,
         headers=HEADERS,
-        auth=aws_auth_appsync
+        auth=aws_auth_appsync,
+        timeout=10
     )
     print('res :: {}',responseJobstatus)
