@@ -1,28 +1,12 @@
 ---
-ort:
-  enableRepositoryPackageConfigurations: true
-  enableRepositoryPackageCurations: true
-
 curations:
-  # https://oss-review-toolkit.org/ort/docs/configuration/package-curations
   packages:
-  ############################################################################
-  # PyPI::numpy:1.26.1
-  # NO_LICENSE_IN_DEPENDENCY
-  # No license information is available for dependency 'PyPI::numpy:1.26.1'.
-
-  # How to fix: If the dependency indeed is unlicensed, it must not be used. Otherwise, please conclude the appropriate license with a package curation.
-
-  # id: PyPI::numpy:1.26.1
-  # purl: "pkg:pypi/numpy@1.26.1"
-  # Authors: "Travis E. Oliphant et al.""
-  # Description: "Fundamental package for array computing in Python"
-  # Homepage: "https://numpy.org"
-  # Processed Repository: https://github.com/numpy/numpy.git"
-  # Source Artifact: "https://files.pythonhosted.org/packages/78/23/f78fd8311e0f710fe1d065d50b92ce0057fe877b8ed7fd41b28ad6865bfc/numpy-1.26.1.tar.gz"
-  # Binary Artifact: "https://files.pythonhosted.org/packages/8a/08/a7e5dadc21fe193baea5f257e11b7b70cc27a89692fc9e3ed690e55cc4b6/numpy-1.26.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
-  ############################################################################
   - id: "PyPI::numpy:1.26.1"
     curations:
-      comment: "The https://github.com/numpy/numpy/blob/v1.26.1/LICENSE.txt, as a permissive license similar to the BSD 2-Clause License, but with a 3rd clause that prohibits others from using the name of the copyright holder or its contributors to promote derived products without written consent."
+      comment: "The https://github.com/numpy/numpy/blob/v1.26.1/LICENSE.txt, as a\
+        \ permissive license similar to the BSD 2-Clause License, but with a 3rd clause\
+        \ that prohibits others from using the name of the copyright holder or its\
+        \ contributors to promote derived products without written consent."
       concluded_license: "BSD-3-Clause"
+      declared_license_mapping:
+        BSD License: "BSD-3-Clause"
