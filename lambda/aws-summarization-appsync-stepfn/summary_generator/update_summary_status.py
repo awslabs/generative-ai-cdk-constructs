@@ -80,6 +80,7 @@ def updateSummaryJobStatus(variables):
         json=request,
         url=GRAPHQL_URL,
         headers=HEADERS,
-        auth=aws_auth
+        auth=aws_auth,
+        timeout=10
     )
     logger.info({'res :: ': responseJobstatus})
