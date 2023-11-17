@@ -501,12 +501,25 @@ export class SummarizationAppsyncStepfn extends Construct {
           's3:ListBucket',
           's3:PutObject',
           'appsync:GraphQL',
-          'bedrock:*'],
+      ],
         resources: ['arn:aws:s3:::' + inputAssetBucketName + '/*',
           'arn:aws:s3:::' + transformedAssetBucketName + '/*',
           'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*'
           , '*'],
+      }),
+    );
 
+    generateSummarylambda.addToRolePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [
+          'bedrock:InvokeModel',
+          'bedrock:InvokeModelWithResponseStream',
+      ],
+      resources: [
+        'arn:aws:bedrock:'+cdk.Aws.REGION+'::foundation-model/',
+        'arn:aws:bedrock:'+cdk.Aws.REGION+'::foundation-model/*',
+      ],
       }),
     );
 
