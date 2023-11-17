@@ -276,6 +276,29 @@ export class SummarizationAppsyncStepfn extends Construct {
         },
       );
     }
+  
+  // vpc flowloggroup
+  const logGroup = new logs.LogGroup(this, 'summarizationConstructLogGroup');
+  const role = new iam.Role(this, 'summarizationConstructRole', {
+      assumedBy: new iam.ServicePrincipal('vpc-flow-logs.amazonaws.com')
+  });
+    
+  // vpc flowlogs
+  new ec2.FlowLog(this, 'FlowLog', {
+    resourceType: ec2.FlowLogResourceType.fromVpc(this.vpc),
+    destination: ec2.FlowLogDestination.toCloudWatchLogs(logGroup, role)
+  });  
+
+  // bucket for storing server access logging   
+  const serverAccessLogBucket = new s3.Bucket(this,
+      'serverAccessLogBucket'+stage,
+   {
+     blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+     encryption: s3.BucketEncryption.S3_MANAGED,
+     bucketName: "summarization-server-access-logs",
+   });
+
+
     // bucket for input document
     s3BucketHelper.CheckS3Props({
       existingBucketObj: props.existingInputAssetsBucketObj,
@@ -294,6 +317,7 @@ export class SummarizationAppsyncStepfn extends Construct {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
           bucketName: bucketName,
+          serverAccessLogsBucket: serverAccessLogBucket
         });
     }
 
@@ -316,9 +340,11 @@ export class SummarizationAppsyncStepfn extends Construct {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
           bucketName: bucketName,
+          serverAccessLogsBucket: serverAccessLogBucket
         });
     }
 
+    
     // set up redis cluster
     redisHelper.CheckRedisClusterProps(props);
 
@@ -340,8 +366,8 @@ export class SummarizationAppsyncStepfn extends Construct {
       this.redisCluster= props?.existingRedisCulster!;
     }
 
-    const redisHost = this.redisCluster?.attrRedisEndpointAddress!;
-    const redisPort = this.redisCluster?.attrRedisEndpointPort!;
+    const redisHost = this.redisCluster.attrRedisEndpointAddress;
+    const redisPort = this.redisCluster.attrRedisEndpointPort;
 
 
     eventBridge.CheckEventBridgeProps(props);
@@ -550,10 +576,13 @@ export class SummarizationAppsyncStepfn extends Construct {
       resultPath: '$.summary_result',
     });
 
-    const dlq: sqs.Queue = new sqs.Queue(this, 'dlq', {
-      queueName: 'summarydlq'+stage,
+    const dlq: sqs.Queue = new sqs.Queue(this, 'DLQ', {
+      queueName: 'summaryDLQ'+stage,
       retentionPeriod: cdk.Duration.days(7),
+      enforceSSL:true
     });
+
+    
 
     const jobFailed= new sfn.Fail(this, 'Failed', {
       comment: 'AWS summary Job failed',

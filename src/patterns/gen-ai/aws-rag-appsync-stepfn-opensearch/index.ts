@@ -255,6 +255,27 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       );
     }
 
+  // vpc flowloggroup
+  const logGroup = new logs.LogGroup(this, 'ingestionConstructLogGroup');
+  const role = new iam.Role(this, 'ingestionConstructRole', {
+      assumedBy: new iam.ServicePrincipal('vpc-flow-logs.amazonaws.com')
+  });
+    
+  // vpc flowlogs
+  new ec2.FlowLog(this, 'FlowLog', {
+    resourceType: ec2.FlowLogResourceType.fromVpc(this.vpc),
+    destination: ec2.FlowLogDestination.toCloudWatchLogs(logGroup, role)
+  });  
+
+    // bucket for storing server access logging   
+  const serverAccessLogBucket = new s3.Bucket(this,
+      'serverAccessLogBucket'+stage,
+   {
+     blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+     encryption: s3.BucketEncryption.S3_MANAGED,
+     bucketName: "rag-server-access-logs",
+   });
+
     // Bucket containing the inputs assets (documents - multiple modalities) uploaded by the user
     let inputAssetsBucket: s3.IBucket;
 
@@ -266,6 +287,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
             bucketName: 'input-assets-bucket'+stage+'-'+Aws.ACCOUNT_ID,
+            serverAccessLogsBucket: serverAccessLogBucket
           });
       } else {
         tmpBucket = new s3.Bucket(this, 'InputAssetsBucket'+stage, props.bucketInputsAssetsProps);
@@ -290,6 +312,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
             bucketName: 'processed-assets-bucket'+stage+'-'+Aws.ACCOUNT_ID,
+            serverAccessLogsBucket: serverAccessLogBucket
           });
       } else {
         tmpBucket = new s3.Bucket(this, 'processedAssetsBucket'+stage, props.bucketProcessedAssetsProps);

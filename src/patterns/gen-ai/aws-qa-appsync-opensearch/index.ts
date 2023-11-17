@@ -221,6 +221,27 @@ export class QaAppsyncOpensearch extends Construct {
       );
     }
 
+  // vpc flowloggroup
+  const logGroup = new logs.LogGroup(this, 'qaConstructLogGroup');
+  const role = new iam.Role(this, 'qaConstructRole', {
+      assumedBy: new iam.ServicePrincipal('vpc-flow-logs.amazonaws.com')
+  });
+    
+  // vpc flowlogs
+  new ec2.FlowLog(this, 'FlowLog', {
+    resourceType: ec2.FlowLogResourceType.fromVpc(this.vpc),
+    destination: ec2.FlowLogDestination.toCloudWatchLogs(logGroup, role)
+  });  
+
+    // bucket for storing server access logging   
+  const serverAccessLogBucket = new s3.Bucket(this,
+    'serverAccessLogBucket'+stage,
+ {
+   blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+   encryption: s3.BucketEncryption.S3_MANAGED,
+   bucketName: "qa-server-access-logs",
+ });
+
     // Bucket containing the inputs assets (documents - text format) uploaded by the user
     let inputAssetsBucket: s3.IBucket;
 
@@ -232,6 +253,7 @@ export class QaAppsyncOpensearch extends Construct {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
             bucketName: 'input-asset-qa-bucket'+stage+'-'+Aws.ACCOUNT_ID,
+            serverAccessLogsBucket:serverAccessLogBucket
           });
       } else {
         tmpBucket = new s3.Bucket(this, 'InputAssetsQABucket'+stage, props.bucketInputsAssetsProps);
