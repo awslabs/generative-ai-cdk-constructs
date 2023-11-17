@@ -560,13 +560,19 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     }));
 
     // Add Amazon Bedrock permissions to the IAM role for the Lambda function
-    embeddings_job_function.addToRolePolicy(new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW,
-      actions: ['bedrock:*'],
-      resources: [
-        '*',
+    embeddings_job_function.addToRolePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [
+          'bedrock:InvokeModel',
+          'bedrock:InvokeModelWithResponseStream',
       ],
-    }));
+      resources: [
+        'arn:aws:bedrock:'+Aws.REGION+'::foundation-model/',
+        'arn:aws:bedrock:'+Aws.REGION+'::foundation-model/*',
+      ],
+      }),
+    );
 
     const enableOperationalMetric = props.enableOperationalMetric || true;
     const solution_id = 'genai_cdk_'+id;
