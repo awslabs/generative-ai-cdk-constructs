@@ -568,7 +568,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
           'bedrock:InvokeModelWithResponseStream',
       ],
       resources: [
-        'arn:aws:bedrock:'+Aws.REGION+'::foundation-model/',
+        'arn:aws:bedrock:'+Aws.REGION+'::foundation-model',
         'arn:aws:bedrock:'+Aws.REGION+'::foundation-model/*',
       ],
       }),

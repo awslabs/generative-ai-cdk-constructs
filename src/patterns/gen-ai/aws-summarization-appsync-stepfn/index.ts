@@ -517,7 +517,7 @@ export class SummarizationAppsyncStepfn extends Construct {
           'bedrock:InvokeModelWithResponseStream',
       ],
       resources: [
-        'arn:aws:bedrock:'+cdk.Aws.REGION+'::foundation-model/',
+        'arn:aws:bedrock:'+cdk.Aws.REGION+'::foundation-model',
         'arn:aws:bedrock:'+cdk.Aws.REGION+'::foundation-model/*',
       ],
       }),
