@@ -1,4 +1,4 @@
-FROM public.ecr.aws/lambda/python:3.11.2023.11.13.10
+FROM public.ecr.aws/lambda/python:3.11.2023.11.13.10-x86_64
 
 # Installs python, removes cache file to make things smaller
 RUN yum update -y && \
