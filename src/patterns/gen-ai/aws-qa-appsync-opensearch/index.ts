@@ -23,9 +23,11 @@ import * as logs from 'aws-cdk-lib/aws-logs';
 import * as opensearchservice from 'aws-cdk-lib/aws-opensearchservice';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as secret from 'aws-cdk-lib/aws-secretsmanager';
+import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
+
 
 /**
  * The properties for the QaAppsyncOpensearchProps class.
@@ -394,6 +396,7 @@ export class QaAppsyncOpensearch extends Construct {
       ],
     }));
 
+
     // Add Amazon Bedrock permissions to the IAM role for the Lambda function
     question_answering_function_role.addToPolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
@@ -406,6 +409,17 @@ export class QaAppsyncOpensearch extends Construct {
         'arn:aws:bedrock:'+Aws.REGION+'::foundation-model/*',
       ],
     }));
+
+    NagSuppressions.addResourceSuppressions(
+      question_answering_function_role,
+      [
+        {
+          id: 'AwsSolutions-IAM5',
+          reason: 'AWSLambdaBasicExecutionRole is used.',
+        },
+      ],
+      true,
+    );
 
     const question_answering_function = new lambda.DockerImageFunction(
       this,

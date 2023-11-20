@@ -25,6 +25,7 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as sfn from 'aws-cdk-lib/aws-stepfunctions';
 import * as sfnTask from 'aws-cdk-lib/aws-stepfunctions-tasks';
+import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import * as eventBridge from '../../../common/helpers/eventbridge-helper';
 import * as redisHelper from '../../../common/helpers/redis-helper';
@@ -441,10 +442,21 @@ export class SummarizationAppsyncStepfn extends Construct {
           's3:ListBucket',
           'appsync:GraphQL'],
 
-        resources: ['arn:aws:s3:::' + inputAssetBucketName,
-          'arn:aws:s3:::' + transformedAssetBucketName,
-          'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId],
+        resources: ['arn:aws:s3:::' + inputAssetBucketName + '/*',
+          'arn:aws:s3:::' + transformedAssetBucketName+ '/*',
+          'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+ '/*'],
       }),
+    );
+
+    NagSuppressions.addResourceSuppressions(
+      inputvalidatorLambdaRole,
+      [
+        {
+          id: 'AwsSolutions-IAM5',
+          reason: 'AWSLambdaBasicExecutionRole is used.',
+        },
+      ],
+      true,
     );
 
     // Lambda function to validate Input
@@ -481,6 +493,7 @@ export class SummarizationAppsyncStepfn extends Construct {
           })],
         }),
       },
+
     });
 
     documentReaderLambdaRole.addToPolicy(
@@ -491,12 +504,22 @@ export class SummarizationAppsyncStepfn extends Construct {
           's3:ListBucket',
           's3:PutObject',
           'appsync:GraphQL'],
-        resources: ['arn:aws:s3:::' + inputAssetBucketName,
-          'arn:aws:s3:::' + transformedAssetBucketName,
-          'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId],
+        resources: ['arn:aws:s3:::' + inputAssetBucketName+ '/*',
+          'arn:aws:s3:::' + transformedAssetBucketName+ '/*',
+          'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+ '/*'],
       }),
     );
 
+    NagSuppressions.addResourceSuppressions(
+      documentReaderLambdaRole,
+      [
+        {
+          id: 'AwsSolutions-IAM5',
+          reason: 'AWSLambdaBasicExecutionRole is used',
+        },
+      ],
+      true,
+    );
 
     const documentReaderLambda = new lambda.DockerImageFunction(this, 'documentReaderLambda'+stage, {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/document_reader')),
@@ -549,12 +572,23 @@ export class SummarizationAppsyncStepfn extends Construct {
           'appsync:GraphQL',
           'bedrock:InvokeModel',
           'bedrock:InvokeModelWithResponseStream'],
-        resources: ['arn:aws:s3:::' + inputAssetBucketName,
-          'arn:aws:s3:::' + transformedAssetBucketName,
-          'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId
+        resources: ['arn:aws:s3:::' + inputAssetBucketName+ '/*',
+          'arn:aws:s3:::' + transformedAssetBucketName+ '/*',
+          'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+ '/*'
           , 'arn:aws:bedrock:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':provisioned-model/anthropic.claude-v2'],
 
       }),
+    );
+
+    NagSuppressions.addResourceSuppressions(
+      summaryGeneratorLambdaRole,
+      [
+        {
+          id: 'AwsSolutions-IAM5',
+          reason: 'AWSLambdaBasicExecutionRole is used.',
+        },
+      ],
+      true,
     );
 
     const generateSummarylambda = new lambda.DockerImageFunction(this, 'generateSummarylambda'+stage, {

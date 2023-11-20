@@ -25,6 +25,7 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as secret from 'aws-cdk-lib/aws-secretsmanager';
 import * as stepfn from 'aws-cdk-lib/aws-stepfunctions';
 import * as stepfn_task from 'aws-cdk-lib/aws-stepfunctions-tasks';
+import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
@@ -490,6 +491,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       }),
     );
 
+
     // Add GraphQl permissions to the IAM role for the Lambda function
     s3_transformer_job_function_role.addToPolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
@@ -501,6 +503,16 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       ],
     }));
 
+    NagSuppressions.addResourceSuppressions(
+      s3_transformer_job_function_role,
+      [
+        {
+          id: 'AwsSolutions-IAM5',
+          reason: 'AWSLambdaBasicExecutionRole is used.',
+        },
+      ],
+      true,
+    );
 
     const s3_transformer_job_function = new lambda.DockerImageFunction(
       this,
@@ -579,6 +591,18 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         'arn:aws:bedrock:'+Aws.REGION+'::foundation-model/*',
       ],
     }));
+
+    NagSuppressions.addResourceSuppressions(
+      embeddings_job_function_role,
+      [
+        {
+          id: 'AwsSolutions-IAM5',
+          reason: 'AWSLambdaBasicExecutionRole is used.',
+        },
+      ],
+      true,
+    );
+
 
     // The lambda will access the opensearch credentials
     if (props.openSearchSecret) {props.openSearchSecret.grantRead(embeddings_job_function_role);}
