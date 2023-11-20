@@ -54,7 +54,8 @@ class StreamingCallbackHandler(BaseCallbackHandler):
         except Exception as err:
             logger.exception(err)
             self.status_variables['jobstatus'] = JobStatus.ERROR_PREDICTION.status
-            self.status_variables['answer'] = JobStatus.ERROR_PREDICTION.get_message()
+            error = JobStatus.ERROR_PREDICTION.get_message()
+            self.status_variables['answer'] = error.decode("utf-8")
             send_job_status(self.status_variables)
 
     
@@ -69,14 +70,16 @@ class StreamingCallbackHandler(BaseCallbackHandler):
         except Exception as err:
             logger.exception(err)
             self.status_variables['jobstatus'] = JobStatus.ERROR_PREDICTION.status
-            self.status_variables['answer'] = JobStatus.ERROR_PREDICTION.get_message()
+            error = JobStatus.ERROR_PREDICTION.get_message()
+            self.status_variables['answer'] = error.decode("utf-8")
             send_job_status(self.status_variables)
 
     def on_llm_error(self, error: Union[Exception, KeyboardInterrupt], **kwargs: Any) -> None:
         """Run when LLM errors."""
         logger.exception(error)
         self.status_variables['jobstatus'] = JobStatus.ERROR_PREDICTION.status
-        self.status_variables['answer'] = JobStatus.ERROR_PREDICTION.get_message()
+        error = JobStatus.ERROR_PREDICTION.get_message()
+        self.status_variables['answer'] = error.decode("utf-8")
         send_job_status(self.status_variables)
 
 
@@ -99,9 +102,10 @@ def run_question_answering(arguments):
 
     if document_number_of_tokens is None:
         logger.exception(f'Failed to compute the number of tokens for file {filename} in bucket {bucket_name}, returning')
+        error = JobStatus.ERROR_LOAD_INFO.get_message()
         status_variables = {
             'jobstatus': JobStatus.ERROR_LOAD_INFO.status,
-            'answer': JobStatus.ERROR_LOAD_INFO.get_message(),
+            'answer': error.decode("utf-8"),
             'jobid': arguments['jobid'],
             'filename': filename,
             'question': '',
@@ -189,7 +193,8 @@ def run_qa_agent_rag_no_memory(input_params):
     if (_qa_llm is None):
         logger.info('llm is None, returning')
         status_variables['jobstatus'] = JobStatus.ERROR_LOAD_LLM.status
-        status_variables['answer'] = JobStatus.ERROR_LOAD_LLM.get_message()
+        error = JobStatus.ERROR_LOAD_LLM.get_message()
+        status_variables['answer'] = error.decode("utf-8")
         send_job_status(status_variables)
         return status_variables
 
@@ -216,7 +221,8 @@ def run_qa_agent_rag_no_memory(input_params):
     except Exception as err:
         logger.exception(err)
         status_variables['jobstatus'] = JobStatus.ERROR_PREDICTION.status
-        status_variables['answer'] = JobStatus.ERROR_PREDICTION.get_message()
+        error = JobStatus.ERROR_PREDICTION.get_message()
+        status_variables['answer'] = error.decode("utf-8")
         send_job_status(status_variables)
     
     return status_variables
@@ -266,7 +272,8 @@ def run_qa_agent_from_single_document_no_memory(input_params):
     status_variables['sources'] = [filename]
     if _file_content is None:
         status_variables['jobstatus'] = JobStatus.ERROR_LOAD_DOC.status
-        status_variables['answer'] = JobStatus.ERROR_LOAD_DOC.get_message()
+        error = JobStatus.ERROR_LOAD_DOC.get_message()
+        status_variables['answer'] = error.decode("utf-8")
         send_job_status(status_variables)
         return
 
@@ -278,7 +285,8 @@ def run_qa_agent_from_single_document_no_memory(input_params):
     if (_qa_llm is None):
         logger.info('llm is None, returning')
         status_variables['jobstatus'] = JobStatus.ERROR_LOAD_LLM.status
-        status_variables['answer'] = JobStatus.ERROR_LOAD_LLM.get_message()
+        error = JobStatus.ERROR_LOAD_LLM.get_message()
+        status_variables['answer'] = error.decode("utf-8")
         send_job_status(status_variables)
         return status_variables
 
@@ -307,7 +315,8 @@ def run_qa_agent_from_single_document_no_memory(input_params):
     except Exception as err:
         logger.exception(err)
         status_variables['jobstatus'] = JobStatus.ERROR_PREDICTION.status
-        status_variables['answer'] = JobStatus.ERROR_PREDICTION.get_message()
+        error = JobStatus.ERROR_PREDICTION.get_message()
+        status_variables['answer'] = error.decode("utf-8")
         send_job_status(status_variables)
 
     return status_variables
