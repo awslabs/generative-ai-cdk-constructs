@@ -575,7 +575,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       effect: iam.Effect.ALLOW,
       actions: ['bedrock:*'],
       resources: [
-        '*',
+        'arn:aws:bedrock:'+Aws.REGION+'::foundation-model',
+        'arn:aws:bedrock:'+Aws.REGION+'::foundation-model/*',
       ],
     }));
 

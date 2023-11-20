@@ -397,9 +397,13 @@ export class QaAppsyncOpensearch extends Construct {
     // Add Amazon Bedrock permissions to the IAM role for the Lambda function
     question_answering_function_role.addToPolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
-      actions: ['bedrock:*'],
+      actions: [
+        'bedrock:InvokeModel',
+        'bedrock:InvokeModelWithResponseStream',
+      ],
       resources: [
-        '*',
+        'arn:aws:bedrock:'+Aws.REGION+'::foundation-model',
+        'arn:aws:bedrock:'+Aws.REGION+'::foundation-model/*',
       ],
     }));
 
