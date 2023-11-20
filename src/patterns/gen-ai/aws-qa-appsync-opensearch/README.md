@@ -122,6 +122,7 @@ mutation MyMutation {
     max_docs
     question
     verbose
+    streaming
   }
 }
 ____________________________________________________________________
@@ -135,7 +136,8 @@ Expected response:
       "jobstatus": null,
       "max_docs": null,
       "question": null,
-      "verbose": null
+      "verbose": null,
+      "streaming": null
     }
   }
 }
