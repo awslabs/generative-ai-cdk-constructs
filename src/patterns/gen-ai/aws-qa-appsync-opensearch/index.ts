@@ -221,26 +221,27 @@ export class QaAppsyncOpensearch extends Construct {
       );
     }
 
-  // vpc flowloggroup
-  const logGroup = new logs.LogGroup(this, 'qaConstructLogGroup');
-  const role = new iam.Role(this, 'qaConstructRole', {
-      assumedBy: new iam.ServicePrincipal('vpc-flow-logs.amazonaws.com')
-  });
-    
-  // vpc flowlogs
-  new ec2.FlowLog(this, 'FlowLog', {
-    resourceType: ec2.FlowLogResourceType.fromVpc(this.vpc),
-    destination: ec2.FlowLogDestination.toCloudWatchLogs(logGroup, role)
-  });  
+    // vpc flowloggroup
+    const logGroup = new logs.LogGroup(this, 'qaConstructLogGroup');
+    const role = new iam.Role(this, 'qaConstructRole', {
+      assumedBy: new iam.ServicePrincipal('vpc-flow-logs.amazonaws.com'),
+    });
 
-    // bucket for storing server access logging   
-  const serverAccessLogBucket = new s3.Bucket(this,
-    'serverAccessLogBucket'+stage,
- {
-   blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-   encryption: s3.BucketEncryption.S3_MANAGED,
-   bucketName: "qa-server-access-logs",
- });
+    // vpc flowlogs
+    new ec2.FlowLog(this, 'FlowLog', {
+      resourceType: ec2.FlowLogResourceType.fromVpc(this.vpc),
+      destination: ec2.FlowLogDestination.toCloudWatchLogs(logGroup, role),
+    });
+
+    // bucket for storing server access logging
+    const serverAccessLogBucket = new s3.Bucket(this,
+      'serverAccessLogBucket'+stage,
+      {
+        blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+        encryption: s3.BucketEncryption.S3_MANAGED,
+        bucketName: 'qa-server-access-logs',
+        enforceSSL: true,
+      });
 
     // Bucket containing the inputs assets (documents - text format) uploaded by the user
     let inputAssetsBucket: s3.IBucket;
@@ -253,7 +254,8 @@ export class QaAppsyncOpensearch extends Construct {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
             bucketName: 'input-asset-qa-bucket'+stage+'-'+Aws.ACCOUNT_ID,
-            serverAccessLogsBucket:serverAccessLogBucket
+            serverAccessLogsBucket: serverAccessLogBucket,
+            enforceSSL: true,
           });
       } else {
         tmpBucket = new s3.Bucket(this, 'InputAssetsQABucket'+stage, props.bucketInputsAssetsProps);
@@ -346,34 +348,28 @@ export class QaAppsyncOpensearch extends Construct {
     if (props.openSearchSecret) {SecretId = props.openSearchSecret.secretName;}
 
     // Lambda function used to validate inputs in the step function
-    const question_answering_function = new lambda.DockerImageFunction(
-      this,
-      'lambda_question_answering'+stage,
-      {
-        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-qa-appsync-opensearch/question_answering/src')),
-        functionName: 'lambda_question_answering'+stage,
-        description: 'Lambda function for question answering',
-        vpc: this.vpc,
-        tracing: lambda_tracing,
-        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-        securityGroups: [this.securityGroup],
-        memorySize: 1_769 * 4,
-        timeout: Duration.minutes(15),
-        environment: {
-          GRAPHQL_URL: updateGraphQlApiEndpoint,
-          INPUT_BUCKET: this.s3InputAssetsBucketInterface.bucketName,
-          OPENSEARCH_DOMAIN_ENDPOINT: props.existingOpensearchDomain.domainEndpoint,
-          OPENSEARCH_INDEX: props.openSearchIndexName,
-          OPENSEARCH_SECRET_ID: SecretId,
-        },
+
+    const question_answering_function_role = new iam.Role(this, 'question_answering_function_role', {
+      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+      inlinePolicies: {
+        LambdaFunctionServiceRolePolicy: new iam.PolicyDocument({
+          statements: [new iam.PolicyStatement({
+            actions: [
+              'logs:CreateLogGroup',
+              'logs:CreateLogStream',
+              'logs:PutLogEvents',
+            ],
+            resources: [`arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`],
+          })],
+        }),
       },
-    );
+    });
 
     // The lambda will access the opensearch credentials
-    if (props.openSearchSecret) {props.openSearchSecret.grantRead(question_answering_function);}
+    if (props.openSearchSecret) {props.openSearchSecret.grantRead(question_answering_function_role);}
 
     // The lambda will pull processed files and create embeddings
-    question_answering_function.addToRolePolicy(
+    question_answering_function_role.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: [
@@ -389,7 +385,7 @@ export class QaAppsyncOpensearch extends Construct {
       }),
     );
 
-    question_answering_function.addToRolePolicy(new iam.PolicyStatement({
+    question_answering_function_role.addToPolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
       actions: ['es:*'],
       resources: [
@@ -399,13 +395,38 @@ export class QaAppsyncOpensearch extends Construct {
     }));
 
     // Add Amazon Bedrock permissions to the IAM role for the Lambda function
-    question_answering_function.addToRolePolicy(new iam.PolicyStatement({
+    question_answering_function_role.addToPolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
       actions: ['bedrock:*'],
       resources: [
         '*',
       ],
     }));
+
+    const question_answering_function = new lambda.DockerImageFunction(
+      this,
+      'lambda_question_answering'+stage,
+      {
+        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-qa-appsync-opensearch/question_answering/src')),
+        functionName: 'lambda_question_answering'+stage,
+        description: 'Lambda function for question answering',
+        vpc: this.vpc,
+        tracing: lambda_tracing,
+        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+        securityGroups: [this.securityGroup],
+        memorySize: 1_769 * 4,
+        timeout: Duration.minutes(15),
+        role: question_answering_function_role,
+        environment: {
+          GRAPHQL_URL: updateGraphQlApiEndpoint,
+          INPUT_BUCKET: this.s3InputAssetsBucketInterface.bucketName,
+          OPENSEARCH_DOMAIN_ENDPOINT: props.existingOpensearchDomain.domainEndpoint,
+          OPENSEARCH_INDEX: props.openSearchIndexName,
+          OPENSEARCH_SECRET_ID: SecretId,
+        },
+      },
+    );
+
 
     const enableOperationalMetric = props.enableOperationalMetric || true;
     const solution_id = 'genai_cdk_'+id;

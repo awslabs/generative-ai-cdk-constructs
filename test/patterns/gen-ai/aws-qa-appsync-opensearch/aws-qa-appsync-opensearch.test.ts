@@ -149,7 +149,7 @@ describe('QA Appsync Open search construct', () => {
   });
 
   test('S3 Bucket Count', () => {
-    qaTestTemplate.resourceCountIs('AWS::S3::Bucket', 1);
+    qaTestTemplate.resourceCountIs('AWS::S3::Bucket', 2);
   });
 
 });

@@ -176,7 +176,7 @@ describe('RAG Appsync Stepfn Open search construct', () => {
   });
 
   test('S3 Bucket Count', () => {
-    ragTestTemplate.resourceCountIs('AWS::S3::Bucket', 2);
+    ragTestTemplate.resourceCountIs('AWS::S3::Bucket', 3);
   });
 
   test('Step function count', () => {

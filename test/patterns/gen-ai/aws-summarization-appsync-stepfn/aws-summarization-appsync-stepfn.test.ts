@@ -239,7 +239,7 @@ describe('Summarization Appsync Stepfn construct', () => {
   });
 
   test('S3 Bucket Count', () => {
-    summarizationTestTemplate.resourceCountIs('AWS::S3::Bucket', 2);
+    summarizationTestTemplate.resourceCountIs('AWS::S3::Bucket', 3);
     expect(summarizationTestConstruct.inputAssetBucket).not.toBeNull;
   });
 
