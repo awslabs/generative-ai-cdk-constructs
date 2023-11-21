@@ -298,6 +298,10 @@ export class SummarizationAppsyncStepfn extends Construct {
         encryption: s3.BucketEncryption.S3_MANAGED,
         bucketName: 'summarization-server-access-logs',
         enforceSSL: true,
+        versioned: true,
+        lifecycleRules: [{
+          expiration: cdk.Duration.days(90),
+        }]
       });
 
 
@@ -321,6 +325,10 @@ export class SummarizationAppsyncStepfn extends Construct {
           bucketName: bucketName,
           serverAccessLogsBucket: serverAccessLogBucket,
           enforceSSL: true,
+          versioned: true,
+          lifecycleRules: [{
+            expiration: cdk.Duration.days(90),
+          }]
         });
     }
 
@@ -345,6 +353,10 @@ export class SummarizationAppsyncStepfn extends Construct {
           bucketName: bucketName,
           serverAccessLogsBucket: serverAccessLogBucket,
           enforceSSL: true,
+          versioned: true,
+          lifecycleRules: [{
+            expiration: cdk.Duration.days(90),
+          }]
         });
     }
 

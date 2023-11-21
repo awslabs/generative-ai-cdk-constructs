@@ -243,6 +243,10 @@ export class QaAppsyncOpensearch extends Construct {
         encryption: s3.BucketEncryption.S3_MANAGED,
         bucketName: 'qa-server-access-logs',
         enforceSSL: true,
+        versioned: true,
+        lifecycleRules: [{
+          expiration: Duration.days(90),
+        }]
       });
 
     // Bucket containing the inputs assets (documents - text format) uploaded by the user
@@ -258,6 +262,10 @@ export class QaAppsyncOpensearch extends Construct {
             bucketName: 'input-asset-qa-bucket'+stage+'-'+Aws.ACCOUNT_ID,
             serverAccessLogsBucket: serverAccessLogBucket,
             enforceSSL: true,
+            versioned: true,
+            lifecycleRules: [{
+              expiration: Duration.days(90),
+            }]
           });
       } else {
         tmpBucket = new s3.Bucket(this, 'InputAssetsQABucket'+stage, props.bucketInputsAssetsProps);
