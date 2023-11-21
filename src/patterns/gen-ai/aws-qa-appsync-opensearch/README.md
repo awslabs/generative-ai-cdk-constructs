@@ -148,7 +148,7 @@ Where:
 - jobstatus: this field will be used by the subscription to update the status of the question answering process for the file specified
 - max_docs: maximum number of documents (chunks) retrieved from the knowledge base if the Retrieveal Augmented Generation (RAG) approach is used 
 - question: question to ask as a base64 encoded string
-- verbose: boolean indicating if the Langchain chain call verbosity should be enabled or not
+- verbose: boolean indicating if the [Langchain chain call verbosity](https://python.langchain.com/docs/guides/debugging#chain-verbosetrue) should be enabled or not
 - streaming: boolean indicating if the streaming capability of Bedrock is used. If set to true, tokens will be send back to the subscriber as they are generated. If set to false, the entire response will be sent back to the subscriber once generated. 
 - filename: optional. Name of the file stored in the input S3 bucket, in txt format.
 
@@ -274,7 +274,14 @@ This construct requires you to provide an existing Amazon Cognito User Pool and 
 - [Amazon Cognito](https://docs.aws.amazon.com/cognito/latest/developerguide/security.html)
 - [Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/security.html)
 
-> Note
+Optionnaly, you can provide existing resources to the constructs (marked optional in the construct pattern props). If you chose to do so, please refer to the official documentation on best practices to secure each service:
+- [Amazon Simple Storage Service](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html)
+- [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-best-practices.html)
+- [Amazon EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-security.html)
+- [AWS AppSync](https://docs.aws.amazon.com/appsync/latest/devguide/best-practices.html)
+
+> **Note**
+> This construct requires you to provide documents in the input assets bucket. You should validate each file in the bucket before using this construct. See [here](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html) for file input validation best practices.
 > Ensure you only ingest the appropriate documents into your knowledge base. Any results returned by the knowledge base is eligible for inclusion into the prompt; and therefore, being sent to the LLM. If using a third-party LLM, ensure you audit the documents contained within your knowledge base.
 
 ## Supported AWS Regions
