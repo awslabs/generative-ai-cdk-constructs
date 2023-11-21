@@ -86,6 +86,7 @@ export function buildRedisCluster(scope: Construct, props: RedisProps): elastica
     cacheSubnetGroupName: getRedisSubnetGroup(scope, props).ref,
     vpcSecurityGroupIds: [props.redisSecurityGroup!.securityGroupId],
     port: 8787,
+    transitEncryptionEnabled:true
   });
   return redisCulster;
 }
