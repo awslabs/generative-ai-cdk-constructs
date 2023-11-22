@@ -288,6 +288,7 @@ Optionnaly, you can provide existing resources to the constructs (marked optiona
 - [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-best-practices.html)
 - [Amazon EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-security.html)
 - [AWS AppSync](https://docs.aws.amazon.com/appsync/latest/devguide/best-practices.html)
+- [AWS Secrets Manager](https://docs.aws.amazon.com/config/latest/developerguide/security-best-practices-for-Secrets-Manager.html)
 
 If you grant access to a user to your account where this construct is deployed, this user may access information stored by the construct (Amazon Simple Storage Service buckets, Amazon OpenSearch cluster, Amazon CloudWatch logs). To help secure your AWS resources, please follow the best practices for [AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html).
 
