@@ -246,7 +246,7 @@ export class QaAppsyncOpensearch extends Construct {
         versioned: true,
         lifecycleRules: [{
           expiration: Duration.days(90),
-        }]
+        }],
       });
 
     // Bucket containing the inputs assets (documents - text format) uploaded by the user
@@ -265,7 +265,7 @@ export class QaAppsyncOpensearch extends Construct {
             versioned: true,
             lifecycleRules: [{
               expiration: Duration.days(90),
-            }]
+            }],
           });
       } else {
         tmpBucket = new s3.Bucket(this, 'InputAssetsQABucket'+stage, props.bucketInputsAssetsProps);

@@ -301,7 +301,7 @@ export class SummarizationAppsyncStepfn extends Construct {
         versioned: true,
         lifecycleRules: [{
           expiration: cdk.Duration.days(90),
-        }]
+        }],
       });
 
 
@@ -328,7 +328,7 @@ export class SummarizationAppsyncStepfn extends Construct {
           versioned: true,
           lifecycleRules: [{
             expiration: cdk.Duration.days(90),
-          }]
+          }],
         });
     }
 
@@ -356,7 +356,7 @@ export class SummarizationAppsyncStepfn extends Construct {
           versioned: true,
           lifecycleRules: [{
             expiration: cdk.Duration.days(90),
-          }]
+          }],
         });
     }
 

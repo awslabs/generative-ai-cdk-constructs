@@ -99,10 +99,12 @@ Subscription call to receive notifications:
 
 ```
 subscription MySubscription {
-  updateSummaryJobStatus(name: "document1.txt", summary_job_id: "81") {
-    name
-    status
-    summary
+  updateSummaryJobStatus(summary_job_id: "81") {
+    files {
+      name
+      status
+      summary
+    }
     summary_job_id
   }
 }
@@ -136,14 +138,17 @@ Mutation call to trigger the summarization:
 
 ```
 mutation MyMutation {
-  generateSummary(summaryInput:{files:[{name: "document1.txt", status: ""}], summary_job_id:"81", ignore_existing: false}) {
-    name
-    status
-    summary
+  generateSummary(summaryInput:
+    {files: {name: "document1.txt", status: "", summary: ""},
+      ignore_existing: false, summary_job_id: "81"}) {
+    files {
+      name
+      status
+      summary
+    }
     summary_job_id
   }
 }
-
 _______________________________________
 
 Expected response: It invoke an asynchronous summarization process thus the response notification are send on subscription channel.

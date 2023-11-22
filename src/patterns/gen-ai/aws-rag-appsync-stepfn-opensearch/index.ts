@@ -278,7 +278,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         versioned: true,
         lifecycleRules: [{
           expiration: Duration.days(90),
-        }]
+        }],
       });
 
     // Bucket containing the inputs assets (documents - multiple modalities) uploaded by the user
@@ -297,7 +297,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
             versioned: true,
             lifecycleRules: [{
               expiration: Duration.days(90),
-            }]
+            }],
           });
       } else {
         tmpBucket = new s3.Bucket(this, 'InputAssetsBucket'+stage, props.bucketInputsAssetsProps);
@@ -327,7 +327,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
             versioned: true,
             lifecycleRules: [{
               expiration: Duration.days(90),
-            }]
+            }],
           });
       } else {
         tmpBucket = new s3.Bucket(this, 'processedAssetsBucket'+stage, props.bucketProcessedAssetsProps);
