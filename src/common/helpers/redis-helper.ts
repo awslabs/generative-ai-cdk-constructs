@@ -115,7 +115,7 @@ export function getRedisSecurityGroup(scope: Construct,
 export function setInboundRules(redisSecurityGroup:ec2.SecurityGroup,
   sourceSecuritygroup:ec2.ISecurityGroup ) {
   redisSecurityGroup.connections.allowFrom(sourceSecuritygroup,
-    ec2.Port.tcp(6379));
+    ec2.Port.tcp(8787));
 }
 
 
