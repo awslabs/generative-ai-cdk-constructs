@@ -274,7 +274,6 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       {
         blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
         encryption: s3.BucketEncryption.S3_MANAGED,
-        bucketName: 'rag-server-access-logs',
         versioned: true,
         lifecycleRules: [{
           expiration: Duration.days(90),
@@ -466,6 +465,30 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       },
     });
 
+    // Minimum permissions for a Lambda function to execute while accessing a resource within a VPC
+    s3_transformer_job_function_role.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'ec2:CreateNetworkInterface',
+        'ec2:DeleteNetworkInterface',
+        'ec2:AssignPrivateIpAddresses',
+        'ec2:UnassignPrivateIpAddresses',
+      ],
+      resources: [
+        'arn:aws:ec2:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':*/*',
+      ],
+    }));
+    // Decribe only works if it's allowed on all resources.
+    // Reference: https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html#vpc-permissions
+    s3_transformer_job_function_role.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'ec2:DescribeNetworkInterfaces',
+      ],
+      resources: [
+        '*',
+      ],
+    }));
 
     s3_transformer_job_function_role.addToPolicy(
       new iam.PolicyStatement({
@@ -568,6 +591,31 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         }),
       },
     });
+
+    // Minimum permissions for a Lambda function to execute while accessing a resource within a VPC
+    embeddings_job_function_role.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'ec2:CreateNetworkInterface',
+        'ec2:DeleteNetworkInterface',
+        'ec2:AssignPrivateIpAddresses',
+        'ec2:UnassignPrivateIpAddresses',
+      ],
+      resources: [
+        'arn:aws:ec2:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':*/*',
+      ],
+    }));
+    // Decribe only works if it's allowed on all resources.
+    // Reference: https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html#vpc-permissions
+    embeddings_job_function_role.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'ec2:DescribeNetworkInterfaces',
+      ],
+      resources: [
+        '*',
+      ],
+    }));
 
     embeddings_job_function_role.addToPolicy(
       new iam.PolicyStatement({

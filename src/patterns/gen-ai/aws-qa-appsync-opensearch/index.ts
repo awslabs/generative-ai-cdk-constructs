@@ -241,7 +241,6 @@ export class QaAppsyncOpensearch extends Construct {
       {
         blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
         encryption: s3.BucketEncryption.S3_MANAGED,
-        bucketName: 'qa-server-access-logs',
         enforceSSL: true,
         versioned: true,
         lifecycleRules: [{
@@ -374,6 +373,31 @@ export class QaAppsyncOpensearch extends Construct {
         }),
       },
     });
+
+    // Minimum permissions for a Lambda function to execute while accessing a resource within a VPC
+    question_answering_function_role.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'ec2:CreateNetworkInterface',
+        'ec2:DeleteNetworkInterface',
+        'ec2:AssignPrivateIpAddresses',
+        'ec2:UnassignPrivateIpAddresses',
+      ],
+      resources: [
+        'arn:aws:ec2:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':*/*',
+      ],
+    }));
+    // Decribe only works if it's allowed on all resources.
+    // Reference: https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html#vpc-permissions
+    question_answering_function_role.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'ec2:DescribeNetworkInterfaces',
+      ],
+      resources: [
+        '*',
+      ],
+    }));
 
     // The lambda will access the opensearch credentials
     if (props.openSearchSecret) {props.openSearchSecret.grantRead(question_answering_function_role);}
