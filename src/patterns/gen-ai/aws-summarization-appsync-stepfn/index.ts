@@ -375,7 +375,7 @@ export class SummarizationAppsyncStepfn extends Construct {
         subnetIds: vpcHelper.getPrivateSubnetIDs(this.vpc),
         inboundSecurityGroup: this.securityGroup,
         redisSecurityGroup: redisSecurityGroup,
-        redisPort: 8787,
+        redisPort: 8686,
       };
       this.redisCluster = redisHelper.buildRedisCluster(this, redisProps);
       redisHelper.setInboundRules(redisSecurityGroup, this.securityGroup, redisProps.redisPort);
