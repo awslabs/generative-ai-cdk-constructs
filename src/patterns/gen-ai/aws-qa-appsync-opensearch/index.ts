@@ -23,9 +23,11 @@ import * as logs from 'aws-cdk-lib/aws-logs';
 import * as opensearchservice from 'aws-cdk-lib/aws-opensearchservice';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as secret from 'aws-cdk-lib/aws-secretsmanager';
+import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
+
 
 /**
  * The properties for the QaAppsyncOpensearchProps class.
@@ -183,14 +185,14 @@ export class QaAppsyncOpensearch extends Construct {
     let enable_xray = true;
     let api_log_config = {
       fieldLogLevel: appsync.FieldLogLevel.ALL,
-      retention: logs.RetentionDays.ONE_YEAR,
+      retention: logs.RetentionDays.TEN_YEARS,
     };
     if (props.observability == false) {
       enable_xray = false;
       lambda_tracing = lambda.Tracing.DISABLED;
       api_log_config = {
         fieldLogLevel: appsync.FieldLogLevel.NONE,
-        retention: logs.RetentionDays.ONE_YEAR,
+        retention: logs.RetentionDays.TEN_YEARS,
       };
     };
 
@@ -221,6 +223,32 @@ export class QaAppsyncOpensearch extends Construct {
       );
     }
 
+    // vpc flowloggroup
+    const logGroup = new logs.LogGroup(this, 'qaConstructLogGroup');
+    const role = new iam.Role(this, 'qaConstructRole', {
+      assumedBy: new iam.ServicePrincipal('vpc-flow-logs.amazonaws.com'),
+    });
+
+    // vpc flowlogs
+    new ec2.FlowLog(this, 'FlowLog', {
+      resourceType: ec2.FlowLogResourceType.fromVpc(this.vpc),
+      destination: ec2.FlowLogDestination.toCloudWatchLogs(logGroup, role),
+    });
+
+    // bucket for storing server access logging
+    const serverAccessLogBucket = new s3.Bucket(this,
+      'serverAccessLogBucket'+stage,
+      {
+        blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+        encryption: s3.BucketEncryption.S3_MANAGED,
+        bucketName: 'qa-server-access-logs',
+        enforceSSL: true,
+        versioned: true,
+        lifecycleRules: [{
+          expiration: Duration.days(90),
+        }],
+      });
+
     // Bucket containing the inputs assets (documents - text format) uploaded by the user
     let inputAssetsBucket: s3.IBucket;
 
@@ -232,6 +260,12 @@ export class QaAppsyncOpensearch extends Construct {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
             bucketName: 'input-asset-qa-bucket'+stage+'-'+Aws.ACCOUNT_ID,
+            serverAccessLogsBucket: serverAccessLogBucket,
+            enforceSSL: true,
+            versioned: true,
+            lifecycleRules: [{
+              expiration: Duration.days(90),
+            }],
           });
       } else {
         tmpBucket = new s3.Bucket(this, 'InputAssetsQABucket'+stage, props.bucketInputsAssetsProps);
@@ -324,34 +358,28 @@ export class QaAppsyncOpensearch extends Construct {
     if (props.openSearchSecret) {SecretId = props.openSearchSecret.secretName;}
 
     // Lambda function used to validate inputs in the step function
-    const question_answering_function = new lambda.DockerImageFunction(
-      this,
-      'lambda_question_answering'+stage,
-      {
-        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-qa-appsync-opensearch/question_answering/src')),
-        functionName: 'lambda_question_answering'+stage,
-        description: 'Lambda function for question answering',
-        vpc: this.vpc,
-        tracing: lambda_tracing,
-        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-        securityGroups: [this.securityGroup],
-        memorySize: 1_769 * 4,
-        timeout: Duration.minutes(15),
-        environment: {
-          GRAPHQL_URL: updateGraphQlApiEndpoint,
-          INPUT_BUCKET: this.s3InputAssetsBucketInterface.bucketName,
-          OPENSEARCH_DOMAIN_ENDPOINT: props.existingOpensearchDomain.domainEndpoint,
-          OPENSEARCH_INDEX: props.openSearchIndexName,
-          OPENSEARCH_SECRET_ID: SecretId,
-        },
+
+    const question_answering_function_role = new iam.Role(this, 'question_answering_function_role', {
+      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+      inlinePolicies: {
+        LambdaFunctionServiceRolePolicy: new iam.PolicyDocument({
+          statements: [new iam.PolicyStatement({
+            actions: [
+              'logs:CreateLogGroup',
+              'logs:CreateLogStream',
+              'logs:PutLogEvents',
+            ],
+            resources: [`arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`],
+          })],
+        }),
       },
-    );
+    });
 
     // The lambda will access the opensearch credentials
-    if (props.openSearchSecret) {props.openSearchSecret.grantRead(question_answering_function);}
+    if (props.openSearchSecret) {props.openSearchSecret.grantRead(question_answering_function_role);}
 
     // The lambda will pull processed files and create embeddings
-    question_answering_function.addToRolePolicy(
+    question_answering_function_role.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: [
@@ -367,7 +395,7 @@ export class QaAppsyncOpensearch extends Construct {
       }),
     );
 
-    question_answering_function.addToRolePolicy(new iam.PolicyStatement({
+    question_answering_function_role.addToPolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
       actions: ['es:*'],
       resources: [
@@ -376,14 +404,55 @@ export class QaAppsyncOpensearch extends Construct {
       ],
     }));
 
+
     // Add Amazon Bedrock permissions to the IAM role for the Lambda function
-    question_answering_function.addToRolePolicy(new iam.PolicyStatement({
+    question_answering_function_role.addToPolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
-      actions: ['bedrock:*'],
+      actions: [
+        'bedrock:InvokeModel',
+        'bedrock:InvokeModelWithResponseStream',
+      ],
       resources: [
-        '*',
+        'arn:aws:bedrock:'+Aws.REGION+'::foundation-model',
+        'arn:aws:bedrock:'+Aws.REGION+'::foundation-model/*',
       ],
     }));
+
+    NagSuppressions.addResourceSuppressions(
+      question_answering_function_role,
+      [
+        {
+          id: 'AwsSolutions-IAM5',
+          reason: 'AWSLambdaBasicExecutionRole is used.',
+        },
+      ],
+      true,
+    );
+
+    const question_answering_function = new lambda.DockerImageFunction(
+      this,
+      'lambda_question_answering'+stage,
+      {
+        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-qa-appsync-opensearch/question_answering/src')),
+        functionName: 'lambda_question_answering'+stage,
+        description: 'Lambda function for question answering',
+        vpc: this.vpc,
+        tracing: lambda_tracing,
+        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+        securityGroups: [this.securityGroup],
+        memorySize: 1_769 * 4,
+        timeout: Duration.minutes(15),
+        role: question_answering_function_role,
+        environment: {
+          GRAPHQL_URL: updateGraphQlApiEndpoint,
+          INPUT_BUCKET: this.s3InputAssetsBucketInterface.bucketName,
+          OPENSEARCH_DOMAIN_ENDPOINT: props.existingOpensearchDomain.domainEndpoint,
+          OPENSEARCH_INDEX: props.openSearchIndexName,
+          OPENSEARCH_SECRET_ID: SecretId,
+        },
+      },
+    );
+
 
     const enableOperationalMetric = props.enableOperationalMetric || true;
     const solution_id = 'genai_cdk_'+id;

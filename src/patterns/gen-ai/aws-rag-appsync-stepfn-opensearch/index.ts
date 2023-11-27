@@ -25,6 +25,7 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as secret from 'aws-cdk-lib/aws-secretsmanager';
 import * as stepfn from 'aws-cdk-lib/aws-stepfunctions';
 import * as stepfn_task from 'aws-cdk-lib/aws-stepfunctions-tasks';
+import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
@@ -213,14 +214,14 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     let enable_xray = true;
     let api_log_config = {
       fieldLogLevel: appsync.FieldLogLevel.ALL,
-      retention: logs.RetentionDays.ONE_YEAR,
+      retention: logs.RetentionDays.TEN_YEARS,
     };
     if (props.observability == false) {
       enable_xray = false;
       lambda_tracing = lambda.Tracing.DISABLED;
       api_log_config = {
         fieldLogLevel: appsync.FieldLogLevel.NONE,
-        retention: logs.RetentionDays.ONE_YEAR,
+        retention: logs.RetentionDays.TEN_YEARS,
       };
     };
 
@@ -255,6 +256,31 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       );
     }
 
+    // vpc flowloggroup
+    const logGroup = new logs.LogGroup(this, 'ingestionConstructLogGroup');
+    const role = new iam.Role(this, 'ingestionConstructRole', {
+      assumedBy: new iam.ServicePrincipal('vpc-flow-logs.amazonaws.com'),
+    });
+
+    // vpc flowlogs
+    new ec2.FlowLog(this, 'FlowLog', {
+      resourceType: ec2.FlowLogResourceType.fromVpc(this.vpc),
+      destination: ec2.FlowLogDestination.toCloudWatchLogs(logGroup, role),
+    });
+
+    // bucket for storing server access logging
+    const serverAccessLogBucket = new s3.Bucket(this,
+      'serverAccessLogBucket'+stage,
+      {
+        blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+        encryption: s3.BucketEncryption.S3_MANAGED,
+        bucketName: 'rag-server-access-logs',
+        versioned: true,
+        lifecycleRules: [{
+          expiration: Duration.days(90),
+        }],
+      });
+
     // Bucket containing the inputs assets (documents - multiple modalities) uploaded by the user
     let inputAssetsBucket: s3.IBucket;
 
@@ -266,6 +292,12 @@ export class RagAppsyncStepfnOpensearch extends Construct {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
             bucketName: 'input-assets-bucket'+stage+'-'+Aws.ACCOUNT_ID,
+            serverAccessLogsBucket: serverAccessLogBucket,
+            enforceSSL: true,
+            versioned: true,
+            lifecycleRules: [{
+              expiration: Duration.days(90),
+            }],
           });
       } else {
         tmpBucket = new s3.Bucket(this, 'InputAssetsBucket'+stage, props.bucketInputsAssetsProps);
@@ -290,6 +322,12 @@ export class RagAppsyncStepfnOpensearch extends Construct {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
             bucketName: 'processed-assets-bucket'+stage+'-'+Aws.ACCOUNT_ID,
+            serverAccessLogsBucket: serverAccessLogBucket,
+            enforceSSL: true,
+            versioned: true,
+            lifecycleRules: [{
+              expiration: Duration.days(90),
+            }],
           });
       } else {
         tmpBucket = new s3.Bucket(this, 'processedAssetsBucket'+stage, props.bucketProcessedAssetsProps);
@@ -409,32 +447,27 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         'arn:aws:appsync:'+ Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*',
       ],
     }));
-
-    const s3_transformer_job_function = new lambda.DockerImageFunction(
-      this,
-      'lambda_function_s3_file_transformer'+stage,
-      {
-        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/s3_file_transformer/src')),
-        functionName: 's3_file_transformer_docker'+stage,
-        description: 'Lambda function for converting files from their input format to text',
-        vpc: this.vpc,
-        tracing: lambda_tracing,
-        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-        securityGroups: [this.securityGroup],
-        memorySize: 1_769 * 4,
-        timeout: Duration.minutes(15),
-        environment: {
-          INPUT_BUCKET: this.s3InputAssetsBucketInterface.bucketName,
-          OUTPUT_BUCKET: this.s3ProcessedAssetsBucketInterface.bucketName,
-          GRAPHQL_URL: updateGraphQlApiEndpoint,
-        },
-      },
-    );
-
     // The lambda will pull documents from the input bucket, transform them, and upload
     // the artifacts to the processed bucket
     // we don't use grant read here since it has no effect in case of existing buckets provided by the user
-    s3_transformer_job_function.addToRolePolicy(
+    const s3_transformer_job_function_role = new iam.Role(this, 's3_transformer_job_function_role', {
+      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+      inlinePolicies: {
+        LambdaFunctionServiceRolePolicy: new iam.PolicyDocument({
+          statements: [new iam.PolicyStatement({
+            actions: [
+              'logs:CreateLogGroup',
+              'logs:CreateLogStream',
+              'logs:PutLogEvents',
+            ],
+            resources: [`arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`],
+          })],
+        }),
+      },
+    });
+
+
+    s3_transformer_job_function_role.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: [
@@ -450,7 +483,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       }),
     );
 
-    s3_transformer_job_function.addToRolePolicy(
+    s3_transformer_job_function_role.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: ['s3:PutObjectRetention',
@@ -470,8 +503,9 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       }),
     );
 
+
     // Add GraphQl permissions to the IAM role for the Lambda function
-    s3_transformer_job_function.addToRolePolicy(new iam.PolicyStatement({
+    s3_transformer_job_function_role.addToPolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
       actions: [
         'appsync:GraphQL',
@@ -481,37 +515,61 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       ],
     }));
 
-    let SecretId = 'NONE';
-    if (props.openSearchSecret) {SecretId = props.openSearchSecret.secretName;}
+    NagSuppressions.addResourceSuppressions(
+      s3_transformer_job_function_role,
+      [
+        {
+          id: 'AwsSolutions-IAM5',
+          reason: 'AWSLambdaBasicExecutionRole is used.',
+        },
+      ],
+      true,
+    );
 
-    // Lambda function performing the embedding job
-    const embeddings_job_function = new lambda.DockerImageFunction(
+    const s3_transformer_job_function = new lambda.DockerImageFunction(
       this,
-      'lambda_function_embeddings_job'+stage,
+      'lambda_function_s3_file_transformer'+stage,
       {
-        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/embeddings_job/src')),
-        functionName: 'embeddings_job_docker'+stage,
-        description: 'Lambda function for creating documents chunks, embeddings and storing them in Amazon Opensearch',
+        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/s3_file_transformer/src')),
+        functionName: 's3_file_transformer_docker'+stage,
+        description: 'Lambda function for converting files from their input format to text',
         vpc: this.vpc,
         tracing: lambda_tracing,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
         securityGroups: [this.securityGroup],
         memorySize: 1_769 * 4,
         timeout: Duration.minutes(15),
+        role: s3_transformer_job_function_role,
         environment: {
+          INPUT_BUCKET: this.s3InputAssetsBucketInterface.bucketName,
           OUTPUT_BUCKET: this.s3ProcessedAssetsBucketInterface.bucketName,
           GRAPHQL_URL: updateGraphQlApiEndpoint,
-          OPENSEARCH_INDEX: props.openSearchIndexName,
-          OPENSEARCH_DOMAIN_ENDPOINT: props.existingOpensearchDomain.domainEndpoint,
-          OPENSEARCH_SECRET_ID: SecretId,
         },
       },
     );
 
-    // The lambda will access the opensearch credentials
-    if (props.openSearchSecret) {props.openSearchSecret.grantRead(embeddings_job_function);}
 
-    embeddings_job_function.addToRolePolicy(
+    let SecretId = 'NONE';
+    if (props.openSearchSecret) {SecretId = props.openSearchSecret.secretName;}
+
+
+    const embeddings_job_function_role = new iam.Role(this, 'embeddings_job_function_role', {
+      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+      inlinePolicies: {
+        LambdaFunctionServiceRolePolicy: new iam.PolicyDocument({
+          statements: [new iam.PolicyStatement({
+            actions: [
+              'logs:CreateLogGroup',
+              'logs:CreateLogStream',
+              'logs:PutLogEvents',
+            ],
+            resources: [`arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`],
+          })],
+        }),
+      },
+    });
+
+    embeddings_job_function_role.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: [
@@ -527,7 +585,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       }),
     );
 
-    embeddings_job_function.addToRolePolicy(new iam.PolicyStatement({
+    embeddings_job_function_role.addToPolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
       actions: ['es:*'],
       resources: [
@@ -537,13 +595,54 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     }));
 
     // Add Amazon Bedrock permissions to the IAM role for the Lambda function
-    embeddings_job_function.addToRolePolicy(new iam.PolicyStatement({
+    embeddings_job_function_role.addToPolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
       actions: ['bedrock:*'],
       resources: [
-        '*',
+        'arn:aws:bedrock:'+Aws.REGION+'::foundation-model',
+        'arn:aws:bedrock:'+Aws.REGION+'::foundation-model/*',
       ],
     }));
+
+    NagSuppressions.addResourceSuppressions(
+      embeddings_job_function_role,
+      [
+        {
+          id: 'AwsSolutions-IAM5',
+          reason: 'AWSLambdaBasicExecutionRole is used.',
+        },
+      ],
+      true,
+    );
+
+
+    // The lambda will access the opensearch credentials
+    if (props.openSearchSecret) {props.openSearchSecret.grantRead(embeddings_job_function_role);}
+    // Lambda function performing the embedding job
+    const embeddings_job_function = new lambda.DockerImageFunction(
+      this,
+      'lambda_function_embeddings_job'+stage,
+      {
+        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/embeddings_job/src')),
+        functionName: 'embeddings_job_docker'+stage,
+        description: 'Lambda function for creating documents chunks, embeddings and storing them in Amazon Opensearch',
+        vpc: this.vpc,
+        tracing: lambda_tracing,
+        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+        securityGroups: [this.securityGroup],
+        memorySize: 1_769 * 4,
+        timeout: Duration.minutes(15),
+        role: embeddings_job_function_role,
+        environment: {
+          OUTPUT_BUCKET: this.s3ProcessedAssetsBucketInterface.bucketName,
+          GRAPHQL_URL: updateGraphQlApiEndpoint,
+          OPENSEARCH_INDEX: props.openSearchIndexName,
+          OPENSEARCH_DOMAIN_ENDPOINT: props.existingOpensearchDomain.domainEndpoint,
+          OPENSEARCH_SECRET_ID: SecretId,
+        },
+      },
+    );
+
 
     const enableOperationalMetric = props.enableOperationalMetric || true;
     const solution_id = 'genai_cdk_'+id;

@@ -25,6 +25,7 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as sqs from 'aws-cdk-lib/aws-sqs';
 import * as sfn from 'aws-cdk-lib/aws-stepfunctions';
 import * as sfnTask from 'aws-cdk-lib/aws-stepfunctions-tasks';
+import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import * as eventBridge from '../../../common/helpers/eventbridge-helper';
 import * as redisHelper from '../../../common/helpers/redis-helper';
@@ -246,14 +247,14 @@ export class SummarizationAppsyncStepfn extends Construct {
     let enable_xray = true;
     let api_log_config = {
       fieldLogLevel: appsync.FieldLogLevel.ALL,
-      retention: logs.RetentionDays.ONE_YEAR,
+      retention: logs.RetentionDays.TEN_YEARS,
     };
     if (props.observability == false) {
       enable_xray = false;
       lambda_tracing = lambda.Tracing.DISABLED;
       api_log_config = {
         fieldLogLevel: appsync.FieldLogLevel.NONE,
-        retention: logs.RetentionDays.ONE_YEAR,
+        retention: logs.RetentionDays.TEN_YEARS,
       };
     };
 
@@ -276,6 +277,34 @@ export class SummarizationAppsyncStepfn extends Construct {
         },
       );
     }
+
+    // vpc flowloggroup
+    const logGroup = new logs.LogGroup(this, 'summarizationConstructLogGroup');
+    const vpcFlowLogrole = new iam.Role(this, 'summarizationConstructRole', {
+      assumedBy: new iam.ServicePrincipal('vpc-flow-logs.amazonaws.com'),
+    });
+
+    // vpc flowlogs
+    new ec2.FlowLog(this, 'FlowLog', {
+      resourceType: ec2.FlowLogResourceType.fromVpc(this.vpc),
+      destination: ec2.FlowLogDestination.toCloudWatchLogs(logGroup, vpcFlowLogrole),
+    });
+
+    // bucket for storing server access logging
+    const serverAccessLogBucket = new s3.Bucket(this,
+      'serverAccessLogBucket'+stage,
+      {
+        blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+        encryption: s3.BucketEncryption.S3_MANAGED,
+        bucketName: 'summarization-server-access-logs',
+        enforceSSL: true,
+        versioned: true,
+        lifecycleRules: [{
+          expiration: cdk.Duration.days(90),
+        }],
+      });
+
+
     // bucket for input document
     s3BucketHelper.CheckS3Props({
       existingBucketObj: props.existingInputAssetsBucketObj,
@@ -294,6 +323,12 @@ export class SummarizationAppsyncStepfn extends Construct {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
           bucketName: bucketName,
+          serverAccessLogsBucket: serverAccessLogBucket,
+          enforceSSL: true,
+          versioned: true,
+          lifecycleRules: [{
+            expiration: cdk.Duration.days(90),
+          }],
         });
     }
 
@@ -316,8 +351,15 @@ export class SummarizationAppsyncStepfn extends Construct {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
           bucketName: bucketName,
+          serverAccessLogsBucket: serverAccessLogBucket,
+          enforceSSL: true,
+          versioned: true,
+          lifecycleRules: [{
+            expiration: cdk.Duration.days(90),
+          }],
         });
     }
+
 
     // set up redis cluster
     redisHelper.CheckRedisClusterProps(props);
@@ -382,6 +424,53 @@ export class SummarizationAppsyncStepfn extends Construct {
     const updateGraphQlApiEndpoint = !props.existingMergedApi ? summarizationGraphqlApi.graphqlUrl : props.existingMergedApi.attrGraphQlUrl;
     const updateGraphQlApiId = !props.existingMergedApi ? summarizationGraphqlApi.apiId : props.existingMergedApi.attrApiId;
 
+    // bucket
+    const transformedAssetBucketName = this.processedAssetBucket.bucketName;
+    const inputAssetBucketName = this.inputAssetBucket.bucketName;
+    const isFileTransformationRequired = props?.isFileTransformationRequired || 'false';
+
+    // role
+    const inputvalidatorLambdaRole = new iam.Role(this, 'inputvalidatorLambdaRole', {
+      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+      inlinePolicies: {
+        LambdaFunctionServiceRolePolicy: new iam.PolicyDocument({
+          statements: [new iam.PolicyStatement({
+            actions: [
+              'logs:CreateLogGroup',
+              'logs:CreateLogStream',
+              'logs:PutLogEvents',
+            ],
+            resources: [`arn:${cdk.Aws.PARTITION}:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`],
+          })],
+        }),
+      },
+    });
+
+    inputvalidatorLambdaRole.addToPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['s3:GetObject',
+          's3:GetBucketLocation',
+          's3:ListBucket',
+          'appsync:GraphQL'],
+
+        resources: ['arn:aws:s3:::' + inputAssetBucketName + '/*',
+          'arn:aws:s3:::' + transformedAssetBucketName+ '/*',
+          'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+ '/*'],
+      }),
+    );
+
+    NagSuppressions.addResourceSuppressions(
+      inputvalidatorLambdaRole,
+      [
+        {
+          id: 'AwsSolutions-IAM5',
+          reason: 'AWSLambdaBasicExecutionRole is used.',
+        },
+      ],
+      true,
+    );
+
     // Lambda function to validate Input
     const inputValidatorLambda =
     new lambda.DockerImageFunction(this, 'inputValidatorLambda'+stage,
@@ -395,15 +484,54 @@ export class SummarizationAppsyncStepfn extends Construct {
         securityGroups: [this.securityGroup],
         memorySize: 1_769 * 1,
         timeout: cdk.Duration.minutes(5),
+        role: inputvalidatorLambdaRole,
         environment: {
           GRAPHQL_URL: updateGraphQlApiEndpoint,
         },
       });
 
+    // role
+    const documentReaderLambdaRole = new iam.Role(this, 'documentReaderLambdaRole', {
+      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+      inlinePolicies: {
+        LambdaFunctionServiceRolePolicy: new iam.PolicyDocument({
+          statements: [new iam.PolicyStatement({
+            actions: [
+              'logs:CreateLogGroup',
+              'logs:CreateLogStream',
+              'logs:PutLogEvents',
+            ],
+            resources: [`arn:${cdk.Aws.PARTITION}:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`],
+          })],
+        }),
+      },
 
-    const transformedAssetBucketName = this.processedAssetBucket.bucketName;
-    const inputAssetBucketName = this.inputAssetBucket.bucketName;
-    const isFileTransformationRequired = props?.isFileTransformationRequired || 'false';
+    });
+
+    documentReaderLambdaRole.addToPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['s3:GetObject',
+          's3:GetBucketLocation',
+          's3:ListBucket',
+          's3:PutObject',
+          'appsync:GraphQL'],
+        resources: ['arn:aws:s3:::' + inputAssetBucketName+ '/*',
+          'arn:aws:s3:::' + transformedAssetBucketName+ '/*',
+          'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+ '/*'],
+      }),
+    );
+
+    NagSuppressions.addResourceSuppressions(
+      documentReaderLambdaRole,
+      [
+        {
+          id: 'AwsSolutions-IAM5',
+          reason: 'AWSLambdaBasicExecutionRole is used',
+        },
+      ],
+      true,
+    );
 
     const documentReaderLambda = new lambda.DockerImageFunction(this, 'documentReaderLambda'+stage, {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/document_reader')),
@@ -415,6 +543,7 @@ export class SummarizationAppsyncStepfn extends Construct {
       memorySize: 1_769 * 1,
       tracing: lambda_tracing,
       timeout: cdk.Duration.minutes(5),
+      role: documentReaderLambdaRole,
       environment: {
         REDIS_HOST: redisHost,
         REDIS_PORT: redisPort,
@@ -428,6 +557,52 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     const summaryChainType = props?.summaryChainType || 'stuff';
 
+    // role
+    const summaryGeneratorLambdaRole = new iam.Role(this, 'summaryGeneratorLambdaRole', {
+      assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
+      inlinePolicies: {
+        LambdaFunctionServiceRolePolicy: new iam.PolicyDocument({
+          statements: [new iam.PolicyStatement({
+            actions: [
+              'logs:CreateLogGroup',
+              'logs:CreateLogStream',
+              'logs:PutLogEvents',
+            ],
+            resources: [`arn:${cdk.Aws.PARTITION}:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`],
+          })],
+        }),
+      },
+    });
+
+    summaryGeneratorLambdaRole.addToPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['s3:GetObject',
+          's3:GetBucketLocation',
+          's3:ListBucket',
+          's3:PutObject',
+          'appsync:GraphQL',
+          'bedrock:InvokeModel',
+          'bedrock:InvokeModelWithResponseStream'],
+        resources: ['arn:aws:s3:::' + inputAssetBucketName+ '/*',
+          'arn:aws:s3:::' + transformedAssetBucketName+ '/*',
+          'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+ '/*'
+          , 'arn:aws:bedrock:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':provisioned-model/anthropic.claude-v2'],
+
+      }),
+    );
+
+    NagSuppressions.addResourceSuppressions(
+      summaryGeneratorLambdaRole,
+      [
+        {
+          id: 'AwsSolutions-IAM5',
+          reason: 'AWSLambdaBasicExecutionRole is used.',
+        },
+      ],
+      true,
+    );
+
     const generateSummarylambda = new lambda.DockerImageFunction(this, 'generateSummarylambda'+stage, {
       functionName: 'summary_generator'+stage,
       description: 'Lambda function to generate the summary',
@@ -438,6 +613,7 @@ export class SummarizationAppsyncStepfn extends Construct {
       memorySize: 1_769 * 4,
       timeout: cdk.Duration.minutes(10),
       tracing: lambda_tracing,
+      role: summaryGeneratorLambdaRole,
       environment: {
         REDIS_HOST: redisHost,
         REDIS_PORT: redisPort,
@@ -453,37 +629,6 @@ export class SummarizationAppsyncStepfn extends Construct {
     this.processedAssetBucket?.grantReadWrite(documentReaderLambda);
 
 
-    documentReaderLambda.addToRolePolicy(
-      new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        actions: ['s3:GetObject',
-          's3:GetBucketLocation',
-          's3:ListBucket',
-          's3:PutObject',
-          'appsync:GraphQL'],
-        resources: ['arn:aws:s3:::' + inputAssetBucketName + '/*',
-          'arn:aws:s3:::' + transformedAssetBucketName + '/*',
-          'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*'],
-      }),
-    );
-
-    generateSummarylambda.addToRolePolicy(
-      new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        actions: ['s3:GetObject',
-          's3:GetBucketLocation',
-          's3:ListBucket',
-          's3:PutObject',
-          'appsync:GraphQL',
-          'bedrock:*'],
-        resources: ['arn:aws:s3:::' + inputAssetBucketName + '/*',
-          'arn:aws:s3:::' + transformedAssetBucketName + '/*',
-          'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*'
-          , '*'],
-
-      }),
-    );
-
     const enableOperationalMetric = props.enableOperationalMetric || true;
     const solution_id = 'genai_cdk_'+id;
 
@@ -498,20 +643,6 @@ export class SummarizationAppsyncStepfn extends Construct {
         'AWS_SDK_UA_APP_ID', solution_id,
       );
     };
-
-    inputValidatorLambda.addToRolePolicy(
-      new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        actions: ['s3:GetObject',
-          's3:GetBucketLocation',
-          's3:ListBucket',
-          'appsync:GraphQL'],
-
-        resources: ['arn:aws:s3:::' + inputAssetBucketName + '/*',
-          'arn:aws:s3:::' + transformedAssetBucketName + '/*',
-          'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*'],
-      }),
-    );
 
 
     // create datasource at appsync
@@ -553,7 +684,9 @@ export class SummarizationAppsyncStepfn extends Construct {
     const dlq: sqs.Queue = new sqs.Queue(this, 'dlq', {
       queueName: 'summarydlq'+stage,
       retentionPeriod: cdk.Duration.days(7),
+      enforceSSL: true,
     });
+
 
     const jobFailed= new sfn.Fail(this, 'Failed', {
       comment: 'AWS summary Job failed',

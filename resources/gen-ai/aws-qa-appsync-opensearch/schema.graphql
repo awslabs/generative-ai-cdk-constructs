@@ -12,7 +12,7 @@ type QADocs @aws_iam @aws_cognito_user_pools {
 
 input QADocsInput {
 	jobid: ID
-	question: String
+	question: String @constraint(pattern: "^[0-9a-zA-Z]*$?-_,", maxLength: 300)
 	streaming: Boolean
 	max_docs: Int
 	filename: String

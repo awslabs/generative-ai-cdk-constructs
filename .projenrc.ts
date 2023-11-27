@@ -46,6 +46,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   keywords: ['constructs', 'aws-cdk', 'generative-ai', 'emerging-tech'],
   devDeps: ['eslint-plugin-header'],
+  deps: ['cdk-nag'],
 
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
   minNodeVersion: '18.12.0', // 'MAINTENANCE' (first LTS)
