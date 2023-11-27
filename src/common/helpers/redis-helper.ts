@@ -85,7 +85,7 @@ export function buildRedisCluster(scope: Construct, props: RedisProps): elastica
     numCacheNodes: numCacheNodes,
     cacheSubnetGroupName: getRedisSubnetGroup(scope, props).ref,
     vpcSecurityGroupIds: [props.redisSecurityGroup!.securityGroupId],
-    port: 8787,
+    port: props.redisPort,
   });
   return redisCulster;
 }
@@ -113,9 +113,10 @@ export function getRedisSecurityGroup(scope: Construct,
 }
 
 export function setInboundRules(redisSecurityGroup:ec2.SecurityGroup,
-  sourceSecuritygroup:ec2.ISecurityGroup ) {
+  sourceSecuritygroup:ec2.ISecurityGroup,
+  redisPort:number) {
   redisSecurityGroup.connections.allowFrom(sourceSecuritygroup,
-    ec2.Port.tcp(6379));
+    ec2.Port.tcp(redisPort));
 }
 
 

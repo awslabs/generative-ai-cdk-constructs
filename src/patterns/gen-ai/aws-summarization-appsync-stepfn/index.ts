@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 import * as path from 'path';
-import * as cdk from 'aws-cdk-lib';
+import { Duration, Aws } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
@@ -296,11 +296,10 @@ export class SummarizationAppsyncStepfn extends Construct {
       {
         blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
         encryption: s3.BucketEncryption.S3_MANAGED,
-        bucketName: 'summarization-server-access-logs',
         enforceSSL: true,
         versioned: true,
         lifecycleRules: [{
-          expiration: cdk.Duration.days(90),
+          expiration: Duration.days(90),
         }],
       });
 
@@ -317,7 +316,7 @@ export class SummarizationAppsyncStepfn extends Construct {
       this.inputAssetBucket = new s3.Bucket(this,
         'inputAssetsSummaryBucket'+stage, props.bucketInputsAssetsProps);
     } else {
-      const bucketName= 'input-assets-summary-bucket'+stage+'-'+cdk.Aws.ACCOUNT_ID;
+      const bucketName= 'input-assets-summary-bucket'+stage+'-'+Aws.ACCOUNT_ID;
       this.inputAssetBucket = new s3.Bucket(this, 'inputAssetsSummaryBucket'+stage,
         {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
@@ -327,7 +326,7 @@ export class SummarizationAppsyncStepfn extends Construct {
           enforceSSL: true,
           versioned: true,
           lifecycleRules: [{
-            expiration: cdk.Duration.days(90),
+            expiration: Duration.days(90),
           }],
         });
     }
@@ -344,7 +343,7 @@ export class SummarizationAppsyncStepfn extends Construct {
       this.processedAssetBucket = new s3.Bucket(this,
         'processedAssetsSummaryBucket'+stage, props.bucketProcessedAssetsProps);
     } else {
-      const bucketName= 'processed-assets-summary-bucket'+stage+'-'+cdk.Aws.ACCOUNT_ID;
+      const bucketName= 'processed-assets-summary-bucket'+stage+'-'+Aws.ACCOUNT_ID;
 
       this.processedAssetBucket = new s3.Bucket(this, 'processedAssetsSummaryBucket'+stage,
         {
@@ -355,7 +354,7 @@ export class SummarizationAppsyncStepfn extends Construct {
           enforceSSL: true,
           versioned: true,
           lifecycleRules: [{
-            expiration: cdk.Duration.days(90),
+            expiration: Duration.days(90),
           }],
         });
     }
@@ -370,14 +369,16 @@ export class SummarizationAppsyncStepfn extends Construct {
       const redisSecurityGroup =redisHelper.getRedisSecurityGroup(this, {
         existingVpc: this.vpc,
       });
-      this.redisCluster = redisHelper.buildRedisCluster(this, {
+      const redisProps = {
         existingVpc: this.vpc,
         cfnCacheClusterProps: props.cfnCacheClusterProps,
         subnetIds: vpcHelper.getPrivateSubnetIDs(this.vpc),
         inboundSecurityGroup: this.securityGroup,
         redisSecurityGroup: redisSecurityGroup,
-      });
-      redisHelper.setInboundRules(redisSecurityGroup, this.securityGroup);
+        redisPort: 8686,
+      };
+      this.redisCluster = redisHelper.buildRedisCluster(this, redisProps);
+      redisHelper.setInboundRules(redisSecurityGroup, this.securityGroup, redisProps.redisPort);
     } else {
       this.redisCluster= props?.existingRedisCulster!;
     }
@@ -440,11 +441,36 @@ export class SummarizationAppsyncStepfn extends Construct {
               'logs:CreateLogStream',
               'logs:PutLogEvents',
             ],
-            resources: [`arn:${cdk.Aws.PARTITION}:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`],
+            resources: [`arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`],
           })],
         }),
       },
     });
+
+    // Minimum permissions for a Lambda function to execute while accessing a resource within a VPC
+    inputvalidatorLambdaRole.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'ec2:CreateNetworkInterface',
+        'ec2:DeleteNetworkInterface',
+        'ec2:AssignPrivateIpAddresses',
+        'ec2:UnassignPrivateIpAddresses',
+      ],
+      resources: [
+        'arn:aws:ec2:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':*/*',
+      ],
+    }));
+    // Decribe only works if it's allowed on all resources.
+    // Reference: https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html#vpc-permissions
+    inputvalidatorLambdaRole.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'ec2:DescribeNetworkInterfaces',
+      ],
+      resources: [
+        '*',
+      ],
+    }));
 
     inputvalidatorLambdaRole.addToPolicy(
       new iam.PolicyStatement({
@@ -456,7 +482,7 @@ export class SummarizationAppsyncStepfn extends Construct {
 
         resources: ['arn:aws:s3:::' + inputAssetBucketName + '/*',
           'arn:aws:s3:::' + transformedAssetBucketName+ '/*',
-          'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+ '/*'],
+          'arn:aws:appsync:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+ '/*'],
       }),
     );
 
@@ -483,7 +509,7 @@ export class SummarizationAppsyncStepfn extends Construct {
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
         securityGroups: [this.securityGroup],
         memorySize: 1_769 * 1,
-        timeout: cdk.Duration.minutes(5),
+        timeout: Duration.minutes(5),
         role: inputvalidatorLambdaRole,
         environment: {
           GRAPHQL_URL: updateGraphQlApiEndpoint,
@@ -501,12 +527,36 @@ export class SummarizationAppsyncStepfn extends Construct {
               'logs:CreateLogStream',
               'logs:PutLogEvents',
             ],
-            resources: [`arn:${cdk.Aws.PARTITION}:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`],
+            resources: [`arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`],
           })],
         }),
       },
-
     });
+
+    // Minimum permissions for a Lambda function to execute while accessing a resource within a VPC
+    documentReaderLambdaRole.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'ec2:CreateNetworkInterface',
+        'ec2:DeleteNetworkInterface',
+        'ec2:AssignPrivateIpAddresses',
+        'ec2:UnassignPrivateIpAddresses',
+      ],
+      resources: [
+        'arn:aws:ec2:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':*/*',
+      ],
+    }));
+    // Decribe only works if it's allowed on all resources.
+    // Reference: https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html#vpc-permissions
+    documentReaderLambdaRole.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'ec2:DescribeNetworkInterfaces',
+      ],
+      resources: [
+        '*',
+      ],
+    }));
 
     documentReaderLambdaRole.addToPolicy(
       new iam.PolicyStatement({
@@ -518,7 +568,7 @@ export class SummarizationAppsyncStepfn extends Construct {
           'appsync:GraphQL'],
         resources: ['arn:aws:s3:::' + inputAssetBucketName+ '/*',
           'arn:aws:s3:::' + transformedAssetBucketName+ '/*',
-          'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+ '/*'],
+          'arn:aws:appsync:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+ '/*'],
       }),
     );
 
@@ -542,7 +592,7 @@ export class SummarizationAppsyncStepfn extends Construct {
       securityGroups: [this.securityGroup],
       memorySize: 1_769 * 1,
       tracing: lambda_tracing,
-      timeout: cdk.Duration.minutes(5),
+      timeout: Duration.minutes(5),
       role: documentReaderLambdaRole,
       environment: {
         REDIS_HOST: redisHost,
@@ -568,11 +618,36 @@ export class SummarizationAppsyncStepfn extends Construct {
               'logs:CreateLogStream',
               'logs:PutLogEvents',
             ],
-            resources: [`arn:${cdk.Aws.PARTITION}:logs:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`],
+            resources: [`arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`],
           })],
         }),
       },
     });
+
+    // Minimum permissions for a Lambda function to execute while accessing a resource within a VPC
+    summaryGeneratorLambdaRole.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'ec2:CreateNetworkInterface',
+        'ec2:DeleteNetworkInterface',
+        'ec2:AssignPrivateIpAddresses',
+        'ec2:UnassignPrivateIpAddresses',
+      ],
+      resources: [
+        'arn:aws:ec2:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':*/*',
+      ],
+    }));
+    // Decribe only works if it's allowed on all resources.
+    // Reference: https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html#vpc-permissions
+    summaryGeneratorLambdaRole.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'ec2:DescribeNetworkInterfaces',
+      ],
+      resources: [
+        '*',
+      ],
+    }));
 
     summaryGeneratorLambdaRole.addToPolicy(
       new iam.PolicyStatement({
@@ -586,8 +661,8 @@ export class SummarizationAppsyncStepfn extends Construct {
           'bedrock:InvokeModelWithResponseStream'],
         resources: ['arn:aws:s3:::' + inputAssetBucketName+ '/*',
           'arn:aws:s3:::' + transformedAssetBucketName+ '/*',
-          'arn:aws:appsync:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+ '/*'
-          , 'arn:aws:bedrock:'+cdk.Aws.REGION+':'+cdk.Aws.ACCOUNT_ID+':provisioned-model/anthropic.claude-v2'],
+          'arn:aws:appsync:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+ '/*',
+          'arn:aws:bedrock:'+Aws.REGION+'::foundation-model/*'],
 
       }),
     );
@@ -611,7 +686,7 @@ export class SummarizationAppsyncStepfn extends Construct {
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: 1_769 * 4,
-      timeout: cdk.Duration.minutes(10),
+      timeout: Duration.minutes(10),
       tracing: lambda_tracing,
       role: summaryGeneratorLambdaRole,
       environment: {
@@ -683,7 +758,7 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     const dlq: sqs.Queue = new sqs.Queue(this, 'dlq', {
       queueName: 'summarydlq'+stage,
-      retentionPeriod: cdk.Duration.days(7),
+      retentionPeriod: Duration.days(7),
       enforceSSL: true,
     });
 
@@ -746,7 +821,7 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     const summarizationStepFunction = new sfn.StateMachine(this, 'summarizationStepFunction', {
       definitionBody: sfn.DefinitionBody.fromChainable(definition),
-      timeout: cdk.Duration.minutes(15),
+      timeout: Duration.minutes(15),
       logs: {
         destination: summarizationLogGroup,
         level: sfn.LogLevel.ALL,
