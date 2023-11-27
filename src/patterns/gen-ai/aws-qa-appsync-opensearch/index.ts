@@ -185,14 +185,14 @@ export class QaAppsyncOpensearch extends Construct {
     let enable_xray = true;
     let api_log_config = {
       fieldLogLevel: appsync.FieldLogLevel.ALL,
-      retention: logs.RetentionDays.ONE_YEAR,
+      retention: logs.RetentionDays.TEN_YEARS,
     };
     if (props.observability == false) {
       enable_xray = false;
       lambda_tracing = lambda.Tracing.DISABLED;
       api_log_config = {
         fieldLogLevel: appsync.FieldLogLevel.NONE,
-        retention: logs.RetentionDays.ONE_YEAR,
+        retention: logs.RetentionDays.TEN_YEARS,
       };
     };
 
