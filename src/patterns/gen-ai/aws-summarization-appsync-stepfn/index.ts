@@ -369,14 +369,16 @@ export class SummarizationAppsyncStepfn extends Construct {
       const redisSecurityGroup =redisHelper.getRedisSecurityGroup(this, {
         existingVpc: this.vpc,
       });
-      this.redisCluster = redisHelper.buildRedisCluster(this, {
+      const redisProps = {
         existingVpc: this.vpc,
         cfnCacheClusterProps: props.cfnCacheClusterProps,
         subnetIds: vpcHelper.getPrivateSubnetIDs(this.vpc),
         inboundSecurityGroup: this.securityGroup,
         redisSecurityGroup: redisSecurityGroup,
-      });
-      redisHelper.setInboundRules(redisSecurityGroup, this.securityGroup);
+        redisPort: 8787,
+      };
+      this.redisCluster = redisHelper.buildRedisCluster(this, redisProps);
+      redisHelper.setInboundRules(redisSecurityGroup, this.securityGroup, redisProps.redisPort);
     } else {
       this.redisCluster= props?.existingRedisCulster!;
     }
