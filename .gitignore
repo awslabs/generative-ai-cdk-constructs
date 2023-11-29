@@ -63,3 +63,4 @@ tsconfig.json
 !/.github/workflows/ort-toolkit.yml
 !/.github/workflows/semgrep.yml
 !/.github/workflows/bandit.yml
+!/.github/workflows/commitlint.yml
