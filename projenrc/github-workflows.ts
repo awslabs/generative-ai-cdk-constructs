@@ -451,6 +451,9 @@ export function runCommitLintWorkflow(project: AwsCdkConstructLibrary) {
       {
         name: 'Checkout project',
         uses: 'actions/checkout@v3',
+        with: {
+          "fetch-depth": "2",
+        }
       },
       {
         name: 'Setup Node',
