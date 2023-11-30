@@ -429,3 +429,67 @@ export function runBanditWorkflow(project: AwsCdkConstructLibrary) {
     }
   }
 }
+
+/**
+ * https://commitlint.js.org/#/guides-ci-setup
+ * Runs commitlint on the repository.
+ * @param project AwsCdkConstructLibrary
+ */
+export function runCommitLintWorkflow(project: AwsCdkConstructLibrary) {
+  const commitlint: Job = {
+    name: 'commitlint/ci',
+    runsOn: ['ubuntu-latest'],
+    permissions: {
+      contents: JobPermission.READ,
+      pullRequests: JobPermission.READ,
+      securityEvents: JobPermission.WRITE,
+      actions: JobPermission.READ,
+    },
+    if: "(github.actor != 'dependabot[bot]')",
+
+    steps: [
+      {
+        name: 'Checkout project',
+        uses: 'actions/checkout@v3',
+        with: {
+          'fetch-depth': '0',
+        },
+      },
+      {
+        name: 'Setup Node',
+        uses: 'actions/setup-node@v3',
+        with: {
+          'node-version': '20.x',
+        },
+      },
+      {
+        name: 'Install CommitLint',
+        run: 'npm install -g @commitlint/config-conventional commitlint',
+      },
+      {
+        name: 'Validate Current Commit',
+        if: "github.event_name == 'push'",
+        run: 'npx commitlint --from HEAD~1 --to HEAD --verbose',
+      },
+      {
+        name: 'Validate PR commits with commitlint',
+        if: "github.event_name == 'pull_request'",
+        run: 'npx commitlint --from ${{ github.event.pull_request.head.sha }}~${{ github.event.pull_request.commits }} --to ${{ github.event.pull_request.head.sha }} --verbose',
+      },
+    ],
+  };
+
+  if (project.github) {
+    const workflow = project.github.addWorkflow('commitlint');
+    if (workflow) {
+      workflow.on({
+        pullRequest: {},
+        workflowDispatch: {},
+        push: {},
+      });
+      workflow.addJobs({
+        commitlint: commitlint,
+      });
+    }
+  }
+}
