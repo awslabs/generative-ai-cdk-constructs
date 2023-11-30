@@ -27,7 +27,7 @@ import {
 const GITHUB_USER = 'awslabs';
 const PUBLICATION_NAMESPACE = 'cdklabs';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
-const CDK_VERSION: string = '2.103.1';
+const CDK_VERSION: string = '2.111.0';
 
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Amazon Web Services - Prototyping and Cloud Engineering',
@@ -35,7 +35,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   authorOrganization: true,
   description: 'AWS Generative AI CDK Constructs is a library for well-architected generative AI patterns.',
   cdkVersion: CDK_VERSION,
-  projenVersion: '~0.73.33',
+  projenVersion: '~0.77.4',
   constructsVersion: '10.3.0',
   cdkVersionPinning: true,
   defaultReleaseBranch: 'main',
