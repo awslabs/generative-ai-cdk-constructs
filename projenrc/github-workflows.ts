@@ -267,11 +267,11 @@ export function buildOrtToolkitWorkflow(project: AwsCdkConstructLibrary) {
     const workflow = project.github.addWorkflow('ort-toolkit');
     if (workflow) {
       workflow.on({
-        push: {
-          branches: [
-            'main',
-          ],
-        },
+        // push: {
+        //   branches: [
+        //     'main',
+        //   ],
+        // },
         workflowDispatch: {},
       });
       workflow.addJobs({ ort: orttoolkit });
