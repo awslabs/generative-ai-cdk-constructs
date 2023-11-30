@@ -2,9 +2,6 @@
 
 name: ort-toolkit
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch: {}
 jobs:
   ort:
