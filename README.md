@@ -20,6 +20,7 @@
 - [Contributing](#contributing)
 - [Adding new constructs](#design-guidelines-and-development-guide)
 - [Catalog](#catalog)
+- [NPM Install Instructions](#npm-install-instructions)
 - [Sample Use Cases](#sample-use-cases)
 - [Operational Metrics Collection](#operational-metrics-collection)
 - [Roadmap](#roadmap)
@@ -54,6 +55,28 @@ The following constructs are available in the library:
 | [Summarization](./src/patterns/gen-ai/aws-summarization-appsync-stepfn/) | Document summarization with a large language model (Anthropic Claude V2). | AWS Lambda, Amazon Bedrock, AWS AppSync and Amazon Elasticache for Redis.  |
 | [Lambda layer](./src/patterns/gen-ai/aws-langchain-common-layer/) | Python Lambda layer providing dependencies and utilities to develop generative AI applications on AWS. | AWS Lambda, Amazon Bedrock, Amazon SageMaker | 
 | [SageMaker model deployment](./src/patterns/gen-ai/aws-model-deployment-sagemaker/) | Deploy a foundation model from Amazon SageMaker JumpStart or Hugging Face to an Amazon SageMaker endpoint. | Amazon SageMaker | 
+
+
+# NPM Install Instructions
+
+#### For TypeScript:
+- Create or use an existing CDK application in TypeScript.
+  - `cdk init app --language typescript`
+- Run `npm install @cdklabs/generative-ai-cdk-constructs`
+- The package should be added to your package.json.
+- Import the library: 
+  - `import * as genai from '@cdklabs/generative-ai-cdk-constructs';`
+
+#### For Python:
+- Create or use an existing CDK application in Python
+  - `cdk init app --language python`
+- Install the package:
+  - `pip install cdklabs.generative-ai-cdk-constructs`
+- Import the library:
+  - `import cdklabs.generative_ai_cdk_constructs`
+ 
+Refer to the documentation for additional guidance on a particular construct: [Catalog](#catalog)
+
 
 # Sample Use Cases
 
