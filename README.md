@@ -19,6 +19,7 @@
 - [CDK Versions](#cdk-versions)
 - [Contributing](#contributing)
 - [Adding new constructs](#design-guidelines-and-development-guide)
+- [Getting Started](#getting-started)
 - [Catalog](#catalog)
 - [Sample Use Cases](#sample-use-cases)
 - [Operational Metrics Collection](#operational-metrics-collection)
@@ -42,6 +43,26 @@ Contributions of all kinds are welcome! Check out our [contributor guide](./CONT
 # Design guidelines and Development guide
 
 If you want to add a new construct to the library, check out our [design guidelines](./DESIGN_GUIDELINES.md), then follow the [development guide](./DEVELOPER_GUIDE.md)
+
+# Getting Started
+
+#### For TypeScript:
+- Create or use an existing CDK application in TypeScript.
+  - `cdk init app --language typescript`
+- Run `npm install @cdklabs/generative-ai-cdk-constructs`
+- The package should be added to your package.json.
+- Import the library: 
+  - `import * as genai from '@cdklabs/generative-ai-cdk-constructs';`
+
+#### For Python:
+- Create or use an existing CDK application in Python
+  - `cdk init app --language python`
+- Install the package:
+  - `pip install cdklabs.generative-ai-cdk-constructs`
+- Import the library:
+  - `import cdklabs.generative_ai_cdk_constructs`
+
+Refer to the documentation for additional guidance on a particular construct: [Catalog](#catalog)
 
 # Catalog
 

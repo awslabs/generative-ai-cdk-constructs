@@ -64,7 +64,7 @@ import { Construct } from 'constructs';
 import { Stack, StackProps } from 'aws-cdk-lib';
 import * as os from 'aws-cdk-lib/aws-opensearchservice';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
-import { RagApiGatewayOpensearch, RagApiGatewayOpensearchProps } from '@cdklabs/generative-ai-cdk-constructs';
+import { RagAppsyncStepfnOpensearch, RagAppsyncStepfnOpensearchProps } from '@cdklabs/generative-ai-cdk-constructs';
 
 // get an existing OpenSearch provisioned cluster in the same VPC as of RagAppsyncStepfnOpensearch construct 
 // Security group for the existing opensearch cluster should allow traffic on 443.
@@ -164,7 +164,7 @@ Parameters
 
 - scope [Construct](https://docs.aws.amazon.com/cdk/api/v2/docs/constructs.Construct.html)
 - id string
-- props [RagApiGatewayOpensearchProps](../aws-rag-appsync-stepfn-opensearch/index.ts)
+- props [RagAppsyncStepfnOpensearchProps](../aws-rag-appsync-stepfn-opensearch/index.ts)
 
 ## Pattern Construct Props
 
