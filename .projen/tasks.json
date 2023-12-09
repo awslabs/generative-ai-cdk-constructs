@@ -117,7 +117,19 @@
       "description": "Runs eslint against the codebase",
       "steps": [
         {
-          "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern src test build-tools projenrc .projenrc.ts"
+          "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern $@ src test build-tools projenrc .projenrc.ts",
+          "receiveArgs": true
+        }
+      ]
+    },
+    "generate-models-containers": {
+      "name": "generate-models-containers",
+      "description": "Generate new list of models available from Jumpstart and DLC containers",
+      "steps": [
+        {
+          "say": "Generate new list of models available from Jumpstart and DLC containers",
+          "cwd": "src/patterns/gen-ai/aws-model-deployment-sagemaker/code-generation",
+          "exec": "npm run generate"
         }
       ]
     },
@@ -260,13 +272,13 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@types/jest,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,eslint-import-resolver-typescript,eslint-plugin-header,eslint-plugin-import,eslint,jest,jest-junit,jsii-diff,jsii-pacmak,standard-version,ts-jest,ts-node,typescript,constructs,cdk-nag"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@commitlint/config-conventional,@mrgrain/jsii-struct-builder,@types/jest,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,commitlint,eslint-import-resolver-typescript,eslint-plugin-header,eslint-plugin-import,eslint,husky,jest,jest-junit,jsii-diff,jsii-pacmak,pinst,standard-version,ts-jest,ts-node,typescript,aws-cdk-lib,constructs,cdk-nag"
         },
         {
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-import-resolver-typescript eslint-plugin-header eslint-plugin-import eslint jest jest-junit jsii-diff jsii-pacmak standard-version ts-jest ts-node typescript constructs cdk-nag"
+          "exec": "yarn upgrade @commitlint/config-conventional @mrgrain/jsii-struct-builder @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser commitlint eslint-import-resolver-typescript eslint-plugin-header eslint-plugin-import eslint husky jest jest-junit jsii-diff jsii-pacmak pinst standard-version ts-jest ts-node typescript aws-cdk-lib constructs cdk-nag"
         },
         {
           "exec": "npx projen"

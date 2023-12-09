@@ -36,7 +36,8 @@ jspm_packages/
 *.pyc
 __pycache__/
 !.ort.yml
-!/.projenrc.js
+.idea
+.vscode
 /test-reports/
 junit.xml
 /coverage/
@@ -63,3 +64,6 @@ tsconfig.json
 !/.github/workflows/semgrep.yml
 !/.github/workflows/bandit.yml
 !/.github/workflows/commitlint.yml
+!/.projenrc.ts
+!/src/LangchainProps.ts
+!/src/AdapterProps.ts

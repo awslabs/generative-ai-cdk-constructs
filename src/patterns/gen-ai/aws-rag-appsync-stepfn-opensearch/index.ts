@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 import * as path from 'path';
-import { Duration, Aws } from 'aws-cdk-lib';
+import { Duration, Aws, Stack } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
@@ -28,10 +28,11 @@ import * as stepfn_task from 'aws-cdk-lib/aws-stepfunctions-tasks';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
+import { generatePhysicalName, version } from '../../../common/helpers/utils';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
 
 /**
- * The properties for the RagAppsyncStepfnOpensearch class.
+ * The properties for the RagAppsyncStepfnOpensearchProps class.
  */
 export interface RagAppsyncStepfnOpensearchProps {
   /**
@@ -134,7 +135,7 @@ export interface RagAppsyncStepfnOpensearchProps {
    * simply disable it by setting the construct property
    * "enableOperationalMetric" to false for each construct used.
    *
-   * @default -true
+   * @default - true
    */
   readonly enableOperationalMetric?: boolean;
 
@@ -148,7 +149,7 @@ export interface RagAppsyncStepfnOpensearchProps {
 }
 
 /**
-   * @summary The RagApiGatewayOpensearch class.
+   * @summary The RagAppsyncStepfnOpensearch class.
    */
 export class RagAppsyncStepfnOpensearch extends Construct {
   /**
@@ -346,7 +347,9 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       'ingestionGraphqlApi',
       {
         name: 'ingestionGraphqlApi'+stage,
-        schema: appsync.SchemaFile.fromAsset(path.join(__dirname, '../../../../resources/gen-ai/aws-rag-appsync-stepfn-opensearch/schema.graphql')),
+        definition: appsync.Definition.fromFile(
+          path.join(__dirname, '../../../../resources/gen-ai/aws-rag-appsync-stepfn-opensearch/schema.graphql'),
+        ),
         authorizationConfig: {
           defaultAuthorization: {
             authorizationType: appsync.AuthorizationType.USER_POOL,
@@ -692,18 +695,19 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     );
 
 
-    const enableOperationalMetric = props.enableOperationalMetric || true;
-    const solution_id = 'genai_cdk_'+id;
+    const enableOperationalMetric =
+      props.enableOperationalMetric !== undefined && props.enableOperationalMetric !== null ? props.enableOperationalMetric : true;
 
     if (enableOperationalMetric) {
+      const solutionId = `genai_cdk_${version}/${this.constructor.name}/${id}`;
       embeddings_job_function.addEnvironment(
-        'AWS_SDK_UA_APP_ID', solution_id,
+        'AWS_SDK_UA_APP_ID', solutionId,
       );
       s3_transformer_job_function.addEnvironment(
-        'AWS_SDK_UA_APP_ID', solution_id,
+        'AWS_SDK_UA_APP_ID', solutionId,
       );
       validate_input_function.addEnvironment(
-        'AWS_SDK_UA_APP_ID', solution_id,
+        'AWS_SDK_UA_APP_ID', solutionId,
       );
     };
 
@@ -770,6 +774,19 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     const definition = inputValidationTask.next(validate_input_choice.when(
       stepfn.Condition.booleanEquals('$.validation_result.Payload.isValid', false), jobFailed).otherwise(run_files_in_parallel.next(embeddingsTask)));
 
+    const maxLogGroupNameLength = 255;
+    const logGroupPrefix = '/aws/vendedlogs/states/constructs/';
+    const maxGeneratedNameLength = maxLogGroupNameLength - logGroupPrefix.length;
+    const nameParts: string[] = [
+      Stack.of(scope).stackName, // Name of the stack
+      scope.node.id, // Construct ID
+      'StateMachineLogRag', // Literal string for log group name portion
+    ];
+    const logGroupName = generatePhysicalName(logGroupPrefix, nameParts, maxGeneratedNameLength);
+    const ragLogGroup = new logs.LogGroup(this, 'ingestionStepFunctionLogGroup', {
+      logGroupName: logGroupName,
+    });
+
     const ingestion_step_function = new stepfn.StateMachine(
       this,
       'IngestionStateMachine',
@@ -778,7 +795,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         definitionBody: stepfn.DefinitionBody.fromChainable(definition),
         timeout: Duration.minutes(30),
         logs: {
-          destination: new logs.LogGroup(this, 'ingestionStepFunctionLogGroup'),
+          destination: ragLogGroup,
           level: stepfn.LogLevel.ALL,
         },
         tracingEnabled: enable_xray,

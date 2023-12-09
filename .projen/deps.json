@@ -1,6 +1,14 @@
 {
   "dependencies": [
     {
+      "name": "@commitlint/config-conventional",
+      "type": "build"
+    },
+    {
+      "name": "@mrgrain/jsii-struct-builder",
+      "type": "build"
+    },
+    {
       "name": "@types/jest",
       "type": "build"
     },
@@ -20,6 +28,10 @@
       "type": "build"
     },
     {
+      "name": "commitlint",
+      "type": "build"
+    },
+    {
       "name": "eslint-import-resolver-typescript",
       "type": "build"
     },
@@ -34,6 +46,10 @@
     {
       "name": "eslint",
       "version": "^8",
+      "type": "build"
+    },
+    {
+      "name": "husky",
       "type": "build"
     },
     {
@@ -55,17 +71,21 @@
     },
     {
       "name": "jsii-rosetta",
-      "version": "~5.0.0",
+      "version": "~5.3.0",
       "type": "build"
     },
     {
       "name": "jsii",
-      "version": "~5.0.0",
+      "version": "~5.3.0",
+      "type": "build"
+    },
+    {
+      "name": "pinst",
       "type": "build"
     },
     {
       "name": "projen",
-      "version": "~0.77.4",
+      "version": "~0.78.8",
       "type": "build"
     },
     {
@@ -87,7 +107,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "2.111.0",
+      "version": "^2.114.0",
       "type": "peer"
     },
     {

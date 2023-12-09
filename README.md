@@ -22,6 +22,7 @@
 - [Getting Started](#getting-started)
 - [Catalog](#catalog)
 - [Sample Use Cases](#sample-use-cases)
+- [Additional Resources](#additional-resources)
 - [Operational Metrics Collection](#operational-metrics-collection)
 - [Roadmap](#roadmap)
 - [Legal Disclaimer](#legal-disclaimer)
@@ -74,15 +75,20 @@ The following constructs are available in the library:
 | [Question answering](./src/patterns/gen-ai/aws-qa-appsync-opensearch/) | Question answering with a large language model (Anthropic Claude V2) using a RAG (retrieval augmented generation) source and/or long context. | Amazon OpenSearch, AWS Lambda, Amazon Bedrock, AWS AppSync | 
 | [Summarization](./src/patterns/gen-ai/aws-summarization-appsync-stepfn/) | Document summarization with a large language model (Anthropic Claude V2). | AWS Lambda, Amazon Bedrock, AWS AppSync and Amazon Elasticache for Redis.  |
 | [Lambda layer](./src/patterns/gen-ai/aws-langchain-common-layer/) | Python Lambda layer providing dependencies and utilities to develop generative AI applications on AWS. | AWS Lambda, Amazon Bedrock, Amazon SageMaker | 
-| [SageMaker model deployment](./src/patterns/gen-ai/aws-model-deployment-sagemaker/) | Deploy a foundation model from Amazon SageMaker JumpStart or Hugging Face to an Amazon SageMaker endpoint. | Amazon SageMaker | 
+| [SageMaker model deployment (Jumpstart)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_jumpstart.md) | Deploy a foundation model from Amazon SageMaker JumpStart to an Amazon SageMaker endpoint. | Amazon SageMaker | 
+| [SageMaker model deployment (Hugging Face)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_hugging_face.md) | Deploy a foundation model from Hugging Face to an Amazon SageMaker endpoint. | Amazon SageMaker | 
+| [SageMaker model deployment (Custom)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_custom_sagemaker_endpoint.md) | Deploy a foundation model from an S3 location to an Amazon SageMaker endpoint. | Amazon SageMaker | 
 
 # Sample Use Cases
 
-This library includes a collection of functional use case implementations to demonstrate the usage of AWS Generative AI CDK Constructs. These can be used in the same way as architectural patterns, and can be conceptualized as an additional "higher-level" abstraction of those patterns. Those patterns (constructs) are composed together into [stacks](https://docs.aws.amazon.com/cdk/latest/guide/stacks.html), forming a "CDK app".
+The official samples repository https://github.com/aws-samples/generative-ai-cdk-constructs-samples includes a collection of functional use case implementations to demonstrate the usage of AWS Generative AI CDK Constructs. These can be used in the same way as architectural patterns, and can be conceptualized as an additional "higher-level" abstraction of those patterns. Those patterns (constructs) are composed together into [stacks](https://docs.aws.amazon.com/cdk/latest/guide/stacks.html), forming a "CDK app".
 
-The following use cases are provided as functional examples:
+# Additional Resources
 
-Coming soon
+| Resource |Description|
+|:-------------|:-------------|
+| [AWS re:Invent 2023 - Keynote with Dr. Werner Vogels](https://youtu.be/UTRBVPvzt9w?t=6252) | Dr. Werner Vogels, Amazon.com's VP and CTO, announces the AWS Generative AI CDK Constructs during his AWS re:Invent 2023 keynote. |
+| [aws-cdk-stack-builder-tool](https://github.com/aws-samples/aws-cdk-stack-builder-tool) | AWS CDK Builder is a browser-based tool designed to streamline bootstrapping of Infrastructure as Code (IaC) projects using the AWS Cloud Development Kit (CDK). |
 
 # Operational Metrics Collection
 

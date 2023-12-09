@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 import * as path from 'path';
-import { Duration, Aws } from 'aws-cdk-lib';
+import { Duration, Aws, Stack } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
@@ -30,6 +30,7 @@ import { Construct } from 'constructs';
 import * as eventBridge from '../../../common/helpers/eventbridge-helper';
 import * as redisHelper from '../../../common/helpers/redis-helper';
 import * as s3BucketHelper from '../../../common/helpers/s3-bucket-helper';
+import { generatePhysicalName, version } from '../../../common/helpers/utils';
 import * as vpcHelper from '../../../common/helpers/vpc-helper';
 
 export interface SummarizationAppsyncStepfnProps {
@@ -176,7 +177,7 @@ export interface SummarizationAppsyncStepfnProps {
    * simply disable it by setting the construct property
    * "enableOperationalMetric" to false for each construct used.
    *
-   * @default -true
+   * @default - true
    */
   readonly enableOperationalMetric?: boolean;
 
@@ -414,7 +415,9 @@ export class SummarizationAppsyncStepfn extends Construct {
       {
         name: apiName+stage,
         logConfig: api_log_config,
-        schema: appsync.SchemaFile.fromAsset(path.join(__dirname, '../../../../resources/gen-ai/aws-summarization-appsync-stepfn/schema.graphql')),
+        definition: appsync.Definition.fromFile(
+          path.join(__dirname, '../../../../resources/gen-ai/aws-summarization-appsync-stepfn/schema.graphql'),
+        ),
         authorizationConfig: authorizationConfig,
         xrayEnabled: enable_xray,
       });
@@ -704,18 +707,19 @@ export class SummarizationAppsyncStepfn extends Construct {
     this.processedAssetBucket?.grantReadWrite(documentReaderLambda);
 
 
-    const enableOperationalMetric = props.enableOperationalMetric || true;
-    const solution_id = 'genai_cdk_'+id;
+    const enableOperationalMetric =
+      props.enableOperationalMetric !== undefined && props.enableOperationalMetric !== null ? props.enableOperationalMetric : true;
 
     if (enableOperationalMetric) {
+      const solutionId = `genai_cdk_${version}/${this.constructor.name}/${id}`;
       documentReaderLambda.addEnvironment(
-        'AWS_SDK_UA_APP_ID', solution_id,
+        'AWS_SDK_UA_APP_ID', solutionId,
       );
       generateSummarylambda.addEnvironment(
-        'AWS_SDK_UA_APP_ID', solution_id,
+        'AWS_SDK_UA_APP_ID', solutionId,
       );
       inputValidatorLambda.addEnvironment(
-        'AWS_SDK_UA_APP_ID', solution_id,
+        'AWS_SDK_UA_APP_ID', solutionId,
       );
     };
 
@@ -804,8 +808,18 @@ export class SummarizationAppsyncStepfn extends Construct {
       ),
     );
 
-    const summarizationLogGroup = new logs.LogGroup(this, 'summarizationLogGroup', {});
-
+    const maxLogGroupNameLength = 255;
+    const logGroupPrefix = '/aws/vendedlogs/states/constructs/';
+    const maxGeneratedNameLength = maxLogGroupNameLength - logGroupPrefix.length;
+    const nameParts: string[] = [
+      Stack.of(scope).stackName, // Name of the stack
+      scope.node.id, // Construct ID
+      'StateMachineLogSummarization', // Literal string for log group name portion
+    ];
+    const logGroupName = generatePhysicalName(logGroupPrefix, nameParts, maxGeneratedNameLength);
+    const summarizationLogGroup = new logs.LogGroup(this, 'summarizationLogGroup', {
+      logGroupName: logGroupName,
+    });
 
     // step function definition
     const definition = inputValidationTask.next(
