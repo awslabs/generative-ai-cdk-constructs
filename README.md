@@ -22,6 +22,7 @@
 - [Getting Started](#getting-started)
 - [Catalog](#catalog)
 - [Sample Use Cases](#sample-use-cases)
+- [Additional Resources](#additional-resources)
 - [Operational Metrics Collection](#operational-metrics-collection)
 - [Roadmap](#roadmap)
 - [Legal Disclaimer](#legal-disclaimer)
@@ -83,6 +84,13 @@ This library includes a collection of functional use case implementations to dem
 The following use cases are provided as functional examples:
 
 Coming soon
+
+# Additional Resources
+
+| Resource |Description|
+|:-------------|:-------------|
+| [AWS re:Invent 2023 - Keynote with Dr. Werner Vogels](https://youtu.be/UTRBVPvzt9w?t=6252) | Dr. Werner Vogels, Amazon.com's VP and CTO, announces the AWS Generative AI CDK Constructs during his AWS re:Invent 2023 keynote. |
+| [aws-cdk-stack-builder-tool](https://github.com/aws-samples/aws-cdk-stack-builder-tool) | AWS CDK Builder is a browser-based tool designed to streamline bootstrapping of Infrastructure as Code (IaC) projects using the AWS Cloud Development Kit (CDK). |
 
 # Operational Metrics Collection
 
