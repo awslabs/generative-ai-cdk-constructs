@@ -145,17 +145,16 @@ project.eslint?.addRules({
 });
 
 // Add generation of new available models for constructs
-project.addTask("generate-models-containers", {
-  description: "Generate new list of models available from Jumpstart and DLC containers",
+project.addTask('generate-models-containers', {
+  description: 'Generate new list of models available from Jumpstart and DLC containers',
   steps: [
     {
-      say: "Generate new list of models available from Jumpstart and DLC containers",
+      say: 'Generate new list of models available from Jumpstart and DLC containers',
       cwd: project.srcdir+'/patterns/gen-ai/aws-model-deployment-sagemaker/code-generation',
-      exec: "npm run generate",
+      exec: 'npm run generate',
     },
   ],
 });
-
 
 
 project.synth();
