@@ -31,7 +31,7 @@ import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
 
 /**
- * The properties for the RagAppsyncStepfnOpensearch class.
+ * The properties for the RagAppsyncStepfnOpensearchProps class.
  */
 export interface RagAppsyncStepfnOpensearchProps {
   /**
@@ -148,7 +148,7 @@ export interface RagAppsyncStepfnOpensearchProps {
 }
 
 /**
-   * @summary The RagApiGatewayOpensearch class.
+   * @summary The RagAppsyncStepfnOpensearch class.
    */
 export class RagAppsyncStepfnOpensearch extends Construct {
   /**
