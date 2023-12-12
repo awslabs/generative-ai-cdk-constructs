@@ -121,6 +121,17 @@
         }
       ]
     },
+    "generate-models-containers": {
+      "name": "generate-models-containers",
+      "description": "Generate new list of models available from Jumpstart and DLC containers",
+      "steps": [
+        {
+          "say": "Generate new list of models available from Jumpstart and DLC containers",
+          "cwd": "src/patterns/gen-ai/aws-model-deployment-sagemaker/code-generation",
+          "exec": "npm run generate"
+        }
+      ]
+    },
     "install": {
       "name": "install",
       "description": "Install project dependencies and update lockfile (non-frozen)",
