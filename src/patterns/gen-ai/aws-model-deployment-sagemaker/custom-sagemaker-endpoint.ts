@@ -19,17 +19,17 @@ import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
 import { SageMakerInstanceType } from './sagemaker-instance-type';
 
 export interface CustomSageMakerEndpointProps {
-  modelId: string;
-  endpointName: string;
-  instanceType: SageMakerInstanceType;
-  container: ContainerImage;
-  instanceCount?: number;
-  role?: iam.Role;
-  environment?: { [key: string]: string };
-  startupHealthCheckTimeoutInSeconds?: number;
-  modelDataDownloadTimeoutInSeconds?: number;
-  volumeSizeInGb?: number;
-  modelDataUrl: string;
+  readonly modelId: string;
+  readonly endpointName: string;
+  readonly instanceType: SageMakerInstanceType;
+  readonly container: ContainerImage;
+  readonly instanceCount?: number;
+  readonly role?: iam.Role;
+  readonly environment?: { [key: string]: string };
+  readonly startupHealthCheckTimeoutInSeconds?: number;
+  readonly modelDataDownloadTimeoutInSeconds?: number;
+  readonly volumeSizeInGb?: number;
+  readonly modelDataUrl: string;
 }
 
 export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements iam.IGrantable {
