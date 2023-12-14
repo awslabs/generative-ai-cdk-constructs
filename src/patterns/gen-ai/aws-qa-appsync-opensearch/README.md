@@ -18,22 +18,29 @@
 
 ## Table of contents
 
-- [Overview](#overview)
-- [Initializer](#initializer)
-- [Pattern Construct Props](#pattern-construct-props)
-- [Pattern Properties](#pattern-properties)
-- [Default properties](#default-properties)
-- [Troubleshooting](#troubleshooting)
-- [Architecture](#architecture)
-- [Cost](#cost)
-- [Security](#security)
-- [Supported AWS Regions](#supported-aws-regions)
-- [Quotas](#quotas)
-- [Clean up](#clean-up)
+- [aws-qa-appsync-opensearch](#aws-qa-appsync-opensearch)
+  - [Table of contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Initializer](#initializer)
+  - [Pattern Construct Props](#pattern-construct-props)
+  - [Pattern Properties](#pattern-properties)
+  - [Default properties](#default-properties)
+    - [Authentication](#authentication)
+    - [Networking](#networking)
+    - [Amazon S3 Bucket](#amazon-s3-bucket)
+    - [Observability](#observability)
+  - [Troubleshooting](#troubleshooting)
+  - [Architecture](#architecture)
+  - [Cost](#cost)
+  - [Security](#security)
+  - [Supported AWS Regions](#supported-aws-regions)
+  - [Quotas](#quotas)
+  - [Clean up](#clean-up)
 
 ## Overview
 
-This construct provides a question answering workflow (RAG + long context window) using Amazon Bedrock and a provisioned Amazon OpenSearch cluster. 
+This construct provides a question answering workflow (RAG + long context window) using Amazon Bedrock and a provisioned Amazon OpenSearch cluster.
+
 - If a document is provided as an input to the AppSync query, the AWS Lambda function will first verify the length of the document. If the document size is above the max number of tokens for the selected model, the Lambda will query the knowledge base (similarity search) and filter by document name. This assumes that the chunks of texts stored in the knowledge base have the document name as metadata. Otherwise, the content of the document is provided to the LLM as part of the context.
 - If no document is provided as input, the Lambda will perform a similarity search against the entire knowledge base.
 
@@ -46,6 +53,7 @@ This construct builds a Lambda function from a Docker image, thus you need to ha
 Here is a minimal deployable pattern definition:
 
 Typescript
+
 ``` typescript
 import { Construct } from 'constructs';
 import { Stack, StackProps } from 'aws-cdk-lib';
@@ -73,6 +81,7 @@ const rag_source = new QaAppsyncOpensearch(
       }
     )
 ```
+
 After deploying the CDK stack, the QA process can be invoked using GraphQL APIs. The API Schema details are present here: resources/gen-ai/aws-qa-appsync-opensearch/schema.graphql.
 
 The code below provides an example of a mutation call and associated subscription to trigger a question and get response notifications. The subscription call will wait for mutation requests to send the notifications.
@@ -106,6 +115,7 @@ Expected response:
 ```
 
 Where:
+
 - jobid: id which can be used to filter subscriptions on client side
 - answer: response to the question from the large language model as a base64 encoded string
 - sources: sources from the knowledge base used as context to answer the question
@@ -144,15 +154,14 @@ Expected response:
 ```
 
 Where:
+
 - jobid: id which can be used to filter subscriptions on client side
 - jobstatus: this field will be used by the subscription to update the status of the question answering process for the file specified
-- max_docs: maximum number of documents (chunks) retrieved from the knowledge base if the Retrieveal Augmented Generation (RAG) approach is used 
+- max_docs: maximum number of documents (chunks) retrieved from the knowledge base if the Retrieveal Augmented Generation (RAG) approach is used
 - question: question to ask as a base64 encoded string
 - verbose: boolean indicating if the [Langchain chain call verbosity](https://python.langchain.com/docs/guides/debugging#chain-verbosetrue) should be enabled or not
-- streaming: boolean indicating if the streaming capability of Bedrock is used. If set to true, tokens will be send back to the subscriber as they are generated. If set to false, the entire response will be sent back to the subscriber once generated. 
+- streaming: boolean indicating if the streaming capability of Bedrock is used. If set to true, tokens will be send back to the subscriber as they are generated. If set to false, the entire response will be sent back to the subscriber once generated.
 - filename: optional. Name of the file stored in the input S3 bucket, in txt format.
-
-
 
 ## Initializer
 
@@ -183,7 +192,8 @@ Parameters
 | stage | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | Value will be appended to resources name Service. |
 | existingMergedApi | [appsync.CfnGraphQLApi](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_appsync.CfnGraphQLApi.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing Merged API instance. The Merged API provides a federated schema over source API schemas.|
 | observability | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Enables observability on all services used. Warning: associated cost with the services used. Best practice to enable by default. Defaults to true.|
-| enableOperationalMetric | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | CDK construct collects anonymous operational metrics to help AWS improve the quality and features of the constructs. Data collection is subject to the AWS Privacy Policy (https://aws.amazon.com/privacy/). To opt out of this feature, simply disable it by setting the construct property "enableOperationalMetric" to false for each construct used. Defaults to true.|
+| enableOperationalMetric | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | CDK construct collects anonymous operational metrics to help AWS improve the quality and features of the constructs. Data collection is subject to the AWS Privacy Policy (<https://aws.amazon.com/privacy/>). To opt out of this feature, simply disable it by setting the construct property "enableOperationalMetric" to false for each construct used. Defaults to true.|
+| lambdaProvisionedConcurrency | number | ![Optional](https://img.shields.io/badge/optional-4169E1) | Allows a user to configure Lambda provisioned concurrency for consistent performance|
 
 ## Pattern Properties
 
@@ -194,7 +204,7 @@ Parameters
 | qaBus | [events.IEventBus](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_events.IEventBus.html) | The event bus used by the construct (whether created by the construct or provided by the client) |
 | s3InputAssetsBucketInterface | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.IBucket.html) | Returns an instance of s3.IBucket created by the construct |
 | s3InputAssetsBucket | [s3.Bucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html) | Returns an instance of s3.Bucket created by the construct. IMPORTANT: If existingInputAssetsBucketObj was provided in Pattern Construct Props, this property will be undefined |
-| graphqlApi| [appsync.IGraphqlApi](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_appsync.GraphqlApi.html) | Returns an instance of appsync.IGraphqlApi created by the construct | 
+| graphqlApi| [appsync.IGraphqlApi](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_appsync.GraphqlApi.html) | Returns an instance of appsync.IGraphqlApi created by the construct |
 
 ## Default properties
 
@@ -208,9 +218,9 @@ Out-of-the-box implementation of the construct without any override will set the
 ### Networking
 
 - Set up a VPC
-    - Uses existing VPC if provided, otherwise creates a new one
+  - Uses existing VPC if provided, otherwise creates a new one
 - Set up a security group used by the AWS Lambda functions
-    - Uses existing security group, otherwise creates a new one
+  - Uses existing security group, otherwise creates a new one
 
 ### Amazon S3 Bucket
 
@@ -218,7 +228,8 @@ Out-of-the-box implementation of the construct without any override will set the
 
 ### Observability
 
-By default the construct will enable logging and tracing on all services which support those features. Observability can be turned off by setting the pattern property ```observability``` to false. 
+By default the construct will enable logging and tracing on all services which support those features. Observability can be turned off by setting the pattern property ```observability``` to false.
+
 - AWS Lambda: AWS X-Ray, Amazon CloudWatch Logs
 - AWS AppSync GraphQL API: AWS X-Ray, Amazon CloudWatch Logs
 
@@ -234,6 +245,7 @@ By default the construct will enable logging and tracing on all services which s
 | | Failed to load the LLM | Internal error related to loading the large language model client | Check the Lambda error logs to get a detailed description of the issue |
 
 ## Architecture
+
 ![Architecture Diagram](architecture.png)
 
 ## Cost
@@ -244,7 +256,6 @@ We recommend creating a budget through [AWS Cost Explorer](http://aws.amazon.com
 
 The following table provides a sample cost breakdown for deploying this solution with the default parameters in the **US East (N. Virginia)** Region for **one month**.
 
-
 | **AWS Service**     | **Dimensions**        | **Cost [USD]** |
 |:-------------|:----------------|-----------------|
 | Amazon Virtual Private Cloud |  | 0.00 |
@@ -252,12 +263,13 @@ The following table provides a sample cost breakdown for deploying this solution
 | Amazon EventBridge | 15 requests per hour = 10800 custom events per month | 0.01 |
 | AWS Lambda | 15 q/a requests per hour through 1 Lambda function with 7076 MB of memory allocated and 512 MB of ephemeral storage allocated and an average run time of 30 seconds = 10800 requests per month | 30.65 |
 | Amazon Simple Storage Service | 15 transformed files to text format added every hour with an average size of 1 MB = 21.6 GB per month in S3 Standard Storage | 0.50 |
-| Amazon Bedrock | Prompt template is 1,500 characters (~400 tokens), OpenSearch returns 200 tokens per excerpt and only uses top 5 documents (~1000 tokens), User inputs average 1 sentence long (~20 tokens), LLM outputs average 8 sentences (~160 tokens). Using those assumptions: Input Tokens = promptTemplate + context + query -> Input tokens = 1,900 and Output tokens = 160. Using Anthropic Claude V2 for question answering and Amazon Titan for embeddings, with 360 (15x24h) transactions a day, daily cost is 2K tokens/1000 * $0.01102 + 1K tokens/1000 * $0.03268 = $0.05472 * 360 = 19.70 | 19.70 |
+| Amazon Bedrock | Prompt template is 1,500 characters (~400 tokens), OpenSearch returns 200 tokens per excerpt and only uses top 5 documents (~1000 tokens), User inputs average 1 sentence long (~20 tokens), LLM outputs average 8 sentences (~160 tokens). Using those assumptions: Input Tokens = promptTemplate + context + query -> Input tokens = 1,900 and Output tokens = 160. Using Anthropic Claude V2 for question answering and Amazon Titan for embeddings, with 360 (15x24h) transactions a day, daily cost is 2K tokens/1000 *$0.01102 + 1K tokens/1000 * $0.03268 = $0.05472* 360 = 19.70 | 19.70 |
 | Amazon CloudWatch | 15 metrics using 5 GB data ingested for logs | 7.02 |
 | AWS X-Ray | 100,000 requests per month through AppSync and Lambda calls | 0.50 |
 | Total monthly cost | | 58.60 |
 
 The resources not created by this construct (Amazon Cognito User Pool, Amazon OpenSearch provisioned cluster, AppSync Merged API, AWS Secrets Manager secret) do not appear in the table above. You can refer to the decicated pages to get an estimate of the cost related to those services:
+
 - [Amazon OpenSearch Service Pricing](https://aws.amazon.com/opensearch-service/pricing/)
 - [AWS AppSync pricing (for Merged API if used)](https://aws.amazon.com/appsync/pricing/)
 - [Amazon Cognito Pricing](https://aws.amazon.com/cognito/pricing/)
@@ -271,10 +283,12 @@ The resources not created by this construct (Amazon Cognito User Pool, Amazon Op
 When you build systems on AWS infrastructure, security responsibilities are shared between you and AWS. This [shared responsibility](http://aws.amazon.com/compliance/shared-responsibility-model/) model reduces your operational burden because AWS operates, manages, and controls the components including the host operating system, virtualization layer, and physical security of the facilities in which the services operate. For more information about AWS security, visit [AWS Cloud Security](http://aws.amazon.com/security/).
 
 This construct requires you to provide an existing Amazon Cognito User Pool and a provisioned Amazon OpenSearch cluster. Please refer to the official documentation on best practices to secure those services:
+
 - [Amazon Cognito](https://docs.aws.amazon.com/cognito/latest/developerguide/security.html)
 - [Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/security.html)
 
 Optionnaly, you can provide existing resources to the constructs (marked optional in the construct pattern props). If you chose to do so, please refer to the official documentation on best practices to secure each service:
+
 - [Amazon Simple Storage Service](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html)
 - [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-best-practices.html)
 - [Amazon EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-security.html)
@@ -307,8 +321,9 @@ To view the service quotas for all AWS services in the documentation without swi
 ## Clean up
 
 When deleting your stack which uses this construct, do not forget to go over the following instructions to avoid unexpected charges:
-  - empty and delete the Amazon Simple Storage Bucket created by this construct if you didn't provide an existing one during the construct creation
-  - if the observability flag is turned on, delete all the associated logs created by the different services in Amazon CloudWatch logs
+
+- empty and delete the Amazon Simple Storage Bucket created by this construct if you didn't provide an existing one during the construct creation
+- if the observability flag is turned on, delete all the associated logs created by the different services in Amazon CloudWatch logs
 
 ***
 &copy; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.

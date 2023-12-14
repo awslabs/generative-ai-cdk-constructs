@@ -15,22 +15,21 @@ import { Template, Match } from 'aws-cdk-lib/assertions';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as os from 'aws-cdk-lib/aws-opensearchservice';
 import * as secret from 'aws-cdk-lib/aws-secretsmanager';
-import { QaAppsyncOpensearch, QaAppsyncOpensearchProps } from '../../../../src/patterns/gen-ai/aws-qa-appsync-opensearch';
-
+import {
+  QaAppsyncOpensearch,
+  QaAppsyncOpensearchProps,
+} from '../../../../src/patterns/gen-ai/aws-qa-appsync-opensearch';
 
 describe('QA Appsync Open search construct', () => {
-
   let qaTestTemplate: Template;
   let qaTestConstruct: QaAppsyncOpensearch;
   const cognitoPoolId = 'region_XXXXX';
-
 
   afterAll(() => {
     console.log('Test completed');
   });
 
   beforeAll(() => {
-
     const qaTestStack = new cdk.Stack(undefined, undefined, {
       env: { account: cdk.Aws.ACCOUNT_ID, region: cdk.Aws.REGION },
     });
@@ -40,22 +39,27 @@ describe('QA Appsync Open search construct', () => {
       domainEndpoint: 'https://osendppint.amazon.aws.com',
     });
 
+    const osSecret = secret.Secret.fromSecretNameV2(
+      qaTestStack,
+      'ossecret',
+      'OSSecretId',
+    );
+    const userPoolLoaded = cognito.UserPool.fromUserPoolId(
+      qaTestStack,
+      'testUserPool',
+      cognitoPoolId,
+    );
 
-    const osSecret = secret.Secret.fromSecretNameV2(qaTestStack, 'ossecret', 'OSSecretId');
-    const userPoolLoaded = cognito.UserPool.fromUserPoolId(qaTestStack, 'testUserPool', cognitoPoolId);
-
-
-    const qaTestProps: QaAppsyncOpensearchProps =
-        {
-          existingOpensearchDomain: osDomain,
-          openSearchIndexName: 'demoindex',
-          openSearchSecret: osSecret,
-          cognitoUserPool: userPoolLoaded,
-        };
+    const qaTestProps: QaAppsyncOpensearchProps = {
+      existingOpensearchDomain: osDomain,
+      openSearchIndexName: 'demoindex',
+      openSearchSecret: osSecret,
+      cognitoUserPool: userPoolLoaded,
+      lambdaProvisionedConcurrency: 1,
+    };
 
     qaTestConstruct = new QaAppsyncOpensearch(qaTestStack, 'test', qaTestProps);
     qaTestTemplate = Template.fromStack(qaTestStack);
-
   });
 
   test('Lambda properties', () => {
@@ -74,7 +78,9 @@ describe('QA Appsync Open search construct', () => {
               'GraphQLUrl',
             ],
           },
-          INPUT_BUCKET: { Ref: Match.stringLikeRegexp('testinputAssetsQABucketdev') },
+          INPUT_BUCKET: {
+            Ref: Match.stringLikeRegexp('testinputAssetsQABucketdev'),
+          },
           OPENSEARCH_DOMAIN_ENDPOINT: 'osendppint.amazon.aws.com',
           OPENSEARCH_INDEX: 'demoindex',
           OPENSEARCH_SECRET_ID: 'OSSecretId',
@@ -83,9 +89,12 @@ describe('QA Appsync Open search construct', () => {
     });
   });
 
-
   test('Lambda function count', () => {
     qaTestTemplate.resourceCountIs('AWS::Lambda::Function', 2);
+  });
+
+  test('Lambda Provisioned Concurrency count', () => {
+    qaTestTemplate.resourceCountIs('AWS::Lambda::Version', 1);
   });
 
   test('Appsync Graphql Properties', () => {
@@ -97,7 +106,9 @@ describe('QA Appsync Open search construct', () => {
 
   test('Appsync resolver Properties', () => {
     qaTestTemplate.hasResourceProperties('AWS::AppSync::Resolver', {
-      DataSourceName: Match.stringLikeRegexp('questionAnsweringEventBridgeDataSource'),
+      DataSourceName: Match.stringLikeRegexp(
+        'questionAnsweringEventBridgeDataSource',
+      ),
       FieldName: 'postQuestion',
       TypeName: 'Mutation',
     });
@@ -111,39 +122,45 @@ describe('QA Appsync Open search construct', () => {
 
   test('Appsync resolver Count', () => {
     qaTestTemplate.resourceCountIs('AWS::AppSync::Resolver', 2);
-  },
-  );
+  });
 
   test('Appsync Graphql Count', () => {
     qaTestTemplate.resourceCountIs('AWS::AppSync::GraphQLApi', 1);
     expect(qaTestConstruct.graphqlApi.apiId).not.toBeNull;
-  },
-  );
+  });
 
   test('Event Bus rule Target', () => {
-    qaTestTemplate.hasResourceProperties('AWS::Events::Rule',
-      Match.objectEquals
-      ({
+    qaTestTemplate.hasResourceProperties(
+      'AWS::Events::Rule',
+      Match.objectEquals({
         Description: 'Rule to trigger question answering function',
-        EventBusName: { Ref: Match.stringLikeRegexp('testquestionAnsweringEventBus') },
+        EventBusName: {
+          Ref: Match.stringLikeRegexp('testquestionAnsweringEventBus'),
+        },
         EventPattern: { source: ['questionanswering'] },
         State: 'ENABLED',
-        Targets:
-                        [{
-                          Arn:
-                                {
-                                  'Fn::GetAtt': [Match.stringLikeRegexp('testlambdaquestionanswering'), 'Arn'],
-                                },
-                          Id: 'Target0',
-
-                        }],
-      },
-      ));
+        Targets: [
+          {
+            Arn: {
+              'Fn::GetAtt': [
+                Match.stringLikeRegexp('testlambdaquestionanswering'),
+                'Arn',
+              ],
+            },
+            Id: 'Target0',
+          },
+        ],
+      }),
+    );
   });
 
   test('S3 Bucket Properties', () => {
     qaTestTemplate.hasResourceProperties('AWS::S3::Bucket', {
-      BucketEncryption: { ServerSideEncryptionConfiguration: [{ ServerSideEncryptionByDefault: { SSEAlgorithm: 'AES256' } }] },
+      BucketEncryption: {
+        ServerSideEncryptionConfiguration: [
+          { ServerSideEncryptionByDefault: { SSEAlgorithm: 'AES256' } },
+        ],
+      },
     });
     expect(qaTestConstruct.s3InputAssetsBucket).not.toBeNull;
   });
@@ -151,5 +168,4 @@ describe('QA Appsync Open search construct', () => {
   test('S3 Bucket Count', () => {
     qaTestTemplate.resourceCountIs('AWS::S3::Bucket', 2);
   });
-
 });

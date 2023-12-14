@@ -10,23 +10,23 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import * as path from "path";
-import { Duration, Aws } from "aws-cdk-lib";
-import * as appsync from "aws-cdk-lib/aws-appsync";
-import * as cognito from "aws-cdk-lib/aws-cognito";
-import * as ec2 from "aws-cdk-lib/aws-ec2";
-import * as events from "aws-cdk-lib/aws-events";
-import * as targets from "aws-cdk-lib/aws-events-targets";
-import * as iam from "aws-cdk-lib/aws-iam";
-import * as lambda from "aws-cdk-lib/aws-lambda";
-import * as logs from "aws-cdk-lib/aws-logs";
-import * as opensearchservice from "aws-cdk-lib/aws-opensearchservice";
-import * as s3 from "aws-cdk-lib/aws-s3";
-import * as secret from "aws-cdk-lib/aws-secretsmanager";
-import { NagSuppressions } from "cdk-nag";
-import { Construct } from "constructs";
-import * as s3_bucket_helper from "../../../common/helpers/s3-bucket-helper";
-import * as vpc_helper from "../../../common/helpers/vpc-helper";
+import * as path from 'path';
+import { Duration, Aws } from 'aws-cdk-lib';
+import * as appsync from 'aws-cdk-lib/aws-appsync';
+import * as cognito from 'aws-cdk-lib/aws-cognito';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as events from 'aws-cdk-lib/aws-events';
+import * as targets from 'aws-cdk-lib/aws-events-targets';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as logs from 'aws-cdk-lib/aws-logs';
+import * as opensearchservice from 'aws-cdk-lib/aws-opensearchservice';
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as secret from 'aws-cdk-lib/aws-secretsmanager';
+import { NagSuppressions } from 'cdk-nag';
+import { Construct } from 'constructs';
+import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
+import * as vpc_helper from '../../../common/helpers/vpc-helper';
 
 /**
  * The properties for the QaAppsyncOpensearchProps class.
@@ -134,7 +134,7 @@ export interface QaAppsyncOpensearchProps {
    * Optional. Allows a user to configure
    * Lambda provisioned concurrency for consistent performance
    */
-  readonly lambdaProvisionedConcurrency?: number;
+  readonly lambdaProvisionedConcurrency?: number | undefined;
 }
 
 /**
@@ -180,7 +180,7 @@ export class QaAppsyncOpensearch extends Construct {
     super(scope, id);
 
     // stage
-    let stage = "-dev";
+    let stage = '-dev';
     if (props?.stage) {
       stage = props.stage;
     }
@@ -210,28 +210,28 @@ export class QaAppsyncOpensearch extends Construct {
     if (props?.existingVpc) {
       this.vpc = props.existingVpc;
     } else {
-      this.vpc = new ec2.Vpc(this, "Vpc", props.vpcProps);
+      this.vpc = new ec2.Vpc(this, 'Vpc', props.vpcProps);
     }
 
     // Security group
     if (props?.existingSecurityGroup) {
       this.securityGroup = props.existingSecurityGroup;
     } else {
-      this.securityGroup = new ec2.SecurityGroup(this, "securityGroup", {
+      this.securityGroup = new ec2.SecurityGroup(this, 'securityGroup', {
         vpc: this.vpc,
         allowAllOutbound: true,
-        securityGroupName: "securityGroup" + stage,
+        securityGroupName: 'securityGroup' + stage,
       });
     }
 
     // vpc flowloggroup
-    const logGroup = new logs.LogGroup(this, "qaConstructLogGroup");
-    const role = new iam.Role(this, "qaConstructRole", {
-      assumedBy: new iam.ServicePrincipal("vpc-flow-logs.amazonaws.com"),
+    const logGroup = new logs.LogGroup(this, 'qaConstructLogGroup');
+    const role = new iam.Role(this, 'qaConstructRole', {
+      assumedBy: new iam.ServicePrincipal('vpc-flow-logs.amazonaws.com'),
     });
 
     // vpc flowlogs
-    new ec2.FlowLog(this, "FlowLog", {
+    new ec2.FlowLog(this, 'FlowLog', {
       resourceType: ec2.FlowLogResourceType.fromVpc(this.vpc),
       destination: ec2.FlowLogDestination.toCloudWatchLogs(logGroup, role),
     });
@@ -239,7 +239,7 @@ export class QaAppsyncOpensearch extends Construct {
     // bucket for storing server access logging
     const serverAccessLogBucket = new s3.Bucket(
       this,
-      "serverAccessLogBucket" + stage,
+      'serverAccessLogBucket' + stage,
       {
         blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
         encryption: s3.BucketEncryption.S3_MANAGED,
@@ -250,7 +250,7 @@ export class QaAppsyncOpensearch extends Construct {
             expiration: Duration.days(90),
           },
         ],
-      }
+      },
     );
 
     // Bucket containing the inputs assets (documents - text format) uploaded by the user
@@ -259,10 +259,10 @@ export class QaAppsyncOpensearch extends Construct {
     if (!props.existingInputAssetsBucketObj) {
       let tmpBucket: s3.Bucket;
       if (!props.bucketInputsAssetsProps) {
-        tmpBucket = new s3.Bucket(this, "inputAssetsQABucket" + stage, {
+        tmpBucket = new s3.Bucket(this, 'inputAssetsQABucket' + stage, {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
-          bucketName: "input-asset-qa-bucket" + stage + "-" + Aws.ACCOUNT_ID,
+          bucketName: 'input-asset-qa-bucket' + stage + '-' + Aws.ACCOUNT_ID,
           serverAccessLogsBucket: serverAccessLogBucket,
           enforceSSL: true,
           versioned: true,
@@ -275,8 +275,8 @@ export class QaAppsyncOpensearch extends Construct {
       } else {
         tmpBucket = new s3.Bucket(
           this,
-          "InputAssetsQABucket" + stage,
-          props.bucketInputsAssetsProps
+          'InputAssetsQABucket' + stage,
+          props.bucketInputsAssetsProps,
         );
       }
       inputAssetsBucket = tmpBucket;
@@ -291,14 +291,14 @@ export class QaAppsyncOpensearch extends Construct {
     // GraphQL API
     const question_answering_graphql_api = new appsync.GraphqlApi(
       this,
-      "questionAnsweringGraphqlApi",
+      'questionAnsweringGraphqlApi',
       {
-        name: "questionAnsweringGraphqlApi" + stage,
+        name: 'questionAnsweringGraphqlApi' + stage,
         schema: appsync.SchemaFile.fromAsset(
           path.join(
             __dirname,
-            "../../../../resources/gen-ai/aws-qa-appsync-opensearch/schema.graphql"
-          )
+            '../../../../resources/gen-ai/aws-qa-appsync-opensearch/schema.graphql',
+          ),
         ),
         authorizationConfig: {
           defaultAuthorization: {
@@ -313,7 +313,7 @@ export class QaAppsyncOpensearch extends Construct {
         },
         xrayEnabled: enable_xray,
         logConfig: api_log_config,
-      }
+      },
     );
 
     this.graphqlApi = question_answering_graphql_api;
@@ -329,36 +329,36 @@ export class QaAppsyncOpensearch extends Construct {
 
     const job_status_data_source = new appsync.NoneDataSource(
       this,
-      "NoneDataSourceQuestionAnswering",
+      'NoneDataSourceQuestionAnswering',
       {
         api: this.graphqlApi,
-        name: "JobStatusDataSource",
-      }
+        name: 'JobStatusDataSource',
+      },
     );
 
-    job_status_data_source.createResolver("updateQAJobStatusResolver", {
-      fieldName: "updateQAJobStatus",
-      typeName: "Mutation",
+    job_status_data_source.createResolver('updateQAJobStatusResolver', {
+      fieldName: 'updateQAJobStatus',
+      typeName: 'Mutation',
       requestMappingTemplate: appsync.MappingTemplate.fromString(
         `
                           {
                               "version": "2017-02-28",
                               "payload": $util.toJson($context.args)
                           }
-                          `
+                          `,
       ),
       responseMappingTemplate: appsync.MappingTemplate.fromString(
-        "$util.toJson($context.result)"
+        '$util.toJson($context.result)',
       ),
     });
 
     if (!props.existingBusInterface) {
       this.qaBus = new events.EventBus(
         this,
-        "questionAnsweringEventBus" + stage,
+        'questionAnsweringEventBus' + stage,
         {
-          eventBusName: "questionAnsweringEventBus" + stage,
-        }
+          eventBusName: 'questionAnsweringEventBus' + stage,
+        },
       );
     } else {
       this.qaBus = props.existingBusInterface;
@@ -366,14 +366,14 @@ export class QaAppsyncOpensearch extends Construct {
 
     // create httpdatasource with question_answering_graphql_api
     const event_bridge_datasource = this.graphqlApi.addEventBridgeDataSource(
-      "questionAnsweringEventBridgeDataSource" + stage,
+      'questionAnsweringEventBridgeDataSource' + stage,
       this.qaBus,
       {
-        name: "questionAnsweringEventBridgeDataSource" + stage,
-      }
+        name: 'questionAnsweringEventBridgeDataSource' + stage,
+      },
     );
 
-    let SecretId = "NONE";
+    let SecretId = 'NONE';
     if (props.openSearchSecret) {
       SecretId = props.openSearchSecret.secretName;
     }
@@ -382,17 +382,17 @@ export class QaAppsyncOpensearch extends Construct {
 
     const question_answering_function_role = new iam.Role(
       this,
-      "question_answering_function_role",
+      'question_answering_function_role',
       {
-        assumedBy: new iam.ServicePrincipal("lambda.amazonaws.com"),
+        assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
         inlinePolicies: {
           LambdaFunctionServiceRolePolicy: new iam.PolicyDocument({
             statements: [
               new iam.PolicyStatement({
                 actions: [
-                  "logs:CreateLogGroup",
-                  "logs:CreateLogStream",
-                  "logs:PutLogEvents",
+                  'logs:CreateLogGroup',
+                  'logs:CreateLogStream',
+                  'logs:PutLogEvents',
                 ],
                 resources: [
                   `arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`,
@@ -401,7 +401,7 @@ export class QaAppsyncOpensearch extends Construct {
             ],
           }),
         },
-      }
+      },
     );
 
     // Minimum permissions for a Lambda function to execute while accessing a resource within a VPC
@@ -409,24 +409,24 @@ export class QaAppsyncOpensearch extends Construct {
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: [
-          "ec2:CreateNetworkInterface",
-          "ec2:DeleteNetworkInterface",
-          "ec2:AssignPrivateIpAddresses",
-          "ec2:UnassignPrivateIpAddresses",
+          'ec2:CreateNetworkInterface',
+          'ec2:DeleteNetworkInterface',
+          'ec2:AssignPrivateIpAddresses',
+          'ec2:UnassignPrivateIpAddresses',
         ],
         resources: [
-          "arn:aws:ec2:" + Aws.REGION + ":" + Aws.ACCOUNT_ID + ":*/*",
+          'arn:aws:ec2:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':*/*',
         ],
-      })
+      }),
     );
     // Decribe only works if it's allowed on all resources.
     // Reference: https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html#vpc-permissions
     question_answering_function_role.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
-        actions: ["ec2:DescribeNetworkInterfaces"],
-        resources: ["*"],
-      })
+        actions: ['ec2:DescribeNetworkInterfaces'],
+        resources: ['*'],
+      }),
     );
 
     // The lambda will access the opensearch credentials
@@ -438,36 +438,36 @@ export class QaAppsyncOpensearch extends Construct {
     question_answering_function_role.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
-        actions: ["s3:GetObject", "s3:GetObject*", "s3:GetBucket*", "s3:List*"],
+        actions: ['s3:GetObject', 's3:GetObject*', 's3:GetBucket*', 's3:List*'],
         resources: [
-          "arn:aws:s3:::" + this.s3InputAssetsBucketInterface?.bucketName,
-          "arn:aws:s3:::" +
+          'arn:aws:s3:::' + this.s3InputAssetsBucketInterface?.bucketName,
+          'arn:aws:s3:::' +
             this.s3InputAssetsBucketInterface?.bucketName +
-            "/*",
+            '/*',
         ],
-      })
+      }),
     );
 
     question_answering_function_role.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
-        actions: ["es:*"],
+        actions: ['es:*'],
         resources: [
-          "arn:aws:es:" +
+          'arn:aws:es:' +
             Aws.REGION +
-            ":" +
+            ':' +
             Aws.ACCOUNT_ID +
-            ":domain/" +
+            ':domain/' +
             props.existingOpensearchDomain.domainName +
-            "/*",
-          "arn:aws:es:" +
+            '/*',
+          'arn:aws:es:' +
             Aws.REGION +
-            ":" +
+            ':' +
             Aws.ACCOUNT_ID +
-            ":domain/" +
+            ':domain/' +
             props.existingOpensearchDomain.domainName,
         ],
-      })
+      }),
     );
 
     // Add Amazon Bedrock permissions to the IAM role for the Lambda function
@@ -475,39 +475,39 @@ export class QaAppsyncOpensearch extends Construct {
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: [
-          "bedrock:InvokeModel",
-          "bedrock:InvokeModelWithResponseStream",
+          'bedrock:InvokeModel',
+          'bedrock:InvokeModelWithResponseStream',
         ],
         resources: [
-          "arn:aws:bedrock:" + Aws.REGION + "::foundation-model",
-          "arn:aws:bedrock:" + Aws.REGION + "::foundation-model/*",
+          'arn:aws:bedrock:' + Aws.REGION + '::foundation-model',
+          'arn:aws:bedrock:' + Aws.REGION + '::foundation-model/*',
         ],
-      })
+      }),
     );
 
     NagSuppressions.addResourceSuppressions(
       question_answering_function_role,
       [
         {
-          id: "AwsSolutions-IAM5",
-          reason: "AWSLambdaBasicExecutionRole is used.",
+          id: 'AwsSolutions-IAM5',
+          reason: 'AWSLambdaBasicExecutionRole is used.',
         },
       ],
-      true
+      true,
     );
 
     const question_answering_function = new lambda.DockerImageFunction(
       this,
-      "lambda_question_answering" + stage,
+      'lambda_question_answering' + stage,
       {
         code: lambda.DockerImageCode.fromImageAsset(
           path.join(
             __dirname,
-            "../../../../lambda/aws-qa-appsync-opensearch/question_answering/src"
-          )
+            '../../../../lambda/aws-qa-appsync-opensearch/question_answering/src',
+          ),
         ),
-        functionName: "lambda_question_answering" + stage,
-        description: "Lambda function for question answering",
+        functionName: 'lambda_question_answering' + stage,
+        description: 'Lambda function for question answering',
         vpc: this.vpc,
         tracing: lambda_tracing,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
@@ -528,16 +528,18 @@ export class QaAppsyncOpensearch extends Construct {
             provisionedConcurrentExecutions: props.lambdaProvisionedConcurrency,
           },
         }),
-      }
+      },
     );
 
+    question_answering_function.currentVersion;
+
     const enableOperationalMetric = props.enableOperationalMetric || true;
-    const solution_id = "genai_cdk_" + id;
+    const solution_id = 'genai_cdk_' + id;
 
     if (enableOperationalMetric) {
       question_answering_function.addEnvironment(
-        "AWS_SDK_UA_APP_ID",
-        solution_id
+        'AWS_SDK_UA_APP_ID',
+        solution_id,
       );
     }
 
@@ -545,24 +547,24 @@ export class QaAppsyncOpensearch extends Construct {
     question_answering_function.addToRolePolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
-        actions: ["appsync:GraphQL"],
+        actions: ['appsync:GraphQL'],
         resources: [
-          "arn:aws:appsync:" +
+          'arn:aws:appsync:' +
             Aws.REGION +
-            ":" +
+            ':' +
             Aws.ACCOUNT_ID +
-            ":apis/" +
+            ':apis/' +
             updateGraphQlApiId +
-            "/*",
+            '/*',
         ],
-      })
+      }),
     );
 
     this.qaBus.grantPutEventsTo(event_bridge_datasource.grantPrincipal);
 
-    event_bridge_datasource.createResolver("QuestionAnsweringResolver", {
-      fieldName: "postQuestion",
-      typeName: "Mutation",
+    event_bridge_datasource.createResolver('QuestionAnsweringResolver', {
+      fieldName: 'postQuestion',
+      typeName: 'Mutation',
       requestMappingTemplate: appsync.MappingTemplate.fromString(
         `
                         {
@@ -575,7 +577,7 @@ export class QaAppsyncOpensearch extends Construct {
                             }
                             ]
                         } 
-                        `
+                        `,
       ),
       responseMappingTemplate: appsync.MappingTemplate.fromString(
         `
@@ -583,15 +585,15 @@ export class QaAppsyncOpensearch extends Construct {
                             $util.error($ctx.error.message, $ctx.error.type, $ctx.result)
                         #end
                             $util.toJson($ctx.result)
-                        `
+                        `,
       ),
     });
 
-    const rule = new events.Rule(this, "QuestionAnsweringRule" + stage, {
-      description: "Rule to trigger question answering function",
+    const rule = new events.Rule(this, 'QuestionAnsweringRule' + stage, {
+      description: 'Rule to trigger question answering function',
       eventBus: this.qaBus,
       eventPattern: {
-        source: ["questionanswering"],
+        source: ['questionanswering'],
       },
     });
 
