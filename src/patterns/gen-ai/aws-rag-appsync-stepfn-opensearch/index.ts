@@ -28,8 +28,8 @@ import * as stepfn_task from 'aws-cdk-lib/aws-stepfunctions-tasks';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
-import * as vpc_helper from '../../../common/helpers/vpc-helper';
 import { generatePhysicalName } from '../../../common/helpers/utils';
+import * as vpc_helper from '../../../common/helpers/vpc-helper';
 
 /**
  * The properties for the RagAppsyncStepfnOpensearchProps class.
@@ -776,12 +776,12 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     const maxGeneratedNameLength = maxLogGroupNameLength - logGroupPrefix.length;
     const nameParts: string[] = [
       Stack.of(scope).stackName, // Name of the stack
-      scope.node.id,                 // Construct ID
-      'StateMachineLog'              // Literal string for log group name portion
+      scope.node.id, // Construct ID
+      'StateMachineLog', // Literal string for log group name portion
     ];
     const logGroupName = generatePhysicalName(logGroupPrefix, nameParts, maxGeneratedNameLength);
     const ragLogGroup = new logs.LogGroup(this, 'ingestionStepFunctionLogGroup', {
-      logGroupName: logGroupName
+      logGroupName: logGroupName,
     });
 
     const ingestion_step_function = new stepfn.StateMachine(

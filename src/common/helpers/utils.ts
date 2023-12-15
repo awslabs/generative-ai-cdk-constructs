@@ -22,34 +22,34 @@ import * as cdk from 'aws-cdk-lib';
  *
  */
 export function generatePhysicalName(
-    prefix: string,
-    parts: string[],
-    maxLength: number,
-  ): string {
-    // The result will consist of:
-    //    -The prefix - unaltered
-    //    -The parts concatenated, but reduced in size to meet the maxLength limit for the overall name
-    //    -A hyphen delimiter
-    //    -The GUID portion of the stack arn
-  
-    const stackIdGuidLength = 36;
-    const prefixLength = prefix.length;
-    const maxPartsLength = maxLength - prefixLength - 1 - stackIdGuidLength; // 1 is the hyphen
-  
-    // Extract the Stack ID Guid
-    const uniqueStackIdPart = cdk.Fn.select(2, cdk.Fn.split('/', `${cdk.Aws.STACK_ID}`));
-  
-    let allParts: string = '';
-  
-    parts.forEach((part) => {
-      allParts += part;
-    });
-  
-    if (allParts.length > maxPartsLength) {
-      const subStringLength = maxPartsLength / 2;
-      allParts = allParts.substring(0, subStringLength) + allParts.substring(allParts.length - subStringLength);
-    }
-  
-    const finalName  = prefix.toLowerCase() + allParts + '-' + uniqueStackIdPart;
-    return finalName;
+  prefix: string,
+  parts: string[],
+  maxLength: number,
+): string {
+  // The result will consist of:
+  //    -The prefix - unaltered
+  //    -The parts concatenated, but reduced in size to meet the maxLength limit for the overall name
+  //    -A hyphen delimiter
+  //    -The GUID portion of the stack arn
+
+  const stackIdGuidLength = 36;
+  const prefixLength = prefix.length;
+  const maxPartsLength = maxLength - prefixLength - 1 - stackIdGuidLength; // 1 is the hyphen
+
+  // Extract the Stack ID Guid
+  const uniqueStackIdPart = cdk.Fn.select(2, cdk.Fn.split('/', `${cdk.Aws.STACK_ID}`));
+
+  let allParts: string = '';
+
+  parts.forEach((part) => {
+    allParts += part;
+  });
+
+  if (allParts.length > maxPartsLength) {
+    const subStringLength = maxPartsLength / 2;
+    allParts = allParts.substring(0, subStringLength) + allParts.substring(allParts.length - subStringLength);
   }
+
+  const finalName = prefix.toLowerCase() + allParts + '-' + uniqueStackIdPart;
+  return finalName;
+}
