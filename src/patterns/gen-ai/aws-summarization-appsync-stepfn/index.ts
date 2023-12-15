@@ -811,7 +811,7 @@ export class SummarizationAppsyncStepfn extends Construct {
     const nameParts: string[] = [
       Stack.of(scope).stackName, // Name of the stack
       scope.node.id, // Construct ID
-      'StateMachineLog', // Literal string for log group name portion
+      'StateMachineLogSummarization', // Literal string for log group name portion
     ];
     const logGroupName = generatePhysicalName(logGroupPrefix, nameParts, maxGeneratedNameLength);
     const summarizationLogGroup = new logs.LogGroup(this, 'summarizationLogGroup', {

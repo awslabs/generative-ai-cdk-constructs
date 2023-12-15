@@ -777,7 +777,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     const nameParts: string[] = [
       Stack.of(scope).stackName, // Name of the stack
       scope.node.id, // Construct ID
-      'StateMachineLog', // Literal string for log group name portion
+      'StateMachineLogRag', // Literal string for log group name portion
     ];
     const logGroupName = generatePhysicalName(logGroupPrefix, nameParts, maxGeneratedNameLength);
     const ragLogGroup = new logs.LogGroup(this, 'ingestionStepFunctionLogGroup', {
