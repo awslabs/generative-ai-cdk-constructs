@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 import * as path from 'path';
-import { Duration, Aws } from 'aws-cdk-lib';
+import { Duration, Aws, Stack } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
@@ -31,6 +31,7 @@ import * as eventBridge from '../../../common/helpers/eventbridge-helper';
 import * as redisHelper from '../../../common/helpers/redis-helper';
 import * as s3BucketHelper from '../../../common/helpers/s3-bucket-helper';
 import * as vpcHelper from '../../../common/helpers/vpc-helper';
+import { generatePhysicalName } from '../../../common/helpers/utils';
 
 export interface SummarizationAppsyncStepfnProps {
   /**
@@ -804,8 +805,18 @@ export class SummarizationAppsyncStepfn extends Construct {
       ),
     );
 
-    const summarizationLogGroup = new logs.LogGroup(this, 'summarizationLogGroup', {});
-
+    const maxLogGroupNameLength = 255;
+    const logGroupPrefix = '/aws/vendedlogs/states/constructs/';
+    const maxGeneratedNameLength = maxLogGroupNameLength - logGroupPrefix.length;
+    const nameParts: string[] = [
+      Stack.of(scope).stackName, // Name of the stack
+      scope.node.id,                 // Construct ID
+      'StateMachineLog'              // Literal string for log group name portion
+    ];
+    const logGroupName = generatePhysicalName(logGroupPrefix, nameParts, maxGeneratedNameLength);
+    const summarizationLogGroup = new logs.LogGroup(this, 'summarizationLogGroup', {
+      logGroupName: logGroupName
+    });
 
     // step function definition
     const definition = inputValidationTask.next(
