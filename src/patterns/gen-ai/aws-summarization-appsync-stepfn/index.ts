@@ -30,8 +30,8 @@ import { Construct } from 'constructs';
 import * as eventBridge from '../../../common/helpers/eventbridge-helper';
 import * as redisHelper from '../../../common/helpers/redis-helper';
 import * as s3BucketHelper from '../../../common/helpers/s3-bucket-helper';
-import * as vpcHelper from '../../../common/helpers/vpc-helper';
 import { generatePhysicalName } from '../../../common/helpers/utils';
+import * as vpcHelper from '../../../common/helpers/vpc-helper';
 
 export interface SummarizationAppsyncStepfnProps {
   /**
@@ -810,12 +810,12 @@ export class SummarizationAppsyncStepfn extends Construct {
     const maxGeneratedNameLength = maxLogGroupNameLength - logGroupPrefix.length;
     const nameParts: string[] = [
       Stack.of(scope).stackName, // Name of the stack
-      scope.node.id,                 // Construct ID
-      'StateMachineLog'              // Literal string for log group name portion
+      scope.node.id, // Construct ID
+      'StateMachineLog', // Literal string for log group name portion
     ];
     const logGroupName = generatePhysicalName(logGroupPrefix, nameParts, maxGeneratedNameLength);
     const summarizationLogGroup = new logs.LogGroup(this, 'summarizationLogGroup', {
-      logGroupName: logGroupName
+      logGroupName: logGroupName,
     });
 
     // step function definition
