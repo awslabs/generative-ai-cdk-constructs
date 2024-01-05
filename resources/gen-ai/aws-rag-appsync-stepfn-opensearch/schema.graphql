@@ -1,8 +1,3 @@
-enum ResponseGenerationMethod {
-	LONG_CONTEXT
-	RAG
-}
-
 type FileStatus @aws_iam @aws_cognito_user_pools {
 	name: String
 	status: String
@@ -22,7 +17,6 @@ input IngestionDocsInput {
 	ingestionjobid: ID
 	files: [FileStatusInput]
 	ignore_existing: Boolean
-	responseGenerationMethod: ResponseGenerationMethod
 }
 
 type Mutation @aws_iam @aws_cognito_user_pools {
