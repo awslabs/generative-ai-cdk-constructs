@@ -71,8 +71,6 @@ def get_bedrock_client(service_name="bedrock-runtime"):
 
     return boto3.client(**bedrock_config_data)
 
-
-
 opensearch_secret_id = os.environ['OPENSEARCH_SECRET_ID']
 bucket_name = os.environ['OUTPUT_BUCKET']
 opensearch_index = os.environ['OPENSEARCH_INDEX']
@@ -129,8 +127,6 @@ def handler(event,  context: LambdaContext) -> dict:
                 doc.metadata['source'] = filename
             docs.extend(sub_docs)
 
-    response_generation_method = event.get('responseGenerationMethod', 'LONG_CONTEXT')
-
     if not docs:
         return {
             'status':'nothing to ingest'
@@ -177,13 +173,6 @@ def handler(event,  context: LambdaContext) -> dict:
 
     bedrock_client = get_bedrock_client()
     embeddings = BedrockEmbeddings(client=bedrock_client)
-
-    if response_generation_method == 'RAG':
-        # Call a function to handle RAG logic
-        question = event.get('question', '')  # Assuming the question is also part of the event
-        return handle_rag_approach(docs, question, embeddings)
-    else:
-        # Existing logic for Long Context Window approach
 
     if index_exists is False:
         # create an index if the create index hint file exists
