@@ -71,6 +71,8 @@ def get_bedrock_client(service_name="bedrock-runtime"):
 
     return boto3.client(**bedrock_config_data)
 
+
+
 opensearch_secret_id = os.environ['OPENSEARCH_SECRET_ID']
 bucket_name = os.environ['OUTPUT_BUCKET']
 opensearch_index = os.environ['OPENSEARCH_INDEX']
@@ -92,7 +94,7 @@ def handler(event,  context: LambdaContext) -> dict:
 
     # if the secret id is not provided
     # uses username password
-    if opensearch_secret_id != 'NONE': # nosec 
+    if opensearch_secret_id != 'NONE': # nosec
         creds = get_credentials(opensearch_secret_id, aws_region)
         http_auth = (creds['username'], creds['password'])
     else: #
@@ -127,10 +129,12 @@ def handler(event,  context: LambdaContext) -> dict:
                 doc.metadata['source'] = filename
             docs.extend(sub_docs)
 
+    response_generation_method = event.get('responseGenerationMethod', 'LONG_CONTEXT')
+
     if not docs:
         return {
             'status':'nothing to ingest'
-        } 
+        }
 
     text_splitter = RecursiveCharacterTextSplitter(
                 # Set a really small chunk size, just to show.
@@ -149,14 +153,14 @@ def handler(event,  context: LambdaContext) -> dict:
     chunks = text_splitter.create_documents([doc.page_content for doc in docs], metadatas=[doc.metadata for doc in docs])
 
     db_shards = (len(chunks) // MAX_OS_DOCS_PER_PUT) + 1
-    print(f'Loading chunks into vector store ... using {db_shards} shards') 
+    print(f'Loading chunks into vector store ... using {db_shards} shards')
     shards = np.array_split(chunks, db_shards)
 
     # first check if index exists, if it does then call the add_documents function
     # otherwise call the from_documents function which would first create the index
     # and then do a bulk add. Both add_documents and from_documents do a bulk add
     # but it is important to call from_documents first so that the index is created
-    # correctly for K-NN    
+    # correctly for K-NN
     try:
         index_exists = check_if_index_exists(opensearch_index,
                                                 aws_region,
@@ -174,6 +178,13 @@ def handler(event,  context: LambdaContext) -> dict:
     bedrock_client = get_bedrock_client()
     embeddings = BedrockEmbeddings(client=bedrock_client)
 
+    if response_generation_method == 'RAG':
+        # Call a function to handle RAG logic
+        question = event.get('question', '')  # Assuming the question is also part of the event
+        return handle_rag_approach(docs, question, embeddings)
+    else:
+        # Existing logic for Long Context Window approach
+
     if index_exists is False:
         # create an index if the create index hint file exists
         path = os.path.join(DATA_DIR, INDEX_FILE)
@@ -186,7 +197,7 @@ def handler(event,  context: LambdaContext) -> dict:
                                                                 opensearch_url=opensearch_domain,
                                                                 http_auth=http_auth)
             # we now need to start the loop below for the second shard
-            shard_start_index = 1  
+            shard_start_index = 1
         else:
             print(f"index {opensearch_index} does not exist and {path} file is not present, "
                         f"will wait for some other node to create the index")
@@ -207,24 +218,24 @@ def handler(event,  context: LambdaContext) -> dict:
                 if time_slept >= TOTAL_INDEX_CREATION_WAIT_TIME:
                     print(f"time_slept={time_slept} >= {TOTAL_INDEX_CREATION_WAIT_TIME}, not waiting anymore for index creation")
                     break
-                
+
     else:
         print(f"index={opensearch_index} does exists, going to call add_documents")
         shard_start_index = 0
 
     for shard in shards[shard_start_index:]:
-        results = process_shard(shard=shard, 
+        results = process_shard(shard=shard,
                     os_index_name=opensearch_index,
                     os_domain_ep=opensearch_domain,
                     os_http_auth=http_auth)
-        
+
     for file in files:
         if file['status'] == 'File transformed':
             file['status'] = 'Ingested'
         else:
             file['status'] = 'Error_'+file['status']
     updateIngestionJobStatus({'jobid': job_id, 'files': files})
-        
+
     return {
         'status':'succeed'
     }
