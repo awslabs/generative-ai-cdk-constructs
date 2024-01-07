@@ -18,19 +18,24 @@
 
 ## Table of contents
 
-- [Credits](#credits)
-- [Overview](#overview)
-- [Initializer](#initializer)
-- [Pattern Construct Props](#pattern-construct-props)
-- [Pattern Properties](#pattern-properties)
-- [Default properties](#default-properties)
-- [Troubleshooting](#troubleshooting)
-- [Architecture](#architecture)
-- [Cost](#cost)
-- [Security](#security)
-- [Supported AWS Regions](#supported-aws-regions)
-- [Quotas](#quotas)
-- [Clean up](#clean-up)
+- [aws-langchain-common-layer](#aws-langchain-common-layer)
+  - [Table of contents](#table-of-contents)
+  - [Credits](#credits)
+  - [Overview](#overview)
+  - [Initializer](#initializer)
+  - [Pattern Construct Props](#pattern-construct-props)
+  - [Pattern Properties](#pattern-properties)
+  - [Default properties](#default-properties)
+  - [Python utility layer (LangchainCommonLayer)](#python-utility-layer-langchaincommonlayer)
+    - [Registry](#registry)
+    - [Adapters](#adapters)
+  - [Troubleshooting](#troubleshooting)
+  - [Architecture](#architecture)
+  - [Cost](#cost)
+  - [Security](#security)
+  - [Supported AWS Regions](#supported-aws-regions)
+  - [Quotas](#quotas)
+  - [Clean up](#clean-up)
 
 ## Credits
 
@@ -183,6 +188,7 @@ Parameters
 | runtime | [lambda.Runtime](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Runtime.html) | ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function runtime compatible with this layer. |
 | architecture | [lambda.Architecture](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Architecture.html)| ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function architecture compatible with this layer. |
 | autoUpgrade | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Add '--upgrade' to pip install requirements.txt. In case of a LangchainCommonLayer, this parameter is not used. |
+| local | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Local compute will be used when installing requirements.txt. By default if this is not true, a docker container will be spun up to install requirements. |
 
 ## Pattern Properties
 
