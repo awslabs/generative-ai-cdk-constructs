@@ -27,7 +27,7 @@ import {
 const GITHUB_USER = 'awslabs';
 const PUBLICATION_NAMESPACE = 'cdklabs';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
-const CDK_VERSION: string = '2.111.0';
+const CDK_VERSION: string = '2.88.0';
 
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Amazon Web Services - Prototyping and Cloud Engineering',
@@ -37,7 +37,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
   cdkVersion: CDK_VERSION,
   projenVersion: '~0.77.4',
   constructsVersion: '10.3.0',
-  cdkVersionPinning: true,
   defaultReleaseBranch: 'main',
   jsiiVersion: '~5.0.0',
   name: '@' + PUBLICATION_NAMESPACE + '/' + PROJECT_NAME,
@@ -85,7 +84,15 @@ const project = new awscdk.AwsCdkConstructLibrary({
   license: 'Apache-2.0',
   copyrightPeriod: '2023-',
   copyrightOwner: 'Amazon.com, Inc. or its affiliates. All Rights Reserved.',
-  gitignore: ['*.DS_STORE', '!.node-version', '*.pyc', '__pycache__/', '!.ort.yml'],
+  gitignore: [
+    '*.DS_STORE',
+    '!.node-version',
+    '*.pyc',
+    '__pycache__/',
+    '!.ort.yml',
+    '.idea',
+    '.vscode',
+  ],
   stability: 'experimental',
   sampleCode: false,
   stale: true,
