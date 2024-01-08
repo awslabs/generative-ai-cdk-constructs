@@ -10,6 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+import { ProjenStruct, Struct } from '@mrgrain/jsii-struct-builder';
 import { awscdk } from 'projen';
 import { NpmAccess } from 'projen/lib/javascript';
 import {
@@ -38,14 +39,14 @@ const project = new awscdk.AwsCdkConstructLibrary({
   projenVersion: '~0.77.4',
   constructsVersion: '10.3.0',
   defaultReleaseBranch: 'main',
-  jsiiVersion: '~5.0.0',
+  jsiiVersion: '~5.3.0',
   name: '@' + PUBLICATION_NAMESPACE + '/' + PROJECT_NAME,
   projenrcTs: true,
   repositoryUrl: 'https://github.com/' + GITHUB_USER + '/' + PROJECT_NAME,
 
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   keywords: ['constructs', 'aws-cdk', 'generative-ai', 'emerging-tech'],
-  devDeps: ['eslint-plugin-header'],
+  devDeps: ['eslint-plugin-header', '@mrgrain/jsii-struct-builder'],
   deps: ['cdk-nag'],
 
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
@@ -150,6 +151,18 @@ project.eslint?.addPlugins('header');
 project.eslint?.addRules({
   'header/header': [2, 'header.js'],
 });
+project.eslint?.addIgnorePattern('LangchainProps.ts');
+project.eslint?.addIgnorePattern('AdapterProps.ts');
 
+// Shared interfaces extending pre-existing CDK interfaces
+new ProjenStruct(project, { name: 'LangchainProps' })
+  .mixin(Struct.fromFqn('aws-cdk-lib.aws_lambda.LayerVersionProps'))
+  .withoutDeprecated()
+  .omit('code', 'compatibleRuntimes', 'compatibleArchitectures', 'description');
+
+new ProjenStruct(project, { name: 'AdapterProps' })
+  .mixin(Struct.fromFqn('aws-cdk-lib.aws_lambda.LayerVersionProps'))
+  .withoutDeprecated()
+  .omit('code', 'description');
 
 project.synth();
