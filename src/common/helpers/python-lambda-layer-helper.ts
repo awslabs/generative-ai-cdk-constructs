@@ -14,13 +14,14 @@ import * as cdk from 'aws-cdk-lib';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as s3assets from 'aws-cdk-lib/aws-s3-assets';
 import { Construct } from 'constructs';
+import { LangchainProps } from '../../LangchainProps';
 
-export interface LayerProps {
+export interface LayerProps extends LangchainProps {
   runtime: lambda.Runtime;
   architecture: lambda.Architecture;
   path: string;
   autoUpgrade?: boolean;
-  description: string;
+  additionalPackages?: string[];
 }
 
 export class Layer extends Construct {
@@ -29,9 +30,12 @@ export class Layer extends Construct {
   constructor(scope: Construct, id: string, props: LayerProps) {
     super(scope, id);
 
-    const { runtime, architecture, path, autoUpgrade, description } = props;
+    const { runtime, architecture, path, additionalPackages, autoUpgrade } = props;
 
     const args = ['-t /asset-output/python'];
+    if (additionalPackages) {
+      args.push(...additionalPackages);
+    }
     if (autoUpgrade) {
       args.push('--upgrade');
     }
@@ -56,8 +60,7 @@ export class Layer extends Construct {
       code: lambda.Code.fromBucket(layerAsset.bucket, layerAsset.s3ObjectKey),
       compatibleRuntimes: [runtime],
       compatibleArchitectures: [architecture],
-      removalPolicy: cdk.RemovalPolicy.DESTROY,
-      description: description,
+      ...props,
     });
 
     this.layer = layer;
