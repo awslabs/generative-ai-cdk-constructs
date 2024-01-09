@@ -11,6 +11,8 @@
  *  and limitations under the License.
  */
 import * as cdk from 'aws-cdk-lib';
+//import { version as packageVersion } from '../../../package.json';
+export const version = 'x.y.z'; // packageVersion;
 /**
  * @internal This is an internal core function and should not be called directly by Solutions Constructs clients.
  *
