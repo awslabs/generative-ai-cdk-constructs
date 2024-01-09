@@ -101,7 +101,6 @@ Navigate to the [Generative AI CDK Construct Repository] (https://github.com/aws
 2. Locate the TGZ File:
     - Find the generated .tgz file, typically named something like dist/js/generative-ai-cdk-constructs-0.0.0.jsii.tgz.
 
-   ![OutputJS.png](docs%2FOutputJS.png)
 
 ### Step 3: Integrating with Sample Application
 
