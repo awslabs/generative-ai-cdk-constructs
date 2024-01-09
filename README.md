@@ -95,7 +95,6 @@ Navigate to the [Generative AI CDK Construct Repository] (https://github.com/aws
 ![Npm_Build.png](docs%2FNpm_Build.png)
 
 ### Step 2: Packaging the Constructs
-![JS_Package.png](docs%2FJS_Package.png)
 1. Run Yarn Package:JS:
     - Execute ```yarn package:js```.
       - This command creates a new .tgz package of all constructs in the dist/js folder.
