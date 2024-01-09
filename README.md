@@ -92,15 +92,18 @@ Navigate to the [Generative AI CDK Construct Repository] (https://github.com/aws
 
 - Execute the command ```yarn build```. 
   - This command runs npx projen build and generates a .jsii file in your repository.
+![Npm_Build.png](docs%2FNpm_Build.png)
 
 ### Step 2: Packaging the Constructs
-
+![JS_Package.png](docs%2FJS_Package.png)
 1. Run Yarn Package:JS:
     - Execute ```yarn package:js```.
       - This command creates a new .tgz package of all constructs in the dist/js folder.
 
 2. Locate the TGZ File:
     - Find the generated .tgz file, typically named something like dist/js/generative-ai-cdk-constructs-0.0.0.jsii.tgz.
+
+   ![OutputJS.png](docs%2FOutputJS.png)
 
 ### Step 3: Integrating with Sample Application
 
