@@ -92,7 +92,6 @@ Navigate to the [Generative AI CDK Construct Repository] (https://github.com/aws
 
 - Execute the command ```yarn build```. 
   - This command runs npx projen build and generates a .jsii file in your repository.
-![Npm_Build.png](docs%2FNpm_Build.png)
 
 ### Step 2: Packaging the Constructs
 1. Run Yarn Package:JS:
