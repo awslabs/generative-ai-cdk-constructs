@@ -27,34 +27,27 @@ export function CheckS3Props(propsObject: S3Props | any) {
   let errorMessages = '';
   let errorFound = false;
 
-  console.log('ncheck s3 props1'+ propsObject);
   if ((propsObject.existingBucketObj || propsObject.existingBucketInterface) && propsObject.bucketProps) {
     errorMessages += 'Error - Either provide bucketProps or existingBucketObj, but not both.\n';
     errorFound = true;
   }
-  console.log('ncheck s3 props2'+ propsObject);
 
   if (propsObject.existingLoggingBucketObj && propsObject.loggingBucketProps) {
     errorMessages += 'Error - Either provide existingLoggingBucketObj or loggingBucketProps, but not both.\n';
     errorFound = true;
   }
-  console.log('ncheck s3 props3'+ propsObject);
 
   if ((propsObject?.logS3AccessLogs === false) && (propsObject.loggingBucketProps || propsObject.existingLoggingBucketObj)) {
     errorMessages += 'Error - If logS3AccessLogs is false, supplying loggingBucketProps or existingLoggingBucketObj is invalid.\n';
     errorFound = true;
   }
 
-  console.log('ncheck s3 props4'+ propsObject);
   if (propsObject.existingBucketObj && (propsObject.loggingBucketProps || propsObject.logS3AccessLogs)) {
     errorMessages += 'Error - If existingBucketObj is provided, supplying loggingBucketProps or logS3AccessLogs is an error.\n';
     errorFound = true;
   }
 
-  console.log('is error found '+errorFound);
   if (errorFound) {
     throw new Error(errorMessages);
   }
 }
-
-
