@@ -38,7 +38,6 @@ __pycache__/
 !.ort.yml
 .idea
 .vscode
-!/.projenrc.js
 /test-reports/
 junit.xml
 /coverage/
@@ -65,3 +64,4 @@ tsconfig.json
 !/.github/workflows/semgrep.yml
 !/.github/workflows/bandit.yml
 !/.github/workflows/commitlint.yml
+!/.projenrc.ts
