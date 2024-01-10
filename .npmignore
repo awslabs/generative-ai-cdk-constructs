@@ -36,3 +36,5 @@ header.js
 projenrc
 tsconfig.dev.json
 yarn.lock
+/.gitattributes
+/.projenrc.ts
