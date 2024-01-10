@@ -98,7 +98,13 @@ Navigate to the [Generative AI CDK Construct Repository] (https://github.com/aws
 2. Modify package.json in Sample Repo:
     - Open package.json in your samples repository.
     - Under dependencies, locate the entry for "@cdklabs/generative-ai-cdk-constructs".
-    - Replace the existing entry with file:<path-to-tgz-file>. For example: file:generative-ai-cdk-constructs-0.0.0.jsii.tgz.
+    - Replace the existing entry with file:<path-to-tgz-file>. For example: 
+    ```
+...
+  "dependencies": {
+    "@cdklabs/generative-ai-cdk-constructs": "file:generative-ai-cdk-constructs@0.0.0.jsii.tgz",
+...
+    ```
 
 ### Step 4: Deploying to AWS
 
