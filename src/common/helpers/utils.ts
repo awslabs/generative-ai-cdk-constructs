@@ -14,7 +14,8 @@ import * as cdk from 'aws-cdk-lib';
 /**
  * The version of this package
  */
-export const version = 'x.y.z'; //TODO: Use reflection to read `package.json` (JSII won't built because outside of <rootDir>)
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+export const version = require('../../../package.json').version;
 /**
  * @internal This is an internal core function and should not be called directly by Solutions Constructs clients.
  *
