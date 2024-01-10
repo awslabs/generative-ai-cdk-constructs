@@ -64,6 +64,57 @@ All test files can be found in the /test directory under each construct (or core
 | `npx projen test` | This will run all tests (unit+integration) |
 
 ---
+## Testing Your Construct Locally
+
+- Using the samples repository to test your locally changed constructs. This is also useful for development.
+
+### Pre-req:
+- Download the samples repository (The official samples repository https://github.com/aws-samples/generative-ai-cdk-constructs-samples includes a collection of functional use case implementations to demonstrate the usage of AWS Generative AI CDK Constructs. These can be used in the same way as architectural patterns, and can be conceptualized as an additional "higher-level" abstraction of those patterns. Those patterns (constructs) are composed together into [stacks](https://docs.aws.amazon.com/cdk/latest/guide/stacks.html), forming a "CDK app".
+)
+
+
+### Step 1: Building the Generative AI CDK Construct
+
+Navigate to the [Generative AI CDK Construct Repository] (https://github.com/aws-samples/generative-ai-cdk-constructs-samples):
+    Open your command line interface and change directory to the generative AI CDK construct repository.
+
+- Execute the command ```yarn build```. 
+  - This command runs npx projen build and generates a .jsii file in your repository.
+
+### Step 2: Packaging the Constructs
+1. Run Yarn Package:JS:
+    - Execute ```yarn package:js```.
+      - This command creates a new .tgz package of all constructs in the dist/js folder.
+
+2. Locate the TGZ File:
+    - Find the generated .tgz file, typically named something like dist/js/generative-ai-cdk-constructs-0.0.0.jsii.tgz.
+
+
+### Step 3: Integrating with Sample Application
+
+1. Drag and Drop the TGZ File:
+    - Drag and drop the .tgz file into your samples repository, ideally at the root like "samples/document_explorer".
+
+2. Modify package.json in Sample Repo:
+    - Open package.json in your samples repository.
+    - Under dependencies, locate the entry for "@cdklabs/generative-ai-cdk-constructs".
+    - Replace the existing entry with file:<path-to-tgz-file>. For example: file:generative-ai-cdk-constructs-0.0.0.jsii.tgz.
+
+### Step 4: Deploying to AWS
+
+1. Navigate to Sample Repo Directory:
+  - Change directory to your samples repository.
+2. AWS CDK Deployment:
+  - Ensure you are authenticated to AWS with the necessary permissions.
+  - Run ```cdk deploy``` to deploy the new backend with your generative AI constructs into the AWS Cloud.
+3. Verify Deployment:
+  - Log into your AWS console and verify that the resources have been deployed successfully.
+  - Check for any errors in the AWS CloudFormation console and address them as necessary.
+
+### Testing and Verification
+
+- After deployment, you may want to test the functionalities of the generative AI constructs in the AWS environment.
+- Ensure all integrations and functionalities are working as expected.
 
 ## Project structure
 
