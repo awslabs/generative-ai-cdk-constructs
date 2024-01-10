@@ -51,7 +51,7 @@
     "jsii-diff": "^1.93.0",
     "jsii-pacmak": "^1.93.0",
     "jsii-rosetta": "~5.1.0",
-    "projen": "~0.77.4",
+    "projen": "~0.78.8",
     "standard-version": "^9",
     "ts-jest": "^29.1.1",
     "ts-node": "^10.9.2",
@@ -113,11 +113,13 @@
         }
       ]
     ],
-    "preset": "ts-jest",
-    "globals": {
-      "ts-jest": {
-        "tsconfig": "tsconfig.dev.json"
-      }
+    "transform": {
+      "^.+\\.[t]sx?$": [
+        "ts-jest",
+        {
+          "tsconfig": "tsconfig.dev.json"
+        }
+      ]
     }
   },
   "types": "lib/index.d.ts",
