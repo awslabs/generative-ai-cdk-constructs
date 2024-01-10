@@ -28,7 +28,7 @@ import * as stepfn_task from 'aws-cdk-lib/aws-stepfunctions-tasks';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
-import { generatePhysicalName } from '../../../common/helpers/utils';
+import { generatePhysicalName, version } from '../../../common/helpers/utils';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
 
 /**
@@ -135,7 +135,7 @@ export interface RagAppsyncStepfnOpensearchProps {
    * simply disable it by setting the construct property
    * "enableOperationalMetric" to false for each construct used.
    *
-   * @default -true
+   * @default - true
    */
   readonly enableOperationalMetric?: boolean;
 
@@ -693,8 +693,9 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     );
 
 
-    const enableOperationalMetric = props.enableOperationalMetric || true;
-    const solution_id = 'genai_cdk_'+id;
+    const enableOperationalMetric =
+    props.enableOperationalMetric !== undefined && props.enableOperationalMetric !== null ? props.enableOperationalMetric : true;
+    const solution_id = 'genai_cdk_' + version + '/' + typeof(this) + '/' + id;
 
     if (enableOperationalMetric) {
       embeddings_job_function.addEnvironment(

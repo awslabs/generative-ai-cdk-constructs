@@ -30,7 +30,7 @@ import { Construct } from 'constructs';
 import * as eventBridge from '../../../common/helpers/eventbridge-helper';
 import * as redisHelper from '../../../common/helpers/redis-helper';
 import * as s3BucketHelper from '../../../common/helpers/s3-bucket-helper';
-import { generatePhysicalName } from '../../../common/helpers/utils';
+import { generatePhysicalName, version } from '../../../common/helpers/utils';
 import * as vpcHelper from '../../../common/helpers/vpc-helper';
 
 export interface SummarizationAppsyncStepfnProps {
@@ -177,7 +177,7 @@ export interface SummarizationAppsyncStepfnProps {
    * simply disable it by setting the construct property
    * "enableOperationalMetric" to false for each construct used.
    *
-   * @default -true
+   * @default - true
    */
   readonly enableOperationalMetric?: boolean;
 
@@ -705,8 +705,9 @@ export class SummarizationAppsyncStepfn extends Construct {
     this.processedAssetBucket?.grantReadWrite(documentReaderLambda);
 
 
-    const enableOperationalMetric = props.enableOperationalMetric || true;
-    const solution_id = 'genai_cdk_'+id;
+    const enableOperationalMetric =
+    props.enableOperationalMetric !== undefined && props.enableOperationalMetric !== null ? props.enableOperationalMetric : true;
+    const solution_id = 'genai_cdk_' + version + '/' + typeof(this) + '/' + id;
 
     if (enableOperationalMetric) {
       documentReaderLambda.addEnvironment(
