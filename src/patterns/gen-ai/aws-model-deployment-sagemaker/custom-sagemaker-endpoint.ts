@@ -65,13 +65,28 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
 
     const image = props.container.bind(this, this.grantPrincipal).imageName;
     const modelIdStr = this.modelId.split('/').join('-').split('.').join('-');
+    const isArtifactCompressed = this.modelDataUrl.endsWith('.tar.gz');
 
     const model = new sagemaker.CfnModel(scope, `${modelIdStr}-model-${id}`, {
       executionRoleArn: this.role.roleArn,
-      primaryContainer: {
+      primaryContainer: isArtifactCompressed ? {
         image,
         mode: 'SingleModel',
         modelDataUrl: this.modelDataUrl,
+        environment: {
+          SAGEMAKER_REGION: cdk.Aws.REGION,
+          ...this.environment,
+        },
+      } : {
+        image,
+        mode: 'SingleModel',
+        modelDataSource: {
+          s3DataSource: {
+            compressionType: 'None',
+            s3DataType: 'S3Prefix',
+            s3Uri: this.modelDataUrl,
+          },
+        },
         environment: {
           SAGEMAKER_REGION: cdk.Aws.REGION,
           ...this.environment,
