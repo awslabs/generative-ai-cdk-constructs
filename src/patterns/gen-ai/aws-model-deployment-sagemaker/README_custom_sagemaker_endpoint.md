@@ -67,16 +67,6 @@ new CustomSageMakerEndpoint(this, 'customModel', {
 ## Initializer
 
 ```
-new HuggingFaceSageMakerEndpoint(scope: Construct, id: string, props: IHuggingFaceSageMakerEndpointProps)
-```
-
-Parameters
-
-- scope [Construct](https://docs.aws.amazon.com/cdk/api/v2/docs/constructs.Construct.html)
-- id string
-- props IHuggingFaceSageMakerEndpointProps
-
-```
 new CustomSageMakerEndpoint(scope: Construct, id: string, props: CustomSageMakerEndpointProps)
 ```
 
@@ -115,7 +105,7 @@ Parameters
 |cfnModel| [sagemaker.CfnModel](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_sagemaker.CfnModel.html) | cfnModel created by the construct |
 |cfnEndpoint| [sagemaker.CfnEndpoint](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_sagemaker.CfnEndpoint.html) |cfnEndpoint created by the construct |
 |cfnEndpointConfig| [sagemaker.CfnEndpointConfig](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_sagemaker.CfnEndpointConfig.html) | cfnEndpointConfig created by the construct |
-|modelId| string | The model id (matching a HuggingFace model) |
+|modelId| string | The model id |
 |instanceType| SageMakerInstanceType | The ML compute instance type |
 |instanceCount| number | Number of instances to launch initially|
 |role| [iam.Role](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_iam.Role.html) |The IAM role that SageMaker can assume to access model artifacts and docker image for deployment on ML compute instances or for batch transform jobs |
