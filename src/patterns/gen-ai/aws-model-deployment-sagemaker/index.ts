@@ -13,7 +13,6 @@
 
 export * from './sagemaker-endpoint-base';
 export * from './huggingface-sagemaker-endpoint';
-export * from './huggingface-sagemaker-endpoint';
 export * from './jumpstart-sagemaker-endpoint';
 export * from './sagemaker-instance-type';
 export * from './jumpstart-model';
