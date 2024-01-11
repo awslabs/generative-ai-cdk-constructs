@@ -294,7 +294,7 @@ export class QaAppsyncOpensearch extends Construct {
       'questionAnsweringGraphqlApi',
       {
         name: 'questionAnsweringGraphqlApi' + stage,
-        schema: appsync.SchemaFile.fromAsset(
+        definition: appsync.Definition.fromFile(
           path.join(
             __dirname,
             '../../../../resources/gen-ai/aws-qa-appsync-opensearch/schema.graphql',

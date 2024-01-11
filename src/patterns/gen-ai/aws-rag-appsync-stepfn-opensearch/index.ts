@@ -347,7 +347,9 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       'ingestionGraphqlApi',
       {
         name: 'ingestionGraphqlApi'+stage,
-        schema: appsync.SchemaFile.fromAsset(path.join(__dirname, '../../../../resources/gen-ai/aws-rag-appsync-stepfn-opensearch/schema.graphql')),
+        definition: appsync.Definition.fromFile(
+          path.join(__dirname, '../../../../resources/gen-ai/aws-rag-appsync-stepfn-opensearch/schema.graphql'),
+        ),
         authorizationConfig: {
           defaultAuthorization: {
             authorizationType: appsync.AuthorizationType.USER_POOL,
