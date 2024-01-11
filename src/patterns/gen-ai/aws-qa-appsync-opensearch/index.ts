@@ -26,6 +26,7 @@ import * as secret from 'aws-cdk-lib/aws-secretsmanager';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
+import { version } from '../../../common/helpers/utils';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
 
 /**
@@ -126,7 +127,7 @@ export interface QaAppsyncOpensearchProps {
    * simply disable it by setting the construct property
    * "enableOperationalMetric" to false for each construct used.
    *
-   * @default -true
+   * @default - true
    */
   readonly enableOperationalMetric?: boolean;
 
@@ -533,13 +534,14 @@ export class QaAppsyncOpensearch extends Construct {
 
     question_answering_function.currentVersion;
 
-    const enableOperationalMetric = props.enableOperationalMetric || true;
-    const solution_id = 'genai_cdk_' + id;
+    const enableOperationalMetric =
+      props.enableOperationalMetric !== undefined && props.enableOperationalMetric !== null ? props.enableOperationalMetric : true;
 
     if (enableOperationalMetric) {
+      const solutionId = `genai_cdk_${version}/${this.constructor.name}/${id}`;
       question_answering_function.addEnvironment(
         'AWS_SDK_UA_APP_ID',
-        solution_id,
+        solutionId,
       );
     }
 
