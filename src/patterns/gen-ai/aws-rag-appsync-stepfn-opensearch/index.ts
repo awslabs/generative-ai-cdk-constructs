@@ -695,17 +695,17 @@ export class RagAppsyncStepfnOpensearch extends Construct {
 
     const enableOperationalMetric =
       props.enableOperationalMetric !== undefined && props.enableOperationalMetric !== null ? props.enableOperationalMetric : true;
-    const solution_id = 'genai_cdk_' + version + '/' + this.constructor.name + '/' + id;
+    const solutionId = `genai_cdk_${version}/${this.constructor.name}/${id}`;
 
     if (enableOperationalMetric) {
       embeddings_job_function.addEnvironment(
-        'AWS_SDK_UA_APP_ID', solution_id,
+        'AWS_SDK_UA_APP_ID', solutionId,
       );
       s3_transformer_job_function.addEnvironment(
-        'AWS_SDK_UA_APP_ID', solution_id,
+        'AWS_SDK_UA_APP_ID', solutionId,
       );
       validate_input_function.addEnvironment(
-        'AWS_SDK_UA_APP_ID', solution_id,
+        'AWS_SDK_UA_APP_ID', solutionId,
       );
     };
 

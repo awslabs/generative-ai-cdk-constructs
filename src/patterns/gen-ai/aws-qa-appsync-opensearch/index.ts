@@ -536,12 +536,12 @@ export class QaAppsyncOpensearch extends Construct {
 
     const enableOperationalMetric =
       props.enableOperationalMetric !== undefined && props.enableOperationalMetric !== null ? props.enableOperationalMetric : true;
-    const solution_id = 'genai_cdk_' + version + '/' + this.constructor.name + '/' + id;
+    const solutionId = `genai_cdk_${version}/${this.constructor.name}/${id}`;
 
     if (enableOperationalMetric) {
       question_answering_function.addEnvironment(
         'AWS_SDK_UA_APP_ID',
-        solution_id,
+        solutionId,
       );
     }
 

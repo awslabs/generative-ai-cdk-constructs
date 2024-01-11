@@ -707,17 +707,17 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     const enableOperationalMetric =
       props.enableOperationalMetric !== undefined && props.enableOperationalMetric !== null ? props.enableOperationalMetric : true;
-    const solution_id = 'genai_cdk_' + version + '/' + this.constructor.name + '/' + id;
+    const solutionId = `genai_cdk_${version}/${this.constructor.name}/${id}`;
 
     if (enableOperationalMetric) {
       documentReaderLambda.addEnvironment(
-        'AWS_SDK_UA_APP_ID', solution_id,
+        'AWS_SDK_UA_APP_ID', solutionId,
       );
       generateSummarylambda.addEnvironment(
-        'AWS_SDK_UA_APP_ID', solution_id,
+        'AWS_SDK_UA_APP_ID', solutionId,
       );
       inputValidatorLambda.addEnvironment(
-        'AWS_SDK_UA_APP_ID', solution_id,
+        'AWS_SDK_UA_APP_ID', solutionId,
       );
     };
 
