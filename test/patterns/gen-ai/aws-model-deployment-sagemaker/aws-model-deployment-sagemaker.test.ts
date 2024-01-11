@@ -167,8 +167,6 @@ describe('CustomSageMakerEndpoint construct', () => {
 
   afterAll(() => {
     console.log('Test completed');
-
-    console.log(CstTestTemplate.toJSON());
   });
 
   beforeAll(() => {
