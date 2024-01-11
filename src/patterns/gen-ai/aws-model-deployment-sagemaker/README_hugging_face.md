@@ -36,7 +36,7 @@
 
 This construct is provided here to simplify the deployment of foundation models on Amazon SageMaker from Models supported by [Hugging Face LLM Inference Container for Amazon SageMaker](https://huggingface.co/blog/sagemaker-huggingface-llm)
 
-This constructs only work when region of the stack is specified explicitly:
+This construct only work when region of the stack is specified explicitly:
 ```
 env: {
     region: 'eu-west-1',
