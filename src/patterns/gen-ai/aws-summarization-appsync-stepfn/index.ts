@@ -707,9 +707,9 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     const enableOperationalMetric =
       props.enableOperationalMetric !== undefined && props.enableOperationalMetric !== null ? props.enableOperationalMetric : true;
-    const solutionId = `genai_cdk_${version}/${this.constructor.name}/${id}`;
 
     if (enableOperationalMetric) {
+      const solutionId = `genai_cdk_${version}/${this.constructor.name}/${id}`;
       documentReaderLambda.addEnvironment(
         'AWS_SDK_UA_APP_ID', solutionId,
       );
