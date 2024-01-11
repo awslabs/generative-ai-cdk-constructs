@@ -695,7 +695,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
 
     const enableOperationalMetric =
       props.enableOperationalMetric !== undefined && props.enableOperationalMetric !== null ? props.enableOperationalMetric : true;
-    const solution_id = 'genai_cdk_' + version + '/' + typeof(this) + '/' + id;
+    const solution_id = 'genai_cdk_' + version + '/' + this.constructor.name + '/' + id;
 
     if (enableOperationalMetric) {
       embeddings_job_function.addEnvironment(
