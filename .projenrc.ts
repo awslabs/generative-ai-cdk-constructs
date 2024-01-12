@@ -27,7 +27,7 @@ import {
 const GITHUB_USER = 'awslabs';
 const PUBLICATION_NAMESPACE = 'cdklabs';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
-const CDK_VERSION: string = '2.88.0';
+const CDK_VERSION: string = '2.114.0';
 
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Amazon Web Services - Prototyping and Cloud Engineering',
@@ -149,6 +149,18 @@ project.npmignore?.addPatterns(
 project.eslint?.addPlugins('header');
 project.eslint?.addRules({
   'header/header': [2, 'header.js'],
+});
+
+// Add generation of new available models for constructs
+project.addTask('generate-models-containers', {
+  description: 'Generate new list of models available from Jumpstart and DLC containers',
+  steps: [
+    {
+      say: 'Generate new list of models available from Jumpstart and DLC containers',
+      cwd: project.srcdir+'/patterns/gen-ai/aws-model-deployment-sagemaker/code-generation',
+      exec: 'npm run generate',
+    },
+  ],
 });
 
 
