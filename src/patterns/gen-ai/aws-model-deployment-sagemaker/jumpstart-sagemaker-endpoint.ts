@@ -173,7 +173,9 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
       throw new Error(`JumpStart is not available in the region ${this.region}.`);
     }
 
-    const modelDataUrl = `s3://${bucket}/${key}`;
+    const modelArtifactUrl = `s3://${bucket}/${key}`;
+    const isArtifactCompressed = modelArtifactUrl.endsWith('.tar.gz');
+
     const imageUriKey = this.spec.instanceVariants
       ?.find((v) => v.instanceType === instanceBaseType)
       ?.imageUri?.replace('$', '');
@@ -194,9 +196,21 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
     const model = new sagemaker.CfnModel(scope, `${this.spec.modelId}-model-${id}`, {
       executionRoleArn: this.role.roleArn,
       enableNetworkIsolation: true,
-      primaryContainer: {
+      primaryContainer: isArtifactCompressed ? {
+      // True: Artifact is a tarball
         image,
-        modelDataUrl,
+        modelDataUrl: modelArtifactUrl,
+        environment,
+      } : {
+        // False: Model is uncompressed
+        image,
+        modelDataSource: {
+          s3DataSource: {
+            compressionType: 'None',
+            s3DataType: 'S3Prefix',
+            s3Uri: modelArtifactUrl,
+          },
+        },
         environment,
       },
       tags: [

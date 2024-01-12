@@ -1,4 +1,4 @@
-# aws-model-deployment-sagemaker
+# aws-model-deployment-sagemaker (JumpStartSageMakerEndpoint)
 
 <!--BEGIN STABILITY BANNER-->
 
@@ -34,11 +34,9 @@
 
 ## Overview
 
-Two constructs are provided here to simplify the deployment of foundation models on Amazon SageMaker from two different hubs:
-- Models from SageMaker Foundation Models / SageMaker JumpStart
-- Models supported by [Hugging Face LLM Inference Container for Amazon SageMaker](https://huggingface.co/blog/sagemaker-huggingface-llm)
+This construct is provided here to simplify the deployment of foundation models on Amazon SageMaker from SageMaker Foundation Models / SageMaker JumpStart
 
-These constructs only work when region of the stack is specified explicitly:
+This construct only work when region of the stack is specified explicitly:
 ```
 env: {
     region: 'eu-west-1',
@@ -51,39 +49,16 @@ Here is a minimal deployable pattern definition:
 
 import { Construct } from 'constructs';
 import { Stack, StackProps, Aws } from 'aws-cdk-lib';
-import { JumpStartSageMakerEndpoint, JumpStartModel, SageMakerInstanceType, HuggingFaceSageMakerEndpoint, DeepLearningContainerImage } from '@cdklabs/generative-ai-cdk-constructs';
+import { JumpStartSageMakerEndpoint, JumpStartModel, SageMakerInstanceType } from '@cdklabs/generative-ai-cdk-constructs';
 
 // Deploy a model from SageMaker Foundation Models or SageMaker JumpStart
 new JumpStartSageMakerEndpoint(this, 'LLAMA2', {
   model: JumpStartModel.META_TEXTGENERATION_LLAMA_2_7B_F_2_0_2,
   instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
 });
-
-// Deploy a model supported by HuggingFace LLM Inference Container
-new HuggingFaceSageMakerEndpoint(this, 'Mistral', {
-  modelId: 'mistralai/Mistral-7B-Instruct-v0.1',
-  instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
-  container:
-    DeepLearningContainerImage.HUGGINGFACE_PYTORCH_TGI_INFERENCE_2_0_1_TGI1_1_0_GPU_PY39_CU118_UBUNTU20_04,
-  environment: {
-    SM_NUM_GPUS: '1',
-    MAX_INPUT_LENGTH: '2048',
-    MAX_TOTAL_TOKENS: '4096',
-  },
-});
 ```
 
 ## Initializer
-
-```
-new HuggingFaceSageMakerEndpoint(scope: Construct, id: string, props: IHuggingFaceSageMakerEndpointProps)
-```
-
-Parameters
-
-- scope [Construct](https://docs.aws.amazon.com/cdk/api/v2/docs/constructs.Construct.html)
-- id string
-- props IHuggingFaceSageMakerEndpointProps
 
 ```
 new JumpStartSageMakerEndpoint(scope: Construct, id: string, props: IJumpStartSageMakerEndpointProps)
@@ -109,19 +84,6 @@ Parameters
 | environment | [key: string]: string | ![Optional](https://img.shields.io/badge/optional-4169E1) | Custom environment map that the inference code uses when the model is deployed for predictions |
 | startupHealthCheckTimeoutInSeconds | Integer | ![Optional](https://img.shields.io/badge/optional-4169E1) | The timeout value, in seconds, for your inference container to pass health check by SageMaker Hosting |
 
-### HuggingFaceSageMakerEndpoint
-
-| **Name**     | **Type**        | **Required** |**Description** |
-|:-------------|:----------------|-----------------|-----------------|
-| model | string | ![Required](https://img.shields.io/badge/required-ff0000) | The model to deploy. Must match a model id on HuggingFace |
-| container | ContainerImage | ![Required](https://img.shields.io/badge/required-ff0000) | A Deep Learning Container Image. Available list of containers is available through the [official documentation](https://github.com/aws/deep-learning-containers/blob/master/available_images.md) |
-| instanceType | SageMakerInstanceType | ![Required](https://img.shields.io/badge/required-ff0000) | The ML compute instance type |
-| endpointName | string| ![Optional](https://img.shields.io/badge/optional-4169E1) | Name of the SageMaker endpoint created by the construct |
-| instanceCount | Integer | ![Optional](https://img.shields.io/badge/optional-4169E1) | Number of instances to launch initially |
-| role | [iam.Role](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_iam.Role.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | The IAM role that SageMaker can assume to access model artifacts and docker image for deployment on ML compute instances or for batch transform jobs. If not provided, this construct will create a new role with Full access to SageMaker. |
-| environment | [key: string]: string | ![Optional](https://img.shields.io/badge/optional-4169E1) | Custom environment map that the inference code uses when the model is deployed for predictions |
-| startupHealthCheckTimeoutInSeconds | Integer | ![Optional](https://img.shields.io/badge/optional-4169E1) | The timeout value, in seconds, for your inference container to pass health check by SageMaker Hosting |
-
 ## Pattern Properties
 
 ### JumpStartSageMakerEndpoint
@@ -138,20 +100,6 @@ Parameters
 |instanceCount| number | Number of instances to launch initially|
 |role| [iam.Role](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_iam.Role.html) |The IAM role that SageMaker can assume to access model artifacts and docker image for deployment on ML compute instances or for batch transform jobs |
 
-### HuggingFaceSageMakerEndpoint
-
-| **Name**     | **Type**        | **Description** |
-|:-------------|:----------------|-----------------|
-|grantPrincipal| [iam.IPrincipal](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_iam.IPrincipal.html) | Authenticated AWS entity representing a user, service, or application that can call AWS APIs |
-|endpointArn| string | ARN of the provisioned SageMaker endpoint |
-|cfnModel| [sagemaker.CfnModel](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_sagemaker.CfnModel.html) | cfnModel created by the construct |
-|cfnEndpoint| [sagemaker.CfnEndpoint](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_sagemaker.CfnEndpoint.html) |cfnEndpoint created by the construct |
-|cfnEndpointConfig| [sagemaker.CfnEndpointConfig](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_sagemaker.CfnEndpointConfig.html) | cfnEndpointConfig created by the construct |
-|modelId| string | The model id (matching a HuggingFace model) |
-|instanceType| SageMakerInstanceType | The ML compute instance type |
-|instanceCount| number | Number of instances to launch initially|
-|role| [iam.Role](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_iam.Role.html) |The IAM role that SageMaker can assume to access model artifacts and docker image for deployment on ML compute instances or for batch transform jobs |
-
 ## Default properties
 
 - iam.Role: if not provided, an iam.Role will be created by the construct with a managed policy providing AmazonSageMakerFullAccess permissions.
@@ -163,7 +111,7 @@ Parameters
 
 
 ## Architecture
-![Architecture Diagram](architecture.png)
+![Architecture Diagram](architecture_JumpStartSageMakerEndpoint.png)
 
 ## Cost
 
