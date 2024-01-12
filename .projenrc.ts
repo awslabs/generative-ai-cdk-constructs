@@ -50,7 +50,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     'commitlint',
     'eslint-plugin-header',
     'husky',
-    // 'pinst',
+    'pinst',
   ],
   deps: ['cdk-nag'],
 
@@ -160,6 +160,8 @@ project.eslint?.addRules({
 const packageJson = project.tryFindObjectFile('package.json');
 packageJson?.patch(JsonPatch.add('/scripts/prepare', 'husky install')); // yarn 1
 packageJson?.patch(JsonPatch.add('/scripts/postinstall', 'husky install')); // yarn 2
+packageJson?.patch(JsonPatch.add('/scripts/prepack', 'pinst --disable'));
+packageJson?.patch(JsonPatch.add('/scripts/postpack', 'pinst --enable'));
 
 // Add generation of new available models for constructs
 project.addTask('generate-models-containers', {
