@@ -49,8 +49,8 @@
     "jest": "^29.7.0",
     "jest-junit": "^15",
     "jsii": "~5.1.0",
-    "jsii-diff": "^1.93.0",
-    "jsii-pacmak": "^1.93.0",
+    "jsii-diff": "^1.94.0",
+    "jsii-pacmak": "^1.94.0",
     "jsii-rosetta": "~5.1.0",
     "projen": "~0.78.8",
     "standard-version": "^9",
@@ -63,7 +63,7 @@
     "constructs": "^10.3.0"
   },
   "dependencies": {
-    "cdk-nag": "^2.27.222"
+    "cdk-nag": "^2.28.6"
   },
   "keywords": [
     "aws-cdk",
