@@ -30,7 +30,9 @@
     "watch": "npx projen watch",
     "projen": "npx projen",
     "prepare": "husky install",
-    "postinstall": "husky install"
+    "postinstall": "husky install",
+    "prepack": "pinst --disable",
+    "postpack": "pinst --enable"
   },
   "author": {
     "name": "Amazon Web Services - Prototyping and Cloud Engineering",
@@ -57,6 +59,7 @@
     "jsii-diff": "^1.94.0",
     "jsii-pacmak": "^1.94.0",
     "jsii-rosetta": "~5.1.0",
+    "pinst": "^3.0.0",
     "projen": "~0.78.8",
     "standard-version": "^9",
     "ts-jest": "^29.1.1",
