@@ -12,6 +12,11 @@
  */
 import * as cdk from 'aws-cdk-lib';
 /**
+ * The version of this package
+ */
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+export const version = require('../../../package.json').version;
+/**
  * @internal This is an internal core function and should not be called directly by Solutions Constructs clients.
  *
  * @summary Creates a physical resource name in the style of the CDK (string+hash) - this value incorporates Stack ID,
