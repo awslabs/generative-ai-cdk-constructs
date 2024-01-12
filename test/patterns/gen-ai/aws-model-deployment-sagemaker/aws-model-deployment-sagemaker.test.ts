@@ -12,7 +12,14 @@
  */
 import * as cdk from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
-import { JumpStartSageMakerEndpoint, JumpStartModel, SageMakerInstanceType, HuggingFaceSageMakerEndpoint, DeepLearningContainerImage } from '../../../../src/patterns/gen-ai/aws-model-deployment-sagemaker';
+import {
+  JumpStartSageMakerEndpoint,
+  JumpStartModel,
+  SageMakerInstanceType,
+  HuggingFaceSageMakerEndpoint,
+  DeepLearningContainerImage,
+  CustomSageMakerEndpoint,
+} from '../../../../src/patterns/gen-ai/aws-model-deployment-sagemaker';
 
 describe('JumpStartSageMakerEndpoint construct', () => {
 
@@ -150,5 +157,86 @@ describe('HuggingFaceSageMakerEndpoint construct', () => {
       }],
     });
     expect(HgngfcTestConstruct.cfnModel).not.toBeNull;
+  });
+});
+
+describe('CustomSageMakerEndpoint construct', () => {
+
+  let CstTestTemplate: Template;
+  let CstTestConstruct: CustomSageMakerEndpoint;
+
+  afterAll(() => {
+    console.log('Test completed');
+  });
+
+  beforeAll(() => {
+
+    const CstTestStack = new cdk.Stack(undefined, undefined, {
+      env: { account: cdk.Aws.ACCOUNT_ID, region: 'us-east-1' },
+    });
+
+    CstTestConstruct = new CustomSageMakerEndpoint(CstTestStack, 'test3', {
+      modelId: 'bgeinf2',
+      instanceType: SageMakerInstanceType.ML_INF2_XLARGE,
+      container: DeepLearningContainerImage.fromDeepLearningContainerImage('huggingface-pytorch-inference-neuronx', '1.13.1-transformers4.34.1-neuronx-py310-sdk2.15.0-ubuntu20.04'),
+      modelDataUrl: 's3://mybucket/mykey/model.tar.gz',
+      environment: {
+        SAGEMAKER_CONTAINER_LOG_LEVEL: '20',
+        SAGEMAKER_MODEL_SERVER_WORKERS: '2',
+        SAGEMAKER_REGION: 'us-east-2',
+      },
+      endpointName: 'testbgebase',
+      instanceCount: 1,
+      volumeSizeInGb: 100,
+    });
+    CstTestTemplate = Template.fromStack(CstTestStack);
+
+  });
+
+  test('SageMaker endpoint count', () => {
+    CstTestTemplate.resourceCountIs('AWS::SageMaker::Endpoint', 1);
+    expect(CstTestConstruct.cfnEndpoint).not.toBeNull;
+  });
+
+  test('SageMaker endpoint config count', () => {
+    CstTestTemplate.resourceCountIs('AWS::SageMaker::EndpointConfig', 1);
+  });
+
+  test('SageMaker endpoint config properties', () => {
+    CstTestTemplate.hasResourceProperties('AWS::SageMaker::EndpointConfig', {
+      ProductionVariants: [{
+        ContainerStartupHealthCheckTimeoutInSeconds: 600,
+        ModelDataDownloadTimeoutInSeconds: 600,
+        InitialInstanceCount: 1,
+        InitialVariantWeight: 1,
+        InstanceType: 'ml.inf2.xlarge',
+        VariantName: 'AllTraffic',
+        VolumeSizeInGB: 100,
+      }],
+    });
+    expect(CstTestConstruct.cfnEndpointConfig).not.toBeNull;
+  });
+
+  test('SageMaker model count', () => {
+    CstTestTemplate.resourceCountIs('AWS::SageMaker::Model', 1);
+  });
+
+  test('SageMaker model properties', () => {
+    CstTestTemplate.hasResourceProperties('AWS::SageMaker::Model', {
+      PrimaryContainer: {
+        Environment: {
+          SAGEMAKER_CONTAINER_LOG_LEVEL: '20',
+          SAGEMAKER_MODEL_SERVER_WORKERS: '2',
+          SAGEMAKER_REGION: 'us-east-2',
+        },
+        Mode: 'SingleModel',
+        ModelDataUrl: 's3://mybucket/mykey/model.tar.gz',
+      },
+      Tags: [{
+        Key: 'modelId',
+        Value: 'bgeinf2',
+      }],
+    });
+    expect(CstTestConstruct.cfnModel).not.toBeNull;
   });
 });
