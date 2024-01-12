@@ -1,6 +1,10 @@
 {
   "dependencies": [
     {
+      "name": "@commitlint/config-conventional",
+      "type": "build"
+    },
+    {
       "name": "@types/jest",
       "type": "build"
     },
@@ -20,6 +24,10 @@
       "type": "build"
     },
     {
+      "name": "commitlint",
+      "type": "build"
+    },
+    {
       "name": "eslint-import-resolver-typescript",
       "type": "build"
     },
@@ -34,6 +42,10 @@
     {
       "name": "eslint",
       "version": "^8",
+      "type": "build"
+    },
+    {
+      "name": "husky",
       "type": "build"
     },
     {
