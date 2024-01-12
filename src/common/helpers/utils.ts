@@ -11,6 +11,7 @@
  *  and limitations under the License.
  */
 import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 /**
  * The version of this package
  */
@@ -57,4 +58,21 @@ export function generatePhysicalName(
 
   const finalName = prefix.toLowerCase() + allParts + '-' + uniqueStackIdPart;
   return finalName;
+}
+
+export function lambdaMemorySizeLimiter(construct: Construct, requestedMemorySizeInMegabytes: number) {
+  const contextItem = 'maximumLambdaMemorySize';
+  const recommendedMaximumLambdaMemorySize = 7076;
+  const maximumLambaMemorySize = construct.node.tryGetContext(contextItem) === undefined ?
+    recommendedMaximumLambdaMemorySize :
+    parseInt(construct.node.tryGetContext(contextItem));
+  if (maximumLambaMemorySize < recommendedMaximumLambdaMemorySize) {
+    console.warn(`Maximum Lambda memorySize, ${maximumLambaMemorySize}, is less than the recommended ${recommendedMaximumLambdaMemorySize}.`);
+  }
+  if (requestedMemorySizeInMegabytes > maximumLambaMemorySize) {
+    console.warn(`Reducing Lambda memorySize, ${requestedMemorySizeInMegabytes} to ${maximumLambaMemorySize} for ${construct.constructor.name}`);
+    return maximumLambaMemorySize;
+  } else {
+    return requestedMemorySizeInMegabytes;
+  }
 }
