@@ -162,27 +162,54 @@ Where:
 
 ## Initializer
 
-```
-new LangchainCommonDepsLayer(scope: Construct, id: string, props: LangchainLayerProps)
-```
+### LangchainDepsLayer
 
 ```
-new LangchainCommonLayer(scope: Construct, id: string, props: LangchainLayerProps)
+new LangchainDepsLayer(scope: Construct, id: string, props: LangchainLayerProps)
 ```
 
-Parameters
+#### Parameters
 
 - scope [Construct](https://docs.aws.amazon.com/cdk/api/v2/docs/constructs.Construct.html)
 - id string
-- props LangchainLayerProps
+- props [LangchainLayerProps](https://github.com/awslabs/generative-ai-cdk-constructs/blob/main/src/patterns/gen-ai/aws-langchain-common-layer/index.ts#L23)
 
-## Pattern Construct Props
+#### Pattern Construct Props
 
 | **Name**     | **Type**        | **Required** |**Description** |
 |:-------------|:----------------|-----------------|-----------------|
 | runtime | [lambda.Runtime](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Runtime.html) | ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function runtime compatible with this layer. |
 | architecture | [lambda.Architecture](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Architecture.html)| ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function architecture compatible with this layer. |
 | autoUpgrade | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Add '--upgrade' to pip install requirements.txt. In case of a LangchainCommonLayer, this parameter is not used. |
+| additionalPackages | string[] | ![Optional](https://img.shields.io/badge/optional-4169E1) | A prop allowing additional python pip libraries to be installed with this langchain layer. |
+| description | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | Default: Dependencies to build gen ai applications with the langchain client |
+| layerVersionName | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | The name of the layer |
+| license | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | The SPDX licence identifier or URL to the license file for this layer |
+| removalPolicy | [RemovalPolicy](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.RemovalPolicy.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Whether to retain this version of the layer when a new version is added or when the stack is deleted. Default: DESTROY |
+
+### ModelAdapterLayer
+
+```
+new ModelAdapterLayer(scope: Construct, id: string, props: ModelAdapterProps)
+```
+
+Parameters
+
+- scope [Construct](https://docs.aws.amazon.com/cdk/api/v2/docs/constructs.Construct.html)
+- id string
+- props [ModelAdapterProps](https://github.com/awslabs/generative-ai-cdk-constructs/blob/main/src/patterns/gen-ai/aws-langchain-common-layer/index.ts#L80)
+
+#### Pattern Construct Props
+
+| **Name**     | **Type**        | **Required** |**Description** |
+|:-------------|:----------------|-----------------|-----------------|
+| compatibleRuntimes | [lambda.Runtime[]](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Runtime.html) | ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function runtime compatible with this layer. |
+| compatibleArchitectures | [lambda.Architecture[]](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Architecture.html)| ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function architecture compatible with this layer. |
+| autoUpgrade | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Add '--upgrade' to pip install requirements.txt. In case of a LangchainCommonLayer, this parameter is not used. |
+| description | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | Default: Dependencies to build gen ai applications with the langchain client |
+| layerVersionName | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | The name of the layer |
+| license | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | The SPDX licence identifier or URL to the license file for this layer |
+| removalPolicy | [RemovalPolicy](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.RemovalPolicy.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Whether to retain this version of the layer when a new version is added or when the stack is deleted. Default: DESTROY |
 
 ## Pattern Properties
 
@@ -192,9 +219,9 @@ Parameters
 
 ## Default properties
 
-Out-of-the-box implementation of the construct without any override will not set any default values. Depending on the features enabled, user will need to provide environmental variable values to the AWS Lambda function used by the LangchainCommonLayer.
+Out-of-the-box implementation of the construct without any override will not set any default values. Depending on the features enabled, user will need to provide environmental variable values to the AWS Lambda function used by the ModelAdapterLayer.
 
-## Python utility layer (LangchainCommonLayer)
+## Python utility layer (ModelAdapterLayer)
 
 This utility layer provides helper functions to accelerate the development of generative AI applications on AWS. 
 

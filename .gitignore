@@ -65,3 +65,5 @@ tsconfig.json
 !/.github/workflows/bandit.yml
 !/.github/workflows/commitlint.yml
 !/.projenrc.ts
+!/src/LangchainProps.ts
+!/src/AdapterProps.ts
