@@ -415,7 +415,9 @@ export class SummarizationAppsyncStepfn extends Construct {
       {
         name: apiName+stage,
         logConfig: api_log_config,
-        schema: appsync.SchemaFile.fromAsset(path.join(__dirname, '../../../../resources/gen-ai/aws-summarization-appsync-stepfn/schema.graphql')),
+        definition: appsync.Definition.fromFile(
+          path.join(__dirname, '../../../../resources/gen-ai/aws-summarization-appsync-stepfn/schema.graphql'),
+        ),
         authorizationConfig: authorizationConfig,
         xrayEnabled: enable_xray,
       });

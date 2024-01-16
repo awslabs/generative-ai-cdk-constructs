@@ -123,7 +123,7 @@ Parameters
 
 
 ## Architecture
-![Architecture Diagram](architecture_CustomSageMakerEndpoint.png.png)
+![Architecture Diagram](architecture_CustomSageMakerEndpoint.png)
 
 ## Cost
 

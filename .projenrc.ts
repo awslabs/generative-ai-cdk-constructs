@@ -10,7 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import { awscdk } from 'projen';
+import { JsonPatch, awscdk } from 'projen';
 import { NpmAccess } from 'projen/lib/javascript';
 import {
   buildMeritBadgerWorkflow,
@@ -45,7 +45,13 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
   // description: undefined,  /* The description is just a string that helps people understand the purpose of the package. */
   keywords: ['constructs', 'aws-cdk', 'generative-ai', 'emerging-tech'],
-  devDeps: ['eslint-plugin-header'],
+  devDeps: [
+    '@commitlint/config-conventional',
+    'commitlint',
+    'eslint-plugin-header',
+    'husky',
+    'pinst',
+  ],
   deps: ['cdk-nag'],
 
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
@@ -151,6 +157,12 @@ project.eslint?.addRules({
   'header/header': [2, 'header.js'],
 });
 
+const packageJson = project.tryFindObjectFile('package.json');
+packageJson?.patch(JsonPatch.add('/scripts/prepare', 'husky install')); // yarn 1
+packageJson?.patch(JsonPatch.add('/scripts/postinstall', 'husky install')); // yarn 2
+packageJson?.patch(JsonPatch.add('/scripts/prepack', 'pinst --disable'));
+packageJson?.patch(JsonPatch.add('/scripts/postpack', 'pinst --enable'));
+
 // Add generation of new available models for constructs
 project.addTask('generate-models-containers', {
   description: 'Generate new list of models available from Jumpstart and DLC containers',
@@ -162,6 +174,5 @@ project.addTask('generate-models-containers', {
     },
   ],
 });
-
 
 project.synth();
