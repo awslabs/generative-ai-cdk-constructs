@@ -73,7 +73,7 @@ def get_llm(callbacks=None):
 
     kwargs = {
         "client": bedrock,
-        "model_id": "anthropic.claude-v2",
+        "model_id": "anthropic.claude-v2:1",
         "model_kwargs": params,
         "streaming": False 
     }

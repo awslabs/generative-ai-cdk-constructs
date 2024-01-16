@@ -75,7 +75,7 @@ def handler(event, context: LambdaContext)-> dict:
         "files": processed_files,
     }
     summary_llm = Bedrock(
-        model_id="anthropic.claude-v2",
+        model_id="anthropic.claude-v2:1",
         client=bedrock_client,
         model_kwargs=params,
         streaming=False,
