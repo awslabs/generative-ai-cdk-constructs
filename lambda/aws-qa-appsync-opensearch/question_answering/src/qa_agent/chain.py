@@ -29,8 +29,6 @@ from aws_lambda_powertools import Logger, Tracer, Metrics
 logger = Logger(service="QUESTION_ANSWERING")
 tracer = Tracer(service="QUESTION_ANSWERING")
 metrics = Metrics(namespace="question_answering", service="QUESTION_ANSWERING")
-
-
 class StreamingCallbackHandler(BaseCallbackHandler):
     def __init__(self, status_variables: Dict):
         self.status_variables = status_variables
@@ -90,9 +88,15 @@ def run_question_answering(arguments):
     try:
         filename = arguments['filename']
     except:
+
         filename = ''
         arguments['filename'] = ''
+
     if not filename:  # user didn't provide a specific file as input, we use the RAG source against the entire knowledge base
+        if response_generation_method == 'LONG_CONTEXT':
+            error = 'Error: Filename required for LONG_CONTEXT approach, defaulting to RAG.'
+            logger.error(error)
+
         llm_response = run_qa_agent_rag_no_memory(arguments)
         return llm_response
 
@@ -124,6 +128,7 @@ def run_question_answering(arguments):
         logger.info('Running qa agent with a RAG approach')
         llm_response = run_qa_agent_rag_no_memory(arguments)
     else:
+        # LONG CONTEXT
         # why add 500 ? on top of the document content, we add the prompt. So we keep an extra 500 tokens of space just in case
         if (document_number_of_tokens + 250) < model_max_tokens:
             logger.info('Running qa agent with full document in context')
@@ -132,12 +137,8 @@ def run_question_answering(arguments):
             logger.info('Running qa agent with a RAG approach due to document size')
             llm_response = run_qa_agent_rag_no_memory(arguments)
     return llm_response
-
-
 _doc_index = None
 _current_doc_index = None
-
-
 def run_qa_agent_rag_no_memory(input_params):
     logger.info("starting qa agent with rag approach without memory")
 
