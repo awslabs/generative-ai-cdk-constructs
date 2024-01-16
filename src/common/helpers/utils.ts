@@ -10,8 +10,9 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+import * as crypto from 'crypto';
 import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
+import { IConstruct } from 'constructs';
 /**
  * The version of this package
  */
@@ -20,10 +21,14 @@ export const version = require('../../../package.json').version;
 /**
  * @internal This is an internal core function and should not be called directly by Solutions Constructs clients.
  *
- * @summary Creates a physical resource name in the style of the CDK (string+hash) - this value incorporates Stack ID,
- * so it will remain static in multiple updates of a single stack, but will be different in a separate stack instance
+ * @summary Creates a physical resource name in the style of the CDK (string+hash) - this value incorporates Stack ID or
+ * the Stack Name, so it will remain static in multiple updates of a single stack, but will be different in a separate
+ * stack instance.
+ * @param {string} prefix - the prefix to use for the name
  * @param {string[]} parts - the various string components of the name (eg - stackName, solutions construct ID, L2 construct ID)
  * @param {number} maxLength - the longest string that can be returned
+ * @param {boolean} lower - whether to return the name in lowercase or mixed case
+ * @param {IConstruct} resource - the resource that is calling this function (used to extract the stack Name and Node ID)
  * @returns {string} - a string with concatenated parts (truncated if necessary) + a hash of the full concatenated parts
  *
  */
@@ -31,6 +36,8 @@ export function generatePhysicalName(
   prefix: string,
   parts: string[],
   maxLength: number,
+  lower?: boolean,
+  resource?: IConstruct,
 ): string {
   // The result will consist of:
   //    -The prefix - unaltered
@@ -40,10 +47,26 @@ export function generatePhysicalName(
 
   const stackIdGuidLength = 36;
   const prefixLength = prefix.length;
-  const maxPartsLength = maxLength - prefixLength - 1 - stackIdGuidLength; // 1 is the hyphen
+  let maxPartsLength = maxLength - prefixLength - 1 - stackIdGuidLength; // 1 is the hyphen
 
-  // Extract the Stack ID Guid
-  const uniqueStackIdPart = cdk.Fn.select(2, cdk.Fn.split('/', `${cdk.Aws.STACK_ID}`));
+  let uniqueStackIdPart = '';
+  let uniqueStackIdPartLength = stackIdGuidLength;
+  if (maxPartsLength > 2) {
+    // Extract the Stack ID Guid
+    uniqueStackIdPart = cdk.Fn.select(2, cdk.Fn.split('/', `${cdk.Aws.STACK_ID}`));
+  } else if (resource) {
+    const stack = cdk.Stack.of(resource);
+
+    const hashLength = 8;
+    const sha256 = crypto.createHash('sha256')
+      .update(stack.stackName)
+      .update(cdk.Names.nodeUniqueId(resource.node));
+    uniqueStackIdPart = sha256.digest('hex').slice(0, hashLength);
+    uniqueStackIdPartLength = hashLength;
+    maxPartsLength = maxLength - prefixLength - 1 - hashLength; // 1 is the hyphen
+  } else {
+    throw new Error('The resource parameter is required for short names.');
+  }
 
   let allParts: string = '';
 
@@ -56,11 +79,14 @@ export function generatePhysicalName(
     allParts = allParts.substring(0, subStringLength) + allParts.substring(allParts.length - subStringLength);
   }
 
-  const finalName = prefix.toLowerCase() + allParts + '-' + uniqueStackIdPart;
-  return finalName;
+  if (prefix.length + allParts.length + uniqueStackIdPartLength + 1 /* hyphen */ > maxLength) {
+    throw new Error(`The generated name is longer than the maximum length of ${maxLength}`);
+  }
+
+  return prefix.toLowerCase() + (lower ? allParts.toLowerCase() : allParts) + '-' + uniqueStackIdPart;
 }
 
-export function lambdaMemorySizeLimiter(construct: Construct, requestedMemorySizeInMegabytes: number) {
+export function lambdaMemorySizeLimiter(construct: IConstruct, requestedMemorySizeInMegabytes: number) {
   const contextItem = 'maximumLambdaMemorySize';
   const recommendedMaximumLambdaMemorySize = 7076;
   const maximumLambaMemorySize = construct.node.tryGetContext(contextItem) === undefined ?
