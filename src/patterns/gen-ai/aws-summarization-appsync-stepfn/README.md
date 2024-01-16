@@ -18,25 +18,18 @@
 
 ## Table of contents
 
-- [aws-summarization-appsync-stepfn](#aws-summarization-appsync-stepfn)
-  - [Table of contents](#table-of-contents)
-  - [Overview](#overview)
-  - [Initializer](#initializer)
-  - [Pattern Construct Props](#pattern-construct-props)
-  - [Pattern Properties](#pattern-properties)
-  - [Default properties](#default-properties)
-    - [VPC](#vpc)
-    - [Amazon ElastiCache for Redis](#amazon-elasticache-for-redis)
-    - [AppSync](#appsync)
-    - [Amazon S3 Buckets](#amazon-s3-buckets)
-    - [Observability](#observability)
-  - [Troubleshooting](#troubleshooting)
-  - [Architecture](#architecture)
-  - [Cost](#cost)
-  - [Security](#security)
-  - [Supported AWS Regions](#supported-aws-regions)
-  - [Quotas](#quotas)
-  - [Clean up](#clean-up)
+- [Overview](#overview)
+- [Initializer](#initializer)
+- [Pattern Construct Props](#pattern-construct-props)
+- [Pattern Properties](#pattern-properties)
+- [Default properties](#default-properties)
+- [Troubleshooting](#troubleshooting)
+- [Architecture](#architecture)
+- [Cost](#cost)
+- [Security](#security)
+- [Supported AWS Regions](#supported-aws-regions)
+- [Quotas](#quotas)
+- [Clean up](#clean-up)
 
 ## Overview
 
