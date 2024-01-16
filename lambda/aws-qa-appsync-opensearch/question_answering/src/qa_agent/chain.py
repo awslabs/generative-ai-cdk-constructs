@@ -29,7 +29,6 @@ from aws_lambda_powertools import Logger, Tracer, Metrics
 logger = Logger(service="QUESTION_ANSWERING")
 tracer = Tracer(service="QUESTION_ANSWERING")
 metrics = Metrics(namespace="question_answering", service="QUESTION_ANSWERING")
-
 class StreamingCallbackHandler(BaseCallbackHandler):
     def __init__(self, status_variables: Dict):
         self.status_variables = status_variables
@@ -58,7 +57,6 @@ class StreamingCallbackHandler(BaseCallbackHandler):
             self.status_variables['answer'] = error.decode("utf-8")
             send_job_status(self.status_variables)
 
-    
     def on_llm_end(self, response: LLMResult, **kwargs: Any) -> None:
         """Run when LLM ends running."""
         logger.info(f"[StreamingCallbackHandler::on_llm_end] Streaming ended. Response: {response}")
@@ -85,23 +83,31 @@ class StreamingCallbackHandler(BaseCallbackHandler):
 
 @tracer.capture_method
 def run_question_answering(arguments):
+    response_generation_method = arguments.get('responseGenerationMethod', 'LONG_CONTEXT')
 
     try:
         filename = arguments['filename']
     except:
+
         filename = ''
         arguments['filename'] = ''
-    if not filename: # user didn't provide a specific file as input, we use the RAG source against the entire knowledge base
+
+    if not filename:  # user didn't provide a specific file as input, we use the RAG source against the entire knowledge base
+        if response_generation_method == 'LONG_CONTEXT':
+            error = 'Error: Filename required for LONG_CONTEXT approach, defaulting to RAG.'
+            logger.error(error)
+
         llm_response = run_qa_agent_rag_no_memory(arguments)
         return llm_response
-    
+
     bucket_name = os.environ['INPUT_BUCKET']
 
     # select the methodology based on the input size
     document_number_of_tokens = S3FileLoaderInMemory(bucket_name, filename).get_document_tokens()
 
     if document_number_of_tokens is None:
-        logger.exception(f'Failed to compute the number of tokens for file {filename} in bucket {bucket_name}, returning')
+        logger.exception(
+            f'Failed to compute the number of tokens for file {filename} in bucket {bucket_name}, returning')
         error = JobStatus.ERROR_LOAD_INFO.get_message()
         status_variables = {
             'jobstatus': JobStatus.ERROR_LOAD_INFO.status,
@@ -115,21 +121,24 @@ def run_question_answering(arguments):
         return ''
 
     model_max_tokens = get_max_tokens()
-    logger.info(f'For the current question, we have a max model length of {model_max_tokens} and a document containing {document_number_of_tokens} tokens')
+    logger.info(
+        f'For the current question, we have a max model length of {model_max_tokens} and a document containing {document_number_of_tokens} tokens')
 
-    # why add 500 ? on top of the document content, we add the prompt. So we keep an extra 500 tokens of space just in case
-    if (document_number_of_tokens + 250) < model_max_tokens:
-        logger.info('Running qa agent with full document in context')
-        llm_response = run_qa_agent_from_single_document_no_memory(arguments)
-    else:
+    if response_generation_method == 'RAG':
         logger.info('Running qa agent with a RAG approach')
         llm_response = run_qa_agent_rag_no_memory(arguments)
-    
+    else:
+        # LONG CONTEXT
+        # why add 500 ? on top of the document content, we add the prompt. So we keep an extra 500 tokens of space just in case
+        if (document_number_of_tokens + 250) < model_max_tokens:
+            logger.info('Running qa agent with full document in context')
+            llm_response = run_qa_agent_from_single_document_no_memory(arguments)
+        else:
+            logger.info('Running qa agent with a RAG approach due to document size')
+            llm_response = run_qa_agent_rag_no_memory(arguments)
     return llm_response
-
 _doc_index = None
 _current_doc_index = None
-
 def run_qa_agent_rag_no_memory(input_params):
     logger.info("starting qa agent with rag approach without memory")
 
@@ -157,11 +166,11 @@ def run_qa_agent_rag_no_memory(input_params):
     if _doc_index is None:
         logger.info("loading opensearch retriever")
         doc_index = load_vector_db_opensearch(boto3.Session().region_name,
-                                               os.environ.get('OPENSEARCH_DOMAIN_ENDPOINT'),
-                                               os.environ.get('OPENSEARCH_INDEX'),
-                                               os.environ.get('OPENSEARCH_SECRET_ID'))
+                                              os.environ.get('OPENSEARCH_DOMAIN_ENDPOINT'),
+                                              os.environ.get('OPENSEARCH_INDEX'),
+                                              os.environ.get('OPENSEARCH_SECRET_ID'))
 
-    else :
+    else:
         logger.info("_retriever already exists")
 
     _current_doc_index = _doc_index
@@ -171,7 +180,7 @@ def run_qa_agent_rag_no_memory(input_params):
     output_file_name = input_params['filename']
 
     source_documents = doc_index.similarity_search(decoded_question, k=max_docs)
-    #--------------------------------------------------------------------------
+    # --------------------------------------------------------------------------
     # If an output file is specified, filter the response to only include chunks  
     # related to that file. The source metadata is added when embeddings are 
     # created in the ingestion pipeline.
@@ -179,8 +188,8 @@ def run_qa_agent_rag_no_memory(input_params):
     # TODO: Evaluate if this filter can be optimized by using the  
     # OpenSearchVectorSearch.max_marginal_relevance_search() method instead.
     # See https://github.com/langchain-ai/langchain/issues/10524
-    #--------------------------------------------------------------------------
-    if output_file_name: 
+    # --------------------------------------------------------------------------
+    if output_file_name:
         source_documents = [doc for doc in source_documents if doc.metadata['source'] == output_file_name]
     logger.info(source_documents)
     status_variables['sources'] = list(set(doc.metadata['source'] for doc in source_documents))
@@ -208,7 +217,7 @@ def run_qa_agent_rag_no_memory(input_params):
     try:
         tmp = chain.predict(context=source_documents, question=decoded_question)
         answer = tmp.removeprefix(' ')
-        
+
         logger.info(f'answer is: {answer}')
         llm_answer_bytes = answer.encode("utf-8")
         base64_bytes = base64.b64encode(llm_answer_bytes)
@@ -224,11 +233,13 @@ def run_qa_agent_rag_no_memory(input_params):
         error = JobStatus.ERROR_PREDICTION.get_message()
         status_variables['answer'] = error.decode("utf-8")
         send_job_status(status_variables)
-    
+
     return status_variables
+
 
 _file_content = None
 _current_file_name = None
+
 
 def run_qa_agent_from_single_document_no_memory(input_params):
     logger.info("starting qa agent without memory single document")
@@ -267,7 +278,7 @@ def run_qa_agent_from_single_document_no_memory(input_params):
         else:
             logger.info('same file as before, but nothing cached')
             _file_content = S3FileLoaderInMemory(bucket_name, filename).load()
-    
+
     _current_file_name = filename
     status_variables['sources'] = [filename]
     if _file_content is None:

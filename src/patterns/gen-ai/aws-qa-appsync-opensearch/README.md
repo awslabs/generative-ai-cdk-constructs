@@ -125,7 +125,7 @@ Mutation call to trigger the question:
 
 ```
 mutation MyMutation {
-  postQuestion(jobid: "123", jobstatus: "", max_docs: 10, question: "d2hhdCBpcyB0aGlzIGRvY3VtZW50IGFib3V0ID8=", streaming:true, verbose: true, filename: "document.txt") {
+  postQuestion(jobid: "123", jobstatus: "", max_docs: 10, question: "d2hhdCBpcyB0aGlzIGRvY3VtZW50IGFib3V0ID8=", streaming:true, verbose: true, filename: "document.txt", responseGenerationMethod: "RAG") {
     answer
     jobid
     jobstatus
@@ -133,6 +133,7 @@ mutation MyMutation {
     question
     verbose
     streaming
+    responseGenerationMethod
   }
 }
 ____________________________________________________________________
@@ -162,6 +163,7 @@ Where:
 - verbose: boolean indicating if the [Langchain chain call verbosity](https://python.langchain.com/docs/guides/debugging#chain-verbosetrue) should be enabled or not
 - streaming: boolean indicating if the streaming capability of Bedrock is used. If set to true, tokens will be send back to the subscriber as they are generated. If set to false, the entire response will be sent back to the subscriber once generated.
 - filename: optional. Name of the file stored in the input S3 bucket, in txt format.
+- responseGenerationMethod: optional. Method used to generate the response. Can be either RAG or LONG_CONTEXT. If not provided, the default value is LONG_CONTEXT.
 
 ## Initializer
 
