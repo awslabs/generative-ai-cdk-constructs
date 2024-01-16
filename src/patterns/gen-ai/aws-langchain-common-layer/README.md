@@ -18,24 +18,19 @@
 
 ## Table of contents
 
-- [aws-langchain-common-layer](#aws-langchain-common-layer)
-  - [Table of contents](#table-of-contents)
-  - [Credits](#credits)
-  - [Overview](#overview)
-  - [Initializer](#initializer)
-  - [Pattern Construct Props](#pattern-construct-props)
-  - [Pattern Properties](#pattern-properties)
-  - [Default properties](#default-properties)
-  - [Python utility layer (LangchainCommonLayer)](#python-utility-layer-langchaincommonlayer)
-    - [Registry](#registry)
-    - [Adapters](#adapters)
-  - [Troubleshooting](#troubleshooting)
-  - [Architecture](#architecture)
-  - [Cost](#cost)
-  - [Security](#security)
-  - [Supported AWS Regions](#supported-aws-regions)
-  - [Quotas](#quotas)
-  - [Clean up](#clean-up)
+- [Credits](#credits)
+- [Overview](#overview)
+- [Initializer](#initializer)
+- [Pattern Construct Props](#pattern-construct-props)
+- [Pattern Properties](#pattern-properties)
+- [Default properties](#default-properties)
+- [Troubleshooting](#troubleshooting)
+- [Architecture](#architecture)
+- [Cost](#cost)
+- [Security](#security)
+- [Supported AWS Regions](#supported-aws-regions)
+- [Quotas](#quotas)
+- [Clean up](#clean-up)
 
 ## Credits
 
