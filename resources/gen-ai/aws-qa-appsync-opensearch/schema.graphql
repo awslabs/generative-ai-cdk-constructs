@@ -1,3 +1,8 @@
+enum ResponseGenerationMethod {
+	LONG_CONTEXT
+	RAG
+}
+
 type QADocs @aws_iam @aws_cognito_user_pools {
 	jobid: ID
 	question: String
@@ -8,6 +13,7 @@ type QADocs @aws_iam @aws_cognito_user_pools {
 	answer: String
 	sources: [String]
 	jobstatus: String
+	responseGenerationMethod: ResponseGenerationMethod
 }
 
 input QADocsInput {
@@ -17,6 +23,7 @@ input QADocsInput {
 	max_docs: Int
 	filename: String
 	verbose: Boolean
+	responseGenerationMethod: ResponseGenerationMethod
 }
 
 type Mutation @aws_iam @aws_cognito_user_pools {
@@ -27,7 +34,8 @@ type Mutation @aws_iam @aws_cognito_user_pools {
 		question: String,
 		max_docs: Int,
 		verbose: Boolean,
-		streaming: Boolean
+		streaming: Boolean,
+		responseGenerationMethod: ResponseGenerationMethod
 	): QADocs
 	updateQAJobStatus(
 		jobid: ID,
