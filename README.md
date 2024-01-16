@@ -15,15 +15,11 @@
 
 ## Table of contents
 
-- [AWS Generative AI CDK Constructs](#aws-generative-ai-cdk-constructs)
-  - [Table of contents](#table-of-contents)
 - [Introduction](#introduction)
 - [CDK Versions](#cdk-versions)
 - [Contributing](#contributing)
-- [Design guidelines and Development guide](#design-guidelines-and-development-guide)
+- [Adding new constructs](#design-guidelines-and-development-guide)
 - [Getting Started](#getting-started)
-      - [For TypeScript:](#for-typescript)
-      - [For Python:](#for-python)
 - [Catalog](#catalog)
 - [Sample Use Cases](#sample-use-cases)
 - [Additional Resources](#additional-resources)
