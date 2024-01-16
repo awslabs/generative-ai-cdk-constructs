@@ -18,22 +18,29 @@
 
 ## Table of contents
 
-- [Overview](#overview)
-- [Initializer](#initializer)
-- [Pattern Construct Props](#pattern-construct-props)
-- [Pattern Properties](#pattern-properties)
-- [Default properties](#default-properties)
-- [Troubleshooting](#troubleshooting)
-- [Architecture](#architecture)
-- [Cost](#cost)
-- [Security](#security)
-- [Supported AWS Regions](#supported-aws-regions)
-- [Quotas](#quotas)
-- [Clean up](#clean-up)
+- [aws-summarization-appsync-stepfn](#aws-summarization-appsync-stepfn)
+  - [Table of contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Initializer](#initializer)
+  - [Pattern Construct Props](#pattern-construct-props)
+  - [Pattern Properties](#pattern-properties)
+  - [Default properties](#default-properties)
+    - [VPC](#vpc)
+    - [Amazon ElastiCache for Redis](#amazon-elasticache-for-redis)
+    - [AppSync](#appsync)
+    - [Amazon S3 Buckets](#amazon-s3-buckets)
+    - [Observability](#observability)
+  - [Troubleshooting](#troubleshooting)
+  - [Architecture](#architecture)
+  - [Cost](#cost)
+  - [Security](#security)
+  - [Supported AWS Regions](#supported-aws-regions)
+  - [Quotas](#quotas)
+  - [Clean up](#clean-up)
 
 ## Overview
 
-This construct provides a workflow to summarize multiple PDF documents with Amazon Bedrock using Anthropic Claude V2 as the foundation model, AWS AppSync for GraphQL APIs, AWS Step Functions, and AWS Lambda functions.
+This construct provides a workflow to summarize multiple PDF documents with Amazon Bedrock using Anthropic Claude V2.1 as the foundation model, AWS AppSync for GraphQL APIs, AWS Step Functions, and AWS Lambda functions.
 
 A GraphQL request is submitted with the list of files which needs to be summarized by the construct.
 
@@ -47,7 +54,7 @@ This construct builds a Lambda function from a Docker image, thus you need [Dock
 
 The input document(s) must be stored in the input Amazon Simple Storage Service (S3) bucket in text format (.txt). Another construct is available to ingest and process files to text format: [aws-rag-appsync-stepfn-opensearch](../aws-rag-appsync-stepfn-opensearch/README.md).
 
-Make sure the model (anthropic.claude-v2) is enabled in your account. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
+Make sure the model (anthropic.claude-v2:1) is enabled in your account. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
 
 AWS Lambda functions provisioned in this construct use [Powertools for AWS Lambda (Python)](https://github.com/aws-powertools/powertools-lambda-python) for tracing, structured logging and custom metrics creation.
 
