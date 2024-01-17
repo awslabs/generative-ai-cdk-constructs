@@ -86,12 +86,12 @@ export function generatePhysicalName(
   return prefix.toLowerCase() + (lower ? allParts.toLowerCase() : allParts) + '-' + uniqueStackIdPart;
 }
 
+export const maximumLambdaMemorySizeContextItem = 'maximumLambdaMemorySize';
+export const recommendedMaximumLambdaMemorySize = 7076;
 export function lambdaMemorySizeLimiter(construct: IConstruct, requestedMemorySizeInMegabytes: number) {
-  const contextItem = 'maximumLambdaMemorySize';
-  const recommendedMaximumLambdaMemorySize = 7076;
-  const maximumLambaMemorySize = construct.node.tryGetContext(contextItem) === undefined ?
+  const maximumLambaMemorySize = construct.node.tryGetContext(maximumLambdaMemorySizeContextItem) === undefined ?
     recommendedMaximumLambdaMemorySize :
-    parseInt(construct.node.tryGetContext(contextItem));
+    parseInt(construct.node.tryGetContext(maximumLambdaMemorySizeContextItem));
   if (maximumLambaMemorySize < recommendedMaximumLambdaMemorySize) {
     console.warn(`Maximum Lambda memorySize, ${maximumLambaMemorySize}, is less than the recommended ${recommendedMaximumLambdaMemorySize}.`);
   }
