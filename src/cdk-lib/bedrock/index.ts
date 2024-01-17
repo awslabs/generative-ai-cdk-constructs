@@ -12,3 +12,4 @@
  */
 
 export * from './models';
+export * from './knowledge-base';
