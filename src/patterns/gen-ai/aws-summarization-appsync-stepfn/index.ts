@@ -30,7 +30,7 @@ import { Construct } from 'constructs';
 import * as eventBridge from '../../../common/helpers/eventbridge-helper';
 import * as redisHelper from '../../../common/helpers/redis-helper';
 import * as s3BucketHelper from '../../../common/helpers/s3-bucket-helper';
-import { generatePhysicalName, version } from '../../../common/helpers/utils';
+import { generatePhysicalName, version, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import * as vpcHelper from '../../../common/helpers/vpc-helper';
 
 export interface SummarizationAppsyncStepfnProps {
@@ -511,7 +511,7 @@ export class SummarizationAppsyncStepfn extends Construct {
         tracing: lambda_tracing,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
         securityGroups: [this.securityGroup],
-        memorySize: 1_769 * 1,
+        memorySize: lambdaMemorySizeLimiter(this, 1_769 * 1),
         timeout: Duration.minutes(5),
         role: inputvalidatorLambdaRole,
         environment: {
@@ -593,7 +593,7 @@ export class SummarizationAppsyncStepfn extends Construct {
       vpc: this.vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
-      memorySize: 1_769 * 1,
+      memorySize: lambdaMemorySizeLimiter(this, 1_769 * 1),
       tracing: lambda_tracing,
       timeout: Duration.minutes(5),
       role: documentReaderLambdaRole,
@@ -688,7 +688,7 @@ export class SummarizationAppsyncStepfn extends Construct {
       vpc: this.vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
-      memorySize: 1_769 * 4,
+      memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(10),
       tracing: lambda_tracing,
       role: summaryGeneratorLambdaRole,
