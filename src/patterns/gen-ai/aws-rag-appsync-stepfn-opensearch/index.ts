@@ -28,7 +28,7 @@ import * as stepfn_task from 'aws-cdk-lib/aws-stepfunctions-tasks';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
-import { generatePhysicalName, version } from '../../../common/helpers/utils';
+import { generatePhysicalName, version, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
 
 /**
@@ -431,7 +431,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         tracing: lambda_tracing,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
         securityGroups: [this.securityGroup],
-        memorySize: 1_769 * 4,
+        memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
         timeout: Duration.minutes(15),
         environment: {
           GRAPHQL_URL: updateGraphQlApiEndpoint,
@@ -563,7 +563,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         tracing: lambda_tracing,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
         securityGroups: [this.securityGroup],
-        memorySize: 1_769 * 4,
+        memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
         timeout: Duration.minutes(15),
         role: s3_transformer_job_function_role,
         environment: {
@@ -681,7 +681,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         tracing: lambda_tracing,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
         securityGroups: [this.securityGroup],
-        memorySize: 1_769 * 4,
+        memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
         timeout: Duration.minutes(15),
         role: embeddings_job_function_role,
         environment: {
