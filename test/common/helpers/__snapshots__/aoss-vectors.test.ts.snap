@@ -72,8 +72,7 @@ exports[`OpenSearch Serverless Vector Store No data access policies Should match
       ],
       "Properties": {
         "Code": {
-          "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
-          "S3Key": "8426f16449b1044e540faa13281b7188ee1706515b6599298cad01714ad1c1b2.zip",
+          "ZipFile": "mockCode",
         },
         "Description": "Custom Resource Provider",
         "Handler": "custom_resources.on_event",
@@ -236,8 +235,7 @@ exports[`OpenSearch Serverless Vector Store No data access policies Should match
       },
       "Properties": {
         "Code": {
-          "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
-          "S3Key": "7382a0addb9f34974a1ea6c6c9b063882af874828f366f5c93b2b7b64db15c94.zip",
+          "ZipFile": "mockCode",
         },
         "Description": "AWS CDK resource provider framework - onEvent (test-stack/AOSSCRProvider/Provider)",
         "Environment": {
@@ -628,8 +626,7 @@ exports[`OpenSearch Serverless Vector Store With data access policies Should mat
       ],
       "Properties": {
         "Code": {
-          "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
-          "S3Key": "8426f16449b1044e540faa13281b7188ee1706515b6599298cad01714ad1c1b2.zip",
+          "ZipFile": "mockCode",
         },
         "Description": "Custom Resource Provider",
         "Handler": "custom_resources.on_event",
@@ -792,8 +789,7 @@ exports[`OpenSearch Serverless Vector Store With data access policies Should mat
       },
       "Properties": {
         "Code": {
-          "S3Bucket": "cdk-hnb659fds-assets-123456789012-us-east-1",
-          "S3Key": "7382a0addb9f34974a1ea6c6c9b063882af874828f366f5c93b2b7b64db15c94.zip",
+          "ZipFile": "mockCode",
         },
         "Description": "AWS CDK resource provider framework - onEvent (test-stack/AOSSCRProvider/Provider)",
         "Environment": {

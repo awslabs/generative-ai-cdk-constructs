@@ -17,6 +17,19 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag';
 import { OpenSearchVectorCollection, OpenSearchVectorIndex } from '../../../src/common/helpers/aoss-vector';
 
+// mock lambda.Code.fromDockerBuild()
+jest.mock('aws-cdk-lib/aws-lambda', () => {
+  const actualLambda = jest.requireActual('aws-cdk-lib/aws-lambda');
+  return {
+    ...actualLambda,
+    Code: {
+      ...actualLambda.Code,
+      fromDockerBuild: jest.fn(() => actualLambda.Code.fromInline('mockCode')),
+      fromAsset: jest.fn(() => actualLambda.Code.fromInline('mockCode')),
+    },
+  };
+});
+
 function setupStack() {
   const app = new cdk.App();
   cdk.Aspects.of(app).add(new AwsSolutionsChecks());

@@ -163,7 +163,7 @@ export interface PromptConfiguration {
    *
    * @length 0-100000
    */
-  basePromptTemplate?: string;
+  basePromptTemplate: string;
   /**
    * Specifies whether to override the default parser Lambda function when
    * parsing the raw foundation model output in the part of the agent sequence
@@ -171,7 +171,7 @@ export interface PromptConfiguration {
    * overrideLambda field in the PromptOverrideConfiguration must be specified
    * with the ARN of a Lambda function.
    */
-  parserMode: ParserMode;
+  parserMode?: ParserMode;
   /**
    * Specifies whether to override the default prompt template for this
    * promptType. Set this value to OVERRIDDEN to use the prompt that you
@@ -612,10 +612,6 @@ export function validatePromptOverrideConfiguration(promptOverrideConfiguration:
     return;
   }
 
-  if (promptOverrideConfiguration.promptConfigurations.length > 10) {
-    throw new Error('promptOverrideConfiguration cannot contain more than 10 promptConfigurations');
-  }
-
   if (
     promptOverrideConfiguration.overrideLambda &&
     promptOverrideConfiguration.promptConfigurations.some(
@@ -630,15 +626,6 @@ export function validatePromptOverrideConfiguration(promptOverrideConfiguration:
       pc => pc.parserMode === ParserMode.OVERRIDDEN,
     )) {
     throw new Error('At least one promptConfiguration has a parserMode value of OVERRIDDEN, but no overrideLambda is specified');
-  }
-
-  if (
-    promptOverrideConfiguration.promptConfigurations.some(
-      pc =>
-        pc.promptState === PromptState.DISABLED &&
-        pc.promptCreationMode !== PromptCreationMode.DEFAULT,
-    )) {
-    throw new Error('promptCreationMode can only be set to DEFAULT if promptState is set to ENABLED');
   }
 
   // check inferenceConfiguration number types

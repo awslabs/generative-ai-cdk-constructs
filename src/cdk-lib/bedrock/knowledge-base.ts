@@ -124,7 +124,13 @@ export class KnowledgeBase extends Construct {
     const vectorField = props.vectorField ?? 'bedrock-knowledge-base-default-vector';
 
     this.name = generatePhysicalName('kb', [], 32, false, this);
-    const roleName = generatePhysicalName('AmazonBedrockExecutionRoleForKnowledgeBase', [], 64);
+    const roleName = generatePhysicalName(
+      'AmazonBedrockExecutionRoleForKnowledgeBase',
+      [],
+      64,
+      false,
+      this,
+    );
     this.role = new iam.Role(this, 'Role', {
       roleName: roleName,
       assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com'),
