@@ -166,8 +166,8 @@ export class OpenSearchVectorCollection extends Construct {
     });
 
     const isDataAccessPolicyNotEmpty = new cdk.CfnCondition(this, 'IsDataAccessPolicyNotEmpty', {
-      expression: cdk.Fn.conditionNot(cdk.Fn.conditionEquals('[]', cdk.Lazy.string({
-        produce: () => JSON.stringify(this.dataAccessPolicyDocument),
+      expression: cdk.Fn.conditionNot(cdk.Fn.conditionEquals(0, cdk.Lazy.number({
+        produce: () => this.dataAccessPolicyDocument.length,
       }))),
     });
 

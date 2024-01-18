@@ -7,22 +7,8 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       "Fn::Not": [
         {
           "Fn::Equals": [
-            "[]",
-            {
-              "Fn::Join": [
-                "",
-                [
-                  "[{"Rules":[{"Resource":["collection/vectorstore-c83d9152"],"Permission":["aoss:DescribeCollectionItems","aoss:CreateCollectionItems","aoss:UpdateCollectionItems"],"ResourceType":"collection"},{"Resource":["index/vectorstore-c83d9152/*"],"Permission":["aoss:UpdateIndex","aoss:DescribeIndex","aoss:ReadDocument","aoss:WriteDocument","aoss:CreateIndex"],"ResourceType":"index"}],"Principal":["",
-                  {
-                    "Fn::GetAtt": [
-                      "KBRole081DC46D",
-                      "Arn",
-                    ],
-                  },
-                  ""],"Description":""}]",
-                ],
-              ],
-            },
+            0,
+            1,
           ],
         },
       ],
@@ -330,6 +316,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
               "Action": [
                 "bedrock:DeleteAgent",
                 "bedrock:UpdateAgent",
+                "bedrock:TagResource",
               ],
               "Effect": "Allow",
               "Resource": {
@@ -383,12 +370,15 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
         "PolicyDocument": {
           "Statement": [
             {
-              "Action": "bedrock:UpdateKnowledgeBase",
+              "Action": [
+                "bedrock:UpdateKnowledgeBase",
+                "bedrock:Retrieve",
+              ],
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "KBRole081DC46D",
-                  "Arn",
+                  "KBAD2CEA58",
+                  "knowledgeBaseArn",
                 ],
               },
             },
@@ -429,6 +419,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
             "agentId",
           ],
         },
+        "aliasName": "prod",
         "changeIds": [
           {
             "Fn::GetAtt": [
@@ -470,6 +461,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
                 "bedrock:ListAgentVersions",
                 "bedrock:DeleteAgentVersion",
                 "bedrock:GetAgent",
+                "bedrock:TagResource",
               ],
               "Effect": "Allow",
               "Resource": [
@@ -714,7 +706,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
           ],
           "Version": "2012-10-17",
         },
-        "RoleName": "amazonbedrockexecutionroleforagents_bedrock-at-2c1f0762-2c1f0762",
+        "RoleName": "AmazonBedrockExecutionRoleForAgents_bedrock-at-2c1f0762-2c1f0762",
       },
       "Type": "AWS::IAM::Role",
     },
@@ -1164,9 +1156,21 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
               "Action": [
                 "bedrock:UpdateKnowledgeBase",
                 "bedrock:DeleteKnowledgeBase",
+                "bedrock:TagResource",
               ],
               "Effect": "Allow",
-              "Resource": "*",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":bedrock:us-east-1:123456789012:knowledge-base/*",
+                  ],
+                ],
+              },
             },
             {
               "Action": "iam:PassRole",
@@ -1386,7 +1390,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
             "Ref": "KBKBVectorsAOSSApiAccessAllB0CB4242",
           },
         ],
-        "RoleName": "amazonbedrockexecutionroleforknowledgebase-32e548d8",
+        "RoleName": "AmazonBedrockExecutionRoleForKnowledgeBase-32e548d8",
       },
       "Type": "AWS::IAM::Role",
     },

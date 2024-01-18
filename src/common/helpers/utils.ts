@@ -83,7 +83,8 @@ export function generatePhysicalName(
     throw new Error(`The generated name is longer than the maximum length of ${maxLength}`);
   }
 
-  return prefix.toLowerCase() + (lower ? allParts.toLowerCase() : allParts) + '-' + uniqueStackIdPart;
+  const combinedName = prefix + allParts;
+  return (lower ? combinedName.toLowerCase() : combinedName) + '-' + uniqueStackIdPart;
 }
 
 export const maximumLambdaMemorySizeContextItem = 'maximumLambdaMemorySize';

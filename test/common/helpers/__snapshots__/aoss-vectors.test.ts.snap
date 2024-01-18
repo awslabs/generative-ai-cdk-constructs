@@ -7,8 +7,8 @@ exports[`OpenSearch Serverless Vector Store No data access policies Should match
       "Fn::Not": [
         {
           "Fn::Equals": [
-            "[]",
-            "[]",
+            0,
+            0,
           ],
         },
       ],
@@ -547,22 +547,8 @@ exports[`OpenSearch Serverless Vector Store With data access policies Should mat
       "Fn::Not": [
         {
           "Fn::Equals": [
-            "[]",
-            {
-              "Fn::Join": [
-                "",
-                [
-                  "[{"Rules":[{"Resource":["collection/vectorstore-6e7dd174"],"Permission":["aoss:DescribeCollectionItems","aoss:CreateCollectionItems","aoss:UpdateCollectionItems"],"ResourceType":"collection"},{"Resource":["index/vectorstore-6e7dd174/*"],"Permission":["aoss:UpdateIndex","aoss:DescribeIndex","aoss:ReadDocument","aoss:WriteDocument","aoss:CreateIndex"],"ResourceType":"index"}],"Principal":["",
-                  {
-                    "Fn::GetAtt": [
-                      "TestRole6C9272DF",
-                      "Arn",
-                    ],
-                  },
-                  ""],"Description":""}]",
-                ],
-              ],
-            },
+            0,
+            1,
           ],
         },
       ],

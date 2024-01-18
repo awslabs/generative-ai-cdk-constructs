@@ -366,8 +366,11 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
         roles: [this.role],
         statements: [
           new iam.PolicyStatement({
-            actions: ['bedrock:UpdateKnowledgeBase'],
-            resources: props.knowledgeBases.map(kb => kb.role.roleArn),
+            actions: [
+              'bedrock:UpdateKnowledgeBase',
+              'bedrock:Retrieve',
+            ],
+            resources: props.knowledgeBases.map(kb => kb.kbArn),
           }),
         ],
       });
@@ -410,6 +413,7 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
           actions: [
             'bedrock:DeleteAgent',
             'bedrock:UpdateAgent',
+            'bedrock:TagResource',
           ],
           resources: [
             cdk.Stack.of(this).formatArn({
@@ -507,7 +511,7 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
         resourceType: 'Custom::Bedrock-AgentAlias',
         properties: {
           agentId: this.agentId,
-          aliasName: props.aliasName,
+          aliasName: props.aliasName ?? 'prod',
           changeIds: changeIds,
           tags: this.cdkTagManager.renderedTags,
         },
@@ -527,6 +531,7 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
             'bedrock:ListAgentVersions',
             'bedrock:DeleteAgentVersion',
             'bedrock:GetAgent',
+            'bedrock:TagResource',
           ],
           resources: [
             cdk.Stack.of(this).formatArn({

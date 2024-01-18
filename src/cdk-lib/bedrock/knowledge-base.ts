@@ -227,8 +227,16 @@ export class KnowledgeBase extends Construct {
             actions: [
               'bedrock:UpdateKnowledgeBase',
               'bedrock:DeleteKnowledgeBase',
+              'bedrock:TagResource',
             ],
-            resources: ['*'],
+            resources: [
+              cdk.Stack.of(this).formatArn({
+                service: 'bedrock',
+                resource: 'knowledge-base',
+                resourceName: '*',
+                arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
+              }),
+            ],
           },
         ),
         new iam.PolicyStatement(

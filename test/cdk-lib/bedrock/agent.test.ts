@@ -12,7 +12,7 @@
  */
 
 import * as cdk from 'aws-cdk-lib';
-import { Match, Template } from 'aws-cdk-lib/assertions';
+import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as bedrock from '../../../src/cdk-lib/bedrock';
 
@@ -203,7 +203,16 @@ describe('Bedrock Agents', () => {
             'agentId',
           ],
         },
+        aliasName: 'prod',
       });
+    });
+
+    test('No unsuppressed Errors', () => {
+      const errors = Annotations.fromStack(stack).findError(
+        '*',
+        Match.stringLikeRegexp('AwsSolutions-.*'),
+      );
+      expect(errors).toHaveLength(0);
     });
   });
 });

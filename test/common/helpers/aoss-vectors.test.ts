@@ -107,8 +107,8 @@ describe('OpenSearch Serverless Vector Store', () => {
           'Fn::Not': [
             {
               'Fn::Equals': [
-                '[]',
-                '[]',
+                0,
+                0,
               ],
             },
           ],
@@ -183,9 +183,10 @@ describe('OpenSearch Serverless Vector Store', () => {
         {
           'Fn::Not': [
             {
-              'Fn::Equals': Match.arrayWith([
-                Match.not('[]'),
-              ]),
+              'Fn::Equals': [
+                0,
+                1,
+              ],
             },
           ],
         },

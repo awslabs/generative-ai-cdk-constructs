@@ -105,6 +105,10 @@ export class S3DataSource extends Construct {
    * The Data Source cfn resource.
    */
   public readonly dataSource: cdk.CustomResource;
+  /**
+   * The unique identifier of the data source.
+   */
+  public readonly dataSourceId: string;
 
   constructor(scope: Construct, id: string, props: S3DataSourceProps) {
     super(scope, id);
@@ -152,6 +156,8 @@ export class S3DataSource extends Construct {
         } : undefined,
       },
     });
+
+    this.dataSourceId = this.dataSource.getAtt('dataSourceId').toString();
 
     const dataSourceCRPolicy = new iam.Policy(this, 'DataSourceCRPolicy', {
       roles: [crProvider.role],
