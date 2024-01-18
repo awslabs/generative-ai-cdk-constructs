@@ -85,3 +85,20 @@ export function generatePhysicalName(
 
   return prefix.toLowerCase() + (lower ? allParts.toLowerCase() : allParts) + '-' + uniqueStackIdPart;
 }
+
+export const maximumLambdaMemorySizeContextItem = 'maximumLambdaMemorySize';
+export const recommendedMaximumLambdaMemorySize = 7076;
+export function lambdaMemorySizeLimiter(construct: IConstruct, requestedMemorySizeInMegabytes: number) {
+  const maximumLambaMemorySize = construct.node.tryGetContext(maximumLambdaMemorySizeContextItem) === undefined ?
+    recommendedMaximumLambdaMemorySize :
+    parseInt(construct.node.tryGetContext(maximumLambdaMemorySizeContextItem));
+  if (maximumLambaMemorySize < recommendedMaximumLambdaMemorySize) {
+    console.warn(`Maximum Lambda memorySize, ${maximumLambaMemorySize}, is less than the recommended ${recommendedMaximumLambdaMemorySize}.`);
+  }
+  if (requestedMemorySizeInMegabytes > maximumLambaMemorySize) {
+    console.warn(`Reducing Lambda memorySize, ${requestedMemorySizeInMegabytes} to ${maximumLambaMemorySize} for ${construct.constructor.name}`);
+    return maximumLambaMemorySize;
+  } else {
+    return requestedMemorySizeInMegabytes;
+  }
+}
