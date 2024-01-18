@@ -11,8 +11,133 @@
  *  and limitations under the License.
  */
 import * as cdk from 'aws-cdk-lib';
-import { generatePhysicalName } from '../../../src/common/helpers/utils';
+import { Construct } from 'constructs';
+import { generatePhysicalName, lambdaMemorySizeLimiter, maximumLambdaMemorySizeContextItem, recommendedMaximumLambdaMemorySize } from '../../../src/common/helpers/utils';
 
+describe('lambdaMemorySizeLimiter', () => {
+  let testConstruct: TestConstruct;
+  let spyOnConsoleWarn: any;
+  beforeAll(() => {
+    spyOnConsoleWarn = jest.spyOn(console, 'warn');
+  });
+  afterAll(() => {
+    // console.warn = consoleWarn;
+    jest.restoreAllMocks();
+    console.log('Test "lambdaMemorySizeLimiter" completed');
+  });
+
+  test('above recommended', () => {
+    const app = new cdk.App({});
+    const stack = new cdk.Stack(app, 'TestStack', { env: { account: '012345678912', region: 'bermuda-triangle-1' } });
+    testConstruct = new TestConstruct(stack, 'TestConstruct');
+    const requestedMemory = recommendedMaximumLambdaMemorySize + 1;
+    const actualMemory = lambdaMemorySizeLimiter(testConstruct, requestedMemory);
+    expect(actualMemory).toEqual(recommendedMaximumLambdaMemorySize);
+    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(1); // above recommended
+  });
+  test('equal to recommended', () => {
+    const app = new cdk.App({});
+    const stack = new cdk.Stack(app, 'TestStack', { env: { account: '012345678912', region: 'bermuda-triangle-1' } });
+    testConstruct = new TestConstruct(stack, 'TestConstruct');
+    const requestedMemory = recommendedMaximumLambdaMemorySize;
+    const actualMemory = lambdaMemorySizeLimiter(testConstruct, requestedMemory);
+    expect(actualMemory).toEqual(requestedMemory);
+    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(0);
+  });
+  test('below recommended', () => {
+    const app = new cdk.App({});
+    const stack = new cdk.Stack(app, 'TestStack', { env: { account: '012345678912', region: 'bermuda-triangle-1' } });
+    testConstruct = new TestConstruct(stack, 'TestConstruct');
+    const requestedMemory = recommendedMaximumLambdaMemorySize - 1;
+    const actualMemory = lambdaMemorySizeLimiter(testConstruct, requestedMemory);
+    expect(actualMemory).toEqual(requestedMemory);
+    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(0);
+  });
+  test('above minimum context', () => {
+    const contextLambdaMemorySize = 3008;
+    const app = new cdk.App({
+      context: {
+        [maximumLambdaMemorySizeContextItem]: contextLambdaMemorySize.toString(),
+      },
+    });
+    const stack = new cdk.Stack(app, 'TestStack', { env: { account: '012345678912', region: 'bermuda-triangle-1' } });
+    testConstruct = new TestConstruct(stack, 'TestConstruct');
+    const requestedMemory = contextLambdaMemorySize + 1;
+    const actualMemory = lambdaMemorySizeLimiter(testConstruct, requestedMemory);
+    expect(actualMemory).toEqual(contextLambdaMemorySize);
+    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(2); // warning below recommended and below context
+  });
+  test('at minimum context', () => {
+    const contextLambdaMemorySize = 3008;
+    const app = new cdk.App({
+      context: {
+        [maximumLambdaMemorySizeContextItem]: contextLambdaMemorySize.toString(),
+      },
+    });
+    const stack = new cdk.Stack(app, 'TestStack', { env: { account: '012345678912', region: 'bermuda-triangle-1' } });
+    testConstruct = new TestConstruct(stack, 'TestConstruct');
+    const requestedMemory = contextLambdaMemorySize;
+    const actualMemory = lambdaMemorySizeLimiter(testConstruct, requestedMemory);
+    expect(actualMemory).toEqual(requestedMemory);
+    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(1); // warning below recommended
+  });
+  test('below minimum context', () => {
+    const contextLambdaMemorySize = 3008;
+    const app = new cdk.App({
+      context: {
+        [maximumLambdaMemorySizeContextItem]: contextLambdaMemorySize.toString(),
+      },
+    });
+    const stack = new cdk.Stack(app, 'TestStack', { env: { account: '012345678912', region: 'bermuda-triangle-1' } });
+    testConstruct = new TestConstruct(stack, 'TestConstruct');
+    const requestedMemory = contextLambdaMemorySize - 1;
+    const actualMemory = lambdaMemorySizeLimiter(testConstruct, requestedMemory);
+    expect(actualMemory).toEqual(requestedMemory);
+    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(1); // warning below recommended.
+  });
+  test('above high context', () => {
+    const contextLambdaMemorySize = recommendedMaximumLambdaMemorySize * 2;
+    const app = new cdk.App({
+      context: {
+        [maximumLambdaMemorySizeContextItem]: contextLambdaMemorySize.toString(),
+      },
+    });
+    const stack = new cdk.Stack(app, 'TestStack', { env: { account: '012345678912', region: 'bermuda-triangle-1' } });
+    testConstruct = new TestConstruct(stack, 'TestConstruct');
+    const requestedMemory = contextLambdaMemorySize + 1;
+    const actualMemory = lambdaMemorySizeLimiter(testConstruct, requestedMemory);
+    expect(actualMemory).toEqual(contextLambdaMemorySize);
+    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(1); // below context
+  });
+  test('at high context', () => {
+    const contextLambdaMemorySize = recommendedMaximumLambdaMemorySize * 2;
+    const app = new cdk.App({
+      context: {
+        [maximumLambdaMemorySizeContextItem]: contextLambdaMemorySize.toString(),
+      },
+    });
+    const stack = new cdk.Stack(app, 'TestStack', { env: { account: '012345678912', region: 'bermuda-triangle-1' } });
+    testConstruct = new TestConstruct(stack, 'TestConstruct');
+    const requestedMemory = contextLambdaMemorySize;
+    const actualMemory = lambdaMemorySizeLimiter(testConstruct, requestedMemory);
+    expect(actualMemory).toEqual(requestedMemory);
+    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(0);
+  });
+  test('below high context', () => {
+    const contextLambdaMemorySize = recommendedMaximumLambdaMemorySize * 2;
+    const app = new cdk.App({
+      context: {
+        [maximumLambdaMemorySizeContextItem]: contextLambdaMemorySize.toString(),
+      },
+    });
+    const stack = new cdk.Stack(app, 'TestStack', { env: { account: '012345678912', region: 'bermuda-triangle-1' } });
+    testConstruct = new TestConstruct(stack, 'TestConstruct');
+    const requestedMemory = contextLambdaMemorySize - 1;
+    const actualMemory = lambdaMemorySizeLimiter(testConstruct, requestedMemory);
+    expect(actualMemory).toEqual(requestedMemory);
+    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(0);
+  });
+});
 
 describe('generatePhysicalName', () => {
   let testResourceA: TestResource;
@@ -20,7 +145,7 @@ describe('generatePhysicalName', () => {
   let testStack: cdk.Stack;
 
   afterAll(() => {
-    console.log('Test completed');
+    console.log('Test "generatePhysicalName" completed');
   });
 
   beforeAll(() => {
@@ -106,3 +231,4 @@ describe('generatePhysicalName', () => {
 
 
 class TestResource extends cdk.Resource {}
+class TestConstruct extends Construct {}
