@@ -22,7 +22,7 @@ export interface LayerProps {
   path: string;
   description: string;
   autoUpgrade?: boolean;
-  local?: boolean;
+  local?: 'python' | 'python3';
 }
 
 export class Layer extends Construct {
@@ -45,6 +45,8 @@ export class Layer extends Construct {
         image: runtime.bundlingImage,
         local: {
           tryBundle(outputDir) {
+            execSync(`${local} -m venv venv`);
+            execSync('source venv/bin/activate');
             execSync(`pip install -r ${path}/requirements.txt -t ${outputDir}/python ${args.join(' ')}`);
             return true;
           },
