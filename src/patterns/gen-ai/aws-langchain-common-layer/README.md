@@ -163,20 +163,19 @@ Where:
 ## Initializer
 
 ```
-new LangchainCommonDepsLayer(scope: Construct, id: string, props: LangchainLayerProps)
+new LangchainDepsLayer(scope: Construct, id: string, props: LangchainLayerProps)
 ```
-
 ```
-new LangchainCommonLayer(scope: Construct, id: string, props: LangchainLayerProps)
+new ModelAdapterLayer(scope: Construct, id: string, props: ModelAdapterProps)
 ```
 
 Parameters
 
 - scope [Construct](https://docs.aws.amazon.com/cdk/api/v2/docs/constructs.Construct.html)
 - id string
-- props LangchainLayerProps
+- props [ModelAdapterProps](https://github.com/awslabs/generative-ai-cdk-constructs/blob/main/src/patterns/gen-ai/aws-langchain-common-layer/index.ts#L80)
 
-## Pattern Construct Props
+#### Pattern Construct Props
 
 | **Name**     | **Type**        | **Required** |**Description** |
 |:-------------|:----------------|-----------------|-----------------|
@@ -192,9 +191,9 @@ Parameters
 
 ## Default properties
 
-Out-of-the-box implementation of the construct without any override will not set any default values. Depending on the features enabled, user will need to provide environmental variable values to the AWS Lambda function used by the LangchainCommonLayer.
+Out-of-the-box implementation of the construct without any override will not set any default values. Depending on the features enabled, user will need to provide environmental variable values to the AWS Lambda function used by the ModelAdapterLayer.
 
-## Python utility layer (LangchainCommonLayer)
+## Python utility layer (ModelAdapterLayer)
 
 This utility layer provides helper functions to accelerate the development of generative AI applications on AWS. 
 

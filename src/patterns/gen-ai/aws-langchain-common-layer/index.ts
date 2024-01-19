@@ -18,7 +18,7 @@ import { Layer } from '../../../common/helpers/python-lambda-layer-helper';
 /**
  * The properties for the LangchainLayerProps class.
  */
-export interface LangchainLayerProps{
+export interface LangchainLayerProps {
   /**
    * Required. Lambda function runtime compatible with this Layer.
    *
@@ -33,7 +33,6 @@ export interface LangchainLayerProps{
   readonly architecture: lambda.Architecture;
   /**
    * Optional: Add '--upgrade' to pip install requirements.txt
-   * In case of a LangchainCommonLayer, this parameter is not used.
    *
    * @default - none
    */
@@ -41,16 +40,16 @@ export interface LangchainLayerProps{
 }
 
 /**
-   * @summary The LangchainCommonDepsLayer class.
+   * @summary The LangchainDepsLayer class.
    */
-export class LangchainCommonDepsLayer extends Construct {
+export class LangchainDepsLayer extends Construct {
   /**
    * Returns the instance of lambda.LayerVersion created by the construct
    */
   public readonly layer: lambda.LayerVersion;
 
   /**
-     * @summary Constructs a new instance of the LangchainCommonDepsLayer class.
+     * @summary This construct creates a lambda layer loaded with relevant libraries to run genai applications. Libraries include boto3, botocore, requests, requests-aws4auth, langchain, opensearch-py and openai.
      * @param {cdk.App} scope - represents the scope for all the resources.
      * @param {string} id - this is a a scope-unique id.
      * @param {LangchainLayerProps} props - user provided props for the construct.
@@ -60,7 +59,7 @@ export class LangchainCommonDepsLayer extends Construct {
   constructor(scope: Construct, id: string, props: LangchainLayerProps) {
     super(scope, id);
 
-    const layer = new Layer(this, 'langchaincommonlayer', {
+    const layer = new Layer(this, 'Langchain Dep Layer', {
       runtime: props.runtime,
       architecture: props.architecture,
       path: path.join(__dirname, '../../../../layers/langchain-common-deps'),
@@ -73,26 +72,26 @@ export class LangchainCommonDepsLayer extends Construct {
 }
 
 /**
-   * @summary The LangchainCommonLayer class.
+   * @summary The ModelAdapterLayer class.
    */
-export class LangchainCommonLayer extends Construct {
+export class ModelAdapterLayer extends Construct {
   /**
    * Returns the instance of lambda.LayerVersion created by the construct
    */
   public readonly layer: lambda.LayerVersion;
 
   /**
-     * @summary Constructs a new instance of the LangchainCommonLayer class.
+     * @summary This construct allows developers to instantiate a llm client adapter on bedrock, sagemaker or openai following best practise.
      * @param {cdk.App} scope - represents the scope for all the resources.
      * @param {string} id - this is a a scope-unique id.
-     * @param {LangchainLayerProps} props - user provided props for the construct.
+     * @param {ModelAdapterProps} props - user provided props for the construct.
      * @since 0.0.0
      * @access public
      */
   constructor(scope: Construct, id: string, props: LangchainLayerProps) {
     super(scope, id);
 
-    const layer = new lambda.LayerVersion(this, 'langchaincommonlayer', {
+    const layer = new lambda.LayerVersion(this, 'Model Adapter Layer', {
       compatibleRuntimes: [props.runtime],
       compatibleArchitectures: [props.architecture],
       code: lambda.Code.fromAsset(path.join(__dirname, '../../../../layers/langchain-common-layer')),
