@@ -80,7 +80,7 @@ export interface KnowledgeBaseProps {
  * At the moment, only OpenSearch Serverless is supported as a vector store.
  * This construct creates the collection and index.
  */
-export class KnowledgeBase extends Construct {
+export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
   /**
    * The name of the knowledge base.
    */
@@ -115,6 +115,14 @@ export class KnowledgeBase extends Construct {
    * The ID of the knowledge base.
    */
   public readonly kbId: string;
+
+  /**
+   * TagManager facilitates a common implementation of tagging for Constructs
+   *
+   * @internal - used for implementation of ITaggableV2
+   */
+  public readonly cdkTagManager =
+    new cdk.TagManager(cdk.TagType.MAP, 'Custom::Bedrock-KnowledgeBase');
 
   constructor(scope: Construct, id: string, props: KnowledgeBaseProps) {
     super(scope, id);
@@ -212,6 +220,7 @@ export class KnowledgeBase extends Construct {
             },
           },
         },
+        tags: this.cdkTagManager.renderedTags,
       },
     });
 
