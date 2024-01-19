@@ -96,7 +96,7 @@ describe('Bedrock Agents', () => {
     test('Knowledge Base is created', () => {
       Template.fromStack(stack).hasResourceProperties('Custom::Bedrock-KnowledgeBase', {
         description: 'Documentation about CDK constructs.',
-        name: Match.stringLikeRegexp('^kb-'),
+        name: Match.stringLikeRegexp('^KB'),
         knowledgeBaseConfiguration: {
           type: 'VECTOR',
           vectorKnowledgeBaseConfiguration: {

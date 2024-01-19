@@ -17,7 +17,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as oss from 'aws-cdk-lib/aws-opensearchserverless';
 import { Construct } from 'constructs';
 import { buildCustomResourceProvider } from './custom-resource-provider-helper';
-import { generatePhysicalName } from './utils';
+import { generatePhysicalNameV2 } from './utils';
 
 /**
  * Deploys and OpenSearch Collection to be used as a vector store.
@@ -66,9 +66,14 @@ export class OpenSearchVectorCollection extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    this.collectionName = generatePhysicalName('', ['VectorStore'], 32, true, this);
+    this.collectionName = generatePhysicalNameV2(
+      this,
+      'VectorStore',
+      { maxLength: 32, lower: true });
 
-    const encryptionPolicyName = generatePhysicalName('', ['EncryptionPolicy'], 32, true, this);
+    const encryptionPolicyName = generatePhysicalNameV2(this,
+      'EncryptionPolicy',
+      { maxLength: 32, lower: true });
     const encryptionPolicy = new oss.CfnSecurityPolicy(this, 'EncryptionPolicy', {
       name: encryptionPolicyName,
       type: 'encryption',
@@ -83,7 +88,9 @@ export class OpenSearchVectorCollection extends Construct {
       }),
     });
 
-    const networkPolicyName = generatePhysicalName('', ['NetworkPolicy'], 32, true, this);
+    const networkPolicyName = generatePhysicalNameV2(this,
+      'NetworkPolicy',
+      { maxLength: 32, lower: true });
     const networkPolicy = new oss.CfnSecurityPolicy(this, 'NetworkPolicy', {
       name: networkPolicyName,
       type: 'network',
@@ -132,7 +139,9 @@ export class OpenSearchVectorCollection extends Construct {
     const crProvider = AOSSCRProvider.getProvider(this);
     crProvider.role.addManagedPolicy(this.aossPolicy);
 
-    const manageIndexPolicyName = generatePhysicalName('', ['ManageIndexPolicy'], 32, true, this);
+    const manageIndexPolicyName = generatePhysicalNameV2(this,
+      'ManageIndexPolicy',
+      { maxLength: 32, lower: true });
     this.manageIndexPolicy = new oss.CfnAccessPolicy(this, 'ManageIndexPolicy', {
       name: manageIndexPolicyName,
       type: 'data',
@@ -171,7 +180,9 @@ export class OpenSearchVectorCollection extends Construct {
       }))),
     });
 
-    const dataAccessPolicyName = generatePhysicalName('', ['DataAccessPolicy'], 32, true, this);
+    const dataAccessPolicyName = generatePhysicalNameV2(this,
+      'DataAccessPolicy',
+      { maxLength: 32, lower: true });
     this.dataAccessPolicy = new oss.CfnAccessPolicy(this, 'DataAccessPolicy', {
       name: dataAccessPolicyName,
       type: 'data',

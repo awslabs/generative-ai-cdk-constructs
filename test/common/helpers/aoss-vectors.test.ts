@@ -120,7 +120,7 @@ describe('OpenSearch Serverless Vector Store', () => {
         'AWS::OpenSearchServerless::AccessPolicy', {
           Condition: condition,
           Properties: {
-            Name: Match.stringLikeRegexp('dataaccesspolicy-[a-z0-9]+'),
+            Name: Match.stringLikeRegexp('^dataaccesspolicy[a-z0-9]+'),
             Policy: '[]',
             Type: 'data',
           },
@@ -196,7 +196,7 @@ describe('OpenSearch Serverless Vector Store', () => {
       template.hasResource('AWS::OpenSearchServerless::AccessPolicy', {
         Condition: condition,
         Properties: {
-          Name: Match.stringLikeRegexp('dataaccesspolicy-[a-z0-9]+'),
+          Name: Match.stringLikeRegexp('^dataaccesspolicy[a-z0-9]+'),
           Policy: {
             'Fn::Join': Match.arrayWith([
               Match.arrayWith([

@@ -429,7 +429,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
           },
           {
             "Fn::GetAtt": [
-              "AgentKBAssockb32e548d8CC5F7D6E",
+              "AgentKBAssocKBteststackKBF59CBB076A4D106D",
               "changeId",
             ],
           },
@@ -522,7 +522,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
             "Arn",
           ],
         },
-        "agentName": "bedrock-agent-2c1f0762",
+        "agentName": "bedrock-agent-testsgent-03df32b3",
         "agentResourceRoleArn": {
           "Fn::GetAtt": [
             "AgentRole9D587F56",
@@ -630,7 +630,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       },
       "Type": "AWS::IAM::Policy",
     },
-    "AgentKBAssockb32e548d8CC5F7D6E": {
+    "AgentKBAssocKBteststackKBF59CBB076A4D106D": {
       "DeletionPolicy": "Delete",
       "DependsOn": [
         "AgentKBAssocCRPolicy83FB14ED",
@@ -706,7 +706,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
           ],
           "Version": "2012-10-17",
         },
-        "RoleName": "AmazonBedrockExecutionRoleForAgents_bedrock-at-2c1f0762-2c1f0762",
+        "RoleName": "AmazonBedrockExecutionRoleForAgents_teststackAgent03DF32B3",
       },
       "Type": "AWS::IAM::Role",
     },
@@ -1105,7 +1105,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
             "embeddingModelArn": "arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v1",
           },
         },
-        "name": "kb-32e548d8",
+        "name": "KBteststackKBF59CBB07",
         "roleArn": {
           "Fn::GetAtt": [
             "KBRole081DC46D",
@@ -1266,12 +1266,12 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
     "KBKBVectorsDataAccessPolicyA8410509": {
       "Condition": "KBKBVectorsIsDataAccessPolicyNotEmptyA6892421",
       "Properties": {
-        "Name": "dataaccesspolicy-c83d9152",
+        "Name": "dataaccesspolicytesttors7d46d76b",
         "Policy": {
           "Fn::Join": [
             "",
             [
-              "[{"Rules":[{"Resource":["collection/vectorstore-c83d9152"],"Permission":["aoss:DescribeCollectionItems","aoss:CreateCollectionItems","aoss:UpdateCollectionItems"],"ResourceType":"collection"},{"Resource":["index/vectorstore-c83d9152/*"],"Permission":["aoss:UpdateIndex","aoss:DescribeIndex","aoss:ReadDocument","aoss:WriteDocument","aoss:CreateIndex"],"ResourceType":"index"}],"Principal":["",
+              "[{"Rules":[{"Resource":["collection/vectorstoreteststectors7d46d76b"],"Permission":["aoss:DescribeCollectionItems","aoss:CreateCollectionItems","aoss:UpdateCollectionItems"],"ResourceType":"collection"},{"Resource":["index/vectorstoreteststectors7d46d76b/*"],"Permission":["aoss:UpdateIndex","aoss:DescribeIndex","aoss:ReadDocument","aoss:WriteDocument","aoss:CreateIndex"],"ResourceType":"index"}],"Principal":["",
               {
                 "Fn::GetAtt": [
                   "KBRole081DC46D",
@@ -1288,20 +1288,20 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
     },
     "KBKBVectorsEncryptionPolicy08206F7B": {
       "Properties": {
-        "Name": "encryptionpolicy-c83d9152",
-        "Policy": "{"Rules":[{"ResourceType":"collection","Resource":["collection/vectorstore-c83d9152"]}],"AWSOwnedKey":true}",
+        "Name": "encryptionpolicytesttors7d46d76b",
+        "Policy": "{"Rules":[{"ResourceType":"collection","Resource":["collection/vectorstoreteststectors7d46d76b"]}],"AWSOwnedKey":true}",
         "Type": "encryption",
       },
       "Type": "AWS::OpenSearchServerless::SecurityPolicy",
     },
     "KBKBVectorsManageIndexPolicyC803ADF2": {
       "Properties": {
-        "Name": "manageindexpolicy-c83d9152",
+        "Name": "manageindexpolicytesors7d46d76b",
         "Policy": {
           "Fn::Join": [
             "",
             [
-              "[{"Rules":[{"Resource":["index/vectorstore-c83d9152/*"],"Permission":["aoss:DescribeIndex","aoss:CreateIndex","aoss:DeleteIndex","aoss:UpdateIndex"],"ResourceType":"index"},{"Resource":["collection/vectorstore-c83d9152"],"Permission":["aoss:DescribeCollectionItems"],"ResourceType":"collection"}],"Principal":["",
+              "[{"Rules":[{"Resource":["index/vectorstoreteststectors7d46d76b/*"],"Permission":["aoss:DescribeIndex","aoss:CreateIndex","aoss:DeleteIndex","aoss:UpdateIndex"],"ResourceType":"index"},{"Resource":["collection/vectorstoreteststectors7d46d76b"],"Permission":["aoss:DescribeCollectionItems"],"ResourceType":"collection"}],"Principal":["",
               {
                 "Fn::GetAtt": [
                   "AOSSCRProviderCRRole52D2573C",
@@ -1318,8 +1318,8 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
     },
     "KBKBVectorsNetworkPolicy7FBE0E2B": {
       "Properties": {
-        "Name": "networkpolicy-c83d9152",
-        "Policy": "[{"Rules":[{"ResourceType":"collection","Resource":["collection/vectorstore-c83d9152"]},{"ResourceType":"dashboard","Resource":["collection/vectorstore-c83d9152"]}],"AllowFromPublic":true}]",
+        "Name": "networkpolicytestsctors7d46d76b",
+        "Policy": "[{"Rules":[{"ResourceType":"collection","Resource":["collection/vectorstoreteststectors7d46d76b"]},{"ResourceType":"dashboard","Resource":["collection/vectorstoreteststectors7d46d76b"]}],"AllowFromPublic":true}]",
         "Type": "network",
       },
       "Type": "AWS::OpenSearchServerless::SecurityPolicy",
@@ -1330,7 +1330,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
         "KBKBVectorsNetworkPolicy7FBE0E2B",
       ],
       "Properties": {
-        "Name": "vectorstore-c83d9152",
+        "Name": "vectorstoreteststectors7d46d76b",
         "Type": "VECTORSEARCH",
       },
       "Type": "AWS::OpenSearchServerless::Collection",
@@ -1390,7 +1390,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
             "Ref": "KBKBVectorsAOSSApiAccessAllB0CB4242",
           },
         ],
-        "RoleName": "AmazonBedrockExecutionRoleForKnowledgeBase-32e548d8",
+        "RoleName": "AmazonBedrockExecutionRoleForKnowledgeBaseteststackKBF59CBB07",
       },
       "Type": "AWS::IAM::Role",
     },

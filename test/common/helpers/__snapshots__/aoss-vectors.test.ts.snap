@@ -413,7 +413,7 @@ exports[`OpenSearch Serverless Vector Store No data access policies Should match
     "testaossvectorDataAccessPolicyC2F37B1E": {
       "Condition": "testaossvectorIsDataAccessPolicyNotEmpty6E2A5F9A",
       "Properties": {
-        "Name": "dataaccesspolicy-6e7dd174",
+        "Name": "dataaccesspolicytestctor0064a03a",
         "Policy": "[]",
         "Type": "data",
       },
@@ -421,20 +421,20 @@ exports[`OpenSearch Serverless Vector Store No data access policies Should match
     },
     "testaossvectorEncryptionPolicyB6AD3F65": {
       "Properties": {
-        "Name": "encryptionpolicy-6e7dd174",
-        "Policy": "{"Rules":[{"ResourceType":"collection","Resource":["collection/vectorstore-6e7dd174"]}],"AWSOwnedKey":true}",
+        "Name": "encryptionpolicytestctor0064a03a",
+        "Policy": "{"Rules":[{"ResourceType":"collection","Resource":["collection/vectorstoreteststvector0064a03a"]}],"AWSOwnedKey":true}",
         "Type": "encryption",
       },
       "Type": "AWS::OpenSearchServerless::SecurityPolicy",
     },
     "testaossvectorManageIndexPolicy92B4BD85": {
       "Properties": {
-        "Name": "manageindexpolicy-6e7dd174",
+        "Name": "manageindexpolicytestor0064a03a",
         "Policy": {
           "Fn::Join": [
             "",
             [
-              "[{"Rules":[{"Resource":["index/vectorstore-6e7dd174/*"],"Permission":["aoss:DescribeIndex","aoss:CreateIndex","aoss:DeleteIndex","aoss:UpdateIndex"],"ResourceType":"index"},{"Resource":["collection/vectorstore-6e7dd174"],"Permission":["aoss:DescribeCollectionItems"],"ResourceType":"collection"}],"Principal":["",
+              "[{"Rules":[{"Resource":["index/vectorstoreteststvector0064a03a/*"],"Permission":["aoss:DescribeIndex","aoss:CreateIndex","aoss:DeleteIndex","aoss:UpdateIndex"],"ResourceType":"index"},{"Resource":["collection/vectorstoreteststvector0064a03a"],"Permission":["aoss:DescribeCollectionItems"],"ResourceType":"collection"}],"Principal":["",
               {
                 "Fn::GetAtt": [
                   "AOSSCRProviderCRRole52D2573C",
@@ -451,8 +451,8 @@ exports[`OpenSearch Serverless Vector Store No data access policies Should match
     },
     "testaossvectorNetworkPolicy759873B7": {
       "Properties": {
-        "Name": "networkpolicy-6e7dd174",
-        "Policy": "[{"Rules":[{"ResourceType":"collection","Resource":["collection/vectorstore-6e7dd174"]},{"ResourceType":"dashboard","Resource":["collection/vectorstore-6e7dd174"]}],"AllowFromPublic":true}]",
+        "Name": "networkpolicytestsector0064a03a",
+        "Policy": "[{"Rules":[{"ResourceType":"collection","Resource":["collection/vectorstoreteststvector0064a03a"]},{"ResourceType":"dashboard","Resource":["collection/vectorstoreteststvector0064a03a"]}],"AllowFromPublic":true}]",
         "Type": "network",
       },
       "Type": "AWS::OpenSearchServerless::SecurityPolicy",
@@ -463,7 +463,7 @@ exports[`OpenSearch Serverless Vector Store No data access policies Should match
         "testaossvectorNetworkPolicy759873B7",
       ],
       "Properties": {
-        "Name": "vectorstore-6e7dd174",
+        "Name": "vectorstoreteststvector0064a03a",
         "Type": "VECTORSEARCH",
       },
       "Type": "AWS::OpenSearchServerless::Collection",
@@ -986,12 +986,12 @@ exports[`OpenSearch Serverless Vector Store With data access policies Should mat
     "testaossvectorDataAccessPolicyC2F37B1E": {
       "Condition": "testaossvectorIsDataAccessPolicyNotEmpty6E2A5F9A",
       "Properties": {
-        "Name": "dataaccesspolicy-6e7dd174",
+        "Name": "dataaccesspolicytestctor0064a03a",
         "Policy": {
           "Fn::Join": [
             "",
             [
-              "[{"Rules":[{"Resource":["collection/vectorstore-6e7dd174"],"Permission":["aoss:DescribeCollectionItems","aoss:CreateCollectionItems","aoss:UpdateCollectionItems"],"ResourceType":"collection"},{"Resource":["index/vectorstore-6e7dd174/*"],"Permission":["aoss:UpdateIndex","aoss:DescribeIndex","aoss:ReadDocument","aoss:WriteDocument","aoss:CreateIndex"],"ResourceType":"index"}],"Principal":["",
+              "[{"Rules":[{"Resource":["collection/vectorstoreteststvector0064a03a"],"Permission":["aoss:DescribeCollectionItems","aoss:CreateCollectionItems","aoss:UpdateCollectionItems"],"ResourceType":"collection"},{"Resource":["index/vectorstoreteststvector0064a03a/*"],"Permission":["aoss:UpdateIndex","aoss:DescribeIndex","aoss:ReadDocument","aoss:WriteDocument","aoss:CreateIndex"],"ResourceType":"index"}],"Principal":["",
               {
                 "Fn::GetAtt": [
                   "TestRole6C9272DF",
@@ -1008,20 +1008,20 @@ exports[`OpenSearch Serverless Vector Store With data access policies Should mat
     },
     "testaossvectorEncryptionPolicyB6AD3F65": {
       "Properties": {
-        "Name": "encryptionpolicy-6e7dd174",
-        "Policy": "{"Rules":[{"ResourceType":"collection","Resource":["collection/vectorstore-6e7dd174"]}],"AWSOwnedKey":true}",
+        "Name": "encryptionpolicytestctor0064a03a",
+        "Policy": "{"Rules":[{"ResourceType":"collection","Resource":["collection/vectorstoreteststvector0064a03a"]}],"AWSOwnedKey":true}",
         "Type": "encryption",
       },
       "Type": "AWS::OpenSearchServerless::SecurityPolicy",
     },
     "testaossvectorManageIndexPolicy92B4BD85": {
       "Properties": {
-        "Name": "manageindexpolicy-6e7dd174",
+        "Name": "manageindexpolicytestor0064a03a",
         "Policy": {
           "Fn::Join": [
             "",
             [
-              "[{"Rules":[{"Resource":["index/vectorstore-6e7dd174/*"],"Permission":["aoss:DescribeIndex","aoss:CreateIndex","aoss:DeleteIndex","aoss:UpdateIndex"],"ResourceType":"index"},{"Resource":["collection/vectorstore-6e7dd174"],"Permission":["aoss:DescribeCollectionItems"],"ResourceType":"collection"}],"Principal":["",
+              "[{"Rules":[{"Resource":["index/vectorstoreteststvector0064a03a/*"],"Permission":["aoss:DescribeIndex","aoss:CreateIndex","aoss:DeleteIndex","aoss:UpdateIndex"],"ResourceType":"index"},{"Resource":["collection/vectorstoreteststvector0064a03a"],"Permission":["aoss:DescribeCollectionItems"],"ResourceType":"collection"}],"Principal":["",
               {
                 "Fn::GetAtt": [
                   "AOSSCRProviderCRRole52D2573C",
@@ -1038,8 +1038,8 @@ exports[`OpenSearch Serverless Vector Store With data access policies Should mat
     },
     "testaossvectorNetworkPolicy759873B7": {
       "Properties": {
-        "Name": "networkpolicy-6e7dd174",
-        "Policy": "[{"Rules":[{"ResourceType":"collection","Resource":["collection/vectorstore-6e7dd174"]},{"ResourceType":"dashboard","Resource":["collection/vectorstore-6e7dd174"]}],"AllowFromPublic":true}]",
+        "Name": "networkpolicytestsector0064a03a",
+        "Policy": "[{"Rules":[{"ResourceType":"collection","Resource":["collection/vectorstoreteststvector0064a03a"]},{"ResourceType":"dashboard","Resource":["collection/vectorstoreteststvector0064a03a"]}],"AllowFromPublic":true}]",
         "Type": "network",
       },
       "Type": "AWS::OpenSearchServerless::SecurityPolicy",
@@ -1050,7 +1050,7 @@ exports[`OpenSearch Serverless Vector Store With data access policies Should mat
         "testaossvectorNetworkPolicy759873B7",
       ],
       "Properties": {
-        "Name": "vectorstore-6e7dd174",
+        "Name": "vectorstoreteststvector0064a03a",
         "Type": "VECTORSEARCH",
       },
       "Type": "AWS::OpenSearchServerless::Collection",

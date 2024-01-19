@@ -18,7 +18,7 @@ import { Construct } from 'constructs';
 import { BedrockCRProvider } from './custom-resources';
 import { BedrockFoundationModel } from './models';
 import { OpenSearchVectorCollection, OpenSearchVectorIndex } from '../../common/helpers/aoss-vector';
-import { generatePhysicalName } from '../../common/helpers/utils';
+import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 
 /**
  * Bedrock foundation embeddings models supported by Bedrock Knowledge Bases.
@@ -131,14 +131,14 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
     const indexName = props.indexName ?? 'bedrock-knowledge-base-default-index';
     const vectorField = props.vectorField ?? 'bedrock-knowledge-base-default-vector';
 
-    this.name = generatePhysicalName('kb', [], 32, false, this);
-    const roleName = generatePhysicalName(
-      'AmazonBedrockExecutionRoleForKnowledgeBase',
-      [],
-      64,
-      false,
+    this.name = generatePhysicalNameV2(
       this,
-    );
+      'KB',
+      { maxLength: 32 });
+    const roleName = generatePhysicalNameV2(
+      this,
+      'AmazonBedrockExecutionRoleForKnowledgeBase',
+      { maxLength: 64 });
     this.role = new iam.Role(this, 'Role', {
       roleName: roleName,
       assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com'),

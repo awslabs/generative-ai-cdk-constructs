@@ -21,7 +21,7 @@ import { BedrockCRProvider } from './custom-resources';
 import { KnowledgeBase } from './knowledge-base';
 import { BedrockFoundationModel } from './models';
 
-import { generatePhysicalName } from '../../common/helpers/utils';
+import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 
 /**
  * Bedrock text foundation models supported by Bedrock Agents.
@@ -319,16 +319,17 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
     super(scope, id);
     validatePromptOverrideConfiguration(props.promptOverrideConfiguration);
 
-    this.name = props.name ?? generatePhysicalName('bedrock-agent', [], 32, true, this);
+    this.name = props.name ?? generatePhysicalNameV2(
+      this,
+      'bedrock-agent',
+      { maxLength: 32, lower: true, separator: '-' });
 
     this.role = new iam.Role(this, 'Role', {
       assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com'),
-      roleName: generatePhysicalName(
+      roleName: generatePhysicalNameV2(
+        this,
         'AmazonBedrockExecutionRoleForAgents_',
-        [this.name],
-        64,
-        false,
-        this),
+        { maxLength: 64, lower: false }),
     });
 
     this.role.assumeRolePolicy!.addStatements(
