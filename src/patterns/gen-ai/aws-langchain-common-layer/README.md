@@ -183,6 +183,7 @@ Parameters
 | runtime | [lambda.Runtime](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Runtime.html) | ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function runtime compatible with this layer. |
 | architecture | [lambda.Architecture](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Architecture.html)| ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function architecture compatible with this layer. |
 | autoUpgrade | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Add '--upgrade' to pip install requirements.txt. In case of a LangchainCommonLayer, this parameter is not used. |
+| local | "python" or "python3" | ![Optional](https://img.shields.io/badge/optional-4169E1) | Local compute will be used when installing requirements.txt. By default if this is not true, a docker container will be spun up to install requirements. The string value will be the python alias used to install requirements. |
 
 ## Pattern Properties
 
