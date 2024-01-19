@@ -93,7 +93,7 @@ export interface ModelAdapterProps extends AdapterProps {
 }
 
 /**
-   * @summary ModelAdapterLayer allows developers to instantiate a llm client adapter on bedrock, sagemaker or openai following best practise.
+   * @summary LangchainCommonLayer allows developers to instantiate a llm client adapter on bedrock, sagemaker or openai following best practise.
    *
    * @example
    * from genai_core.adapters.registry import registry
@@ -102,7 +102,7 @@ export interface ModelAdapterProps extends AdapterProps {
    * adapter = registry.get_adapter(f"{provider}.{model_id}")
    * bedrock_client = get_bedrock_client()
    */
-export class ModelAdapterLayer extends Construct {
+export class LangchainCommonLayer extends Construct {
   /**
    * Returns the instance of lambda.LayerVersion created by the construct
    */

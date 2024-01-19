@@ -165,7 +165,7 @@ Where:
 ### LangchainDepsLayer
 
 ```
-new LangchainDepsLayer(scope: Construct, id: string, props: LangchainLayerProps)
+new LangchainCommonDepsLayer(scope: Construct, id: string, props: LangchainLayerProps)
 ```
 
 #### Parameters
@@ -190,7 +190,7 @@ new LangchainDepsLayer(scope: Construct, id: string, props: LangchainLayerProps)
 ### ModelAdapterLayer
 
 ```
-new ModelAdapterLayer(scope: Construct, id: string, props: ModelAdapterProps)
+new LangchainCommonLayer(scope: Construct, id: string, props: LangchainLayerProps)
 ```
 
 Parameters
