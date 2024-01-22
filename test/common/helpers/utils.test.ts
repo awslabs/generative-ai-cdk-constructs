@@ -26,16 +26,16 @@ describe('lambdaMemorySizeLimiter', () => {
     console.log('Test "lambdaMemorySizeLimiter" completed');
   });
 
-  test('above recommended', () => {
+  test('requested memory above default', () => {
     const app = new cdk.App({});
     const stack = new cdk.Stack(app, 'TestStack', { env: { account: '012345678912', region: 'bermuda-triangle-1' } });
     testConstruct = new TestConstruct(stack, 'TestConstruct');
     const requestedMemory = recommendedMaximumLambdaMemorySize + 1;
     const actualMemory = lambdaMemorySizeLimiter(testConstruct, requestedMemory);
     expect(actualMemory).toEqual(recommendedMaximumLambdaMemorySize);
-    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(1); // above recommended
+    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(1); // warnings: 1) memory reduced
   });
-  test('equal to recommended', () => {
+  test('requested memory equal to default', () => {
     const app = new cdk.App({});
     const stack = new cdk.Stack(app, 'TestStack', { env: { account: '012345678912', region: 'bermuda-triangle-1' } });
     testConstruct = new TestConstruct(stack, 'TestConstruct');
@@ -44,7 +44,7 @@ describe('lambdaMemorySizeLimiter', () => {
     expect(actualMemory).toEqual(requestedMemory);
     expect(spyOnConsoleWarn).toHaveBeenCalledTimes(0);
   });
-  test('below recommended', () => {
+  test('requested memory below default', () => {
     const app = new cdk.App({});
     const stack = new cdk.Stack(app, 'TestStack', { env: { account: '012345678912', region: 'bermuda-triangle-1' } });
     testConstruct = new TestConstruct(stack, 'TestConstruct');
@@ -53,7 +53,7 @@ describe('lambdaMemorySizeLimiter', () => {
     expect(actualMemory).toEqual(requestedMemory);
     expect(spyOnConsoleWarn).toHaveBeenCalledTimes(0);
   });
-  test('above minimum context', () => {
+  test('requested memory above set low context maximum', () => {
     const contextLambdaMemorySize = 3008;
     const app = new cdk.App({
       context: {
@@ -65,9 +65,9 @@ describe('lambdaMemorySizeLimiter', () => {
     const requestedMemory = contextLambdaMemorySize + 1;
     const actualMemory = lambdaMemorySizeLimiter(testConstruct, requestedMemory);
     expect(actualMemory).toEqual(contextLambdaMemorySize);
-    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(2); // warning below recommended and below context
+    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(2); // warnings: 1) below recommended and 2) memory reduced
   });
-  test('at minimum context', () => {
+  test('requested memory equal to low context maximum', () => {
     const contextLambdaMemorySize = 3008;
     const app = new cdk.App({
       context: {
@@ -79,9 +79,9 @@ describe('lambdaMemorySizeLimiter', () => {
     const requestedMemory = contextLambdaMemorySize;
     const actualMemory = lambdaMemorySizeLimiter(testConstruct, requestedMemory);
     expect(actualMemory).toEqual(requestedMemory);
-    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(1); // warning below recommended
+    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(1); // warnings: 1) below recommended
   });
-  test('below minimum context', () => {
+  test('requested memory above set low context maximum', () => {
     const contextLambdaMemorySize = 3008;
     const app = new cdk.App({
       context: {
@@ -93,9 +93,9 @@ describe('lambdaMemorySizeLimiter', () => {
     const requestedMemory = contextLambdaMemorySize - 1;
     const actualMemory = lambdaMemorySizeLimiter(testConstruct, requestedMemory);
     expect(actualMemory).toEqual(requestedMemory);
-    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(1); // warning below recommended.
+    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(1); // warnings: 1) below recommended and 2) memory reduced
   });
-  test('above high context', () => {
+  test('requested memory above set high context maximum', () => {
     const contextLambdaMemorySize = recommendedMaximumLambdaMemorySize * 2;
     const app = new cdk.App({
       context: {
@@ -107,9 +107,9 @@ describe('lambdaMemorySizeLimiter', () => {
     const requestedMemory = contextLambdaMemorySize + 1;
     const actualMemory = lambdaMemorySizeLimiter(testConstruct, requestedMemory);
     expect(actualMemory).toEqual(contextLambdaMemorySize);
-    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(1); // below context
+    expect(spyOnConsoleWarn).toHaveBeenCalledTimes(1); // warnings: 1) memory reduced
   });
-  test('at high context', () => {
+  test('requested memory equal to set high context maximum', () => {
     const contextLambdaMemorySize = recommendedMaximumLambdaMemorySize * 2;
     const app = new cdk.App({
       context: {
@@ -123,7 +123,7 @@ describe('lambdaMemorySizeLimiter', () => {
     expect(actualMemory).toEqual(requestedMemory);
     expect(spyOnConsoleWarn).toHaveBeenCalledTimes(0);
   });
-  test('below high context', () => {
+  test('requested memory below set high context maximum', () => {
     const contextLambdaMemorySize = recommendedMaximumLambdaMemorySize * 2;
     const app = new cdk.App({
       context: {
