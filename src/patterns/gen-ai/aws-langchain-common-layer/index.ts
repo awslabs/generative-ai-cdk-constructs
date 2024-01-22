@@ -40,7 +40,7 @@ export interface LangchainLayerProps {
   readonly autoUpgrade?: boolean;
   /**
    * Optional: Local compute will be used when installing requirements.txt.
-   * By default if this is not true, a docker container will be spun up to install requirements.
+   * By default, a docker container will be spun up to install requirements. To override this behavior, use the python alias string of `python` or `python3`
    * The string value will be the python alias used to install requirements.
    *
    * @default - none
