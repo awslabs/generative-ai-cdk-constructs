@@ -83,7 +83,7 @@ architecture: lambdaArchitecture,
 Python
 ``` python
 from constructs import Construct
-from aws_cdk import Aws, aws_lambda as lambda_
+from aws_cdk import Aws, Stack, aws_lambda as lambda_
 from cdklabs.generative_ai_cdk_constructs import (
     LangchainCommonDepsLayer,
     LangchainCommonLayer,
