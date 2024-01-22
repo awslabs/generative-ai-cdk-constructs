@@ -35,7 +35,7 @@ export interface LangchainLayerProps {
    * Optional: Add '--upgrade' to pip install requirements.txt
    * In case of a LangchainCommonLayer, this parameter is not used.
    *
-   * @default - none
+   * @default - false
    */
   readonly autoUpgrade?: boolean;
   /**
