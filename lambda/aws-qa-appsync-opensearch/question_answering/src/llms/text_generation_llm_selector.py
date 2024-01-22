@@ -89,5 +89,5 @@ def get_embeddings_llm():
     return BedrockEmbeddings(client=bedrock, model_id="amazon.titan-embed-text-v1")
     
 def get_max_tokens():
-    return 100000
+    return 200000
     
