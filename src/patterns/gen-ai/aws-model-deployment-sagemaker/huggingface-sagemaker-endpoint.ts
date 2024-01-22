@@ -27,6 +27,7 @@ export interface IHuggingFaceSageMakerEndpointProps {
   role?: iam.Role;
   environment?: { [key: string]: string };
   startupHealthCheckTimeoutInSeconds?: number;
+  vpcConfig?: sagemaker.CfnModel.VpcConfigProperty | undefined;
 }
 
 /**
@@ -80,6 +81,7 @@ export class HuggingFaceSageMakerEndpoint extends SageMakerEndpointBase implemen
           value: this.modelId,
         },
       ],
+      vpcConfig: props.vpcConfig,
     });
 
     const endpointConfig = new sagemaker.CfnEndpointConfig(scope, `EndpointConfig-${id}`, {
