@@ -29,6 +29,7 @@ export interface CustomSageMakerEndpointProps {
   readonly startupHealthCheckTimeoutInSeconds?: number;
   readonly modelDataDownloadTimeoutInSeconds?: number;
   readonly volumeSizeInGb?: number;
+  readonly vpcConfig?: sagemaker.CfnModel.VpcConfigProperty | undefined;
   readonly modelDataUrl: string;
 }
 
@@ -98,6 +99,7 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
           value: this.modelId,
         },
       ],
+      vpcConfig: props.vpcConfig,
     });
 
     const endpointConfig = new sagemaker.CfnEndpointConfig(scope, `EndpointConfig-${id}`, {
