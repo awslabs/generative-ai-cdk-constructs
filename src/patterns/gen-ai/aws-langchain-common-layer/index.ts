@@ -43,7 +43,7 @@ export interface LangchainLayerProps {
    * By default if this is not true, a docker container will be spun up to install requirements.
    * The string value will be the python alias used to install requirements.
    *
-   * @default - false
+   * @default - none
    */
   readonly local?: 'python' | 'python3';
 }
