@@ -18,7 +18,7 @@ import { Layer } from '../../../common/helpers/python-lambda-layer-helper';
 /**
  * The properties for the LangchainLayerProps class.
  */
-export interface LangchainLayerProps{
+export interface LangchainLayerProps {
   /**
    * Required. Lambda function runtime compatible with this Layer.
    *
@@ -35,16 +35,17 @@ export interface LangchainLayerProps{
    * Optional: Add '--upgrade' to pip install requirements.txt
    * In case of a LangchainCommonLayer, this parameter is not used.
    *
-   * @default - none
+   * @default - false
    */
   readonly autoUpgrade?: boolean;
   /**
    * Optional: Local compute will be used when installing requirements.txt.
-   * By default if this is not true, a docker container will be spun up to install requirements.
+   * By default, a docker container will be spun up to install requirements. To override this behavior, use the python alias string of `python` or `python3`
+   * The string value will be the python alias used to install requirements.
    *
    * @default - none
    */
-  readonly local?: boolean;
+  readonly local?: 'python' | 'python3';
 }
 
 /**
