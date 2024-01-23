@@ -90,6 +90,7 @@ Parameters
 | instanceCount | Integer | ![Optional](https://img.shields.io/badge/optional-4169E1) | Number of instances to launch initially |
 | role | [iam.Role](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_iam.Role.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | The IAM role that SageMaker can assume to access model artifacts and docker image for deployment on ML compute instances or for batch transform jobs. If not provided, this construct will create a new role with Full access to SageMaker. |
 | environment | [key: string]: string | ![Optional](https://img.shields.io/badge/optional-4169E1) | Custom environment map that the inference code uses when the model is deployed for predictions |
+| vpcConfig | [VpcConfigProperty](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_sagemaker.CfnModel.VpcConfigProperty.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | A VpcConfig object that specifies the VPC that you want your model to connect to. Control access to and from your model container by configuring the VPC. |
 | startupHealthCheckTimeoutInSeconds | Integer | ![Optional](https://img.shields.io/badge/optional-4169E1) | The timeout value, in seconds, for your inference container to pass health check by SageMaker Hosting |
 
 ## Pattern Properties
