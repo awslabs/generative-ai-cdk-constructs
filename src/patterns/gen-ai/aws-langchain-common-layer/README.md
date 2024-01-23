@@ -210,6 +210,7 @@ Parameters
 | layerVersionName | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | The name of the layer |
 | license | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | The SPDX licence identifier or URL to the license file for this layer |
 | removalPolicy | [RemovalPolicy](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.RemovalPolicy.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Whether to retain this version of the layer when a new version is added or when the stack is deleted. Default: DESTROY |
+| local | "python" or "python3" | ![Optional](https://img.shields.io/badge/optional-4169E1) | Local compute will be used when installing requirements.txt when set. By default, a docker container will be spun up to install requirements. |
 
 ## Pattern Properties
 

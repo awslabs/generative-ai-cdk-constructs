@@ -10,6 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+import { execSync } from 'child_process';
 import * as cdk from 'aws-cdk-lib';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as s3assets from 'aws-cdk-lib/aws-s3-assets';
@@ -22,6 +23,7 @@ export interface LayerProps extends LangchainProps {
   path: string;
   autoUpgrade?: boolean;
   additionalPackages?: string[];
+  local?: 'python' | 'python3';
 }
 
 export class Layer extends Construct {
@@ -30,9 +32,9 @@ export class Layer extends Construct {
   constructor(scope: Construct, id: string, props: LayerProps) {
     super(scope, id);
 
-    const { runtime, architecture, path, additionalPackages, autoUpgrade } = props;
+    const { runtime, architecture, path, additionalPackages, autoUpgrade, local } = props;
 
-    const args = ['-t /asset-output/python'];
+    const args = local ? [] : ['-t /asset-output/python'];
     if (additionalPackages) {
       args.push(...additionalPackages);
     }
@@ -42,7 +44,19 @@ export class Layer extends Construct {
 
     const layerAsset = new s3assets.Asset(this, 'LayerAsset', {
       path,
-      bundling: {
+      bundling: local ? {
+        // If local is true use the host to install the requirements
+        image: runtime.bundlingImage,
+        local: {
+          tryBundle(outputDir) {
+            execSync(`${local} -m venv venv`);
+            execSync('source venv/bin/activate');
+            execSync(`pip install -r ${path}/requirements.txt -t ${outputDir}/python ${args.join(' ')}`);
+            return true;
+          },
+        },
+      } : {
+        // Default: Docker is used to install the requirements
         image: runtime.bundlingImage,
         platform: architecture.dockerPlatform,
         command: [

@@ -48,6 +48,13 @@ export interface LangchainLayerProps extends LangchainProps {
    * @default - none
    */
   readonly additionalPackages?: string[];
+  /** Optional: Local compute will be used when installing requirements.txt.
+   * By default, a docker container will be spun up to install requirements. To override this behavior, use the python alias string of `python` or `python3`
+   * The string value will be the python alias used to install requirements.
+   *
+   * @default - none
+   */
+  readonly local?: 'python' | 'python3';
 }
 
 /**
