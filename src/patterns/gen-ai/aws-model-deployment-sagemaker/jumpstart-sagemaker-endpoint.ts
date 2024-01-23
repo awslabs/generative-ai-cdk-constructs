@@ -25,6 +25,7 @@ export interface IJumpStartSageMakerEndpointProps {
   instanceType?: SageMakerInstanceType;
   instanceCount?: number;
   role?: iam.Role;
+  vpcConfig?: sagemaker.CfnModel.VpcConfigProperty | undefined;
   environment?: { [key: string]: string };
   startupHealthCheckTimeoutInSeconds?: number;
 }
@@ -78,10 +79,10 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
         throw new Error('Environment variables are not supported for model packages.');
       }
 
-      model = this.getModelFromPackage(scope, id);
+      model = this.getModelFromPackage(scope, id, props.vpcConfig);
     } else {
       const environment = this.buildEnvironment(instanceType);
-      model = this.getModelFromArtifact(scope, id, instanceType, instanseBaseType, environment);
+      model = this.getModelFromArtifact(scope, id, instanceType, instanseBaseType, environment, props.vpcConfig);
     }
 
     const endpointConfig = new sagemaker.CfnEndpointConfig(scope, `EndpointConfig-${id}`, {
@@ -166,6 +167,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
     instanceType: string,
     instanceBaseType: string,
     environment: { [key: string]: string | number | boolean },
+    vpcConfig: sagemaker.CfnModel.VpcConfigProperty | undefined,
   ) {
     const key = this.spec.prepackedArtifactKey ?? this.spec.artifactKey;
     const bucket = JumpStartConstants.JUMPSTART_LAUNCHED_REGIONS[this.region]?.contentBucket;
@@ -223,12 +225,13 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
           value: this.spec.version,
         },
       ],
+      vpcConfig: vpcConfig,
     });
 
     return model;
   }
 
-  private getModelFromPackage(scope: Construct, id: string) {
+  private getModelFromPackage(scope: Construct, id: string, vpcConfig: sagemaker.CfnModel.VpcConfigProperty | undefined) {
     const modelPackageArns = this.spec.modelPackageArns || {};
     const supportedRegions = Object.keys(modelPackageArns);
     if (!supportedRegions.includes(this.region)) {
@@ -257,6 +260,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
           value: this.spec.version,
         },
       ],
+      vpcConfig: vpcConfig,
     });
 
     return model;
