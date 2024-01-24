@@ -22,267 +22,6 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
     },
   },
   "Resources": {
-    "AOSSCRProviderCRRole52D2573C": {
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-IAM4",
-              "reason": "CDK CustomResource Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.",
-            },
-          ],
-        },
-      },
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-          {
-            "Ref": "KBKBVectorsAOSSApiAccessAllB0CB4242",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "AOSSCRProviderCustomResourcesFunctionDE12A63E": {
-      "DependsOn": [
-        "AOSSCRProviderCRRole52D2573C",
-      ],
-      "Properties": {
-        "Code": {
-          "ZipFile": "mockCode",
-        },
-        "Description": "Custom Resource Provider",
-        "Handler": "custom_resources.on_event",
-        "MemorySize": 128,
-        "Role": {
-          "Fn::GetAtt": [
-            "AOSSCRProviderCRRole52D2573C",
-            "Arn",
-          ],
-        },
-        "Runtime": "python3.12",
-        "Timeout": 900,
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "AOSSCRProviderCustomResourcesFunctionLogRetention77F0ABDA": {
-      "Properties": {
-        "LogGroupName": {
-          "Fn::Join": [
-            "",
-            [
-              "/aws/lambda/",
-              {
-                "Ref": "AOSSCRProviderCustomResourcesFunctionDE12A63E",
-              },
-            ],
-          ],
-        },
-        "RetentionInDays": 7,
-        "ServiceToken": {
-          "Fn::GetAtt": [
-            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
-            "Arn",
-          ],
-        },
-      },
-      "Type": "Custom::LogRetention",
-    },
-    "AOSSCRProviderProviderRole736813AB": {
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-IAM4",
-              "reason": "CDK CustomResource Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.",
-            },
-            {
-              "applies_to": [
-                {
-                  "regex": "/^Resource::<AOSSCRProviderCustomResourcesFunction[A-Z0-9]+\\.Arn>:\\*$/g",
-                },
-              ],
-              "id": "AwsSolutions-IAM5",
-              "reason": "CDK CustomResource Provider has a wildcard to invoke any version of the specific Custom Resource function.",
-            },
-          ],
-        },
-      },
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "AOSSCRProviderProviderRoleDefaultPolicyED4F4ACE": {
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "applies_to": [
-                {
-                  "regex": "/^Resource::<AOSSCRProviderCustomResourcesFunction[A-Z0-9]+\\.Arn>:\\*$/g",
-                },
-              ],
-              "id": "AwsSolutions-IAM5",
-              "reason": "CDK CustomResource Provider has a wildcard to invoke any version of the specific Custom Resource function.",
-            },
-          ],
-        },
-      },
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": "lambda:InvokeFunction",
-              "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
-                    "AOSSCRProviderCustomResourcesFunctionDE12A63E",
-                    "Arn",
-                  ],
-                },
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      {
-                        "Fn::GetAtt": [
-                          "AOSSCRProviderCustomResourcesFunctionDE12A63E",
-                          "Arn",
-                        ],
-                      },
-                      ":*",
-                    ],
-                  ],
-                },
-              ],
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "AOSSCRProviderProviderRoleDefaultPolicyED4F4ACE",
-        "Roles": [
-          {
-            "Ref": "AOSSCRProviderProviderRole736813AB",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "AOSSCRProviderframeworkonEvent8EC7CF0A": {
-      "DependsOn": [
-        "AOSSCRProviderProviderRoleDefaultPolicyED4F4ACE",
-        "AOSSCRProviderProviderRole736813AB",
-      ],
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-L1",
-              "reason": "Lambda runtime version is managed upstream by CDK.",
-            },
-          ],
-        },
-      },
-      "Properties": {
-        "Code": {
-          "ZipFile": "mockCode",
-        },
-        "Description": "AWS CDK resource provider framework - onEvent (test-stack/AOSSCRProvider/Provider)",
-        "Environment": {
-          "Variables": {
-            "USER_ON_EVENT_FUNCTION_ARN": {
-              "Fn::GetAtt": [
-                "AOSSCRProviderCustomResourcesFunctionDE12A63E",
-                "Arn",
-              ],
-            },
-          },
-        },
-        "Handler": "framework.onEvent",
-        "Role": {
-          "Fn::GetAtt": [
-            "AOSSCRProviderProviderRole736813AB",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs18.x",
-        "Timeout": 900,
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "AOSSCRProviderframeworkonEventLogRetention38AE751E": {
-      "Properties": {
-        "LogGroupName": {
-          "Fn::Join": [
-            "",
-            [
-              "/aws/lambda/",
-              {
-                "Ref": "AOSSCRProviderframeworkonEvent8EC7CF0A",
-              },
-            ],
-          ],
-        },
-        "RetentionInDays": 7,
-        "ServiceToken": {
-          "Fn::GetAtt": [
-            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
-            "Arn",
-          ],
-        },
-      },
-      "Type": "Custom::LogRetention",
-    },
     "AgentAgentCRPolicy805C7219": {
       "Metadata": {
         "cdk_nag": {
@@ -1194,11 +933,33 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       },
       "Type": "AWS::IAM::Policy",
     },
+    "KBKBIndexManageIndexPolicy12CCDA73": {
+      "Properties": {
+        "Name": "manageindexpolicytesdexe5888a45",
+        "Policy": {
+          "Fn::Join": [
+            "",
+            [
+              "[{"Rules":[{"Resource":["index/vectorstoreteststectors7d46d76b/*"],"Permission":["aoss:DescribeIndex","aoss:CreateIndex","aoss:DeleteIndex","aoss:UpdateIndex"],"ResourceType":"index"},{"Resource":["collection/vectorstoreteststectors7d46d76b"],"Permission":["aoss:DescribeCollectionItems"],"ResourceType":"collection"}],"Principal":["",
+              {
+                "Fn::GetAtt": [
+                  "OpenSearchIndexCRProviderCRRole466FC04E",
+                  "Arn",
+                ],
+              },
+              ""],"Description":""}]",
+            ],
+          ],
+        },
+        "Type": "data",
+      },
+      "Type": "AWS::OpenSearchServerless::AccessPolicy",
+    },
     "KBKBIndexVectorIndexB98E4DB1": {
       "DeletionPolicy": "Delete",
       "DependsOn": [
+        "KBKBIndexManageIndexPolicy12CCDA73",
         "KBKBVectorsDataAccessPolicyA8410509",
-        "KBKBVectorsManageIndexPolicyC803ADF2",
         "KBKBVectorsVectorCollectionFFF498C9",
       ],
       "Properties": {
@@ -1232,7 +993,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
         ],
         "ServiceToken": {
           "Fn::GetAtt": [
-            "AOSSCRProviderframeworkonEvent8EC7CF0A",
+            "OpenSearchIndexCRProviderframeworkonEvent6CAE4696",
             "Arn",
           ],
         },
@@ -1293,28 +1054,6 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
         "Type": "encryption",
       },
       "Type": "AWS::OpenSearchServerless::SecurityPolicy",
-    },
-    "KBKBVectorsManageIndexPolicyC803ADF2": {
-      "Properties": {
-        "Name": "manageindexpolicytesors7d46d76b",
-        "Policy": {
-          "Fn::Join": [
-            "",
-            [
-              "[{"Rules":[{"Resource":["index/vectorstoreteststectors7d46d76b/*"],"Permission":["aoss:DescribeIndex","aoss:CreateIndex","aoss:DeleteIndex","aoss:UpdateIndex"],"ResourceType":"index"},{"Resource":["collection/vectorstoreteststectors7d46d76b"],"Permission":["aoss:DescribeCollectionItems"],"ResourceType":"collection"}],"Principal":["",
-              {
-                "Fn::GetAtt": [
-                  "AOSSCRProviderCRRole52D2573C",
-                  "Arn",
-                ],
-              },
-              ""],"Description":""}]",
-            ],
-          ],
-        },
-        "Type": "data",
-      },
-      "Type": "AWS::OpenSearchServerless::AccessPolicy",
     },
     "KBKBVectorsNetworkPolicy7FBE0E2B": {
       "Properties": {
@@ -1531,6 +1270,267 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
         ],
       },
       "Type": "AWS::IAM::Policy",
+    },
+    "OpenSearchIndexCRProviderCRRole466FC04E": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "CDK CustomResource Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+          {
+            "Ref": "KBKBVectorsAOSSApiAccessAllB0CB4242",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "OpenSearchIndexCRProviderCustomResourcesFunction4F9ADEA2": {
+      "DependsOn": [
+        "OpenSearchIndexCRProviderCRRole466FC04E",
+      ],
+      "Properties": {
+        "Code": {
+          "ZipFile": "mockCode",
+        },
+        "Description": "Custom Resource Provider",
+        "Handler": "custom_resources.on_event",
+        "MemorySize": 128,
+        "Role": {
+          "Fn::GetAtt": [
+            "OpenSearchIndexCRProviderCRRole466FC04E",
+            "Arn",
+          ],
+        },
+        "Runtime": "python3.12",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "OpenSearchIndexCRProviderCustomResourcesFunctionLogRetentionC32546EF": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "OpenSearchIndexCRProviderCustomResourcesFunction4F9ADEA2",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 7,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
+    },
+    "OpenSearchIndexCRProviderProviderRole87B4E831": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "CDK CustomResource Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.",
+            },
+            {
+              "applies_to": [
+                {
+                  "regex": "/^Resource::<OpenSearchIndexCRProviderCustomResourcesFunction[A-Z0-9]+\\.Arn>:\\*$/g",
+                },
+              ],
+              "id": "AwsSolutions-IAM5",
+              "reason": "CDK CustomResource Provider has a wildcard to invoke any version of the specific Custom Resource function.",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "OpenSearchIndexCRProviderProviderRoleDefaultPolicy9810CB1F": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "applies_to": [
+                {
+                  "regex": "/^Resource::<OpenSearchIndexCRProviderCustomResourcesFunction[A-Z0-9]+\\.Arn>:\\*$/g",
+                },
+              ],
+              "id": "AwsSolutions-IAM5",
+              "reason": "CDK CustomResource Provider has a wildcard to invoke any version of the specific Custom Resource function.",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "OpenSearchIndexCRProviderCustomResourcesFunction4F9ADEA2",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "OpenSearchIndexCRProviderCustomResourcesFunction4F9ADEA2",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "OpenSearchIndexCRProviderProviderRoleDefaultPolicy9810CB1F",
+        "Roles": [
+          {
+            "Ref": "OpenSearchIndexCRProviderProviderRole87B4E831",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "OpenSearchIndexCRProviderframeworkonEvent6CAE4696": {
+      "DependsOn": [
+        "OpenSearchIndexCRProviderProviderRoleDefaultPolicy9810CB1F",
+        "OpenSearchIndexCRProviderProviderRole87B4E831",
+      ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-L1",
+              "reason": "Lambda runtime version is managed upstream by CDK.",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "Code": {
+          "ZipFile": "mockCode",
+        },
+        "Description": "AWS CDK resource provider framework - onEvent (test-stack/OpenSearchIndexCRProvider/Provider)",
+        "Environment": {
+          "Variables": {
+            "USER_ON_EVENT_FUNCTION_ARN": {
+              "Fn::GetAtt": [
+                "OpenSearchIndexCRProviderCustomResourcesFunction4F9ADEA2",
+                "Arn",
+              ],
+            },
+          },
+        },
+        "Handler": "framework.onEvent",
+        "Role": {
+          "Fn::GetAtt": [
+            "OpenSearchIndexCRProviderProviderRole87B4E831",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "OpenSearchIndexCRProviderframeworkonEventLogRetention64E7FA2B": {
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Join": [
+            "",
+            [
+              "/aws/lambda/",
+              {
+                "Ref": "OpenSearchIndexCRProviderframeworkonEvent6CAE4696",
+              },
+            ],
+          ],
+        },
+        "RetentionInDays": 7,
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::LogRetention",
     },
   },
   "Rules": {

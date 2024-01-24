@@ -18,7 +18,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { buildCustomResourceProvider } from '../../../src/common/helpers/custom-resource-provider-helper';
 
 const AOSSCRProvider = buildCustomResourceProvider({
-  providerName: 'AOSSCRProvider',
+  providerName: 'OpenSearchIndexCRProvider',
   codePath: path.join(
     __dirname, '../../../lambda/opensearch-serverless-custom-resources'),
   handler: 'custom_resources.on_event',

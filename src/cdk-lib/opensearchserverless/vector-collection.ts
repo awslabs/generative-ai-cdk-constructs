@@ -10,26 +10,22 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as oss from 'aws-cdk-lib/aws-opensearchserverless';
 import { Construct } from 'constructs';
-import { buildCustomResourceProvider } from './custom-resource-provider-helper';
-import { generatePhysicalNameV2 } from './utils';
+import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 
 /**
- * Deploys and OpenSearch Collection to be used as a vector store.
+ * Deploys an OpenSearch Serverless Collection to be used as a vector store.
  *
  * It includes all policies.
  */
-export class OpenSearchVectorCollection extends Construct {
+export class VectorCollection extends Construct {
   /**
    * The name of the collection.
-   * @private
    */
-  private collectionName: string;
+  public collectionName: string;
 
   /**
    * The OpenSearch Collection.
@@ -43,14 +39,8 @@ export class OpenSearchVectorCollection extends Construct {
 
   /**
    * An IAM policy that allows API access to the collection.
-   * @private
    */
-  private aossPolicy: iam.ManagedPolicy;
-
-  /**
-   * An OpenSearch Access Policy that allows management of the index.
-   */
-  public manageIndexPolicy: oss.CfnAccessPolicy;
+  public aossPolicy: iam.ManagedPolicy;
 
   /**
    * An OpenSearch Access Policy that allows access to the index.
@@ -136,43 +126,6 @@ export class OpenSearchVectorCollection extends Construct {
     this.collection.addDependency(encryptionPolicy);
     this.collection.addDependency(networkPolicy);
 
-    const crProvider = AOSSCRProvider.getProvider(this);
-    crProvider.role.addManagedPolicy(this.aossPolicy);
-
-    const manageIndexPolicyName = generatePhysicalNameV2(this,
-      'ManageIndexPolicy',
-      { maxLength: 32, lower: true });
-    this.manageIndexPolicy = new oss.CfnAccessPolicy(this, 'ManageIndexPolicy', {
-      name: manageIndexPolicyName,
-      type: 'data',
-      policy: JSON.stringify([
-        {
-          Rules: [
-            {
-              Resource: [`index/${this.collectionName}/*`],
-              Permission: [
-                'aoss:DescribeIndex',
-                'aoss:CreateIndex',
-                'aoss:DeleteIndex',
-                'aoss:UpdateIndex',
-              ],
-              ResourceType: 'index',
-            },
-            {
-              Resource: [`collection/${this.collectionName}`],
-              Permission: [
-                'aoss:DescribeCollectionItems',
-              ],
-              ResourceType: 'collection',
-            },
-          ],
-          Principal: [
-            crProvider.role.roleArn,
-          ],
-          Description: '',
-        },
-      ]),
-    });
 
     const isDataAccessPolicyNotEmpty = new cdk.CfnCondition(this, 'IsDataAccessPolicyNotEmpty', {
       expression: cdk.Fn.conditionNot(cdk.Fn.conditionEquals(0, cdk.Lazy.number({
@@ -230,121 +183,3 @@ export class OpenSearchVectorCollection extends Construct {
   }
 }
 
-/**
- * Metadata field definitions.
- */
-export interface MetadataManagementField {
-  /**
-   * The name of the field.
-   */
-  MappingField: string;
-  /**
-   * The data type of the field.
-   */
-  DataType: string;
-  /**
-   * Whether the field is filterable.
-   */
-  Filterable: boolean;
-}
-
-/**
- * Properties for the Custom::OpenSearchIndex custom resource.
- */
-interface VectorIndexProps {
-  /**
-   * The OpenSearch Endpoint.
-   */
-  Endpoint: string;
-  /**
-   * The name of the index.
-   */
-  IndexName: string;
-  /**
-   * The name of the vector field.
-   */
-  VectorField: string;
-  /**
-   * The number of dimensions in the vector.
-   */
-  Dimensions: number;
-  /**
-   * The metadata management fields.
-   */
-  MetadataManagement: MetadataManagementField[];
-}
-
-/**
- * Properties for the OpenSearchVectorIndex.
- */
-export interface OpenSearchVectorIndexProps {
-  /**
-   * The OpenSearch Vector Collection.
-   */
-  collection: OpenSearchVectorCollection;
-  /**
-   * The name of the index.
-   */
-  indexName: string;
-  /**
-   * The name of the vector field.
-   */
-  vectorField: string;
-  /**
-   * The number of dimensions in the vector.
-   */
-  vectorDimensions: number;
-  /**
-   * The metadata management fields.
-   */
-  mappings: MetadataManagementField[];
-}
-
-/**
- * Deploy a vector index on the collection.
- */
-export class OpenSearchVectorIndex extends Construct {
-  /**
-   * The vector index resource.
-   */
-  public vectorIndex: cdk.CustomResource;
-
-  constructor(
-    scope: Construct,
-    id: string,
-    props: OpenSearchVectorIndexProps,
-  ) {
-    super(scope, id);
-
-    const crProvider = AOSSCRProvider.getProvider(this);
-
-    this.vectorIndex = new cdk.CustomResource(this, 'VectorIndex', {
-      serviceToken: crProvider.serviceToken,
-      properties: {
-        Endpoint: `${props.collection.collection.attrId}.${cdk.Stack.of(this).region}.aoss.amazonaws.com`,
-        IndexName: props.indexName,
-        VectorField: props.vectorField,
-        Dimensions: props.vectorDimensions,
-        MetadataManagement: props.mappings,
-      } as VectorIndexProps,
-      resourceType: 'Custom::OpenSearchIndex',
-    });
-
-    this.vectorIndex.node.addDependency(props.collection.manageIndexPolicy);
-    this.vectorIndex.node.addDependency(props.collection.collection);
-  }
-
-}
-
-/**
- * Custom Resource provider for OpenSearch Serverless.
- *
- * @internal This is an internal core function and should not be called directly by Solutions Constructs clients.
- */
-export const AOSSCRProvider = buildCustomResourceProvider({
-  providerName: 'AOSSCRProvider',
-  codePath: path.join(
-    __dirname, '../../../lambda/opensearch-serverless-custom-resources'),
-  handler: 'custom_resources.on_event',
-  runtime: lambda.Runtime.PYTHON_3_12,
-});

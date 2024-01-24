@@ -17,8 +17,9 @@ import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import { BedrockCRProvider } from './custom-resources';
 import { BedrockFoundationModel } from './models';
-import { OpenSearchVectorCollection, OpenSearchVectorIndex } from '../../common/helpers/aoss-vector';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
+import { VectorIndex } from '../opensearch-vectorindex';
+import { VectorCollection } from '../opensearchserverless';
 
 /**
  * Bedrock foundation embeddings models supported by Bedrock Knowledge Bases.
@@ -94,7 +95,7 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
   /**
    * The vector store for the knowledge base.
    */
-  public readonly vectorStore: OpenSearchVectorCollection;
+  public readonly vectorStore: VectorCollection;
 
   /**
    * The custom resource that provisions the knowledge base.
@@ -168,10 +169,10 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
       resources: [embeddingsModel.asArn(this)],
     }));
 
-    this.vectorStore = new OpenSearchVectorCollection(this, 'KBVectors');
+    this.vectorStore = new VectorCollection(this, 'KBVectors');
     this.vectorStore.grantDataAccess(this.role);
 
-    const vectorIndex = new OpenSearchVectorIndex(this, 'KBIndex', {
+    const vectorIndex = new VectorIndex(this, 'KBIndex', {
       collection: this.vectorStore,
       indexName,
       vectorField,
@@ -192,7 +193,6 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
 
     vectorIndex.vectorIndex.node.addDependency(this.vectorStore.collection);
     vectorIndex.vectorIndex.node.addDependency(this.vectorStore.dataAccessPolicy);
-    vectorIndex.vectorIndex.node.addDependency(this.vectorStore.manageIndexPolicy);
 
     const crProvider = BedrockCRProvider.getProvider(this);
     this.knowledgeBase = new cdk.CustomResource(this, 'KB', {

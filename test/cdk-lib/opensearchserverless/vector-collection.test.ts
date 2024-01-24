@@ -14,21 +14,9 @@
 import * as cdk from 'aws-cdk-lib';
 import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 import * as iam from 'aws-cdk-lib/aws-iam';
-import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag';
-import { OpenSearchVectorCollection, OpenSearchVectorIndex } from '../../../src/common/helpers/aoss-vector';
+import { AwsSolutionsChecks } from 'cdk-nag';
+import { VectorCollection } from '../../../src/cdk-lib/opensearchserverless';
 
-// mock lambda.Code.fromDockerBuild()
-jest.mock('aws-cdk-lib/aws-lambda', () => {
-  const actualLambda = jest.requireActual('aws-cdk-lib/aws-lambda');
-  return {
-    ...actualLambda,
-    Code: {
-      ...actualLambda.Code,
-      fromDockerBuild: jest.fn(() => actualLambda.Code.fromInline('mockCode')),
-      fromAsset: jest.fn(() => actualLambda.Code.fromInline('mockCode')),
-    },
-  };
-});
 
 function setupStack() {
   const app = new cdk.App();
@@ -40,39 +28,9 @@ function setupStack() {
     },
   });
 
-  const aossVector = new OpenSearchVectorCollection(stack, 'test-aoss-vector');
+  const aossVector = new VectorCollection(stack, 'test-aoss-vector');
 
-  const aossVectorIndex = new OpenSearchVectorIndex(stack, 'test-aoss-vector-index', {
-    collection: aossVector,
-    indexName: 'test-index',
-    vectorField: 'vector',
-    vectorDimensions: 1536,
-    mappings: [
-      {
-        MappingField: 'AMAZON_BEDROCK_TEXT_CHUNK',
-        DataType: 'text',
-        Filterable: true,
-      },
-    ],
-  });
-
-  NagSuppressions.addResourceSuppressionsByPath(
-    stack,
-    '/test-stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole',
-    [
-      {
-        id: 'AwsSolutions-IAM4',
-        reason: 'CDK CustomResource LogRetention Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy. Managed by CDK.',
-      },
-      {
-        id: 'AwsSolutions-IAM5',
-        reason: 'CDK CustomResource LogRetention Lambda uses a wildcard to manage log streams created at runtime. Managed by CDK.',
-      },
-    ],
-    true,
-  );
-
-  return { app, stack, aossVector, aossVectorIndex };
+  return { app, stack, aossVector };
 }
 
 describe('OpenSearch Serverless Vector Store', () => {
@@ -89,15 +47,10 @@ describe('OpenSearch Serverless Vector Store', () => {
       template = Template.fromStack(stack);
     });
 
-    test('Should match snapshot', () => {
-      expect(template.toJSON()).toMatchSnapshot();
-    });
 
     test('Should have the correct resources', () => {
       template.resourceCountIs('AWS::OpenSearchServerless::Collection', 1);
-      template.resourceCountIs('Custom::OpenSearchIndex', 1);
-      template.resourceCountIs('AWS::OpenSearchServerless::AccessPolicy', 2);
-      template.resourceCountIs('AWS::Lambda::Function', 3);
+      template.resourceCountIs('AWS::OpenSearchServerless::AccessPolicy', 1);
     });
 
     test('DataAccessPolicy should be empty', () => {
@@ -141,8 +94,7 @@ describe('OpenSearch Serverless Vector Store', () => {
     let template: Template;
     let app: cdk.App;
     let stack: cdk.Stack;
-    let aossVector: OpenSearchVectorCollection;
-    let aossVectorIndex: OpenSearchVectorIndex;
+    let aossVector: VectorCollection;
     let testRole: iam.Role;
 
     beforeAll(() => {
@@ -150,9 +102,6 @@ describe('OpenSearch Serverless Vector Store', () => {
       app = s.app;
       stack = s.stack;
       aossVector = s.aossVector;
-      aossVectorIndex = s.aossVectorIndex;
-
-      aossVectorIndex.node.addDependency(aossVector.dataAccessPolicy);
 
       testRole = new iam.Role(stack, 'TestRole', {
         assumedBy: new iam.AccountRootPrincipal(),
@@ -164,15 +113,10 @@ describe('OpenSearch Serverless Vector Store', () => {
       template = Template.fromStack(stack);
     });
 
-    test('Should match snapshot', () => {
-      expect(template.toJSON()).toMatchSnapshot();
-    });
 
     test('Should have the correct resources', () => {
       template.resourceCountIs('AWS::OpenSearchServerless::Collection', 1);
-      template.resourceCountIs('Custom::OpenSearchIndex', 1);
-      template.resourceCountIs('AWS::OpenSearchServerless::AccessPolicy', 2);
-      template.resourceCountIs('AWS::Lambda::Function', 3);
+      template.resourceCountIs('AWS::OpenSearchServerless::AccessPolicy', 1);
     });
 
     test('DataAccessPolicy should allow testRole', () => {
