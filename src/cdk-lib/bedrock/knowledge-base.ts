@@ -22,25 +22,13 @@ import { VectorIndex } from '../opensearch-vectorindex';
 import { VectorCollection } from '../opensearchserverless';
 
 /**
- * Bedrock foundation embeddings models supported by Bedrock Knowledge Bases.
- *
- * If you need to use a model name that doesn't exist as a static member, you
- * can instantiate a `BedrockKBEmbeddingsModel` object, e.g: `new BedrockKBEmbeddingsModel('my-model')`.
- */
-export class BedrockKBEmbeddingsModel extends BedrockFoundationModel {
-  public static readonly TITAN_EMBED_TEXT_V1 = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
-  public static readonly COHERE_EMBED_ENGLISH_V3 = BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3;
-  public static readonly COHERE_EMBED_MULTILINGUAL_V3 = BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3;
-}
-
-/**
  * Properties for a knowledge base
  */
 export interface KnowledgeBaseProps {
   /**
    * The embeddings model for the knowledge base
    */
-  readonly embeddingsModel: BedrockKBEmbeddingsModel;
+  readonly embeddingsModel: BedrockFoundationModel;
 
   /**
    * A narrative description of the knowledge base.
@@ -116,6 +104,8 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
     const description = props.description ?? '';
     const indexName = props.indexName ?? 'bedrock-knowledge-base-default-index';
     const vectorField = props.vectorField ?? 'bedrock-knowledge-base-default-vector';
+
+    validateModel(embeddingsModel);
 
     this.name = generatePhysicalNameV2(
       this,
@@ -259,5 +249,16 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
     this.description = description;
     this.knowledgeBaseArn = knowledgeBase.getAttString('knowledgeBaseArn');
     this.knowledgeBaseId = knowledgeBase.getAttString('knowledgeBaseId');
+  }
+}
+
+/**
+ * Validate that Bedrock Knowledge Base can use the selected model.
+ *
+ * @internal This is an internal core function and should not be called directly.
+ */
+function validateModel(foundationModel: BedrockFoundationModel) {
+  if (!foundationModel.supportsKnowledgeBase) {
+    throw new Error(`The model ${foundationModel} is not supported by Bedrock Knowledge Base.`);
   }
 }

@@ -43,7 +43,7 @@ beforeAll(() => {
   });
   const bucket = new s3.Bucket(stack, 'DocBucket');
   kb = new bedrock.KnowledgeBase(stack, 'KB', {
-    embeddingsModel: bedrock.BedrockKBEmbeddingsModel.TITAN_EMBED_TEXT_V1,
+    embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
     description: 'Documentation about CDK constructs.',
   });
   new bedrock.S3DataSource(stack, 'DataSource', {
@@ -81,7 +81,7 @@ beforeAll(() => {
   };
 
   new bedrock.Agent(stack, 'Agent', {
-    foundationModel: bedrock.BedrockAgentsFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+    foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
     instruction: 'You provide support for developers working with CDK constructs.',
     knowledgeBases: [kb],
     idleSessionTTL: cdk.Duration.minutes(30),

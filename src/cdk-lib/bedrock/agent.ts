@@ -23,18 +23,6 @@ import { BedrockFoundationModel } from './models';
 
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 
-/**
- * Bedrock text foundation models supported by Bedrock Agents.
- *
- * If you need to use a model name that doesn't exist as a static member, you
- * can instantiate a `BedrockAgentsFoundationModel` object, e.g: `new BedrockAgentsFoundationModel('my-model')`.
- */
-export class BedrockAgentsFoundationModel extends BedrockFoundationModel {
-  public static readonly ANTHROPIC_CLAUDE_V2 = BedrockFoundationModel.ANTHROPIC_CLAUDE_V2;
-  public static readonly ANTHROPIC_CLAUDE_V2_1 = BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1;
-  public static readonly ANTHROPIC_CLAUDE_INSTANT_V1_2 = BedrockFoundationModel.ANTHROPIC_CLAUDE_INSTANT_V1_2;
-  public static readonly AMAZON_TITAN_TEXT_EXPRESS_V1 = BedrockFoundationModel.AMAZON_TITAN_TEXT_EXPRESS_V1;
-}
 
 /**
  * The step in the agent sequence that this prompt configuration applies to.
@@ -313,6 +301,8 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
     super(scope, id);
     validatePromptOverrideConfiguration(props.promptOverrideConfiguration);
 
+    validateModel(props.foundationModel);
+
     this.name = props.name ?? generatePhysicalNameV2(
       this,
       'bedrock-agent',
@@ -564,6 +554,17 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
     this.aliasArn = this.alias.getAttString('agentAliasArn');
     this.aliasName = this.alias.getAttString('agentAliasName');
 
+  }
+}
+
+/**
+ * Validate that Bedrock Agents can use the selected model.
+ *
+ * @internal This is an internal core function and should not be called directly.
+ */
+function validateModel(foundationModel: BedrockFoundationModel) {
+  if (!foundationModel.supportsAgents) {
+    throw new Error(`The model ${foundationModel} is not supported by Bedrock Agents.`);
   }
 }
 

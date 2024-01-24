@@ -39,7 +39,7 @@ describe('S3 Data Source', () => {
     stack = new cdk.Stack(app, 'TestStack');
     bucket = new s3.Bucket(stack, 'TestBucket');
     kb = new bedrock.KnowledgeBase(stack, 'KB', {
-      embeddingsModel: bedrock.BedrockKBEmbeddingsModel.TITAN_EMBED_TEXT_V1,
+      embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
     });
   });
 
