@@ -52,49 +52,49 @@ export enum ChunkingStrategy {
 /**
  * Properties for an S3 Data Source.
  */
-interface S3DataSourceProps {
+export interface S3DataSourceProps {
   /**
    * The knowledge base that this data source belongs to.
    */
-  knowledgeBase: KnowledgeBase;
+  readonly knowledgeBase: KnowledgeBase;
   /**
    * The name of the data source.
    */
-  dataSourceName: string;
+  readonly dataSourceName: string;
   /**
    * The bucket that contains the data source.
    */
-  bucket: s3.IBucket;
+  readonly bucket: s3.IBucket;
   /**
    * The prefixes of the objects in the bucket that should be included in the data source.
    *
    * @default - All objects in the bucket.
    */
-  inclusionPrefixes?: string[];
+  readonly inclusionPrefixes?: string[];
   /**
    * The chunking strategy to use.
    *
    * @default ChunkingStrategy.DEFAULT
    */
-  chunkingStrategy?: ChunkingStrategy;
+  readonly chunkingStrategy?: ChunkingStrategy;
   /**
    * The maximum number of tokens to use in a chunk.
    *
    * @default 300
    */
-  maxTokens?: number;
+  readonly maxTokens?: number;
   /**
    * The percentage of overlap to use in a chunk.
    *
    * @default 20
    */
-  overlapPercentage?: number;
+  readonly overlapPercentage?: number;
   /**
    * The KMS key to use to encrypt the data source.
    *
    * @default Amazon Bedrock encrypts your data with a key that AWS owns and manages
    */
-  kmsKey?: kms.IKey;
+  readonly kmsKey?: kms.IKey;
 }
 
 /**
@@ -139,7 +139,7 @@ export class S3DataSource extends Construct {
       serviceToken: crProvider.serviceToken,
       resourceType: 'Custom::Bedrock-DataSource',
       properties: {
-        knowledgeBaseId: knowledgeBase.kbId,
+        knowledgeBaseId: knowledgeBase.knowledgeBaseId,
         name: dataSourceName,
         dataSourceConfiguration: {
           type: 'S3',
@@ -177,7 +177,7 @@ export class S3DataSource extends Construct {
               resourceName: '*',
               arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
             }),
-            // knowledgeBase.kbArn,
+            // knowledgeBase.knowledgeBaseArn,
           ],
         }),
         new iam.PolicyStatement({

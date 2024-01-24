@@ -30,10 +30,10 @@ import { generatePhysicalNameV2 } from '../../common/helpers/utils';
  * can instantiate a `BedrockAgentsFoundationModel` object, e.g: `new BedrockAgentsFoundationModel('my-model')`.
  */
 export class BedrockAgentsFoundationModel extends BedrockFoundationModel {
-  public static ANTHROPIC_CLAUDE_V2 = BedrockFoundationModel.ANTHROPIC_CLAUDE_V2;
-  public static ANTHROPIC_CLAUDE_V2_1 = BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1;
-  public static ANTHROPIC_CLAUDE_INSTANT_V1_2 = BedrockFoundationModel.ANTHROPIC_CLAUDE_INSTANT_V1_2;
-  public static AMAZON_TITAN_TEXT_EXPRESS_V1 = BedrockFoundationModel.AMAZON_TITAN_TEXT_EXPRESS_V1;
+  public static readonly ANTHROPIC_CLAUDE_V2 = BedrockFoundationModel.ANTHROPIC_CLAUDE_V2;
+  public static readonly ANTHROPIC_CLAUDE_V2_1 = BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1;
+  public static readonly ANTHROPIC_CLAUDE_INSTANT_V1_2 = BedrockFoundationModel.ANTHROPIC_CLAUDE_INSTANT_V1_2;
+  public static readonly AMAZON_TITAN_TEXT_EXPRESS_V1 = BedrockFoundationModel.AMAZON_TITAN_TEXT_EXPRESS_V1;
 }
 
 /**
@@ -99,7 +99,7 @@ export interface InferenceConfiguration {
    * @min 0
    * @max 1
    */
-  temperature: number;
+  readonly temperature: number;
   /**
    * While generating a response, the model determines the probability of the
    * following token at each point of generation. The value that you set for
@@ -113,7 +113,7 @@ export interface InferenceConfiguration {
    * @min 0
    * @max 1
    */
-  topP: number;
+  readonly topP: number;
   /**
    * While generating a response, the model determines the probability of the
    * following token at each point of generation. The value that you set for
@@ -126,14 +126,14 @@ export interface InferenceConfiguration {
    * @min 0
    * @max 500
    */
-  topK: number;
+  readonly topK: number;
   /**
    * A list of stop sequences. A stop sequence is a sequence of characters that
    * causes the model to stop generating the response.
    *
    * @length 0-4
    */
-  stopSequences: string[];
+  readonly stopSequences: string[];
   /**
    * The maximum number of tokens to generate in the response.
    *
@@ -142,7 +142,7 @@ export interface InferenceConfiguration {
    * @min 0
    * @max 4096
    */
-  maximumLength: number;
+  readonly maximumLength: number;
 }
 
 /**
@@ -152,18 +152,18 @@ export interface PromptConfiguration {
   /**
    * The step in the agent sequence that this prompt configuration applies to.
    */
-  promptType: PromptType;
+  readonly promptType: PromptType;
   /**
    * Contains inference parameters to use when the agent invokes a foundation
    * model in the part of the agent sequence defined by the promptType.
    */
-  inferenceConfiguration: InferenceConfiguration;
+  readonly inferenceConfiguration: InferenceConfiguration;
   /**
    * Defines the prompt template with which to replace the default prompt template.
    *
    * @length 0-100000
    */
-  basePromptTemplate: string;
+  readonly basePromptTemplate: string;
   /**
    * Specifies whether to override the default parser Lambda function when
    * parsing the raw foundation model output in the part of the agent sequence
@@ -171,14 +171,14 @@ export interface PromptConfiguration {
    * overrideLambda field in the PromptOverrideConfiguration must be specified
    * with the ARN of a Lambda function.
    */
-  parserMode?: ParserMode;
+  readonly parserMode?: ParserMode;
   /**
    * Specifies whether to override the default prompt template for this
    * promptType. Set this value to OVERRIDDEN to use the prompt that you
    * provide in the basePromptTemplate. If you leave it as DEFAULT, the agent
    * uses a default prompt template.
    */
-  promptCreationMode: PromptCreationMode;
+  readonly promptCreationMode: PromptCreationMode;
   /**
    * Specifies whether to allow the agent to carry out the step specified in
    * the promptType. If you set this value to DISABLED, the agent skips that
@@ -189,7 +189,7 @@ export interface PromptConfiguration {
    *     KNOWLEDGE_BASE_RESPONSE_GENERATION – ENABLED
    *     POST_PROCESSING – DISABLED
    */
-  promptState: PromptState;
+  readonly promptState: PromptState;
 }
 
 /**
@@ -199,14 +199,14 @@ export interface PromptOverrideConfiguration {
   /**
    * Contains configurations to override a prompt template in one part of an agent sequence.
    */
-  promptConfigurations: PromptConfiguration[];
+  readonly promptConfigurations: PromptConfiguration[];
   /**
    * The ARN of the Lambda function to use when parsing the raw foundation
    * model output in parts of the agent sequence. If you specify this field,
    * at least one of the promptConfigurations must contain a parserMode value
    * that is set to OVERRIDDEN.
    */
-  overrideLambda?: string;
+  readonly overrideLambda?: string;
 }
 
 /**
@@ -216,55 +216,55 @@ export interface AgentProps {
   /**
    * The Bedrock text foundation model for the agent to use.
    */
-  foundationModel: BedrockFoundationModel;
+  readonly foundationModel: BedrockFoundationModel;
   /**
    * The name of the agent.
    *
    * @default - A name is automatically generated.
    */
-  name?: string;
+  readonly name?: string;
   /**
    * A narrative instruction to provide the agent as context.
    *
    * @default - No instruction is provided.
    */
-  instruction?: string;
+  readonly instruction?: string;
   /**
    * A description of the agent.
    *
    * @default - No description is provided.
    */
-  description?: string;
+  readonly description?: string;
   /**
    * Knowledge Bases to make available to the agent.
    *
    * @default - No knowledge base is used.
    */
-  knowledgeBases?: KnowledgeBase[];
+  readonly knowledgeBases?: KnowledgeBase[];
   /**
    * How long sessions should be kept open for the agent.
    *
    * @default - 1 hour
    */
-  idleSessionTTL?: cdk.Duration;
+  readonly idleSessionTTL?: cdk.Duration;
   /**
    * KMS encryption key to use for the agent.
    *
    * @default - An AWS managed key is used.
    */
-  encryptionKey?: kms.IKey;
+  readonly encryptionKey?: kms.IKey;
   /**
    * Overrides for the agent.
    *
    * @default - No overrides are provided.
    */
-  promptOverrideConfiguration?: PromptOverrideConfiguration;
+  readonly promptOverrideConfiguration?: PromptOverrideConfiguration;
   /**
    * Name of the alias for the agent.
    *
    * @default - 'prod'
    */
-  aliasName?: string;
+  readonly aliasName?: string;
 }
 
 /**
@@ -279,10 +279,6 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
    * The IAM role for the agent.
    */
   public readonly role: iam.Role;
-  /**
-   * The CFN custom resource for the agent.
-   */
-  public readonly agent: cdk.CustomResource;
   /**
    * The unique identifier of the agent.
    */
@@ -309,8 +305,6 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
   public readonly aliasName: string;
   /**
    * TagManager facilitates a common implementation of tagging for Constructs
-   *
-   * @internal - used for implementation of ITaggableV2
    */
   public readonly cdkTagManager =
     new cdk.TagManager(cdk.TagType.MAP, 'Custom::Bedrock-Agent');
@@ -371,7 +365,7 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
               'bedrock:UpdateKnowledgeBase',
               'bedrock:Retrieve',
             ],
-            resources: props.knowledgeBases.map(kb => kb.kbArn),
+            resources: props.knowledgeBases.map(kb => kb.knowledgeBaseArn),
           }),
         ],
       });
@@ -379,7 +373,7 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
 
     const crProvider = BedrockCRProvider.getProvider(this);
 
-    this.agent = new cdk.CustomResource(this, 'Agent', {
+    const agent = new cdk.CustomResource(this, 'Agent', {
       serviceToken: crProvider.serviceToken,
       resourceType: 'Custom::Bedrock-Agent',
       properties: {
@@ -395,8 +389,8 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
       },
     });
 
-    this.agentId = this.agent.getAttString('agentId');
-    this.agentArn = this.agent.getAttString('agentArn');
+    this.agentId = agent.getAttString('agentId');
+    this.agentArn = agent.getAttString('agentArn');
 
 
     const agentCRPolicy = new iam.Policy(this, 'AgentCRPolicy', {
@@ -428,8 +422,8 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
       ],
     });
 
-    this.agent.node.addDependency(agentCRPolicy);
-    this.agent.node.addDependency(crProvider);
+    agent.node.addDependency(agentCRPolicy);
+    agent.node.addDependency(crProvider);
 
     NagSuppressions.addResourceSuppressions(
       agentCRPolicy,
@@ -490,7 +484,7 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
           resourceType: 'Custom::Bedrock-AgentKnowledgeBase',
           properties: {
             agentId: this.agentId,
-            knowledgeBaseId: kb.kbId,
+            knowledgeBaseId: kb.knowledgeBaseId,
             description: kb.description,
           },
         },
@@ -500,7 +494,7 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
       kbAssociations.push(kbAssoc.getAttString('changeId'));
     }
 
-    const changeIds: string[] = [this.agent.getAttString('changeId')];
+    const changeIds: string[] = [agent.getAttString('changeId')];
 
     changeIds.push(...kbAssociations);
 

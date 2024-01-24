@@ -28,10 +28,9 @@ export class VectorCollection extends Construct {
   public collectionName: string;
 
   /**
-   * The OpenSearch Collection.
+   * The ID of the collection.
    */
-  public collection: oss.CfnCollection;
-
+  public collectionId: string;
   /**
    * The ARN of the collection.
    */
@@ -101,12 +100,13 @@ export class VectorCollection extends Construct {
       ]),
     });
 
-    this.collection = new oss.CfnCollection(this, 'VectorCollection', {
+    const collection = new oss.CfnCollection(this, 'VectorCollection', {
       name: this.collectionName,
       type: 'VECTORSEARCH',
     });
 
-    this.collectionArn = this.collection.attrArn;
+    this.collectionArn = collection.attrArn;
+    this.collectionId = collection.attrId;
 
     this.aossPolicy = new iam.ManagedPolicy(
       this,
@@ -117,14 +117,14 @@ export class VectorCollection extends Construct {
             actions: [
               'aoss:APIAccessAll',
             ],
-            resources: [this.collection.attrArn],
+            resources: [collection.attrArn],
           }),
         ],
       },
     );
 
-    this.collection.addDependency(encryptionPolicy);
-    this.collection.addDependency(networkPolicy);
+    collection.addDependency(encryptionPolicy);
+    collection.addDependency(networkPolicy);
 
 
     const isDataAccessPolicyNotEmpty = new cdk.CfnCondition(this, 'IsDataAccessPolicyNotEmpty', {

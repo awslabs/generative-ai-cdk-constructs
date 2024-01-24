@@ -21,14 +21,14 @@ import { IConstruct } from 'constructs';
  * can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationModel('my-model')`.
  */
 export class BedrockFoundationModel {
-  public static ANTHROPIC_CLAUDE_V2 = new BedrockFoundationModel('anthropic.claude-v2');
-  public static ANTHROPIC_CLAUDE_V2_1 = new BedrockFoundationModel('anthropic.claude-v2:1');
-  public static ANTHROPIC_CLAUDE_INSTANT_V1_2 = new BedrockFoundationModel('anthropic.claude-instant-v1');
-  public static AMAZON_TITAN_TEXT_EXPRESS_V1 = new BedrockFoundationModel('amazon.titan-text-express-v1');
+  public static readonly ANTHROPIC_CLAUDE_V2 = new BedrockFoundationModel('anthropic.claude-v2');
+  public static readonly ANTHROPIC_CLAUDE_V2_1 = new BedrockFoundationModel('anthropic.claude-v2:1');
+  public static readonly ANTHROPIC_CLAUDE_INSTANT_V1_2 = new BedrockFoundationModel('anthropic.claude-instant-v1');
+  public static readonly AMAZON_TITAN_TEXT_EXPRESS_V1 = new BedrockFoundationModel('amazon.titan-text-express-v1');
 
-  public static TITAN_EMBED_TEXT_V1 = new BedrockFoundationModel('amazon.titan-embed-text-v1');
-  public static COHERE_EMBED_ENGLISH_V3 = new BedrockFoundationModel('cohere.embed-english-v3');
-  public static COHERE_EMBED_MULTILINGUAL_V3 = new BedrockFoundationModel('cohere.embed-multilingual-v3');
+  public static readonly TITAN_EMBED_TEXT_V1 = new BedrockFoundationModel('amazon.titan-embed-text-v1');
+  public static readonly COHERE_EMBED_ENGLISH_V3 = new BedrockFoundationModel('cohere.embed-english-v3');
+  public static readonly COHERE_EMBED_MULTILINGUAL_V3 = new BedrockFoundationModel('cohere.embed-multilingual-v3');
 
   constructor(public value: string) {}
 

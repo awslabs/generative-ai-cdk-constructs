@@ -22,45 +22,68 @@ import { VectorCollection } from '../opensearchserverless';
 /**
  * Metadata field definitions.
  */
-export interface MetadataManagementField {
+export interface MetadataManagementFieldProps {
   /**
    * The name of the field.
    */
-  MappingField: string;
+  readonly mappingField: string;
   /**
    * The data type of the field.
    */
-  DataType: string;
+  readonly dataType: string;
   /**
    * Whether the field is filterable.
    */
-  Filterable: boolean;
+  readonly filterable: boolean;
+}
+
+/**
+ * Metadata field definitions as the API expects them.
+ *
+ * @internal - JSII requires the exported interface to have camel camelCase properties,
+ * but the API expect PascalCase properties
+ */
+type MetadataManagementField = {
+  /**
+   * The name of the field.
+   */
+  readonly MappingField: string;
+  /**
+   * The data type of the field.
+   */
+  readonly DataType: string;
+  /**
+   * Whether the field is filterable.
+   */
+  readonly Filterable: boolean;
 }
 
 /**
  * Properties for the Custom::OpenSearchIndex custom resource.
+ *
+ * @internal
  */
 interface VectorIndexResourceProps {
   /**
    * The OpenSearch Endpoint.
    */
-  Endpoint: string;
+  readonly Endpoint: string;
   /**
    * The name of the index.
    */
-  IndexName: string;
+  readonly IndexName: string;
   /**
    * The name of the vector field.
    */
-  VectorField: string;
+  readonly VectorField: string;
   /**
    * The number of dimensions in the vector.
    */
-  Dimensions: number;
+  readonly Dimensions: number;
   /**
    * The metadata management fields.
    */
-  MetadataManagement: MetadataManagementField[];
+  readonly MetadataManagement: MetadataManagementField[];
 }
 
 /**
@@ -70,34 +93,29 @@ export interface VectorIndexProps {
   /**
    * The OpenSearch Vector Collection.
    */
-  collection: VectorCollection;
+  readonly collection: VectorCollection;
   /**
    * The name of the index.
    */
-  indexName: string;
+  readonly indexName: string;
   /**
    * The name of the vector field.
    */
-  vectorField: string;
+  readonly vectorField: string;
   /**
    * The number of dimensions in the vector.
    */
-  vectorDimensions: number;
+  readonly vectorDimensions: number;
   /**
    * The metadata management fields.
    */
-  mappings: MetadataManagementField[];
+  readonly mappings: MetadataManagementFieldProps[];
 }
 
 /**
  * Deploy a vector index on the collection.
  */
-export class VectorIndex extends Construct {
-  /**
-   * The vector index resource.
-   */
-  public vectorIndex: cdk.CustomResource;
-
+export class VectorIndex extends cdk.Resource {
   constructor(
     scope: Construct,
     id: string,
@@ -144,20 +162,27 @@ export class VectorIndex extends Construct {
     });
 
 
-    this.vectorIndex = new cdk.CustomResource(this, 'VectorIndex', {
+    const vectorIndex = new cdk.CustomResource(this, 'VectorIndex', {
       serviceToken: crProvider.serviceToken,
       properties: {
-        Endpoint: `${props.collection.collection.attrId}.${cdk.Stack.of(this).region}.aoss.amazonaws.com`,
+        Endpoint: `${props.collection.collectionId}.${cdk.Stack.of(this).region}.aoss.amazonaws.com`,
         IndexName: props.indexName,
         VectorField: props.vectorField,
         Dimensions: props.vectorDimensions,
-        MetadataManagement: props.mappings,
+        MetadataManagement: props.mappings.map((m) => {
+          return {
+            MappingField: m.mappingField,
+            DataType: m.dataType,
+            Filterable: m.filterable,
+          };
+        }),
       } as VectorIndexResourceProps,
       resourceType: 'Custom::OpenSearchIndex',
     });
 
-    this.vectorIndex.node.addDependency(manageIndexPolicy);
-    this.vectorIndex.node.addDependency(props.collection.collection);
+    vectorIndex.node.addDependency(manageIndexPolicy);
+    vectorIndex.node.addDependency(props.collection);
+    vectorIndex.node.addDependency(props.collection.dataAccessPolicy);
   }
 
 }

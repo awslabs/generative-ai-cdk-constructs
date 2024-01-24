@@ -826,6 +826,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       "DeletionPolicy": "Delete",
       "DependsOn": [
         "KBKBCRPolicy1B1408B9",
+        "KBKBIndexManageIndexPolicy12CCDA73",
         "KBKBIndexVectorIndexB98E4DB1",
         "KBRoleDefaultPolicy1639354E",
         "KBRole081DC46D",
@@ -934,6 +935,9 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       "Type": "AWS::IAM::Policy",
     },
     "KBKBIndexManageIndexPolicy12CCDA73": {
+      "DependsOn": [
+        "KBKBVectorsDataAccessPolicyA8410509",
+      ],
       "Properties": {
         "Name": "manageindexpolicytesdexe5888a45",
         "Policy": {
@@ -959,7 +963,10 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       "DeletionPolicy": "Delete",
       "DependsOn": [
         "KBKBIndexManageIndexPolicy12CCDA73",
+        "KBKBVectorsAOSSApiAccessAllB0CB4242",
         "KBKBVectorsDataAccessPolicyA8410509",
+        "KBKBVectorsEncryptionPolicy08206F7B",
+        "KBKBVectorsNetworkPolicy7FBE0E2B",
         "KBKBVectorsVectorCollectionFFF498C9",
       ],
       "Properties": {

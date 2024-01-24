@@ -58,9 +58,9 @@ describe('OpenSearch Serverless Vector Index', () => {
       vectorDimensions: 1536,
       mappings: [
         {
-          MappingField: 'AMAZON_BEDROCK_TEXT_CHUNK',
-          DataType: 'text',
-          Filterable: true,
+          mappingField: 'AMAZON_BEDROCK_TEXT_CHUNK',
+          dataType: 'text',
+          filterable: true,
         },
       ],
     });

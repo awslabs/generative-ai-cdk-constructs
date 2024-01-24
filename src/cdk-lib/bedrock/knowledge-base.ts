@@ -28,18 +28,10 @@ import { VectorCollection } from '../opensearchserverless';
  * can instantiate a `BedrockKBEmbeddingsModel` object, e.g: `new BedrockKBEmbeddingsModel('my-model')`.
  */
 export class BedrockKBEmbeddingsModel extends BedrockFoundationModel {
-  public static TITAN_EMBED_TEXT_V1 = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
-  public static COHERE_EMBED_ENGLISH_V3 = BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3;
-  public static COHERE_EMBED_MULTILINGUAL_V3 = BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3;
+  public static readonly TITAN_EMBED_TEXT_V1 = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
+  public static readonly COHERE_EMBED_ENGLISH_V3 = BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3;
+  public static readonly COHERE_EMBED_MULTILINGUAL_V3 = BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3;
 }
-
-
-// export interface KnowledgeBaseProps {
-//   embeddingsModel: BedrockKBEmbeddingsModel;
-//   description?: string;
-//   indexName?: string;
-//   vectorField?: string;
-// }
 
 /**
  * Properties for a knowledge base
@@ -48,7 +40,7 @@ export interface KnowledgeBaseProps {
   /**
    * The embeddings model for the knowledge base
    */
-  embeddingsModel: BedrockKBEmbeddingsModel;
+  readonly embeddingsModel: BedrockKBEmbeddingsModel;
 
   /**
    * A narrative description of the knowledge base.
@@ -58,21 +50,21 @@ export interface KnowledgeBaseProps {
    *
    * @default - No description provided.
    */
-  description?: string;
+  readonly description?: string;
 
   /**
    * The name of the vector index.
    *
    * @default - 'bedrock-knowledge-base-default-index'
    */
-  indexName?: string;
+  readonly indexName?: string;
 
   /**
    * The name of the field in the vector index.
    *
    * @default - 'bedrock-knowledge-base-default-vector'
    */
-  vectorField?: string;
+  readonly vectorField?: string;
 }
 
 /**
@@ -98,11 +90,6 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
   public readonly vectorStore: VectorCollection;
 
   /**
-   * The custom resource that provisions the knowledge base.
-   */
-  public readonly knowledgeBase: cdk.CustomResource;
-
-  /**
    * A narrative description of the knowledge base.
    */
   public readonly description: string;
@@ -110,17 +97,15 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
   /**
    * The ARN of the knowledge base.
    */
-  public readonly kbArn: string;
+  public readonly knowledgeBaseArn: string;
 
   /**
    * The ID of the knowledge base.
    */
-  public readonly kbId: string;
+  public readonly knowledgeBaseId: string;
 
   /**
    * TagManager facilitates a common implementation of tagging for Constructs
-   *
-   * @internal - used for implementation of ITaggableV2
    */
   public readonly cdkTagManager =
     new cdk.TagManager(cdk.TagType.MAP, 'Custom::Bedrock-KnowledgeBase');
@@ -179,23 +164,22 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
       vectorDimensions: 1536,
       mappings: [
         {
-          MappingField: 'AMAZON_BEDROCK_TEXT_CHUNK',
-          DataType: 'text',
-          Filterable: true,
+          mappingField: 'AMAZON_BEDROCK_TEXT_CHUNK',
+          dataType: 'text',
+          filterable: true,
         },
         {
-          MappingField: 'AMAZON_BEDROCK_METADATA',
-          DataType: 'text',
-          Filterable: false,
+          mappingField: 'AMAZON_BEDROCK_METADATA',
+          dataType: 'text',
+          filterable: false,
         },
       ],
     });
 
-    vectorIndex.vectorIndex.node.addDependency(this.vectorStore.collection);
-    vectorIndex.vectorIndex.node.addDependency(this.vectorStore.dataAccessPolicy);
+    vectorIndex.node.addDependency(this.vectorStore.dataAccessPolicy);
 
     const crProvider = BedrockCRProvider.getProvider(this);
-    this.knowledgeBase = new cdk.CustomResource(this, 'KB', {
+    const knowledgeBase = new cdk.CustomResource(this, 'KB', {
       serviceToken: crProvider.serviceToken,
       resourceType: 'Custom::Bedrock-KnowledgeBase',
       properties: {
@@ -257,9 +241,9 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
       ],
     });
 
-    this.knowledgeBase.node.addDependency(this.role);
-    this.knowledgeBase.node.addDependency(kbCRPolicy);
-    this.knowledgeBase.node.addDependency(vectorIndex.vectorIndex);
+    knowledgeBase.node.addDependency(this.role);
+    knowledgeBase.node.addDependency(kbCRPolicy);
+    knowledgeBase.node.addDependency(vectorIndex);
 
     NagSuppressions.addResourceSuppressions(
       kbCRPolicy,
@@ -273,7 +257,7 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
     );
 
     this.description = description;
-    this.kbArn = this.knowledgeBase.getAttString('knowledgeBaseArn');
-    this.kbId = this.knowledgeBase.getAttString('knowledgeBaseId');
+    this.knowledgeBaseArn = knowledgeBase.getAttString('knowledgeBaseArn');
+    this.knowledgeBaseId = knowledgeBase.getAttString('knowledgeBaseId');
   }
 }
