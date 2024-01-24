@@ -15,6 +15,7 @@
 | **Language**     | **Package**        |
 |:-------------|-----------------|
 |![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@cdklabs/generative-ai-cdk-constructs`|
+|![Python Logo](https://docs.aws.amazon.com/cdk/api/latest/img/python32.png) Python|`cdklabs.generative_ai_cdk_constructs`|
 
 ## Table of contents
 
@@ -55,6 +56,7 @@ Here is a minimal deployable pattern definition:
 
 Create a CDK TypeScript project and then update the stack with below configuration.
 
+Typescript
 ``` typescript
 import { Construct } from 'constructs';
 import { Stack, StackProps } from 'aws-cdk-lib';
@@ -72,6 +74,31 @@ summarizationTestConstruct = new SummarizationAppsyncStepfn(
         cognitoUserPool: userPoolLoaded
     });
     
+```
+
+Python
+``` python
+from constructs import Construct
+from aws_cdk import (
+    aws_cognito as cognito,
+)
+from cdklabs.generative_ai_cdk_constructs import (
+    SummarizationAppsyncStepfn,
+)
+
+# get an existing userpool 
+cognito_pool_id = 'us-east-1_XXXXX';
+user_pool_loaded = cognito.UserPool.from_user_pool_id(
+    self,
+    id='myuserpool',
+    user_pool_id=cognito_pool_id,
+)
+
+summarization_test_construct = SummarizationAppsyncStepfn(
+    self, 
+    'SummarizationAppsyncStepfn', 
+    cognito_user_pool=user_pool_loaded,
+)
 ```
 
 For optional props like Redis cluster set cfnCacheClusterProps.
