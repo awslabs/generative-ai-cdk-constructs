@@ -18,7 +18,7 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 
-import { BedrockCRProvider } from './custom-resources';
+import { BedrockCRProvider } from './custom-resource-provider';
 import { KnowledgeBase } from './knowledge-base';
 
 const CHUNKING_OVERLAP = 20;

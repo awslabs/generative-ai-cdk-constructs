@@ -15,7 +15,7 @@ import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
-import { BedrockCRProvider } from './custom-resources';
+import { BedrockCRProvider } from './custom-resource-provider';
 import { BedrockFoundationModel } from './models';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 import { VectorIndex } from '../opensearch-vectorindex';

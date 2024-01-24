@@ -17,7 +17,7 @@ import * as kms from 'aws-cdk-lib/aws-kms';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 
-import { BedrockCRProvider } from './custom-resources';
+import { BedrockCRProvider } from './custom-resource-provider';
 import { KnowledgeBase } from './knowledge-base';
 import { BedrockFoundationModel } from './models';
 
