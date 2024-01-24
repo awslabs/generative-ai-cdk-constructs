@@ -72,8 +72,8 @@ The following constructs are available in the library:
 | **Construct** |Description| AWS Services used |
 |:-------------|:-------------|:-------------|
 | [Data ingestion pipeline](./src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/) | Ingestion pipeline providing a RAG (retrieval augmented generation) source for storing documents in a knowledge base. | Amazon OpenSearch, AWS Step Functions, Amazon Bedrock, AWS AppSync, AWS Lambda | 
-| [Question answering](./src/patterns/gen-ai/aws-qa-appsync-opensearch/) | Question answering with a large language model (Anthropic Claude V2) using a RAG (retrieval augmented generation) source and/or long context. | Amazon OpenSearch, AWS Lambda, Amazon Bedrock, AWS AppSync | 
-| [Summarization](./src/patterns/gen-ai/aws-summarization-appsync-stepfn/) | Document summarization with a large language model (Anthropic Claude V2). | AWS Lambda, Amazon Bedrock, AWS AppSync and Amazon Elasticache for Redis.  |
+| [Question answering](./src/patterns/gen-ai/aws-qa-appsync-opensearch/) | Question answering with a large language model (Anthropic Claude V2.1) using a RAG (retrieval augmented generation) source and/or long context. | Amazon OpenSearch, AWS Lambda, Amazon Bedrock, AWS AppSync | 
+| [Summarization](./src/patterns/gen-ai/aws-summarization-appsync-stepfn/) | Document summarization with a large language model (Anthropic Claude V2.1). | AWS Lambda, Amazon Bedrock, AWS AppSync and Amazon Elasticache for Redis.  |
 | [Lambda layer](./src/patterns/gen-ai/aws-langchain-common-layer/) | Python Lambda layer providing dependencies and utilities to develop generative AI applications on AWS. | AWS Lambda, Amazon Bedrock, Amazon SageMaker | 
 | [SageMaker model deployment (Jumpstart)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_jumpstart.md) | Deploy a foundation model from Amazon SageMaker JumpStart to an Amazon SageMaker endpoint. | Amazon SageMaker | 
 | [SageMaker model deployment (Hugging Face)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_hugging_face.md) | Deploy a foundation model from Hugging Face to an Amazon SageMaker endpoint. | Amazon SageMaker | 
