@@ -141,7 +141,7 @@ An example of an event:
 event = {
   "connection_id": "234",
   "provider": "bedrock",
-  "model_id": "anthropic.claude-v2",
+  "model_id": "anthropic.claude-v2:1",
   "session_id": "123",
   "user_id": "873",
   "text": "What is your name ?",
@@ -289,7 +289,7 @@ The following table provides a sample cost breakdown for deploying this solution
 | **AWS Service**     | **Dimensions**        | **Cost [USD]** |
 |:-------------|:----------------|-----------------|
 | AWS Lambda | 1 Lambda function with 128 MB memory and 512 MB ephemeral storage with an average duration of 10 seconds | 0.00 |
-| Amazon Bedrock | An application developer makes the following API calls to Amazon Bedrock: A request to Anthropic’s Claude V2 model to summarize an input of 11K tokens of input text to an output of 4K tokens. Total cost incurred is = 11K tokens/1000 * $0.01102 + 4K tokens/1000 * $0.03268 = $0.25 | 0.25 |
+| Amazon Bedrock | An application developer makes the following API calls to Amazon Bedrock: A request to Anthropic’s Claude V2.1 model to summarize an input of 11K tokens of input text to an output of 4K tokens. Total cost incurred is = 11K tokens/1000 * $0.01102 + 4K tokens/1000 * $0.03268 = $0.25 | 0.25 |
 | Total monthly cost | | 0.25 |
 
 > **Note**
