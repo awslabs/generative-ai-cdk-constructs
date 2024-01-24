@@ -22,6 +22,7 @@ from helpers.opensearch_helper import check_if_index_exists, process_shard
 from helpers.update_ingestion_status import updateIngestionJobStatus
 from langchain.embeddings import BedrockEmbeddings
 from helpers.s3inmemoryloader import S3TxtFileLoaderInMemory
+from opensearchpy import OpenSearch, RequestsHttpConnection
 from langchain.vectorstores import OpenSearchVectorSearch
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import multiprocessing as mp
@@ -75,6 +76,7 @@ opensearch_secret_id = os.environ['OPENSEARCH_SECRET_ID']
 bucket_name = os.environ['OUTPUT_BUCKET']
 opensearch_index = os.environ['OPENSEARCH_INDEX']
 opensearch_domain = os.environ['OPENSEARCH_DOMAIN_ENDPOINT']
+opensearch_api_name = os.environ['OPENSEARCH_API_NAME']
 
 DATA_DIR = tempfile.gettempdir()
 CHUNCK_SIZE_DOC_SPLIT=500
@@ -84,6 +86,97 @@ TOTAL_INDEX_CREATION_WAIT_TIME = 1
 PER_ITER_SLEEP_TIME = 5
 PROCESS_COUNT=5
 INDEX_FILE="index_file"
+
+def process_documents_in_es(index_exists, shards, http_auth):
+    bedrock_client = get_bedrock_client()
+    embeddings = BedrockEmbeddings(client=bedrock_client)
+
+    if index_exists is False:
+        # create an index if the create index hint file exists
+        path = os.path.join(DATA_DIR, INDEX_FILE)
+        if os.path.isfile(path) is True:
+            print(f"index {opensearch_index} does not exist but {path} file is present so will create index")
+            # by default langchain would create a k-NN index and the embeddings would be ingested as a k-NN vector type
+            docsearch = OpenSearchVectorSearch.from_documents(index_name=opensearch_index,
+                                                                documents=shards[0],
+                                                                embedding=embeddings,
+                                                                opensearch_url=opensearch_domain,
+                                                                http_auth=http_auth)
+            # we now need to start the loop below for the second shard
+            shard_start_index = 1
+        else:
+            print(f"index {opensearch_index} does not exist and {path} file is not present, "
+                        f"will wait for some other node to create the index")
+            shard_start_index = 0
+            # start a loop to wait for index creation by another node
+            time_slept = 0
+            while True:
+                print(f"index {opensearch_index} still does not exist, sleeping...")
+                time.sleep(PER_ITER_SLEEP_TIME)
+                index_exists = check_if_index_exists(opensearch_index,
+                                                        aws_region,
+                                                        opensearch_domain,
+                                                        http_auth)
+                if index_exists is True:
+                    print(f"index {opensearch_index} now exists")
+                    break
+                time_slept += PER_ITER_SLEEP_TIME
+                if time_slept >= TOTAL_INDEX_CREATION_WAIT_TIME:
+                    print(f"time_slept={time_slept} >= {TOTAL_INDEX_CREATION_WAIT_TIME}, not waiting anymore for index creation")
+                    break
+
+    else:
+        print(f"index={opensearch_index} does exists, going to call add_documents")
+        shard_start_index = 0
+
+    for shard in shards[shard_start_index:]:
+        results = process_shard(shard=shard,
+                    os_index_name=opensearch_index,
+                    os_domain_ep=opensearch_domain,
+                    os_http_auth=http_auth)
+
+def process_documents_in_aoss(index_exists, shards, http_auth):
+    if index_exists is False:
+        vector_db = OpenSearch(
+            hosts = [{'host': opensearch_domain.replace("https://", ""), 'port': 443}],
+            http_auth = http_auth,
+            use_ssl = True,
+            verify_certs = True,
+            connection_class = RequestsHttpConnection
+        )
+        index_body = {
+            'settings': {
+                "index.knn": True
+            },
+            "mappings": {
+                "properties": {
+                "osha_vector": {
+                    "type": "knn_vector",
+                    "dimension": 1536,
+                    "method": {
+                    "engine": "faiss",
+                    "name": "hnsw",
+                    "space_type": "l2"
+                    }
+                }
+                }
+            }
+        }
+        response = vector_db.indices.create(opensearch_index, body=index_body)
+        print(response)
+
+    print(f"index={opensearch_index} Adding Documents")
+    bedrock_client = get_bedrock_client()
+    embeddings = BedrockEmbeddings(client=bedrock_client, model_id="amazon.titan-embed-text-v1")
+    docsearch = OpenSearchVectorSearch(index_name=opensearch_index,
+                                       embedding_function=embeddings,
+                                       opensearch_url=opensearch_domain,
+                                       http_auth=http_auth,
+                                       use_ssl = True,
+                                       verify_certs = True,
+                                       connection_class = RequestsHttpConnection)
+    for shard in shards:
+        docsearch.add_documents(documents=shard)
 
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler
@@ -100,7 +193,7 @@ def handler(event,  context: LambdaContext) -> dict:
             credentials.access_key,
             credentials.secret_key,
             aws_region,
-            'es',
+            opensearch_api_name,
             session_token=credentials.token
         )
     job_id = event[0]['s3_transformer_result']['Payload']['jobid']
@@ -171,52 +264,11 @@ def handler(event,  context: LambdaContext) -> dict:
             'status':'failed'
         }
 
-    bedrock_client = get_bedrock_client()
-    embeddings = BedrockEmbeddings(client=bedrock_client)
+    if opensearch_api_name == "es":
+        process_documents_in_es(index_exists, shards, http_auth)
+    elif opensearch_api_name == "aoss":
+        process_documents_in_aoss(index_exists, shards, http_auth)
 
-    if index_exists is False:
-        # create an index if the create index hint file exists
-        path = os.path.join(DATA_DIR, INDEX_FILE)
-        if os.path.isfile(path) is True:
-            print(f"index {opensearch_index} does not exist but {path} file is present so will create index")
-            # by default langchain would create a k-NN index and the embeddings would be ingested as a k-NN vector type
-            docsearch = OpenSearchVectorSearch.from_documents(index_name=opensearch_index,
-                                                                documents=shards[0],
-                                                                embedding=embeddings,
-                                                                opensearch_url=opensearch_domain,
-                                                                http_auth=http_auth)
-            # we now need to start the loop below for the second shard
-            shard_start_index = 1
-        else:
-            print(f"index {opensearch_index} does not exist and {path} file is not present, "
-                        f"will wait for some other node to create the index")
-            shard_start_index = 0
-            # start a loop to wait for index creation by another node
-            time_slept = 0
-            while True:
-                print(f"index {opensearch_index} still does not exist, sleeping...")
-                time.sleep(PER_ITER_SLEEP_TIME)
-                index_exists = check_if_index_exists(opensearch_index,
-                                                        aws_region,
-                                                        opensearch_domain,
-                                                        http_auth)
-                if index_exists is True:
-                    print(f"index {opensearch_index} now exists")
-                    break
-                time_slept += PER_ITER_SLEEP_TIME
-                if time_slept >= TOTAL_INDEX_CREATION_WAIT_TIME:
-                    print(f"time_slept={time_slept} >= {TOTAL_INDEX_CREATION_WAIT_TIME}, not waiting anymore for index creation")
-                    break
-
-    else:
-        print(f"index={opensearch_index} does exists, going to call add_documents")
-        shard_start_index = 0
-
-    for shard in shards[shard_start_index:]:
-        results = process_shard(shard=shard,
-                    os_index_name=opensearch_index,
-                    os_domain_ep=opensearch_domain,
-                    os_http_auth=http_auth)
 
     for file in files:
         if file['status'] == 'File transformed':

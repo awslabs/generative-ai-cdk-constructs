@@ -72,13 +72,7 @@ aws_auth_appsync = AWS4Auth(
     session_token=credentials.token,
 )
 
-aws_auth_os = AWS4Auth(
-    credentials.access_key,
-    credentials.secret_key,
-    aws_region,
-    'es',
-    session_token=credentials.token,
-)
+
 
 def get_credentials(secret_id: str, region_name: str) -> str:
     client = boto3.client('secretsmanager', region_name=region_name)
@@ -93,6 +87,7 @@ def get_credentials_string(secret_id: str, region_name: str) -> str:
     return secrets_value
 
 def load_vector_db_opensearch(region: str,
+                              opensearch_api_name: str,
                               opensearch_domain_endpoint: str,
                               opensearch_index: str,
                               secret_id: str) -> OpenSearchVectorSearch:
@@ -105,8 +100,13 @@ def load_vector_db_opensearch(region: str,
         creds = get_credentials(secret_id, aws_region)
         http_auth = (creds['username'], creds['password'])
     else: # sigv4
-        http_auth = aws_auth_os
-
+        http_auth = AWS4Auth(
+            credentials.access_key,
+            credentials.secret_key,
+            aws_region,
+            opensearch_api_name,
+            session_token=credentials.token,
+        )
     embedding_function = get_embeddings_llm()
 
     vector_db = OpenSearchVectorSearch(index_name=opensearch_index,
@@ -115,8 +115,7 @@ def load_vector_db_opensearch(region: str,
                                        http_auth=http_auth,
                                        use_ssl = True,
                                        verify_certs = True,
-                                       connection_class = RequestsHttpConnection,
-                                       is_aoss=False)
+                                       connection_class = RequestsHttpConnection)
     print(f"returning handle to OpenSearchVectorSearch, vector_db={vector_db}")
     return vector_db
 

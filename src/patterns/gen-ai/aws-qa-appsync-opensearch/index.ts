@@ -20,11 +20,13 @@ import * as targets from 'aws-cdk-lib/aws-events-targets';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as logs from 'aws-cdk-lib/aws-logs';
+import * as openSearchServerless from 'aws-cdk-lib/aws-opensearchserverless';
 import * as opensearchservice from 'aws-cdk-lib/aws-opensearchservice';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as secret from 'aws-cdk-lib/aws-secretsmanager';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
+import * as opensearch_helper from '../../../common/helpers/opensearch-helper';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
 import { version } from '../../../common/helpers/utils';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
@@ -79,7 +81,13 @@ export interface QaAppsyncOpensearchProps {
    *
    * @default - None
    */
-  readonly existingOpensearchDomain: opensearchservice.IDomain;
+  readonly existingOpensearchDomain?: opensearchservice.IDomain;
+  /**
+   * Existing Amazon Amazon OpenSearch Serverless collection.
+   *
+   * @default - None
+   */
+  readonly existingOpensearchServerlessCollection?: openSearchServerless.CfnCollection;
   /**
    * Data Index name for the OpenSearch Service.
    *
@@ -449,27 +457,39 @@ export class QaAppsyncOpensearch extends Construct {
       }),
     );
 
-    question_answering_function_role.addToPolicy(
-      new iam.PolicyStatement({
+    if (props.existingOpensearchDomain) {
+      question_answering_function_role.addToPolicy(
+        new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          actions: ['es:*'],
+          resources: [
+            'arn:aws:es:' +
+              Aws.REGION +
+              ':' +
+              Aws.ACCOUNT_ID +
+              ':domain/' +
+              props.existingOpensearchDomain.domainName +
+              '/*',
+            'arn:aws:es:' +
+              Aws.REGION +
+              ':' +
+              Aws.ACCOUNT_ID +
+              ':domain/' +
+              props.existingOpensearchDomain.domainName,
+          ],
+        }),
+      );
+    }
+
+    if (props.existingOpensearchServerlessCollection) {
+      question_answering_function_role.addToPolicy(new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
-        actions: ['es:*'],
+        actions: ['aoss:APIAccessAll'],
         resources: [
-          'arn:aws:es:' +
-            Aws.REGION +
-            ':' +
-            Aws.ACCOUNT_ID +
-            ':domain/' +
-            props.existingOpensearchDomain.domainName +
-            '/*',
-          'arn:aws:es:' +
-            Aws.REGION +
-            ':' +
-            Aws.ACCOUNT_ID +
-            ':domain/' +
-            props.existingOpensearchDomain.domainName,
+          'arn:aws:aoss:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':collection/'+props.openSearchIndexName,
         ],
-      }),
-    );
+      }));
+    }
 
     // Add Amazon Bedrock permissions to the IAM role for the Lambda function
     question_answering_function_role.addToPolicy(
@@ -519,8 +539,8 @@ export class QaAppsyncOpensearch extends Construct {
         environment: {
           GRAPHQL_URL: updateGraphQlApiEndpoint,
           INPUT_BUCKET: this.s3InputAssetsBucketInterface.bucketName,
-          OPENSEARCH_DOMAIN_ENDPOINT:
-            props.existingOpensearchDomain.domainEndpoint,
+          OPENSEARCH_API_NAME: opensearch_helper.getOpenSearchApiName(props),
+          OPENSEARCH_DOMAIN_ENDPOINT: opensearch_helper.getOpenSearchEndpoint(props),
           OPENSEARCH_INDEX: props.openSearchIndexName,
           OPENSEARCH_SECRET_ID: SecretId,
         },
