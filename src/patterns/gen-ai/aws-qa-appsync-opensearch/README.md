@@ -180,9 +180,13 @@ Parameters
 
 ## Pattern Construct Props
 
+> **Note:** One of either ```existingOpensearchDomain``` or ```existingOpensearchServerlessCollection``` must be specified, but not both.
+
+
 | **Name**     | **Type**        | **Required** |**Description** |
 |:-------------|:----------------|-----------------|-----------------|
-| existingOpenSearchDomain | [opensearchservice.IDomain](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_opensearchservice.IDomain.html)| ![Required](https://img.shields.io/badge/required-ff0000) | Existing domain for the OpenSearch Service. |
+| existingOpensearchDomain | [opensearchservice.IDomain](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_opensearchservice.IDomain.html)| ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing domain for the OpenSearch Service. **Mutually exclusive** with ```existingOpensearchServerlessCollection``` - only one should be specified. |
+| existingOpensearchServerlessCollection | [openSearchServerless.CfnCollection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opensearchserverless-collection.html)| ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing Amazon Amazon OpenSearch Serverless collection. **Mutually exclusive** with ```existingOpensearchDomain``` - only one should be specified. |
 | openSearchIndexName | string | ![Required](https://img.shields.io/badge/required-ff0000) | Index name for the Amazon OpenSearch Service. If doesn't exist, the pattern will create the index in the cluster. |
 | cognitoUserPool | [cognito.IUserPool](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cognito.IUserPool.html) | ![Required](https://img.shields.io/badge/required-ff0000) | Cognito user pool used for authentication. |
 | openSearchSecret | [secret.ISecret](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_secretsmanager.ISecret.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Optional. Secret containing credentials to authenticate to the existing Amazon OpenSearch domain if fine grain control access is configured. If not provided, the Lambda function will use [AWS Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html). |
