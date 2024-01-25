@@ -213,10 +213,8 @@ export interface AgentProps {
   readonly name?: string;
   /**
    * A narrative instruction to provide the agent as context.
-   *
-   * @default - No instruction is provided.
    */
-  readonly instruction?: string;
+  readonly instruction: string;
   /**
    * A description of the agent.
    *
