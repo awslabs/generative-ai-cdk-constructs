@@ -17,6 +17,7 @@ import * as kms from 'aws-cdk-lib/aws-kms';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 
+import { AgentAlias, AgentAliasProps } from './agent-alias';
 import { BedrockCRProvider } from './custom-resource-provider';
 import { KnowledgeBase } from './knowledge-base';
 import { BedrockFoundationModel } from './models';
@@ -248,13 +249,13 @@ export interface AgentProps {
   /**
    * Name of the alias for the agent.
    *
-   * @default - 'prod'
+   * @default - No alias is created.
    */
   readonly aliasName?: string;
 }
 
 /**
- * Deploy a Bedrock Agent and Alias.
+ * Deploy a Bedrock Agent.
  */
 export class Agent extends Construct implements cdk.ITaggableV2 {
   /**
@@ -274,21 +275,17 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
    */
   public readonly agentArn: string;
   /**
-   * The CFN custom resource for the agent alias.
-   */
-  public readonly alias: cdk.CustomResource;
-  /**
    * The unique identifier of the agent alias.
    */
-  public readonly aliasId: string;
+  public readonly aliasId?: string;
   /**
    * The ARN of the agent alias.
    */
-  public readonly aliasArn: string;
+  public readonly aliasArn?: string;
   /**
    * The name for the agent alias.
    */
-  public readonly aliasName: string;
+  public readonly aliasName?: string;
   /**
    * TagManager facilitates a common implementation of tagging for Constructs
    */
@@ -397,6 +394,7 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
             'bedrock:DeleteAgent',
             'bedrock:UpdateAgent',
             'bedrock:TagResource',
+            'bedrock:PrepareAgent',
           ],
           resources: [
             cdk.Stack.of(this).formatArn({
@@ -467,6 +465,9 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
       );
 
       for (let kb of props.knowledgeBases ?? []) {
+        if (!kb.instruction) {
+          throw new Error('Agent Knowledge Bases require instructions.');
+        }
         const kbAssoc = new cdk.CustomResource(
           this,
           `KBAssoc-${kb.name}`,
@@ -487,72 +488,37 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
       changeIds.push(...kbAssociations);
     }
 
-    this.alias = new cdk.CustomResource(
-      this,
-      'Alias',
-      {
-        serviceToken: crProvider.serviceToken,
-        resourceType: 'Custom::Bedrock-AgentAlias',
-        properties: {
-          agentId: this.agentId,
-          aliasName: props.aliasName ?? 'prod',
-          changeIds: changeIds,
-          tags: this.cdkTagManager.renderedTags,
-        },
+    new cdk.CustomResource(this, 'PrepareAgent', {
+      serviceToken: crProvider.serviceToken,
+      resourceType: 'Custom::Bedrock-PrepareAgent',
+      properties: {
+        agentId: this.agentId,
+        changeIds,
       },
-    );
-
-    const aliasCRPolicy = new iam.Policy(this, 'AliasCRPolicy', {
-      roles: [crProvider.role],
-      statements: [
-
-        new iam.PolicyStatement({
-          actions: [
-            'bedrock:CreateAgentAlias',
-            'bedrock:UpdateAgentAlias',
-            'bedrock:DeleteAgentAlias',
-            'bedrock:PrepareAgent',
-            'bedrock:ListAgentVersions',
-            'bedrock:DeleteAgentVersion',
-            'bedrock:GetAgent',
-            'bedrock:TagResource',
-          ],
-          resources: [
-            cdk.Stack.of(this).formatArn({
-              service: 'bedrock',
-              resource: 'agent-alias',
-              resourceName: '*',
-              arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-            }),
-            cdk.Stack.of(this).formatArn({
-              service: 'bedrock',
-              resource: 'agent',
-              resourceName: '*',
-              arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-            }),
-          ],
-        }),
-      ],
     });
 
-    NagSuppressions.addResourceSuppressions(
-      aliasCRPolicy,
-      [
-        {
-          id: 'AwsSolutions-IAM5',
-          reason: 'Bedrock Agent/Alias associations have wildcards restricted to agents and aliases in the account.',
-        },
-      ],
-      true,
-    );
+    if (props.aliasName) {
+      const alias = this.addAlias({
+        agentId: this.agentId,
+        changeIds,
+        aliasName: props.aliasName,
+      });
+      this.aliasId = alias.aliasId;
+      this.aliasArn = alias.aliasArn;
+      this.aliasName = alias.aliasName;
+    }
+  }
 
-    this.alias.node.addDependency(aliasCRPolicy);
-    this.alias.node.addDependency(crProvider);
-
-    this.aliasId = this.alias.getAttString('agentAliasId');
-    this.aliasArn = this.alias.getAttString('agentAliasArn');
-    this.aliasName = this.alias.getAttString('agentAliasName');
-
+  /**
+   * Add an alias to the agent.
+   */
+  public addAlias(props: AgentAliasProps): AgentAlias {
+    return new AgentAlias(this, `AgentAlias-${props.aliasName}`, {
+      agentId: this.agentId,
+      agentVersion: props.agentVersion,
+      changeIds: props.changeIds,
+      aliasName: props.aliasName,
+    });
   }
 }
 

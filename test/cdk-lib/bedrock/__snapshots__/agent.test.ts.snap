@@ -22,6 +22,116 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
     },
   },
   "Resources": {
+    "AgentAgentAliasprodAlias575D4660": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "AgentAgentAliasprodAliasCRPolicyACECDEBD",
+        "BedrockCRProviderCRRole90406B17",
+        "BedrockCRProviderCustomResourcesFunctionLogRetention32CED555",
+        "BedrockCRProviderCustomResourcesFunction9A70E3A5",
+        "BedrockCRProviderframeworkonEventLogRetention862855F3",
+        "BedrockCRProviderframeworkonEvent412F4EF1",
+        "BedrockCRProviderProviderRoleDefaultPolicy517A1A7C",
+        "BedrockCRProviderProviderRoleE6EBD17C",
+      ],
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "BedrockCRProviderframeworkonEvent412F4EF1",
+            "Arn",
+          ],
+        },
+        "agentId": {
+          "Fn::GetAtt": [
+            "AgentD78B2CA1",
+            "agentId",
+          ],
+        },
+        "aliasName": "prod",
+        "changeIds": [
+          {
+            "Fn::GetAtt": [
+              "AgentD78B2CA1",
+              "changeId",
+            ],
+          },
+          {
+            "Fn::GetAtt": [
+              "AgentKBAssocKBteststackKBF59CBB076A4D106D",
+              "changeId",
+            ],
+          },
+        ],
+      },
+      "Type": "Custom::Bedrock-AgentAlias",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "AgentAgentAliasprodAliasCRPolicyACECDEBD": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "Bedrock Agent/Alias associations have wildcards restricted to agents and aliases in the account.",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "bedrock:CreateAgentAlias",
+                "bedrock:UpdateAgentAlias",
+                "bedrock:DeleteAgentAlias",
+                "bedrock:PrepareAgent",
+                "bedrock:ListAgentAliases",
+                "bedrock:ListAgentVersions",
+                "bedrock:DeleteAgentVersion",
+                "bedrock:GetAgent",
+                "bedrock:TagResource",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":bedrock:us-east-1:123456789012:agent-alias/*",
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":bedrock:us-east-1:123456789012:agent/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "AgentAgentAliasprodAliasCRPolicyACECDEBD",
+        "Roles": [
+          {
+            "Ref": "BedrockCRProviderCRRole90406B17",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
     "AgentAgentCRPolicy805C7219": {
       "Metadata": {
         "cdk_nag": {
@@ -56,6 +166,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
                 "bedrock:DeleteAgent",
                 "bedrock:UpdateAgent",
                 "bedrock:TagResource",
+                "bedrock:PrepareAgent",
               ],
               "Effect": "Allow",
               "Resource": {
@@ -128,115 +239,6 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
         "Roles": [
           {
             "Ref": "AgentRole9D587F56",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "AgentAlias350FEF31": {
-      "DeletionPolicy": "Delete",
-      "DependsOn": [
-        "AgentAliasCRPolicy2F192746",
-        "BedrockCRProviderCRRole90406B17",
-        "BedrockCRProviderCustomResourcesFunctionLogRetention32CED555",
-        "BedrockCRProviderCustomResourcesFunction9A70E3A5",
-        "BedrockCRProviderframeworkonEventLogRetention862855F3",
-        "BedrockCRProviderframeworkonEvent412F4EF1",
-        "BedrockCRProviderProviderRoleDefaultPolicy517A1A7C",
-        "BedrockCRProviderProviderRoleE6EBD17C",
-      ],
-      "Properties": {
-        "ServiceToken": {
-          "Fn::GetAtt": [
-            "BedrockCRProviderframeworkonEvent412F4EF1",
-            "Arn",
-          ],
-        },
-        "agentId": {
-          "Fn::GetAtt": [
-            "AgentD78B2CA1",
-            "agentId",
-          ],
-        },
-        "aliasName": "prod",
-        "changeIds": [
-          {
-            "Fn::GetAtt": [
-              "AgentD78B2CA1",
-              "changeId",
-            ],
-          },
-          {
-            "Fn::GetAtt": [
-              "AgentKBAssocKBteststackKBF59CBB076A4D106D",
-              "changeId",
-            ],
-          },
-        ],
-      },
-      "Type": "Custom::Bedrock-AgentAlias",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "AgentAliasCRPolicy2F192746": {
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-IAM5",
-              "reason": "Bedrock Agent/Alias associations have wildcards restricted to agents and aliases in the account.",
-            },
-          ],
-        },
-      },
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
-                "bedrock:CreateAgentAlias",
-                "bedrock:UpdateAgentAlias",
-                "bedrock:DeleteAgentAlias",
-                "bedrock:PrepareAgent",
-                "bedrock:ListAgentVersions",
-                "bedrock:DeleteAgentVersion",
-                "bedrock:GetAgent",
-                "bedrock:TagResource",
-              ],
-              "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":bedrock:us-east-1:123456789012:agent-alias/*",
-                    ],
-                  ],
-                },
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":bedrock:us-east-1:123456789012:agent/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "AgentAliasCRPolicy2F192746",
-        "Roles": [
-          {
-            "Ref": "BedrockCRProviderCRRole90406B17",
           },
         ],
       },
@@ -403,6 +405,39 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
         },
       },
       "Type": "Custom::Bedrock-AgentKnowledgeBase",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "AgentPrepareAgent9A21CF07": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "BedrockCRProviderframeworkonEvent412F4EF1",
+            "Arn",
+          ],
+        },
+        "agentId": {
+          "Fn::GetAtt": [
+            "AgentD78B2CA1",
+            "agentId",
+          ],
+        },
+        "changeIds": [
+          {
+            "Fn::GetAtt": [
+              "AgentD78B2CA1",
+              "changeId",
+            ],
+          },
+          {
+            "Fn::GetAtt": [
+              "AgentKBAssocKBteststackKBF59CBB076A4D106D",
+              "changeId",
+            ],
+          },
+        ],
+      },
+      "Type": "Custom::Bedrock-PrepareAgent",
       "UpdateReplacePolicy": "Delete",
     },
     "AgentRole9D587F56": {

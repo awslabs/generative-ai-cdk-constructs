@@ -101,7 +101,7 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
   /**
    * A narrative instruction of the knowledge base.
    */
-  public readonly instruction: string;
+  public readonly instruction?: string;
 
   /**
    * The ARN of the knowledge base.
@@ -128,8 +128,7 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
   constructor(scope: Construct, id: string, props: KnowledgeBaseProps) {
     super(scope, id);
     const embeddingsModel = props.embeddingsModel;
-    const description = props.description ?? '';
-    this.instruction = props.instruction ?? '';
+    this.instruction = props.instruction;
     const indexName = props.indexName ?? 'bedrock-knowledge-base-default-index';
     const vectorField = props.vectorField ?? 'bedrock-knowledge-base-default-vector';
 
@@ -217,7 +216,7 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
         },
         roleArn: this.role.roleArn,
         name: this.name,
-        description: description,
+        description: props.description,
         storageConfiguration: {
           type: 'OPENSEARCH_SERVERLESS',
           opensearchServerlessConfiguration: {

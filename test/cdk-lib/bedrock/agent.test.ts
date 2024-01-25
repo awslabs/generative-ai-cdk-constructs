@@ -89,6 +89,7 @@ beforeAll(() => {
     promptOverrideConfiguration: {
       promptConfigurations: [preprocessingPrompt, orchestrationPrompt],
     },
+    aliasName: 'prod',
   });
 });
 

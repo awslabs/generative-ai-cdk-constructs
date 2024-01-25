@@ -17,3 +17,6 @@ tenacity = "^8.2.3"
 mypy = "^1.2.0"
 pytest = "^7.4.3"
 
+[tool.poetry.dev-dependencies.boto3-stubs]
+version = "^1.33.6"
+extras = [ "bedrock", "bedrock-agent" ]

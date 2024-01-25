@@ -15,3 +15,4 @@ export * from './models';
 export * from './knowledge-base';
 export * from './s3-data-source';
 export * from './agent';
+export * from './agent-alias';

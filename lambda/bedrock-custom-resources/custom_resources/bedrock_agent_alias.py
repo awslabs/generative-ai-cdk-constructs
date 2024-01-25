@@ -29,10 +29,13 @@ Deletion:
 2. Delete all versions excluding DRAFT
 """
 
-import boto3
-import botocore.exceptions
 import logging
 import os
+import uuid
+from typing import TypedDict, NotRequired, Dict, List
+
+import boto3
+import botocore.exceptions
 from tenacity import (
     retry,
     retry_if_exception_type,
@@ -40,12 +43,8 @@ from tenacity import (
     wait_exponential_jitter,
 )
 
-from typing import TypedDict, NotRequired, Dict, List
-
 from .cr_types import CustomResourceRequest, CustomResourceResponse
 from .exceptions import AWSRetryableError, can_retry
-
-import uuid
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
@@ -53,10 +52,11 @@ logger = logging.getLogger(__name__)
 logger.setLevel(LOG_LEVEL)
 
 
-def bedrock_agent_client():
-    session = boto3.Session()
-    client = session.client("bedrock-agent")
-    return client
+class AgentAliasRequest(TypedDict):
+    agentId: str
+    aliasName: str
+    agentVersion: NotRequired[str]
+    tags: NotRequired[Dict[str, str]]
 
 
 class AgentAliasResponse(TypedDict):
@@ -73,14 +73,12 @@ def on_event(event: CustomResourceRequest[Dict], context):
     if "ServiceToken" in event["ResourceProperties"]:
         del event["ResourceProperties"]["ServiceToken"]
 
-    client = bedrock_agent_client()
-
     if request_type == "Create":
-        return on_create(event, str(uuid.uuid1()), client)
+        return on_create(event, str(uuid.uuid1()))
     if request_type == "Update":
-        return on_update(event, client)
+        return on_update(event)
     if request_type == "Delete":
-        return on_delete(event, client)
+        return on_delete(event)
     raise Exception(f"Invalid request type: {request_type}")
 
 
@@ -89,7 +87,9 @@ def on_event(event: CustomResourceRequest[Dict], context):
     stop=stop_after_attempt(3),
     wait=wait_exponential_jitter(1, 3),
 )
-def prepare_agent(agent_id: str, client) -> str:
+def prepare_agent(agent_id: str, session: boto3.Session) -> str:
+    client = session.client("bedrock-agent")
+
     try:
         response = client.prepare_agent(agentId=agent_id)
         return response["agentStatus"]
@@ -104,7 +104,9 @@ def prepare_agent(agent_id: str, client) -> str:
     stop=stop_after_attempt(10),
     wait=wait_exponential_jitter(1, 15),
 )
-def wait_for_agent_status(agent_id: str, status: str, client) -> str:
+def wait_for_agent_status(agent_id: str, status: str, session: boto3.Session) -> str:
+    client = session.client("bedrock-agent")
+
     try:
         response = client.get_agent(agentId=agent_id)
         if response["agent"]["agentStatus"] == status:
@@ -125,14 +127,43 @@ def wait_for_agent_status(agent_id: str, status: str, client) -> str:
     stop=stop_after_attempt(3),
     wait=wait_exponential_jitter(1, 3),
 )
-def list_agent_versions(agent_id: str, client) -> List[int]:
+def list_alias_versions(agent_id: str, session: boto3.Session) -> List[int]:
+    client = session.client("bedrock-agent")
+
+    try:
+        response = client.list_agent_aliases(agentId=agent_id)
+        return sorted(
+            [
+                int(version["agentVersion"])
+                for alias in response["agentAliasSummaries"]
+                for version in alias["routingConfiguration"]
+                if version["agentVersion"] != "DRAFT"
+            ]
+        )
+    except botocore.exceptions.ClientError as e:
+        if e.response["Error"]["Code"] == "ResourceNotFoundException":
+            raise Exception(f"Agent {agent_id} not found")
+        can_retry(e)
+    return []
+
+
+@retry(
+    retry=retry_if_exception_type(AWSRetryableError),
+    stop=stop_after_attempt(3),
+    wait=wait_exponential_jitter(1, 3),
+)
+def list_unused_agent_versions(agent_id: str, session: boto3.Session) -> List[int]:
+    client = session.client("bedrock-agent")
+
+    alias_versions = list_alias_versions(agent_id, session)
+
     try:
         response = client.list_agent_versions(agentId=agent_id)
         return sorted(
             [
                 int(version["agentVersion"])
                 for version in response["agentVersionSummaries"]
-                if version["agentVersion"] != "DRAFT"
+                if version["agentVersion"] not in alias_versions and version["agentVersion"] != "DRAFT"
             ]
         )
     except botocore.exceptions.ClientError as e:
@@ -149,18 +180,30 @@ def get_version(routing_configuration: List[Dict]) -> str:
         return None
 
 
+def get_routing_configuration(agent_version: str | None) -> List[Dict[str, str]] | None:
+    if agent_version:
+        routing_configuration = [{"agentVersion": agent_version}]
+    else:
+        routing_configuration = None
+    return routing_configuration
+
+
 @retry(
     retry=retry_if_exception_type(AWSRetryableError),
     stop=stop_after_attempt(3),
     wait=wait_exponential_jitter(1, 3),
 )
 def create_agent_alias(
-    agent_id: str, alias_name: str, client, client_token: str = None
+        agent_id: str, alias_name: str, session: boto3.Session, agent_version: str = None, client_token: str = None
 ) -> AgentAliasResponse:
+    client = session.client("bedrock-agent")
+
     try:
         response = client.create_agent_alias(
+            clientToken=client_token,
             agentId=agent_id,
             agentAliasName=alias_name,
+            routingConfiguration=get_routing_configuration(agent_version),
         )
         agent_version = get_version(
             response["agentAlias"].get("routingConfiguration", [])
@@ -183,13 +226,16 @@ def create_agent_alias(
     wait=wait_exponential_jitter(1, 3),
 )
 def update_agent_alias(
-    agent_id: str, agent_alias_id: str, alias_name: str, client
+        agent_id: str, agent_alias_id: str, alias_name: str, session: boto3.Session, agent_version: str | None = None
 ) -> AgentAliasResponse:
+    client = session.client("bedrock-agent")
+
     try:
         response = client.update_agent_alias(
             agentId=agent_id,
             agentAliasId=agent_alias_id,
             agentAliasName=alias_name,
+            routingConfiguration=get_routing_configuration(agent_version)
         )
         agent_version = get_version(
             response["agentAlias"].get("routingConfiguration", [])
@@ -211,7 +257,9 @@ def update_agent_alias(
     stop=stop_after_attempt(3),
     wait=wait_exponential_jitter(1, 3),
 )
-def delete_agent_version(agent_id: str, version: int, client) -> None:
+def delete_agent_version(agent_id: str, version: int, session: boto3.Session) -> None:
+    client = session.client("bedrock-agent")
+
     try:
         client.delete_agent_version(
             agentId=agent_id, agentVersion=str(version), skipResourceInUseCheck=True
@@ -231,8 +279,10 @@ def delete_agent_version(agent_id: str, version: int, client) -> None:
     wait=wait_exponential_jitter(1, 3),
 )
 def delete_agent_alias(
-    agent_id: str, agent_alias_id: str, client
+        agent_id: str, agent_alias_id: str, session: boto3.Session
 ) -> AgentAliasResponse:
+    client = session.client("bedrock-agent")
+
     try:
         response = client.delete_agent_alias(
             agentId=agent_id, agentAliasId=agent_alias_id
@@ -249,26 +299,28 @@ def delete_agent_alias(
 
 
 def on_create(
-    event: CustomResourceRequest[Dict], client_token: str, client
+        event: CustomResourceRequest[AgentAliasRequest], client_token: str
 ) -> CustomResourceResponse:
     """
     1. PrepareAgent
     2. Call GetAgent until agentStatus is PREPARED
     3. CreateAgentAlias with version 1
     """
+    session = boto3.session.Session()
     agent_id = event["ResourceProperties"]["agentId"]
     alias_name = event["ResourceProperties"]["aliasName"]
+    agent_version = event["ResourceProperties"].get("agentVersion")
 
-    prepare_agent(agent_id, client)
-    wait_for_agent_status(agent_id, "PREPARED", client)
-    response = create_agent_alias(agent_id, alias_name, client, client_token)
+    prepare_agent(agent_id, session)
+    wait_for_agent_status(agent_id, "PREPARED", session)
+    response = create_agent_alias(agent_id, alias_name, session, agent_version, client_token)
     return CustomResourceResponse(
         PhysicalResourceId=response["agentAliasId"],
         Data=response,
     )
 
 
-def on_update(event: CustomResourceRequest[Dict], client) -> CustomResourceResponse:
+def on_update(event: CustomResourceRequest[AgentAliasRequest]) -> CustomResourceResponse:
     """
     1. PrepareAgent
     2. Call GetAgent until agentStatus is PREPARED
@@ -277,16 +329,18 @@ def on_update(event: CustomResourceRequest[Dict], client) -> CustomResourceRespo
     5. UpdateAgentAlias with the next version number
     6. Delete all but two most recent versions excluding DRAFT
     """
+    session = boto3.session.Session()
     agent_id = event["ResourceProperties"]["agentId"]
     agent_alias_id = event["PhysicalResourceId"]
     alias_name = event["ResourceProperties"]["aliasName"]
+    agent_version = event["ResourceProperties"].get("agentVersion")
 
-    prepare_agent(agent_id, client)
-    wait_for_agent_status(agent_id, "PREPARED", client)
-    versions = list_agent_versions(agent_id, client)
-    response = update_agent_alias(agent_id, agent_alias_id, alias_name, client)
+    prepare_agent(agent_id, session)
+    wait_for_agent_status(agent_id, "PREPARED", session)
+    versions = list_unused_agent_versions(agent_id, session)
+    response = update_agent_alias(agent_id, agent_alias_id, alias_name, session, agent_version)
     for version in versions[:-1]:
-        delete_agent_version(agent_id, version, client)
+        delete_agent_version(agent_id, version, session)
 
     return CustomResourceResponse(
         PhysicalResourceId=response["agentAliasId"],
@@ -294,19 +348,19 @@ def on_update(event: CustomResourceRequest[Dict], client) -> CustomResourceRespo
     )
 
 
-def on_delete(event: CustomResourceRequest[Dict], client) -> CustomResourceResponse:
+def on_delete(event: CustomResourceRequest[AgentAliasRequest]) -> CustomResourceResponse:
     """
     Deletion:
     1. DeleteAgentAlias
     2. Delete all versions excluding DRAFT
     """
-
+    session = boto3.session.Session()
     agent_id = event["ResourceProperties"]["agentId"]
     agent_alias_id = event["PhysicalResourceId"]
 
-    delete_agent_alias(agent_id, agent_alias_id, client)
-    versions = list_agent_versions(agent_id, client)
+    delete_agent_alias(agent_id, agent_alias_id, session)
+    versions = list_unused_agent_versions(agent_id, session)
     for version in versions:
-        delete_agent_version(agent_id, version, client)
+        delete_agent_version(agent_id, version, session)
 
     return CustomResourceResponse(PhysicalResourceId=agent_alias_id)
