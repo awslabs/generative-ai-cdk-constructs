@@ -192,7 +192,12 @@
     },
     "post-compile": {
       "name": "post-compile",
-      "description": "Runs after successful compilation"
+      "description": "Runs after successful compilation",
+      "steps": [
+        {
+          "exec": "npx typedoc --plugin typedoc-plugin-markdown --out apidocs --readme none --categoryOrder \"Namespaces,Classes,Interfaces,*\"  ./src/index.ts"
+        }
+      ]
     },
     "post-upgrade": {
       "name": "post-upgrade",
