@@ -65,5 +65,5 @@ tsconfig.json
 !/.github/workflows/bandit.yml
 !/.github/workflows/commitlint.yml
 !/.projenrc.ts
-!/src/LangchainProps.ts
-!/src/AdapterProps.ts
+!/src/patterns/gen-ai/aws-langchain-common-layer/LangchainProps.ts
+!/src/patterns/gen-ai/aws-langchain-common-layer/AdapterProps.ts

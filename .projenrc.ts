@@ -39,7 +39,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   projenVersion: '~0.78.8',
   constructsVersion: '10.3.0',
   defaultReleaseBranch: 'main',
-  jsiiVersion: '~5.3.0',
+  jsiiVersion: '~5.1.0',
   name: '@' + PUBLICATION_NAMESPACE + '/' + PROJECT_NAME,
   projenrcTs: true,
   repositoryUrl: 'https://github.com/' + GITHUB_USER + '/' + PROJECT_NAME,
@@ -163,12 +163,12 @@ project.eslint?.addIgnorePattern('LangchainProps.ts');
 project.eslint?.addIgnorePattern('AdapterProps.ts');
 
 // Shared interfaces extending pre-existing CDK interfaces
-new ProjenStruct(project, { name: 'LangchainProps' })
+new ProjenStruct(project, { name: 'LangchainProps', filePath: 'src/patterns/gen-ai/aws-langchain-common-layer/LangchainProps.ts' })
   .mixin(Struct.fromFqn('aws-cdk-lib.aws_lambda.LayerVersionProps'))
   .withoutDeprecated()
   .omit('code', 'compatibleRuntimes', 'compatibleArchitectures');
 
-new ProjenStruct(project, { name: 'AdapterProps' })
+new ProjenStruct(project, { name: 'AdapterProps', filePath: 'src/patterns/gen-ai/aws-langchain-common-layer/AdapterProps.ts' })
   .mixin(Struct.fromFqn('aws-cdk-lib.aws_lambda.LayerVersionProps'))
   .withoutDeprecated()
   .omit('code');
