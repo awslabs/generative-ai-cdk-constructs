@@ -13,7 +13,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Template, Match } from 'aws-cdk-lib/assertions';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
-import * as os from 'aws-cdk-lib/aws-opensearchservice';
+import * as oss from 'aws-cdk-lib/aws-opensearchserverless';
 import * as secret from 'aws-cdk-lib/aws-secretsmanager';
 import {
   QaAppsyncOpensearch,
@@ -34,9 +34,9 @@ describe('QA Appsync Open search construct', () => {
       env: { account: cdk.Aws.ACCOUNT_ID, region: cdk.Aws.REGION },
     });
 
-    const osDomain = os.Domain.fromDomainAttributes(qaTestStack, 'osdomain', {
-      domainArn: 'arn:' + cdk.Aws.PARTITION + ':es:region:account:domain/',
-      domainEndpoint: 'https://osendppint.amazon.aws.com',
+    const ossCollection = new oss.CfnCollection(qaTestStack, 'osscollection', {
+      name: 'osscollection',
+      type: 'VECTORSEARCH',
     });
 
     const osSecret = secret.Secret.fromSecretNameV2(
@@ -51,7 +51,7 @@ describe('QA Appsync Open search construct', () => {
     );
 
     const qaTestProps: QaAppsyncOpensearchProps = {
-      existingOpensearchDomain: osDomain,
+      existingOpensearchServerlessCollection: ossCollection,
       openSearchIndexName: 'demoindex',
       openSearchSecret: osSecret,
       cognitoUserPool: userPoolLoaded,
@@ -80,8 +80,13 @@ describe('QA Appsync Open search construct', () => {
           INPUT_BUCKET: {
             Ref: Match.stringLikeRegexp('testinputAssetsQABucketdev'),
           },
-          OPENSEARCH_API_NAME: 'es',
-          OPENSEARCH_DOMAIN_ENDPOINT: 'osendppint.amazon.aws.com',
+          OPENSEARCH_API_NAME: 'aoss',
+          OPENSEARCH_DOMAIN_ENDPOINT: {
+            'Fn::GetAtt': [
+              'osscollection',
+              'CollectionEndpoint',
+            ],
+          },
           OPENSEARCH_INDEX: 'demoindex',
           OPENSEARCH_SECRET_ID: 'OSSecretId',
         },

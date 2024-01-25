@@ -14,7 +14,7 @@ import * as cdk from 'aws-cdk-lib';
 import { Template, Match } from 'aws-cdk-lib/assertions';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import * as os from 'aws-cdk-lib/aws-opensearchservice';
+import * as oss from 'aws-cdk-lib/aws-opensearchserverless';
 import * as secret from 'aws-cdk-lib/aws-secretsmanager';
 import { RagAppsyncStepfnOpensearch, RagAppsyncStepfnOpensearchProps } from '../../../../src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch';
 
@@ -54,9 +54,9 @@ describe('RAG Appsync Stepfn Open search construct', () => {
       },
     );
 
-    const osDomain = os.Domain.fromDomainAttributes(ragTestStack, 'osdomain', {
-      domainArn: 'arn:' + cdk.Aws.PARTITION + ':es:region:account:domain/',
-      domainEndpoint: 'https://osendppint.amazon.aws.com',
+    const ossCollection = new oss.CfnCollection(ragTestStack, 'osscollection', {
+      name: 'osscollection',
+      type: 'VECTORSEARCH',
     });
 
     const osSecret = secret.Secret.fromSecretNameV2(ragTestStack, 'ossecret', 'OSSecretID');
@@ -65,7 +65,7 @@ describe('RAG Appsync Stepfn Open search construct', () => {
 
     const ragTestprops: RagAppsyncStepfnOpensearchProps = {
       existingVpc: vpc,
-      existingOpensearchDomain: osDomain,
+      existingOpensearchServerlessCollection: ossCollection,
       openSearchIndexName: 'demoindex',
       openSearchSecret: osSecret,
       cognitoUserPool: userPoolLoaded,
@@ -82,8 +82,13 @@ describe('RAG Appsync Stepfn Open search construct', () => {
       Environment: {
         Variables: {
           GRAPHQL_URL: { 'Fn::GetAtt': [Match.stringLikeRegexp('testingestionGraphqlApi'), 'GraphQLUrl'] },
-          OPENSEARCH_API_NAME: 'es',
-          OPENSEARCH_DOMAIN_ENDPOINT: Match.stringLikeRegexp('osendppint.amazon.aws.com'),
+          OPENSEARCH_API_NAME: 'aoss',
+          OPENSEARCH_DOMAIN_ENDPOINT: {
+            'Fn::GetAtt': [
+              'osscollection',
+              'CollectionEndpoint',
+            ],
+          },
           OPENSEARCH_INDEX: 'demoindex',
           OPENSEARCH_SECRET_ID: Match.stringLikeRegexp('OSSecret'),
           OUTPUT_BUCKET: { Ref: Match.stringLikeRegexp('testprocessedAssetsBucketdev') },

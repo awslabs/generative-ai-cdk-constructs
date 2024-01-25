@@ -62,8 +62,8 @@ const lambdaRuntime = lambda.Runtime.PYTHON_3_10;
 // This is one way of getting a lambda powertools layer
 const powerToolsArn =
         lambdaArchitecture === lambda.Architecture.X86_64
-          ? `arn:aws:lambda:${cdk.Aws.REGION}:017000801446:layer:AWSLambdaPowertoolsPythonV2:42`
-          : `arn:aws:lambda:${cdk.Aws.REGION}:017000801446:layer:AWSLambdaPowertoolsPythonV2-Arm64:42`;
+          ? `arn:${Aws.PARTITION}:lambda:${Aws.REGION}:017000801446:layer:AWSLambdaPowertoolsPythonV2:42`
+          : `arn:${Aws.PARTITION}:lambda:${Aws.REGION}:017000801446:layer:AWSLambdaPowertoolsPythonV2-Arm64:42`;
 
 const lambdaDepsLayer = new LangchainCommonDepsLayer(this, 'lambdagenaidepslayer', {
         runtime: lambdaRuntime,

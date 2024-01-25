@@ -61,7 +61,7 @@ Here is a minimal deployable pattern definition:
 Typescript
 ``` typescript
 import { Construct } from 'constructs';
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { Stack, StackProps, Aws } from 'aws-cdk-lib';
 import * as os from 'aws-cdk-lib/aws-opensearchservice';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import { RagAppsyncStepfnOpensearch, RagAppsyncStepfnOpensearchProps } from '@cdklabs/generative-ai-cdk-constructs';
@@ -69,7 +69,7 @@ import { RagAppsyncStepfnOpensearch, RagAppsyncStepfnOpensearchProps } from '@cd
 // get an existing OpenSearch provisioned cluster in the same VPC as of RagAppsyncStepfnOpensearch construct 
 // Security group for the existing opensearch cluster should allow traffic on 443.
 const osDomain = os.Domain.fromDomainAttributes(this, 'osdomain', {
-    domainArn: 'arn:aws:es:us-east-1:XXXXXX',
+    domainArn: 'arn:' + Aws.PARTITION + ':es:us-east-1:XXXXXX',
     domainEndpoint: 'https://XXXXX.us-east-1.es.amazonaws.com'
 });
 
@@ -168,9 +168,13 @@ Parameters
 
 ## Pattern Construct Props
 
+> **Note:** One of either ```existingOpensearchDomain``` or ```existingOpensearchServerlessCollection``` must be specified, but not both.
+
+
 | **Name**     | **Type**        | **Required** |**Description** |
 |:-------------|:----------------|-----------------|-----------------|
-| existingOpenSearchDomain | [opensearchservice.IDomain](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_opensearchservice.IDomain.html)| ![Required](https://img.shields.io/badge/required-ff0000) | Existing domain for the Amazon OpenSearch Service. |
+| existingOpensearchDomain | [opensearchservice.IDomain](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_opensearchservice.IDomain.html)| ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing domain for the OpenSearch Service. **Mutually exclusive** with ```existingOpensearchServerlessCollection``` - only one should be specified. |
+| existingOpensearchServerlessCollection | [openSearchServerless.CfnCollection](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-opensearchserverless-collection.html)| ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing Amazon Amazon OpenSearch Serverless collection. **Mutually exclusive** with ```existingOpensearchDomain``` - only one should be specified. |
 | openSearchIndexName | string | ![Required](https://img.shields.io/badge/required-ff0000) | Index name for the Amazon OpenSearch Service. If doesn't exist, the pattern will create the index in the cluster. |
 | cognitoUserPool | [cognito.IUserPool](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cognito.IUserPool.html) | ![Required](https://img.shields.io/badge/required-ff0000) | Cognito user pool used for authentication. |
 | openSearchSecret | [secret.ISecret](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_secretsmanager.ISecret.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Optional. Secret containing credentials to authenticate to the existing Amazon OpenSearch domain if fine grain control access if configured. If not provided, the Lambda function will use [AWS Signature Version 4](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_aws-signing.html). |

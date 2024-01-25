@@ -166,6 +166,7 @@ def run_qa_agent_rag_no_memory(input_params):
     if _doc_index is None:
         logger.info("loading opensearch retriever")
         doc_index = load_vector_db_opensearch(boto3.Session().region_name,
+                                              os.environ.get('OPENSEARCH_API_NAME'),
                                               os.environ.get('OPENSEARCH_DOMAIN_ENDPOINT'),
                                               os.environ.get('OPENSEARCH_INDEX'),
                                               os.environ.get('OPENSEARCH_SECRET_ID'))
