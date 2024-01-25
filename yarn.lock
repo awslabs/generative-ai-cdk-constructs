@@ -795,22 +795,6 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@jsii/check-node@1.88.0":
-  version "1.88.0"
-  resolved "https://registry.yarnpkg.com/@jsii/check-node/-/check-node-1.88.0.tgz#fa20e012230c692ad36976cde29301be1ed28c67"
-  integrity sha512-AveFyqkJIb8qZvGk5nZal/8mEJB6lWhwqvAQLodHmqE3WzpmZD5+h+aspBVt0El5cEFRJ1k1mrQqhAnJCVpvxg==
-  dependencies:
-    chalk "^4.1.2"
-    semver "^7.5.4"
-
-"@jsii/check-node@1.93.0":
-  version "1.93.0"
-  resolved "https://registry.yarnpkg.com/@jsii/check-node/-/check-node-1.93.0.tgz#3adcc6012654bb69fb8dc508e757b83ea9cd1708"
-  integrity sha512-NLn1Js6wEG2hYjH7gE5Q8s/hPlp3I+KhK/T8ykGdYVod7iODnk/0QVSZsk2iEyuw8NzvvgXUDBWreadUIWSz+g==
-  dependencies:
-    chalk "^4.1.2"
-    semver "^7.5.4"
-
 "@jsii/check-node@1.94.0":
   version "1.94.0"
   resolved "https://registry.yarnpkg.com/@jsii/check-node/-/check-node-1.94.0.tgz#cf6caf02004ed27eef0ade7d01e69bf5020bdc2d"
@@ -826,19 +810,12 @@
   dependencies:
     ajv "^8.12.0"
 
-"@jsii/spec@^1.88.0":
-  version "1.89.0"
-  resolved "https://registry.yarnpkg.com/@jsii/spec/-/spec-1.89.0.tgz#d337c97234bec2fdffe25ad449ebacf22972c55c"
-  integrity sha512-byzIC5M5FrEaW+GaPGQfPsobfwmEfzHvS7dh5d5fgY4VvvsHBkkhhF/H5xUG+1wQBcdBnqdKyp5CEFm8UEVfqg==
+"@mrgrain/jsii-struct-builder@^0.7.10":
+  version "0.7.10"
+  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.10.tgz#d0df55a4144380205e2116ae48f16951c854188a"
+  integrity sha512-DyV6RI2r85xd8V9U3DIChRDWc01Xhupv/OIUqp+c8n6aHNLT0RDnUSAOG6OFzdsm+jqg25vgwyrEwppcXvqWew==
   dependencies:
-    ajv "^8.12.0"
-
-"@jsii/spec@^1.93.0":
-  version "1.93.0"
-  resolved "https://registry.yarnpkg.com/@jsii/spec/-/spec-1.93.0.tgz#e56c5971efbd349592de86081b3cbfd04fc0bb77"
-  integrity sha512-PIXcTHUsFOoxSE7KMpJ3iJ3iYGSo2x46ZX4bHDDD6C7M3ij+7Z3Ujumg/OsIrESCHKWXGXlgl9EmkNJraeYkRQ==
-  dependencies:
-    ajv "^8.12.0"
+    "@jsii/spec" "^1.94.0"
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -3596,22 +3573,22 @@ jsii-rosetta@^1.94.0:
     workerpool "^6.5.1"
     yargs "^16.2.0"
 
-jsii-rosetta@~5.1.0:
-  version "5.1.23"
-  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.1.23.tgz#3b42454954a71507b7dd398bb484d2b9a6efa20a"
-  integrity sha512-HuT6PHOTpcFXCDEKM/17x9YwTdImsmhKgh5ACRbkSoz0wJYj5rRpu/dQrT6wTduZAFI2sufp16w1kGkwE6ub4A==
+jsii-rosetta@~5.3.0:
+  version "5.3.8"
+  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.3.8.tgz#32008f7e2379c0ce942f902cc1d8bc60f73eca9b"
+  integrity sha512-Ym/gl48grorJrl/FnGp7jG9uxceCK86dnZxRJVh7Mj8coMnAjEoWQoYyr43WtTdHCnnodpBf3iNSmmZH4tYA9Q==
   dependencies:
-    "@jsii/check-node" "1.93.0"
-    "@jsii/spec" "^1.93.0"
+    "@jsii/check-node" "1.94.0"
+    "@jsii/spec" "^1.94.0"
     "@xmldom/xmldom" "^0.8.10"
     chalk "^4"
     commonmark "^0.30.0"
     fast-glob "^3.3.2"
-    jsii "~5.1.5"
+    jsii "~5.3.0"
     semver "^7.5.4"
     semver-intersect "^1.5.0"
     stream-json "^1.8.0"
-    typescript "~5.1.6"
+    typescript "~5.3"
     workerpool "^6.5.1"
     yargs "^17.7.2"
 
@@ -3634,23 +3611,23 @@ jsii@1.94.0:
     typescript "~3.9.10"
     yargs "^16.2.0"
 
-jsii@~5.1.0, jsii@~5.1.5:
-  version "5.1.12"
-  resolved "https://registry.yarnpkg.com/jsii/-/jsii-5.1.12.tgz#0ac6d92d52c6732a6e0e3e27f9f07453318715f2"
-  integrity sha512-iY3zLosUEKbeua6IAGJXjFxibiiI0xHFjyYPyewOc56MBRHC7nczWSVGRP+Jgwyo7HWXs4TvJKLG6w8zSuAZrg==
+jsii@~5.3.0:
+  version "5.3.11"
+  resolved "https://registry.yarnpkg.com/jsii/-/jsii-5.3.11.tgz#f885ae14c84d5e1461ba491106f6251d5dcc2c0a"
+  integrity sha512-AhRb6bGYzQ4qeKn0dksJjRY/bQUz1zt/FwPPgb488P0Hr+taUbggNihebZEAzLZCJ3yH0ohgIgtQEAIx+NI/vA==
   dependencies:
-    "@jsii/check-node" "1.88.0"
-    "@jsii/spec" "^1.88.0"
+    "@jsii/check-node" "1.94.0"
+    "@jsii/spec" "^1.94.0"
     case "^1.6.3"
     chalk "^4"
     downlevel-dts "^0.11.0"
     fast-deep-equal "^3.1.3"
     log4js "^6.9.1"
     semver "^7.5.4"
-    semver-intersect "^1.4.0"
+    semver-intersect "^1.5.0"
     sort-json "^2.0.1"
-    spdx-license-list "^6.6.0"
-    typescript "~5.1.6"
+    spdx-license-list "^6.8.0"
+    typescript "~5.3"
     yargs "^17.7.2"
 
 json-buffer@3.0.1:
@@ -4757,11 +4734,6 @@ spdx-license-ids@^3.0.0:
   resolved "https://registry.yarnpkg.com/spdx-license-ids/-/spdx-license-ids-3.0.16.tgz#a14f64e0954f6e25cc6587bd4f392522db0d998f"
   integrity sha512-eWN+LnM3GR6gPu35WxNgbGl8rmY1AEmoMDvL/QD6zYmPWgywxWqJWNdLGT+ke8dKNWrcYgYjPpG5gbTfghP8rw==
 
-spdx-license-list@^6.6.0:
-  version "6.7.0"
-  resolved "https://registry.yarnpkg.com/spdx-license-list/-/spdx-license-list-6.7.0.tgz#dd8c6aba00e7a3f9549e473d0be2b83c4cae081f"
-  integrity sha512-NFqavuJxNsHdwSy/0PjmUpcc76XwlmHQRPjVVtE62qmSLhKJUnzSvJCkU9nrY6TsChfGU1xqGePriBkNtNRMiA==
-
 spdx-license-list@^6.8.0:
   version "6.8.0"
   resolved "https://registry.yarnpkg.com/spdx-license-list/-/spdx-license-list-6.8.0.tgz#92a99cd6c8b97fe98ae83c54deaffd4d9d503f74"
@@ -5178,7 +5150,7 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
-typescript@^5.3.3:
+typescript@^5.3.3, typescript@~5.3:
   version "5.3.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.3.3.tgz#b3ce6ba258e72e6305ba66f5c9b452aaee3ffe37"
   integrity sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==
@@ -5192,11 +5164,6 @@ typescript@~3.9.10:
   version "3.9.10"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.10.tgz#70f3910ac7a51ed6bef79da7800690b19bf778b8"
   integrity sha512-w6fIxVE/H1PkLKcCPsFqKE7Kv7QUwhU8qQY2MueZXWx5cPZdwFupLgKK3vntcK98BtNHZtAF4LA/yl2a7k8R6Q==
-
-typescript@~5.1.6:
-  version "5.1.6"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.1.6.tgz#02f8ac202b6dad2c0dd5e0913745b47a37998274"
-  integrity sha512-zaWCozRZ6DLEWAWFrVDz1H6FVXzUSfTy5FUMWsQlU8Ym5JP9eO4xkTIROFCQvhQf61z6O/G6ugw3SgAnvvm+HA==
 
 uglify-js@^3.1.4:
   version "3.17.4"
