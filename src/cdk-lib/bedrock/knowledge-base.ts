@@ -53,6 +53,20 @@ export interface KnowledgeBaseProps {
    * @default - 'bedrock-knowledge-base-default-vector'
    */
   readonly vectorField?: string;
+
+  /**
+   * The vector store for the knowledge base.
+   *
+   * @default - A new OpenSearch Serverless vector collection is created.
+   */
+  readonly vectorStore?: VectorCollection;
+
+  /**
+   * The vector index for the knowledge base.
+   *
+   * @default - A new vector index is created on the Vector Collection
+   */
+  readonly vectorIndex?: VectorIndex;
 }
 
 /**
@@ -97,6 +111,12 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
    */
   public readonly cdkTagManager =
     new cdk.TagManager(cdk.TagType.MAP, 'Custom::Bedrock-KnowledgeBase');
+
+  /**
+   * The OpenSearch vector index for the knowledge base.
+   * @private
+   */
+  private vectorIndex?: VectorIndex;
 
   constructor(scope: Construct, id: string, props: KnowledgeBaseProps) {
     super(scope, id);
@@ -144,29 +164,37 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
       resources: [embeddingsModel.asArn(this)],
     }));
 
-    this.vectorStore = new VectorCollection(this, 'KBVectors');
+    if (props.vectorStore) {
+      this.vectorStore = props.vectorStore;
+    } else {
+      this.vectorStore = new VectorCollection(this, 'KBVectors');
+    }
     this.vectorStore.grantDataAccess(this.role);
 
-    const vectorIndex = new VectorIndex(this, 'KBIndex', {
-      collection: this.vectorStore,
-      indexName,
-      vectorField,
-      vectorDimensions: 1536,
-      mappings: [
-        {
-          mappingField: 'AMAZON_BEDROCK_TEXT_CHUNK',
-          dataType: 'text',
-          filterable: true,
-        },
-        {
-          mappingField: 'AMAZON_BEDROCK_METADATA',
-          dataType: 'text',
-          filterable: false,
-        },
-      ],
-    });
+    if (!props.vectorIndex) {
+      this.vectorIndex = new VectorIndex(this, 'KBIndex', {
+        collection: this.vectorStore,
+        indexName,
+        vectorField,
+        vectorDimensions: 1536,
+        mappings: [
+          {
+            mappingField: 'AMAZON_BEDROCK_TEXT_CHUNK',
+            dataType: 'text',
+            filterable: true,
+          },
+          {
+            mappingField: 'AMAZON_BEDROCK_METADATA',
+            dataType: 'text',
+            filterable: false,
+          },
+        ],
+      });
 
-    vectorIndex.node.addDependency(this.vectorStore.dataAccessPolicy);
+      this.vectorIndex.node.addDependency(this.vectorStore);
+    } else {
+      this.vectorIndex = props.vectorIndex;
+    }
 
     const crProvider = BedrockCRProvider.getProvider(this);
     const knowledgeBase = new cdk.CustomResource(this, 'KB', {
@@ -233,7 +261,7 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
 
     knowledgeBase.node.addDependency(this.role);
     knowledgeBase.node.addDependency(kbCRPolicy);
-    knowledgeBase.node.addDependency(vectorIndex);
+    knowledgeBase.node.addDependency(this.vectorIndex);
 
     NagSuppressions.addResourceSuppressions(
       kbCRPolicy,

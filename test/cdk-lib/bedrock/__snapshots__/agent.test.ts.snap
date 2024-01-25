@@ -936,7 +936,11 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
     },
     "KBKBIndexManageIndexPolicy12CCDA73": {
       "DependsOn": [
+        "KBKBVectorsAOSSApiAccessAllB0CB4242",
         "KBKBVectorsDataAccessPolicyA8410509",
+        "KBKBVectorsEncryptionPolicy08206F7B",
+        "KBKBVectorsNetworkPolicy7FBE0E2B",
+        "KBKBVectorsVectorCollectionFFF498C9",
       ],
       "Properties": {
         "Name": "manageindexpolicytesdexe5888a45",
