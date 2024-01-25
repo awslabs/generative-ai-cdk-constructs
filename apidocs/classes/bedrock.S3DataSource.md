@@ -51,10 +51,6 @@ Sets up a data source to be added to a knowledge base.
 
 Construct.constructor
 
-#### Defined in
-
-[src/cdk-lib/bedrock/s3-data-source.ts:113](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L113)
-
 ## Properties
 
 ### dataSource
@@ -63,10 +59,6 @@ Construct.constructor
 
 The Data Source cfn resource.
 
-#### Defined in
-
-[src/cdk-lib/bedrock/s3-data-source.ts:107](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L107)
-
 ___
 
 ### dataSourceId
@@ -74,10 +66,6 @@ ___
 • `Readonly` **dataSourceId**: `string`
 
 The unique identifier of the data source.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/s3-data-source.ts:111](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L111)
 
 ___
 
@@ -90,10 +78,6 @@ The tree node.
 #### Inherited from
 
 Construct.node
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:265
 
 ## Methods
 
@@ -110,10 +94,6 @@ Returns a string representation of this construct.
 #### Inherited from
 
 Construct.toString
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:278
 
 ___
 
@@ -152,7 +132,3 @@ true if `x` is an object created from a class which extends `Construct`.
 #### Inherited from
 
 Construct.isConstruct
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:261

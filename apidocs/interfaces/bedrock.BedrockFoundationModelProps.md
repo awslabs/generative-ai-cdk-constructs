@@ -25,10 +25,6 @@ Bedrock Agents can use this model.
 - false
 ```
 
-#### Defined in
-
-[src/cdk-lib/bedrock/models.ts:23](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L23)
-
 ___
 
 ### supportsKnowledgeBase
@@ -42,7 +38,3 @@ Bedrock Knowledge Base can use this model.
 ```ts
 - false
 ```
-
-#### Defined in
-
-[src/cdk-lib/bedrock/models.ts:29](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L29)

@@ -62,10 +62,6 @@ Deploy a Bedrock Agent.
 
 Construct.constructor
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:295](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L295)
-
 ## Properties
 
 ### agentArn
@@ -73,10 +69,6 @@ Construct.constructor
 • `Readonly` **agentArn**: `string`
 
 The ARN of the agent.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:276](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L276)
 
 ___
 
@@ -86,10 +78,6 @@ ___
 
 The unique identifier of the agent.
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:272](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L272)
-
 ___
 
 ### aliasArn
@@ -97,10 +85,6 @@ ___
 • `Optional` `Readonly` **aliasArn**: `string`
 
 The ARN of the agent alias.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:284](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L284)
 
 ___
 
@@ -110,10 +94,6 @@ ___
 
 The unique identifier of the agent alias.
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:280](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L280)
-
 ___
 
 ### aliasName
@@ -121,10 +101,6 @@ ___
 • `Optional` `Readonly` **aliasName**: `string`
 
 The name for the agent alias.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:288](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L288)
 
 ___
 
@@ -138,10 +114,6 @@ TagManager facilitates a common implementation of tagging for Constructs
 
 cdk.ITaggableV2.cdkTagManager
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:292](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L292)
-
 ___
 
 ### name
@@ -149,10 +121,6 @@ ___
 • `Readonly` **name**: `string`
 
 The name of the agent.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:264](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L264)
 
 ___
 
@@ -166,10 +134,6 @@ The tree node.
 
 Construct.node
 
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:265
-
 ___
 
 ### role
@@ -177,10 +141,6 @@ ___
 • `Readonly` **role**: `Role`
 
 The IAM role for the agent.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:268](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L268)
 
 ## Methods
 
@@ -200,10 +160,6 @@ Add an alias to the agent.
 
 [`AgentAlias`](bedrock.AgentAlias.md)
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:515](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L515)
-
 ___
 
 ### toString
@@ -219,10 +175,6 @@ Returns a string representation of this construct.
 #### Inherited from
 
 Construct.toString
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:278
 
 ___
 
@@ -261,7 +213,3 @@ true if `x` is an object created from a class which extends `Construct`.
 #### Inherited from
 
 Construct.isConstruct
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:261

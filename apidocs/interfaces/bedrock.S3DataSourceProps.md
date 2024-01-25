@@ -27,10 +27,6 @@ Properties for an S3 Data Source.
 
 The bucket that contains the data source.
 
-#### Defined in
-
-[src/cdk-lib/bedrock/s3-data-source.ts:67](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L67)
-
 ___
 
 ### chunkingStrategy
@@ -45,10 +41,6 @@ The chunking strategy to use.
 ChunkingStrategy.DEFAULT
 ```
 
-#### Defined in
-
-[src/cdk-lib/bedrock/s3-data-source.ts:79](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L79)
-
 ___
 
 ### dataSourceName
@@ -56,10 +48,6 @@ ___
 • `Readonly` **dataSourceName**: `string`
 
 The name of the data source.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/s3-data-source.ts:63](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L63)
 
 ___
 
@@ -75,10 +63,6 @@ The prefixes of the objects in the bucket that should be included in the data so
 - All objects in the bucket.
 ```
 
-#### Defined in
-
-[src/cdk-lib/bedrock/s3-data-source.ts:73](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L73)
-
 ___
 
 ### kmsKey
@@ -93,10 +77,6 @@ The KMS key to use to encrypt the data source.
 Amazon Bedrock encrypts your data with a key that AWS owns and manages
 ```
 
-#### Defined in
-
-[src/cdk-lib/bedrock/s3-data-source.ts:97](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L97)
-
 ___
 
 ### knowledgeBase
@@ -104,10 +84,6 @@ ___
 • `Readonly` **knowledgeBase**: [`KnowledgeBase`](../classes/bedrock.KnowledgeBase.md)
 
 The knowledge base that this data source belongs to.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/s3-data-source.ts:59](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L59)
 
 ___
 
@@ -123,10 +99,6 @@ The maximum number of tokens to use in a chunk.
 300
 ```
 
-#### Defined in
-
-[src/cdk-lib/bedrock/s3-data-source.ts:85](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L85)
-
 ___
 
 ### overlapPercentage
@@ -140,7 +112,3 @@ The percentage of overlap to use in a chunk.
 ```ts
 20
 ```
-
-#### Defined in
-
-[src/cdk-lib/bedrock/s3-data-source.ts:91](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L91)

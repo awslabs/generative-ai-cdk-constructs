@@ -51,7 +51,3 @@
 • `Const` **version**: `any`
 
 The version of this package
-
-#### Defined in
-
-[src/common/helpers/utils.ts:20](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/common/helpers/utils.ts#L20)

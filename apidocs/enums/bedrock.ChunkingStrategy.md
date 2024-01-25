@@ -26,10 +26,6 @@ splitting them up such that each file corresponds to a chunk.
 
 `FIXED_SIZE` with the default chunk size of 300 tokens and 20% overlap.
 
-#### Defined in
-
-[src/cdk-lib/bedrock/s3-data-source.ts:43](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L43)
-
 ___
 
 ### FIXED\_SIZE
@@ -38,10 +34,6 @@ ___
 
 Amazon Bedrock splits your source data into chunks of the approximate size
 that you set in the `fixedSizeChunkingConfiguration`.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/s3-data-source.ts:39](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L39)
 
 ___
 
@@ -52,7 +44,3 @@ ___
 Amazon Bedrock treats each file as one chunk. If you choose this option,
 you may want to pre-process your documents by splitting them into separate
 files.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/s3-data-source.ts:49](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L49)

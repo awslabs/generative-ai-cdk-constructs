@@ -22,16 +22,8 @@ uses a default prompt template.
 
 • **DEFAULT** = ``"DEFAULT"``
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:57](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L57)
-
 ___
 
 ### OVERRIDDEN
 
 • **OVERRIDDEN** = ``"OVERRIDDEN"``
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:58](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L58)

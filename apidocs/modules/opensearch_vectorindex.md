@@ -26,7 +26,3 @@
 Custom Resource provider for OpenSearch Index operations.
 
  This is an internal core function and should not be called directly by Solutions Constructs clients.
-
-#### Defined in
-
-[src/cdk-lib/opensearch-vectorindex/vector-index.ts:195](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L195)

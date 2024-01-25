@@ -32,10 +32,6 @@ The description of the knowledge base.
 - No description provided.
 ```
 
-#### Defined in
-
-[src/cdk-lib/bedrock/knowledge-base.ts:38](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L38)
-
 ___
 
 ### embeddingsModel
@@ -43,10 +39,6 @@ ___
 • `Readonly` **embeddingsModel**: [`BedrockFoundationModel`](../classes/bedrock.BedrockFoundationModel.md)
 
 The embeddings model for the knowledge base
-
-#### Defined in
-
-[src/cdk-lib/bedrock/knowledge-base.ts:31](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L31)
 
 ___
 
@@ -61,10 +53,6 @@ The name of the vector index.
 ```ts
 - 'bedrock-knowledge-base-default-index'
 ```
-
-#### Defined in
-
-[src/cdk-lib/bedrock/knowledge-base.ts:55](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L55)
 
 ___
 
@@ -83,10 +71,6 @@ query this Knowledge Base.
 - No description provided.
 ```
 
-#### Defined in
-
-[src/cdk-lib/bedrock/knowledge-base.ts:48](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L48)
-
 ___
 
 ### vectorField
@@ -100,10 +84,6 @@ The name of the field in the vector index.
 ```ts
 - 'bedrock-knowledge-base-default-vector'
 ```
-
-#### Defined in
-
-[src/cdk-lib/bedrock/knowledge-base.ts:62](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L62)
 
 ___
 
@@ -119,10 +99,6 @@ The vector index for the knowledge base.
 - A new vector index is created on the Vector Collection
 ```
 
-#### Defined in
-
-[src/cdk-lib/bedrock/knowledge-base.ts:76](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L76)
-
 ___
 
 ### vectorStore
@@ -136,7 +112,3 @@ The vector store for the knowledge base.
 ```ts
 - A new OpenSearch Serverless vector collection is created.
 ```
-
-#### Defined in
-
-[src/cdk-lib/bedrock/knowledge-base.ts:69](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L69)

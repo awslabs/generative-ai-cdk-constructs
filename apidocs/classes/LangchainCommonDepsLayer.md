@@ -62,10 +62,6 @@ public
 
 Construct.constructor
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-langchain-common-layer/index.ts:60](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-langchain-common-layer/index.ts#L60)
-
 ## Properties
 
 ### layer
@@ -73,10 +69,6 @@ Construct.constructor
 • `Readonly` **layer**: `LayerVersion`
 
 Returns the instance of lambda.LayerVersion created by the construct
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-langchain-common-layer/index.ts:50](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-langchain-common-layer/index.ts#L50)
 
 ___
 
@@ -89,10 +81,6 @@ The tree node.
 #### Inherited from
 
 Construct.node
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:265
 
 ## Methods
 
@@ -109,10 +97,6 @@ Returns a string representation of this construct.
 #### Inherited from
 
 Construct.toString
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:278
 
 ___
 
@@ -151,7 +135,3 @@ true if `x` is an object created from a class which extends `Construct`.
 #### Inherited from
 
 Construct.isConstruct
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:261

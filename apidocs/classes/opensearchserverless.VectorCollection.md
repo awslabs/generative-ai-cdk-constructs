@@ -57,10 +57,6 @@ It includes all policies.
 
 Construct.constructor
 
-#### Defined in
-
-[src/cdk-lib/opensearchserverless/vector-collection.ts:55](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearchserverless/vector-collection.ts#L55)
-
 ## Properties
 
 ### aossPolicy
@@ -68,10 +64,6 @@ Construct.constructor
 • **aossPolicy**: `ManagedPolicy`
 
 An IAM policy that allows API access to the collection.
-
-#### Defined in
-
-[src/cdk-lib/opensearchserverless/vector-collection.ts:42](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearchserverless/vector-collection.ts#L42)
 
 ___
 
@@ -81,10 +73,6 @@ ___
 
 The ARN of the collection.
 
-#### Defined in
-
-[src/cdk-lib/opensearchserverless/vector-collection.ts:37](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearchserverless/vector-collection.ts#L37)
-
 ___
 
 ### collectionId
@@ -92,10 +80,6 @@ ___
 • **collectionId**: `string`
 
 The ID of the collection.
-
-#### Defined in
-
-[src/cdk-lib/opensearchserverless/vector-collection.ts:33](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearchserverless/vector-collection.ts#L33)
 
 ___
 
@@ -105,10 +89,6 @@ ___
 
 The name of the collection.
 
-#### Defined in
-
-[src/cdk-lib/opensearchserverless/vector-collection.ts:28](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearchserverless/vector-collection.ts#L28)
-
 ___
 
 ### dataAccessPolicy
@@ -117,10 +97,6 @@ ___
 
 An OpenSearch Access Policy that allows access to the index.
 
-#### Defined in
-
-[src/cdk-lib/opensearchserverless/vector-collection.ts:47](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearchserverless/vector-collection.ts#L47)
-
 ___
 
 ### dataAccessPolicyDocument
@@ -128,10 +104,6 @@ ___
 • `Private` **dataAccessPolicyDocument**: `any`[] = `[]`
 
 An OpenSearch Access Policy document that will become `dataAccessPolicy`.
-
-#### Defined in
-
-[src/cdk-lib/opensearchserverless/vector-collection.ts:53](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearchserverless/vector-collection.ts#L53)
 
 ___
 
@@ -144,10 +116,6 @@ The tree node.
 #### Inherited from
 
 Construct.node
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:265
 
 ## Methods
 
@@ -167,10 +135,6 @@ Grants the specified role access to data in the collection.
 
 `void`
 
-#### Defined in
-
-[src/cdk-lib/opensearchserverless/vector-collection.ts:153](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearchserverless/vector-collection.ts#L153)
-
 ___
 
 ### toString
@@ -186,10 +150,6 @@ Returns a string representation of this construct.
 #### Inherited from
 
 Construct.toString
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:278
 
 ___
 
@@ -228,7 +188,3 @@ true if `x` is an object created from a class which extends `Construct`.
 #### Inherited from
 
 Construct.isConstruct
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:261

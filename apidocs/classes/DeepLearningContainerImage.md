@@ -112,19 +112,11 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 [ContainerImage](ContainerImage.md).[constructor](ContainerImage.md#constructor)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:92](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L92)
-
 ## Properties
 
 ### accountId
 
 • `Private` `Optional` `Readonly` **accountId**: `string`
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:95](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L95)
 
 ___
 
@@ -132,19 +124,11 @@ ___
 
 • `Private` `Readonly` **repositoryName**: `string`
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:93](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L93)
-
 ___
 
 ### tag
 
 • `Private` `Readonly` **tag**: `string`
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:94](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L94)
 
 ___
 
@@ -152,19 +136,11 @@ ___
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_19\_0\_DEEPSPEED0\_7\_3\_CU113**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:21](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L21)
-
 ___
 
 ### DJL\_INFERENCE\_0\_20\_0\_DEEPSPEED0\_7\_5\_CU116
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_20\_0\_DEEPSPEED0\_7\_5\_CU116**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:22](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L22)
 
 ___
 
@@ -172,19 +148,11 @@ ___
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_21\_0\_DEEPSPEED0\_8\_0\_CU117**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:23](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L23)
-
 ___
 
 ### DJL\_INFERENCE\_0\_21\_0\_DEEPSPEED0\_8\_3\_CU117
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_21\_0\_DEEPSPEED0\_8\_3\_CU117**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:24](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L24)
 
 ___
 
@@ -192,19 +160,11 @@ ___
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_21\_0\_FASTERTRANSFORMER5\_3\_0\_CU117**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:25](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L25)
-
 ___
 
 ### DJL\_INFERENCE\_0\_22\_1\_DEEPSPEED0\_8\_3\_CU118
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_22\_1\_DEEPSPEED0\_8\_3\_CU118**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:26](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L26)
 
 ___
 
@@ -212,19 +172,11 @@ ___
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_22\_1\_DEEPSPEED0\_9\_2\_CU118**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:27](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L27)
-
 ___
 
 ### DJL\_INFERENCE\_0\_22\_1\_FASTERTRANSFORMER5\_3\_0\_CU118
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_22\_1\_FASTERTRANSFORMER5\_3\_0\_CU118**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:28](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L28)
 
 ___
 
@@ -232,19 +184,11 @@ ___
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_22\_1\_NEURONX\_SDK2\_10\_0**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:29](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L29)
-
 ___
 
 ### DJL\_INFERENCE\_0\_22\_1\_NEURONX\_SDK2\_9\_0
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_22\_1\_NEURONX\_SDK2\_9\_0**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:30](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L30)
 
 ___
 
@@ -252,19 +196,11 @@ ___
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_23\_0\_DEEPSPEED0\_9\_5\_CU118**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:31](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L31)
-
 ___
 
 ### DJL\_INFERENCE\_0\_23\_0\_FASTERTRANSFORMER5\_3\_0\_CU118
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_23\_0\_FASTERTRANSFORMER5\_3\_0\_CU118**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:32](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L32)
 
 ___
 
@@ -272,19 +208,11 @@ ___
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_23\_0\_NEURONX\_SDK2\_12\_0**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:33](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L33)
-
 ___
 
 ### DJL\_INFERENCE\_0\_24\_0\_DEEPSPEED0\_10\_0\_CU118
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_24\_0\_DEEPSPEED0\_10\_0\_CU118**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:34](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L34)
 
 ___
 
@@ -292,19 +220,11 @@ ___
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_24\_0\_FASTERTRANSFORMER5\_3\_0\_CU118**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:35](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L35)
-
 ___
 
 ### DJL\_INFERENCE\_0\_24\_0\_NEURONX\_SDK2\_14\_1
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_24\_0\_NEURONX\_SDK2\_14\_1**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:36](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L36)
 
 ___
 
@@ -312,19 +232,11 @@ ___
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_25\_0\_DEEPSPEED0\_11\_0\_CU118**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:37](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L37)
-
 ___
 
 ### DJL\_INFERENCE\_0\_25\_0\_NEURONX\_SDK2\_15\_0
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_25\_0\_NEURONX\_SDK2\_15\_0**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:38](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L38)
 
 ___
 
@@ -332,19 +244,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_10\_2\_TRANSFORMERS4\_17\_0\_CPU\_PY38\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:39](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L39)
-
 ___
 
 ### HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_10\_2\_TRANSFORMERS4\_17\_0\_GPU\_PY38\_CU113\_UBUNTU20\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_10\_2\_TRANSFORMERS4\_17\_0\_GPU\_PY38\_CU113\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:40](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L40)
 
 ___
 
@@ -352,19 +256,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_13\_1\_TRANSFORMERS4\_26\_0\_CPU\_PY39\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:41](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L41)
-
 ___
 
 ### HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_13\_1\_TRANSFORMERS4\_26\_0\_GPU\_PY39\_CU117\_UBUNTU20\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_13\_1\_TRANSFORMERS4\_26\_0\_GPU\_PY39\_CU117\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:42](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L42)
 
 ___
 
@@ -372,19 +268,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_7\_1\_TRANSFORMERS4\_6\_1\_CPU\_PY36\_UBUNTU18\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:43](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L43)
-
 ___
 
 ### HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_7\_1\_TRANSFORMERS4\_6\_1\_GPU\_PY36\_CU110\_UBUNTU18\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_7\_1\_TRANSFORMERS4\_6\_1\_GPU\_PY36\_CU110\_UBUNTU18\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:44](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L44)
 
 ___
 
@@ -392,19 +280,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_8\_1\_TRANSFORMERS4\_10\_2\_CPU\_PY36\_UBUNTU18\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:45](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L45)
-
 ___
 
 ### HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_8\_1\_TRANSFORMERS4\_10\_2\_GPU\_PY36\_CU111\_UBUNTU18\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_8\_1\_TRANSFORMERS4\_10\_2\_GPU\_PY36\_CU111\_UBUNTU18\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:46](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L46)
 
 ___
 
@@ -412,19 +292,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_8\_1\_TRANSFORMERS4\_6\_1\_CPU\_PY36\_UBUNTU18\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:47](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L47)
-
 ___
 
 ### HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_8\_1\_TRANSFORMERS4\_6\_1\_GPU\_PY36\_CU111\_UBUNTU18\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_8\_1\_TRANSFORMERS4\_6\_1\_GPU\_PY36\_CU111\_UBUNTU18\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:48](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L48)
 
 ___
 
@@ -432,19 +304,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_9\_0\_TRANSFORMERS4\_10\_2\_CPU\_PY38\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:49](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L49)
-
 ___
 
 ### HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_9\_0\_TRANSFORMERS4\_10\_2\_GPU\_PY38\_CU111\_UBUNTU20\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_9\_0\_TRANSFORMERS4\_10\_2\_GPU\_PY38\_CU111\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:50](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L50)
 
 ___
 
@@ -452,19 +316,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_9\_0\_TRANSFORMERS4\_11\_0\_CPU\_PY38\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:51](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L51)
-
 ___
 
 ### HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_9\_0\_TRANSFORMERS4\_11\_0\_GPU\_PY38\_CU111\_UBUNTU20\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_9\_0\_TRANSFORMERS4\_11\_0\_GPU\_PY38\_CU111\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:52](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L52)
 
 ___
 
@@ -472,19 +328,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_9\_1\_TRANSFORMERS4\_12\_3\_CPU\_PY38\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:53](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L53)
-
 ___
 
 ### HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_9\_1\_TRANSFORMERS4\_12\_3\_GPU\_PY38\_CU111\_UBUNTU20\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_9\_1\_TRANSFORMERS4\_12\_3\_GPU\_PY38\_CU111\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:54](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L54)
 
 ___
 
@@ -492,19 +340,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_0\_0\_TRANSFORMERS4\_28\_1\_CPU\_PY310\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:55](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L55)
-
 ___
 
 ### HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_0\_0\_TRANSFORMERS4\_28\_1\_GPU\_PY310\_CU118\_UBUNTU20\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_0\_0\_TRANSFORMERS4\_28\_1\_GPU\_PY310\_CU118\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:56](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L56)
 
 ___
 
@@ -512,19 +352,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_1\_13\_0\_TRANSFORMERS4\_28\_1\_NEURONX\_PY38\_SDK2\_9\_1\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:57](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L57)
-
 ___
 
 ### HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_1\_13\_1\_TRANSFORMERS4\_34\_1\_NEURONX\_PY310\_SDK2\_15\_0\_UBUNTU20\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_1\_13\_1\_TRANSFORMERS4\_34\_1\_NEURONX\_PY310\_SDK2\_15\_0\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:58](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L58)
 
 ___
 
@@ -532,19 +364,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_0\_0\_TGI0\_6\_0\_GPU\_PY39\_CU118\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:59](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L59)
-
 ___
 
 ### HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_0\_0\_TGI0\_8\_2\_GPU\_PY39\_CU118\_UBUNTU20\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_0\_0\_TGI0\_8\_2\_GPU\_PY39\_CU118\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:60](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L60)
 
 ___
 
@@ -552,19 +376,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_0\_1\_TGI0\_9\_3\_GPU\_PY39\_CU118\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:61](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L61)
-
 ___
 
 ### HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_0\_1\_TGI1\_0\_3\_GPU\_PY39\_CU118\_UBUNTU20\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_0\_1\_TGI1\_0\_3\_GPU\_PY39\_CU118\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:62](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L62)
 
 ___
 
@@ -572,19 +388,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_0\_1\_TGI1\_1\_0\_GPU\_PY39\_CU118\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:63](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L63)
-
 ___
 
 ### HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_11\_0\_TRANSFORMERS4\_26\_0\_CPU\_PY39\_UBUNTU20\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_11\_0\_TRANSFORMERS4\_26\_0\_CPU\_PY39\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:64](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L64)
 
 ___
 
@@ -592,19 +400,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_11\_0\_TRANSFORMERS4\_26\_0\_GPU\_PY39\_CU112\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:65](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L65)
-
 ___
 
 ### HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_11\_1\_TRANSFORMERS4\_26\_0\_CPU\_PY39\_UBUNTU20\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_11\_1\_TRANSFORMERS4\_26\_0\_CPU\_PY39\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:66](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L66)
 
 ___
 
@@ -612,19 +412,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_11\_1\_TRANSFORMERS4\_26\_0\_GPU\_PY39\_CU112\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:67](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L67)
-
 ___
 
 ### HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_4\_1\_TRANSFORMERS4\_6\_1\_CPU\_PY37\_UBUNTU18\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_4\_1\_TRANSFORMERS4\_6\_1\_CPU\_PY37\_UBUNTU18\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:68](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L68)
 
 ___
 
@@ -632,19 +424,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_4\_1\_TRANSFORMERS4\_6\_1\_GPU\_PY37\_CU110\_UBUNTU18\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:69](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L69)
-
 ___
 
 ### HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_4\_3\_TRANSFORMERS4\_10\_2\_CPU\_PY37\_UBUNTU18\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_4\_3\_TRANSFORMERS4\_10\_2\_CPU\_PY37\_UBUNTU18\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:70](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L70)
 
 ___
 
@@ -652,19 +436,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_4\_3\_TRANSFORMERS4\_10\_2\_GPU\_PY37\_CU110\_UBUNTU18\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:71](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L71)
-
 ___
 
 ### HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_5\_1\_TRANSFORMERS4\_10\_2\_CPU\_PY37\_UBUNTU18\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_5\_1\_TRANSFORMERS4\_10\_2\_CPU\_PY37\_UBUNTU18\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:72](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L72)
 
 ___
 
@@ -672,19 +448,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_5\_1\_TRANSFORMERS4\_10\_2\_GPU\_PY37\_CU112\_UBUNTU18\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:73](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L73)
-
 ___
 
 ### HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_5\_1\_TRANSFORMERS4\_11\_0\_CPU\_PY37\_UBUNTU18\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_5\_1\_TRANSFORMERS4\_11\_0\_CPU\_PY37\_UBUNTU18\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:74](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L74)
 
 ___
 
@@ -692,19 +460,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_5\_1\_TRANSFORMERS4\_11\_0\_GPU\_PY37\_CU112\_UBUNTU18\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:75](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L75)
-
 ___
 
 ### HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_5\_1\_TRANSFORMERS4\_12\_3\_CPU\_PY37\_UBUNTU18\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_5\_1\_TRANSFORMERS4\_12\_3\_CPU\_PY37\_UBUNTU18\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:76](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L76)
 
 ___
 
@@ -712,19 +472,11 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_5\_1\_TRANSFORMERS4\_12\_3\_GPU\_PY37\_CU112\_UBUNTU18\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:77](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L77)
-
 ___
 
 ### HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_5\_3\_TRANSFORMERS4\_12\_3\_CPU\_PY37\_UBUNTU18\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_5\_3\_TRANSFORMERS4\_12\_3\_CPU\_PY37\_UBUNTU18\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:78](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L78)
 
 ___
 
@@ -732,29 +484,17 @@ ___
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_5\_3\_TRANSFORMERS4\_12\_3\_GPU\_PY37\_CU112\_UBUNTU18\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:79](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L79)
-
 ___
 
 ### HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_6\_3\_TRANSFORMERS4\_17\_0\_CPU\_PY38\_UBUNTU20\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_6\_3\_TRANSFORMERS4\_17\_0\_CPU\_PY38\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:80](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L80)
-
 ___
 
 ### HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_6\_3\_TRANSFORMERS4\_17\_0\_GPU\_PY38\_CU112\_UBUNTU20\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_6\_3\_TRANSFORMERS4\_17\_0\_GPU\_PY38\_CU112\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:81](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L81)
 
 ## Methods
 
@@ -777,10 +517,6 @@ ___
 
 [ContainerImage](ContainerImage.md).[bind](ContainerImage.md#bind)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:100](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L100)
-
 ___
 
 ### fromAsset
@@ -802,10 +538,6 @@ ___
 
 [ContainerImage](ContainerImage.md).[fromAsset](ContainerImage.md#fromasset)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts:42](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts#L42)
-
 ___
 
 ### fromDeepLearningContainerImage
@@ -823,10 +555,6 @@ ___
 #### Returns
 
 [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts:84](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts#L84)
 
 ___
 
@@ -848,7 +576,3 @@ ___
 #### Inherited from
 
 [ContainerImage](ContainerImage.md).[fromEcrRepository](ContainerImage.md#fromecrrepository)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts:35](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts#L35)

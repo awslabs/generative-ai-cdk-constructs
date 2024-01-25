@@ -29,10 +29,6 @@ Defines the prompt template with which to replace the default prompt template.
 
 0-100000
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:155](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L155)
-
 ___
 
 ### inferenceConfiguration
@@ -41,10 +37,6 @@ ___
 
 Contains inference parameters to use when the agent invokes a foundation
 model in the part of the agent sequence defined by the promptType.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:149](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L149)
 
 ___
 
@@ -58,10 +50,6 @@ defined by the promptType. If you set the field as OVERRIDEN, the
 overrideLambda field in the PromptOverrideConfiguration must be specified
 with the ARN of a Lambda function.
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:163](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L163)
-
 ___
 
 ### promptCreationMode
@@ -72,10 +60,6 @@ Specifies whether to override the default prompt template for this
 promptType. Set this value to OVERRIDDEN to use the prompt that you
 provide in the basePromptTemplate. If you leave it as DEFAULT, the agent
 uses a default prompt template.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:170](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L170)
 
 ___
 
@@ -92,10 +76,6 @@ step. The default state for each promptType is as follows.
     KNOWLEDGE_BASE_RESPONSE_GENERATION – ENABLED
     POST_PROCESSING – DISABLED
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:181](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L181)
-
 ___
 
 ### promptType
@@ -103,7 +83,3 @@ ___
 • `Readonly` **promptType**: [`PromptType`](../enums/bedrock.PromptType.md)
 
 The step in the agent sequence that this prompt configuration applies to.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:144](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L144)

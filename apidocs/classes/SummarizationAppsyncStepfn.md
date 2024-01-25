@@ -65,10 +65,6 @@ public
 
 Construct.constructor
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:238](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L238)
-
 ## Properties
 
 ### eventBridgeBus
@@ -76,10 +72,6 @@ Construct.constructor
 • `Readonly` **eventBridgeBus**: `IEventBus`
 
 Returns an instance of events.IEventBus created by the construct
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:196](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L196)
 
 ___
 
@@ -89,10 +81,6 @@ ___
 
 Returns an instance of appsync.CfnGraphQLApi for summary created by the construct
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:200](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L200)
-
 ___
 
 ### inputAssetBucket
@@ -100,10 +88,6 @@ ___
 • `Readonly` **inputAssetBucket**: `IBucket`
 
 Returns the instance of s3.IBucket used by the construct
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:218](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L218)
 
 ___
 
@@ -117,10 +101,6 @@ The tree node.
 
 Construct.node
 
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:265
-
 ___
 
 ### processedAssetBucket
@@ -128,10 +108,6 @@ ___
 • `Readonly` **processedAssetBucket**: `IBucket`
 
 Returns the instance of s3.IBucket used by the construct
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:222](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L222)
 
 ___
 
@@ -141,10 +117,6 @@ ___
 
 Returns an instance of redis cluster created by the construct
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:205](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L205)
-
 ___
 
 ### securityGroup
@@ -152,10 +124,6 @@ ___
 • `Readonly` **securityGroup**: `ISecurityGroup`
 
 Returns the instance of ec2.ISecurityGroup used by the construct
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:214](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L214)
 
 ___
 
@@ -171,10 +139,6 @@ Step function
 - fieldLogLevel - None
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:227](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L227)
-
 ___
 
 ### vpc
@@ -182,10 +146,6 @@ ___
 • `Readonly` **vpc**: `IVpc`
 
 Returns the instance of ec2.IVpc used by the construct
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:210](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L210)
 
 ## Methods
 
@@ -202,10 +162,6 @@ Returns a string representation of this construct.
 #### Inherited from
 
 Construct.toString
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:278
 
 ___
 
@@ -244,7 +200,3 @@ true if `x` is an object created from a class which extends `Construct`.
 #### Inherited from
 
 Construct.isConstruct
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:261

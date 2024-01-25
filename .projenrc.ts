@@ -195,7 +195,7 @@ project.addTask('generate-models-containers', {
 
 const postCompile = project.tasks.tryFind('post-compile');
 if (postCompile) {
-  postCompile.exec('npx typedoc --plugin typedoc-plugin-markdown --out apidocs --readme none --categoryOrder "Namespaces,Classes,Interfaces,*"  ./src/index.ts');
+  postCompile.exec('npx typedoc --plugin typedoc-plugin-markdown --out apidocs --readme none --categoryOrder "Namespaces,Classes,Interfaces,*" --disableSources ./src/index.ts');
 }
 
 project.synth();

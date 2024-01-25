@@ -53,10 +53,6 @@ Creates a new construct node.
 
 Construct.constructor
 
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:274
-
 ## Properties
 
 ### node
@@ -69,10 +65,6 @@ The tree node.
 
 Construct.node
 
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:265
-
 ## Methods
 
 ### createSageMakerRole
@@ -82,10 +74,6 @@ node_modules/constructs/lib/construct.d.ts:265
 #### Returns
 
 `Role`
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-endpoint-base.ts:17](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-endpoint-base.ts#L17)
 
 ___
 
@@ -102,10 +90,6 @@ Returns a string representation of this construct.
 #### Inherited from
 
 Construct.toString
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:278
 
 ___
 
@@ -144,7 +128,3 @@ true if `x` is an object created from a class which extends `Construct`.
 #### Inherited from
 
 Construct.isConstruct
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:261

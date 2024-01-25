@@ -69,19 +69,11 @@ The JumpStartSageMakerEndpoint class.
 
 [SageMakerEndpointBase](SageMakerEndpointBase.md).[constructor](SageMakerEndpointBase.md#constructor)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:52](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L52)
-
 ## Properties
 
 ### cfnEndpoint
 
 • `Readonly` **cfnEndpoint**: `CfnEndpoint`
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:39](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L39)
 
 ___
 
@@ -89,29 +81,17 @@ ___
 
 • `Readonly` **cfnEndpointConfig**: `CfnEndpointConfig`
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:40](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L40)
-
 ___
 
 ### cfnModel
 
 • `Readonly` **cfnModel**: `CfnModel`
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:38](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L38)
-
 ___
 
 ### endpointArn
 
 • `Readonly` **endpointArn**: `string`
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:37](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L37)
 
 ___
 
@@ -123,19 +103,11 @@ ___
 
 ▪ [key: `string`]: `string`
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:50](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L50)
-
 ___
 
 ### grantPrincipal
 
 • `Readonly` **grantPrincipal**: `IPrincipal`
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:36](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L36)
 
 ___
 
@@ -143,29 +115,17 @@ ___
 
 • `Readonly` **instanceCount**: `number`
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:44](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L44)
-
 ___
 
 ### instanceType
 
 • `Optional` `Readonly` **instanceType**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:43](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L43)
-
 ___
 
 ### model
 
 • `Readonly` **model**: [`JumpStartModel`](JumpStartModel.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:42](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L42)
 
 ___
 
@@ -179,19 +139,11 @@ The tree node.
 
 [SageMakerEndpointBase](SageMakerEndpointBase.md).[node](SageMakerEndpointBase.md#node)
 
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:265
-
 ___
 
 ### region
 
 • `Private` `Readonly` **region**: `string`
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:47](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L47)
 
 ___
 
@@ -199,29 +151,17 @@ ___
 
 • `Readonly` **role**: `Role`
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:45](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L45)
-
 ___
 
 ### spec
 
 • `Private` `Readonly` **spec**: [`IJumpStartModelSpec`](../interfaces/IJumpStartModelSpec.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:48](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L48)
-
 ___
 
 ### startupHealthCheckTimeoutInSeconds
 
 • `Private` `Readonly` **startupHealthCheckTimeoutInSeconds**: `number`
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:49](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L49)
 
 ## Methods
 
@@ -239,10 +179,6 @@ ___
 
 `void`
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:115](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L115)
-
 ___
 
 ### buildEnvironment
@@ -259,10 +195,6 @@ ___
 
 `Object`
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:149](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L149)
-
 ___
 
 ### createSageMakerRole
@@ -276,10 +208,6 @@ ___
 #### Inherited from
 
 [SageMakerEndpointBase](SageMakerEndpointBase.md).[createSageMakerRole](SageMakerEndpointBase.md#createsagemakerrole)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-endpoint-base.ts:17](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-endpoint-base.ts#L17)
 
 ___
 
@@ -301,10 +229,6 @@ ___
 
 `CfnModel`
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:163](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L163)
-
 ___
 
 ### getModelFromPackage
@@ -322,10 +246,6 @@ ___
 
 `CfnModel`
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:231](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L231)
-
 ___
 
 ### grantInvoke
@@ -341,10 +261,6 @@ ___
 #### Returns
 
 `Grant`
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:123](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L123)
 
 ___
 
@@ -362,10 +278,6 @@ Returns a string representation of this construct.
 
 [SageMakerEndpointBase](SageMakerEndpointBase.md).[toString](SageMakerEndpointBase.md#tostring)
 
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:278
-
 ___
 
 ### verifyInstanceType
@@ -375,10 +287,6 @@ ___
 #### Returns
 
 `string`
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts:131](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-sagemaker-endpoint.ts#L131)
 
 ___
 
@@ -417,7 +325,3 @@ true if `x` is an object created from a class which extends `Construct`.
 #### Inherited from
 
 [SageMakerEndpointBase](SageMakerEndpointBase.md).[isConstruct](SageMakerEndpointBase.md#isconstruct)
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:261

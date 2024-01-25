@@ -70,10 +70,6 @@ public
 
 Construct.constructor
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:204](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L204)
-
 ## Properties
 
 ### graphqlApi
@@ -82,10 +78,6 @@ Construct.constructor
 
 Returns an instance of appsync.IGraphqlApi created by the construct
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:190](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L190)
-
 ___
 
 ### ingestionBus
@@ -93,10 +85,6 @@ ___
 • `Readonly` **ingestionBus**: `IEventBus`
 
 Returns the instance of events.IEventBus used by the construct
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:166](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L166)
 
 ___
 
@@ -110,10 +98,6 @@ The tree node.
 
 Construct.node
 
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:265
-
 ___
 
 ### s3InputAssetsBucket
@@ -124,10 +108,6 @@ Returns an instance of s3.Bucket created by the construct.
 IMPORTANT: If existingInputAssetsBucketObj was provided in Pattern Construct Props,
 this property will be undefined
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:176](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L176)
-
 ___
 
 ### s3InputAssetsBucketInterface
@@ -135,10 +115,6 @@ ___
 • `Readonly` **s3InputAssetsBucketInterface**: `IBucket`
 
 Returns an instance of s3.IBucket created by the construct
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:170](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L170)
 
 ___
 
@@ -150,10 +126,6 @@ Returns an instance of s3.Bucket created by the construct.
 IMPORTANT: If existingProcessedAssetsBucketObj was provided in Pattern Construct Props,
 this property will be undefined
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:186](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L186)
-
 ___
 
 ### s3ProcessedAssetsBucketInterface
@@ -161,10 +133,6 @@ ___
 • `Readonly` **s3ProcessedAssetsBucketInterface**: `IBucket`
 
 Returns an instance of s3.IBucket created by the construct
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:180](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L180)
 
 ___
 
@@ -174,10 +142,6 @@ ___
 
 Returns the instance of ec2.ISecurityGroup used by the construct
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:162](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L162)
-
 ___
 
 ### stateMachine
@@ -186,10 +150,6 @@ ___
 
 Returns an instance of stepfn.StateMachine created by the construct
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:194](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L194)
-
 ___
 
 ### vpc
@@ -197,10 +157,6 @@ ___
 • `Readonly` **vpc**: `IVpc`
 
 Returns the instance of ec2.IVpc used by the construct
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:158](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L158)
 
 ## Methods
 
@@ -217,10 +173,6 @@ Returns a string representation of this construct.
 #### Inherited from
 
 Construct.toString
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:278
 
 ___
 
@@ -259,7 +211,3 @@ true if `x` is an object created from a class which extends `Construct`.
 #### Inherited from
 
 Construct.isConstruct
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:261

@@ -22,10 +22,6 @@ Metadata field definitions.
 
 The data type of the field.
 
-#### Defined in
-
-[src/cdk-lib/opensearch-vectorindex/vector-index.ts:33](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L33)
-
 ___
 
 ### filterable
@@ -34,10 +30,6 @@ ___
 
 Whether the field is filterable.
 
-#### Defined in
-
-[src/cdk-lib/opensearch-vectorindex/vector-index.ts:37](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L37)
-
 ___
 
 ### mappingField
@@ -45,7 +37,3 @@ ___
 • `Readonly` **mappingField**: `string`
 
 The name of the field.
-
-#### Defined in
-
-[src/cdk-lib/opensearch-vectorindex/vector-index.ts:29](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L29)

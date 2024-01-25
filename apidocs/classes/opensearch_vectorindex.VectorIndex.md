@@ -59,10 +59,6 @@ Deploy a vector index on the collection.
 
 cdk.Resource.constructor
 
-#### Defined in
-
-[src/cdk-lib/opensearch-vectorindex/vector-index.ts:119](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L119)
-
 ## Properties
 
 ### env
@@ -72,10 +68,6 @@ cdk.Resource.constructor
 #### Inherited from
 
 cdk.Resource.env
-
-#### Defined in
-
-node_modules/aws-cdk-lib/core/lib/resource.d.ts:111
 
 ___
 
@@ -88,10 +80,6 @@ The tree node.
 #### Inherited from
 
 cdk.Resource.node
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:265
 
 ___
 
@@ -112,10 +100,6 @@ This value will resolve to one of the following:
 
 cdk.Resource.physicalName
 
-#### Defined in
-
-node_modules/aws-cdk-lib/core/lib/resource.d.ts:123
-
 ___
 
 ### stack
@@ -125,10 +109,6 @@ ___
 #### Inherited from
 
 cdk.Resource.stack
-
-#### Defined in
-
-node_modules/aws-cdk-lib/core/lib/resource.d.ts:110
 
 ## Methods
 
@@ -148,10 +128,6 @@ through its absolute name/arn.
 #### Inherited from
 
 cdk.Resource.\_enableCrossEnvironment
-
-#### Defined in
-
-node_modules/aws-cdk-lib/core/lib/resource.d.ts:135
 
 ___
 
@@ -183,10 +159,6 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 cdk.Resource.applyRemovalPolicy
 
-#### Defined in
-
-node_modules/aws-cdk-lib/core/lib/resource.d.ts:147
-
 ___
 
 ### generatePhysicalName
@@ -200,10 +172,6 @@ ___
 #### Inherited from
 
 cdk.Resource.generatePhysicalName
-
-#### Defined in
-
-node_modules/aws-cdk-lib/core/lib/resource.d.ts:148
 
 ___
 
@@ -234,10 +202,6 @@ a concrete ARN with the resource's physical name. Make sure to reference
 
 cdk.Resource.getResourceArnAttribute
 
-#### Defined in
-
-node_modules/aws-cdk-lib/core/lib/resource.d.ts:178
-
 ___
 
 ### getResourceNameAttribute
@@ -265,10 +229,6 @@ which will be a concrete name.
 
 cdk.Resource.getResourceNameAttribute
 
-#### Defined in
-
-node_modules/aws-cdk-lib/core/lib/resource.d.ts:160
-
 ___
 
 ### toString
@@ -284,10 +244,6 @@ Returns a string representation of this construct.
 #### Inherited from
 
 cdk.Resource.toString
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:278
 
 ___
 
@@ -327,10 +283,6 @@ true if `x` is an object created from a class which extends `Construct`.
 
 cdk.Resource.isConstruct
 
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:261
-
 ___
 
 ### isOwnedResource
@@ -353,10 +305,6 @@ Returns true if the construct was created by CDK, and false otherwise
 
 cdk.Resource.isOwnedResource
 
-#### Defined in
-
-node_modules/aws-cdk-lib/core/lib/resource.d.ts:109
-
 ___
 
 ### isResource
@@ -378,7 +326,3 @@ construct is Resource
 #### Inherited from
 
 cdk.Resource.isResource
-
-#### Defined in
-
-node_modules/aws-cdk-lib/core/lib/resource.d.ts:105

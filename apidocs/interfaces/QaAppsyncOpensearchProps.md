@@ -39,10 +39,6 @@ Providing both this and `existingInputAssetsBucketObj` will cause an error.
 - Default props are used
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:76](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L76)
-
 ___
 
 ### cognitoUserPool
@@ -56,10 +52,6 @@ Cognito user pool used for authentication.
 ```ts
 - None
 ```
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:107](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L107)
 
 ___
 
@@ -80,10 +72,6 @@ simply disable it by setting the construct property
 - true
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:132](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L132)
-
 ___
 
 ### existingBusInterface
@@ -97,10 +85,6 @@ Optional Existing instance of an EventBridge bus. If not provided, the construct
 ```ts
 - None
 ```
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:63](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L63)
 
 ___
 
@@ -116,10 +100,6 @@ Existing instance of S3 Bucket object, providing both this and `bucketInputsAsse
 - None
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:69](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L69)
-
 ___
 
 ### existingMergedApi
@@ -134,10 +114,6 @@ Existing merged Appsync GraphQL api.
 - None
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:101](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L101)
-
 ___
 
 ### existingOpensearchDomain
@@ -151,10 +127,6 @@ Existing Amazon OpenSearch Service domain.
 ```ts
 - None
 ```
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:82](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L82)
 
 ___
 
@@ -171,10 +143,6 @@ built by this construct. If not provided, the construct will create one.
 - none
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:57](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L57)
-
 ___
 
 ### existingVpc
@@ -190,10 +158,6 @@ vpcProps is an error.
 - none
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:50](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L50)
-
 ___
 
 ### lambdaProvisionedConcurrency
@@ -202,10 +166,6 @@ ___
 
 Optional. Allows a user to configure
 Lambda provisioned concurrency for consistent performance
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:138](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L138)
 
 ___
 
@@ -222,10 +182,6 @@ used. Best practive to enable by default.
 - true
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:120](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L120)
-
 ___
 
 ### openSearchIndexName
@@ -239,10 +195,6 @@ Data Index name for the OpenSearch Service.
 ```ts
 - None
 ```
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:88](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L88)
 
 ___
 
@@ -259,10 +211,6 @@ domain is configured with Username/Password.
 - None
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:95](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L95)
-
 ___
 
 ### stage
@@ -276,10 +224,6 @@ Value will be appended to resources name.
 ```ts
 - _dev
 ```
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:113](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L113)
 
 ___
 
@@ -296,7 +240,3 @@ both this and existingVpc is an error.
 ```ts
 - none
 ```
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:43](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L43)

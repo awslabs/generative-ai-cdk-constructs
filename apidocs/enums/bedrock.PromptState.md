@@ -26,16 +26,8 @@ The default state for each promptType is as follows.
 
 • **DISABLED** = ``"DISABLED"``
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:73](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L73)
-
 ___
 
 ### ENABLED
 
 • **ENABLED** = ``"ENABLED"``
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:72](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L72)

@@ -64,10 +64,6 @@ This construct creates the collection and index.
 
 Construct.constructor
 
-#### Defined in
-
-[src/cdk-lib/bedrock/knowledge-base.ts:128](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L128)
-
 ## Properties
 
 ### cdkTagManager
@@ -80,10 +76,6 @@ TagManager facilitates a common implementation of tagging for Constructs
 
 cdk.ITaggableV2.cdkTagManager
 
-#### Defined in
-
-[src/cdk-lib/bedrock/knowledge-base.ts:119](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L119)
-
 ___
 
 ### instruction
@@ -91,10 +83,6 @@ ___
 • `Optional` `Readonly` **instruction**: `string`
 
 A narrative instruction of the knowledge base.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/knowledge-base.ts:104](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L104)
 
 ___
 
@@ -104,10 +92,6 @@ ___
 
 The ARN of the knowledge base.
 
-#### Defined in
-
-[src/cdk-lib/bedrock/knowledge-base.ts:109](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L109)
-
 ___
 
 ### knowledgeBaseId
@@ -116,10 +100,6 @@ ___
 
 The ID of the knowledge base.
 
-#### Defined in
-
-[src/cdk-lib/bedrock/knowledge-base.ts:114](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L114)
-
 ___
 
 ### name
@@ -127,10 +107,6 @@ ___
 • `Readonly` **name**: `string`
 
 The name of the knowledge base.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/knowledge-base.ts:89](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L89)
 
 ___
 
@@ -144,10 +120,6 @@ The tree node.
 
 Construct.node
 
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:265
-
 ___
 
 ### role
@@ -155,10 +127,6 @@ ___
 • `Readonly` **role**: `Role`
 
 The role the Knowledge Base uses to access the vector store and data source.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/knowledge-base.ts:94](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L94)
 
 ___
 
@@ -168,10 +136,6 @@ ___
 
 The OpenSearch vector index for the knowledge base.
 
-#### Defined in
-
-[src/cdk-lib/bedrock/knowledge-base.ts:126](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L126)
-
 ___
 
 ### vectorStore
@@ -179,10 +143,6 @@ ___
 • `Readonly` **vectorStore**: [`VectorCollection`](opensearchserverless.VectorCollection.md)
 
 The vector store for the knowledge base.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/knowledge-base.ts:99](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L99)
 
 ## Methods
 
@@ -199,10 +159,6 @@ Returns a string representation of this construct.
 #### Inherited from
 
 Construct.toString
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:278
 
 ___
 
@@ -241,7 +197,3 @@ true if `x` is an object created from a class which extends `Construct`.
 #### Inherited from
 
 Construct.isConstruct
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:261

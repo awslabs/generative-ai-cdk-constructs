@@ -56,10 +56,6 @@ Validate the inferenceConfiguration of a prompt override.
 
 `void`
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:541](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L541)
-
 ___
 
 ### validatePromptOverrideConfiguration
@@ -79,7 +75,3 @@ Validate the promptOverrideConfiguration.
 #### Returns
 
 `void`
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:576](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L576)

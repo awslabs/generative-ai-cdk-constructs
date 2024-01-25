@@ -41,10 +41,6 @@ Providing both this and `existingInputAssetsBucketObj` will cause an error.
 - Default props are used
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:98](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L98)
-
 ___
 
 ### bucketProcessedAssetsProps
@@ -59,10 +55,6 @@ Providing both this and `existingProcessedAssetsBucketObj` will cause an error.
 ```ts
 - Default props are used
 ```
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:124](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L124)
 
 ___
 
@@ -85,10 +77,6 @@ cacheNodeType -  'cache.r6g.xlarge'
 numCacheNodes- 1
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:68](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L68)
-
 ___
 
 ### cognitoUserPool
@@ -102,10 +90,6 @@ Required. Cognito user pool used for authentication.
 ```ts
 - None
 ```
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:82](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L82)
 
 ___
 
@@ -126,10 +110,6 @@ simply disable it by setting the construct property
 - true
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:182](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L182)
-
 ___
 
 ### eventBusProps
@@ -145,10 +125,6 @@ Providing existingEventBusInterface and eventBusProps both will result in valida
 - None
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:140](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L140)
-
 ___
 
 ### existingBusInterface
@@ -163,10 +139,6 @@ to route the request to step functions.
 ```ts
 - None
 ```
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:132](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L132)
 
 ___
 
@@ -184,10 +156,6 @@ available then this bucket is optional.
 - None
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:90](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L90)
-
 ___
 
 ### existingMergedApi
@@ -201,10 +169,6 @@ Optional - Existing merged Appsync GraphQL api.
 ```ts
 - None
 ```
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:147](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L147)
 
 ___
 
@@ -221,10 +185,6 @@ If None is provided then this contruct will create one.
 - None
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:115](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L115)
-
 ___
 
 ### existingRedisCulster
@@ -239,10 +199,6 @@ for subsequent request of same document.
 ```ts
 - none
 ```
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:59](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L59)
 
 ___
 
@@ -259,10 +215,6 @@ If no exisiting security group is provided it will create one from the vpc.
 - none
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:75](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L75)
-
 ___
 
 ### existingVpc
@@ -277,10 +229,6 @@ Providing both this and vpcProps is an error.
 ```ts
 - none
 ```
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:51](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L51)
 
 ___
 
@@ -299,10 +247,6 @@ input asset bucket to txt format.
 - False
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:108](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L108)
-
 ___
 
 ### observability
@@ -318,10 +262,6 @@ used. Best practice to enable by default.
 - true
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:161](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L161)
-
 ___
 
 ### stage
@@ -335,10 +275,6 @@ Value will be appended to resources name.
 ```ts
 - _dev
 ```
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:189](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L189)
 
 ___
 
@@ -354,10 +290,6 @@ A graphql api will be created by this construct with this name.
 ```ts
 'summaryApi'
 ```
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:154](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L154)
 
 ___
 
@@ -377,10 +309,6 @@ Refine :  This constructs a response by looping over the input documents and ite
 - Stuff
 ```
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:170](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L170)
-
 ___
 
 ### vpcProps
@@ -395,7 +323,3 @@ Providing both this and existingVpc is an error.
 ```ts
 - none
 ```
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:43](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L43)

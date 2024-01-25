@@ -34,10 +34,6 @@ Name of the alias for the agent.
 - No alias is created.
 ```
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:254](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L254)
-
 ___
 
 ### description
@@ -51,10 +47,6 @@ A description of the agent.
 ```ts
 - No description is provided.
 ```
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:224](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L224)
 
 ___
 
@@ -70,10 +62,6 @@ KMS encryption key to use for the agent.
 - An AWS managed key is used.
 ```
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:242](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L242)
-
 ___
 
 ### foundationModel
@@ -81,10 +69,6 @@ ___
 • `Readonly` **foundationModel**: [`BedrockFoundationModel`](../classes/bedrock.BedrockFoundationModel.md)
 
 The Bedrock text foundation model for the agent to use.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:208](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L208)
 
 ___
 
@@ -100,10 +84,6 @@ How long sessions should be kept open for the agent.
 - 1 hour
 ```
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:236](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L236)
-
 ___
 
 ### instruction
@@ -111,10 +91,6 @@ ___
 • `Readonly` **instruction**: `string`
 
 A narrative instruction to provide the agent as context.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:218](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L218)
 
 ___
 
@@ -130,10 +106,6 @@ Knowledge Bases to make available to the agent.
 - No knowledge base is used.
 ```
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:230](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L230)
-
 ___
 
 ### name
@@ -148,10 +120,6 @@ The name of the agent.
 - A name is automatically generated.
 ```
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:214](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L214)
-
 ___
 
 ### promptOverrideConfiguration
@@ -165,7 +133,3 @@ Overrides for the agent.
 ```ts
 - No overrides are provided.
 ```
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:248](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L248)

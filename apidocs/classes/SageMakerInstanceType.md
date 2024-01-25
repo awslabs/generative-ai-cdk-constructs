@@ -123,19 +123,11 @@ Supported instance types for SageMaker instance-based production variants.
 
 [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:471](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L471)
-
 ## Properties
 
 ### instanceTypeIdentifier
 
 • `Private` `Readonly` **instanceTypeIdentifier**: `string`
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:469](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L469)
 
 ___
 
@@ -145,10 +137,6 @@ ___
 
 ml.c4.2xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:23](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L23)
-
 ___
 
 ### ML\_C4\_4XLARGE
@@ -156,10 +144,6 @@ ___
 ▪ `Static` `Readonly` **ML\_C4\_4XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.c4.4xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:28](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L28)
 
 ___
 
@@ -169,10 +153,6 @@ ___
 
 ml.c4.8xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:33](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L33)
-
 ___
 
 ### ML\_C4\_LARGE
@@ -180,10 +160,6 @@ ___
 ▪ `Static` `Readonly` **ML\_C4\_LARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.c4.large
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:38](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L38)
 
 ___
 
@@ -193,10 +169,6 @@ ___
 
 ml.c4.xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:43](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L43)
-
 ___
 
 ### ML\_C5D\_18XLARGE
@@ -204,10 +176,6 @@ ___
 ▪ `Static` `Readonly` **ML\_C5D\_18XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.c5d.18xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:78](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L78)
 
 ___
 
@@ -217,10 +185,6 @@ ___
 
 ml.c5d.2xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:83](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L83)
-
 ___
 
 ### ML\_C5D\_4XLARGE
@@ -228,10 +192,6 @@ ___
 ▪ `Static` `Readonly` **ML\_C5D\_4XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.c5d.4xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:88](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L88)
 
 ___
 
@@ -241,10 +201,6 @@ ___
 
 ml.c5d.9xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:93](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L93)
-
 ___
 
 ### ML\_C5D\_LARGE
@@ -252,10 +208,6 @@ ___
 ▪ `Static` `Readonly` **ML\_C5D\_LARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.c5d.large
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:98](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L98)
 
 ___
 
@@ -265,10 +217,6 @@ ___
 
 ml.c5d.xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:103](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L103)
-
 ___
 
 ### ML\_C5\_18XLARGE
@@ -276,10 +224,6 @@ ___
 ▪ `Static` `Readonly` **ML\_C5\_18XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.c5.18xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:48](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L48)
 
 ___
 
@@ -289,10 +233,6 @@ ___
 
 ml.c5.2xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:53](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L53)
-
 ___
 
 ### ML\_C5\_4XLARGE
@@ -300,10 +240,6 @@ ___
 ▪ `Static` `Readonly` **ML\_C5\_4XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.c5.4xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:58](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L58)
 
 ___
 
@@ -313,10 +249,6 @@ ___
 
 ml.c5.9xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:63](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L63)
-
 ___
 
 ### ML\_C5\_LARGE
@@ -324,10 +256,6 @@ ___
 ▪ `Static` `Readonly` **ML\_C5\_LARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.c5.large
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:68](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L68)
 
 ___
 
@@ -337,10 +265,6 @@ ___
 
 ml.c5.xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:73](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L73)
-
 ___
 
 ### ML\_C6I\_12XLARGE
@@ -348,10 +272,6 @@ ___
 ▪ `Static` `Readonly` **ML\_C6I\_12XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.c6i.12xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:108](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L108)
 
 ___
 
@@ -361,10 +281,6 @@ ___
 
 ml.c6i.16xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:113](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L113)
-
 ___
 
 ### ML\_C6I\_24XLARGE
@@ -372,10 +288,6 @@ ___
 ▪ `Static` `Readonly` **ML\_C6I\_24XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.c6i.24xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:118](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L118)
 
 ___
 
@@ -385,10 +297,6 @@ ___
 
 ml.c6i.2xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:123](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L123)
-
 ___
 
 ### ML\_C6I\_32XLARGE
@@ -396,10 +304,6 @@ ___
 ▪ `Static` `Readonly` **ML\_C6I\_32XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.c6i.32xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:128](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L128)
 
 ___
 
@@ -409,10 +313,6 @@ ___
 
 ml.c6i.4xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:133](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L133)
-
 ___
 
 ### ML\_C6I\_8XLARGE
@@ -420,10 +320,6 @@ ___
 ▪ `Static` `Readonly` **ML\_C6I\_8XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.c6i.8xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:138](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L138)
 
 ___
 
@@ -433,10 +329,6 @@ ___
 
 ml.c6i.large
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:143](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L143)
-
 ___
 
 ### ML\_C6I\_XLARGE
@@ -444,10 +336,6 @@ ___
 ▪ `Static` `Readonly` **ML\_C6I\_XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.c6i.xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:148](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L148)
 
 ___
 
@@ -457,10 +345,6 @@ ___
 
 ml.g4dn.12xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:153](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L153)
-
 ___
 
 ### ML\_G4DN\_16XLARGE
@@ -468,10 +352,6 @@ ___
 ▪ `Static` `Readonly` **ML\_G4DN\_16XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.g4dn.16xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:158](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L158)
 
 ___
 
@@ -481,10 +361,6 @@ ___
 
 ml.g4dn.2xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:163](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L163)
-
 ___
 
 ### ML\_G4DN\_4XLARGE
@@ -492,10 +368,6 @@ ___
 ▪ `Static` `Readonly` **ML\_G4DN\_4XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.g4dn.4xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:168](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L168)
 
 ___
 
@@ -505,10 +377,6 @@ ___
 
 ml.g4dn.8xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:173](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L173)
-
 ___
 
 ### ML\_G4DN\_XLARGE
@@ -516,10 +384,6 @@ ___
 ▪ `Static` `Readonly` **ML\_G4DN\_XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.g4dn.xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:178](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L178)
 
 ___
 
@@ -529,10 +393,6 @@ ___
 
 ml.g5.12xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:183](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L183)
-
 ___
 
 ### ML\_G5\_16XLARGE
@@ -540,10 +400,6 @@ ___
 ▪ `Static` `Readonly` **ML\_G5\_16XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.g5.16xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:188](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L188)
 
 ___
 
@@ -553,10 +409,6 @@ ___
 
 ml.g5.24xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:193](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L193)
-
 ___
 
 ### ML\_G5\_2XLARGE
@@ -564,10 +416,6 @@ ___
 ▪ `Static` `Readonly` **ML\_G5\_2XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.g5.2xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:198](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L198)
 
 ___
 
@@ -577,10 +425,6 @@ ___
 
 ml.g5.48xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:203](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L203)
-
 ___
 
 ### ML\_G5\_4XLARGE
@@ -588,10 +432,6 @@ ___
 ▪ `Static` `Readonly` **ML\_G5\_4XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.g5.4xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:208](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L208)
 
 ___
 
@@ -601,10 +441,6 @@ ___
 
 ml.g5.8xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:213](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L213)
-
 ___
 
 ### ML\_G5\_XLARGE
@@ -612,10 +448,6 @@ ___
 ▪ `Static` `Readonly` **ML\_G5\_XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.g5.xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:218](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L218)
 
 ___
 
@@ -625,10 +457,6 @@ ___
 
 ml.inf1.24xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:223](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L223)
-
 ___
 
 ### ML\_INF1\_2XLARGE
@@ -636,10 +464,6 @@ ___
 ▪ `Static` `Readonly` **ML\_INF1\_2XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.inf1.2xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:228](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L228)
 
 ___
 
@@ -649,10 +473,6 @@ ___
 
 ml.inf1.6xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:233](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L233)
-
 ___
 
 ### ML\_INF1\_XLARGE
@@ -660,10 +480,6 @@ ___
 ▪ `Static` `Readonly` **ML\_INF1\_XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.inf1.xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:238](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L238)
 
 ___
 
@@ -673,10 +489,6 @@ ___
 
 ml.inf2.24xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:253](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L253)
-
 ___
 
 ### ML\_INF2\_48XLARGE
@@ -684,10 +496,6 @@ ___
 ▪ `Static` `Readonly` **ML\_INF2\_48XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.inf2.48xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:258](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L258)
 
 ___
 
@@ -697,10 +505,6 @@ ___
 
 ml.inf2.8xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:248](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L248)
-
 ___
 
 ### ML\_INF2\_XLARGE
@@ -708,10 +512,6 @@ ___
 ▪ `Static` `Readonly` **ML\_INF2\_XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.inf2.xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:243](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L243)
 
 ___
 
@@ -721,10 +521,6 @@ ___
 
 ml.m4.10xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:263](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L263)
-
 ___
 
 ### ML\_M4\_16XLARGE
@@ -732,10 +528,6 @@ ___
 ▪ `Static` `Readonly` **ML\_M4\_16XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.m4.16xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:268](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L268)
 
 ___
 
@@ -745,10 +537,6 @@ ___
 
 ml.m4.2xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:273](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L273)
-
 ___
 
 ### ML\_M4\_4XLARGE
@@ -756,10 +544,6 @@ ___
 ▪ `Static` `Readonly` **ML\_M4\_4XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.m4.4xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:278](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L278)
 
 ___
 
@@ -769,10 +553,6 @@ ___
 
 ml.m4.xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:283](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L283)
-
 ___
 
 ### ML\_M5D\_12XLARGE
@@ -780,10 +560,6 @@ ___
 ▪ `Static` `Readonly` **ML\_M5D\_12XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.m5d.12xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:318](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L318)
 
 ___
 
@@ -793,10 +569,6 @@ ___
 
 ml.m5d.24xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:323](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L323)
-
 ___
 
 ### ML\_M5D\_2XLARGE
@@ -804,10 +576,6 @@ ___
 ▪ `Static` `Readonly` **ML\_M5D\_2XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.m5d.2xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:328](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L328)
 
 ___
 
@@ -817,10 +585,6 @@ ___
 
 ml.m5d.4xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:333](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L333)
-
 ___
 
 ### ML\_M5D\_LARGE
@@ -828,10 +592,6 @@ ___
 ▪ `Static` `Readonly` **ML\_M5D\_LARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.m5d.large
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:338](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L338)
 
 ___
 
@@ -841,10 +601,6 @@ ___
 
 ml.m5d.xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:343](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L343)
-
 ___
 
 ### ML\_M5\_12XLARGE
@@ -852,10 +608,6 @@ ___
 ▪ `Static` `Readonly` **ML\_M5\_12XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.m5.12xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:288](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L288)
 
 ___
 
@@ -865,10 +617,6 @@ ___
 
 ml.m5.24xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:293](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L293)
-
 ___
 
 ### ML\_M5\_2XLARGE
@@ -876,10 +624,6 @@ ___
 ▪ `Static` `Readonly` **ML\_M5\_2XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.m5.2xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:298](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L298)
 
 ___
 
@@ -889,10 +633,6 @@ ___
 
 ml.m5.4xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:303](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L303)
-
 ___
 
 ### ML\_M5\_LARGE
@@ -900,10 +640,6 @@ ___
 ▪ `Static` `Readonly` **ML\_M5\_LARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.m5.large
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:308](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L308)
 
 ___
 
@@ -913,10 +649,6 @@ ___
 
 ml.m5.xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:313](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L313)
-
 ___
 
 ### ML\_P2\_16XLARGE
@@ -924,10 +656,6 @@ ___
 ▪ `Static` `Readonly` **ML\_P2\_16XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.p2.16xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:348](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L348)
 
 ___
 
@@ -937,10 +665,6 @@ ___
 
 ml.p2.8xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:353](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L353)
-
 ___
 
 ### ML\_P2\_XLARGE
@@ -948,10 +672,6 @@ ___
 ▪ `Static` `Readonly` **ML\_P2\_XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.p2.xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:358](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L358)
 
 ___
 
@@ -961,10 +681,6 @@ ___
 
 ml.p3.16xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:363](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L363)
-
 ___
 
 ### ML\_P3\_2XLARGE
@@ -972,10 +688,6 @@ ___
 ▪ `Static` `Readonly` **ML\_P3\_2XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.p3.2xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:368](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L368)
 
 ___
 
@@ -985,10 +697,6 @@ ___
 
 ml.p3.8xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:373](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L373)
-
 ___
 
 ### ML\_P4D\_24XLARGE
@@ -996,10 +704,6 @@ ___
 ▪ `Static` `Readonly` **ML\_P4D\_24XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.p4d.24xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:378](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L378)
 
 ___
 
@@ -1009,10 +713,6 @@ ___
 
 ml.r5d.12xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:413](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L413)
-
 ___
 
 ### ML\_R5D\_24XLARGE
@@ -1020,10 +720,6 @@ ___
 ▪ `Static` `Readonly` **ML\_R5D\_24XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.r5d.24xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:418](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L418)
 
 ___
 
@@ -1033,10 +729,6 @@ ___
 
 ml.r5d.2xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:423](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L423)
-
 ___
 
 ### ML\_R5D\_4XLARGE
@@ -1044,10 +736,6 @@ ___
 ▪ `Static` `Readonly` **ML\_R5D\_4XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.r5d.4xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:428](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L428)
 
 ___
 
@@ -1057,10 +745,6 @@ ___
 
 ml.r5d.large
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:433](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L433)
-
 ___
 
 ### ML\_R5D\_XLARGE
@@ -1068,10 +752,6 @@ ___
 ▪ `Static` `Readonly` **ML\_R5D\_XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.r5d.xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:438](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L438)
 
 ___
 
@@ -1081,10 +761,6 @@ ___
 
 ml.r5.12xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:383](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L383)
-
 ___
 
 ### ML\_R5\_24XLARGE
@@ -1092,10 +768,6 @@ ___
 ▪ `Static` `Readonly` **ML\_R5\_24XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.r5.24xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:388](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L388)
 
 ___
 
@@ -1105,10 +777,6 @@ ___
 
 ml.r5.2xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:393](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L393)
-
 ___
 
 ### ML\_R5\_4XLARGE
@@ -1116,10 +784,6 @@ ___
 ▪ `Static` `Readonly` **ML\_R5\_4XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.r5.4xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:398](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L398)
 
 ___
 
@@ -1129,10 +793,6 @@ ___
 
 ml.r5.large
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:403](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L403)
-
 ___
 
 ### ML\_R5\_XLARGE
@@ -1140,10 +800,6 @@ ___
 ▪ `Static` `Readonly` **ML\_R5\_XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.r5.xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:408](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L408)
 
 ___
 
@@ -1153,10 +809,6 @@ ___
 
 ml.t2.2xlarge
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:443](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L443)
-
 ___
 
 ### ML\_T2\_LARGE
@@ -1164,10 +816,6 @@ ___
 ▪ `Static` `Readonly` **ML\_T2\_LARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.t2.large
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:448](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L448)
 
 ___
 
@@ -1177,10 +825,6 @@ ___
 
 ml.t2.medium
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:453](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L453)
-
 ___
 
 ### ML\_T2\_XLARGE
@@ -1188,10 +832,6 @@ ___
 ▪ `Static` `Readonly` **ML\_T2\_XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.t2.xlarge
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:458](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L458)
 
 ## Methods
 
@@ -1206,10 +846,6 @@ Return the instance type as a string
 `string`
 
 The instance type as a string
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:483](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L483)
 
 ___
 
@@ -1230,7 +866,3 @@ Builds an InstanceType from a given string or token (such as a CfnParameter).
 [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 A strongly typed InstanceType
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts:465](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-instance-type.ts#L465)

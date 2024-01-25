@@ -19,16 +19,8 @@
 
 ▪ [key: `string`]: `string`
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:18](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L18)
-
 ___
 
 ### region
 
 • **region**: `string`
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:17](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L17)

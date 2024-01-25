@@ -21,19 +21,11 @@ The step in the agent sequence that this prompt configuration applies to.
 
 • **KNOWLEDGE\_BASE\_RESPONSE\_GENERATION** = ``"KNOWLEDGE_BASE_RESPONSE_GENERATION"``
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:35](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L35)
-
 ___
 
 ### ORCHESTRATION
 
 • **ORCHESTRATION** = ``"ORCHESTRATION"``
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:33](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L33)
 
 ___
 
@@ -41,16 +33,8 @@ ___
 
 • **POST\_PROCESSING** = ``"POST_PROCESSING"``
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:34](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L34)
-
 ___
 
 ### PRE\_PROCESSING
 
 • **PRE\_PROCESSING** = ``"PRE_PROCESSING"``
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:32](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L32)

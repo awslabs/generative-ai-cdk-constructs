@@ -49,10 +49,6 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 [`ContainerImageConfig`](../interfaces/ContainerImageConfig.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts:49](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts#L49)
-
 ___
 
 ### fromAsset
@@ -70,10 +66,6 @@ ___
 
 [`ContainerImage`](ContainerImage.md)
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts:42](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts#L42)
-
 ___
 
 ### fromEcrRepository
@@ -90,7 +82,3 @@ ___
 #### Returns
 
 [`ContainerImage`](ContainerImage.md)
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts:35](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts#L35)

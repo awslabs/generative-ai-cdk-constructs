@@ -24,10 +24,6 @@ model output in parts of the agent sequence. If you specify this field,
 at least one of the promptConfigurations must contain a parserMode value
 that is set to OVERRIDDEN.
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:198](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L198)
-
 ___
 
 ### promptConfigurations
@@ -35,7 +31,3 @@ ___
 • `Readonly` **promptConfigurations**: [`PromptConfiguration`](bedrock.PromptConfiguration.md)[]
 
 Contains configurations to override a prompt template in one part of an agent sequence.
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:191](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L191)

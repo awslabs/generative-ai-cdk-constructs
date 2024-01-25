@@ -195,7 +195,7 @@
       "description": "Runs after successful compilation",
       "steps": [
         {
-          "exec": "npx typedoc --plugin typedoc-plugin-markdown --out apidocs --readme none --categoryOrder \"Namespaces,Classes,Interfaces,*\"  ./src/index.ts"
+          "exec": "npx typedoc --plugin typedoc-plugin-markdown --out apidocs --readme none --categoryOrder \"Namespaces,Classes,Interfaces,*\" --disableSources ./src/index.ts"
         }
       ]
     },

@@ -67,10 +67,6 @@ public
 
 Construct.constructor
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:180](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L180)
-
 ## Properties
 
 ### graphqlApi
@@ -78,10 +74,6 @@ Construct.constructor
 • `Readonly` **graphqlApi**: `IGraphqlApi`
 
 Returns an instance of appsync.IGraphqlApi created by the construct
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:170](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L170)
 
 ___
 
@@ -95,10 +87,6 @@ The tree node.
 
 Construct.node
 
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:265
-
 ___
 
 ### qaBus
@@ -106,10 +94,6 @@ ___
 • `Readonly` **qaBus**: `IEventBus`
 
 Returns the instance of events.IEventBus used by the construct
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:156](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L156)
 
 ___
 
@@ -121,10 +105,6 @@ Returns an instance of s3.Bucket created by the construct.
 IMPORTANT: If existingInputAssetsBucketObj was provided in Pattern Construct Props,
 this property will be undefined
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:166](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L166)
-
 ___
 
 ### s3InputAssetsBucketInterface
@@ -132,10 +112,6 @@ ___
 • `Readonly` **s3InputAssetsBucketInterface**: `IBucket`
 
 Returns an instance of s3.IBucket created by the construct
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:160](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L160)
 
 ___
 
@@ -145,10 +121,6 @@ ___
 
 Returns the instance of ec2.ISecurityGroup used by the construct
 
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:152](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L152)
-
 ___
 
 ### vpc
@@ -156,10 +128,6 @@ ___
 • `Readonly` **vpc**: `IVpc`
 
 Returns the instance of ec2.IVpc used by the construct
-
-#### Defined in
-
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:148](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L148)
 
 ## Methods
 
@@ -176,10 +144,6 @@ Returns a string representation of this construct.
 #### Inherited from
 
 Construct.toString
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:278
 
 ___
 
@@ -218,7 +182,3 @@ true if `x` is an object created from a class which extends `Construct`.
 #### Inherited from
 
 Construct.isConstruct
-
-#### Defined in
-
-node_modules/constructs/lib/construct.d.ts:261

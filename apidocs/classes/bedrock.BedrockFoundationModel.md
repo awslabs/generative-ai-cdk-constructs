@@ -50,19 +50,11 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 [`BedrockFoundationModel`](bedrock.BedrockFoundationModel.md)
 
-#### Defined in
-
-[src/cdk-lib/bedrock/models.ts:72](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L72)
-
 ## Properties
 
 ### modelId
 
 • `Readonly` **modelId**: `string`
-
-#### Defined in
-
-[src/cdk-lib/bedrock/models.ts:69](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L69)
 
 ___
 
@@ -70,19 +62,11 @@ ___
 
 • `Readonly` **supportsAgents**: `boolean`
 
-#### Defined in
-
-[src/cdk-lib/bedrock/models.ts:70](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L70)
-
 ___
 
 ### supportsKnowledgeBase
 
 • `Readonly` **supportsKnowledgeBase**: `boolean`
-
-#### Defined in
-
-[src/cdk-lib/bedrock/models.ts:71](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L71)
 
 ___
 
@@ -90,19 +74,11 @@ ___
 
 ▪ `Static` `Readonly` **AMAZON\_TITAN\_TEXT\_EXPRESS\_V1**: [`BedrockFoundationModel`](bedrock.BedrockFoundationModel.md)
 
-#### Defined in
-
-[src/cdk-lib/bedrock/models.ts:51](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L51)
-
 ___
 
 ### ANTHROPIC\_CLAUDE\_INSTANT\_V1\_2
 
 ▪ `Static` `Readonly` **ANTHROPIC\_CLAUDE\_INSTANT\_V1\_2**: [`BedrockFoundationModel`](bedrock.BedrockFoundationModel.md)
-
-#### Defined in
-
-[src/cdk-lib/bedrock/models.ts:47](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L47)
 
 ___
 
@@ -110,19 +86,11 @@ ___
 
 ▪ `Static` `Readonly` **ANTHROPIC\_CLAUDE\_V2**: [`BedrockFoundationModel`](bedrock.BedrockFoundationModel.md)
 
-#### Defined in
-
-[src/cdk-lib/bedrock/models.ts:39](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L39)
-
 ___
 
 ### ANTHROPIC\_CLAUDE\_V2\_1
 
 ▪ `Static` `Readonly` **ANTHROPIC\_CLAUDE\_V2\_1**: [`BedrockFoundationModel`](bedrock.BedrockFoundationModel.md)
-
-#### Defined in
-
-[src/cdk-lib/bedrock/models.ts:43](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L43)
 
 ___
 
@@ -130,29 +98,17 @@ ___
 
 ▪ `Static` `Readonly` **COHERE\_EMBED\_ENGLISH\_V3**: [`BedrockFoundationModel`](bedrock.BedrockFoundationModel.md)
 
-#### Defined in
-
-[src/cdk-lib/bedrock/models.ts:60](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L60)
-
 ___
 
 ### COHERE\_EMBED\_MULTILINGUAL\_V3
 
 ▪ `Static` `Readonly` **COHERE\_EMBED\_MULTILINGUAL\_V3**: [`BedrockFoundationModel`](bedrock.BedrockFoundationModel.md)
 
-#### Defined in
-
-[src/cdk-lib/bedrock/models.ts:64](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L64)
-
 ___
 
 ### TITAN\_EMBED\_TEXT\_V1
 
 ▪ `Static` `Readonly` **TITAN\_EMBED\_TEXT\_V1**: [`BedrockFoundationModel`](bedrock.BedrockFoundationModel.md)
-
-#### Defined in
-
-[src/cdk-lib/bedrock/models.ts:56](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L56)
 
 ## Methods
 
@@ -170,10 +126,6 @@ ___
 
 `string`
 
-#### Defined in
-
-[src/cdk-lib/bedrock/models.ts:82](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L82)
-
 ___
 
 ### toString
@@ -183,7 +135,3 @@ ___
 #### Returns
 
 `string`
-
-#### Defined in
-
-[src/cdk-lib/bedrock/models.ts:78](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L78)

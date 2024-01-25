@@ -34,10 +34,6 @@ Integer
 
 4096
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:134](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L134)
-
 ___
 
 ### stopSequences
@@ -50,10 +46,6 @@ causes the model to stop generating the response.
 **`Length`**
 
 0-4
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:125](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L125)
 
 ___
 
@@ -75,10 +67,6 @@ Floating point
 **`Max`**
 
 1
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:91](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L91)
 
 ___
 
@@ -102,10 +90,6 @@ Integer
 
 500
 
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:118](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L118)
-
 ___
 
 ### topP
@@ -128,7 +112,3 @@ Floating point
 **`Max`**
 
 1
-
-#### Defined in
-
-[src/cdk-lib/bedrock/agent.ts:105](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L105)
