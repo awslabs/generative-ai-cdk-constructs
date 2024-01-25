@@ -61,7 +61,7 @@ cdk.Resource.constructor
 
 #### Defined in
 
-[src/cdk-lib/opensearch-vectorindex/vector-index.ts:119](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L119)
+[src/cdk-lib/opensearch-vectorindex/vector-index.ts:119](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L119)
 
 ## Properties
 

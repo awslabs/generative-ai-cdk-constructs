@@ -51,7 +51,7 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts:49](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts#L49)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts:49](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts#L49)
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts:42](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts#L42)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts:42](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts#L42)
 
 ___
 
@@ -93,4 +93,4 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts:35](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts#L35)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts:35](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts#L35)

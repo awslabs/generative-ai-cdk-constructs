@@ -42,7 +42,7 @@ Providing both this and `existingInputAssetsBucketObj` will cause an error.
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:78](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L78)
+[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:78](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L78)
 
 ___
 
@@ -61,7 +61,7 @@ Providing both this and `existingProcessedAssetsBucketObj` will cause an error.
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:91](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L91)
+[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:91](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L91)
 
 ___
 
@@ -79,7 +79,7 @@ Cognito user pool used for authentication.
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:122](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L122)
+[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:122](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L122)
 
 ___
 
@@ -102,7 +102,7 @@ simply disable it by setting the construct property
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:140](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L140)
+[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:140](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L140)
 
 ___
 
@@ -120,7 +120,7 @@ Optional Existing instance of an EventBridge bus. If not provided, the construct
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:65](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L65)
+[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:65](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L65)
 
 ___
 
@@ -138,7 +138,7 @@ Existing instance of S3 Bucket object, providing both this and `bucketInputsAsse
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:71](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L71)
+[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:71](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L71)
 
 ___
 
@@ -156,7 +156,7 @@ Existing merged Appsync GraphQL api.
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:116](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L116)
+[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:116](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L116)
 
 ___
 
@@ -174,7 +174,7 @@ Existing Amazon OpenSearch Service domain.
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:97](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L97)
+[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:97](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L97)
 
 ___
 
@@ -192,7 +192,7 @@ Existing instance of S3 Bucket object, providing both this and `bucketProcessedA
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:84](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L84)
+[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:84](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L84)
 
 ___
 
@@ -211,7 +211,7 @@ built by this construct. If not provided, the construct will create one.
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:59](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L59)
+[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:59](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L59)
 
 ___
 
@@ -230,7 +230,7 @@ vpcProps is an error.
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:52](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L52)
+[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:52](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L52)
 
 ___
 
@@ -249,7 +249,7 @@ used. Best practice to enable by default.
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:148](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L148)
+[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:148](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L148)
 
 ___
 
@@ -267,7 +267,7 @@ Index name for the OpenSearch Service.
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:103](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L103)
+[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:103](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L103)
 
 ___
 
@@ -286,7 +286,7 @@ domain is configured with Username/Password.
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:110](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L110)
+[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:110](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L110)
 
 ___
 
@@ -304,7 +304,7 @@ Value will be appended to resources name.
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:128](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L128)
+[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:128](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L128)
 
 ___
 
@@ -324,4 +324,4 @@ both this and existingVpc is an error.
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:45](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L45)
+[src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts:45](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L45)

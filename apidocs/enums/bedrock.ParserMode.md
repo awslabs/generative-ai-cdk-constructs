@@ -25,7 +25,7 @@ with the ARN of a Lambda function.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:46](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L46)
+[src/cdk-lib/bedrock/agent.ts:46](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L46)
 
 ___
 
@@ -35,4 +35,4 @@ ___
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:47](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L47)
+[src/cdk-lib/bedrock/agent.ts:47](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L47)

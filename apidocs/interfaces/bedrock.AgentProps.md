@@ -36,7 +36,7 @@ Name of the alias for the agent.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:254](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L254)
+[src/cdk-lib/bedrock/agent.ts:254](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L254)
 
 ___
 
@@ -54,7 +54,7 @@ A description of the agent.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:224](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L224)
+[src/cdk-lib/bedrock/agent.ts:224](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L224)
 
 ___
 
@@ -72,7 +72,7 @@ KMS encryption key to use for the agent.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:242](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L242)
+[src/cdk-lib/bedrock/agent.ts:242](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L242)
 
 ___
 
@@ -84,7 +84,7 @@ The Bedrock text foundation model for the agent to use.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:208](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L208)
+[src/cdk-lib/bedrock/agent.ts:208](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L208)
 
 ___
 
@@ -102,7 +102,7 @@ How long sessions should be kept open for the agent.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:236](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L236)
+[src/cdk-lib/bedrock/agent.ts:236](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L236)
 
 ___
 
@@ -114,7 +114,7 @@ A narrative instruction to provide the agent as context.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:218](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L218)
+[src/cdk-lib/bedrock/agent.ts:218](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L218)
 
 ___
 
@@ -132,7 +132,7 @@ Knowledge Bases to make available to the agent.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:230](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L230)
+[src/cdk-lib/bedrock/agent.ts:230](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L230)
 
 ___
 
@@ -150,7 +150,7 @@ The name of the agent.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:214](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L214)
+[src/cdk-lib/bedrock/agent.ts:214](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L214)
 
 ___
 
@@ -168,4 +168,4 @@ Overrides for the agent.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:248](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L248)
+[src/cdk-lib/bedrock/agent.ts:248](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L248)

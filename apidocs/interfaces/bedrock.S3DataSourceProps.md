@@ -29,7 +29,7 @@ The bucket that contains the data source.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/s3-data-source.ts:67](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/s3-data-source.ts#L67)
+[src/cdk-lib/bedrock/s3-data-source.ts:67](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L67)
 
 ___
 
@@ -47,7 +47,7 @@ ChunkingStrategy.DEFAULT
 
 #### Defined in
 
-[src/cdk-lib/bedrock/s3-data-source.ts:79](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/s3-data-source.ts#L79)
+[src/cdk-lib/bedrock/s3-data-source.ts:79](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L79)
 
 ___
 
@@ -59,7 +59,7 @@ The name of the data source.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/s3-data-source.ts:63](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/s3-data-source.ts#L63)
+[src/cdk-lib/bedrock/s3-data-source.ts:63](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L63)
 
 ___
 
@@ -77,7 +77,7 @@ The prefixes of the objects in the bucket that should be included in the data so
 
 #### Defined in
 
-[src/cdk-lib/bedrock/s3-data-source.ts:73](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/s3-data-source.ts#L73)
+[src/cdk-lib/bedrock/s3-data-source.ts:73](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L73)
 
 ___
 
@@ -95,7 +95,7 @@ Amazon Bedrock encrypts your data with a key that AWS owns and manages
 
 #### Defined in
 
-[src/cdk-lib/bedrock/s3-data-source.ts:97](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/s3-data-source.ts#L97)
+[src/cdk-lib/bedrock/s3-data-source.ts:97](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L97)
 
 ___
 
@@ -107,7 +107,7 @@ The knowledge base that this data source belongs to.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/s3-data-source.ts:59](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/s3-data-source.ts#L59)
+[src/cdk-lib/bedrock/s3-data-source.ts:59](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L59)
 
 ___
 
@@ -125,7 +125,7 @@ The maximum number of tokens to use in a chunk.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/s3-data-source.ts:85](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/s3-data-source.ts#L85)
+[src/cdk-lib/bedrock/s3-data-source.ts:85](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L85)
 
 ___
 
@@ -143,4 +143,4 @@ The percentage of overlap to use in a chunk.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/s3-data-source.ts:91](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/s3-data-source.ts#L91)
+[src/cdk-lib/bedrock/s3-data-source.ts:91](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L91)

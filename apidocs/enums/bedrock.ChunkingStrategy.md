@@ -28,7 +28,7 @@ splitting them up such that each file corresponds to a chunk.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/s3-data-source.ts:43](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/s3-data-source.ts#L43)
+[src/cdk-lib/bedrock/s3-data-source.ts:43](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L43)
 
 ___
 
@@ -41,7 +41,7 @@ that you set in the `fixedSizeChunkingConfiguration`.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/s3-data-source.ts:39](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/s3-data-source.ts#L39)
+[src/cdk-lib/bedrock/s3-data-source.ts:39](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L39)
 
 ___
 
@@ -55,4 +55,4 @@ files.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/s3-data-source.ts:49](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/s3-data-source.ts#L49)
+[src/cdk-lib/bedrock/s3-data-source.ts:49](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L49)

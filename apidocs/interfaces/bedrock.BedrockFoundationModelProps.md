@@ -27,7 +27,7 @@ Bedrock Agents can use this model.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/models.ts:23](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/models.ts#L23)
+[src/cdk-lib/bedrock/models.ts:23](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L23)
 
 ___
 
@@ -45,4 +45,4 @@ Bedrock Knowledge Base can use this model.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/models.ts:29](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/models.ts#L29)
+[src/cdk-lib/bedrock/models.ts:29](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L29)

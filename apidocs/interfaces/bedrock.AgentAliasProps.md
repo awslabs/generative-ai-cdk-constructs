@@ -23,7 +23,7 @@ The unique identifier of the agent.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent-alias.ts:25](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent-alias.ts#L25)
+[src/cdk-lib/bedrock/agent-alias.ts:25](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent-alias.ts#L25)
 
 ___
 
@@ -41,7 +41,7 @@ The version of the agent to associate with the agent alias.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent-alias.ts:42](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent-alias.ts#L42)
+[src/cdk-lib/bedrock/agent-alias.ts:42](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent-alias.ts#L42)
 
 ___
 
@@ -59,17 +59,17 @@ The name for the agent alias.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent-alias.ts:31](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent-alias.ts#L31)
+[src/cdk-lib/bedrock/agent-alias.ts:31](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent-alias.ts#L31)
 
 ___
 
 ### changeIds
 
-• `Readonly` **changeIds**: `string`[]
+• `Optional` `Readonly` **changeIds**: `string`[]
 
 The list of change ids to let CloudFormation determine when to update the alias.
 A changeId is a hash of the properties of an agent, an agent/knowledge base association, or an action group.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent-alias.ts:36](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent-alias.ts#L36)
+[src/cdk-lib/bedrock/agent-alias.ts:36](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent-alias.ts#L36)

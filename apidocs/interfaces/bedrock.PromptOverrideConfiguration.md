@@ -26,7 +26,7 @@ that is set to OVERRIDDEN.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:198](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L198)
+[src/cdk-lib/bedrock/agent.ts:198](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L198)
 
 ___
 
@@ -38,4 +38,4 @@ Contains configurations to override a prompt template in one part of an agent se
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:191](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L191)
+[src/cdk-lib/bedrock/agent.ts:191](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L191)

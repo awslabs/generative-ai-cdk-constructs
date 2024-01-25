@@ -36,7 +36,7 @@ Integer
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:134](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L134)
+[src/cdk-lib/bedrock/agent.ts:134](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L134)
 
 ___
 
@@ -53,7 +53,7 @@ causes the model to stop generating the response.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:125](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L125)
+[src/cdk-lib/bedrock/agent.ts:125](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L125)
 
 ___
 
@@ -78,7 +78,7 @@ Floating point
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:91](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L91)
+[src/cdk-lib/bedrock/agent.ts:91](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L91)
 
 ___
 
@@ -104,7 +104,7 @@ Integer
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:118](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L118)
+[src/cdk-lib/bedrock/agent.ts:118](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L118)
 
 ___
 
@@ -131,4 +131,4 @@ Floating point
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:105](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L105)
+[src/cdk-lib/bedrock/agent.ts:105](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L105)

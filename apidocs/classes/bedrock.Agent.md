@@ -64,7 +64,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:295](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L295)
+[src/cdk-lib/bedrock/agent.ts:295](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L295)
 
 ## Properties
 
@@ -76,7 +76,7 @@ The ARN of the agent.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:276](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L276)
+[src/cdk-lib/bedrock/agent.ts:276](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L276)
 
 ___
 
@@ -88,7 +88,7 @@ The unique identifier of the agent.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:272](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L272)
+[src/cdk-lib/bedrock/agent.ts:272](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L272)
 
 ___
 
@@ -100,7 +100,7 @@ The ARN of the agent alias.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:284](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L284)
+[src/cdk-lib/bedrock/agent.ts:284](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L284)
 
 ___
 
@@ -112,7 +112,7 @@ The unique identifier of the agent alias.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:280](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L280)
+[src/cdk-lib/bedrock/agent.ts:280](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L280)
 
 ___
 
@@ -124,7 +124,7 @@ The name for the agent alias.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:288](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L288)
+[src/cdk-lib/bedrock/agent.ts:288](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L288)
 
 ___
 
@@ -140,7 +140,7 @@ cdk.ITaggableV2.cdkTagManager
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:292](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L292)
+[src/cdk-lib/bedrock/agent.ts:292](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L292)
 
 ___
 
@@ -152,7 +152,7 @@ The name of the agent.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:264](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L264)
+[src/cdk-lib/bedrock/agent.ts:264](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L264)
 
 ___
 
@@ -180,7 +180,7 @@ The IAM role for the agent.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:268](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L268)
+[src/cdk-lib/bedrock/agent.ts:268](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L268)
 
 ## Methods
 
@@ -202,7 +202,7 @@ Add an alias to the agent.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:515](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L515)
+[src/cdk-lib/bedrock/agent.ts:515](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L515)
 
 ___
 

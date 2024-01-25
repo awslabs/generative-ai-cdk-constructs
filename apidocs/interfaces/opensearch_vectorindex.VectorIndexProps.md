@@ -26,7 +26,7 @@ The OpenSearch Vector Collection.
 
 #### Defined in
 
-[src/cdk-lib/opensearch-vectorindex/vector-index.ts:96](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L96)
+[src/cdk-lib/opensearch-vectorindex/vector-index.ts:96](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L96)
 
 ___
 
@@ -38,7 +38,7 @@ The name of the index.
 
 #### Defined in
 
-[src/cdk-lib/opensearch-vectorindex/vector-index.ts:100](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L100)
+[src/cdk-lib/opensearch-vectorindex/vector-index.ts:100](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L100)
 
 ___
 
@@ -50,7 +50,7 @@ The metadata management fields.
 
 #### Defined in
 
-[src/cdk-lib/opensearch-vectorindex/vector-index.ts:112](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L112)
+[src/cdk-lib/opensearch-vectorindex/vector-index.ts:112](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L112)
 
 ___
 
@@ -62,7 +62,7 @@ The number of dimensions in the vector.
 
 #### Defined in
 
-[src/cdk-lib/opensearch-vectorindex/vector-index.ts:108](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L108)
+[src/cdk-lib/opensearch-vectorindex/vector-index.ts:108](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L108)
 
 ___
 
@@ -74,4 +74,4 @@ The name of the vector field.
 
 #### Defined in
 
-[src/cdk-lib/opensearch-vectorindex/vector-index.ts:104](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L104)
+[src/cdk-lib/opensearch-vectorindex/vector-index.ts:104](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L104)

@@ -52,7 +52,7 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 #### Defined in
 
-[src/cdk-lib/bedrock/models.ts:72](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/models.ts#L72)
+[src/cdk-lib/bedrock/models.ts:72](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L72)
 
 ## Properties
 
@@ -62,7 +62,7 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 #### Defined in
 
-[src/cdk-lib/bedrock/models.ts:69](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/models.ts#L69)
+[src/cdk-lib/bedrock/models.ts:69](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L69)
 
 ___
 
@@ -72,7 +72,7 @@ ___
 
 #### Defined in
 
-[src/cdk-lib/bedrock/models.ts:70](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/models.ts#L70)
+[src/cdk-lib/bedrock/models.ts:70](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L70)
 
 ___
 
@@ -82,7 +82,7 @@ ___
 
 #### Defined in
 
-[src/cdk-lib/bedrock/models.ts:71](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/models.ts#L71)
+[src/cdk-lib/bedrock/models.ts:71](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L71)
 
 ___
 
@@ -92,7 +92,7 @@ ___
 
 #### Defined in
 
-[src/cdk-lib/bedrock/models.ts:51](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/models.ts#L51)
+[src/cdk-lib/bedrock/models.ts:51](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L51)
 
 ___
 
@@ -102,7 +102,7 @@ ___
 
 #### Defined in
 
-[src/cdk-lib/bedrock/models.ts:47](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/models.ts#L47)
+[src/cdk-lib/bedrock/models.ts:47](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L47)
 
 ___
 
@@ -112,7 +112,7 @@ ___
 
 #### Defined in
 
-[src/cdk-lib/bedrock/models.ts:39](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/models.ts#L39)
+[src/cdk-lib/bedrock/models.ts:39](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L39)
 
 ___
 
@@ -122,7 +122,7 @@ ___
 
 #### Defined in
 
-[src/cdk-lib/bedrock/models.ts:43](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/models.ts#L43)
+[src/cdk-lib/bedrock/models.ts:43](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L43)
 
 ___
 
@@ -132,7 +132,7 @@ ___
 
 #### Defined in
 
-[src/cdk-lib/bedrock/models.ts:60](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/models.ts#L60)
+[src/cdk-lib/bedrock/models.ts:60](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L60)
 
 ___
 
@@ -142,7 +142,7 @@ ___
 
 #### Defined in
 
-[src/cdk-lib/bedrock/models.ts:64](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/models.ts#L64)
+[src/cdk-lib/bedrock/models.ts:64](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L64)
 
 ___
 
@@ -152,7 +152,7 @@ ___
 
 #### Defined in
 
-[src/cdk-lib/bedrock/models.ts:56](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/models.ts#L56)
+[src/cdk-lib/bedrock/models.ts:56](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L56)
 
 ## Methods
 
@@ -172,7 +172,7 @@ ___
 
 #### Defined in
 
-[src/cdk-lib/bedrock/models.ts:82](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/models.ts#L82)
+[src/cdk-lib/bedrock/models.ts:82](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L82)
 
 ___
 
@@ -186,4 +186,4 @@ ___
 
 #### Defined in
 
-[src/cdk-lib/bedrock/models.ts:78](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/models.ts#L78)
+[src/cdk-lib/bedrock/models.ts:78](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/models.ts#L78)

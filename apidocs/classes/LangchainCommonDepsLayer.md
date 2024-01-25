@@ -64,7 +64,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-langchain-common-layer/index.ts:60](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-langchain-common-layer/index.ts#L60)
+[src/patterns/gen-ai/aws-langchain-common-layer/index.ts:60](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-langchain-common-layer/index.ts#L60)
 
 ## Properties
 
@@ -76,7 +76,7 @@ Returns the instance of lambda.LayerVersion created by the construct
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-langchain-common-layer/index.ts:50](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-langchain-common-layer/index.ts#L50)
+[src/patterns/gen-ai/aws-langchain-common-layer/index.ts:50](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-langchain-common-layer/index.ts#L50)
 
 ___
 

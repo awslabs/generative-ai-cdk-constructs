@@ -34,7 +34,7 @@ The description of the knowledge base.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/knowledge-base.ts:38](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/knowledge-base.ts#L38)
+[src/cdk-lib/bedrock/knowledge-base.ts:38](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L38)
 
 ___
 
@@ -46,7 +46,7 @@ The embeddings model for the knowledge base
 
 #### Defined in
 
-[src/cdk-lib/bedrock/knowledge-base.ts:31](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/knowledge-base.ts#L31)
+[src/cdk-lib/bedrock/knowledge-base.ts:31](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L31)
 
 ___
 
@@ -64,7 +64,7 @@ The name of the vector index.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/knowledge-base.ts:55](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/knowledge-base.ts#L55)
+[src/cdk-lib/bedrock/knowledge-base.ts:55](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L55)
 
 ___
 
@@ -85,7 +85,7 @@ query this Knowledge Base.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/knowledge-base.ts:48](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/knowledge-base.ts#L48)
+[src/cdk-lib/bedrock/knowledge-base.ts:48](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L48)
 
 ___
 
@@ -103,7 +103,7 @@ The name of the field in the vector index.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/knowledge-base.ts:62](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/knowledge-base.ts#L62)
+[src/cdk-lib/bedrock/knowledge-base.ts:62](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L62)
 
 ___
 
@@ -121,7 +121,7 @@ The vector index for the knowledge base.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/knowledge-base.ts:76](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/knowledge-base.ts#L76)
+[src/cdk-lib/bedrock/knowledge-base.ts:76](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L76)
 
 ___
 
@@ -139,4 +139,4 @@ The vector store for the knowledge base.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/knowledge-base.ts:69](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/knowledge-base.ts#L69)
+[src/cdk-lib/bedrock/knowledge-base.ts:69](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/knowledge-base.ts#L69)

@@ -59,7 +59,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/cdk-lib/opensearchserverless/vector-collection.ts:55](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/opensearchserverless/vector-collection.ts#L55)
+[src/cdk-lib/opensearchserverless/vector-collection.ts:55](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearchserverless/vector-collection.ts#L55)
 
 ## Properties
 
@@ -71,7 +71,7 @@ An IAM policy that allows API access to the collection.
 
 #### Defined in
 
-[src/cdk-lib/opensearchserverless/vector-collection.ts:42](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/opensearchserverless/vector-collection.ts#L42)
+[src/cdk-lib/opensearchserverless/vector-collection.ts:42](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearchserverless/vector-collection.ts#L42)
 
 ___
 
@@ -83,7 +83,7 @@ The ARN of the collection.
 
 #### Defined in
 
-[src/cdk-lib/opensearchserverless/vector-collection.ts:37](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/opensearchserverless/vector-collection.ts#L37)
+[src/cdk-lib/opensearchserverless/vector-collection.ts:37](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearchserverless/vector-collection.ts#L37)
 
 ___
 
@@ -95,7 +95,7 @@ The ID of the collection.
 
 #### Defined in
 
-[src/cdk-lib/opensearchserverless/vector-collection.ts:33](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/opensearchserverless/vector-collection.ts#L33)
+[src/cdk-lib/opensearchserverless/vector-collection.ts:33](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearchserverless/vector-collection.ts#L33)
 
 ___
 
@@ -107,7 +107,7 @@ The name of the collection.
 
 #### Defined in
 
-[src/cdk-lib/opensearchserverless/vector-collection.ts:28](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/opensearchserverless/vector-collection.ts#L28)
+[src/cdk-lib/opensearchserverless/vector-collection.ts:28](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearchserverless/vector-collection.ts#L28)
 
 ___
 
@@ -119,7 +119,7 @@ An OpenSearch Access Policy that allows access to the index.
 
 #### Defined in
 
-[src/cdk-lib/opensearchserverless/vector-collection.ts:47](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/opensearchserverless/vector-collection.ts#L47)
+[src/cdk-lib/opensearchserverless/vector-collection.ts:47](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearchserverless/vector-collection.ts#L47)
 
 ___
 
@@ -131,7 +131,7 @@ An OpenSearch Access Policy document that will become `dataAccessPolicy`.
 
 #### Defined in
 
-[src/cdk-lib/opensearchserverless/vector-collection.ts:53](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/opensearchserverless/vector-collection.ts#L53)
+[src/cdk-lib/opensearchserverless/vector-collection.ts:53](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearchserverless/vector-collection.ts#L53)
 
 ___
 
@@ -169,7 +169,7 @@ Grants the specified role access to data in the collection.
 
 #### Defined in
 
-[src/cdk-lib/opensearchserverless/vector-collection.ts:153](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/opensearchserverless/vector-collection.ts#L153)
+[src/cdk-lib/opensearchserverless/vector-collection.ts:153](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearchserverless/vector-collection.ts#L153)
 
 ___
 

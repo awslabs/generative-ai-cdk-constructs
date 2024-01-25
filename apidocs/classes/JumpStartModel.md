@@ -1371,7 +1371,7 @@
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1383](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1383)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1383](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1383)
 
 ## Properties
 
@@ -1381,7 +1381,7 @@
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1383](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1383)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1383](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1383)
 
 ___
 
@@ -1391,7 +1391,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:43](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L43)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:43](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L43)
 
 ___
 
@@ -1401,7 +1401,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:42](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L42)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:42](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L42)
 
 ___
 
@@ -1411,7 +1411,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:41](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L41)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:41](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L41)
 
 ___
 
@@ -1421,7 +1421,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:46](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L46)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:46](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L46)
 
 ___
 
@@ -1431,7 +1431,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:45](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L45)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:45](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L45)
 
 ___
 
@@ -1441,7 +1441,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:44](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L44)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:44](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L44)
 
 ___
 
@@ -1451,7 +1451,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:49](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L49)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:49](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L49)
 
 ___
 
@@ -1461,7 +1461,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:48](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L48)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:48](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L48)
 
 ___
 
@@ -1471,7 +1471,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:47](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L47)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:47](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L47)
 
 ___
 
@@ -1481,7 +1481,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:52](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L52)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:52](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L52)
 
 ___
 
@@ -1491,7 +1491,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:51](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L51)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:51](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L51)
 
 ___
 
@@ -1501,7 +1501,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:50](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L50)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:50](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L50)
 
 ___
 
@@ -1511,7 +1511,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:55](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L55)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:55](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L55)
 
 ___
 
@@ -1521,7 +1521,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:54](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L54)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:54](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L54)
 
 ___
 
@@ -1531,7 +1531,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:53](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L53)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:53](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L53)
 
 ___
 
@@ -1541,7 +1541,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:58](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L58)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:58](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L58)
 
 ___
 
@@ -1551,7 +1551,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:57](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L57)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:57](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L57)
 
 ___
 
@@ -1561,7 +1561,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:56](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L56)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:56](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L56)
 
 ___
 
@@ -1571,7 +1571,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:62](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L62)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:62](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L62)
 
 ___
 
@@ -1581,7 +1581,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:61](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L61)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:61](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L61)
 
 ___
 
@@ -1591,7 +1591,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:60](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L60)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:60](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L60)
 
 ___
 
@@ -1601,7 +1601,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:59](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L59)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:59](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L59)
 
 ___
 
@@ -1611,7 +1611,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:66](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L66)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:66](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L66)
 
 ___
 
@@ -1621,7 +1621,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:65](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L65)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:65](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L65)
 
 ___
 
@@ -1631,7 +1631,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:64](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L64)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:64](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L64)
 
 ___
 
@@ -1641,7 +1641,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:63](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L63)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:63](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L63)
 
 ___
 
@@ -1651,7 +1651,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:70](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L70)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:70](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L70)
 
 ___
 
@@ -1661,7 +1661,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:69](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L69)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:69](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L69)
 
 ___
 
@@ -1671,7 +1671,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:68](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L68)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:68](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L68)
 
 ___
 
@@ -1681,7 +1681,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:67](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L67)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:67](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L67)
 
 ___
 
@@ -1691,7 +1691,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:74](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L74)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:74](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L74)
 
 ___
 
@@ -1701,7 +1701,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:73](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L73)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:73](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L73)
 
 ___
 
@@ -1711,7 +1711,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:72](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L72)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:72](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L72)
 
 ___
 
@@ -1721,7 +1721,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:71](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L71)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:71](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L71)
 
 ___
 
@@ -1731,7 +1731,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:78](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L78)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:78](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L78)
 
 ___
 
@@ -1741,7 +1741,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:77](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L77)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:77](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L77)
 
 ___
 
@@ -1751,7 +1751,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:76](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L76)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:76](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L76)
 
 ___
 
@@ -1761,7 +1761,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:75](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L75)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:75](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L75)
 
 ___
 
@@ -1771,7 +1771,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:82](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L82)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:82](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L82)
 
 ___
 
@@ -1781,7 +1781,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:81](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L81)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:81](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L81)
 
 ___
 
@@ -1791,7 +1791,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:80](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L80)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:80](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L80)
 
 ___
 
@@ -1801,7 +1801,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:79](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L79)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:79](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L79)
 
 ___
 
@@ -1811,7 +1811,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:86](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L86)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:86](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L86)
 
 ___
 
@@ -1821,7 +1821,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:85](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L85)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:85](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L85)
 
 ___
 
@@ -1831,7 +1831,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:84](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L84)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:84](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L84)
 
 ___
 
@@ -1841,7 +1841,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:83](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L83)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:83](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L83)
 
 ___
 
@@ -1851,7 +1851,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:90](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L90)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:90](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L90)
 
 ___
 
@@ -1861,7 +1861,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:89](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L89)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:89](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L89)
 
 ___
 
@@ -1871,7 +1871,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:88](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L88)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:88](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L88)
 
 ___
 
@@ -1881,7 +1881,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:87](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L87)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:87](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L87)
 
 ___
 
@@ -1891,7 +1891,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:94](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L94)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:94](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L94)
 
 ___
 
@@ -1901,7 +1901,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:93](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L93)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:93](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L93)
 
 ___
 
@@ -1911,7 +1911,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:92](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L92)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:92](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L92)
 
 ___
 
@@ -1921,7 +1921,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:91](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L91)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:91](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L91)
 
 ___
 
@@ -1931,7 +1931,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:98](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L98)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:98](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L98)
 
 ___
 
@@ -1941,7 +1941,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:97](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L97)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:97](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L97)
 
 ___
 
@@ -1951,7 +1951,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:96](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L96)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:96](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L96)
 
 ___
 
@@ -1961,7 +1961,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:95](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L95)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:95](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L95)
 
 ___
 
@@ -1971,7 +1971,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:102](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L102)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:102](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L102)
 
 ___
 
@@ -1981,7 +1981,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:101](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L101)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:101](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L101)
 
 ___
 
@@ -1991,7 +1991,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:100](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L100)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:100](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L100)
 
 ___
 
@@ -2001,7 +2001,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:99](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L99)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:99](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L99)
 
 ___
 
@@ -2011,7 +2011,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:106](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L106)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:106](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L106)
 
 ___
 
@@ -2021,7 +2021,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:105](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L105)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:105](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L105)
 
 ___
 
@@ -2031,7 +2031,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:104](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L104)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:104](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L104)
 
 ___
 
@@ -2041,7 +2041,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:103](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L103)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:103](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L103)
 
 ___
 
@@ -2051,7 +2051,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:110](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L110)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:110](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L110)
 
 ___
 
@@ -2061,7 +2061,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:109](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L109)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:109](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L109)
 
 ___
 
@@ -2071,7 +2071,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:108](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L108)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:108](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L108)
 
 ___
 
@@ -2081,7 +2081,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:107](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L107)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:107](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L107)
 
 ___
 
@@ -2091,7 +2091,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:114](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L114)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:114](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L114)
 
 ___
 
@@ -2101,7 +2101,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:113](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L113)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:113](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L113)
 
 ___
 
@@ -2111,7 +2111,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:112](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L112)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:112](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L112)
 
 ___
 
@@ -2121,7 +2121,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:111](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L111)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:111](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L111)
 
 ___
 
@@ -2131,7 +2131,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:118](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L118)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:118](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L118)
 
 ___
 
@@ -2141,7 +2141,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:117](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L117)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:117](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L117)
 
 ___
 
@@ -2151,7 +2151,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:116](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L116)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:116](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L116)
 
 ___
 
@@ -2161,7 +2161,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:115](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L115)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:115](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L115)
 
 ___
 
@@ -2171,7 +2171,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:120](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L120)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:120](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L120)
 
 ___
 
@@ -2181,7 +2181,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:119](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L119)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:119](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L119)
 
 ___
 
@@ -2191,7 +2191,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:123](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L123)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:123](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L123)
 
 ___
 
@@ -2201,7 +2201,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:122](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L122)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:122](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L122)
 
 ___
 
@@ -2211,7 +2211,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:121](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L121)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:121](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L121)
 
 ___
 
@@ -2221,7 +2221,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:128](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L128)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:128](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L128)
 
 ___
 
@@ -2231,7 +2231,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:127](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L127)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:127](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L127)
 
 ___
 
@@ -2241,7 +2241,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:126](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L126)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:126](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L126)
 
 ___
 
@@ -2251,7 +2251,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:125](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L125)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:125](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L125)
 
 ___
 
@@ -2261,7 +2261,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:124](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L124)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:124](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L124)
 
 ___
 
@@ -2271,7 +2271,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:131](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L131)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:131](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L131)
 
 ___
 
@@ -2281,7 +2281,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:130](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L130)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:130](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L130)
 
 ___
 
@@ -2291,7 +2291,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:129](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L129)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:129](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L129)
 
 ___
 
@@ -2301,7 +2301,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:139](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L139)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:139](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L139)
 
 ___
 
@@ -2311,7 +2311,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:138](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L138)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:138](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L138)
 
 ___
 
@@ -2321,7 +2321,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:137](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L137)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:137](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L137)
 
 ___
 
@@ -2331,7 +2331,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:136](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L136)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:136](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L136)
 
 ___
 
@@ -2341,7 +2341,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:135](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L135)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:135](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L135)
 
 ___
 
@@ -2351,7 +2351,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:134](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L134)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:134](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L134)
 
 ___
 
@@ -2361,7 +2361,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:133](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L133)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:133](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L133)
 
 ___
 
@@ -2371,7 +2371,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:132](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L132)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:132](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L132)
 
 ___
 
@@ -2381,7 +2381,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:147](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L147)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:147](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L147)
 
 ___
 
@@ -2391,7 +2391,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:146](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L146)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:146](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L146)
 
 ___
 
@@ -2401,7 +2401,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:145](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L145)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:145](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L145)
 
 ___
 
@@ -2411,7 +2411,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:144](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L144)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:144](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L144)
 
 ___
 
@@ -2421,7 +2421,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:143](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L143)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:143](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L143)
 
 ___
 
@@ -2431,7 +2431,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:142](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L142)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:142](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L142)
 
 ___
 
@@ -2441,7 +2441,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:141](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L141)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:141](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L141)
 
 ___
 
@@ -2451,7 +2451,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:140](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L140)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:140](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L140)
 
 ___
 
@@ -2461,7 +2461,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:156](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L156)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:156](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L156)
 
 ___
 
@@ -2471,7 +2471,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:155](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L155)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:155](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L155)
 
 ___
 
@@ -2481,7 +2481,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:154](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L154)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:154](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L154)
 
 ___
 
@@ -2491,7 +2491,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:153](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L153)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:153](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L153)
 
 ___
 
@@ -2501,7 +2501,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:152](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L152)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:152](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L152)
 
 ___
 
@@ -2511,7 +2511,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:151](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L151)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:151](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L151)
 
 ___
 
@@ -2521,7 +2521,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:150](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L150)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:150](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L150)
 
 ___
 
@@ -2531,7 +2531,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:149](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L149)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:149](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L149)
 
 ___
 
@@ -2541,7 +2541,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:148](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L148)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:148](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L148)
 
 ___
 
@@ -2551,7 +2551,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:165](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L165)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:165](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L165)
 
 ___
 
@@ -2561,7 +2561,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:164](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L164)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:164](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L164)
 
 ___
 
@@ -2571,7 +2571,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:163](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L163)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:163](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L163)
 
 ___
 
@@ -2581,7 +2581,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:162](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L162)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:162](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L162)
 
 ___
 
@@ -2591,7 +2591,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:161](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L161)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:161](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L161)
 
 ___
 
@@ -2601,7 +2601,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:160](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L160)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:160](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L160)
 
 ___
 
@@ -2611,7 +2611,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:159](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L159)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:159](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L159)
 
 ___
 
@@ -2621,7 +2621,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:158](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L158)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:158](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L158)
 
 ___
 
@@ -2631,7 +2631,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:157](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L157)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:157](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L157)
 
 ___
 
@@ -2641,7 +2641,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:168](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L168)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:168](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L168)
 
 ___
 
@@ -2651,7 +2651,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:167](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L167)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:167](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L167)
 
 ___
 
@@ -2661,7 +2661,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:166](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L166)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:166](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L166)
 
 ___
 
@@ -2671,7 +2671,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:170](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L170)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:170](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L170)
 
 ___
 
@@ -2681,7 +2681,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:169](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L169)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:169](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L169)
 
 ___
 
@@ -2691,7 +2691,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:172](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L172)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:172](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L172)
 
 ___
 
@@ -2701,7 +2701,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:171](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L171)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:171](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L171)
 
 ___
 
@@ -2711,7 +2711,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:174](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L174)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:174](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L174)
 
 ___
 
@@ -2721,7 +2721,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:173](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L173)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:173](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L173)
 
 ___
 
@@ -2731,7 +2731,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:180](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L180)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:180](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L180)
 
 ___
 
@@ -2741,7 +2741,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:179](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L179)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:179](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L179)
 
 ___
 
@@ -2751,7 +2751,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:178](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L178)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:178](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L178)
 
 ___
 
@@ -2761,7 +2761,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:177](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L177)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:177](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L177)
 
 ___
 
@@ -2771,7 +2771,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:176](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L176)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:176](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L176)
 
 ___
 
@@ -2781,7 +2781,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:175](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L175)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:175](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L175)
 
 ___
 
@@ -2791,7 +2791,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:183](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L183)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:183](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L183)
 
 ___
 
@@ -2801,7 +2801,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:182](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L182)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:182](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L182)
 
 ___
 
@@ -2811,7 +2811,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:181](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L181)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:181](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L181)
 
 ___
 
@@ -2821,7 +2821,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:186](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L186)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:186](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L186)
 
 ___
 
@@ -2831,7 +2831,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:185](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L185)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:185](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L185)
 
 ___
 
@@ -2841,7 +2841,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:184](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L184)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:184](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L184)
 
 ___
 
@@ -2851,7 +2851,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:190](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L190)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:190](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L190)
 
 ___
 
@@ -2861,7 +2861,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:189](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L189)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:189](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L189)
 
 ___
 
@@ -2871,7 +2871,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:188](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L188)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:188](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L188)
 
 ___
 
@@ -2881,7 +2881,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:187](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L187)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:187](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L187)
 
 ___
 
@@ -2891,7 +2891,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:193](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L193)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:193](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L193)
 
 ___
 
@@ -2901,7 +2901,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:192](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L192)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:192](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L192)
 
 ___
 
@@ -2911,7 +2911,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:191](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L191)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:191](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L191)
 
 ___
 
@@ -2921,7 +2921,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:196](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L196)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:196](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L196)
 
 ___
 
@@ -2931,7 +2931,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:195](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L195)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:195](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L195)
 
 ___
 
@@ -2941,7 +2941,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:194](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L194)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:194](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L194)
 
 ___
 
@@ -2951,7 +2951,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:199](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L199)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:199](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L199)
 
 ___
 
@@ -2961,7 +2961,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:198](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L198)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:198](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L198)
 
 ___
 
@@ -2971,7 +2971,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:197](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L197)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:197](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L197)
 
 ___
 
@@ -2981,7 +2981,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:202](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L202)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:202](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L202)
 
 ___
 
@@ -2991,7 +2991,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:201](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L201)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:201](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L201)
 
 ___
 
@@ -3001,7 +3001,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:200](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L200)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:200](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L200)
 
 ___
 
@@ -3011,7 +3011,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:205](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L205)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:205](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L205)
 
 ___
 
@@ -3021,7 +3021,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:204](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L204)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:204](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L204)
 
 ___
 
@@ -3031,7 +3031,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:203](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L203)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:203](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L203)
 
 ___
 
@@ -3041,7 +3041,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:208](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L208)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:208](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L208)
 
 ___
 
@@ -3051,7 +3051,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:207](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L207)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:207](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L207)
 
 ___
 
@@ -3061,7 +3061,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:206](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L206)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:206](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L206)
 
 ___
 
@@ -3071,7 +3071,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:211](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L211)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:211](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L211)
 
 ___
 
@@ -3081,7 +3081,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:210](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L210)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:210](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L210)
 
 ___
 
@@ -3091,7 +3091,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:209](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L209)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:209](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L209)
 
 ___
 
@@ -3101,7 +3101,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:214](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L214)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:214](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L214)
 
 ___
 
@@ -3111,7 +3111,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:213](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L213)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:213](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L213)
 
 ___
 
@@ -3121,7 +3121,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:212](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L212)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:212](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L212)
 
 ___
 
@@ -3131,7 +3131,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:217](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L217)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:217](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L217)
 
 ___
 
@@ -3141,7 +3141,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:216](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L216)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:216](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L216)
 
 ___
 
@@ -3151,7 +3151,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:215](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L215)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:215](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L215)
 
 ___
 
@@ -3161,7 +3161,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:220](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L220)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:220](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L220)
 
 ___
 
@@ -3171,7 +3171,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:219](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L219)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:219](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L219)
 
 ___
 
@@ -3181,7 +3181,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:218](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L218)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:218](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L218)
 
 ___
 
@@ -3191,7 +3191,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:223](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L223)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:223](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L223)
 
 ___
 
@@ -3201,7 +3201,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:222](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L222)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:222](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L222)
 
 ___
 
@@ -3211,7 +3211,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:221](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L221)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:221](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L221)
 
 ___
 
@@ -3221,7 +3221,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:226](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L226)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:226](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L226)
 
 ___
 
@@ -3231,7 +3231,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:225](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L225)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:225](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L225)
 
 ___
 
@@ -3241,7 +3241,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:224](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L224)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:224](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L224)
 
 ___
 
@@ -3251,7 +3251,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:229](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L229)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:229](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L229)
 
 ___
 
@@ -3261,7 +3261,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:228](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L228)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:228](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L228)
 
 ___
 
@@ -3271,7 +3271,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:227](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L227)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:227](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L227)
 
 ___
 
@@ -3281,7 +3281,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:236](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L236)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:236](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L236)
 
 ___
 
@@ -3291,7 +3291,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:235](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L235)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:235](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L235)
 
 ___
 
@@ -3301,7 +3301,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:234](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L234)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:234](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L234)
 
 ___
 
@@ -3311,7 +3311,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:233](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L233)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:233](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L233)
 
 ___
 
@@ -3321,7 +3321,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:232](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L232)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:232](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L232)
 
 ___
 
@@ -3331,7 +3331,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:231](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L231)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:231](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L231)
 
 ___
 
@@ -3341,7 +3341,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:230](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L230)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:230](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L230)
 
 ___
 
@@ -3351,7 +3351,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:243](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L243)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:243](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L243)
 
 ___
 
@@ -3361,7 +3361,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:242](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L242)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:242](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L242)
 
 ___
 
@@ -3371,7 +3371,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:241](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L241)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:241](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L241)
 
 ___
 
@@ -3381,7 +3381,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:240](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L240)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:240](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L240)
 
 ___
 
@@ -3391,7 +3391,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:239](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L239)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:239](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L239)
 
 ___
 
@@ -3401,7 +3401,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:238](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L238)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:238](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L238)
 
 ___
 
@@ -3411,7 +3411,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:237](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L237)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:237](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L237)
 
 ___
 
@@ -3421,7 +3421,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:250](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L250)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:250](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L250)
 
 ___
 
@@ -3431,7 +3431,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:249](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L249)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:249](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L249)
 
 ___
 
@@ -3441,7 +3441,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:248](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L248)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:248](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L248)
 
 ___
 
@@ -3451,7 +3451,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:247](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L247)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:247](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L247)
 
 ___
 
@@ -3461,7 +3461,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:246](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L246)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:246](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L246)
 
 ___
 
@@ -3471,7 +3471,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:245](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L245)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:245](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L245)
 
 ___
 
@@ -3481,7 +3481,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:244](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L244)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:244](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L244)
 
 ___
 
@@ -3491,7 +3491,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:257](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L257)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:257](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L257)
 
 ___
 
@@ -3501,7 +3501,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:256](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L256)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:256](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L256)
 
 ___
 
@@ -3511,7 +3511,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:255](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L255)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:255](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L255)
 
 ___
 
@@ -3521,7 +3521,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:254](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L254)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:254](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L254)
 
 ___
 
@@ -3531,7 +3531,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:253](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L253)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:253](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L253)
 
 ___
 
@@ -3541,7 +3541,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:252](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L252)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:252](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L252)
 
 ___
 
@@ -3551,7 +3551,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:251](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L251)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:251](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L251)
 
 ___
 
@@ -3561,7 +3561,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:264](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L264)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:264](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L264)
 
 ___
 
@@ -3571,7 +3571,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:263](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L263)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:263](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L263)
 
 ___
 
@@ -3581,7 +3581,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:262](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L262)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:262](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L262)
 
 ___
 
@@ -3591,7 +3591,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:261](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L261)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:261](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L261)
 
 ___
 
@@ -3601,7 +3601,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:260](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L260)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:260](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L260)
 
 ___
 
@@ -3611,7 +3611,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:259](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L259)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:259](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L259)
 
 ___
 
@@ -3621,7 +3621,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:258](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L258)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:258](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L258)
 
 ___
 
@@ -3631,7 +3631,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:271](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L271)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:271](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L271)
 
 ___
 
@@ -3641,7 +3641,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:270](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L270)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:270](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L270)
 
 ___
 
@@ -3651,7 +3651,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:269](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L269)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:269](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L269)
 
 ___
 
@@ -3661,7 +3661,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:268](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L268)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:268](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L268)
 
 ___
 
@@ -3671,7 +3671,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:267](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L267)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:267](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L267)
 
 ___
 
@@ -3681,7 +3681,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:266](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L266)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:266](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L266)
 
 ___
 
@@ -3691,7 +3691,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:265](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L265)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:265](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L265)
 
 ___
 
@@ -3701,7 +3701,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:278](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L278)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:278](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L278)
 
 ___
 
@@ -3711,7 +3711,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:277](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L277)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:277](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L277)
 
 ___
 
@@ -3721,7 +3721,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:276](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L276)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:276](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L276)
 
 ___
 
@@ -3731,7 +3731,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:275](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L275)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:275](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L275)
 
 ___
 
@@ -3741,7 +3741,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:274](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L274)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:274](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L274)
 
 ___
 
@@ -3751,7 +3751,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:273](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L273)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:273](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L273)
 
 ___
 
@@ -3761,7 +3761,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:272](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L272)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:272](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L272)
 
 ___
 
@@ -3771,7 +3771,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:285](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L285)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:285](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L285)
 
 ___
 
@@ -3781,7 +3781,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:284](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L284)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:284](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L284)
 
 ___
 
@@ -3791,7 +3791,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:283](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L283)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:283](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L283)
 
 ___
 
@@ -3801,7 +3801,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:282](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L282)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:282](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L282)
 
 ___
 
@@ -3811,7 +3811,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:281](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L281)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:281](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L281)
 
 ___
 
@@ -3821,7 +3821,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:280](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L280)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:280](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L280)
 
 ___
 
@@ -3831,7 +3831,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:279](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L279)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:279](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L279)
 
 ___
 
@@ -3841,7 +3841,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:292](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L292)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:292](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L292)
 
 ___
 
@@ -3851,7 +3851,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:291](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L291)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:291](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L291)
 
 ___
 
@@ -3861,7 +3861,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:290](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L290)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:290](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L290)
 
 ___
 
@@ -3871,7 +3871,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:289](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L289)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:289](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L289)
 
 ___
 
@@ -3881,7 +3881,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:288](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L288)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:288](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L288)
 
 ___
 
@@ -3891,7 +3891,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:287](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L287)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:287](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L287)
 
 ___
 
@@ -3901,7 +3901,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:286](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L286)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:286](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L286)
 
 ___
 
@@ -3911,7 +3911,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:299](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L299)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:299](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L299)
 
 ___
 
@@ -3921,7 +3921,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:298](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L298)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:298](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L298)
 
 ___
 
@@ -3931,7 +3931,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:297](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L297)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:297](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L297)
 
 ___
 
@@ -3941,7 +3941,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:296](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L296)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:296](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L296)
 
 ___
 
@@ -3951,7 +3951,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:295](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L295)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:295](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L295)
 
 ___
 
@@ -3961,7 +3961,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:294](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L294)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:294](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L294)
 
 ___
 
@@ -3971,7 +3971,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:293](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L293)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:293](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L293)
 
 ___
 
@@ -3981,7 +3981,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:306](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L306)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:306](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L306)
 
 ___
 
@@ -3991,7 +3991,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:305](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L305)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:305](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L305)
 
 ___
 
@@ -4001,7 +4001,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:304](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L304)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:304](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L304)
 
 ___
 
@@ -4011,7 +4011,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:303](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L303)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:303](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L303)
 
 ___
 
@@ -4021,7 +4021,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:302](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L302)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:302](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L302)
 
 ___
 
@@ -4031,7 +4031,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:301](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L301)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:301](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L301)
 
 ___
 
@@ -4041,7 +4041,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:300](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L300)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:300](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L300)
 
 ___
 
@@ -4051,7 +4051,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:313](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L313)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:313](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L313)
 
 ___
 
@@ -4061,7 +4061,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:312](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L312)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:312](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L312)
 
 ___
 
@@ -4071,7 +4071,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:311](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L311)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:311](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L311)
 
 ___
 
@@ -4081,7 +4081,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:310](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L310)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:310](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L310)
 
 ___
 
@@ -4091,7 +4091,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:309](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L309)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:309](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L309)
 
 ___
 
@@ -4101,7 +4101,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:308](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L308)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:308](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L308)
 
 ___
 
@@ -4111,7 +4111,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:307](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L307)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:307](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L307)
 
 ___
 
@@ -4121,7 +4121,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:320](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L320)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:320](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L320)
 
 ___
 
@@ -4131,7 +4131,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:319](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L319)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:319](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L319)
 
 ___
 
@@ -4141,7 +4141,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:318](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L318)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:318](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L318)
 
 ___
 
@@ -4151,7 +4151,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:317](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L317)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:317](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L317)
 
 ___
 
@@ -4161,7 +4161,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:316](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L316)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:316](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L316)
 
 ___
 
@@ -4171,7 +4171,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:315](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L315)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:315](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L315)
 
 ___
 
@@ -4181,7 +4181,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:314](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L314)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:314](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L314)
 
 ___
 
@@ -4191,7 +4191,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:327](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L327)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:327](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L327)
 
 ___
 
@@ -4201,7 +4201,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:326](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L326)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:326](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L326)
 
 ___
 
@@ -4211,7 +4211,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:325](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L325)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:325](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L325)
 
 ___
 
@@ -4221,7 +4221,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:324](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L324)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:324](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L324)
 
 ___
 
@@ -4231,7 +4231,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:323](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L323)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:323](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L323)
 
 ___
 
@@ -4241,7 +4241,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:322](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L322)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:322](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L322)
 
 ___
 
@@ -4251,7 +4251,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:321](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L321)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:321](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L321)
 
 ___
 
@@ -4261,7 +4261,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:334](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L334)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:334](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L334)
 
 ___
 
@@ -4271,7 +4271,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:333](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L333)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:333](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L333)
 
 ___
 
@@ -4281,7 +4281,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:332](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L332)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:332](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L332)
 
 ___
 
@@ -4291,7 +4291,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:331](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L331)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:331](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L331)
 
 ___
 
@@ -4301,7 +4301,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:330](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L330)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:330](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L330)
 
 ___
 
@@ -4311,7 +4311,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:329](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L329)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:329](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L329)
 
 ___
 
@@ -4321,7 +4321,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:328](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L328)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:328](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L328)
 
 ___
 
@@ -4331,7 +4331,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:341](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L341)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:341](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L341)
 
 ___
 
@@ -4341,7 +4341,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:340](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L340)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:340](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L340)
 
 ___
 
@@ -4351,7 +4351,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:339](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L339)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:339](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L339)
 
 ___
 
@@ -4361,7 +4361,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:338](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L338)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:338](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L338)
 
 ___
 
@@ -4371,7 +4371,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:337](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L337)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:337](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L337)
 
 ___
 
@@ -4381,7 +4381,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:336](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L336)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:336](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L336)
 
 ___
 
@@ -4391,7 +4391,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:335](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L335)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:335](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L335)
 
 ___
 
@@ -4401,7 +4401,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:348](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L348)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:348](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L348)
 
 ___
 
@@ -4411,7 +4411,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:347](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L347)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:347](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L347)
 
 ___
 
@@ -4421,7 +4421,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:346](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L346)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:346](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L346)
 
 ___
 
@@ -4431,7 +4431,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:345](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L345)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:345](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L345)
 
 ___
 
@@ -4441,7 +4441,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:344](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L344)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:344](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L344)
 
 ___
 
@@ -4451,7 +4451,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:343](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L343)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:343](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L343)
 
 ___
 
@@ -4461,7 +4461,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:342](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L342)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:342](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L342)
 
 ___
 
@@ -4471,7 +4471,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:355](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L355)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:355](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L355)
 
 ___
 
@@ -4481,7 +4481,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:354](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L354)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:354](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L354)
 
 ___
 
@@ -4491,7 +4491,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:353](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L353)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:353](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L353)
 
 ___
 
@@ -4501,7 +4501,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:352](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L352)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:352](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L352)
 
 ___
 
@@ -4511,7 +4511,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:351](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L351)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:351](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L351)
 
 ___
 
@@ -4521,7 +4521,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:350](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L350)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:350](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L350)
 
 ___
 
@@ -4531,7 +4531,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:349](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L349)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:349](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L349)
 
 ___
 
@@ -4541,7 +4541,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:362](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L362)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:362](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L362)
 
 ___
 
@@ -4551,7 +4551,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:361](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L361)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:361](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L361)
 
 ___
 
@@ -4561,7 +4561,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:360](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L360)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:360](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L360)
 
 ___
 
@@ -4571,7 +4571,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:359](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L359)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:359](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L359)
 
 ___
 
@@ -4581,7 +4581,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:358](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L358)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:358](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L358)
 
 ___
 
@@ -4591,7 +4591,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:357](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L357)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:357](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L357)
 
 ___
 
@@ -4601,7 +4601,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:356](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L356)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:356](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L356)
 
 ___
 
@@ -4611,7 +4611,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:369](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L369)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:369](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L369)
 
 ___
 
@@ -4621,7 +4621,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:368](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L368)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:368](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L368)
 
 ___
 
@@ -4631,7 +4631,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:367](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L367)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:367](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L367)
 
 ___
 
@@ -4641,7 +4641,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:366](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L366)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:366](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L366)
 
 ___
 
@@ -4651,7 +4651,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:365](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L365)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:365](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L365)
 
 ___
 
@@ -4661,7 +4661,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:364](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L364)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:364](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L364)
 
 ___
 
@@ -4671,7 +4671,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:363](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L363)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:363](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L363)
 
 ___
 
@@ -4681,7 +4681,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:376](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L376)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:376](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L376)
 
 ___
 
@@ -4691,7 +4691,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:375](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L375)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:375](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L375)
 
 ___
 
@@ -4701,7 +4701,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:374](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L374)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:374](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L374)
 
 ___
 
@@ -4711,7 +4711,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:373](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L373)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:373](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L373)
 
 ___
 
@@ -4721,7 +4721,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:372](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L372)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:372](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L372)
 
 ___
 
@@ -4731,7 +4731,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:371](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L371)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:371](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L371)
 
 ___
 
@@ -4741,7 +4741,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:370](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L370)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:370](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L370)
 
 ___
 
@@ -4751,7 +4751,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:380](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L380)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:380](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L380)
 
 ___
 
@@ -4761,7 +4761,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:379](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L379)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:379](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L379)
 
 ___
 
@@ -4771,7 +4771,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:378](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L378)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:378](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L378)
 
 ___
 
@@ -4781,7 +4781,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:377](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L377)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:377](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L377)
 
 ___
 
@@ -4791,7 +4791,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:384](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L384)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:384](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L384)
 
 ___
 
@@ -4801,7 +4801,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:383](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L383)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:383](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L383)
 
 ___
 
@@ -4811,7 +4811,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:382](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L382)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:382](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L382)
 
 ___
 
@@ -4821,7 +4821,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:381](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L381)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:381](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L381)
 
 ___
 
@@ -4831,7 +4831,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:388](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L388)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:388](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L388)
 
 ___
 
@@ -4841,7 +4841,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:387](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L387)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:387](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L387)
 
 ___
 
@@ -4851,7 +4851,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:386](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L386)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:386](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L386)
 
 ___
 
@@ -4861,7 +4861,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:385](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L385)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:385](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L385)
 
 ___
 
@@ -4871,7 +4871,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:392](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L392)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:392](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L392)
 
 ___
 
@@ -4881,7 +4881,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:391](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L391)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:391](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L391)
 
 ___
 
@@ -4891,7 +4891,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:390](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L390)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:390](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L390)
 
 ___
 
@@ -4901,7 +4901,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:389](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L389)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:389](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L389)
 
 ___
 
@@ -4911,7 +4911,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:396](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L396)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:396](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L396)
 
 ___
 
@@ -4921,7 +4921,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:395](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L395)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:395](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L395)
 
 ___
 
@@ -4931,7 +4931,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:394](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L394)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:394](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L394)
 
 ___
 
@@ -4941,7 +4941,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:393](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L393)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:393](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L393)
 
 ___
 
@@ -4951,7 +4951,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:400](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L400)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:400](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L400)
 
 ___
 
@@ -4961,7 +4961,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:399](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L399)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:399](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L399)
 
 ___
 
@@ -4971,7 +4971,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:398](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L398)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:398](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L398)
 
 ___
 
@@ -4981,7 +4981,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:397](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L397)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:397](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L397)
 
 ___
 
@@ -4991,7 +4991,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:408](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L408)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:408](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L408)
 
 ___
 
@@ -5001,7 +5001,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:407](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L407)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:407](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L407)
 
 ___
 
@@ -5011,7 +5011,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:406](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L406)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:406](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L406)
 
 ___
 
@@ -5021,7 +5021,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:405](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L405)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:405](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L405)
 
 ___
 
@@ -5031,7 +5031,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:404](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L404)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:404](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L404)
 
 ___
 
@@ -5041,7 +5041,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:403](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L403)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:403](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L403)
 
 ___
 
@@ -5051,7 +5051,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:402](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L402)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:402](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L402)
 
 ___
 
@@ -5061,7 +5061,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:401](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L401)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:401](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L401)
 
 ___
 
@@ -5071,7 +5071,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:412](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L412)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:412](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L412)
 
 ___
 
@@ -5081,7 +5081,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:411](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L411)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:411](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L411)
 
 ___
 
@@ -5091,7 +5091,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:410](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L410)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:410](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L410)
 
 ___
 
@@ -5101,7 +5101,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:409](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L409)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:409](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L409)
 
 ___
 
@@ -5111,7 +5111,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:416](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L416)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:416](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L416)
 
 ___
 
@@ -5121,7 +5121,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:415](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L415)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:415](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L415)
 
 ___
 
@@ -5131,7 +5131,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:414](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L414)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:414](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L414)
 
 ___
 
@@ -5141,7 +5141,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:413](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L413)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:413](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L413)
 
 ___
 
@@ -5151,7 +5151,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:420](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L420)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:420](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L420)
 
 ___
 
@@ -5161,7 +5161,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:419](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L419)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:419](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L419)
 
 ___
 
@@ -5171,7 +5171,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:418](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L418)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:418](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L418)
 
 ___
 
@@ -5181,7 +5181,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:417](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L417)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:417](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L417)
 
 ___
 
@@ -5191,7 +5191,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:424](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L424)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:424](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L424)
 
 ___
 
@@ -5201,7 +5201,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:423](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L423)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:423](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L423)
 
 ___
 
@@ -5211,7 +5211,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:422](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L422)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:422](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L422)
 
 ___
 
@@ -5221,7 +5221,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:421](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L421)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:421](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L421)
 
 ___
 
@@ -5231,7 +5231,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:428](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L428)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:428](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L428)
 
 ___
 
@@ -5241,7 +5241,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:427](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L427)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:427](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L427)
 
 ___
 
@@ -5251,7 +5251,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:426](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L426)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:426](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L426)
 
 ___
 
@@ -5261,7 +5261,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:425](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L425)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:425](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L425)
 
 ___
 
@@ -5271,7 +5271,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:432](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L432)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:432](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L432)
 
 ___
 
@@ -5281,7 +5281,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:431](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L431)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:431](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L431)
 
 ___
 
@@ -5291,7 +5291,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:430](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L430)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:430](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L430)
 
 ___
 
@@ -5301,7 +5301,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:429](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L429)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:429](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L429)
 
 ___
 
@@ -5311,7 +5311,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:436](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L436)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:436](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L436)
 
 ___
 
@@ -5321,7 +5321,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:435](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L435)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:435](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L435)
 
 ___
 
@@ -5331,7 +5331,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:434](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L434)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:434](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L434)
 
 ___
 
@@ -5341,7 +5341,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:433](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L433)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:433](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L433)
 
 ___
 
@@ -5351,7 +5351,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:440](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L440)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:440](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L440)
 
 ___
 
@@ -5361,7 +5361,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:439](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L439)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:439](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L439)
 
 ___
 
@@ -5371,7 +5371,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:438](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L438)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:438](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L438)
 
 ___
 
@@ -5381,7 +5381,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:437](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L437)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:437](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L437)
 
 ___
 
@@ -5391,7 +5391,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:444](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L444)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:444](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L444)
 
 ___
 
@@ -5401,7 +5401,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:443](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L443)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:443](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L443)
 
 ___
 
@@ -5411,7 +5411,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:442](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L442)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:442](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L442)
 
 ___
 
@@ -5421,7 +5421,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:441](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L441)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:441](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L441)
 
 ___
 
@@ -5431,7 +5431,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:448](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L448)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:448](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L448)
 
 ___
 
@@ -5441,7 +5441,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:447](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L447)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:447](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L447)
 
 ___
 
@@ -5451,7 +5451,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:446](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L446)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:446](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L446)
 
 ___
 
@@ -5461,7 +5461,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:445](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L445)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:445](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L445)
 
 ___
 
@@ -5471,7 +5471,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:452](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L452)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:452](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L452)
 
 ___
 
@@ -5481,7 +5481,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:451](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L451)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:451](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L451)
 
 ___
 
@@ -5491,7 +5491,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:450](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L450)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:450](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L450)
 
 ___
 
@@ -5501,7 +5501,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:449](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L449)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:449](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L449)
 
 ___
 
@@ -5511,7 +5511,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:456](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L456)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:456](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L456)
 
 ___
 
@@ -5521,7 +5521,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:455](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L455)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:455](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L455)
 
 ___
 
@@ -5531,7 +5531,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:454](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L454)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:454](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L454)
 
 ___
 
@@ -5541,7 +5541,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:453](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L453)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:453](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L453)
 
 ___
 
@@ -5551,7 +5551,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:460](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L460)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:460](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L460)
 
 ___
 
@@ -5561,7 +5561,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:459](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L459)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:459](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L459)
 
 ___
 
@@ -5571,7 +5571,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:458](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L458)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:458](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L458)
 
 ___
 
@@ -5581,7 +5581,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:457](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L457)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:457](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L457)
 
 ___
 
@@ -5591,7 +5591,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:464](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L464)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:464](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L464)
 
 ___
 
@@ -5601,7 +5601,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:463](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L463)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:463](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L463)
 
 ___
 
@@ -5611,7 +5611,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:462](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L462)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:462](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L462)
 
 ___
 
@@ -5621,7 +5621,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:461](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L461)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:461](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L461)
 
 ___
 
@@ -5631,7 +5631,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:468](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L468)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:468](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L468)
 
 ___
 
@@ -5641,7 +5641,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:467](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L467)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:467](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L467)
 
 ___
 
@@ -5651,7 +5651,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:466](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L466)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:466](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L466)
 
 ___
 
@@ -5661,7 +5661,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:465](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L465)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:465](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L465)
 
 ___
 
@@ -5671,7 +5671,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:472](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L472)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:472](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L472)
 
 ___
 
@@ -5681,7 +5681,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:471](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L471)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:471](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L471)
 
 ___
 
@@ -5691,7 +5691,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:470](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L470)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:470](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L470)
 
 ___
 
@@ -5701,7 +5701,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:469](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L469)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:469](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L469)
 
 ___
 
@@ -5711,7 +5711,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:476](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L476)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:476](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L476)
 
 ___
 
@@ -5721,7 +5721,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:475](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L475)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:475](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L475)
 
 ___
 
@@ -5731,7 +5731,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:474](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L474)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:474](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L474)
 
 ___
 
@@ -5741,7 +5741,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:473](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L473)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:473](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L473)
 
 ___
 
@@ -5751,7 +5751,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:480](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L480)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:480](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L480)
 
 ___
 
@@ -5761,7 +5761,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:479](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L479)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:479](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L479)
 
 ___
 
@@ -5771,7 +5771,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:478](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L478)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:478](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L478)
 
 ___
 
@@ -5781,7 +5781,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:477](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L477)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:477](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L477)
 
 ___
 
@@ -5791,7 +5791,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:484](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L484)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:484](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L484)
 
 ___
 
@@ -5801,7 +5801,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:483](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L483)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:483](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L483)
 
 ___
 
@@ -5811,7 +5811,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:482](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L482)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:482](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L482)
 
 ___
 
@@ -5821,7 +5821,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:481](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L481)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:481](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L481)
 
 ___
 
@@ -5831,7 +5831,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:488](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L488)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:488](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L488)
 
 ___
 
@@ -5841,7 +5841,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:487](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L487)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:487](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L487)
 
 ___
 
@@ -5851,7 +5851,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:486](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L486)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:486](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L486)
 
 ___
 
@@ -5861,7 +5861,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:485](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L485)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:485](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L485)
 
 ___
 
@@ -5871,7 +5871,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:492](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L492)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:492](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L492)
 
 ___
 
@@ -5881,7 +5881,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:491](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L491)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:491](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L491)
 
 ___
 
@@ -5891,7 +5891,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:490](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L490)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:490](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L490)
 
 ___
 
@@ -5901,7 +5901,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:489](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L489)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:489](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L489)
 
 ___
 
@@ -5911,7 +5911,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:501](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L501)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:501](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L501)
 
 ___
 
@@ -5921,7 +5921,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:500](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L500)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:500](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L500)
 
 ___
 
@@ -5931,7 +5931,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:499](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L499)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:499](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L499)
 
 ___
 
@@ -5941,7 +5941,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:498](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L498)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:498](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L498)
 
 ___
 
@@ -5951,7 +5951,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:497](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L497)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:497](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L497)
 
 ___
 
@@ -5961,7 +5961,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:496](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L496)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:496](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L496)
 
 ___
 
@@ -5971,7 +5971,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:495](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L495)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:495](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L495)
 
 ___
 
@@ -5981,7 +5981,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:494](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L494)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:494](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L494)
 
 ___
 
@@ -5991,7 +5991,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:493](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L493)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:493](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L493)
 
 ___
 
@@ -6001,7 +6001,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:505](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L505)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:505](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L505)
 
 ___
 
@@ -6011,7 +6011,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:504](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L504)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:504](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L504)
 
 ___
 
@@ -6021,7 +6021,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:503](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L503)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:503](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L503)
 
 ___
 
@@ -6031,7 +6031,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:502](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L502)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:502](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L502)
 
 ___
 
@@ -6041,7 +6041,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:508](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L508)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:508](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L508)
 
 ___
 
@@ -6051,7 +6051,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:507](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L507)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:507](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L507)
 
 ___
 
@@ -6061,7 +6061,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:506](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L506)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:506](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L506)
 
 ___
 
@@ -6071,7 +6071,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:511](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L511)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:511](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L511)
 
 ___
 
@@ -6081,7 +6081,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:510](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L510)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:510](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L510)
 
 ___
 
@@ -6091,7 +6091,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:509](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L509)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:509](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L509)
 
 ___
 
@@ -6101,7 +6101,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:526](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L526)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:526](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L526)
 
 ___
 
@@ -6111,7 +6111,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:525](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L525)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:525](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L525)
 
 ___
 
@@ -6121,7 +6121,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:524](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L524)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:524](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L524)
 
 ___
 
@@ -6131,7 +6131,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:523](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L523)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:523](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L523)
 
 ___
 
@@ -6141,7 +6141,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:522](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L522)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:522](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L522)
 
 ___
 
@@ -6151,7 +6151,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:521](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L521)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:521](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L521)
 
 ___
 
@@ -6161,7 +6161,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:520](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L520)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:520](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L520)
 
 ___
 
@@ -6171,7 +6171,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:519](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L519)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:519](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L519)
 
 ___
 
@@ -6181,7 +6181,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:518](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L518)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:518](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L518)
 
 ___
 
@@ -6191,7 +6191,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:517](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L517)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:517](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L517)
 
 ___
 
@@ -6201,7 +6201,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:516](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L516)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:516](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L516)
 
 ___
 
@@ -6211,7 +6211,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:515](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L515)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:515](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L515)
 
 ___
 
@@ -6221,7 +6221,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:514](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L514)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:514](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L514)
 
 ___
 
@@ -6231,7 +6231,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:513](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L513)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:513](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L513)
 
 ___
 
@@ -6241,7 +6241,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:512](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L512)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:512](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L512)
 
 ___
 
@@ -6251,7 +6251,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:536](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L536)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:536](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L536)
 
 ___
 
@@ -6261,7 +6261,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:535](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L535)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:535](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L535)
 
 ___
 
@@ -6271,7 +6271,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:534](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L534)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:534](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L534)
 
 ___
 
@@ -6281,7 +6281,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:533](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L533)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:533](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L533)
 
 ___
 
@@ -6291,7 +6291,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:532](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L532)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:532](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L532)
 
 ___
 
@@ -6301,7 +6301,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:531](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L531)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:531](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L531)
 
 ___
 
@@ -6311,7 +6311,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:530](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L530)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:530](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L530)
 
 ___
 
@@ -6321,7 +6321,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:529](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L529)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:529](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L529)
 
 ___
 
@@ -6331,7 +6331,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:528](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L528)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:528](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L528)
 
 ___
 
@@ -6341,7 +6341,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:527](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L527)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:527](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L527)
 
 ___
 
@@ -6351,7 +6351,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:551](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L551)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:551](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L551)
 
 ___
 
@@ -6361,7 +6361,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:550](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L550)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:550](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L550)
 
 ___
 
@@ -6371,7 +6371,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:549](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L549)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:549](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L549)
 
 ___
 
@@ -6381,7 +6381,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:548](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L548)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:548](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L548)
 
 ___
 
@@ -6391,7 +6391,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:547](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L547)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:547](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L547)
 
 ___
 
@@ -6401,7 +6401,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:546](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L546)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:546](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L546)
 
 ___
 
@@ -6411,7 +6411,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:545](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L545)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:545](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L545)
 
 ___
 
@@ -6421,7 +6421,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:544](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L544)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:544](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L544)
 
 ___
 
@@ -6431,7 +6431,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:543](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L543)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:543](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L543)
 
 ___
 
@@ -6441,7 +6441,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:542](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L542)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:542](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L542)
 
 ___
 
@@ -6451,7 +6451,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:541](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L541)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:541](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L541)
 
 ___
 
@@ -6461,7 +6461,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:540](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L540)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:540](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L540)
 
 ___
 
@@ -6471,7 +6471,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:539](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L539)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:539](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L539)
 
 ___
 
@@ -6481,7 +6481,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:538](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L538)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:538](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L538)
 
 ___
 
@@ -6491,7 +6491,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:537](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L537)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:537](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L537)
 
 ___
 
@@ -6501,7 +6501,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:566](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L566)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:566](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L566)
 
 ___
 
@@ -6511,7 +6511,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:565](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L565)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:565](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L565)
 
 ___
 
@@ -6521,7 +6521,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:564](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L564)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:564](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L564)
 
 ___
 
@@ -6531,7 +6531,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:563](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L563)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:563](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L563)
 
 ___
 
@@ -6541,7 +6541,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:562](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L562)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:562](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L562)
 
 ___
 
@@ -6551,7 +6551,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:561](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L561)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:561](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L561)
 
 ___
 
@@ -6561,7 +6561,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:560](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L560)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:560](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L560)
 
 ___
 
@@ -6571,7 +6571,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:559](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L559)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:559](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L559)
 
 ___
 
@@ -6581,7 +6581,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:558](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L558)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:558](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L558)
 
 ___
 
@@ -6591,7 +6591,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:557](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L557)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:557](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L557)
 
 ___
 
@@ -6601,7 +6601,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:556](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L556)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:556](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L556)
 
 ___
 
@@ -6611,7 +6611,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:555](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L555)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:555](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L555)
 
 ___
 
@@ -6621,7 +6621,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:554](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L554)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:554](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L554)
 
 ___
 
@@ -6631,7 +6631,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:553](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L553)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:553](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L553)
 
 ___
 
@@ -6641,7 +6641,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:552](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L552)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:552](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L552)
 
 ___
 
@@ -6651,7 +6651,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:581](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L581)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:581](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L581)
 
 ___
 
@@ -6661,7 +6661,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:580](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L580)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:580](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L580)
 
 ___
 
@@ -6671,7 +6671,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:579](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L579)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:579](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L579)
 
 ___
 
@@ -6681,7 +6681,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:578](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L578)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:578](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L578)
 
 ___
 
@@ -6691,7 +6691,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:577](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L577)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:577](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L577)
 
 ___
 
@@ -6701,7 +6701,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:576](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L576)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:576](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L576)
 
 ___
 
@@ -6711,7 +6711,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:575](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L575)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:575](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L575)
 
 ___
 
@@ -6721,7 +6721,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:574](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L574)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:574](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L574)
 
 ___
 
@@ -6731,7 +6731,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:573](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L573)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:573](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L573)
 
 ___
 
@@ -6741,7 +6741,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:572](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L572)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:572](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L572)
 
 ___
 
@@ -6751,7 +6751,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:571](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L571)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:571](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L571)
 
 ___
 
@@ -6761,7 +6761,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:570](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L570)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:570](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L570)
 
 ___
 
@@ -6771,7 +6771,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:569](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L569)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:569](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L569)
 
 ___
 
@@ -6781,7 +6781,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:568](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L568)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:568](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L568)
 
 ___
 
@@ -6791,7 +6791,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:567](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L567)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:567](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L567)
 
 ___
 
@@ -6801,7 +6801,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:585](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L585)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:585](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L585)
 
 ___
 
@@ -6811,7 +6811,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:584](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L584)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:584](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L584)
 
 ___
 
@@ -6821,7 +6821,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:583](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L583)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:583](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L583)
 
 ___
 
@@ -6831,7 +6831,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:582](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L582)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:582](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L582)
 
 ___
 
@@ -6841,7 +6841,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:589](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L589)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:589](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L589)
 
 ___
 
@@ -6851,7 +6851,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:588](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L588)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:588](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L588)
 
 ___
 
@@ -6861,7 +6861,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:587](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L587)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:587](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L587)
 
 ___
 
@@ -6871,7 +6871,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:586](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L586)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:586](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L586)
 
 ___
 
@@ -6881,7 +6881,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:592](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L592)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:592](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L592)
 
 ___
 
@@ -6891,7 +6891,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:591](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L591)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:591](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L591)
 
 ___
 
@@ -6901,7 +6901,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:590](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L590)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:590](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L590)
 
 ___
 
@@ -6911,7 +6911,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:596](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L596)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:596](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L596)
 
 ___
 
@@ -6921,7 +6921,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:595](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L595)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:595](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L595)
 
 ___
 
@@ -6931,7 +6931,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:594](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L594)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:594](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L594)
 
 ___
 
@@ -6941,7 +6941,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:593](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L593)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:593](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L593)
 
 ___
 
@@ -6951,7 +6951,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:605](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L605)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:605](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L605)
 
 ___
 
@@ -6961,7 +6961,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:604](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L604)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:604](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L604)
 
 ___
 
@@ -6971,7 +6971,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:603](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L603)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:603](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L603)
 
 ___
 
@@ -6981,7 +6981,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:602](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L602)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:602](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L602)
 
 ___
 
@@ -6991,7 +6991,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:601](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L601)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:601](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L601)
 
 ___
 
@@ -7001,7 +7001,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:600](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L600)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:600](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L600)
 
 ___
 
@@ -7011,7 +7011,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:599](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L599)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:599](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L599)
 
 ___
 
@@ -7021,7 +7021,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:598](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L598)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:598](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L598)
 
 ___
 
@@ -7031,7 +7031,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:597](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L597)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:597](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L597)
 
 ___
 
@@ -7041,7 +7041,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:615](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L615)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:615](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L615)
 
 ___
 
@@ -7051,7 +7051,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:614](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L614)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:614](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L614)
 
 ___
 
@@ -7061,7 +7061,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:613](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L613)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:613](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L613)
 
 ___
 
@@ -7071,7 +7071,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:612](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L612)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:612](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L612)
 
 ___
 
@@ -7081,7 +7081,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:611](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L611)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:611](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L611)
 
 ___
 
@@ -7091,7 +7091,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:610](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L610)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:610](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L610)
 
 ___
 
@@ -7101,7 +7101,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:609](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L609)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:609](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L609)
 
 ___
 
@@ -7111,7 +7111,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:608](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L608)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:608](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L608)
 
 ___
 
@@ -7121,7 +7121,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:607](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L607)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:607](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L607)
 
 ___
 
@@ -7131,7 +7131,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:606](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L606)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:606](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L606)
 
 ___
 
@@ -7141,7 +7141,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:625](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L625)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:625](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L625)
 
 ___
 
@@ -7151,7 +7151,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:624](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L624)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:624](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L624)
 
 ___
 
@@ -7161,7 +7161,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:623](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L623)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:623](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L623)
 
 ___
 
@@ -7171,7 +7171,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:622](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L622)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:622](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L622)
 
 ___
 
@@ -7181,7 +7181,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:621](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L621)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:621](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L621)
 
 ___
 
@@ -7191,7 +7191,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:620](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L620)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:620](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L620)
 
 ___
 
@@ -7201,7 +7201,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:619](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L619)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:619](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L619)
 
 ___
 
@@ -7211,7 +7211,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:618](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L618)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:618](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L618)
 
 ___
 
@@ -7221,7 +7221,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:617](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L617)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:617](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L617)
 
 ___
 
@@ -7231,7 +7231,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:616](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L616)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:616](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L616)
 
 ___
 
@@ -7241,7 +7241,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:626](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L626)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:626](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L626)
 
 ___
 
@@ -7251,7 +7251,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:750](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L750)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:750](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L750)
 
 ___
 
@@ -7261,7 +7261,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:749](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L749)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:749](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L749)
 
 ___
 
@@ -7271,7 +7271,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:748](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L748)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:748](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L748)
 
 ___
 
@@ -7281,7 +7281,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:757](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L757)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:757](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L757)
 
 ___
 
@@ -7291,7 +7291,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:756](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L756)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:756](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L756)
 
 ___
 
@@ -7301,7 +7301,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:755](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L755)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:755](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L755)
 
 ___
 
@@ -7311,7 +7311,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:754](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L754)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:754](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L754)
 
 ___
 
@@ -7321,7 +7321,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:753](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L753)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:753](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L753)
 
 ___
 
@@ -7331,7 +7331,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:752](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L752)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:752](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L752)
 
 ___
 
@@ -7341,7 +7341,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:751](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L751)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:751](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L751)
 
 ___
 
@@ -7351,7 +7351,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:764](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L764)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:764](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L764)
 
 ___
 
@@ -7361,7 +7361,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:763](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L763)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:763](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L763)
 
 ___
 
@@ -7371,7 +7371,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:762](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L762)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:762](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L762)
 
 ___
 
@@ -7381,7 +7381,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:761](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L761)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:761](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L761)
 
 ___
 
@@ -7391,7 +7391,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:760](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L760)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:760](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L760)
 
 ___
 
@@ -7401,7 +7401,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:759](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L759)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:759](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L759)
 
 ___
 
@@ -7411,7 +7411,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:758](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L758)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:758](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L758)
 
 ___
 
@@ -7421,7 +7421,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:719](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L719)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:719](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L719)
 
 ___
 
@@ -7431,7 +7431,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:718](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L718)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:718](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L718)
 
 ___
 
@@ -7441,7 +7441,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:717](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L717)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:717](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L717)
 
 ___
 
@@ -7451,7 +7451,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:726](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L726)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:726](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L726)
 
 ___
 
@@ -7461,7 +7461,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:725](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L725)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:725](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L725)
 
 ___
 
@@ -7471,7 +7471,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:724](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L724)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:724](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L724)
 
 ___
 
@@ -7481,7 +7481,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:723](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L723)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:723](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L723)
 
 ___
 
@@ -7491,7 +7491,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:722](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L722)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:722](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L722)
 
 ___
 
@@ -7501,7 +7501,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:721](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L721)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:721](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L721)
 
 ___
 
@@ -7511,7 +7511,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:720](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L720)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:720](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L720)
 
 ___
 
@@ -7521,7 +7521,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:733](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L733)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:733](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L733)
 
 ___
 
@@ -7531,7 +7531,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:732](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L732)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:732](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L732)
 
 ___
 
@@ -7541,7 +7541,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:731](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L731)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:731](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L731)
 
 ___
 
@@ -7551,7 +7551,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:730](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L730)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:730](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L730)
 
 ___
 
@@ -7561,7 +7561,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:729](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L729)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:729](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L729)
 
 ___
 
@@ -7571,7 +7571,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:728](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L728)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:728](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L728)
 
 ___
 
@@ -7581,7 +7581,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:727](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L727)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:727](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L727)
 
 ___
 
@@ -7591,7 +7591,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:740](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L740)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:740](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L740)
 
 ___
 
@@ -7601,7 +7601,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:739](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L739)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:739](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L739)
 
 ___
 
@@ -7611,7 +7611,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:738](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L738)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:738](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L738)
 
 ___
 
@@ -7621,7 +7621,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:737](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L737)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:737](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L737)
 
 ___
 
@@ -7631,7 +7631,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:736](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L736)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:736](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L736)
 
 ___
 
@@ -7641,7 +7641,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:735](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L735)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:735](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L735)
 
 ___
 
@@ -7651,7 +7651,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:734](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L734)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:734](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L734)
 
 ___
 
@@ -7661,7 +7661,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:747](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L747)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:747](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L747)
 
 ___
 
@@ -7671,7 +7671,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:746](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L746)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:746](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L746)
 
 ___
 
@@ -7681,7 +7681,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:745](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L745)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:745](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L745)
 
 ___
 
@@ -7691,7 +7691,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:744](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L744)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:744](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L744)
 
 ___
 
@@ -7701,7 +7701,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:743](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L743)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:743](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L743)
 
 ___
 
@@ -7711,7 +7711,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:742](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L742)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:742](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L742)
 
 ___
 
@@ -7721,7 +7721,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:741](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L741)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:741](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L741)
 
 ___
 
@@ -7731,7 +7731,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:771](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L771)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:771](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L771)
 
 ___
 
@@ -7741,7 +7741,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:770](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L770)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:770](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L770)
 
 ___
 
@@ -7751,7 +7751,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:769](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L769)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:769](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L769)
 
 ___
 
@@ -7761,7 +7761,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:768](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L768)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:768](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L768)
 
 ___
 
@@ -7771,7 +7771,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:767](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L767)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:767](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L767)
 
 ___
 
@@ -7781,7 +7781,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:766](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L766)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:766](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L766)
 
 ___
 
@@ -7791,7 +7791,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:765](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L765)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:765](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L765)
 
 ___
 
@@ -7801,7 +7801,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:778](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L778)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:778](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L778)
 
 ___
 
@@ -7811,7 +7811,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:777](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L777)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:777](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L777)
 
 ___
 
@@ -7821,7 +7821,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:776](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L776)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:776](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L776)
 
 ___
 
@@ -7831,7 +7831,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:775](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L775)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:775](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L775)
 
 ___
 
@@ -7841,7 +7841,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:774](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L774)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:774](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L774)
 
 ___
 
@@ -7851,7 +7851,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:773](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L773)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:773](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L773)
 
 ___
 
@@ -7861,7 +7861,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:772](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L772)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:772](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L772)
 
 ___
 
@@ -7871,7 +7871,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:788](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L788)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:788](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L788)
 
 ___
 
@@ -7881,7 +7881,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:787](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L787)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:787](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L787)
 
 ___
 
@@ -7891,7 +7891,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:786](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L786)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:786](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L786)
 
 ___
 
@@ -7901,7 +7901,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:785](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L785)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:785](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L785)
 
 ___
 
@@ -7911,7 +7911,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:784](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L784)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:784](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L784)
 
 ___
 
@@ -7921,7 +7921,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:783](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L783)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:783](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L783)
 
 ___
 
@@ -7931,7 +7931,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:782](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L782)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:782](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L782)
 
 ___
 
@@ -7941,7 +7941,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:781](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L781)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:781](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L781)
 
 ___
 
@@ -7951,7 +7951,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:780](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L780)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:780](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L780)
 
 ___
 
@@ -7961,7 +7961,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:779](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L779)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:779](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L779)
 
 ___
 
@@ -7971,7 +7971,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:798](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L798)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:798](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L798)
 
 ___
 
@@ -7981,7 +7981,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:797](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L797)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:797](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L797)
 
 ___
 
@@ -7991,7 +7991,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:796](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L796)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:796](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L796)
 
 ___
 
@@ -8001,7 +8001,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:795](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L795)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:795](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L795)
 
 ___
 
@@ -8011,7 +8011,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:794](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L794)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:794](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L794)
 
 ___
 
@@ -8021,7 +8021,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:793](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L793)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:793](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L793)
 
 ___
 
@@ -8031,7 +8031,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:792](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L792)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:792](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L792)
 
 ___
 
@@ -8041,7 +8041,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:791](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L791)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:791](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L791)
 
 ___
 
@@ -8051,7 +8051,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:790](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L790)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:790](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L790)
 
 ___
 
@@ -8061,7 +8061,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:789](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L789)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:789](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L789)
 
 ___
 
@@ -8071,7 +8071,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:819](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L819)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:819](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L819)
 
 ___
 
@@ -8081,7 +8081,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:818](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L818)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:818](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L818)
 
 ___
 
@@ -8091,7 +8091,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:817](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L817)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:817](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L817)
 
 ___
 
@@ -8101,7 +8101,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:816](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L816)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:816](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L816)
 
 ___
 
@@ -8111,7 +8111,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:815](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L815)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:815](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L815)
 
 ___
 
@@ -8121,7 +8121,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:814](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L814)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:814](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L814)
 
 ___
 
@@ -8131,7 +8131,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:813](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L813)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:813](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L813)
 
 ___
 
@@ -8141,7 +8141,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:826](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L826)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:826](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L826)
 
 ___
 
@@ -8151,7 +8151,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:825](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L825)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:825](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L825)
 
 ___
 
@@ -8161,7 +8161,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:824](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L824)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:824](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L824)
 
 ___
 
@@ -8171,7 +8171,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:823](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L823)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:823](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L823)
 
 ___
 
@@ -8181,7 +8181,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:822](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L822)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:822](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L822)
 
 ___
 
@@ -8191,7 +8191,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:821](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L821)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:821](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L821)
 
 ___
 
@@ -8201,7 +8201,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:820](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L820)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:820](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L820)
 
 ___
 
@@ -8211,7 +8211,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:805](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L805)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:805](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L805)
 
 ___
 
@@ -8221,7 +8221,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:804](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L804)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:804](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L804)
 
 ___
 
@@ -8231,7 +8231,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:803](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L803)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:803](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L803)
 
 ___
 
@@ -8241,7 +8241,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:802](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L802)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:802](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L802)
 
 ___
 
@@ -8251,7 +8251,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:801](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L801)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:801](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L801)
 
 ___
 
@@ -8261,7 +8261,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:800](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L800)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:800](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L800)
 
 ___
 
@@ -8271,7 +8271,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:799](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L799)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:799](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L799)
 
 ___
 
@@ -8281,7 +8281,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:812](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L812)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:812](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L812)
 
 ___
 
@@ -8291,7 +8291,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:811](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L811)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:811](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L811)
 
 ___
 
@@ -8301,7 +8301,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:810](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L810)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:810](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L810)
 
 ___
 
@@ -8311,7 +8311,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:809](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L809)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:809](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L809)
 
 ___
 
@@ -8321,7 +8321,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:808](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L808)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:808](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L808)
 
 ___
 
@@ -8331,7 +8331,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:807](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L807)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:807](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L807)
 
 ___
 
@@ -8341,7 +8341,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:806](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L806)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:806](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L806)
 
 ___
 
@@ -8351,7 +8351,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:833](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L833)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:833](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L833)
 
 ___
 
@@ -8361,7 +8361,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:832](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L832)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:832](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L832)
 
 ___
 
@@ -8371,7 +8371,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:831](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L831)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:831](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L831)
 
 ___
 
@@ -8381,7 +8381,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:830](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L830)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:830](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L830)
 
 ___
 
@@ -8391,7 +8391,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:829](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L829)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:829](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L829)
 
 ___
 
@@ -8401,7 +8401,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:828](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L828)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:828](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L828)
 
 ___
 
@@ -8411,7 +8411,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:827](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L827)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:827](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L827)
 
 ___
 
@@ -8421,7 +8421,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:840](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L840)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:840](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L840)
 
 ___
 
@@ -8431,7 +8431,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:839](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L839)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:839](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L839)
 
 ___
 
@@ -8441,7 +8441,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:838](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L838)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:838](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L838)
 
 ___
 
@@ -8451,7 +8451,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:837](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L837)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:837](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L837)
 
 ___
 
@@ -8461,7 +8461,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:836](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L836)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:836](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L836)
 
 ___
 
@@ -8471,7 +8471,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:835](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L835)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:835](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L835)
 
 ___
 
@@ -8481,7 +8481,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:834](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L834)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:834](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L834)
 
 ___
 
@@ -8491,7 +8491,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:843](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L843)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:843](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L843)
 
 ___
 
@@ -8501,7 +8501,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:842](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L842)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:842](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L842)
 
 ___
 
@@ -8511,7 +8511,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:841](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L841)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:841](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L841)
 
 ___
 
@@ -8521,7 +8521,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:845](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L845)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:845](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L845)
 
 ___
 
@@ -8531,7 +8531,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:844](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L844)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:844](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L844)
 
 ___
 
@@ -8541,7 +8541,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:847](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L847)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:847](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L847)
 
 ___
 
@@ -8551,7 +8551,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:846](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L846)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:846](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L846)
 
 ___
 
@@ -8561,7 +8561,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:849](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L849)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:849](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L849)
 
 ___
 
@@ -8571,7 +8571,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:848](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L848)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:848](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L848)
 
 ___
 
@@ -8581,7 +8581,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:853](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L853)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:853](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L853)
 
 ___
 
@@ -8591,7 +8591,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:852](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L852)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:852](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L852)
 
 ___
 
@@ -8601,7 +8601,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:851](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L851)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:851](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L851)
 
 ___
 
@@ -8611,7 +8611,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:850](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L850)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:850](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L850)
 
 ___
 
@@ -8621,7 +8621,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:857](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L857)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:857](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L857)
 
 ___
 
@@ -8631,7 +8631,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:856](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L856)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:856](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L856)
 
 ___
 
@@ -8641,7 +8641,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:855](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L855)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:855](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L855)
 
 ___
 
@@ -8651,7 +8651,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:854](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L854)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:854](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L854)
 
 ___
 
@@ -8661,7 +8661,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:861](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L861)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:861](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L861)
 
 ___
 
@@ -8671,7 +8671,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:860](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L860)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:860](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L860)
 
 ___
 
@@ -8681,7 +8681,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:859](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L859)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:859](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L859)
 
 ___
 
@@ -8691,7 +8691,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:858](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L858)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:858](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L858)
 
 ___
 
@@ -8701,7 +8701,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:865](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L865)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:865](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L865)
 
 ___
 
@@ -8711,7 +8711,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:864](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L864)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:864](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L864)
 
 ___
 
@@ -8721,7 +8721,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:863](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L863)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:863](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L863)
 
 ___
 
@@ -8731,7 +8731,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:862](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L862)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:862](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L862)
 
 ___
 
@@ -8741,7 +8741,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:869](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L869)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:869](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L869)
 
 ___
 
@@ -8751,7 +8751,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:868](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L868)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:868](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L868)
 
 ___
 
@@ -8761,7 +8761,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:867](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L867)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:867](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L867)
 
 ___
 
@@ -8771,7 +8771,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:866](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L866)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:866](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L866)
 
 ___
 
@@ -8781,7 +8781,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:873](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L873)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:873](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L873)
 
 ___
 
@@ -8791,7 +8791,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:872](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L872)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:872](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L872)
 
 ___
 
@@ -8801,7 +8801,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:871](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L871)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:871](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L871)
 
 ___
 
@@ -8811,7 +8811,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:870](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L870)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:870](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L870)
 
 ___
 
@@ -8821,7 +8821,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:881](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L881)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:881](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L881)
 
 ___
 
@@ -8831,7 +8831,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:880](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L880)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:880](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L880)
 
 ___
 
@@ -8841,7 +8841,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:879](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L879)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:879](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L879)
 
 ___
 
@@ -8851,7 +8851,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:878](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L878)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:878](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L878)
 
 ___
 
@@ -8861,7 +8861,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:877](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L877)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:877](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L877)
 
 ___
 
@@ -8871,7 +8871,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:876](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L876)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:876](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L876)
 
 ___
 
@@ -8881,7 +8881,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:875](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L875)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:875](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L875)
 
 ___
 
@@ -8891,7 +8891,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:874](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L874)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:874](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L874)
 
 ___
 
@@ -8901,7 +8901,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:658](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L658)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:658](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L658)
 
 ___
 
@@ -8911,7 +8911,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:657](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L657)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:657](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L657)
 
 ___
 
@@ -8921,7 +8921,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:656](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L656)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:656](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L656)
 
 ___
 
@@ -8931,7 +8931,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:655](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L655)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:655](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L655)
 
 ___
 
@@ -8941,7 +8941,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:654](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L654)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:654](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L654)
 
 ___
 
@@ -8951,7 +8951,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:663](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L663)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:663](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L663)
 
 ___
 
@@ -8961,7 +8961,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:662](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L662)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:662](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L662)
 
 ___
 
@@ -8971,7 +8971,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:661](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L661)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:661](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L661)
 
 ___
 
@@ -8981,7 +8981,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:660](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L660)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:660](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L660)
 
 ___
 
@@ -8991,7 +8991,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:659](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L659)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:659](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L659)
 
 ___
 
@@ -9001,7 +9001,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:668](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L668)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:668](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L668)
 
 ___
 
@@ -9011,7 +9011,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:667](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L667)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:667](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L667)
 
 ___
 
@@ -9021,7 +9021,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:666](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L666)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:666](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L666)
 
 ___
 
@@ -9031,7 +9031,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:665](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L665)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:665](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L665)
 
 ___
 
@@ -9041,7 +9041,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:664](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L664)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:664](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L664)
 
 ___
 
@@ -9051,7 +9051,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:635](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L635)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:635](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L635)
 
 ___
 
@@ -9061,7 +9061,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:634](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L634)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:634](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L634)
 
 ___
 
@@ -9071,7 +9071,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:633](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L633)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:633](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L633)
 
 ___
 
@@ -9081,7 +9081,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:632](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L632)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:632](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L632)
 
 ___
 
@@ -9091,7 +9091,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:631](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L631)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:631](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L631)
 
 ___
 
@@ -9101,7 +9101,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:630](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L630)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:630](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L630)
 
 ___
 
@@ -9111,7 +9111,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:629](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L629)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:629](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L629)
 
 ___
 
@@ -9121,7 +9121,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:628](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L628)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:628](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L628)
 
 ___
 
@@ -9131,7 +9131,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:627](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L627)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:627](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L627)
 
 ___
 
@@ -9141,7 +9141,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:644](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L644)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:644](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L644)
 
 ___
 
@@ -9151,7 +9151,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:643](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L643)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:643](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L643)
 
 ___
 
@@ -9161,7 +9161,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:642](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L642)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:642](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L642)
 
 ___
 
@@ -9171,7 +9171,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:641](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L641)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:641](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L641)
 
 ___
 
@@ -9181,7 +9181,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:640](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L640)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:640](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L640)
 
 ___
 
@@ -9191,7 +9191,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:639](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L639)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:639](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L639)
 
 ___
 
@@ -9201,7 +9201,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:638](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L638)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:638](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L638)
 
 ___
 
@@ -9211,7 +9211,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:637](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L637)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:637](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L637)
 
 ___
 
@@ -9221,7 +9221,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:636](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L636)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:636](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L636)
 
 ___
 
@@ -9231,7 +9231,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:653](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L653)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:653](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L653)
 
 ___
 
@@ -9241,7 +9241,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:652](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L652)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:652](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L652)
 
 ___
 
@@ -9251,7 +9251,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:651](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L651)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:651](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L651)
 
 ___
 
@@ -9261,7 +9261,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:650](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L650)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:650](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L650)
 
 ___
 
@@ -9271,7 +9271,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:649](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L649)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:649](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L649)
 
 ___
 
@@ -9281,7 +9281,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:648](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L648)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:648](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L648)
 
 ___
 
@@ -9291,7 +9291,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:647](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L647)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:647](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L647)
 
 ___
 
@@ -9301,7 +9301,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:646](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L646)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:646](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L646)
 
 ___
 
@@ -9311,7 +9311,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:645](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L645)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:645](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L645)
 
 ___
 
@@ -9321,7 +9321,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:679](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L679)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:679](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L679)
 
 ___
 
@@ -9331,7 +9331,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:678](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L678)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:678](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L678)
 
 ___
 
@@ -9341,7 +9341,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:677](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L677)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:677](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L677)
 
 ___
 
@@ -9351,7 +9351,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:676](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L676)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:676](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L676)
 
 ___
 
@@ -9361,7 +9361,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:675](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L675)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:675](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L675)
 
 ___
 
@@ -9371,7 +9371,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:674](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L674)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:674](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L674)
 
 ___
 
@@ -9381,7 +9381,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:673](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L673)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:673](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L673)
 
 ___
 
@@ -9391,7 +9391,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:672](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L672)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:672](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L672)
 
 ___
 
@@ -9401,7 +9401,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:671](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L671)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:671](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L671)
 
 ___
 
@@ -9411,7 +9411,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:670](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L670)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:670](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L670)
 
 ___
 
@@ -9421,7 +9421,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:669](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L669)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:669](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L669)
 
 ___
 
@@ -9431,7 +9431,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:682](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L682)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:682](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L682)
 
 ___
 
@@ -9441,7 +9441,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:681](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L681)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:681](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L681)
 
 ___
 
@@ -9451,7 +9451,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:680](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L680)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:680](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L680)
 
 ___
 
@@ -9461,7 +9461,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:685](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L685)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:685](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L685)
 
 ___
 
@@ -9471,7 +9471,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:684](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L684)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:684](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L684)
 
 ___
 
@@ -9481,7 +9481,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:683](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L683)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:683](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L683)
 
 ___
 
@@ -9491,7 +9491,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:688](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L688)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:688](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L688)
 
 ___
 
@@ -9501,7 +9501,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:687](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L687)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:687](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L687)
 
 ___
 
@@ -9511,7 +9511,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:686](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L686)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:686](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L686)
 
 ___
 
@@ -9521,7 +9521,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:689](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L689)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:689](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L689)
 
 ___
 
@@ -9531,7 +9531,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:690](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L690)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:690](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L690)
 
 ___
 
@@ -9541,7 +9541,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:691](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L691)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:691](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L691)
 
 ___
 
@@ -9551,7 +9551,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:692](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L692)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:692](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L692)
 
 ___
 
@@ -9561,7 +9561,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:703](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L703)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:703](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L703)
 
 ___
 
@@ -9571,7 +9571,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:702](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L702)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:702](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L702)
 
 ___
 
@@ -9581,7 +9581,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:701](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L701)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:701](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L701)
 
 ___
 
@@ -9591,7 +9591,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:700](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L700)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:700](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L700)
 
 ___
 
@@ -9601,7 +9601,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:699](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L699)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:699](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L699)
 
 ___
 
@@ -9611,7 +9611,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:698](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L698)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:698](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L698)
 
 ___
 
@@ -9621,7 +9621,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:697](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L697)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:697](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L697)
 
 ___
 
@@ -9631,7 +9631,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:696](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L696)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:696](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L696)
 
 ___
 
@@ -9641,7 +9641,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:695](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L695)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:695](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L695)
 
 ___
 
@@ -9651,7 +9651,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:694](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L694)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:694](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L694)
 
 ___
 
@@ -9661,7 +9661,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:693](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L693)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:693](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L693)
 
 ___
 
@@ -9671,7 +9671,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:710](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L710)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:710](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L710)
 
 ___
 
@@ -9681,7 +9681,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:709](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L709)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:709](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L709)
 
 ___
 
@@ -9691,7 +9691,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:708](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L708)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:708](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L708)
 
 ___
 
@@ -9701,7 +9701,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:707](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L707)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:707](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L707)
 
 ___
 
@@ -9711,7 +9711,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:706](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L706)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:706](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L706)
 
 ___
 
@@ -9721,7 +9721,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:705](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L705)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:705](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L705)
 
 ___
 
@@ -9731,7 +9731,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:704](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L704)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:704](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L704)
 
 ___
 
@@ -9741,7 +9741,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:716](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L716)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:716](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L716)
 
 ___
 
@@ -9751,7 +9751,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:715](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L715)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:715](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L715)
 
 ___
 
@@ -9761,7 +9761,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:714](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L714)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:714](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L714)
 
 ___
 
@@ -9771,7 +9771,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:713](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L713)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:713](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L713)
 
 ___
 
@@ -9781,7 +9781,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:712](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L712)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:712](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L712)
 
 ___
 
@@ -9791,7 +9791,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:711](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L711)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:711](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L711)
 
 ___
 
@@ -9801,7 +9801,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:884](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L884)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:884](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L884)
 
 ___
 
@@ -9811,7 +9811,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:883](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L883)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:883](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L883)
 
 ___
 
@@ -9821,7 +9821,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:882](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L882)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:882](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L882)
 
 ___
 
@@ -9831,7 +9831,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:887](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L887)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:887](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L887)
 
 ___
 
@@ -9841,7 +9841,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:886](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L886)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:886](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L886)
 
 ___
 
@@ -9851,7 +9851,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:885](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L885)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:885](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L885)
 
 ___
 
@@ -9861,7 +9861,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:890](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L890)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:890](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L890)
 
 ___
 
@@ -9871,7 +9871,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:889](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L889)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:889](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L889)
 
 ___
 
@@ -9881,7 +9881,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:888](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L888)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:888](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L888)
 
 ___
 
@@ -9891,7 +9891,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:893](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L893)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:893](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L893)
 
 ___
 
@@ -9901,7 +9901,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:892](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L892)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:892](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L892)
 
 ___
 
@@ -9911,7 +9911,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:891](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L891)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:891](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L891)
 
 ___
 
@@ -9921,7 +9921,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:896](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L896)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:896](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L896)
 
 ___
 
@@ -9931,7 +9931,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:895](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L895)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:895](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L895)
 
 ___
 
@@ -9941,7 +9941,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:894](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L894)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:894](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L894)
 
 ___
 
@@ -9951,7 +9951,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:899](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L899)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:899](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L899)
 
 ___
 
@@ -9961,7 +9961,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:898](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L898)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:898](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L898)
 
 ___
 
@@ -9971,7 +9971,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:897](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L897)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:897](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L897)
 
 ___
 
@@ -9981,7 +9981,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:902](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L902)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:902](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L902)
 
 ___
 
@@ -9991,7 +9991,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:901](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L901)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:901](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L901)
 
 ___
 
@@ -10001,7 +10001,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:900](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L900)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:900](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L900)
 
 ___
 
@@ -10011,7 +10011,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:908](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L908)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:908](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L908)
 
 ___
 
@@ -10021,7 +10021,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:907](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L907)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:907](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L907)
 
 ___
 
@@ -10031,7 +10031,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:906](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L906)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:906](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L906)
 
 ___
 
@@ -10041,7 +10041,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:905](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L905)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:905](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L905)
 
 ___
 
@@ -10051,7 +10051,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:904](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L904)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:904](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L904)
 
 ___
 
@@ -10061,7 +10061,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:903](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L903)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:903](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L903)
 
 ___
 
@@ -10071,7 +10071,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:911](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L911)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:911](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L911)
 
 ___
 
@@ -10081,7 +10081,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:910](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L910)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:910](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L910)
 
 ___
 
@@ -10091,7 +10091,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:909](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L909)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:909](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L909)
 
 ___
 
@@ -10101,7 +10101,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:914](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L914)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:914](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L914)
 
 ___
 
@@ -10111,7 +10111,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:913](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L913)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:913](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L913)
 
 ___
 
@@ -10121,7 +10121,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:912](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L912)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:912](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L912)
 
 ___
 
@@ -10131,7 +10131,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:917](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L917)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:917](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L917)
 
 ___
 
@@ -10141,7 +10141,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:916](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L916)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:916](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L916)
 
 ___
 
@@ -10151,7 +10151,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:915](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L915)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:915](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L915)
 
 ___
 
@@ -10161,7 +10161,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:920](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L920)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:920](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L920)
 
 ___
 
@@ -10171,7 +10171,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:919](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L919)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:919](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L919)
 
 ___
 
@@ -10181,7 +10181,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:918](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L918)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:918](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L918)
 
 ___
 
@@ -10191,7 +10191,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:926](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L926)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:926](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L926)
 
 ___
 
@@ -10201,7 +10201,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:925](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L925)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:925](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L925)
 
 ___
 
@@ -10211,7 +10211,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:924](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L924)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:924](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L924)
 
 ___
 
@@ -10221,7 +10221,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:923](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L923)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:923](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L923)
 
 ___
 
@@ -10231,7 +10231,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:922](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L922)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:922](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L922)
 
 ___
 
@@ -10241,7 +10241,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:921](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L921)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:921](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L921)
 
 ___
 
@@ -10251,7 +10251,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:929](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L929)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:929](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L929)
 
 ___
 
@@ -10261,7 +10261,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:928](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L928)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:928](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L928)
 
 ___
 
@@ -10271,7 +10271,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:927](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L927)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:927](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L927)
 
 ___
 
@@ -10281,7 +10281,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:932](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L932)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:932](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L932)
 
 ___
 
@@ -10291,7 +10291,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:931](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L931)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:931](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L931)
 
 ___
 
@@ -10301,7 +10301,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:930](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L930)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:930](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L930)
 
 ___
 
@@ -10311,7 +10311,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:935](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L935)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:935](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L935)
 
 ___
 
@@ -10321,7 +10321,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:934](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L934)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:934](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L934)
 
 ___
 
@@ -10331,7 +10331,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:933](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L933)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:933](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L933)
 
 ___
 
@@ -10341,7 +10341,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:938](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L938)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:938](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L938)
 
 ___
 
@@ -10351,7 +10351,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:937](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L937)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:937](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L937)
 
 ___
 
@@ -10361,7 +10361,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:936](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L936)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:936](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L936)
 
 ___
 
@@ -10371,7 +10371,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:941](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L941)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:941](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L941)
 
 ___
 
@@ -10381,7 +10381,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:940](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L940)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:940](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L940)
 
 ___
 
@@ -10391,7 +10391,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:939](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L939)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:939](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L939)
 
 ___
 
@@ -10401,7 +10401,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:944](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L944)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:944](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L944)
 
 ___
 
@@ -10411,7 +10411,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:943](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L943)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:943](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L943)
 
 ___
 
@@ -10421,7 +10421,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:942](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L942)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:942](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L942)
 
 ___
 
@@ -10431,7 +10431,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:947](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L947)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:947](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L947)
 
 ___
 
@@ -10441,7 +10441,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:946](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L946)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:946](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L946)
 
 ___
 
@@ -10451,7 +10451,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:945](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L945)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:945](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L945)
 
 ___
 
@@ -10461,7 +10461,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:950](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L950)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:950](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L950)
 
 ___
 
@@ -10471,7 +10471,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:949](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L949)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:949](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L949)
 
 ___
 
@@ -10481,7 +10481,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:948](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L948)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:948](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L948)
 
 ___
 
@@ -10491,7 +10491,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:953](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L953)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:953](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L953)
 
 ___
 
@@ -10501,7 +10501,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:952](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L952)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:952](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L952)
 
 ___
 
@@ -10511,7 +10511,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:951](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L951)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:951](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L951)
 
 ___
 
@@ -10521,7 +10521,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:956](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L956)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:956](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L956)
 
 ___
 
@@ -10531,7 +10531,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:955](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L955)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:955](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L955)
 
 ___
 
@@ -10541,7 +10541,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:954](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L954)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:954](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L954)
 
 ___
 
@@ -10551,7 +10551,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:959](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L959)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:959](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L959)
 
 ___
 
@@ -10561,7 +10561,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:958](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L958)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:958](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L958)
 
 ___
 
@@ -10571,7 +10571,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:957](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L957)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:957](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L957)
 
 ___
 
@@ -10581,7 +10581,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:962](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L962)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:962](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L962)
 
 ___
 
@@ -10591,7 +10591,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:961](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L961)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:961](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L961)
 
 ___
 
@@ -10601,7 +10601,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:960](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L960)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:960](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L960)
 
 ___
 
@@ -10611,7 +10611,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:965](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L965)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:965](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L965)
 
 ___
 
@@ -10621,7 +10621,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:964](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L964)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:964](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L964)
 
 ___
 
@@ -10631,7 +10631,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:963](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L963)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:963](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L963)
 
 ___
 
@@ -10641,7 +10641,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:968](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L968)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:968](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L968)
 
 ___
 
@@ -10651,7 +10651,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:967](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L967)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:967](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L967)
 
 ___
 
@@ -10661,7 +10661,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:966](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L966)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:966](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L966)
 
 ___
 
@@ -10671,7 +10671,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:971](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L971)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:971](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L971)
 
 ___
 
@@ -10681,7 +10681,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:970](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L970)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:970](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L970)
 
 ___
 
@@ -10691,7 +10691,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:969](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L969)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:969](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L969)
 
 ___
 
@@ -10701,7 +10701,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:974](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L974)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:974](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L974)
 
 ___
 
@@ -10711,7 +10711,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:973](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L973)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:973](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L973)
 
 ___
 
@@ -10721,7 +10721,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:972](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L972)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:972](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L972)
 
 ___
 
@@ -10731,7 +10731,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:977](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L977)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:977](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L977)
 
 ___
 
@@ -10741,7 +10741,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:976](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L976)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:976](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L976)
 
 ___
 
@@ -10751,7 +10751,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:975](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L975)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:975](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L975)
 
 ___
 
@@ -10761,7 +10761,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:980](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L980)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:980](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L980)
 
 ___
 
@@ -10771,7 +10771,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:979](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L979)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:979](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L979)
 
 ___
 
@@ -10781,7 +10781,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:978](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L978)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:978](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L978)
 
 ___
 
@@ -10791,7 +10791,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:983](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L983)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:983](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L983)
 
 ___
 
@@ -10801,7 +10801,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:982](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L982)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:982](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L982)
 
 ___
 
@@ -10811,7 +10811,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:981](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L981)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:981](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L981)
 
 ___
 
@@ -10821,7 +10821,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:986](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L986)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:986](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L986)
 
 ___
 
@@ -10831,7 +10831,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:985](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L985)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:985](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L985)
 
 ___
 
@@ -10841,7 +10841,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:984](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L984)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:984](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L984)
 
 ___
 
@@ -10851,7 +10851,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:989](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L989)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:989](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L989)
 
 ___
 
@@ -10861,7 +10861,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:988](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L988)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:988](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L988)
 
 ___
 
@@ -10871,7 +10871,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:987](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L987)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:987](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L987)
 
 ___
 
@@ -10881,7 +10881,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:992](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L992)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:992](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L992)
 
 ___
 
@@ -10891,7 +10891,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:991](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L991)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:991](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L991)
 
 ___
 
@@ -10901,7 +10901,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:990](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L990)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:990](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L990)
 
 ___
 
@@ -10911,7 +10911,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:995](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L995)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:995](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L995)
 
 ___
 
@@ -10921,7 +10921,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:994](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L994)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:994](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L994)
 
 ___
 
@@ -10931,7 +10931,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:993](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L993)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:993](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L993)
 
 ___
 
@@ -10941,7 +10941,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:998](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L998)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:998](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L998)
 
 ___
 
@@ -10951,7 +10951,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:997](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L997)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:997](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L997)
 
 ___
 
@@ -10961,7 +10961,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:996](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L996)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:996](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L996)
 
 ___
 
@@ -10971,7 +10971,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1001](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1001)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1001](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1001)
 
 ___
 
@@ -10981,7 +10981,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1000](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1000)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1000](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1000)
 
 ___
 
@@ -10991,7 +10991,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:999](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L999)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:999](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L999)
 
 ___
 
@@ -11001,7 +11001,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1004](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1004)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1004](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1004)
 
 ___
 
@@ -11011,7 +11011,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1003](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1003)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1003](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1003)
 
 ___
 
@@ -11021,7 +11021,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1002](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1002)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1002](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1002)
 
 ___
 
@@ -11031,7 +11031,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1007](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1007)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1007](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1007)
 
 ___
 
@@ -11041,7 +11041,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1006](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1006)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1006](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1006)
 
 ___
 
@@ -11051,7 +11051,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1005](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1005)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1005](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1005)
 
 ___
 
@@ -11061,7 +11061,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1010](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1010)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1010](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1010)
 
 ___
 
@@ -11071,7 +11071,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1009](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1009)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1009](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1009)
 
 ___
 
@@ -11081,7 +11081,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1008](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1008)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1008](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1008)
 
 ___
 
@@ -11091,7 +11091,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1013](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1013)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1013](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1013)
 
 ___
 
@@ -11101,7 +11101,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1012](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1012)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1012](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1012)
 
 ___
 
@@ -11111,7 +11111,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1011](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1011)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1011](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1011)
 
 ___
 
@@ -11121,7 +11121,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1016](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1016)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1016](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1016)
 
 ___
 
@@ -11131,7 +11131,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1015](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1015)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1015](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1015)
 
 ___
 
@@ -11141,7 +11141,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1014](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1014)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1014](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1014)
 
 ___
 
@@ -11151,7 +11151,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1019](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1019)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1019](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1019)
 
 ___
 
@@ -11161,7 +11161,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1018](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1018)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1018](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1018)
 
 ___
 
@@ -11171,7 +11171,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1017](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1017)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1017](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1017)
 
 ___
 
@@ -11181,7 +11181,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1022](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1022)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1022](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1022)
 
 ___
 
@@ -11191,7 +11191,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1021](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1021)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1021](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1021)
 
 ___
 
@@ -11201,7 +11201,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1020](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1020)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1020](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1020)
 
 ___
 
@@ -11211,7 +11211,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1025](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1025)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1025](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1025)
 
 ___
 
@@ -11221,7 +11221,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1024](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1024)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1024](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1024)
 
 ___
 
@@ -11231,7 +11231,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1023](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1023)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1023](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1023)
 
 ___
 
@@ -11241,7 +11241,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1028](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1028)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1028](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1028)
 
 ___
 
@@ -11251,7 +11251,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1027](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1027)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1027](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1027)
 
 ___
 
@@ -11261,7 +11261,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1026](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1026)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1026](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1026)
 
 ___
 
@@ -11271,7 +11271,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1031](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1031)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1031](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1031)
 
 ___
 
@@ -11281,7 +11281,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1030](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1030)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1030](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1030)
 
 ___
 
@@ -11291,7 +11291,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1029](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1029)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1029](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1029)
 
 ___
 
@@ -11301,7 +11301,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1034](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1034)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1034](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1034)
 
 ___
 
@@ -11311,7 +11311,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1033](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1033)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1033](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1033)
 
 ___
 
@@ -11321,7 +11321,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1032](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1032)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1032](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1032)
 
 ___
 
@@ -11331,7 +11331,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1037](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1037)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1037](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1037)
 
 ___
 
@@ -11341,7 +11341,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1036](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1036)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1036](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1036)
 
 ___
 
@@ -11351,7 +11351,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1035](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1035)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1035](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1035)
 
 ___
 
@@ -11361,7 +11361,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1040](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1040)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1040](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1040)
 
 ___
 
@@ -11371,7 +11371,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1039](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1039)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1039](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1039)
 
 ___
 
@@ -11381,7 +11381,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1038](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1038)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1038](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1038)
 
 ___
 
@@ -11391,7 +11391,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1043](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1043)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1043](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1043)
 
 ___
 
@@ -11401,7 +11401,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1042](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1042)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1042](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1042)
 
 ___
 
@@ -11411,7 +11411,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1041](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1041)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1041](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1041)
 
 ___
 
@@ -11421,7 +11421,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1046](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1046)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1046](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1046)
 
 ___
 
@@ -11431,7 +11431,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1045](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1045)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1045](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1045)
 
 ___
 
@@ -11441,7 +11441,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1044](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1044)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1044](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1044)
 
 ___
 
@@ -11451,7 +11451,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1049](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1049)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1049](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1049)
 
 ___
 
@@ -11461,7 +11461,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1048](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1048)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1048](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1048)
 
 ___
 
@@ -11471,7 +11471,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1047](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1047)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1047](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1047)
 
 ___
 
@@ -11481,7 +11481,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1052](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1052)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1052](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1052)
 
 ___
 
@@ -11491,7 +11491,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1051](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1051)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1051](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1051)
 
 ___
 
@@ -11501,7 +11501,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1050](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1050)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1050](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1050)
 
 ___
 
@@ -11511,7 +11511,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1055](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1055)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1055](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1055)
 
 ___
 
@@ -11521,7 +11521,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1054](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1054)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1054](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1054)
 
 ___
 
@@ -11531,7 +11531,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1053](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1053)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1053](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1053)
 
 ___
 
@@ -11541,7 +11541,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1058](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1058)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1058](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1058)
 
 ___
 
@@ -11551,7 +11551,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1057](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1057)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1057](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1057)
 
 ___
 
@@ -11561,7 +11561,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1056](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1056)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1056](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1056)
 
 ___
 
@@ -11571,7 +11571,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1061](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1061)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1061](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1061)
 
 ___
 
@@ -11581,7 +11581,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1060](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1060)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1060](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1060)
 
 ___
 
@@ -11591,7 +11591,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1059](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1059)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1059](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1059)
 
 ___
 
@@ -11601,7 +11601,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1064](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1064)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1064](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1064)
 
 ___
 
@@ -11611,7 +11611,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1063](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1063)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1063](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1063)
 
 ___
 
@@ -11621,7 +11621,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1062](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1062)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1062](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1062)
 
 ___
 
@@ -11631,7 +11631,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1067](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1067)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1067](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1067)
 
 ___
 
@@ -11641,7 +11641,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1066](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1066)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1066](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1066)
 
 ___
 
@@ -11651,7 +11651,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1065](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1065)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1065](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1065)
 
 ___
 
@@ -11661,7 +11661,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1070](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1070)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1070](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1070)
 
 ___
 
@@ -11671,7 +11671,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1069](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1069)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1069](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1069)
 
 ___
 
@@ -11681,7 +11681,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1068](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1068)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1068](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1068)
 
 ___
 
@@ -11691,7 +11691,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1073](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1073)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1073](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1073)
 
 ___
 
@@ -11701,7 +11701,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1072](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1072)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1072](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1072)
 
 ___
 
@@ -11711,7 +11711,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1071](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1071)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1071](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1071)
 
 ___
 
@@ -11721,7 +11721,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1076](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1076)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1076](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1076)
 
 ___
 
@@ -11731,7 +11731,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1075](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1075)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1075](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1075)
 
 ___
 
@@ -11741,7 +11741,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1074](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1074)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1074](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1074)
 
 ___
 
@@ -11751,7 +11751,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1079](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1079)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1079](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1079)
 
 ___
 
@@ -11761,7 +11761,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1078](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1078)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1078](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1078)
 
 ___
 
@@ -11771,7 +11771,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1077](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1077)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1077](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1077)
 
 ___
 
@@ -11781,7 +11781,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1082](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1082)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1082](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1082)
 
 ___
 
@@ -11791,7 +11791,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1081](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1081)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1081](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1081)
 
 ___
 
@@ -11801,7 +11801,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1080](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1080)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1080](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1080)
 
 ___
 
@@ -11811,7 +11811,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1085](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1085)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1085](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1085)
 
 ___
 
@@ -11821,7 +11821,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1084](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1084)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1084](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1084)
 
 ___
 
@@ -11831,7 +11831,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1083](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1083)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1083](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1083)
 
 ___
 
@@ -11841,7 +11841,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1088](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1088)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1088](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1088)
 
 ___
 
@@ -11851,7 +11851,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1087](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1087)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1087](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1087)
 
 ___
 
@@ -11861,7 +11861,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1086](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1086)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1086](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1086)
 
 ___
 
@@ -11871,7 +11871,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1091](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1091)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1091](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1091)
 
 ___
 
@@ -11881,7 +11881,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1090](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1090)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1090](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1090)
 
 ___
 
@@ -11891,7 +11891,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1089](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1089)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1089](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1089)
 
 ___
 
@@ -11901,7 +11901,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1094](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1094)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1094](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1094)
 
 ___
 
@@ -11911,7 +11911,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1093](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1093)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1093](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1093)
 
 ___
 
@@ -11921,7 +11921,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1092](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1092)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1092](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1092)
 
 ___
 
@@ -11931,7 +11931,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1097](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1097)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1097](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1097)
 
 ___
 
@@ -11941,7 +11941,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1096](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1096)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1096](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1096)
 
 ___
 
@@ -11951,7 +11951,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1095](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1095)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1095](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1095)
 
 ___
 
@@ -11961,7 +11961,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1100](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1100)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1100](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1100)
 
 ___
 
@@ -11971,7 +11971,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1099](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1099)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1099](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1099)
 
 ___
 
@@ -11981,7 +11981,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1098](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1098)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1098](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1098)
 
 ___
 
@@ -11991,7 +11991,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1103](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1103)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1103](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1103)
 
 ___
 
@@ -12001,7 +12001,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1102](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1102)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1102](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1102)
 
 ___
 
@@ -12011,7 +12011,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1101](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1101)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1101](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1101)
 
 ___
 
@@ -12021,7 +12021,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1106](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1106)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1106](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1106)
 
 ___
 
@@ -12031,7 +12031,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1105](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1105)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1105](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1105)
 
 ___
 
@@ -12041,7 +12041,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1104](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1104)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1104](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1104)
 
 ___
 
@@ -12051,7 +12051,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1109](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1109)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1109](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1109)
 
 ___
 
@@ -12061,7 +12061,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1108](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1108)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1108](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1108)
 
 ___
 
@@ -12071,7 +12071,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1107](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1107)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1107](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1107)
 
 ___
 
@@ -12081,7 +12081,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1112](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1112)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1112](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1112)
 
 ___
 
@@ -12091,7 +12091,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1111](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1111)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1111](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1111)
 
 ___
 
@@ -12101,7 +12101,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1110](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1110)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1110](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1110)
 
 ___
 
@@ -12111,7 +12111,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1115](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1115)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1115](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1115)
 
 ___
 
@@ -12121,7 +12121,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1114](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1114)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1114](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1114)
 
 ___
 
@@ -12131,7 +12131,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1113](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1113)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1113](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1113)
 
 ___
 
@@ -12141,7 +12141,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1118](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1118)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1118](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1118)
 
 ___
 
@@ -12151,7 +12151,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1117](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1117)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1117](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1117)
 
 ___
 
@@ -12161,7 +12161,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1116](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1116)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1116](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1116)
 
 ___
 
@@ -12171,7 +12171,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1121](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1121)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1121](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1121)
 
 ___
 
@@ -12181,7 +12181,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1120](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1120)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1120](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1120)
 
 ___
 
@@ -12191,7 +12191,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1119](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1119)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1119](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1119)
 
 ___
 
@@ -12201,7 +12201,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1124](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1124)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1124](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1124)
 
 ___
 
@@ -12211,7 +12211,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1123](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1123)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1123](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1123)
 
 ___
 
@@ -12221,7 +12221,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1122](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1122)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1122](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1122)
 
 ___
 
@@ -12231,7 +12231,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1127](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1127)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1127](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1127)
 
 ___
 
@@ -12241,7 +12241,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1126](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1126)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1126](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1126)
 
 ___
 
@@ -12251,7 +12251,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1125](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1125)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1125](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1125)
 
 ___
 
@@ -12261,7 +12261,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1130](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1130)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1130](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1130)
 
 ___
 
@@ -12271,7 +12271,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1129](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1129)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1129](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1129)
 
 ___
 
@@ -12281,7 +12281,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1128](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1128)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1128](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1128)
 
 ___
 
@@ -12291,7 +12291,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1133](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1133)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1133](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1133)
 
 ___
 
@@ -12301,7 +12301,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1132](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1132)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1132](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1132)
 
 ___
 
@@ -12311,7 +12311,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1131](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1131)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1131](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1131)
 
 ___
 
@@ -12321,7 +12321,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1136](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1136)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1136](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1136)
 
 ___
 
@@ -12331,7 +12331,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1135](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1135)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1135](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1135)
 
 ___
 
@@ -12341,7 +12341,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1134](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1134)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1134](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1134)
 
 ___
 
@@ -12351,7 +12351,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1139](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1139)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1139](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1139)
 
 ___
 
@@ -12361,7 +12361,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1138](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1138)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1138](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1138)
 
 ___
 
@@ -12371,7 +12371,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1137](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1137)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1137](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1137)
 
 ___
 
@@ -12381,7 +12381,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1141](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1141)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1141](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1141)
 
 ___
 
@@ -12391,7 +12391,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1140](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1140)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1140](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1140)
 
 ___
 
@@ -12401,7 +12401,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1143](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1143)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1143](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1143)
 
 ___
 
@@ -12411,7 +12411,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1142](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1142)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1142](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1142)
 
 ___
 
@@ -12421,7 +12421,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1145](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1145)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1145](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1145)
 
 ___
 
@@ -12431,7 +12431,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1144](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1144)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1144](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1144)
 
 ___
 
@@ -12441,7 +12441,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1147](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1147)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1147](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1147)
 
 ___
 
@@ -12451,7 +12451,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1146](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1146)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1146](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1146)
 
 ___
 
@@ -12461,7 +12461,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1149](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1149)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1149](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1149)
 
 ___
 
@@ -12471,7 +12471,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1148](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1148)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1148](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1148)
 
 ___
 
@@ -12481,7 +12481,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1151](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1151)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1151](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1151)
 
 ___
 
@@ -12491,7 +12491,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1150](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1150)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1150](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1150)
 
 ___
 
@@ -12501,7 +12501,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1153](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1153)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1153](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1153)
 
 ___
 
@@ -12511,7 +12511,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1152](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1152)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1152](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1152)
 
 ___
 
@@ -12521,7 +12521,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1155](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1155)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1155](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1155)
 
 ___
 
@@ -12531,7 +12531,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1154](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1154)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1154](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1154)
 
 ___
 
@@ -12541,7 +12541,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1157](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1157)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1157](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1157)
 
 ___
 
@@ -12551,7 +12551,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1156](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1156)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1156](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1156)
 
 ___
 
@@ -12561,7 +12561,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1159](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1159)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1159](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1159)
 
 ___
 
@@ -12571,7 +12571,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1158](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1158)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1158](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1158)
 
 ___
 
@@ -12581,7 +12581,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1161](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1161)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1161](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1161)
 
 ___
 
@@ -12591,7 +12591,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1160](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1160)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1160](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1160)
 
 ___
 
@@ -12601,7 +12601,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1163](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1163)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1163](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1163)
 
 ___
 
@@ -12611,7 +12611,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1162](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1162)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1162](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1162)
 
 ___
 
@@ -12621,7 +12621,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1165](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1165)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1165](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1165)
 
 ___
 
@@ -12631,7 +12631,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1164](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1164)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1164](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1164)
 
 ___
 
@@ -12641,7 +12641,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1167](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1167)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1167](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1167)
 
 ___
 
@@ -12651,7 +12651,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1166](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1166)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1166](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1166)
 
 ___
 
@@ -12661,7 +12661,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1169](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1169)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1169](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1169)
 
 ___
 
@@ -12671,7 +12671,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1168](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1168)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1168](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1168)
 
 ___
 
@@ -12681,7 +12681,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1171](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1171)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1171](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1171)
 
 ___
 
@@ -12691,7 +12691,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1170](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1170)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1170](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1170)
 
 ___
 
@@ -12701,7 +12701,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1173](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1173)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1173](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1173)
 
 ___
 
@@ -12711,7 +12711,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1172](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1172)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1172](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1172)
 
 ___
 
@@ -12721,7 +12721,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1175](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1175)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1175](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1175)
 
 ___
 
@@ -12731,7 +12731,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1174](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1174)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1174](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1174)
 
 ___
 
@@ -12741,7 +12741,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1177](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1177)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1177](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1177)
 
 ___
 
@@ -12751,7 +12751,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1176](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1176)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1176](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1176)
 
 ___
 
@@ -12761,7 +12761,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1179](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1179)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1179](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1179)
 
 ___
 
@@ -12771,7 +12771,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1178](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1178)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1178](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1178)
 
 ___
 
@@ -12781,7 +12781,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1181](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1181)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1181](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1181)
 
 ___
 
@@ -12791,7 +12791,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1180](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1180)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1180](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1180)
 
 ___
 
@@ -12801,7 +12801,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1183](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1183)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1183](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1183)
 
 ___
 
@@ -12811,7 +12811,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1182](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1182)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1182](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1182)
 
 ___
 
@@ -12821,7 +12821,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1185](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1185)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1185](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1185)
 
 ___
 
@@ -12831,7 +12831,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1184](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1184)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1184](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1184)
 
 ___
 
@@ -12841,7 +12841,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1187](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1187)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1187](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1187)
 
 ___
 
@@ -12851,7 +12851,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1186](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1186)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1186](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1186)
 
 ___
 
@@ -12861,7 +12861,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1189](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1189)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1189](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1189)
 
 ___
 
@@ -12871,7 +12871,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1188](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1188)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1188](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1188)
 
 ___
 
@@ -12881,7 +12881,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1191](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1191)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1191](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1191)
 
 ___
 
@@ -12891,7 +12891,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1190](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1190)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1190](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1190)
 
 ___
 
@@ -12901,7 +12901,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1193](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1193)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1193](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1193)
 
 ___
 
@@ -12911,7 +12911,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1192](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1192)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1192](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1192)
 
 ___
 
@@ -12921,7 +12921,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1195](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1195)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1195](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1195)
 
 ___
 
@@ -12931,7 +12931,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1194](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1194)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1194](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1194)
 
 ___
 
@@ -12941,7 +12941,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1197](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1197)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1197](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1197)
 
 ___
 
@@ -12951,7 +12951,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1196](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1196)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1196](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1196)
 
 ___
 
@@ -12961,7 +12961,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1210](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1210)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1210](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1210)
 
 ___
 
@@ -12971,7 +12971,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1209](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1209)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1209](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1209)
 
 ___
 
@@ -12981,7 +12981,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1208](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1208)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1208](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1208)
 
 ___
 
@@ -12991,7 +12991,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1207](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1207)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1207](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1207)
 
 ___
 
@@ -13001,7 +13001,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1206](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1206)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1206](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1206)
 
 ___
 
@@ -13011,7 +13011,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1205](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1205)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1205](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1205)
 
 ___
 
@@ -13021,7 +13021,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1204](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1204)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1204](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1204)
 
 ___
 
@@ -13031,7 +13031,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1203](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1203)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1203](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1203)
 
 ___
 
@@ -13041,7 +13041,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1202](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1202)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1202](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1202)
 
 ___
 
@@ -13051,7 +13051,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1201](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1201)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1201](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1201)
 
 ___
 
@@ -13061,7 +13061,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1200](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1200)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1200](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1200)
 
 ___
 
@@ -13071,7 +13071,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1199](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1199)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1199](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1199)
 
 ___
 
@@ -13081,7 +13081,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1198](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1198)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1198](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1198)
 
 ___
 
@@ -13091,7 +13091,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1221](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1221)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1221](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1221)
 
 ___
 
@@ -13101,7 +13101,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1220](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1220)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1220](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1220)
 
 ___
 
@@ -13111,7 +13111,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1219](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1219)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1219](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1219)
 
 ___
 
@@ -13121,7 +13121,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1218](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1218)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1218](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1218)
 
 ___
 
@@ -13131,7 +13131,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1217](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1217)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1217](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1217)
 
 ___
 
@@ -13141,7 +13141,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1216](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1216)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1216](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1216)
 
 ___
 
@@ -13151,7 +13151,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1215](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1215)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1215](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1215)
 
 ___
 
@@ -13161,7 +13161,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1214](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1214)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1214](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1214)
 
 ___
 
@@ -13171,7 +13171,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1213](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1213)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1213](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1213)
 
 ___
 
@@ -13181,7 +13181,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1212](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1212)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1212](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1212)
 
 ___
 
@@ -13191,7 +13191,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1211](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1211)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1211](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1211)
 
 ___
 
@@ -13201,7 +13201,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1234](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1234)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1234](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1234)
 
 ___
 
@@ -13211,7 +13211,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1233](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1233)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1233](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1233)
 
 ___
 
@@ -13221,7 +13221,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1232](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1232)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1232](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1232)
 
 ___
 
@@ -13231,7 +13231,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1231](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1231)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1231](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1231)
 
 ___
 
@@ -13241,7 +13241,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1230](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1230)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1230](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1230)
 
 ___
 
@@ -13251,7 +13251,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1229](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1229)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1229](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1229)
 
 ___
 
@@ -13261,7 +13261,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1228](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1228)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1228](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1228)
 
 ___
 
@@ -13271,7 +13271,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1227](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1227)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1227](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1227)
 
 ___
 
@@ -13281,7 +13281,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1226](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1226)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1226](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1226)
 
 ___
 
@@ -13291,7 +13291,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1225](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1225)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1225](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1225)
 
 ___
 
@@ -13301,7 +13301,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1224](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1224)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1224](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1224)
 
 ___
 
@@ -13311,7 +13311,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1223](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1223)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1223](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1223)
 
 ___
 
@@ -13321,7 +13321,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1222](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1222)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1222](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1222)
 
 ___
 
@@ -13331,7 +13331,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1245](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1245)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1245](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1245)
 
 ___
 
@@ -13341,7 +13341,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1244](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1244)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1244](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1244)
 
 ___
 
@@ -13351,7 +13351,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1243](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1243)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1243](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1243)
 
 ___
 
@@ -13361,7 +13361,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1242](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1242)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1242](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1242)
 
 ___
 
@@ -13371,7 +13371,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1241](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1241)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1241](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1241)
 
 ___
 
@@ -13381,7 +13381,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1240](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1240)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1240](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1240)
 
 ___
 
@@ -13391,7 +13391,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1239](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1239)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1239](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1239)
 
 ___
 
@@ -13401,7 +13401,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1238](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1238)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1238](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1238)
 
 ___
 
@@ -13411,7 +13411,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1237](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1237)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1237](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1237)
 
 ___
 
@@ -13421,7 +13421,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1236](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1236)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1236](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1236)
 
 ___
 
@@ -13431,7 +13431,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1235](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1235)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1235](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1235)
 
 ___
 
@@ -13441,7 +13441,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1258](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1258)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1258](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1258)
 
 ___
 
@@ -13451,7 +13451,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1257](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1257)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1257](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1257)
 
 ___
 
@@ -13461,7 +13461,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1256](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1256)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1256](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1256)
 
 ___
 
@@ -13471,7 +13471,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1255](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1255)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1255](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1255)
 
 ___
 
@@ -13481,7 +13481,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1254](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1254)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1254](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1254)
 
 ___
 
@@ -13491,7 +13491,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1253](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1253)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1253](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1253)
 
 ___
 
@@ -13501,7 +13501,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1252](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1252)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1252](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1252)
 
 ___
 
@@ -13511,7 +13511,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1251](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1251)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1251](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1251)
 
 ___
 
@@ -13521,7 +13521,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1250](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1250)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1250](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1250)
 
 ___
 
@@ -13531,7 +13531,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1249](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1249)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1249](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1249)
 
 ___
 
@@ -13541,7 +13541,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1248](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1248)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1248](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1248)
 
 ___
 
@@ -13551,7 +13551,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1247](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1247)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1247](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1247)
 
 ___
 
@@ -13561,7 +13561,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1246](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1246)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1246](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1246)
 
 ___
 
@@ -13571,7 +13571,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1269](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1269)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1269](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1269)
 
 ___
 
@@ -13581,7 +13581,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1268](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1268)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1268](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1268)
 
 ___
 
@@ -13591,7 +13591,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1267](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1267)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1267](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1267)
 
 ___
 
@@ -13601,7 +13601,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1266](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1266)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1266](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1266)
 
 ___
 
@@ -13611,7 +13611,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1265](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1265)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1265](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1265)
 
 ___
 
@@ -13621,7 +13621,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1264](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1264)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1264](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1264)
 
 ___
 
@@ -13631,7 +13631,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1263](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1263)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1263](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1263)
 
 ___
 
@@ -13641,7 +13641,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1262](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1262)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1262](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1262)
 
 ___
 
@@ -13651,7 +13651,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1261](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1261)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1261](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1261)
 
 ___
 
@@ -13661,7 +13661,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1260](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1260)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1260](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1260)
 
 ___
 
@@ -13671,7 +13671,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1259](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1259)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1259](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1259)
 
 ___
 
@@ -13681,7 +13681,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1273](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1273)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1273](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1273)
 
 ___
 
@@ -13691,7 +13691,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1272](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1272)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1272](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1272)
 
 ___
 
@@ -13701,7 +13701,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1271](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1271)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1271](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1271)
 
 ___
 
@@ -13711,7 +13711,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1270](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1270)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1270](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1270)
 
 ___
 
@@ -13721,7 +13721,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1277](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1277)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1277](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1277)
 
 ___
 
@@ -13731,7 +13731,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1276](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1276)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1276](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1276)
 
 ___
 
@@ -13741,7 +13741,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1275](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1275)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1275](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1275)
 
 ___
 
@@ -13751,7 +13751,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1274](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1274)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1274](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1274)
 
 ___
 
@@ -13761,7 +13761,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1281](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1281)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1281](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1281)
 
 ___
 
@@ -13771,7 +13771,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1280](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1280)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1280](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1280)
 
 ___
 
@@ -13781,7 +13781,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1279](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1279)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1279](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1279)
 
 ___
 
@@ -13791,7 +13791,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1278](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1278)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1278](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1278)
 
 ___
 
@@ -13801,7 +13801,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1285](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1285)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1285](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1285)
 
 ___
 
@@ -13811,7 +13811,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1284](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1284)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1284](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1284)
 
 ___
 
@@ -13821,7 +13821,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1283](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1283)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1283](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1283)
 
 ___
 
@@ -13831,7 +13831,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1282](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1282)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1282](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1282)
 
 ___
 
@@ -13841,7 +13841,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1289](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1289)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1289](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1289)
 
 ___
 
@@ -13851,7 +13851,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1288](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1288)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1288](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1288)
 
 ___
 
@@ -13861,7 +13861,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1287](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1287)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1287](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1287)
 
 ___
 
@@ -13871,7 +13871,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1286](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1286)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1286](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1286)
 
 ___
 
@@ -13881,7 +13881,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1293](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1293)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1293](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1293)
 
 ___
 
@@ -13891,7 +13891,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1292](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1292)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1292](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1292)
 
 ___
 
@@ -13901,7 +13901,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1291](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1291)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1291](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1291)
 
 ___
 
@@ -13911,7 +13911,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1290](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1290)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1290](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1290)
 
 ___
 
@@ -13921,7 +13921,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1297](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1297)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1297](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1297)
 
 ___
 
@@ -13931,7 +13931,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1296](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1296)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1296](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1296)
 
 ___
 
@@ -13941,7 +13941,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1295](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1295)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1295](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1295)
 
 ___
 
@@ -13951,7 +13951,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1294](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1294)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1294](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1294)
 
 ___
 
@@ -13961,7 +13961,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1301](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1301)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1301](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1301)
 
 ___
 
@@ -13971,7 +13971,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1300](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1300)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1300](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1300)
 
 ___
 
@@ -13981,7 +13981,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1299](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1299)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1299](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1299)
 
 ___
 
@@ -13991,7 +13991,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1298](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1298)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1298](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1298)
 
 ___
 
@@ -14001,7 +14001,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1305](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1305)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1305](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1305)
 
 ___
 
@@ -14011,7 +14011,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1304](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1304)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1304](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1304)
 
 ___
 
@@ -14021,7 +14021,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1303](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1303)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1303](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1303)
 
 ___
 
@@ -14031,7 +14031,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1302](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1302)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1302](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1302)
 
 ___
 
@@ -14041,7 +14041,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1306](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1306)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1306](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1306)
 
 ___
 
@@ -14051,7 +14051,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1308](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1308)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1308](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1308)
 
 ___
 
@@ -14061,7 +14061,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1307](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1307)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1307](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1307)
 
 ___
 
@@ -14071,7 +14071,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1310](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1310)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1310](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1310)
 
 ___
 
@@ -14081,7 +14081,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1309](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1309)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1309](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1309)
 
 ___
 
@@ -14091,7 +14091,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1312](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1312)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1312](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1312)
 
 ___
 
@@ -14101,7 +14101,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1311](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1311)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1311](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1311)
 
 ___
 
@@ -14111,7 +14111,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1314](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1314)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1314](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1314)
 
 ___
 
@@ -14121,7 +14121,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1313](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1313)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1313](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1313)
 
 ___
 
@@ -14131,7 +14131,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1316](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1316)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1316](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1316)
 
 ___
 
@@ -14141,7 +14141,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1315](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1315)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1315](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1315)
 
 ___
 
@@ -14151,7 +14151,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1318](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1318)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1318](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1318)
 
 ___
 
@@ -14161,7 +14161,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1317](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1317)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1317](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1317)
 
 ___
 
@@ -14171,7 +14171,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1320](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1320)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1320](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1320)
 
 ___
 
@@ -14181,7 +14181,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1319](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1319)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1319](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1319)
 
 ___
 
@@ -14191,7 +14191,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1321](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1321)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1321](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1321)
 
 ___
 
@@ -14201,7 +14201,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1323](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1323)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1323](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1323)
 
 ___
 
@@ -14211,7 +14211,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1322](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1322)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1322](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1322)
 
 ___
 
@@ -14221,7 +14221,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1326](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1326)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1326](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1326)
 
 ___
 
@@ -14231,7 +14231,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1325](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1325)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1325](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1325)
 
 ___
 
@@ -14241,7 +14241,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1324](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1324)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1324](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1324)
 
 ___
 
@@ -14251,7 +14251,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1329](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1329)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1329](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1329)
 
 ___
 
@@ -14261,7 +14261,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1328](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1328)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1328](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1328)
 
 ___
 
@@ -14271,7 +14271,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1327](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1327)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1327](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1327)
 
 ___
 
@@ -14281,7 +14281,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1332](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1332)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1332](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1332)
 
 ___
 
@@ -14291,7 +14291,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1331](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1331)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1331](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1331)
 
 ___
 
@@ -14301,7 +14301,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1330](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1330)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1330](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1330)
 
 ___
 
@@ -14311,7 +14311,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1335](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1335)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1335](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1335)
 
 ___
 
@@ -14321,7 +14321,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1334](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1334)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1334](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1334)
 
 ___
 
@@ -14331,7 +14331,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1333](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1333)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1333](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1333)
 
 ___
 
@@ -14341,7 +14341,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1336](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1336)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1336](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1336)
 
 ___
 
@@ -14351,7 +14351,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1344](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1344)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1344](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1344)
 
 ___
 
@@ -14361,7 +14361,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1343](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1343)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1343](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1343)
 
 ___
 
@@ -14371,7 +14371,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1342](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1342)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1342](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1342)
 
 ___
 
@@ -14381,7 +14381,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1341](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1341)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1341](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1341)
 
 ___
 
@@ -14391,7 +14391,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1340](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1340)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1340](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1340)
 
 ___
 
@@ -14401,7 +14401,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1339](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1339)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1339](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1339)
 
 ___
 
@@ -14411,7 +14411,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1338](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1338)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1338](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1338)
 
 ___
 
@@ -14421,7 +14421,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1337](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1337)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1337](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1337)
 
 ___
 
@@ -14431,7 +14431,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1350](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1350)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1350](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1350)
 
 ___
 
@@ -14441,7 +14441,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1349](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1349)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1349](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1349)
 
 ___
 
@@ -14451,7 +14451,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1348](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1348)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1348](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1348)
 
 ___
 
@@ -14461,7 +14461,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1347](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1347)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1347](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1347)
 
 ___
 
@@ -14471,7 +14471,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1346](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1346)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1346](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1346)
 
 ___
 
@@ -14481,7 +14481,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1345](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1345)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1345](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1345)
 
 ___
 
@@ -14491,7 +14491,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1357](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1357)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1357](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1357)
 
 ___
 
@@ -14501,7 +14501,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1356](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1356)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1356](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1356)
 
 ___
 
@@ -14511,7 +14511,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1355](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1355)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1355](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1355)
 
 ___
 
@@ -14521,7 +14521,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1354](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1354)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1354](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1354)
 
 ___
 
@@ -14531,7 +14531,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1353](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1353)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1353](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1353)
 
 ___
 
@@ -14541,7 +14541,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1352](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1352)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1352](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1352)
 
 ___
 
@@ -14551,7 +14551,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1367](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1367)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1367](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1367)
 
 ___
 
@@ -14561,7 +14561,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1366](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1366)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1366](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1366)
 
 ___
 
@@ -14571,7 +14571,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1365](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1365)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1365](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1365)
 
 ___
 
@@ -14581,7 +14581,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1364](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1364)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1364](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1364)
 
 ___
 
@@ -14591,7 +14591,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1363](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1363)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1363](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1363)
 
 ___
 
@@ -14601,7 +14601,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1362](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1362)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1362](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1362)
 
 ___
 
@@ -14611,7 +14611,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1361](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1361)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1361](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1361)
 
 ___
 
@@ -14621,7 +14621,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1360](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1360)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1360](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1360)
 
 ___
 
@@ -14631,7 +14631,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1359](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1359)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1359](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1359)
 
 ___
 
@@ -14641,7 +14641,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1358](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1358)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1358](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1358)
 
 ___
 
@@ -14651,7 +14651,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1351](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1351)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1351](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1351)
 
 ___
 
@@ -14661,7 +14661,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1373](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1373)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1373](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1373)
 
 ___
 
@@ -14671,7 +14671,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1372](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1372)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1372](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1372)
 
 ___
 
@@ -14681,7 +14681,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1371](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1371)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1371](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1371)
 
 ___
 
@@ -14691,7 +14691,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1370](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1370)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1370](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1370)
 
 ___
 
@@ -14701,7 +14701,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1369](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1369)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1369](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1369)
 
 ___
 
@@ -14711,7 +14711,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1368](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1368)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1368](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1368)
 
 ___
 
@@ -14721,7 +14721,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1376](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1376)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1376](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1376)
 
 ___
 
@@ -14731,7 +14731,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1375](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1375)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1375](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1375)
 
 ___
 
@@ -14741,7 +14741,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1374](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1374)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1374](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1374)
 
 ## Methods
 
@@ -14755,7 +14755,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1385](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1385)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1385](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1385)
 
 ___
 
@@ -14775,4 +14775,4 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1379](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1379)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts:1379](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts#L1379)

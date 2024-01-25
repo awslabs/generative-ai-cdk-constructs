@@ -53,7 +53,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/cdk-lib/bedrock/s3-data-source.ts:113](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/s3-data-source.ts#L113)
+[src/cdk-lib/bedrock/s3-data-source.ts:113](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L113)
 
 ## Properties
 
@@ -65,7 +65,7 @@ The Data Source cfn resource.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/s3-data-source.ts:107](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/s3-data-source.ts#L107)
+[src/cdk-lib/bedrock/s3-data-source.ts:107](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L107)
 
 ___
 
@@ -77,7 +77,7 @@ The unique identifier of the data source.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/s3-data-source.ts:111](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/s3-data-source.ts#L111)
+[src/cdk-lib/bedrock/s3-data-source.ts:111](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/s3-data-source.ts#L111)
 
 ___
 

@@ -58,7 +58,7 @@ Validate the inferenceConfiguration of a prompt override.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:541](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L541)
+[src/cdk-lib/bedrock/agent.ts:541](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L541)
 
 ___
 
@@ -82,4 +82,4 @@ Validate the promptOverrideConfiguration.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:576](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L576)
+[src/cdk-lib/bedrock/agent.ts:576](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L576)

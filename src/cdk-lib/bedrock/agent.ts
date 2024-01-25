@@ -512,7 +512,7 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
   /**
    * Add an alias to the agent.
    */
-  public addAlias(props: AgentAliasProps): AgentAlias {
+  public addAlias(props: Exclude<AgentAliasProps, 'agentId'>): AgentAlias {
     return new AgentAlias(this, `AgentAlias-${props.aliasName}`, {
       agentId: this.agentId,
       agentVersion: props.agentVersion,

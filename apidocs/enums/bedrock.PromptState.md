@@ -28,7 +28,7 @@ The default state for each promptType is as follows.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:73](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L73)
+[src/cdk-lib/bedrock/agent.ts:73](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L73)
 
 ___
 
@@ -38,4 +38,4 @@ ___
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:72](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L72)
+[src/cdk-lib/bedrock/agent.ts:72](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L72)

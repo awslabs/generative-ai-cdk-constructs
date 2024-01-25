@@ -28,7 +28,7 @@ Required. Lambda function architecture compatible with this Layer.
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-langchain-common-layer/index.ts:33](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-langchain-common-layer/index.ts#L33)
+[src/patterns/gen-ai/aws-langchain-common-layer/index.ts:33](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-langchain-common-layer/index.ts#L33)
 
 ___
 
@@ -47,7 +47,7 @@ In case of a LangchainCommonLayer, this parameter is not used.
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-langchain-common-layer/index.ts:40](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-langchain-common-layer/index.ts#L40)
+[src/patterns/gen-ai/aws-langchain-common-layer/index.ts:40](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-langchain-common-layer/index.ts#L40)
 
 ___
 
@@ -65,4 +65,4 @@ Required. Lambda function runtime compatible with this Layer.
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-langchain-common-layer/index.ts:27](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-langchain-common-layer/index.ts#L27)
+[src/patterns/gen-ai/aws-langchain-common-layer/index.ts:27](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-langchain-common-layer/index.ts#L27)

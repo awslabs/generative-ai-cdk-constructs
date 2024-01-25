@@ -29,4 +29,4 @@ Custom Resource provider for OpenSearch Index operations.
 
 #### Defined in
 
-[src/cdk-lib/opensearch-vectorindex/vector-index.ts:195](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L195)
+[src/cdk-lib/opensearch-vectorindex/vector-index.ts:195](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/opensearch-vectorindex/vector-index.ts#L195)

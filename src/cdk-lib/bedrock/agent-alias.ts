@@ -33,7 +33,7 @@ export interface AgentAliasProps {
    * The list of change ids to let CloudFormation determine when to update the alias.
    * A changeId is a hash of the properties of an agent, an agent/knowledge base association, or an action group.
    */
-  readonly changeIds: string[];
+  readonly changeIds?: string[];
   /**
    * The version of the agent to associate with the agent alias.
    *

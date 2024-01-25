@@ -69,7 +69,7 @@ The HuggingFaceSageMakerEndpoint class.
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:50](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L50)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:50](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L50)
 
 ## Properties
 
@@ -79,7 +79,7 @@ The HuggingFaceSageMakerEndpoint class.
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:39](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L39)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:39](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L39)
 
 ___
 
@@ -89,7 +89,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:40](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L40)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:40](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L40)
 
 ___
 
@@ -99,7 +99,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:38](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L38)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:38](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L38)
 
 ___
 
@@ -109,7 +109,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:37](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L37)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:37](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L37)
 
 ___
 
@@ -123,7 +123,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:48](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L48)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:48](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L48)
 
 ___
 
@@ -137,7 +137,7 @@ iam.IGrantable.grantPrincipal
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:36](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L36)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:36](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L36)
 
 ___
 
@@ -147,7 +147,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:44](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L44)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:44](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L44)
 
 ___
 
@@ -157,7 +157,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:43](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L43)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:43](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L43)
 
 ___
 
@@ -167,7 +167,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:42](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L42)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:42](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L42)
 
 ___
 
@@ -193,7 +193,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:45](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L45)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:45](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L45)
 
 ___
 
@@ -203,7 +203,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:47](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L47)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:47](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L47)
 
 ## Methods
 
@@ -223,7 +223,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:119](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L119)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:119](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L119)
 
 ___
 
@@ -241,7 +241,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-endpoint-base.ts:17](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-endpoint-base.ts#L17)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-endpoint-base.ts:17](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/sagemaker-endpoint-base.ts#L17)
 
 ___
 
@@ -261,7 +261,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:127](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L127)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts:127](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/huggingface-sagemaker-endpoint.ts#L127)
 
 ___
 

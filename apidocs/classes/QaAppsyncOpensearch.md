@@ -69,7 +69,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:180](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L180)
+[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:180](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L180)
 
 ## Properties
 
@@ -81,7 +81,7 @@ Returns an instance of appsync.IGraphqlApi created by the construct
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:170](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L170)
+[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:170](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L170)
 
 ___
 
@@ -109,7 +109,7 @@ Returns the instance of events.IEventBus used by the construct
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:156](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L156)
+[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:156](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L156)
 
 ___
 
@@ -123,7 +123,7 @@ this property will be undefined
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:166](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L166)
+[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:166](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L166)
 
 ___
 
@@ -135,7 +135,7 @@ Returns an instance of s3.IBucket created by the construct
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:160](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L160)
+[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:160](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L160)
 
 ___
 
@@ -147,7 +147,7 @@ Returns the instance of ec2.ISecurityGroup used by the construct
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:152](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L152)
+[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:152](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L152)
 
 ___
 
@@ -159,7 +159,7 @@ Returns the instance of ec2.IVpc used by the construct
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:148](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L148)
+[src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts:148](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-qa-appsync-opensearch/index.ts#L148)
 
 ## Methods
 

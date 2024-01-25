@@ -22,4 +22,4 @@ For example, `012345678910.dkr.ecr.<region-name>.amazonaws.com/<repository-name>
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts:27](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts#L27)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts:27](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/container-image.ts#L27)

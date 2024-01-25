@@ -67,7 +67,7 @@ Construct.constructor
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:238](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L238)
+[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:238](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L238)
 
 ## Properties
 
@@ -79,7 +79,7 @@ Returns an instance of events.IEventBus created by the construct
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:196](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L196)
+[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:196](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L196)
 
 ___
 
@@ -91,7 +91,7 @@ Returns an instance of appsync.CfnGraphQLApi for summary created by the construc
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:200](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L200)
+[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:200](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L200)
 
 ___
 
@@ -103,7 +103,7 @@ Returns the instance of s3.IBucket used by the construct
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:218](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L218)
+[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:218](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L218)
 
 ___
 
@@ -131,7 +131,7 @@ Returns the instance of s3.IBucket used by the construct
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:222](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L222)
+[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:222](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L222)
 
 ___
 
@@ -143,7 +143,7 @@ Returns an instance of redis cluster created by the construct
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:205](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L205)
+[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:205](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L205)
 
 ___
 
@@ -155,7 +155,7 @@ Returns the instance of ec2.ISecurityGroup used by the construct
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:214](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L214)
+[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:214](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L214)
 
 ___
 
@@ -173,7 +173,7 @@ Step function
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:227](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L227)
+[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:227](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L227)
 
 ___
 
@@ -185,7 +185,7 @@ Returns the instance of ec2.IVpc used by the construct
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:210](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L210)
+[src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts:210](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-summarization-appsync-stepfn/index.ts#L210)
 
 ## Methods
 

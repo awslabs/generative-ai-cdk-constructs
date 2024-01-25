@@ -26,7 +26,7 @@
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:25](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L25)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:25](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L25)
 
 ___
 
@@ -36,7 +36,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:23](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L23)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:23](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L23)
 
 ___
 
@@ -50,7 +50,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:28](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L28)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:28](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L28)
 
 ___
 
@@ -60,7 +60,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:26](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L26)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:26](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L26)
 
 ___
 
@@ -70,7 +70,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:24](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L24)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:24](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L24)
 
 ___
 
@@ -80,7 +80,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:30](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L30)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:30](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L30)
 
 ___
 
@@ -90,7 +90,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:32](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L32)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:32](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L32)
 
 ___
 
@@ -100,7 +100,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:22](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L22)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:22](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L22)
 
 ___
 
@@ -110,7 +110,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:27](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L27)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:27](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L27)
 
 ___
 
@@ -120,7 +120,7 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:29](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L29)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:29](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L29)
 
 ___
 
@@ -130,4 +130,4 @@ ___
 
 #### Defined in
 
-[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:31](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L31)
+[src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts:31](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/patterns/gen-ai/aws-model-deployment-sagemaker/custom-sagemaker-endpoint.ts#L31)

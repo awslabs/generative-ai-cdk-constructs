@@ -31,7 +31,7 @@ Defines the prompt template with which to replace the default prompt template.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:155](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L155)
+[src/cdk-lib/bedrock/agent.ts:155](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L155)
 
 ___
 
@@ -44,7 +44,7 @@ model in the part of the agent sequence defined by the promptType.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:149](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L149)
+[src/cdk-lib/bedrock/agent.ts:149](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L149)
 
 ___
 
@@ -60,7 +60,7 @@ with the ARN of a Lambda function.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:163](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L163)
+[src/cdk-lib/bedrock/agent.ts:163](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L163)
 
 ___
 
@@ -75,7 +75,7 @@ uses a default prompt template.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:170](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L170)
+[src/cdk-lib/bedrock/agent.ts:170](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L170)
 
 ___
 
@@ -94,7 +94,7 @@ step. The default state for each promptType is as follows.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:181](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L181)
+[src/cdk-lib/bedrock/agent.ts:181](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L181)
 
 ___
 
@@ -106,4 +106,4 @@ The step in the agent sequence that this prompt configuration applies to.
 
 #### Defined in
 
-[src/cdk-lib/bedrock/agent.ts:144](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/9d5b641/src/cdk-lib/bedrock/agent.ts#L144)
+[src/cdk-lib/bedrock/agent.ts:144](https://github.com/jstrunk/generative-ai-cdk-constructs/blob/29ef990/src/cdk-lib/bedrock/agent.ts#L144)
