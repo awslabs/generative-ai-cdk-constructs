@@ -125,7 +125,7 @@ Mutation call to trigger the question:
 
 ```
 mutation MyMutation {
-  postQuestion(jobid: "123", jobstatus: "", max_docs: 10, question: "d2hhdCBpcyB0aGlzIGRvY3VtZW50IGFib3V0ID8=", streaming:true, verbose: true, filename: "document.txt", responseGenerationMethod: "RAG") {
+  postQuestion(jobid: "123", jobstatus: "", max_docs: 10, question: "d2hhdCBpcyB0aGlzIGRvY3VtZW50IGFib3V0ID8=", streaming:true, verbose: true, filename: "document.txt", responseGenerationMethod: RAG) {
     answer
     jobid
     jobstatus
@@ -148,7 +148,8 @@ Expected response:
       "max_docs": null,
       "question": null,
       "verbose": null,
-      "streaming": null
+      "streaming": null,
+      "responseGenerationMethod": null
     }
   }
 }
