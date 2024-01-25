@@ -424,67 +424,68 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
       true,
     );
 
-    const kbAssocCRPolicy = new iam.Policy(this, 'KBAssocCRPolicy', {
-      roles: [crProvider.role],
-      statements: [
-        new iam.PolicyStatement({
-          actions: [
-            'bedrock:AssociateAgentKnowledgeBase',
-            'bedrock:UpdateAgentKnowledgeBase',
-            'bedrock:DisassociateAgentKnowledgeBase',
-          ],
-          resources: [
-            cdk.Stack.of(this).formatArn({
-              service: 'bedrock',
-              resource: 'agent',
-              resourceName: '*',
-              arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-            }),
-            cdk.Stack.of(this).formatArn({
-              service: 'bedrock',
-              resource: 'knowledge-base',
-              resourceName: '*',
-              arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-            }),
-          ],
-        }),
-      ],
-    });
-
-    NagSuppressions.addResourceSuppressions(
-      kbAssocCRPolicy,
-      [
-        {
-          id: 'AwsSolutions-IAM5',
-          reason: 'Bedrock Agent/KB associations have wildcards restricted to agents and kbs in the account.',
-        },
-      ],
-      true,
-    );
-
-    const kbAssociations: string[] = [];
-    for (let kb of props.knowledgeBases ?? []) {
-      const kbAssoc = new cdk.CustomResource(
-        this,
-        `KBAssoc-${kb.name}`,
-        {
-          serviceToken: crProvider.serviceToken,
-          resourceType: 'Custom::Bedrock-AgentKnowledgeBase',
-          properties: {
-            agentId: this.agentId,
-            knowledgeBaseId: kb.knowledgeBaseId,
-            description: kb.instruction,
-          },
-        },
-      );
-      kbAssoc.node.addDependency(kbAssocCRPolicy);
-      kbAssoc.node.addDependency(crProvider);
-      kbAssociations.push(kbAssoc.getAttString('changeId'));
-    }
-
     const changeIds: string[] = [agent.getAttString('changeId')];
 
-    changeIds.push(...kbAssociations);
+    const kbAssociations: string[] = [];
+    if (props.knowledgeBases && props.knowledgeBases.length > 0) {
+      const kbAssocCRPolicy = new iam.Policy(this, 'KBAssocCRPolicy', {
+        roles: [crProvider.role],
+        statements: [
+          new iam.PolicyStatement({
+            actions: [
+              'bedrock:AssociateAgentKnowledgeBase',
+              'bedrock:UpdateAgentKnowledgeBase',
+              'bedrock:DisassociateAgentKnowledgeBase',
+            ],
+            resources: [
+              cdk.Stack.of(this).formatArn({
+                service: 'bedrock',
+                resource: 'agent',
+                resourceName: '*',
+                arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
+              }),
+              cdk.Stack.of(this).formatArn({
+                service: 'bedrock',
+                resource: 'knowledge-base',
+                resourceName: '*',
+                arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
+              }),
+            ],
+          }),
+        ],
+      });
+
+      NagSuppressions.addResourceSuppressions(
+        kbAssocCRPolicy,
+        [
+          {
+            id: 'AwsSolutions-IAM5',
+            reason: 'Bedrock Agent/KB associations have wildcards restricted to agents and kbs in the account.',
+          },
+        ],
+        true,
+      );
+
+      for (let kb of props.knowledgeBases ?? []) {
+        const kbAssoc = new cdk.CustomResource(
+          this,
+          `KBAssoc-${kb.name}`,
+          {
+            serviceToken: crProvider.serviceToken,
+            resourceType: 'Custom::Bedrock-AgentKnowledgeBase',
+            properties: {
+              agentId: this.agentId,
+              knowledgeBaseId: kb.knowledgeBaseId,
+              description: kb.instruction,
+            },
+          },
+        );
+        kbAssoc.node.addDependency(kbAssocCRPolicy);
+        kbAssoc.node.addDependency(crProvider);
+        kbAssociations.push(kbAssoc.getAttString('changeId'));
+      }
+      changeIds.push(...kbAssociations);
+    }
 
     this.alias = new cdk.CustomResource(
       this,
