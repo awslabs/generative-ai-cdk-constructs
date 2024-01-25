@@ -5,6 +5,10 @@
       "type": "build"
     },
     {
+      "name": "@mrgrain/jsii-struct-builder",
+      "type": "build"
+    },
+    {
       "name": "@types/jest",
       "type": "build"
     },

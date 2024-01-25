@@ -13,6 +13,9 @@
 export * from './patterns/gen-ai/aws-rag-appsync-stepfn-opensearch';
 export * from './patterns/gen-ai/aws-summarization-appsync-stepfn';
 export * from './patterns/gen-ai/aws-langchain-common-layer';
+export * from './patterns/gen-ai/aws-langchain-common-layer/LangchainProps';
+export * from './patterns/gen-ai/aws-langchain-common-layer/AdapterProps';
 export * from './patterns/gen-ai/aws-qa-appsync-opensearch';
 export * from './patterns/gen-ai/aws-model-deployment-sagemaker';
+
 export { version } from './common/helpers/utils';
