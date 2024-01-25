@@ -55,7 +55,7 @@ describe('RAG Appsync Stepfn Open search construct', () => {
     );
 
     const osDomain = os.Domain.fromDomainAttributes(ragTestStack, 'osdomain', {
-      domainArn: 'arn:aws:es:region:account:domain/',
+      domainArn: 'arn:' + cdk.Aws.PARTITION + ':es:region:account:domain/',
       domainEndpoint: 'https://osendppint.amazon.aws.com',
     });
 

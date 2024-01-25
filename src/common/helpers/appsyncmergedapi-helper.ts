@@ -149,10 +149,10 @@ export function setMergedApiRole(mergedApiID: String, sourceApiId: String, merge
       actions: ['appsync:SourceGraphQL',
         'appsync:StartSchemaMerge'],
       resources: [
-        'arn:aws:appsync:' + Aws.REGION + ':' + Aws.ACCOUNT_ID
+        'arn:' + Aws.PARTITION + ':appsync:' + Aws.REGION + ':' + Aws.ACCOUNT_ID
            + ':apis/' + sourceApiId + '/*',
-        'arn:aws:appsync:'+ Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+mergedApiID+'/sourceApiAssociations/*',
-        'arn:aws:appsync:'+ Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+sourceApiId+'/sourceApiAssociations/*',
+        'arn:' + Aws.PARTITION + ':appsync:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':apis/' + mergedApiID + '/sourceApiAssociations/*',
+        'arn:' + Aws.PARTITION + ':appsync:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':apis/' + sourceApiId + '/sourceApiAssociations/*',
       ],
     }),
   );

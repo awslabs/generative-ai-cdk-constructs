@@ -455,7 +455,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         'appsync:GraphQL',
       ],
       resources: [
-        'arn:aws:appsync:'+ Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*',
+        'arn:' + Aws.PARTITION + ':appsync:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':apis/' + updateGraphQlApiId + '/*',
       ],
     }));
     // The lambda will pull documents from the input bucket, transform them, and upload
@@ -487,7 +487,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         'ec2:UnassignPrivateIpAddresses',
       ],
       resources: [
-        'arn:aws:ec2:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':*/*',
+        'arn:' + Aws.PARTITION + ':ec2:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':*/*',
       ],
     }));
     // Decribe only works if it's allowed on all resources.
@@ -512,8 +512,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
           's3:List*',
         ],
         resources: [
-          'arn:aws:s3:::' + this.s3InputAssetsBucketInterface?.bucketName,
-          'arn:aws:s3:::' + this.s3InputAssetsBucketInterface?.bucketName + '/*',
+          'arn:' + Aws.PARTITION + ':s3:::' + this.s3InputAssetsBucketInterface?.bucketName,
+          'arn:' + Aws.PARTITION + ':s3:::' + this.s3InputAssetsBucketInterface?.bucketName + '/*',
         ],
       }),
     );
@@ -532,8 +532,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
           's3:PutObject',
           's3:GetObject*'],
         resources: [
-          'arn:aws:s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName,
-          'arn:aws:s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName + '/*',
+          'arn:' + Aws.PARTITION + ':s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName,
+          'arn:' + Aws.PARTITION + ':s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName + '/*',
         ],
       }),
     );
@@ -546,7 +546,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         'appsync:GraphQL',
       ],
       resources: [
-        'arn:aws:appsync:'+ Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*',
+        'arn:' + Aws.PARTITION + ':appsync:' + Aws.REGION+':' + Aws.ACCOUNT_ID + ':apis/' + updateGraphQlApiId + '/*',
       ],
     }));
 
@@ -614,7 +614,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         'ec2:UnassignPrivateIpAddresses',
       ],
       resources: [
-        'arn:aws:ec2:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':*/*',
+        'arn:' + Aws.PARTITION + ':ec2:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':*/*',
       ],
     }));
     // Decribe only works if it's allowed on all resources.
@@ -639,8 +639,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
           's3:List*',
         ],
         resources: [
-          'arn:aws:s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName,
-          'arn:aws:s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName + '/*',
+          'arn:' + Aws.PARTITION + ':s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName,
+          'arn:' + Aws.PARTITION + ':s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName + '/*',
         ],
       }),
     );
@@ -650,8 +650,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         effect: iam.Effect.ALLOW,
         actions: ['es:*'],
         resources: [
-          'arn:aws:es:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':domain/'+props.existingOpensearchDomain.domainName+'/*',
-          'arn:aws:es:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':domain/'+props.existingOpensearchDomain.domainName,
+          'arn:' + Aws.PARTITION + ':es:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':domain/'+props.existingOpensearchDomain.domainName + '/*',
+          'arn:' + Aws.PARTITION + ':es:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':domain/'+props.existingOpensearchDomain.domainName,
         ],
       }));
     }
@@ -661,7 +661,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         effect: iam.Effect.ALLOW,
         actions: ['aoss:APIAccessAll'],
         resources: [
-          'arn:aws:aoss:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':collection/'+props.openSearchIndexName,
+          'arn:' + Aws.PARTITION + ':aoss:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':collection/' + props.openSearchIndexName,
         ],
       }));
     }
@@ -671,8 +671,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       effect: iam.Effect.ALLOW,
       actions: ['bedrock:*'],
       resources: [
-        'arn:aws:bedrock:'+Aws.REGION+'::foundation-model',
-        'arn:aws:bedrock:'+Aws.REGION+'::foundation-model/*',
+        'arn:' + Aws.PARTITION + ':bedrock:' + Aws.REGION + '::foundation-model',
+        'arn:' + Aws.PARTITION + ':bedrock:' + Aws.REGION + '::foundation-model/*',
       ],
     }));
 
@@ -740,7 +740,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         'appsync:GraphQL',
       ],
       resources: [
-        'arn:aws:appsync:'+ Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*',
+        'arn:' + Aws.PARTITION + ':appsync:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':apis/' + updateGraphQlApiId + '/*',
       ],
     }));
 

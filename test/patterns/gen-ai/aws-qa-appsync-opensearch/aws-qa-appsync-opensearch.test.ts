@@ -35,7 +35,7 @@ describe('QA Appsync Open search construct', () => {
     });
 
     const osDomain = os.Domain.fromDomainAttributes(qaTestStack, 'osdomain', {
-      domainArn: 'arn:aws:es:region:account:domain/',
+      domainArn: 'arn:' + cdk.Aws.PARTITION + ':es:region:account:domain/',
       domainEndpoint: 'https://osendppint.amazon.aws.com',
     });
 

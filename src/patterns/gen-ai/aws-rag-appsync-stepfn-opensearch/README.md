@@ -61,7 +61,7 @@ Here is a minimal deployable pattern definition:
 Typescript
 ``` typescript
 import { Construct } from 'constructs';
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { Stack, StackProps, Aws } from 'aws-cdk-lib';
 import * as os from 'aws-cdk-lib/aws-opensearchservice';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import { RagAppsyncStepfnOpensearch, RagAppsyncStepfnOpensearchProps } from '@cdklabs/generative-ai-cdk-constructs';
@@ -69,7 +69,7 @@ import { RagAppsyncStepfnOpensearch, RagAppsyncStepfnOpensearchProps } from '@cd
 // get an existing OpenSearch provisioned cluster in the same VPC as of RagAppsyncStepfnOpensearch construct 
 // Security group for the existing opensearch cluster should allow traffic on 443.
 const osDomain = os.Domain.fromDomainAttributes(this, 'osdomain', {
-    domainArn: 'arn:aws:es:us-east-1:XXXXXX',
+    domainArn: 'arn:' + Aws.PARTITION + ':es:us-east-1:XXXXXX',
     domainEndpoint: 'https://XXXXX.us-east-1.es.amazonaws.com'
 });
 

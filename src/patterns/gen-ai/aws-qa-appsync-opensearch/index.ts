@@ -424,7 +424,7 @@ export class QaAppsyncOpensearch extends Construct {
           'ec2:UnassignPrivateIpAddresses',
         ],
         resources: [
-          'arn:aws:ec2:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':*/*',
+          'arn:' + Aws.PARTITION + ':ec2:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':*/*',
         ],
       }),
     );
@@ -449,8 +449,8 @@ export class QaAppsyncOpensearch extends Construct {
         effect: iam.Effect.ALLOW,
         actions: ['s3:GetObject', 's3:GetObject*', 's3:GetBucket*', 's3:List*'],
         resources: [
-          'arn:aws:s3:::' + this.s3InputAssetsBucketInterface?.bucketName,
-          'arn:aws:s3:::' +
+          'arn:' + Aws.PARTITION + ':s3:::' + this.s3InputAssetsBucketInterface?.bucketName,
+          'arn:' + Aws.PARTITION + ':s3:::' +
             this.s3InputAssetsBucketInterface?.bucketName +
             '/*',
         ],
@@ -463,14 +463,14 @@ export class QaAppsyncOpensearch extends Construct {
           effect: iam.Effect.ALLOW,
           actions: ['es:*'],
           resources: [
-            'arn:aws:es:' +
+            'arn:' + Aws.PARTITION + ':es:' +
               Aws.REGION +
               ':' +
               Aws.ACCOUNT_ID +
               ':domain/' +
               props.existingOpensearchDomain.domainName +
               '/*',
-            'arn:aws:es:' +
+            'arn:' + Aws.PARTITION + ':es:' +
               Aws.REGION +
               ':' +
               Aws.ACCOUNT_ID +
@@ -486,7 +486,7 @@ export class QaAppsyncOpensearch extends Construct {
         effect: iam.Effect.ALLOW,
         actions: ['aoss:APIAccessAll'],
         resources: [
-          'arn:aws:aoss:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':collection/'+props.openSearchIndexName,
+          'arn:' + Aws.PARTITION + ':aoss:' + Aws.REGION+':' + Aws.ACCOUNT_ID + ':collection/'+props.openSearchIndexName,
         ],
       }));
     }
@@ -500,8 +500,8 @@ export class QaAppsyncOpensearch extends Construct {
           'bedrock:InvokeModelWithResponseStream',
         ],
         resources: [
-          'arn:aws:bedrock:' + Aws.REGION + '::foundation-model',
-          'arn:aws:bedrock:' + Aws.REGION + '::foundation-model/*',
+          'arn:' + Aws.PARTITION + ':bedrock:' + Aws.REGION + '::foundation-model',
+          'arn:' + Aws.PARTITION + ':bedrock:' + Aws.REGION + '::foundation-model/*',
         ],
       }),
     );
@@ -571,7 +571,7 @@ export class QaAppsyncOpensearch extends Construct {
         effect: iam.Effect.ALLOW,
         actions: ['appsync:GraphQL'],
         resources: [
-          'arn:aws:appsync:' +
+          'arn:' + Aws.PARTITION + ':appsync:' +
             Aws.REGION +
             ':' +
             Aws.ACCOUNT_ID +

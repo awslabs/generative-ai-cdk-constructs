@@ -56,14 +56,14 @@ Typescript
 
 ``` typescript
 import { Construct } from 'constructs';
-import { Stack, StackProps } from 'aws-cdk-lib';
+import { Stack, StackProps, Aws } from 'aws-cdk-lib';
 import * as os from 'aws-cdk-lib/aws-opensearchservice';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import { QaAppsyncOpensearch, QaAppsyncOpensearchProps } from '@cdklabs/generative-ai-cdk-constructs';
 
 // get an existing OpenSearch provisioned cluster
 const osDomain = os.Domain.fromDomainAttributes(this, 'osdomain', {
-    domainArn: 'arn:aws:es:us-east-1:XXXXXX',
+    domainArn: 'arn:' + Aws.PARTITION + ':es:us-east-1:XXXXXX',
     domainEndpoint: 'https://XXXXX.us-east-1.es.amazonaws.com'
 });
 
