@@ -45,6 +45,7 @@ beforeAll(() => {
   kb = new bedrock.KnowledgeBase(stack, 'KB', {
     embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
     description: 'Documentation about CDK constructs.',
+    instruction: 'Documentation about CDK constructs.',
   });
   new bedrock.S3DataSource(stack, 'DataSource', {
     bucket,

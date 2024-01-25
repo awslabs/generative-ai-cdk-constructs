@@ -31,14 +31,21 @@ export interface KnowledgeBaseProps {
   readonly embeddingsModel: BedrockFoundationModel;
 
   /**
-   * A narrative description of the knowledge base.
-   *
-   * A Bedrock Agent can use this description to determine if it should
-   * query this Knowledge Base.
+   * The description of the knowledge base.
    *
    * @default - No description provided.
    */
   readonly description?: string;
+
+  /**
+   * A narrative description of the knowledge base.
+   *
+   * A Bedrock Agent can use this instruction to determine if it should
+   * query this Knowledge Base.
+   *
+   * @default - No description provided.
+   */
+  readonly instruction?: string;
 
   /**
    * The name of the vector index.
@@ -92,9 +99,9 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
   public readonly vectorStore: VectorCollection;
 
   /**
-   * A narrative description of the knowledge base.
+   * A narrative instruction of the knowledge base.
    */
-  public readonly description: string;
+  public readonly instruction: string;
 
   /**
    * The ARN of the knowledge base.
@@ -122,6 +129,7 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
     super(scope, id);
     const embeddingsModel = props.embeddingsModel;
     const description = props.description ?? '';
+    this.instruction = props.instruction ?? '';
     const indexName = props.indexName ?? 'bedrock-knowledge-base-default-index';
     const vectorField = props.vectorField ?? 'bedrock-knowledge-base-default-vector';
 
@@ -274,7 +282,6 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
       true,
     );
 
-    this.description = description;
     this.knowledgeBaseArn = knowledgeBase.getAttString('knowledgeBaseArn');
     this.knowledgeBaseId = knowledgeBase.getAttString('knowledgeBaseId');
   }

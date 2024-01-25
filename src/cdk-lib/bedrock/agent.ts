@@ -475,7 +475,7 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
           properties: {
             agentId: this.agentId,
             knowledgeBaseId: kb.knowledgeBaseId,
-            description: kb.description,
+            description: kb.instruction,
           },
         },
       );
