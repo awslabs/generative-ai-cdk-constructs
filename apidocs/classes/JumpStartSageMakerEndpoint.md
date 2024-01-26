@@ -59,7 +59,7 @@ The JumpStartSageMakerEndpoint class.
 | :------ | :------ |
 | `scope` | `Construct` |
 | `id` | `string` |
-| `props` | [`IJumpStartSageMakerEndpointProps`](../interfaces/IJumpStartSageMakerEndpointProps.md) |
+| `props` | [`JumpStartSageMakerEndpointProps`](../interfaces/JumpStartSageMakerEndpointProps.md) |
 
 #### Returns
 

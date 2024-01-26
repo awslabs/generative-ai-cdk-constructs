@@ -19,15 +19,15 @@ import { JumpStartConstants } from './private/jumpstart-constants';
 import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
 import { SageMakerInstanceType } from './sagemaker-instance-type';
 
-export interface IJumpStartSageMakerEndpointProps {
-  model: JumpStartModel;
-  endpointName?: string;
-  instanceType?: SageMakerInstanceType;
-  instanceCount?: number;
-  role?: iam.Role;
-  vpcConfig?: sagemaker.CfnModel.VpcConfigProperty | undefined;
-  environment?: { [key: string]: string };
-  startupHealthCheckTimeoutInSeconds?: number;
+export interface JumpStartSageMakerEndpointProps {
+  readonly model: JumpStartModel;
+  readonly endpointName?: string;
+  readonly instanceType?: SageMakerInstanceType;
+  readonly instanceCount?: number;
+  readonly role?: iam.Role;
+  readonly vpcConfig?: sagemaker.CfnModel.VpcConfigProperty | undefined;
+  readonly environment?: { [key: string]: string };
+  readonly startupHealthCheckTimeoutInSeconds?: number;
 }
 
 /**
@@ -50,7 +50,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
   private readonly startupHealthCheckTimeoutInSeconds: number;
   private readonly environment?: { [key: string]: string };
 
-  constructor(scope: Construct, id: string, props: IJumpStartSageMakerEndpointProps) {
+  constructor(scope: Construct, id: string, props: JumpStartSageMakerEndpointProps) {
     super(scope, id);
 
     this.model = props.model;
