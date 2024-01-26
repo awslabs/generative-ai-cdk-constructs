@@ -28,6 +28,7 @@
 
 ### Interfaces
 
+- [AdapterProps](interfaces/AdapterProps.md)
 - [ContainerImageConfig](interfaces/ContainerImageConfig.md)
 - [CustomSageMakerEndpointProps](interfaces/CustomSageMakerEndpointProps.md)
 - [IHuggingFaceSageMakerEndpointProps](interfaces/IHuggingFaceSageMakerEndpointProps.md)
@@ -36,6 +37,7 @@
 - [IJumpStartModelSpec](interfaces/IJumpStartModelSpec.md)
 - [IJumpStartSageMakerEndpointProps](interfaces/IJumpStartSageMakerEndpointProps.md)
 - [LangchainLayerProps](interfaces/LangchainLayerProps.md)
+- [LangchainProps](interfaces/LangchainProps.md)
 - [QaAppsyncOpensearchProps](interfaces/QaAppsyncOpensearchProps.md)
 - [RagAppsyncStepfnOpensearchProps](interfaces/RagAppsyncStepfnOpensearchProps.md)
 - [SummarizationAppsyncStepfnProps](interfaces/SummarizationAppsyncStepfnProps.md)

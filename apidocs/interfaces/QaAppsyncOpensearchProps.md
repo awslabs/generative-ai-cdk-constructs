@@ -15,6 +15,7 @@ The properties for the QaAppsyncOpensearchProps class.
 - [existingInputAssetsBucketObj](QaAppsyncOpensearchProps.md#existinginputassetsbucketobj)
 - [existingMergedApi](QaAppsyncOpensearchProps.md#existingmergedapi)
 - [existingOpensearchDomain](QaAppsyncOpensearchProps.md#existingopensearchdomain)
+- [existingOpensearchServerlessCollection](QaAppsyncOpensearchProps.md#existingopensearchserverlesscollection)
 - [existingSecurityGroup](QaAppsyncOpensearchProps.md#existingsecuritygroup)
 - [existingVpc](QaAppsyncOpensearchProps.md#existingvpc)
 - [lambdaProvisionedConcurrency](QaAppsyncOpensearchProps.md#lambdaprovisionedconcurrency)
@@ -118,9 +119,23 @@ ___
 
 ### existingOpensearchDomain
 
-• `Readonly` **existingOpensearchDomain**: `IDomain`
+• `Optional` `Readonly` **existingOpensearchDomain**: `IDomain`
 
 Existing Amazon OpenSearch Service domain.
+
+**`Default`**
+
+```ts
+- None
+```
+
+___
+
+### existingOpensearchServerlessCollection
+
+• `Optional` `Readonly` **existingOpensearchServerlessCollection**: `CfnCollection`
+
+Existing Amazon Amazon OpenSearch Serverless collection.
 
 **`Default`**
 

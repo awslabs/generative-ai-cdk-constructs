@@ -213,7 +213,7 @@ ___
 
 ### getModelFromArtifact
 
-▸ **getModelFromArtifact**(`scope`, `id`, `instanceType`, `instanceBaseType`, `environment`): `CfnModel`
+▸ **getModelFromArtifact**(`scope`, `id`, `instanceType`, `instanceBaseType`, `environment`, `vpcConfig`): `CfnModel`
 
 #### Parameters
 
@@ -224,6 +224,7 @@ ___
 | `instanceType` | `string` |
 | `instanceBaseType` | `string` |
 | `environment` | `Object` |
+| `vpcConfig` | `undefined` \| `VpcConfigProperty` |
 
 #### Returns
 
@@ -233,7 +234,7 @@ ___
 
 ### getModelFromPackage
 
-▸ **getModelFromPackage**(`scope`, `id`): `CfnModel`
+▸ **getModelFromPackage**(`scope`, `id`, `vpcConfig`): `CfnModel`
 
 #### Parameters
 
@@ -241,6 +242,7 @@ ___
 | :------ | :------ |
 | `scope` | `Construct` |
 | `id` | `string` |
+| `vpcConfig` | `undefined` \| `VpcConfigProperty` |
 
 #### Returns
 

@@ -48,7 +48,7 @@ The LangchainCommonDepsLayer class.
 
 **`Summary`**
 
-Constructs a new instance of the LangchainCommonDepsLayer class.
+This construct creates a lambda layer loaded with relevant libraries to run genai applications. Libraries include boto3, botocore, requests, requests-aws4auth, langchain, opensearch-py and openai.
 
 **`Since`**
 

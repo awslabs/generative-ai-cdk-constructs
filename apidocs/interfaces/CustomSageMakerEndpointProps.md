@@ -17,6 +17,7 @@
 - [role](CustomSageMakerEndpointProps.md#role)
 - [startupHealthCheckTimeoutInSeconds](CustomSageMakerEndpointProps.md#startuphealthchecktimeoutinseconds)
 - [volumeSizeInGb](CustomSageMakerEndpointProps.md#volumesizeingb)
+- [vpcConfig](CustomSageMakerEndpointProps.md#vpcconfig)
 
 ## Properties
 
@@ -87,3 +88,9 @@ ___
 ### volumeSizeInGb
 
 • `Optional` `Readonly` **volumeSizeInGb**: `number`
+
+___
+
+### vpcConfig
+
+• `Optional` `Readonly` **vpcConfig**: `VpcConfigProperty`

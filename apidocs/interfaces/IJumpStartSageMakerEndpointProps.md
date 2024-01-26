@@ -13,6 +13,7 @@
 - [model](IJumpStartSageMakerEndpointProps.md#model)
 - [role](IJumpStartSageMakerEndpointProps.md#role)
 - [startupHealthCheckTimeoutInSeconds](IJumpStartSageMakerEndpointProps.md#startuphealthchecktimeoutinseconds)
+- [vpcConfig](IJumpStartSageMakerEndpointProps.md#vpcconfig)
 
 ## Properties
 
@@ -59,3 +60,9 @@ ___
 ### startupHealthCheckTimeoutInSeconds
 
 • `Optional` **startupHealthCheckTimeoutInSeconds**: `number`
+
+___
+
+### vpcConfig
+
+• `Optional` **vpcConfig**: `VpcConfigProperty`

@@ -4,7 +4,17 @@
 
 **`Summary`**
 
-The LangchainCommonLayer class.
+LangchainCommonLayer allows developers to instantiate a llm client adapter on bedrock, sagemaker or openai following best practise.
+
+**`Example`**
+
+```ts
+from genai_core.adapters.registry import registry
+from genai_core.clients import get_bedrock_client
+
+adapter = registry.get_adapter(f"{provider}.{model_id}")
+bedrock_client = get_bedrock_client()
+```
 
 ## Hierarchy
 
@@ -40,7 +50,7 @@ The LangchainCommonLayer class.
 | :------ | :------ | :------ |
 | `scope` | `Construct` | represents the scope for all the resources. |
 | `id` | `string` | this is a a scope-unique id. |
-| `props` | [`LangchainLayerProps`](../interfaces/LangchainLayerProps.md) | user provided props for the construct. |
+| `props` | [`AdapterProps`](../interfaces/AdapterProps.md) | user provided props for the construct. |
 
 #### Returns
 
@@ -48,7 +58,7 @@ The LangchainCommonLayer class.
 
 **`Summary`**
 
-Constructs a new instance of the LangchainCommonLayer class.
+This construct allows developers to instantiate a llm client adapter on bedrock, sagemaker or openai following best practise.
 
 **`Since`**
 

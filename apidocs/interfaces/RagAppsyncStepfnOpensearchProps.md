@@ -16,6 +16,7 @@ The properties for the RagAppsyncStepfnOpensearchProps class.
 - [existingInputAssetsBucketObj](RagAppsyncStepfnOpensearchProps.md#existinginputassetsbucketobj)
 - [existingMergedApi](RagAppsyncStepfnOpensearchProps.md#existingmergedapi)
 - [existingOpensearchDomain](RagAppsyncStepfnOpensearchProps.md#existingopensearchdomain)
+- [existingOpensearchServerlessCollection](RagAppsyncStepfnOpensearchProps.md#existingopensearchserverlesscollection)
 - [existingProcessedAssetsBucketObj](RagAppsyncStepfnOpensearchProps.md#existingprocessedassetsbucketobj)
 - [existingSecurityGroup](RagAppsyncStepfnOpensearchProps.md#existingsecuritygroup)
 - [existingVpc](RagAppsyncStepfnOpensearchProps.md#existingvpc)
@@ -134,9 +135,23 @@ ___
 
 ### existingOpensearchDomain
 
-• `Readonly` **existingOpensearchDomain**: `IDomain`
+• `Optional` `Readonly` **existingOpensearchDomain**: `IDomain`
 
-Existing Amazon OpenSearch Service domain.
+Optional existing Amazon OpenSearch Service domain.
+
+**`Default`**
+
+```ts
+- None
+```
+
+___
+
+### existingOpensearchServerlessCollection
+
+• `Optional` `Readonly` **existingOpensearchServerlessCollection**: `CfnCollection`
+
+Optional existing Amazon Amazon OpenSearch Serverless collection.
 
 **`Default`**
 

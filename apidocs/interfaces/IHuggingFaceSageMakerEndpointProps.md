@@ -14,6 +14,7 @@
 - [modelId](IHuggingFaceSageMakerEndpointProps.md#modelid)
 - [role](IHuggingFaceSageMakerEndpointProps.md#role)
 - [startupHealthCheckTimeoutInSeconds](IHuggingFaceSageMakerEndpointProps.md#startuphealthchecktimeoutinseconds)
+- [vpcConfig](IHuggingFaceSageMakerEndpointProps.md#vpcconfig)
 
 ## Properties
 
@@ -66,3 +67,9 @@ ___
 ### startupHealthCheckTimeoutInSeconds
 
 • `Optional` **startupHealthCheckTimeoutInSeconds**: `number`
+
+___
+
+### vpcConfig
+
+• `Optional` **vpcConfig**: `VpcConfigProperty`
