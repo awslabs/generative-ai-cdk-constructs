@@ -486,7 +486,7 @@ export class QaAppsyncOpensearch extends Construct {
         effect: iam.Effect.ALLOW,
         actions: ['aoss:APIAccessAll'],
         resources: [
-          'arn:' + Aws.PARTITION + ':aoss:' + Aws.REGION+':' + Aws.ACCOUNT_ID + ':collection/'+props.openSearchIndexName,
+          'arn:' + Aws.PARTITION + ':aoss:' + Aws.REGION+':' + Aws.ACCOUNT_ID + ':collection/'+props.existingOpensearchServerlessCollection.attrId,
         ],
       }));
     }
