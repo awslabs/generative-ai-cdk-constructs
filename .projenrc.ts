@@ -53,6 +53,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
     'husky',
     'pinst',
     '@mrgrain/jsii-struct-builder',
+    'typedoc',
+    'typedoc-plugin-markdown',
   ],
   deps: ['cdk-nag'],
 
@@ -190,5 +192,10 @@ project.addTask('generate-models-containers', {
     },
   ],
 });
+
+const postCompile = project.tasks.tryFind('post-compile');
+if (postCompile) {
+  postCompile.exec('npx typedoc --plugin typedoc-plugin-markdown --out apidocs --readme none --categoryOrder "Namespaces,Classes,Interfaces,*" --disableSources ./src/index.ts');
+}
 
 project.synth();

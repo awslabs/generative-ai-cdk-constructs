@@ -192,7 +192,12 @@
     },
     "post-compile": {
       "name": "post-compile",
-      "description": "Runs after successful compilation"
+      "description": "Runs after successful compilation",
+      "steps": [
+        {
+          "exec": "npx typedoc --plugin typedoc-plugin-markdown --out apidocs --readme none --categoryOrder \"Namespaces,Classes,Interfaces,*\" --disableSources ./src/index.ts"
+        }
+      ]
     },
     "post-upgrade": {
       "name": "post-upgrade",
@@ -272,13 +277,13 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@commitlint/config-conventional,@mrgrain/jsii-struct-builder,@types/jest,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,commitlint,eslint-import-resolver-typescript,eslint-plugin-header,eslint-plugin-import,eslint,husky,jest,jest-junit,jsii-diff,jsii-pacmak,pinst,standard-version,ts-jest,ts-node,typescript,aws-cdk-lib,constructs,cdk-nag"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@commitlint/config-conventional,@mrgrain/jsii-struct-builder,@types/jest,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,commitlint,eslint-import-resolver-typescript,eslint-plugin-header,eslint-plugin-import,eslint,husky,jest,jest-junit,jsii-diff,jsii-pacmak,pinst,standard-version,ts-jest,ts-node,typedoc,typedoc-plugin-markdown,typescript,aws-cdk-lib,constructs,cdk-nag"
         },
         {
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade @commitlint/config-conventional @mrgrain/jsii-struct-builder @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser commitlint eslint-import-resolver-typescript eslint-plugin-header eslint-plugin-import eslint husky jest jest-junit jsii-diff jsii-pacmak pinst standard-version ts-jest ts-node typescript aws-cdk-lib constructs cdk-nag"
+          "exec": "yarn upgrade @commitlint/config-conventional @mrgrain/jsii-struct-builder @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser commitlint eslint-import-resolver-typescript eslint-plugin-header eslint-plugin-import eslint husky jest jest-junit jsii-diff jsii-pacmak pinst standard-version ts-jest ts-node typedoc typedoc-plugin-markdown typescript aws-cdk-lib constructs cdk-nag"
         },
         {
           "exec": "npx projen"

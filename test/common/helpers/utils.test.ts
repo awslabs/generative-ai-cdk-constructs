@@ -12,7 +12,7 @@
  */
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { generatePhysicalName, lambdaMemorySizeLimiter, maximumLambdaMemorySizeContextItem, recommendedMaximumLambdaMemorySize } from '../../../src/common/helpers/utils';
+import { generatePhysicalName, generatePhysicalNameV2, lambdaMemorySizeLimiter, maximumLambdaMemorySizeContextItem, recommendedMaximumLambdaMemorySize } from '../../../src/common/helpers/utils';
 
 describe('lambdaMemorySizeLimiter', () => {
   let testConstruct: TestConstruct;
@@ -140,8 +140,6 @@ describe('lambdaMemorySizeLimiter', () => {
 });
 
 describe('generatePhysicalName', () => {
-  let testResourceA: TestResource;
-  let testResourceB: TestResource;
   let testStack: cdk.Stack;
 
   afterAll(() => {
@@ -151,31 +149,6 @@ describe('generatePhysicalName', () => {
   beforeAll(() => {
     const app = new cdk.App();
     testStack = new cdk.Stack(app, 'TestStack', { env: { account: '012345678912', region: 'bermuda-triangle-1' } });
-
-    testResourceA = new TestResource(testStack, 'A');
-    testResourceB = new TestResource(testResourceA, 'B');
-  });
-
-  test('short physical name', () => {
-    const nameA = generatePhysicalName(
-      'testPrefix',
-      ['Foo', 'Bar', 'Baz'],
-      32,
-      true,
-      testResourceA,
-    );
-    const nameB = generatePhysicalName(
-      'testPrefix',
-      ['Foo', 'Bar', 'Baz'],
-      32,
-      true,
-      testResourceB,
-    );
-    expect(nameA).toEqual('testprefixfoobarbaz-900740fe');
-    expect(nameB).toEqual('testprefixfoobarbaz-99f0d580');
-    expect(nameA).not.toEqual(nameB);
-    expect(nameA.length).toBeLessThanOrEqual(32);
-    expect(nameB.length).toBeLessThanOrEqual(32);
   });
 
   test('long physical name', () => {
@@ -191,44 +164,114 @@ describe('generatePhysicalName', () => {
     expect(logGroupName.length).toBeLessThanOrEqual(maxLogGroupNameLength);
   });
 
-  test('lowercase long physical name', () => {
-    const maxLogGroupNameLength = 255;
-    const logGroupPrefix = '/aws/vendedlogs/states/constructs/';
-    const maxGeneratedNameLength = maxLogGroupNameLength - logGroupPrefix.length;
-    const nameParts: string[] = [
-      testStack.stackName, // Name of the stack
-      'StateMachineLogRag', // Literal string for log group name portion
-    ];
-    const logGroupName = generatePhysicalName(logGroupPrefix, nameParts, maxGeneratedNameLength, true);
-    expect(logGroupName).toMatch(new RegExp('^/aws/vendedlogs/states/constructs/teststackstatemachinelograg-\\$\{Token\[TOKEN\.[0-9]+\]\}$'));
-    expect(logGroupName.length).toBeLessThanOrEqual(maxLogGroupNameLength);
-  });
-
-  test('short name with no resource', () => {
+  test('name too long', () => {
     expect(() => {
       generatePhysicalName(
         'test',
         ['Foo', 'Bar', 'Baz'],
         32,
-        true,
       );
     },
-    ).toThrow('The resource parameter is required for short names.');
-  });
-
-  test('name too long', () => {
-    expect(() => {
-      generatePhysicalName(
-        '/aws/vendedlogs/states/constructs/',
-        ['Foo', 'Bar', 'Baz'],
-        32,
-        true,
-        testResourceA,
-      );
-    }).toThrow('The generated name is longer than the maximum length of');
+    ).toThrow('The generated name is longer than the maximum length of');
   });
 });
 
+describe('generatePhysicalNameV2', () => {
+  let testResourceA: TestResource;
+  let testResourceB: TestResource;
+  let testStack: cdk.Stack;
+
+  afterAll(() => {
+    console.log('Test completed');
+  });
+
+  beforeAll(() => {
+    const app = new cdk.App();
+    testStack = new cdk.Stack(app, 'TestStack', { env: { account: '012345678912', region: 'bermuda-triangle-1' } });
+
+    testResourceA = new TestResource(testStack, 'A');
+    testResourceB = new TestResource(testResourceA, 'B');
+  });
+
+  test('long physical name', () => {
+    const maxLogGroupNameLength = 255;
+    const logGroupPrefix = '/aws/vendedlogs/states/constructs/';
+    const logGroupName = generatePhysicalNameV2(
+      testResourceB,
+      logGroupPrefix,
+      {
+        maxLength: maxLogGroupNameLength,
+        separator: '-',
+      });
+    expect(logGroupName).toMatch(new RegExp('^/aws/vendedlogs/states/constructs/-TestStack-A-B-[A-Z0-9]{8}'));
+    expect(logGroupName.length).toBeLessThanOrEqual(maxLogGroupNameLength);
+  });
+
+  test('unique physical names', ()=> {
+    const maxLogGroupNameLength = 255;
+    const logGroupPrefix = '/aws/vendedlogs/states/constructs/';
+    const logGroupNameA = generatePhysicalNameV2(
+      testResourceA,
+      logGroupPrefix,
+      {
+        maxLength: maxLogGroupNameLength,
+        separator: '-',
+      });
+    const logGroupNameB = generatePhysicalNameV2(
+      testResourceB,
+      logGroupPrefix,
+      {
+        maxLength: maxLogGroupNameLength,
+        separator: '-',
+      });
+    expect(logGroupNameA).not.toEqual(logGroupNameB);
+    expect(logGroupNameA.length).toBeLessThanOrEqual(maxLogGroupNameLength);
+    expect(logGroupNameB.length).toBeLessThanOrEqual(maxLogGroupNameLength);
+    expect(logGroupNameA).toMatch(new RegExp('^/aws/vendedlogs/states/constructs/-TestStack-A-[A-Z0-9]{8}$'));
+    expect(logGroupNameB).toMatch(new RegExp('^/aws/vendedlogs/states/constructs/-TestStack-A-B-[A-Z0-9]{8}$'));
+  });
+
+  test('lower case names', () => {
+    const maxLogGroupNameLength = 255;
+    const logGroupPrefix = '/aws/vendedlogs/states/constructs/';
+    const logGroupName = generatePhysicalNameV2(
+      testResourceB,
+      logGroupPrefix,
+      {
+        maxLength: maxLogGroupNameLength,
+        separator: '-',
+        lower: true,
+      });
+    expect(logGroupName).toMatch(new RegExp('^/aws/vendedlogs/states/constructs/-teststack-a-b-[a-z0-9]{8}$'));
+    expect(logGroupName.length).toBeLessThanOrEqual(maxLogGroupNameLength);
+    expect(logGroupName).not.toMatch(new RegExp('[A-Z]'));
+  });
+
+  test('prefix too long', () => {
+    expect(() => {
+      generatePhysicalNameV2(
+        testResourceB,
+        '/aws/vendedlogs/states/constructs/',
+        {
+          maxLength: 32,
+          separator: '-',
+        });
+    },
+    ).toThrow('The prefix is longer than the maximum length.');
+  });
+
+  test('maxlength too short', () => {
+
+    expect(() => {
+      generatePhysicalNameV2(
+        testResourceB,
+        'test',
+        {
+          maxLength: 13,
+        });
+    }).toThrow(new RegExp('^The generated name is longer than the maximum length of'));
+  });
+});
 
 class TestResource extends cdk.Resource {}
 class TestConstruct extends Construct {}
