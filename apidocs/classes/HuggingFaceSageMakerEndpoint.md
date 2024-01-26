@@ -57,7 +57,7 @@ The HuggingFaceSageMakerEndpoint class.
 | :------ | :------ |
 | `scope` | `Construct` |
 | `id` | `string` |
-| `props` | [`IHuggingFaceSageMakerEndpointProps`](../interfaces/IHuggingFaceSageMakerEndpointProps.md) |
+| `props` | [`HuggingFaceSageMakerEndpointProps`](../interfaces/HuggingFaceSageMakerEndpointProps.md) |
 
 #### Returns
 
