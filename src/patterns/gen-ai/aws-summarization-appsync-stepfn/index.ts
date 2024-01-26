@@ -460,7 +460,7 @@ export class SummarizationAppsyncStepfn extends Construct {
         'ec2:UnassignPrivateIpAddresses',
       ],
       resources: [
-        'arn:aws:ec2:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':*/*',
+        'arn:' + Aws.PARTITION + ':ec2:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':*/*',
       ],
     }));
     // Decribe only works if it's allowed on all resources.
@@ -483,9 +483,9 @@ export class SummarizationAppsyncStepfn extends Construct {
           's3:ListBucket',
           'appsync:GraphQL'],
 
-        resources: ['arn:aws:s3:::' + inputAssetBucketName + '/*',
-          'arn:aws:s3:::' + transformedAssetBucketName+ '/*',
-          'arn:aws:appsync:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+ '/*'],
+        resources: ['arn:' + Aws.PARTITION + ':s3:::' + inputAssetBucketName + '/*',
+          'arn:' + Aws.PARTITION + ':s3:::' + transformedAssetBucketName + '/*',
+          'arn:' + Aws.PARTITION + ':appsync:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':apis/'+updateGraphQlApiId + '/*'],
       }),
     );
 
@@ -546,7 +546,7 @@ export class SummarizationAppsyncStepfn extends Construct {
         'ec2:UnassignPrivateIpAddresses',
       ],
       resources: [
-        'arn:aws:ec2:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':*/*',
+        'arn:' + Aws.PARTITION + ':ec2:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':*/*',
       ],
     }));
     // Decribe only works if it's allowed on all resources.
@@ -569,9 +569,9 @@ export class SummarizationAppsyncStepfn extends Construct {
           's3:ListBucket',
           's3:PutObject',
           'appsync:GraphQL'],
-        resources: ['arn:aws:s3:::' + inputAssetBucketName+ '/*',
-          'arn:aws:s3:::' + transformedAssetBucketName+ '/*',
-          'arn:aws:appsync:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+ '/*'],
+        resources: ['arn:' + Aws.PARTITION + ':s3:::' + inputAssetBucketName + '/*',
+          'arn:' + Aws.PARTITION + ':s3:::' + transformedAssetBucketName + '/*',
+          'arn:' + Aws.PARTITION + ':appsync:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':apis/' + updateGraphQlApiId + '/*'],
       }),
     );
 
@@ -637,7 +637,7 @@ export class SummarizationAppsyncStepfn extends Construct {
         'ec2:UnassignPrivateIpAddresses',
       ],
       resources: [
-        'arn:aws:ec2:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':*/*',
+        'arn:' + Aws.PARTITION + ':ec2:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':*/*',
       ],
     }));
     // Decribe only works if it's allowed on all resources.
@@ -662,10 +662,10 @@ export class SummarizationAppsyncStepfn extends Construct {
           'appsync:GraphQL',
           'bedrock:InvokeModel',
           'bedrock:InvokeModelWithResponseStream'],
-        resources: ['arn:aws:s3:::' + inputAssetBucketName+ '/*',
-          'arn:aws:s3:::' + transformedAssetBucketName+ '/*',
-          'arn:aws:appsync:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+ '/*',
-          'arn:aws:bedrock:'+Aws.REGION+'::foundation-model/*'],
+        resources: ['arn:' + Aws.PARTITION +':s3:::' + inputAssetBucketName + '/*',
+          'arn:' + Aws.PARTITION + ':s3:::' + transformedAssetBucketName + '/*',
+          'arn:' + Aws.PARTITION + ':appsync:'+ Aws.REGION +':' + Aws.ACCOUNT_ID + ':apis/' + updateGraphQlApiId + '/*',
+          'arn:' + Aws.PARTITION + ':bedrock:'+ Aws.REGION +'::foundation-model/*'],
 
       }),
     );

@@ -10,6 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+import { ProjenStruct, Struct } from '@mrgrain/jsii-struct-builder';
 import { JsonPatch, awscdk } from 'projen';
 import { NpmAccess } from 'projen/lib/javascript';
 import {
@@ -27,7 +28,7 @@ import {
 const GITHUB_USER = 'awslabs';
 const PUBLICATION_NAMESPACE = 'cdklabs';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
-const CDK_VERSION: string = '2.114.0';
+const CDK_VERSION: string = '2.116.0';
 
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Amazon Web Services - Prototyping and Cloud Engineering',
@@ -51,6 +52,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
     'eslint-plugin-header',
     'husky',
     'pinst',
+    '@mrgrain/jsii-struct-builder',
+    'typedoc',
+    'typedoc-plugin-markdown',
   ],
   deps: ['cdk-nag'],
 
@@ -157,6 +161,20 @@ project.eslint?.addRules({
   'header/header': [2, 'header.js'],
 });
 
+project.eslint?.addIgnorePattern('LangchainProps.ts');
+project.eslint?.addIgnorePattern('AdapterProps.ts');
+
+// Shared interfaces extending pre-existing CDK interfaces
+new ProjenStruct(project, { name: 'LangchainProps', filePath: 'src/patterns/gen-ai/aws-langchain-common-layer/LangchainProps.ts' })
+  .mixin(Struct.fromFqn('aws-cdk-lib.aws_lambda.LayerVersionProps'))
+  .withoutDeprecated()
+  .omit('code', 'compatibleRuntimes', 'compatibleArchitectures');
+
+new ProjenStruct(project, { name: 'AdapterProps', filePath: 'src/patterns/gen-ai/aws-langchain-common-layer/AdapterProps.ts' })
+  .mixin(Struct.fromFqn('aws-cdk-lib.aws_lambda.LayerVersionProps'))
+  .withoutDeprecated()
+  .omit('code');
+
 const packageJson = project.tryFindObjectFile('package.json');
 packageJson?.patch(JsonPatch.add('/scripts/prepare', 'husky install')); // yarn 1
 packageJson?.patch(JsonPatch.add('/scripts/postinstall', 'husky install')); // yarn 2
@@ -174,5 +192,10 @@ project.addTask('generate-models-containers', {
     },
   ],
 });
+
+const postCompile = project.tasks.tryFind('post-compile');
+if (postCompile) {
+  postCompile.exec('npx typedoc --plugin typedoc-plugin-markdown --out apidocs --readme none --categoryOrder "Namespaces,Classes,Interfaces,*" --disableSources ./src/index.ts');
+}
 
 project.synth();

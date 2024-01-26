@@ -73,7 +73,7 @@ def get_llm(callbacks=None):
 
     kwargs = {
         "client": bedrock,
-        "model_id": "anthropic.claude-v2",
+        "model_id": "anthropic.claude-v2:1",
         "model_kwargs": params,
         "streaming": False 
     }
@@ -89,5 +89,5 @@ def get_embeddings_llm():
     return BedrockEmbeddings(client=bedrock, model_id="amazon.titan-embed-text-v1")
     
 def get_max_tokens():
-    return 100000
+    return 200000
     

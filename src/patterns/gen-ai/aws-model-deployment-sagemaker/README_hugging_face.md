@@ -95,14 +95,14 @@ HuggingFaceSageMakerEndpoint(
 ## Initializer
 
 ```
-new HuggingFaceSageMakerEndpoint(scope: Construct, id: string, props: IHuggingFaceSageMakerEndpointProps)
+new HuggingFaceSageMakerEndpoint(scope: Construct, id: string, props: HuggingFaceSageMakerEndpointProps)
 ```
 
 Parameters
 
 - scope [Construct](https://docs.aws.amazon.com/cdk/api/v2/docs/constructs.Construct.html)
 - id string
-- props IHuggingFaceSageMakerEndpointProps
+- props HuggingFaceSageMakerEndpointProps
 
 ## Pattern Construct Props
 

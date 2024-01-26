@@ -35,7 +35,7 @@ describe('QA Appsync Open search construct', () => {
     });
 
     const osDomain = os.Domain.fromDomainAttributes(qaTestStack, 'osdomain', {
-      domainArn: 'arn:aws:es:region:account:domain/',
+      domainArn: 'arn:' + cdk.Aws.PARTITION + ':es:region:account:domain/',
       domainEndpoint: 'https://osendppint.amazon.aws.com',
     });
 
@@ -80,6 +80,7 @@ describe('QA Appsync Open search construct', () => {
           INPUT_BUCKET: {
             Ref: Match.stringLikeRegexp('testinputAssetsQABucketdev'),
           },
+          OPENSEARCH_API_NAME: 'es',
           OPENSEARCH_DOMAIN_ENDPOINT: 'osendppint.amazon.aws.com',
           OPENSEARCH_INDEX: 'demoindex',
           OPENSEARCH_SECRET_ID: 'OSSecretId',

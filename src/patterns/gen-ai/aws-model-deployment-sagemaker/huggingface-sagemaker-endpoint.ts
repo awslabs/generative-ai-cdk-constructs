@@ -18,16 +18,16 @@ import { ContainerImage } from './container-image';
 import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
 import { SageMakerInstanceType } from './sagemaker-instance-type';
 
-export interface IHuggingFaceSageMakerEndpointProps {
-  modelId: string;
-  container: ContainerImage;
-  endpointName?: string;
-  instanceType: SageMakerInstanceType;
-  instanceCount?: number;
-  role?: iam.Role;
-  environment?: { [key: string]: string };
-  startupHealthCheckTimeoutInSeconds?: number;
-  vpcConfig?: sagemaker.CfnModel.VpcConfigProperty | undefined;
+export interface HuggingFaceSageMakerEndpointProps {
+  readonly modelId: string;
+  readonly container: ContainerImage;
+  readonly endpointName?: string;
+  readonly instanceType: SageMakerInstanceType;
+  readonly instanceCount?: number;
+  readonly role?: iam.Role;
+  readonly environment?: { [key: string]: string };
+  readonly startupHealthCheckTimeoutInSeconds?: number;
+  readonly vpcConfig?: sagemaker.CfnModel.VpcConfigProperty | undefined;
 }
 
 /**
@@ -48,7 +48,7 @@ export class HuggingFaceSageMakerEndpoint extends SageMakerEndpointBase implemen
   private readonly startupHealthCheckTimeoutInSeconds: number;
   private readonly environment?: { [key: string]: string };
 
-  constructor(scope: Construct, id: string, props: IHuggingFaceSageMakerEndpointProps) {
+  constructor(scope: Construct, id: string, props: HuggingFaceSageMakerEndpointProps) {
     super(scope, id);
 
     this.modelId = props.modelId;

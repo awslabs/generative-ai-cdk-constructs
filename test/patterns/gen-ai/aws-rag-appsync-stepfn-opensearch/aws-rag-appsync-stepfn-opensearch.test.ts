@@ -55,7 +55,7 @@ describe('RAG Appsync Stepfn Open search construct', () => {
     );
 
     const osDomain = os.Domain.fromDomainAttributes(ragTestStack, 'osdomain', {
-      domainArn: 'arn:aws:es:region:account:domain/',
+      domainArn: 'arn:' + cdk.Aws.PARTITION + ':es:region:account:domain/',
       domainEndpoint: 'https://osendppint.amazon.aws.com',
     });
 
@@ -82,6 +82,7 @@ describe('RAG Appsync Stepfn Open search construct', () => {
       Environment: {
         Variables: {
           GRAPHQL_URL: { 'Fn::GetAtt': [Match.stringLikeRegexp('testingestionGraphqlApi'), 'GraphQLUrl'] },
+          OPENSEARCH_API_NAME: 'es',
           OPENSEARCH_DOMAIN_ENDPOINT: Match.stringLikeRegexp('osendppint.amazon.aws.com'),
           OPENSEARCH_INDEX: 'demoindex',
           OPENSEARCH_SECRET_ID: Match.stringLikeRegexp('OSSecret'),

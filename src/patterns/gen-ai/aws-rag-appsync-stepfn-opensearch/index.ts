@@ -20,6 +20,7 @@ import * as targets from 'aws-cdk-lib/aws-events-targets';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as logs from 'aws-cdk-lib/aws-logs';
+import * as openSearchServerless from 'aws-cdk-lib/aws-opensearchserverless';
 import * as opensearchservice from 'aws-cdk-lib/aws-opensearchservice';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as secret from 'aws-cdk-lib/aws-secretsmanager';
@@ -27,6 +28,7 @@ import * as stepfn from 'aws-cdk-lib/aws-stepfunctions';
 import * as stepfn_task from 'aws-cdk-lib/aws-stepfunctions-tasks';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
+import * as opensearch_helper from '../../../common/helpers/opensearch-helper';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
 import { generatePhysicalName, version, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
@@ -90,11 +92,17 @@ export interface RagAppsyncStepfnOpensearchProps {
    */
   readonly bucketProcessedAssetsProps?: s3.BucketProps;
   /**
-     * Existing Amazon OpenSearch Service domain.
-     *
-     * @default - None
-     */
-  readonly existingOpensearchDomain: opensearchservice.IDomain;
+   * Optional existing Amazon OpenSearch Service domain.
+   *
+   * @default - None
+   */
+  readonly existingOpensearchDomain?: opensearchservice.IDomain;
+  /**
+   * Optional existing Amazon Amazon OpenSearch Serverless collection.
+   *
+   * @default - None
+   */
+  readonly existingOpensearchServerlessCollection?: openSearchServerless.CfnCollection;
   /**
    * Index name for the OpenSearch Service.
    *
@@ -227,6 +235,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     };
 
     vpc_helper.CheckVpcProps(props);
+    opensearch_helper.CheckOpenSearchProps(props);
     s3_bucket_helper.CheckS3Props({
       existingBucketObj: props.existingInputAssetsBucketObj,
       bucketProps: props.bucketInputsAssetsProps,
@@ -446,7 +455,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         'appsync:GraphQL',
       ],
       resources: [
-        'arn:aws:appsync:'+ Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*',
+        'arn:' + Aws.PARTITION + ':appsync:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':apis/' + updateGraphQlApiId + '/*',
       ],
     }));
     // The lambda will pull documents from the input bucket, transform them, and upload
@@ -478,7 +487,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         'ec2:UnassignPrivateIpAddresses',
       ],
       resources: [
-        'arn:aws:ec2:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':*/*',
+        'arn:' + Aws.PARTITION + ':ec2:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':*/*',
       ],
     }));
     // Decribe only works if it's allowed on all resources.
@@ -503,8 +512,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
           's3:List*',
         ],
         resources: [
-          'arn:aws:s3:::' + this.s3InputAssetsBucketInterface?.bucketName,
-          'arn:aws:s3:::' + this.s3InputAssetsBucketInterface?.bucketName + '/*',
+          'arn:' + Aws.PARTITION + ':s3:::' + this.s3InputAssetsBucketInterface?.bucketName,
+          'arn:' + Aws.PARTITION + ':s3:::' + this.s3InputAssetsBucketInterface?.bucketName + '/*',
         ],
       }),
     );
@@ -523,8 +532,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
           's3:PutObject',
           's3:GetObject*'],
         resources: [
-          'arn:aws:s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName,
-          'arn:aws:s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName + '/*',
+          'arn:' + Aws.PARTITION + ':s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName,
+          'arn:' + Aws.PARTITION + ':s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName + '/*',
         ],
       }),
     );
@@ -537,7 +546,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         'appsync:GraphQL',
       ],
       resources: [
-        'arn:aws:appsync:'+ Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*',
+        'arn:' + Aws.PARTITION + ':appsync:' + Aws.REGION+':' + Aws.ACCOUNT_ID + ':apis/' + updateGraphQlApiId + '/*',
       ],
     }));
 
@@ -605,7 +614,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         'ec2:UnassignPrivateIpAddresses',
       ],
       resources: [
-        'arn:aws:ec2:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':*/*',
+        'arn:' + Aws.PARTITION + ':ec2:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':*/*',
       ],
     }));
     // Decribe only works if it's allowed on all resources.
@@ -630,28 +639,40 @@ export class RagAppsyncStepfnOpensearch extends Construct {
           's3:List*',
         ],
         resources: [
-          'arn:aws:s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName,
-          'arn:aws:s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName + '/*',
+          'arn:' + Aws.PARTITION + ':s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName,
+          'arn:' + Aws.PARTITION + ':s3:::' + this.s3ProcessedAssetsBucketInterface?.bucketName + '/*',
         ],
       }),
     );
 
-    embeddings_job_function_role.addToPolicy(new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW,
-      actions: ['es:*'],
-      resources: [
-        'arn:aws:es:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':domain/'+props.existingOpensearchDomain.domainName+'/*',
-        'arn:aws:es:'+Aws.REGION+':'+Aws.ACCOUNT_ID+':domain/'+props.existingOpensearchDomain.domainName,
-      ],
-    }));
+    if (props.existingOpensearchDomain) {
+      embeddings_job_function_role.addToPolicy(new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['es:*'],
+        resources: [
+          'arn:' + Aws.PARTITION + ':es:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':domain/'+props.existingOpensearchDomain.domainName + '/*',
+          'arn:' + Aws.PARTITION + ':es:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':domain/'+props.existingOpensearchDomain.domainName,
+        ],
+      }));
+    }
+
+    if (props.existingOpensearchServerlessCollection) {
+      embeddings_job_function_role.addToPolicy(new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['aoss:APIAccessAll'],
+        resources: [
+          'arn:' + Aws.PARTITION + ':aoss:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':collection/' + props.openSearchIndexName,
+        ],
+      }));
+    }
 
     // Add Amazon Bedrock permissions to the IAM role for the Lambda function
     embeddings_job_function_role.addToPolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
       actions: ['bedrock:*'],
       resources: [
-        'arn:aws:bedrock:'+Aws.REGION+'::foundation-model',
-        'arn:aws:bedrock:'+Aws.REGION+'::foundation-model/*',
+        'arn:' + Aws.PARTITION + ':bedrock:' + Aws.REGION + '::foundation-model',
+        'arn:' + Aws.PARTITION + ':bedrock:' + Aws.REGION + '::foundation-model/*',
       ],
     }));
 
@@ -688,7 +709,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
           OUTPUT_BUCKET: this.s3ProcessedAssetsBucketInterface.bucketName,
           GRAPHQL_URL: updateGraphQlApiEndpoint,
           OPENSEARCH_INDEX: props.openSearchIndexName,
-          OPENSEARCH_DOMAIN_ENDPOINT: props.existingOpensearchDomain.domainEndpoint,
+          OPENSEARCH_API_NAME: opensearch_helper.getOpenSearchApiName(props),
+          OPENSEARCH_DOMAIN_ENDPOINT: opensearch_helper.getOpenSearchEndpoint(props),
           OPENSEARCH_SECRET_ID: SecretId,
         },
       },
@@ -718,7 +740,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
         'appsync:GraphQL',
       ],
       resources: [
-        'arn:aws:appsync:'+ Aws.REGION+':'+Aws.ACCOUNT_ID+':apis/'+updateGraphQlApiId+'/*',
+        'arn:' + Aws.PARTITION + ':appsync:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':apis/' + updateGraphQlApiId + '/*',
       ],
     }));
 

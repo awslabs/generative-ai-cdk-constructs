@@ -82,14 +82,14 @@ JumpStartSageMakerEndpoint(
 ## Initializer
 
 ```
-new JumpStartSageMakerEndpoint(scope: Construct, id: string, props: IJumpStartSageMakerEndpointProps)
+new JumpStartSageMakerEndpoint(scope: Construct, id: string, props: JumpStartSageMakerEndpointProps)
 ```
 
 Parameters
 
 - scope [Construct](https://docs.aws.amazon.com/cdk/api/v2/docs/constructs.Construct.html)
 - id string
-- props IJumpStartSageMakerEndpointProps
+- props JumpStartSageMakerEndpointProps
 
 ## Pattern Construct Props
 

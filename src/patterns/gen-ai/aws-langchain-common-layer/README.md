@@ -63,8 +63,8 @@ const lambdaRuntime = lambda.Runtime.PYTHON_3_10;
 // This is one way of getting a lambda powertools layer
 const powerToolsArn =
         lambdaArchitecture === lambda.Architecture.X86_64
-          ? `arn:aws:lambda:${cdk.Aws.REGION}:017000801446:layer:AWSLambdaPowertoolsPythonV2:42`
-          : `arn:aws:lambda:${cdk.Aws.REGION}:017000801446:layer:AWSLambdaPowertoolsPythonV2-Arm64:42`;
+          ? `arn:${Aws.PARTITION}:lambda:${Aws.REGION}:017000801446:layer:AWSLambdaPowertoolsPythonV2:42`
+          : `arn:${Aws.PARTITION}:lambda:${Aws.REGION}:017000801446:layer:AWSLambdaPowertoolsPythonV2-Arm64:42`;
 
 const lambdaDepsLayer = new LangchainCommonDepsLayer(this, 'lambdagenaidepslayer', {
         runtime: lambdaRuntime,
@@ -184,7 +184,7 @@ An example of an event:
 event = {
   "connection_id": "234",
   "provider": "bedrock",
-  "model_id": "anthropic.claude-v2",
+  "model_id": "anthropic.claude-v2:1",
   "session_id": "123",
   "user_id": "873",
   "text": "What is your name ?",
@@ -209,6 +209,25 @@ Where:
 new LangchainCommonDepsLayer(scope: Construct, id: string, props: LangchainLayerProps)
 ```
 
+#### Parameters
+
+- scope [Construct](https://docs.aws.amazon.com/cdk/api/v2/docs/constructs.Construct.html)
+- id string
+- props [LangchainLayerProps](https://github.com/awslabs/generative-ai-cdk-constructs/blob/main/src/patterns/gen-ai/aws-langchain-common-layer/index.ts#L23)
+
+#### Pattern Construct Props
+
+| **Name**     | **Type**        | **Required** |**Description** |
+|:-------------|:----------------|-----------------|-----------------|
+| runtime | [lambda.Runtime](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Runtime.html) | ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function runtime compatible with this layer. |
+| architecture | [lambda.Architecture](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Architecture.html)| ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function architecture compatible with this layer. |
+| autoUpgrade | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Add '--upgrade' to pip install requirements.txt. In case of a LangchainCommonLayer, this parameter is not used. |
+| additionalPackages | string[] | ![Optional](https://img.shields.io/badge/optional-4169E1) | A prop allowing additional python pip libraries to be installed with this langchain layer. |
+| description | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | Default: Dependencies to build gen ai applications with the langchain client |
+| layerVersionName | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | The name of the layer |
+| license | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | The SPDX licence identifier or URL to the license file for this layer |
+| removalPolicy | [RemovalPolicy](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.RemovalPolicy.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Whether to retain this version of the layer when a new version is added or when the stack is deleted. Default: DESTROY |
+
 ```
 new LangchainCommonLayer(scope: Construct, id: string, props: LangchainLayerProps)
 ```
@@ -217,15 +236,20 @@ Parameters
 
 - scope [Construct](https://docs.aws.amazon.com/cdk/api/v2/docs/constructs.Construct.html)
 - id string
-- props LangchainLayerProps
+- props [AdapterProps](https://github.com/awslabs/generative-ai-cdk-constructs/blob/main/src/AdapterProps.ts)
 
-## Pattern Construct Props
+#### Pattern Construct Props
 
 | **Name**     | **Type**        | **Required** |**Description** |
 |:-------------|:----------------|-----------------|-----------------|
-| runtime | [lambda.Runtime](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Runtime.html) | ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function runtime compatible with this layer. |
-| architecture | [lambda.Architecture](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Architecture.html)| ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function architecture compatible with this layer. |
+| compatibleRuntimes | [lambda.Runtime[]](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Runtime.html) | ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function runtime compatible with this layer. |
+| compatibleArchitectures | [lambda.Architecture[]](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Architecture.html)| ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function architecture compatible with this layer. |
 | autoUpgrade | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Add '--upgrade' to pip install requirements.txt. In case of a LangchainCommonLayer, this parameter is not used. |
+| description | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | Default: Dependencies to build gen ai applications with the langchain client |
+| layerVersionName | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | The name of the layer |
+| license | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | The SPDX licence identifier or URL to the license file for this layer |
+| removalPolicy | [RemovalPolicy](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.RemovalPolicy.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Whether to retain this version of the layer when a new version is added or when the stack is deleted. Default: DESTROY |
+| local | "python" or "python3" | ![Optional](https://img.shields.io/badge/optional-4169E1) | Local compute will be used when installing requirements.txt when set. By default, a docker container will be spun up to install requirements. |
 
 ## Pattern Properties
 
@@ -304,7 +328,7 @@ The following table provides a sample cost breakdown for deploying this solution
 | **AWS Service**     | **Dimensions**        | **Cost [USD]** |
 |:-------------|:----------------|-----------------|
 | AWS Lambda | 1 Lambda function with 128 MB memory and 512 MB ephemeral storage with an average duration of 10 seconds | 0.00 |
-| Amazon Bedrock | An application developer makes the following API calls to Amazon Bedrock: A request to Anthropic’s Claude V2 model to summarize an input of 11K tokens of input text to an output of 4K tokens. Total cost incurred is = 11K tokens/1000 * $0.01102 + 4K tokens/1000 * $0.03268 = $0.25 | 0.25 |
+| Amazon Bedrock | An application developer makes the following API calls to Amazon Bedrock: A request to Anthropic’s Claude V2.1 model to summarize an input of 11K tokens of input text to an output of 4K tokens. Total cost incurred is = 11K tokens/1000 * $0.01102 + 4K tokens/1000 * $0.03268 = $0.25 | 0.25 |
 | Total monthly cost | | 0.25 |
 
 > **Note**
