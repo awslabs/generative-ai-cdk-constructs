@@ -150,15 +150,20 @@ def process_documents_in_aoss(index_exists, shards, http_auth):
             },
             "mappings": {
                 "properties": {
-                "osha_vector": {
-                    "type": "knn_vector",
-                    "dimension": 1536,
-                    "method": {
-                    "engine": "faiss",
-                    "name": "hnsw",
-                    "space_type": "l2"
-                    }
-                }
+                    "vector_field": {
+                        "type": "knn_vector",
+                        "dimension": 1536,
+                        "method": {
+                            "engine": "nmslib",
+                            "space_type": "cosinesimil",
+                            "name": "hnsw",
+                            "parameters": {},
+                        }
+                    },
+                    "id": {
+                        "type": "text",
+                        "fields": {"keyword": {"type": "keyword", "ignore_above": 256}},
+                    },
                 }
             }
         }
