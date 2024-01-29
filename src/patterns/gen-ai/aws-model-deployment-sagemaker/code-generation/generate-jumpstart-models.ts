@@ -74,6 +74,7 @@ const ALLOWED_FRAMEWORKS = [
   'djl-deepspeed',
   'djl-fastertransformer',
   'stabilityai',
+  'djl-neuronx'
 ];
 
 export async function generateJumpStartModels() {
