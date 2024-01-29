@@ -22,6 +22,7 @@
 
 ### Interfaces
 
+- [AddAgentAliasProps](../interfaces/bedrock.AddAgentAliasProps.md)
 - [AgentAliasProps](../interfaces/bedrock.AgentAliasProps.md)
 - [AgentProps](../interfaces/bedrock.AgentProps.md)
 - [BedrockFoundationModelProps](../interfaces/bedrock.BedrockFoundationModelProps.md)

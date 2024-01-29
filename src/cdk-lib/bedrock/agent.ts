@@ -17,7 +17,7 @@ import * as kms from 'aws-cdk-lib/aws-kms';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 
-import { AgentAlias, AgentAliasProps } from './agent-alias';
+import { AgentAlias } from './agent-alias';
 import { BedrockCRProvider } from './custom-resource-provider';
 import { KnowledgeBase } from './knowledge-base';
 import { BedrockFoundationModel } from './models';
@@ -252,6 +252,22 @@ export interface AgentProps {
    * @default - No alias is created.
    */
   readonly aliasName?: string;
+}
+
+/**
+ * Properties to add an Alias to an Agent
+ */
+export interface AddAgentAliasProps {
+  /**
+   * The name for the agent alias.
+   */
+  readonly aliasName: string;
+  /**
+   * The version of the agent to associate with the agent alias.
+   *
+   * @default - Creates a new version of the agent.
+   */
+  readonly agentVersion?: string;
 }
 
 /**
@@ -510,7 +526,6 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
 
     if (props.aliasName) {
       const alias = this.addAlias({
-        agentId: this.agentId,
         aliasName: props.aliasName,
       });
       this.aliasId = alias.aliasId;
@@ -522,7 +537,7 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
   /**
    * Add an alias to the agent.
    */
-  public addAlias(props: Exclude<AgentAliasProps, 'agentId'>): AgentAlias {
+  public addAlias(props: AddAgentAliasProps): AgentAlias {
     const alias = new AgentAlias(this, `AgentAlias-${props.aliasName}`, {
       agentId: this.agentId,
       agentVersion: props.agentVersion,
