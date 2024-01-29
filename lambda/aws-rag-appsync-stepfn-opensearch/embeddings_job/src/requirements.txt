@@ -7,6 +7,7 @@ botocore>=1.34.29
 requests==2.31.0
 requests-aws4auth==1.2.3
 langchain==0.1.4
+langchain-community==0.0.16
 opensearch-py==2.4.2
 sagemaker
 numpy

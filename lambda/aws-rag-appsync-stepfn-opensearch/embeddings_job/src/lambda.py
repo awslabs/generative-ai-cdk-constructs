@@ -20,10 +20,10 @@ import tempfile
 from helpers.credentials_helper import get_credentials
 from helpers.opensearch_helper import check_if_index_exists, process_shard
 from helpers.update_ingestion_status import updateIngestionJobStatus
-from langchain.embeddings import BedrockEmbeddings
+from langchain_community.embeddings import BedrockEmbeddings
 from helpers.s3inmemoryloader import S3TxtFileLoaderInMemory
 from opensearchpy import OpenSearch, RequestsHttpConnection
-from langchain.vectorstores import OpenSearchVectorSearch
+from langchain_community.vectorstores import OpenSearchVectorSearch
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import multiprocessing as mp
 from functools import partial
