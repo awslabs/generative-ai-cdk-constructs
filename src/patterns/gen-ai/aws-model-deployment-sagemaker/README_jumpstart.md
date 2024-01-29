@@ -72,10 +72,8 @@ from cdklabs.generative_ai_cdk_constructs import (
 JumpStartSageMakerEndpoint(
     self,
     'LLAMA2',
-    props={
-        'model': JumpStartModel.META_TEXTGENERATION_LLAMA_2_7_B_F_2_0_2,
-        'instance_type': SageMakerInstanceType.ML_G5_2_XLARGE,
-    },
+    model=JumpStartModel.META_TEXTGENERATION_LLAMA_2_7_B_F_2_0_2,
+    instance_type=SageMakerInstanceType.ML_G5_2_XLARGE,
 )
 ```
 
