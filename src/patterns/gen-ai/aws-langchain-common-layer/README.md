@@ -73,7 +73,7 @@ const lambdaDepsLayer = new LangchainCommonDepsLayer(this, 'lambdagenaidepslayer
 
 const lambdaCommonLayer = new LangchainCommonLayer(this, 'lambdagenaicommonlayer', {
     compatibleRuntimes: [lambdaRuntime],
-    compatibleArchitectures: [lambdaArchitecture],,
+    compatibleArchitectures: [lambdaArchitecture],
 });
 
 //Then pass the layers above to your lambda function constructor
