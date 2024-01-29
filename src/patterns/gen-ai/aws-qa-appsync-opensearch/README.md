@@ -98,7 +98,7 @@ from cdklabs.generative_ai_cdk_constructs import (
 # get an existing OpenSearch provisioned cluster
 os_domain = os.Domain.from_domain_attributes(
     self, 
-    id='osdomain',
+    'osdomain',
     domain_arn='arn:aws:es:us-east-1:XXXXXX:resource-id',
     domain_endpoint='https://XXXXX.us-east-1.es.amazonaws.com',
 )
@@ -107,13 +107,13 @@ os_domain = os.Domain.from_domain_attributes(
 cognito_pool_id = 'us-east-1_XXXXX';
 user_pool_loaded = cognito.UserPool.from_user_pool_id(
     self,
-    id='myuserpool',
+    'myuserpool',
     user_pool_id=cognito_pool_id,
 )
 
 rag_source = QaAppsyncOpensearch(
     self,
-    id='QaAppsyncOpensearch',
+    'QaAppsyncOpensearch',
     existing_opensearch_domain=os_domain,
     open_search_index_name='demoindex',
     cognito_user_pool=user_pool_loaded,

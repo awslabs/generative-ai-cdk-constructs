@@ -90,7 +90,7 @@ from cdklabs.generative_ai_cdk_constructs import (
 cognito_pool_id = 'us-east-1_XXXXX';
 user_pool_loaded = cognito.UserPool.from_user_pool_id(
     self,
-    id='myuserpool',
+    'myuserpool',
     user_pool_id=cognito_pool_id,
 )
 
