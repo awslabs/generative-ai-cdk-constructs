@@ -74,7 +74,7 @@
     "constructs": "^10.3.0"
   },
   "dependencies": {
-    "cdk-nag": "^2.28.20"
+    "cdk-nag": "^2.28.23"
   },
   "keywords": [
     "aws-cdk",
