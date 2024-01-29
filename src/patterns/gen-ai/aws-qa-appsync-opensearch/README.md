@@ -91,9 +91,7 @@ from aws_cdk import (
     aws_opensearchservice as os,
     aws_cognito as cognito,
 )
-from cdklabs.generative_ai_cdk_constructs import (
-    QaAppsyncOpensearch,
-)
+from cdklabs.generative_ai_cdk_constructs import QaAppsyncOpensearch
 
 # get an existing OpenSearch provisioned cluster
 os_domain = os.Domain.from_domain_attributes(

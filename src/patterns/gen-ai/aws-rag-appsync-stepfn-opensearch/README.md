@@ -96,9 +96,7 @@ from aws_cdk import (
     aws_opensearchservice as os,
     aws_cognito as cognito,
 )
-from cdklabs.generative_ai_cdk_constructs import (
-    RagAppsyncStepfnOpensearch,
-)
+from cdklabs.generative_ai_cdk_constructs import RagAppsyncStepfnOpensearch
 
 # get an existing OpenSearch provisioned cluster in the same VPC as of RagAppsyncStepfnOpensearch construct 
 # Security group for the existing opensearch cluster should allow traffic on 443.
@@ -112,7 +110,7 @@ os_domain = os.Domain.from_domain_attributes(
 # get an existing userpool 
 cognito_pool_id = 'us-east-1_XXXXX';
 user_pool_loaded = cognito.UserPool.from_user_pool_id(
-    self, 
+    self,
     'myuserpool',
     user_pool_id=cognito_pool_id,
 )

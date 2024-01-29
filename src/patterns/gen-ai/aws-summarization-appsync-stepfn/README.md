@@ -79,12 +79,8 @@ summarizationTestConstruct = new SummarizationAppsyncStepfn(
 Python
 ``` python
 from constructs import Construct
-from aws_cdk import (
-    aws_cognito as cognito,
-)
-from cdklabs.generative_ai_cdk_constructs import (
-    SummarizationAppsyncStepfn,
-)
+from aws_cdk import aws_cognito as cognito
+from cdklabs.generative_ai_cdk_constructs import SummarizationAppsyncStepfn
 
 # get an existing userpool 
 cognito_pool_id = 'us-east-1_XXXXX';
