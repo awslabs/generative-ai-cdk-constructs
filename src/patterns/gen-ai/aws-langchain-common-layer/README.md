@@ -83,7 +83,7 @@ architecture: lambdaArchitecture,
 Python
 ``` python
 from constructs import Construct
-from aws_cdk import Aws, Stack, aws_lambda as lambda_
+from aws_cdk import Aws, aws_lambda as lambda_
 from cdklabs.generative_ai_cdk_constructs import (
     LangchainCommonDepsLayer,
     LangchainCommonLayer,
@@ -115,8 +115,8 @@ lambda_deps_layer = LangchainCommonDepsLayer(
 lambda_common_layer = LangchainCommonLayer(
     self,
     'lambdagenaicommonlayer',
-    runtime=lambda_runtime,
-    architecture=lambda_architecture,
+    compatible_runtimes=[lambda_runtime],
+    compatible_architectures=[lambda_architecture],
 )
 
 # Then pass the layers above to your lambda function constructor
