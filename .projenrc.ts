@@ -153,6 +153,7 @@ project.npmignore?.addPatterns(
   'projenrc',
   'tsconfig.dev.json',
   'yarn.lock',
+  '/apidocs/'
 );
 
 // Add License header automatically
