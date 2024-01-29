@@ -15,6 +15,7 @@
 ### Classes
 
 - [Agent](../classes/bedrock.Agent.md)
+- [AgentActionGroup](../classes/bedrock.AgentActionGroup.md)
 - [AgentAlias](../classes/bedrock.AgentAlias.md)
 - [BedrockFoundationModel](../classes/bedrock.BedrockFoundationModel.md)
 - [KnowledgeBase](../classes/bedrock.KnowledgeBase.md)
@@ -22,7 +23,9 @@
 
 ### Interfaces
 
+- [APISchema](../interfaces/bedrock.APISchema.md)
 - [AddAgentAliasProps](../interfaces/bedrock.AddAgentAliasProps.md)
+- [AgentActionGroupProps](../interfaces/bedrock.AgentActionGroupProps.md)
 - [AgentAliasProps](../interfaces/bedrock.AgentAliasProps.md)
 - [AgentProps](../interfaces/bedrock.AgentProps.md)
 - [BedrockFoundationModelProps](../interfaces/bedrock.BedrockFoundationModelProps.md)
@@ -31,6 +34,7 @@
 - [PromptConfiguration](../interfaces/bedrock.PromptConfiguration.md)
 - [PromptOverrideConfiguration](../interfaces/bedrock.PromptOverrideConfiguration.md)
 - [S3DataSourceProps](../interfaces/bedrock.S3DataSourceProps.md)
+- [S3Identifier](../interfaces/bedrock.S3Identifier.md)
 
 ### Functions
 
