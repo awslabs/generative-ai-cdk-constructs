@@ -11,8 +11,8 @@
 # and limitations under the License.
 #
 from opensearchpy import OpenSearch, RequestsHttpConnection, AWSV4SignerAuth
-from langchain.vectorstores import OpenSearchVectorSearch
-from langchain.embeddings import BedrockEmbeddings
+from langchain_community.vectorstores import OpenSearchVectorSearch
+from langchain_community.embeddings import BedrockEmbeddings
 from typing import Tuple
 import boto3, os
 from aws_lambda_powertools import Logger, Tracer, Metrics

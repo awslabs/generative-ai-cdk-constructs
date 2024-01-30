@@ -11,7 +11,7 @@
 # and limitations under the License.
 #
 from langchain.llms.bedrock import Bedrock
-from langchain.embeddings import BedrockEmbeddings
+from langchain_community.embeddings import BedrockEmbeddings
 import os
 import boto3
 from .helper import get_credentials

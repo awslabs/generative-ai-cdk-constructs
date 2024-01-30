@@ -791,7 +791,7 @@ export class SummarizationAppsyncStepfn extends Construct {
     // step function, run files in parallel
     const runFilesInparallel = new sfn.Map(this, 'Run Files in Parallel', {
       maxConcurrency: 100,
-    }).iterator(
+    }).itemProcessor(
       documentReaderTask.next(
         summaryfromCacheChoice
           .when(
