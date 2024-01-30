@@ -15,7 +15,7 @@ import base64
 
 from langchain.llms.bedrock import Bedrock
 from update_summary_status import updateSummaryJobStatus
-from langchain import PromptTemplate
+from langchain.prompts import PromptTemplate
 # external files
 from langchain.docstore.document import Document
 from langchain.chains.summarize import load_summarize_chain

@@ -786,7 +786,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       {
         maxConcurrency: 100,
       },
-    ).iterator(fileTransformationTask);
+    ).itemProcessor(fileTransformationTask);
 
     const jobFailed = new stepfn.Fail(this, 'Job Failed', {
       cause: 'Validation job failed',
