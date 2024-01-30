@@ -291,6 +291,18 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
    */
   public readonly cdkTagManager =
     new cdk.TagManager(cdk.TagType.MAP, 'Custom::Bedrock-Agent');
+  /**
+   * A list of values to indicate if PrepareAgent or an Alias needs to be updated.
+   * @private
+   */
+  private changeIds: string[] = [];
+  /**
+   * The prepareAgent custom resource.
+   *
+   * Add other resources as dependencies to ensure Prepare Agent is called after they are updated.
+   * @private
+   */
+  private prepareAgent: cdk.CustomResource;
 
   constructor(scope: Construct, id: string, props: AgentProps) {
     super(scope, id);
@@ -422,9 +434,17 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
       true,
     );
 
-    const changeIds: string[] = [agent.getAttString('changeId')];
+    this.prepareAgent = new cdk.CustomResource(this, 'PrepareAgent', {
+      serviceToken: crProvider.serviceToken,
+      resourceType: 'Custom::Bedrock-PrepareAgent',
+      properties: {
+        agentId: this.agentId,
+        changeIds: cdk.Lazy.list({ produce: () => this.changeIds }),
+      },
+    });
 
-    const kbAssociations: string[] = [];
+    this._addPrepareAgentDependency(agent, agent.getAttString('changeId'));
+
     if (props.knowledgeBases && props.knowledgeBases.length > 0) {
       const kbAssocCRPolicy = new iam.Policy(this, 'KBAssocCRPolicy', {
         roles: [crProvider.role],
@@ -483,24 +503,14 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
         );
         kbAssoc.node.addDependency(kbAssocCRPolicy);
         kbAssoc.node.addDependency(crProvider);
-        kbAssociations.push(kbAssoc.getAttString('changeId'));
+        this._addPrepareAgentDependency(kbAssoc, kbAssoc.getAttString('changeId'));
       }
-      changeIds.push(...kbAssociations);
     }
 
-    new cdk.CustomResource(this, 'PrepareAgent', {
-      serviceToken: crProvider.serviceToken,
-      resourceType: 'Custom::Bedrock-PrepareAgent',
-      properties: {
-        agentId: this.agentId,
-        changeIds,
-      },
-    });
 
     if (props.aliasName) {
       const alias = this.addAlias({
         agentId: this.agentId,
-        changeIds,
         aliasName: props.aliasName,
       });
       this.aliasId = alias.aliasId;
@@ -513,12 +523,29 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
    * Add an alias to the agent.
    */
   public addAlias(props: Exclude<AgentAliasProps, 'agentId'>): AgentAlias {
-    return new AgentAlias(this, `AgentAlias-${props.aliasName}`, {
+    const alias = new AgentAlias(this, `AgentAlias-${props.aliasName}`, {
       agentId: this.agentId,
       agentVersion: props.agentVersion,
-      changeIds: props.changeIds,
+      changeIds: cdk.Lazy.list({ produce: () => this.changeIds }),
       aliasName: props.aliasName,
     });
+    alias.node.addDependency(this.prepareAgent);
+    return alias;
+  }
+
+  /**
+   * Register a dependency for prepareAgent.
+   *
+   * @param resource - The resource that will be registered as a dependency.
+   * @param changeId - The changeId of the resource that will be registered as a dependency.
+   *
+   * @internal This is an internal core function and should not be called directly.
+   */
+  public _addPrepareAgentDependency(resource: cdk.IResource, changeId?: string) {
+    this.prepareAgent.node.addDependency(resource);
+    if (changeId) {
+      this.changeIds.push(changeId);
+    }
   }
 }
 
