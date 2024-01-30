@@ -13,11 +13,11 @@
 #
 from .helper import load_vector_db_opensearch, send_job_status, JobStatus
 from .s3inmemoryloader import S3FileLoaderInMemory
-from langchain import PromptTemplate
+from langchain.prompts import PromptTemplate
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain.schema import LLMResult
 from llms import get_llm, get_max_tokens
-from langchain import LLMChain
+from langchain.chains import LLMChain
 
 import boto3
 import os

@@ -109,7 +109,7 @@ export class LangchainCommonLayer extends Construct {
     super(scope, id);
 
     const layer = new lambda.LayerVersion(this, 'Model Adapter Layer', {
-      code: lambda.Code.fromAsset(path.join(__dirname, '../../../../layers/model-adapter-layer')),
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../../../layers/langchain-common-layer')),
       description: 'Utilities to instantiate a llm client adapter. Adapters include bedrock, sagemaker, and openai',
       ...props,
     });
