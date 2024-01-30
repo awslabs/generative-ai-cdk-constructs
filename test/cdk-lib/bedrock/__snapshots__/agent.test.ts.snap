@@ -26,6 +26,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       "DeletionPolicy": "Delete",
       "DependsOn": [
         "AgentAgentAliasprodAliasCRPolicyACECDEBD",
+        "AgentPrepareAgent9A21CF07",
         "BedrockCRProviderCRRole90406B17",
         "BedrockCRProviderCustomResourcesFunctionLogRetention32CED555",
         "BedrockCRProviderCustomResourcesFunction9A70E3A5",
@@ -67,6 +68,9 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       "UpdateReplacePolicy": "Delete",
     },
     "AgentAgentAliasprodAliasCRPolicyACECDEBD": {
+      "DependsOn": [
+        "AgentPrepareAgent9A21CF07",
+      ],
       "Metadata": {
         "cdk_nag": {
           "rules_to_suppress": [
@@ -409,6 +413,10 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
     },
     "AgentPrepareAgent9A21CF07": {
       "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "AgentD78B2CA1",
+        "AgentKBAssocKBteststackKBF59CBB076A4D106D",
+      ],
       "Properties": {
         "ServiceToken": {
           "Fn::GetAtt": [

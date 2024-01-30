@@ -30,12 +30,15 @@ Deploy a Bedrock Agent.
 - [aliasId](bedrock.Agent.md#aliasid)
 - [aliasName](bedrock.Agent.md#aliasname)
 - [cdkTagManager](bedrock.Agent.md#cdktagmanager)
+- [changeIds](bedrock.Agent.md#changeids)
 - [name](bedrock.Agent.md#name)
 - [node](bedrock.Agent.md#node)
+- [prepareAgent](bedrock.Agent.md#prepareagent)
 - [role](bedrock.Agent.md#role)
 
 ### Methods
 
+- [\_addPrepareAgentDependency](bedrock.Agent.md#_addprepareagentdependency)
 - [addAlias](bedrock.Agent.md#addalias)
 - [toString](bedrock.Agent.md#tostring)
 - [isConstruct](bedrock.Agent.md#isconstruct)
@@ -116,6 +119,14 @@ cdk.ITaggableV2.cdkTagManager
 
 ___
 
+### changeIds
+
+• `Private` **changeIds**: `string`[] = `[]`
+
+A list of values to indicate if PrepareAgent or an Alias needs to be updated.
+
+___
+
 ### name
 
 • `Readonly` **name**: `string`
@@ -136,6 +147,16 @@ Construct.node
 
 ___
 
+### prepareAgent
+
+• `Private` **prepareAgent**: `CustomResource`
+
+The prepareAgent custom resource.
+
+Add other resources as dependencies to ensure Prepare Agent is called after they are updated.
+
+___
+
 ### role
 
 • `Readonly` **role**: `Role`
@@ -143,6 +164,25 @@ ___
 The IAM role for the agent.
 
 ## Methods
+
+### \_addPrepareAgentDependency
+
+▸ **_addPrepareAgentDependency**(`resource`, `changeId?`): `void`
+
+Register a dependency for prepareAgent.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `resource` | `IResource` | The resource that will be registered as a dependency. |
+| `changeId?` | `string` | The changeId of the resource that will be registered as a dependency. This is an internal core function and should not be called directly. |
+
+#### Returns
+
+`void`
+
+___
 
 ### addAlias
 
