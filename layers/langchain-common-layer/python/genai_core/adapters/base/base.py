@@ -12,7 +12,7 @@
 #
 import os
 from enum import Enum
-from langchain import LLMChain
+from langchain.chains import LLMChain
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain.chains import ConversationalRetrievalChain, ConversationChain
 from langchain.memory import ConversationBufferMemory
