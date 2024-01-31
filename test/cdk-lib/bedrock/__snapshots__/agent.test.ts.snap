@@ -22,6 +22,80 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
     },
   },
   "Resources": {
+    "AgentAgentActionGrouptestactiongroupActionGroupD0F433CF": {
+      "DeletionPolicy": "Delete",
+      "DependsOn": [
+        "AgentAgentActionGrouptestactiongroupAgentActionGroupCRPolicyCB9FC6F0",
+      ],
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "BedrockCRProviderframeworkonEvent412F4EF1",
+            "Arn",
+          ],
+        },
+        "actionGroupName": "test-action-group",
+        "actionGroupState": "ENABLED",
+        "agentId": {
+          "Fn::GetAtt": [
+            "AgentD78B2CA1",
+            "agentId",
+          ],
+        },
+        "apiSchema": {
+          "payload": "mock schema",
+        },
+        "description": "Use these functions to get information about the books in the Project Gutenburg library.",
+      },
+      "Type": "Custom::Bedrock-AgentActionGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "AgentAgentActionGrouptestactiongroupAgentActionGroupCRPolicyCB9FC6F0": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "Bedrock AgentActionGroup calls have wildcards restricted to agents in the account.",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "bedrock:CreateAgentActionGroup",
+                "bedrock:DeleteAgentActionGroup",
+                "bedrock:UpdateAgentActionGroup",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":bedrock:us-east-1:123456789012:agent/*",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "AgentAgentActionGrouptestactiongroupAgentActionGroupCRPolicyCB9FC6F0",
+        "Roles": [
+          {
+            "Ref": "BedrockCRProviderCRRole90406B17",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
     "AgentAgentAliasprodAlias575D4660": {
       "DeletionPolicy": "Delete",
       "DependsOn": [
@@ -60,6 +134,12 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
             "Fn::GetAtt": [
               "AgentKBAssocKBteststackKBF59CBB076A4D106D",
               "changeId",
+            ],
+          },
+          {
+            "Fn::GetAtt": [
+              "AgentAgentActionGrouptestactiongroupActionGroupD0F433CF",
+              "updatedAt",
             ],
           },
         ],
@@ -415,6 +495,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       "DeletionPolicy": "Delete",
       "DependsOn": [
         "AgentD78B2CA1",
+        "AgentAgentActionGrouptestactiongroupActionGroupD0F433CF",
         "AgentKBAssocKBteststackKBF59CBB076A4D106D",
       ],
       "Properties": {
@@ -441,6 +522,12 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
             "Fn::GetAtt": [
               "AgentKBAssocKBteststackKBF59CBB076A4D106D",
               "changeId",
+            ],
+          },
+          {
+            "Fn::GetAtt": [
+              "AgentAgentActionGrouptestactiongroupActionGroupD0F433CF",
+              "updatedAt",
             ],
           },
         ],

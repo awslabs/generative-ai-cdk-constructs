@@ -1,20 +1,21 @@
-[@cdklabs/generative-ai-cdk-constructs](../README.md) / [bedrock](../modules/bedrock.md) / AgentActionGroupProps
+[@cdklabs/generative-ai-cdk-constructs](../README.md) / [bedrock](../modules/bedrock.md) / AddAgentActionGroupProps
 
-# Interface: AgentActionGroupProps
+# Interface: AddAgentActionGroupProps
 
-[bedrock](../modules/bedrock.md).AgentActionGroupProps
+[bedrock](../modules/bedrock.md).AddAgentActionGroupProps
+
+Properties to add an ActionGroup to an Agent
 
 ## Table of contents
 
 ### Properties
 
-- [actionGroupExecutor](bedrock.AgentActionGroupProps.md#actiongroupexecutor)
-- [actionGroupName](bedrock.AgentActionGroupProps.md#actiongroupname)
-- [actionGroupState](bedrock.AgentActionGroupProps.md#actiongroupstate)
-- [agent](bedrock.AgentActionGroupProps.md#agent)
-- [apiSchema](bedrock.AgentActionGroupProps.md#apischema)
-- [description](bedrock.AgentActionGroupProps.md#description)
-- [parentActionGroupSignature](bedrock.AgentActionGroupProps.md#parentactiongroupsignature)
+- [actionGroupExecutor](bedrock.AddAgentActionGroupProps.md#actiongroupexecutor)
+- [actionGroupName](bedrock.AddAgentActionGroupProps.md#actiongroupname)
+- [actionGroupState](bedrock.AddAgentActionGroupProps.md#actiongroupstate)
+- [apiSchema](bedrock.AddAgentActionGroupProps.md#apischema)
+- [description](bedrock.AddAgentActionGroupProps.md#description)
+- [parentActionGroupSignature](bedrock.AddAgentActionGroupProps.md#parentactiongroupsignature)
 
 ## Properties
 
@@ -45,14 +46,6 @@ ___
 • `Optional` `Readonly` **actionGroupState**: ``"ENABLED"`` \| ``"DISABLED"``
 
 Specifies whether the action group is available for the agent to invoke or not when sending an InvokeAgent request.
-
-___
-
-### agent
-
-• `Readonly` **agent**: [`Agent`](../classes/bedrock.Agent.md)
-
-Bedrock Agent
 
 ___
 

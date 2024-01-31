@@ -70,6 +70,7 @@ describe('AgentActionGroup', () => {
       true,
     );
   });
+
   test('actionGroupExecutor invocation policy is configured', () =>{
     new bedrock.AgentActionGroup(stack, 'ActionGroup', {
       agent,

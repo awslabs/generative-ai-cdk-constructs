@@ -26,7 +26,6 @@ from tenacity import (
 
 from .cr_types import CustomResourceRequest, CustomResourceResponse
 from .exceptions import AWSRetryableError, can_retry
-from .utils import get_change_id
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
@@ -59,7 +58,7 @@ class AgentActionGroupProps(TypedDict):
 
 class AgentActionGroupResponse(TypedDict):
     actionGroupId: str
-    changeId: str
+    updatedAt: str
 
 
 def on_event(event: CustomResourceRequest[AgentActionGroupProps], context):
@@ -97,7 +96,7 @@ def on_create(
             PhysicalResourceId=response["agentActionGroup"]["actionGroupId"],
             Data=AgentActionGroupResponse(
                 actionGroupId=response["agentActionGroup"]["actionGroupId"],
-                changeId=get_change_id(event["ResourceProperties"]),
+                updatedAt=str(response["agentActionGroup"]["updatedAt"]),
             ),
         )
     except botocore.exceptions.ClientError as e:
@@ -124,7 +123,7 @@ def on_update(
             PhysicalResourceId=response["agentActionGroup"]["actionGroupId"],
             Data=AgentActionGroupResponse(
                 actionGroupId=response["agentActionGroup"]["actionGroupId"],
-                changeId=get_change_id(event["ResourceProperties"]),
+                updatedAt=str(response["agentActionGroup"]["updatedAt"]),
             ),
         )
     except botocore.exceptions.ClientError as e:
