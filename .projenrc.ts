@@ -22,6 +22,7 @@ import {
   runSemGrepWorkflow,
   runBanditWorkflow,
   runCommitLintWorkflow,
+  buildCodeGenerationWorkflow,
 } from './projenrc/github-workflows';
 
 // Constants
@@ -116,6 +117,7 @@ buildOrtToolkitWorkflow(project);
 runSemGrepWorkflow(project);
 runBanditWorkflow(project);
 runCommitLintWorkflow(project);
+buildCodeGenerationWorkflow(project);
 
 // Add specific overrides https://projen.io/github.html#actions-versions
 project.github?.actions.set('actions/checkout@v3', 'actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744');
@@ -153,7 +155,7 @@ project.npmignore?.addPatterns(
   'projenrc',
   'tsconfig.dev.json',
   'yarn.lock',
-  '/apidocs/'
+  '/apidocs/',
 );
 
 // Add License header automatically
