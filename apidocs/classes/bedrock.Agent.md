@@ -194,7 +194,7 @@ Add an alias to the agent.
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`AgentAliasProps`](../interfaces/bedrock.AgentAliasProps.md) |
+| `props` | [`AddAgentAliasProps`](../interfaces/bedrock.AddAgentAliasProps.md) |
 
 #### Returns
 
