@@ -26,6 +26,7 @@ from tenacity import (
 
 from .cr_types import CustomResourceRequest, CustomResourceResponse
 from .exceptions import AWSRetryableError, can_retry
+from .utils import get_change_id
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
@@ -75,12 +76,6 @@ def on_event(event: CustomResourceRequest[AgentActionGroupProps], context):
     if request_type == "Delete":
         return on_delete(event)
     raise Exception("Invalid request type: %s" % request_type)
-
-
-def get_change_id(resource_props: AgentActionGroupProps) -> str:
-    return str(
-        hash(resource_props)
-    )
 
 
 @retry(

@@ -4,6 +4,8 @@
 
 [bedrock](../modules/bedrock.md).S3Identifier
 
+Result of the bind when `S3ApiSchema` is used.
+
 ## Table of contents
 
 ### Properties

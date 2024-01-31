@@ -14,6 +14,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as s3 from 'aws-cdk-lib/aws-s3';
 import { NagSuppressions } from 'cdk-nag';
 import * as bedrock from '../../../src/cdk-lib/bedrock';
 
@@ -75,9 +76,7 @@ describe('AgentActionGroup', () => {
       description: 'Use these functions to get information about the books in the Project Gutenburg library.',
       actionGroupExecutor: actionGroupFunction,
       actionGroupState: 'ENABLED',
-      apiSchema: {
-        payload: actionGroupAPISpec,
-      },
+      apiSchema: bedrock.ApiSchema.fromInline(actionGroupAPISpec),
     });
 
     const template = Template.fromStack(stack);
@@ -96,28 +95,49 @@ describe('AgentActionGroup', () => {
         parentActionGroupSignature: 'AMAZON.UserInput',
         actionGroupExecutor: actionGroupFunction,
         actionGroupState: 'ENABLED',
-        apiSchema: {
-          payload: actionGroupAPISpec,
-        },
+        apiSchema: bedrock.ApiSchema.fromInline(actionGroupAPISpec),
       });
     }).toThrowError('Cannot specify both description and parentActionSignature');
   });
 
-  test('Fails when both apiSchema.payload and apiSchema.s3 are provided', () => {
-    expect(() => {
-      new bedrock.AgentActionGroup(stack, 'ActionGroup', {
-        agent,
-        actionGroupExecutor: actionGroupFunction,
-        actionGroupState: 'ENABLED',
-        apiSchema: {
-          s3: {
-            s3BucketName: 'XXXXXXXX',
-            s3ObjectKey: 'XXXXXXX',
+  // test('Fails when both apiSchema.payload and apiSchema.s3 are provided', () => {
+  //   expect(() => {
+  //     new bedrock.AgentActionGroup(stack, 'ActionGroup', {
+  //       agent,
+  //       actionGroupExecutor: actionGroupFunction,
+  //       actionGroupState: 'ENABLED',
+  //       apiSchema: {
+  //         s3: {
+  //           s3BucketName: 'XXXXXXXX',
+  //           s3ObjectKey: 'XXXXXXX',
+  //         },
+  //         payload: actionGroupAPISpec,
+  //       },
+  //     });
+  //   }).toThrowError('Cannot specify both apiSchema.payload and apiSchema.s3');
+  // });
+
+  test('ApiSchema from S3', () => {
+    const bucket = new s3.Bucket(stack, 'TestBucket');
+    new bedrock.AgentActionGroup(stack, 'ActionGroup', {
+      agent,
+      description: 'Use these functions to get information about the books in the Project Gutenburg library.',
+      actionGroupExecutor: actionGroupFunction,
+      actionGroupState: 'ENABLED',
+      apiSchema: bedrock.ApiSchema.fromBucket(bucket, 'test/api.yaml'),
+    });
+    const template = Template.fromStack(stack);
+    template.hasResourceProperties('Custom::Bedrock-AgentActionGroup', {
+      apiSchema: {
+        s3: {
+          s3BucketName: {
+            Ref: Match.stringLikeRegexp('^TestBucket'),
           },
-          payload: actionGroupAPISpec,
+          s3ObjectKey: 'test/api.yaml',
         },
-      });
-    }).toThrowError('Cannot specify both apiSchema.payload and apiSchema.s3');
+      },
+    });
+
   });
 
   test('No unsuppressed Errors', () => {
@@ -126,9 +146,7 @@ describe('AgentActionGroup', () => {
       description: 'Use these functions to get information about the books in the Project Gutenburg library.',
       actionGroupExecutor: actionGroupFunction,
       actionGroupState: 'ENABLED',
-      apiSchema: {
-        payload: actionGroupAPISpec,
-      },
+      apiSchema: bedrock.ApiSchema.fromInline(actionGroupAPISpec),
     });
     const errors = Annotations.fromStack(stack).findError(
       '*',

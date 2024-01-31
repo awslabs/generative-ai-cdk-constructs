@@ -44,7 +44,7 @@ ___
 
 ### apiSchema
 
-• `Optional` `Readonly` **apiSchema**: [`APISchema`](bedrock.APISchema.md)
+• `Optional` `Readonly` **apiSchema**: [`ApiSchema`](../classes/bedrock.ApiSchema.md)
 
 Contains details about the S3 object containing the OpenAPI schema for the action group. For more information, see
 [Action group OpenAPI schemas](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-api-schema.html).

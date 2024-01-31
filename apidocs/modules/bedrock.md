@@ -17,17 +17,20 @@
 - [Agent](../classes/bedrock.Agent.md)
 - [AgentActionGroup](../classes/bedrock.AgentActionGroup.md)
 - [AgentAlias](../classes/bedrock.AgentAlias.md)
+- [ApiSchema](../classes/bedrock.ApiSchema.md)
 - [BedrockFoundationModel](../classes/bedrock.BedrockFoundationModel.md)
+- [InlineApiSchema](../classes/bedrock.InlineApiSchema.md)
 - [KnowledgeBase](../classes/bedrock.KnowledgeBase.md)
+- [S3ApiSchema](../classes/bedrock.S3ApiSchema.md)
 - [S3DataSource](../classes/bedrock.S3DataSource.md)
 
 ### Interfaces
 
-- [APISchema](../interfaces/bedrock.APISchema.md)
 - [AddAgentAliasProps](../interfaces/bedrock.AddAgentAliasProps.md)
 - [AgentActionGroupProps](../interfaces/bedrock.AgentActionGroupProps.md)
 - [AgentAliasProps](../interfaces/bedrock.AgentAliasProps.md)
 - [AgentProps](../interfaces/bedrock.AgentProps.md)
+- [ApiSchemaConfig](../interfaces/bedrock.ApiSchemaConfig.md)
 - [BedrockFoundationModelProps](../interfaces/bedrock.BedrockFoundationModelProps.md)
 - [InferenceConfiguration](../interfaces/bedrock.InferenceConfiguration.md)
 - [KnowledgeBaseProps](../interfaces/bedrock.KnowledgeBaseProps.md)

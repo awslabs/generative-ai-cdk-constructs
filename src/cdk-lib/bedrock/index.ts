@@ -17,3 +17,4 @@ export * from './s3-data-source';
 export * from './agent';
 export * from './agent-alias';
 export * from './agent-action-group';
+export * from './api-schema';

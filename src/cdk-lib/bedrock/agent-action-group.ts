@@ -17,31 +17,10 @@ import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 
 import { Agent } from './agent';
+import { ApiSchema, ApiSchemaConfig } from './api-schema';
 import { BedrockCRProvider } from './custom-resource-provider';
 
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
-
-export interface S3Identifier {
-  /**
-   * The name of the S3 bucket.
-   */
-  readonly s3BucketName: string;
-  /**
-   * The S3 object key containing the resource.
-   */
-  readonly s3ObjectKey: string;
-}
-
-export interface APISchema {
-  /**
-   * The JSON or YAML-formatted payload defining the OpenAPI schema for the action group.
-   */
-  readonly payload?: string;
-  /**
-   * Contains details about the S3 object containing the OpenAPI schema for the action group.
-   */
-  readonly s3?: S3Identifier;
-}
 
 export interface AgentActionGroupProps {
   /**
@@ -66,7 +45,7 @@ export interface AgentActionGroupProps {
    * Contains details about the S3 object containing the OpenAPI schema for the action group. For more information, see
    * [Action group OpenAPI schemas](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-api-schema.html).
    */
-  readonly apiSchema?: APISchema;
+  readonly apiSchema?: ApiSchema;
   /**
    * A description of the action group.
    *
@@ -97,7 +76,10 @@ export class AgentActionGroup extends Construct {
 
     validateAgentActionGroupProps(props);
 
-    const name = props.name ?? generatePhysicalNameV2(
+    const apiSchema = props.apiSchema?.bind(this);
+    validateApiSchema(apiSchema);
+
+    const actionGroupName = props.name ?? generatePhysicalNameV2(
       this,
       'action-group',
       { maxLength: 100, separator: '-' });
@@ -118,10 +100,10 @@ export class AgentActionGroup extends Construct {
       resourceType: 'Custom::Bedrock-AgentActionGroup',
       properties: {
         agentId: props.agent.agentId,
-        actionGroupExecutor: actionGroupExecutor,
-        actionGroupName: name,
+        actionGroupExecutor,
+        actionGroupName,
         actionGroupState: props.actionGroupState,
-        apiSchema: props.apiSchema,
+        apiSchema,
         description: props.description,
         parentActionGroupSignature: props.parentActionGroupSignature,
       },
@@ -169,8 +151,11 @@ function validateAgentActionGroupProps(props: AgentActionGroupProps) {
   if (props.parentActionGroupSignature && props.description) {
     throw new Error('Cannot specify both description and parentActionSignature');
   }
+}
 
-  if (props.apiSchema?.payload && props.apiSchema?.s3) {
+function validateApiSchema(apiSchema: ApiSchemaConfig | undefined) {
+  // mutually exclusive
+  if (apiSchema?.payload && apiSchema?.s3) {
     throw new Error('Cannot specify both apiSchema.payload and apiSchema.s3');
   }
 }
