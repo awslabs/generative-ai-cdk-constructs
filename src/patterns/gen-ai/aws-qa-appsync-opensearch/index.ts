@@ -28,7 +28,7 @@ import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import * as opensearch_helper from '../../../common/helpers/opensearch-helper';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
-import { version } from '../../../common/helpers/utils';
+import { version, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
 
 /**
@@ -533,7 +533,7 @@ export class QaAppsyncOpensearch extends Construct {
         tracing: lambda_tracing,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
         securityGroups: [this.securityGroup],
-        memorySize: 1_769 * 4,
+        memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
         timeout: Duration.minutes(15),
         role: question_answering_function_role,
         environment: {
