@@ -15,6 +15,7 @@
 | **Language**     | **Package**        |
 |:-------------|-----------------|
 |![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@cdklabs/generative-ai-cdk-constructs`|
+|![Python Logo](https://docs.aws.amazon.com/cdk/api/latest/img/python32.png) Python|`cdklabs.generative_ai_cdk_constructs`|
 
 ## Table of contents
 
@@ -77,6 +78,48 @@ const lambdaCommonLayer = new LangchainCommonLayer(this, 'lambdagenaicommonlayer
 });
 
 //Then pass the layers above to your lambda function constructor
+```
+
+Python
+``` python
+from constructs import Construct
+from aws_cdk import Aws, aws_lambda as lambda_
+from cdklabs.generative_ai_cdk_constructs import (
+    LangchainCommonDepsLayer,
+    LangchainCommonLayer,
+)
+
+lambda_architecture = lambda_.Architecture.ARM_64
+lambda_runtime = lambda_.Runtime.PYTHON_3_10
+
+# This is one way of getting a lambda powertools layer
+powertools_arn = (
+    f'arn:aws:lambda:{Aws.REGION}:017000801446:'
+    'layer:AWSLambdaPowertoolsPythonV2-Arm64:42'
+)
+
+if lambda_architecture == lambda_.Architecture.X86_64:
+    powertools_arn = (
+        f'arn:aws:lambda:{Aws.REGION}:017000801446:'
+        'layer:AWSLambdaPowertoolsPythonV2:42'
+    )
+
+lambda_deps_layer = LangchainCommonDepsLayer(
+    self,
+    'lambdagenaidepslayer',
+    runtime=lambda_runtime,
+    architecture=lambda_architecture,
+    auto_upgrade=True,
+)
+
+lambda_common_layer = LangchainCommonLayer(
+    self,
+    'lambdagenaicommonlayer',
+    compatible_runtimes=[lambda_runtime],
+    compatible_architectures=[lambda_architecture],
+)
+
+# Then pass the layers above to your lambda function constructor
 ```
 
 Here is an example of a Lambda handler which uses the layers above:
