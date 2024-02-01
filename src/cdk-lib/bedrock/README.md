@@ -75,6 +75,24 @@ const agent = new bedrock.Agent(this, 'Agent', {
 });
 ```
 
+### Action Groups
+An action group defines functions your agent can call. The functions are Lambda functions. The action group uses an OpenAPI schema to tell the agent what your functions do and how to call them.
+
+```ts
+const actionGroupFunction = new lambda_python.PythonFunction(this, 'ActionGroupFunction', {
+  runtime: lambda.Runtime.PYTHON_3_12,
+  entry: path.join(__dirname, '../lambda/action-group'),
+});
+
+agent.addActionGroup({
+  actionGroupName: 'query-library',
+  description: 'Use these functions to get information about the books in the library.',
+  actionGroupExecutor: actionGroupFunction,
+  actionGroupState: "ENABLED",
+  apiSchema: bedrock.ApiSchema.fromAsset(path.join(__dirname, 'action-group.yaml')),
+});
+```
+
 ### Prepare the Agent
 The custom resources return hashes of their properties in their `changeId` attribute. The Agent resource uses them to make sure CloudFormation will prepare the agent on any change.
 

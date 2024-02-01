@@ -39,6 +39,7 @@ Deploy a Bedrock Agent.
 ### Methods
 
 - [\_addPrepareAgentDependency](bedrock.Agent.md#_addprepareagentdependency)
+- [addActionGroup](bedrock.Agent.md#addactiongroup)
 - [addAlias](bedrock.Agent.md#addalias)
 - [toString](bedrock.Agent.md#tostring)
 - [isConstruct](bedrock.Agent.md#isconstruct)
@@ -181,6 +182,24 @@ Register a dependency for prepareAgent.
 #### Returns
 
 `void`
+
+___
+
+### addActionGroup
+
+▸ **addActionGroup**(`props`): [`AgentActionGroup`](bedrock.AgentActionGroup.md)
+
+Add an action group to the agent.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`AddAgentActionGroupProps`](../interfaces/bedrock.AddAgentActionGroupProps.md) |
+
+#### Returns
+
+[`AgentActionGroup`](bedrock.AgentActionGroup.md)
 
 ___
 
