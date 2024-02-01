@@ -101,23 +101,6 @@ describe('AgentActionGroup', () => {
     }).toThrowError('Cannot specify both description and parentActionSignature');
   });
 
-  // test('Fails when both apiSchema.payload and apiSchema.s3 are provided', () => {
-  //   expect(() => {
-  //     new bedrock.AgentActionGroup(stack, 'ActionGroup', {
-  //       agent,
-  //       actionGroupExecutor: actionGroupFunction,
-  //       actionGroupState: 'ENABLED',
-  //       apiSchema: {
-  //         s3: {
-  //           s3BucketName: 'XXXXXXXX',
-  //           s3ObjectKey: 'XXXXXXX',
-  //         },
-  //         payload: actionGroupAPISpec,
-  //       },
-  //     });
-  //   }).toThrowError('Cannot specify both apiSchema.payload and apiSchema.s3');
-  // });
-
   test('ApiSchema from S3', () => {
     const bucket = new s3.Bucket(stack, 'TestBucket');
     new bedrock.AgentActionGroup(stack, 'ActionGroup', {
