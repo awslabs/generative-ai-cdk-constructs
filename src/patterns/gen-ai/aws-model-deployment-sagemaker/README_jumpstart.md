@@ -16,6 +16,7 @@
 | **Language**     | **Package**        |
 |:-------------|-----------------|
 |![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@cdklabs/generative-ai-cdk-constructs`|
+|![Python Logo](https://docs.aws.amazon.com/cdk/api/latest/img/python32.png) Python|`cdklabs.generative_ai_cdk_constructs`|
 
 ## Table of contents
 
@@ -45,6 +46,7 @@ env: {
 
 Here is a minimal deployable pattern definition:
 
+Typescript
 ```typescript
 
 import { Construct } from 'constructs';
@@ -56,6 +58,23 @@ new JumpStartSageMakerEndpoint(this, 'LLAMA2', {
   model: JumpStartModel.META_TEXTGENERATION_LLAMA_2_7B_F_2_0_2,
   instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
 });
+```
+
+Python
+```python
+from constructs import Construct
+from cdklabs.generative_ai_cdk_constructs import (
+    JumpStartSageMakerEndpoint,
+    JumpStartModel,
+    SageMakerInstanceType,
+)
+
+JumpStartSageMakerEndpoint(
+    self,
+    'LLAMA2',
+    model=JumpStartModel.META_TEXTGENERATION_LLAMA_2_7_B_F_2_0_2,
+    instance_type=SageMakerInstanceType.ML_G5_2_XLARGE,
+)
 ```
 
 ## Initializer

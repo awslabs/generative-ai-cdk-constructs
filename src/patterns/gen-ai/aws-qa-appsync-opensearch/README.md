@@ -15,6 +15,7 @@
 | **Language**     | **Package**        |
 |:-------------|-----------------|
 |![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@cdklabs/generative-ai-cdk-constructs`|
+|![Python Logo](https://docs.aws.amazon.com/cdk/api/latest/img/python32.png) Python|`cdklabs.generative_ai_cdk_constructs`|
 
 ## Table of contents
 
@@ -80,6 +81,41 @@ const rag_source = new QaAppsyncOpensearch(
         cognitoUserPool: userPoolLoaded
       }
     )
+```
+
+Python
+
+``` python
+from constructs import Construct
+from aws_cdk import (
+    aws_opensearchservice as os,
+    aws_cognito as cognito,
+)
+from cdklabs.generative_ai_cdk_constructs import QaAppsyncOpensearch
+
+# get an existing OpenSearch provisioned cluster
+os_domain = os.Domain.from_domain_attributes(
+    self, 
+    'osdomain',
+    domain_arn='arn:aws:es:us-east-1:XXXXXX:resource-id',
+    domain_endpoint='https://XXXXX.us-east-1.es.amazonaws.com',
+)
+
+# get an existing userpool 
+cognito_pool_id = 'us-east-1_XXXXX';
+user_pool_loaded = cognito.UserPool.from_user_pool_id(
+    self,
+    'myuserpool',
+    user_pool_id=cognito_pool_id,
+)
+
+rag_source = QaAppsyncOpensearch(
+    self,
+    'QaAppsyncOpensearch',
+    existing_opensearch_domain=os_domain,
+    open_search_index_name='demoindex',
+    cognito_user_pool=user_pool_loaded,
+)
 ```
 
 After deploying the CDK stack, the QA process can be invoked using GraphQL APIs. The API Schema details are present here: resources/gen-ai/aws-qa-appsync-opensearch/schema.graphql.
