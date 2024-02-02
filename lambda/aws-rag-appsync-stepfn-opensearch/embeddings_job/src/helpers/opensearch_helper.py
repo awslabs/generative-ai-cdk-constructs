@@ -43,9 +43,10 @@ def process_shard(shard, os_index_name, os_domain_ep, os_http_auth) -> int:
     embeddings = BedrockEmbeddings(
         client=bedrock_client, 
         model_id="amazon.titan-embed-text-v1")
+    opensearch_url = os_domain_ep if os_domain_ep.startswith("https://") else f"https://{os_domain_ep}"
     docsearch = OpenSearchVectorSearch(index_name=os_index_name,
                                        embedding_function=embeddings,
-                                       opensearch_url=f"https://{os_domain_ep}",
+                                       opensearch_url=opensearch_url,
                                        http_auth=os_http_auth,
                                        use_ssl = True,
                                        verify_certs = True,
