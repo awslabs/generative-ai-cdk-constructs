@@ -10,7 +10,7 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
-import genai_core.clients
+import boto3
 
 from langchain.llms import Bedrock
 from langchain.prompts.prompt import PromptTemplate
@@ -26,7 +26,7 @@ class BedrockClaudeAdapter(ModelAdapter):
         super().__init__(*args, **kwargs)
 
     def get_llm(self, model_kwargs={}):
-        bedrock = genai_core.clients.get_bedrock_client()
+        bedrock = boto3.client('bedrock-runtime')
 
         params = {}
         if "temperature" in model_kwargs:

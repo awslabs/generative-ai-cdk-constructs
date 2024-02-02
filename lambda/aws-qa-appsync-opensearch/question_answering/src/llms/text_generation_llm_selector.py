@@ -25,43 +25,9 @@ logger = Logger(service="QUESTION_ANSWERING")
 tracer = Tracer(service="QUESTION_ANSWERING")
 metrics = Metrics(namespace="question_answering", service="QUESTION_ANSWERING")
 
-sts_client = boto3.client("sts")
-
-aws_region = boto3.Session().region_name
-
-def get_bedrock_client(service_name="bedrock-runtime"):
-    config = {}
-    bedrock_config = config.get("bedrock", {})
-    bedrock_enabled = bedrock_config.get("enabled", False)
-    if not bedrock_enabled:
-        print("bedrock not enabled")
-        return None
-
-    bedrock_config_data = {"service_name": service_name}
-    region_name = bedrock_config.get("region")
-    endpoint_url = bedrock_config.get("endpointUrl")
-    role_arn = bedrock_config.get("roleArn")
-
-    if region_name:
-        bedrock_config_data["region_name"] = region_name
-    if endpoint_url:
-        bedrock_config_data["endpoint_url"] = endpoint_url
-
-    if role_arn:
-        assumed_role_object = sts_client.assume_role(
-            RoleArn=role_arn,
-            RoleSessionName="AssumedRoleSession",
-        )
-
-        credentials = assumed_role_object["Credentials"]
-        bedrock_config_data["aws_access_key_id"] = credentials["AccessKeyId"]
-        bedrock_config_data["aws_secret_access_key"] = credentials["SecretAccessKey"]
-        bedrock_config_data["aws_session_token"] = credentials["SessionToken"]
-
-    return boto3.client(**bedrock_config_data)
 
 def get_llm(callbacks=None):
-    bedrock = get_bedrock_client(service_name="bedrock-runtime")
+    bedrock = boto3.client('bedrock-runtime')
 
     params = {
         "max_tokens_to_sample": 600,
@@ -85,7 +51,7 @@ def get_llm(callbacks=None):
     return Bedrock(**kwargs)
 
 def get_embeddings_llm():
-    bedrock = get_bedrock_client(service_name="bedrock-runtime")
+    bedrock = boto3.client('bedrock-runtime')
     return BedrockEmbeddings(client=bedrock, model_id="amazon.titan-embed-text-v1")
     
 def get_max_tokens():

@@ -22,7 +22,7 @@ from helpers.opensearch_helper import check_if_index_exists, process_shard
 from helpers.update_ingestion_status import updateIngestionJobStatus
 from langchain_community.embeddings import BedrockEmbeddings
 from helpers.s3inmemoryloader import S3TxtFileLoaderInMemory
-from opensearchpy import OpenSearch, RequestsHttpConnection
+from opensearchpy import RequestsHttpConnection
 from langchain_community.vectorstores import OpenSearchVectorSearch
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import multiprocessing as mp
@@ -39,38 +39,7 @@ metrics = Metrics(namespace="ingestion_pipeline", service="INGESTION_EMBEDDING_J
 aws_region = boto3.Session().region_name
 session = boto3.session.Session()
 credentials = session.get_credentials()
-sts_client = boto3.client("sts")
 
-def get_bedrock_client(service_name="bedrock-runtime"):
-    config = {}
-    bedrock_config = config.get("bedrock", {})
-    bedrock_enabled = bedrock_config.get("enabled", False)
-    if not bedrock_enabled:
-        print("bedrock not enabled")
-        return None
-
-    bedrock_config_data = {"service_name": service_name}
-    region_name = bedrock_config.get("region")
-    endpoint_url = bedrock_config.get("endpointUrl")
-    role_arn = bedrock_config.get("roleArn")
-
-    if region_name:
-        bedrock_config_data["region_name"] = region_name
-    if endpoint_url:
-        bedrock_config_data["endpoint_url"] = endpoint_url
-
-    if role_arn:
-        assumed_role_object = sts_client.assume_role(
-            RoleArn=role_arn,
-            RoleSessionName="AssumedRoleSession",
-        )
-
-        credentials = assumed_role_object["Credentials"]
-        bedrock_config_data["aws_access_key_id"] = credentials["AccessKeyId"]
-        bedrock_config_data["aws_secret_access_key"] = credentials["SecretAccessKey"]
-        bedrock_config_data["aws_session_token"] = credentials["SessionToken"]
-
-    return boto3.client(**bedrock_config_data)
 
 opensearch_secret_id = os.environ['OPENSEARCH_SECRET_ID']
 bucket_name = os.environ['OUTPUT_BUCKET']
@@ -88,7 +57,7 @@ PROCESS_COUNT=5
 INDEX_FILE="index_file"
 
 def process_documents_in_es(index_exists, shards, http_auth):
-    bedrock_client = get_bedrock_client()
+    bedrock_client = boto3.client('bedrock-runtime')
     embeddings = BedrockEmbeddings(client=bedrock_client)
 
     if index_exists is False:
@@ -136,52 +105,32 @@ def process_documents_in_es(index_exists, shards, http_auth):
                     os_http_auth=http_auth)
 
 def process_documents_in_aoss(index_exists, shards, http_auth):
-    if index_exists is False:
-        vector_db = OpenSearch(
-            hosts = [{'host': opensearch_domain.replace("https://", ""), 'port': 443}],
-            http_auth = http_auth,
-            use_ssl = True,
-            verify_certs = True,
-            connection_class = RequestsHttpConnection
-        )
-        index_body = {
-            'settings': {
-                "index.knn": True
-            },
-            "mappings": {
-                "properties": {
-                    "vector_field": {
-                        "type": "knn_vector",
-                        "dimension": 1536,
-                        "method": {
-                            "engine": "nmslib",
-                            "space_type": "cosinesimil",
-                            "name": "hnsw",
-                            "parameters": {},
-                        }
-                    },
-                    "id": {
-                        "type": "text",
-                        "fields": {"keyword": {"type": "keyword", "ignore_above": 256}},
-                    },
-                }
-            }
-        }
-        response = vector_db.indices.create(opensearch_index, body=index_body)
-        print(response)
+    # Reference: https://python.langchain.com/docs/integrations/vectorstores/opensearch#using-aoss-amazon-opensearch-service-serverless
+    bedrock_client = boto3.client('bedrock-runtime')
+    embeddings = BedrockEmbeddings(client=bedrock_client)
 
-    print(f"index={opensearch_index} Adding Documents")
-    bedrock_client = get_bedrock_client()
-    embeddings = BedrockEmbeddings(client=bedrock_client, model_id="amazon.titan-embed-text-v1")
-    docsearch = OpenSearchVectorSearch(index_name=opensearch_index,
-                                       embedding_function=embeddings,
-                                       opensearch_url=opensearch_domain,
-                                       http_auth=http_auth,
-                                       use_ssl = True,
-                                       verify_certs = True,
-                                       connection_class = RequestsHttpConnection)
-    for shard in shards:
-        docsearch.add_documents(documents=shard)
+    shard_start_index = 0
+    if index_exists is False:
+        OpenSearchVectorSearch.from_documents(
+            shards[0],
+            embeddings,
+            opensearch_url=opensearch_domain,
+            http_auth=http_auth,
+            timeout=300,
+            use_ssl=True,
+            verify_certs=True,
+            connection_class=RequestsHttpConnection,
+            index_name=opensearch_index,
+            engine="faiss",
+        )
+        # we now need to start the loop below for the second shard
+        shard_start_index = 1
+
+    for shard in shards[shard_start_index:]:
+        results = process_shard(shard=shard,
+                    os_index_name=opensearch_index,
+                    os_domain_ep=opensearch_domain,
+                    os_http_auth=http_auth)
 
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler

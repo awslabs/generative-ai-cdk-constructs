@@ -9,11 +9,11 @@ LangchainCommonLayer allows developers to instantiate a llm client adapter on be
 **`Example`**
 
 ```ts
+import boto3
 from genai_core.adapters.registry import registry
-from genai_core.clients import get_bedrock_client
 
 adapter = registry.get_adapter(f"{provider}.{model_id}")
-bedrock_client = get_bedrock_client()
+bedrock_client = boto3.client('bedrock-runtime')
 ```
 
 ## Hierarchy
