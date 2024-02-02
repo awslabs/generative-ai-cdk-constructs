@@ -32,6 +32,8 @@ jest.mock('aws-cdk-lib/aws-lambda', () => {
 let app: cdk.App;
 let stack: cdk.Stack;
 let kb: bedrock.KnowledgeBase;
+let agent: bedrock.Agent;
+let actionGroup: bedrock.AgentActionGroup;
 
 beforeAll(() => {
   app = new cdk.App();
@@ -81,7 +83,7 @@ beforeAll(() => {
     },
   };
 
-  new bedrock.Agent(stack, 'Agent', {
+  agent = new bedrock.Agent(stack, 'Agent', {
     foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
     instruction: 'You provide support for developers working with CDK constructs.',
     knowledgeBases: [kb],
@@ -90,6 +92,13 @@ beforeAll(() => {
       promptConfigurations: [preprocessingPrompt, orchestrationPrompt],
     },
     aliasName: 'prod',
+  });
+
+  actionGroup = agent.addActionGroup({
+    actionGroupName: 'test-action-group',
+    description: 'Use these functions to get information about the books in the Project Gutenburg library.',
+    actionGroupState: 'ENABLED',
+    apiSchema: bedrock.ApiSchema.fromInline('mock schema'),
   });
 });
 
@@ -206,6 +215,19 @@ describe('Bedrock Agents', () => {
           ],
         },
         aliasName: 'prod',
+      });
+    });
+
+    test('Add Action Group', () => {
+      expect(actionGroup).toBeInstanceOf(bedrock.AgentActionGroup);
+      Template.fromStack(stack).hasResourceProperties('Custom::Bedrock-AgentActionGroup', {
+        agentId: {
+          'Fn::GetAtt': [
+            Match.stringLikeRegexp('^Agent'),
+            'agentId',
+          ],
+        },
+        actionGroupName: 'test-action-group',
       });
     });
 
