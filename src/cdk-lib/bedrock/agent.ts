@@ -255,6 +255,12 @@ export interface AgentProps {
    * @default - No alias is created.
    */
   readonly aliasName?: string;
+  /**
+   * Whether to prepare the agent for use.
+   *
+   * @default - false
+   */
+  readonly shouldPrepareAgent?: boolean;
 }
 
 /**
@@ -351,19 +357,18 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
    * A list of values to indicate if PrepareAgent or an Alias needs to be updated.
    * @private
    */
-  private changeIds: string[] = [];
+  private resourceUpdates: string[] = [];
   /**
-   * The prepareAgent custom resource.
-   *
-   * Add other resources as dependencies to ensure Prepare Agent is called after they are updated.
+   * If prepare agent should be called on resource updates.
    * @private
    */
-  private prepareAgent: cdk.CustomResource;
+  private readonly shouldPrepareAgent: boolean;
 
   constructor(scope: Construct, id: string, props: AgentProps) {
     super(scope, id);
     validatePromptOverrideConfiguration(props.promptOverrideConfiguration);
 
+    this.shouldPrepareAgent = props.shouldPrepareAgent ?? false;
     validateModel(props.foundationModel);
 
     this.name = props.name ?? generatePhysicalNameV2(
@@ -439,6 +444,7 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
         customerEncryptionKeyArn: props.encryptionKey?.keyArn,
         tags: this.cdkTagManager.renderedTags,
         promptOverrideConfiguration: props.promptOverrideConfiguration,
+        shouldPrepareAgent: this.shouldPrepareAgent,
       },
     });
 
@@ -462,6 +468,7 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
             'bedrock:DeleteAgent',
             'bedrock:UpdateAgent',
             'bedrock:TagResource',
+            'bedrock:GetAgent',
             'bedrock:PrepareAgent',
           ],
           resources: [
@@ -490,16 +497,7 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
       true,
     );
 
-    this.prepareAgent = new cdk.CustomResource(this, 'PrepareAgent', {
-      serviceToken: crProvider.serviceToken,
-      resourceType: 'Custom::Bedrock-PrepareAgent',
-      properties: {
-        agentId: this.agentId,
-        changeIds: cdk.Lazy.list({ produce: () => this.changeIds }),
-      },
-    });
-
-    this._addPrepareAgentDependency(agent, agent.getAttString('changeId'));
+    this._addAliasDependency(agent.getAttString('updatedAt'));
 
     if (props.knowledgeBases && props.knowledgeBases.length > 0) {
       const kbAssocCRPolicy = new iam.Policy(this, 'KBAssocCRPolicy', {
@@ -554,12 +552,13 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
               agentId: this.agentId,
               knowledgeBaseId: kb.knowledgeBaseId,
               description: kb.instruction,
+              shouldPrepareAgent: this.shouldPrepareAgent,
             },
           },
         );
         kbAssoc.node.addDependency(kbAssocCRPolicy);
         kbAssoc.node.addDependency(crProvider);
-        this._addPrepareAgentDependency(kbAssoc, kbAssoc.getAttString('changeId'));
+        this._addAliasDependency(kbAssoc.getAttString('updatedAt'));
       }
     }
 
@@ -581,10 +580,9 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
     const alias = new AgentAlias(this, `AgentAlias-${props.aliasName}`, {
       agentId: this.agentId,
       agentVersion: props.agentVersion,
-      changeIds: cdk.Lazy.list({ produce: () => this.changeIds }),
+      resourceUpdates: cdk.Lazy.list({ produce: () => this.resourceUpdates }),
       aliasName: props.aliasName,
     });
-    alias.node.addDependency(this.prepareAgent);
     return alias;
   }
 
@@ -604,21 +602,20 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
       actionGroupExecutor: props.actionGroupExecutor,
       actionGroupState: props.actionGroupState,
       apiSchema: props.apiSchema,
+      shouldPrepareAgent: this.shouldPrepareAgent,
     });
   }
 
   /**
-   * Register a dependency for prepareAgent.
+   * Register a dependency for aliases.
    *
-   * @param resource - The resource that will be registered as a dependency.
-   * @param changeId - The changeId of the resource that will be registered as a dependency.
+   * @param updatedAt - The updatedAt of the resource that will be registered as a dependency.
    *
    * @internal This is an internal core function and should not be called directly.
    */
-  public _addPrepareAgentDependency(resource: cdk.IResource, changeId?: string) {
-    this.prepareAgent.node.addDependency(resource);
-    if (changeId) {
-      this.changeIds.push(changeId);
+  public _addAliasDependency(updatedAt: string) {
+    if (updatedAt) {
+      this.resourceUpdates.push(updatedAt);
     }
   }
 }

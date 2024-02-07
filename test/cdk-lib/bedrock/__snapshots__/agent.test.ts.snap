@@ -46,6 +46,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
           "payload": "mock schema",
         },
         "description": "Use these functions to get information about the books in the Project Gutenburg library.",
+        "shouldPrepareAgent": false,
       },
       "Type": "Custom::Bedrock-AgentActionGroup",
       "UpdateReplacePolicy": "Delete",
@@ -100,7 +101,6 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       "DeletionPolicy": "Delete",
       "DependsOn": [
         "AgentAgentAliasprodAliasCRPolicyACECDEBD",
-        "AgentPrepareAgent9A21CF07",
         "BedrockCRProviderCRRole90406B17",
         "BedrockCRProviderCustomResourcesFunctionLogRetention32CED555",
         "BedrockCRProviderCustomResourcesFunction9A70E3A5",
@@ -123,17 +123,17 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
           ],
         },
         "aliasName": "prod",
-        "changeIds": [
+        "resourceUpdates": [
           {
             "Fn::GetAtt": [
               "AgentD78B2CA1",
-              "changeId",
+              "updatedAt",
             ],
           },
           {
             "Fn::GetAtt": [
               "AgentKBAssocKBteststackKBF59CBB076A4D106D",
-              "changeId",
+              "updatedAt",
             ],
           },
           {
@@ -148,9 +148,6 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       "UpdateReplacePolicy": "Delete",
     },
     "AgentAgentAliasprodAliasCRPolicyACECDEBD": {
-      "DependsOn": [
-        "AgentPrepareAgent9A21CF07",
-      ],
       "Metadata": {
         "cdk_nag": {
           "rules_to_suppress": [
@@ -250,6 +247,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
                 "bedrock:DeleteAgent",
                 "bedrock:UpdateAgent",
                 "bedrock:TagResource",
+                "bedrock:GetAgent",
                 "bedrock:PrepareAgent",
               ],
               "Effect": "Allow",
@@ -391,6 +389,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
             },
           ],
         },
+        "shouldPrepareAgent": false,
       },
       "Type": "Custom::Bedrock-Agent",
       "UpdateReplacePolicy": "Delete",
@@ -487,52 +486,9 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
             "knowledgeBaseId",
           ],
         },
+        "shouldPrepareAgent": false,
       },
       "Type": "Custom::Bedrock-AgentKnowledgeBase",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "AgentPrepareAgent9A21CF07": {
-      "DeletionPolicy": "Delete",
-      "DependsOn": [
-        "AgentD78B2CA1",
-        "AgentAgentActionGrouptestactiongroupActionGroupD0F433CF",
-        "AgentKBAssocKBteststackKBF59CBB076A4D106D",
-      ],
-      "Properties": {
-        "ServiceToken": {
-          "Fn::GetAtt": [
-            "BedrockCRProviderframeworkonEvent412F4EF1",
-            "Arn",
-          ],
-        },
-        "agentId": {
-          "Fn::GetAtt": [
-            "AgentD78B2CA1",
-            "agentId",
-          ],
-        },
-        "changeIds": [
-          {
-            "Fn::GetAtt": [
-              "AgentD78B2CA1",
-              "changeId",
-            ],
-          },
-          {
-            "Fn::GetAtt": [
-              "AgentKBAssocKBteststackKBF59CBB076A4D106D",
-              "changeId",
-            ],
-          },
-          {
-            "Fn::GetAtt": [
-              "AgentAgentActionGrouptestactiongroupActionGroupD0F433CF",
-              "updatedAt",
-            ],
-          },
-        ],
-      },
-      "Type": "Custom::Bedrock-PrepareAgent",
       "UpdateReplacePolicy": "Delete",
     },
     "AgentRole9D587F56": {

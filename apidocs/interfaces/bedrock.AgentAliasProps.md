@@ -11,7 +11,7 @@
 - [agentId](bedrock.AgentAliasProps.md#agentid)
 - [agentVersion](bedrock.AgentAliasProps.md#agentversion)
 - [aliasName](bedrock.AgentAliasProps.md#aliasname)
-- [changeIds](bedrock.AgentAliasProps.md#changeids)
+- [resourceUpdates](bedrock.AgentAliasProps.md#resourceupdates)
 
 ## Properties
 
@@ -51,9 +51,8 @@ The name for the agent alias.
 
 ___
 
-### changeIds
+### resourceUpdates
 
-• `Optional` `Readonly` **changeIds**: `string`[]
+• `Optional` `Readonly` **resourceUpdates**: `string`[]
 
-The list of change ids to let CloudFormation determine when to update the alias.
-A changeId is a hash of the properties of an agent, an agent/knowledge base association, or an action group.
+The list of resource update timestamps to let CloudFormation determine when to update the alias.

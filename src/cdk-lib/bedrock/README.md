@@ -94,7 +94,9 @@ agent.addActionGroup({
 ```
 
 ### Prepare the Agent
-The custom resources return hashes of their properties in their `changeId` attribute. The Agent resource uses them to make sure CloudFormation will prepare the agent on any change.
+The `Agent` and `AgentActionGroup` constructs take an optional parameter `shouldPrepareAgent` to indicate that the Agent should be prepared after any updates to an agent, Knowledge Base association, or action group. This may increase the time to create and update those resources.
+
+Creating an agent alias will also prepare the agent, so if you create an alias with `addAlias` or by providing an `aliasName` when creating the agent then you should not set `shouldPrepareAgent` to ***true*** on other resources.
 
 #### Prompt Overrides
 Bedrock Agents allows you to customize the prompts and LLM configuration for its different steps. You can disable steps or create a new prompt template. Prompt templates can be inserted from plain text files.
