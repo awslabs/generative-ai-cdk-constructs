@@ -58,7 +58,12 @@ export interface AgentActionGroupProps {
    * prompt additional information.
    */
   readonly parentActionGroupSignature?: 'AMAZON.UserInput';
-
+  /**
+   * Whether to prepare the agent for use.
+   *
+   * @default - false
+   */
+  readonly shouldPrepareAgent?: boolean;
 }
 
 interface ActionGroupExecutor {
@@ -106,6 +111,7 @@ export class AgentActionGroup extends Construct {
         apiSchema,
         description: props.description,
         parentActionGroupSignature: props.parentActionGroupSignature,
+        shouldPrepareAgent: props.shouldPrepareAgent,
       },
     });
     this.actionGroupId = agentActionGroup.getAttString('actionGroupId');
@@ -143,7 +149,7 @@ export class AgentActionGroup extends Construct {
     );
 
     agentActionGroup.node.addDependency(actionGroupCRPolicy);
-    props.agent._addPrepareAgentDependency(agentActionGroup, agentActionGroup.getAttString('updatedAt'));
+    props.agent._addAliasDependency(agentActionGroup.getAttString('updatedAt'));
   }
 }
 
