@@ -24,6 +24,7 @@ from tenacity import (
     wait_exponential_jitter,
 )
 
+from .bedrock_prepare_agent import prepare_agent
 from .cr_types import CustomResourceRequest, CustomResourceResponse
 from .exceptions import AWSRetryableError, can_retry
 
@@ -54,6 +55,7 @@ class AgentActionGroupProps(TypedDict):
     apiSchema: NotRequired[APISchema]
     description: NotRequired[str]
     parentActionGroupSignature: NotRequired[str]
+    shouldPrepareAgent: NotRequired[str]
 
 
 class AgentActionGroupResponse(TypedDict):
@@ -81,17 +83,25 @@ def on_event(event: CustomResourceRequest[AgentActionGroupProps], context):
     retry=retry_if_exception_type(AWSRetryableError),
     stop=stop_after_attempt(3),
     wait=wait_exponential_jitter(1, 3),
+    reraise=True,
 )
 def on_create(
         event: CustomResourceRequest[AgentActionGroupProps]
 ) -> CustomResourceResponse:
     bedrock_agent = boto3.client("bedrock-agent")
+    if "shouldPrepareAgent" in event["ResourceProperties"]:
+        should_prepare_agent = event["ResourceProperties"]["shouldPrepareAgent"].upper() == 'TRUE'
+        del event["ResourceProperties"]["shouldPrepareAgent"]
+    else:
+        should_prepare_agent = False
     try:
         response = bedrock_agent.create_agent_action_group(
             **event["ResourceProperties"],
             agentVersion="DRAFT",
 
         )
+        if should_prepare_agent:
+            prepare_agent(event["ResourceProperties"]["agentId"])
         return CustomResourceResponse(
             PhysicalResourceId=response["agentActionGroup"]["actionGroupId"],
             Data=AgentActionGroupResponse(
@@ -107,18 +117,25 @@ def on_create(
     retry=retry_if_exception_type(AWSRetryableError),
     stop=stop_after_attempt(3),
     wait=wait_exponential_jitter(1, 3),
+    reraise=True,
 )
 def on_update(
         event: CustomResourceRequest[AgentActionGroupProps]
 ) -> CustomResourceResponse:
     bedrock_agent = boto3.client("bedrock-agent")
-
+    if "shouldPrepareAgent" in event["ResourceProperties"]:
+        should_prepare_agent = event["ResourceProperties"]["shouldPrepareAgent"].upper() == 'TRUE'
+        del event["ResourceProperties"]["shouldPrepareAgent"]
+    else:
+        should_prepare_agent = False
     try:
         response = bedrock_agent.update_agent_action_group(
             actionGroupId=event["PhysicalResourceId"],
             **event["ResourceProperties"],
             agentVersion="DRAFT",
         )
+        if should_prepare_agent:
+            prepare_agent(event["ResourceProperties"]["agentId"])
         return CustomResourceResponse(
             PhysicalResourceId=response["agentActionGroup"]["actionGroupId"],
             Data=AgentActionGroupResponse(
@@ -134,12 +151,17 @@ def on_update(
     retry=retry_if_exception_type(AWSRetryableError),
     stop=stop_after_attempt(3),
     wait=wait_exponential_jitter(1, 3),
+    reraise=True,
 )
 def on_delete(
         event: CustomResourceRequest[AgentActionGroupProps]
 ) -> CustomResourceResponse:
     bedrock_agent = boto3.client("bedrock-agent")
-
+    if "shouldPrepareAgent" in event["ResourceProperties"]:
+        should_prepare_agent = event["ResourceProperties"]["shouldPrepareAgent"].upper() == 'TRUE'
+        del event["ResourceProperties"]["shouldPrepareAgent"]
+    else:
+        should_prepare_agent = False
     try:
         bedrock_agent.delete_agent_action_group(
             agentId=event["ResourceProperties"]["agentId"],
@@ -147,6 +169,8 @@ def on_delete(
             actionGroupId=event["PhysicalResourceId"],
             skipResourceInUseCheck=True,
         )
+        if should_prepare_agent:
+            prepare_agent(event["ResourceProperties"]["agentId"])
         return CustomResourceResponse(
             PhysicalResourceId=event["PhysicalResourceId"],
         )

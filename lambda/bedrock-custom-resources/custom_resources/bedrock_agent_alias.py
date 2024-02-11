@@ -46,6 +46,7 @@ from tenacity import (
     wait_exponential_jitter,
 )
 
+from .bedrock_prepare_agent import prepare_agent
 from .cr_types import CustomResourceRequest, CustomResourceResponse
 from .exceptions import AWSRetryableError, can_retry
 
@@ -85,27 +86,12 @@ def on_event(event: CustomResourceRequest[Dict], context):
     raise Exception(f"Invalid request type: {request_type}")
 
 
-@retry(
-    retry=retry_if_exception_type(AWSRetryableError),
-    stop=stop_after_attempt(3),
-    wait=wait_exponential_jitter(1, 3),
-)
-def prepare_agent(agent_id: str, session: boto3.Session) -> str:
-    client = session.client("bedrock-agent")
-
-    try:
-        response = client.prepare_agent(agentId=agent_id)
-        return response["agentStatus"]
-    except botocore.exceptions.ClientError as e:
-        if e.response["Error"]["Code"] == "ResourceNotFoundException":
-            raise Exception(f"Agent {agent_id} not found")
-        can_retry(e)
-
 
 @retry(
     retry=retry_if_exception_type(AWSRetryableError),
     stop=stop_after_attempt(10),
     wait=wait_exponential_jitter(1, 15),
+    reraise=True,
 )
 def wait_for_agent_status(agent_id: str, status: str, session: boto3.Session) -> str:
     client = session.client("bedrock-agent")
@@ -129,6 +115,7 @@ def wait_for_agent_status(agent_id: str, status: str, session: boto3.Session) ->
     retry=retry_if_exception_type(AWSRetryableError),
     stop=stop_after_attempt(3),
     wait=wait_exponential_jitter(1, 3),
+    reraise=True,
 )
 def list_alias_versions(agent_id: str, session: boto3.Session) -> List[int]:
     client = session.client("bedrock-agent")
@@ -154,6 +141,7 @@ def list_alias_versions(agent_id: str, session: boto3.Session) -> List[int]:
     retry=retry_if_exception_type(AWSRetryableError),
     stop=stop_after_attempt(3),
     wait=wait_exponential_jitter(1, 3),
+    reraise=True,
 )
 def list_unused_agent_versions(agent_id: str, session: boto3.Session) -> List[int]:
     client = session.client("bedrock-agent")
@@ -183,11 +171,11 @@ def get_version(routing_configuration: List[Dict]) -> str:
         return None
 
 
-def get_routing_configuration(agent_version: str | None) -> List[Dict[str, str]] | None:
+def get_routing_configuration(agent_version: str | None) -> List[Dict[str, str]]:
     if agent_version:
         routing_configuration = [{"agentVersion": agent_version}]
     else:
-        routing_configuration = None
+        routing_configuration = []
     return routing_configuration
 
 
@@ -195,6 +183,7 @@ def get_routing_configuration(agent_version: str | None) -> List[Dict[str, str]]
     retry=retry_if_exception_type(AWSRetryableError),
     stop=stop_after_attempt(3),
     wait=wait_exponential_jitter(1, 3),
+    reraise=True,
 )
 def create_agent_alias(
         agent_id: str, alias_name: str, session: boto3.Session, agent_version: str = None, client_token: str = None
@@ -227,6 +216,7 @@ def create_agent_alias(
     retry=retry_if_exception_type(AWSRetryableError),
     stop=stop_after_attempt(3),
     wait=wait_exponential_jitter(1, 3),
+    reraise=True,
 )
 def update_agent_alias(
         agent_id: str, agent_alias_id: str, alias_name: str, session: boto3.Session, agent_version: str | None = None
@@ -259,6 +249,7 @@ def update_agent_alias(
     retry=retry_if_exception_type(AWSRetryableError),
     stop=stop_after_attempt(3),
     wait=wait_exponential_jitter(1, 3),
+    reraise=True,
 )
 def delete_agent_version(agent_id: str, version: int, session: boto3.Session) -> None:
     client = session.client("bedrock-agent")
@@ -280,6 +271,7 @@ def delete_agent_version(agent_id: str, version: int, session: boto3.Session) ->
     retry=retry_if_exception_type(AWSRetryableError),
     stop=stop_after_attempt(3),
     wait=wait_exponential_jitter(1, 3),
+    reraise=True,
 )
 def delete_agent_alias(
         agent_id: str, agent_alias_id: str, session: boto3.Session
@@ -314,7 +306,7 @@ def on_create(
     alias_name = event["ResourceProperties"]["aliasName"]
     agent_version = event["ResourceProperties"].get("agentVersion")
 
-    prepare_agent(agent_id, session)
+    prepare_agent(agent_id)
     wait_for_agent_status(agent_id, "PREPARED", session)
     response = create_agent_alias(agent_id, alias_name, session, agent_version, client_token)
     return CustomResourceResponse(
@@ -338,7 +330,7 @@ def on_update(event: CustomResourceRequest[AgentAliasRequest]) -> CustomResource
     alias_name = event["ResourceProperties"]["aliasName"]
     agent_version = event["ResourceProperties"].get("agentVersion")
 
-    prepare_agent(agent_id, session)
+    prepare_agent(agent_id)
     wait_for_agent_status(agent_id, "PREPARED", session)
     versions = list_unused_agent_versions(agent_id, session)
     response = update_agent_alias(agent_id, agent_alias_id, alias_name, session, agent_version)

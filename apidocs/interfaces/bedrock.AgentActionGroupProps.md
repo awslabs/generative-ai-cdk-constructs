@@ -15,6 +15,7 @@
 - [apiSchema](bedrock.AgentActionGroupProps.md#apischema)
 - [description](bedrock.AgentActionGroupProps.md#description)
 - [parentActionGroupSignature](bedrock.AgentActionGroupProps.md#parentactiongroupsignature)
+- [shouldPrepareAgent](bedrock.AgentActionGroupProps.md#shouldprepareagent)
 
 ## Properties
 
@@ -84,3 +85,17 @@ ___
 If you specify this value as AMAZON.UserInput, the agent will prompt additional information from the user when it
 doesn't have enough information to respond to an utterance. Leave this field blank if you don't want the agent to
 prompt additional information.
+
+___
+
+### shouldPrepareAgent
+
+• `Optional` `Readonly` **shouldPrepareAgent**: `boolean`
+
+Whether to prepare the agent for use.
+
+**`Default`**
+
+```ts
+- false
+```

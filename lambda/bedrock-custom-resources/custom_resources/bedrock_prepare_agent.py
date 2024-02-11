@@ -11,29 +11,9 @@
 # and limitations under the License.
 #
 
-"""
-Input should be agentId, alias name, and hashes of any knowledge bases and action groups attached to identify changes.
-
-Creation:
-1. PrepareAgent
-2. Call GetAgent until agentStatus is PREPARED
-3. CreateAgentAlias with version 1
-
-Updates:
-1. PrepareAgent
-2. Call GetAgent until agentStatus is PREPARED
-3. ListAgentVersions to get the latest and previous version numbers excluding DRAFT
-4. Determine the next version number
-5. UpdateAgentAlias with the next version number
-6. Delete all but two most recent versions excluding DRAFT
-
-Deletion:
-1. DeleteAgentAlias
-2. Delete all versions excluding DRAFT
-"""
-
 import logging
 import os
+import time
 from typing import TypedDict, Dict
 
 import boto3
@@ -54,64 +34,61 @@ logger = logging.getLogger(__name__)
 logger.setLevel(LOG_LEVEL)
 
 
-class PrepareAgentRequest(TypedDict):
-    agentId: str
+@retry(
+    retry=retry_if_exception_type(AWSRetryableError),
+    stop=stop_after_attempt(3),
+    wait=wait_exponential_jitter(1, 3),
+    reraise=True,
+)
+def get_agent_status(agent_id: str) -> str:
+    client = boto3.client("bedrock-agent")
 
+    try:
+        response = client.get_agent(agentId=agent_id)
+        return response["agent"]["agentStatus"]
+    except botocore.exceptions.ClientError as e:
+        can_retry(e)
 
-def on_event(event: CustomResourceRequest[Dict], context):
-    logger.debug(f"Received event: {event}")
-    request_type = event["RequestType"]
+@retry(
+    retry=retry_if_exception_type(AWSRetryableError),
+    stop=stop_after_attempt(10),
+    wait=wait_exponential_jitter(1, 15),
+    reraise=True,
+)
+def wait_for_agent(agent_id: str) -> str:
+    terminal_states = {"PREPARED", "NOT_PREPARED", "FAILED"}
 
-    if "ServiceToken" in event["ResourceProperties"]:
-        del event["ResourceProperties"]["ServiceToken"]
-
-    if request_type == "Create":
-        return on_create(event)
-    if request_type == "Update":
-        return on_update(event)
-    if request_type == "Delete":
-        return on_delete(event)
-    raise Exception(f"Invalid request type: {request_type}")
+    status = get_agent_status(agent_id)
+    if status in terminal_states:
+        if status == "FAILED":
+            raise Exception(f"Agent in failed state")
+        else:
+            return status
+    else:
+        logger.info(f"Agent status is {status}, waiting...")
+        raise AWSRetryableError(f"Agent status is {status}")
 
 
 @retry(
     retry=retry_if_exception_type(AWSRetryableError),
     stop=stop_after_attempt(3),
     wait=wait_exponential_jitter(1, 3),
+    reraise=True,
 )
-def prepare_agent(agent_id: str, session: boto3.Session) -> str:
-    client = session.client("bedrock-agent")
+def prepare_agent(agent_id: str) -> str:
+    client = boto3.client("bedrock-agent")
+
+    wait_for_agent(agent_id)
 
     try:
-        response = client.prepare_agent(agentId=agent_id)
-        return response["agentStatus"]
+        client.prepare_agent(agentId=agent_id)
     except botocore.exceptions.ClientError as e:
         if e.response["Error"]["Code"] == "ResourceNotFoundException":
             raise Exception(f"Agent {agent_id} not found")
         can_retry(e)
-
-
-def on_create(event: CustomResourceRequest[PrepareAgentRequest]) -> CustomResourceResponse:
-    session = boto3.session.Session()
-    agent_id = event["ResourceProperties"]["agentId"]
-
-    prepare_agent(agent_id, session)
-    return CustomResourceResponse(
-        PhysicalResourceId=agent_id,
-    )
-
-
-def on_update(event: CustomResourceRequest[PrepareAgentRequest]) -> CustomResourceResponse:
-    session = boto3.session.Session()
-    agent_id = event["ResourceProperties"]["agentId"]
-
-    prepare_agent(agent_id, session)
-    return CustomResourceResponse(
-        PhysicalResourceId=agent_id,
-    )
-
-
-def on_delete(event: CustomResourceRequest[PrepareAgentRequest]) -> CustomResourceResponse:
-    agent_id = event["ResourceProperties"]["agentId"]
-
-    return CustomResourceResponse(PhysicalResourceId=agent_id)
+    status = wait_for_agent(agent_id)
+    if status == "PREPARED":
+        logger.info(f"Agent {agent_id} prepared")
+        return status
+    else:
+        raise Exception(f"Agent {agent_id} not prepared")

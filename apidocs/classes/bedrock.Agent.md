@@ -30,15 +30,15 @@ Deploy a Bedrock Agent.
 - [aliasId](bedrock.Agent.md#aliasid)
 - [aliasName](bedrock.Agent.md#aliasname)
 - [cdkTagManager](bedrock.Agent.md#cdktagmanager)
-- [changeIds](bedrock.Agent.md#changeids)
 - [name](bedrock.Agent.md#name)
 - [node](bedrock.Agent.md#node)
-- [prepareAgent](bedrock.Agent.md#prepareagent)
+- [resourceUpdates](bedrock.Agent.md#resourceupdates)
 - [role](bedrock.Agent.md#role)
+- [shouldPrepareAgent](bedrock.Agent.md#shouldprepareagent)
 
 ### Methods
 
-- [\_addPrepareAgentDependency](bedrock.Agent.md#_addprepareagentdependency)
+- [\_addAliasDependency](bedrock.Agent.md#_addaliasdependency)
 - [addActionGroup](bedrock.Agent.md#addactiongroup)
 - [addAlias](bedrock.Agent.md#addalias)
 - [toString](bedrock.Agent.md#tostring)
@@ -120,14 +120,6 @@ cdk.ITaggableV2.cdkTagManager
 
 ___
 
-### changeIds
-
-• `Private` **changeIds**: `string`[] = `[]`
-
-A list of values to indicate if PrepareAgent or an Alias needs to be updated.
-
-___
-
 ### name
 
 • `Readonly` **name**: `string`
@@ -148,13 +140,11 @@ Construct.node
 
 ___
 
-### prepareAgent
+### resourceUpdates
 
-• `Private` **prepareAgent**: `CustomResource`
+• `Private` **resourceUpdates**: `string`[] = `[]`
 
-The prepareAgent custom resource.
-
-Add other resources as dependencies to ensure Prepare Agent is called after they are updated.
+A list of values to indicate if PrepareAgent or an Alias needs to be updated.
 
 ___
 
@@ -164,20 +154,27 @@ ___
 
 The IAM role for the agent.
 
+___
+
+### shouldPrepareAgent
+
+• `Private` `Readonly` **shouldPrepareAgent**: `boolean`
+
+If prepare agent should be called on resource updates.
+
 ## Methods
 
-### \_addPrepareAgentDependency
+### \_addAliasDependency
 
-▸ **_addPrepareAgentDependency**(`resource`, `changeId?`): `void`
+▸ **_addAliasDependency**(`updatedAt`): `void`
 
-Register a dependency for prepareAgent.
+Register a dependency for aliases.
 
 #### Parameters
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `resource` | `IResource` | The resource that will be registered as a dependency. |
-| `changeId?` | `string` | The changeId of the resource that will be registered as a dependency. This is an internal core function and should not be called directly. |
+| `updatedAt` | `string` | The updatedAt of the resource that will be registered as a dependency. This is an internal core function and should not be called directly. |
 
 #### Returns
 

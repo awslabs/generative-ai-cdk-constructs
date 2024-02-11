@@ -61,6 +61,7 @@ def on_event(event: CustomResourceRequest[Dict], context):
     retry=retry_if_exception_type(AWSRetryableError),
     stop=stop_after_attempt(7),
     wait=wait_exponential_jitter(1, 15),
+    reraise=True,
 )
 def on_create(
     event: CustomResourceRequest[Dict], bedrock_agent, client_token=None
@@ -86,6 +87,7 @@ def on_create(
     retry=retry_if_exception_type(AWSRetryableError),
     stop=stop_after_attempt(7),
     wait=wait_exponential_jitter(1, 15),
+    reraise=True,
 )
 def on_update(
     event: CustomResourceRequest[Dict], bedrock_agent
@@ -112,6 +114,7 @@ def on_update(
     retry=retry_if_exception_type(AWSRetryableError),
     stop=stop_after_attempt(3),
     wait=wait_exponential_jitter(1, 3),
+    reraise=True,
 )
 def on_delete(
     event: CustomResourceRequest[Dict], bedrock_agent
