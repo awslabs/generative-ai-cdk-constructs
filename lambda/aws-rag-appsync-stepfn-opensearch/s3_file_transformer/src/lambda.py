@@ -12,10 +12,17 @@
 #
 import os
 import boto3
-from helpers.s3inmemoryloader import S3FileLoaderInMemory
+#from helpers.unstructured_s3_connector import run_s3_Connector
+
+
+
 from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_lambda_powertools.metrics import MetricUnit
+from helpers.utils import isvalid_file_format,transform_csv_document,transform_pdf_document,transform_msdoc_document_file,transform_image_document
+
+
+
 
 logger = Logger(service="INGESTION_FILE_TRANSFORMER")
 tracer = Tracer(service="INGESTION_FILE_TRANSFORMER")
@@ -27,7 +34,7 @@ input_bucket = os.environ['INPUT_BUCKET']
 output_bucket = os.environ['OUTPUT_BUCKET']
 
 @tracer.capture_method
-def file_exists_in_bucket(bucket_name, object_name):
+def file_exists_in_bucket(bucket_name, object_name,):
     s3_client = boto3.client('s3')
 
     try:
@@ -47,8 +54,8 @@ def file_exists_in_bucket(bucket_name, object_name):
 @tracer.capture_lambda_handler
 @metrics.log_metrics(capture_cold_start_metric=True)
 def handler(event,  context: LambdaContext) -> dict:
-
     job_id = event['jobid']
+    modelid = event['modelid']
     ignore_existing = event.get("ignore_existing", False)
 
     # Add a correlationId (tracking code).
@@ -62,32 +69,36 @@ def handler(event,  context: LambdaContext) -> dict:
     response = {
         'status':event['status'],
         'name':event['name'],
-        'jobid':job_id
+        'jobid':job_id,
+        'modelid':modelid
     }
     
     # verify that the file doesn't already exist in the output bucket, otherwise we will process a duplicate
-    name, extension = os.path.splitext(event['name'])
-    output_file_name = name + '.txt'
-    if (ignore_existing or file_exists_in_bucket(output_bucket, output_file_name) == False):
-        #load the file from input S3 bucket and save its content as a txt file in the output bucket
-        if (event['name'].lower().endswith('.pdf')):
-            metrics.add_metric(name="pdf", unit=MetricUnit.Count, value=1)
-            loader = S3FileLoaderInMemory(input_bucket, event['name'])
-            document_content = loader.load()
-            if not document_content:
-                response['status'] = 'Unable to load document'
-                response['name'] = ''
-                return response 
-            encoded_string = document_content.encode("utf-8")
-            s3.Bucket(output_bucket).put_object(Key=output_file_name, Body=encoded_string)
-            response['status'] = 'File transformed'
-            response['name'] = output_file_name
-        else:
-            response['status'] = 'Unsupported'
-            response['name'] = ''
+    file_name = event['name']
+    name, extension = os.path.splitext(file_name)
+    if (extension =='.pdf'):
+        output_file_name= name + '.txt'
     else:
-        response['status'] = 'File already exists'
-        response['name'] = output_file_name
+        output_file_name=file_name
+    print(f'output file name {output_file_name}')
+    if (isvalid_file_format(file_name)):
+        #load the file from input S3 bucket and save its content as a txt file in the output bucket
+        if (ignore_existing or file_exists_in_bucket(output_bucket, output_file_name) == False):
+            response['name'] = output_file_name
+            if(extension == '.pdf'):
+                response['status'] = transform_pdf_document(input_bucket,file_name,output_file_name)
+            elif(extension == '.jpg'or extension == '.jpeg' or extension == '.png'):
+                response['status'] = transform_image_document(input_bucket,file_name,output_bucket)
+            #TODO add csv, doc, docx file type suport as well.
+            else:
+                response['status'] = 'File Not transformed'            
+        else:
+            response['status'] = 'File already exists'
+            response['name'] = output_file_name
+    else:
+        response['status'] = 'Unsupported'
+        response['name'] = ''
+        
 
     return response 
         

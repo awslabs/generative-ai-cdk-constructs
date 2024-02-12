@@ -502,6 +502,26 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       ],
     }));
 
+    // Minimum permissions for a Lambda function to execute while accessing a resource within a VPC
+    s3_transformer_job_function_role.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'rekognition:CompareFaces',
+        'rekognition:DetectFaces',
+        'rekognition:DetectLabels',
+        'rekognition:ListFaces',
+        'rekognition:SearchFaces',
+        'rekognition:SearchFacesByImage',
+        'rekognition:DetectText',
+        'rekognition:GetCelebrityInfo',
+        'rekognition:RecognizeCelebrities',
+        'rekognition:DetectModerationLabels',
+      ],
+      //TODO: change the resource to specific arn
+      resources: ['*'],
+    }));
+
+
     s3_transformer_job_function_role.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,

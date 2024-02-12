@@ -18,7 +18,12 @@ import boto3, json
 import numpy as np
 import tempfile
 from helpers.credentials_helper import get_credentials
-from helpers.opensearch_helper import check_if_index_exists, process_shard
+from helpers.csv_loader import csv_loader
+from helpers.image_loader import image_loader
+from helpers.msdoc_loader import msdoc_loader
+from helpers.html_loader import html_loader
+
+from helpers.opensearch_helper import check_if_index_exists, process_shard, create_index_for_image
 from helpers.update_ingestion_status import updateIngestionJobStatus
 from langchain_community.embeddings import BedrockEmbeddings
 from helpers.s3inmemoryloader import S3TxtFileLoaderInMemory
@@ -43,6 +48,7 @@ credentials = session.get_credentials()
 
 opensearch_secret_id = os.environ['OPENSEARCH_SECRET_ID']
 bucket_name = os.environ['OUTPUT_BUCKET']
+# TODO: add input_bucket for csv|images
 opensearch_index = os.environ['OPENSEARCH_INDEX']
 opensearch_domain = os.environ['OPENSEARCH_DOMAIN_ENDPOINT']
 opensearch_api_name = os.environ['OPENSEARCH_API_NAME']
@@ -56,9 +62,10 @@ PER_ITER_SLEEP_TIME = 5
 PROCESS_COUNT=5
 INDEX_FILE="index_file"
 
-def process_documents_in_es(index_exists, shards, http_auth):
+def process_documents_in_es(index_exists, shards, http_auth,model_id):
     bedrock_client = boto3.client('bedrock-runtime')
-    embeddings = BedrockEmbeddings(client=bedrock_client)
+    embeddings = BedrockEmbeddings(client=bedrock_client,model_id=model_id)
+    print(f' Bedrock embeddings model id :: {embeddings.model_id}')
 
     if index_exists is False:
         # create an index if the create index hint file exists
@@ -104,11 +111,13 @@ def process_documents_in_es(index_exists, shards, http_auth):
                     os_domain_ep=opensearch_domain,
                     os_http_auth=http_auth)
 
-def process_documents_in_aoss(index_exists, shards, http_auth):
+def process_documents_in_aoss(index_exists, shards, http_auth,model_id):
     # Reference: https://python.langchain.com/docs/integrations/vectorstores/opensearch#using-aoss-amazon-opensearch-service-serverless
     bedrock_client = boto3.client('bedrock-runtime')
-    embeddings = BedrockEmbeddings(client=bedrock_client)
-
+    embeddings = BedrockEmbeddings(client=bedrock_client,model_id=model_id)
+   
+    print(f' Bedrock embeddings model id :: {embeddings.model_id}')
+   
     shard_start_index = 0
     if index_exists is False:
         OpenSearchVectorSearch.from_documents(
@@ -125,18 +134,19 @@ def process_documents_in_aoss(index_exists, shards, http_auth):
         )
         # we now need to start the loop below for the second shard
         shard_start_index = 1
-
+    print(f'statrt processing shard')
     for shard in shards[shard_start_index:]:
         results = process_shard(shard=shard,
                     os_index_name=opensearch_index,
                     os_domain_ep=opensearch_domain,
-                    os_http_auth=http_auth)
+                    os_http_auth=http_auth,
+                    model_id=model_id)
 
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler
 @metrics.log_metrics(capture_cold_start_metric=True)
 def handler(event,  context: LambdaContext) -> dict:
-
+    print(f'event {event}')
     # if the secret id is not provided
     # uses username password
     if opensearch_secret_id != 'NONE': # nosec
@@ -151,6 +161,9 @@ def handler(event,  context: LambdaContext) -> dict:
             session_token=credentials.token
         )
     job_id = event[0]['s3_transformer_result']['Payload']['jobid']
+    modelid = event[0]['s3_transformer_result']['Payload']['modelid']
+
+    print(f' model id :: {modelid}')
 
     logger.set_correlation_id(job_id)
     metrics.add_metadata(key='correlationId', value=job_id)
@@ -158,26 +171,51 @@ def handler(event,  context: LambdaContext) -> dict:
 
     files = []
     for transformed_file in event:
-        files.append({'name':transformed_file['name'], 'status':transformed_file['s3_transformer_result']['Payload']['status']})
+        files.append({'name':transformed_file['name'],
+                       'status':transformed_file['s3_transformer_result']['Payload']['status'],
+                       'imageurl':''})
     updateIngestionJobStatus({'jobid': job_id, 'files': files})
 
+    
+    
     print(f'Loading txt raw files from {bucket_name}')
 
     docs = []
+    
+    # Images are stored in s3 with presigned url, embeddings is not required.
 
     for transformed_file in event:
+        print(f" staus :: {transformed_file['s3_transformer_result']['Payload']['status']}")
         if transformed_file['s3_transformer_result']['Payload']['status'] == 'File transformed':
             filename = transformed_file['s3_transformer_result']['Payload']['name']
-            loader = S3TxtFileLoaderInMemory(bucket_name, filename)
-            sub_docs = loader.load()
-            for doc in sub_docs:
-                doc.metadata['source'] = filename
-            docs.extend(sub_docs)
+            name, extension = os.path.splitext(filename)
+            print(f" the name {name} and extension {extension}")
+            # TODO: check file format , if pdf then read raw text from output bucket and update docs[]
+            # if csv|image then read file from input bucket using langchain document loader and update docs[]
+            if(extension == '.pdf'):
+                loader = S3TxtFileLoaderInMemory(bucket_name, filename)
+                sub_docs = loader.load()
+                for doc in sub_docs:
+                    doc.metadata['source'] = filename
+                docs.extend(sub_docs)
+            if(extension == '.jpg' or extension == '.jpeg' or extension == '.png'):
+                # Try adding text to document
+                #image_detal_file is created by aws rekognition
+                img_load = image_loader(bucket_name, f"{name}-resized.png",f"{name}.txt")
+                sub_docs = img_load.load()
+                for doc in sub_docs:
+                    doc.metadata['source'] = filename
+                docs.extend(sub_docs)
+                url = img_load.get_presigned_url()
+                print(f" url set :: {url} ")
+                print(f" prepare os object ")
+                os_document = img_load.prepare_document_for_direct_load()
+       
 
     if not docs:
-        return {
-            'status':'nothing to ingest'
-        }
+            return {
+                'status':'nothing to ingest'
+            }
 
     text_splitter = RecursiveCharacterTextSplitter(
                 # Set a really small chunk size, just to show.
@@ -192,11 +230,11 @@ def handler(event,  context: LambdaContext) -> dict:
     # we can augment data here probably (PII present ? ...)
     for doc in docs:
         doc.metadata['timestamp'] = time.time()
-        doc.metadata['embeddings_model'] = 'amazon.titan-embed-text-v1'
+       # doc.metadata['embeddings_model'] = 'amazon.titan-embed-text-v1'
+        doc.metadata['embeddings_model'] = modelid
     chunks = text_splitter.create_documents([doc.page_content for doc in docs], metadatas=[doc.metadata for doc in docs])
 
     db_shards = (len(chunks) // MAX_OS_DOCS_PER_PUT) + 1
-    print(f'Loading chunks into vector store ... using {db_shards} shards')
     shards = np.array_split(chunks, db_shards)
 
     # first check if index exists, if it does then call the add_documents function
@@ -204,6 +242,8 @@ def handler(event,  context: LambdaContext) -> dict:
     # and then do a bulk add. Both add_documents and from_documents do a bulk add
     # but it is important to call from_documents first so that the index is created
     # correctly for K-NN
+    
+    print(f'check if index exists shards')
     try:
         index_exists = check_if_index_exists(opensearch_index,
                                                 aws_region,
@@ -218,15 +258,23 @@ def handler(event,  context: LambdaContext) -> dict:
             'status':'failed'
         }
 
-    if opensearch_api_name == "es":
-        process_documents_in_es(index_exists, shards, http_auth)
-    elif opensearch_api_name == "aoss":
-        process_documents_in_aoss(index_exists, shards, http_auth)
+    print(f'job_id :: {job_id}')
+    if(job_id=="101"):
+        print(f'running for job_id 101, use os directly')
+        create_index_for_image(os_document)
+    else:
+        print(f'Loading chunks into vector store ... using {db_shards} shards')
+        if opensearch_api_name == "es":
+            process_documents_in_es(index_exists, shards, http_auth,modelid)
+        elif opensearch_api_name == "aoss":
+            process_documents_in_aoss(index_exists, shards, http_auth,modelid)
 
+    
 
     for file in files:
         if file['status'] == 'File transformed':
-            file['status'] = 'Ingested'
+           file['status'] = 'Ingested'
+           file['imageurl'] = url
         else:
             file['status'] = 'Error_'+file['status']
     updateIngestionJobStatus({'jobid': job_id, 'files': files})
