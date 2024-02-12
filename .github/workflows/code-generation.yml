@@ -29,7 +29,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@04b98b3f9e85f563fb061be8751a0352327246b0
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN_TO_ASSUME }}
-          aws-region: us-east-1
+          aws-region: ${{ env.AWS_REGION }}
           role-duration-seconds: "7200"
       - name: Run code generation
         run: npx projen generate-models-containers

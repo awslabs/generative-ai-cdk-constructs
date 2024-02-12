@@ -542,7 +542,7 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
         uses: 'aws-actions/configure-aws-credentials@v3.0.1',
         with: {
           'role-to-assume': '${{ secrets.AWS_ROLE_ARN_TO_ASSUME }}',
-          'aws-region': 'us-east-1',
+          'aws-region': '${{ env.AWS_REGION }}',
           'role-duration-seconds': '7200',
         },
       },
