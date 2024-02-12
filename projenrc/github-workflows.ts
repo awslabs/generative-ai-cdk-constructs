@@ -526,7 +526,7 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
       },
       {
         name: 'Setup Node.js',
-        uses: 'actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7',
+        uses: 'actions/setup-node@v3',
         with: {
           'node-version': '20.x',
         },
