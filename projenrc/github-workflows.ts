@@ -496,6 +496,7 @@ export function runCommitLintWorkflow(project: AwsCdkConstructLibrary) {
 
 /**
  * Runs the code generation step to update the list of available JumpStart models, and DLC images.
+ * Uses https://github.com/aws-actions/configure-aws-credentials to authenticate against AWS
  * @param project AwsCdkConstructLibrary
  */
 export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
@@ -508,6 +509,7 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
     name: 'Code generation',
     runsOn: ['ubuntu-latest'],
     permissions: {
+      idToken: JobPermission.WRITE, //needed to interact with GitHub's OIDC Token endpoint.
       contents: JobPermission.READ,
     },
     outputs: {
@@ -534,6 +536,15 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
       {
         name: 'Install dependencies',
         run: 'yarn install --check-files --frozen-lockfile',
+      },
+      {
+        name: 'Setup AWS credentials',
+        uses: 'aws-actions/configure-aws-credentials@v3.0.1',
+        with: {
+          'role-to-assume': '${{ secrets.AWS_ROLE_ARN_TO_ASSUME }}',
+          'aws-region': 'us-east-1',
+          'role-duration-seconds': '7200',
+        },
       },
       {
         name: 'Run code generation',

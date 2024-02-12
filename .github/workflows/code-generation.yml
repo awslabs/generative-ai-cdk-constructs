@@ -10,6 +10,7 @@ jobs:
     name: Code generation
     runs-on: ubuntu-latest
     permissions:
+      id-token: write
       contents: read
     outputs:
       patch_created: ${{ steps.create_patch.outputs.patch_created }}
@@ -24,6 +25,12 @@ jobs:
           node-version: 20.x
       - name: Install dependencies
         run: yarn install --check-files --frozen-lockfile
+      - name: Setup AWS credentials
+        uses: aws-actions/configure-aws-credentials@04b98b3f9e85f563fb061be8751a0352327246b0
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN_TO_ASSUME }}
+          aws-region: us-east-1
+          role-duration-seconds: "7200"
       - name: Run code generation
         run: npx projen generate-models-containers
       - name: Find mutations
