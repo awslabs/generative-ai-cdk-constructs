@@ -6,6 +6,7 @@
 
 ### Properties
 
+- [acceptEula](JumpStartSageMakerEndpointProps.md#accepteula)
 - [endpointName](JumpStartSageMakerEndpointProps.md#endpointname)
 - [environment](JumpStartSageMakerEndpointProps.md#environment)
 - [instanceCount](JumpStartSageMakerEndpointProps.md#instancecount)
@@ -16,6 +17,12 @@
 - [vpcConfig](JumpStartSageMakerEndpointProps.md#vpcconfig)
 
 ## Properties
+
+### acceptEula
+
+• `Optional` `Readonly` **acceptEula**: `boolean`
+
+___
 
 ### endpointName
 
