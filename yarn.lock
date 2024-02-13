@@ -1339,10 +1339,10 @@ available-typed-arrays@^1.0.5, available-typed-arrays@^1.0.6:
   resolved "https://registry.yarnpkg.com/available-typed-arrays/-/available-typed-arrays-1.0.6.tgz#ac812d8ce5a6b976d738e1c45f08d0b00bc7d725"
   integrity sha512-j1QzY8iPNPG4o4xmO3ptzpRxTciqD3MgEHtifP/YnJpIo58Xu+ne4BejlbkuaLfXn/nz6HFiw29bLpj2PNMdGg==
 
-aws-cdk-lib@2.116.0:
-  version "2.116.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.116.0.tgz#070d130059c10dbde4e3b484096b2a5f73405755"
-  integrity sha512-LOYJGtKLvf/wVt3UMwWQxvxgAM681ZV/BbGGB6aEqc7+4TMfbYFbaA02+zwN0E0zxOxi4l0j1/BNO4GOzVSoPw==
+aws-cdk-lib@2.122.0:
+  version "2.122.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.122.0.tgz#6f8078e52e2cf3ce30be3196f32c8e76c7ae9f1b"
+  integrity sha512-NBUfYk/SialvKFsvBG/Ucd7lM+BID3Uy3EEOnIBbioDpnMotm5SDaU/RUm4APS4sxzQZX1DjduD5ZUFNHnEWhQ==
   dependencies:
     "@aws-cdk/asset-awscli-v1" "^2.2.201"
     "@aws-cdk/asset-kubectl-v20" "^2.1.2"
