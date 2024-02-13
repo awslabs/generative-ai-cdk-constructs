@@ -6,3 +6,5 @@ boto3
 requests
 langchain==0.1.4
 pypdf2
+Pillow
+langchain-community==0.0.16
