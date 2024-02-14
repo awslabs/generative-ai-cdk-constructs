@@ -101,8 +101,8 @@ def run_qa_agent_rag_no_memory(input_params):
     logger.info("starting qa agent with rag approach without memory :: {input_params}")
 
     base64_bytes = input_params['question'].encode("utf-8")
-    model_id = input_params['embeddings_model']['modelId']
-    print(f'model id :: {model_id}')
+    embedding_model_id = input_params['embeddings_model']['modelId']
+    qa_model_id = input_params['qa_model']['modelId']
     sample_string_bytes = base64.b64decode(base64_bytes)
     decoded_question = sample_string_bytes.decode("utf-8")
 
@@ -129,7 +129,7 @@ def run_qa_agent_rag_no_memory(input_params):
                                               os.environ.get('OPENSEARCH_DOMAIN_ENDPOINT'),
                                               os.environ.get('OPENSEARCH_INDEX'),
                                               os.environ.get('OPENSEARCH_SECRET_ID'),
-                                              model_id)
+                                              embedding_model_id)
 
     else:
         logger.info("_retriever already exists")

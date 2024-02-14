@@ -199,7 +199,7 @@ def handler(event,  context: LambdaContext) -> dict:
             if(extension == '.jpg' or extension == '.jpeg' or extension == '.png' or extension == '.svg'):
                 # Try adding text to document
                 #image_detal_file is created by aws rekognition
-                img_load = image_loader(bucket_name, f"{name}-resized{extension}",f"{name}.txt")
+                img_load = image_loader(bucket_name, filename,f"{name}.txt")
                 sub_docs = img_load.load()
                 for doc in sub_docs:
                     doc.metadata['source'] = filename

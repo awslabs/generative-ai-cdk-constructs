@@ -33,11 +33,7 @@ def run_qa_agent_on_image_no_memory(input_params):
     }
     send_job_status(status_variables)
 
-    # 1 : load the document
-    global _file_content
-    global _current_file_name
-
-    bucket_name = os.environ['INPUT_BUCKET']
+    
     filename = input_params['filename']
     image_url = input_params['presignedurl']
     logger.info(f"Generating response to question for file {filename}")
@@ -52,15 +48,8 @@ def run_qa_agent_on_image_no_memory(input_params):
         send_job_status(status_variables)
         return
 
-    # 2 : run the question
     streaming = input_params.get("streaming", False)
-    # TODO use streaming in response
-    callback_manager = [StreamingCallbackHandler(status_variables)] if streaming else None
-   
-    #_qa_llm = get_llm(callback_manager,"HuggingFaceM4/idefics-80b-instruct")
-    #TODO : Update get_llm to support sagemaker as provider,
-    # this needs to be updated with @alain changes
-    print(f' get LLM Ideficsllm')
+    callback_manager = [StreamingCallbackHandler(status_variables)] if streaming else None  
     _qa_llm = Ideficsllm.sagemakerendpoint_llm("idefics")
     
     if (_qa_llm is None):
@@ -71,8 +60,6 @@ def run_qa_agent_on_image_no_memory(input_params):
         send_job_status(status_variables)
         return status_variables
 
-    # 3: run LLM
-    #template="User:{question}![]({image})<end_of_utterance>\nAssistant:"
     template = """\n\nUser: {question}![]({image})<end_of_utterance>
          \n\nAssistant:"""
     prompt = PromptTemplate(template=template, input_variables=["image", "question"])
@@ -82,7 +69,6 @@ def run_qa_agent_on_image_no_memory(input_params):
         logger.info(f'image is: {filename}')
         logger.info(f'decoded_question is: {decoded_question}')
         tmp = chain.predict(image=image_url, question=decoded_question)
-        #answer = tmp.removeprefix(' ')
         answer=tmp.split("Assistant:",1)[1]
 
         logger.info(f'tmp is: {tmp}')

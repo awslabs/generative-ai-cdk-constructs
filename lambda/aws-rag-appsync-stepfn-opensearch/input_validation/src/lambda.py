@@ -62,7 +62,7 @@ def append_job_info(response, job_id, ignore_existing,modelid):
 
 @tracer.capture_method
 def isvalid_file_format(file_name: str) -> bool:
-    file_format = ['.pdf','.txt','.jpg','.jpeg','.png','.csv','.docx','.ppt','.html','.jpeg']
+    file_format = ['.pdf','.txt','.jpg','.jpeg','.png','.svg']
     if file_name.endswith(tuple(file_format)):
         print(f'valid file format :: {file_format}')
         return True
