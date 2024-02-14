@@ -91,6 +91,37 @@ describe('JumpStartSageMakerEndpoint construct', () => {
   });
 });
 
+describe('JumpStartSageMakerEndpoint eula false', () => {
+
+  let JmpStrtTestStack: cdk.Stack;
+
+  afterAll(() => {
+    console.log('Test completed');
+  });
+
+  beforeAll(() => {
+
+    JmpStrtTestStack = new cdk.Stack(undefined, undefined, {
+      env: { account: cdk.Aws.ACCOUNT_ID, region: 'us-east-1' },
+    });
+
+  });
+
+  test('SageMaker endpoint fails to synth', () => {
+
+    //wrapping code in a function, otherwise the error will not be caught and the assertion will fail.
+    const t = () => {
+      new JumpStartSageMakerEndpoint(JmpStrtTestStack, 'test', {
+        model: JumpStartModel.META_TEXTGENERATION_LLAMA_2_7B_F_2_0_2,
+        acceptEula: false, // should fail synth
+        instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
+      });
+    };
+
+    expect(t).toThrow('The AcceptEula value must be explicitly defined as True in order to accept the EULA that the model requires. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.');
+  });
+});
+
 describe('JumpStartSageMakerEndpoint VPC construct', () => {
 
   let JmpStrtTestTemplate: Template;
