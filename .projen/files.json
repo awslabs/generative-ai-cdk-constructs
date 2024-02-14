@@ -6,6 +6,7 @@
     ".github/workflows/auto-approve.yml",
     ".github/workflows/bandit.yml",
     ".github/workflows/build.yml",
+    ".github/workflows/code-generation.yml",
     ".github/workflows/commitlint.yml",
     ".github/workflows/github-merit-badger.yml",
     ".github/workflows/monthly-repo-metrics.yml",
