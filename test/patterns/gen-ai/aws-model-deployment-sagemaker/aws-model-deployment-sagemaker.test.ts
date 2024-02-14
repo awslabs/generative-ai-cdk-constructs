@@ -39,6 +39,7 @@ describe('JumpStartSageMakerEndpoint construct', () => {
 
     JmpStrtTestConstruct = new JumpStartSageMakerEndpoint(JmpStrtTestStack, 'test', {
       model: JumpStartModel.META_TEXTGENERATION_LLAMA_2_7B_F_2_0_2,
+      acceptEula: true,
       instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
     });
     JmpStrtTestTemplate = Template.fromStack(JmpStrtTestStack);
@@ -140,6 +141,7 @@ describe('JumpStartSageMakerEndpoint VPC construct', () => {
     JmpStrtTestConstruct = new JumpStartSageMakerEndpoint(JmpStrtTestStack, 'test', {
       model: JumpStartModel.META_TEXTGENERATION_LLAMA_2_7B_F_2_0_2,
       instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
+      acceptEula: true,
       vpcConfig: {
         securityGroupIds: securityGroups.map(s => s.securityGroupId),
         subnets: vpc.privateSubnets.map((subnet) => subnet.subnetId),

@@ -59,6 +59,13 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
     this.instanceType = props.instanceType;
     this.instanceCount = Math.max(1, props.instanceCount ?? 1);
     this.acceptEula = props.acceptEula ?? false;
+
+    if (!this.acceptEula) {
+      throw new Error(
+        'The AcceptEula value must be explicitly defined as True in order to accept the EULA that the model requires. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.',
+      );
+    }
+
     this.role = props.role ?? this.createSageMakerRole();
     this.grantPrincipal = this.role;
 
