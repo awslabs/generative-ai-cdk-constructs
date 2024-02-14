@@ -119,7 +119,7 @@ runBanditWorkflow(project);
 runCommitLintWorkflow(project);
 buildCodeGenerationWorkflow(project);
 
-// Add specific overrides https://projen.io/github.html#actions-versions
+// Add specific overrides https://projen.io/docs/integrations/github/#actions-versions
 project.github?.actions.set('actions/checkout@v3', 'actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744');
 project.github?.actions.set('actions/download-artifact@v3', 'actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a');
 project.github?.actions.set('actions/github-script@v6', 'actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410');
@@ -137,7 +137,7 @@ project.github?.actions.set('oss-review-toolkit/ort-ci-github-action@v1', 'oss-r
 project.github?.actions.set('peter-evans/create-issue-from-file@v4', 'peter-evans/create-issue-from-file@433e51abf769039ee20ba1293a088ca19d573b7f');
 project.github?.actions.set('peter-evans/create-pull-request@v4', 'peter-evans/create-pull-request@38e0b6e68b4c852a5500a94740f0e535e0d7ba54');
 project.github?.actions.set('peter-evans/create-pull-request@v5', 'peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38');
-project.github?.actions.set('aws-actions/configure-aws-credentials@v3.0.1', 'aws-actions/configure-aws-credentials@04b98b3f9e85f563fb061be8751a0352327246b0');
+project.github?.actions.set('aws-actions/configure-aws-credentials@v4.0.2', 'aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502');
 
 // We don't want to package certain things
 project.npmignore?.addPatterns(

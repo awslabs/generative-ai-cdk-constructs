@@ -539,11 +539,12 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
       },
       {
         name: 'Setup AWS credentials',
-        uses: 'aws-actions/configure-aws-credentials@v3.0.1',
+        uses: 'aws-actions/configure-aws-credentials@v4.0.2',
         with: {
           'role-to-assume': '${{ secrets.AWS_ROLE_ARN_TO_ASSUME }}',
           'aws-region': '${{ env.AWS_REGION }}',
           'role-duration-seconds': '7200',
+          'mask-aws-account-id': true,
         },
       },
       {
@@ -561,7 +562,7 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
       {
         name: 'Upload patch',
         if: `steps.${CREATE_PATCH_STEP_ID}.outputs.${PATCH_CREATED_OUTPUT}`,
-        uses: 'actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32',
+        uses: 'actions/upload-artifact@v3',
         with: {
           name: '.repo.patch',
           path: '.repo.patch',
@@ -589,7 +590,7 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
       },
       {
         name: 'Download patch',
-        uses: 'actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a',
+        uses: 'actions/download-artifact@v3',
         with: {
           name: '.repo.patch',
           path: '${{ runner.temp }}',
@@ -609,7 +610,7 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
       {
         name: 'Create Pull Request',
         id: 'create-pr',
-        uses: 'peter-evans/create-pull-request@38e0b6e68b4c852a5500a94740f0e535e0d7ba54',
+        uses: 'peter-evans/create-pull-request@v4',
         with: {
           'token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
           'commit-message': [
