@@ -521,6 +521,14 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       resources: ['*'],
     }));
 
+    s3_transformer_job_function_role.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: ['bedrock:*'],
+      resources: [
+        'arn:' + Aws.PARTITION + ':bedrock:' + Aws.REGION + '::foundation-model',
+        'arn:' + Aws.PARTITION + ':bedrock:' + Aws.REGION + '::foundation-model/*',
+      ],
+    }));
 
     s3_transformer_job_function_role.addToPolicy(
       new iam.PolicyStatement({

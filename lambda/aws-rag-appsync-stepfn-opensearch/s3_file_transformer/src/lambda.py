@@ -19,7 +19,7 @@ import boto3
 from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_lambda_powertools.metrics import MetricUnit
-from helpers.utils import isvalid_file_format,transform_csv_document,transform_pdf_document,transform_msdoc_document_file,transform_image_document
+from helpers.utils import isvalid_file_format,transform_pdf_document,transform_image_document
 
 
 

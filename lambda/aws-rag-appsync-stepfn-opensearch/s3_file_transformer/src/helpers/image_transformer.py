@@ -78,15 +78,17 @@ class image_transformer():
     @tracer.capture_method
     def detect_image_lables(self)-> str:
         try:
-            labels=[]
+            labels=''
             response = self.rekognition_client.detect_labels(Image=self.image,MaxLabels=20 )       
             for label in response['Labels']:
-                print(label)
+                name = label['Name']
                 if(label['Confidence'] > 0.80):
-                    labels.append(label['Name'])
+                    labels = labels + label['Name'] + ","
         except Exception as exp:
             print(f"Couldn't analyze image: {exp}")
         return labels
+    
+   
 
 
     @tracer.capture_method

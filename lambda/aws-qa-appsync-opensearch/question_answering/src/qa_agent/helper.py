@@ -90,7 +90,8 @@ def load_vector_db_opensearch(region: str,
                               opensearch_api_name: str,
                               opensearch_domain_endpoint: str,
                               opensearch_index: str,
-                              secret_id: str) -> OpenSearchVectorSearch:
+                              secret_id: str,
+                              model_id: str) -> OpenSearchVectorSearch:
     print(f"load_vector_db_opensearch, region={region}, "
                 f"opensearch_domain_endpoint={opensearch_domain_endpoint}, opensearch_index={opensearch_index}")
     
@@ -107,7 +108,7 @@ def load_vector_db_opensearch(region: str,
             opensearch_api_name,
             session_token=credentials.token,
         )
-    embedding_function = get_embeddings_llm()
+    embedding_function = get_embeddings_llm(model_id)
 
     opensearch_url = opensearch_domain_endpoint if opensearch_domain_endpoint.startswith("https://") else f"https://{opensearch_domain_endpoint}"
     vector_db = OpenSearchVectorSearch(index_name=opensearch_index,

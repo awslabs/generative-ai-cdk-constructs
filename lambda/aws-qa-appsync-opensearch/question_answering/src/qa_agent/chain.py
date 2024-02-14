@@ -98,10 +98,11 @@ def run_question_answering(arguments):
 _doc_index = None
 _current_doc_index = None
 def run_qa_agent_rag_no_memory(input_params):
-    logger.info("starting qa agent with rag approach without memory")
+    logger.info("starting qa agent with rag approach without memory :: {input_params}")
 
     base64_bytes = input_params['question'].encode("utf-8")
-
+    model_id = input_params['embeddings_model']['modelId']
+    print(f'model id :: {model_id}')
     sample_string_bytes = base64.b64decode(base64_bytes)
     decoded_question = sample_string_bytes.decode("utf-8")
 
@@ -127,7 +128,8 @@ def run_qa_agent_rag_no_memory(input_params):
                                               os.environ.get('OPENSEARCH_API_NAME'),
                                               os.environ.get('OPENSEARCH_DOMAIN_ENDPOINT'),
                                               os.environ.get('OPENSEARCH_INDEX'),
-                                              os.environ.get('OPENSEARCH_SECRET_ID'))
+                                              os.environ.get('OPENSEARCH_SECRET_ID'),
+                                              model_id)
 
     else:
         logger.info("_retriever already exists")
@@ -135,10 +137,11 @@ def run_qa_agent_rag_no_memory(input_params):
     _current_doc_index = _doc_index
 
     logger.info("Starting similarity search")
-    max_docs = input_params['max_docs']
+    max_docs = input_params['retrieval']['max_docs']
     output_file_name = input_params['filename']
 
     source_documents = doc_index.similarity_search(decoded_question, k=max_docs)
+    logger.info(source_documents)
     # --------------------------------------------------------------------------
     # If an output file is specified, filter the response to only include chunks  
     # related to that file. The source metadata is added when embeddings are 

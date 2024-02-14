@@ -36,7 +36,8 @@ class image_loader():
         self.bucket = bucket
         self.image_file = image_file
         self.image_detail_file = image_detail_file
-       
+        print(f"load  image {image_file}, and image txt {image_detail_file} from :: {bucket}")
+
 
     
     @tracer.capture_method
@@ -44,7 +45,6 @@ class image_loader():
         """Load documents."""
         try:
             local_file_path = self.download_file(self.image_file)
-            print(f"file downloaded :: {local_file_path}")
             
             with open(f"{local_file_path}", "rb") as image_file:
                 input_image = base64.b64encode(image_file.read()).decode("utf8")
@@ -57,9 +57,9 @@ class image_loader():
 
             docs = json.dumps({
                     "inputImage": input_image,
-                    #"inputText": raw_text,
+                    "inputText": raw_text,
                                })
-            #print(f'docs for titan embeddings {docs}')
+            print(f'raw_text for titan embeddings {raw_text}')
             return [Document(page_content=docs, metadata=metadata)]
             
         except Exception as exception:

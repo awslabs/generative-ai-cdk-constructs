@@ -2,7 +2,7 @@ aws-lambda-powertools
 aws-xray-sdk
 fastjsonschema
 typing-extensions
-boto3
+boto3>=1.34.29
 requests
 langchain==0.1.4
 pypdf2

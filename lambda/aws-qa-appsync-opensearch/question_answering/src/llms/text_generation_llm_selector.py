@@ -50,9 +50,9 @@ def get_llm(callbacks=None):
 
     return Bedrock(**kwargs)
 
-def get_embeddings_llm():
+def get_embeddings_llm(model_id):
     bedrock = boto3.client('bedrock-runtime')
-    return BedrockEmbeddings(client=bedrock, model_id="amazon.titan-embed-text-v1")
+    return BedrockEmbeddings(client=bedrock, model_id=model_id)
     
 def get_max_tokens():
     return 200000

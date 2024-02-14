@@ -18,10 +18,8 @@ import boto3, json
 import numpy as np
 import tempfile
 from helpers.credentials_helper import get_credentials
-from helpers.csv_loader import csv_loader
 from helpers.image_loader import image_loader
-from helpers.msdoc_loader import msdoc_loader
-from helpers.html_loader import html_loader
+
 
 from helpers.opensearch_helper import check_if_index_exists, process_shard, create_index_for_image
 from helpers.update_ingestion_status import updateIngestionJobStatus
@@ -198,17 +196,16 @@ def handler(event,  context: LambdaContext) -> dict:
                 for doc in sub_docs:
                     doc.metadata['source'] = filename
                 docs.extend(sub_docs)
-            if(extension == '.jpg' or extension == '.jpeg' or extension == '.png'):
+            if(extension == '.jpg' or extension == '.jpeg' or extension == '.png' or extension == '.svg'):
                 # Try adding text to document
                 #image_detal_file is created by aws rekognition
-                img_load = image_loader(bucket_name, f"{name}-resized.png",f"{name}.txt")
+                img_load = image_loader(bucket_name, f"{name}-resized{extension}",f"{name}.txt")
                 sub_docs = img_load.load()
                 for doc in sub_docs:
                     doc.metadata['source'] = filename
                 docs.extend(sub_docs)
                 url = img_load.get_presigned_url()
-                print(f" url set :: {url} ")
-                print(f" prepare os object ")
+                print(f" source :: {filename} ")
                 os_document = img_load.prepare_document_for_direct_load()
        
 
