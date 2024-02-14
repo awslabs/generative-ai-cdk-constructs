@@ -56,6 +56,7 @@ import { JumpStartSageMakerEndpoint, JumpStartModel, SageMakerInstanceType } fro
 // Deploy a model from SageMaker Foundation Models or SageMaker JumpStart
 new JumpStartSageMakerEndpoint(this, 'LLAMA2', {
   model: JumpStartModel.META_TEXTGENERATION_LLAMA_2_7B_F_2_0_2,
+  acceptEula: true,
   instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
 });
 ```
@@ -73,6 +74,7 @@ JumpStartSageMakerEndpoint(
     self,
     'LLAMA2',
     model=JumpStartModel.META_TEXTGENERATION_LLAMA_2_7_B_F_2_0_2,
+    accept_eula=True,
     instance_type=SageMakerInstanceType.ML_G5_2_XLARGE,
 )
 ```
@@ -97,6 +99,7 @@ Parameters
 |:-------------|:----------------|-----------------|-----------------|
 | model | JumpStartModel | ![Required](https://img.shields.io/badge/required-ff0000) | The model to deploy |
 | endpointName | string| ![Optional](https://img.shields.io/badge/optional-4169E1) | Name of the SageMaker endpoint created by the construct |
+| acceptEula | boolean| ![Optional](https://img.shields.io/badge/optional-4169E1) | Specifies agreement to the model end-user license agreement (EULA). The AcceptEula value must be explicitly defined as True in order to accept the EULA that the model requires. The user is responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for their use case before downloading or using a model. |
 | instanceType | SageMakerInstanceType | ![Optional](https://img.shields.io/badge/optional-4169E1) | The ML compute instance type. If not provided, the default instance type will be used. This value is available in the [models spec](./jumpstart-model.ts) |
 | instanceCount | Integer | ![Optional](https://img.shields.io/badge/optional-4169E1) | Number of instances to launch initially |
 | role | [iam.Role](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_iam.Role.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | The IAM role that SageMaker can assume to access model artifacts and docker image for deployment on ML compute instances or for batch transform jobs. If not provided, this construct will create a new role with Full access to SageMaker.|
