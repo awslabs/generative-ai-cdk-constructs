@@ -1,0 +1,45 @@
+input ModelConfiguration {
+	provider: String
+	modelId: String
+	streaming: Boolean
+	model_kwargs: AWSJSON
+}
+
+
+input ImageInput {
+	jobid: ID
+	filename: String
+	model_config: ModelConfiguration
+	input_text: String!
+}
+
+type ImageOutput @aws_iam @aws_cognito_user_pools {
+	jobid: ID
+	filename: String
+	status: String
+	image_path: String
+	input_text: String
+	message: String
+}
+
+
+type Mutation @aws_iam @aws_cognito_user_pools {
+	generateImage(imageInput: ImageInput!): ImageOutput
+	updateGenerateImageStatus(jobid: ID, filename: String, image_path: String , input_text: String, status: String, message: String): ImageOutput
+}
+
+type Query @aws_iam @aws_cognito_user_pools {
+  getImagedetails: ImageOutput
+}
+
+type Subscription @aws_iam @aws_cognito_user_pools {
+	updateGenerateImageStatus(jobid: ID!, filename: String!): ImageOutput
+		@aws_subscribe(mutations: ["updateGenerateImageStatus"])
+}
+
+schema {
+	query: Query
+	mutation: Mutation
+	subscription: Subscription
+}
+
