@@ -29,8 +29,8 @@ jobs:
         uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN_TO_ASSUME }}
-          aws-region: ${{ env.AWS_REGION }}
-          role-duration-seconds: "7200"
+          aws-region: ${{ vars.AWS_REGION }}
+          role-duration-seconds: 7200
           mask-aws-account-id: true
       - name: Run code generation
         run: npx projen generate-models-containers
@@ -46,7 +46,7 @@ jobs:
           name: .repo.patch
           path: .repo.patch
   pr:
-    name: Code generation
+    name: Create Pull Request
     needs: generate
     runs-on: ubuntu-latest
     permissions:

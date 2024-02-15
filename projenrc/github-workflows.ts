@@ -542,8 +542,8 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
         uses: 'aws-actions/configure-aws-credentials@v4.0.2',
         with: {
           'role-to-assume': '${{ secrets.AWS_ROLE_ARN_TO_ASSUME }}',
-          'aws-region': '${{ env.AWS_REGION }}',
-          'role-duration-seconds': '7200',
+          'aws-region': '${{ vars.AWS_REGION }}',
+          'role-duration-seconds': 7200,
           'mask-aws-account-id': true,
         },
       },
@@ -573,7 +573,7 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
 
   // second job to create a PR if any changes were detected
   const pr: Job = {
-    name: 'Code generation',
+    name: 'Create Pull Request',
     needs: ['generate'],
     runsOn: ['ubuntu-latest'],
     permissions: {
