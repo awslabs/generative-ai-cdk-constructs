@@ -194,6 +194,10 @@ project.addTask('generate-models-containers', {
       cwd: project.srcdir+'/patterns/gen-ai/aws-model-deployment-sagemaker/code-generation',
       exec: 'npm run generate',
     },
+    {
+      say: 'Generate the new apidocs',
+      exec: "post-compile"
+    },
   ],
 });
 
