@@ -579,7 +579,7 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
     permissions: {
       contents: JobPermission.READ,
     },
-    if: '${{ needs.upgrade.outputs.patch_created }}',
+    if: '${{ needs.generate.outputs.patch_created }}',
     steps: [
       {
         name: 'Checkout',
