@@ -196,7 +196,7 @@ project.addTask('generate-models-containers', {
     },
     {
       say: 'Generate the new apidocs',
-      exec: "post-compile"
+      exec: "npx projen post-compile"
     },
   ],
 });

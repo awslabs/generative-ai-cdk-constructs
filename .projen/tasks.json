@@ -133,7 +133,7 @@
         },
         {
           "say": "Generate the new apidocs",
-          "exec": "post-compile"
+          "exec": "npx projen post-compile"
         }
       ]
     },
