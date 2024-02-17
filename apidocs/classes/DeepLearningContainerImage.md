@@ -39,6 +39,8 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 - [DJL\_INFERENCE\_0\_24\_0\_NEURONX\_SDK2\_14\_1](DeepLearningContainerImage.md#djl_inference_0_24_0_neuronx_sdk2_14_1)
 - [DJL\_INFERENCE\_0\_25\_0\_DEEPSPEED0\_11\_0\_CU118](DeepLearningContainerImage.md#djl_inference_0_25_0_deepspeed0_11_0_cu118)
 - [DJL\_INFERENCE\_0\_25\_0\_NEURONX\_SDK2\_15\_0](DeepLearningContainerImage.md#djl_inference_0_25_0_neuronx_sdk2_15_0)
+- [DJL\_INFERENCE\_0\_26\_0\_DEEPSPEED0\_12\_6\_CU121](DeepLearningContainerImage.md#djl_inference_0_26_0_deepspeed0_12_6_cu121)
+- [DJL\_INFERENCE\_0\_26\_0\_NEURONX\_SDK2\_16\_0](DeepLearningContainerImage.md#djl_inference_0_26_0_neuronx_sdk2_16_0)
 - [HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_10\_2\_TRANSFORMERS4\_17\_0\_CPU\_PY38\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_inference_1_10_2_transformers4_17_0_cpu_py38_ubuntu20_04)
 - [HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_10\_2\_TRANSFORMERS4\_17\_0\_GPU\_PY38\_CU113\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_inference_1_10_2_transformers4_17_0_gpu_py38_cu113_ubuntu20_04)
 - [HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_13\_1\_TRANSFORMERS4\_26\_0\_CPU\_PY39\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_inference_1_13_1_transformers4_26_0_cpu_py39_ubuntu20_04)
@@ -57,6 +59,8 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 - [HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_9\_1\_TRANSFORMERS4\_12\_3\_GPU\_PY38\_CU111\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_inference_1_9_1_transformers4_12_3_gpu_py38_cu111_ubuntu20_04)
 - [HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_0\_0\_TRANSFORMERS4\_28\_1\_CPU\_PY310\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_inference_2_0_0_transformers4_28_1_cpu_py310_ubuntu20_04)
 - [HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_0\_0\_TRANSFORMERS4\_28\_1\_GPU\_PY310\_CU118\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_inference_2_0_0_transformers4_28_1_gpu_py310_cu118_ubuntu20_04)
+- [HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_1\_0\_TRANSFORMERS4\_37\_0\_CPU\_PY310\_UBUNTU22\_04](DeepLearningContainerImage.md#huggingface_pytorch_inference_2_1_0_transformers4_37_0_cpu_py310_ubuntu22_04)
+- [HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_1\_0\_TRANSFORMERS4\_37\_0\_GPU\_PY310\_CU118\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_inference_2_1_0_transformers4_37_0_gpu_py310_cu118_ubuntu20_04)
 - [HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_1\_13\_0\_TRANSFORMERS4\_28\_1\_NEURONX\_PY38\_SDK2\_9\_1\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_inference_neuronx_1_13_0_transformers4_28_1_neuronx_py38_sdk2_9_1_ubuntu20_04)
 - [HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_1\_13\_1\_TRANSFORMERS4\_34\_1\_NEURONX\_PY310\_SDK2\_15\_0\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_inference_neuronx_1_13_1_transformers4_34_1_neuronx_py310_sdk2_15_0_ubuntu20_04)
 - [HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_0\_0\_TGI0\_6\_0\_GPU\_PY39\_CU118\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_tgi_inference_2_0_0_tgi0_6_0_gpu_py39_cu118_ubuntu20_04)
@@ -64,6 +68,10 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 - [HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_0\_1\_TGI0\_9\_3\_GPU\_PY39\_CU118\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_tgi_inference_2_0_1_tgi0_9_3_gpu_py39_cu118_ubuntu20_04)
 - [HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_0\_1\_TGI1\_0\_3\_GPU\_PY39\_CU118\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_tgi_inference_2_0_1_tgi1_0_3_gpu_py39_cu118_ubuntu20_04)
 - [HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_0\_1\_TGI1\_1\_0\_GPU\_PY39\_CU118\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_tgi_inference_2_0_1_tgi1_1_0_gpu_py39_cu118_ubuntu20_04)
+- [HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_2\_0\_GPU\_PY310\_CU121\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_tgi_inference_2_1_1_tgi1_2_0_gpu_py310_cu121_ubuntu20_04)
+- [HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_3\_1\_GPU\_PY310\_CU121\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_tgi_inference_2_1_1_tgi1_3_1_gpu_py310_cu121_ubuntu20_04)
+- [HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_3\_3\_GPU\_PY310\_CU121\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_tgi_inference_2_1_1_tgi1_3_3_gpu_py310_cu121_ubuntu20_04)
+- [HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_4\_0\_GPU\_PY310\_CU121\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_tgi_inference_2_1_1_tgi1_4_0_gpu_py310_cu121_ubuntu20_04)
 - [HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_11\_0\_TRANSFORMERS4\_26\_0\_CPU\_PY39\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_tensorflow_inference_2_11_0_transformers4_26_0_cpu_py39_ubuntu20_04)
 - [HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_11\_0\_TRANSFORMERS4\_26\_0\_GPU\_PY39\_CU112\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_tensorflow_inference_2_11_0_transformers4_26_0_gpu_py39_cu112_ubuntu20_04)
 - [HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_11\_1\_TRANSFORMERS4\_26\_0\_CPU\_PY39\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_tensorflow_inference_2_11_1_transformers4_26_0_cpu_py39_ubuntu20_04)
@@ -240,6 +248,18 @@ ___
 
 ___
 
+### DJL\_INFERENCE\_0\_26\_0\_DEEPSPEED0\_12\_6\_CU121
+
+▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_26\_0\_DEEPSPEED0\_12\_6\_CU121**: [`ContainerImage`](ContainerImage.md)
+
+___
+
+### DJL\_INFERENCE\_0\_26\_0\_NEURONX\_SDK2\_16\_0
+
+▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_26\_0\_NEURONX\_SDK2\_16\_0**: [`ContainerImage`](ContainerImage.md)
+
+___
+
 ### HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_10\_2\_TRANSFORMERS4\_17\_0\_CPU\_PY38\_UBUNTU20\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_10\_2\_TRANSFORMERS4\_17\_0\_CPU\_PY38\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
@@ -348,6 +368,18 @@ ___
 
 ___
 
+### HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_1\_0\_TRANSFORMERS4\_37\_0\_CPU\_PY310\_UBUNTU22\_04
+
+▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_1\_0\_TRANSFORMERS4\_37\_0\_CPU\_PY310\_UBUNTU22\_04**: [`ContainerImage`](ContainerImage.md)
+
+___
+
+### HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_1\_0\_TRANSFORMERS4\_37\_0\_GPU\_PY310\_CU118\_UBUNTU20\_04
+
+▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_1\_0\_TRANSFORMERS4\_37\_0\_GPU\_PY310\_CU118\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
+
+___
+
 ### HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_1\_13\_0\_TRANSFORMERS4\_28\_1\_NEURONX\_PY38\_SDK2\_9\_1\_UBUNTU20\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_1\_13\_0\_TRANSFORMERS4\_28\_1\_NEURONX\_PY38\_SDK2\_9\_1\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
@@ -387,6 +419,30 @@ ___
 ### HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_0\_1\_TGI1\_1\_0\_GPU\_PY39\_CU118\_UBUNTU20\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_0\_1\_TGI1\_1\_0\_GPU\_PY39\_CU118\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
+
+___
+
+### HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_2\_0\_GPU\_PY310\_CU121\_UBUNTU20\_04
+
+▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_2\_0\_GPU\_PY310\_CU121\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
+
+___
+
+### HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_3\_1\_GPU\_PY310\_CU121\_UBUNTU20\_04
+
+▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_3\_1\_GPU\_PY310\_CU121\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
+
+___
+
+### HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_3\_3\_GPU\_PY310\_CU121\_UBUNTU20\_04
+
+▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_3\_3\_GPU\_PY310\_CU121\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
+
+___
+
+### HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_4\_0\_GPU\_PY310\_CU121\_UBUNTU20\_04
+
+▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_4\_0\_GPU\_PY310\_CU121\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
 
 ___
 
