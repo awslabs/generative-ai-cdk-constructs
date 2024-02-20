@@ -1,0 +1,18 @@
+.features {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+  width: 100%;
+  /*background: whitesmoke;*/
+}
+
+.featureSvg {
+  stroke: var(--icons-color);
+  fill: none;
+  height: 250px;
+  width: 250px;
+}
+
+.heading {
+  font-weight: bold;
+}
