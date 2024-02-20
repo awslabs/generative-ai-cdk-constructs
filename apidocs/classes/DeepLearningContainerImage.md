@@ -63,6 +63,7 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 - [HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_1\_0\_TRANSFORMERS4\_37\_0\_GPU\_PY310\_CU118\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_inference_2_1_0_transformers4_37_0_gpu_py310_cu118_ubuntu20_04)
 - [HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_1\_13\_0\_TRANSFORMERS4\_28\_1\_NEURONX\_PY38\_SDK2\_9\_1\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_inference_neuronx_1_13_0_transformers4_28_1_neuronx_py38_sdk2_9_1_ubuntu20_04)
 - [HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_1\_13\_1\_TRANSFORMERS4\_34\_1\_NEURONX\_PY310\_SDK2\_15\_0\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_inference_neuronx_1_13_1_transformers4_34_1_neuronx_py310_sdk2_15_0_ubuntu20_04)
+- [HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_1\_13\_1\_TRANSFORMERS4\_36\_2\_NEURONX\_PY310\_SDK2\_16\_1\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_inference_neuronx_1_13_1_transformers4_36_2_neuronx_py310_sdk2_16_1_ubuntu20_04)
 - [HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_0\_0\_TGI0\_6\_0\_GPU\_PY39\_CU118\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_tgi_inference_2_0_0_tgi0_6_0_gpu_py39_cu118_ubuntu20_04)
 - [HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_0\_0\_TGI0\_8\_2\_GPU\_PY39\_CU118\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_tgi_inference_2_0_0_tgi0_8_2_gpu_py39_cu118_ubuntu20_04)
 - [HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_0\_1\_TGI0\_9\_3\_GPU\_PY39\_CU118\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_tgi_inference_2_0_1_tgi0_9_3_gpu_py39_cu118_ubuntu20_04)
@@ -389,6 +390,12 @@ ___
 ### HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_1\_13\_1\_TRANSFORMERS4\_34\_1\_NEURONX\_PY310\_SDK2\_15\_0\_UBUNTU20\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_1\_13\_1\_TRANSFORMERS4\_34\_1\_NEURONX\_PY310\_SDK2\_15\_0\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
+
+___
+
+### HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_1\_13\_1\_TRANSFORMERS4\_36\_2\_NEURONX\_PY310\_SDK2\_16\_1\_UBUNTU20\_04
+
+▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_1\_13\_1\_TRANSFORMERS4\_36\_2\_NEURONX\_PY310\_SDK2\_16\_1\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
 
 ___
 
