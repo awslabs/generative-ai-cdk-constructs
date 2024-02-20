@@ -145,7 +145,6 @@ Parameters
 ## Default properties
 
 - iam.Role: if not provided, an iam.Role will be created by the construct with a managed policy providing AmazonSageMakerFullAccess permissions.
-- volumeSizeInGb: 512Gb if not provided
 - startupHealthCheckTimeoutInSeconds: 600 if not provided
 - modelDataDownloadTimeoutInSeconds: 600 if not provided
 - instanceCount: 1 if not provided
