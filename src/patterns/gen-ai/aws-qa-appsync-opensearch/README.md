@@ -14,7 +14,7 @@
 
 | **Language**     | **Package**        |
 |:-------------|-----------------|
-|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@cdklabs/generative-ai-cdk-constructs`|
+|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) TypeScript|`@cdklabs/generative-ai-cdk-constructs`|
 |![Python Logo](https://docs.aws.amazon.com/cdk/api/latest/img/python32.png) Python|`cdklabs.generative_ai_cdk_constructs`|
 
 ## Table of contents
@@ -53,7 +53,7 @@ This construct builds a Lambda function from a Docker image, thus you need to ha
 
 Here is a minimal deployable pattern definition:
 
-Typescript
+TypeScript
 
 ``` typescript
 import { Construct } from 'constructs';
@@ -197,7 +197,7 @@ Where:
 - jobstatus: this field will be used by the subscription to update the status of the question answering process for the file specified
 - max_docs: maximum number of documents (chunks) retrieved from the knowledge base if the Retrieveal Augmented Generation (RAG) approach is used
 - question: question to ask as a base64 encoded string
-- verbose: boolean indicating if the [Langchain chain call verbosity](https://python.langchain.com/docs/guides/debugging#chain-verbosetrue) should be enabled or not
+- verbose: boolean indicating if the [LangChain chain call verbosity](https://python.langchain.com/docs/guides/debugging#chain-verbosetrue) should be enabled or not
 - streaming: boolean indicating if the streaming capability of Bedrock is used. If set to true, tokens will be send back to the subscriber as they are generated. If set to false, the entire response will be sent back to the subscriber once generated.
 - filename: optional. Name of the file stored in the input S3 bucket, in txt format.
 - responseGenerationMethod: optional. Method used to generate the response. Can be either RAG or LONG_CONTEXT. If not provided, the default value is LONG_CONTEXT.
