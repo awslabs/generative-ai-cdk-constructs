@@ -607,7 +607,7 @@
       </root>
     </mxGraphModel>
   </diagram>
-  <diagram id="zwjm-m0tJrHEoboqtmw_" name="aws-imagegen-appsync-lambda">
+  <diagram id="zwjm-m0tJrHEoboqtmw_" name="aws-contentgen-appsync-lambda">
     <mxGraphModel dx="3134" dy="795" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />

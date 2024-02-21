@@ -28,9 +28,9 @@ import { version } from '../../../common/helpers/utils';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
 
 /**
- * The properties for the ImageGenerationAppsyncLambdaProps class.
+ * The properties for the ContentGenerationAppsyncLambdaProps class.
  */
-export interface ImageGenerationAppsyncLambdaProps {
+export interface ContentGenerationAppsyncLambdaProps {
   /**
    * Optional custom properties for a VPC the construct will create. This VPC will
    * be used by the Lambda functions the construct creates. Providing
@@ -118,9 +118,9 @@ export interface ImageGenerationAppsyncLambdaProps {
 }
 
 /**
- * @summary The QaAppsyncOpensearch class.
+ * @summary The ContentGenerationAppsyncLambda class.
  */
-export class ImageGenerationAppsyncLambda extends Construct {
+export class ContentGenerationAppsyncLambda extends Construct {
   /**
    * Returns the instance of ec2.IVpc used by the construct
    */
@@ -149,14 +149,14 @@ export class ImageGenerationAppsyncLambda extends Construct {
   public readonly graphqlApi: appsync.IGraphqlApi;
 
   /**
-   * @summary Constructs a new instance of the ImageGenerationAppsyncLambda class.
+   * @summary Constructs a new instance of the ContentGenerationAppsyncLambda class.
    * @param {cdk.App} scope - represents the scope for all the resources.
    * @param {string} id - this is a a scope-unique id.
-   * @param {ImageGenerationAppsyncLambdaProps} props - user provided props for the construct.
+   * @param {ContentGenerationAppsyncLambdaProps} props - user provided props for the construct.
    * @since 0.0.0
    * @access public
    */
-  constructor(scope: Construct, id: string, props: ImageGenerationAppsyncLambdaProps) {
+  constructor(scope: Construct, id: string, props: ContentGenerationAppsyncLambdaProps) {
     super(scope, id);
 
     // stage
@@ -277,7 +277,7 @@ export class ImageGenerationAppsyncLambda extends Construct {
         definition: appsync.Definition.fromFile(
           path.join(
             __dirname,
-            '../../../../resources/gen-ai/aws-imagegen-appsync-lambda/schema.graphql',
+            '../../../../resources/gen-ai/aws-contentgen-appsync-lambda/schema.graphql',
           ),
         ),
         authorizationConfig: {
@@ -297,8 +297,6 @@ export class ImageGenerationAppsyncLambda extends Construct {
     );
 
     this.graphqlApi = generate_image_graphql_api;
-    //TODO: UPDATE CDK FOR COMPREHEND
-    const comprehend_endpoint_arn='arn:aws:comprehend:us-east-1:587962093730:document-classifier-endpoint/toxicity-endpoint';
     // If the user provides a mergedApi endpoint, the lambda
     // functions will use this endpoint to send their status updates
     const updateGraphQlApiEndpoint = !props.existingMergedApi
@@ -435,6 +433,16 @@ export class ImageGenerationAppsyncLambda extends Construct {
       }),
     );
 
+    generate_image_function_role.addToPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [
+          'comprehend:*',
+        ],
+        resources: ['*'],
+      }),
+    );
+
     NagSuppressions.addResourceSuppressions(
       generate_image_function_role,
       [
@@ -453,7 +461,7 @@ export class ImageGenerationAppsyncLambda extends Construct {
         code: lambda.DockerImageCode.fromImageAsset(
           path.join(
             __dirname,
-            '../../../../lambda/aws-imagegen-appsync-lambda/src',
+            '../../../../lambda/aws-contentgen-appsync-lambda/src',
           ),
         ),
         functionName: 'lambda_generate_image' + stage,
@@ -468,7 +476,6 @@ export class ImageGenerationAppsyncLambda extends Construct {
         environment: {
           GRAPHQL_URL: updateGraphQlApiEndpoint,
           OUTPUT_BUCKET: this.s3GenerateAssetsBucketInterface.bucketName,
-          COMPREHEND_ENDPOINT_ARN: comprehend_endpoint_arn,
 
         },
         ...(props.lambdaProvisionedConcurrency && {

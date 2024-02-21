@@ -13,10 +13,10 @@
 ### Classes
 
 - [ContainerImage](classes/ContainerImage.md)
+- [ContentGenerationAppsyncLambda](classes/ContentGenerationAppsyncLambda.md)
 - [CustomSageMakerEndpoint](classes/CustomSageMakerEndpoint.md)
 - [DeepLearningContainerImage](classes/DeepLearningContainerImage.md)
 - [HuggingFaceSageMakerEndpoint](classes/HuggingFaceSageMakerEndpoint.md)
-- [ImageGenerationAppsyncLambda](classes/ImageGenerationAppsyncLambda.md)
 - [JumpStartModel](classes/JumpStartModel.md)
 - [JumpStartSageMakerEndpoint](classes/JumpStartSageMakerEndpoint.md)
 - [LangchainCommonDepsLayer](classes/LangchainCommonDepsLayer.md)
@@ -31,12 +31,12 @@
 
 - [AdapterProps](interfaces/AdapterProps.md)
 - [ContainerImageConfig](interfaces/ContainerImageConfig.md)
+- [ContentGenerationAppsyncLambdaProps](interfaces/ContentGenerationAppsyncLambdaProps.md)
 - [CustomSageMakerEndpointProps](interfaces/CustomSageMakerEndpointProps.md)
 - [HuggingFaceSageMakerEndpointProps](interfaces/HuggingFaceSageMakerEndpointProps.md)
 - [IInstanceAliase](interfaces/IInstanceAliase.md)
 - [IInstanceValiant](interfaces/IInstanceValiant.md)
 - [IJumpStartModelSpec](interfaces/IJumpStartModelSpec.md)
-- [ImageGenerationAppsyncLambdaProps](interfaces/ImageGenerationAppsyncLambdaProps.md)
 - [JumpStartSageMakerEndpointProps](interfaces/JumpStartSageMakerEndpointProps.md)
 - [LangchainLayerProps](interfaces/LangchainLayerProps.md)
 - [LangchainProps](interfaces/LangchainProps.md)

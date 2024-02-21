@@ -33,7 +33,7 @@ type Query @aws_iam @aws_cognito_user_pools {
 }
 
 type Subscription @aws_iam @aws_cognito_user_pools {
-	updateGenerateImageStatus(jobid: ID!, filename: String!): ImageOutput
+	updateGenerateImageStatus(jobid: ID!): ImageOutput
 		@aws_subscribe(mutations: ["updateGenerateImageStatus"])
 }
 

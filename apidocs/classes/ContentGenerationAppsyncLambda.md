@@ -1,43 +1,43 @@
-[@cdklabs/generative-ai-cdk-constructs](../README.md) / ImageGenerationAppsyncLambda
+[@cdklabs/generative-ai-cdk-constructs](../README.md) / ContentGenerationAppsyncLambda
 
-# Class: ImageGenerationAppsyncLambda
+# Class: ContentGenerationAppsyncLambda
 
 **`Summary`**
 
-The QaAppsyncOpensearch class.
+The ContentGenerationAppsyncLambda class.
 
 ## Hierarchy
 
 - `Construct`
 
-  ↳ **`ImageGenerationAppsyncLambda`**
+  ↳ **`ContentGenerationAppsyncLambda`**
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](ImageGenerationAppsyncLambda.md#constructor)
+- [constructor](ContentGenerationAppsyncLambda.md#constructor)
 
 ### Properties
 
-- [generatedImageBus](ImageGenerationAppsyncLambda.md#generatedimagebus)
-- [graphqlApi](ImageGenerationAppsyncLambda.md#graphqlapi)
-- [node](ImageGenerationAppsyncLambda.md#node)
-- [s3GenerateAssetsBucket](ImageGenerationAppsyncLambda.md#s3generateassetsbucket)
-- [s3GenerateAssetsBucketInterface](ImageGenerationAppsyncLambda.md#s3generateassetsbucketinterface)
-- [securityGroup](ImageGenerationAppsyncLambda.md#securitygroup)
-- [vpc](ImageGenerationAppsyncLambda.md#vpc)
+- [generatedImageBus](ContentGenerationAppsyncLambda.md#generatedimagebus)
+- [graphqlApi](ContentGenerationAppsyncLambda.md#graphqlapi)
+- [node](ContentGenerationAppsyncLambda.md#node)
+- [s3GenerateAssetsBucket](ContentGenerationAppsyncLambda.md#s3generateassetsbucket)
+- [s3GenerateAssetsBucketInterface](ContentGenerationAppsyncLambda.md#s3generateassetsbucketinterface)
+- [securityGroup](ContentGenerationAppsyncLambda.md#securitygroup)
+- [vpc](ContentGenerationAppsyncLambda.md#vpc)
 
 ### Methods
 
-- [toString](ImageGenerationAppsyncLambda.md#tostring)
-- [isConstruct](ImageGenerationAppsyncLambda.md#isconstruct)
+- [toString](ContentGenerationAppsyncLambda.md#tostring)
+- [isConstruct](ContentGenerationAppsyncLambda.md#isconstruct)
 
 ## Constructors
 
 ### constructor
 
-• **new ImageGenerationAppsyncLambda**(`scope`, `id`, `props`): [`ImageGenerationAppsyncLambda`](ImageGenerationAppsyncLambda.md)
+• **new ContentGenerationAppsyncLambda**(`scope`, `id`, `props`): [`ContentGenerationAppsyncLambda`](ContentGenerationAppsyncLambda.md)
 
 #### Parameters
 
@@ -45,15 +45,15 @@ The QaAppsyncOpensearch class.
 | :------ | :------ | :------ |
 | `scope` | `Construct` | represents the scope for all the resources. |
 | `id` | `string` | this is a a scope-unique id. |
-| `props` | [`ImageGenerationAppsyncLambdaProps`](../interfaces/ImageGenerationAppsyncLambdaProps.md) | user provided props for the construct. |
+| `props` | [`ContentGenerationAppsyncLambdaProps`](../interfaces/ContentGenerationAppsyncLambdaProps.md) | user provided props for the construct. |
 
 #### Returns
 
-[`ImageGenerationAppsyncLambda`](ImageGenerationAppsyncLambda.md)
+[`ContentGenerationAppsyncLambda`](ContentGenerationAppsyncLambda.md)
 
 **`Summary`**
 
-Constructs a new instance of the ImageGenerationAppsyncLambda class.
+Constructs a new instance of the ContentGenerationAppsyncLambda class.
 
 **`Since`**
 

@@ -1,4 +1,4 @@
-# aws-imagegen-appsync-lambda
+# aws-contentgen-appsync-lambda
 <!--BEGIN STABILITY BANNER-->
 
 ---
@@ -81,7 +81,7 @@ const imageGeneration = new emergingTech.ImageGenerationAppsyncLambda(this, 'Ima
 
 For existing resources like Amazon VPC and Amazon S3 buckets, use props like existingVpc, existingGeneratedAssetsBucketObj.
 
-After deploying the CDK stack, the image generation process can be invoked using GraphQL APIs. The API schema details are present here: resources/gen-ai/aws-imagegen-appsync-lambda/schema.graphql.
+After deploying the CDK stack, the image generation process can be invoked using GraphQL APIs. The API schema details are present here: resources/gen-ai/aws-contentgen-appsync-lambda/schema.graphql.
 
 The code below provides an example of a subscription call and associated mutation to trigger the image generation workflow and get response notifications. The subscription call wait for the mutation request to send the notifications.
 

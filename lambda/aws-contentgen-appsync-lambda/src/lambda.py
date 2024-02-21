@@ -10,6 +10,7 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
+import base64
 import json
 import os
 import boto3
@@ -19,6 +20,8 @@ from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_lambda_powertools.metrics import MetricUnit
 from aws_lambda_powertools.utilities.validation import validate, SchemaValidationError
+from datetime import datetime
+
 
 logger = Logger(service="IMAGE_GENERATION")
 tracer = Tracer(service="IMAGE_GENERATION")
@@ -31,12 +34,6 @@ bucket = os.environ['OUTPUT_BUCKET']
 bedrock_client = boto3.client('bedrock-runtime')
 rekognition_client=boto3.client('rekognition')
 comprehend_client=boto3.client('comprehend', region_name=aws_region)
-
-
-logger = Logger(service="QUESTION_ANSWERING")
-tracer = Tracer(service="QUESTION_ANSWERING")
-metrics = Metrics(namespace="question_answering", service="QUESTION_ANSWERING")
-
 
 
 @logger.inject_lambda_context(log_event=True)
@@ -53,23 +50,29 @@ def handler(event,  context: LambdaContext) -> dict:
     logger.info(f"event is {event}")
     
     input_params=event['detail']['imageInput']
-    image_name="public/"+input_params['filename']
+    #image_name="public/"+input_params['filename']
     input_text=input_params['input_text']
-    file_name=input_params['filename']
+    
+    current_datetime = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    file_name="generatedimage_"+current_datetime
+
     response={
-        "filename":image_name,
+        "filename":file_name,
         "generatedImagePath":"",
         "input_text":input_params['input_text'],
         "generateImageJobStatus":"Failed",
         "jobid":input_params["jobid"],
         "message":''
     }
-
-    if(len(input_params['input_text'])==0):
+    sample_string_bytes = base64.b64decode(input_text)
+    decoded_input_text = sample_string_bytes.decode("utf-8")
+    logger.info(f" entered text is :: {decoded_input_text}")
+    
+    if(len(decoded_input_text)==0):
         response["message"]="Input text is empty."
         return response
-    
-    img = image_generator(input_text,file_name, rekognition_client,comprehend_client,bedrock_client,bucket)
+       
+    img = image_generator(decoded_input_text,file_name, rekognition_client,comprehend_client,bedrock_client,bucket)
        
     text_moderation_response=img.text_moderation()
     if(text_moderation_response['isToxic']==True):
@@ -89,25 +92,25 @@ def handler(event,  context: LambdaContext) -> dict:
             else:
                 response={
                         "filename":file_name,
-                        "bucket":bucket,
-                        "input_text":input_params['input_text'],
+                        "image_path":bucket,
+                        "input_text":decoded_input_text,
                         "status":"Completed",
                         "jobid":input_params["jobid"],
                         "message":"Image generated successfully"
                     }
 
     print (f"response :: {response}")
-    print("send generate image status ")
     img.send_job_status(response)
 
     return response
 
 
-@tracer.capture_method
 def parse_response(query_response):
     """Parse response and return generated image and the prompt"""
-
-    response_dict = json.loads(query_response['body'].read())
+    print(f'query_response:: {query_response}')
+    if(not query_response):
+         parsed_reponse['image_generated_status']='Failed'
+    response_dict = json.loads(query_response["body"].read())
     parsed_reponse={
         "image_generated":'',
         "image_generated_status":'Success'

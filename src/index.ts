@@ -17,7 +17,7 @@ export * from './patterns/gen-ai/aws-langchain-common-layer/LangchainProps';
 export * from './patterns/gen-ai/aws-langchain-common-layer/AdapterProps';
 export * from './patterns/gen-ai/aws-qa-appsync-opensearch';
 export * from './patterns/gen-ai/aws-model-deployment-sagemaker';
-export * from './patterns/gen-ai/aws-imagegen-appsync-lambda';
+export * from './patterns/gen-ai/aws-contentgen-appsync-lambda';
 
 export * as bedrock from './cdk-lib/bedrock';
 export * as opensearchserverless from './cdk-lib/opensearchserverless';
