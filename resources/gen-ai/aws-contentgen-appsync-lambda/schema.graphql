@@ -11,6 +11,7 @@ input ImageInput {
 	filename: String
 	model_config: ModelConfiguration
 	input_text: String!
+	negative_prompts: String
 }
 
 type ImageOutput @aws_iam @aws_cognito_user_pools {
