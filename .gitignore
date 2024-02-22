@@ -68,3 +68,5 @@ tsconfig.json
 !/.projenrc.ts
 !/src/patterns/gen-ai/aws-langchain-common-layer/LangchainProps.ts
 !/src/patterns/gen-ai/aws-langchain-common-layer/AdapterProps.ts
+website/.docusaurus
+website/build
