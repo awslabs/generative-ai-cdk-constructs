@@ -26,10 +26,12 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as secret from 'aws-cdk-lib/aws-secretsmanager';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
+import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import * as opensearch_helper from '../../../common/helpers/opensearch-helper';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
 import { version, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
+import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
 /**
  * The properties for the QaAppsyncOpensearchProps class.
@@ -144,6 +146,12 @@ export interface QaAppsyncOpensearchProps {
    * Lambda provisioned concurrency for consistent performance
    */
   readonly lambdaProvisionedConcurrency?: number | undefined;
+
+  /**
+   * Optional. Allows to provide custom lambda code
+   * and settings instead of the existing
+   */
+  readonly customDockerLambda?: DockerLambdaCustomProps | undefined;
 }
 
 /**
@@ -176,6 +184,10 @@ export class QaAppsyncOpensearch extends Construct {
    * Returns an instance of appsync.IGraphqlApi created by the construct
    */
   public readonly graphqlApi: appsync.IGraphqlApi;
+  /**
+   * Returns an instance of appsync.IGraphqlApi created by the construct
+   */
+  public readonly qaLambdaFunction: lambda.DockerImageFunction;
 
   /**
    * @summary Constructs a new instance of the RagAppsyncStepfnOpensearch class.
@@ -517,39 +529,41 @@ export class QaAppsyncOpensearch extends Construct {
       true,
     );
 
-    const question_answering_function = new lambda.DockerImageFunction(
-      this,
-      'lambda_question_answering' + stage,
-      {
-        code: lambda.DockerImageCode.fromImageAsset(
-          path.join(
-            __dirname,
-            '../../../../lambda/aws-qa-appsync-opensearch/question_answering/src',
-          ),
+    const construct_docker_lambda_props = {
+      code: lambda.DockerImageCode.fromImageAsset(
+        path.join(
+          __dirname,
+          '../../../../lambda/aws-qa-appsync-opensearch/question_answering/src',
         ),
-        functionName: 'lambda_question_answering' + stage,
-        description: 'Lambda function for question answering',
-        vpc: this.vpc,
-        tracing: lambda_tracing,
-        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-        securityGroups: [this.securityGroup],
-        memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
-        timeout: Duration.minutes(15),
-        role: question_answering_function_role,
-        environment: {
-          GRAPHQL_URL: updateGraphQlApiEndpoint,
-          INPUT_BUCKET: this.s3InputAssetsBucketInterface.bucketName,
-          OPENSEARCH_API_NAME: opensearch_helper.getOpenSearchApiName(props),
-          OPENSEARCH_DOMAIN_ENDPOINT: opensearch_helper.getOpenSearchEndpoint(props),
-          OPENSEARCH_INDEX: props.openSearchIndexName,
-          OPENSEARCH_SECRET_ID: SecretId,
-        },
-        ...(props.lambdaProvisionedConcurrency && {
-          currentVersionOptions: {
-            provisionedConcurrentExecutions: props.lambdaProvisionedConcurrency,
-          },
-        }),
+      ),
+      functionName: 'lambda_question_answering' + stage,
+      description: 'Lambda function for question answering',
+      vpc: this.vpc,
+      tracing: lambda_tracing,
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      securityGroups: [this.securityGroup],
+      memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
+      timeout: Duration.minutes(15),
+      role: question_answering_function_role,
+      environment: {
+        GRAPHQL_URL: updateGraphQlApiEndpoint,
+        INPUT_BUCKET: this.s3InputAssetsBucketInterface.bucketName,
+        OPENSEARCH_API_NAME: opensearch_helper.getOpenSearchApiName(props),
+        OPENSEARCH_DOMAIN_ENDPOINT: opensearch_helper.getOpenSearchEndpoint(props),
+        OPENSEARCH_INDEX: props.openSearchIndexName,
+        OPENSEARCH_SECRET_ID: SecretId,
       },
+      ...(props.lambdaProvisionedConcurrency && {
+        currentVersionOptions: {
+          provisionedConcurrentExecutions: props.lambdaProvisionedConcurrency,
+        },
+      }),
+    };
+
+    const question_answering_function = buildDockerLambdaFunction(this,
+      'lambda_question_answering' + stage,
+      construct_docker_lambda_props,
+      props.customDockerLambda,
     );
 
     question_answering_function.currentVersion;
@@ -620,5 +634,7 @@ export class QaAppsyncOpensearch extends Construct {
     });
 
     rule.addTarget(new targets.LambdaFunction(question_answering_function));
+
+    this.qaLambdaFunction = question_answering_function;
   }
 }

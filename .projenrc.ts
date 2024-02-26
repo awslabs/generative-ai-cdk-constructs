@@ -179,6 +179,11 @@ new ProjenStruct(project, { name: 'AdapterProps', filePath: 'src/patterns/gen-ai
   .withoutDeprecated()
   .omit('code');
 
+new ProjenStruct(project, { name: 'DockerLambdaCustomProps', filePath: 'src/common/props/DockerLambdaCustomProps.ts' })
+  .mixin(Struct.fromFqn('aws-cdk-lib.aws_lambda.DockerImageFunctionProps'))
+  .withoutDeprecated()
+  .omit('functionName', 'description', 'role', 'vpc', 'vpcSubnets', 'securityGroups', 'role', 'layers', 'allowPublicSubnet', 'allowAllOutbound');
+
 const packageJson = project.tryFindObjectFile('package.json');
 packageJson?.patch(JsonPatch.add('/scripts/prepare', 'husky install')); // yarn 1
 packageJson?.patch(JsonPatch.add('/scripts/postinstall', 'husky install')); // yarn 2

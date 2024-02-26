@@ -27,6 +27,7 @@
 /.projen/tasks.json linguist-generated
 /LICENSE linguist-generated
 /package.json linguist-generated
+/src/common/props/DockerLambdaCustomProps.ts linguist-generated
 /src/patterns/gen-ai/aws-langchain-common-layer/AdapterProps.ts linguist-generated
 /src/patterns/gen-ai/aws-langchain-common-layer/LangchainProps.ts linguist-generated
 /tsconfig.dev.json linguist-generated

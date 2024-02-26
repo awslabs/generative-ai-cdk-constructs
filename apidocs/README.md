@@ -31,6 +31,7 @@
 - [AdapterProps](interfaces/AdapterProps.md)
 - [ContainerImageConfig](interfaces/ContainerImageConfig.md)
 - [CustomSageMakerEndpointProps](interfaces/CustomSageMakerEndpointProps.md)
+- [DockerLambdaCustomProps](interfaces/DockerLambdaCustomProps.md)
 - [HuggingFaceSageMakerEndpointProps](interfaces/HuggingFaceSageMakerEndpointProps.md)
 - [IInstanceAliase](interfaces/IInstanceAliase.md)
 - [IInstanceValiant](interfaces/IInstanceValiant.md)

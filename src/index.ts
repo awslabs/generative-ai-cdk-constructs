@@ -21,3 +21,4 @@ export * as bedrock from './cdk-lib/bedrock';
 export * as opensearchserverless from './cdk-lib/opensearchserverless';
 export * as opensearch_vectorindex from './cdk-lib/opensearch-vectorindex';
 export { version } from './common/helpers/utils';
+export * from './common/props/DockerLambdaCustomProps';
