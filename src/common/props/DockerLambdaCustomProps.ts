@@ -14,12 +14,6 @@ export interface DockerLambdaCustomProps {
    */
   readonly code: aws_lambda.DockerImageCode;
   /**
-   * Enable AWS X-Ray Tracing for Lambda Function.
-   * @default Tracing.Disabled
-   * @stability stable
-   */
-  readonly tracing?: aws_lambda.Tracing;
-  /**
    * The function execution time (in seconds) after which Lambda terminates the function.
    * Because the execution time affects cost, set this value
    * based on the function's expected execution time.

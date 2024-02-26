@@ -191,17 +191,17 @@ export interface SummarizationAppsyncStepfnProps {
    * Optional. Allows to provide Embeddings custom lambda code
    * and settings instead of the existing
    */
-  readonly customDocumentReaderDockerLambda?: DockerLambdaCustomProps | undefined;
+  readonly customDocumentReaderDockerLambdaProps?: DockerLambdaCustomProps | undefined;
   /**
    * Optional. Allows to provide Input Validation custom lambda code
    * and settings instead of the existing
    */
-  readonly customInputValidationDockerLambda?: DockerLambdaCustomProps | undefined;
+  readonly customInputValidationDockerLambdaProps?: DockerLambdaCustomProps | undefined;
   /**
    * Optional. Allows to provide File Transformer custom lambda code
    * and settings instead of the existing
    */
-  readonly customSummaryGeneratorDockerLambda?: DockerLambdaCustomProps | undefined;
+  readonly customSummaryGeneratorDockerLambdaProps?: DockerLambdaCustomProps | undefined;
 
 }
 
@@ -546,7 +546,7 @@ export class SummarizationAppsyncStepfn extends Construct {
     const inputValidatorLambda = buildDockerLambdaFunction(this,
       'inputValidatorLambda' + stage,
       construct_input_validation_lambda_props,
-      props.customInputValidationDockerLambda,
+      props.customInputValidationDockerLambdaProps,
     );
 
     // role
@@ -642,7 +642,7 @@ export class SummarizationAppsyncStepfn extends Construct {
     const documentReaderLambda = buildDockerLambdaFunction(this,
       'documentReaderLambda' + stage,
       construct_document_reader_lambda_props,
-      props.customDocumentReaderDockerLambda,
+      props.customDocumentReaderDockerLambdaProps,
     );
 
     const summaryChainType = props?.summaryChainType || 'stuff';
@@ -742,7 +742,7 @@ export class SummarizationAppsyncStepfn extends Construct {
     const generateSummarylambda = buildDockerLambdaFunction(this,
       'generateSummarylambda' + stage,
       construct_generate_summary_lambda_props,
-      props.customSummaryGeneratorDockerLambda,
+      props.customSummaryGeneratorDockerLambdaProps,
     );
 
     this.inputAssetBucket?.grantRead(generateSummarylambda);

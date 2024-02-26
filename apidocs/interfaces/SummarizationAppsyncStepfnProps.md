@@ -10,9 +10,9 @@
 - [bucketProcessedAssetsProps](SummarizationAppsyncStepfnProps.md#bucketprocessedassetsprops)
 - [cfnCacheClusterProps](SummarizationAppsyncStepfnProps.md#cfncacheclusterprops)
 - [cognitoUserPool](SummarizationAppsyncStepfnProps.md#cognitouserpool)
-- [customDocumentReaderDockerLambda](SummarizationAppsyncStepfnProps.md#customdocumentreaderdockerlambda)
-- [customInputValidationDockerLambda](SummarizationAppsyncStepfnProps.md#custominputvalidationdockerlambda)
-- [customSummaryGeneratorDockerLambda](SummarizationAppsyncStepfnProps.md#customsummarygeneratordockerlambda)
+- [customDocumentReaderDockerLambdaProps](SummarizationAppsyncStepfnProps.md#customdocumentreaderdockerlambdaprops)
+- [customInputValidationDockerLambdaProps](SummarizationAppsyncStepfnProps.md#custominputvalidationdockerlambdaprops)
+- [customSummaryGeneratorDockerLambdaProps](SummarizationAppsyncStepfnProps.md#customsummarygeneratordockerlambdaprops)
 - [enableOperationalMetric](SummarizationAppsyncStepfnProps.md#enableoperationalmetric)
 - [eventBusProps](SummarizationAppsyncStepfnProps.md#eventbusprops)
 - [existingBusInterface](SummarizationAppsyncStepfnProps.md#existingbusinterface)
@@ -96,27 +96,27 @@ Required. Cognito user pool used for authentication.
 
 ___
 
-### customDocumentReaderDockerLambda
+### customDocumentReaderDockerLambdaProps
 
-• `Optional` `Readonly` **customDocumentReaderDockerLambda**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
+• `Optional` `Readonly` **customDocumentReaderDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
 
 Optional. Allows to provide Embeddings custom lambda code
 and settings instead of the existing
 
 ___
 
-### customInputValidationDockerLambda
+### customInputValidationDockerLambdaProps
 
-• `Optional` `Readonly` **customInputValidationDockerLambda**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
+• `Optional` `Readonly` **customInputValidationDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
 
 Optional. Allows to provide Input Validation custom lambda code
 and settings instead of the existing
 
 ___
 
-### customSummaryGeneratorDockerLambda
+### customSummaryGeneratorDockerLambdaProps
 
-• `Optional` `Readonly` **customSummaryGeneratorDockerLambda**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
+• `Optional` `Readonly` **customSummaryGeneratorDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
 
 Optional. Allows to provide File Transformer custom lambda code
 and settings instead of the existing

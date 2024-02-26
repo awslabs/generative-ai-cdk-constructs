@@ -32,9 +32,10 @@ export function buildDockerLambdaFunction(scope: Construct,
         vpcSubnets: constructprops.vpcSubnets,
         securityGroups: constructprops.securityGroups,
         role: constructprops.role,
-        environment: { ...constructprops.environment, ...userprops.environment },
         // add user props
         ...userprops,
+        // merge construct env variables with the ones from the construct
+        environment: { ...constructprops.environment, ...userprops.environment },
       },
     );
   } else { // use values provided by the construct

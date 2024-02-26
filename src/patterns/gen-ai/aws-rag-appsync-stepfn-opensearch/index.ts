@@ -140,17 +140,17 @@ export interface RagAppsyncStepfnOpensearchProps {
    * Optional. Allows to provide Embeddings custom lambda code
    * and settings instead of the existing
    */
-  readonly customEmbeddingsDockerLambda?: DockerLambdaCustomProps | undefined;
+  readonly customEmbeddingsDockerLambdaProps?: DockerLambdaCustomProps | undefined;
   /**
    * Optional. Allows to provide Input Validation custom lambda code
    * and settings instead of the existing
    */
-  readonly customInputValidationDockerLambda?: DockerLambdaCustomProps | undefined;
+  readonly customInputValidationDockerLambdaProps?: DockerLambdaCustomProps | undefined;
   /**
    * Optional. Allows to provide File Transformer custom lambda code
    * and settings instead of the existing
    */
-  readonly customFileTransformerDockerLambda?: DockerLambdaCustomProps | undefined;
+  readonly customFileTransformerDockerLambdaProps?: DockerLambdaCustomProps | undefined;
 
   /**
    * Optional.CDK constructs provided collects anonymous operational
@@ -477,7 +477,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     const validate_input_function = buildDockerLambdaFunction(this,
       'lambda_function_validation_input' + stage,
       construct_input_validation_lambda_props,
-      props.customInputValidationDockerLambda,
+      props.customInputValidationDockerLambdaProps,
     );
 
     // Add GraphQl permissions to the IAM role for the Lambda function
@@ -614,7 +614,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     const s3_transformer_job_function = buildDockerLambdaFunction(this,
       'lambda_function_s3_file_transformer'+stage,
       construct__file_transformer_lambda_props,
-      props.customFileTransformerDockerLambda,
+      props.customFileTransformerDockerLambdaProps,
     );
 
 
@@ -750,7 +750,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     const embeddings_job_function = buildDockerLambdaFunction(this,
       'lambda_function_embeddings_job'+stage,
       construct_embeddings_lambda_props,
-      props.customEmbeddingsDockerLambda,
+      props.customEmbeddingsDockerLambdaProps,
     );
 
     const enableOperationalMetric =

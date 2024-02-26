@@ -42,7 +42,6 @@ DockerLambdaCustomProps
 - [snapStart](DockerLambdaCustomProps.md#snapstart)
 - [systemLogLevel](DockerLambdaCustomProps.md#systemloglevel)
 - [timeout](DockerLambdaCustomProps.md#timeout)
-- [tracing](DockerLambdaCustomProps.md#tracing)
 
 ## Properties
 
@@ -661,24 +660,6 @@ based on the function's expected execution time.
 
 ```ts
 Duration.seconds(3)
-```
-
-**`Stability`**
-
-stable
-
-___
-
-### tracing
-
-• `Optional` `Readonly` **tracing**: `Tracing`
-
-Enable AWS X-Ray Tracing for Lambda Function.
-
-**`Default`**
-
-```ts
-Tracing.Disabled
 ```
 
 **`Stability`**

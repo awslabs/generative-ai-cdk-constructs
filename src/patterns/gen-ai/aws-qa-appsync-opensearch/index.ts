@@ -151,7 +151,7 @@ export interface QaAppsyncOpensearchProps {
    * Optional. Allows to provide custom lambda code
    * and settings instead of the existing
    */
-  readonly customDockerLambda?: DockerLambdaCustomProps | undefined;
+  readonly customDockerLambdaProps?: DockerLambdaCustomProps | undefined;
 }
 
 /**
@@ -563,7 +563,7 @@ export class QaAppsyncOpensearch extends Construct {
     const question_answering_function = buildDockerLambdaFunction(this,
       'lambda_question_answering' + stage,
       construct_docker_lambda_props,
-      props.customDockerLambda,
+      props.customDockerLambdaProps,
     );
 
     question_answering_function.currentVersion;

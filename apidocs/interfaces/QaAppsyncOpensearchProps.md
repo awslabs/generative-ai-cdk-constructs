@@ -10,7 +10,7 @@ The properties for the QaAppsyncOpensearchProps class.
 
 - [bucketInputsAssetsProps](QaAppsyncOpensearchProps.md#bucketinputsassetsprops)
 - [cognitoUserPool](QaAppsyncOpensearchProps.md#cognitouserpool)
-- [customDockerLambda](QaAppsyncOpensearchProps.md#customdockerlambda)
+- [customDockerLambdaProps](QaAppsyncOpensearchProps.md#customdockerlambdaprops)
 - [enableOperationalMetric](QaAppsyncOpensearchProps.md#enableoperationalmetric)
 - [existingBusInterface](QaAppsyncOpensearchProps.md#existingbusinterface)
 - [existingInputAssetsBucketObj](QaAppsyncOpensearchProps.md#existinginputassetsbucketobj)
@@ -57,9 +57,9 @@ Cognito user pool used for authentication.
 
 ___
 
-### customDockerLambda
+### customDockerLambdaProps
 
-• `Optional` `Readonly` **customDockerLambda**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
+• `Optional` `Readonly` **customDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
 
 Optional. Allows to provide custom lambda code
 and settings instead of the existing

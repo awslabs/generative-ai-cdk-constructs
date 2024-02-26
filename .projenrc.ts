@@ -183,7 +183,7 @@ new ProjenStruct(project, { name: 'AdapterProps', filePath: 'src/common/props/Ad
 new ProjenStruct(project, { name: 'DockerLambdaCustomProps', filePath: 'src/common/props/DockerLambdaCustomProps.ts' })
   .mixin(Struct.fromFqn('aws-cdk-lib.aws_lambda.DockerImageFunctionProps'))
   .withoutDeprecated()
-  .omit('functionName', 'description', 'role', 'vpc', 'vpcSubnets', 'securityGroups', 'role', 'layers', 'allowPublicSubnet', 'allowAllOutbound');
+  .omit('tracing', 'functionName', 'description', 'role', 'vpc', 'vpcSubnets', 'securityGroups', 'role', 'layers', 'allowPublicSubnet', 'allowAllOutbound');
 
 const packageJson = project.tryFindObjectFile('package.json');
 packageJson?.patch(JsonPatch.add('/scripts/prepare', 'husky install')); // yarn 1
