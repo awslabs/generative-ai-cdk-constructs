@@ -15,7 +15,7 @@
 
 | **Language**     | **Package**        |
 |:-------------|-----------------|
-|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@cdklabs/generative-ai-cdk-constructs`|
+|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) TypeScript|`@cdklabs/generative-ai-cdk-constructs`|
 
 [Amazon Bedrock](https://aws.amazon.com/bedrock/) is a fully managed service that offers a choice of foundation models (FMs) along with a broad set of capabilities for building generative AI applications.
 
@@ -75,8 +75,28 @@ const agent = new bedrock.Agent(this, 'Agent', {
 });
 ```
 
+### Action Groups
+An action group defines functions your agent can call. The functions are Lambda functions. The action group uses an OpenAPI schema to tell the agent what your functions do and how to call them.
+
+```ts
+const actionGroupFunction = new lambda_python.PythonFunction(this, 'ActionGroupFunction', {
+  runtime: lambda.Runtime.PYTHON_3_12,
+  entry: path.join(__dirname, '../lambda/action-group'),
+});
+
+agent.addActionGroup({
+  actionGroupName: 'query-library',
+  description: 'Use these functions to get information about the books in the library.',
+  actionGroupExecutor: actionGroupFunction,
+  actionGroupState: "ENABLED",
+  apiSchema: bedrock.ApiSchema.fromAsset(path.join(__dirname, 'action-group.yaml')),
+});
+```
+
 ### Prepare the Agent
-The custom resources return hashes of their properties in their `changeId` attribute. The Agent resource uses them to make sure CloudFormation will prepare the agent on any change.
+The `Agent` and `AgentActionGroup` constructs take an optional parameter `shouldPrepareAgent` to indicate that the Agent should be prepared after any updates to an agent, Knowledge Base association, or action group. This may increase the time to create and update those resources.
+
+Creating an agent alias will also prepare the agent, so if you create an alias with `addAlias` or by providing an `aliasName` when creating the agent then you should not set `shouldPrepareAgent` to ***true*** on other resources.
 
 #### Prompt Overrides
 Bedrock Agents allows you to customize the prompts and LLM configuration for its different steps. You can disable steps or create a new prompt template. Prompt templates can be inserted from plain text files.

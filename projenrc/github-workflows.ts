@@ -431,7 +431,7 @@ export function runBanditWorkflow(project: AwsCdkConstructLibrary) {
 }
 
 /**
- * https://commitlint.js.org/#/guides-ci-setup
+* https://commitlint.js.org/#/guides-ci-setup
  * Runs commitlint on the repository.
  * @param project AwsCdkConstructLibrary
  */
@@ -490,6 +490,167 @@ export function runCommitLintWorkflow(project: AwsCdkConstructLibrary) {
       workflow.addJobs({
         commitlint: commitlint,
       });
+    }
+  }
+}
+
+/**
+ * Runs the code generation step to update the list of available JumpStart models, and DLC images.
+ * Uses https://github.com/aws-actions/configure-aws-credentials to authenticate against AWS
+ * @param project AwsCdkConstructLibrary
+ */
+export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
+
+  const CREATE_PATCH_STEP_ID = 'create_patch';
+  const PATCH_CREATED_OUTPUT = 'patch_created';
+
+  // First job to run the code generation step
+  const generate: Job = {
+    name: 'Code generation',
+    runsOn: ['ubuntu-latest'],
+    permissions: {
+      idToken: JobPermission.WRITE, //needed to interact with GitHub's OIDC Token endpoint.
+      contents: JobPermission.READ,
+    },
+    outputs: {
+      [PATCH_CREATED_OUTPUT]: {
+        stepId: CREATE_PATCH_STEP_ID,
+        outputName: PATCH_CREATED_OUTPUT,
+      },
+    },
+    steps: [
+      {
+        name: 'Checkout project',
+        uses: 'actions/checkout@v3',
+        with: {
+          ref: 'main',
+        },
+      },
+      {
+        name: 'Setup Node.js',
+        uses: 'actions/setup-node@v3',
+        with: {
+          'node-version': '20.x',
+        },
+      },
+      {
+        name: 'Install dependencies',
+        run: 'yarn install --check-files --frozen-lockfile',
+      },
+      {
+        name: 'Setup AWS credentials',
+        uses: 'aws-actions/configure-aws-credentials@v4.0.2',
+        with: {
+          'role-to-assume': '${{ secrets.AWS_ROLE_ARN_TO_ASSUME }}',
+          'aws-region': '${{ vars.AWS_REGION }}',
+          'role-duration-seconds': 7200,
+          'mask-aws-account-id': true,
+        },
+      },
+      {
+        name: 'Run code generation',
+        run: 'npx projen generate-models-containers',
+      },
+      {
+        name: 'Find mutations',
+        id: CREATE_PATCH_STEP_ID,
+        run: [
+          'git add .',
+          'git diff --staged --patch --exit-code > .repo.patch || echo "patch_created=true" >> $GITHUB_OUTPUT',
+        ].join('\n'),
+      },
+      {
+        name: 'Upload patch',
+        if: `steps.${CREATE_PATCH_STEP_ID}.outputs.${PATCH_CREATED_OUTPUT}`,
+        uses: 'actions/upload-artifact@v3',
+        with: {
+          name: '.repo.patch',
+          path: '.repo.patch',
+        },
+      },
+    ],
+  };
+
+  // second job to create a PR if any changes were detected
+  const pr: Job = {
+    name: 'Create Pull Request',
+    needs: ['generate'],
+    runsOn: ['ubuntu-latest'],
+    permissions: {
+      contents: JobPermission.READ,
+    },
+    if: '${{ needs.generate.outputs.patch_created }}',
+    steps: [
+      {
+        name: 'Checkout',
+        uses: 'actions/checkout@v3',
+        with: {
+          ref: 'main',
+        },
+      },
+      {
+        name: 'Download patch',
+        uses: 'actions/download-artifact@v3',
+        with: {
+          name: '.repo.patch',
+          path: '${{ runner.temp }}',
+        },
+      },
+      {
+        name: 'Apply patch',
+        run: '[ -s ${{ runner.temp }}/.repo.patch ] && git apply ${{ runner.temp }}/.repo.patch || echo "Empty patch. Skipping."',
+      },
+      {
+        name: 'Set git identity',
+        run: [
+          'git config user.name "github-actions"',
+          'git config user.email "github-actions@github.com"',
+        ].join('\n'),
+      },
+      {
+        name: 'Create Pull Request',
+        id: 'create-pr',
+        uses: 'peter-evans/create-pull-request@v4',
+        with: {
+          'token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
+          'commit-message': [
+            'chore(deps): upgrade list of models and DLC images',
+
+            'Upgrade list of models and DLC images. See details in [workflow run].',
+
+            '[Workflow Run]: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}',
+
+            '------',
+
+            '*Automatically created by projen via the "code-generation" workflow*',
+          ].join('\n'),
+          'branch': 'github-actions/code-generation',
+          'title': 'chore(deps): upgrade list of models and DLC images',
+          'body': [
+            'Upgrade list of models and DLC images. See details in [workflow run].',
+            '[Workflow Run]: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}',
+            '------',
+
+            '*Automatically created by projen via the "code-generation" workflow*',
+          ].join('\n'),
+          'author': 'github-actions <github-actions@github.com>',
+          'committer': 'github-actions <github-actions@github.com>',
+          'signoff': true,
+        },
+      },
+    ],
+  };
+
+  if (project.github) {
+    const workflow = project.github.addWorkflow('code-generation');
+    if (workflow) {
+      workflow.on({
+        workflowDispatch: {},
+        schedule: [
+          { cron: '0 0 * * *' },
+        ],
+      });
+      workflow.addJobs({ generate: generate, pr: pr });
     }
   }
 }

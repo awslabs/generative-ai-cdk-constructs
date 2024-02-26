@@ -32,10 +32,14 @@ Deploy a Bedrock Agent.
 - [cdkTagManager](bedrock.Agent.md#cdktagmanager)
 - [name](bedrock.Agent.md#name)
 - [node](bedrock.Agent.md#node)
+- [resourceUpdates](bedrock.Agent.md#resourceupdates)
 - [role](bedrock.Agent.md#role)
+- [shouldPrepareAgent](bedrock.Agent.md#shouldprepareagent)
 
 ### Methods
 
+- [\_addAliasDependency](bedrock.Agent.md#_addaliasdependency)
+- [addActionGroup](bedrock.Agent.md#addactiongroup)
 - [addAlias](bedrock.Agent.md#addalias)
 - [toString](bedrock.Agent.md#tostring)
 - [isConstruct](bedrock.Agent.md#isconstruct)
@@ -136,13 +140,65 @@ Construct.node
 
 ___
 
+### resourceUpdates
+
+• `Private` **resourceUpdates**: `string`[] = `[]`
+
+A list of values to indicate if PrepareAgent or an Alias needs to be updated.
+
+___
+
 ### role
 
 • `Readonly` **role**: `Role`
 
 The IAM role for the agent.
 
+___
+
+### shouldPrepareAgent
+
+• `Private` `Readonly` **shouldPrepareAgent**: `boolean`
+
+If prepare agent should be called on resource updates.
+
 ## Methods
+
+### \_addAliasDependency
+
+▸ **_addAliasDependency**(`updatedAt`): `void`
+
+Register a dependency for aliases.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `updatedAt` | `string` | The updatedAt of the resource that will be registered as a dependency. This is an internal core function and should not be called directly. |
+
+#### Returns
+
+`void`
+
+___
+
+### addActionGroup
+
+▸ **addActionGroup**(`props`): [`AgentActionGroup`](bedrock.AgentActionGroup.md)
+
+Add an action group to the agent.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`AddAgentActionGroupProps`](../interfaces/bedrock.AddAgentActionGroupProps.md) |
+
+#### Returns
+
+[`AgentActionGroup`](bedrock.AgentActionGroup.md)
+
+___
 
 ### addAlias
 
@@ -154,7 +210,7 @@ Add an alias to the agent.
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`AgentAliasProps`](../interfaces/bedrock.AgentAliasProps.md) |
+| `props` | [`AddAgentAliasProps`](../interfaces/bedrock.AddAgentAliasProps.md) |
 
 #### Returns
 

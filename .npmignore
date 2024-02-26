@@ -36,5 +36,6 @@ header.js
 projenrc
 tsconfig.dev.json
 yarn.lock
+/apidocs/
 /.gitattributes
 /.projenrc.ts

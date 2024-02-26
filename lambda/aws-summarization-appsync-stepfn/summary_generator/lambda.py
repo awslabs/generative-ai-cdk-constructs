@@ -15,7 +15,7 @@ import base64
 
 from langchain.llms.bedrock import Bedrock
 from update_summary_status import updateSummaryJobStatus
-from langchain import PromptTemplate
+from langchain.prompts import PromptTemplate
 # external files
 from langchain.docstore.document import Document
 from langchain.chains.summarize import load_summarize_chain
@@ -37,8 +37,6 @@ from helper import  read_file_from_s3
 transformed_bucket_name = os.environ["ASSET_BUCKET_NAME"]
 chain_type = os.environ["SUMMARY_LLM_CHAIN_TYPE"]
 
-aws_region = boto3.Session().region_name
-
 params = {
         "max_tokens_to_sample": 4000,
         "temperature": 0, 
@@ -47,11 +45,7 @@ params = {
         "stop_sequences": ["\\n\\nHuman:"],
     }
 
-bedrock_client = boto3.client(
-        service_name='bedrock-runtime', 
-        region_name=aws_region,
-        endpoint_url=f'https://bedrock-runtime.{aws_region}.amazonaws.com'
-    )
+bedrock_client = boto3.client('bedrock-runtime')
 
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler

@@ -19,6 +19,7 @@ Properties for a Bedrock Agent.
 - [knowledgeBases](bedrock.AgentProps.md#knowledgebases)
 - [name](bedrock.AgentProps.md#name)
 - [promptOverrideConfiguration](bedrock.AgentProps.md#promptoverrideconfiguration)
+- [shouldPrepareAgent](bedrock.AgentProps.md#shouldprepareagent)
 
 ## Properties
 
@@ -132,4 +133,18 @@ Overrides for the agent.
 
 ```ts
 - No overrides are provided.
+```
+
+___
+
+### shouldPrepareAgent
+
+• `Optional` `Readonly` **shouldPrepareAgent**: `boolean`
+
+Whether to prepare the agent for use.
+
+**`Default`**
+
+```ts
+- false
 ```

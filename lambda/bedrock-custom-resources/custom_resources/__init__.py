@@ -25,7 +25,7 @@ from .bedrock_agent_alias import on_event as on_event_bedrock_agent_alias
 from .bedrock_agent_knowledgebase import (
     on_event as on_event_bedrock_agent_knowledgebase,
 )
-from .bedrock_prepare_agent import on_event as on_event_bedrock_prepare_agent
+from .bedrock_agent_action_group import on_event as on_event_bedrock_agent_action_group
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
@@ -41,14 +41,14 @@ def on_event(event: CustomResourceRequest, context):
         return on_event_bedrock_agent(event, context)
     if resource_type == "Custom::Bedrock-AgentKnowledgeBase":
         return on_event_bedrock_agent_knowledgebase(event, context)
+    if resource_type == "Custom::Bedrock-AgentActionGroup":
+        return on_event_bedrock_agent_action_group(event, context)
     if resource_type == "Custom::Bedrock-AgentAlias":
         return on_event_bedrock_agent_alias(event, context)
     if resource_type == "Custom::Bedrock-KnowledgeBase":
         return on_event_bedrock_knowledgebase(event, context)
     if resource_type == "Custom::Bedrock-DataSource":
         return on_event_bedrock_datasource(event, context)
-    if resource_type == "Custom::Bedrock-PrepareAgent":
-        return on_event_bedrock_prepare_agent(event, context)
     if resource_type == "Custom::NoOp":
         logger.info("NoOp resource type")
         # Return a response with a physical resource ID that is not empty.

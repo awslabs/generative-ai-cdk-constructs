@@ -30,10 +30,9 @@ export interface AgentAliasProps {
    */
   readonly aliasName?: string;
   /**
-   * The list of change ids to let CloudFormation determine when to update the alias.
-   * A changeId is a hash of the properties of an agent, an agent/knowledge base association, or an action group.
+   * The list of resource update timestamps to let CloudFormation determine when to update the alias.
    */
-  readonly changeIds?: string[];
+  readonly resourceUpdates?: string[];
   /**
    * The version of the agent to associate with the agent alias.
    *
@@ -74,7 +73,7 @@ export class AgentAlias extends Construct implements cdk.ITaggableV2 {
         properties: {
           agentId: props.agentId,
           aliasName: props.aliasName ?? 'latest',
-          changeIds: props.changeIds,
+          resourceUpdates: props.resourceUpdates,
           agentVersion: props.agentVersion,
           tags: this.cdkTagManager.renderedTags,
         },

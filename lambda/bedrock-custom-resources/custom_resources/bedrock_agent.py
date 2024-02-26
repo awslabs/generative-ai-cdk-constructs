@@ -10,8 +10,6 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
-import pickle  # nosec B403: pickle is used to create a hashable value. The value will never be deserialized.
-
 import uuid
 
 import boto3
@@ -27,6 +25,7 @@ from tenacity import (
 
 from typing import TypedDict, NotRequired, Dict, Literal, Sequence
 
+from .bedrock_prepare_agent import prepare_agent
 from .cr_types import CustomResourceRequest, CustomResourceResponse
 from .exceptions import AWSRetryableError, can_retry
 
@@ -75,13 +74,14 @@ class AgentRequest(TypedDict):
     customerEncryptionKeyArn: NotRequired[str]
     promptOverrideConfiguration: NotRequired[PromptOverride]
     tags: NotRequired[Dict[str, str]]
+    shouldPrepareAgent: NotRequired[str]
 
 
 class AgentResponse(TypedDict):
     agentId: str
     agentArn: NotRequired[str]
     agentName: NotRequired[str]
-    changeId: NotRequired[str]
+    updatedAt: NotRequired[str]
 
 
 session = boto3.session.Session()
@@ -170,23 +170,6 @@ def validate_agent_request(request: AgentRequest) -> AgentRequest:
     return request
 
 
-def create_change_hash(request: AgentRequest) -> str:
-    return str(
-        hash(
-            # nosemgrep - Pickle is used to generate a hash. This object will never be deserialized.
-            pickle.dumps(
-                (
-                    request.get("instruction", None),
-                    request.get("foundationModel", None),
-                    request.get("description", None),
-                    request.get("idleSessionTTLInSeconds", None),
-                    request.get("promptOverrideConfiguration", None),
-                )
-            )
-        )
-    )
-
-
 def on_event(event: CustomResourceRequest[Dict], context):
     logger.debug(f"Received event: {event}")
     request_type = event["RequestType"]
@@ -213,23 +196,31 @@ def on_create(
 ) -> CustomResourceResponse:
     bedrock_agent = session.client("bedrock-agent")
 
+    if "shouldPrepareAgent" in event["ResourceProperties"]:
+        should_prepare_agent = event["ResourceProperties"]["shouldPrepareAgent"].upper() == 'TRUE'
+        del event["ResourceProperties"]["shouldPrepareAgent"]
+    else:
+        should_prepare_agent = False
+
     request = AgentRequest(**event["ResourceProperties"])
     request = validate_agent_request(request)
 
     try:
         response = bedrock_agent.create_agent(clientToken=client_token, **request)
-        return CustomResourceResponse(
+
+    except botocore.exceptions.ClientError as e:
+        can_retry(e)
+    if should_prepare_agent:
+        prepare_agent(response["agent"]["agentId"])
+    return CustomResourceResponse(
             PhysicalResourceId=response["agent"]["agentId"],
             Data=AgentResponse(
                 agentArn=response["agent"]["agentArn"],
                 agentId=response["agent"]["agentId"],
                 agentName=response["agent"]["agentName"],
-                changeId=create_change_hash(request),
+                updatedAt=str(response["agent"]["updatedAt"]),
             ),
         )
-    except botocore.exceptions.ClientError as e:
-        can_retry(e)
-
 
 @retry(
     retry=retry_if_exception_type(AWSRetryableError),
@@ -238,6 +229,11 @@ def on_create(
 )
 def on_update(event: CustomResourceRequest[Dict]) -> CustomResourceResponse:
     bedrock_agent = session.client("bedrock-agent")
+    if "shouldPrepareAgent" in event["ResourceProperties"]:
+        should_prepare_agent = event["ResourceProperties"]["shouldPrepareAgent"].upper() == 'TRUE'
+        del event["ResourceProperties"]["shouldPrepareAgent"]
+    else:
+        should_prepare_agent = False
     request = AgentRequest(**event["ResourceProperties"])
     request = validate_agent_request(request)
     if "tags" in request:
@@ -248,18 +244,19 @@ def on_update(event: CustomResourceRequest[Dict]) -> CustomResourceResponse:
             **request,
             agentId=event["PhysicalResourceId"],
         )
-        return CustomResourceResponse(
-            PhysicalResourceId=response["agent"]["agentId"],
-            Data=AgentResponse(
-                agentArn=response["agent"]["agentArn"],
-                agentId=response["agent"]["agentId"],
-                agentName=response["agent"]["agentName"],
-                changeId=create_change_hash(request),
-            ),
-        )
     except botocore.exceptions.ClientError as e:
         can_retry(e)
-
+    if should_prepare_agent:
+        prepare_agent(response["agent"]["agentId"])
+    return CustomResourceResponse(
+        PhysicalResourceId=response["agent"]["agentId"],
+        Data=AgentResponse(
+            agentArn=response["agent"]["agentArn"],
+            agentId=response["agent"]["agentId"],
+            agentName=response["agent"]["agentName"],
+            updatedAt=str(response["agent"]["updatedAt"]),
+        ),
+    )
 
 @retry(
     retry=retry_if_exception_type(AWSRetryableError),

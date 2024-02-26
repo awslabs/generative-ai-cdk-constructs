@@ -15,7 +15,8 @@
 
 | **Language**     | **Package**        |
 |:-------------|-----------------|
-|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@cdklabs/generative-ai-cdk-constructs`|
+|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) TypeScript|`@cdklabs/generative-ai-cdk-constructs`|
+|![Python Logo](https://docs.aws.amazon.com/cdk/api/latest/img/python32.png) Python|`cdklabs.generative_ai_cdk_constructs`|
 
 ## Table of contents
 
@@ -45,6 +46,7 @@ env: {
 
 Here is a minimal deployable pattern definition:
 
+TypeScript
 ```typescript
 
 import { Construct } from 'constructs';
@@ -65,6 +67,29 @@ new HuggingFaceSageMakerEndpoint(this, 'Mistral', {
 });
 ```
 
+Python
+```python
+from constructs import Construct
+from cdklabs.generative_ai_cdk_constructs import (
+    HuggingFaceSageMakerEndpoint,
+    DeepLearningContainerImage,
+    SageMakerInstanceType,
+)
+
+HuggingFaceSageMakerEndpoint(
+    self,
+    'Mistral',
+    model_id='mistralai/Mistral-7B-Instruct-v0.1',
+    instance_type=SageMakerInstanceType.ML_G5_2_XLARGE,
+    container=DeepLearningContainerImage.HUGGINGFACE_PYTORCH_TGI_INFERENCE_2_0_1_TGI1_1_0_GPU_PY39_CU118_UBUNTU20_04,
+    environment={
+        'SM_NUM_GPUS': '1',
+        'MAX_INPUT_LENGTH': '2048',
+        'MAX_TOTAL_TOKENS': '4096',
+    },
+)
+```
+
 ## Initializer
 
 ```
@@ -83,7 +108,7 @@ Parameters
 
 | **Name**     | **Type**        | **Required** |**Description** |
 |:-------------|:----------------|-----------------|-----------------|
-| model | string | ![Required](https://img.shields.io/badge/required-ff0000) | The model to deploy. Must match a model id on HuggingFace |
+| model | string | ![Required](https://img.shields.io/badge/required-ff0000) | The model to deploy. Must match a model id on Hugging Face |
 | container | ContainerImage | ![Required](https://img.shields.io/badge/required-ff0000) | A Deep Learning Container Image. Available list of containers is available through the [official documentation](https://github.com/aws/deep-learning-containers/blob/master/available_images.md) |
 | instanceType | SageMakerInstanceType | ![Required](https://img.shields.io/badge/required-ff0000) | The ML compute instance type |
 | endpointName | string| ![Optional](https://img.shields.io/badge/optional-4169E1) | Name of the SageMaker endpoint created by the construct |
@@ -104,7 +129,7 @@ Parameters
 |cfnModel| [sagemaker.CfnModel](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_sagemaker.CfnModel.html) | cfnModel created by the construct |
 |cfnEndpoint| [sagemaker.CfnEndpoint](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_sagemaker.CfnEndpoint.html) |cfnEndpoint created by the construct |
 |cfnEndpointConfig| [sagemaker.CfnEndpointConfig](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_sagemaker.CfnEndpointConfig.html) | cfnEndpointConfig created by the construct |
-|modelId| string | The model id (matching a HuggingFace model) |
+|modelId| string | The model id (matching a Hugging Face model) |
 |instanceType| SageMakerInstanceType | The ML compute instance type |
 |instanceCount| number | Number of instances to launch initially|
 |role| [iam.Role](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_iam.Role.html) |The IAM role that SageMaker can assume to access model artifacts and docker image for deployment on ML compute instances or for batch transform jobs |

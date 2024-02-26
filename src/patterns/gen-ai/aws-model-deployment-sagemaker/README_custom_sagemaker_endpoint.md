@@ -15,7 +15,8 @@
 
 | **Language**     | **Package**        |
 |:-------------|-----------------|
-|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@cdklabs/generative-ai-cdk-constructs`|
+|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) TypeScript|`@cdklabs/generative-ai-cdk-constructs`|
+|![Python Logo](https://docs.aws.amazon.com/cdk/api/latest/img/python32.png) Python|`cdklabs.generative_ai_cdk_constructs`|
 
 ## Table of contents
 
@@ -45,6 +46,7 @@ env: {
 
 Here is a minimal deployable pattern definition:
 
+TypeScript
 ```typescript
 
 import { Construct } from 'constructs';
@@ -62,6 +64,35 @@ new CustomSageMakerEndpoint(this, 'customModel', {
     instanceCount: 1,
     volumeSizeInGb: 100
   });
+```
+
+Python
+```python
+from constructs import Construct
+from cdklabs.generative_ai_cdk_constructs import (
+    CustomSageMakerEndpoint,
+    DeepLearningContainerImage,
+    SageMakerInstanceType,
+)
+
+# Need an existing bucket containing model artifacts that this construct can access
+bucket_name = 'bucket'
+key_name = 'key'
+
+CustomSageMakerEndpoint(
+    self,
+    'customModel',
+    model_id='bgeinf2',
+    instance_type=SageMakerInstanceType.ML_INF2_XLARGE,
+    container=DeepLearningContainerImage.from_deep_learning_container_image(
+        'huggingface-pytorch-inference-neuronx',
+        '1.13.1-transformers4.34.1-neuronx-py310-sdk2.15.0-ubuntu20.04',
+    ),
+    model_data_url=f's3://{bucket_name}/{key_name}/model.tar.gz',
+    endpoint_name='testbgebase',
+    instance_count=1,
+    volume_size_in_gb=100,
+)
 ```
 
 ## Initializer
@@ -114,7 +145,6 @@ Parameters
 ## Default properties
 
 - iam.Role: if not provided, an iam.Role will be created by the construct with a managed policy providing AmazonSageMakerFullAccess permissions.
-- volumeSizeInGb: 512Gb if not provided
 - startupHealthCheckTimeoutInSeconds: 600 if not provided
 - modelDataDownloadTimeoutInSeconds: 600 if not provided
 - instanceCount: 1 if not provided

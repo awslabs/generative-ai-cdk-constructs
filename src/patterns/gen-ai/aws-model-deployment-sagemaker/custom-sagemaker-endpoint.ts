@@ -28,7 +28,7 @@ export interface CustomSageMakerEndpointProps {
   readonly environment?: { [key: string]: string };
   readonly startupHealthCheckTimeoutInSeconds?: number;
   readonly modelDataDownloadTimeoutInSeconds?: number;
-  readonly volumeSizeInGb?: number;
+  readonly volumeSizeInGb?: number | undefined;
   readonly vpcConfig?: sagemaker.CfnModel.VpcConfigProperty | undefined;
   readonly modelDataUrl: string;
 }
@@ -45,7 +45,6 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
   public readonly role: iam.Role;
   public readonly modelDataUrl: string;
   public readonly modelId: string;
-  public readonly volumeSizeInGb?: number;
   public readonly modelDataDownloadTimeoutInSeconds: number;
   private readonly startupHealthCheckTimeoutInSeconds: number;
   private readonly environment?: { [key: string]: string };
@@ -61,7 +60,6 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
     this.modelDataUrl = props.modelDataUrl;
     this.startupHealthCheckTimeoutInSeconds = props.startupHealthCheckTimeoutInSeconds ?? 600;
     this.environment = props.environment;
-    this.volumeSizeInGb = props.volumeSizeInGb ?? 512;
     this.modelDataDownloadTimeoutInSeconds = props.modelDataDownloadTimeoutInSeconds ?? 600;
 
     const image = props.container.bind(this, this.grantPrincipal).imageName;
@@ -109,7 +107,7 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
           initialVariantWeight: 1,
           initialInstanceCount: this.instanceCount,
           variantName: 'AllTraffic',
-          volumeSizeInGb: this.volumeSizeInGb,
+          volumeSizeInGb: props.volumeSizeInGb,
           modelName: model.getAtt('ModelName').toString(),
           containerStartupHealthCheckTimeoutInSeconds: this.startupHealthCheckTimeoutInSeconds,
           modelDataDownloadTimeoutInSeconds: this.modelDataDownloadTimeoutInSeconds,

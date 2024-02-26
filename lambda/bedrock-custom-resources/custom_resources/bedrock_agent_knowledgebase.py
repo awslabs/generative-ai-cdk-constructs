@@ -25,6 +25,7 @@ from tenacity import (
 
 from typing import TypedDict, NotRequired, Dict
 
+from .bedrock_prepare_agent import prepare_agent
 from .cr_types import CustomResourceRequest, CustomResourceResponse
 from .exceptions import AWSRetryableError, can_retry
 
@@ -38,10 +39,11 @@ class AgentKBProps(TypedDict):
     agentId: str
     knowledgeBaseId: str
     description: NotRequired[str]
+    shouldPrepareAgent: NotRequired[str]
 
 
 class AgentKBResponse(TypedDict):
-    changeId: str
+    updatedAt: str
 
 
 def on_event(event: CustomResourceRequest[AgentKBProps], context):
@@ -65,22 +67,11 @@ def get_physical_id(resource_props: AgentKBProps) -> str:
     return f"{resource_props['agentId']}#{resource_props['knowledgeBaseId']}"
 
 
-def get_change_id(resource_props: AgentKBProps) -> str:
-    return str(
-        hash(
-            resource_props["agentId"]
-            + "#"
-            + resource_props["knowledgeBaseId"]
-            + "#"
-            + resource_props["description"]
-        )
-    )
-
-
 @retry(
     retry=retry_if_exception_type(AWSRetryableError),
     stop=stop_after_attempt(3),
     wait=wait_exponential_jitter(1, 3),
+    reraise=True,
 )
 def on_create(
     event: CustomResourceRequest[AgentKBProps], bedrock_agent
@@ -93,18 +84,22 @@ def on_create(
             description=event["ResourceProperties"]["description"],
             knowledgeBaseState="ENABLED",
         )
-        return CustomResourceResponse(
-            PhysicalResourceId=get_physical_id(event["ResourceProperties"]),
-            Data=AgentKBResponse(changeId=get_change_id(event["ResourceProperties"])),
-        )
     except botocore.exceptions.ClientError as e:
         can_retry(e)
+    if event["ResourceProperties"].get("shouldPrepareAgent", False):
+        prepare_agent(event["ResourceProperties"]["agentId"])
+    return CustomResourceResponse(
+        PhysicalResourceId=get_physical_id(event["ResourceProperties"]),
+        Data=AgentKBResponse(updatedAt=str(response["agentKnowledgeBase"]["updatedAt"])),
+    )
+
 
 
 @retry(
     retry=retry_if_exception_type(AWSRetryableError),
     stop=stop_after_attempt(3),
     wait=wait_exponential_jitter(1, 3),
+    reraise=True,
 )
 def on_update(
     event: CustomResourceRequest[AgentKBProps], bedrock_agent
@@ -117,18 +112,22 @@ def on_update(
             description=event["ResourceProperties"]["description"],
             knowledgeBaseState="ENABLED",
         )
-        return CustomResourceResponse(
-            PhysicalResourceId=get_physical_id(event["ResourceProperties"]),
-            Data=AgentKBResponse(changeId=get_change_id(event["ResourceProperties"])),
-        )
     except botocore.exceptions.ClientError as e:
         can_retry(e)
+    if event["ResourceProperties"].get("shouldPrepareAgent", False):
+        prepare_agent(event["ResourceProperties"]["agentId"])
+    return CustomResourceResponse(
+        PhysicalResourceId=get_physical_id(event["ResourceProperties"]),
+        Data=AgentKBResponse(updatedAt=str(response["agentKnowledgeBase"]["updatedAt"])),
+    )
+
 
 
 @retry(
     retry=retry_if_exception_type(AWSRetryableError),
     stop=stop_after_attempt(3),
     wait=wait_exponential_jitter(1, 3),
+    reraise=True,
 )
 def on_delete(
     event: CustomResourceRequest[AgentKBProps], bedrock_agent
@@ -139,9 +138,6 @@ def on_delete(
             knowledgeBaseId=event["ResourceProperties"]["knowledgeBaseId"],
             agentVersion="DRAFT",
         )
-        return CustomResourceResponse(
-            PhysicalResourceId=get_physical_id(event["ResourceProperties"]),
-        )
     except botocore.exceptions.ClientError as e:
         if e.response["Error"]["Code"] == "ResourceNotFoundException":
             logger.error(
@@ -151,3 +147,9 @@ def on_delete(
                 PhysicalResourceId=get_physical_id(event["ResourceProperties"]),
             )
         can_retry(e)
+    if event["ResourceProperties"].get("shouldPrepareAgent", False):
+        prepare_agent(event["ResourceProperties"]["agentId"])
+    return CustomResourceResponse(
+            PhysicalResourceId=get_physical_id(event["ResourceProperties"]),
+        )
+
