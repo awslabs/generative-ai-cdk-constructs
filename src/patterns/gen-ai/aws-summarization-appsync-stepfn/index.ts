@@ -32,6 +32,8 @@ import * as redisHelper from '../../../common/helpers/redis-helper';
 import * as s3BucketHelper from '../../../common/helpers/s3-bucket-helper';
 import { generatePhysicalName, version, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import * as vpcHelper from '../../../common/helpers/vpc-helper';
+import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
+import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
 export interface SummarizationAppsyncStepfnProps {
   /**
@@ -168,7 +170,6 @@ export interface SummarizationAppsyncStepfnProps {
    * @default - Stuff
    */
   readonly summaryChainType?: string;
-
   /**
    * Optional.CDK constructs provided collects anonymous operational
    * metrics to help AWS improve the quality and features of the
@@ -180,13 +181,28 @@ export interface SummarizationAppsyncStepfnProps {
    * @default - true
    */
   readonly enableOperationalMetric?: boolean;
-
   /**
    * Value will be appended to resources name.
    *
    * @default - _dev
    */
   readonly stage?: string;
+  /**
+   * Optional. Allows to provide Embeddings custom lambda code
+   * and settings instead of the existing
+   */
+  readonly customDocumentReaderDockerLambda?: DockerLambdaCustomProps | undefined;
+  /**
+   * Optional. Allows to provide Input Validation custom lambda code
+   * and settings instead of the existing
+   */
+  readonly customInputValidationDockerLambda?: DockerLambdaCustomProps | undefined;
+  /**
+   * Optional. Allows to provide File Transformer custom lambda code
+   * and settings instead of the existing
+   */
+  readonly customSummaryGeneratorDockerLambda?: DockerLambdaCustomProps | undefined;
+
 }
 
 export class SummarizationAppsyncStepfn extends Construct {
@@ -198,12 +214,10 @@ export class SummarizationAppsyncStepfn extends Construct {
    * Returns an instance of appsync.CfnGraphQLApi for summary created by the construct
    */
   public readonly graphqlApi: appsync.IGraphqlApi ;
-
   /**
    * Returns an instance of redis cluster created by the construct
    */
   public readonly redisCluster: elasticache.CfnCacheCluster;
-
   /**
    * Returns the instance of ec2.IVpc used by the construct
    */
@@ -225,6 +239,19 @@ export class SummarizationAppsyncStepfn extends Construct {
    * @default - fieldLogLevel - None
    */
   public readonly stateMachine: sfn.StateMachine;
+  /**
+   * Returns an instance of lambda.DockerImageFunction used for the summary generation job created by the construct
+   */
+  public readonly summaryGeneratorLambdaFunction: lambda.DockerImageFunction;
+  /**
+   * Returns an instance of lambda.DockerImageFunction used for the document reading job created by the construct
+   */
+  public readonly documentReaderLambdaFunction: lambda.DockerImageFunction;
+  /**
+   * Returns an instance of lambda.DockerImageFunction used for the input validation job created by the construct
+   */
+  public readonly inputValidationLambdaFunction: lambda.DockerImageFunction;
+
 
 
   /**
@@ -500,24 +527,28 @@ export class SummarizationAppsyncStepfn extends Construct {
       true,
     );
 
-    // Lambda function to validate Input
-    const inputValidatorLambda =
-    new lambda.DockerImageFunction(this, 'inputValidatorLambda'+stage,
-      {
-        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/input_validator')),
-        functionName: 'summary_input_validator'+stage,
-        description: 'Lambda function to validate input for summary api',
-        vpc: this.vpc,
-        tracing: lambda_tracing,
-        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-        securityGroups: [this.securityGroup],
-        memorySize: lambdaMemorySizeLimiter(this, 1_769 * 1),
-        timeout: Duration.minutes(5),
-        role: inputvalidatorLambdaRole,
-        environment: {
-          GRAPHQL_URL: updateGraphQlApiEndpoint,
-        },
-      });
+    const construct_input_validation_lambda_props = {
+      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/input_validator')),
+      functionName: 'summary_input_validator'+stage,
+      description: 'Lambda function to validate input for summary api',
+      vpc: this.vpc,
+      tracing: lambda_tracing,
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      securityGroups: [this.securityGroup],
+      memorySize: lambdaMemorySizeLimiter(this, 1_769 * 1),
+      timeout: Duration.minutes(5),
+      role: inputvalidatorLambdaRole,
+      environment: {
+        GRAPHQL_URL: updateGraphQlApiEndpoint,
+      },
+    };
+
+    // Lambda function used to validate inputs in the step function    
+    const inputValidatorLambda = buildDockerLambdaFunction(this,
+      'inputValidatorLambda' + stage,
+      construct_input_validation_lambda_props,
+      props.customInputValidationDockerLambda,
+    );
 
     // role
     const documentReaderLambdaRole = new iam.Role(this, 'documentReaderLambdaRole', {
@@ -586,7 +617,7 @@ export class SummarizationAppsyncStepfn extends Construct {
       true,
     );
 
-    const documentReaderLambda = new lambda.DockerImageFunction(this, 'documentReaderLambda'+stage, {
+    const construct_document_reader_lambda_props = {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/document_reader')),
       functionName: 'summary_document_reader'+stage,
       description: 'Lambda function to read the input transformed document',
@@ -606,7 +637,14 @@ export class SummarizationAppsyncStepfn extends Construct {
         GRAPHQL_URL: updateGraphQlApiEndpoint,
 
       },
-    });
+    };
+
+    // Lambda function used to read documents in the step function    
+    const documentReaderLambda = buildDockerLambdaFunction(this,
+      'documentReaderLambda' + stage,
+      construct_document_reader_lambda_props,
+      props.customDocumentReaderDockerLambda,
+    );
 
     const summaryChainType = props?.summaryChainType || 'stuff';
 
@@ -681,7 +719,7 @@ export class SummarizationAppsyncStepfn extends Construct {
       true,
     );
 
-    const generateSummarylambda = new lambda.DockerImageFunction(this, 'generateSummarylambda'+stage, {
+    const construct_generate_summary_lambda_props = {
       functionName: 'summary_generator'+stage,
       description: 'Lambda function to generate the summary',
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/summary_generator')),
@@ -699,7 +737,14 @@ export class SummarizationAppsyncStepfn extends Construct {
         GRAPHQL_URL: updateGraphQlApiEndpoint,
         SUMMARY_LLM_CHAIN_TYPE: summaryChainType,
       },
-    });
+    };
+
+    // Lambda function used to generate the summary in the step function    
+    const generateSummarylambda = buildDockerLambdaFunction(this,
+      'generateSummarylambda' + stage,
+      construct_generate_summary_lambda_props,
+      props.customSummaryGeneratorDockerLambda,
+    );
 
     this.inputAssetBucket?.grantRead(generateSummarylambda);
     this.processedAssetBucket?.grantReadWrite(generateSummarylambda);
@@ -888,6 +933,10 @@ export class SummarizationAppsyncStepfn extends Construct {
         }),
       ],
     });
+
+    this.documentReaderLambdaFunction = documentReaderLambda;
+    this.inputValidationLambdaFunction = inputValidatorLambda;
+    this.summaryGeneratorLambdaFunction = generateSummarylambda;
 
   }
 }
