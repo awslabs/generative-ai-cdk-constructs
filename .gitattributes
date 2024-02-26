@@ -9,6 +9,7 @@
 /.github/workflows/build.yml linguist-generated
 /.github/workflows/code-generation.yml linguist-generated
 /.github/workflows/commitlint.yml linguist-generated
+/.github/workflows/deploydocs.yml linguist-generated
 /.github/workflows/github-merit-badger.yml linguist-generated
 /.github/workflows/monthly-repo-metrics.yml linguist-generated
 /.github/workflows/ort-toolkit.yml linguist-generated
