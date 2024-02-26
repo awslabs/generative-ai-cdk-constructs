@@ -15,7 +15,7 @@
 
 | **Language**     | **Package**        |
 |:-------------|-----------------|
-|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) Typescript|`@cdklabs/generative-ai-cdk-constructs`|
+|![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) TypeScript|`@cdklabs/generative-ai-cdk-constructs`|
 |![Python Logo](https://docs.aws.amazon.com/cdk/api/latest/img/python32.png) Python|`cdklabs.generative_ai_cdk_constructs`|
 
 ## Table of contents
@@ -46,7 +46,7 @@ env: {
 
 Here is a minimal deployable pattern definition:
 
-Typescript
+TypeScript
 ```typescript
 
 import { Construct } from 'constructs';
@@ -145,7 +145,6 @@ Parameters
 ## Default properties
 
 - iam.Role: if not provided, an iam.Role will be created by the construct with a managed policy providing AmazonSageMakerFullAccess permissions.
-- volumeSizeInGb: 512Gb if not provided
 - startupHealthCheckTimeoutInSeconds: 600 if not provided
 - modelDataDownloadTimeoutInSeconds: 600 if not provided
 - instanceCount: 1 if not provided
