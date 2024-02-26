@@ -20,8 +20,11 @@ The RagAppsyncStepfnOpensearch class.
 
 ### Properties
 
+- [embeddingsLambdaFunction](RagAppsyncStepfnOpensearch.md#embeddingslambdafunction)
+- [fileTransformerLambdaFunction](RagAppsyncStepfnOpensearch.md#filetransformerlambdafunction)
 - [graphqlApi](RagAppsyncStepfnOpensearch.md#graphqlapi)
 - [ingestionBus](RagAppsyncStepfnOpensearch.md#ingestionbus)
+- [inputValidationLambdaFunction](RagAppsyncStepfnOpensearch.md#inputvalidationlambdafunction)
 - [node](RagAppsyncStepfnOpensearch.md#node)
 - [s3InputAssetsBucket](RagAppsyncStepfnOpensearch.md#s3inputassetsbucket)
 - [s3InputAssetsBucketInterface](RagAppsyncStepfnOpensearch.md#s3inputassetsbucketinterface)
@@ -72,6 +75,22 @@ Construct.constructor
 
 ## Properties
 
+### embeddingsLambdaFunction
+
+• `Readonly` **embeddingsLambdaFunction**: `DockerImageFunction`
+
+Returns an instance of lambda.DockerImageFunction used for the embeddings job created by the construct
+
+___
+
+### fileTransformerLambdaFunction
+
+• `Readonly` **fileTransformerLambdaFunction**: `DockerImageFunction`
+
+Returns an instance of lambda.DockerImageFunction used for the file transformer job created by the construct
+
+___
+
 ### graphqlApi
 
 • `Readonly` **graphqlApi**: `IGraphqlApi`
@@ -85,6 +104,14 @@ ___
 • `Readonly` **ingestionBus**: `IEventBus`
 
 Returns the instance of events.IEventBus used by the construct
+
+___
+
+### inputValidationLambdaFunction
+
+• `Readonly` **inputValidationLambdaFunction**: `DockerImageFunction`
+
+Returns an instance of lambda.DockerImageFunction used for the input validation job created by the construct
 
 ___
 
