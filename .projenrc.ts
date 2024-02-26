@@ -179,6 +179,31 @@ if (deployDocsWorkflow) {
   });
 }
 
+const testDeploymentWorkflow = project.github?.addWorkflow('TestDeployment');
+
+if (testDeploymentWorkflow) {
+  testDeploymentWorkflow.on({
+    pullRequest: {
+      branches: ['main'],
+    },
+  });
+
+  testDeploymentWorkflow.addJobs({
+    test_deploy: {
+      permissions: {
+        contents: JobPermission.WRITE,
+      },
+      runsOn: ['ubuntu-latest'],
+      steps: [
+        { uses: 'actions/checkout@v3', with: { 'fetch-depth': '0' } },
+        { uses: 'actions/setup-node@v3', with: { 'node-version': '18', 'cache': 'yarn' } },
+        { run: 'cd website; yarn install --frozen-lockfile' },
+        { run: 'yarn build', name: 'Test build website' },
+      ],
+    },
+  });
+}
+
 // We don't want to package certain things
 project.npmignore?.addPatterns(
   '/docs/',
