@@ -2,7 +2,7 @@ import boto3,os,base64,json
 import requests as reqs
 from aws_lambda_powertools import Logger, Tracer, Metrics
 from requests_aws4auth import AWS4Auth
-
+from datetime import datetime
 
 logger = Logger(service="IMAGE_GENERATION")
 tracer = Tracer(service="IMAGE_GENERATION")
@@ -21,12 +21,14 @@ session_token=credentials.token,
         )
 
 class image_generator():
-    """Generate image  ."""
+    """Generate Image based on consfigured modelId .
+        Implements text and omage moderation with Amazon Rekognition and
+        Amzon Comprehend.
+    """
 
-    def __init__(self,input_text,file_name, rekognition_client,comprehend_client,bedrock_client,bucket):
+    def __init__(self,input_text, rekognition_client,comprehend_client,bedrock_client,bucket):
                 """Initialize with bucket , key and rekognition_client."""
                 
-                self.file_name = file_name
                 self.rekognition_client = rekognition_client
                 self.comprehend_client = comprehend_client
                 self.input_text =input_text
@@ -36,19 +38,21 @@ class image_generator():
     
 
     @tracer.capture_method
-    def upload_file_to_s3(self,imgbase64encoded):
+    def upload_file_to_s3(self,imgbase64encoded,file_name):
         
         """Upload generated file to S3 bucket"""
-
-        logger.info(f"uploading file to s3 bucket: {self.bucket}, key: {self.file_name}")
+        
+        logger.info(f"uploading file to s3 bucket: {self.bucket}, key: {file_name}")
+        current_datetime = datetime.now().strftime("%Y-%m-%d_%H:%M:%S.%f")
+        upload_file_name=file_name+current_datetime+".jpg"
         try:
-            respImg= s3.Object(self.bucket, self.file_name).put(Body=base64.b64decode(imgbase64encoded))
+            respImg= s3.Object(self.bucket, upload_file_name).put(Body=base64.b64decode(imgbase64encoded))
         
         except Exception as e:
             logger.error(f"Error occured :: {e}")
             return False
         return {
-            "file_name":self.file_name,
+            "file_name":upload_file_name,
             "bucket_name":self.bucket,
         }
 
@@ -81,7 +85,7 @@ class image_generator():
         return response
 
     @tracer.capture_method
-    def image_moderation(self):
+    def image_moderation(self,file_name):
         
         """Detect image moderation on the generated image to avoid any toxicity/nudity"""
 
@@ -94,7 +98,7 @@ class image_generator():
         Image={
             'S3Object':{
                 'Bucket':self.bucket,
-                'Name':self.file_name}
+                'Name':file_name}
                 }
         )
         for label in rekognition_response['ModerationLabels']:
@@ -109,47 +113,33 @@ class image_generator():
     def generate_image(self,input_params):
         
         """Generate image using Using bedrock with configured modelid and params"""
+        
 
         input_text=self.input_text
-        
+        print(f' input_params :: {input_params}')
         # add default negative prompts
-        if 'negative_prompts' in input_params:
+        if 'negative_prompts' in input_params and input_params['negative_prompts'] is None:
                sample_string_bytes = base64.b64decode(input_params['negative_prompts'])
                decoded_negative_prompts = sample_string_bytes.decode("utf-8")
                logger.info(f"decoded negative prompts are :: {decoded_negative_prompts}")
                negative_prompts= decoded_negative_prompts
         else:
-              negative_prompts= ["poorly rendered","poor background details"]
-    
+              negative_prompts= ["poorly rendered","poor background details","poorly drawn mountains","disfigured mountain features"]
+        
         model_id=input_params['model_config']['modelId']
       
         model_kwargs=input_params['model_config']['model_kwargs']
         params= get_inference_parameters(model_kwargs)
 
-        logger.info(f'SD params :: {params}')
     
-
-        request = json.dumps({
-                "text_prompts": (
-                        [{"text": input_text, "weight": 1.0}]
-                        + [{"text": negprompt, "weight": -1.0} for negprompt in negative_prompts]
-                ),
-                "cfg_scale":params['cfg_scale'],
-                "seed": params['seed'],
-                "steps": params['steps'],
-                "style_preset": params['style_preset'],
-                "clip_guidance_preset": params['clip_guidance_preset'],
-                "sampler": params['sampler'],
-                "width": params['width'],
-                "height": params['height']
-                })
-                        
+        body=get_model_payload(model_id,params,input_text,negative_prompts)
+        print(f' body :: {body}')
         try:
             return  self.bedrock_client.invoke_model(
                 modelId= model_id,
                 contentType= "application/json",
                 accept= "application/json",
-                body=request
+                body=body
                 )
         except Exception as e:
             logger.error(f"Error occured during generating image:: {e}")
@@ -198,7 +188,44 @@ class image_generator():
         )
         logger.info('res :: {}',responseJobstatus)
 
+def get_model_payload(modelid,params,input_text,negative_prompts):
+      
+     body=''
+     if modelid=='stability.stable-diffusion-xl' :
+        body = json.dumps({
+                "text_prompts": (
+                        [{"text": input_text, "weight": 1.0}]
+                        + [{"text": negprompt, "weight": -1.0} for negprompt in negative_prompts]
+                ),
+                "cfg_scale":params['cfg_scale'],
+                "seed": params['seed'],
+                "steps": params['steps'],
+                "style_preset": params['style_preset'],
+                "clip_guidance_preset": params['clip_guidance_preset'],
+                "sampler": params['sampler'],
+                "width": params['width'],
+                "height": params['height']
+                })
+        return body
+     if modelid=='amazon.titan-image-generator-v1' :
 
+        body = json.dumps({
+                       "taskType": "TEXT_IMAGE",
+                        "textToImageParams": {
+                        "text": input_text,                   
+                        #"negativeText": negative_prompts  
+                        },
+                        "imageGenerationConfig": {
+                        "numberOfImages": params['numberOfImages'],   
+                        "quality":params['quality'], 
+                        "height": params['height'],        
+                        "width": params['width'],         
+                        "cfgScale": params['cfg_scale'],      
+                        "seed": params['seed']           
+                        }
+                        })
+        return body
+      
 def get_inference_parameters(model_kwargs):
       """ Read inference parameters and set default values"""
       if 'seed' in model_kwargs:
@@ -233,6 +260,15 @@ def get_inference_parameters(model_kwargs):
               sampler= model_kwargs['sampler']
       else:
               sampler='K_DPMPP_2S_ANCESTRAL'
+      if 'numberOfImages' in model_kwargs:
+              numberOfImages= model_kwargs['numberOfImages']
+      else:
+              numberOfImages=1
+      if 'quality' in model_kwargs:
+              quality= model_kwargs['quality']
+      else:
+              quality="standard"         
+
       return {
             "cfg_scale": cfg_scale,
             "seed": seed,
@@ -242,4 +278,6 @@ def get_inference_parameters(model_kwargs):
             "sampler": sampler,
             "width": width,
             "height": height,
+            "numberOfImages": numberOfImages,
+            "quality": quality
       }

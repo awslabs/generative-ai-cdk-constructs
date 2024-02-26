@@ -33,7 +33,7 @@
 
 ## Overview
 
-This construct provides a workflow to generate images from text input using Amazon Web Services (AWS) services. It utilizes Stability AI's stable-diffusion-xl model via Amazon Bedrock for image generation, AWS AppSync for GraphQL APIs, Amazon Rekognition and Amazon Comprehend for content guardrails, and AWS Lambda functions for processing.
+This construct implements an end-to-end workflow for generating images from text prompts using Amazon Web Services (AWS). It exposes a GraphQL API through AWS AppSync that allows clients to submit text requests. AWS Lambda functions process these requests and moderate the text using Amazon Comprehend and the generated images using Amazon Rekognition to help ensure appropriate content. For image generation, the system supports leveraging Stability AI's stable-diffusion-xl model as well as Amazon titan generator through Amazon Bedrock. This provides flexible options for high-fidelity text-to-image generation while leveraging AWS services for request processing, content moderation, and scalable deployment of generative AI models. 
 
 The workflow is as follows:
 
@@ -43,7 +43,7 @@ The workflow is as follows:
 
 3. Lambda function first implement text moderation using Amazon Comprehend to check for inappropriate content.
 
-4. The functions then generate an image from the text using Amazon Bedrock with the stability.stable-diffusion-xl model.
+4. The functions then generate an image from the text using Amazon Bedrock with the stability.stable-diffusion-xl/amazon.titan-image-generator-v1 model.
 
 5. Next, image moderation is performed using Amazon Rekognition to further ensure appropriateness.
 
@@ -52,7 +52,7 @@ The workflow is as follows:
 
 This construct builds a Lambda function from a Docker image, thus you need [Docker desktop](https://www.docker.com/products/docker-desktop/) running on your machine.
 
-Make sure the model (stability.stable-diffusion-xl) is enabled in your account. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
+Make sure the model (stability.stable-diffusion-xl/amazon.titan-image-generator-v1) is enabled in your account. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
 
 AWS Lambda functions provisioned in this construct use [Powertools for AWS Lambda (Python)](https://github.com/aws-powertools/powertools-lambda-python) for tracing, structured logging and custom metrics creation.
 
@@ -71,7 +71,7 @@ const cognitoPoolId = 'us-east-1_XXXXX';
 const userPoolLoaded = cognito.UserPool.fromUserPoolId(this, 'myuserpool', cognitoPoolId);
 
 
-const imageGeneration = new emergingTech.ImageGenerationAppsyncLambda(this, 'ImageGenerationAppsyncLambda', {
+const imageGeneration = new emergingTech.ContentGenerationAppsyncLambda(this, 'ContentGenerationAppsyncLambda', {
       cognitoUserPool: userPoolLoaded,
       
     });
@@ -89,7 +89,7 @@ Subscription call to receive notifications:
 
 ```
 subscription MySubscription {
-  updateGenerateImageStatus(filename: "", jobid: "") {
+  updateGenerateImageStatus(jobid: "") {
     filename
     image_path
     input_text
@@ -109,17 +109,49 @@ Where:
 - job_id: id which can be used to filter subscriptions on the client side
 - status: status update of the image generation process.
 - filename: name of the image generated in the S3 bucket.
+- message: any error message generated during processing of the request.
 
 
 Mutation call to trigger the summarization:
 
 ```
+
+input= {'detail': {'imageInput': 
+         {'jobid': '88019f5e-71cd-42ce-b24b-94bce4fce87c',
+           'filename': '', 'model_config': 
+           {'provider': 'Bedrock',
+             'modelId': 'amazon.titan-image-generator-v1',
+             'model_kwargs': 
+             {'cfg_scale': 5, 'seed': 452345, 'steps': 10, 
+              'style_preset': 'photographic', 
+              'clip_guidance_preset': 'FAST_BLUE',
+                'sampler': 'DDIM',
+                'numberOfImages':1}},
+                  'input_text': 'ZnJvZ3MgZGFuY2luZyBvbiBzdGFnZQo=', 
+             'negative_prompts': ''}}
+}
+
+seed: 452345,
+            steps: 10, 
+            style_preset: "photographic", 
+            clip_guidance_preset: "FAST_BLUE",
+            sampler: "DDIM",
+            numberOfImages:1
+
+handler(input,None)
+
+
 mutation MyMutation {
   generateImage(imageInput:
-    {filename: "image1.jpg", 
-      input_text: "frog dancing on river", 
-      jobid: "23", model_config: 
-      {modelId: "", provider: ""}}) {
+    { input_text: "frog dancing on river", 
+      jobid: "23", 
+      model_config: 
+        {
+          modelId: "amazon.titan-image-generator-v1", 
+        provider: "Bedrock"
+        model_kwargs:""
+          }
+        }) {
     jobid
     filename
     status
@@ -150,21 +182,23 @@ Expected response: It invoke an asynchronous summarization process thus the resp
 Where:
 - job_id: id which can be used to filter subscriptions on client side.
 - status: this field will be used by the subscription to update the status of the image generation process.
-- name: file name.
+- model_config: configure model id amazon.titan-image-generator-v1/stability.stable-diffusion-xl.
+- model_kwargs: Image generation model driver for Stable Diffusion models and Amazon Titan generator on Amazon Bedrock.
+
 
 
 
 ## Initializer
 
 ```
-new ImageGenerationAppsyncLambda(scope: Construct, id: string, props: ImageGenerationAppsyncLambdaProps)
+new ContentGenerationAppsyncLambda(scope: Construct, id: string, props: ContentGenerationAppsyncLambdaProps)
 ```
 
 Parameters
 
 - scope [Construct](https://docs.aws.amazon.com/cdk/api/v2/docs/constructs.Construct.html)
 - id string
-- props ImageGenerationAppsyncLambdaProps
+- props ContentGenerationAppsyncLambdaProps
 
 ## Pattern Construct Props
 
@@ -224,10 +258,9 @@ By default the construct will enable logging and tracing on all services which s
 
 | **Error Code**     | **Message**        | **Description** |**Fix** |
 |:-------------|:----------------|-----------------|-----------------|
-| 601 | Invalid file format. | Only .txt and .pdf file format are supported | Provide a valid file with .pdf or .txt extension |
-| 602 | Not able to transform the file. | File transformation from .pdf to .txt failed | Check if valid file exist in input bucket |
-| 603 | No file available to read. | Couldn't read file from input bucket | Check if valid file exist in input bucket |
-| 604 | Something went wrong while generating summary! | LLM threw an exception | Check if your account has access to Amazon Bedrock |
+| 601 | Image generation blocked. | In appropriate input prompt. Please change the prompt. | Provide a valid prompt. |
+| 602 | Invalid request. | Input text is empty | Provide a valid prompt. |
+| 603 | mage generation blocked | In-appropriate image generated. | Provide a valid prompt.|
 
 
 ## Architecture
@@ -235,7 +268,7 @@ By default the construct will enable logging and tracing on all services which s
 
 ## Cost
 
-You are responsible for the cost of the AWS services used while running this construct. As of this revision, the cost for running this construct with the default settings in the US East (N. Virginia) Region is approximately $292.04 per month.
+When deploying this architecture, you as the customer are responsible for the costs of the AWS services utilized. Based on current pricing in the US East (N. Virginia) region, operating this infrastructure with the default configuration to handle 10,000 image generation requests per month is estimated to cost approximately $87.52 per month. This cost estimate includes usage of the various AWS services leveraged in this architecture such as AWS Lambda, AWS AppSync, Amazon Bedrock, and Amazon S3. 
 
 We recommend creating a budget through [AWS Cost Explorer](http://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this solution.
 
@@ -245,15 +278,14 @@ The following table provides a sample cost breakdown for deploying this solution
 | **AWS Service**     | **Dimensions**        | **Cost [USD]** |
 |:-------------|:----------------|-----------------|
 | Amazon Virtual Private Cloud |  | 0.00 |
-| AWS AppSync | 15 requests per hour to trigger summarization + (15 x 4 calls to notify clients through subscriptions) = 54,000 requests per month | 0.22 |
-| Amazon EventBridge | 15 requests per hour = 10800 custom events per month | 0.01 |
-| AWS Lambda | 15 image generation requests per hour with 2 files each time, through 4 Lambda functions each allocated with 7076 MB of memory allocated and 512 MB of ephemeral storage allocated and an average run time of 30 seconds = 43200 requests per month. This cost would reduce if redis cache is used which will skip lambda invocation. | 142.59 |
-| Amazon Simple Storage Service | 15 requests per hour for image generation with 2 files in input format (PDF) with an average size of 1MB and transformed files to text format with an average size of 1 MB = 43.2 GB per month in S3 Standard Storage | 0.99 |
-| Amazon Bedrock | With the on-demand mode, for text generation models, you are charged for every input token processed and every output token generated. Anthropic.claude model price for 1000 input tokens= $0.01102 and for 1000 output tokens = $0.03268. With a pdf of 50 pages (asumming each page having 200 words) , 50 * 200 , there are 10000 words, which are ~= 7500 tokens. Input token cost for 200 request per month = 7.5 * 0.01102 * 200 = 16.53. Asumming a summary of 200 words (150 tokens) for 200 requests per month cost of output token  = 150 * (0.03268/1000) * 200 = 9.804. Total cost for 200 summary requests , 16.53 + 9.804 = $26.334| 26.34 |
-| Amazon ElastiCache for Redis | With on-demand Instance type as 'cache.m4.large' and with 1 node the expecxted cost is  1 instance(s) x 0.156 USD hourly x (100 / 100 Utilized/Month) x 730 hours in a month = 113.8800 | 113.88 |
+| AWS AppSync | 10,000 requests per month (10,000 searches x 0.000004 USD)| 0.04 |
+| Amazon EventBridge | 10,000 event per month  | 0.01 |
+| AWS Lambda | 10,000 request per month, memory allocated with 1769 MB of memory allocated and 512 MB of ephemeral storage allocated and an average run time of 30 seconds  | 1.97|
+| Amazon Simple Storage Service | 50,000 S3 request per month with 50 GB of image storage | 1.42 |
+| Amazon Bedrock | Per image with resolution 512 X 512 using Titan Image Generator would cost around 10,000*0.008| 80.00 |
 | Amazon CloudWatch | 15 metrics using 5 GB data ingested for logs | 7.02 |
 | AWS X-Ray | 100,000 requests per month through AppSync and Lambda calls | 0.50 |
-| Total Deployment cost | | 292.04 |
+| Total Deployment cost | | 87.52 |
 
 The resources not created by this construct (Amazon Cognito User Pool, AppSync Merged API, AWS Secrets Manager secret) do not appear in the table above. You can refer to the decicated pages to get an estimate of the cost related to those services:
 - [AWS AppSync pricing (for Merged API if used)](https://aws.amazon.com/appsync/pricing/)
@@ -267,18 +299,16 @@ When you build systems on AWS infrastructure, security responsibilities are shar
 This construct requires you to provide an existing Amazon Cognito User Pool. Please refer to the official documentation on best practices to secure this service:
 - [Amazon Cognito](https://docs.aws.amazon.com/cognito/latest/developerguide/security.html)
 
-Optionnaly, you can provide existing resources to the constructs (marked optional in the construct pattern props). If you chose to do so, please refer to the official documentation on best practices to secure each service:
+Optionaly, you can provide existing resources to the constructs (marked optional in the construct pattern props). If you chose to do so, please refer to the official documentation on best practices to secure each service:
 - [Amazon Simple Storage Service](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html)
 - [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-best-practices.html)
 - [Amazon ElastiCache](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/redis-security.html)
 - [Amazon EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-security.html)
 - [AWS AppSync](https://docs.aws.amazon.com/appsync/latest/devguide/best-practices.html)
 
-If you grant access to a user to your account where this construct is deployed, this user may access information stored by the construct (Amazon Simple Storage Service buckets, Amazon Elasticache, Amazon CloudWatch logs). To help secure your AWS resources, please follow the best practices for [AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html).
+If you grant access to a user to your account where this construct is deployed, this user may access information stored by the construct (Amazon Simple Storage Service buckets, Amazon CloudWatch logs). To help secure your AWS resources, please follow the best practices for [AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html).
 
 > **Note**
-> This construct requires you to provide documents in the input assets bucket. You should validate each file in the bucket before using this construct. See [here](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html) for file input validation best practices.
-> Ensure you only ingest the appropriate documents into your knowledge base. Any results returned by the knowledge base is eligible for inclusion into the prompt; and therefore, being sent to the LLM. If using a third-party LLM, ensure you audit the documents contained within your knowledge base.
 > This construct provides several configurable options for logging. Please consider security best practices when enabling or disabling logging and related features. Verbose logging, for instance, may log content of API calls. You can disable this functionality by ensuring observability flag is set to false.
 
 ## Supported AWS Regions

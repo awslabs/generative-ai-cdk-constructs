@@ -437,7 +437,23 @@ export class ContentGenerationAppsyncLambda extends Construct {
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: [
-          'comprehend:*',
+          'comprehend:DetectEntities',
+          'comprehend:DetectKeyPhrases',
+          'comprehend:DetectPiiEntities',
+          'comprehend:DetectSentiment',
+          'comprehend:DetectSyntax',
+        ],
+        resources: ['*'],
+      }),
+    );
+    generate_image_function_role.addToPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [
+          'rekognition:DetectModerationLabels',
+          'rekognition:DetectText',
+          'rekognition:DetectLabels',
+          'rekognition:DetectFaces',
         ],
         resources: ['*'],
       }),
@@ -470,7 +486,7 @@ export class ContentGenerationAppsyncLambda extends Construct {
         tracing: lambda_tracing,
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
         securityGroups: [this.securityGroup],
-        memorySize: 1_769 * 4,
+        memorySize: 1_769 * 1,
         timeout: Duration.minutes(15),
         role: generate_image_function_role,
         environment: {
