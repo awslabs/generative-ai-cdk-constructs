@@ -167,6 +167,7 @@ project.eslint?.addRules({
 
 project.eslint?.addIgnorePattern('LangchainProps.ts');
 project.eslint?.addIgnorePattern('AdapterProps.ts');
+project.eslint?.addIgnorePattern('DockerLambdaCustomProps.ts');
 
 // Shared interfaces extending pre-existing CDK interfaces
 new ProjenStruct(project, { name: 'LangchainProps', filePath: 'src/common/props/LangchainProps.ts' })
