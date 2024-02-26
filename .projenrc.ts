@@ -104,6 +104,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
     '!.ort.yml',
     '.idea',
     '.vscode',
+    'website/build',
+    'website/node_modules',
+    'website/.docusaurus',
   ],
   stability: 'experimental',
   sampleCode: false,
@@ -222,6 +225,7 @@ project.npmignore?.addPatterns(
   'tsconfig.dev.json',
   'yarn.lock',
   '/apidocs/',
+  'website/',
 );
 
 // Add License header automatically

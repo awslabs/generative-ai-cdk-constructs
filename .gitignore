@@ -38,6 +38,9 @@ __pycache__/
 !.ort.yml
 .idea
 .vscode
+website/build
+website/node_modules
+website/.docusaurus
 /test-reports/
 junit.xml
 /coverage/
@@ -66,6 +69,7 @@ tsconfig.json
 !/.github/workflows/commitlint.yml
 !/.github/workflows/code-generation.yml
 !/.github/workflows/deploydocs.yml
+!/.github/workflows/testdeployment.yml
 !/.projenrc.ts
 !/src/patterns/gen-ai/aws-langchain-common-layer/LangchainProps.ts
 !/src/patterns/gen-ai/aws-langchain-common-layer/AdapterProps.ts
