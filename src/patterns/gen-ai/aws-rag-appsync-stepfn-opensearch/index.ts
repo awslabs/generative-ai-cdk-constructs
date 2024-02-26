@@ -28,11 +28,11 @@ import * as stepfn from 'aws-cdk-lib/aws-stepfunctions';
 import * as stepfn_task from 'aws-cdk-lib/aws-stepfunctions-tasks';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
+import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import * as opensearch_helper from '../../../common/helpers/opensearch-helper';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
 import { generatePhysicalName, version, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
-import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
 /**
@@ -473,7 +473,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       },
     };
 
-    // Lambda function used to validate inputs in the step function    
+    // Lambda function used to validate inputs in the step function
     const validate_input_function = buildDockerLambdaFunction(this,
       'lambda_function_validation_input' + stage,
       construct_input_validation_lambda_props,

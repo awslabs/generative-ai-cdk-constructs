@@ -66,6 +66,6 @@ tsconfig.json
 !/.github/workflows/commitlint.yml
 !/.github/workflows/code-generation.yml
 !/.projenrc.ts
-!/src/patterns/gen-ai/aws-langchain-common-layer/LangchainProps.ts
-!/src/patterns/gen-ai/aws-langchain-common-layer/AdapterProps.ts
+!/src/common/props/LangchainProps.ts
+!/src/common/props/AdapterProps.ts
 !/src/common/props/DockerLambdaCustomProps.ts

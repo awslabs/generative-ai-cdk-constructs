@@ -28,11 +28,11 @@ import * as sfnTask from 'aws-cdk-lib/aws-stepfunctions-tasks';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import * as eventBridge from '../../../common/helpers/eventbridge-helper';
+import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import * as redisHelper from '../../../common/helpers/redis-helper';
 import * as s3BucketHelper from '../../../common/helpers/s3-bucket-helper';
 import { generatePhysicalName, version, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import * as vpcHelper from '../../../common/helpers/vpc-helper';
-import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
 export interface SummarizationAppsyncStepfnProps {
@@ -251,7 +251,6 @@ export class SummarizationAppsyncStepfn extends Construct {
    * Returns an instance of lambda.DockerImageFunction used for the input validation job created by the construct
    */
   public readonly inputValidationLambdaFunction: lambda.DockerImageFunction;
-
 
 
   /**
@@ -543,7 +542,7 @@ export class SummarizationAppsyncStepfn extends Construct {
       },
     };
 
-    // Lambda function used to validate inputs in the step function    
+    // Lambda function used to validate inputs in the step function
     const inputValidatorLambda = buildDockerLambdaFunction(this,
       'inputValidatorLambda' + stage,
       construct_input_validation_lambda_props,
@@ -639,7 +638,7 @@ export class SummarizationAppsyncStepfn extends Construct {
       },
     };
 
-    // Lambda function used to read documents in the step function    
+    // Lambda function used to read documents in the step function
     const documentReaderLambda = buildDockerLambdaFunction(this,
       'documentReaderLambda' + stage,
       construct_document_reader_lambda_props,
@@ -739,7 +738,7 @@ export class SummarizationAppsyncStepfn extends Construct {
       },
     };
 
-    // Lambda function used to generate the summary in the step function    
+    // Lambda function used to generate the summary in the step function
     const generateSummarylambda = buildDockerLambdaFunction(this,
       'generateSummarylambda' + stage,
       construct_generate_summary_lambda_props,
