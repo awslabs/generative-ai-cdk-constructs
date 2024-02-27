@@ -96,6 +96,9 @@ The official samples repository https://github.com/aws-samples/generative-ai-cdk
 | [CDK Live! Building generative AI applications and architectures leveraging AWS CDK Constructs!](https://www.youtube.com/watch?v=NI1F4Xxqyr8) | CDK Live! episode focused on building and deploying generative AI applications and architectures on AWS using the AWS Cloud Development Kit (CDK) and the AWS Generative AI CDK Constructs. |
 | [Announcing AWS Generative AI CDK Constructs!](https://aws.amazon.com/blogs/devops/announcing-generative-ai-cdk-constructs/) | Blog post announcing the release of the AWS Generative AI CDK Constructs. |
 | [aws-genai-llm-chatbot](https://github.com/aws-samples/aws-genai-llm-chatbot/tree/main) | Multi-Model and Multi-RAG Powered Chatbot Using AWS CDK on AWS allowing you to experiment with a variety of Large Language Models and Multimodal Language Models, settings and prompts in your own AWS account. |
+| [amazon-bedrock-rag](https://github.com/aws-samples/amazon-bedrock-rag) | Fully managed RAG solution using Knowledge Bases for Amazon Bedrock. |
+| [Amazon Bedrock Knowledge Bases with Private Data](https://blog.serverlessadvocate.com/amazon-bedrock-knowledge-bases-with-private-data-7685d04ef396) | Blog post and associated code sample demonstrating how to integrate Knowledge Bases into Amazon Bedrock to provide foundational models with contextual data from private data sources. |
+| [Automating tasks using Amazon Bedrock Agents and AI](https://blog.serverlessadvocate.com/automating-tasks-using-amazon-bedrock-agents-and-ai-4b6fb8856589) | Blog post and associated code sample demonstrating how to deploy an Amazon Bedrock Agent and a Knowledge Base through a hotel and spa use case. |
 
 # Operational Metrics Collection
 
