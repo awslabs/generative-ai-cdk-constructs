@@ -20,4 +20,4 @@ jobs:
           cache: yarn
       - run: cd website; yarn install --frozen-lockfile
       - name: Test build website
-        run: cd website; yarn build
+        run: cd website; pwd; npx docusaurus build
