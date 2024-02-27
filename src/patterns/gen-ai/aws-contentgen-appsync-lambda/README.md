@@ -58,6 +58,8 @@ AWS Lambda functions provisioned in this construct use [Powertools for AWS Lambd
 
 Here is a minimal deployable pattern definition:
 
+TypeScript
+
 Create a CDK TypeScript project and then update the stack with below configuration.
 ```cdk init sample-app --language typescript```
 
@@ -78,6 +80,8 @@ const imageGeneration = new emergingTech.ContentGenerationAppsyncLambda(this, 'C
     });
     
 ```
+Python
+
 Create a CDK Python project and then update the stack with below configuration.
 ```cdk init sample-app --language python```
 
@@ -99,10 +103,9 @@ class SampleAppStack(Stack):
         cognitoPoolId='us-east-1_XXXXX'
         userPool = cognito.UserPool.from_user_pool_id(self, 'myuserpool', cognitoPoolId)
         
-        img=genai.ContentGenerationAppsyncLambda(self, "ContentGenerationAppsyncLambda",
-            {
-            "cognitoUserPool": userPool
-            })
+        img_generated=genai.ContentGenerationAppsyncLambda(self, "ContentGenerationAppsyncLambda",
+            cognito_user_pool: userPool
+            )
 
     
 ```
