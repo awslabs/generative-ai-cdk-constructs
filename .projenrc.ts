@@ -168,7 +168,7 @@ if (deployDocsWorkflow) {
           uses: 'actions/setup-node@v3',
           with: { 'node-version': '18' },
         },
-        { run: 'cd website; yarn install --frozen-lockfile; yarn build' },
+        { run: 'cd website; yarn install --frozen-lockfile;' },
         {
           uses: 'peaceiris/actions-gh-pages@v3',
           with: {

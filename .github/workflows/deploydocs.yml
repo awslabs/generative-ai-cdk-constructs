@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7
         with:
           node-version: "18"
-      - run: cd website; yarn install --frozen-lockfile; yarn build
+      - run: cd website; yarn install --frozen-lockfile;
       - uses: peaceiris/actions-gh-pages@373f7f263a76c20808c831209c920827a82a2847
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
