@@ -23,9 +23,9 @@ from aws_lambda_powertools.utilities.validation import validate, SchemaValidatio
 
 
 
-logger = Logger(service="IMAGE_GENERATION")
-tracer = Tracer(service="IMAGE_GENERATION")
-metrics = Metrics(namespace="image_generation", service="IMAGE_GENERATION")
+logger = Logger(service="CONTENT_GENERATION")
+tracer = Tracer(service="CONTENT_GENERATION")
+metrics = Metrics(namespace="content_generation", service="CONTENT_GENERATION")
 
 aws_region = boto3.Session().region_name
 bucket = os.environ['OUTPUT_BUCKET']
@@ -87,7 +87,7 @@ def handler(event,  context: LambdaContext) -> dict:
         else:
             num_of_images=0 #if multiple image geneated iterate through all
             for image in parsed_reponse['image_generated']:
-                print(f'num_of_images {num_of_images}')
+                logger.info(f'num_of_images {num_of_images}')
                 if model_id=='stability.stable-diffusion-xl' :
                     imgbase64encoded= parsed_reponse['image_generated'][num_of_images]["base64"]
                 if model_id=='amazon.titan-image-generator-v1' :
@@ -109,7 +109,7 @@ def handler(event,  context: LambdaContext) -> dict:
                             "jobid":input_params["jobid"],
                             "message":'Image generated successfully'                 
                         }
-                print (f"response :: {response}")
+                logger.info (f"response :: {response}")
                 img.send_job_status(response)
 
     return response
@@ -139,7 +139,8 @@ def parse_response(query_response,model_id):
                 parsed_reponse['image_generated_status']='Failed'
             else:
                 numiofimages=response_dict['images']
-                print(f' number of images ::{len(numiofimages)}')
                 parsed_reponse['image_generated']=response_dict['images']
 
         return parsed_reponse
+
+

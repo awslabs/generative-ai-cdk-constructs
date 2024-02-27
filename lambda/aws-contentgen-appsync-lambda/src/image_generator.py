@@ -1,12 +1,24 @@
-import boto3,os,base64,json
+#
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+# with the License. A copy of the License is located at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+# OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+# and limitations under the License.
+#
 import requests as reqs
-from aws_lambda_powertools import Logger, Tracer, Metrics
-from requests_aws4auth import AWS4Auth
+import boto3,os,base64,json
 from datetime import datetime
+from requests_aws4auth import AWS4Auth
+from aws_lambda_powertools import Logger, Tracer, Metrics
 
-logger = Logger(service="IMAGE_GENERATION")
-tracer = Tracer(service="IMAGE_GENERATION")
-metrics = Metrics(namespace="image_generation", service="IMAGE_GENERATION")
+logger = Logger(service="CONTENT_GENERATION")
+tracer = Tracer(service="CONTENT_GENERATION")
+metrics = Metrics(namespace="content_generation", service="CONTENT_GENERATION")
 
 
 s3 = boto3.resource('s3')
@@ -116,7 +128,7 @@ class image_generator():
         
 
         input_text=self.input_text
-        print(f' input_params :: {input_params}')
+        logger.info(f' input_params :: {input_params}')
         # add default negative prompts
         if 'negative_prompts' in input_params and input_params['negative_prompts'] is None:
                sample_string_bytes = base64.b64decode(input_params['negative_prompts'])
@@ -133,7 +145,6 @@ class image_generator():
 
     
         body=get_model_payload(model_id,params,input_text,negative_prompts)
-        print(f' body :: {body}')
         try:
             return  self.bedrock_client.invoke_model(
                 modelId= model_id,
@@ -228,56 +239,17 @@ def get_model_payload(modelid,params,input_text,negative_prompts):
       
 def get_inference_parameters(model_kwargs):
       """ Read inference parameters and set default values"""
-      if 'seed' in model_kwargs:
-              seed= model_kwargs['seed']
-      else:
-              seed=452345
-      if 'cfg_scale' in model_kwargs:
-              cfg_scale= model_kwargs['cfg_scale']
-      else:
-              cfg_scale=10
-      if 'steps' in model_kwargs:
-              steps= model_kwargs['steps']
-      else:
-              steps=10
-      if 'style_preset' in model_kwargs:
-              style_preset= model_kwargs['style_preset']
-      else:
-              style_preset='photographic'
-      if 'clip_guidance_preset' in model_kwargs:
-              clip_guidance_preset= model_kwargs['clip_guidance_preset']
-      else:
-              clip_guidance_preset='FAST_GREEN'
-      if 'width' in model_kwargs:
-              width= model_kwargs['width']
-      else:
-              width=512
-      if 'height' in model_kwargs:
-              height= model_kwargs['height']
-      else:
-              height=512
-      if 'sampler' in model_kwargs:
-              sampler= model_kwargs['sampler']
-      else:
-              sampler='K_DPMPP_2S_ANCESTRAL'
-      if 'numberOfImages' in model_kwargs:
-              numberOfImages= model_kwargs['numberOfImages']
-      else:
-              numberOfImages=1
-      if 'quality' in model_kwargs:
-              quality= model_kwargs['quality']
-      else:
-              quality="standard"         
 
       return {
-            "cfg_scale": cfg_scale,
-            "seed": seed,
-            "steps": steps,
-            "style_preset": style_preset,
-            "clip_guidance_preset": clip_guidance_preset,
-            "sampler": sampler,
-            "width": width,
-            "height": height,
-            "numberOfImages": numberOfImages,
-            "quality": quality
+                "cfg_scale": model_kwargs.get('cfg_scale',10),
+                "seed": model_kwargs.get('seed',452345),
+                "steps": model_kwargs.get('steps',10),
+                "style_preset": model_kwargs.get('style_preset','photographic'),
+                "clip_guidance_preset": model_kwargs.get('clip_guidance_preset','FAST_GREEN'),
+                "sampler": model_kwargs.get('sampler','K_DPMPP_2S_ANCESTRAL'),
+                "width": model_kwargs.get('width',512),
+                "height": model_kwargs.get('height',512),
+                "numberOfImages": model_kwargs.get('numberOfImages',1),
+                "quality": model_kwargs.get('quality','standard'),
+        
       }
