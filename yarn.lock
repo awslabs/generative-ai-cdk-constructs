@@ -811,10 +811,10 @@
   dependencies:
     ajv "^8.12.0"
 
-"@mrgrain/jsii-struct-builder@^0.7.16":
-  version "0.7.16"
-  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.16.tgz#c2aa2b54d9beb87e3715215add9efae17ade407f"
-  integrity sha512-5NTqsLNc7SnZWsJkymVlVKKEqB4KrP1XXcAuApLrMeyP8MeYgF4DkIkwIi8MnUWW1YeQdUOrkVyMvBfB8xbdQw==
+"@mrgrain/jsii-struct-builder@^0.7.17":
+  version "0.7.17"
+  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.17.tgz#5bf0b5d48d48aec10b319648f086c23199fd9771"
+  integrity sha512-P03jxo19h30qP4QEKEy7amXS4rKayf337PZdO8L+Qbzm1tPROTh53lCfydhkv7z7hqeX82eaiw3IB2Ns1b9KZg==
   dependencies:
     "@jsii/spec" "^1.94.0"
 
@@ -1522,10 +1522,10 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-nag@^2.28.45:
-  version "2.28.45"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.45.tgz#4eeb82059a4aaaabad44aa54a4955ff07097ce5d"
-  integrity sha512-+t/i//ANYyAAxjV3emgFmeL5GXtAK8/Te0PDR/g1qEZblJqA74BuOvRocfX8EINyc5VwcjtA8Okfk5AX8zLC/Q==
+cdk-nag@^2.28.46:
+  version "2.28.46"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.46.tgz#f4ade8c74f58cbc31aeec2d68578dc8d2f637036"
+  integrity sha512-5Dnej8roMZJ45C3SZG75OPS7KQ+UioJ3NvVwMJwfu4DfHmBL8H6ZcTkDQEdKfHDiNo9sJ/jL/Ax5v8ZiYAdbag==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -2089,9 +2089,9 @@ downlevel-dts@^0.11.0:
     typescript next
 
 electron-to-chromium@^1.4.668:
-  version "1.4.681"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.681.tgz#5f23fad8aa7e1f64cbb7dd9d15c7e39a1cd7e6e3"
-  integrity sha512-1PpuqJUFWoXZ1E54m8bsLPVYwIVCRzvaL+n5cjigGga4z854abDnFRc+cTa2th4S79kyGqya/1xoR7h+Y5G5lg==
+  version "1.4.682"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.682.tgz#27577b88ccccc810e09b05093345cf1830f1bd65"
+  integrity sha512-oCglfs8yYKs9RQjJFOHonSnhikPK3y+0SvSYc/YpYJV//6rqc0/hbwd0c7vgK4vrl6y2gJAwjkhkSGWK+z4KRA==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -5332,10 +5332,10 @@ typedoc-plugin-markdown@^3.17.1:
   dependencies:
     handlebars "^4.7.7"
 
-typedoc@^0.25.8:
-  version "0.25.8"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.25.8.tgz#7d0e1bf12d23bf1c459fd4893c82cb855911ff12"
-  integrity sha512-mh8oLW66nwmeB9uTa0Bdcjfis+48bAjSH3uqdzSuSawfduROQLlXw//WSNZLYDdhmMVB7YcYZicq6e8T0d271A==
+typedoc@^0.25.9:
+  version "0.25.9"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.25.9.tgz#0fb6608feec994eedc1e3276154fa8a486218ed2"
+  integrity sha512-jVoGmfNw848iW0L313+jqHbsknepwDV6F9nzk1H30oWhKXkw65uaENgR6QtTw9a5KqRWEb6nwNd54KxffBJyWw==
   dependencies:
     lunr "^2.3.9"
     marked "^4.3.0"
