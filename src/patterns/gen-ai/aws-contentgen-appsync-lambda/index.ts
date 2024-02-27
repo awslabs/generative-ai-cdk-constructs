@@ -28,9 +28,9 @@ import { version } from '../../../common/helpers/utils';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
 
 /**
- * The properties for the ContentGenerationAppsyncLambdaProps class.
+ * The properties for the ContentGenerationAppSyncLambdaProps class.
  */
-export interface ContentGenerationAppsyncLambdaProps {
+export interface ContentGenerationAppSyncLambdaProps {
   /**
    * Optional custom properties for a VPC the construct will create. This VPC will
    * be used by the Lambda functions the construct creates. Providing
@@ -118,9 +118,9 @@ export interface ContentGenerationAppsyncLambdaProps {
 }
 
 /**
- * @summary The ContentGenerationAppsyncLambda class.
+ * @summary The ContentGenerationAppSyncLambda class.
  */
-export class ContentGenerationAppsyncLambda extends Construct {
+export class ContentGenerationAppSyncLambda extends Construct {
   /**
    * Returns the instance of ec2.IVpc used by the construct
    */
@@ -149,14 +149,14 @@ export class ContentGenerationAppsyncLambda extends Construct {
   public readonly graphqlApi: appsync.IGraphqlApi;
 
   /**
-   * @summary Constructs a new instance of the ContentGenerationAppsyncLambda class.
+   * @summary Constructs a new instance of the ContentGenerationAppSyncLambda class.
    * @param {cdk.App} scope - represents the scope for all the resources.
    * @param {string} id - this is a a scope-unique id.
-   * @param {ContentGenerationAppsyncLambdaProps} props - user provided props for the construct.
+   * @param {ContentGenerationAppSyncLambdaProps} props - user provided props for the construct.
    * @since 0.0.0
    * @access public
    */
-  constructor(scope: Construct, id: string, props: ContentGenerationAppsyncLambdaProps) {
+  constructor(scope: Construct, id: string, props: ContentGenerationAppSyncLambdaProps) {
     super(scope, id);
 
     // stage

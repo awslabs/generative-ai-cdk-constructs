@@ -1,25 +1,25 @@
-[@cdklabs/generative-ai-cdk-constructs](../README.md) / ContentGenerationAppsyncLambdaProps
+[@cdklabs/generative-ai-cdk-constructs](../README.md) / ContentGenerationAppSyncLambdaProps
 
-# Interface: ContentGenerationAppsyncLambdaProps
+# Interface: ContentGenerationAppSyncLambdaProps
 
-The properties for the ContentGenerationAppsyncLambdaProps class.
+The properties for the ContentGenerationAppSyncLambdaProps class.
 
 ## Table of contents
 
 ### Properties
 
-- [cognitoUserPool](ContentGenerationAppsyncLambdaProps.md#cognitouserpool)
-- [enableOperationalMetric](ContentGenerationAppsyncLambdaProps.md#enableoperationalmetric)
-- [existingBusInterface](ContentGenerationAppsyncLambdaProps.md#existingbusinterface)
-- [existingGeneratedAssetsBucketObj](ContentGenerationAppsyncLambdaProps.md#existinggeneratedassetsbucketobj)
-- [existingMergedApi](ContentGenerationAppsyncLambdaProps.md#existingmergedapi)
-- [existingSecurityGroup](ContentGenerationAppsyncLambdaProps.md#existingsecuritygroup)
-- [existingVpc](ContentGenerationAppsyncLambdaProps.md#existingvpc)
-- [generatedAssetsBucketProps](ContentGenerationAppsyncLambdaProps.md#generatedassetsbucketprops)
-- [lambdaProvisionedConcurrency](ContentGenerationAppsyncLambdaProps.md#lambdaprovisionedconcurrency)
-- [observability](ContentGenerationAppsyncLambdaProps.md#observability)
-- [stage](ContentGenerationAppsyncLambdaProps.md#stage)
-- [vpcProps](ContentGenerationAppsyncLambdaProps.md#vpcprops)
+- [cognitoUserPool](ContentGenerationAppSyncLambdaProps.md#cognitouserpool)
+- [enableOperationalMetric](ContentGenerationAppSyncLambdaProps.md#enableoperationalmetric)
+- [existingBusInterface](ContentGenerationAppSyncLambdaProps.md#existingbusinterface)
+- [existingGeneratedAssetsBucketObj](ContentGenerationAppSyncLambdaProps.md#existinggeneratedassetsbucketobj)
+- [existingMergedApi](ContentGenerationAppSyncLambdaProps.md#existingmergedapi)
+- [existingSecurityGroup](ContentGenerationAppSyncLambdaProps.md#existingsecuritygroup)
+- [existingVpc](ContentGenerationAppSyncLambdaProps.md#existingvpc)
+- [generatedAssetsBucketProps](ContentGenerationAppSyncLambdaProps.md#generatedassetsbucketprops)
+- [lambdaProvisionedConcurrency](ContentGenerationAppSyncLambdaProps.md#lambdaprovisionedconcurrency)
+- [observability](ContentGenerationAppSyncLambdaProps.md#observability)
+- [stage](ContentGenerationAppSyncLambdaProps.md#stage)
+- [vpcProps](ContentGenerationAppSyncLambdaProps.md#vpcprops)
 
 ## Properties
 

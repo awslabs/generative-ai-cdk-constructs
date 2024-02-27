@@ -13,7 +13,7 @@
 ### Classes
 
 - [ContainerImage](classes/ContainerImage.md)
-- [ContentGenerationAppsyncLambda](classes/ContentGenerationAppsyncLambda.md)
+- [ContentGenerationAppSyncLambda](classes/ContentGenerationAppSyncLambda.md)
 - [CustomSageMakerEndpoint](classes/CustomSageMakerEndpoint.md)
 - [DeepLearningContainerImage](classes/DeepLearningContainerImage.md)
 - [HuggingFaceSageMakerEndpoint](classes/HuggingFaceSageMakerEndpoint.md)
@@ -31,7 +31,7 @@
 
 - [AdapterProps](interfaces/AdapterProps.md)
 - [ContainerImageConfig](interfaces/ContainerImageConfig.md)
-- [ContentGenerationAppsyncLambdaProps](interfaces/ContentGenerationAppsyncLambdaProps.md)
+- [ContentGenerationAppSyncLambdaProps](interfaces/ContentGenerationAppSyncLambdaProps.md)
 - [CustomSageMakerEndpointProps](interfaces/CustomSageMakerEndpointProps.md)
 - [HuggingFaceSageMakerEndpointProps](interfaces/HuggingFaceSageMakerEndpointProps.md)
 - [IInstanceAliase](interfaces/IInstanceAliase.md)

@@ -74,7 +74,7 @@ const cognitoPoolId = 'us-east-1_XXXXX';
 const userPoolLoaded = cognito.UserPool.fromUserPoolId(this, 'myuserpool', cognitoPoolId);
 
 
-const imageGeneration = new emergingTech.ContentGenerationAppsyncLambda(this, 'ContentGenerationAppsyncLambda', {
+const imageGeneration = new emergingTech.ContentGenerationAppSyncLambda(this, 'ContentGenerationAppSyncLambda', {
       cognitoUserPool: userPoolLoaded,
       
     });
@@ -103,7 +103,7 @@ class SampleAppStack(Stack):
         cognitoPoolId='us-east-1_XXXXX'
         userPool = cognito.UserPool.from_user_pool_id(self, 'myuserpool', cognitoPoolId)
         
-        img_generated=genai.ContentGenerationAppsyncLambda(self, "ContentGenerationAppsyncLambda",
+        img_generated=genai.ContentGenerationAppSyncLambda(self, "ContentGenerationAppSyncLambda",
             cognito_user_pool: userPool
             )
 
@@ -223,14 +223,14 @@ Where:
 ## Initializer
 
 ```
-new ContentGenerationAppsyncLambda(scope: Construct, id: string, props: ContentGenerationAppsyncLambdaProps)
+new ContentGenerationAppSyncLambda(scope: Construct, id: string, props: ContentGenerationAppSyncLambdaProps)
 ```
 
 Parameters
 
 - scope [Construct](https://docs.aws.amazon.com/cdk/api/v2/docs/constructs.Construct.html)
 - id string
-- props ContentGenerationAppsyncLambdaProps
+- props ContentGenerationAppSyncLambdaProps
 
 ## Pattern Construct Props
 

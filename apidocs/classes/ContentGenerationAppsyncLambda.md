@@ -1,43 +1,43 @@
-[@cdklabs/generative-ai-cdk-constructs](../README.md) / ContentGenerationAppsyncLambda
+[@cdklabs/generative-ai-cdk-constructs](../README.md) / ContentGenerationAppSyncLambda
 
-# Class: ContentGenerationAppsyncLambda
+# Class: ContentGenerationAppSyncLambda
 
 **`Summary`**
 
-The ContentGenerationAppsyncLambda class.
+The ContentGenerationAppSyncLambda class.
 
 ## Hierarchy
 
 - `Construct`
 
-  ↳ **`ContentGenerationAppsyncLambda`**
+  ↳ **`ContentGenerationAppSyncLambda`**
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](ContentGenerationAppsyncLambda.md#constructor)
+- [constructor](ContentGenerationAppSyncLambda.md#constructor)
 
 ### Properties
 
-- [generatedImageBus](ContentGenerationAppsyncLambda.md#generatedimagebus)
-- [graphqlApi](ContentGenerationAppsyncLambda.md#graphqlapi)
-- [node](ContentGenerationAppsyncLambda.md#node)
-- [s3GenerateAssetsBucket](ContentGenerationAppsyncLambda.md#s3generateassetsbucket)
-- [s3GenerateAssetsBucketInterface](ContentGenerationAppsyncLambda.md#s3generateassetsbucketinterface)
-- [securityGroup](ContentGenerationAppsyncLambda.md#securitygroup)
-- [vpc](ContentGenerationAppsyncLambda.md#vpc)
+- [generatedImageBus](ContentGenerationAppSyncLambda.md#generatedimagebus)
+- [graphqlApi](ContentGenerationAppSyncLambda.md#graphqlapi)
+- [node](ContentGenerationAppSyncLambda.md#node)
+- [s3GenerateAssetsBucket](ContentGenerationAppSyncLambda.md#s3generateassetsbucket)
+- [s3GenerateAssetsBucketInterface](ContentGenerationAppSyncLambda.md#s3generateassetsbucketinterface)
+- [securityGroup](ContentGenerationAppSyncLambda.md#securitygroup)
+- [vpc](ContentGenerationAppSyncLambda.md#vpc)
 
 ### Methods
 
-- [toString](ContentGenerationAppsyncLambda.md#tostring)
-- [isConstruct](ContentGenerationAppsyncLambda.md#isconstruct)
+- [toString](ContentGenerationAppSyncLambda.md#tostring)
+- [isConstruct](ContentGenerationAppSyncLambda.md#isconstruct)
 
 ## Constructors
 
 ### constructor
 
-• **new ContentGenerationAppsyncLambda**(`scope`, `id`, `props`): [`ContentGenerationAppsyncLambda`](ContentGenerationAppsyncLambda.md)
+• **new ContentGenerationAppSyncLambda**(`scope`, `id`, `props`): [`ContentGenerationAppSyncLambda`](ContentGenerationAppSyncLambda.md)
 
 #### Parameters
 
@@ -45,15 +45,15 @@ The ContentGenerationAppsyncLambda class.
 | :------ | :------ | :------ |
 | `scope` | `Construct` | represents the scope for all the resources. |
 | `id` | `string` | this is a a scope-unique id. |
-| `props` | [`ContentGenerationAppsyncLambdaProps`](../interfaces/ContentGenerationAppsyncLambdaProps.md) | user provided props for the construct. |
+| `props` | [`ContentGenerationAppSyncLambdaProps`](../interfaces/ContentGenerationAppSyncLambdaProps.md) | user provided props for the construct. |
 
 #### Returns
 
-[`ContentGenerationAppsyncLambda`](ContentGenerationAppsyncLambda.md)
+[`ContentGenerationAppSyncLambda`](ContentGenerationAppSyncLambda.md)
 
 **`Summary`**
 
-Constructs a new instance of the ContentGenerationAppsyncLambda class.
+Constructs a new instance of the ContentGenerationAppSyncLambda class.
 
 **`Since`**
 
