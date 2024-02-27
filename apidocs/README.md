@@ -13,6 +13,7 @@
 ### Classes
 
 - [ContainerImage](classes/ContainerImage.md)
+- [ContentGenerationAppSyncLambda](classes/ContentGenerationAppSyncLambda.md)
 - [CustomSageMakerEndpoint](classes/CustomSageMakerEndpoint.md)
 - [DeepLearningContainerImage](classes/DeepLearningContainerImage.md)
 - [HuggingFaceSageMakerEndpoint](classes/HuggingFaceSageMakerEndpoint.md)
@@ -30,6 +31,7 @@
 
 - [AdapterProps](interfaces/AdapterProps.md)
 - [ContainerImageConfig](interfaces/ContainerImageConfig.md)
+- [ContentGenerationAppSyncLambdaProps](interfaces/ContentGenerationAppSyncLambdaProps.md)
 - [CustomSageMakerEndpointProps](interfaces/CustomSageMakerEndpointProps.md)
 - [DockerLambdaCustomProps](interfaces/DockerLambdaCustomProps.md)
 - [HuggingFaceSageMakerEndpointProps](interfaces/HuggingFaceSageMakerEndpointProps.md)
