@@ -1,0 +1,8 @@
+aws-lambda-powertools=2.34.2
+aws-xray-sdk=3.5.4
+fastjsonschema=2.19.1
+boto3>=1.28.69
+botocore>=1.31.69
+requests==2.31.0
+requests-aws4auth==1.2.3
+
