@@ -91,7 +91,7 @@ describe('JumpStartSageMakerEndpoint construct', () => {
   });
 });
 
-describe('JumpStartSageMakerEndpoint eula false', () => {
+describe('JumpStartSageMakerEndpoint eula validation', () => {
 
   let JmpStrtTestStack: cdk.Stack;
 
@@ -118,7 +118,34 @@ describe('JumpStartSageMakerEndpoint eula false', () => {
       });
     };
 
-    expect(t).toThrow('The AcceptEula value must be explicitly defined as True in order to accept the EULA that the model requires. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.');
+    expect(t).toThrow('The AcceptEula value must be explicitly defined as True in order to accept the EULA for the model meta-textgeneration-llama-2-7b-f. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.');
+  });
+
+  test('SageMaker endpoint succeeds to synth', () => {
+
+    //wrapping code in a function, otherwise the error will not be caught and the assertion will fail.
+    const t = () => {
+      new JumpStartSageMakerEndpoint(JmpStrtTestStack, 'test2', {
+        model: JumpStartModel.META_TEXTGENERATION_LLAMA_2_7B_F_2_0_2,
+        acceptEula: true, // should succeed synth
+        instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
+      });
+    };
+
+    expect(t).not.toThrow();
+  });
+
+  test('SageMaker endpoint doesnt require eula succeeds to synth', () => {
+
+    //wrapping code in a function, otherwise the error will not be caught and the assertion will fail.
+    const t = () => {
+      new JumpStartSageMakerEndpoint(JmpStrtTestStack, 'test3', {
+        model: JumpStartModel.MODEL_DEPTH2IMG_STABLE_DIFFUSION_V1_5_CONTROLNET_1_0_0, // eula not defined
+        instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
+      });
+    };
+
+    expect(t).not.toThrow();
   });
 });
 
