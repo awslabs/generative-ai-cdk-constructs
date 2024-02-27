@@ -142,8 +142,10 @@ project.github?.actions.set('peter-evans/create-issue-from-file@v4', 'peter-evan
 project.github?.actions.set('peter-evans/create-pull-request@v4', 'peter-evans/create-pull-request@38e0b6e68b4c852a5500a94740f0e535e0d7ba54');
 project.github?.actions.set('peter-evans/create-pull-request@v5', 'peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38');
 project.github?.actions.set('aws-actions/configure-aws-credentials@v4.0.2', 'aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502');
+// docusaurus add specific overrides
 
-
+project.github?.actions.set('peaceiris/actions-gh-pages@v3', 'peaceiris/actions-gh-pages@373f7f263a76c20808c831209c920827a82a2847');
+project;
 const deployDocsWorkflow = project.github?.addWorkflow('DeployDocs');
 if (deployDocsWorkflow) {
   deployDocsWorkflow.on({
@@ -200,7 +202,7 @@ if (testDeploymentWorkflow) {
         { uses: 'actions/checkout@v3', with: { 'fetch-depth': '0' } },
         { uses: 'actions/setup-node@v3', with: { 'node-version': '18', 'cache': 'yarn' } },
         { run: 'cd website; yarn install --frozen-lockfile' },
-        { run: 'cd website; yarn build', name: 'Test build website' },
+        { run: 'cd website; pwd; npx docusaurus build', name: 'Test build website' },
       ],
     },
   });
