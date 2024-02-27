@@ -190,9 +190,21 @@ project.addTask('generate-models-containers', {
   description: 'Generate new list of models available from Jumpstart and DLC containers',
   steps: [
     {
+      say: 'Synthesize project files',
+      spawn: 'default',
+    },
+    {
+      say: 'Compile',
+      spawn: 'compile',
+    },
+    {
       say: 'Generate new list of models available from Jumpstart and DLC containers',
       cwd: project.srcdir+'/patterns/gen-ai/aws-model-deployment-sagemaker/code-generation',
       exec: 'npm run generate',
+    },
+    {
+      say: 'Generate the new apidocs',
+      spawn: 'post-compile',
     },
   ],
 });

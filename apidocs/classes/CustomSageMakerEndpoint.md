@@ -34,7 +34,6 @@
 - [node](CustomSageMakerEndpoint.md#node)
 - [role](CustomSageMakerEndpoint.md#role)
 - [startupHealthCheckTimeoutInSeconds](CustomSageMakerEndpoint.md#startuphealthchecktimeoutinseconds)
-- [volumeSizeInGb](CustomSageMakerEndpoint.md#volumesizeingb)
 
 ### Methods
 
@@ -163,12 +162,6 @@ ___
 ### startupHealthCheckTimeoutInSeconds
 
 • `Private` `Readonly` **startupHealthCheckTimeoutInSeconds**: `number`
-
-___
-
-### volumeSizeInGb
-
-• `Optional` `Readonly` **volumeSizeInGb**: `number`
 
 ## Methods
 
