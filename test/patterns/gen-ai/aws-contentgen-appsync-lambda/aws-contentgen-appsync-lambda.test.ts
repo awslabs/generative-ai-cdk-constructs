@@ -14,13 +14,13 @@ import * as cdk from 'aws-cdk-lib';
 import { Template, Match } from 'aws-cdk-lib/assertions';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import {
-  ContentGenerationAppsyncLambda,
-  ContentGenerationAppsyncLambdaProps,
+  ContentGenerationAppSyncLambda,
+  ContentGenerationAppSyncLambdaProps,
 } from '../../../../src/patterns/gen-ai/aws-contentgen-appsync-lambda';
 
 describe('Image generation appsync lambda construct', () => {
   let imageTestTemplate: Template;
-  let imageTestConstruct: ContentGenerationAppsyncLambda;
+  let imageTestConstruct: ContentGenerationAppSyncLambda;
   const cognitoPoolId = 'region_XXXXX';
 
   afterAll(() => {
@@ -39,11 +39,11 @@ describe('Image generation appsync lambda construct', () => {
       cognitoPoolId,
     );
 
-    const imageTestProps: ContentGenerationAppsyncLambdaProps = {
+    const imageTestProps: ContentGenerationAppSyncLambdaProps = {
       cognitoUserPool: userPoolLoaded,
     };
 
-    imageTestConstruct = new ContentGenerationAppsyncLambda(imageTestStack, 'test', imageTestProps);
+    imageTestConstruct = new ContentGenerationAppSyncLambda(imageTestStack, 'test', imageTestProps);
     imageTestTemplate = Template.fromStack(imageTestStack);
   });
 
