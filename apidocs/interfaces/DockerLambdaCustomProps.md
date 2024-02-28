@@ -26,9 +26,6 @@ DockerLambdaCustomProps
 - [insightsVersion](DockerLambdaCustomProps.md#insightsversion)
 - [logFormat](DockerLambdaCustomProps.md#logformat)
 - [logGroup](DockerLambdaCustomProps.md#loggroup)
-- [logRetention](DockerLambdaCustomProps.md#logretention)
-- [logRetentionRetryOptions](DockerLambdaCustomProps.md#logretentionretryoptions)
-- [logRetentionRole](DockerLambdaCustomProps.md#logretentionrole)
 - [maxEventAge](DockerLambdaCustomProps.md#maxeventage)
 - [memorySize](DockerLambdaCustomProps.md#memorysize)
 - [onFailure](DockerLambdaCustomProps.md#onfailure)
@@ -72,7 +69,7 @@ Sets the application log level for the function.
 **`Default`**
 
 ```ts
-INFO
+"INFO"
 ```
 
 **`Stability`**
@@ -343,7 +340,7 @@ Sets the logFormat for the function.
 **`Default`**
 
 ```ts
-Text format
+"Text"
 ```
 
 **`Stability`**
@@ -356,69 +353,15 @@ ___
 
 • `Optional` `Readonly` **logGroup**: `ILogGroup`
 
-Sets the log group name for the function.
+The log group the function sends logs to.
+By default, Lambda functions send logs to an automatically created default log group named /aws/lambda/<function name>.
+However you cannot change the properties of this auto-created log group using the AWS CDK, e.g. you cannot set a different log retention.
+
+Use the `logGroup` property to create a fully customizable LogGroup ahead of time, and instruct the Lambda function to send logs to it.
 
 **`Default`**
 
-`/aws/lambda/${this.functionName}` default log group name created by Lambda
-
-**`Stability`**
-
-stable
-
-___
-
-### logRetention
-
-• `Optional` `Readonly` **logRetention**: `RetentionDays`
-
-The number of days log events are kept in CloudWatch Logs.
-When updating
-this property, unsetting it doesn't remove the log retention policy. To
-remove the retention policy, set the value to `INFINITE`.
-
-**`Default`**
-
-```ts
-logs.RetentionDays.INFINITE
-```
-
-**`Stability`**
-
-stable
-
-___
-
-### logRetentionRetryOptions
-
-• `Optional` `Readonly` **logRetentionRetryOptions**: `LogRetentionRetryOptions`
-
-When log retention is specified, a custom resource attempts to create the CloudWatch log group.
-These options control the retry policy when interacting with CloudWatch APIs.
-
-**`Default`**
-
-```ts
-- Default AWS SDK retry options.
-```
-
-**`Stability`**
-
-stable
-
-___
-
-### logRetentionRole
-
-• `Optional` `Readonly` **logRetentionRole**: `IRole`
-
-The IAM role for the Lambda function associated with the custom resource that sets the retention policy.
-
-**`Default`**
-
-```ts
-- A new role is created.
-```
+`/aws/lambda/${this.functionName}` - default log group created by Lambda
 
 **`Stability`**
 
@@ -639,7 +582,7 @@ Sets the system log level for the function.
 **`Default`**
 
 ```ts
-INFO
+"INFO"
 ```
 
 **`Stability`**

@@ -23,7 +23,7 @@ export interface DockerLambdaCustomProps {
   readonly timeout?: Duration;
   /**
    * Sets the system log level for the function.
-   * @default INFO
+   * @default "INFO"
    * @stability stable
    */
   readonly systemLogLevel?: string;
@@ -74,36 +74,18 @@ export interface DockerLambdaCustomProps {
    */
   readonly memorySize?: number;
   /**
-   * The IAM role for the Lambda function associated with the custom resource that sets the retention policy.
-   * @default - A new role is created.
-   * @stability stable
-   */
-  readonly logRetentionRole?: aws_iam.IRole;
-  /**
-   * When log retention is specified, a custom resource attempts to create the CloudWatch log group.
-   * These options control the retry policy when interacting with CloudWatch APIs.
-   * @default - Default AWS SDK retry options.
-   * @stability stable
-   */
-  readonly logRetentionRetryOptions?: aws_lambda.LogRetentionRetryOptions;
-  /**
-   * The number of days log events are kept in CloudWatch Logs.
-   * When updating
-   * this property, unsetting it doesn't remove the log retention policy. To
-   * remove the retention policy, set the value to `INFINITE`.
-   * @default logs.RetentionDays.INFINITE
-   * @stability stable
-   */
-  readonly logRetention?: aws_logs.RetentionDays;
-  /**
-   * Sets the log group name for the function.
-   * @default `/aws/lambda/${this.functionName}` default log group name created by Lambda
+   * The log group the function sends logs to.
+   * By default, Lambda functions send logs to an automatically created default log group named /aws/lambda/<function name>.
+   * However you cannot change the properties of this auto-created log group using the AWS CDK, e.g. you cannot set a different log retention.
+   *
+   * Use the `logGroup` property to create a fully customizable LogGroup ahead of time, and instruct the Lambda function to send logs to it.
+   * @default `/aws/lambda/${this.functionName}` - default log group created by Lambda
    * @stability stable
    */
   readonly logGroup?: aws_logs.ILogGroup;
   /**
    * Sets the logFormat for the function.
-   * @default Text format
+   * @default "Text"
    * @stability stable
    */
   readonly logFormat?: string;
@@ -197,7 +179,7 @@ export interface DockerLambdaCustomProps {
   readonly architecture?: aws_lambda.Architecture;
   /**
    * Sets the application log level for the function.
-   * @default INFO
+   * @default "INFO"
    * @stability stable
    */
   readonly applicationLogLevel?: string;
