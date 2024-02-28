@@ -39,6 +39,7 @@ describe('JumpStartSageMakerEndpoint construct', () => {
 
     JmpStrtTestConstruct = new JumpStartSageMakerEndpoint(JmpStrtTestStack, 'test', {
       model: JumpStartModel.META_TEXTGENERATION_LLAMA_2_7B_F_2_0_2,
+      acceptEula: true,
       instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
     });
     JmpStrtTestTemplate = Template.fromStack(JmpStrtTestStack);
@@ -87,6 +88,64 @@ describe('JumpStartSageMakerEndpoint construct', () => {
   test('SageMaker network properties', () => {
     JmpStrtTestTemplate.resourceCountIs('AWS::EC2::VPC', 0);
     JmpStrtTestTemplate.resourceCountIs('AWS::EC2::SecurityGroup', 0);
+  });
+});
+
+describe('JumpStartSageMakerEndpoint eula validation', () => {
+
+  let JmpStrtTestStack: cdk.Stack;
+
+  afterAll(() => {
+    console.log('Test completed');
+  });
+
+  beforeAll(() => {
+
+    JmpStrtTestStack = new cdk.Stack(undefined, undefined, {
+      env: { account: cdk.Aws.ACCOUNT_ID, region: 'us-east-1' },
+    });
+
+  });
+
+  test('SageMaker endpoint fails to synth', () => {
+
+    //wrapping code in a function, otherwise the error will not be caught and the assertion will fail.
+    const t = () => {
+      new JumpStartSageMakerEndpoint(JmpStrtTestStack, 'test', {
+        model: JumpStartModel.META_TEXTGENERATION_LLAMA_2_7B_F_2_0_2,
+        acceptEula: false, // should fail synth
+        instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
+      });
+    };
+
+    expect(t).toThrow('The AcceptEula value must be explicitly defined as True in order to accept the EULA for the model meta-textgeneration-llama-2-7b-f. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.');
+  });
+
+  test('SageMaker endpoint succeeds to synth', () => {
+
+    //wrapping code in a function, otherwise the error will not be caught and the assertion will fail.
+    const t = () => {
+      new JumpStartSageMakerEndpoint(JmpStrtTestStack, 'test2', {
+        model: JumpStartModel.META_TEXTGENERATION_LLAMA_2_7B_F_2_0_2,
+        acceptEula: true, // should succeed synth
+        instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
+      });
+    };
+
+    expect(t).not.toThrow();
+  });
+
+  test('SageMaker endpoint doesnt require eula succeeds to synth', () => {
+
+    //wrapping code in a function, otherwise the error will not be caught and the assertion will fail.
+    const t = () => {
+      new JumpStartSageMakerEndpoint(JmpStrtTestStack, 'test3', {
+        model: JumpStartModel.MODEL_DEPTH2IMG_STABLE_DIFFUSION_V1_5_CONTROLNET_1_0_0, // eula not defined
+        instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
+      });
+    };
+
+    expect(t).not.toThrow();
   });
 });
 
@@ -140,6 +199,7 @@ describe('JumpStartSageMakerEndpoint VPC construct', () => {
     JmpStrtTestConstruct = new JumpStartSageMakerEndpoint(JmpStrtTestStack, 'test', {
       model: JumpStartModel.META_TEXTGENERATION_LLAMA_2_7B_F_2_0_2,
       instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
+      acceptEula: true,
       vpcConfig: {
         securityGroupIds: securityGroups.map(s => s.securityGroupId),
         subnets: vpc.privateSubnets.map((subnet) => subnet.subnetId),
