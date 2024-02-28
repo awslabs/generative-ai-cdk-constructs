@@ -15,6 +15,7 @@
 - [modelId](IJumpStartModelSpec.md#modelid)
 - [modelPackageArns](IJumpStartModelSpec.md#modelpackagearns)
 - [prepackedArtifactKey](IJumpStartModelSpec.md#prepackedartifactkey)
+- [requiresEula](IJumpStartModelSpec.md#requireseula)
 - [version](IJumpStartModelSpec.md#version)
 
 ## Properties
@@ -78,6 +79,12 @@ ___
 ### prepackedArtifactKey
 
 • `Optional` **prepackedArtifactKey**: `string`
+
+___
+
+### requiresEula
+
+• **requiresEula**: `boolean`
 
 ___
 

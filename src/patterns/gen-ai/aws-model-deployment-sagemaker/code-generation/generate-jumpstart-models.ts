@@ -34,6 +34,7 @@ interface JumpStartModelSpec {
   hosting_artifact_key?: string;
   hosting_script_key?: string;
   hosting_prepacked_artifact_key?: string;
+  hosting_eula_key?: string;
   inference_environment_variables: {
     name: string;
     type: string;
@@ -114,6 +115,7 @@ export async function download_data() {
         hosting_prepacked_artifact_key,
         inference_environment_variables,
         hosting_instance_type_variants,
+        hosting_eula_key,
       } = modelSpec;
 
       const allowedFramework = ALLOWED_FRAMEWORKS.includes(hosting_ecr_specs.framework);
@@ -149,6 +151,7 @@ export async function download_data() {
         hosting_prepacked_artifact_key,
         inference_environment_variables,
         hosting_instance_type_variants,
+        hosting_eula_key,
       };
     }
   }
@@ -180,6 +183,7 @@ function generateCode() {
         environment[env.name] = env.default;
       }
 
+      const hosting_eula_key = specSource.hosting_eula_key;
       const instanceVariants = specSource.hosting_instance_type_variants?.variants;
       const instanceAliases = specSource.hosting_instance_type_variants?.regional_aliases;
       let instanceVariantsArr: any[] | undefined;
@@ -220,6 +224,7 @@ function generateCode() {
         environment,
         instanceAliases: instanceAliasesArr,
         instanceVariants: instanceVariantsArr,
+        requiresEula: hosting_eula_key,
       };
 
       if (spec.modelPackageArns) {
@@ -269,6 +274,7 @@ export interface IJumpStartModelSpec {
   environment: { [key: string]: string | number | boolean };
   instanceAliases?: IInstanceAliase[];
   instanceVariants?: IInstanceValiant[];
+  requiresEula: boolean;
 }
 
 export class JumpStartModel {
