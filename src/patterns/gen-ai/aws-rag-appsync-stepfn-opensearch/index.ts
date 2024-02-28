@@ -28,10 +28,12 @@ import * as stepfn from 'aws-cdk-lib/aws-stepfunctions';
 import * as stepfn_task from 'aws-cdk-lib/aws-stepfunctions-tasks';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
+import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import * as opensearch_helper from '../../../common/helpers/opensearch-helper';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
 import { generatePhysicalName, version, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
+import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
 /**
  * The properties for the RagAppsyncStepfnOpensearchProps class.
@@ -134,6 +136,21 @@ export interface RagAppsyncStepfnOpensearchProps {
    * @default - _dev
    */
   readonly stage?: string;
+  /**
+   * Optional. Allows to provide Embeddings custom lambda code
+   * and settings instead of the existing
+   */
+  readonly customEmbeddingsDockerLambdaProps?: DockerLambdaCustomProps | undefined;
+  /**
+   * Optional. Allows to provide Input Validation custom lambda code
+   * and settings instead of the existing
+   */
+  readonly customInputValidationDockerLambdaProps?: DockerLambdaCustomProps | undefined;
+  /**
+   * Optional. Allows to provide File Transformer custom lambda code
+   * and settings instead of the existing
+   */
+  readonly customFileTransformerDockerLambdaProps?: DockerLambdaCustomProps | undefined;
 
   /**
    * Optional.CDK constructs provided collects anonymous operational
@@ -200,6 +217,19 @@ export class RagAppsyncStepfnOpensearch extends Construct {
    * Returns an instance of stepfn.StateMachine created by the construct
    */
   public readonly stateMachine: stepfn.StateMachine;
+  /**
+   * Returns an instance of lambda.DockerImageFunction used for the embeddings job created by the construct
+   */
+  public readonly embeddingsLambdaFunction: lambda.DockerImageFunction;
+  /**
+   * Returns an instance of lambda.DockerImageFunction used for the file transformer job created by the construct
+   */
+  public readonly fileTransformerLambdaFunction: lambda.DockerImageFunction;
+  /**
+   * Returns an instance of lambda.DockerImageFunction used for the input validation job created by the construct
+   */
+  public readonly inputValidationLambdaFunction: lambda.DockerImageFunction;
+
 
   /**
      * @summary Constructs a new instance of the RagAppsyncStepfnOpensearch class.
@@ -428,24 +458,26 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       },
     );
 
-    // Lambda function used to validate inputs in the step function
-    const validate_input_function = new lambda.DockerImageFunction(
-      this,
-      'lambda_function_validation_input'+stage,
-      {
-        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/input_validation/src')),
-        functionName: 'ingestion_input_validation_docker'+stage,
-        description: 'Lambda function for validating input files formats',
-        vpc: this.vpc,
-        tracing: lambda_tracing,
-        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-        securityGroups: [this.securityGroup],
-        memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
-        timeout: Duration.minutes(15),
-        environment: {
-          GRAPHQL_URL: updateGraphQlApiEndpoint,
-        },
+    const construct_input_validation_lambda_props = {
+      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/input_validation/src')),
+      functionName: 'ingestion_input_validation_docker'+stage,
+      description: 'Lambda function for validating input files formats',
+      vpc: this.vpc,
+      tracing: lambda_tracing,
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      securityGroups: [this.securityGroup],
+      memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
+      timeout: Duration.minutes(15),
+      environment: {
+        GRAPHQL_URL: updateGraphQlApiEndpoint,
       },
+    };
+
+    // Lambda function used to validate inputs in the step function
+    const validate_input_function = buildDockerLambdaFunction(this,
+      'lambda_function_validation_input' + stage,
+      construct_input_validation_lambda_props,
+      props.customInputValidationDockerLambdaProps,
     );
 
     // Add GraphQl permissions to the IAM role for the Lambda function
@@ -561,26 +593,28 @@ export class RagAppsyncStepfnOpensearch extends Construct {
       true,
     );
 
-    const s3_transformer_job_function = new lambda.DockerImageFunction(
-      this,
-      'lambda_function_s3_file_transformer'+stage,
-      {
-        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/s3_file_transformer/src')),
-        functionName: 's3_file_transformer_docker'+stage,
-        description: 'Lambda function for converting files from their input format to text',
-        vpc: this.vpc,
-        tracing: lambda_tracing,
-        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-        securityGroups: [this.securityGroup],
-        memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
-        timeout: Duration.minutes(15),
-        role: s3_transformer_job_function_role,
-        environment: {
-          INPUT_BUCKET: this.s3InputAssetsBucketInterface.bucketName,
-          OUTPUT_BUCKET: this.s3ProcessedAssetsBucketInterface.bucketName,
-          GRAPHQL_URL: updateGraphQlApiEndpoint,
-        },
+    const construct__file_transformer_lambda_props = {
+      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/s3_file_transformer/src')),
+      functionName: 's3_file_transformer_docker'+stage,
+      description: 'Lambda function for converting files from their input format to text',
+      vpc: this.vpc,
+      tracing: lambda_tracing,
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      securityGroups: [this.securityGroup],
+      memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
+      timeout: Duration.minutes(15),
+      role: s3_transformer_job_function_role,
+      environment: {
+        INPUT_BUCKET: this.s3InputAssetsBucketInterface.bucketName,
+        OUTPUT_BUCKET: this.s3ProcessedAssetsBucketInterface.bucketName,
+        GRAPHQL_URL: updateGraphQlApiEndpoint,
       },
+    };
+
+    const s3_transformer_job_function = buildDockerLambdaFunction(this,
+      'lambda_function_s3_file_transformer'+stage,
+      construct__file_transformer_lambda_props,
+      props.customFileTransformerDockerLambdaProps,
     );
 
 
@@ -690,32 +724,34 @@ export class RagAppsyncStepfnOpensearch extends Construct {
 
     // The lambda will access the opensearch credentials
     if (props.openSearchSecret) {props.openSearchSecret.grantRead(embeddings_job_function_role);}
-    // Lambda function performing the embedding job
-    const embeddings_job_function = new lambda.DockerImageFunction(
-      this,
-      'lambda_function_embeddings_job'+stage,
-      {
-        code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/embeddings_job/src')),
-        functionName: 'embeddings_job_docker'+stage,
-        description: 'Lambda function for creating documents chunks, embeddings and storing them in Amazon Opensearch',
-        vpc: this.vpc,
-        tracing: lambda_tracing,
-        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-        securityGroups: [this.securityGroup],
-        memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
-        timeout: Duration.minutes(15),
-        role: embeddings_job_function_role,
-        environment: {
-          OUTPUT_BUCKET: this.s3ProcessedAssetsBucketInterface.bucketName,
-          GRAPHQL_URL: updateGraphQlApiEndpoint,
-          OPENSEARCH_INDEX: props.openSearchIndexName,
-          OPENSEARCH_API_NAME: opensearch_helper.getOpenSearchApiName(props),
-          OPENSEARCH_DOMAIN_ENDPOINT: opensearch_helper.getOpenSearchEndpoint(props),
-          OPENSEARCH_SECRET_ID: SecretId,
-        },
-      },
-    );
 
+    const construct_embeddings_lambda_props = {
+      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/embeddings_job/src')),
+      functionName: 'embeddings_job_docker'+stage,
+      description: 'Lambda function for creating documents chunks, embeddings and storing them in Amazon Opensearch',
+      vpc: this.vpc,
+      tracing: lambda_tracing,
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      securityGroups: [this.securityGroup],
+      memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
+      timeout: Duration.minutes(15),
+      role: embeddings_job_function_role,
+      environment: {
+        OUTPUT_BUCKET: this.s3ProcessedAssetsBucketInterface.bucketName,
+        GRAPHQL_URL: updateGraphQlApiEndpoint,
+        OPENSEARCH_INDEX: props.openSearchIndexName,
+        OPENSEARCH_API_NAME: opensearch_helper.getOpenSearchApiName(props),
+        OPENSEARCH_DOMAIN_ENDPOINT: opensearch_helper.getOpenSearchEndpoint(props),
+        OPENSEARCH_SECRET_ID: SecretId,
+      },
+    };
+
+    // Lambda function performing the embedding job
+    const embeddings_job_function = buildDockerLambdaFunction(this,
+      'lambda_function_embeddings_job'+stage,
+      construct_embeddings_lambda_props,
+      props.customEmbeddingsDockerLambdaProps,
+    );
 
     const enableOperationalMetric =
       props.enableOperationalMetric !== undefined && props.enableOperationalMetric !== null ? props.enableOperationalMetric : true;
@@ -872,5 +908,8 @@ export class RagAppsyncStepfnOpensearch extends Construct {
 
     rule.addTarget(new targets.SfnStateMachine(this.stateMachine));
 
+    this.embeddingsLambdaFunction = embeddings_job_function;
+    this.fileTransformerLambdaFunction = s3_transformer_job_function;
+    this.inputValidationLambdaFunction = validate_input_function;
   }
 }

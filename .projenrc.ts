@@ -167,17 +167,23 @@ project.eslint?.addRules({
 
 project.eslint?.addIgnorePattern('LangchainProps.ts');
 project.eslint?.addIgnorePattern('AdapterProps.ts');
+project.eslint?.addIgnorePattern('DockerLambdaCustomProps.ts');
 
 // Shared interfaces extending pre-existing CDK interfaces
-new ProjenStruct(project, { name: 'LangchainProps', filePath: 'src/patterns/gen-ai/aws-langchain-common-layer/LangchainProps.ts' })
+new ProjenStruct(project, { name: 'LangchainProps', filePath: 'src/common/props/LangchainProps.ts' })
   .mixin(Struct.fromFqn('aws-cdk-lib.aws_lambda.LayerVersionProps'))
   .withoutDeprecated()
   .omit('code', 'compatibleRuntimes', 'compatibleArchitectures');
 
-new ProjenStruct(project, { name: 'AdapterProps', filePath: 'src/patterns/gen-ai/aws-langchain-common-layer/AdapterProps.ts' })
+new ProjenStruct(project, { name: 'AdapterProps', filePath: 'src/common/props/AdapterProps.ts' })
   .mixin(Struct.fromFqn('aws-cdk-lib.aws_lambda.LayerVersionProps'))
   .withoutDeprecated()
   .omit('code');
+
+new ProjenStruct(project, { name: 'DockerLambdaCustomProps', filePath: 'src/common/props/DockerLambdaCustomProps.ts' })
+  .mixin(Struct.fromFqn('aws-cdk-lib.aws_lambda.DockerImageFunctionProps'))
+  .withoutDeprecated()
+  .omit('tracing', 'functionName', 'description', 'role', 'vpc', 'vpcSubnets', 'securityGroups', 'role', 'layers', 'allowPublicSubnet', 'allowAllOutbound');
 
 const packageJson = project.tryFindObjectFile('package.json');
 packageJson?.patch(JsonPatch.add('/scripts/prepare', 'husky install')); // yarn 1

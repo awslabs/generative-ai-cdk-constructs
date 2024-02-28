@@ -13,9 +13,9 @@
 import * as path from 'path';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs';
-import { AdapterProps } from './AdapterProps';
-import { LangchainProps } from './LangchainProps';
 import { Layer } from '../../../common/helpers/python-lambda-layer-helper';
+import { AdapterProps } from '../../../common/props/AdapterProps';
+import { LangchainProps } from '../../../common/props/LangchainProps';
 
 /**
  * The properties for the LangchainLayerProps class.
