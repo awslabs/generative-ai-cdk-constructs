@@ -214,6 +214,7 @@ describe('QA Appsync Open search construct custom lambda', () => {
       environment: {
         TEST_VAR: 'hello',
       },
+      memorySize: 1764,
     };
 
     const qaTestProps: QaAppsyncOpensearchProps = {
@@ -232,8 +233,6 @@ describe('QA Appsync Open search construct custom lambda', () => {
     qaTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
       Handler: 'index.handler',
     });
-
-    console.log(qaTestTemplate.toJSON());
 
     qaTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
       PackageType: 'Image',
@@ -258,6 +257,7 @@ describe('QA Appsync Open search construct custom lambda', () => {
       },
       Timeout: 300,
       TracingConfig: { Mode: 'Active' },
+      MemorySize: 1764,
     });
   });
 

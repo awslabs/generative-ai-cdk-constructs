@@ -32,6 +32,8 @@ export function buildDockerLambdaFunction(scope: Construct,
         vpcSubnets: constructprops.vpcSubnets,
         securityGroups: constructprops.securityGroups,
         role: constructprops.role,
+        memorySize: constructprops.memorySize,
+        timeout: constructprops.timeout,
         // add user props
         ...userprops,
         // merge construct env variables with the ones from the construct
