@@ -10,14 +10,14 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
+import boto3
+from io import BytesIO
 from typing import List
-
+from PyPDF2 import PdfReader
 from langchain.document_loaders.base import BaseLoader
-from helpers.s3inmemoryloader import S3FileLoaderInMemory
 
 from aws_lambda_powertools import Logger, Tracer
-from PyPDF2 import PdfReader
-from io import BytesIO
+
 
 
 logger = Logger(service="INGESTION_FILE_TRANSFORMER")
@@ -35,13 +35,21 @@ class pdf_transformer(BaseLoader):
     def load(self) -> str:
         """Load documents."""
         try:
-            # TODO: add transformation logic
-            encodedpdf = S3FileLoaderInMemory(self.bucket, self.key).load
-            pdfFile = PdfReader(BytesIO(encodedpdf))        
+            s3 = boto3.resource('s3')
+            obj = s3.Object(self.bucket, self.key)
+            encodedpdf = obj.get()['Body'].read()
+            pdfFile = PdfReader(BytesIO(encodedpdf))
+            # read pdf
             raw_text = []
             for page in pdfFile.pages:
                 raw_text.append(page.extract_text())
-            return '\n'.join(raw_text)    
+            return '\n'.join(raw_text)
+        except s3.meta.client.exceptions.NoSuchBucket as exception:
+            logger.exception('NoSuchBucket')
+            return ""
+        except s3.meta.client.exceptions.NoSuchKey as exception:
+            logger.exception('NoSuchKey')
+            return ""
         except Exception as exception:
             logger.exception(f"Reason: {exception}")
             return ""

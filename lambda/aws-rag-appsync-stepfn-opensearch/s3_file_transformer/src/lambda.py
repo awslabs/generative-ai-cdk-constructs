@@ -33,6 +33,9 @@ s3 = boto3.resource('s3')
 input_bucket = os.environ['INPUT_BUCKET']
 output_bucket = os.environ['OUTPUT_BUCKET']
 
+# input_bucket = "persistencestack-inputassets7d1d3f52-qert2sgpwhtu"
+# output_bucket = "persistencestack-processedassets6ba25f4c-zmebuvdaelig"
+
 @tracer.capture_method
 def file_exists_in_bucket(bucket_name, object_name,):
     s3_client = boto3.client('s3')
@@ -72,6 +75,7 @@ def handler(event,  context: LambdaContext) -> dict:
         'jobid':job_id,
         'modelid':modelid
     }
+   
     
     # verify that the file doesn't already exist in the output bucket, otherwise we will process a duplicate
     file_name = event['name']
@@ -86,7 +90,8 @@ def handler(event,  context: LambdaContext) -> dict:
         if (ignore_existing or file_exists_in_bucket(output_bucket, output_file_name) == False):
             response['name'] = output_file_name
             if(extension == '.pdf'):
-                response['status'] = transform_pdf_document(input_bucket,file_name,output_file_name)
+                response['status'] = transform_pdf_document(input_bucket,file_name,output_bucket,output_file_name)
+                print(f' pdf processed ::' )
             elif(extension == '.jpg'or extension == '.jpeg' or extension == '.png' or extension == '.svg'):
                 response['status'] = transform_image_document(input_bucket,file_name,output_bucket)
             #TODO add csv, doc, docx file type suport as well.
@@ -99,6 +104,7 @@ def handler(event,  context: LambdaContext) -> dict:
         response['status'] = 'Unsupported'
         response['name'] = ''
         
-
+    print(f' response :: {response}')
     return response 
         
+

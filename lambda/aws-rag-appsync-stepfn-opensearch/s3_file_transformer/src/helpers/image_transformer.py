@@ -25,46 +25,46 @@ tracer = Tracer(service="INGESTION_FILE_TRANSFORMER")
 class image_transformer():
     """Transforming logic for uploaded image from s3 ."""
 
-    def __init__(self, image, image_name, rekognition_client):
+    def __init__(self, image_bytes, file_name, rekognition_client):
         """Initialize with bucket , key and rekognition_client."""
-        self.image = image
-        self.image_name = image_name
+        self.image_bytes = image_bytes
+        self.file_name = file_name
         self.rekognition_client = rekognition_client
 
     @classmethod
-    def from_file(cls, image_file_name, rekognition_client, image_name=None):
+    def from_file(cls, image_file_name, rekognition_client, file_name=None):
         """
         Creates a RekognitionImage object from a local file.
 
-        :param image_file_name: The file name of the image. The file is opened and its
+        :param image_file_name: The file name of the image_bytes. The file is opened and its
                                 bytes are read.
         :param rekognition_client: A Boto3 Rekognition client.
-        :param image_name: The name of the image. If this is not specified, the
-                           file name is used as the image name.
-        :return: The RekognitionImage object, initialized with image bytes from the
+        :param file_name: The name of the image_bytes. If this is not specified, the
+                           file name is used as the image_bytes name.
+        :return: The RekognitionImage object, initialized with image_bytes bytes from the
                  file.
         """
         with open(image_file_name, "rb") as img_file:
-            image = {"Bytes": img_file.read()}
-        name = image_file_name if image_name is None else image_name
-        return cls(image, name, rekognition_client)
+            image_bytes = {"Bytes": img_file.read()}
+        name = image_file_name if file_name is None else file_name
+        return cls(image_bytes, name, rekognition_client)
     
-    @tracer.capture_method
-    def load(self) -> str:
-        """Load documents."""
-        try:
-            # TODO add transformation logic
-            print(f"No transformation logic implemented, copy the file {self.key} to processed bucket")        
-        except Exception as exception:
-            logger.exception(f"Reason: {exception}")
-            return ""
+    # @tracer.capture_method
+    # def load(self) -> str:
+    #     """Load documents."""
+    #     try:
+    #         # TODO add transformation logic
+    #         print(f"No transformation logic implemented, copy the file {self.key} to processed bucket")        
+    #     except Exception as exception:
+    #         logger.exception(f"Reason: {exception}")
+    #         return ""
         
 
     @tracer.capture_method
     def check_moderation(self)-> str:
         isToxicImage = False
         rekognition_response = self.rekognition_client.detect_moderation_labels(
-                         Image=self.image)
+                         Image=self.image_bytes)
         print('lables detected!')
         print(rekognition_response)
         for label in rekognition_response['ModerationLabels']:
@@ -79,7 +79,7 @@ class image_transformer():
     def detect_image_lables(self)-> str:
         try:
             labels=''
-            response = self.rekognition_client.detect_labels(Image=self.image,MaxLabels=20 )       
+            response = self.rekognition_client.detect_labels(Image=self.image_bytes,MaxLabels=20 )       
             for label in response['Labels']:
                 name = label['Name']
                 if(label['Confidence'] > 0.80):
@@ -95,7 +95,7 @@ class image_transformer():
     def recognize_celebrities(self)-> str:
         try:
             celebrities=[]
-            response = self.rekognition_client.recognize_celebrities(Image=self.image)
+            response = self.rekognition_client.recognize_celebrities(Image=self.image_bytes)
             print(f'Detected faces for :: { response}')
             for celebrity in response['CelebrityFaces']:
                 celebrities.append(celebrity['Name'])
@@ -112,10 +112,10 @@ class image_transformer():
         width = 2048
         height = 2048 
 
-        print(f'self.image {self.image} ')
+        print(f'self.image {self.image_bytes} ')
         
         Image.MAX_IMAGE_PIXELS = 100000000
-        fileshort = os.path.basename(self.image_name)
+        fileshort = os.path.basename(self.file_name)
 
         print(f'fileshort {fileshort} ')
         file_tmp = "/tmp/" + fileshort
