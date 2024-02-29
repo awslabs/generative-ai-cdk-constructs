@@ -23,9 +23,11 @@ import * as logs from 'aws-cdk-lib/aws-logs';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
+import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
 import { version, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
+import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
 /**
  * The properties for the ContentGenerationAppSyncLambdaProps class.
@@ -115,6 +117,11 @@ export interface ContentGenerationAppSyncLambdaProps {
    * Lambda provisioned concurrency for consistent performance
    */
   readonly lambdaProvisionedConcurrency?: number | undefined;
+  /**
+   * Optional. Allows to provide custom lambda code
+   * and settings instead of the existing
+   */
+  readonly customDockerLambdaProps?: DockerLambdaCustomProps | undefined;
 }
 
 /**
@@ -147,6 +154,10 @@ export class ContentGenerationAppSyncLambda extends Construct {
    * Returns an instance of appsync.IGraphqlApi created by the construct
    */
   public readonly graphqlApi: appsync.IGraphqlApi;
+  /**
+   * Returns an instance of appsync.IGraphqlApi created by the construct
+   */
+  public readonly cgLambdaFunction: lambda.DockerImageFunction;
 
   /**
    * @summary Constructs a new instance of the ContentGenerationAppSyncLambda class.
@@ -470,36 +481,38 @@ export class ContentGenerationAppSyncLambda extends Construct {
       true,
     );
 
-    const generate_image_function = new lambda.DockerImageFunction(
-      this,
-      'lambda_question_answering' + stage,
-      {
-        code: lambda.DockerImageCode.fromImageAsset(
-          path.join(
-            __dirname,
-            '../../../../lambda/aws-contentgen-appsync-lambda/src',
-          ),
+    const construct_docker_lambda_props = {
+      code: lambda.DockerImageCode.fromImageAsset(
+        path.join(
+          __dirname,
+          '../../../../lambda/aws-contentgen-appsync-lambda/src',
         ),
-        functionName: 'lambda_generate_image' + stage,
-        description: 'Lambda function for generating image',
-        vpc: this.vpc,
-        tracing: lambda_tracing,
-        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-        securityGroups: [this.securityGroup],
-        memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
-        timeout: Duration.minutes(15),
-        role: generate_image_function_role,
-        environment: {
-          GRAPHQL_URL: updateGraphQlApiEndpoint,
-          OUTPUT_BUCKET: this.s3GenerateAssetsBucketInterface.bucketName,
+      ),
+      functionName: 'lambda_generate_image' + stage,
+      description: 'Lambda function for generating image',
+      vpc: this.vpc,
+      tracing: lambda_tracing,
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      securityGroups: [this.securityGroup],
+      memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
+      timeout: Duration.minutes(15),
+      role: generate_image_function_role,
+      environment: {
+        GRAPHQL_URL: updateGraphQlApiEndpoint,
+        OUTPUT_BUCKET: this.s3GenerateAssetsBucketInterface.bucketName,
 
-        },
-        ...(props.lambdaProvisionedConcurrency && {
-          currentVersionOptions: {
-            provisionedConcurrentExecutions: props.lambdaProvisionedConcurrency,
-          },
-        }),
       },
+      ...(props.lambdaProvisionedConcurrency && {
+        currentVersionOptions: {
+          provisionedConcurrentExecutions: props.lambdaProvisionedConcurrency,
+        },
+      }),
+    };
+
+    const generate_image_function = buildDockerLambdaFunction(this,
+      'lambda_content_generation' + stage,
+      construct_docker_lambda_props,
+      props.customDockerLambdaProps,
     );
 
     generate_image_function.currentVersion;
@@ -571,5 +584,7 @@ export class ContentGenerationAppSyncLambda extends Construct {
     });
 
     rule.addTarget(new targets.LambdaFunction(generate_image_function));
+
+    this.cgLambdaFunction = generate_image_function;
   }
 }

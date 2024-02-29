@@ -117,7 +117,7 @@ describe('Image generation appsync lambda construct', () => {
       Match.objectEquals({
         Description: 'Rule to trigger textToImage function',
         EventBusName: {
-          Ref: Match.stringLikeRegexp('testgenerateImageEventBusdev14B6940A'),
+          Ref: Match.stringLikeRegexp('testgenerateImageEventBusdev'),
         },
         EventPattern: { source: ['textToImage'] },
         State: 'ENABLED',
@@ -125,7 +125,7 @@ describe('Image generation appsync lambda construct', () => {
           {
             Arn: {
               'Fn::GetAtt': [
-                Match.stringLikeRegexp('testlambdaquestionansweringdevF739B600'),
+                Match.stringLikeRegexp('testlambdacontentgenerationdev'),
                 'Arn',
               ],
             },

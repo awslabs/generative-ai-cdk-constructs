@@ -23,6 +23,7 @@ The QaAppsyncOpensearch class.
 - [graphqlApi](QaAppsyncOpensearch.md#graphqlapi)
 - [node](QaAppsyncOpensearch.md#node)
 - [qaBus](QaAppsyncOpensearch.md#qabus)
+- [qaLambdaFunction](QaAppsyncOpensearch.md#qalambdafunction)
 - [s3InputAssetsBucket](QaAppsyncOpensearch.md#s3inputassetsbucket)
 - [s3InputAssetsBucketInterface](QaAppsyncOpensearch.md#s3inputassetsbucketinterface)
 - [securityGroup](QaAppsyncOpensearch.md#securitygroup)
@@ -94,6 +95,14 @@ ___
 • `Readonly` **qaBus**: `IEventBus`
 
 Returns the instance of events.IEventBus used by the construct
+
+___
+
+### qaLambdaFunction
+
+• `Readonly` **qaLambdaFunction**: `DockerImageFunction`
+
+Returns an instance of appsync.IGraphqlApi created by the construct
 
 ___
 

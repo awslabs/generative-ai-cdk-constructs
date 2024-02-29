@@ -35,6 +35,7 @@ export interface IJumpStartModelSpec {
   environment: { [key: string]: string | number | boolean };
   instanceAliases?: IInstanceAliase[];
   instanceVariants?: IInstanceValiant[];
+  requiresEula: boolean;
 }
 
 export class JumpStartModel {

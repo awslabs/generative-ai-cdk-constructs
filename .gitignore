@@ -71,5 +71,6 @@ tsconfig.json
 !/.github/workflows/deploydocs.yml
 !/.github/workflows/testdeployment.yml
 !/.projenrc.ts
-!/src/patterns/gen-ai/aws-langchain-common-layer/LangchainProps.ts
-!/src/patterns/gen-ai/aws-langchain-common-layer/AdapterProps.ts
+!/src/common/props/LangchainProps.ts
+!/src/common/props/AdapterProps.ts
+!/src/common/props/DockerLambdaCustomProps.ts

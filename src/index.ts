@@ -13,8 +13,6 @@
 export * from './patterns/gen-ai/aws-rag-appsync-stepfn-opensearch';
 export * from './patterns/gen-ai/aws-summarization-appsync-stepfn';
 export * from './patterns/gen-ai/aws-langchain-common-layer';
-export * from './patterns/gen-ai/aws-langchain-common-layer/LangchainProps';
-export * from './patterns/gen-ai/aws-langchain-common-layer/AdapterProps';
 export * from './patterns/gen-ai/aws-qa-appsync-opensearch';
 export * from './patterns/gen-ai/aws-model-deployment-sagemaker';
 export * from './patterns/gen-ai/aws-contentgen-appsync-lambda';
@@ -23,3 +21,6 @@ export * as bedrock from './cdk-lib/bedrock';
 export * as opensearchserverless from './cdk-lib/opensearchserverless';
 export * as opensearch_vectorindex from './cdk-lib/opensearch-vectorindex';
 export { version } from './common/helpers/utils';
+export * from './common/props/DockerLambdaCustomProps';
+export * from './common/props/LangchainProps';
+export * from './common/props/AdapterProps';

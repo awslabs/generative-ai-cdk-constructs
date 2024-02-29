@@ -15,7 +15,7 @@ import * as cdk from 'aws-cdk-lib';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as s3assets from 'aws-cdk-lib/aws-s3-assets';
 import { Construct } from 'constructs';
-import { LangchainProps } from '../../patterns/gen-ai/aws-langchain-common-layer/LangchainProps';
+import { LangchainProps } from '../props/LangchainProps';
 
 export interface LayerProps extends LangchainProps {
   runtime: lambda.Runtime;

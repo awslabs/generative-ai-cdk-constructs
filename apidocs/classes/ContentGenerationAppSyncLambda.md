@@ -20,6 +20,7 @@ The ContentGenerationAppSyncLambda class.
 
 ### Properties
 
+- [cgLambdaFunction](ContentGenerationAppSyncLambda.md#cglambdafunction)
 - [generatedImageBus](ContentGenerationAppSyncLambda.md#generatedimagebus)
 - [graphqlApi](ContentGenerationAppSyncLambda.md#graphqlapi)
 - [node](ContentGenerationAppSyncLambda.md#node)
@@ -68,6 +69,14 @@ public
 Construct.constructor
 
 ## Properties
+
+### cgLambdaFunction
+
+• `Readonly` **cgLambdaFunction**: `DockerImageFunction`
+
+Returns an instance of appsync.IGraphqlApi created by the construct
+
+___
 
 ### generatedImageBus
 

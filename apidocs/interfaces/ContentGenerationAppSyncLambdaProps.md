@@ -9,6 +9,7 @@ The properties for the ContentGenerationAppSyncLambdaProps class.
 ### Properties
 
 - [cognitoUserPool](ContentGenerationAppSyncLambdaProps.md#cognitouserpool)
+- [customDockerLambdaProps](ContentGenerationAppSyncLambdaProps.md#customdockerlambdaprops)
 - [enableOperationalMetric](ContentGenerationAppSyncLambdaProps.md#enableoperationalmetric)
 - [existingBusInterface](ContentGenerationAppSyncLambdaProps.md#existingbusinterface)
 - [existingGeneratedAssetsBucketObj](ContentGenerationAppSyncLambdaProps.md#existinggeneratedassetsbucketobj)
@@ -34,6 +35,15 @@ Cognito user pool used for authentication.
 ```ts
 - None
 ```
+
+___
+
+### customDockerLambdaProps
+
+• `Optional` `Readonly` **customDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
+
+Optional. Allows to provide custom lambda code
+and settings instead of the existing
 
 ___
 
