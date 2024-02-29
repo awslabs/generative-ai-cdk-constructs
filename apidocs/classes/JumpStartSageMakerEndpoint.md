@@ -20,6 +20,7 @@ The JumpStartSageMakerEndpoint class.
 
 ### Properties
 
+- [acceptEula](JumpStartSageMakerEndpoint.md#accepteula)
 - [cfnEndpoint](JumpStartSageMakerEndpoint.md#cfnendpoint)
 - [cfnEndpointConfig](JumpStartSageMakerEndpoint.md#cfnendpointconfig)
 - [cfnModel](JumpStartSageMakerEndpoint.md#cfnmodel)
@@ -70,6 +71,12 @@ The JumpStartSageMakerEndpoint class.
 [SageMakerEndpointBase](SageMakerEndpointBase.md).[constructor](SageMakerEndpointBase.md#constructor)
 
 ## Properties
+
+### acceptEula
+
+• `Private` `Readonly` **acceptEula**: `boolean`
+
+___
 
 ### cfnEndpoint
 

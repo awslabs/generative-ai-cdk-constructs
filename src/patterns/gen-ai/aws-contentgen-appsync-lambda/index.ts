@@ -20,23 +20,19 @@ import * as targets from 'aws-cdk-lib/aws-events-targets';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as logs from 'aws-cdk-lib/aws-logs';
-import * as openSearchServerless from 'aws-cdk-lib/aws-opensearchserverless';
-import * as opensearchservice from 'aws-cdk-lib/aws-opensearchservice';
 import * as s3 from 'aws-cdk-lib/aws-s3';
-import * as secret from 'aws-cdk-lib/aws-secretsmanager';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
-import * as opensearch_helper from '../../../common/helpers/opensearch-helper';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
 import { version, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
 /**
- * The properties for the QaAppsyncOpensearchProps class.
+ * The properties for the ContentGenerationAppSyncLambdaProps class.
  */
-export interface QaAppsyncOpensearchProps {
+export interface ContentGenerationAppSyncLambdaProps {
   /**
    * Optional custom properties for a VPC the construct will create. This VPC will
    * be used by the Lambda functions the construct creates. Providing
@@ -66,43 +62,18 @@ export interface QaAppsyncOpensearchProps {
    */
   readonly existingBusInterface?: events.IEventBus;
   /**
-   * Existing instance of S3 Bucket object, providing both this and `bucketInputsAssetsProps` will cause an error.
+   * Existing instance of S3 Bucket object, providing both this and `generatedAssetsBucketProps` will cause an error.
    *
    * @default - None
    */
-  readonly existingInputAssetsBucketObj?: s3.IBucket;
+  readonly existingGeneratedAssetsBucketObj?: s3.IBucket;
   /**
    * Optional user provided props to override the default props for the S3 Bucket.
-   * Providing both this and `existingInputAssetsBucketObj` will cause an error.
+   * Providing both this and `existingGeneratedAssetsBucketObj` will cause an error.
    *
    * @default - Default props are used
    */
-  readonly bucketInputsAssetsProps?: s3.BucketProps;
-  /**
-   * Existing Amazon OpenSearch Service domain.
-   *
-   * @default - None
-   */
-  readonly existingOpensearchDomain?: opensearchservice.IDomain;
-  /**
-   * Existing Amazon Amazon OpenSearch Serverless collection.
-   *
-   * @default - None
-   */
-  readonly existingOpensearchServerlessCollection?: openSearchServerless.CfnCollection;
-  /**
-   * Data Index name for the OpenSearch Service.
-   *
-   * @default - None
-   */
-  readonly openSearchIndexName: string;
-  /**
-   * Optional. SecretsManager secret to authenticate against the OpenSearch Service domain if
-   * domain is configured with Username/Password.
-   *
-   * @default - None
-   */
-  readonly openSearchSecret?: secret.ISecret;
+  readonly generatedAssetsBucketProps?: s3.BucketProps;
   /**
    * Existing merged Appsync GraphQL api.
    *
@@ -146,7 +117,6 @@ export interface QaAppsyncOpensearchProps {
    * Lambda provisioned concurrency for consistent performance
    */
   readonly lambdaProvisionedConcurrency?: number | undefined;
-
   /**
    * Optional. Allows to provide custom lambda code
    * and settings instead of the existing
@@ -155,9 +125,9 @@ export interface QaAppsyncOpensearchProps {
 }
 
 /**
- * @summary The QaAppsyncOpensearch class.
+ * @summary The ContentGenerationAppSyncLambda class.
  */
-export class QaAppsyncOpensearch extends Construct {
+export class ContentGenerationAppSyncLambda extends Construct {
   /**
    * Returns the instance of ec2.IVpc used by the construct
    */
@@ -169,17 +139,17 @@ export class QaAppsyncOpensearch extends Construct {
   /**
    * Returns the instance of events.IEventBus used by the construct
    */
-  public readonly qaBus: events.IEventBus;
+  public readonly generatedImageBus: events.IEventBus;
   /**
    * Returns an instance of s3.IBucket created by the construct
    */
-  public readonly s3InputAssetsBucketInterface: s3.IBucket;
+  public readonly s3GenerateAssetsBucketInterface: s3.IBucket;
   /**
    * Returns an instance of s3.Bucket created by the construct.
-   * IMPORTANT: If existingInputAssetsBucketObj was provided in Pattern Construct Props,
+   * IMPORTANT: If existingGeneratedAssetsBucketObj was provided in Pattern Construct Props,
    * this property will be undefined
    */
-  public readonly s3InputAssetsBucket?: s3.Bucket;
+  public readonly s3GenerateAssetsBucket?: s3.Bucket;
   /**
    * Returns an instance of appsync.IGraphqlApi created by the construct
    */
@@ -187,17 +157,17 @@ export class QaAppsyncOpensearch extends Construct {
   /**
    * Returns an instance of appsync.IGraphqlApi created by the construct
    */
-  public readonly qaLambdaFunction: lambda.DockerImageFunction;
+  public readonly cgLambdaFunction: lambda.DockerImageFunction;
 
   /**
-   * @summary Constructs a new instance of the RagAppsyncStepfnOpensearch class.
+   * @summary Constructs a new instance of the ContentGenerationAppSyncLambda class.
    * @param {cdk.App} scope - represents the scope for all the resources.
    * @param {string} id - this is a a scope-unique id.
-   * @param {QaAppsyncOpensearchProps} props - user provided props for the construct.
+   * @param {ContentGenerationAppSyncLambdaProps} props - user provided props for the construct.
    * @since 0.0.0
    * @access public
    */
-  constructor(scope: Construct, id: string, props: QaAppsyncOpensearchProps) {
+  constructor(scope: Construct, id: string, props: ContentGenerationAppSyncLambdaProps) {
     super(scope, id);
 
     // stage
@@ -224,8 +194,8 @@ export class QaAppsyncOpensearch extends Construct {
 
     vpc_helper.CheckVpcProps(props);
     s3_bucket_helper.CheckS3Props({
-      existingBucketObj: props.existingInputAssetsBucketObj,
-      bucketProps: props.bucketInputsAssetsProps,
+      existingBucketObj: props.existingGeneratedAssetsBucketObj,
+      bucketProps: props.generatedAssetsBucketProps,
     });
 
     if (props?.existingVpc) {
@@ -246,8 +216,8 @@ export class QaAppsyncOpensearch extends Construct {
     }
 
     // vpc flowloggroup
-    const logGroup = new logs.LogGroup(this, 'qaConstructLogGroup');
-    const role = new iam.Role(this, 'qaConstructRole', {
+    const logGroup = new logs.LogGroup(this, 'generateImageConstructLogGroup');
+    const role = new iam.Role(this, 'generateImageConstructRole', {
       assumedBy: new iam.ServicePrincipal('vpc-flow-logs.amazonaws.com'),
     });
 
@@ -275,15 +245,15 @@ export class QaAppsyncOpensearch extends Construct {
     );
 
     // Bucket containing the inputs assets (documents - text format) uploaded by the user
-    let inputAssetsBucket: s3.IBucket;
+    let generatedAssetsBucket: s3.IBucket;
 
-    if (!props.existingInputAssetsBucketObj) {
+    if (!props.existingGeneratedAssetsBucketObj) {
       let tmpBucket: s3.Bucket;
-      if (!props.bucketInputsAssetsProps) {
-        tmpBucket = new s3.Bucket(this, 'inputAssetsQABucket' + stage, {
+      if (!props.generatedAssetsBucketProps) {
+        tmpBucket = new s3.Bucket(this, 'generatedAssetsBucket' + stage, {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
-          bucketName: 'input-asset-qa-bucket' + stage + '-' + Aws.ACCOUNT_ID,
+          bucketName: 'generated-asset-bucket' + stage + '-' + Aws.ACCOUNT_ID,
           serverAccessLogsBucket: serverAccessLogBucket,
           enforceSSL: true,
           versioned: true,
@@ -296,29 +266,29 @@ export class QaAppsyncOpensearch extends Construct {
       } else {
         tmpBucket = new s3.Bucket(
           this,
-          'InputAssetsQABucket' + stage,
-          props.bucketInputsAssetsProps,
+          'generatedAssetsBucket' + stage,
+          props.generatedAssetsBucketProps,
         );
       }
-      inputAssetsBucket = tmpBucket;
-      this.s3InputAssetsBucket = tmpBucket;
+      generatedAssetsBucket = tmpBucket;
+      this.s3GenerateAssetsBucket = tmpBucket;
     } else {
-      inputAssetsBucket = props.existingInputAssetsBucketObj;
+      generatedAssetsBucket = props.existingGeneratedAssetsBucketObj;
     }
 
     // this is the one we manipulate, we know it exists
-    this.s3InputAssetsBucketInterface = inputAssetsBucket;
+    this.s3GenerateAssetsBucketInterface = generatedAssetsBucket;
 
     // GraphQL API
-    const question_answering_graphql_api = new appsync.GraphqlApi(
+    const generate_image_graphql_api = new appsync.GraphqlApi(
       this,
-      'questionAnsweringGraphqlApi',
+      'generateImageGraphqlApi',
       {
-        name: 'questionAnsweringGraphqlApi' + stage,
+        name: 'generateImageGraphqlApi' + stage,
         definition: appsync.Definition.fromFile(
           path.join(
             __dirname,
-            '../../../../resources/gen-ai/aws-qa-appsync-opensearch/schema.graphql',
+            '../../../../resources/gen-ai/aws-contentgen-appsync-lambda/schema.graphql',
           ),
         ),
         authorizationConfig: {
@@ -337,15 +307,14 @@ export class QaAppsyncOpensearch extends Construct {
       },
     );
 
-    this.graphqlApi = question_answering_graphql_api;
-
+    this.graphqlApi = generate_image_graphql_api;
     // If the user provides a mergedApi endpoint, the lambda
     // functions will use this endpoint to send their status updates
     const updateGraphQlApiEndpoint = !props.existingMergedApi
-      ? question_answering_graphql_api.graphqlUrl
+      ? generate_image_graphql_api.graphqlUrl
       : props.existingMergedApi.attrGraphQlUrl;
     const updateGraphQlApiId = !props.existingMergedApi
-      ? question_answering_graphql_api.apiId
+      ? generate_image_graphql_api.apiId
       : props.existingMergedApi.attrApiId;
 
     const job_status_data_source = new appsync.NoneDataSource(
@@ -357,8 +326,8 @@ export class QaAppsyncOpensearch extends Construct {
       },
     );
 
-    job_status_data_source.createResolver('updateQAJobStatusResolver', {
-      fieldName: 'updateQAJobStatus',
+    job_status_data_source.createResolver('updateGenImageJobStatusResolver', {
+      fieldName: 'updateGenerateImageStatus',
       typeName: 'Mutation',
       requestMappingTemplate: appsync.MappingTemplate.fromString(
         `
@@ -374,36 +343,31 @@ export class QaAppsyncOpensearch extends Construct {
     });
 
     if (!props.existingBusInterface) {
-      this.qaBus = new events.EventBus(
+      this.generatedImageBus = new events.EventBus(
         this,
-        'questionAnsweringEventBus' + stage,
+        'generateImageEventBus' + stage,
         {
-          eventBusName: 'questionAnsweringEventBus' + stage,
+          eventBusName: 'generateImageEventBus' + stage,
         },
       );
     } else {
-      this.qaBus = props.existingBusInterface;
+      this.generatedImageBus = props.existingBusInterface;
     }
 
-    // create httpdatasource with question_answering_graphql_api
+    // create httpdatasource with generate_image_graphql_api
     const event_bridge_datasource = this.graphqlApi.addEventBridgeDataSource(
-      'questionAnsweringEventBridgeDataSource' + stage,
-      this.qaBus,
+      'generateImageEventBridgeDataSource' + stage,
+      this.generatedImageBus,
       {
-        name: 'questionAnsweringEventBridgeDataSource' + stage,
+        name: 'generateImageEventBridgeDataSource' + stage,
       },
     );
 
-    let SecretId = 'NONE';
-    if (props.openSearchSecret) {
-      SecretId = props.openSearchSecret.secretName;
-    }
-
     // Lambda function used to validate inputs in the step function
 
-    const question_answering_function_role = new iam.Role(
+    const generate_image_function_role = new iam.Role(
       this,
-      'question_answering_function_role',
+      'generate_image_function_role',
       {
         assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
         inlinePolicies: {
@@ -426,7 +390,7 @@ export class QaAppsyncOpensearch extends Construct {
     );
 
     // Minimum permissions for a Lambda function to execute while accessing a resource within a VPC
-    question_answering_function_role.addToPolicy(
+    generate_image_function_role.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: [
@@ -442,7 +406,7 @@ export class QaAppsyncOpensearch extends Construct {
     );
     // Decribe only works if it's allowed on all resources.
     // Reference: https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html#vpc-permissions
-    question_answering_function_role.addToPolicy(
+    generate_image_function_role.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: ['ec2:DescribeNetworkInterfaces'],
@@ -450,61 +414,23 @@ export class QaAppsyncOpensearch extends Construct {
       }),
     );
 
-    // The lambda will access the opensearch credentials
-    if (props.openSearchSecret) {
-      props.openSearchSecret.grantRead(question_answering_function_role);
-    }
 
-    // The lambda will pull processed files and create embeddings
-    question_answering_function_role.addToPolicy(
+    // The lambda will genearte image and upload to s3
+    generate_image_function_role.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: ['s3:GetObject', 's3:GetObject*', 's3:GetBucket*', 's3:List*'],
         resources: [
-          'arn:' + Aws.PARTITION + ':s3:::' + this.s3InputAssetsBucketInterface?.bucketName,
+          'arn:' + Aws.PARTITION + ':s3:::' + this.s3GenerateAssetsBucketInterface?.bucketName,
           'arn:' + Aws.PARTITION + ':s3:::' +
-            this.s3InputAssetsBucketInterface?.bucketName +
+            this.s3GenerateAssetsBucketInterface?.bucketName +
             '/*',
         ],
       }),
     );
 
-    if (props.existingOpensearchDomain) {
-      question_answering_function_role.addToPolicy(
-        new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          actions: ['es:*'],
-          resources: [
-            'arn:' + Aws.PARTITION + ':es:' +
-              Aws.REGION +
-              ':' +
-              Aws.ACCOUNT_ID +
-              ':domain/' +
-              props.existingOpensearchDomain.domainName +
-              '/*',
-            'arn:' + Aws.PARTITION + ':es:' +
-              Aws.REGION +
-              ':' +
-              Aws.ACCOUNT_ID +
-              ':domain/' +
-              props.existingOpensearchDomain.domainName,
-          ],
-        }),
-      );
-    }
-
-    if (props.existingOpensearchServerlessCollection) {
-      question_answering_function_role.addToPolicy(new iam.PolicyStatement({
-        effect: iam.Effect.ALLOW,
-        actions: ['aoss:APIAccessAll'],
-        resources: [
-          'arn:' + Aws.PARTITION + ':aoss:' + Aws.REGION+':' + Aws.ACCOUNT_ID + ':collection/'+props.existingOpensearchServerlessCollection.attrId,
-        ],
-      }));
-    }
-
     // Add Amazon Bedrock permissions to the IAM role for the Lambda function
-    question_answering_function_role.addToPolicy(
+    generate_image_function_role.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: [
@@ -518,8 +444,34 @@ export class QaAppsyncOpensearch extends Construct {
       }),
     );
 
+    generate_image_function_role.addToPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [
+          'comprehend:DetectEntities',
+          'comprehend:DetectKeyPhrases',
+          'comprehend:DetectPiiEntities',
+          'comprehend:DetectSentiment',
+          'comprehend:DetectSyntax',
+        ],
+        resources: ['*'],
+      }),
+    );
+    generate_image_function_role.addToPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [
+          'rekognition:DetectModerationLabels',
+          'rekognition:DetectText',
+          'rekognition:DetectLabels',
+          'rekognition:DetectFaces',
+        ],
+        resources: ['*'],
+      }),
+    );
+
     NagSuppressions.addResourceSuppressions(
-      question_answering_function_role,
+      generate_image_function_role,
       [
         {
           id: 'AwsSolutions-IAM5',
@@ -533,25 +485,22 @@ export class QaAppsyncOpensearch extends Construct {
       code: lambda.DockerImageCode.fromImageAsset(
         path.join(
           __dirname,
-          '../../../../lambda/aws-qa-appsync-opensearch/question_answering/src',
+          '../../../../lambda/aws-contentgen-appsync-lambda/src',
         ),
       ),
-      functionName: 'lambda_question_answering' + stage,
-      description: 'Lambda function for question answering',
+      functionName: 'lambda_generate_image' + stage,
+      description: 'Lambda function for generating image',
       vpc: this.vpc,
       tracing: lambda_tracing,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(15),
-      role: question_answering_function_role,
+      role: generate_image_function_role,
       environment: {
         GRAPHQL_URL: updateGraphQlApiEndpoint,
-        INPUT_BUCKET: this.s3InputAssetsBucketInterface.bucketName,
-        OPENSEARCH_API_NAME: opensearch_helper.getOpenSearchApiName(props),
-        OPENSEARCH_DOMAIN_ENDPOINT: opensearch_helper.getOpenSearchEndpoint(props),
-        OPENSEARCH_INDEX: props.openSearchIndexName,
-        OPENSEARCH_SECRET_ID: SecretId,
+        OUTPUT_BUCKET: this.s3GenerateAssetsBucketInterface.bucketName,
+
       },
       ...(props.lambdaProvisionedConcurrency && {
         currentVersionOptions: {
@@ -560,27 +509,27 @@ export class QaAppsyncOpensearch extends Construct {
       }),
     };
 
-    const question_answering_function = buildDockerLambdaFunction(this,
-      'lambda_question_answering' + stage,
+    const generate_image_function = buildDockerLambdaFunction(this,
+      'lambda_content_generation' + stage,
       construct_docker_lambda_props,
       props.customDockerLambdaProps,
     );
 
-    question_answering_function.currentVersion;
+    generate_image_function.currentVersion;
 
     const enableOperationalMetric =
       props.enableOperationalMetric !== undefined && props.enableOperationalMetric !== null ? props.enableOperationalMetric : true;
 
     if (enableOperationalMetric) {
       const solutionId = `genai_cdk_${version}/${this.constructor.name}/${id}`;
-      question_answering_function.addEnvironment(
+      generate_image_function.addEnvironment(
         'AWS_SDK_UA_APP_ID',
         solutionId,
       );
     }
 
     // Add GraphQl permissions to the IAM role for the Lambda function
-    question_answering_function.addToRolePolicy(
+    generate_image_function.addToRolePolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: ['appsync:GraphQL'],
@@ -596,23 +545,24 @@ export class QaAppsyncOpensearch extends Construct {
       }),
     );
 
-    this.qaBus.grantPutEventsTo(event_bridge_datasource.grantPrincipal);
+    this.generatedImageBus.grantPutEventsTo(event_bridge_datasource.grantPrincipal);
 
-    event_bridge_datasource.createResolver('QuestionAnsweringResolver', {
-      fieldName: 'postQuestion',
+    event_bridge_datasource.createResolver('GenerateImageResolver', {
+      fieldName: 'generateImage',
       typeName: 'Mutation',
       requestMappingTemplate: appsync.MappingTemplate.fromString(
         `
-                        {
-                            "version": "2018-05-29",
-                            "operation": "PutEvents",
-                            "events": [{
-                                "source": "questionanswering",
-                                "detail": $util.toJson($context.arguments),
-                                "detailType": "Question answering"
-                            }
-                            ]
-                        } 
+                {
+                  "version": "2018-05-29",
+                  "operation": "PutEvents",
+                  "events": [{
+                      "source": "textToImage",
+                      "detail": $util.toJson($context.arguments),
+                      "detailType": "genAIdemo"
+                  }]
+                }
+
+ 
                         `,
       ),
       responseMappingTemplate: appsync.MappingTemplate.fromString(
@@ -625,16 +575,16 @@ export class QaAppsyncOpensearch extends Construct {
       ),
     });
 
-    const rule = new events.Rule(this, 'QuestionAnsweringRule' + stage, {
-      description: 'Rule to trigger question answering function',
-      eventBus: this.qaBus,
+    const rule = new events.Rule(this, 'textToImageRule' + stage, {
+      description: 'Rule to trigger textToImage function',
+      eventBus: this.generatedImageBus,
       eventPattern: {
-        source: ['questionanswering'],
+        source: ['textToImage'],
       },
     });
 
-    rule.addTarget(new targets.LambdaFunction(question_answering_function));
+    rule.addTarget(new targets.LambdaFunction(generate_image_function));
 
-    this.qaLambdaFunction = question_answering_function;
+    this.cgLambdaFunction = generate_image_function;
   }
 }

@@ -10,6 +10,9 @@
 - [bucketProcessedAssetsProps](SummarizationAppsyncStepfnProps.md#bucketprocessedassetsprops)
 - [cfnCacheClusterProps](SummarizationAppsyncStepfnProps.md#cfncacheclusterprops)
 - [cognitoUserPool](SummarizationAppsyncStepfnProps.md#cognitouserpool)
+- [customDocumentReaderDockerLambdaProps](SummarizationAppsyncStepfnProps.md#customdocumentreaderdockerlambdaprops)
+- [customInputValidationDockerLambdaProps](SummarizationAppsyncStepfnProps.md#custominputvalidationdockerlambdaprops)
+- [customSummaryGeneratorDockerLambdaProps](SummarizationAppsyncStepfnProps.md#customsummarygeneratordockerlambdaprops)
 - [enableOperationalMetric](SummarizationAppsyncStepfnProps.md#enableoperationalmetric)
 - [eventBusProps](SummarizationAppsyncStepfnProps.md#eventbusprops)
 - [existingBusInterface](SummarizationAppsyncStepfnProps.md#existingbusinterface)
@@ -90,6 +93,33 @@ Required. Cognito user pool used for authentication.
 ```ts
 - None
 ```
+
+___
+
+### customDocumentReaderDockerLambdaProps
+
+• `Optional` `Readonly` **customDocumentReaderDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
+
+Optional. Allows to provide Embeddings custom lambda code
+and settings instead of the existing
+
+___
+
+### customInputValidationDockerLambdaProps
+
+• `Optional` `Readonly` **customInputValidationDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
+
+Optional. Allows to provide Input Validation custom lambda code
+and settings instead of the existing
+
+___
+
+### customSummaryGeneratorDockerLambdaProps
+
+• `Optional` `Readonly` **customSummaryGeneratorDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
+
+Optional. Allows to provide File Transformer custom lambda code
+and settings instead of the existing
 
 ___
 

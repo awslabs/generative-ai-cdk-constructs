@@ -11,6 +11,9 @@ The properties for the RagAppsyncStepfnOpensearchProps class.
 - [bucketInputsAssetsProps](RagAppsyncStepfnOpensearchProps.md#bucketinputsassetsprops)
 - [bucketProcessedAssetsProps](RagAppsyncStepfnOpensearchProps.md#bucketprocessedassetsprops)
 - [cognitoUserPool](RagAppsyncStepfnOpensearchProps.md#cognitouserpool)
+- [customEmbeddingsDockerLambdaProps](RagAppsyncStepfnOpensearchProps.md#customembeddingsdockerlambdaprops)
+- [customFileTransformerDockerLambdaProps](RagAppsyncStepfnOpensearchProps.md#customfiletransformerdockerlambdaprops)
+- [customInputValidationDockerLambdaProps](RagAppsyncStepfnOpensearchProps.md#custominputvalidationdockerlambdaprops)
 - [enableOperationalMetric](RagAppsyncStepfnOpensearchProps.md#enableoperationalmetric)
 - [existingBusInterface](RagAppsyncStepfnOpensearchProps.md#existingbusinterface)
 - [existingInputAssetsBucketObj](RagAppsyncStepfnOpensearchProps.md#existinginputassetsbucketobj)
@@ -69,6 +72,33 @@ Cognito user pool used for authentication.
 ```ts
 - None
 ```
+
+___
+
+### customEmbeddingsDockerLambdaProps
+
+• `Optional` `Readonly` **customEmbeddingsDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
+
+Optional. Allows to provide Embeddings custom lambda code
+and settings instead of the existing
+
+___
+
+### customFileTransformerDockerLambdaProps
+
+• `Optional` `Readonly` **customFileTransformerDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
+
+Optional. Allows to provide File Transformer custom lambda code
+and settings instead of the existing
+
+___
+
+### customInputValidationDockerLambdaProps
+
+• `Optional` `Readonly` **customInputValidationDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
+
+Optional. Allows to provide Input Validation custom lambda code
+and settings instead of the existing
 
 ___
 

@@ -28,6 +28,7 @@ export interface JumpStartSageMakerEndpointProps {
   readonly vpcConfig?: sagemaker.CfnModel.VpcConfigProperty | undefined;
   readonly environment?: { [key: string]: string };
   readonly startupHealthCheckTimeoutInSeconds?: number;
+  readonly acceptEula?: boolean;
 }
 
 /**
@@ -45,6 +46,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
   public readonly instanceCount: number;
   public readonly role: iam.Role;
 
+  private readonly acceptEula: boolean;
   private readonly region: string;
   private readonly spec: IJumpStartModelSpec;
   private readonly startupHealthCheckTimeoutInSeconds: number;
@@ -56,12 +58,21 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
     this.model = props.model;
     this.instanceType = props.instanceType;
     this.instanceCount = Math.max(1, props.instanceCount ?? 1);
+    this.acceptEula = props.acceptEula ?? false;
+
     this.role = props.role ?? this.createSageMakerRole();
     this.grantPrincipal = this.role;
 
     this.startupHealthCheckTimeoutInSeconds = props.startupHealthCheckTimeoutInSeconds ?? 600;
     this.environment = props.environment;
     this.spec = this.model.bind();
+
+    if (!this.acceptEula && this.spec.requiresEula) {
+      throw new Error(
+        'The AcceptEula value must be explicitly defined as True in order to accept the EULA for the model '+this.spec.modelId+'. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.',
+      );
+    }
+
     this.region = Stack.of(this).region;
 
     if (Token.isUnresolved(this.region)) {
@@ -211,6 +222,9 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
             compressionType: 'None',
             s3DataType: 'S3Prefix',
             s3Uri: modelArtifactUrl,
+            modelAccessConfig: {
+              acceptEula: this.acceptEula,
+            },
           },
         },
         environment,

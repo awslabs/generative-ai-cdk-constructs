@@ -16,14 +16,17 @@
 
 ### Properties
 
+- [documentReaderLambdaFunction](SummarizationAppsyncStepfn.md#documentreaderlambdafunction)
 - [eventBridgeBus](SummarizationAppsyncStepfn.md#eventbridgebus)
 - [graphqlApi](SummarizationAppsyncStepfn.md#graphqlapi)
 - [inputAssetBucket](SummarizationAppsyncStepfn.md#inputassetbucket)
+- [inputValidationLambdaFunction](SummarizationAppsyncStepfn.md#inputvalidationlambdafunction)
 - [node](SummarizationAppsyncStepfn.md#node)
 - [processedAssetBucket](SummarizationAppsyncStepfn.md#processedassetbucket)
 - [redisCluster](SummarizationAppsyncStepfn.md#rediscluster)
 - [securityGroup](SummarizationAppsyncStepfn.md#securitygroup)
 - [stateMachine](SummarizationAppsyncStepfn.md#statemachine)
+- [summaryGeneratorLambdaFunction](SummarizationAppsyncStepfn.md#summarygeneratorlambdafunction)
 - [vpc](SummarizationAppsyncStepfn.md#vpc)
 
 ### Methods
@@ -67,6 +70,14 @@ Construct.constructor
 
 ## Properties
 
+### documentReaderLambdaFunction
+
+• `Readonly` **documentReaderLambdaFunction**: `DockerImageFunction`
+
+Returns an instance of lambda.DockerImageFunction used for the document reading job created by the construct
+
+___
+
 ### eventBridgeBus
 
 • `Readonly` **eventBridgeBus**: `IEventBus`
@@ -88,6 +99,14 @@ ___
 • `Readonly` **inputAssetBucket**: `IBucket`
 
 Returns the instance of s3.IBucket used by the construct
+
+___
+
+### inputValidationLambdaFunction
+
+• `Readonly` **inputValidationLambdaFunction**: `DockerImageFunction`
+
+Returns an instance of lambda.DockerImageFunction used for the input validation job created by the construct
 
 ___
 
@@ -138,6 +157,14 @@ Step function
 ```ts
 - fieldLogLevel - None
 ```
+
+___
+
+### summaryGeneratorLambdaFunction
+
+• `Readonly` **summaryGeneratorLambdaFunction**: `DockerImageFunction`
+
+Returns an instance of lambda.DockerImageFunction used for the summary generation job created by the construct
 
 ___
 

@@ -1,44 +1,44 @@
-[@cdklabs/generative-ai-cdk-constructs](../README.md) / QaAppsyncOpensearch
+[@cdklabs/generative-ai-cdk-constructs](../README.md) / ContentGenerationAppSyncLambda
 
-# Class: QaAppsyncOpensearch
+# Class: ContentGenerationAppSyncLambda
 
 **`Summary`**
 
-The QaAppsyncOpensearch class.
+The ContentGenerationAppSyncLambda class.
 
 ## Hierarchy
 
 - `Construct`
 
-  ↳ **`QaAppsyncOpensearch`**
+  ↳ **`ContentGenerationAppSyncLambda`**
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](QaAppsyncOpensearch.md#constructor)
+- [constructor](ContentGenerationAppSyncLambda.md#constructor)
 
 ### Properties
 
-- [graphqlApi](QaAppsyncOpensearch.md#graphqlapi)
-- [node](QaAppsyncOpensearch.md#node)
-- [qaBus](QaAppsyncOpensearch.md#qabus)
-- [qaLambdaFunction](QaAppsyncOpensearch.md#qalambdafunction)
-- [s3InputAssetsBucket](QaAppsyncOpensearch.md#s3inputassetsbucket)
-- [s3InputAssetsBucketInterface](QaAppsyncOpensearch.md#s3inputassetsbucketinterface)
-- [securityGroup](QaAppsyncOpensearch.md#securitygroup)
-- [vpc](QaAppsyncOpensearch.md#vpc)
+- [cgLambdaFunction](ContentGenerationAppSyncLambda.md#cglambdafunction)
+- [generatedImageBus](ContentGenerationAppSyncLambda.md#generatedimagebus)
+- [graphqlApi](ContentGenerationAppSyncLambda.md#graphqlapi)
+- [node](ContentGenerationAppSyncLambda.md#node)
+- [s3GenerateAssetsBucket](ContentGenerationAppSyncLambda.md#s3generateassetsbucket)
+- [s3GenerateAssetsBucketInterface](ContentGenerationAppSyncLambda.md#s3generateassetsbucketinterface)
+- [securityGroup](ContentGenerationAppSyncLambda.md#securitygroup)
+- [vpc](ContentGenerationAppSyncLambda.md#vpc)
 
 ### Methods
 
-- [toString](QaAppsyncOpensearch.md#tostring)
-- [isConstruct](QaAppsyncOpensearch.md#isconstruct)
+- [toString](ContentGenerationAppSyncLambda.md#tostring)
+- [isConstruct](ContentGenerationAppSyncLambda.md#isconstruct)
 
 ## Constructors
 
 ### constructor
 
-• **new QaAppsyncOpensearch**(`scope`, `id`, `props`): [`QaAppsyncOpensearch`](QaAppsyncOpensearch.md)
+• **new ContentGenerationAppSyncLambda**(`scope`, `id`, `props`): [`ContentGenerationAppSyncLambda`](ContentGenerationAppSyncLambda.md)
 
 #### Parameters
 
@@ -46,15 +46,15 @@ The QaAppsyncOpensearch class.
 | :------ | :------ | :------ |
 | `scope` | `Construct` | represents the scope for all the resources. |
 | `id` | `string` | this is a a scope-unique id. |
-| `props` | [`QaAppsyncOpensearchProps`](../interfaces/QaAppsyncOpensearchProps.md) | user provided props for the construct. |
+| `props` | [`ContentGenerationAppSyncLambdaProps`](../interfaces/ContentGenerationAppSyncLambdaProps.md) | user provided props for the construct. |
 
 #### Returns
 
-[`QaAppsyncOpensearch`](QaAppsyncOpensearch.md)
+[`ContentGenerationAppSyncLambda`](ContentGenerationAppSyncLambda.md)
 
 **`Summary`**
 
-Constructs a new instance of the RagAppsyncStepfnOpensearch class.
+Constructs a new instance of the ContentGenerationAppSyncLambda class.
 
 **`Since`**
 
@@ -69,6 +69,22 @@ public
 Construct.constructor
 
 ## Properties
+
+### cgLambdaFunction
+
+• `Readonly` **cgLambdaFunction**: `DockerImageFunction`
+
+Returns an instance of appsync.IGraphqlApi created by the construct
+
+___
+
+### generatedImageBus
+
+• `Readonly` **generatedImageBus**: `IEventBus`
+
+Returns the instance of events.IEventBus used by the construct
+
+___
 
 ### graphqlApi
 
@@ -90,35 +106,19 @@ Construct.node
 
 ___
 
-### qaBus
+### s3GenerateAssetsBucket
 
-• `Readonly` **qaBus**: `IEventBus`
-
-Returns the instance of events.IEventBus used by the construct
-
-___
-
-### qaLambdaFunction
-
-• `Readonly` **qaLambdaFunction**: `DockerImageFunction`
-
-Returns an instance of appsync.IGraphqlApi created by the construct
-
-___
-
-### s3InputAssetsBucket
-
-• `Optional` `Readonly` **s3InputAssetsBucket**: `Bucket`
+• `Optional` `Readonly` **s3GenerateAssetsBucket**: `Bucket`
 
 Returns an instance of s3.Bucket created by the construct.
-IMPORTANT: If existingInputAssetsBucketObj was provided in Pattern Construct Props,
+IMPORTANT: If existingGeneratedAssetsBucketObj was provided in Pattern Construct Props,
 this property will be undefined
 
 ___
 
-### s3InputAssetsBucketInterface
+### s3GenerateAssetsBucketInterface
 
-• `Readonly` **s3InputAssetsBucketInterface**: `IBucket`
+• `Readonly` **s3GenerateAssetsBucketInterface**: `IBucket`
 
 Returns an instance of s3.IBucket created by the construct
 
