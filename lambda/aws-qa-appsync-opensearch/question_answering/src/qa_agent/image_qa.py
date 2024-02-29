@@ -29,6 +29,7 @@ from .helper import  load_vector_db_opensearch,send_job_status, JobStatus,get_pr
 logger = Logger(service="QUESTION_ANSWERING")
 tracer = Tracer(service="QUESTION_ANSWERING")
 metrics = Metrics(namespace="question_answering", service="QUESTION_ANSWERING")
+
 bucket_name = os.environ['INPUT_BUCKET']
 
 def run_qa_agent_on_image_no_memory(input_params):

@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 import * as path from 'path';
-import { Duration, Aws, Stack } from 'aws-cdk-lib';
+import { Duration, Aws, Stack, Annotations } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
@@ -177,6 +177,22 @@ export interface RagAppsyncStepfnOpensearchProps {
    * @summary The RagAppsyncStepfnOpensearch class.
    */
 export class RagAppsyncStepfnOpensearch extends Construct {
+
+  /**
+   * Construct warning
+   */
+  public static readonly CONSTRUCT_SCHEMA_UPDATE_WARNING=`
+  Attention RagAppsyncStepfnOpensearch users, an update has been made to 
+  the GraphQL schema.To ensure continued functionality, please review 
+  and update your GraphQL mutations and subscriptions to align with 
+  the new schema.This schema update enables enhanced capabilities 
+  and optimizations,so adopting the changes is recommended. 
+  Please refer to the construct documentation for details 
+  on the schema changes and examples of updated GraphQL statements.
+  Reach out to the support team if you need assistance 
+  updating your integration codebase.  
+  `;
+
   /**
    * Returns the instance of ec2.IVpc used by the construct
    */
@@ -242,6 +258,7 @@ export class RagAppsyncStepfnOpensearch extends Construct {
   constructor(scope: Construct, id: string, props: RagAppsyncStepfnOpensearchProps) {
     super(scope, id);
 
+    Annotations.of(scope).addWarning(RagAppsyncStepfnOpensearch.CONSTRUCT_SCHEMA_UPDATE_WARNING);
     // stage
     let stage = '-dev';
     if (props?.stage) {

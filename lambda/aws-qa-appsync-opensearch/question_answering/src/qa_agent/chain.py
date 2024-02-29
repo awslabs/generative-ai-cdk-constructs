@@ -48,7 +48,7 @@ def run_question_answering(arguments):
     image_url = arguments['presignedurl']
    
     #set deafult modality to text
-    qa_model= arguments['qa_model']['modality']
+    qa_model= arguments['qa_model']
     modality=qa_model.get('modality','Text')
       
     # Visual QA
