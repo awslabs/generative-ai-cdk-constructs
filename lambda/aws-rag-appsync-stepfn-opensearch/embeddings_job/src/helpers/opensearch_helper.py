@@ -41,12 +41,6 @@ def check_if_index_exists(index_name: str, region: str, host: str, http_auth: Tu
 
 def process_shard(shard, os_index_name, os_domain_ep, os_http_auth,model_id) -> int: 
     bedrock_client = boto3.client('bedrock-runtime')
-
-    # if(model_id=='amazon.titan-embed-image-v1'):
-    #     print(f' save image embeddings in OS')
-    #     embeddings = image_loader.BedrockEmbeddings_image(docs=shard, model_id=model_id,)
-    # else:
-    #     embeddings = BedrockEmbeddings(client=bedrock_client,model_id=model_id)
     embeddings = BedrockEmbeddings(client=bedrock_client,model_id=model_id)
    
     opensearch_url = os_domain_ep if os_domain_ep.startswith("https://") else f"https://{os_domain_ep}"

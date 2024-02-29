@@ -10,11 +10,13 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
-from typing import List
-import boto3
 import os
-from aws_lambda_powertools import Logger, Tracer
+import boto3
+
+
 from PIL import Image
+from typing import List
+from aws_lambda_powertools import Logger, Tracer
 
 
 
@@ -49,16 +51,6 @@ class image_transformer():
         name = image_file_name if file_name is None else file_name
         return cls(image_bytes, name, rekognition_client)
     
-    # @tracer.capture_method
-    # def load(self) -> str:
-    #     """Load documents."""
-    #     try:
-    #         # TODO add transformation logic
-    #         print(f"No transformation logic implemented, copy the file {self.key} to processed bucket")        
-    #     except Exception as exception:
-    #         logger.exception(f"Reason: {exception}")
-    #         return ""
-        
 
     @tracer.capture_method
     def check_moderation(self)-> str:
@@ -89,8 +81,6 @@ class image_transformer():
         return labels
     
    
-
-
     @tracer.capture_method
     def recognize_celebrities(self)-> str:
         try:
@@ -99,9 +89,6 @@ class image_transformer():
             print(f'Detected faces for :: { response}')
             for celebrity in response['CelebrityFaces']:
                 celebrities.append(celebrity['Name'])
-            # for face in response['UnrecognizedFaces']:
-            #     celebrities.append(face['UnrecognizedFaces'])
-            
         except Exception as exp:
             print(f"Couldn't analyze image: {exp}")
             

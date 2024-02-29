@@ -10,19 +10,21 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
-import base64
-import json
+
 import os
 import time
+import base64
+import json
+import numpy as np
+
+from pathlib import Path
 from typing import List
 from aiohttp import ClientError
-from pathlib import Path
-import numpy as np
+
 
 
 
 from aws_lambda_powertools import Logger, Tracer
-#from langchain_community.document_loaders.image import UnstructuredImageLoader
 from langchain.docstore.document import Document
 
 import boto3
@@ -88,21 +90,14 @@ class image_loader():
         """Load documents."""
         try:
             local_file_path = self.download_file(self.image_file)
-            
-            # with open(f"{local_file_path}", "rb") as image_file:
-            #     input_image = base64.b64encode(image_file.read()).decode("utf8")
-            
+           
             b64_image_file_path = self.encode_image_to_base64(local_file_path,self.image_file)
             print(f'b64_image_file :: {b64_image_file_path}')
             
             with open(b64_image_file_path, "rb") as b64_image_file:
                 input_image_b64 = b64_image_file.read().decode('utf-8')
 
-            #embeddings=self.get_image_embeddings(input_image_b64,self.modelid)
-
-            # if embeddings is None:
-            #     logger.error(f"error creating multimodal embeddings for {self.image_file}")
-
+            
             obj = s3_client.get_object(Bucket=self.bucket, Key=self.image_detail_file)
             raw_text = obj['Body'].read().decode('utf-8') 
 

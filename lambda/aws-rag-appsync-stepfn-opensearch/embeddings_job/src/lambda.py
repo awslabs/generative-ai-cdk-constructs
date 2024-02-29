@@ -109,16 +109,8 @@ def process_documents_in_es(index_exists, shards, http_auth,model_id):
                     os_http_auth=http_auth)
 
 def process_documents_in_aoss(index_exists, shards, http_auth,model_id):
-    # Reference: https://python.langchain.com/docs/integrations/vectorstores/opensearch#using-aoss-amazon-opensearch-service-serverless
     bedrock_client = boto3.client('bedrock-runtime')
-    # if(model_id=='amazon.titan-embed-image-v1'):
-    #     print(f'image embeddings shards[0] {shards}')
-    #     embeddings = image_loader.BedrockEmbeddings_image(docs=shards[0], model_id=model_id,)
-    # else:
-    #     embeddings = BedrockEmbeddings(client=bedrock_client,model_id=model_id)
     embeddings = BedrockEmbeddings(client=bedrock_client,model_id=model_id)
-
-    print(f' check index with :: {shards[0]}')
    
     shard_start_index = 0
     if index_exists is False:
@@ -166,7 +158,7 @@ def handler(event,  context: LambdaContext) -> dict:
     job_id = event[0]['s3_transformer_result']['Payload']['jobid']
     modelid = event[0]['s3_transformer_result']['Payload']['modelid']
 
-    print(f' model id :: {modelid}')
+    logger.info(f' model id :: {modelid}')
 
     logger.set_correlation_id(job_id)
     metrics.add_metadata(key='correlationId', value=job_id)
@@ -181,7 +173,7 @@ def handler(event,  context: LambdaContext) -> dict:
 
     
     
-    print(f'Loading txt raw files from {bucket_name}')
+    logger.info(f'Loading txt raw files from {bucket_name}')
 
     docs = []
     
@@ -228,7 +220,6 @@ def process_text_embeddings(docs,modelid,http_auth,files,job_id):
     # we can augment data here probably (PII present ? ...)
     for doc in docs:
         doc.metadata['timestamp'] = time.time()
-       # doc.metadata['embeddings_model'] = 'amazon.titan-embed-text-v1'
         doc.metadata['embeddings_model'] = modelid
     chunks = text_splitter.create_documents([doc.page_content for doc in docs], metadatas=[doc.metadata for doc in docs])
 
@@ -276,7 +267,7 @@ def process_image_embeddings(docs,modelid,http_auth,files,job_id,url):
     for doc in docs:
         doc.metadata['timestamp'] = time.time()
         doc.metadata['embeddings_model'] = modelid
-   
+    # not using text splitter , using whole image embedding as one array
     shards = np.array_split(docs,1)
 
     try:

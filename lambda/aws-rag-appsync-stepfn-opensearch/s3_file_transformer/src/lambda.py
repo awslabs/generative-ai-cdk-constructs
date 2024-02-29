@@ -12,8 +12,6 @@
 #
 import os
 import boto3
-#from helpers.unstructured_s3_connector import run_s3_Connector
-
 
 
 from aws_lambda_powertools import Logger, Tracer, Metrics
@@ -33,8 +31,6 @@ s3 = boto3.resource('s3')
 input_bucket = os.environ['INPUT_BUCKET']
 output_bucket = os.environ['OUTPUT_BUCKET']
 
-# input_bucket = "persistencestack-inputassets7d1d3f52-qert2sgpwhtu"
-# output_bucket = "persistencestack-processedassets6ba25f4c-zmebuvdaelig"
 
 @tracer.capture_method
 def file_exists_in_bucket(bucket_name, object_name,):
@@ -94,7 +90,7 @@ def handler(event,  context: LambdaContext) -> dict:
                 print(f' pdf processed ::' )
             elif(extension == '.jpg'or extension == '.jpeg' or extension == '.png' or extension == '.svg'):
                 response['status'] = transform_image_document(input_bucket,file_name,output_bucket)
-            #TODO add csv, doc, docx file type suport as well.
+            #TODO add csv, doc, docx file type support as well.
             else:
                 response['status'] = 'File Not transformed'            
         else:

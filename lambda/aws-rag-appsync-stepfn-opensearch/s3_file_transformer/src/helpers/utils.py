@@ -1,13 +1,27 @@
+#
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+# with the License. A copy of the License is located at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+# OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+# and limitations under the License.
+#
 
-import boto3
 import os
+import boto3
 import json
-from aws_lambda_powertools import Logger, Tracer, Metrics
-from aws_lambda_powertools.metrics import MetricUnit
-from helpers.image_transformer import image_transformer
-from helpers.pdf_transformer import pdf_transformer
 from botocore.exceptions import ClientError
+from aws_lambda_powertools.metrics import MetricUnit
+
+from helpers.pdf_transformer import pdf_transformer
+from helpers.image_transformer import image_transformer
 from langchain_core.prompts import PromptTemplate
+from aws_lambda_powertools import Logger, Tracer, Metrics
+
 
 
 
@@ -46,11 +60,6 @@ def transform_image_document(input_bucket: str,file_name: str,output_bucket: str
                 return 'Image not supported'
         else:
                 result_lables = imt_object.detect_image_lables()
-                # result_celeb =  imt_object.recognize_celebrities()
-                # image_details = {
-                #         "image_lables":result_lables,
-                #         "image_celeb":result_celeb
-                #         }
                                
                 name, extension = os.path.splitext(file_name)
                 lables_txt= convert_lables_to_sentence(result_lables)            
