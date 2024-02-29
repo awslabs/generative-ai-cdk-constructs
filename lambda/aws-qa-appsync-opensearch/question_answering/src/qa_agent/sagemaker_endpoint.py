@@ -1,8 +1,10 @@
 
 from langchain.llms.sagemaker_endpoint import LLMContentHandler, SagemakerEndpoint
+from aws_lambda_powertools import Logger, Tracer, Metrics
 
 import json
 import os
+logger = Logger(service="QUESTION_ANSWERING")
 
 class ContentHandler(LLMContentHandler):
     content_type = "application/json"
@@ -19,7 +21,7 @@ class ContentHandler(LLMContentHandler):
 
 content_handler = ContentHandler()
 
-class Ideficsllm():
+class MultiModal():
 
     parameters = {
         "do_sample": True,
@@ -33,12 +35,17 @@ class Ideficsllm():
 
     @classmethod
     def sagemakerendpoint_llm(self,model_id):
-        return SagemakerEndpoint(
-        endpoint_name=model_id,
-        region_name=os.environ["AWS_REGION"],
-        model_kwargs=self.parameters,
-        content_handler=content_handler,
+        try: 
+            endpoint= SagemakerEndpoint(
+            endpoint_name=model_id,
+            region_name='us-east-1',
+            model_kwargs=self.parameters,
+            content_handler=content_handler,
+            )
+            return endpoint
+        except Exception as err:
+            logger.error(' Error when accessing sagemaker endpoint :: {model_id} , returning...')
+            return ''
 
 
    
-)

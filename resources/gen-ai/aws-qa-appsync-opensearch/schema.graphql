@@ -1,6 +1,16 @@
+enum ModelProvider {
+	Sagemaker Endpoint
+	Bedrock
+}
+enum Modality {
+	Image
+	Text
+}
+
 input ModelConfiguration {
-	provider: String
+	provider: ModelProvider
 	modelId: String
+	modality: Modality
 	streaming: Boolean
 	model_kwargs: AWSJSON
 }

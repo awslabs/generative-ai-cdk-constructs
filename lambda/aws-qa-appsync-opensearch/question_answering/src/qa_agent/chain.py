@@ -11,19 +11,21 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
-from .helper import load_vector_db_opensearch, send_job_status, JobStatus
-from .s3inmemoryloader import S3FileLoaderInMemory
-from .StreamingCallbackHandler import StreamingCallbackHandler
-from langchain.prompts import PromptTemplate
-from llms import get_llm, get_max_tokens
-from langchain.chains import LLMChain
-from .image_qa import  run_qa_agent_on_image_no_memory
 
 
 import boto3
 import os
 import base64
+
+from langchain.chains import LLMChain
+from llms import get_llm, get_max_tokens
 from typing import Any, Dict, List, Union
+from langchain.prompts import PromptTemplate
+from .s3inmemoryloader import S3FileLoaderInMemory
+from .StreamingCallbackHandler import StreamingCallbackHandler
+from .helper import load_vector_db_opensearch, send_job_status, JobStatus
+from .image_qa import  run_qa_agent_on_image_no_memory,run_qa_agent_rag_on_image_no_memory
+from .doc_qa import run_qa_agent_rag_no_memory, run_qa_agent_from_single_document_no_memory
 
 from aws_lambda_powertools import Logger, Tracer, Metrics
 
@@ -38,258 +40,79 @@ def run_question_answering(arguments):
     response_generation_method = arguments.get('responseGenerationMethod', 'LONG_CONTEXT')
 
     try:
-        filename = arguments['filename']
-        image_url = arguments['presignedurl']
-
+        filename = arguments['filename']       
     except:
-
         filename = ''
         arguments['filename'] = ''
-
-    if image_url: # if image presigned url is present then do a QA on image file 
-         llm_response = run_qa_agent_on_image_no_memory(arguments)
-         return llm_response
     
-    if not filename:  # user didn't provide a specific file as input, we use the RAG source against the entire knowledge base
-        if response_generation_method == 'LONG_CONTEXT':
-            error = 'Error: Filename required for LONG_CONTEXT approach, defaulting to RAG.'
-            logger.error(error)
+    image_url = arguments['presignedurl']
+   
+    #set deafult modality to text
+    qa_model= arguments['qa_model']['modality']
+    modality=qa_model.get('modality','Text')
+      
+    # Visual QA
+    if modality.lower()=='image': 
+         logger.info("Running QA for Image modality")             
 
-        llm_response = run_qa_agent_rag_no_memory(arguments)
-        return llm_response
+          # user didn't provide a image url as input, we use the RAG source against the entire knowledge base
+         if response_generation_method == 'LONG_CONTEXT':
+                if not image_url: 
+                    warning = 'Error: Image presigned url is required for LONG_CONTEXT approach, defaulting to RAG.'
+                    logger.warning(warning)
+                    llm_response = run_qa_agent_rag_on_image_no_memory(arguments)
+                    return llm_response
+                else:
+                    llm_response = run_qa_agent_on_image_no_memory(arguments)
+         if response_generation_method == 'RAG':
+                llm_response = run_qa_agent_rag_on_image_no_memory(arguments)
+                return llm_response
+    #pdf,txt QA     
+    else: 
+        logger.info("Running QA for text modality")
+        if not filename:  # user didn't provide a specific file as input, we use the RAG source against the entire knowledge base
+            if response_generation_method == 'LONG_CONTEXT':
+                error = 'Error: Filename required for LONG_CONTEXT approach, defaulting to RAG.'
+                logger.error(error)
 
-    bucket_name = os.environ['INPUT_BUCKET']
-
-    # select the methodology based on the input size
-    document_number_of_tokens = S3FileLoaderInMemory(bucket_name, filename).get_document_tokens()
-
-    if document_number_of_tokens is None:
-        logger.exception(
-            f'Failed to compute the number of tokens for file {filename} in bucket {bucket_name}, returning')
-        error = JobStatus.ERROR_LOAD_INFO.get_message()
-        status_variables = {
-            'jobstatus': JobStatus.ERROR_LOAD_INFO.status,
-            'answer': error.decode("utf-8"),
-            'jobid': arguments['jobid'],
-            'filename': filename,
-            'question': '',
-            'sources': ['']
-        }
-        send_job_status(status_variables)
-        return ''
-
-    model_max_tokens = get_max_tokens()
-    logger.info(
-        f'For the current question, we have a max model length of {model_max_tokens} and a document containing {document_number_of_tokens} tokens')
-
-    if response_generation_method == 'RAG':
-        logger.info('Running qa agent with a RAG approach')
-        llm_response = run_qa_agent_rag_no_memory(arguments)
-    else:
-        # LONG CONTEXT
-        # why add 500 ? on top of the document content, we add the prompt. So we keep an extra 500 tokens of space just in case
-        if (document_number_of_tokens + 250) < model_max_tokens:
-            logger.info('Running qa agent with full document in context')
-            llm_response = run_qa_agent_from_single_document_no_memory(arguments)
-        else:
-            logger.info('Running qa agent with a RAG approach due to document size')
             llm_response = run_qa_agent_rag_no_memory(arguments)
-    return llm_response
-_doc_index = None
-_current_doc_index = None
-def run_qa_agent_rag_no_memory(input_params):
-    logger.info("starting qa agent with rag approach without memory :: {input_params}")
+            return llm_response
 
-    base64_bytes = input_params['question'].encode("utf-8")
-    embedding_model_id = input_params['embeddings_model']['modelId']
-    qa_model_id = input_params['qa_model']['modelId']
-    sample_string_bytes = base64.b64decode(base64_bytes)
-    decoded_question = sample_string_bytes.decode("utf-8")
+        bucket_name = os.environ['INPUT_BUCKET']
 
-    logger.info(decoded_question)
+        # select the methodology based on the input size
+        document_number_of_tokens = S3FileLoaderInMemory(bucket_name, filename).get_document_tokens()
 
-    status_variables = {
-        'jobstatus': JobStatus.WORKING.status,
-        'answer': JobStatus.WORKING.get_message(),
-        'jobid': input_params['jobid'],
-        'filename': input_params['filename'],
-        'question': input_params['question'],
-        'sources': ['']
-    }
-    send_job_status(status_variables)
+        if document_number_of_tokens is None:
+            logger.exception(
+                f'Failed to compute the number of tokens for file {filename} in bucket {bucket_name}, returning')
+            error = JobStatus.ERROR_LOAD_INFO.get_message()
+            status_variables = {
+                'jobstatus': JobStatus.ERROR_LOAD_INFO.status,
+                'answer': error.decode("utf-8"),
+                'jobid': arguments['jobid'],
+                'filename': filename,
+                'question': '',
+                'sources': ['']
+            }
+            send_job_status(status_variables)
+            return ''
 
-    # 1. Load index and question related content
-    global _doc_index
-    global _current_doc_index
+        model_max_tokens = get_max_tokens()
+        logger.info(
+            f'For the current question, we have a max model length of {model_max_tokens} and a document containing {document_number_of_tokens} tokens')
 
-    if _doc_index is None:
-        logger.info("loading opensearch retriever")
-        doc_index = load_vector_db_opensearch(boto3.Session().region_name,
-                                              os.environ.get('OPENSEARCH_API_NAME'),
-                                              os.environ.get('OPENSEARCH_DOMAIN_ENDPOINT'),
-                                              os.environ.get('OPENSEARCH_INDEX'),
-                                              os.environ.get('OPENSEARCH_SECRET_ID'),
-                                              embedding_model_id)
-
-    else:
-        logger.info("_retriever already exists")
-
-    _current_doc_index = _doc_index
-
-    logger.info("Starting similarity search")
-    max_docs = input_params['retrieval']['max_docs']
-    output_file_name = input_params['filename']
-
-    source_documents = doc_index.similarity_search(decoded_question, k=max_docs)
-    logger.info(source_documents)
-    # --------------------------------------------------------------------------
-    # If an output file is specified, filter the response to only include chunks  
-    # related to that file. The source metadata is added when embeddings are 
-    # created in the ingestion pipeline.
-    #  
-    # TODO: Evaluate if this filter can be optimized by using the  
-    # OpenSearchVectorSearch.max_marginal_relevance_search() method instead.
-    # See https://github.com/langchain-ai/langchain/issues/10524
-    # --------------------------------------------------------------------------
-    if output_file_name:
-        source_documents = [doc for doc in source_documents if doc.metadata['source'] == output_file_name]
-    logger.info(source_documents)
-    status_variables['sources'] = list(set(doc.metadata['source'] for doc in source_documents))
-
-    # 2 : load llm using the selector
-    streaming = input_params.get("streaming", False)
-    callback_manager = [StreamingCallbackHandler(status_variables)] if streaming else None
-    _qa_llm = get_llm(callback_manager)
-
-    if (_qa_llm is None):
-        logger.info('llm is None, returning')
-        status_variables['jobstatus'] = JobStatus.ERROR_LOAD_LLM.status
-        error = JobStatus.ERROR_LOAD_LLM.get_message()
-        status_variables['answer'] = error.decode("utf-8")
-        send_job_status(status_variables)
-        return status_variables
-
-    # 3. Run it
-    template = """\n\nHuman: {context}
-    Answer from this text: {question}
-    \n\nAssistant:"""
-    prompt = PromptTemplate(template=template, input_variables=["context", "question"])
-    chain = LLMChain(llm=_qa_llm, prompt=prompt, verbose=input_params['verbose'])
-
-    try:
-        tmp = chain.predict(context=source_documents, question=decoded_question)
-        answer = tmp.removeprefix(' ')
-
-        logger.info(f'answer is: {answer}')
-        llm_answer_bytes = answer.encode("utf-8")
-        base64_bytes = base64.b64encode(llm_answer_bytes)
-        llm_answer_base64_string = base64_bytes.decode("utf-8")
-
-        status_variables['jobstatus'] = JobStatus.DONE.status
-        status_variables['answer'] = llm_answer_base64_string
-        send_job_status(status_variables) if not streaming else None
-
-    except Exception as err:
-        logger.exception(err)
-        status_variables['jobstatus'] = JobStatus.ERROR_PREDICTION.status
-        error = JobStatus.ERROR_PREDICTION.get_message()
-        status_variables['answer'] = error.decode("utf-8")
-        send_job_status(status_variables)
-
-    return status_variables
-
-
-_file_content = None
-_current_file_name = None
-
-
-def run_qa_agent_from_single_document_no_memory(input_params):
-    logger.info("starting qa agent without memory single document")
-
-    base64_bytes = input_params['question'].encode("utf-8")
-
-    sample_string_bytes = base64.b64decode(base64_bytes)
-    decoded_question = sample_string_bytes.decode("utf-8")
-
-    logger.info(decoded_question)
-
-    status_variables = {
-        'jobstatus': JobStatus.WORKING.status,
-        'answer': JobStatus.WORKING.get_message(),
-        'jobid': input_params['jobid'],
-        'filename': input_params['filename'],
-        'question': input_params['question'],
-        'sources': ['']
-    }
-    send_job_status(status_variables)
-
-    # 1 : load the document
-    global _file_content
-    global _current_file_name
-
-    bucket_name = os.environ['INPUT_BUCKET']
-    filename = input_params['filename']
-    logger.info(f"Generating response to question for file {filename}")
-
-    if _current_file_name != filename:
-        logger.info('loading file content')
-        _file_content = S3FileLoaderInMemory(bucket_name, filename).load()
-    else:
-        if _file_content is None:
-            logger.info('loading cached file content')
+        if response_generation_method == 'RAG':
+            logger.info('Running qa agent with a RAG approach')
+            llm_response = run_qa_agent_rag_no_memory(arguments)
         else:
-            logger.info('same file as before, but nothing cached')
-            _file_content = S3FileLoaderInMemory(bucket_name, filename).load()
-
-    _current_file_name = filename
-    status_variables['sources'] = [filename]
-    if _file_content is None:
-        status_variables['jobstatus'] = JobStatus.ERROR_LOAD_DOC.status
-        error = JobStatus.ERROR_LOAD_DOC.get_message()
-        status_variables['answer'] = error.decode("utf-8")
-        send_job_status(status_variables)
-        return
-
-    # 2 : run the question
-    streaming = input_params.get("streaming", False)
-    callback_manager = [StreamingCallbackHandler(status_variables)] if streaming else None
-    _qa_llm = get_llm(callback_manager)
-
-    if (_qa_llm is None):
-        logger.info('llm is None, returning')
-        status_variables['jobstatus'] = JobStatus.ERROR_LOAD_LLM.status
-        error = JobStatus.ERROR_LOAD_LLM.get_message()
-        status_variables['answer'] = error.decode("utf-8")
-        send_job_status(status_variables)
-        return status_variables
-
-    # 3: run LLM
-    template = """\n\nHuman: {context}
-    Answer from this text: {question}
-    \n\nAssistant:"""
-    prompt = PromptTemplate(template=template, input_variables=["context", "question"])
-    chain = LLMChain(llm=_qa_llm, prompt=prompt, verbose=input_params['verbose'])
-
-    try:
-        logger.info(f'file content is: {_file_content}')
-        logger.info(f'decoded_question is: {decoded_question}')
-        tmp = chain.predict(context=_file_content, question=decoded_question)
-        answer = tmp.removeprefix(' ')
-
-        logger.info(f'answer is: {answer}')
-        llm_answer_bytes = answer.encode("utf-8")
-        base64_bytes = base64.b64encode(llm_answer_bytes)
-        llm_answer_base64_string = base64_bytes.decode("utf-8")
-
-        status_variables['jobstatus'] = JobStatus.DONE.status
-        status_variables['answer'] = llm_answer_base64_string
-        send_job_status(status_variables) if not streaming else None
-
-    except Exception as err:
-        logger.exception(err)
-        status_variables['jobstatus'] = JobStatus.ERROR_PREDICTION.status
-        error = JobStatus.ERROR_PREDICTION.get_message()
-        status_variables['answer'] = error.decode("utf-8")
-        send_job_status(status_variables)
-
-    return status_variables
+            # LONG CONTEXT
+            # why add 500 ? on top of the document content, we add the prompt. So we keep an extra 500 tokens of space just in case
+            if (document_number_of_tokens + 250) < model_max_tokens:
+                logger.info('Running qa agent with full document in context')
+                llm_response = run_qa_agent_from_single_document_no_memory(arguments)
+            else:
+                logger.info('Running qa agent with a RAG approach due to document size')
+                llm_response = run_qa_agent_rag_no_memory(arguments)
+        return llm_response
+    

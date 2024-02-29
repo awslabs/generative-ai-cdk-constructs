@@ -20,6 +20,8 @@ import json
 import base64
 from enum import Enum
 from requests_aws4auth import AWS4Auth
+s3 = boto3.client('s3')
+
 
 class JobStatus(Enum):
     DONE = (
@@ -51,7 +53,11 @@ class JobStatus(Enum):
         base64.b64encode("Sorry, but I am not able to access the document specified.".encode('utf-8'))
     )
     ERROR_PREDICTION = (
-        'Exception during prediction', 
+        'Exception during prediction,Please verify model for the selected modality', 
+        base64.b64encode("Sorry, it seems an issue happened on my end, and I'm not able to answer your question. Please contact an administrator to understand why !".encode('utf-8'))
+    )
+    ERROR_SEMANTIC_SEARCH = (
+        'Exception during simialirty search, Please verify model for the selected modality', 
         base64.b64encode("Sorry, it seems an issue happened on my end, and I'm not able to answer your question. Please contact an administrator to understand why !".encode('utf-8'))
     )
 
@@ -134,6 +140,7 @@ def send_job_status(variables):
             jobid, 
             answer, 
             question, 
+            filename,
             sources
         }
     }
@@ -161,3 +168,16 @@ def send_job_status(variables):
         timeout=10
     )
     print('res :: {}',responseJobstatus)
+
+def get_presigned_url(bucket,key) -> str:
+        try:
+             url = s3.generate_presigned_url(
+                ClientMethod='get_object', 
+                Params={'Bucket': bucket, 'Key': key},
+                ExpiresIn=900
+                )
+             print(f"presigned url generated for {key} from {bucket}")
+             return url
+        except Exception as exception:
+            print(f"Reason: {exception}")
+            return ""
