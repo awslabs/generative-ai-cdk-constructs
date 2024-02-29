@@ -42,10 +42,13 @@
 
 This construct provides a question answering workflow (RAG + long context window) using Amazon Bedrock and a provisioned Amazon OpenSearch cluster.
 
-- If a document is provided as an input to the AppSync query, the AWS Lambda function will first verify the length of the document. If the document size is above the max number of tokens for the selected model, the Lambda will query the knowledge base (similarity search) and filter by document name. This assumes that the chunks of texts stored in the knowledge base have the document name as metadata. Otherwise, the content of the document is provided to the LLM as part of the context.
+- If a pdf document is provided as an input to the AppSync query, the AWS Lambda function will first verify the length of the document. If the document size is above the max number of tokens for the selected model, the Lambda will query the knowledge base (similarity search) and filter by document name. This assumes that the chunks of texts stored in the knowledge base have the document name as metadata. Otherwise, the content of the document is provided to the LLM as part of the context.
 - If no document is provided as input, the Lambda will perform a similarity search against the entire knowledge base.
+- Utilizing AppSync queries, images can be provided as inputs to invoke AWS Lambda functions that leverage Amazon SageMaker-deployed Idefics multimodal for visual question answering. The Idefics model from Hugging Face enables both retrieval-augmented generation (RAG) and long context strategies when processing images for visual QA. For details on deploying Idefics modal from Hugging Face to SageMaker, please refer to the "AWS Model Deployment on SageMaker" guide using Hugging Face models.
+- If an image file (.jpg,.jpeg,.png) is provided as an input to the AppSync query, the AWS Lambda function leverage Amazon SageMaker-deployed Idefics multimodal for visual question answering. The construct support both RAG to find a relevant image from the knowledge base and LONG_CONTEXT to answer the questions on a single image. To deploy Idefics modal from Hugging face on sagemaker please refer [aws-model-deployment-sagemake](../aws-model-deployment-sagemaker/README_hugging_face.md). 
 
-The construct uses Amazon Bedrock as the large language model provider. amazon.titan-embed-text-v1 is used as the embeddings model to query the knowledge base (provisioned Amazon OpenSearch cluster), and anthropic.claude-v2:1 for question answering. Make sure both models are enabled in your account. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
+
+The construct uses Amazon Bedrock as the large language model provider. amazon.titan-embed-text-v1 is used as the embeddings model for text and amazon.titan-embed-image-v1 for images to query the knowledge base (provisioned Amazon OpenSearch cluster), and anthropic.claude-v2:1 for question answering. Make sure both models are enabled in your account. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
 
 The input document must be stored in the input Amazon Simple Storage Service bucket in text format (.txt). Another construct is available to ingest and process files to text format and store them in a knowledge base: [aws-rag-appsync-stepfn-opensearch](../aws-rag-appsync-stepfn-opensearch/README.md).
 
@@ -102,7 +105,7 @@ os_domain = os.Domain.from_domain_attributes(
 )
 
 # get an existing userpool 
-cognito_pool_id = 'us-east-1_XXXXX';
+cognito_pool_id = 'us-east-1_XXXXX'
 user_pool_loaded = cognito.UserPool.from_user_pool_id(
     self,
     'myuserpool',
