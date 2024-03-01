@@ -18,7 +18,6 @@
 /.github/workflows/semgrep.yml linguist-generated
 /.github/workflows/stale.yml linguist-generated
 /.github/workflows/testdeployment.yml linguist-generated
-/.github/workflows/update-contributors.yml linguist-generated
 /.github/workflows/upgrade-main.yml linguist-generated
 /.gitignore linguist-generated
 /.mergify.yml linguist-generated
