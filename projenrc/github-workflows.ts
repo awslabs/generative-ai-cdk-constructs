@@ -129,11 +129,10 @@ export function buildMonthlyIssuesMetricsWorkflow(project: AwsCdkConstructLibrar
     const workflow = project.github.addWorkflow('monthly-repo-metrics');
     if (workflow) {
       workflow.on({
-        workflowDispatch: {
-          schedule: {
-            cron: '0 2 1 * *',
-          },
-        },
+        workflowDispatch: {},
+        schedule: [
+          { cron: '0 2 1 * *' },
+        ],
       });
       workflow.addJobs({ build: buildjob });
     }
