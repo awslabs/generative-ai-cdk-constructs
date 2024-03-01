@@ -31,9 +31,10 @@ import * as eventBridge from '../../../common/helpers/eventbridge-helper';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import * as redisHelper from '../../../common/helpers/redis-helper';
 import * as s3BucketHelper from '../../../common/helpers/s3-bucket-helper';
-import { generatePhysicalName, version, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
+import { generatePhysicalName, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import * as vpcHelper from '../../../common/helpers/vpc-helper';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
+import { BaseClass,BaseClassProps } from '../../../common/base-class/base-class';
 
 export interface SummarizationAppsyncStepfnProps {
   /**
@@ -205,7 +206,7 @@ export interface SummarizationAppsyncStepfnProps {
 
 }
 
-export class SummarizationAppsyncStepfn extends Construct {
+export class SummarizationAppsyncStepfn extends BaseClass {
   /**
    * Returns an instance of events.IEventBus created by the construct
    */
@@ -264,10 +265,7 @@ export class SummarizationAppsyncStepfn extends Construct {
   constructor(scope: Construct, id: string, props: SummarizationAppsyncStepfnProps) {
     super(scope, id);
 
-    let stage = '-dev';
-    if (props?.stage) {
-      stage = props.stage;
-    }
+      
 
     // observability
     let lambda_tracing = lambda.Tracing.ACTIVE;
@@ -319,7 +317,7 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     // bucket for storing server access logging
     const serverAccessLogBucket = new s3.Bucket(this,
-      'serverAccessLogBucket'+stage,
+      'serverAccessLogBucket'+this.stage,
       {
         blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
         encryption: s3.BucketEncryption.S3_MANAGED,
@@ -341,10 +339,10 @@ export class SummarizationAppsyncStepfn extends Construct {
       this.inputAssetBucket = props.existingInputAssetsBucketObj;
     } else if (props?.bucketInputsAssetsProps) {
       this.inputAssetBucket = new s3.Bucket(this,
-        'inputAssetsSummaryBucket'+stage, props.bucketInputsAssetsProps);
+        'inputAssetsSummaryBucket'+this.stage, props.bucketInputsAssetsProps);
     } else {
-      const bucketName= 'input-assets-summary-bucket'+stage+'-'+Aws.ACCOUNT_ID;
-      this.inputAssetBucket = new s3.Bucket(this, 'inputAssetsSummaryBucket'+stage,
+      const bucketName= 'input-assets-summary-bucket'+this.stage+'-'+Aws.ACCOUNT_ID;
+      this.inputAssetBucket = new s3.Bucket(this, 'inputAssetsSummaryBucket'+this.stage,
         {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
@@ -368,11 +366,11 @@ export class SummarizationAppsyncStepfn extends Construct {
       this.processedAssetBucket = props.existingProcessedAssetsBucketObj;
     } else if (props?.bucketProcessedAssetsProps) {
       this.processedAssetBucket = new s3.Bucket(this,
-        'processedAssetsSummaryBucket'+stage, props.bucketProcessedAssetsProps);
+        'processedAssetsSummaryBucket'+this.stage, props.bucketProcessedAssetsProps);
     } else {
-      const bucketName= 'processed-assets-summary-bucket'+stage+'-'+Aws.ACCOUNT_ID;
+      const bucketName= 'processed-assets-summary-bucket'+this.stage+'-'+Aws.ACCOUNT_ID;
 
-      this.processedAssetBucket = new s3.Bucket(this, 'processedAssetsSummaryBucket'+stage,
+      this.processedAssetBucket = new s3.Bucket(this, 'processedAssetsSummaryBucket'+this.stage,
         {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
@@ -437,9 +435,9 @@ export class SummarizationAppsyncStepfn extends Construct {
     const apiName = props.summaryApiName || 'summaryApi';
 
     // graphql api for summary. client invoke this api with given schema and cognito user pool auth.
-    const summarizationGraphqlApi = new appsync.GraphqlApi(this, 'summarizationGraphqlApi'+stage,
+    const summarizationGraphqlApi = new appsync.GraphqlApi(this, 'summarizationGraphqlApi'+this.stage,
       {
-        name: apiName+stage,
+        name: apiName+this.stage,
         logConfig: api_log_config,
         definition: appsync.Definition.fromFile(
           path.join(__dirname, '../../../../resources/gen-ai/aws-summarization-appsync-stepfn/schema.graphql'),
@@ -528,7 +526,7 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     const construct_input_validation_lambda_props = {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/input_validator')),
-      functionName: 'summary_input_validator'+stage,
+      functionName: 'summary_input_validator'+this.stage,
       description: 'Lambda function to validate input for summary api',
       vpc: this.vpc,
       tracing: lambda_tracing,
@@ -544,7 +542,7 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     // Lambda function used to validate inputs in the step function
     const inputValidatorLambda = buildDockerLambdaFunction(this,
-      'inputValidatorLambda' + stage,
+      'inputValidatorLambda' + this.stage,
       construct_input_validation_lambda_props,
       props.customInputValidationDockerLambdaProps,
     );
@@ -618,7 +616,7 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     const construct_document_reader_lambda_props = {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/document_reader')),
-      functionName: 'summary_document_reader'+stage,
+      functionName: 'summary_document_reader'+this.stage,
       description: 'Lambda function to read the input transformed document',
       vpc: this.vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
@@ -640,7 +638,7 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     // Lambda function used to read documents in the step function
     const documentReaderLambda = buildDockerLambdaFunction(this,
-      'documentReaderLambda' + stage,
+      'documentReaderLambda' + this.stage,
       construct_document_reader_lambda_props,
       props.customDocumentReaderDockerLambdaProps,
     );
@@ -719,7 +717,7 @@ export class SummarizationAppsyncStepfn extends Construct {
     );
 
     const construct_generate_summary_lambda_props = {
-      functionName: 'summary_generator'+stage,
+      functionName: 'summary_generator'+this.stage,
       description: 'Lambda function to generate the summary',
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/summary_generator')),
       vpc: this.vpc,
@@ -740,7 +738,7 @@ export class SummarizationAppsyncStepfn extends Construct {
 
     // Lambda function used to generate the summary in the step function
     const generateSummarylambda = buildDockerLambdaFunction(this,
-      'generateSummarylambda' + stage,
+      'generateSummarylambda' + this.stage,
       construct_generate_summary_lambda_props,
       props.customSummaryGeneratorDockerLambdaProps,
     );
@@ -750,33 +748,44 @@ export class SummarizationAppsyncStepfn extends Construct {
     this.inputAssetBucket?.grantRead(documentReaderLambda);
     this.processedAssetBucket?.grantReadWrite(documentReaderLambda);
 
+    const baseProps: BaseClassProps={
+      stage: props.stage,
+      enableOperationalMetric: props.enableOperationalMetric,
+      lambdaFunctions: [documentReaderLambda, generateSummarylambda, inputValidatorLambda],
+      constructorName: this.constructor.name,
+      constructId: id
+    }
+    this.updateConstructTrackingCode( baseProps,scope)
 
-    const enableOperationalMetric =
-      props.enableOperationalMetric !== undefined && props.enableOperationalMetric !== null ? props.enableOperationalMetric : true;
+    // const enableOperationalMetric =
+    //   props.enableOperationalMetric !== undefined && props.enableOperationalMetric !== null ? props.enableOperationalMetric : true;
 
-    if (enableOperationalMetric) {
-      const solutionId = `genai_cdk_${version}/${this.constructor.name}/${id}`;
-      documentReaderLambda.addEnvironment(
-        'AWS_SDK_UA_APP_ID', solutionId,
-      );
-      generateSummarylambda.addEnvironment(
-        'AWS_SDK_UA_APP_ID', solutionId,
-      );
-      inputValidatorLambda.addEnvironment(
-        'AWS_SDK_UA_APP_ID', solutionId,
-      );
-    };
+    // if (enableOperationalMetric) {
+    //   const solutionId = `genai_cdk_${version}/${this.constructor.name}/${id}`;
+    //   documentReaderLambda.addEnvironment(
+    //     'AWS_SDK_UA_APP_ID', solutionId,
+    //   );
+    //   generateSummarylambda.addEnvironment(
+    //     'AWS_SDK_UA_APP_ID', solutionId,
+    //   );
+    //   inputValidatorLambda.addEnvironment(
+    //     'AWS_SDK_UA_APP_ID', solutionId,
+    //   );
+    //   // ADD unique key in CFN stack
+    //   Stack.of(scope).templateOptions.description =solutionId
+
+    // };
 
 
     // create datasource at appsync
     const SummaryStatusDataSource = new appsync.NoneDataSource
-    (this, 'noneDataSource'+stage, {
+    (this, 'noneDataSource'+this.stage, {
       api: summarizationGraphqlApi,
       name: 'SummaryStatusDataSource',
     });
 
     SummaryStatusDataSource.createResolver
-    ('summaryResponseresolver'+stage, {
+    ('summaryResponseresolver'+this.stage, {
       typeName: 'Mutation',
       fieldName: 'updateSummaryJobStatus',
       requestMappingTemplate: appsync.MappingTemplate.fromString(
@@ -805,7 +814,7 @@ export class SummarizationAppsyncStepfn extends Construct {
     });
 
     const dlq: sqs.Queue = new sqs.Queue(this, 'dlq', {
-      queueName: 'summarydlq'+stage,
+      queueName: 'summarydlq'+this.stage,
       retentionPeriod: Duration.days(7),
       enforceSSL: true,
     });
@@ -939,3 +948,4 @@ export class SummarizationAppsyncStepfn extends Construct {
 
   }
 }
+
