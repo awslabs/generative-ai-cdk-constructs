@@ -26,10 +26,11 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as secret from 'aws-cdk-lib/aws-secretsmanager';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
+import { BaseClass, BaseClassProps } from '../../../common/base-class';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import * as opensearch_helper from '../../../common/helpers/opensearch-helper';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
-import { version, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
+import { lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
@@ -157,7 +158,7 @@ export interface QaAppsyncOpensearchProps {
 /**
  * @summary The QaAppsyncOpensearch class.
  */
-export class QaAppsyncOpensearch extends Construct {
+export class QaAppsyncOpensearch extends BaseClass {
   /**
    * Returns the instance of ec2.IVpc used by the construct
    */
@@ -200,27 +201,17 @@ export class QaAppsyncOpensearch extends Construct {
   constructor(scope: Construct, id: string, props: QaAppsyncOpensearchProps) {
     super(scope, id);
 
-    // stage
-    let stage = '-dev';
-    if (props?.stage) {
-      stage = props.stage;
-    }
-
-    // observability
-    let lambda_tracing = lambda.Tracing.ACTIVE;
-    let enable_xray = true;
-    let api_log_config = {
-      fieldLogLevel: appsync.FieldLogLevel.ALL,
-      retention: logs.RetentionDays.TEN_YEARS,
+    const baseProps: BaseClassProps={
+      stage: props.stage,
+      enableOperationalMetric: props.enableOperationalMetric,
+      constructorName: this.constructor.name,
+      constructId: id,
+      observability: props.observability,
     };
-    if (props.observability == false) {
-      enable_xray = false;
-      lambda_tracing = lambda.Tracing.DISABLED;
-      api_log_config = {
-        fieldLogLevel: appsync.FieldLogLevel.NONE,
-        retention: logs.RetentionDays.TEN_YEARS,
-      };
-    }
+
+    this.updateEnvSuffix(baseProps);
+    this.addObservabilityToConstruct(baseProps);
+
 
     vpc_helper.CheckVpcProps(props);
     s3_bucket_helper.CheckS3Props({
@@ -241,7 +232,7 @@ export class QaAppsyncOpensearch extends Construct {
       this.securityGroup = new ec2.SecurityGroup(this, 'securityGroup', {
         vpc: this.vpc,
         allowAllOutbound: true,
-        securityGroupName: 'securityGroup' + stage,
+        securityGroupName: 'securityGroup' + this.stage,
       });
     }
 
@@ -260,7 +251,7 @@ export class QaAppsyncOpensearch extends Construct {
     // bucket for storing server access logging
     const serverAccessLogBucket = new s3.Bucket(
       this,
-      'serverAccessLogBucket' + stage,
+      'serverAccessLogBucket' + this.stage,
       {
         blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
         encryption: s3.BucketEncryption.S3_MANAGED,
@@ -280,10 +271,10 @@ export class QaAppsyncOpensearch extends Construct {
     if (!props.existingInputAssetsBucketObj) {
       let tmpBucket: s3.Bucket;
       if (!props.bucketInputsAssetsProps) {
-        tmpBucket = new s3.Bucket(this, 'inputAssetsQABucket' + stage, {
+        tmpBucket = new s3.Bucket(this, 'inputAssetsQABucket' + this.stage, {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
-          bucketName: 'input-asset-qa-bucket' + stage + '-' + Aws.ACCOUNT_ID,
+          bucketName: 'input-asset-qa-bucket' + this.stage + '-' + Aws.ACCOUNT_ID,
           serverAccessLogsBucket: serverAccessLogBucket,
           enforceSSL: true,
           versioned: true,
@@ -296,7 +287,7 @@ export class QaAppsyncOpensearch extends Construct {
       } else {
         tmpBucket = new s3.Bucket(
           this,
-          'InputAssetsQABucket' + stage,
+          'InputAssetsQABucket' + this.stage,
           props.bucketInputsAssetsProps,
         );
       }
@@ -314,7 +305,7 @@ export class QaAppsyncOpensearch extends Construct {
       this,
       'questionAnsweringGraphqlApi',
       {
-        name: 'questionAnsweringGraphqlApi' + stage,
+        name: 'questionAnsweringGraphqlApi' + this.stage,
         definition: appsync.Definition.fromFile(
           path.join(
             __dirname,
@@ -332,8 +323,11 @@ export class QaAppsyncOpensearch extends Construct {
             },
           ],
         },
-        xrayEnabled: enable_xray,
-        logConfig: api_log_config,
+        xrayEnabled: this.enablexray,
+        logConfig: {
+          fieldLogLevel: this.fieldLogLevel,
+          retention: this.retention,
+        },
       },
     );
 
@@ -376,9 +370,9 @@ export class QaAppsyncOpensearch extends Construct {
     if (!props.existingBusInterface) {
       this.qaBus = new events.EventBus(
         this,
-        'questionAnsweringEventBus' + stage,
+        'questionAnsweringEventBus' + this.stage,
         {
-          eventBusName: 'questionAnsweringEventBus' + stage,
+          eventBusName: 'questionAnsweringEventBus' + this.stage,
         },
       );
     } else {
@@ -387,10 +381,10 @@ export class QaAppsyncOpensearch extends Construct {
 
     // create httpdatasource with question_answering_graphql_api
     const event_bridge_datasource = this.graphqlApi.addEventBridgeDataSource(
-      'questionAnsweringEventBridgeDataSource' + stage,
+      'questionAnsweringEventBridgeDataSource' + this.stage,
       this.qaBus,
       {
-        name: 'questionAnsweringEventBridgeDataSource' + stage,
+        name: 'questionAnsweringEventBridgeDataSource' + this.stage,
       },
     );
 
@@ -536,10 +530,10 @@ export class QaAppsyncOpensearch extends Construct {
           '../../../../lambda/aws-qa-appsync-opensearch/question_answering/src',
         ),
       ),
-      functionName: 'lambda_question_answering' + stage,
+      functionName: 'lambda_question_answering' + this.stage,
       description: 'Lambda function for question answering',
       vpc: this.vpc,
-      tracing: lambda_tracing,
+      tracing: this.lambdaTracing,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
@@ -561,23 +555,16 @@ export class QaAppsyncOpensearch extends Construct {
     };
 
     const question_answering_function = buildDockerLambdaFunction(this,
-      'lambda_question_answering' + stage,
+      'lambda_question_answering' + this.stage,
       construct_docker_lambda_props,
       props.customDockerLambdaProps,
     );
 
     question_answering_function.currentVersion;
 
-    const enableOperationalMetric =
-      props.enableOperationalMetric !== undefined && props.enableOperationalMetric !== null ? props.enableOperationalMetric : true;
 
-    if (enableOperationalMetric) {
-      const solutionId = `genai_cdk_${version}/${this.constructor.name}/${id}`;
-      question_answering_function.addEnvironment(
-        'AWS_SDK_UA_APP_ID',
-        solutionId,
-      );
-    }
+    const lambdaFunctions=[question_answering_function];
+    this.updateConstructTrackingCode( baseProps, scope, lambdaFunctions);
 
     // Add GraphQl permissions to the IAM role for the Lambda function
     question_answering_function.addToRolePolicy(
@@ -625,7 +612,7 @@ export class QaAppsyncOpensearch extends Construct {
       ),
     });
 
-    const rule = new events.Rule(this, 'QuestionAnsweringRule' + stage, {
+    const rule = new events.Rule(this, 'QuestionAnsweringRule' + this.stage, {
       description: 'Rule to trigger question answering function',
       eventBus: this.qaBus,
       eventPattern: {

@@ -27,6 +27,7 @@ import * as sfn from 'aws-cdk-lib/aws-stepfunctions';
 import * as sfnTask from 'aws-cdk-lib/aws-stepfunctions-tasks';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
+import { BaseClass, BaseClassProps } from '../../../common/base-class/base-class';
 import * as eventBridge from '../../../common/helpers/eventbridge-helper';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import * as redisHelper from '../../../common/helpers/redis-helper';
@@ -34,7 +35,6 @@ import * as s3BucketHelper from '../../../common/helpers/s3-bucket-helper';
 import { generatePhysicalName, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import * as vpcHelper from '../../../common/helpers/vpc-helper';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
-import { BaseClass,BaseClassProps } from '../../../common/base-class/base-class';
 
 export interface SummarizationAppsyncStepfnProps {
   /**
@@ -265,23 +265,17 @@ export class SummarizationAppsyncStepfn extends BaseClass {
   constructor(scope: Construct, id: string, props: SummarizationAppsyncStepfnProps) {
     super(scope, id);
 
-      
+    const baseProps: BaseClassProps={
+      stage: props.stage,
+      enableOperationalMetric: props.enableOperationalMetric,
+      constructorName: this.constructor.name,
+      constructId: id,
+      observability: props.observability,
+    };
 
-    // observability
-    let lambda_tracing = lambda.Tracing.ACTIVE;
-    let enable_xray = true;
-    let api_log_config = {
-      fieldLogLevel: appsync.FieldLogLevel.ALL,
-      retention: logs.RetentionDays.TEN_YEARS,
-    };
-    if (props.observability == false) {
-      enable_xray = false;
-      lambda_tracing = lambda.Tracing.DISABLED;
-      api_log_config = {
-        fieldLogLevel: appsync.FieldLogLevel.NONE,
-        retention: logs.RetentionDays.TEN_YEARS,
-      };
-    };
+    this.updateEnvSuffix(baseProps);
+    this.addObservabilityToConstruct(baseProps);
+
 
     // vpc
     if (props?.existingVpc) {
@@ -438,12 +432,15 @@ export class SummarizationAppsyncStepfn extends BaseClass {
     const summarizationGraphqlApi = new appsync.GraphqlApi(this, 'summarizationGraphqlApi'+this.stage,
       {
         name: apiName+this.stage,
-        logConfig: api_log_config,
+        logConfig: {
+          fieldLogLevel: this.fieldLogLevel,
+          retention: this.retention,
+        },
         definition: appsync.Definition.fromFile(
           path.join(__dirname, '../../../../resources/gen-ai/aws-summarization-appsync-stepfn/schema.graphql'),
         ),
         authorizationConfig: authorizationConfig,
-        xrayEnabled: enable_xray,
+        xrayEnabled: this.enablexray,
       });
     this.graphqlApi= summarizationGraphqlApi;
 
@@ -529,7 +526,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       functionName: 'summary_input_validator'+this.stage,
       description: 'Lambda function to validate input for summary api',
       vpc: this.vpc,
-      tracing: lambda_tracing,
+      tracing: this.lambdaTracing,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 1),
@@ -622,7 +619,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 1),
-      tracing: lambda_tracing,
+      tracing: this.lambdaTracing,
       timeout: Duration.minutes(5),
       role: documentReaderLambdaRole,
       environment: {
@@ -725,7 +722,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(10),
-      tracing: lambda_tracing,
+      tracing: this.lambdaTracing,
       role: summaryGeneratorLambdaRole,
       environment: {
         REDIS_HOST: redisHost,
@@ -748,33 +745,9 @@ export class SummarizationAppsyncStepfn extends BaseClass {
     this.inputAssetBucket?.grantRead(documentReaderLambda);
     this.processedAssetBucket?.grantReadWrite(documentReaderLambda);
 
-    const baseProps: BaseClassProps={
-      stage: props.stage,
-      enableOperationalMetric: props.enableOperationalMetric,
-      lambdaFunctions: [documentReaderLambda, generateSummarylambda, inputValidatorLambda],
-      constructorName: this.constructor.name,
-      constructId: id
-    }
-    this.updateConstructTrackingCode( baseProps,scope)
 
-    // const enableOperationalMetric =
-    //   props.enableOperationalMetric !== undefined && props.enableOperationalMetric !== null ? props.enableOperationalMetric : true;
-
-    // if (enableOperationalMetric) {
-    //   const solutionId = `genai_cdk_${version}/${this.constructor.name}/${id}`;
-    //   documentReaderLambda.addEnvironment(
-    //     'AWS_SDK_UA_APP_ID', solutionId,
-    //   );
-    //   generateSummarylambda.addEnvironment(
-    //     'AWS_SDK_UA_APP_ID', solutionId,
-    //   );
-    //   inputValidatorLambda.addEnvironment(
-    //     'AWS_SDK_UA_APP_ID', solutionId,
-    //   );
-    //   // ADD unique key in CFN stack
-    //   Stack.of(scope).templateOptions.description =solutionId
-
-    // };
+    const lambdaFunctions=[documentReaderLambda, generateSummarylambda, inputValidatorLambda];
+    this.updateConstructTrackingCode( baseProps, scope, lambdaFunctions);
 
 
     // create datasource at appsync
@@ -893,7 +866,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
         destination: summarizationLogGroup,
         level: sfn.LogLevel.ALL,
       },
-      tracingEnabled: enable_xray,
+      tracingEnabled: this.enablexray,
     });
     this.stateMachine=summarizationStepFunction;
     // event bridge datasource for summarization api

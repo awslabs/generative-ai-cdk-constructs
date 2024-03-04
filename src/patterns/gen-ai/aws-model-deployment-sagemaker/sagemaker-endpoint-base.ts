@@ -11,9 +11,9 @@
  *  and limitations under the License.
  */
 import * as iam from 'aws-cdk-lib/aws-iam';
-import { Construct } from 'constructs';
+import { BaseClass } from '../../../common/base-class';
 
-export abstract class SageMakerEndpointBase extends Construct {
+export abstract class SageMakerEndpointBase extends BaseClass {
   protected createSageMakerRole(): iam.Role {
     const role = new iam.Role(this, 'Role', {
       assumedBy: new iam.ServicePrincipal('sagemaker.amazonaws.com'),
@@ -24,4 +24,6 @@ export abstract class SageMakerEndpointBase extends Construct {
 
     return role;
   }
+
+
 }

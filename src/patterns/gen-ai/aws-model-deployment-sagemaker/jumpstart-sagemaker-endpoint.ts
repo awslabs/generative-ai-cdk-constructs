@@ -10,6 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as sagemaker from 'aws-cdk-lib/aws-sagemaker';
 import { Stack, Token } from 'aws-cdk-lib/core';
@@ -18,6 +19,7 @@ import { JumpStartModel, IJumpStartModelSpec } from './jumpstart-model';
 import { JumpStartConstants } from './private/jumpstart-constants';
 import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
 import { SageMakerInstanceType } from './sagemaker-instance-type';
+import { BaseClassProps } from '../../../common/base-class/base-class';
 
 export interface JumpStartSageMakerEndpointProps {
   readonly model: JumpStartModel;
@@ -29,6 +31,8 @@ export interface JumpStartSageMakerEndpointProps {
   readonly environment?: { [key: string]: string };
   readonly startupHealthCheckTimeoutInSeconds?: number;
   readonly acceptEula?: boolean;
+  readonly enableOperationalMetric?: boolean;
+
 }
 
 /**
@@ -54,6 +58,17 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
 
   constructor(scope: Construct, id: string, props: JumpStartSageMakerEndpointProps) {
     super(scope, id);
+
+    const baseProps: BaseClassProps={
+      enableOperationalMetric: props.enableOperationalMetric,
+      constructorName: this.constructor.name,
+      constructId: id,
+    };
+
+    // No lambda function to use AWS SDK for service metric
+    const lambdaFunctions: cdk.aws_lambda.DockerImageFunction[]=[];
+    this.updateConstructTrackingCode( baseProps, scope, lambdaFunctions);
+
 
     this.model = props.model;
     this.instanceType = props.instanceType;
