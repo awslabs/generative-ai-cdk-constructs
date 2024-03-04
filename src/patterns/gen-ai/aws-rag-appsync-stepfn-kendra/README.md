@@ -1,4 +1,4 @@
-# aws-rag-appsync-stepfn-opensearch
+# aws-rag-appsync-stepfn-kendra
 <!--BEGIN STABILITY BANNER-->
 
 ---
@@ -47,7 +47,7 @@ Documents stored in the knowledge base contain the following metadata:
 
 If you have multiple workflows using GraphQL endpoints and want to use a single endpoint, you can use an [AppSync Merged API](https://docs.aws.amazon.com/appsync/latest/devguide/merged-api.html). This construct can take as a parameter an existing AppSync Merged API; if provided, the mutation call and subscription updates will be targeted at the Merged API.
 
-This construct will require an existing Amazon OpenSearch provisioned cluster. You can follow the steps in the official [AWS Developer Guide](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html) to create and manage your OpenSearch domain.
+This construct will require an existing Amazon OpenSearch provisioned cluster. You can follow the steps in the official [AWS Developer Guide](https://docs.aws.amazon.com/kendra-service/latest/developerguide/createupdatedomains.html) to create and manage your OpenSearch domain.
 
 AWS Lambda functions provisioned in this construct use [Powertools for AWS Lambda (Python)](https://github.com/aws-powertools/powertools-lambda-python) for tracing, structured logging, and custom metrics creation. The table below provides the created metrics and the name of the service used, and can be accessed from Amazon CloudWatch Logs.
 
@@ -61,32 +61,7 @@ Here is a minimal deployable pattern definition:
 
 TypeScript
 ``` typescript
-import { Construct } from 'constructs';
-import { Stack, StackProps, Aws } from 'aws-cdk-lib';
-import * as os from 'aws-cdk-lib/aws-opensearchservice';
-import * as cognito from 'aws-cdk-lib/aws-cognito';
-import { RagAppsyncStepfnOpensearch, RagAppsyncStepfnOpensearchProps } from '@cdklabs/generative-ai-cdk-constructs';
 
-// get an existing OpenSearch provisioned cluster in the same VPC as of RagAppsyncStepfnOpensearch construct 
-// Security group for the existing opensearch cluster should allow traffic on 443.
-const osDomain = os.Domain.fromDomainAttributes(this, 'osdomain', {
-    domainArn: 'arn:' + Aws.PARTITION + ':es:us-east-1:XXXXXX',
-    domainEndpoint: 'https://XXXXX.us-east-1.es.amazonaws.com'
-});
-
-// get an existing userpool 
-const cognitoPoolId = 'us-east-1_XXXXX';
-const userPoolLoaded = cognito.UserPool.fromUserPoolId(this, 'myuserpool', cognitoPoolId);
-
-const rag_source = new RagAppsyncStepfnOpensearch(
-      this,
-      'RagAppsyncStepfnOpensearch',
-      {
-        existingOpensearchDomain: osDomain,
-        openSearchIndexName: 'demoindex',
-        cognitoUserPool: userPoolLoaded
-      }
-    )
 ```
 
 Python
@@ -99,7 +74,7 @@ from aws_cdk import (
 from cdklabs.generative_ai_cdk_constructs import RagAppsyncStepfnOpensearch
 
 # get an existing OpenSearch provisioned cluster in the same VPC as of RagAppsyncStepfnOpensearch construct 
-# Security group for the existing opensearch cluster should allow traffic on 443.
+# Security group for the existing kendra cluster should allow traffic on 443.
 os_domain = os.Domain.from_domain_attributes(
     self,
     'osdomain',
@@ -124,7 +99,7 @@ rag_source = RagAppsyncStepfnOpensearch(
 )
 ```
 
-After deploying the CDK stack, the document summarization workflow can be invoked using GraphQL APIs. The API schema details are here: resources/gen-ai/aws-rag-appsync-stepfn-opensearch/schema.graphql.
+After deploying the CDK stack, the document summarization workflow can be invoked using GraphQL APIs. The API schema details are here: resources/gen-ai/aws-rag-appsync-stepfn-kendra/schema.graphql.
 
 The code below provides an example of a mutation call and associated subscription to trigger a pipeline call and get status notifications:
 
@@ -201,7 +176,7 @@ Parameters
 
 - scope [Construct](https://docs.aws.amazon.com/cdk/api/v2/docs/constructs.Construct.html)
 - id string
-- props [RagAppsyncStepfnOpensearchProps](../aws-rag-appsync-stepfn-opensearch/index.ts)
+- props [RagAppsyncStepfnOpensearchProps](../aws-rag-appsync-stepfn-kendra/index.ts)
 
 ## Pattern Construct Props
 
@@ -273,7 +248,7 @@ Out of the box implementation of the construct without any override will set the
 
 ### Observability
 
-By default the construct will enable logging and tracing on all services which support those features. Observability can be turned off by setting the pattern property ```observability``` to false. 
+By default, the construct will enable logging and tracing on all services which support those features. Observability can be turned off by setting the pattern property ```observability``` to false. 
 - AWS Lambda: AWS X-Ray, Amazon CloudWatch Logs
 - AWS Step Function: AWS X-Ray, Amazon CloudWatch Logs
 - AWS AppSync GraphQL API: AWS X-Ray, Amazon CloudWatch Logs
@@ -314,7 +289,7 @@ The following table provides a sample cost breakdown for deploying this solution
 | Total monthly cost | | 2,852.32 |
 
 The resources not created by this construct (Amazon Cognito User Pool, Amazon OpenSearch provisioned cluster, AppSync Merged API, AWS Secrets Manager secret) do not appear in the table above. You can refer to the decicated pages to get an estimate of the cost related to those services:
-- [Amazon OpenSearch Service Pricing](https://aws.amazon.com/opensearch-service/pricing/)
+- [Amazon OpenSearch Service Pricing](https://aws.amazon.com/kendra-service/pricing/)
 - [AWS AppSync pricing (for Merged API if used)](https://aws.amazon.com/appsync/pricing/)
 - [Amazon Cognito Pricing](https://aws.amazon.com/cognito/pricing/)
 - [AWS Secrets Manager Pricing](https://aws.amazon.com/secrets-manager/pricing/)
@@ -328,7 +303,7 @@ When you build systems on AWS infrastructure, security responsibilities are shar
 
 This construct requires you to provide an existing Amazon Cognito User Pool and a provisioned Amazon OpenSearch cluster. Please refer to the official documentation on best practices to secure those services:
 - [Amazon Cognito](https://docs.aws.amazon.com/cognito/latest/developerguide/security.html)
-- [Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/security.html)
+- [Amazon OpenSearch Service](https://docs.aws.amazon.com/kendra-service/latest/developerguide/security.html)
 
 Optionnaly, you can provide existing resources to the constructs (marked optional in the construct pattern props). If you chose to do so, please refer to the official documentation on best practices to secure each service:
 - [Amazon Simple Storage Service](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html)

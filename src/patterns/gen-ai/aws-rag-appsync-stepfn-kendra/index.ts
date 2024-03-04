@@ -651,6 +651,7 @@ export function normalizeKendraPermissions(rawPermissions: string[]): string[] {
  * The properties for the RagAppsyncStepfnKendraProps class.
  */
 export interface RagAppsyncStepfnKendraProps {
+  stage: any;
   /**
    *
    *
