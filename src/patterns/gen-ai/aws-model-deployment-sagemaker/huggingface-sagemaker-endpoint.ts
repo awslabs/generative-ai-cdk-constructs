@@ -61,7 +61,7 @@ export class HuggingFaceSageMakerEndpoint extends SageMakerEndpointBase implemen
 
     // No lambda function to use AWS SDK for service metric
     const lambdaFunctions: cdk.aws_lambda.DockerImageFunction[]=[];
-    this.updateConstructTrackingCode( baseProps, scope, lambdaFunctions);
+    this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
 
 
     this.modelId = props.modelId;

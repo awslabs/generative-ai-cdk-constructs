@@ -747,7 +747,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
 
 
     const lambdaFunctions=[documentReaderLambda, generateSummarylambda, inputValidatorLambda];
-    this.updateConstructTrackingCode( baseProps, scope, lambdaFunctions);
+    this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
 
 
     // create datasource at appsync

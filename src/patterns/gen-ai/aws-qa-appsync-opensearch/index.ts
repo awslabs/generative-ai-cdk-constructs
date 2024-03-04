@@ -564,7 +564,7 @@ export class QaAppsyncOpensearch extends BaseClass {
 
 
     const lambdaFunctions=[question_answering_function];
-    this.updateConstructTrackingCode( baseProps, scope, lambdaFunctions);
+    this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
 
     // Add GraphQl permissions to the IAM role for the Lambda function
     question_answering_function.addToRolePolicy(

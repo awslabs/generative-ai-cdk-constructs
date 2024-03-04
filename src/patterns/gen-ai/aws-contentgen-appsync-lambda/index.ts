@@ -511,7 +511,7 @@ export class ContentGenerationAppSyncLambda extends BaseClass {
     generate_image_function.currentVersion;
 
     const lambdaFunctions=[generate_image_function];
-    this.updateConstructTrackingCode( baseProps, scope, lambdaFunctions);
+    this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
 
 
     // Add GraphQl permissions to the IAM role for the Lambda function

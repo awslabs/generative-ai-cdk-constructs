@@ -62,10 +62,13 @@ export interface BaseClassProps {
 
 export class BaseClass extends Construct {
 
+  static constructIdsStr: string='';
+  static constructNamesStr: string='';
+
   /**
-   * construct tracking code, added in template description
+   * construct usage metric , added in template description
    */
-  readonly constructTrackingCode = 'uksb-1tupboc45';
+  readonly constructUsageMetric = 'uksb-1tupboc45';
 
   /**
    * Value will be appended to resources name.
@@ -115,10 +118,10 @@ export class BaseClass extends Construct {
 
   /*
   * If enableOperationalMetric is set to true,
-  * update template description with construct tracking code and
+  * update template description with construct usage metric and
   * add AWS_SDK_UA_APP_ID to user agent on aws sdk.
   */
-  protected updateConstructTrackingCode(props: BaseClassProps, scope: Construct, lambdaFunctions: lambda.DockerImageFunction[],
+  protected updateConstructUsageMetricCode(props: BaseClassProps, scope: Construct, lambdaFunctions: lambda.DockerImageFunction[],
   ) {
     const solutionId = `genai_cdk_${version}/${props.constructorName}/${props.constructId}`;
 
@@ -135,9 +138,14 @@ export class BaseClass extends Construct {
           );
         }
       }
-      // ADD unique key in template description
-      // format  (tracking id:usbxxxx) (version:1.xx) (construct name:awsappsyncxxxx) (construct id:awsappsyncxxxx)
-      Stack.of(scope).templateOptions.description =`(tracking id:${this.constructTrackingCode}) (version:${version}) (construct name:${props.constructorName}) (construct id:${props.constructId})`;
+      // ADD unique key in template description 
+      // format  (usage metric id:usbxxxx) (version:1.xx) (construct name:awsappsyncXX1,awsappsyncXX2,awsappsyncXX3) (construct id:awsappsyncxxxx1,awsappsyncxxx2,awsappsyncxxx3)
+      BaseClass.constructIdsStr=BaseClass.constructIdsStr+', '+props.constructId;
+      BaseClass.constructNamesStr=BaseClass.constructNamesStr+', '+props.constructorName;
+
+      Stack.of(scope).templateOptions.description =
+      `(usage id :${this.constructUsageMetric})(version:${version}) (construct name:::${ BaseClass.constructIdsStr}) (construct id:::${ BaseClass.constructNamesStr})`;
+
 
     };
   }

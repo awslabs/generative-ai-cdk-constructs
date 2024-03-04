@@ -747,7 +747,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
     );
 
     const lambdaFunctions=[embeddings_job_function, s3_transformer_job_function, validate_input_function];
-    this.updateConstructTrackingCode( baseProps, scope, lambdaFunctions);
+    this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
 
     // Add GraphQl permissions to the IAM role for the Lambda function
     embeddings_job_function.addToRolePolicy(new iam.PolicyStatement({
