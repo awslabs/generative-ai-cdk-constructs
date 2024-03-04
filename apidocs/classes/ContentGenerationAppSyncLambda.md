@@ -8,7 +8,7 @@ The ContentGenerationAppSyncLambda class.
 
 ## Hierarchy
 
-- `Construct`
+- [`BaseClass`](BaseClass.md)
 
   ↳ **`ContentGenerationAppSyncLambda`**
 
@@ -21,17 +21,26 @@ The ContentGenerationAppSyncLambda class.
 ### Properties
 
 - [cgLambdaFunction](ContentGenerationAppSyncLambda.md#cglambdafunction)
+- [constructTrackingCode](ContentGenerationAppSyncLambda.md#constructtrackingcode)
+- [enablexray](ContentGenerationAppSyncLambda.md#enablexray)
+- [fieldLogLevel](ContentGenerationAppSyncLambda.md#fieldloglevel)
 - [generatedImageBus](ContentGenerationAppSyncLambda.md#generatedimagebus)
 - [graphqlApi](ContentGenerationAppSyncLambda.md#graphqlapi)
+- [lambdaTracing](ContentGenerationAppSyncLambda.md#lambdatracing)
 - [node](ContentGenerationAppSyncLambda.md#node)
+- [retention](ContentGenerationAppSyncLambda.md#retention)
 - [s3GenerateAssetsBucket](ContentGenerationAppSyncLambda.md#s3generateassetsbucket)
 - [s3GenerateAssetsBucketInterface](ContentGenerationAppSyncLambda.md#s3generateassetsbucketinterface)
 - [securityGroup](ContentGenerationAppSyncLambda.md#securitygroup)
+- [stage](ContentGenerationAppSyncLambda.md#stage)
 - [vpc](ContentGenerationAppSyncLambda.md#vpc)
 
 ### Methods
 
+- [addObservabilityToConstruct](ContentGenerationAppSyncLambda.md#addobservabilitytoconstruct)
 - [toString](ContentGenerationAppSyncLambda.md#tostring)
+- [updateConstructTrackingCode](ContentGenerationAppSyncLambda.md#updateconstructtrackingcode)
+- [updateEnvSuffix](ContentGenerationAppSyncLambda.md#updateenvsuffix)
 - [isConstruct](ContentGenerationAppSyncLambda.md#isconstruct)
 
 ## Constructors
@@ -66,7 +75,7 @@ public
 
 #### Overrides
 
-Construct.constructor
+[BaseClass](BaseClass.md).[constructor](BaseClass.md#constructor)
 
 ## Properties
 
@@ -75,6 +84,48 @@ Construct.constructor
 • `Readonly` **cgLambdaFunction**: `DockerImageFunction`
 
 Returns an instance of appsync.IGraphqlApi created by the construct
+
+___
+
+### constructTrackingCode
+
+• `Readonly` **constructTrackingCode**: ``"uksb-1tupboc45"``
+
+construct tracking code, added in template description
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[constructTrackingCode](BaseClass.md#constructtrackingcode)
+
+___
+
+### enablexray
+
+• **enablexray**: `boolean` = `true`
+
+enable disable xray tracing
+
+**`Default`**
+
+```ts
+- True
+```
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[enablexray](BaseClass.md#enablexray)
+
+___
+
+### fieldLogLevel
+
+• **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
+
+Default  log config for all constructs
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[fieldLogLevel](BaseClass.md#fieldloglevel)
 
 ___
 
@@ -94,6 +145,24 @@ Returns an instance of appsync.IGraphqlApi created by the construct
 
 ___
 
+### lambdaTracing
+
+• **lambdaTracing**: `Tracing` = `lambda.Tracing.ACTIVE`
+
+enable disable lambda tracing
+
+**`Default`**
+
+```ts
+- Active
+```
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[lambdaTracing](BaseClass.md#lambdatracing)
+
+___
+
 ### node
 
 • `Readonly` **node**: `Node`
@@ -102,7 +171,19 @@ The tree node.
 
 #### Inherited from
 
-Construct.node
+[BaseClass](BaseClass.md).[node](BaseClass.md#node)
+
+___
+
+### retention
+
+• **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
+
+Default  log retention config for all constructs
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[retention](BaseClass.md#retention)
 
 ___
 
@@ -132,6 +213,24 @@ Returns the instance of ec2.ISecurityGroup used by the construct
 
 ___
 
+### stage
+
+• **stage**: `string`
+
+Value will be appended to resources name.
+
+**`Default`**
+
+```ts
+- _dev
+```
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[stage](BaseClass.md#stage)
+
+___
+
 ### vpc
 
 • `Readonly` **vpc**: `IVpc`
@@ -139,6 +238,26 @@ ___
 Returns the instance of ec2.IVpc used by the construct
 
 ## Methods
+
+### addObservabilityToConstruct
+
+▸ **addObservabilityToConstruct**(`props`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[addObservabilityToConstruct](BaseClass.md#addobservabilitytoconstruct)
+
+___
 
 ### toString
 
@@ -152,7 +271,49 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-Construct.toString
+[BaseClass](BaseClass.md).[toString](BaseClass.md#tostring)
+
+___
+
+### updateConstructTrackingCode
+
+▸ **updateConstructTrackingCode**(`props`, `scope`, `lambdaFunctions`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+| `scope` | `Construct` |
+| `lambdaFunctions` | `DockerImageFunction`[] |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[updateConstructTrackingCode](BaseClass.md#updateconstructtrackingcode)
+
+___
+
+### updateEnvSuffix
+
+▸ **updateEnvSuffix**(`props`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[updateEnvSuffix](BaseClass.md#updateenvsuffix)
 
 ___
 
@@ -190,4 +351,4 @@ true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-Construct.isConstruct
+[BaseClass](BaseClass.md).[isConstruct](BaseClass.md#isconstruct)

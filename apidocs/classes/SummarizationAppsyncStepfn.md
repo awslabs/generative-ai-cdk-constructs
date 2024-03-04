@@ -4,7 +4,7 @@
 
 ## Hierarchy
 
-- `Construct`
+- [`BaseClass`](BaseClass.md)
 
   ↳ **`SummarizationAppsyncStepfn`**
 
@@ -16,22 +16,31 @@
 
 ### Properties
 
+- [constructTrackingCode](SummarizationAppsyncStepfn.md#constructtrackingcode)
 - [documentReaderLambdaFunction](SummarizationAppsyncStepfn.md#documentreaderlambdafunction)
+- [enablexray](SummarizationAppsyncStepfn.md#enablexray)
 - [eventBridgeBus](SummarizationAppsyncStepfn.md#eventbridgebus)
+- [fieldLogLevel](SummarizationAppsyncStepfn.md#fieldloglevel)
 - [graphqlApi](SummarizationAppsyncStepfn.md#graphqlapi)
 - [inputAssetBucket](SummarizationAppsyncStepfn.md#inputassetbucket)
 - [inputValidationLambdaFunction](SummarizationAppsyncStepfn.md#inputvalidationlambdafunction)
+- [lambdaTracing](SummarizationAppsyncStepfn.md#lambdatracing)
 - [node](SummarizationAppsyncStepfn.md#node)
 - [processedAssetBucket](SummarizationAppsyncStepfn.md#processedassetbucket)
 - [redisCluster](SummarizationAppsyncStepfn.md#rediscluster)
+- [retention](SummarizationAppsyncStepfn.md#retention)
 - [securityGroup](SummarizationAppsyncStepfn.md#securitygroup)
+- [stage](SummarizationAppsyncStepfn.md#stage)
 - [stateMachine](SummarizationAppsyncStepfn.md#statemachine)
 - [summaryGeneratorLambdaFunction](SummarizationAppsyncStepfn.md#summarygeneratorlambdafunction)
 - [vpc](SummarizationAppsyncStepfn.md#vpc)
 
 ### Methods
 
+- [addObservabilityToConstruct](SummarizationAppsyncStepfn.md#addobservabilitytoconstruct)
 - [toString](SummarizationAppsyncStepfn.md#tostring)
+- [updateConstructTrackingCode](SummarizationAppsyncStepfn.md#updateconstructtrackingcode)
+- [updateEnvSuffix](SummarizationAppsyncStepfn.md#updateenvsuffix)
 - [isConstruct](SummarizationAppsyncStepfn.md#isconstruct)
 
 ## Constructors
@@ -66,9 +75,21 @@ public
 
 #### Overrides
 
-Construct.constructor
+[BaseClass](BaseClass.md).[constructor](BaseClass.md#constructor)
 
 ## Properties
+
+### constructTrackingCode
+
+• `Readonly` **constructTrackingCode**: ``"uksb-1tupboc45"``
+
+construct tracking code, added in template description
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[constructTrackingCode](BaseClass.md#constructtrackingcode)
+
+___
 
 ### documentReaderLambdaFunction
 
@@ -78,11 +99,41 @@ Returns an instance of lambda.DockerImageFunction used for the document reading 
 
 ___
 
+### enablexray
+
+• **enablexray**: `boolean` = `true`
+
+enable disable xray tracing
+
+**`Default`**
+
+```ts
+- True
+```
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[enablexray](BaseClass.md#enablexray)
+
+___
+
 ### eventBridgeBus
 
 • `Readonly` **eventBridgeBus**: `IEventBus`
 
 Returns an instance of events.IEventBus created by the construct
+
+___
+
+### fieldLogLevel
+
+• **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
+
+Default  log config for all constructs
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[fieldLogLevel](BaseClass.md#fieldloglevel)
 
 ___
 
@@ -110,6 +161,24 @@ Returns an instance of lambda.DockerImageFunction used for the input validation 
 
 ___
 
+### lambdaTracing
+
+• **lambdaTracing**: `Tracing` = `lambda.Tracing.ACTIVE`
+
+enable disable lambda tracing
+
+**`Default`**
+
+```ts
+- Active
+```
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[lambdaTracing](BaseClass.md#lambdatracing)
+
+___
+
 ### node
 
 • `Readonly` **node**: `Node`
@@ -118,7 +187,7 @@ The tree node.
 
 #### Inherited from
 
-Construct.node
+[BaseClass](BaseClass.md).[node](BaseClass.md#node)
 
 ___
 
@@ -138,11 +207,41 @@ Returns an instance of redis cluster created by the construct
 
 ___
 
+### retention
+
+• **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
+
+Default  log retention config for all constructs
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[retention](BaseClass.md#retention)
+
+___
+
 ### securityGroup
 
 • `Readonly` **securityGroup**: `ISecurityGroup`
 
 Returns the instance of ec2.ISecurityGroup used by the construct
+
+___
+
+### stage
+
+• **stage**: `string`
+
+Value will be appended to resources name.
+
+**`Default`**
+
+```ts
+- _dev
+```
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[stage](BaseClass.md#stage)
 
 ___
 
@@ -176,6 +275,26 @@ Returns the instance of ec2.IVpc used by the construct
 
 ## Methods
 
+### addObservabilityToConstruct
+
+▸ **addObservabilityToConstruct**(`props`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[addObservabilityToConstruct](BaseClass.md#addobservabilitytoconstruct)
+
+___
+
 ### toString
 
 ▸ **toString**(): `string`
@@ -188,7 +307,49 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-Construct.toString
+[BaseClass](BaseClass.md).[toString](BaseClass.md#tostring)
+
+___
+
+### updateConstructTrackingCode
+
+▸ **updateConstructTrackingCode**(`props`, `scope`, `lambdaFunctions`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+| `scope` | `Construct` |
+| `lambdaFunctions` | `DockerImageFunction`[] |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[updateConstructTrackingCode](BaseClass.md#updateconstructtrackingcode)
+
+___
+
+### updateEnvSuffix
+
+▸ **updateEnvSuffix**(`props`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[updateEnvSuffix](BaseClass.md#updateenvsuffix)
 
 ___
 
@@ -226,4 +387,4 @@ true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-Construct.isConstruct
+[BaseClass](BaseClass.md).[isConstruct](BaseClass.md#isconstruct)
