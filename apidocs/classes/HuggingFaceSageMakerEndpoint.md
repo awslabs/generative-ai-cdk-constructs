@@ -27,22 +27,31 @@ The HuggingFaceSageMakerEndpoint class.
 - [cfnEndpoint](HuggingFaceSageMakerEndpoint.md#cfnendpoint)
 - [cfnEndpointConfig](HuggingFaceSageMakerEndpoint.md#cfnendpointconfig)
 - [cfnModel](HuggingFaceSageMakerEndpoint.md#cfnmodel)
+- [constructTrackingCode](HuggingFaceSageMakerEndpoint.md#constructtrackingcode)
+- [enablexray](HuggingFaceSageMakerEndpoint.md#enablexray)
 - [endpointArn](HuggingFaceSageMakerEndpoint.md#endpointarn)
 - [environment](HuggingFaceSageMakerEndpoint.md#environment)
+- [fieldLogLevel](HuggingFaceSageMakerEndpoint.md#fieldloglevel)
 - [grantPrincipal](HuggingFaceSageMakerEndpoint.md#grantprincipal)
 - [instanceCount](HuggingFaceSageMakerEndpoint.md#instancecount)
 - [instanceType](HuggingFaceSageMakerEndpoint.md#instancetype)
+- [lambdaTracing](HuggingFaceSageMakerEndpoint.md#lambdatracing)
 - [modelId](HuggingFaceSageMakerEndpoint.md#modelid)
 - [node](HuggingFaceSageMakerEndpoint.md#node)
+- [retention](HuggingFaceSageMakerEndpoint.md#retention)
 - [role](HuggingFaceSageMakerEndpoint.md#role)
+- [stage](HuggingFaceSageMakerEndpoint.md#stage)
 - [startupHealthCheckTimeoutInSeconds](HuggingFaceSageMakerEndpoint.md#startuphealthchecktimeoutinseconds)
 
 ### Methods
 
+- [addObservabilityToConstruct](HuggingFaceSageMakerEndpoint.md#addobservabilitytoconstruct)
 - [addToRolePolicy](HuggingFaceSageMakerEndpoint.md#addtorolepolicy)
 - [createSageMakerRole](HuggingFaceSageMakerEndpoint.md#createsagemakerrole)
 - [grantInvoke](HuggingFaceSageMakerEndpoint.md#grantinvoke)
 - [toString](HuggingFaceSageMakerEndpoint.md#tostring)
+- [updateConstructTrackingCode](HuggingFaceSageMakerEndpoint.md#updateconstructtrackingcode)
+- [updateEnvSuffix](HuggingFaceSageMakerEndpoint.md#updateenvsuffix)
 - [isConstruct](HuggingFaceSageMakerEndpoint.md#isconstruct)
 
 ## Constructors
@@ -87,6 +96,36 @@ ___
 
 ___
 
+### constructTrackingCode
+
+• `Readonly` **constructTrackingCode**: ``"uksb-1tupboc45"``
+
+construct tracking code, added in template description
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[constructTrackingCode](SageMakerEndpointBase.md#constructtrackingcode)
+
+___
+
+### enablexray
+
+• **enablexray**: `boolean` = `true`
+
+enable disable xray tracing
+
+**`Default`**
+
+```ts
+- True
+```
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[enablexray](SageMakerEndpointBase.md#enablexray)
+
+___
+
 ### endpointArn
 
 • `Readonly` **endpointArn**: `string`
@@ -100,6 +139,18 @@ ___
 #### Index signature
 
 ▪ [key: `string`]: `string`
+
+___
+
+### fieldLogLevel
+
+• **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
+
+Default  log config for all constructs
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[fieldLogLevel](SageMakerEndpointBase.md#fieldloglevel)
 
 ___
 
@@ -125,6 +176,24 @@ ___
 
 ___
 
+### lambdaTracing
+
+• **lambdaTracing**: `Tracing` = `lambda.Tracing.ACTIVE`
+
+enable disable lambda tracing
+
+**`Default`**
+
+```ts
+- Active
+```
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[lambdaTracing](SageMakerEndpointBase.md#lambdatracing)
+
+___
+
 ### modelId
 
 • `Readonly` **modelId**: `string`
@@ -143,9 +212,39 @@ The tree node.
 
 ___
 
+### retention
+
+• **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
+
+Default  log retention config for all constructs
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[retention](SageMakerEndpointBase.md#retention)
+
+___
+
 ### role
 
 • `Readonly` **role**: `Role`
+
+___
+
+### stage
+
+• **stage**: `string`
+
+Value will be appended to resources name.
+
+**`Default`**
+
+```ts
+- _dev
+```
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[stage](SageMakerEndpointBase.md#stage)
 
 ___
 
@@ -154,6 +253,26 @@ ___
 • `Private` `Readonly` **startupHealthCheckTimeoutInSeconds**: `number`
 
 ## Methods
+
+### addObservabilityToConstruct
+
+▸ **addObservabilityToConstruct**(`props`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[addObservabilityToConstruct](SageMakerEndpointBase.md#addobservabilitytoconstruct)
+
+___
 
 ### addToRolePolicy
 
@@ -214,6 +333,48 @@ Returns a string representation of this construct.
 #### Inherited from
 
 [SageMakerEndpointBase](SageMakerEndpointBase.md).[toString](SageMakerEndpointBase.md#tostring)
+
+___
+
+### updateConstructTrackingCode
+
+▸ **updateConstructTrackingCode**(`props`, `scope`, `lambdaFunctions`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+| `scope` | `Construct` |
+| `lambdaFunctions` | `DockerImageFunction`[] |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[updateConstructTrackingCode](SageMakerEndpointBase.md#updateconstructtrackingcode)
+
+___
+
+### updateEnvSuffix
+
+▸ **updateEnvSuffix**(`props`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[updateEnvSuffix](SageMakerEndpointBase.md#updateenvsuffix)
 
 ___
 
