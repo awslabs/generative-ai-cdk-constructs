@@ -17,6 +17,7 @@ import { Construct } from 'constructs';
 import { ContainerImage } from './container-image';
 import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
 import { SageMakerInstanceType } from './sagemaker-instance-type';
+import { ConstructName } from '../../../common/base-class';
 import { BaseClassProps } from '../../../common/base-class/base-class';
 
 export interface HuggingFaceSageMakerEndpointProps {
@@ -55,7 +56,7 @@ export class HuggingFaceSageMakerEndpoint extends SageMakerEndpointBase implemen
 
     const baseProps: BaseClassProps={
       enableOperationalMetric: props.enableOperationalMetric,
-      constructorName: this.constructor.name,
+      constructName: ConstructName.HUGGINGFACESAGEMAKERENDPOINT,
       constructId: id,
     };
 

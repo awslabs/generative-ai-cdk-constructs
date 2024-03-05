@@ -28,6 +28,7 @@ import * as sfnTask from 'aws-cdk-lib/aws-stepfunctions-tasks';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import { BaseClass, BaseClassProps } from '../../../common/base-class/base-class';
+import { ConstructName } from '../../../common/base-class/construct-name-enum';
 import * as eventBridge from '../../../common/helpers/eventbridge-helper';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import * as redisHelper from '../../../common/helpers/redis-helper';
@@ -268,7 +269,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
     const baseProps: BaseClassProps={
       stage: props.stage,
       enableOperationalMetric: props.enableOperationalMetric,
-      constructorName: this.constructor.name,
+      constructName: ConstructName.AWSSUMMARIZATIONAPPSYNCSTEPFN,
       constructId: id,
       observability: props.observability,
     };

@@ -15,6 +15,7 @@ import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
+import { ConstructName } from './construct-name-enum';
 import { version } from '../helpers/utils';
 
 
@@ -43,7 +44,7 @@ export interface BaseClassProps {
    * name of the construct.
    *
    */
-  readonly constructorName: string;
+  readonly constructName: ConstructName;
 
   /**
    * construct id.
@@ -62,8 +63,17 @@ export interface BaseClassProps {
 
 export class BaseClass extends Construct {
 
-  static constructIdsStr: string='';
-  static constructNamesStr: string='';
+  protected static usageMetricMap : Record<string, number> ={
+    [ConstructName.AWSRAGAPPSYNCSTEPFNOPENSEARCH]: 0,
+    [ConstructName.AWSQAAPPSYNCOPENSEARCH]: 0,
+    [ConstructName.AWSSUMMARIZATIONAPPSYNCSTEPFN]: 0,
+    [ConstructName.AWSMODELDEPLOYMENTSAGEMAKER]: 0,
+    [ConstructName.CUSTOMSAGEMAKERENDPOINT]: 0,
+    [ConstructName.HUGGINGFACESAGEMAKERENDPOINT]: 0,
+    [ConstructName.JUMPSTARTSAGEMAKERENDPOINT]: 0,
+    [ConstructName.AWSCONTENTGENAPPSYNCLAMBDA]: 0,
+  };
+  
 
   /**
    * construct usage metric , added in template description
@@ -123,7 +133,7 @@ export class BaseClass extends Construct {
   */
   protected updateConstructUsageMetricCode(props: BaseClassProps, scope: Construct, lambdaFunctions: lambda.DockerImageFunction[],
   ) {
-    const solutionId = `genai_cdk_${version}/${props.constructorName}/${props.constructId}`;
+    const solutionId = `genai_cdk_${version}/${props.constructName}/${props.constructId}`;
 
     const enableOperationalMetric =
       props.enableOperationalMetric !== undefined &&
@@ -138,14 +148,19 @@ export class BaseClass extends Construct {
           );
         }
       }
-      // ADD unique key in template description 
-      // format  (usage metric id:usbxxxx) (version:1.xx) (construct name:awsappsyncXX1,awsappsyncXX2,awsappsyncXX3) (construct id:awsappsyncxxxx1,awsappsyncxxx2,awsappsyncxxx3)
-      BaseClass.constructIdsStr=BaseClass.constructIdsStr+', '+props.constructId;
-      BaseClass.constructNamesStr=BaseClass.constructNamesStr+', '+props.constructorName;
+     
+      if (props && BaseClass.usageMetricMap.hasOwnProperty(props.constructName)) {
+      BaseClass.usageMetricMap[props.constructName]=BaseClass.usageMetricMap[props.constructName]+1;
+       }
+       else{
+        throw Error('construct name is not present in usageMetricMap ')
+       }
+     
+      const usageMetricMapSerialized = JSON.stringify(BaseClass.usageMetricMap);
 
+  
       Stack.of(scope).templateOptions.description =
-      `(usage id :${this.constructUsageMetric})(version:${version}) (construct name:::${ BaseClass.constructIdsStr}) (construct id:::${ BaseClass.constructNamesStr})`;
-
+      `(usage id :${this.constructUsageMetric})(version:${version}) (constructs :::${ usageMetricMapSerialized}) `;
 
     };
   }

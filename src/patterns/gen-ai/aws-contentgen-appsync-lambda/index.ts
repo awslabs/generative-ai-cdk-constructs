@@ -23,7 +23,7 @@ import * as logs from 'aws-cdk-lib/aws-logs';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
-import { BaseClass, BaseClassProps } from '../../../common/base-class';
+import { BaseClass, BaseClassProps, ConstructName } from '../../../common/base-class';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
 import { lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
@@ -174,7 +174,7 @@ export class ContentGenerationAppSyncLambda extends BaseClass {
     const baseProps: BaseClassProps={
       stage: props.stage,
       enableOperationalMetric: props.enableOperationalMetric,
-      constructorName: this.constructor.name,
+      constructName: ConstructName.AWSCONTENTGENAPPSYNCLAMBDA,
       constructId: id,
       observability: props.observability,
     };

@@ -20,6 +20,7 @@ import { JumpStartConstants } from './private/jumpstart-constants';
 import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
 import { SageMakerInstanceType } from './sagemaker-instance-type';
 import { BaseClassProps } from '../../../common/base-class/base-class';
+import { ConstructName } from '../../../common/base-class/construct-name-enum';
 
 export interface JumpStartSageMakerEndpointProps {
   readonly model: JumpStartModel;
@@ -61,7 +62,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
 
     const baseProps: BaseClassProps={
       enableOperationalMetric: props.enableOperationalMetric,
-      constructorName: this.constructor.name,
+      constructName: ConstructName.JUMPSTARTSAGEMAKERENDPOINT,
       constructId: id,
     };
 

@@ -29,6 +29,7 @@ import * as stepfn_task from 'aws-cdk-lib/aws-stepfunctions-tasks';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import { BaseClass, BaseClassProps } from '../../../common/base-class';
+import { ConstructName } from '../../../common/base-class/construct-name-enum';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import * as opensearch_helper from '../../../common/helpers/opensearch-helper';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
@@ -243,10 +244,11 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
   constructor(scope: Construct, id: string, props: RagAppsyncStepfnOpensearchProps) {
     super(scope, id);
 
+
     const baseProps: BaseClassProps={
       stage: props.stage,
       enableOperationalMetric: props.enableOperationalMetric,
-      constructorName: this.constructor.name,
+      constructName: ConstructName.AWSRAGAPPSYNCSTEPFNOPENSEARCH,
       constructId: id,
       observability: props.observability,
     };
