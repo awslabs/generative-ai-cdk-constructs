@@ -22,20 +22,21 @@
 
 ### Properties
 
-- [constructTrackingCode](SageMakerEndpointBase.md#constructtrackingcode)
+- [constructUsageMetric](SageMakerEndpointBase.md#constructusagemetric)
 - [enablexray](SageMakerEndpointBase.md#enablexray)
 - [fieldLogLevel](SageMakerEndpointBase.md#fieldloglevel)
 - [lambdaTracing](SageMakerEndpointBase.md#lambdatracing)
 - [node](SageMakerEndpointBase.md#node)
 - [retention](SageMakerEndpointBase.md#retention)
 - [stage](SageMakerEndpointBase.md#stage)
+- [usageMetricMap](SageMakerEndpointBase.md#usagemetricmap)
 
 ### Methods
 
 - [addObservabilityToConstruct](SageMakerEndpointBase.md#addobservabilitytoconstruct)
 - [createSageMakerRole](SageMakerEndpointBase.md#createsagemakerrole)
 - [toString](SageMakerEndpointBase.md#tostring)
-- [updateConstructTrackingCode](SageMakerEndpointBase.md#updateconstructtrackingcode)
+- [updateConstructUsageMetricCode](SageMakerEndpointBase.md#updateconstructusagemetriccode)
 - [updateEnvSuffix](SageMakerEndpointBase.md#updateenvsuffix)
 - [isConstruct](SageMakerEndpointBase.md#isconstruct)
 
@@ -62,15 +63,15 @@
 
 ## Properties
 
-### constructTrackingCode
+### constructUsageMetric
 
-• `Readonly` **constructTrackingCode**: ``"uksb-1tupboc45"``
+• `Readonly` **constructUsageMetric**: ``"uksb-1tupboc45"``
 
-construct tracking code, added in template description
+construct usage metric , added in template description
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[constructTrackingCode](BaseClass.md#constructtrackingcode)
+[BaseClass](BaseClass.md).[constructUsageMetric](BaseClass.md#constructusagemetric)
 
 ___
 
@@ -162,6 +163,18 @@ Value will be appended to resources name.
 
 [BaseClass](BaseClass.md).[stage](BaseClass.md#stage)
 
+___
+
+### usageMetricMap
+
+▪ `Static` `Protected` **usageMetricMap**: `Record`\<`string`, `number`\>
+
+Record<string, number> , maps construct name with number of deployments
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[usageMetricMap](BaseClass.md#usagemetricmap)
+
 ## Methods
 
 ### addObservabilityToConstruct
@@ -210,9 +223,9 @@ Returns a string representation of this construct.
 
 ___
 
-### updateConstructTrackingCode
+### updateConstructUsageMetricCode
 
-▸ **updateConstructTrackingCode**(`props`, `scope`, `lambdaFunctions`): `void`
+▸ **updateConstructUsageMetricCode**(`props`, `scope`, `lambdaFunctions`): `void`
 
 #### Parameters
 
@@ -228,7 +241,7 @@ ___
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[updateConstructTrackingCode](BaseClass.md#updateconstructtrackingcode)
+[BaseClass](BaseClass.md).[updateConstructUsageMetricCode](BaseClass.md#updateconstructusagemetriccode)
 
 ___
 

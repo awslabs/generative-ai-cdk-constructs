@@ -24,7 +24,7 @@ The JumpStartSageMakerEndpoint class.
 - [cfnEndpoint](JumpStartSageMakerEndpoint.md#cfnendpoint)
 - [cfnEndpointConfig](JumpStartSageMakerEndpoint.md#cfnendpointconfig)
 - [cfnModel](JumpStartSageMakerEndpoint.md#cfnmodel)
-- [constructTrackingCode](JumpStartSageMakerEndpoint.md#constructtrackingcode)
+- [constructUsageMetric](JumpStartSageMakerEndpoint.md#constructusagemetric)
 - [enablexray](JumpStartSageMakerEndpoint.md#enablexray)
 - [endpointArn](JumpStartSageMakerEndpoint.md#endpointarn)
 - [environment](JumpStartSageMakerEndpoint.md#environment)
@@ -41,6 +41,7 @@ The JumpStartSageMakerEndpoint class.
 - [spec](JumpStartSageMakerEndpoint.md#spec)
 - [stage](JumpStartSageMakerEndpoint.md#stage)
 - [startupHealthCheckTimeoutInSeconds](JumpStartSageMakerEndpoint.md#startuphealthchecktimeoutinseconds)
+- [usageMetricMap](JumpStartSageMakerEndpoint.md#usagemetricmap)
 
 ### Methods
 
@@ -52,7 +53,7 @@ The JumpStartSageMakerEndpoint class.
 - [getModelFromPackage](JumpStartSageMakerEndpoint.md#getmodelfrompackage)
 - [grantInvoke](JumpStartSageMakerEndpoint.md#grantinvoke)
 - [toString](JumpStartSageMakerEndpoint.md#tostring)
-- [updateConstructTrackingCode](JumpStartSageMakerEndpoint.md#updateconstructtrackingcode)
+- [updateConstructUsageMetricCode](JumpStartSageMakerEndpoint.md#updateconstructusagemetriccode)
 - [updateEnvSuffix](JumpStartSageMakerEndpoint.md#updateenvsuffix)
 - [verifyInstanceType](JumpStartSageMakerEndpoint.md#verifyinstancetype)
 - [isConstruct](JumpStartSageMakerEndpoint.md#isconstruct)
@@ -105,15 +106,15 @@ ___
 
 ___
 
-### constructTrackingCode
+### constructUsageMetric
 
-• `Readonly` **constructTrackingCode**: ``"uksb-1tupboc45"``
+• `Readonly` **constructUsageMetric**: ``"uksb-1tupboc45"``
 
-construct tracking code, added in template description
+construct usage metric , added in template description
 
 #### Inherited from
 
-[SageMakerEndpointBase](SageMakerEndpointBase.md).[constructTrackingCode](SageMakerEndpointBase.md#constructtrackingcode)
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[constructUsageMetric](SageMakerEndpointBase.md#constructusagemetric)
 
 ___
 
@@ -269,6 +270,18 @@ ___
 
 • `Private` `Readonly` **startupHealthCheckTimeoutInSeconds**: `number`
 
+___
+
+### usageMetricMap
+
+▪ `Static` `Protected` **usageMetricMap**: `Record`\<`string`, `number`\>
+
+Record<string, number> , maps construct name with number of deployments
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[usageMetricMap](SageMakerEndpointBase.md#usagemetricmap)
+
 ## Methods
 
 ### addObservabilityToConstruct
@@ -408,9 +421,9 @@ Returns a string representation of this construct.
 
 ___
 
-### updateConstructTrackingCode
+### updateConstructUsageMetricCode
 
-▸ **updateConstructTrackingCode**(`props`, `scope`, `lambdaFunctions`): `void`
+▸ **updateConstructUsageMetricCode**(`props`, `scope`, `lambdaFunctions`): `void`
 
 #### Parameters
 
@@ -426,7 +439,7 @@ ___
 
 #### Inherited from
 
-[SageMakerEndpointBase](SageMakerEndpointBase.md).[updateConstructTrackingCode](SageMakerEndpointBase.md#updateconstructtrackingcode)
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[updateConstructUsageMetricCode](SageMakerEndpointBase.md#updateconstructusagemetriccode)
 
 ___
 

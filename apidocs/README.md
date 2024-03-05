@@ -10,6 +10,10 @@
 - [opensearch\_vectorindex](modules/opensearch_vectorindex.md)
 - [opensearchserverless](modules/opensearchserverless.md)
 
+### Enumerations
+
+- [ConstructName](enums/ConstructName.md)
+
 ### Classes
 
 - [BaseClass](classes/BaseClass.md)

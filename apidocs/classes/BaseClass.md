@@ -26,19 +26,20 @@
 
 ### Properties
 
-- [constructTrackingCode](BaseClass.md#constructtrackingcode)
+- [constructUsageMetric](BaseClass.md#constructusagemetric)
 - [enablexray](BaseClass.md#enablexray)
 - [fieldLogLevel](BaseClass.md#fieldloglevel)
 - [lambdaTracing](BaseClass.md#lambdatracing)
 - [node](BaseClass.md#node)
 - [retention](BaseClass.md#retention)
 - [stage](BaseClass.md#stage)
+- [usageMetricMap](BaseClass.md#usagemetricmap)
 
 ### Methods
 
 - [addObservabilityToConstruct](BaseClass.md#addobservabilitytoconstruct)
 - [toString](BaseClass.md#tostring)
-- [updateConstructTrackingCode](BaseClass.md#updateconstructtrackingcode)
+- [updateConstructUsageMetricCode](BaseClass.md#updateconstructusagemetriccode)
 - [updateEnvSuffix](BaseClass.md#updateenvsuffix)
 - [isConstruct](BaseClass.md#isconstruct)
 
@@ -65,11 +66,11 @@ Construct.constructor
 
 ## Properties
 
-### constructTrackingCode
+### constructUsageMetric
 
-• `Readonly` **constructTrackingCode**: ``"uksb-1tupboc45"``
+• `Readonly` **constructUsageMetric**: ``"uksb-1tupboc45"``
 
-construct tracking code, added in template description
+construct usage metric , added in template description
 
 ___
 
@@ -141,6 +142,14 @@ Value will be appended to resources name.
 - _dev
 ```
 
+___
+
+### usageMetricMap
+
+▪ `Static` `Protected` **usageMetricMap**: `Record`\<`string`, `number`\>
+
+Record<string, number> , maps construct name with number of deployments
+
 ## Methods
 
 ### addObservabilityToConstruct
@@ -175,9 +184,9 @@ Construct.toString
 
 ___
 
-### updateConstructTrackingCode
+### updateConstructUsageMetricCode
 
-▸ **updateConstructTrackingCode**(`props`, `scope`, `lambdaFunctions`): `void`
+▸ **updateConstructUsageMetricCode**(`props`, `scope`, `lambdaFunctions`): `void`
 
 #### Parameters
 

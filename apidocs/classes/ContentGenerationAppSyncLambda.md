@@ -21,7 +21,7 @@ The ContentGenerationAppSyncLambda class.
 ### Properties
 
 - [cgLambdaFunction](ContentGenerationAppSyncLambda.md#cglambdafunction)
-- [constructTrackingCode](ContentGenerationAppSyncLambda.md#constructtrackingcode)
+- [constructUsageMetric](ContentGenerationAppSyncLambda.md#constructusagemetric)
 - [enablexray](ContentGenerationAppSyncLambda.md#enablexray)
 - [fieldLogLevel](ContentGenerationAppSyncLambda.md#fieldloglevel)
 - [generatedImageBus](ContentGenerationAppSyncLambda.md#generatedimagebus)
@@ -34,12 +34,13 @@ The ContentGenerationAppSyncLambda class.
 - [securityGroup](ContentGenerationAppSyncLambda.md#securitygroup)
 - [stage](ContentGenerationAppSyncLambda.md#stage)
 - [vpc](ContentGenerationAppSyncLambda.md#vpc)
+- [usageMetricMap](ContentGenerationAppSyncLambda.md#usagemetricmap)
 
 ### Methods
 
 - [addObservabilityToConstruct](ContentGenerationAppSyncLambda.md#addobservabilitytoconstruct)
 - [toString](ContentGenerationAppSyncLambda.md#tostring)
-- [updateConstructTrackingCode](ContentGenerationAppSyncLambda.md#updateconstructtrackingcode)
+- [updateConstructUsageMetricCode](ContentGenerationAppSyncLambda.md#updateconstructusagemetriccode)
 - [updateEnvSuffix](ContentGenerationAppSyncLambda.md#updateenvsuffix)
 - [isConstruct](ContentGenerationAppSyncLambda.md#isconstruct)
 
@@ -87,15 +88,15 @@ Returns an instance of appsync.IGraphqlApi created by the construct
 
 ___
 
-### constructTrackingCode
+### constructUsageMetric
 
-• `Readonly` **constructTrackingCode**: ``"uksb-1tupboc45"``
+• `Readonly` **constructUsageMetric**: ``"uksb-1tupboc45"``
 
-construct tracking code, added in template description
+construct usage metric , added in template description
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[constructTrackingCode](BaseClass.md#constructtrackingcode)
+[BaseClass](BaseClass.md).[constructUsageMetric](BaseClass.md#constructusagemetric)
 
 ___
 
@@ -237,6 +238,18 @@ ___
 
 Returns the instance of ec2.IVpc used by the construct
 
+___
+
+### usageMetricMap
+
+▪ `Static` `Protected` **usageMetricMap**: `Record`\<`string`, `number`\>
+
+Record<string, number> , maps construct name with number of deployments
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[usageMetricMap](BaseClass.md#usagemetricmap)
+
 ## Methods
 
 ### addObservabilityToConstruct
@@ -275,9 +288,9 @@ Returns a string representation of this construct.
 
 ___
 
-### updateConstructTrackingCode
+### updateConstructUsageMetricCode
 
-▸ **updateConstructTrackingCode**(`props`, `scope`, `lambdaFunctions`): `void`
+▸ **updateConstructUsageMetricCode**(`props`, `scope`, `lambdaFunctions`): `void`
 
 #### Parameters
 
@@ -293,7 +306,7 @@ ___
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[updateConstructTrackingCode](BaseClass.md#updateconstructtrackingcode)
+[BaseClass](BaseClass.md).[updateConstructUsageMetricCode](BaseClass.md#updateconstructusagemetriccode)
 
 ___
 

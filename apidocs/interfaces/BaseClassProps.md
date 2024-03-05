@@ -7,7 +7,7 @@
 ### Properties
 
 - [constructId](BaseClassProps.md#constructid)
-- [constructorName](BaseClassProps.md#constructorname)
+- [constructName](BaseClassProps.md#constructname)
 - [enableOperationalMetric](BaseClassProps.md#enableoperationalmetric)
 - [observability](BaseClassProps.md#observability)
 - [stage](BaseClassProps.md#stage)
@@ -22,9 +22,9 @@ construct id.
 
 ___
 
-### constructorName
+### constructName
 
-• `Readonly` **constructorName**: `string`
+• `Readonly` **constructName**: [`ConstructName`](../enums/ConstructName.md)
 
 name of the construct.
 

@@ -20,7 +20,7 @@ The QaAppsyncOpensearch class.
 
 ### Properties
 
-- [constructTrackingCode](QaAppsyncOpensearch.md#constructtrackingcode)
+- [constructUsageMetric](QaAppsyncOpensearch.md#constructusagemetric)
 - [enablexray](QaAppsyncOpensearch.md#enablexray)
 - [fieldLogLevel](QaAppsyncOpensearch.md#fieldloglevel)
 - [graphqlApi](QaAppsyncOpensearch.md#graphqlapi)
@@ -34,12 +34,13 @@ The QaAppsyncOpensearch class.
 - [securityGroup](QaAppsyncOpensearch.md#securitygroup)
 - [stage](QaAppsyncOpensearch.md#stage)
 - [vpc](QaAppsyncOpensearch.md#vpc)
+- [usageMetricMap](QaAppsyncOpensearch.md#usagemetricmap)
 
 ### Methods
 
 - [addObservabilityToConstruct](QaAppsyncOpensearch.md#addobservabilitytoconstruct)
 - [toString](QaAppsyncOpensearch.md#tostring)
-- [updateConstructTrackingCode](QaAppsyncOpensearch.md#updateconstructtrackingcode)
+- [updateConstructUsageMetricCode](QaAppsyncOpensearch.md#updateconstructusagemetriccode)
 - [updateEnvSuffix](QaAppsyncOpensearch.md#updateenvsuffix)
 - [isConstruct](QaAppsyncOpensearch.md#isconstruct)
 
@@ -79,15 +80,15 @@ public
 
 ## Properties
 
-### constructTrackingCode
+### constructUsageMetric
 
-• `Readonly` **constructTrackingCode**: ``"uksb-1tupboc45"``
+• `Readonly` **constructUsageMetric**: ``"uksb-1tupboc45"``
 
-construct tracking code, added in template description
+construct usage metric , added in template description
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[constructTrackingCode](BaseClass.md#constructtrackingcode)
+[BaseClass](BaseClass.md).[constructUsageMetric](BaseClass.md#constructusagemetric)
 
 ___
 
@@ -237,6 +238,18 @@ ___
 
 Returns the instance of ec2.IVpc used by the construct
 
+___
+
+### usageMetricMap
+
+▪ `Static` `Protected` **usageMetricMap**: `Record`\<`string`, `number`\>
+
+Record<string, number> , maps construct name with number of deployments
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[usageMetricMap](BaseClass.md#usagemetricmap)
+
 ## Methods
 
 ### addObservabilityToConstruct
@@ -275,9 +288,9 @@ Returns a string representation of this construct.
 
 ___
 
-### updateConstructTrackingCode
+### updateConstructUsageMetricCode
 
-▸ **updateConstructTrackingCode**(`props`, `scope`, `lambdaFunctions`): `void`
+▸ **updateConstructUsageMetricCode**(`props`, `scope`, `lambdaFunctions`): `void`
 
 #### Parameters
 
@@ -293,7 +306,7 @@ ___
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[updateConstructTrackingCode](BaseClass.md#updateconstructtrackingcode)
+[BaseClass](BaseClass.md).[updateConstructUsageMetricCode](BaseClass.md#updateconstructusagemetriccode)
 
 ___
 
