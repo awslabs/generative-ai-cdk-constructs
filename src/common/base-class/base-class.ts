@@ -63,6 +63,9 @@ export interface BaseClassProps {
 
 export class BaseClass extends Construct {
 
+  /**
+   * Record<string, number> , maps construct name with number of deployments
+   */
   protected static usageMetricMap : Record<string, number> ={
     [ConstructName.AWSRAGAPPSYNCSTEPFNOPENSEARCH]: 0,
     [ConstructName.AWSQAAPPSYNCOPENSEARCH]: 0,
@@ -73,7 +76,7 @@ export class BaseClass extends Construct {
     [ConstructName.JUMPSTARTSAGEMAKERENDPOINT]: 0,
     [ConstructName.AWSCONTENTGENAPPSYNCLAMBDA]: 0,
   };
-  
+
 
   /**
    * construct usage metric , added in template description
@@ -148,17 +151,17 @@ export class BaseClass extends Construct {
           );
         }
       }
-     
+
       if (props && BaseClass.usageMetricMap.hasOwnProperty(props.constructName)) {
-      BaseClass.usageMetricMap[props.constructName]=BaseClass.usageMetricMap[props.constructName]+1;
-       }
-       else{
-        throw Error('construct name is not present in usageMetricMap ')
-       }
-     
+        BaseClass.usageMetricMap[props.constructName]=BaseClass.usageMetricMap[props.constructName]+1;
+      } else {
+        throw Error('construct name is not present in usageMetricMap ');
+      }
+
       const usageMetricMapSerialized = JSON.stringify(BaseClass.usageMetricMap);
 
-  
+      // Description format :(usage id :uksb-1tupboc45)(version:0.0.0) (constructs :::{\"C1\":1,\"C2\":5,\"C3\":3,\"C4\":0,\"C5\":0,\"C6\":0,\"C7\":0,\"C8\":0}) ",
+      // where C1,C2, etc are mapped with construct-name-enum and the values shows the number of time stack created/deleted.
       Stack.of(scope).templateOptions.description =
       `(usage id :${this.constructUsageMetric})(version:${version}) (constructs :::${ usageMetricMapSerialized}) `;
 
