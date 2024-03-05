@@ -21,7 +21,7 @@ import { SageMakerInstanceType } from './sagemaker-instance-type';
 
 export interface JumpStartSageMakerEndpointProps {
   readonly model: JumpStartModel;
-  readonly endpointName?: string;
+  readonly endpointName: string;
   readonly instanceType?: SageMakerInstanceType;
   readonly instanceCount?: number;
   readonly role?: iam.Role;
