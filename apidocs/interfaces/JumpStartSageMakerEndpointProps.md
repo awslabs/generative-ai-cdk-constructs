@@ -33,7 +33,7 @@ ___
 
 ### endpointName
 
-• `Optional` `Readonly` **endpointName**: `string`
+• `Readonly` **endpointName**: `string`
 
 ___
 
