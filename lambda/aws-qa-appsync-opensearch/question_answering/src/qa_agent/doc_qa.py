@@ -18,7 +18,7 @@ import os
 import base64
 
 from langchain.chains import LLMChain
-from llms import get_llm, get_max_tokens
+from llms import get_llm
 from typing import Any, Dict, List, Union
 from langchain.prompts import PromptTemplate
 from .s3inmemoryloader import S3FileLoaderInMemory
@@ -41,7 +41,10 @@ def run_qa_agent_rag_no_memory(input_params):
     logger.info("starting qa agent with rag approach without memory :: {input_params}")
 
     base64_bytes = input_params['question'].encode("utf-8")
-    embedding_model_id = input_params['embeddings_model']['modelId']
+    embedding_model = input_params['embeddings_model']
+    embedding_model_id = embedding_model['modelId']
+    modality=embedding_model.get("modality", "Text")
+
     qa_model_id = input_params['qa_model']['modelId']
     sample_string_bytes = base64.b64decode(base64_bytes)
     decoded_question = sample_string_bytes.decode("utf-8")
@@ -69,7 +72,8 @@ def run_qa_agent_rag_no_memory(input_params):
                                               os.environ.get('OPENSEARCH_DOMAIN_ENDPOINT'),
                                               os.environ.get('OPENSEARCH_INDEX'),
                                               os.environ.get('OPENSEARCH_SECRET_ID'),
-                                              embedding_model_id)
+                                              embedding_model_id,
+                                              modality)
 
     else:
         logger.info("_retriever already exists")
@@ -106,7 +110,7 @@ def run_qa_agent_rag_no_memory(input_params):
     # 2 : load llm using the selector
     streaming = input_params.get("streaming", False)
     callback_manager = [StreamingCallbackHandler(status_variables)] if streaming else None
-    _qa_llm = get_llm(callback_manager)
+    _qa_llm = get_llm(callback_manager,qa_model_id)
 
     if (_qa_llm is None):
         logger.error('llm is None, returning')
@@ -154,6 +158,7 @@ def run_qa_agent_from_single_document_no_memory(input_params):
     logger.info("starting qa agent without memory single document")
 
     base64_bytes = input_params['question'].encode("utf-8")
+    qa_model_id = input_params['qa_model']['modelId']
 
     sample_string_bytes = base64.b64decode(base64_bytes)
     decoded_question = sample_string_bytes.decode("utf-8")
@@ -200,7 +205,7 @@ def run_qa_agent_from_single_document_no_memory(input_params):
     # 2 : run the question
     streaming = input_params.get("streaming", False)
     callback_manager = [StreamingCallbackHandler(status_variables)] if streaming else None
-    _qa_llm = get_llm(callback_manager)
+    _qa_llm = get_llm(callback_manager,qa_model_id)
 
     if (_qa_llm is None):
         logger.info('llm is None, returning')

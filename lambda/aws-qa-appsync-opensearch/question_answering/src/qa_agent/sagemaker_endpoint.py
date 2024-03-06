@@ -38,7 +38,7 @@ class MultiModal():
         try: 
             endpoint= SagemakerEndpoint(
             endpoint_name=model_id,
-            region_name='us-east-1',
+            region_name=os.environ["AWS_REGION"],
             model_kwargs=self.parameters,
             content_handler=content_handler,
             )

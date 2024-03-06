@@ -58,41 +58,12 @@ class image_loader():
         return b64_image_path
     
     
-    def BedrockEmbeddings_image(docs,model_id) -> np.ndarray: 
-        
-        for doc in docs:
-            print(f' image {doc}')
-            print(f' page_content {doc.page_content}')
-            print(f' inputImage {doc.page_content}')
-            obj=json.loads(doc.page_content)
-            inputImage=obj["inputImage"]
-            inputText=obj["inputText"]
-
-        body = json.dumps(
-                   { "inputImage":inputImage,
-                    "inputText":inputText
-                    })
-        print(f'body for embeddings :: {body}')  
-        try:
-            response = bedrock_client.invoke_model(
-                body=body, modelId=model_id, accept="application/json", contentType="application/json"
-            )
-            response_body = json.loads(response.get("body").read())
-            embeddings = np.array([response_body.get("embedding")]).astype(np.float32)
-        except Exception as e:
-            logger.error(f" exception={e}")
-            embeddings = None
-
-        return embeddings
-    
-    #@tracer.capture_method
     def load(self):
         """Load documents."""
         try:
             local_file_path = self.download_file(self.image_file)
            
             b64_image_file_path = self.encode_image_to_base64(local_file_path,self.image_file)
-            print(f'b64_image_file :: {b64_image_file_path}')
             
             with open(b64_image_file_path, "rb") as b64_image_file:
                 input_image_b64 = b64_image_file.read().decode('utf-8')
@@ -118,8 +89,6 @@ class image_loader():
             logger.exception(f"Reason: {exception}")
             return ""
 
-   
-    
 
 
     @tracer.capture_method

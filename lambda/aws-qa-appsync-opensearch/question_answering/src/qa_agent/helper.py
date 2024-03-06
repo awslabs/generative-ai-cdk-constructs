@@ -10,8 +10,10 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
+from pathlib import Path
+from aiohttp import ClientError
 from langchain_community.vectorstores import OpenSearchVectorSearch
-from opensearchpy import RequestsHttpConnection
+#from opensearchpy import RequestsHttpConnection
 from llms import get_embeddings_llm
 import requests
 import os
@@ -57,7 +59,7 @@ class JobStatus(Enum):
         base64.b64encode("Sorry, it seems an issue happened on my end, and I'm not able to answer your question. Please contact an administrator to understand why !".encode('utf-8'))
     )
     ERROR_SEMANTIC_SEARCH = (
-        'Exception during simialirty search, Please verify model for the selected modality', 
+        'Exception during similarity search, Please verify model for the selected modality', 
         base64.b64encode("Sorry, it seems an issue happened on my end, and I'm not able to answer your question. Please contact an administrator to understand why !".encode('utf-8'))
     )
 
@@ -97,7 +99,8 @@ def load_vector_db_opensearch(region: str,
                               opensearch_domain_endpoint: str,
                               opensearch_index: str,
                               secret_id: str,
-                              model_id: str) -> OpenSearchVectorSearch:
+                              model_id: str,
+                              modality: str) -> OpenSearchVectorSearch:
     print(f"load_vector_db_opensearch, region={region}, "
                 f"opensearch_domain_endpoint={opensearch_domain_endpoint}, opensearch_index={opensearch_index}")
     
@@ -114,16 +117,17 @@ def load_vector_db_opensearch(region: str,
             opensearch_api_name,
             session_token=credentials.token,
         )
-    embedding_function = get_embeddings_llm(model_id)
+    embedding_function = get_embeddings_llm(model_id,modality)
 
     opensearch_url = opensearch_domain_endpoint if opensearch_domain_endpoint.startswith("https://") else f"https://{opensearch_domain_endpoint}"
-    vector_db = OpenSearchVectorSearch(index_name=opensearch_index,
-                                       embedding_function=embedding_function,
-                                       opensearch_url=opensearch_url,
-                                       http_auth=http_auth,
-                                       use_ssl = True,
-                                       verify_certs = True,
-                                       connection_class = RequestsHttpConnection)
+    # vector_db = OpenSearchVectorSearch(index_name=opensearch_index,
+    #                                    embedding_function=embedding_function,
+    #                                    opensearch_url=opensearch_url,
+    #                                    http_auth=http_auth,
+    #                                    use_ssl = True,
+    #                                    verify_certs = True,
+    #                                    connection_class = RequestsHttpConnection)
+    vector_db=""
     print(f"returning handle to OpenSearchVectorSearch, vector_db={vector_db}")
     return vector_db
 
@@ -155,7 +159,8 @@ def send_job_status(variables):
 
     print(request)
 
-    GRAPHQL_URL = os.environ['GRAPHQL_URL']
+    #GRAPHQL_URL = os.environ['GRAPHQL_URL']
+    GRAPHQL_URL ="https://j2uzmlvujbhbzoduvpctgkpu2e.appsync-api.us-east-1.amazonaws.com/graphql"
     HEADERS={
         "Content-Type": "application/json",
         }
@@ -181,3 +186,20 @@ def get_presigned_url(bucket,key) -> str:
         except Exception as exception:
             print(f"Reason: {exception}")
             return ""
+
+def download_file(bucket,key )-> str:
+        try: 
+            file_path = "/tmp/" + os.path.basename(key)
+            s3.download_file(bucket, key,file_path)
+            print(f"file downloaded {file_path}")
+            return file_path
+        except ClientError as client_err:
+            print(f"Couldn\'t download file {client_err.response['Error']['Message']}")
+        
+        except Exception as exp:
+            print(f"Couldn\'t download file : {exp}")
+ 
+def encode_image_to_base64(image_file_path,image_file) -> str:
+        with open(image_file_path, "rb") as image_file:
+            b64_image = base64.b64encode(image_file.read()).decode('utf8')       
+        return b64_image

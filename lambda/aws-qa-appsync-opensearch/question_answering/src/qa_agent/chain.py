@@ -18,12 +18,10 @@ import os
 import base64
 
 from langchain.chains import LLMChain
-from llms import get_llm, get_max_tokens
+from llms import  get_max_tokens
 from typing import Any, Dict, List, Union
-from langchain.prompts import PromptTemplate
 from .s3inmemoryloader import S3FileLoaderInMemory
-from .StreamingCallbackHandler import StreamingCallbackHandler
-from .helper import load_vector_db_opensearch, send_job_status, JobStatus
+from .helper import  send_job_status, JobStatus
 from .image_qa import  run_qa_agent_on_image_no_memory,run_qa_agent_rag_on_image_no_memory
 from .doc_qa import run_qa_agent_rag_no_memory, run_qa_agent_from_single_document_no_memory
 
@@ -45,8 +43,6 @@ def run_question_answering(arguments):
         filename = ''
         arguments['filename'] = ''
     
-    image_url = arguments['presignedurl']
-   
     #set deafult modality to text
     qa_model= arguments['qa_model']
     modality=qa_model.get('modality','Text')
@@ -57,7 +53,7 @@ def run_question_answering(arguments):
 
           # user didn't provide a image url as input, we use the RAG source against the entire knowledge base
          if response_generation_method == 'LONG_CONTEXT':
-                if not image_url: 
+                if not filename: 
                     warning = 'Error: Image presigned url is required for LONG_CONTEXT approach, defaulting to RAG.'
                     logger.warning(warning)
                     llm_response = run_qa_agent_rag_on_image_no_memory(arguments)

@@ -10,6 +10,7 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
+from aiohttp import ClientError
 from langchain.llms.bedrock import Bedrock
 from langchain_community.embeddings import BedrockEmbeddings
 import os
@@ -26,7 +27,7 @@ tracer = Tracer(service="QUESTION_ANSWERING")
 metrics = Metrics(namespace="question_answering", service="QUESTION_ANSWERING")
 
 
-def get_llm(callbacks=None):
+def get_llm(callbacks=None,model_id="anthropic.claude-v2:1"):
     bedrock = boto3.client('bedrock-runtime')
 
     params = {
@@ -39,7 +40,7 @@ def get_llm(callbacks=None):
 
     kwargs = {
         "client": bedrock,
-        "model_id": "anthropic.claude-v2:1",
+        "model_id": model_id,
         "model_kwargs": params,
         "streaming": False 
     }
@@ -50,10 +51,60 @@ def get_llm(callbacks=None):
 
     return Bedrock(**kwargs)
 
-def get_embeddings_llm(model_id):
+def get_embeddings_llm(model_id,modality):
     bedrock = boto3.client('bedrock-runtime')
-    return BedrockEmbeddings(client=bedrock, model_id=model_id)
-    
+    validation_status=validate_model_id_in_bedrock(model_id,modality)
+    if(validation_status['status']):
+        return BedrockEmbeddings(client=bedrock, model_id=model_id)
+    else:
+        return None
+
+
+def get_bedrock_fm(model_id,modality):
+    bedrock_client = boto3.client('bedrock-runtime')
+    validation_status= validate_model_id_in_bedrock(model_id,modality)
+    print(f' validation_status :: {validation_status}')
+    if(validation_status['status']):
+        return bedrock_client
+    else:
+        logger.error(f"reason ::{validation_status['message']} ")
+        return None
+
+
+
+#TODO -add max token based on model id    
 def get_max_tokens():
     return 200000
-    
+
+def validate_model_id_in_bedrock(model_id,modality):
+        """
+        Validate if the listed model id is supported with given modality
+        in bedrock or not.
+        """
+        response={
+            "status":False,
+            "message":f"model {model_id} is not supported in bedrock."
+        }
+        try:
+            bedrock_client = boto3.client(service_name="bedrock")
+            bedrock_model_list = bedrock_client.list_foundation_models()
+            models = bedrock_model_list["modelSummaries"]
+            for model in models:
+                if model["modelId"].lower() == model_id.lower():   
+                    response["message"]=f"model {model_id} does not support modality {modality} "                 
+                    print(f' modality :: {model["inputModalities"]}')
+                    for inputModality in model["inputModalities"]:
+                        if inputModality.lower() == modality.lower():
+                            print(f' modality supported')
+                            response["message"]=f"model {model_id} with modality {modality} is supported with bedrock "                 
+                            response["status"] = True
+
+            print(f' response :: {response}')
+            return response         
+        except ClientError as ce:
+            message=f"error occured while validating model in bedrock {ce}"
+            logger.error(message)
+            response["status"] = False
+            response["message"] = message
+            print(f' response :: {response}')
+            return response     
