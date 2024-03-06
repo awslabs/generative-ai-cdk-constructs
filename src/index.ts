@@ -24,3 +24,5 @@ export { version } from './common/helpers/utils';
 export * from './common/props/DockerLambdaCustomProps';
 export * from './common/props/LangchainProps';
 export * from './common/props/AdapterProps';
+export * from './common/base-class/base-class';
+export * from './common/base-class/construct-name-enum';
