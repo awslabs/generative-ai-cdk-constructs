@@ -12,6 +12,7 @@
  */
 import { ProjenStruct, Struct } from '@mrgrain/jsii-struct-builder';
 import { JsonPatch, awscdk } from 'projen';
+import { DependabotScheduleInterval, VersioningStrategy } from 'projen/lib/github';
 import { JobPermission } from 'projen/lib/github/workflows-model';
 import { NpmAccess } from 'projen/lib/javascript';
 import {
@@ -25,7 +26,6 @@ import {
   runCommitLintWorkflow,
   buildCodeGenerationWorkflow,
 } from './projenrc/github-workflows';
-import { DependabotScheduleInterval, VersioningStrategy } from 'projen/lib/github';
 
 // Constants
 const GITHUB_USER = 'awslabs';
@@ -296,10 +296,10 @@ project.github?.addDependabot({
   ignoreProjen: false,
   scheduleInterval: DependabotScheduleInterval.WEEKLY,
   groups: {
-    ["dev-dependencies"]: {
-      patterns: ["*"]
-    }
-  }
-})
+    ['dev-dependencies']: {
+      patterns: ['*'],
+    },
+  },
+});
 
 project.synth();
