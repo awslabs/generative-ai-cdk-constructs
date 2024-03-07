@@ -34,6 +34,7 @@ The QaAppsyncOpensearch class.
 - [securityGroup](QaAppsyncOpensearch.md#securitygroup)
 - [stage](QaAppsyncOpensearch.md#stage)
 - [vpc](QaAppsyncOpensearch.md#vpc)
+- [CONSTRUCT\_SCHEMA\_UPDATE\_WARNING](QaAppsyncOpensearch.md#construct_schema_update_warning)
 - [usageMetricMap](QaAppsyncOpensearch.md#usagemetricmap)
 
 ### Methods
@@ -237,6 +238,14 @@ ___
 • `Readonly` **vpc**: `IVpc`
 
 Returns the instance of ec2.IVpc used by the construct
+
+___
+
+### CONSTRUCT\_SCHEMA\_UPDATE\_WARNING
+
+▪ `Static` `Readonly` **CONSTRUCT\_SCHEMA\_UPDATE\_WARNING**: ``"\n  Attention QaAppsyncOpensearch users, an update has been made to \n  the GraphQL schema.To ensure continued functionality, please review \n  and update your GraphQL mutations and subscriptions to align with \n  the new schema.This schema update enables enhanced capabilities \n  and optimizations,so adopting the changes is recommended. \n  Please refer to the construct documentation for details \n  on the schema changes and examples of updated GraphQL statements.\n  Reach out to the support team if you need assistance \n  updating your integration codebase.  \n  "``
+
+Construct warning
 
 ___
 
