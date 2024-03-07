@@ -23,9 +23,10 @@ import * as logs from 'aws-cdk-lib/aws-logs';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
+import { BaseClass, BaseClassProps, ConstructName } from '../../../common/base-class';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
-import { version, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
+import { lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
@@ -127,7 +128,7 @@ export interface ContentGenerationAppSyncLambdaProps {
 /**
  * @summary The ContentGenerationAppSyncLambda class.
  */
-export class ContentGenerationAppSyncLambda extends Construct {
+export class ContentGenerationAppSyncLambda extends BaseClass {
   /**
    * Returns the instance of ec2.IVpc used by the construct
    */
@@ -170,27 +171,16 @@ export class ContentGenerationAppSyncLambda extends Construct {
   constructor(scope: Construct, id: string, props: ContentGenerationAppSyncLambdaProps) {
     super(scope, id);
 
-    // stage
-    let stage = '-dev';
-    if (props?.stage) {
-      stage = props.stage;
-    }
-
-    // observability
-    let lambda_tracing = lambda.Tracing.ACTIVE;
-    let enable_xray = true;
-    let api_log_config = {
-      fieldLogLevel: appsync.FieldLogLevel.ALL,
-      retention: logs.RetentionDays.TEN_YEARS,
+    const baseProps: BaseClassProps={
+      stage: props.stage,
+      enableOperationalMetric: props.enableOperationalMetric,
+      constructName: ConstructName.AWSCONTENTGENAPPSYNCLAMBDA,
+      constructId: id,
+      observability: props.observability,
     };
-    if (props.observability == false) {
-      enable_xray = false;
-      lambda_tracing = lambda.Tracing.DISABLED;
-      api_log_config = {
-        fieldLogLevel: appsync.FieldLogLevel.NONE,
-        retention: logs.RetentionDays.TEN_YEARS,
-      };
-    }
+
+    this.updateEnvSuffix(baseProps);
+    this.addObservabilityToConstruct(baseProps);
 
     vpc_helper.CheckVpcProps(props);
     s3_bucket_helper.CheckS3Props({
@@ -211,7 +201,7 @@ export class ContentGenerationAppSyncLambda extends Construct {
       this.securityGroup = new ec2.SecurityGroup(this, 'securityGroup', {
         vpc: this.vpc,
         allowAllOutbound: true,
-        securityGroupName: 'securityGroup' + stage,
+        securityGroupName: 'securityGroup' + this.stage,
       });
     }
 
@@ -230,7 +220,7 @@ export class ContentGenerationAppSyncLambda extends Construct {
     // bucket for storing server access logging
     const serverAccessLogBucket = new s3.Bucket(
       this,
-      'serverAccessLogBucket' + stage,
+      'serverAccessLogBucket' + this.stage,
       {
         blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
         encryption: s3.BucketEncryption.S3_MANAGED,
@@ -250,10 +240,10 @@ export class ContentGenerationAppSyncLambda extends Construct {
     if (!props.existingGeneratedAssetsBucketObj) {
       let tmpBucket: s3.Bucket;
       if (!props.generatedAssetsBucketProps) {
-        tmpBucket = new s3.Bucket(this, 'generatedAssetsBucket' + stage, {
+        tmpBucket = new s3.Bucket(this, 'generatedAssetsBucket' + this.stage, {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
-          bucketName: 'generated-asset-bucket' + stage + '-' + Aws.ACCOUNT_ID,
+          bucketName: 'generated-asset-bucket' + this.stage + '-' + Aws.ACCOUNT_ID,
           serverAccessLogsBucket: serverAccessLogBucket,
           enforceSSL: true,
           versioned: true,
@@ -266,7 +256,7 @@ export class ContentGenerationAppSyncLambda extends Construct {
       } else {
         tmpBucket = new s3.Bucket(
           this,
-          'generatedAssetsBucket' + stage,
+          'generatedAssetsBucket' + this.stage,
           props.generatedAssetsBucketProps,
         );
       }
@@ -284,7 +274,7 @@ export class ContentGenerationAppSyncLambda extends Construct {
       this,
       'generateImageGraphqlApi',
       {
-        name: 'generateImageGraphqlApi' + stage,
+        name: 'generateImageGraphqlApi' + this.stage,
         definition: appsync.Definition.fromFile(
           path.join(
             __dirname,
@@ -302,8 +292,11 @@ export class ContentGenerationAppSyncLambda extends Construct {
             },
           ],
         },
-        xrayEnabled: enable_xray,
-        logConfig: api_log_config,
+        xrayEnabled: this.enablexray,
+        logConfig: {
+          fieldLogLevel: this.fieldLogLevel,
+          retention: this.retention,
+        },
       },
     );
 
@@ -345,9 +338,9 @@ export class ContentGenerationAppSyncLambda extends Construct {
     if (!props.existingBusInterface) {
       this.generatedImageBus = new events.EventBus(
         this,
-        'generateImageEventBus' + stage,
+        'generateImageEventBus' + this.stage,
         {
-          eventBusName: 'generateImageEventBus' + stage,
+          eventBusName: 'generateImageEventBus' + this.stage,
         },
       );
     } else {
@@ -356,10 +349,10 @@ export class ContentGenerationAppSyncLambda extends Construct {
 
     // create httpdatasource with generate_image_graphql_api
     const event_bridge_datasource = this.graphqlApi.addEventBridgeDataSource(
-      'generateImageEventBridgeDataSource' + stage,
+      'generateImageEventBridgeDataSource' + this.stage,
       this.generatedImageBus,
       {
-        name: 'generateImageEventBridgeDataSource' + stage,
+        name: 'generateImageEventBridgeDataSource' + this.stage,
       },
     );
 
@@ -488,10 +481,10 @@ export class ContentGenerationAppSyncLambda extends Construct {
           '../../../../lambda/aws-contentgen-appsync-lambda/src',
         ),
       ),
-      functionName: 'lambda_generate_image' + stage,
+      functionName: 'lambda_generate_image' + this.stage,
       description: 'Lambda function for generating image',
       vpc: this.vpc,
-      tracing: lambda_tracing,
+      tracing: this.lambdaTracing,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
@@ -510,23 +503,16 @@ export class ContentGenerationAppSyncLambda extends Construct {
     };
 
     const generate_image_function = buildDockerLambdaFunction(this,
-      'lambda_content_generation' + stage,
+      'lambda_content_generation' + this.stage,
       construct_docker_lambda_props,
       props.customDockerLambdaProps,
     );
 
     generate_image_function.currentVersion;
 
-    const enableOperationalMetric =
-      props.enableOperationalMetric !== undefined && props.enableOperationalMetric !== null ? props.enableOperationalMetric : true;
+    const lambdaFunctions=[generate_image_function];
+    this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
 
-    if (enableOperationalMetric) {
-      const solutionId = `genai_cdk_${version}/${this.constructor.name}/${id}`;
-      generate_image_function.addEnvironment(
-        'AWS_SDK_UA_APP_ID',
-        solutionId,
-      );
-    }
 
     // Add GraphQl permissions to the IAM role for the Lambda function
     generate_image_function.addToRolePolicy(
@@ -575,7 +561,7 @@ export class ContentGenerationAppSyncLambda extends Construct {
       ),
     });
 
-    const rule = new events.Rule(this, 'textToImageRule' + stage, {
+    const rule = new events.Rule(this, 'textToImageRule' + this.stage, {
       description: 'Rule to trigger textToImage function',
       eventBus: this.generatedImageBus,
       eventPattern: {

@@ -24,20 +24,28 @@ The JumpStartSageMakerEndpoint class.
 - [cfnEndpoint](JumpStartSageMakerEndpoint.md#cfnendpoint)
 - [cfnEndpointConfig](JumpStartSageMakerEndpoint.md#cfnendpointconfig)
 - [cfnModel](JumpStartSageMakerEndpoint.md#cfnmodel)
+- [constructUsageMetric](JumpStartSageMakerEndpoint.md#constructusagemetric)
+- [enablexray](JumpStartSageMakerEndpoint.md#enablexray)
 - [endpointArn](JumpStartSageMakerEndpoint.md#endpointarn)
 - [environment](JumpStartSageMakerEndpoint.md#environment)
+- [fieldLogLevel](JumpStartSageMakerEndpoint.md#fieldloglevel)
 - [grantPrincipal](JumpStartSageMakerEndpoint.md#grantprincipal)
 - [instanceCount](JumpStartSageMakerEndpoint.md#instancecount)
 - [instanceType](JumpStartSageMakerEndpoint.md#instancetype)
+- [lambdaTracing](JumpStartSageMakerEndpoint.md#lambdatracing)
 - [model](JumpStartSageMakerEndpoint.md#model)
 - [node](JumpStartSageMakerEndpoint.md#node)
 - [region](JumpStartSageMakerEndpoint.md#region)
+- [retention](JumpStartSageMakerEndpoint.md#retention)
 - [role](JumpStartSageMakerEndpoint.md#role)
 - [spec](JumpStartSageMakerEndpoint.md#spec)
+- [stage](JumpStartSageMakerEndpoint.md#stage)
 - [startupHealthCheckTimeoutInSeconds](JumpStartSageMakerEndpoint.md#startuphealthchecktimeoutinseconds)
+- [usageMetricMap](JumpStartSageMakerEndpoint.md#usagemetricmap)
 
 ### Methods
 
+- [addObservabilityToConstruct](JumpStartSageMakerEndpoint.md#addobservabilitytoconstruct)
 - [addToRolePolicy](JumpStartSageMakerEndpoint.md#addtorolepolicy)
 - [buildEnvironment](JumpStartSageMakerEndpoint.md#buildenvironment)
 - [createSageMakerRole](JumpStartSageMakerEndpoint.md#createsagemakerrole)
@@ -45,6 +53,8 @@ The JumpStartSageMakerEndpoint class.
 - [getModelFromPackage](JumpStartSageMakerEndpoint.md#getmodelfrompackage)
 - [grantInvoke](JumpStartSageMakerEndpoint.md#grantinvoke)
 - [toString](JumpStartSageMakerEndpoint.md#tostring)
+- [updateConstructUsageMetricCode](JumpStartSageMakerEndpoint.md#updateconstructusagemetriccode)
+- [updateEnvSuffix](JumpStartSageMakerEndpoint.md#updateenvsuffix)
 - [verifyInstanceType](JumpStartSageMakerEndpoint.md#verifyinstancetype)
 - [isConstruct](JumpStartSageMakerEndpoint.md#isconstruct)
 
@@ -96,6 +106,36 @@ ___
 
 ___
 
+### constructUsageMetric
+
+• `Readonly` **constructUsageMetric**: ``"uksb-1tupboc45"``
+
+construct usage metric , added in template description
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[constructUsageMetric](SageMakerEndpointBase.md#constructusagemetric)
+
+___
+
+### enablexray
+
+• **enablexray**: `boolean` = `true`
+
+enable disable xray tracing
+
+**`Default`**
+
+```ts
+- True
+```
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[enablexray](SageMakerEndpointBase.md#enablexray)
+
+___
+
 ### endpointArn
 
 • `Readonly` **endpointArn**: `string`
@@ -109,6 +149,18 @@ ___
 #### Index signature
 
 ▪ [key: `string`]: `string`
+
+___
+
+### fieldLogLevel
+
+• **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
+
+Default  log config for all constructs
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[fieldLogLevel](SageMakerEndpointBase.md#fieldloglevel)
 
 ___
 
@@ -127,6 +179,24 @@ ___
 ### instanceType
 
 • `Optional` `Readonly` **instanceType**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+___
+
+### lambdaTracing
+
+• **lambdaTracing**: `Tracing` = `lambda.Tracing.ACTIVE`
+
+enable disable lambda tracing
+
+**`Default`**
+
+```ts
+- Active
+```
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[lambdaTracing](SageMakerEndpointBase.md#lambdatracing)
 
 ___
 
@@ -154,6 +224,18 @@ ___
 
 ___
 
+### retention
+
+• **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
+
+Default  log retention config for all constructs
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[retention](SageMakerEndpointBase.md#retention)
+
+___
+
 ### role
 
 • `Readonly` **role**: `Role`
@@ -166,11 +248,61 @@ ___
 
 ___
 
+### stage
+
+• **stage**: `string`
+
+Value will be appended to resources name.
+
+**`Default`**
+
+```ts
+- _dev
+```
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[stage](SageMakerEndpointBase.md#stage)
+
+___
+
 ### startupHealthCheckTimeoutInSeconds
 
 • `Private` `Readonly` **startupHealthCheckTimeoutInSeconds**: `number`
 
+___
+
+### usageMetricMap
+
+▪ `Static` `Protected` **usageMetricMap**: `Record`\<`string`, `number`\>
+
+Record<string, number> , maps construct name with number of deployments
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[usageMetricMap](SageMakerEndpointBase.md#usagemetricmap)
+
 ## Methods
+
+### addObservabilityToConstruct
+
+▸ **addObservabilityToConstruct**(`props`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[addObservabilityToConstruct](SageMakerEndpointBase.md#addobservabilitytoconstruct)
+
+___
 
 ### addToRolePolicy
 
@@ -286,6 +418,48 @@ Returns a string representation of this construct.
 #### Inherited from
 
 [SageMakerEndpointBase](SageMakerEndpointBase.md).[toString](SageMakerEndpointBase.md#tostring)
+
+___
+
+### updateConstructUsageMetricCode
+
+▸ **updateConstructUsageMetricCode**(`props`, `scope`, `lambdaFunctions`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+| `scope` | `Construct` |
+| `lambdaFunctions` | `DockerImageFunction`[] |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[updateConstructUsageMetricCode](SageMakerEndpointBase.md#updateconstructusagemetriccode)
+
+___
+
+### updateEnvSuffix
+
+▸ **updateEnvSuffix**(`props`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[SageMakerEndpointBase](SageMakerEndpointBase.md).[updateEnvSuffix](SageMakerEndpointBase.md#updateenvsuffix)
 
 ___
 
