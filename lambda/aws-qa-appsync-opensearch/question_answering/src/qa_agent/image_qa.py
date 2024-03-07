@@ -35,8 +35,7 @@ metrics = Metrics(namespace="question_answering", service="QUESTION_ANSWERING")
 
 
 
-#bucket_name = os.environ['INPUT_BUCKET']
-bucket_name="persistencestack-inputassets7d1d3f52-qert2sgpwhtu"
+bucket_name = os.environ['INPUT_BUCKET']
 
 def run_qa_agent_on_image_no_memory(input_params):
     logger.info("starting qa agent without memory on uploaded image")

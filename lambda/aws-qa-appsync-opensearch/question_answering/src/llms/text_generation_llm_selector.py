@@ -27,6 +27,7 @@ tracer = Tracer(service="QUESTION_ANSWERING")
 metrics = Metrics(namespace="question_answering", service="QUESTION_ANSWERING")
 
 
+
 def get_llm(callbacks=None,model_id="anthropic.claude-v2:1"):
     bedrock = boto3.client('bedrock-runtime')
 
@@ -63,7 +64,7 @@ def get_embeddings_llm(model_id,modality):
 def get_bedrock_fm(model_id,modality):
     bedrock_client = boto3.client('bedrock-runtime')
     validation_status= validate_model_id_in_bedrock(model_id,modality)
-    print(f' validation_status :: {validation_status}')
+    logger.info(f' validation_status :: {validation_status}')
     if(validation_status['status']):
         return bedrock_client
     else:
@@ -73,9 +74,16 @@ def get_bedrock_fm(model_id,modality):
 
 
 #TODO -add max token based on model id    
-def get_max_tokens():
-    return 200000
+def get_max_tokens(model_id):
+    match model_id:
+        case "anthropic.claude-v2:1":
+            return 200000
+        case "anthropic.claude-3-sonnet-20240229-v1:0":
+            return 200000
+        case _:
+            return 4096
 
+        
 def validate_model_id_in_bedrock(model_id,modality):
         """
         Validate if the listed model id is supported with given modality
@@ -92,19 +100,16 @@ def validate_model_id_in_bedrock(model_id,modality):
             for model in models:
                 if model["modelId"].lower() == model_id.lower():   
                     response["message"]=f"model {model_id} does not support modality {modality} "                 
-                    print(f' modality :: {model["inputModalities"]}')
                     for inputModality in model["inputModalities"]:
                         if inputModality.lower() == modality.lower():
-                            print(f' modality supported')
                             response["message"]=f"model {model_id} with modality {modality} is supported with bedrock "                 
                             response["status"] = True
 
-            print(f' response :: {response}')
+            logger.info(f' response :: {response}')
             return response         
         except ClientError as ce:
             message=f"error occured while validating model in bedrock {ce}"
             logger.error(message)
             response["status"] = False
             response["message"] = message
-            print(f' response :: {response}')
             return response     

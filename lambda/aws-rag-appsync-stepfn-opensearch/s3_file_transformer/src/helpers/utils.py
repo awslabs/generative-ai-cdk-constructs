@@ -47,9 +47,14 @@ def transform_pdf_document(input_bucket: str,file_name: str,output_bucket: str,o
         if not document_content:
                 return 'Unable to load document'             
         else:
+            try:
                 encoded_string = document_content.encode("utf-8")
                 s3.Bucket(output_bucket).put_object(Key=output_file_name, Body=encoded_string) 
                 return 'File transformed' 
+            except Exception as e: 
+                  logger.error(f'Error in uploading {output_file_name} to  {output_bucket} :: {e}')
+                  return 'File transformed Failed'
+
 
 @tracer.capture_method
 def transform_image_document(input_bucket: str,file_name: str,output_bucket: str):  

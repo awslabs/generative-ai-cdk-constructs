@@ -23,7 +23,7 @@ logger = Logger(service="QUESTION_ANSWERING")
 tracer = Tracer(service="QUESTION_ANSWERING")
 metrics = Metrics(namespace="question_answering", service="QUESTION_ANSWERING")
 
-#@logger.inject_lambda_context(log_event=True)
+@logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler
 @metrics.log_metrics(capture_cold_start_metric=True)
 def handler(event,  context: LambdaContext) -> dict:
@@ -41,32 +41,3 @@ def handler(event,  context: LambdaContext) -> dict:
 
     print(f"llm_response is {llm_response}")
     return llm_response
-
-input ={"detail": {
-            "jobid": "111",
-            "jobstatus": "",
-            "qa_model": {
-                "provider": "Bedrock",
-                "modelId": "anthropic.claude-3-sonnet-20240229-v1:0",
-                "streaming": True,
-                "modality": "Image"
-            },
-            "embeddings_model": {
-                "provider": "Bedrock",
-                "modelId": "amazon.titan-embed-image-v1",
-                "streaming": True
-            },
-            "retrieval": {
-                "max_docs": 1,
-                "index_name": "",
-                "filter_filename": ""
-            },
-            "filename": "two_cats.jpeg",
-            "presignedurl": "",
-            "question": "d2hhdCBhcmUgdGhlIGNhdHMgZG9pbmc/",
-            "verbose": False,
-            "responseGenerationMethod": "LONG_CONTEXT"
-        }
-    }
-
-handler(input, None)

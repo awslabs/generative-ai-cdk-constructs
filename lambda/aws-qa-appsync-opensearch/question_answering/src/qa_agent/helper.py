@@ -10,19 +10,25 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
-from pathlib import Path
-from aiohttp import ClientError
-from langchain_community.vectorstores import OpenSearchVectorSearch
-#from opensearchpy import RequestsHttpConnection
-from llms import get_embeddings_llm
-import requests
 import os
 import boto3
 import json
 import base64
+from pathlib import Path
+from aiohttp import ClientError
+from langchain_community.vectorstores import OpenSearchVectorSearch
+from opensearchpy import RequestsHttpConnection
+from llms import get_embeddings_llm
+import requests
 from enum import Enum
 from requests_aws4auth import AWS4Auth
 s3 = boto3.client('s3')
+from aws_lambda_powertools import Logger, Tracer, Metrics
+
+
+logger = Logger(service="QUESTION_ANSWERING")
+tracer = Tracer(service="QUESTION_ANSWERING")
+metrics = Metrics(namespace="question_answering", service="QUESTION_ANSWERING")
 
 
 class JobStatus(Enum):
@@ -101,7 +107,7 @@ def load_vector_db_opensearch(region: str,
                               secret_id: str,
                               model_id: str,
                               modality: str) -> OpenSearchVectorSearch:
-    print(f"load_vector_db_opensearch, region={region}, "
+    logger.info(f"load_vector_db_opensearch, region={region}, "
                 f"opensearch_domain_endpoint={opensearch_domain_endpoint}, opensearch_index={opensearch_index}")
     
     # if the secret id is not provided
@@ -120,15 +126,16 @@ def load_vector_db_opensearch(region: str,
     embedding_function = get_embeddings_llm(model_id,modality)
 
     opensearch_url = opensearch_domain_endpoint if opensearch_domain_endpoint.startswith("https://") else f"https://{opensearch_domain_endpoint}"
-    # vector_db = OpenSearchVectorSearch(index_name=opensearch_index,
-    #                                    embedding_function=embedding_function,
-    #                                    opensearch_url=opensearch_url,
-    #                                    http_auth=http_auth,
-    #                                    use_ssl = True,
-    #                                    verify_certs = True,
-    #                                    connection_class = RequestsHttpConnection)
+    
+    vector_db = OpenSearchVectorSearch(index_name=opensearch_index,
+                                        embedding_function=embedding_function,
+                                        opensearch_url=opensearch_url,
+                                        http_auth=http_auth,
+                                        use_ssl = True,
+                                        verify_certs = True,
+                                        connection_class = RequestsHttpConnection)
     vector_db=""
-    print(f"returning handle to OpenSearchVectorSearch, vector_db={vector_db}")
+    logger.info(f"returning handle to OpenSearchVectorSearch, vector_db={vector_db}")
     return vector_db
 
 def send_job_status(variables):
@@ -159,8 +166,7 @@ def send_job_status(variables):
 
     print(request)
 
-    #GRAPHQL_URL = os.environ['GRAPHQL_URL']
-    GRAPHQL_URL ="https://j2uzmlvujbhbzoduvpctgkpu2e.appsync-api.us-east-1.amazonaws.com/graphql"
+    GRAPHQL_URL = os.environ['GRAPHQL_URL']
     HEADERS={
         "Content-Type": "application/json",
         }
@@ -172,7 +178,7 @@ def send_job_status(variables):
         auth=aws_auth_appsync,
         timeout=10
     )
-    print('res :: {}',responseJobstatus)
+    logger.info('res :: {}',responseJobstatus)
 
 def get_presigned_url(bucket,key) -> str:
         try:
@@ -181,23 +187,23 @@ def get_presigned_url(bucket,key) -> str:
                 Params={'Bucket': bucket, 'Key': key},
                 ExpiresIn=900
                 )
-             print(f"presigned url generated for {key} from {bucket}")
+             logger.info(f"presigned url generated for {key} from {bucket}")
              return url
         except Exception as exception:
-            print(f"Reason: {exception}")
+            logger.error(f"Reason: {exception}")
             return ""
 
 def download_file(bucket,key )-> str:
         try: 
             file_path = "/tmp/" + os.path.basename(key)
             s3.download_file(bucket, key,file_path)
-            print(f"file downloaded {file_path}")
+            logger.info(f"file downloaded {file_path}")
             return file_path
         except ClientError as client_err:
-            print(f"Couldn\'t download file {client_err.response['Error']['Message']}")
+            logger.error(f"Couldn\'t download file {client_err.response['Error']['Message']}")
         
         except Exception as exp:
-            print(f"Couldn\'t download file : {exp}")
+            logger.error(f"Couldn\'t download file : {exp}")
  
 def encode_image_to_base64(image_file_path,image_file) -> str:
         with open(image_file_path, "rb") as image_file:

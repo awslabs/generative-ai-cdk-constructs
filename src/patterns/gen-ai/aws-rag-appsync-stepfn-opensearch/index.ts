@@ -555,19 +555,9 @@ export class RagAppsyncStepfnOpensearch extends Construct {
     s3_transformer_job_function_role.addToPolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
       actions: [
-        'rekognition:CompareFaces',
-        'rekognition:DetectFaces',
-        'rekognition:DetectLabels',
-        'rekognition:ListFaces',
-        'rekognition:SearchFaces',
-        'rekognition:SearchFacesByImage',
-        'rekognition:DetectText',
-        'rekognition:GetCelebrityInfo',
-        'rekognition:RecognizeCelebrities',
         'rekognition:DetectModerationLabels',
       ],
-      //TODO: change the resource to specific arn
-      resources: ['*'],
+      resources: ['arn:'+ Aws.PARTITION +':rekognition:' + Aws.ACCOUNT_ID + ':project/*' ],
     }));
 
     s3_transformer_job_function_role.addToPolicy(new iam.PolicyStatement({

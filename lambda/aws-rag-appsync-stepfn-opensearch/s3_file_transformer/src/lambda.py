@@ -87,7 +87,6 @@ def handler(event,  context: LambdaContext) -> dict:
             response['name'] = output_file_name
             if(extension == '.pdf'):
                 response['status'] = transform_pdf_document(input_bucket,file_name,output_bucket,output_file_name)
-                print(f' pdf processed ::' )
             elif(extension == '.jpg'or extension == '.jpeg' or extension == '.png' or extension == '.svg'):
                 response['status'] = transform_image_document(input_bucket,file_name,output_bucket)
             #TODO add csv, doc, docx file type support as well.
