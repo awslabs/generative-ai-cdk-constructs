@@ -37,6 +37,7 @@ metrics = Metrics(namespace="question_answering", service="QUESTION_ANSWERING")
 
 bucket_name = os.environ['INPUT_BUCKET']
 
+
 def run_qa_agent_on_image_no_memory(input_params):
     logger.info("starting qa agent without memory on uploaded image")
 
@@ -99,7 +100,7 @@ def run_qa_agent_rag_on_image_no_memory(input_params):
     qa_model=input_params['qa_model']
     embeddings_model = input_params['embeddings_model']
     
-    if 'modelId' in qa_model and 'embedding_model_id' in embeddings_model:
+    if 'modelId' in qa_model and 'modelId' in embeddings_model:
          qa_model_id= qa_model['modelId']
          embedding_model_id = input_params['embeddings_model']['modelId']
     else:

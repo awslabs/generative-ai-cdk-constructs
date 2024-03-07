@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 import * as path from 'path';
-import { Duration, Aws, Annotations } from 'aws-cdk-lib';
+import { Duration, Aws } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
@@ -158,7 +158,7 @@ export interface QaAppsyncOpensearchProps {
    * Optional. Allows to provide custom lambda code
    * and settings instead of the existing
    */
-  readonly sagemakerEndpointName?: string
+  readonly sagemakerEndpointName?: string;
 }
 
 /**
@@ -465,13 +465,13 @@ export class QaAppsyncOpensearch extends BaseClass {
         resources: ['*'],
       }),
     );
-        
-    if(props.sagemakerEndpointName){
+
+    if (props.sagemakerEndpointName) {
       question_answering_function_role.addToPolicy(
         new iam.PolicyStatement({
           effect: iam.Effect.ALLOW,
           actions: ['sagemaker:InvokeEndpoint'],
-          resources: ['arn:'+ Aws.PARTITION +':sagemaker:' + Aws.ACCOUNT_ID + ':endpoint/*' ],
+          resources: ['arn:'+ Aws.PARTITION +':sagemaker:' + Aws.ACCOUNT_ID + ':endpoint/*'],
         }),
       );
     }
@@ -554,7 +554,7 @@ export class QaAppsyncOpensearch extends BaseClass {
       true,
     );
 
-    const sagemakerEndpointNamestr = props.sagemakerEndpointName || ""
+    const sagemakerEndpointNamestr = props.sagemakerEndpointName || '';
     const construct_docker_lambda_props = {
       code: lambda.DockerImageCode.fromImageAsset(
         path.join(
@@ -578,7 +578,7 @@ export class QaAppsyncOpensearch extends BaseClass {
         OPENSEARCH_DOMAIN_ENDPOINT: opensearch_helper.getOpenSearchEndpoint(props),
         OPENSEARCH_INDEX: props.openSearchIndexName,
         OPENSEARCH_SECRET_ID: SecretId,
-        SAGEMAKER_ENDPOINT:sagemakerEndpointNamestr
+        SAGEMAKER_ENDPOINT: sagemakerEndpointNamestr,
       },
       ...(props.lambdaProvisionedConcurrency && {
         currentVersionOptions: {

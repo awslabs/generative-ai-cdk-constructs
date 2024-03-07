@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 import * as path from 'path';
-import { Duration, Aws, Stack, Annotations } from 'aws-cdk-lib';
+import { Duration, Aws, Stack } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
@@ -536,7 +536,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
       actions: [
         'rekognition:DetectModerationLabels',
       ],
-      resources: ['arn:'+ Aws.PARTITION +':rekognition:' + Aws.ACCOUNT_ID + ':project/*' ],
+      resources: ['arn:'+ Aws.PARTITION +':rekognition:' + Aws.REGION +':'+ Aws.ACCOUNT_ID + ':project/*'],
     }));
 
     s3_transformer_job_function_role.addToPolicy(new iam.PolicyStatement({

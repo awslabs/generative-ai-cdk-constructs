@@ -55,6 +55,7 @@ describe('QA Appsync Open search construct', () => {
       openSearchIndexName: 'demoindex',
       openSearchSecret: osSecret,
       cognitoUserPool: userPoolLoaded,
+      sagemakerEndpointName: 'sageMakerEndpoint',
     };
 
     qaTestConstruct = new QaAppsyncOpensearch(qaTestStack, 'test', qaTestProps);
@@ -89,6 +90,7 @@ describe('QA Appsync Open search construct', () => {
           },
           OPENSEARCH_INDEX: 'demoindex',
           OPENSEARCH_SECRET_ID: 'OSSecretId',
+          SAGEMAKER_ENDPOINT: 'sageMakerEndpoint',
         },
       },
     });

@@ -54,7 +54,7 @@ def run_question_answering(arguments):
           # user didn't provide a image url as input, we use the RAG source against the entire knowledge base
          if response_generation_method == 'LONG_CONTEXT':
                 if not filename: 
-                    warning = 'Error: Image presigned url is required for LONG_CONTEXT approach, defaulting to RAG.'
+                    warning = 'Error: Filename url is required for LONG_CONTEXT approach, defaulting to RAG.'
                     logger.warning(warning)
                     llm_response = run_qa_agent_rag_on_image_no_memory(arguments)
                     return llm_response
