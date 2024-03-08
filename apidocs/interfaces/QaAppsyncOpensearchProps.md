@@ -23,6 +23,7 @@ The properties for the QaAppsyncOpensearchProps class.
 - [observability](QaAppsyncOpensearchProps.md#observability)
 - [openSearchIndexName](QaAppsyncOpensearchProps.md#opensearchindexname)
 - [openSearchSecret](QaAppsyncOpensearchProps.md#opensearchsecret)
+- [sagemakerEndpointName](QaAppsyncOpensearchProps.md#sagemakerendpointname)
 - [stage](QaAppsyncOpensearchProps.md#stage)
 - [vpcProps](QaAppsyncOpensearchProps.md#vpcprops)
 
@@ -235,6 +236,15 @@ domain is configured with Username/Password.
 ```ts
 - None
 ```
+
+___
+
+### sagemakerEndpointName
+
+• `Optional` `Readonly` **sagemakerEndpointName**: `string`
+
+Optional. Allows to provide custom lambda code
+and settings instead of the existing
 
 ___
 
