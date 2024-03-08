@@ -536,8 +536,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
       actions: [
         'rekognition:DetectModerationLabels',
       ],
-      resources: ['arn:'+ Aws.PARTITION +':rekognition:' + Aws.REGION +':'+ Aws.ACCOUNT_ID + ':project/*'],
-    }));
+      resources: ['*'] }));
 
     s3_transformer_job_function_role.addToPolicy(new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,

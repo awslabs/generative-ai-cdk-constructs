@@ -46,7 +46,7 @@ def run_question_answering(arguments):
     #set deafult modality to text
     qa_model= arguments['qa_model']
     modality=qa_model.get('modality','Text')
-      
+    
     # Visual QA
     if modality.lower()=='image': 
          logger.info("Running QA for Image modality")             

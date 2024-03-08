@@ -59,10 +59,10 @@ class MultiModal():
                 return endpoint
             except Exception as err:
                 logger.error(f' Error when accessing sagemaker endpoint :: {model_id} , returning...')
-                return ''
+                return None
         else:
                 logger.error(f" The sagemaker model Id {model_id} do not match a sagemaker endpoint name {sageMakerEndpoint}")
-                return ''
+                return None
             
 
 

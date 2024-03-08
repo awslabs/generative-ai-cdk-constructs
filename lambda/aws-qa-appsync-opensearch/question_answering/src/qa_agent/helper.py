@@ -134,7 +134,7 @@ def load_vector_db_opensearch(region: str,
                                         use_ssl = True,
                                         verify_certs = True,
                                         connection_class = RequestsHttpConnection)
-    vector_db=""
+   
     logger.info(f"returning handle to OpenSearchVectorSearch, vector_db={vector_db}")
     return vector_db
 
@@ -191,7 +191,7 @@ def get_presigned_url(bucket,key) -> str:
              return url
         except Exception as exception:
             logger.error(f"Reason: {exception}")
-            return ""
+            return None
 
 def download_file(bucket,key )-> str:
         try: 

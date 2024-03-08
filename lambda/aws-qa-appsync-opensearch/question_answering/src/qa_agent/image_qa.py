@@ -104,11 +104,12 @@ def run_qa_agent_rag_on_image_no_memory(input_params):
          qa_model_id= qa_model['modelId']
          embedding_model_id = input_params['embeddings_model']['modelId']
     else:
-         logger.error(' Either  qa_model_id  or embedding_model_id is not present, cannot answer question using RAG, returning...')
+         logger.error(' RAG based QA need both qa_model_id and embeddings_model_id, either one or both are missing, cannot answer question using RAG, returning...')
          status_variables['jobstatus'] = JobStatus.ERROR_LOAD_LLM.status
          status_variables['answer'] = JobStatus.ERROR_LOAD_LLM.status
          send_job_status(status_variables)
          return 
+    
     
    
     global _doc_index
@@ -127,6 +128,7 @@ def get_image_from_semantic_search_in_os(input_params,status_variables):
     embeddings_model=input_params['embeddings_model']
     embedding_model_id = embeddings_model['modelId']
     modality=embeddings_model.get("modality", "Text")
+
     if _doc_index is None:
         logger.info("loading opensearch retriever")
         doc_index = load_vector_db_opensearch(boto3.Session().region_name,
@@ -169,16 +171,21 @@ def process_visual_qa(input_params,status_variables,filename):
     
     qa_model= input_params['qa_model']
     qa_modelId=qa_model['modelId']
+    
+    # default model provider is bedrock and defalut modality is tEXT
     modality=qa_model.get("modality", "Text")
+    model_provider=qa_model.get("provider","Bedrock")
+    logger.info(f"model provider is {model_provider} and modality is {modality}")  
+   
     base64_bytes = input_params['question'].encode("utf-8")
     sample_string_bytes = base64.b64decode(base64_bytes)
     decoded_question = sample_string_bytes.decode("utf-8")
-    model_provider = input_params['qa_model']['provider']
-
+    
     if model_provider=='Sagemaker Endpoint':
         _qa_llm = MultiModal.sagemakerendpoint_llm(qa_modelId)   
         if(_qa_llm is not None):
              status_variables['answer']=generate_vision_answer_sagemaker(_qa_llm,input_params,decoded_question,filename,status_variables)
+             status_variables['jobstatus'] = JobStatus.DONE.status             
         else:
             logger.error('Invalid Model , cannot load  LLM , returning..')
             status_variables['jobstatus'] = JobStatus.ERROR_LOAD_LLM.status
@@ -191,6 +198,9 @@ def process_visual_qa(input_params,status_variables,filename):
             local_file_path= download_file(bucket_name,filename)
             base64_images=encode_image_to_base64(local_file_path,filename) 
             status_variables['answer']= generate_vision_answer_bedrock(_qa_llm,base64_images, qa_modelId,decoded_question)
+            status_variables['jobstatus'] = JobStatus.DONE.status
+            streaming = input_params.get("streaming", False)
+
         else:
             logger.error('Invalid Model , cannot load  LLM , returning..')
             status_variables['jobstatus'] = JobStatus.ERROR_LOAD_LLM.status
@@ -233,16 +243,12 @@ def generate_vision_answer_sagemaker(_qa_llm,input_params,decoded_question,statu
 
         status_variables['jobstatus'] = JobStatus.DONE.status
         status_variables['answer'] = llm_answer_base64_string
-        streaming = input_params.get("streaming", False)
-
-        send_job_status(status_variables) if not streaming else None
-
+        
     except Exception as err:
         logger.exception(err)
         status_variables['jobstatus'] = JobStatus.ERROR_PREDICTION.status
         error = JobStatus.ERROR_PREDICTION.get_message()
         status_variables['answer'] = error.decode("utf-8")
-        send_job_status(status_variables)
     
     return status_variables
 
@@ -279,7 +285,6 @@ def generate_vision_answer_bedrock(bedrock_client,base64_images, model_id,decode
             },
             {
                 "type": "text",
-                #"text": "Describe the architecture and code terraform script to deploy it, answer inside <answer></answer> tags."
                 "text": prompt
             
             }

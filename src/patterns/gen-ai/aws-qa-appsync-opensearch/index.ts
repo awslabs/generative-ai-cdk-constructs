@@ -535,10 +535,11 @@ export class QaAppsyncOpensearch extends BaseClass {
         actions: [
           'bedrock:InvokeModel',
           'bedrock:InvokeModelWithResponseStream',
+          'bedrock:ListFoundationModels',
         ],
+        // ListFoundationModels has no specific resource type
         resources: [
-          'arn:' + Aws.PARTITION + ':bedrock:' + Aws.REGION + '::foundation-model',
-          'arn:' + Aws.PARTITION + ':bedrock:' + Aws.REGION + '::foundation-model/*',
+          '*',
         ],
       }),
     );
