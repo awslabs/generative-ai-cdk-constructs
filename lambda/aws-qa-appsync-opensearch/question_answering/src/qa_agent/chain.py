@@ -94,7 +94,8 @@ def run_question_answering(arguments):
             send_job_status(status_variables)
             return ''
 
-        model_max_tokens = get_max_tokens()
+        model_id=qa_model['modelId']
+        model_max_tokens = get_max_tokens(model_id)
         logger.info(
             f'For the current question, we have a max model length of {model_max_tokens} and a document containing {document_number_of_tokens} tokens')
 

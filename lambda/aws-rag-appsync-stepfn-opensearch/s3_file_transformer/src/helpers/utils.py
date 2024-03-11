@@ -12,6 +12,7 @@
 #
 
 import os
+import tempfile
 import boto3
 import json
 from botocore.exceptions import ClientError
@@ -128,7 +129,7 @@ def convert_lables_to_sentence(labels_str)-> str:
 
 def download_file(bucket, object )-> str:
         try: 
-            file_path = "/tmp/" + os.path.basename(object)
+            file_path = os.path.join(tempfile.gettempdir(), os.path.basename(object)) 
             s3.Bucket(bucket).download_file(object, file_path)
             return file_path
         except ClientError as client_err:
@@ -139,7 +140,7 @@ def download_file(bucket, object )-> str:
 
 def upload_file(bucket, file_name,key )-> str:
         try: 
-            file_path = "/tmp/" + os.path.basename(file_name)
+            file_path = os.path.join(tempfile.gettempdir(), os.path.basename(file_name)) 
             s3.meta.client.upload_file(file_path, bucket,key)
             return file_path
         except ClientError as client_err:

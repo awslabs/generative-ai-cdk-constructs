@@ -11,6 +11,7 @@
 # and limitations under the License.
 #
 import os
+import tempfile
 import boto3
 
 
@@ -104,9 +105,9 @@ class image_transformer():
         Image.MAX_IMAGE_PIXELS = 100000000
         fileshort = os.path.basename(self.file_name)
 
-        print(f'fileshort {fileshort} ')
-        file_tmp = "/tmp/" + fileshort
-        
+
+        file_tmp = os.path.join(tempfile.gettempdir(), os.path.basename(self.file_name)) 
+
         with Image.open(file_tmp) as image:
                 image.verify()
         with Image.open(file_tmp) as image:  

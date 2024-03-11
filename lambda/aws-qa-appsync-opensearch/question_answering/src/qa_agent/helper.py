@@ -11,6 +11,7 @@
 # and limitations under the License.
 #
 import os
+import tempfile
 import boto3
 import json
 import base64
@@ -195,7 +196,7 @@ def get_presigned_url(bucket,key) -> str:
 
 def download_file(bucket,key )-> str:
         try: 
-            file_path = "/tmp/" + os.path.basename(key)
+            file_path = os.path.join(tempfile.gettempdir(), os.path.basename(image_file))
             s3.download_file(bucket, key,file_path)
             logger.info(f"file downloaded {file_path}")
             return file_path

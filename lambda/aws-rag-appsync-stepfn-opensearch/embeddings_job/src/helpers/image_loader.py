@@ -12,6 +12,7 @@
 #
 
 import os
+import tempfile
 import time
 import base64
 import json
@@ -52,7 +53,7 @@ class image_loader():
     def encode_image_to_base64(self,image_file_path,image_file) -> str:
         with open(image_file_path, "rb") as image_file:
             b64_image = base64.b64encode(image_file.read()).decode('utf8')
-            b64_image_path = os.path.join("/tmp/", f"{Path(image_file_path).stem}.b64")
+            b64_image_path = os.path.join(tempfile.gettempdir(), f"{Path(image_file_path).stem}.b64")
             with open(b64_image_path, "wb") as b64_image_file:
                 b64_image_file.write(bytes(b64_image, 'utf-8'))
         return b64_image_path
@@ -107,8 +108,8 @@ class image_loader():
         
     @tracer.capture_method
     def download_file(self,key )-> str:
-        try: 
-            file_path = "/tmp/" + os.path.basename(key)
+        try:
+            file_path = os.path.join(tempfile.gettempdir(), os.path.basename(key)) 
             s3_client.download_file(self.bucket, key,file_path)
             print(f"file downloaded {file_path}")
             return file_path
