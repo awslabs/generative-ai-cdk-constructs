@@ -8,7 +8,7 @@ The QaAppsyncOpensearch class.
 
 ## Hierarchy
 
-- `Construct`
+- [`BaseClass`](BaseClass.md)
 
   ↳ **`QaAppsyncOpensearch`**
 
@@ -20,18 +20,28 @@ The QaAppsyncOpensearch class.
 
 ### Properties
 
+- [constructUsageMetric](QaAppsyncOpensearch.md#constructusagemetric)
+- [enablexray](QaAppsyncOpensearch.md#enablexray)
+- [fieldLogLevel](QaAppsyncOpensearch.md#fieldloglevel)
 - [graphqlApi](QaAppsyncOpensearch.md#graphqlapi)
+- [lambdaTracing](QaAppsyncOpensearch.md#lambdatracing)
 - [node](QaAppsyncOpensearch.md#node)
 - [qaBus](QaAppsyncOpensearch.md#qabus)
 - [qaLambdaFunction](QaAppsyncOpensearch.md#qalambdafunction)
+- [retention](QaAppsyncOpensearch.md#retention)
 - [s3InputAssetsBucket](QaAppsyncOpensearch.md#s3inputassetsbucket)
 - [s3InputAssetsBucketInterface](QaAppsyncOpensearch.md#s3inputassetsbucketinterface)
 - [securityGroup](QaAppsyncOpensearch.md#securitygroup)
+- [stage](QaAppsyncOpensearch.md#stage)
 - [vpc](QaAppsyncOpensearch.md#vpc)
+- [usageMetricMap](QaAppsyncOpensearch.md#usagemetricmap)
 
 ### Methods
 
+- [addObservabilityToConstruct](QaAppsyncOpensearch.md#addobservabilitytoconstruct)
 - [toString](QaAppsyncOpensearch.md#tostring)
+- [updateConstructUsageMetricCode](QaAppsyncOpensearch.md#updateconstructusagemetriccode)
+- [updateEnvSuffix](QaAppsyncOpensearch.md#updateenvsuffix)
 - [isConstruct](QaAppsyncOpensearch.md#isconstruct)
 
 ## Constructors
@@ -66,15 +76,75 @@ public
 
 #### Overrides
 
-Construct.constructor
+[BaseClass](BaseClass.md).[constructor](BaseClass.md#constructor)
 
 ## Properties
+
+### constructUsageMetric
+
+• `Readonly` **constructUsageMetric**: ``"uksb-1tupboc45"``
+
+construct usage metric , added in template description
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[constructUsageMetric](BaseClass.md#constructusagemetric)
+
+___
+
+### enablexray
+
+• **enablexray**: `boolean` = `true`
+
+enable disable xray tracing
+
+**`Default`**
+
+```ts
+- True
+```
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[enablexray](BaseClass.md#enablexray)
+
+___
+
+### fieldLogLevel
+
+• **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
+
+Default  log config for all constructs
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[fieldLogLevel](BaseClass.md#fieldloglevel)
+
+___
 
 ### graphqlApi
 
 • `Readonly` **graphqlApi**: `IGraphqlApi`
 
 Returns an instance of appsync.IGraphqlApi created by the construct
+
+___
+
+### lambdaTracing
+
+• **lambdaTracing**: `Tracing` = `lambda.Tracing.ACTIVE`
+
+enable disable lambda tracing
+
+**`Default`**
+
+```ts
+- Active
+```
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[lambdaTracing](BaseClass.md#lambdatracing)
 
 ___
 
@@ -86,7 +156,7 @@ The tree node.
 
 #### Inherited from
 
-Construct.node
+[BaseClass](BaseClass.md).[node](BaseClass.md#node)
 
 ___
 
@@ -103,6 +173,18 @@ ___
 • `Readonly` **qaLambdaFunction**: `DockerImageFunction`
 
 Returns an instance of appsync.IGraphqlApi created by the construct
+
+___
+
+### retention
+
+• **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
+
+Default  log retention config for all constructs
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[retention](BaseClass.md#retention)
 
 ___
 
@@ -132,13 +214,63 @@ Returns the instance of ec2.ISecurityGroup used by the construct
 
 ___
 
+### stage
+
+• **stage**: `string`
+
+Value will be appended to resources name.
+
+**`Default`**
+
+```ts
+- _dev
+```
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[stage](BaseClass.md#stage)
+
+___
+
 ### vpc
 
 • `Readonly` **vpc**: `IVpc`
 
 Returns the instance of ec2.IVpc used by the construct
 
+___
+
+### usageMetricMap
+
+▪ `Static` `Protected` **usageMetricMap**: `Record`\<`string`, `number`\>
+
+Record<string, number> , maps construct name with number of deployments
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[usageMetricMap](BaseClass.md#usagemetricmap)
+
 ## Methods
+
+### addObservabilityToConstruct
+
+▸ **addObservabilityToConstruct**(`props`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[addObservabilityToConstruct](BaseClass.md#addobservabilitytoconstruct)
+
+___
 
 ### toString
 
@@ -152,7 +284,49 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-Construct.toString
+[BaseClass](BaseClass.md).[toString](BaseClass.md#tostring)
+
+___
+
+### updateConstructUsageMetricCode
+
+▸ **updateConstructUsageMetricCode**(`props`, `scope`, `lambdaFunctions`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+| `scope` | `Construct` |
+| `lambdaFunctions` | `DockerImageFunction`[] |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[updateConstructUsageMetricCode](BaseClass.md#updateconstructusagemetriccode)
+
+___
+
+### updateEnvSuffix
+
+▸ **updateEnvSuffix**(`props`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[updateEnvSuffix](BaseClass.md#updateenvsuffix)
 
 ___
 
@@ -190,4 +364,4 @@ true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-Construct.isConstruct
+[BaseClass](BaseClass.md).[isConstruct](BaseClass.md#isconstruct)

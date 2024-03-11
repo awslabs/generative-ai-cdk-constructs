@@ -10,8 +10,13 @@
 - [opensearch\_vectorindex](modules/opensearch_vectorindex.md)
 - [opensearchserverless](modules/opensearchserverless.md)
 
+### Enumerations
+
+- [ConstructName](enums/ConstructName.md)
+
 ### Classes
 
+- [BaseClass](classes/BaseClass.md)
 - [ContainerImage](classes/ContainerImage.md)
 - [ContentGenerationAppSyncLambda](classes/ContentGenerationAppSyncLambda.md)
 - [CustomSageMakerEndpoint](classes/CustomSageMakerEndpoint.md)
@@ -30,6 +35,7 @@
 ### Interfaces
 
 - [AdapterProps](interfaces/AdapterProps.md)
+- [BaseClassProps](interfaces/BaseClassProps.md)
 - [ContainerImageConfig](interfaces/ContainerImageConfig.md)
 - [ContentGenerationAppSyncLambdaProps](interfaces/ContentGenerationAppSyncLambdaProps.md)
 - [CustomSageMakerEndpointProps](interfaces/CustomSageMakerEndpointProps.md)
