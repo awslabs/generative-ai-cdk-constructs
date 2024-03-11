@@ -156,11 +156,10 @@ def get_image_from_semantic_search_in_os(input_params,status_variables):
     # if filename is given then filter the source_document for specfic file
     logger.info(f'output_file_name is :: {output_file_name}')
     if output_file_name:
-        source_documents = [doc for doc in source_documents if doc.metadata['source'] == output_file_name]
+        source_documents = [doc for doc in source_documents if doc.metadata['filename'] == output_file_name]
     status_variables['sources'] = list(set(doc.metadata['source'] for doc in source_documents))
     
-    # get new presigned url for RAG from source metadata
-    if source_documents is not None:
+    if source_documents is not None and len(source_documents) != 0:
         filename = source_documents[0].metadata['filename']
         status_variables['filename']=filename     
     
