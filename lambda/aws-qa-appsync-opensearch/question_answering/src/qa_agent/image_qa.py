@@ -228,9 +228,8 @@ def generate_vision_answer_sagemaker(_qa_llm,input_params,decoded_question,statu
 
     template = """\n\nUser: {question}![]({image})<end_of_utterance>
          \n\nAssistant:"""
-    verbose = input_params.get(input_params['verbose'],False)
     prompt = PromptTemplate(template=template, input_variables=["image", "question"])
-    chain = LLMChain(llm=_qa_llm, prompt=prompt, verbose=verbose)
+    chain = LLMChain(llm=_qa_llm, prompt=prompt, verbose=input_params['verbose'])
     
     try:    
         logger.info(f'decoded_question is: {decoded_question}')

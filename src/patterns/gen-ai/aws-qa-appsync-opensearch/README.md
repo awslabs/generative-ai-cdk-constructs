@@ -198,7 +198,8 @@ Mutation call to trigger the question:
     ,
     retrieval:{
       max_docs:10
-    }
+    },
+    verbose:false
   
   ) {
     jobid
