@@ -124,8 +124,9 @@ def run_qa_agent_rag_no_memory(input_params):
     template = """\n\nHuman: {context}
     Answer from this text: {question}
     \n\nAssistant:"""
+    verbose = input_params.get(input_params['verbose'],False)
     prompt = PromptTemplate(template=template, input_variables=["context", "question"])
-    chain = LLMChain(llm=_qa_llm, prompt=prompt, verbose=input_params['verbose'])
+    chain = LLMChain(llm=_qa_llm, prompt=prompt, verbose=verbose)
 
     try:
         tmp = chain.predict(context=source_documents, question=decoded_question)
@@ -219,8 +220,9 @@ def run_qa_agent_from_single_document_no_memory(input_params):
     template = """\n\nHuman: {context}
     Answer from this text: {question}
     \n\nAssistant:"""
+    verbose = input_params.get(input_params['verbose'],False)
     prompt = PromptTemplate(template=template, input_variables=["context", "question"])
-    chain = LLMChain(llm=_qa_llm, prompt=prompt, verbose=input_params['verbose'])
+    chain = LLMChain(llm=_qa_llm, prompt=prompt, verbose=verbose)
 
     try:
         logger.info(f'file content is: {_file_content}')
