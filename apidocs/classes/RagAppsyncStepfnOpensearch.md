@@ -8,7 +8,7 @@ The RagAppsyncStepfnOpensearch class.
 
 ## Hierarchy
 
-- `Construct`
+- [`BaseClass`](BaseClass.md)
 
   ↳ **`RagAppsyncStepfnOpensearch`**
 
@@ -20,23 +20,33 @@ The RagAppsyncStepfnOpensearch class.
 
 ### Properties
 
+- [constructUsageMetric](RagAppsyncStepfnOpensearch.md#constructusagemetric)
 - [embeddingsLambdaFunction](RagAppsyncStepfnOpensearch.md#embeddingslambdafunction)
+- [enablexray](RagAppsyncStepfnOpensearch.md#enablexray)
+- [fieldLogLevel](RagAppsyncStepfnOpensearch.md#fieldloglevel)
 - [fileTransformerLambdaFunction](RagAppsyncStepfnOpensearch.md#filetransformerlambdafunction)
 - [graphqlApi](RagAppsyncStepfnOpensearch.md#graphqlapi)
 - [ingestionBus](RagAppsyncStepfnOpensearch.md#ingestionbus)
 - [inputValidationLambdaFunction](RagAppsyncStepfnOpensearch.md#inputvalidationlambdafunction)
+- [lambdaTracing](RagAppsyncStepfnOpensearch.md#lambdatracing)
 - [node](RagAppsyncStepfnOpensearch.md#node)
+- [retention](RagAppsyncStepfnOpensearch.md#retention)
 - [s3InputAssetsBucket](RagAppsyncStepfnOpensearch.md#s3inputassetsbucket)
 - [s3InputAssetsBucketInterface](RagAppsyncStepfnOpensearch.md#s3inputassetsbucketinterface)
 - [s3ProcessedAssetsBucket](RagAppsyncStepfnOpensearch.md#s3processedassetsbucket)
 - [s3ProcessedAssetsBucketInterface](RagAppsyncStepfnOpensearch.md#s3processedassetsbucketinterface)
 - [securityGroup](RagAppsyncStepfnOpensearch.md#securitygroup)
+- [stage](RagAppsyncStepfnOpensearch.md#stage)
 - [stateMachine](RagAppsyncStepfnOpensearch.md#statemachine)
 - [vpc](RagAppsyncStepfnOpensearch.md#vpc)
+- [usageMetricMap](RagAppsyncStepfnOpensearch.md#usagemetricmap)
 
 ### Methods
 
+- [addObservabilityToConstruct](RagAppsyncStepfnOpensearch.md#addobservabilitytoconstruct)
 - [toString](RagAppsyncStepfnOpensearch.md#tostring)
+- [updateConstructUsageMetricCode](RagAppsyncStepfnOpensearch.md#updateconstructusagemetriccode)
+- [updateEnvSuffix](RagAppsyncStepfnOpensearch.md#updateenvsuffix)
 - [isConstruct](RagAppsyncStepfnOpensearch.md#isconstruct)
 
 ## Constructors
@@ -71,15 +81,57 @@ public
 
 #### Overrides
 
-Construct.constructor
+[BaseClass](BaseClass.md).[constructor](BaseClass.md#constructor)
 
 ## Properties
+
+### constructUsageMetric
+
+• `Readonly` **constructUsageMetric**: ``"uksb-1tupboc45"``
+
+construct usage metric , added in template description
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[constructUsageMetric](BaseClass.md#constructusagemetric)
+
+___
 
 ### embeddingsLambdaFunction
 
 • `Readonly` **embeddingsLambdaFunction**: `DockerImageFunction`
 
 Returns an instance of lambda.DockerImageFunction used for the embeddings job created by the construct
+
+___
+
+### enablexray
+
+• **enablexray**: `boolean` = `true`
+
+enable disable xray tracing
+
+**`Default`**
+
+```ts
+- True
+```
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[enablexray](BaseClass.md#enablexray)
+
+___
+
+### fieldLogLevel
+
+• **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
+
+Default  log config for all constructs
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[fieldLogLevel](BaseClass.md#fieldloglevel)
 
 ___
 
@@ -115,6 +167,24 @@ Returns an instance of lambda.DockerImageFunction used for the input validation 
 
 ___
 
+### lambdaTracing
+
+• **lambdaTracing**: `Tracing` = `lambda.Tracing.ACTIVE`
+
+enable disable lambda tracing
+
+**`Default`**
+
+```ts
+- Active
+```
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[lambdaTracing](BaseClass.md#lambdatracing)
+
+___
+
 ### node
 
 • `Readonly` **node**: `Node`
@@ -123,7 +193,19 @@ The tree node.
 
 #### Inherited from
 
-Construct.node
+[BaseClass](BaseClass.md).[node](BaseClass.md#node)
+
+___
+
+### retention
+
+• **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
+
+Default  log retention config for all constructs
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[retention](BaseClass.md#retention)
 
 ___
 
@@ -171,6 +253,24 @@ Returns the instance of ec2.ISecurityGroup used by the construct
 
 ___
 
+### stage
+
+• **stage**: `string`
+
+Value will be appended to resources name.
+
+**`Default`**
+
+```ts
+- _dev
+```
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[stage](BaseClass.md#stage)
+
+___
+
 ### stateMachine
 
 • `Readonly` **stateMachine**: `StateMachine`
@@ -185,7 +285,39 @@ ___
 
 Returns the instance of ec2.IVpc used by the construct
 
+___
+
+### usageMetricMap
+
+▪ `Static` `Protected` **usageMetricMap**: `Record`\<`string`, `number`\>
+
+Record<string, number> , maps construct name with number of deployments
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[usageMetricMap](BaseClass.md#usagemetricmap)
+
 ## Methods
+
+### addObservabilityToConstruct
+
+▸ **addObservabilityToConstruct**(`props`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[addObservabilityToConstruct](BaseClass.md#addobservabilitytoconstruct)
+
+___
 
 ### toString
 
@@ -199,7 +331,49 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-Construct.toString
+[BaseClass](BaseClass.md).[toString](BaseClass.md#tostring)
+
+___
+
+### updateConstructUsageMetricCode
+
+▸ **updateConstructUsageMetricCode**(`props`, `scope`, `lambdaFunctions`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+| `scope` | `Construct` |
+| `lambdaFunctions` | `DockerImageFunction`[] |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[updateConstructUsageMetricCode](BaseClass.md#updateconstructusagemetriccode)
+
+___
+
+### updateEnvSuffix
+
+▸ **updateEnvSuffix**(`props`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[BaseClass](BaseClass.md).[updateEnvSuffix](BaseClass.md#updateenvsuffix)
 
 ___
 
@@ -237,4 +411,4 @@ true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-Construct.isConstruct
+[BaseClass](BaseClass.md).[isConstruct](BaseClass.md#isconstruct)

@@ -10,20 +10,5 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import * as iam from 'aws-cdk-lib/aws-iam';
-import { BaseClass } from '../../../common/base-class';
-
-export abstract class SageMakerEndpointBase extends BaseClass {
-  protected createSageMakerRole(): iam.Role {
-    const role = new iam.Role(this, 'Role', {
-      assumedBy: new iam.ServicePrincipal('sagemaker.amazonaws.com'),
-      managedPolicies: [
-        iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSageMakerFullAccess'),
-      ],
-    });
-
-    return role;
-  }
-
-
-}
+export * from './base-class';
+export * from './construct-name-enum';

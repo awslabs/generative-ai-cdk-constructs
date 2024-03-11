@@ -17,6 +17,8 @@ import { Construct } from 'constructs';
 import { ContainerImage } from './container-image';
 import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
 import { SageMakerInstanceType } from './sagemaker-instance-type';
+import { ConstructName } from '../../../common/base-class';
+import { BaseClassProps } from '../../../common/base-class/base-class';
 
 export interface HuggingFaceSageMakerEndpointProps {
   readonly modelId: string;
@@ -28,6 +30,7 @@ export interface HuggingFaceSageMakerEndpointProps {
   readonly environment?: { [key: string]: string };
   readonly startupHealthCheckTimeoutInSeconds?: number;
   readonly vpcConfig?: sagemaker.CfnModel.VpcConfigProperty | undefined;
+  readonly enableOperationalMetric?: boolean;
 }
 
 /**
@@ -50,6 +53,17 @@ export class HuggingFaceSageMakerEndpoint extends SageMakerEndpointBase implemen
 
   constructor(scope: Construct, id: string, props: HuggingFaceSageMakerEndpointProps) {
     super(scope, id);
+
+    const baseProps: BaseClassProps={
+      enableOperationalMetric: props.enableOperationalMetric,
+      constructName: ConstructName.HUGGINGFACESAGEMAKERENDPOINT,
+      constructId: id,
+    };
+
+    // No lambda function to use AWS SDK for service metric
+    const lambdaFunctions: cdk.aws_lambda.DockerImageFunction[]=[];
+    this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
+
 
     this.modelId = props.modelId;
     this.instanceType = props.instanceType;
@@ -133,4 +147,6 @@ export class HuggingFaceSageMakerEndpoint extends SageMakerEndpointBase implemen
       resourceArns: [this.endpointArn],
     });
   }
+
+
 }
