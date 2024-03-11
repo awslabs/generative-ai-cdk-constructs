@@ -10,92 +10,29 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import * as path from 'path';
-import { Duration, Aws, Stack } from 'aws-cdk-lib';
+import path from 'path';
+import * as cdk from 'aws-cdk-lib';
+import { Aws } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import * as events from 'aws-cdk-lib/aws-events';
-import * as targets from 'aws-cdk-lib/aws-events-targets';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as kendra from 'aws-cdk-lib/aws-kendra';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
+import { CfnLogGroup } from 'aws-cdk-lib/aws-logs';
 import * as logs from 'aws-cdk-lib/aws-logs';
-import * as openSearchServerless from 'aws-cdk-lib/aws-opensearchserverless';
-import * as opensearchservice from 'aws-cdk-lib/aws-opensearchservice';
-import * as s3 from 'aws-cdk-lib/aws-s3';
-import * as secret from 'aws-cdk-lib/aws-secretsmanager';
-import * as stepfn from 'aws-cdk-lib/aws-stepfunctions';
-import * as stepfn_task from 'aws-cdk-lib/aws-stepfunctions-tasks';
-import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
-import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
-import * as opensearch_helper from '../../../common/helpers/opensearch-helper';
-import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
-import { generatePhysicalName, version, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
-import * as vpc_helper from '../../../common/helpers/vpc-helper';
-import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
-import * as kendra from "aws-cdk-lib/aws-kendra";
-import * as cdk from 'aws-cdk-lib';
-import {CfnLogGroup} from "aws-cdk-lib/aws-logs";
-
-enum EndpointTypes {
-  GATEWAY = "Gateway",
-  INTERFACE = "Interface",
-}
-
-interface EndpointDefinition {
-  endpointName: ServiceEndpointTypes;
-  endpointType: EndpointTypes;
-  endpointGatewayService?: ec2.GatewayVpcEndpointAwsService;
-  endpointInterfaceService?: ec2.InterfaceVpcEndpointAwsService;
-}
-
-export interface BuildKendraIndexProps {
-  readonly kendraIndexProps?: kendra.CfnIndexProps | any;
-  /**
-   * Existing instance of Kendra Index object, Providing both this and kendraIndexProps will cause an error.
-   *
-   * @default - None
-   */
-  readonly existingIndexObj?: kendra.CfnIndex;
-}
-
-export interface BuildVpcProps {
-  /**
-   * Existing instance of a VPC, if this is set then the all Props are ignored
-   */
-  readonly existingVpc?: ec2.IVpc;
-  /**
-   * One of the default VPC configurations available in vpc-defaults
-   */
-  readonly defaultVpcProps: ec2.VpcProps;
-  /**
-   * User provided props to override the default props for the VPC.
-   */
-  readonly userVpcProps?: ec2.VpcProps;
-  /**
-   * Construct specified props that override both the default props
-   * and user props for the VPC.
-   */
-  readonly constructVpcProps?: ec2.VpcProps;
-}
-
-export interface SecurityGroupRuleDefinition {
-  readonly peer: ec2.IPeer // example: ec2.Peer.ipV4(vpc.vpcCiderBlock)
-  readonly connection: ec2.Port
-  readonly description?: string
-  readonly remoteRule?: boolean
-}
-
-
-/**
- * The CFN NAG suppress rule interface
- * @interface CfnNagSuppressRule
- */
-export interface CfnNagSuppressRule {
-  readonly id: string;
-  readonly reason: string;
-}
+import * as deepmerge from 'deepmerge';
+import {
+  BuildKendraIndexProps,
+  BuildVpcProps,
+  CfnNagSuppressRule,
+  EndpointDefinition,
+  EndpointTypes,
+  SecurityGroupRuleDefinition,
+} from './types';
+import { CreateS3DataSource } from '../../../common/helpers/kendra-helper';
+import { generatePhysicalName } from '../../../common/helpers/utils';
 
 
 /**
@@ -103,7 +40,7 @@ export interface CfnNagSuppressRule {
  * @param resource The CDK resource
  * @param rules The CFN NAG suppress rules
  */
- function addCfnSuppressRules(resource: cdk.Resource | cdk.CfnResource, rules: CfnNagSuppressRule[]) {
+function addCfnSuppressRules(resource: cdk.Resource | cdk.CfnResource, rules: CfnNagSuppressRule[]) {
   if (resource instanceof cdk.Resource) {
     resource = resource.node.defaultChild as cdk.CfnResource;
   }
@@ -112,7 +49,7 @@ export interface CfnNagSuppressRule {
     resource.cfnOptions.metadata?.cfn_nag.rules_to_suppress.push(...rules);
   } else {
     resource.addMetadata('cfn_nag', {
-      rules_to_suppress: rules
+      rules_to_suppress: rules,
     });
   }
 }
@@ -182,13 +119,13 @@ export function overrideProps(DefaultProps: object, userProps: object, concatArr
   // Override the sensible defaults with user provided props
   if (concatArray) {
     return deepmerge(DefaultProps, userProps, {
-      arrayMerge: (destinationArray, sourceArray) =>  destinationArray.concat(sourceArray),
-      isMergeableObject: isPlainObject
+      arrayMerge: (destinationArray, sourceArray) => destinationArray.concat(sourceArray),
+      isMergeableObject: isPlainObject,
     });
   } else {
     return deepmerge(DefaultProps, userProps, {
       arrayMerge: (_destinationArray, sourceArray) => sourceArray, // underscore allows arg to be ignored
-      isMergeableObject: isPlainObject
+      isMergeableObject: isPlainObject,
     });
   }
 }
@@ -201,10 +138,10 @@ function buildVpc(scope: Construct, props: BuildVpcProps): ec2.IVpc {
 
   cumulativeProps = consolidateProps(cumulativeProps, props?.userVpcProps, props?.constructVpcProps);
 
-  const vpc = new ec2.Vpc(scope, "Vpc", cumulativeProps);
+  const vpc = new ec2.Vpc(scope, 'Vpc', cumulativeProps);
 
   // Add VPC FlowLogs with the default setting of trafficType:ALL and destination: CloudWatch Logs
-  const flowLog: ec2.FlowLog = vpc.addFlowLog("FlowLog");
+  const flowLog: ec2.FlowLog = vpc.addFlowLog('FlowLog');
 
   SuppressMapPublicIpWarnings(vpc);
   SuppressEncryptedLogWarnings(flowLog);
@@ -219,8 +156,8 @@ function SuppressMapPublicIpWarnings(vpc: ec2.Vpc) {
     addCfnSuppressRules(cfnSubnet, [
       {
         id: 'W33',
-        reason: 'Allow Public Subnets to have MapPublicIpOnLaunch set to true'
-      }
+        reason: 'Allow Public Subnets to have MapPublicIpOnLaunch set to true',
+      },
     ]);
   });
 }
@@ -230,8 +167,8 @@ function SuppressEncryptedLogWarnings(flowLog: ec2.FlowLog) {
   addCfnSuppressRules(cfnLogGroup, [
     {
       id: 'W84',
-      reason: 'By default CloudWatchLogs LogGroups data is encrypted using the CloudWatch server-side encryption keys (AWS Managed Keys)'
-    }
+      reason: 'By default CloudWatchLogs LogGroups data is encrypted using the CloudWatch server-side encryption keys (AWS Managed Keys)',
+    },
   ]);
 }
 export function DefaultIsolatedVpcProps(): ec2.VpcProps {
@@ -240,28 +177,28 @@ export function DefaultIsolatedVpcProps(): ec2.VpcProps {
     subnetConfiguration: [
       {
         cidrMask: 18,
-        name: "isolated",
+        name: 'isolated',
         subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
-      }
-    ]
+      },
+    ],
   } as ec2.VpcProps;
 }
 
 export enum ServiceEndpointTypes {
-  DYNAMODB = "DDB",
-  SNS = "SNS",
-  SQS = "SQS",
-  S3 = "S3",
-  STEP_FUNCTIONS = "STEP_FUNCTIONS",
-  SAGEMAKER_RUNTIME = "SAGEMAKER_RUNTIME",
-  SECRETS_MANAGER = "SECRETS_MANAGER",
-  SSM = "SSM",
-  ECR_API = "ECR_API",
-  ECR_DKR = "ECR_DKR",
-  EVENTS = "CLOUDWATCH_EVENTS",
-  KINESIS_FIREHOSE = "KINESIS_FIREHOSE",
-  KINESIS_STREAMS = "KINESIS_STREAMS",
-  KENDRA = "KENDRA"
+  DYNAMODB = 'DDB',
+  SNS = 'SNS',
+  SQS = 'SQS',
+  S3 = 'S3',
+  STEP_FUNCTIONS = 'STEP_FUNCTIONS',
+  SAGEMAKER_RUNTIME = 'SAGEMAKER_RUNTIME',
+  SECRETS_MANAGER = 'SECRETS_MANAGER',
+  SSM = 'SSM',
+  ECR_API = 'ECR_API',
+  ECR_DKR = 'ECR_DKR',
+  EVENTS = 'CLOUDWATCH_EVENTS',
+  KINESIS_FIREHOSE = 'KINESIS_FIREHOSE',
+  KINESIS_STREAMS = 'KINESIS_STREAMS',
+  KENDRA = 'KENDRA'
 }
 function AddGatewayEndpoint(vpc: ec2.IVpc, service: EndpointDefinition, interfaceTag: ServiceEndpointTypes) {
   vpc.addGatewayEndpoint(interfaceTag, {
@@ -317,52 +254,51 @@ const endpointSettings: EndpointDefinition[] = [
   {
     endpointName: ServiceEndpointTypes.ECR_API,
     endpointType: EndpointTypes.INTERFACE,
-    endpointInterfaceService: ec2.InterfaceVpcEndpointAwsService.ECR
+    endpointInterfaceService: ec2.InterfaceVpcEndpointAwsService.ECR,
   },
   {
     endpointName: ServiceEndpointTypes.ECR_DKR,
     endpointType: EndpointTypes.INTERFACE,
-    endpointInterfaceService: ec2.InterfaceVpcEndpointAwsService.ECR_DOCKER
+    endpointInterfaceService: ec2.InterfaceVpcEndpointAwsService.ECR_DOCKER,
   },
   {
     endpointName: ServiceEndpointTypes.EVENTS,
     endpointType: EndpointTypes.INTERFACE,
-    endpointInterfaceService: ec2.InterfaceVpcEndpointAwsService.CLOUDWATCH_EVENTS
+    endpointInterfaceService: ec2.InterfaceVpcEndpointAwsService.CLOUDWATCH_EVENTS,
   },
   {
     endpointName: ServiceEndpointTypes.KINESIS_FIREHOSE,
     endpointType: EndpointTypes.INTERFACE,
-    endpointInterfaceService: ec2.InterfaceVpcEndpointAwsService.KINESIS_FIREHOSE
+    endpointInterfaceService: ec2.InterfaceVpcEndpointAwsService.KINESIS_FIREHOSE,
   },
   {
     endpointName: ServiceEndpointTypes.KINESIS_STREAMS,
     endpointType: EndpointTypes.INTERFACE,
-    endpointInterfaceService: ec2.InterfaceVpcEndpointAwsService.KINESIS_STREAMS
+    endpointInterfaceService: ec2.InterfaceVpcEndpointAwsService.KINESIS_STREAMS,
   },
   {
     endpointName: ServiceEndpointTypes.KENDRA,
     endpointType: EndpointTypes.INTERFACE,
-    endpointInterfaceService: ec2.InterfaceVpcEndpointAwsService.KENDRA
-  }
+    endpointInterfaceService: ec2.InterfaceVpcEndpointAwsService.KENDRA,
+  },
 ];
-
 
 
 export function AddAwsServiceEndpoint(
   scope: Construct,
   vpc: ec2.IVpc,
-  interfaceTag: ServiceEndpointTypes
+  interfaceTag: ServiceEndpointTypes,
 ) {
   if (CheckIfEndpointAlreadyExists(vpc, interfaceTag)) {
     return;
   }
 
   const service = endpointSettings.find(
-    (endpoint) => endpoint.endpointName === interfaceTag
+    (endpoint) => endpoint.endpointName === interfaceTag,
   );
 
   if (!service) {
-    throw new Error("Unsupported Service sent to AddServiceEndpoint");
+    throw new Error('Unsupported Service sent to AddServiceEndpoint');
   }
 
   if (service.endpointType === EndpointTypes.GATEWAY) {
@@ -385,7 +321,7 @@ function AddInterfaceEndpoint(scope: Construct, vpc: ec2.IVpc, service: Endpoint
       allowAllOutbound: true,
     },
     [{ peer: ec2.Peer.ipv4(vpc.vpcCidrBlock), connection: ec2.Port.tcp(443) }],
-    []
+    [],
   );
 
   vpc.addInterfaceEndpoint(interfaceTag, {
@@ -399,7 +335,7 @@ export function buildSecurityGroup(
   name: string,
   props: ec2.SecurityGroupProps,
   ingressRules: SecurityGroupRuleDefinition[],
-  egressRules: SecurityGroupRuleDefinition[]
+  egressRules: SecurityGroupRuleDefinition[],
 ): ec2.SecurityGroup {
   const newSecurityGroup = new ec2.SecurityGroup(scope, `${name}-security-group`, props);
 
@@ -413,14 +349,14 @@ export function buildSecurityGroup(
 
   addCfnSuppressRules(newSecurityGroup, [
     {
-      id: "W5",
+      id: 'W5',
       reason:
-        "Egress of 0.0.0.0/0 is default and generally considered OK",
+        'Egress of 0.0.0.0/0 is default and generally considered OK',
     },
     {
-      id: "W40",
+      id: 'W40',
       reason:
-        "Egress IPProtocol of -1 is default and generally considered OK",
+        'Egress IPProtocol of -1 is default and generally considered OK',
     },
   ]);
 
@@ -429,7 +365,7 @@ export function buildSecurityGroup(
 
 function DefaultKendraIndexProps(id: string, roleArn?: string): kendra.CfnIndexProps {
   return {
-    name: generatePhysicalName("", ["KendraIndex", id], 1000),
+    name: generatePhysicalName('', ['KendraIndex', id], 1000),
     roleArn,
     edition: 'DEVELOPER_EDITION',
   } as kendra.CfnIndexProps;
@@ -441,8 +377,7 @@ function buildKendraIndex(scope: Construct, id: string, props: BuildKendraIndexP
     // The client provided an Index, so we'll do nothing and return it to them
     return props.existingIndexObj;
   } else {
-
-    let indexRoleArn: string = "";
+    let indexRoleArn: string = '';
 
     // If the client provided a role, then don't bother creating a new one that we don't need
     if (!props.kendraIndexProps?.roleArn) {
@@ -453,8 +388,8 @@ function buildKendraIndex(scope: Construct, id: string, props: BuildKendraIndexP
     const consolidatedIndexProperties = consolidateProps(defaultIndexProperties, props.kendraIndexProps);
     const newIndex = new kendra.CfnIndex(scope, `kendra-index-${id}`, consolidatedIndexProperties);
     addCfnSuppressRules(newIndex, [{
-      id: "W80",
-      reason: "We consulted the Kendra TFC and they confirmed the default encryption is sufficient for general use cases"
+      id: 'W80',
+      reason: 'We consulted the Kendra TFC and they confirmed the default encryption is sufficient for general use cases',
     }]);
 
     return newIndex;
@@ -474,12 +409,11 @@ function AddMultipleKendraDataSources(scope: Construct,
 }
 
 
-
- function AddKendraDataSource(scope: Construct,
+function AddKendraDataSource(scope: Construct,
   id: string, index: kendra.CfnIndex,
   clientDataSourceProps: kendra.CfnDataSourceProps | any): kendra.CfnDataSource {
 
-  if  (clientDataSourceProps.type === 'S3') {
+  if (clientDataSourceProps.type === 'S3') {
     return CreateS3DataSource(scope, index, id, clientDataSourceProps);
   } else {
     if (clientDataSourceProps.indexId) {
@@ -487,91 +421,9 @@ function AddMultipleKendraDataSources(scope: Construct,
     }
     return new kendra.CfnDataSource(scope, `kendra-data-source-${id}`, {
       ...clientDataSourceProps,
-      indexId: index.attrId
+      indexId: index.attrId,
     });
   }
-}
-
-function CreateS3DataSource(scope: Construct,
-  targetIndex: kendra.CfnIndex,
-  id: string,
-  clientProps: Partial<kendra.CfnDataSourceProps>): kendra.CfnDataSource {
-
-  // We go through some hoops here to extract the various inputs, because we need to narrow
-  // the type to remove the union with IResolvable
-  const dataSourceConfig = clientProps.dataSourceConfiguration as kendra.CfnDataSource.DataSourceConfigurationProperty;
-  if (!dataSourceConfig) {
-    throw new Error('Error - an S3 Kendra DataSource requires an DataSourceConfiguration prop');
-  }
-
-  const s3DataSourceConfig = dataSourceConfig.s3Configuration as kendra.CfnDataSource.S3DataSourceConfigurationProperty;
-
-  if (!s3DataSourceConfig) {
-    throw new Error('Error - an S3 Kendra DataSource requires an DataSourceConfiguration.S3Configuration prop');
-  }
-
-  // No Bucket name is an error
-  if (!s3DataSourceConfig.bucketName) {
-    throw new Error('Error - an S3 Kendra DataSource requires the DataSourceConfiguration.S3Configuration.bucketName prop');
-  }
-
-  // If there's no role, make a role and put it into defaultProps
-  // Put bucket name in default props
-  let defaultProps: kendra.CfnDataSourceProps = {
-    indexId: targetIndex.ref,
-    name: generatePhysicalName('', ['s3-datasource', id], 1000),
-    type: 'S3'
-  };
-
-  // Return consolidated default and user props
-  if (!clientProps.roleArn) {
-    const s3CrawlPolicy = new iam.PolicyDocument({
-      statements: [
-        new iam.PolicyStatement({
-          actions: [
-            "s3:GetObject"
-          ],
-          resources: [
-            `arn:aws:s3:::${s3DataSourceConfig.bucketName}/*`
-          ],
-          effect: iam.Effect.ALLOW
-        }),
-        new iam.PolicyStatement({
-          actions: [
-            "s3:ListBucket"
-          ],
-          resources: [
-            `arn:aws:s3:::${s3DataSourceConfig.bucketName}`
-          ],
-          effect: iam.Effect.ALLOW
-        }),
-        new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          actions: [
-            "kendra:BatchPutDocument",
-            "kendra:BatchDeleteDocument"
-          ],
-          resources: [
-            targetIndex.attrArn
-          ]
-        }),
-      ]
-    });
-
-    const dataSourceRole: iam.Role = new iam.Role(scope, `data-source-role-${id}`, {
-      assumedBy: new iam.ServicePrincipal('kendra.amazonaws.com'),
-      description: 'Policy for Kendra S3 Data Source',
-      inlinePolicies: {
-        s3CrawlPolicy,
-      },
-    });
-    defaultProps = overrideProps(defaultProps, { roleArn: dataSourceRole.roleArn });
-  }
-
-  const consolidatedProps: kendra.CfnDataSourceProps = consolidateProps(defaultProps, clientProps);
-
-  return new kendra.CfnDataSource(scope, `data-source-${id}`, consolidatedProps);
-
 }
 
 function CreateKendraIndexLoggingRole(scope: Construct, id: string): string {
@@ -580,26 +432,26 @@ function CreateKendraIndexLoggingRole(scope: Construct, id: string): string {
       new iam.PolicyStatement({
         resources: ['*'],
         actions: [
-          "cloudwatch:PutMetricData"
+          'cloudwatch:PutMetricData',
         ],
         effect: iam.Effect.ALLOW,
         conditions: {
           StringEquals: {
-            "cloudwatch:namespace": "AWS/Kendra"
-          }
-        }
+            'cloudwatch:namespace': 'AWS/Kendra',
+          },
+        },
       }),
       new iam.PolicyStatement({
         resources: [`arn:aws:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/kendra/*`],
         actions: [
-          "logs:CreateLogGroup"
+          'logs:CreateLogGroup',
         ],
         effect: iam.Effect.ALLOW,
       }),
       new iam.PolicyStatement({
         resources: [`arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/kendra/*`],
         actions: [
-          "logs:DescribeLogGroups"
+          'logs:DescribeLogGroups',
         ],
         effect: iam.Effect.ALLOW,
       }),
@@ -623,34 +475,40 @@ function CreateKendraIndexLoggingRole(scope: Construct, id: string): string {
     },
   });
   addCfnSuppressRules(indexRole, [{
-    id: "W11",
-    reason: "PutMetricData does not allow resource specification, " +
-      "scope is narrowed by the namespace condition. " +
-      "https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazoncloudwatch.html"
+    id: 'W11',
+    reason: 'PutMetricData does not allow resource specification, ' +
+      'scope is narrowed by the namespace condition. ' +
+      'https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazoncloudwatch.html',
   }]);
   return indexRole.roleArn;
 }
 
 // @summary Confirm each entry is a correct value, uppercase each entry
 export function normalizeKendraPermissions(rawPermissions: string[]): string[] {
-  const validPermissions = ["READ", "SUBMITFEEDBACK", "WRITE"];
+  const validPermissions = ['READ', 'SUBMITFEEDBACK', 'WRITE'];
 
-  const result = rawPermissions.map<string>((s) => {
+  return rawPermissions.map<string>((s) => {
     const upperCaseValue = s.toUpperCase();
     if (!validPermissions.includes(upperCaseValue)) {
-      throw new Error(`Invalid indexPermission value - valid values are "READ", "SUBMITFEEDBACK" and "WRITE"`);
+      throw new Error('Invalid indexPermission value - valid values are "READ", "SUBMITFEEDBACK" and "WRITE"');
     }
     return upperCaseValue;
   });
-  return result;
 }
-
 
 
 /**
  * The properties for the RagAppsyncStepfnKendraProps class.
  */
 export interface RagAppsyncStepfnKendraProps {
+  /**
+   * Cognito user pool used for authentication.
+   *
+   * @default - None
+   */
+  readonly cognitoUserPool: cognito.IUserPool;
+
+  observability: boolean;
   stage: any;
   /**
    *
@@ -721,6 +579,11 @@ export class RagAppsyncStepfnKendra extends Construct {
   public readonly vpc?: ec2.IVpc;
   public readonly kendraIndex?: kendra.CfnIndex;
   public readonly kendraDataSources: kendra.CfnDataSource[];
+  /**
+   * Returns an instance of appsync.IGraphqlApi created by the construct
+   */
+  public readonly graphqlApi: appsync.IGraphqlApi;
+
 
   /**
      * @summary Constructs a new instance of the RagAppsyncStepfnKendra class.
@@ -738,6 +601,20 @@ export class RagAppsyncStepfnKendra extends Construct {
     if (props?.stage) {
       stage = props.stage;
     }
+
+    let enableXRay = true;
+    let apiLogConfig = {
+      fieldLogLevel: appsync.FieldLogLevel.ALL,
+      retention: logs.RetentionDays.TEN_YEARS,
+    };
+
+    if (props.observability === false) {
+      enableXRay = false;
+      apiLogConfig = {
+        fieldLogLevel: appsync.FieldLogLevel.NONE,
+        retention: logs.RetentionDays.TEN_YEARS,
+      };
+    };
 
     if (props.kendraIndexProps && props.existingKendraIndexObj) {
       throw new Error('You may not provide both kendraIndexProps and existingKendraIndexObj');
@@ -763,10 +640,36 @@ export class RagAppsyncStepfnKendra extends Construct {
 
     this.kendraIndex = buildKendraIndex(this, id, {
       kendraIndexProps: props.kendraIndexProps,
-      existingIndexObj: props.existingKendraIndexObj
+      existingIndexObj: props.existingKendraIndexObj,
     });
 
     this.kendraDataSources = AddMultipleKendraDataSources(this, id, this.kendraIndex, props.kendraDataSourcesProps);
+
+    const ingestionGraphqlApi = new appsync.GraphqlApi(
+      this,
+      'ingestionGraphqlApi',
+      {
+        name: 'ingestionGraphqlApi'+stage,
+        definition: appsync.Definition.fromFile(
+          path.join(__dirname, '../../../../resources/gen-ai/aws-rag-appsync-stepfn-kendra/schema.graphql'),
+        ),
+        authorizationConfig: {
+          defaultAuthorization: {
+            authorizationType: appsync.AuthorizationType.USER_POOL,
+            userPoolConfig: { userPool: props.cognitoUserPool },
+          },
+          additionalAuthorizationModes: [
+            {
+              authorizationType: appsync.AuthorizationType.IAM,
+            },
+          ],
+        },
+        xrayEnabled: enableXRay,
+        logConfig: apiLogConfig,
+      },
+    );
+    this.graphqlApi = ingestionGraphqlApi;
+
 
     // // Update Lambda function IAM policy with correct privileges to Kendra index
     // const normalizedPermissions = props.indexPermissions ? normalizeKendraPermissions(props.indexPermissions) : undefined;

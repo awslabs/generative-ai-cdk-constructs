@@ -57,6 +57,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     '@mrgrain/jsii-struct-builder',
     'typedoc',
     'typedoc-plugin-markdown',
+    'deepmerge',
   ],
   deps: ['cdk-nag'],
 

@@ -32,6 +32,10 @@
       "type": "build"
     },
     {
+      "name": "deepmerge",
+      "type": "build"
+    },
+    {
       "name": "eslint-import-resolver-typescript",
       "type": "build"
     },
