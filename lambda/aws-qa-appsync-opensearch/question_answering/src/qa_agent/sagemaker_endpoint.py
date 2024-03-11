@@ -17,7 +17,6 @@ from aws_lambda_powertools import Logger, Tracer, Metrics
 logger = Logger(service="QUESTION_ANSWERING")
 
 
-sageMakerEndpoint= os.environ['SAGEMAKER_ENDPOINT']
 
 class ContentHandler(LLMContentHandler):
     content_type = "application/json"
@@ -48,7 +47,6 @@ class MultiModal():
 
     @classmethod
     def sagemakerendpoint_llm(self,model_id):
-        if(sageMakerEndpoint ==model_id):
             try: 
                 endpoint= SagemakerEndpoint(
                 endpoint_name=model_id,
@@ -60,9 +58,7 @@ class MultiModal():
             except Exception as err:
                 logger.error(f' Error when accessing sagemaker endpoint :: {model_id} , returning...')
                 return None
-        else:
-                logger.error(f" The sagemaker model Id {model_id} do not match a sagemaker endpoint name {sageMakerEndpoint}")
-                return None
+        
             
 
 

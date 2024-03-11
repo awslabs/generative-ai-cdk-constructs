@@ -154,11 +154,7 @@ export interface QaAppsyncOpensearchProps {
    */
   readonly customDockerLambdaProps?: DockerLambdaCustomProps | undefined;
 
-  /**
-   * Optional. Allows to provide custom lambda code
-   * and settings instead of the existing
-   */
-  readonly sagemakerEndpointName?: string;
+
 }
 
 /**
@@ -466,15 +462,7 @@ export class QaAppsyncOpensearch extends BaseClass {
       }),
     );
 
-    if (props.sagemakerEndpointName) {
-      question_answering_function_role.addToPolicy(
-        new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          actions: ['sagemaker:InvokeEndpoint'],
-          resources: ['arn:'+ Aws.PARTITION +':sagemaker:' + Aws.ACCOUNT_ID + ':endpoint/*'],
-        }),
-      );
-    }
+
     // The lambda will access the opensearch credentials
     if (props.openSearchSecret) {
       props.openSearchSecret.grantRead(question_answering_function_role);
@@ -555,7 +543,6 @@ export class QaAppsyncOpensearch extends BaseClass {
       true,
     );
 
-    const sagemakerEndpointNamestr = props.sagemakerEndpointName || '';
     const construct_docker_lambda_props = {
       code: lambda.DockerImageCode.fromImageAsset(
         path.join(
@@ -579,7 +566,6 @@ export class QaAppsyncOpensearch extends BaseClass {
         OPENSEARCH_DOMAIN_ENDPOINT: opensearch_helper.getOpenSearchEndpoint(props),
         OPENSEARCH_INDEX: props.openSearchIndexName,
         OPENSEARCH_SECRET_ID: SecretId,
-        SAGEMAKER_ENDPOINT: sagemakerEndpointNamestr,
       },
       ...(props.lambdaProvisionedConcurrency && {
         currentVersionOptions: {

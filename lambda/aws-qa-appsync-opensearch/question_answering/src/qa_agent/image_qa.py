@@ -198,8 +198,14 @@ def process_visual_qa(input_params,status_variables,filename):
             local_file_path= download_file(bucket_name,filename)
             base64_images=encode_image_to_base64(local_file_path,filename) 
             status_variables['answer']= generate_vision_answer_bedrock(_qa_llm,base64_images, qa_modelId,decoded_question)
-            status_variables['jobstatus'] = JobStatus.DONE.status
-            streaming = input_params.get("streaming", False)
+            if(status_variables['answer'] is None):
+                status_variables['answer'] = JobStatus.ERROR_PREDICTION.status
+                error = JobStatus.ERROR_PREDICTION.get_message()
+                status_variables['answer'] = error.decode("utf-8")
+                status_variables['jobstatus'] = JobStatus.ERROR_PREDICTION.status
+            else:    
+                status_variables['jobstatus'] = JobStatus.DONE.status
+                streaming = input_params.get("streaming", False)
 
         else:
             logger.error('Invalid Model , cannot load  LLM , returning..')
@@ -253,7 +259,7 @@ def generate_vision_answer_sagemaker(_qa_llm,input_params,decoded_question,statu
     
     return status_variables
 
-def generate_vision_answer_bedrock(bedrock_client,base64_images, model_id,decoded_question):
+def generate_vision_answer_bedrock(bedrock_client,base64_images,model_id,decoded_question):
     system_prompt=""
     # use system prompt for fine tuning the performamce
     # system_prompt= """
@@ -293,10 +299,15 @@ def generate_vision_answer_bedrock(bedrock_client,base64_images, model_id,decode
     }
 
     body=json.dumps({'messages': [messages],**claude_config, "system": system_prompt})
-    response = bedrock_client.invoke_model(
-    body=body, modelId=model_id, accept="application/json",
-                    contentType="application/json"
-                )  
+    try:
+        response = bedrock_client.invoke_model(
+        body=body, modelId=model_id, accept="application/json",
+                        contentType="application/json"
+                    )  
+    except Exception as err:
+        logger.exception(f'Error occurred , Reason :{err}')
+        return None
+    
     response = json.loads(response['body'].read().decode('utf-8'))
 
     formated_response= response['content'][0]['text']
