@@ -70,6 +70,7 @@ tsconfig.json
 !/.github/workflows/code-generation.yml
 !/.github/workflows/deploydocs.yml
 !/.github/workflows/testdeployment.yml
+!/.github/dependabot.yml
 !/.projenrc.ts
 !/src/common/props/LangchainProps.ts
 !/src/common/props/AdapterProps.ts
