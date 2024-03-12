@@ -12,6 +12,7 @@
  */
 import * as cdk from 'aws-cdk-lib';
 import { IConstruct } from 'constructs';
+import { CfnNagSuppressRule } from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
 
 /**
  * The version of this package

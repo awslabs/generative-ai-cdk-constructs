@@ -12,27 +12,21 @@
  */
 import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
-import { Aws, RemovalPolicy } from 'aws-cdk-lib';
+import { RemovalPolicy } from 'aws-cdk-lib';
 import { Table } from 'aws-cdk-lib/aws-dynamodb';
 import {
-  CfnSubnet,
-  FlowLog,
   GatewayVpcEndpointAwsService,
   InterfaceVpcEndpointAwsService,
   IVpc, Peer, Port, SecurityGroup, SecurityGroupProps,
-  SubnetType, Vpc,
-  VpcProps,
+  SubnetType, VpcProps,
 } from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kendra from 'aws-cdk-lib/aws-kendra';
-import { CfnLogGroup } from 'aws-cdk-lib/aws-logs';
 import { DefinitionBody, StateMachine } from 'aws-cdk-lib/aws-stepfunctions';
 import { Stack } from 'aws-cdk-lib/core';
-import { Construct, IDependable } from 'constructs';
+import { Construct } from 'constructs';
 import * as deepmerge from 'deepmerge';
 import { addCfnSuppressRules, generatePhysicalName } from './utils';
-import { BuildVpcProps } from './vpc-helper';
-import { consolidateProps, overrideProps } from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra';
 import {
   EndpointDefinition,
   EndpointTypes,
