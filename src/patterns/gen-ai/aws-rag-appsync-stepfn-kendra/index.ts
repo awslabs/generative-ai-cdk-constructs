@@ -37,37 +37,6 @@ import {
 import { buildVpc } from '../../../common/helpers/vpc-helper';
 
 
-// function addMultipleKendraDataSources(scope: Construct,
-//                                       id: string,
-//                                       kendraIndex: kendra.CfnIndex,
-//                                       clientDataSourceProps: Array<Partial<kendra.CfnDataSourceProps>>): kendra.CfnDataSource[] {
-//
-//     const returnDataSources: kendra.CfnDataSource[] = [];
-//     clientDataSourceProps.forEach((props, index) => {
-//         const dataSourceOutput = addKendraDataSource(scope, `${id}${index}`, kendraIndex, props);
-//         returnDataSources.push(dataSourceOutput);
-//     });
-//     return returnDataSources;
-// }
-// function addKendraDataSource(scope: Construct,
-//                              id: string,
-//                              index: kendra.CfnIndex,
-//                              clientDataSourceProps: kendra.CfnDataSourceProps | any): kendra.CfnDataSource {
-//
-//     if (clientDataSourceProps.type === 'S3') {
-//         return createS3DataSource(scope, index, id, clientDataSourceProps);
-//     } else {
-//         if (clientDataSourceProps.indexId) {
-//             throw new Error('Invalid DataSource prop specified - Construct must set the indexId prop');
-//         }
-//         return new kendra.CfnDataSource(scope, `kendra-data-source-${id}`, {
-//             ...clientDataSourceProps,
-//             indexId: index.attrId,
-//         });
-//     }
-// }
-
-
 /**
  * The properties for the RagAppsyncStepfnKendraProps class.
  */
@@ -246,12 +215,6 @@ export class RagAppsyncStepfnKendra extends Construct {
     this.kendraIndexId = this.kendraIndex.KendraIndexId;
     this.kendraDataSourceIndexId = this.kendraIndex.KendraDataSourceIndexId;
 
-    // TODO(miketran): Handle multiple data sources in the future.
-    // this.kendraDataSources = addMultipleKendraDataSources(this, id, this.kendraIndex, props.kendraDataSourcesProps);
-    // this.kendraInputBucket = this.kendraDataSources.filter((dataSource: CfnDataSource) => {
-    //   return dataSource.type === 'S3';
-    // })[0];
-
     this.kendraInputBucketArn = this.kendraInputBucket.bucketArn;
 
     this.kendraInputBucket.addCorsRule({
@@ -333,6 +296,7 @@ export class RagAppsyncStepfnKendra extends Construct {
       value: `s3://${this.kendraInputBucket.bucketName}/kendra_acl.json`,
     });
 
+    // TODO(miketran): Fix this schema.
     const ingestionGraphqlApi = new appsync.GraphqlApi(
       this,
       'ingestionGraphqlApi',
@@ -392,15 +356,7 @@ export class RagAppsyncStepfnKendra extends Construct {
       this.docProcessingStateMachine,
     );
 
-    // // Update Lambda function IAM policy with correct privileges to Kendra index
-    // const normalizedPermissions = props.indexPermissions ? normalizeKendraPermissions(props.indexPermissions) : undefined;
-    //
-    // // Configure environment variables to pass to lambdas
-    // const indexIdEnvironmentVariableName = props.indexIdEnvironmentVariableName || 'KENDRA_INDEX_ID';
-
-
   }
-
 }
 
 
