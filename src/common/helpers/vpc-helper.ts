@@ -10,8 +10,10 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import { IpAddresses, IVpc, SecurityGroup, SubnetType, Vpc, VpcProps } from 'aws-cdk-lib/aws-ec2';
+import { CfnSubnet, FlowLog, IpAddresses, IVpc, SecurityGroup, SubnetType, Vpc, VpcProps } from 'aws-cdk-lib/aws-ec2';
+import { CfnLogGroup } from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
+import { addCfnSuppressRules } from './utils';
 
 export interface VpcPropsSet {
   readonly existingVpc?: IVpc;
@@ -67,6 +69,13 @@ export function buildVpc(scope: Construct, props: BuildVpcProps): IVpc {
   // If user provided props are empty, the vpc will use only the builder provided props
   //cumulativeProps = consolidateProps(cumulativeProps, props?.userVpcProps, props?.constructVpcProps);
   const vpc = new Vpc(scope, 'Vpc', cumulativeProps);
+
+  // Add VPC FlowLogs with the default setting of trafficType:ALL and destination: CloudWatch Logs
+  const flowLog: FlowLog = vpc.addFlowLog('FlowLog');
+
+  suppressMapPublicIpWarnings(vpc);
+  suppressEncryptedLogWarnings(flowLog);
+
   return vpc;
 
 }
@@ -114,4 +123,28 @@ function DefaultVpcProps(): VpcProps {
     ],
     ipAddresses: IpAddresses.cidr('10.0.0.0/16'),
   };
+}
+
+export function suppressMapPublicIpWarnings(vpc: Vpc) {
+  // Add Cfn Nag suppression for PUBLIC subnets to suppress WARN W33: EC2 Subnet should not have MapPublicIpOnLaunch set to true
+  vpc.publicSubnets.forEach((subnet) => {
+    const cfnSubnet = subnet.node.defaultChild as CfnSubnet;
+    addCfnSuppressRules(cfnSubnet, [
+      {
+        id: 'W33',
+        reason: 'Allow Public Subnets to have MapPublicIpOnLaunch set to true',
+      },
+    ]);
+  });
+}
+
+export function suppressEncryptedLogWarnings(flowLog: FlowLog) {
+  // Add Cfn Nag suppression for CloudWatchLogs LogGroups data is encrypted
+  const cfnLogGroup: CfnLogGroup = flowLog.logGroup?.node.defaultChild as CfnLogGroup;
+  addCfnSuppressRules(cfnLogGroup, [
+    {
+      id: 'W84',
+      reason: 'By default CloudWatchLogs LogGroups data is encrypted using the CloudWatch server-side encryption keys (AWS Managed Keys)',
+    },
+  ]);
 }

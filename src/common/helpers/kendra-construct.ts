@@ -17,7 +17,6 @@ import { Construct } from 'constructs';
 import { addCfnSuppressRules } from './utils';
 
 export interface KendraConstructProps {
-
   // Name of the Kendra Index
   readonly IndexName: string;
 
@@ -86,14 +85,14 @@ export class KendraConstruct extends Construct {
     );
 
     const cfnIndex = new kendra.CfnIndex(this, 'llmdemoIndex', {
-      edition: props.Edition,
-      name: props.IndexName,
+      edition: this.props.Edition,
+      name: this.props.IndexName,
       roleArn: indexRole.roleArn,
       userContextPolicy: 'USER_TOKEN',
       userTokenConfigurations: [{
         jwtTokenTypeConfiguration: {
           keyLocation: 'URL',
-          url: `https://cognito-idp.${awsRegion}.amazonaws.com/${props.CognitoUserPoolId}/.well-known/jwks.json`,
+          url: `https://cognito-idp.${awsRegion}.amazonaws.com/${this.props.CognitoUserPoolId}/.well-known/jwks.json`,
           groupAttributeField: 'cognito:groups',
           userNameAttributeField: 'cognito:username',
         },
@@ -113,13 +112,13 @@ export class KendraConstruct extends Construct {
     kendraS3AccessRole.addToPolicy(
       new cdk.aws_iam.PolicyStatement({
         actions: ['s3:GetObject'],
-        resources: [`arn:aws:s3:::${props.kendraDataSyncInputBucketName}/*`],
+        resources: [`arn:aws:s3:::${this.props.kendraDataSyncInputBucketName}/*`],
       }),
     );
     kendraS3AccessRole.addToPolicy(
       new cdk.aws_iam.PolicyStatement({
         actions: ['s3:ListBucket'],
-        resources: [`arn:aws:s3:::${props.kendraDataSyncInputBucketName}`],
+        resources: [`arn:aws:s3:::${this.props.kendraDataSyncInputBucketName}`],
       }),
     );
     kendraS3AccessRole.addToPolicy(
@@ -140,9 +139,9 @@ export class KendraConstruct extends Construct {
       roleArn: kendraS3AccessRole.roleArn,
       dataSourceConfiguration: {
         s3Configuration: {
-          bucketName: props.kendraDataSyncInputBucketName,
+          bucketName: this.props.kendraDataSyncInputBucketName,
           accessControlListConfiguration: {
-            keyPath: `s3://${props.kendraDataSyncInputBucketName}/kendra_acl.json`,
+            keyPath: `s3://${this.props.kendraDataSyncInputBucketName}/kendra_acl.json`,
           },
         },
       },

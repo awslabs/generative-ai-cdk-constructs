@@ -36,7 +36,6 @@ import {
 } from '../../../common/helpers/kendra-helper';
 import { buildVpc } from '../../../common/helpers/vpc-helper';
 
-
 /**
  * The properties for the RagAppsyncStepfnKendraProps class.
  */

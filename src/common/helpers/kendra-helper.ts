@@ -19,21 +19,25 @@ import {
   FlowLog,
   GatewayVpcEndpointAwsService,
   InterfaceVpcEndpointAwsService,
-  IVpc,
+  IVpc, Peer, Port, SecurityGroup, SecurityGroupProps,
   SubnetType, Vpc,
   VpcProps,
 } from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kendra from 'aws-cdk-lib/aws-kendra';
 import { CfnLogGroup } from 'aws-cdk-lib/aws-logs';
-import { DefinitionBody } from 'aws-cdk-lib/aws-stepfunctions';
+import { DefinitionBody, StateMachine } from 'aws-cdk-lib/aws-stepfunctions';
 import { Stack } from 'aws-cdk-lib/core';
 import { Construct, IDependable } from 'constructs';
 import * as deepmerge from 'deepmerge';
 import { addCfnSuppressRules, generatePhysicalName } from './utils';
 import { BuildVpcProps } from './vpc-helper';
 import { consolidateProps, overrideProps } from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra';
-import { EndpointDefinition, EndpointTypes } from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
+import {
+  EndpointDefinition,
+  EndpointTypes,
+  SecurityGroupRuleDefinition,
+} from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
 
 export function createS3DataSource(scope: Construct,
   targetIndex: kendra.CfnIndex,
@@ -121,7 +125,7 @@ export function createKendraWorkflowStepFunction(
   updateKendraJobStatusFn: cdk.aws_lambda.IFunction,
   kendraSyncLambda: cdk.aws_lambda.IFunction,
   createCheckJobsStatusLambda: cdk.aws_lambda.IFunction,
-) {
+): StateMachine {
   const docProcessingLogGroup = new cdk.aws_logs.LogGroup(cdkStack, 'DocProcessingStateMachineLog', {
     removalPolicy: RemovalPolicy.DESTROY,
   });
@@ -376,7 +380,9 @@ export function createUpdateKendraJobStatusFn(cdkStack: Stack, syncRunTable: Tab
   );
 }
 
-export function createStepFunctionsExecutionHandlerRole(cdkStack: Construct, docProcessingStateMachine: IDependable) {
+export function createStepFunctionsExecutionHandlerRole(
+  cdkStack: Construct,
+  docProcessingStateMachine: StateMachine) {
   const stepFunctionsExecutionHandlerRole = new cdk.aws_iam.Role(
     cdkStack,
     'stepFunctionsExecutionHandlerRole',
@@ -481,49 +487,6 @@ export function overrideProps(DefaultProps: object, userProps: object, concatArr
   }
 }
 
-function buildVpc(scope: Construct, props: BuildVpcProps): IVpc {
-  if (props?.existingVpc) {
-    return props?.existingVpc;
-  }
-
-  let cumulativeProps: VpcProps = props?.defaultVpcProps;
-
-  cumulativeProps = consolidateProps(cumulativeProps, props?.userVpcProps, props?.constructVpcProps);
-
-  const vpc = new Vpc(scope, 'Vpc', cumulativeProps);
-
-  // Add VPC FlowLogs with the default setting of trafficType:ALL and destination: CloudWatch Logs
-  const flowLog: FlowLog = vpc.addFlowLog('FlowLog');
-
-  SuppressMapPublicIpWarnings(vpc);
-  SuppressEncryptedLogWarnings(flowLog);
-
-  return vpc;
-}
-
-function SuppressMapPublicIpWarnings(vpc: Vpc) {
-  // Add Cfn Nag suppression for PUBLIC subnets to suppress WARN W33: EC2 Subnet should not have MapPublicIpOnLaunch set to true
-  vpc.publicSubnets.forEach((subnet) => {
-    const cfnSubnet = subnet.node.defaultChild as CfnSubnet;
-    addCfnSuppressRules(cfnSubnet, [
-      {
-        id: 'W33',
-        reason: 'Allow Public Subnets to have MapPublicIpOnLaunch set to true',
-      },
-    ]);
-  });
-}
-
-function SuppressEncryptedLogWarnings(flowLog: FlowLog) {
-  // Add Cfn Nag suppression for CloudWatchLogs LogGroups data is encrypted
-  const cfnLogGroup: CfnLogGroup = flowLog.logGroup?.node.defaultChild as CfnLogGroup;
-  addCfnSuppressRules(cfnLogGroup, [
-    {
-      id: 'W84',
-      reason: 'By default CloudWatchLogs LogGroups data is encrypted using the CloudWatch server-side encryption keys (AWS Managed Keys)',
-    },
-  ]);
-}
 
 export function createDefaultIsolatedVpcProps(): VpcProps {
   return {
@@ -667,63 +630,6 @@ export function AddAwsServiceEndpoint(
   return; // NOSONAR
 }
 
-function CreateKendraIndexLoggingRole(scope: Construct, id: string): string {
-  const allowKendraToLogPolicy = new iam.PolicyDocument({
-    statements: [
-      new iam.PolicyStatement({
-        resources: ['*'],
-        actions: [
-          'cloudwatch:PutMetricData',
-        ],
-        effect: iam.Effect.ALLOW,
-        conditions: {
-          StringEquals: {
-            'cloudwatch:namespace': 'AWS/Kendra',
-          },
-        },
-      }),
-      new iam.PolicyStatement({
-        resources: [`arn:aws:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/kendra/*`],
-        actions: [
-          'logs:CreateLogGroup',
-        ],
-        effect: iam.Effect.ALLOW,
-      }),
-      new iam.PolicyStatement({
-        resources: [`arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/kendra/*`],
-        actions: [
-          'logs:DescribeLogGroups',
-        ],
-        effect: iam.Effect.ALLOW,
-      }),
-      new iam.PolicyStatement({
-        resources: [`arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/kendra/*:log-stream:*`],
-        actions: [
-          'logs:CreateLogStream',
-          'logs:PutLogEvents',
-          'logs:DescribeLogStream',
-        ],
-        effect: iam.Effect.ALLOW,
-      }),
-    ],
-  });
-
-  const indexRole: iam.Role = new iam.Role(scope, `kendra-index-role-${id}`, {
-    assumedBy: new iam.ServicePrincipal('kendra.amazonaws.com'),
-    description: 'Allow Kendra index to write CloudWatch Logs',
-    inlinePolicies: {
-      AllowLogging: allowKendraToLogPolicy,
-    },
-  });
-  addCfnSuppressRules(indexRole, [{
-    id: 'W11',
-    reason: 'PutMetricData does not allow resource specification, ' +
-            'scope is narrowed by the namespace condition. ' +
-            'https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazoncloudwatch.html',
-  }]);
-  return indexRole.roleArn;
-}
-
 
 function AddInterfaceEndpoint(scope: Construct, vpc: IVpc, service: EndpointDefinition, interfaceTag: ServiceEndpointTypes) {
   const endpointDefaultSecurityGroup = buildSecurityGroup(
@@ -774,39 +680,3 @@ export function buildSecurityGroup(
   return newSecurityGroup;
 }
 
-// function defaultKendraIndexProps(id: string, roleArn?: string): kendra.CfnIndexProps {
-//   return {
-//     name: generatePhysicalName('', ['KendraIndex', id], 1000),
-//     roleArn,
-//     edition: 'DEVELOPER_EDITION',
-//   } as kendra.CfnIndexProps;
-// }
-
-// function buildKendraIndex(scope: Construct, id: string, props: BuildKendraIndexProps): kendra.CfnIndex {
-//   // Conditional lambda function creation
-//   if (props.existingIndexObj) {
-//     // The client provided an Index, so we'll do nothing and return it to them
-//     return props.existingIndexObj;
-//   } else {
-//     let indexRoleArn: string = '';
-//
-//     // If the client provided a role, then don't bother creating a new one that we don't need
-//     if (!props.kendraIndexProps?.roleArn) {
-//       indexRoleArn = CreateKendraIndexLoggingRole(scope, id);
-//     }
-//     const defaultIndexProperties = defaultKendraIndexProps(id, indexRoleArn);
-//
-//     const consolidatedIndexProperties = consolidateProps(defaultIndexProperties, props.kendraIndexProps);
-//     const newIndex = new kendra.CfnIndex(
-//       scope,
-//       `kendra-index-${id}`,
-//       consolidatedIndexProperties,
-//     );
-//     addCfnSuppressRules(newIndex, [{
-//       id: 'W80',
-//       reason: 'We consulted the Kendra TFC and they confirmed the default encryption is sufficient for general use cases',
-//     }]);
-//
-//     return newIndex;
-//   }
-// }
