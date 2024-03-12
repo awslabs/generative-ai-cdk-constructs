@@ -16,7 +16,7 @@ import { Construct } from 'constructs';
 import { generatePhysicalName } from './utils';
 import { consolidateProps, overrideProps } from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra';
 
-export function CreateS3DataSource(scope: Construct,
+export function createS3DataSource(scope: Construct,
   targetIndex: kendra.CfnIndex,
   id: string,
   clientProps: Partial<kendra.CfnDataSourceProps>): kendra.CfnDataSource {
