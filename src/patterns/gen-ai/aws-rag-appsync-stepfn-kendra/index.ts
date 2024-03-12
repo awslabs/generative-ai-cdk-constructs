@@ -25,6 +25,7 @@ import { StateMachine } from 'aws-cdk-lib/aws-stepfunctions';
 import { Stack } from 'aws-cdk-lib/core';
 import { AwsCustomResource, AwsCustomResourcePolicy, PhysicalResourceId } from 'aws-cdk-lib/custom-resources';
 import { Construct } from 'constructs';
+import { ServiceEndpointTypeEnum } from './types';
 import { KendraConstruct } from '../../../common/helpers/kendra-construct';
 import {
   AddAwsServiceEndpoint,
@@ -32,7 +33,7 @@ import {
   createKendraStartDataSync,
   createKendraWorkflowStepFunction,
   createStepFunctionsExecutionHandlerRole,
-  createSyncRunTable, createUpdateKendraJobStatusFn, createDefaultIsolatedVpcProps, ServiceEndpointTypes,
+  createSyncRunTable, createUpdateKendraJobStatusFn, createDefaultIsolatedVpcProps,
 } from '../../../common/helpers/kendra-helper';
 import { buildVpc } from '../../../common/helpers/vpc-helper';
 
@@ -193,7 +194,7 @@ export class RagAppsyncStepfnKendra extends Construct {
         },
       });
 
-      AddAwsServiceEndpoint(scope, this.vpc, ServiceEndpointTypes.KENDRA);
+      AddAwsServiceEndpoint(scope, this.vpc, ServiceEndpointTypeEnum.KENDRA);
     }
     this.kendraInputBucket = new Bucket(this, 'kendraInputBucket', {
       accessControl: BucketAccessControl.PRIVATE,

@@ -31,6 +31,7 @@ import {
   EndpointDefinition,
   EndpointTypes,
   SecurityGroupRuleDefinition,
+  ServiceEndpointTypes,
 } from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
 
 export function createS3DataSource(scope: Construct,
@@ -493,23 +494,6 @@ export function createDefaultIsolatedVpcProps(): VpcProps {
       },
     ],
   } as VpcProps;
-}
-
-export enum ServiceEndpointTypes {
-  DYNAMODB = 'DDB',
-  SNS = 'SNS',
-  SQS = 'SQS',
-  S3 = 'S3',
-  STEP_FUNCTIONS = 'STEP_FUNCTIONS',
-  SAGEMAKER_RUNTIME = 'SAGEMAKER_RUNTIME',
-  SECRETS_MANAGER = 'SECRETS_MANAGER',
-  SSM = 'SSM',
-  ECR_API = 'ECR_API',
-  ECR_DKR = 'ECR_DKR',
-  EVENTS = 'CLOUDWATCH_EVENTS',
-  KINESIS_FIREHOSE = 'KINESIS_FIREHOSE',
-  KINESIS_STREAMS = 'KINESIS_STREAMS',
-  KENDRA = 'KENDRA'
 }
 
 function AddGatewayEndpoint(vpc: IVpc, service: EndpointDefinition, interfaceTag: ServiceEndpointTypes) {
