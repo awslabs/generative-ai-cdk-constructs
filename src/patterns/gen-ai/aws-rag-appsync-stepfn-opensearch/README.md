@@ -36,14 +36,16 @@
 
 This CDK construct creates a pipeline for RAG (retrieval augmented generation) source. It ingests documents and then converts them into text formats. The output can be used for scenarios with long context windows. This means that your system can now consider and analyze a significant amount of surrounding information when processing and understanding text. This is especially valuable in tasks like language understanding and document summarization.
 
-Files in PDF format are uploaded to an input Amazon Simple Storage Service (S3) bucket. Authorized clients (Amazon Cognito user pool) will trigger an AWS AppSync mutation to start the ingestion process, and can use subscriptions to get notifications on the ingestion status. The mutation call will trigger an AWS Step Function with three different steps:
+PDF files and images(.jpg,.jpeg,.svg,.png)  are uploaded to an input Amazon Simple Storage Service (S3) bucket. Authorized clients (Amazon Cognito user pool) will trigger an AWS AppSync mutation to start the ingestion process, and can use subscriptions to get notifications on the ingestion status. The mutation call will trigger an AWS Step Function with three different steps:
 - Input validation: an AWS Lambda function will verify the input formats of the files requested for ingestion. If the files are in a format which is not supported by the pipeline, an error message will be returned.
 - Transformation: the input files are processed in parallel using a [Map](https://docs.aws.amazon.com/step-functions/latest/dg/amazon-states-language-map-state.html) state through an AWS Lambda. The function uses the [LangChain](https://www.langchain.com/) client to get the content of each file and store the text file in the output bucket. This is useful for workflows which want to use a long context window approach and send the entire file as context to a large language model. If the file name already exists in the output bucket, the input file will not be processed.
-- Embeddings step: Files processed and stored in the output S3 bucket are consumed by an AWS Lambda function. Chunks from documents are created, as well as text embeddings using Amazon Bedrock (model: amazon.titan-embed-text-v1). The chunks and embeddings are then stored in a knowledge base (OpenSearch provisioned cluster). Make sure the model (amazon.titan-embed-text-v1) is enabled in your account. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
+For image files the the transformation step use [Amazon Rekognition](https://aws.amazon.com/rekognition/) to detect lables and image moderation. It then generate a descriptive text of the image using anthropic.claude-v2:1 and save the text file in processed s3 bucket. 
+- Embeddings step: Files processed and stored in the output S3 bucket are consumed by an AWS Lambda function. Chunks from documents are created, as well as text embeddings using Amazon Bedrock (model: amazon.titan-embed-text-v1). For uploaded images multimodality embeddings are created using Amazon Bedrock (model: amazon.titan-embed-image-v1)
+The chunks and embeddings are then stored in a knowledge base (OpenSearch provisioned cluster). Make sure the model (amazon.titan-embed-text-v1,amazon.titan-embed-image-v1,anthropic.claude-v2:1) is enabled in your account. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
 
 Documents stored in the knowledge base contain the following metadata:
 - Timestamp: when the embeddings were created (current time in seconds since the Epoch)
-- Embeddings model used: amazon.titan-embed-text-v1 
+- Embeddings model used: amazon.titan-embed-text-v1 , amazon.titan-embed-image-v1
 
 If you have multiple workflows using GraphQL endpoints and want to use a single endpoint, you can use an [AppSync Merged API](https://docs.aws.amazon.com/appsync/latest/devguide/merged-api.html). This construct can take as a parameter an existing AppSync Merged API; if provided, the mutation call and subscription updates will be targeted at the Merged API.
 
@@ -136,6 +138,7 @@ subscription MySubscription {
     files {
       name
       status
+      imageurl
     }
   }
 }
@@ -148,11 +151,13 @@ Expected response:
       "files": [
         {
           "name": "a.pdf",
-          "status": "succeed"
+          "status": "succeed",
+          "imageurl":"s3presignedurl"
         }
          {
           "name": "b.pdf",
-          "status": "succeed"
+          "status": "succeed",
+          "imageurl":"s3presignedurl"
         }
       ]
     }
@@ -169,7 +174,20 @@ Mutation call to trigger the ingestion process:
 
 ```
 mutation MyMutation {
-  ingestDocuments(ingestioninput: {files: [{status: "", name: "a.pdf"}, {status: "", name: "b.pdf"}], ingestionjobid: "123"}) {
+  ingestDocuments(ingestioninput: {
+    embeddings_model: 
+      {
+        provider: "Bedrock", 
+        modelId: "amazon.titan-embed-text-v1",
+        streaming: true
+      }, 
+    files: [{status: "", name: "a.pdf"}],
+    ingestionjobid: "123",
+    ignore_existing: true}) {
+    files {
+      imageurl
+      status
+    }
     ingestionjobid
   }
 }
@@ -188,6 +206,7 @@ Where:
 - files.status: this field will be used by the subscription to update the status of the ingestion for the file specified
 - files.name: name of the file stored in the input S3 bucket
 - ingestionjobid: id which can be used to filter subscriptions on client side
+- embeddings_model: Based on type of modality (text or image ) the model provider , model id can be used.
 
 
 

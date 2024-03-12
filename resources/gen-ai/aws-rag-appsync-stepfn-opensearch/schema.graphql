@@ -1,11 +1,20 @@
 type FileStatus @aws_iam @aws_cognito_user_pools {
 	name: String
 	status: String
+	imageurl: String
+}
+
+input ModelConfiguration {
+	provider: String
+	modelId: String
+	streaming: Boolean
+	model_kwargs: AWSJSON
 }
 
 input FileStatusInput {
 	name: String
 	status: String
+	imageurl: String
 }
 
 type IngestionDocs @aws_iam @aws_cognito_user_pools {
@@ -15,6 +24,7 @@ type IngestionDocs @aws_iam @aws_cognito_user_pools {
 
 input IngestionDocsInput {
 	ingestionjobid: ID
+	embeddings_model: ModelConfiguration
 	files: [FileStatusInput]
 	ignore_existing: Boolean
 }

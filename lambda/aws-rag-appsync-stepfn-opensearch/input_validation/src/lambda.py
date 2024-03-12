@@ -26,7 +26,7 @@ def process_files(input_files):
     for i in range(len(input_files)):
         filename = input_files[i]['name']
         status = "Unsupported"
-        if filename.lower().endswith(('.pdf')):
+        if isvalid_file_format(filename):
             status = "Supported"
             metrics.add_metric(name="SupportedFile", unit=MetricUnit.Count, value=1)
         else:
@@ -49,7 +49,7 @@ def process_files(input_files):
     return response
 
 @tracer.capture_method
-def append_job_info(response, job_id, ignore_existing):
+def append_job_info(response, job_id, ignore_existing,modelid):
     """
     Append job ID and ignore_existing flag to 
     each file in the provided response
@@ -57,7 +57,19 @@ def append_job_info(response, job_id, ignore_existing):
     for file in response['files']:
         file['jobid'] = job_id
         file['ignore_existing'] = ignore_existing
+        file['modelid']=modelid
     return response
+
+@tracer.capture_method
+def isvalid_file_format(file_name: str) -> bool:
+    file_format = ['.pdf','.txt','.jpg','.jpeg','.png','.svg']
+    if file_name.endswith(tuple(file_format)):
+        print(f'valid file format :: {file_format}')
+        return True
+    else:
+        print(f'Invalid file format :: {file_format}')
+        return False
+
 
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler
@@ -74,12 +86,16 @@ def handler(event,  context: LambdaContext) -> dict:
     tracer.put_annotation(key="correlationId", value=job_id)
 
     input_files = ingestion_input['files']
+    embeddings_model = ingestion_input['embeddings_model']
+    print(f'embeddings_model :: {embeddings_model}')
+    modelid = embeddings_model['modelId']
+    print(f'modelid :: {modelid}')
     
     response = process_files(input_files)
 
     updateIngestionJobStatus({'jobid': job_id, 'files': response['files']})
 
-    response_transformed = append_job_info(response, job_id, ignore_existing)
+    response_transformed = append_job_info(response, job_id, ignore_existing,modelid)
     
     logger.info({"response": response_transformed})
     return response_transformed

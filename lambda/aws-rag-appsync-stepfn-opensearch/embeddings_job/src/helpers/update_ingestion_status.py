@@ -44,6 +44,7 @@ def updateIngestionJobStatus(variables):
                 files {
                     name
                     status
+                    imageurl
                 }
                 ingestionjobid
             }
@@ -54,6 +55,7 @@ def updateIngestionJobStatus(variables):
     query = query.replace("$files", str(variables['files']).replace("\'", "\""))
     query = query.replace("\"name\"", "name")
     query = query.replace("\"status\"", "status")
+    query = query.replace("\"imageurl\"", "imageurl")
 
     request = {'query':query}
 

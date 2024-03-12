@@ -10,21 +10,22 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
-from typing import List
+import boto3
 from io import BytesIO
-from langchain.docstore.document import Document
-from langchain.document_loaders.base import BaseLoader
-from langchain.docstore.document import Document
-from langchain.text_splitter import NLTKTextSplitter
+from typing import List
 from PyPDF2 import PdfReader
+from langchain.document_loaders.base import BaseLoader
+
 from aws_lambda_powertools import Logger, Tracer
+
+
 
 logger = Logger(service="INGESTION_FILE_TRANSFORMER")
 tracer = Tracer(service="INGESTION_FILE_TRANSFORMER")
 
 @tracer.capture_method
-class S3FileLoaderInMemory(BaseLoader):
-    """Loading logic for loading documents from s3."""
+class pdf_transformer(BaseLoader):
+    """Transforming logic for pdf documents from s3 ."""
 
     def __init__(self, bucket: str, key: str):
         """Initialize with bucket and key name."""
@@ -33,15 +34,6 @@ class S3FileLoaderInMemory(BaseLoader):
 
     def load(self) -> str:
         """Load documents."""
-        try:
-            import boto3
-        except ImportError:
-            raise ImportError(
-                "Could not import `boto3` python package. "
-                "Please install it with `pip install boto3`."
-            )
-            logger.exception('ImportError boto3')
-         # read S3
         try:
             s3 = boto3.resource('s3')
             obj = s3.Object(self.bucket, self.key)
