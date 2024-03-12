@@ -137,3 +137,22 @@ export function lambdaMemorySizeLimiter(construct: IConstruct, requestedMemorySi
     return requestedMemorySizeInMegabytes;
   }
 }
+
+/**
+ * Adds CFN NAG suppress rules to the CDK resource.
+ * @param resource The CDK resource
+ * @param rules The CFN NAG suppress rules
+ */
+export function addCfnSuppressRules(resource: cdk.Resource | cdk.CfnResource, rules: CfnNagSuppressRule[]) {
+  if (resource instanceof cdk.Resource) {
+    resource = resource.node.defaultChild as cdk.CfnResource;
+  }
+
+  if (resource.cfnOptions.metadata?.cfn_nag?.rules_to_suppress) {
+    resource.cfnOptions.metadata?.cfn_nag.rules_to_suppress.push(...rules);
+  } else {
+    resource.addMetadata('cfn_nag', {
+      rules_to_suppress: rules,
+    });
+  }
+}
