@@ -25,7 +25,6 @@ import { StateMachine } from 'aws-cdk-lib/aws-stepfunctions';
 import { Stack } from 'aws-cdk-lib/core';
 import { AwsCustomResource, AwsCustomResourcePolicy, PhysicalResourceId } from 'aws-cdk-lib/custom-resources';
 import { Construct } from 'constructs';
-import { ServiceEndpointTypeEnum } from './types';
 import { KendraConstruct } from '../../../common/helpers/kendra-construct';
 import {
   AddAwsServiceEndpoint,
@@ -110,6 +109,23 @@ export interface RagAppsyncStepfnKendraProps {
      * @default - KENDRA_INDEX_ID
      */
   readonly indexIdEnvironmentVariableName?: string;
+}
+
+enum ServiceEndpointTypeEnum {
+  DYNAMODB= 'DDB',
+  ECR_API= 'ECR_API',
+  ECR_DKR= 'ECR_DKR',
+  EVENTS= 'CLOUDWATCH_EVENTS',
+  KENDRA= 'KENDRA',
+  KINESIS_FIREHOSE= 'KINESIS_FIREHOSE',
+  KINESIS_STREAMS= 'KINESIS_STREAMS',
+  S3= 'S3',
+  SAGEMAKER_RUNTIME= 'SAGEMAKER_RUNTIME',
+  SECRETS_MANAGER= 'SECRETS_MANAGER',
+  SNS= 'SNS',
+  SQS= 'SQS',
+  SSM= 'SSM',
+  STEP_FUNCTIONS= 'STEP_FUNCTIONS',
 }
 
 /**
@@ -351,6 +367,7 @@ export class RagAppsyncStepfnKendra extends Construct {
       kendraSyncLambda,
       createCheckJobsStatusLambda,
     );
+
     this.stepFunctionsExecutionHandlerRole = createStepFunctionsExecutionHandlerRole(
       this.stack,
       this.docProcessingStateMachine,

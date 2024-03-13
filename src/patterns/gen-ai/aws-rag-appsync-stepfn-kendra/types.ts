@@ -12,7 +12,6 @@
  */
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as kendra from 'aws-cdk-lib/aws-kendra';
-import { ServiceEndpointTypes } from './index';
 
 export enum EndpointTypes {
   GATEWAY = 'Gateway',
@@ -20,7 +19,7 @@ export enum EndpointTypes {
 }
 
 export interface EndpointDefinition {
-  endpointName: ServiceEndpointTypes;
+  endpointName: ServiceEndpointTypeEnum;
   endpointType: EndpointTypes;
   endpointGatewayService?: ec2.GatewayVpcEndpointAwsService;
   endpointInterfaceService?: ec2.InterfaceVpcEndpointAwsService;
@@ -74,35 +73,35 @@ export interface CfnNagSuppressRule {
 }
 
 export enum ServiceEndpointTypeEnum {
-  DYNAMODB= 'DDB',
-  ECR_API= 'ECR_API',
-  ECR_DKR= 'ECR_DKR',
-  EVENTS= 'CLOUDWATCH_EVENTS',
-  KENDRA= 'KENDRA',
-  KINESIS_FIREHOSE= 'KINESIS_FIREHOSE',
-  KINESIS_STREAMS= 'KINESIS_STREAMS',
-  S3= 'S3',
-  SAGEMAKER_RUNTIME= 'SAGEMAKER_RUNTIME',
-  SECRETS_MANAGER= 'SECRETS_MANAGER',
-  SNS= 'SNS',
-  SQS= 'SQS',
-  SSM= 'SSM',
-  STEP_FUNCTIONS= 'STEP_FUNCTIONS',
+  DYNAMODB = 'DDB',
+  ECR_API = 'ECR_API',
+  ECR_DKR = 'ECR_DKR',
+  EVENTS = 'CLOUDWATCH_EVENTS',
+  KENDRA = 'KENDRA',
+  KINESIS_FIREHOSE = 'KINESIS_FIREHOSE',
+  KINESIS_STREAMS = 'KINESIS_STREAMS',
+  S3 = 'S3',
+  SAGEMAKER_RUNTIME = 'SAGEMAKER_RUNTIME',
+  SECRETS_MANAGER = 'SECRETS_MANAGER',
+  SNS = 'SNS',
+  SQS = 'SQS',
+  SSM = 'SSM',
+  STEP_FUNCTIONS = 'STEP_FUNCTIONS',
 }
 
-export interface ServiceEndpointTypes {
-  DYNAMODB: 'DDB';
-  ECR_API: 'ECR_API';
-  ECR_DKR: 'ECR_DKR';
-  EVENTS: 'CLOUDWATCH_EVENTS';
-  KENDRA: 'KENDRA';
-  KINESIS_FIREHOSE: 'KINESIS_FIREHOSE';
-  KINESIS_STREAMS: 'KINESIS_STREAMS';
-  S3: 'S3';
-  SAGEMAKER_RUNTIME: 'SAGEMAKER_RUNTIME';
-  SECRETS_MANAGER: 'SECRETS_MANAGER';
-  SNS: 'SNS';
-  SQS: 'SQS';
-  SSM: 'SSM';
-  STEP_FUNCTIONS: 'STEP_FUNCTIONS';
-}
+// interface ServiceEndpointTypeEnum {
+//   DYNAMODB: 'DDB';
+//   ECR_API: 'ECR_API';
+//   ECR_DKR: 'ECR_DKR';
+//   EVENTS: 'CLOUDWATCH_EVENTS';
+//   KENDRA: 'KENDRA';
+//   KINESIS_FIREHOSE: 'KINESIS_FIREHOSE';
+//   KINESIS_STREAMS: 'KINESIS_STREAMS';
+//   S3: 'S3';
+//   SAGEMAKER_RUNTIME: 'SAGEMAKER_RUNTIME';
+//   SECRETS_MANAGER: 'SECRETS_MANAGER';
+//   SNS: 'SNS';
+//   SQS: 'SQS';
+//   SSM: 'SSM';
+//   STEP_FUNCTIONS: 'STEP_FUNCTIONS';
+// }

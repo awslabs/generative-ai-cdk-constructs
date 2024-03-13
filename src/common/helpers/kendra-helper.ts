@@ -31,7 +31,7 @@ import {
   EndpointDefinition,
   EndpointTypes,
   SecurityGroupRuleDefinition,
-  ServiceEndpointTypes,
+  ServiceEndpointTypeEnum,
 } from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
 
 export function createS3DataSource(scope: Construct,
@@ -496,84 +496,84 @@ export function createDefaultIsolatedVpcProps(): VpcProps {
   } as VpcProps;
 }
 
-function AddGatewayEndpoint(vpc: IVpc, service: EndpointDefinition, interfaceTag: ServiceEndpointTypes) {
+function AddGatewayEndpoint(vpc: IVpc, service: EndpointDefinition, interfaceTag: ServiceEndpointTypeEnum) {
   vpc.addGatewayEndpoint(interfaceTag, {
     service: service.endpointGatewayService as GatewayVpcEndpointAwsService,
   });
 }
 
-function CheckIfEndpointAlreadyExists(vpc: IVpc, interfaceTag: ServiceEndpointTypes): boolean {
+function CheckIfEndpointAlreadyExists(vpc: IVpc, interfaceTag: ServiceEndpointTypeEnum): boolean {
   return vpc.node.children.some((child) => child.node.id === interfaceTag);
 }
 
 const endpointSettings: EndpointDefinition[] = [
   {
-    endpointName: ServiceEndpointTypes.DYNAMODB,
+    endpointName: ServiceEndpointTypeEnum.DYNAMODB,
     endpointType: EndpointTypes.GATEWAY,
     endpointGatewayService: GatewayVpcEndpointAwsService.DYNAMODB,
   },
   {
-    endpointName: ServiceEndpointTypes.S3,
+    endpointName: ServiceEndpointTypeEnum.S3,
     endpointType: EndpointTypes.GATEWAY,
     endpointGatewayService: GatewayVpcEndpointAwsService.S3,
   },
   {
-    endpointName: ServiceEndpointTypes.STEP_FUNCTIONS,
+    endpointName: ServiceEndpointTypeEnum.STEP_FUNCTIONS,
     endpointType: EndpointTypes.INTERFACE,
     endpointInterfaceService: InterfaceVpcEndpointAwsService.STEP_FUNCTIONS,
   },
   {
-    endpointName: ServiceEndpointTypes.SNS,
+    endpointName: ServiceEndpointTypeEnum.SNS,
     endpointType: EndpointTypes.INTERFACE,
     endpointInterfaceService: InterfaceVpcEndpointAwsService.SNS,
   },
   {
-    endpointName: ServiceEndpointTypes.SQS,
+    endpointName: ServiceEndpointTypeEnum.SQS,
     endpointType: EndpointTypes.INTERFACE,
     endpointInterfaceService: InterfaceVpcEndpointAwsService.SQS,
   },
   {
-    endpointName: ServiceEndpointTypes.SAGEMAKER_RUNTIME,
+    endpointName: ServiceEndpointTypeEnum.SAGEMAKER_RUNTIME,
     endpointType: EndpointTypes.INTERFACE,
     endpointInterfaceService: InterfaceVpcEndpointAwsService.SAGEMAKER_RUNTIME,
   },
   {
-    endpointName: ServiceEndpointTypes.SECRETS_MANAGER,
+    endpointName: ServiceEndpointTypeEnum.SECRETS_MANAGER,
     endpointType: EndpointTypes.INTERFACE,
     endpointInterfaceService: InterfaceVpcEndpointAwsService.SECRETS_MANAGER,
   },
   {
-    endpointName: ServiceEndpointTypes.SSM,
+    endpointName: ServiceEndpointTypeEnum.SSM,
     endpointType: EndpointTypes.INTERFACE,
     endpointInterfaceService: InterfaceVpcEndpointAwsService.SSM,
   },
   {
-    endpointName: ServiceEndpointTypes.ECR_API,
+    endpointName: ServiceEndpointTypeEnum.ECR_API,
     endpointType: EndpointTypes.INTERFACE,
     endpointInterfaceService: InterfaceVpcEndpointAwsService.ECR,
   },
   {
-    endpointName: ServiceEndpointTypes.ECR_DKR,
+    endpointName: ServiceEndpointTypeEnum.ECR_DKR,
     endpointType: EndpointTypes.INTERFACE,
     endpointInterfaceService: InterfaceVpcEndpointAwsService.ECR_DOCKER,
   },
   {
-    endpointName: ServiceEndpointTypes.EVENTS,
+    endpointName: ServiceEndpointTypeEnum.EVENTS,
     endpointType: EndpointTypes.INTERFACE,
     endpointInterfaceService: InterfaceVpcEndpointAwsService.CLOUDWATCH_EVENTS,
   },
   {
-    endpointName: ServiceEndpointTypes.KINESIS_FIREHOSE,
+    endpointName: ServiceEndpointTypeEnum.KINESIS_FIREHOSE,
     endpointType: EndpointTypes.INTERFACE,
     endpointInterfaceService: InterfaceVpcEndpointAwsService.KINESIS_FIREHOSE,
   },
   {
-    endpointName: ServiceEndpointTypes.KINESIS_STREAMS,
+    endpointName: ServiceEndpointTypeEnum.KINESIS_STREAMS,
     endpointType: EndpointTypes.INTERFACE,
     endpointInterfaceService: InterfaceVpcEndpointAwsService.KINESIS_STREAMS,
   },
   {
-    endpointName: ServiceEndpointTypes.KENDRA,
+    endpointName: ServiceEndpointTypeEnum.KENDRA,
     endpointType: EndpointTypes.INTERFACE,
     endpointInterfaceService: InterfaceVpcEndpointAwsService.KENDRA,
   },
@@ -583,7 +583,7 @@ const endpointSettings: EndpointDefinition[] = [
 export function AddAwsServiceEndpoint(
   scope: Construct,
   vpc: IVpc,
-  interfaceTag: ServiceEndpointTypes,
+  interfaceTag: ServiceEndpointTypeEnum,
 ) {
   if (CheckIfEndpointAlreadyExists(vpc, interfaceTag)) {
     return;
@@ -609,7 +609,7 @@ export function AddAwsServiceEndpoint(
 }
 
 
-function AddInterfaceEndpoint(scope: Construct, vpc: IVpc, service: EndpointDefinition, interfaceTag: ServiceEndpointTypes) {
+function AddInterfaceEndpoint(scope: Construct, vpc: IVpc, service: EndpointDefinition, interfaceTag: ServiceEndpointTypeEnum) {
   const endpointDefaultSecurityGroup = buildSecurityGroup(
     scope,
     `${scope.node.id}-${service.endpointName}`,
