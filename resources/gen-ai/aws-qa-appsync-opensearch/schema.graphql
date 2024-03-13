@@ -1,13 +1,23 @@
-enum ResponseGenerationMethod {
-	LONG_CONTEXT
-	RAG
+enum ModelProvider {
+	Sagemaker Endpoint
+	Bedrock
+}
+enum Modality {
+	Image
+	Text
 }
 
-type QADocs @aws_iam @aws_cognito_user_pools {
+input ModelConfiguration {
+	provider: ModelProvider
+	modelId: String
+	modality: Modality
+	streaming: Boolean
+	model_kwargs: AWSJSON
+}
+type QADocs @aws_iam
+@aws_cognito_user_pools {
 	jobid: ID
 	question: String
-	streaming: Boolean
-	max_docs: Int
 	verbose: Boolean
 	filename: String
 	answer: String
@@ -15,26 +25,39 @@ type QADocs @aws_iam @aws_cognito_user_pools {
 	jobstatus: String
 	responseGenerationMethod: ResponseGenerationMethod
 }
-
 input QADocsInput {
 	jobid: ID
-	question: String @constraint(pattern: "^[0-9a-zA-Z]*$?-_,", maxLength: 300)
-	streaming: Boolean
-	max_docs: Int
+	question: String
+	qa_model: ModelConfiguration
+	embeddings_model: ModelConfiguration
+	retrieval: RetrievalConfiguration
 	filename: String
+	presignedurl: String
+	url: String
 	verbose: Boolean
 	responseGenerationMethod: ResponseGenerationMethod
 }
-
-type Mutation @aws_iam @aws_cognito_user_pools {
+enum ResponseGenerationMethod {
+	LONG_CONTEXT
+	RAG
+}
+input RetrievalConfiguration {
+	max_docs: Int
+	index_name: String
+	filter_filename: String
+}
+type Mutation @aws_iam
+@aws_cognito_user_pools {
 	postQuestion(
 		jobid: ID,
 		jobstatus: String,
+		qa_model: ModelConfiguration,
+		embeddings_model: ModelConfiguration,
+		retrieval: RetrievalConfiguration,
 		filename: String,
+		presignedurl: String,
 		question: String,
-		max_docs: Int,
 		verbose: Boolean,
-		streaming: Boolean,
 		responseGenerationMethod: ResponseGenerationMethod
 	): QADocs
 	updateQAJobStatus(
@@ -46,18 +69,17 @@ type Mutation @aws_iam @aws_cognito_user_pools {
 		question: String
 	): QADocs
 }
-
-type Query @aws_iam @aws_cognito_user_pools {
-  getAnswer(answerparams: QADocsInput!): QADocs
+type Query @aws_iam
+@aws_cognito_user_pools {
+	getAnswer(answerparams: QADocsInput!): QADocs
 }
-
-type Subscription @aws_iam @aws_cognito_user_pools {
+type Subscription @aws_iam
+@aws_cognito_user_pools {
 	updateQAJobStatus(jobid: ID!): QADocs
 		@aws_subscribe(mutations: ["updateQAJobStatus"])
 }
-
 schema {
 	query: Query
 	mutation: Mutation
 	subscription: Subscription
-}
+	}

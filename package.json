@@ -58,15 +58,15 @@
     "jest": "^29.7.0",
     "jest-junit": "^15",
     "jsii": "~5.3.0",
-    "jsii-diff": "^1.94.0",
-    "jsii-pacmak": "^1.94.0",
+    "jsii-diff": "^1.95.0",
+    "jsii-pacmak": "^1.95.0",
     "jsii-rosetta": "~5.3.0",
     "pinst": "^3.0.0",
     "projen": "~0.78.8",
     "standard-version": "^9",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
-    "typedoc": "^0.25.9",
+    "typedoc": "^0.25.12",
     "typedoc-plugin-markdown": "^3.17.1",
     "typescript": "^5.3.3"
   },
@@ -75,7 +75,7 @@
     "constructs": "^10.3.0"
   },
   "dependencies": {
-    "cdk-nag": "^2.28.48"
+    "cdk-nag": "^2.28.59"
   },
   "keywords": [
     "aws-cdk",
