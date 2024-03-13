@@ -207,7 +207,9 @@ export function createKendraWorkflowStepFunction(
 
 
 export function createSyncRunTable(cdkStack: Construct) {
-  return new cdk.aws_dynamodb.Table(cdkStack, 'SyncRunTable', {
+  return new cdk.aws_dynamodb.Table(cdkStack,
+      'SyncRunTable', {
+    tableName: 'SyncRunTable',
     partitionKey: {
       name: 'Id',
       type: cdk.aws_dynamodb.AttributeType.STRING,
@@ -268,7 +270,7 @@ export function createKendraStartDataSync(
     {
       runtime: cdk.aws_lambda.Runtime.PYTHON_3_10,
       handler: 'start_sync.lambda_handler',
-      code: cdk.aws_lambda.Code.fromAsset('../lambdas/kendra_sync'),
+      code: cdk.aws_lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/kendra_sync/')),
       timeout: cdk.Duration.seconds(30),
       role: startDataSyncRole,
       environment: {
@@ -322,7 +324,7 @@ export function createCheckJobsStatusFn(
     {
       runtime: cdk.aws_lambda.Runtime.PYTHON_3_10,
       handler: 'check_sync_status.lambda_handler',
-      code: cdk.aws_lambda.Code.fromAsset('../lambdas/kendra_sync_status'),
+      code: cdk.aws_lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/kendra_sync_status/')),
       timeout: cdk.Duration.seconds(60),
       memorySize: 256,
       role: checkJobStatusRole,
