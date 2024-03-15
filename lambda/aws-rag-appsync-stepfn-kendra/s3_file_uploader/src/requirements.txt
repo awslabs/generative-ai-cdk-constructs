@@ -1,0 +1,4 @@
+aws-lambda-powertools
+typing-extensions
+boto3
+requests

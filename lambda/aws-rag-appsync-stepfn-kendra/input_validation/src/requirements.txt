@@ -1,0 +1,4 @@
+aws-lambda-powertools
+boto3
+requests
+requests-aws4auth

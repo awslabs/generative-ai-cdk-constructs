@@ -12,6 +12,7 @@
  */
 import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
+import { Duration } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import { Table } from 'aws-cdk-lib/aws-dynamodb';
@@ -32,8 +33,9 @@ import {
   createKendraStartDataSync,
   createKendraWorkflowStepFunction,
   createStepFunctionsExecutionHandlerRole,
-  createSyncRunTable, createUpdateKendraJobStatusFn, createDefaultIsolatedVpcProps,
+  createSyncRunTable, createUpdateKendraJobStatusFn, createDefaultIsolatedVpcProps, createS3FileUploader,
 } from '../../../common/helpers/kendra-helper';
+import { lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import { buildVpc } from '../../../common/helpers/vpc-helper';
 
 /**
@@ -338,6 +340,23 @@ export class RagAppsyncStepfnKendra extends Construct {
     );
     this.graphqlApi = ingestionGraphqlApi;
     this.syncRunTable = createSyncRunTable(this);
+
+    const s3FileUploaderProps = {
+      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/input_validation/src')),
+      functionName: 's3FileUploader'+stage,
+      description: 'Lambda function for validating input files formats',
+      vpc: this.vpc,
+      memorySize: lambdaMemorySizeLimiter(this, 1_769),
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      timeout: Duration.minutes(15),
+      environment: {
+        KENDRA_INDEX_ID: this.kendraIndexId,
+        KENDRA_DATA_SOURCE_INDEX_ID: this.kendraDataSourceIndexId,
+        DOCUMENTS_TABLE: this.syncRunTable.tableName,
+        S3_BUCKET_NAME: this.kendraInputBucket.bucketName,
+      },
+    };
+    const s3FileUploaderLambda = createS3FileUploader(this.stack, this.kendraInputBucket, s3FileUploaderProps);
 
     const kendraSyncLambda = createKendraStartDataSync(
       this.stack,

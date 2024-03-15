@@ -22,9 +22,12 @@ import {
 } from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kendra from 'aws-cdk-lib/aws-kendra';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { DefinitionBody, StateMachine } from 'aws-cdk-lib/aws-stepfunctions';
 import { Stack } from 'aws-cdk-lib/core';
 import { Construct } from 'constructs';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import * as deepmerge from 'deepmerge';
 import { addCfnSuppressRules, generatePhysicalName } from './utils';
 import {
@@ -660,3 +663,35 @@ export function buildSecurityGroup(
   return newSecurityGroup;
 }
 
+export function createS3FileUploader (cdkStack: Stack, s3_bucket: Bucket, props) {
+  let createS3FileUploaderRole = new cdk.aws_iam.Role(
+    cdkStack,
+    's3FileUploader',
+    {
+      description: 'Role used by the S3 file uploader Lambda function',
+      assumedBy: new cdk.aws_iam.ServicePrincipal('lambda.amazonaws.com'),
+    },
+  );
+
+  createS3FileUploaderRole.addManagedPolicy(
+    cdk.aws_iam.ManagedPolicy.fromAwsManagedPolicyName(
+      'service-role/AWSLambdaBasicExecutionRole',
+    ),
+  );
+
+  createS3FileUploaderRole.addToPolicy(
+    new cdk.aws_iam.PolicyStatement({
+      actions: ['s3:PutObject', 's3:PutObjectAcl', 's3:GetObject'],
+      resources: [s3_bucket.bucketArn],
+    }),
+  );
+
+  return new lambda.DockerImageFunction(
+    cdkStack,
+    's3FileUploaderFn',
+    {
+      ...props,
+      role: createS3FileUploaderRole,
+    },
+  );
+}
