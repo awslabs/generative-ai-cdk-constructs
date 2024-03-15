@@ -60,8 +60,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
     'typedoc-plugin-markdown',
     'deepmerge',
   ],
-  deps: ['cdk-nag', 'aws-sdk-mock'],
-
+  deps: ['cdk-nag'],
+  bundledDeps: ['aws-sdk-mock'],
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
   minNodeVersion: '18.12.0', // 'MAINTENANCE' (first LTS)
   maxNodeVersion: '20.x', // 'CURRENT'

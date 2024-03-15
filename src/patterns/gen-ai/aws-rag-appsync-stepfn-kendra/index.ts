@@ -20,6 +20,7 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import * as kendra from 'aws-cdk-lib/aws-kendra';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
+import { DockerImageFunction } from 'aws-cdk-lib/aws-lambda';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import { Bucket, BucketAccessControl, HttpMethods } from 'aws-cdk-lib/aws-s3';
 import { StateMachine } from 'aws-cdk-lib/aws-stepfunctions';
@@ -356,7 +357,13 @@ export class RagAppsyncStepfnKendra extends Construct {
         S3_BUCKET_NAME: this.kendraInputBucket.bucketName,
       },
     };
-    const s3FileUploaderLambda = createS3FileUploader(this.stack, this.kendraInputBucket, s3FileUploaderProps);
+    const s3FileUploaderLambda: DockerImageFunction = createS3FileUploader(this.stack, this.kendraInputBucket, s3FileUploaderProps);
+
+    // Give permission to the lambda to write to the S3 bucket
+    s3FileUploaderLambda.addToRolePolicy(new cdk.aws_iam.PolicyStatement({
+      actions: ['s3:GetObject', 's3:PutObject'],
+      resources: [this.kendraInputBucket.bucketArn],
+    }));
 
     const kendraSyncLambda = createKendraStartDataSync(
       this.stack,

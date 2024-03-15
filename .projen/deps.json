@@ -118,6 +118,10 @@
       "type": "build"
     },
     {
+      "name": "aws-sdk-mock",
+      "type": "bundled"
+    },
+    {
       "name": "aws-cdk-lib",
       "version": "^2.122.0",
       "type": "peer"
@@ -126,10 +130,6 @@
       "name": "constructs",
       "version": "^10.3.0",
       "type": "peer"
-    },
-    {
-      "name": "aws-sdk-mock",
-      "type": "runtime"
     },
     {
       "name": "cdk-nag",

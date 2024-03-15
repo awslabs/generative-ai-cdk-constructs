@@ -211,20 +211,20 @@ export function createKendraWorkflowStepFunction(
 
 export function createSyncRunTable(cdkStack: Construct) {
   return new cdk.aws_dynamodb.Table(cdkStack,
-      'SyncRunTable', {
-    tableName: 'SyncRunTable',
-    partitionKey: {
-      name: 'Id',
-      type: cdk.aws_dynamodb.AttributeType.STRING,
-    },
-    sortKey: {
-      name: 'CreatedOn',
-      type: cdk.aws_dynamodb.AttributeType.STRING,
-    },
-    encryption: cdk.aws_dynamodb.TableEncryption.AWS_MANAGED,
-    billingMode: cdk.aws_dynamodb.BillingMode.PAY_PER_REQUEST,
-    removalPolicy: RemovalPolicy.DESTROY,
-  });
+    'SyncRunTable', {
+      tableName: 'SyncRunTable',
+      partitionKey: {
+        name: 'Id',
+        type: cdk.aws_dynamodb.AttributeType.STRING,
+      },
+      sortKey: {
+        name: 'CreatedOn',
+        type: cdk.aws_dynamodb.AttributeType.STRING,
+      },
+      encryption: cdk.aws_dynamodb.TableEncryption.AWS_MANAGED,
+      billingMode: cdk.aws_dynamodb.BillingMode.PAY_PER_REQUEST,
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
 }
 
 export function createKendraStartDataSync(
@@ -663,7 +663,7 @@ export function buildSecurityGroup(
   return newSecurityGroup;
 }
 
-export function createS3FileUploader (cdkStack: Stack, s3_bucket: Bucket, props) {
+export function createS3FileUploader (cdkStack: Stack, s3_bucket: Bucket, props: cdk.aws_lambda.DockerImageFunctionProps) {
   let createS3FileUploaderRole = new cdk.aws_iam.Role(
     cdkStack,
     's3FileUploader',

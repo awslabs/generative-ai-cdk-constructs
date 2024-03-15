@@ -78,6 +78,9 @@
     "aws-sdk-mock": "^5.9.0",
     "cdk-nag": "^2.28.59"
   },
+  "bundledDependencies": [
+    "aws-sdk-mock"
+  ],
   "keywords": [
     "aws-cdk",
     "cdk",
