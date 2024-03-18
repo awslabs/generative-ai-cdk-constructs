@@ -26,7 +26,7 @@
   - [Table of contents](#table-of-contents)
   - [Overview](#overview)
   - [Initializer](#initializer)
-  - [Pattern Construct Props] (#pattern-construct-props)
+  - [Pattern Construct Props](#pattern-construct-props)
   - [Pattern Properties](#pattern-properties)
   - [Default properties](#default-properties)
     - [Authentication](#authentication)
