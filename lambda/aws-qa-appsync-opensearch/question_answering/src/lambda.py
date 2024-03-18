@@ -41,3 +41,4 @@ def handler(event,  context: LambdaContext) -> dict:
 
     print(f"llm_response is {llm_response}")
     return llm_response
+

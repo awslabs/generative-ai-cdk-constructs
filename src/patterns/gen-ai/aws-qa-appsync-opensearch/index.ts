@@ -153,12 +153,29 @@ export interface QaAppsyncOpensearchProps {
    * and settings instead of the existing
    */
   readonly customDockerLambdaProps?: DockerLambdaCustomProps | undefined;
+
+
 }
 
 /**
  * @summary The QaAppsyncOpensearch class.
  */
 export class QaAppsyncOpensearch extends BaseClass {
+  /**
+   * Construct warning
+   */
+  public static readonly CONSTRUCT_SCHEMA_UPDATE_WARNING=`
+  Attention QaAppsyncOpensearch users, an update has been made to 
+  the GraphQL schema.To ensure continued functionality, please review 
+  and update your GraphQL mutations and subscriptions to align with 
+  the new schema.This schema update enables enhanced capabilities 
+  and optimizations,so adopting the changes is recommended. 
+  Please refer to the construct documentation for details 
+  on the schema changes and examples of updated GraphQL statements.
+  Reach out to the support team if you need assistance 
+  updating your integration codebase.  
+  `;
+
   /**
    * Returns the instance of ec2.IVpc used by the construct
    */
@@ -189,6 +206,7 @@ export class QaAppsyncOpensearch extends BaseClass {
    * Returns an instance of appsync.IGraphqlApi created by the construct
    */
   public readonly qaLambdaFunction: lambda.DockerImageFunction;
+
 
   /**
    * @summary Constructs a new instance of the RagAppsyncStepfnOpensearch class.
@@ -419,7 +437,7 @@ export class QaAppsyncOpensearch extends BaseClass {
       },
     );
 
-    // Minimum permissions for a Lambda function to execute while accessing a resource within a VPC
+    // Minimum permissions for a Lambda functienvon to execute while accessing a resource within a VPC
     question_answering_function_role.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
@@ -443,6 +461,7 @@ export class QaAppsyncOpensearch extends BaseClass {
         resources: ['*'],
       }),
     );
+
 
     // The lambda will access the opensearch credentials
     if (props.openSearchSecret) {
@@ -504,10 +523,11 @@ export class QaAppsyncOpensearch extends BaseClass {
         actions: [
           'bedrock:InvokeModel',
           'bedrock:InvokeModelWithResponseStream',
+          'bedrock:ListFoundationModels',
         ],
+        // ListFoundationModels has no specific resource type
         resources: [
-          'arn:' + Aws.PARTITION + ':bedrock:' + Aws.REGION + '::foundation-model',
-          'arn:' + Aws.PARTITION + ':bedrock:' + Aws.REGION + '::foundation-model/*',
+          '*',
         ],
       }),
     );

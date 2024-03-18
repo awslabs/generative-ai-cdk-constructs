@@ -178,6 +178,7 @@ export interface RagAppsyncStepfnOpensearchProps {
 /**
    * @summary The RagAppsyncStepfnOpensearch class.
    */
+
 export class RagAppsyncStepfnOpensearch extends BaseClass {
   /**
    * Returns the instance of ec2.IVpc used by the construct
@@ -526,6 +527,24 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
       ],
       resources: [
         '*',
+      ],
+    }));
+
+    // Minimum permissions for a Lambda function to execute while accessing a resource within a VPC
+    s3_transformer_job_function_role.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'rekognition:DetectModerationLabels',
+      ],
+      resources: ['*'],
+    }));
+
+    s3_transformer_job_function_role.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: ['bedrock:*'],
+      resources: [
+        'arn:' + Aws.PARTITION + ':bedrock:' + Aws.REGION + '::foundation-model',
+        'arn:' + Aws.PARTITION + ':bedrock:' + Aws.REGION + '::foundation-model/*',
       ],
     }));
 
