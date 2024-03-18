@@ -3,15 +3,13 @@
 
 
 import json
-import logging
-import boto3
-import random
-import os
 import datetime
 from datetime import datetime, timezone
+from aws_lambda_powertools import Logger
+import boto3
+import os
 
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+logger = Logger(service="KENDRA_SYNC_JOB")
 
 KENDRA_INDEX_ID = os.environ['KENDRA_INDEX_ID']
 KENDRA_DATA_SOURCE_INDEX_ID = os.environ['KENDRA_DATA_SOURCE_INDEX_ID']
@@ -25,20 +23,28 @@ table = ddb_resource.Table(DOCUMENTS_TABLE)
 
 
 def lambda_handler(event, context):
-    print('event notification: ' + json.dumps(event))
-    created = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    resp = kendra_client.start_data_source_sync_job(Id=KENDRA_DATA_SOURCE_INDEX_ID, IndexId=KENDRA_INDEX_ID)
+    try:
+        print('event notification: ' + json.dumps(event))
+        created = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        resp = kendra_client.start_data_source_sync_job(Id=KENDRA_DATA_SOURCE_INDEX_ID, IndexId=KENDRA_INDEX_ID)
+        table.put_item(
+            Item={
+                "Id": resp['ExecutionId'],
+                "CreatedOn": created,
+                "Status": "Syncing"
+            }
+        )
 
-    table.put_item(
-        TableName=DOCUMENTS_TABLE,
-        Item={
-            "Id":  resp['ExecutionId'],
-            "CreatedOn": created,
-            "Status": "Syncing"
+        logger.info(f"Kendra data source sync job started with Execution ID: {resp['ExecutionId']}")
+
+        return {
+            "KendraJobExecId": resp['ExecutionId'],
+            "CreatedOn": str(created)
         }
-    )
 
-    return {
-        "KendraJobExecId": resp['ExecutionId'],
-        "CreatedOn": str(created)
-    }
+    except Exception as e:
+        logger.error(f"Error starting Kendra data source sync job or writing to DynamoDB: {str(e)}")
+        return {
+            "status": "Error",
+            "errorMessage": str(e)
+        }

@@ -34,7 +34,11 @@ import {
   createKendraStartDataSync,
   createKendraWorkflowStepFunction,
   createStepFunctionsExecutionHandlerRole,
-  createSyncRunTable, createUpdateKendraJobStatusFn, createDefaultIsolatedVpcProps, createS3FileUploader,
+  createSyncRunTable,
+  createUpdateKendraJobStatusFn,
+  createDefaultIsolatedVpcProps,
+  createS3FileUploader,
+  createGeneratePresignedUrlFn,
 } from '../../../common/helpers/kendra-helper';
 import { lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import { buildVpc } from '../../../common/helpers/vpc-helper';
@@ -358,12 +362,7 @@ export class RagAppsyncStepfnKendra extends Construct {
       },
     };
     const s3FileUploaderLambda: DockerImageFunction = createS3FileUploader(this.stack, this.kendraInputBucket, s3FileUploaderProps);
-
-    // Give permission to the lambda to write to the S3 bucket
-    s3FileUploaderLambda.addToRolePolicy(new cdk.aws_iam.PolicyStatement({
-      actions: ['s3:GetObject', 's3:PutObject'],
-      resources: [this.kendraInputBucket.bucketArn],
-    }));
+    const generatePresignedUrlLambda = createGeneratePresignedUrlFn(this.stack, this.kendraInputBucket);
 
     const kendraSyncLambda = createKendraStartDataSync(
       this.stack,
@@ -399,6 +398,14 @@ export class RagAppsyncStepfnKendra extends Construct {
       this.docProcessingStateMachine,
     );
 
+    const presignedUrlDataSource = ingestionGraphqlApi.addLambdaDataSource(
+      'presignedUrlDataSource',
+      generatePresignedUrlLambda,
+    );
+    presignedUrlDataSource.createResolver('presignedUrlResolver',  {
+      typeName: 'Mutation',
+      fieldName: 'generatePresignedUrl',
+    });
   }
 }
 

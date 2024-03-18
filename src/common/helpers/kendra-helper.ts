@@ -695,3 +695,44 @@ export function createS3FileUploader (cdkStack: Stack, s3_bucket: Bucket, props:
     },
   );
 }
+
+export function createGeneratePresignedUrlFn(
+  cdkStack: Stack,
+  bucket: Bucket): cdk.aws_lambda.Function {
+  const generatePresignedUrlRole = new cdk.aws_iam.Role(
+    cdkStack,
+    'generatePresignedUrlRole',
+    {
+      description: 'Role used by the Generate Pre-signed URL Lambda function',
+      assumedBy: new cdk.aws_iam.ServicePrincipal('lambda.amazonaws.com'),
+    },
+  );
+
+  generatePresignedUrlRole.addManagedPolicy(
+    cdk.aws_iam.ManagedPolicy.fromAwsManagedPolicyName(
+      'service-role/AWSLambdaBasicExecutionRole',
+    ),
+  );
+
+  generatePresignedUrlRole.addToPolicy(
+    new cdk.aws_iam.PolicyStatement({
+      actions: ['s3:PutObject'],
+      resources: [bucket.bucketArn],
+    }),
+  );
+  return new cdk.aws_lambda.Function(
+    cdkStack,
+    'generatePresignedUrlFN',
+    {
+      runtime: cdk.aws_lambda.Runtime.PYTHON_3_10,
+      handler: 'generate_presigned_url.lambda_handler',
+      code: cdk.aws_lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/generate_presigned_url/')),
+      timeout: cdk.Duration.seconds(60),
+      memorySize: 256,
+      role: generatePresignedUrlRole,
+      environment: {
+        S3_BUCKET_NAME: bucket.bucketName,
+      },
+    },
+  );
+}

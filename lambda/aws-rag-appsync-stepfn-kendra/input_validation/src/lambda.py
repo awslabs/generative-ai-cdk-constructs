@@ -44,7 +44,7 @@ def process_files(input_files):
     return response
 
 def isvalid_file_format(file_name: str) -> bool:
-    file_format = ['.pdf','.txt','json','.doc','.docx','.xlsx']
+    file_format = ['.pdf','.html','xml','.xslt','.md','.csv','.xlsx','.xls','.json','.rtf','.ppt','.docx','txt']
     if file_name.endswith(tuple(file_format)):
         print(f'valid file format :: {file_format}')
         return True
