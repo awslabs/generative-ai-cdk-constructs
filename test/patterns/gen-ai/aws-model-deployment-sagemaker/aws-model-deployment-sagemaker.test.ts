@@ -41,6 +41,7 @@ describe('JumpStartSageMakerEndpoint construct', () => {
       model: JumpStartModel.META_TEXTGENERATION_LLAMA_2_7B_F_2_0_2,
       acceptEula: true,
       instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
+      endpointName: 'testendpoint',
     });
     JmpStrtTestTemplate = Template.fromStack(JmpStrtTestStack);
 
@@ -115,6 +116,7 @@ describe('JumpStartSageMakerEndpoint eula validation', () => {
         model: JumpStartModel.META_TEXTGENERATION_LLAMA_2_7B_F_2_0_2,
         acceptEula: false, // should fail synth
         instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
+        endpointName: 'testendpoint',
       });
     };
 
@@ -129,6 +131,7 @@ describe('JumpStartSageMakerEndpoint eula validation', () => {
         model: JumpStartModel.META_TEXTGENERATION_LLAMA_2_7B_F_2_0_2,
         acceptEula: true, // should succeed synth
         instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
+        endpointName: 'testendpoint',
       });
     };
 
@@ -142,6 +145,7 @@ describe('JumpStartSageMakerEndpoint eula validation', () => {
       new JumpStartSageMakerEndpoint(JmpStrtTestStack, 'test3', {
         model: JumpStartModel.MODEL_DEPTH2IMG_STABLE_DIFFUSION_V1_5_CONTROLNET_1_0_0, // eula not defined
         instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
+        endpointName: 'testendpoint',
       });
     };
 
@@ -200,6 +204,7 @@ describe('JumpStartSageMakerEndpoint VPC construct', () => {
       model: JumpStartModel.META_TEXTGENERATION_LLAMA_2_7B_F_2_0_2,
       instanceType: SageMakerInstanceType.ML_G5_2XLARGE,
       acceptEula: true,
+      endpointName: 'testendpoint',
       vpcConfig: {
         securityGroupIds: securityGroups.map(s => s.securityGroupId),
         subnets: vpc.privateSubnets.map((subnet) => subnet.subnetId),

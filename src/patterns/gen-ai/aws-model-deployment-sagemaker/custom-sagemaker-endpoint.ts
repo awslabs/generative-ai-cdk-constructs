@@ -17,6 +17,8 @@ import { Construct } from 'constructs';
 import { ContainerImage } from './container-image';
 import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
 import { SageMakerInstanceType } from './sagemaker-instance-type';
+import { ConstructName } from '../../../common/base-class';
+import { BaseClassProps } from '../../../common/base-class/base-class';
 
 export interface CustomSageMakerEndpointProps {
   readonly modelId: string;
@@ -31,6 +33,8 @@ export interface CustomSageMakerEndpointProps {
   readonly volumeSizeInGb?: number | undefined;
   readonly vpcConfig?: sagemaker.CfnModel.VpcConfigProperty | undefined;
   readonly modelDataUrl: string;
+  readonly enableOperationalMetric?: boolean;
+
 }
 
 export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements iam.IGrantable {
@@ -51,6 +55,17 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
 
   constructor(scope: Construct, id: string, props: CustomSageMakerEndpointProps) {
     super(scope, id);
+
+    const baseProps: BaseClassProps={
+      enableOperationalMetric: props.enableOperationalMetric,
+      constructName: ConstructName.CUSTOMSAGEMAKERENDPOINT,
+      constructId: id,
+    };
+
+    // No lambda function to use AWS SDK for service metric
+    const lambdaFunctions: cdk.aws_lambda.DockerImageFunction[]=[];
+    this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
+
 
     this.instanceType = props.instanceType;
     this.modelId = props.modelId;

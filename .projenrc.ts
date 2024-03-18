@@ -12,6 +12,7 @@
  */
 import { ProjenStruct, Struct } from '@mrgrain/jsii-struct-builder';
 import { JsonPatch, awscdk } from 'projen';
+import { DependabotScheduleInterval, VersioningStrategy } from 'projen/lib/github';
 import { JobPermission } from 'projen/lib/github/workflows-model';
 import { NpmAccess } from 'projen/lib/javascript';
 import {
@@ -287,5 +288,16 @@ const postCompile = project.tasks.tryFind('post-compile');
 if (postCompile) {
   postCompile.exec('npx typedoc --plugin typedoc-plugin-markdown --out apidocs --readme none --categoryOrder "Namespaces,Classes,Interfaces,*" --disableSources ./src/index.ts');
 }
+
+project.github?.addDependabot({
+  versioningStrategy: VersioningStrategy.LOCKFILE_ONLY,
+  ignoreProjen: false,
+  scheduleInterval: DependabotScheduleInterval.WEEKLY,
+  groups: {
+    ['dev-dependencies']: {
+      patterns: ['*'],
+    },
+  },
+});
 
 project.synth();

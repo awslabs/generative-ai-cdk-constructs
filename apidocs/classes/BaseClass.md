@@ -1,50 +1,53 @@
-[@cdklabs/generative-ai-cdk-constructs](../README.md) / SageMakerEndpointBase
+[@cdklabs/generative-ai-cdk-constructs](../README.md) / BaseClass
 
-# Class: SageMakerEndpointBase
+# Class: BaseClass
 
 ## Hierarchy
 
-- [`BaseClass`](BaseClass.md)
+- `Construct`
 
-  ↳ **`SageMakerEndpointBase`**
+  ↳ **`BaseClass`**
 
-  ↳↳ [`HuggingFaceSageMakerEndpoint`](HuggingFaceSageMakerEndpoint.md)
+  ↳↳ [`RagAppsyncStepfnOpensearch`](RagAppsyncStepfnOpensearch.md)
 
-  ↳↳ [`JumpStartSageMakerEndpoint`](JumpStartSageMakerEndpoint.md)
+  ↳↳ [`SummarizationAppsyncStepfn`](SummarizationAppsyncStepfn.md)
 
-  ↳↳ [`CustomSageMakerEndpoint`](CustomSageMakerEndpoint.md)
+  ↳↳ [`QaAppsyncOpensearch`](QaAppsyncOpensearch.md)
+
+  ↳↳ [`SageMakerEndpointBase`](SageMakerEndpointBase.md)
+
+  ↳↳ [`ContentGenerationAppSyncLambda`](ContentGenerationAppSyncLambda.md)
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](SageMakerEndpointBase.md#constructor)
+- [constructor](BaseClass.md#constructor)
 
 ### Properties
 
-- [constructUsageMetric](SageMakerEndpointBase.md#constructusagemetric)
-- [enablexray](SageMakerEndpointBase.md#enablexray)
-- [fieldLogLevel](SageMakerEndpointBase.md#fieldloglevel)
-- [lambdaTracing](SageMakerEndpointBase.md#lambdatracing)
-- [node](SageMakerEndpointBase.md#node)
-- [retention](SageMakerEndpointBase.md#retention)
-- [stage](SageMakerEndpointBase.md#stage)
-- [usageMetricMap](SageMakerEndpointBase.md#usagemetricmap)
+- [constructUsageMetric](BaseClass.md#constructusagemetric)
+- [enablexray](BaseClass.md#enablexray)
+- [fieldLogLevel](BaseClass.md#fieldloglevel)
+- [lambdaTracing](BaseClass.md#lambdatracing)
+- [node](BaseClass.md#node)
+- [retention](BaseClass.md#retention)
+- [stage](BaseClass.md#stage)
+- [usageMetricMap](BaseClass.md#usagemetricmap)
 
 ### Methods
 
-- [addObservabilityToConstruct](SageMakerEndpointBase.md#addobservabilitytoconstruct)
-- [createSageMakerRole](SageMakerEndpointBase.md#createsagemakerrole)
-- [toString](SageMakerEndpointBase.md#tostring)
-- [updateConstructUsageMetricCode](SageMakerEndpointBase.md#updateconstructusagemetriccode)
-- [updateEnvSuffix](SageMakerEndpointBase.md#updateenvsuffix)
-- [isConstruct](SageMakerEndpointBase.md#isconstruct)
+- [addObservabilityToConstruct](BaseClass.md#addobservabilitytoconstruct)
+- [toString](BaseClass.md#tostring)
+- [updateConstructUsageMetricCode](BaseClass.md#updateconstructusagemetriccode)
+- [updateEnvSuffix](BaseClass.md#updateenvsuffix)
+- [isConstruct](BaseClass.md#isconstruct)
 
 ## Constructors
 
 ### constructor
 
-• **new SageMakerEndpointBase**(`scope`, `id`): [`SageMakerEndpointBase`](SageMakerEndpointBase.md)
+• **new BaseClass**(`scope`, `id`): [`BaseClass`](BaseClass.md)
 
 #### Parameters
 
@@ -55,11 +58,11 @@
 
 #### Returns
 
-[`SageMakerEndpointBase`](SageMakerEndpointBase.md)
+[`BaseClass`](BaseClass.md)
 
-#### Inherited from
+#### Overrides
 
-[BaseClass](BaseClass.md).[constructor](BaseClass.md#constructor)
+Construct.constructor
 
 ## Properties
 
@@ -68,10 +71,6 @@
 • `Readonly` **constructUsageMetric**: ``"uksb-1tupboc45"``
 
 construct usage metric , added in template description
-
-#### Inherited from
-
-[BaseClass](BaseClass.md).[constructUsageMetric](BaseClass.md#constructusagemetric)
 
 ___
 
@@ -87,10 +86,6 @@ enable disable xray tracing
 - True
 ```
 
-#### Inherited from
-
-[BaseClass](BaseClass.md).[enablexray](BaseClass.md#enablexray)
-
 ___
 
 ### fieldLogLevel
@@ -98,10 +93,6 @@ ___
 • **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
 
 Default  log config for all constructs
-
-#### Inherited from
-
-[BaseClass](BaseClass.md).[fieldLogLevel](BaseClass.md#fieldloglevel)
 
 ___
 
@@ -117,10 +108,6 @@ enable disable lambda tracing
 - Active
 ```
 
-#### Inherited from
-
-[BaseClass](BaseClass.md).[lambdaTracing](BaseClass.md#lambdatracing)
-
 ___
 
 ### node
@@ -131,7 +118,7 @@ The tree node.
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[node](BaseClass.md#node)
+Construct.node
 
 ___
 
@@ -140,10 +127,6 @@ ___
 • **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
 
 Default  log retention config for all constructs
-
-#### Inherited from
-
-[BaseClass](BaseClass.md).[retention](BaseClass.md#retention)
 
 ___
 
@@ -159,10 +142,6 @@ Value will be appended to resources name.
 - _dev
 ```
 
-#### Inherited from
-
-[BaseClass](BaseClass.md).[stage](BaseClass.md#stage)
-
 ___
 
 ### usageMetricMap
@@ -170,10 +149,6 @@ ___
 ▪ `Static` `Protected` **usageMetricMap**: `Record`\<`string`, `number`\>
 
 Record<string, number> , maps construct name with number of deployments
-
-#### Inherited from
-
-[BaseClass](BaseClass.md).[usageMetricMap](BaseClass.md#usagemetricmap)
 
 ## Methods
 
@@ -191,20 +166,6 @@ Record<string, number> , maps construct name with number of deployments
 
 `void`
 
-#### Inherited from
-
-[BaseClass](BaseClass.md).[addObservabilityToConstruct](BaseClass.md#addobservabilitytoconstruct)
-
-___
-
-### createSageMakerRole
-
-▸ **createSageMakerRole**(): `Role`
-
-#### Returns
-
-`Role`
-
 ___
 
 ### toString
@@ -219,7 +180,7 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[toString](BaseClass.md#tostring)
+Construct.toString
 
 ___
 
@@ -239,10 +200,6 @@ ___
 
 `void`
 
-#### Inherited from
-
-[BaseClass](BaseClass.md).[updateConstructUsageMetricCode](BaseClass.md#updateconstructusagemetriccode)
-
 ___
 
 ### updateEnvSuffix
@@ -258,10 +215,6 @@ ___
 #### Returns
 
 `void`
-
-#### Inherited from
-
-[BaseClass](BaseClass.md).[updateEnvSuffix](BaseClass.md#updateenvsuffix)
 
 ___
 
@@ -299,4 +252,4 @@ true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[isConstruct](BaseClass.md#isconstruct)
+Construct.isConstruct
