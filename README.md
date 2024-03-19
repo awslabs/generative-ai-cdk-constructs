@@ -18,11 +18,12 @@
 - [Introduction](#introduction)
 - [CDK Versions](#cdk-versions)
 - [Contributing](#contributing)
-- [Adding new constructs](#design-guidelines-and-development-guide)
+- [Design guidelines and Development guide](#design-guidelines-and-development-guide)
 - [Getting Started](#getting-started)
 - [Catalog](#catalog)
 - [Sample Use Cases](#sample-use-cases)
 - [Additional Resources](#additional-resources)
+- [Contributors](#contributors)
 - [Operational Metrics Collection](#operational-metrics-collection)
 - [Roadmap](#roadmap)
 - [Legal Disclaimer](#legal-disclaimer)
@@ -69,19 +70,26 @@ Refer to the documentation for additional guidance on a particular construct: [C
 
 The following constructs are available in the library:
 
+**L3 constructs**
+
 | **Construct** |Description| AWS Services used |
 |:-------------|:-------------|:-------------|
 | [Data ingestion pipeline](./src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/) | Ingestion pipeline providing a RAG (retrieval augmented generation) source for storing documents in a knowledge base. | Amazon OpenSearch, AWS Step Functions, Amazon Bedrock, AWS AppSync, AWS Lambda | 
 | [Question answering](./src/patterns/gen-ai/aws-qa-appsync-opensearch/) | Utilizing Large Language Models (Anthropic Claude V2.1.) for Question Answering on PDF documents with  RAG (retrieval augmented generation) source and/or long context. Additionally, leveraging Anthropic Claude 3 for visual question answering on images.| Amazon OpenSearch, AWS Lambda, Amazon Bedrock, AWS AppSync | 
 | [Summarization](./src/patterns/gen-ai/aws-summarization-appsync-stepfn/) | Document summarization with a large language model (Anthropic Claude V2.1). | AWS Lambda, Amazon Bedrock, AWS AppSync and Amazon ElastiCache for Redis.  |
-| [Lambda layer](./src/patterns/gen-ai/aws-langchain-common-layer/) | Python Lambda layer providing dependencies and utilities to develop generative AI applications on AWS. | AWS Lambda, Amazon Bedrock, Amazon SageMaker | 
 | [SageMaker model deployment (JumpStart)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_jumpstart.md) | Deploy a foundation model from Amazon SageMaker JumpStart to an Amazon SageMaker endpoint. | Amazon SageMaker | 
 | [SageMaker model deployment (Hugging Face)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_hugging_face.md) | Deploy a foundation model from Hugging Face to an Amazon SageMaker endpoint. | Amazon SageMaker | 
-| [SageMaker model deployment (Custom)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_custom_sagemaker_endpoint.md) | Deploy a foundation model from an S3 location to an Amazon SageMaker endpoint. | Amazon SageMaker | 
+| [SageMaker model deployment (Custom)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_custom_sagemaker_endpoint.md) | Deploy a foundation model from an S3 location to an Amazon SageMaker endpoint. | Amazon SageMaker |
+| [Content Generation](./src/patterns/gen-ai/aws-contentgen-appsync-lambda/) | Generate images from text using Amazon titan-image-generator-v1 or stability.stable-diffusion-xl model.  | AWS Lambda, Amazon Bedrock, AWS AppSync | 
+
+**L2 Constructs**
+
+| **Construct** |Description| AWS Services used |
+|:-------------|:-------------|:-------------|
+| [Lambda layer](./src/patterns/gen-ai/aws-langchain-common-layer/) | Python Lambda layer providing dependencies and utilities to develop generative AI applications on AWS. | AWS Lambda, Amazon Bedrock, Amazon SageMaker |
 | [Amazon Bedrock](./src/cdk-lib/bedrock/README.md) | CDK L2 Constructs for Amazon Bedrock. | Amazon Bedrock, Amazon OpenSearch Serverless, AWS Lambda |
 | [Amazon OpenSearch Serverless Vector Collection](./src/cdk-lib/opensearchserverless/README.md) | CDK L2 Constructs to create a vector collection. | Amazon OpenSearch Vector Index |
 | [Amazon OpenSearch Vector Index](./src/cdk-lib/opensearch-vectorindex/README.md) | CDK L1 Custom Resource to create a vector index. | Amazon OpenSearch Serverless, AWS Lambda |
-| [Content Generation](./src/patterns/gen-ai/aws-contentgen-appsync-lambda/) | Generate images from text using Amazon titan-image-generator-v1 or stability.stable-diffusion-xl model.  | AWS Lambda, Amazon Bedrock, AWS AppSync | 
 
 # Sample Use Cases
 
@@ -99,6 +107,10 @@ The official samples repository https://github.com/aws-samples/generative-ai-cdk
 | [amazon-bedrock-rag](https://github.com/aws-samples/amazon-bedrock-rag) | Fully managed RAG solution using Knowledge Bases for Amazon Bedrock. |
 | [Amazon Bedrock Knowledge Bases with Private Data](https://blog.serverlessadvocate.com/amazon-bedrock-knowledge-bases-with-private-data-7685d04ef396) | Blog post and associated code sample demonstrating how to integrate Knowledge Bases into Amazon Bedrock to provide foundational models with contextual data from private data sources. |
 | [Automating tasks using Amazon Bedrock Agents and AI](https://blog.serverlessadvocate.com/automating-tasks-using-amazon-bedrock-agents-and-ai-4b6fb8856589) | Blog post and associated code sample demonstrating how to deploy an Amazon Bedrock Agent and a Knowledge Base through a hotel and spa use case. |
+
+# Contributors
+
+[![contributors](https://contrib.rocks/image?repo=awslabs/generative-ai-cdk-constructs&max=2000)](https://github.com/awslabs/generative-ai-cdk-constructs/graphs/contributors)
 
 # Operational Metrics Collection
 

@@ -18,7 +18,6 @@ import { NpmAccess } from 'projen/lib/javascript';
 import {
   buildMeritBadgerWorkflow,
   buildMonthlyIssuesMetricsWorkflow,
-  buildUpdateContributorsWorkflow,
   buildAutoApproveWorkflow,
   buildOrtToolkitWorkflow,
   runSemGrepWorkflow,
@@ -116,7 +115,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
 // Add some useful github workflows
 buildMeritBadgerWorkflow(project);
 buildMonthlyIssuesMetricsWorkflow(project);
-buildUpdateContributorsWorkflow(project);
 buildAutoApproveWorkflow(project);
 buildOrtToolkitWorkflow(project);
 runSemGrepWorkflow(project);
