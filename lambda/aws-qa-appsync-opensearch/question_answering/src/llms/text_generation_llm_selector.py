@@ -11,11 +11,12 @@
 # and limitations under the License.
 #
 from aiohttp import ClientError
-from langchain.llms.bedrock import Bedrock
+from langchain_community.llms import Bedrock
 from langchain_community.embeddings import BedrockEmbeddings
 import os
 import boto3
 from .helper import get_credentials
+from .types import Provider, BedrockModel, MAX_TOKENS_MAP
 
 from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
@@ -25,41 +26,6 @@ from aws_lambda_powertools.utilities.validation import validate, SchemaValidatio
 logger = Logger(service="QUESTION_ANSWERING")
 tracer = Tracer(service="QUESTION_ANSWERING")
 metrics = Metrics(namespace="question_answering", service="QUESTION_ANSWERING")
-
-
-
-def get_llm(callbacks=None,model_id="anthropic.claude-v2:1"):
-    bedrock = boto3.client('bedrock-runtime')
-
-    params = {
-        "max_tokens_to_sample": 600,
-        "temperature": 0,
-        "top_k": 250,
-        "top_p": 1,
-        "stop_sequences": ["\\n\\nHuman:"],
-    }
-
-    kwargs = {
-        "client": bedrock,
-        "model_id": model_id,
-        "model_kwargs": params,
-        "streaming": False 
-    }
-
-    if callbacks:
-        kwargs["callbacks"] = callbacks
-        kwargs["streaming"] = True
-
-    return Bedrock(**kwargs)
-
-def get_embeddings_llm(model_id,modality):
-    bedrock = boto3.client('bedrock-runtime')
-    validation_status=validate_model_id_in_bedrock(model_id,modality)
-    if(validation_status['status']):
-        return BedrockEmbeddings(client=bedrock, model_id=model_id)
-    else:
-        return None
-
 
 def get_bedrock_fm(model_id,modality):
     bedrock_client = boto3.client('bedrock-runtime')
@@ -71,17 +37,17 @@ def get_bedrock_fm(model_id,modality):
         logger.error(f"reason ::{validation_status['message']} ")
         return None
 
+   
+def get_max_tokens(model):
 
-
-#TODO -add max token based on model id    
-def get_max_tokens(model_id):
-    match model_id:
-        case "anthropic.claude-v2:1":
-            return 200000
-        case "anthropic.claude-3-sonnet-20240229-v1:0":
-            return 200000
-        case _:
-            return 4096
+    # if model_id is not provided, we default to Claude v2
+    if not model:
+        return MAX_TOKENS_MAP[BedrockModel.ANTHROPIC_CLAUDE_V2_1]
+    try:
+        return MAX_TOKENS_MAP[model]
+    except:
+        logger.error('unable to get the max tokens for the specified model')
+        return -1
 
         
 def validate_model_id_in_bedrock(model_id,modality):
