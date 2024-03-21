@@ -1,3 +1,8 @@
+enum ModelProvider {
+	Sagemaker
+	Bedrock
+}
+
 type FileStatus @aws_iam @aws_cognito_user_pools {
 	name: String
 	status: String
@@ -5,7 +10,7 @@ type FileStatus @aws_iam @aws_cognito_user_pools {
 }
 
 input ModelConfiguration {
-	provider: String
+	provider: ModelProvider
 	modelId: String
 	streaming: Boolean
 	model_kwargs: AWSJSON
