@@ -157,3 +157,19 @@ export function addCfnSuppressRules(resource: cdk.Resource | cdk.CfnResource, ru
     });
   }
 }
+
+function isObject(val: object) {
+  return val !== null && typeof val === 'object' && !Array.isArray(val);
+}
+
+export function isPlainObject(o: object) {
+  if (!isObject(o)) return false;
+
+  if (Object.getPrototypeOf(o) === null) return true;
+
+  let proto = o;
+  while (Object.getPrototypeOf(proto) !== null) {
+    proto = Object.getPrototypeOf(proto);
+  }
+  return Object.getPrototypeOf(o) === proto;
+}

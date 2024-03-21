@@ -10,10 +10,26 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import { CfnSubnet, FlowLog, IpAddresses, IVpc, SecurityGroup, SubnetType, Vpc, VpcProps } from 'aws-cdk-lib/aws-ec2';
+import {
+  CfnSubnet,
+  FlowLog,
+  GatewayVpcEndpointAwsService, InterfaceVpcEndpointAwsService,
+  IpAddresses,
+  IVpc, Peer, Port,
+  SecurityGroup,
+  SubnetType,
+  Vpc,
+  VpcProps,
+} from 'aws-cdk-lib/aws-ec2';
 import { CfnLogGroup } from 'aws-cdk-lib/aws-logs';
 import { Construct } from 'constructs';
+import { buildSecurityGroup } from './kendra-helper';
 import { addCfnSuppressRules } from './utils';
+import {
+  EndpointDefinition,
+  EndpointTypes,
+  ServiceEndpointTypeEnum,
+} from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
 
 export interface VpcPropsSet {
   readonly existingVpc?: IVpc;
@@ -147,4 +163,146 @@ export function suppressEncryptedLogWarnings(flowLog: FlowLog) {
       reason: 'By default CloudWatchLogs LogGroups data is encrypted using the CloudWatch server-side encryption keys (AWS Managed Keys)',
     },
   ]);
+}
+
+function AddInterfaceEndpoint(scope: Construct, vpc: IVpc, service: EndpointDefinition, interfaceTag: ServiceEndpointTypeEnum) {
+  const endpointDefaultSecurityGroup = buildSecurityGroup(
+    scope,
+    `${scope.node.id}-${service.endpointName}`,
+    {
+      vpc,
+      allowAllOutbound: true,
+    },
+    [{ peer: Peer.ipv4(vpc.vpcCidrBlock), connection: Port.tcp(443) }],
+    [],
+  );
+
+  vpc.addInterfaceEndpoint(interfaceTag, {
+    service: service.endpointInterfaceService as InterfaceVpcEndpointAwsService,
+    securityGroups: [endpointDefaultSecurityGroup],
+  });
+}
+
+export function createDefaultIsolatedVpcProps(): VpcProps {
+  return {
+    natGateways: 0,
+    subnetConfiguration: [
+      {
+        cidrMask: 18,
+        name: 'isolated',
+        subnetType: SubnetType.PRIVATE_ISOLATED,
+      },
+    ],
+  } as VpcProps;
+}
+
+function AddGatewayEndpoint(vpc: IVpc, service: EndpointDefinition, interfaceTag: ServiceEndpointTypeEnum) {
+  vpc.addGatewayEndpoint(interfaceTag, {
+    service: service.endpointGatewayService as GatewayVpcEndpointAwsService,
+  });
+}
+
+function CheckIfEndpointAlreadyExists(vpc: IVpc, interfaceTag: ServiceEndpointTypeEnum): boolean {
+  return vpc.node.children.some((child) => child.node.id === interfaceTag);
+}
+
+const endpointSettings: EndpointDefinition[] = [
+  {
+    endpointName: ServiceEndpointTypeEnum.DYNAMODB,
+    endpointType: EndpointTypes.GATEWAY,
+    endpointGatewayService: GatewayVpcEndpointAwsService.DYNAMODB,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.S3,
+    endpointType: EndpointTypes.GATEWAY,
+    endpointGatewayService: GatewayVpcEndpointAwsService.S3,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.STEP_FUNCTIONS,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.STEP_FUNCTIONS,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.SNS,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.SNS,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.SQS,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.SQS,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.SAGEMAKER_RUNTIME,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.SAGEMAKER_RUNTIME,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.SECRETS_MANAGER,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.SECRETS_MANAGER,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.SSM,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.SSM,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.ECR_API,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.ECR,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.ECR_DKR,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.ECR_DOCKER,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.EVENTS,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.CLOUDWATCH_EVENTS,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.KINESIS_FIREHOSE,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.KINESIS_FIREHOSE,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.KINESIS_STREAMS,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.KINESIS_STREAMS,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.KENDRA,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.KENDRA,
+  },
+];
+
+export function AddAwsServiceEndpoint(
+  scope: Construct,
+  vpc: IVpc,
+  interfaceTag: ServiceEndpointTypeEnum,
+) {
+  if (CheckIfEndpointAlreadyExists(vpc, interfaceTag)) {
+    return;
+  }
+
+  const service = endpointSettings.find(
+    (endpoint) => endpoint.endpointName === interfaceTag,
+  );
+
+  if (!service) {
+    throw new Error('Unsupported Service sent to AddServiceEndpoint');
+  }
+
+  if (service.endpointType === EndpointTypes.GATEWAY) {
+    AddGatewayEndpoint(vpc, service, interfaceTag);
+  }
+  if (service.endpointType === EndpointTypes.INTERFACE) {
+    AddInterfaceEndpoint(scope, vpc, service, interfaceTag);
+  }
+
+  // ESLint requires this return statement, so disabling SonarQube warning
+  return; // NOSONAR
 }

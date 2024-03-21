@@ -20,17 +20,17 @@ input IngestionDocsInput {
 }
 
 type PresignedUrlResponse {
-  url: String
-  fileName: String
-  success: Boolean
-  message: String
+    url: String
+    fileName: String
+    success: Boolean
+    message: String
 }
-
 
 type Mutation @aws_iam @aws_cognito_user_pools {
 	ingestDocuments(ingestioninput: IngestionDocsInput!): IngestionDocs
 	updateIngestionJobStatus(ingestionjobid: ID, files: [FileStatusInput]): IngestionDocs
-	generatePresignedUrl(fileName: String!): PresignedUrlResponse
+    generatePresignedUrl(fileName: String!): PresignedUrlResponse
+    startKendraSyncJob: String
 }
 
 type Query @aws_iam @aws_cognito_user_pools {

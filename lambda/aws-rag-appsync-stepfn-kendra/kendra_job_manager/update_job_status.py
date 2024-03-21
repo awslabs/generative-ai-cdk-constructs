@@ -1,21 +1,43 @@
-# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: MIT-0
 
 import boto3
+import json
 from aws_lambda_powertools import Logger
 import os
-
-logger = Logger(service="KENDRA_JOB_MANAGER")
+import re
+import datetime
+from datetime import datetime, timezone
+import uuid
 
 ddb_client = boto3.client('dynamodb')
+logger = Logger(service="KENDRA_JOB_MANAGER")
+
 DOCUMENTS_TABLE = os.environ["DOCUMENTS_TABLE"]
 dynamodb_client = boto3.resource('dynamodb')
 
 def lambda_handler(event, context):
+    table = dynamodb_client.Table(DOCUMENTS_TABLE)
+    table.update_item(
+table = dynamodb_client.Table(DOCUMENTS_TABLE)
+
+def lambda_handler(event, context):
     try:
-        table = dynamodb_client.Table(DOCUMENTS_TABLE)
         response = table.update_item(
             Key={
+                    'Id': event['KendraJobExecId'],
+                    'CreatedOn': event['CreatedOn']
+                },
+                ExpressionAttributeNames={
+                    '#status': 'Status'
+                },
+                UpdateExpression="SET #status= :s",
+                ExpressionAttributeValues={':s': event['KendraJobStatus']},
+                ReturnValues="UPDATED_NEW"
+            )
+
+    return {
+        "status": "Job status Updated"
+    }
                 'Id': event['KendraJobExecId'],
                 'CreatedOn': event['CreatedOn']
             },

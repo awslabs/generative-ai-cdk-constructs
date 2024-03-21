@@ -14,12 +14,7 @@ import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
 import { RemovalPolicy } from 'aws-cdk-lib';
 import { Table } from 'aws-cdk-lib/aws-dynamodb';
-import {
-  GatewayVpcEndpointAwsService,
-  InterfaceVpcEndpointAwsService,
-  IVpc, Peer, Port, SecurityGroup, SecurityGroupProps,
-  SubnetType, VpcProps,
-} from 'aws-cdk-lib/aws-ec2';
+import { SecurityGroup, SecurityGroupProps } from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kendra from 'aws-cdk-lib/aws-kendra';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
@@ -27,17 +22,13 @@ import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { DefinitionBody, StateMachine } from 'aws-cdk-lib/aws-stepfunctions';
 import { Stack } from 'aws-cdk-lib/core';
 import { Construct } from 'constructs';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import * as deepmerge from 'deepmerge';
+import { addRolePolicies, createIAMRoleWithBasicExecutionPolicy } from './iam-roles-helper';
+import { consolidateProps, getStepFnLambdaInvoke, overrideProps } from './kendra-utils';
 import { addCfnSuppressRules, generatePhysicalName } from './utils';
-import {
-  EndpointDefinition,
-  EndpointTypes,
-  SecurityGroupRuleDefinition,
-  ServiceEndpointTypeEnum,
-} from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
+import { SecurityGroupRuleDefinition } from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
 
-export function createS3DataSource(scope: Construct,
+export function createS3DataSource(
+  scope: Construct,
   targetIndex: kendra.CfnIndex,
   id: string,
   clientProps: Partial<kendra.CfnDataSourceProps>): kendra.CfnDataSource {
@@ -131,64 +122,24 @@ export function createKendraWorkflowStepFunction(
   const waitFor30Secs = new cdk.aws_stepfunctions.Wait(cdkStack, 'Wait 30 Seconds', {
     time: cdk.aws_stepfunctions.WaitTime.duration(cdk.Duration.seconds(30)),
   });
-
-  const getKendraJobStatus = new cdk.aws_stepfunctions_tasks.LambdaInvoke(
-    cdkStack,
-    'Get Textract Job Status', {
-      lambdaFunction: createCheckJobsStatusLambda,
-      // Lambda's result in a field called "status" in the response
-      outputPath: '$.Payload',
-    });
+  const getKendraJobStatus = getStepFnLambdaInvoke(cdkStack, 'Get Textract Job Status', createCheckJobsStatusLambda);
 
   // Step function Def
-  const docProcessingDefinition = new cdk.aws_stepfunctions_tasks.LambdaInvoke(
+  const docProcessingDefinition = getStepFnLambdaInvoke(
     cdkStack,
     'Starts a new Kendra Data Sync Job',
-    {
-      lambdaFunction: kendraSyncLambda,
-      outputPath: '$.Payload',
-    },
+    kendraSyncLambda,
   )
     .next(getKendraJobStatus)
     .next(new cdk.aws_stepfunctions.Choice(cdkStack, 'Kendra DataSync Job Complete?')
       .when(cdk.aws_stepfunctions.Condition.stringEquals('$.KendraJobStatus', 'FAILED'),
-        new cdk.aws_stepfunctions_tasks.LambdaInvoke(
-          cdkStack,
-          'Update Document Status as Failure',
-          {
-            lambdaFunction: updateKendraJobStatusFn,
-            outputPath: '$.Payload',
-          },
-        ))
+        getStepFnLambdaInvoke(cdkStack, 'Update Document Status as Failure', updateKendraJobStatusFn))
       .when(cdk.aws_stepfunctions.Condition.stringEquals('$.KendraJobStatus', 'ABORTED'),
-        new cdk.aws_stepfunctions_tasks.LambdaInvoke(
-          cdkStack,
-          'Update Document Status as Aborted',
-          {
-
-            lambdaFunction: updateKendraJobStatusFn,
-            outputPath: '$.Payload',
-          },
-        ))
+        getStepFnLambdaInvoke(cdkStack, 'Update Document Status as Aborted', updateKendraJobStatusFn))
       .when(cdk.aws_stepfunctions.Condition.stringEquals('$.KendraJobStatus', 'INCOMPLETE'),
-        new cdk.aws_stepfunctions_tasks.LambdaInvoke(
-          cdkStack,
-          'Update Document Status as Incomplete',
-          {
-            lambdaFunction: updateKendraJobStatusFn,
-            outputPath: '$.Payload',
-          },
-        ))
+        getStepFnLambdaInvoke(cdkStack, 'Update Document Status as Incomplete', updateKendraJobStatusFn))
       .when(cdk.aws_stepfunctions.Condition.stringEquals('$.KendraJobStatus', 'SUCCEEDED'),
-        new cdk.aws_stepfunctions_tasks.LambdaInvoke(
-          cdkStack,
-          'Update Document Status as Completed',
-          {
-            lambdaFunction: updateKendraJobStatusFn,
-            outputPath: '$.Payload',
-          },
-        ),
-      )
+        getStepFnLambdaInvoke(cdkStack, 'Update Document Status as Completed', updateKendraJobStatusFn))
       .otherwise(waitFor30Secs.next(getKendraJobStatus)),
     );
 
@@ -208,25 +159,6 @@ export function createKendraWorkflowStepFunction(
   );
 }
 
-
-export function createSyncRunTable(cdkStack: Construct) {
-  return new cdk.aws_dynamodb.Table(cdkStack,
-    'SyncRunTable', {
-      tableName: 'SyncRunTable',
-      partitionKey: {
-        name: 'Id',
-        type: cdk.aws_dynamodb.AttributeType.STRING,
-      },
-      sortKey: {
-        name: 'CreatedOn',
-        type: cdk.aws_dynamodb.AttributeType.STRING,
-      },
-      encryption: cdk.aws_dynamodb.TableEncryption.AWS_MANAGED,
-      billingMode: cdk.aws_dynamodb.BillingMode.PAY_PER_REQUEST,
-      removalPolicy: RemovalPolicy.DESTROY,
-    });
-}
-
 export function createKendraStartDataSync(
   cdkStack: Stack,
   syncRunTable: Table,
@@ -234,38 +166,22 @@ export function createKendraStartDataSync(
   awsAccountId: string,
   kendraIndexId: string,
   kendraDataSourceIndexId: string,
+  environment: {[p: string]: string},
 ): cdk.aws_lambda.Function {
-
-  let startDataSyncRole = new cdk.aws_iam.Role(
-    cdkStack,
-    'startDataSyncRole',
+  const startDataSyncRole = createIAMRoleWithBasicExecutionPolicy(cdkStack, 'startDataSyncRole', 'Role used by the Document Status Update Lambda function');
+  addRolePolicies(startDataSyncRole, [
     {
-      description: 'Role used by the Document Status Update Lambda function',
-      assumedBy: new cdk.aws_iam.ServicePrincipal('lambda.amazonaws.com'),
-    },
-  );
-
-  startDataSyncRole.addManagedPolicy(
-    cdk.aws_iam.ManagedPolicy.fromAwsManagedPolicyName(
-      'service-role/AWSLambdaBasicExecutionRole',
-    ),
-  );
-
-  startDataSyncRole.addToPolicy(
-    new cdk.aws_iam.PolicyStatement({
       actions: ['dynamodb:PutItem', 'dynamodb:Query', 'dynamodb:GetItem', 'dynamodb:UpdateItem'],
       resources: [syncRunTable.tableArn],
-    }),
-  );
-
-  startDataSyncRole.addToPolicy(
-    new cdk.aws_iam.PolicyStatement({
+    },
+    {
       actions: ['kendra:StartDataSourceSyncJob'],
       resources: [
         `arn:aws:kendra:${awsRegion}:${awsAccountId}:index/${kendraIndexId}`,
         `arn:aws:kendra:${awsRegion}:${awsAccountId}:index/${kendraIndexId}/data-source/${kendraDataSourceIndexId}`,
       ],
-    }));
+    },
+  ]);
 
   return new cdk.aws_lambda.Function(
     cdkStack,
@@ -276,11 +192,7 @@ export function createKendraStartDataSync(
       code: cdk.aws_lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/kendra_sync/')),
       timeout: cdk.Duration.seconds(30),
       role: startDataSyncRole,
-      environment: {
-        KENDRA_INDEX_ID: kendraIndexId,
-        KENDRA_DATA_SOURCE_INDEX_ID: kendraDataSourceIndexId,
-        DOCUMENTS_TABLE: syncRunTable.tableName,
-      },
+      environment,
     },
   );
 }
@@ -291,35 +203,20 @@ export function createCheckJobsStatusFn(
   awsAccountId: string,
   kendraIndexId: string,
   kendraDataSourceIndexId: string,
-  syncRunTable: Table): cdk.aws_lambda.Function {
-  const checkJobStatusRole = new cdk.aws_iam.Role(
-    cdkStack,
-    'textTractLambdaRole',
+  syncRunTable: Table,
+  environment: {[p: string]: string},
+): cdk.aws_lambda.Function {
+  const checkJobStatusRole = createIAMRoleWithBasicExecutionPolicy(cdkStack, 'textTractLambdaRole', 'Role used by the Text Extract Lambda function');
+  addRolePolicies(checkJobStatusRole, [
     {
-      description: 'Role used by the Text Extract Lambda function',
-      assumedBy: new cdk.aws_iam.ServicePrincipal('lambda.amazonaws.com'),
-    },
-  );
-
-  checkJobStatusRole.addManagedPolicy(
-    cdk.aws_iam.ManagedPolicy.fromAwsManagedPolicyName(
-      'service-role/AWSLambdaBasicExecutionRole',
-    ),
-  );
-
-  checkJobStatusRole.addToPolicy(
-    new cdk.aws_iam.PolicyStatement({
       actions: ['kendra:ListDataSourceSyncJobs'],
       resources: [`arn:aws:kendra:${awsRegion}:${awsAccountId}:index/${kendraIndexId}`],
-    }),
-  );
-  checkJobStatusRole.addToPolicy(
-    new cdk.aws_iam.PolicyStatement({
+    },
+    {
       actions: ['kendra:ListDataSourceSyncJobs'],
       resources: [`arn:aws:kendra:${awsRegion}:${awsAccountId}:index/${kendraIndexId}/data-source/${kendraDataSourceIndexId}`],
-    }),
-  );
-
+    },
+  ]);
 
   return new cdk.aws_lambda.Function(
     cdkStack,
@@ -331,38 +228,20 @@ export function createCheckJobsStatusFn(
       timeout: cdk.Duration.seconds(60),
       memorySize: 256,
       role: checkJobStatusRole,
-      environment: {
-        KENDRA_INDEX_ID: kendraIndexId,
-        KENDRA_DATA_SOURCE_INDEX_ID: kendraDataSourceIndexId,
-        DOCUMENTS_TABLE: syncRunTable.tableName,
-      },
+      environment,
     },
   );
 }
 
 
-export function createUpdateKendraJobStatusFn(cdkStack: Stack, syncRunTable: Table): cdk.aws_lambda.Function {
-  let updateKendraJobStatusRole = new cdk.aws_iam.Role(
-    cdkStack,
-    'updateKendraJobStatus',
+export function createUpdateKendraJobStatusFn(cdkStack: Stack, syncRunTable: Table, environment: {[p: string]: string}): cdk.aws_lambda.Function {
+  const updateKendraJobStatusRole = createIAMRoleWithBasicExecutionPolicy(cdkStack, 'updateKendraJobStatus', 'Role used by the Document Status Update Lambda function');
+  addRolePolicies(updateKendraJobStatusRole, [
     {
-      description: 'Role used by the Document Status Update Lambda function',
-      assumedBy: new cdk.aws_iam.ServicePrincipal('lambda.amazonaws.com'),
-    },
-  );
-
-  updateKendraJobStatusRole.addManagedPolicy(
-    cdk.aws_iam.ManagedPolicy.fromAwsManagedPolicyName(
-      'service-role/AWSLambdaBasicExecutionRole',
-    ),
-  );
-
-  updateKendraJobStatusRole.addToPolicy(
-    new cdk.aws_iam.PolicyStatement({
       actions: ['dynamodb:PutItem', 'dynamodb:Query', 'dynamodb:GetItem', 'dynamodb:UpdateItem'],
       resources: [syncRunTable.tableArn],
-    }),
-  );
+    },
+  ]);
 
   return new cdk.aws_lambda.Function(
     cdkStack,
@@ -373,9 +252,7 @@ export function createUpdateKendraJobStatusFn(cdkStack: Stack, syncRunTable: Tab
       code: cdk.aws_lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/kendra_job_manager/')),
       timeout: cdk.Duration.seconds(30),
       role: updateKendraJobStatusRole,
-      environment: {
-        DOCUMENTS_TABLE: syncRunTable.tableName,
-      },
+      environment,
     },
   );
 }
@@ -383,253 +260,19 @@ export function createUpdateKendraJobStatusFn(cdkStack: Stack, syncRunTable: Tab
 export function createStepFunctionsExecutionHandlerRole(
   cdkStack: Construct,
   docProcessingStateMachine: StateMachine) {
-  const stepFunctionsExecutionHandlerRole = new cdk.aws_iam.Role(
+  const stepFunctionsExecutionHandlerRole = createIAMRoleWithBasicExecutionPolicy(
     cdkStack,
     'stepFunctionsExecutionHandlerRole',
-    {
-      description: 'Role used by the stepFunctionsExecutionHandlerFn Lambda function',
-      assumedBy: new cdk.aws_iam.ServicePrincipal('lambda.amazonaws.com'),
-    },
+    'Role used by the stepFunctionsExecutionHandlerFn Lambda function',
   );
   stepFunctionsExecutionHandlerRole.node.addDependency(docProcessingStateMachine);
-
-  stepFunctionsExecutionHandlerRole.addManagedPolicy(
-    cdk.aws_iam.ManagedPolicy.fromAwsManagedPolicyName(
-      'service-role/AWSLambdaBasicExecutionRole',
-    ),
-  );
-
-  stepFunctionsExecutionHandlerRole.addToPolicy(
-    new cdk.aws_iam.PolicyStatement({
-      actions: ['states:StartExecution'],
-      resources: [
-        docProcessingStateMachine.stateMachineArn,
-      ],
-    }),
-  );
-
-  return stepFunctionsExecutionHandlerRole;
-}
-
-/**
- * Creates the props to be used to instantiate a CDK L2 construct within a Solutions Construct
- *
- * @param defaultProps The default props to be used by the construct
- * @param clientProps Optional properties passed in from the client in the props object
- * @param constructProps Optional properties required by the construct for the construct to work (override any other values)
- * @returns The properties to use - all values prioritized:
- *  1) constructProps value
- *  2) clientProps value
- *  3) defaultProps value
- */
-export function consolidateProps(defaultProps: object, clientProps?: object, constructProps?: object, concatArray: boolean = false): any {
-  let result: object = defaultProps;
-
-  if (clientProps) {
-    result = overrideProps(result, clientProps, concatArray);
-  }
-
-  if (constructProps) {
-    result = overrideProps(result, constructProps, concatArray);
-  }
-
-  return result;
-}
-
-
-function isObject(val: object) {
-  return val != null && typeof val === 'object'
-        && Object.prototype.toString.call(val) === '[object Object]';
-}
-
-function isPlainObject(o: object) {
-  if (Array.isArray(o) === true) {
-    return true;
-  }
-
-  if (isObject(o) === false) {
-    return false;
-  }
-
-  // If this has modified constructor
-  const ctor = o.constructor;
-  if (typeof ctor !== 'function') {
-    return false;
-  }
-
-  // If has modified prototype
-  const prot = ctor.prototype;
-  if (isObject(prot) === false) {
-    return false;
-  }
-
-  // If constructor does not have an Object-specific method
-  if (prot.hasOwnProperty('isPrototypeOf') === false) {
-    return false;
-  }
-
-  // Most likely a plain Object
-  return true;
-}
-
-export function overrideProps(DefaultProps: object, userProps: object, concatArray: boolean = false): any {
-  // Override the sensible defaults with user provided props
-  if (concatArray) {
-    return deepmerge(DefaultProps, userProps, {
-      arrayMerge: (destinationArray, sourceArray) => destinationArray.concat(sourceArray),
-      isMergeableObject: isPlainObject,
-    });
-  } else {
-    return deepmerge(DefaultProps, userProps, {
-      arrayMerge: (_destinationArray, sourceArray) => sourceArray, // underscore allows arg to be ignored
-      isMergeableObject: isPlainObject,
-    });
-  }
-}
-
-
-export function createDefaultIsolatedVpcProps(): VpcProps {
-  return {
-    natGateways: 0,
-    subnetConfiguration: [
-      {
-        cidrMask: 18,
-        name: 'isolated',
-        subnetType: SubnetType.PRIVATE_ISOLATED,
-      },
+  addRolePolicies(stepFunctionsExecutionHandlerRole, [{
+    actions: ['states:StartExecution'],
+    resources: [
+      docProcessingStateMachine.stateMachineArn,
     ],
-  } as VpcProps;
-}
-
-function AddGatewayEndpoint(vpc: IVpc, service: EndpointDefinition, interfaceTag: ServiceEndpointTypeEnum) {
-  vpc.addGatewayEndpoint(interfaceTag, {
-    service: service.endpointGatewayService as GatewayVpcEndpointAwsService,
-  });
-}
-
-function CheckIfEndpointAlreadyExists(vpc: IVpc, interfaceTag: ServiceEndpointTypeEnum): boolean {
-  return vpc.node.children.some((child) => child.node.id === interfaceTag);
-}
-
-const endpointSettings: EndpointDefinition[] = [
-  {
-    endpointName: ServiceEndpointTypeEnum.DYNAMODB,
-    endpointType: EndpointTypes.GATEWAY,
-    endpointGatewayService: GatewayVpcEndpointAwsService.DYNAMODB,
-  },
-  {
-    endpointName: ServiceEndpointTypeEnum.S3,
-    endpointType: EndpointTypes.GATEWAY,
-    endpointGatewayService: GatewayVpcEndpointAwsService.S3,
-  },
-  {
-    endpointName: ServiceEndpointTypeEnum.STEP_FUNCTIONS,
-    endpointType: EndpointTypes.INTERFACE,
-    endpointInterfaceService: InterfaceVpcEndpointAwsService.STEP_FUNCTIONS,
-  },
-  {
-    endpointName: ServiceEndpointTypeEnum.SNS,
-    endpointType: EndpointTypes.INTERFACE,
-    endpointInterfaceService: InterfaceVpcEndpointAwsService.SNS,
-  },
-  {
-    endpointName: ServiceEndpointTypeEnum.SQS,
-    endpointType: EndpointTypes.INTERFACE,
-    endpointInterfaceService: InterfaceVpcEndpointAwsService.SQS,
-  },
-  {
-    endpointName: ServiceEndpointTypeEnum.SAGEMAKER_RUNTIME,
-    endpointType: EndpointTypes.INTERFACE,
-    endpointInterfaceService: InterfaceVpcEndpointAwsService.SAGEMAKER_RUNTIME,
-  },
-  {
-    endpointName: ServiceEndpointTypeEnum.SECRETS_MANAGER,
-    endpointType: EndpointTypes.INTERFACE,
-    endpointInterfaceService: InterfaceVpcEndpointAwsService.SECRETS_MANAGER,
-  },
-  {
-    endpointName: ServiceEndpointTypeEnum.SSM,
-    endpointType: EndpointTypes.INTERFACE,
-    endpointInterfaceService: InterfaceVpcEndpointAwsService.SSM,
-  },
-  {
-    endpointName: ServiceEndpointTypeEnum.ECR_API,
-    endpointType: EndpointTypes.INTERFACE,
-    endpointInterfaceService: InterfaceVpcEndpointAwsService.ECR,
-  },
-  {
-    endpointName: ServiceEndpointTypeEnum.ECR_DKR,
-    endpointType: EndpointTypes.INTERFACE,
-    endpointInterfaceService: InterfaceVpcEndpointAwsService.ECR_DOCKER,
-  },
-  {
-    endpointName: ServiceEndpointTypeEnum.EVENTS,
-    endpointType: EndpointTypes.INTERFACE,
-    endpointInterfaceService: InterfaceVpcEndpointAwsService.CLOUDWATCH_EVENTS,
-  },
-  {
-    endpointName: ServiceEndpointTypeEnum.KINESIS_FIREHOSE,
-    endpointType: EndpointTypes.INTERFACE,
-    endpointInterfaceService: InterfaceVpcEndpointAwsService.KINESIS_FIREHOSE,
-  },
-  {
-    endpointName: ServiceEndpointTypeEnum.KINESIS_STREAMS,
-    endpointType: EndpointTypes.INTERFACE,
-    endpointInterfaceService: InterfaceVpcEndpointAwsService.KINESIS_STREAMS,
-  },
-  {
-    endpointName: ServiceEndpointTypeEnum.KENDRA,
-    endpointType: EndpointTypes.INTERFACE,
-    endpointInterfaceService: InterfaceVpcEndpointAwsService.KENDRA,
-  },
-];
-
-
-export function AddAwsServiceEndpoint(
-  scope: Construct,
-  vpc: IVpc,
-  interfaceTag: ServiceEndpointTypeEnum,
-) {
-  if (CheckIfEndpointAlreadyExists(vpc, interfaceTag)) {
-    return;
-  }
-
-  const service = endpointSettings.find(
-    (endpoint) => endpoint.endpointName === interfaceTag,
-  );
-
-  if (!service) {
-    throw new Error('Unsupported Service sent to AddServiceEndpoint');
-  }
-
-  if (service.endpointType === EndpointTypes.GATEWAY) {
-    AddGatewayEndpoint(vpc, service, interfaceTag);
-  }
-  if (service.endpointType === EndpointTypes.INTERFACE) {
-    AddInterfaceEndpoint(scope, vpc, service, interfaceTag);
-  }
-
-  // ESLint requires this return statement, so disabling SonarQube warning
-  return; // NOSONAR
-}
-
-
-function AddInterfaceEndpoint(scope: Construct, vpc: IVpc, service: EndpointDefinition, interfaceTag: ServiceEndpointTypeEnum) {
-  const endpointDefaultSecurityGroup = buildSecurityGroup(
-    scope,
-    `${scope.node.id}-${service.endpointName}`,
-    {
-      vpc,
-      allowAllOutbound: true,
-    },
-    [{ peer: Peer.ipv4(vpc.vpcCidrBlock), connection: Port.tcp(443) }],
-    [],
-  );
-
-  vpc.addInterfaceEndpoint(interfaceTag, {
-    service: service.endpointInterfaceService as InterfaceVpcEndpointAwsService,
-    securityGroups: [endpointDefaultSecurityGroup],
-  });
+  }]);
+  return stepFunctionsExecutionHandlerRole;
 }
 
 export function buildSecurityGroup(
@@ -664,27 +307,16 @@ export function buildSecurityGroup(
 }
 
 export function createS3FileUploader (cdkStack: Stack, s3_bucket: Bucket, props: cdk.aws_lambda.DockerImageFunctionProps) {
-  let createS3FileUploaderRole = new cdk.aws_iam.Role(
+  const createS3FileUploaderRole = createIAMRoleWithBasicExecutionPolicy(
     cdkStack,
     's3FileUploader',
-    {
-      description: 'Role used by the S3 file uploader Lambda function',
-      assumedBy: new cdk.aws_iam.ServicePrincipal('lambda.amazonaws.com'),
-    },
+    'Role used by the S3 file uploader Lambda function',
   );
 
-  createS3FileUploaderRole.addManagedPolicy(
-    cdk.aws_iam.ManagedPolicy.fromAwsManagedPolicyName(
-      'service-role/AWSLambdaBasicExecutionRole',
-    ),
-  );
-
-  createS3FileUploaderRole.addToPolicy(
-    new cdk.aws_iam.PolicyStatement({
-      actions: ['s3:PutObject', 's3:PutObjectAcl', 's3:GetObject'],
-      resources: [s3_bucket.bucketArn],
-    }),
-  );
+  addRolePolicies(createS3FileUploaderRole, [{
+    actions: ['s3:PutObject', 's3:PutObjectAcl', 's3:GetObject'],
+    resources: [s3_bucket.bucketArn],
+  }]);
 
   return new lambda.DockerImageFunction(
     cdkStack,
@@ -698,28 +330,20 @@ export function createS3FileUploader (cdkStack: Stack, s3_bucket: Bucket, props:
 
 export function createGeneratePresignedUrlFn(
   cdkStack: Stack,
-  bucket: Bucket): cdk.aws_lambda.Function {
-  const generatePresignedUrlRole = new cdk.aws_iam.Role(
+  bucket: Bucket,
+  environment: {[p: string]: string},
+): cdk.aws_lambda.Function {
+  const generatePresignedUrlRole = createIAMRoleWithBasicExecutionPolicy(
     cdkStack,
     'generatePresignedUrlRole',
+    'Role used by the Generate Pre-signed URL Lambda functio',
+  );
+  addRolePolicies(generatePresignedUrlRole, [
     {
-      description: 'Role used by the Generate Pre-signed URL Lambda function',
-      assumedBy: new cdk.aws_iam.ServicePrincipal('lambda.amazonaws.com'),
-    },
-  );
-
-  generatePresignedUrlRole.addManagedPolicy(
-    cdk.aws_iam.ManagedPolicy.fromAwsManagedPolicyName(
-      'service-role/AWSLambdaBasicExecutionRole',
-    ),
-  );
-
-  generatePresignedUrlRole.addToPolicy(
-    new cdk.aws_iam.PolicyStatement({
       actions: ['s3:PutObject'],
       resources: [bucket.bucketArn],
-    }),
-  );
+    },
+  ]);
   return new cdk.aws_lambda.Function(
     cdkStack,
     'generatePresignedUrlFN',
@@ -730,9 +354,7 @@ export function createGeneratePresignedUrlFn(
       timeout: cdk.Duration.seconds(60),
       memorySize: 256,
       role: generatePresignedUrlRole,
-      environment: {
-        S3_BUCKET_NAME: bucket.bucketName,
-      },
+      environment,
     },
   );
 }

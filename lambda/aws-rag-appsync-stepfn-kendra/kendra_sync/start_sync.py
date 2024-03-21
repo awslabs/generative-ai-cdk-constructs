@@ -14,7 +14,6 @@ logger = Logger(service="KENDRA_SYNC_JOB")
 KENDRA_INDEX_ID = os.environ['KENDRA_INDEX_ID']
 KENDRA_DATA_SOURCE_INDEX_ID = os.environ['KENDRA_DATA_SOURCE_INDEX_ID']
 DOCUMENTS_TABLE = os.environ['DOCUMENTS_TABLE']
-
 AWS_REGION = os.environ['AWS_REGION']
 
 kendra_client = boto3.client('kendra')

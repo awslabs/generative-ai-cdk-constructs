@@ -12,7 +12,6 @@
  */
 import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
-import { Duration } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import { Table } from 'aws-cdk-lib/aws-dynamodb';
@@ -20,28 +19,23 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import * as kendra from 'aws-cdk-lib/aws-kendra';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
-import { DockerImageFunction } from 'aws-cdk-lib/aws-lambda';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import { Bucket, BucketAccessControl, HttpMethods } from 'aws-cdk-lib/aws-s3';
 import { StateMachine } from 'aws-cdk-lib/aws-stepfunctions';
 import { Stack } from 'aws-cdk-lib/core';
 import { AwsCustomResource, AwsCustomResourcePolicy, PhysicalResourceId } from 'aws-cdk-lib/custom-resources';
 import { Construct } from 'constructs';
+import { createKendraSyncRunTable } from '../../../common/helpers/dynamodb-helper';
 import { KendraConstruct } from '../../../common/helpers/kendra-construct';
 import {
-  AddAwsServiceEndpoint,
   createCheckJobsStatusFn,
   createKendraStartDataSync,
   createKendraWorkflowStepFunction,
   createStepFunctionsExecutionHandlerRole,
-  createSyncRunTable,
   createUpdateKendraJobStatusFn,
-  createDefaultIsolatedVpcProps,
-  createS3FileUploader,
   createGeneratePresignedUrlFn,
 } from '../../../common/helpers/kendra-helper';
-import { lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
-import { buildVpc } from '../../../common/helpers/vpc-helper';
+import { AddAwsServiceEndpoint, buildVpc, createDefaultIsolatedVpcProps } from '../../../common/helpers/vpc-helper';
 
 /**
  * The properties for the RagAppsyncStepfnKendraProps class.
@@ -171,7 +165,7 @@ export class RagAppsyncStepfnKendra extends Construct {
      * @param {RagAppsyncStepfnKendraProps} props - user provided props for the construct.
      * @since 0.0.0
      * @access public
-     */
+   */
   constructor(scope: Construct, id: string, props: RagAppsyncStepfnKendraProps) {
     super(scope, id);
     this.awsAccountId = cdk.Stack.of(this).account;
@@ -344,25 +338,20 @@ export class RagAppsyncStepfnKendra extends Construct {
       },
     );
     this.graphqlApi = ingestionGraphqlApi;
-    this.syncRunTable = createSyncRunTable(this);
+    this.syncRunTable = createKendraSyncRunTable(this);
 
-    const s3FileUploaderProps = {
-      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/input_validation/src')),
-      functionName: 's3FileUploader'+stage,
-      description: 'Lambda function for validating input files formats',
-      vpc: this.vpc,
-      memorySize: lambdaMemorySizeLimiter(this, 1_769),
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-      timeout: Duration.minutes(15),
-      environment: {
-        KENDRA_INDEX_ID: this.kendraIndexId,
-        KENDRA_DATA_SOURCE_INDEX_ID: this.kendraDataSourceIndexId,
-        DOCUMENTS_TABLE: this.syncRunTable.tableName,
-        S3_BUCKET_NAME: this.kendraInputBucket.bucketName,
-      },
+    const lambdaPropsEnv = {
+      KENDRA_INDEX_ID: this.kendraIndexId,
+      KENDRA_DATA_SOURCE_INDEX_ID: this.kendraDataSourceIndexId,
+      DOCUMENTS_TABLE: this.syncRunTable.tableName,
+      S3_BUCKET_NAME: this.kendraInputBucket.bucketName,
     };
-    const s3FileUploaderLambda: DockerImageFunction = createS3FileUploader(this.stack, this.kendraInputBucket, s3FileUploaderProps);
-    const generatePresignedUrlLambda = createGeneratePresignedUrlFn(this.stack, this.kendraInputBucket);
+    // const s3FileUploaderLambda: DockerImageFunction = createS3FileUploader(this.stack, this.kendraInputBucket, s3FileUploaderProps);
+    const generatePresignedUrlLambda = createGeneratePresignedUrlFn(
+      this.stack,
+      this.kendraInputBucket,
+      lambdaPropsEnv,
+    );
 
     const kendraSyncLambda = createKendraStartDataSync(
       this.stack,
@@ -371,6 +360,7 @@ export class RagAppsyncStepfnKendra extends Construct {
       this.awsAccountId,
       this.kendraIndexId,
       this.kendraDataSourceIndexId,
+      lambdaPropsEnv,
     );
     const createCheckJobsStatusLambda: cdk.aws_lambda.Function = createCheckJobsStatusFn(
       this.stack,
@@ -379,11 +369,13 @@ export class RagAppsyncStepfnKendra extends Construct {
       this.kendraIndexId,
       this.kendraDataSourceIndexId,
       this.syncRunTable,
+      lambdaPropsEnv,
     );
 
     const updateKendraJobStatusLambda: cdk.aws_lambda.Function = createUpdateKendraJobStatusFn(
       this.stack,
       this.syncRunTable,
+      lambdaPropsEnv,
     );
 
     this.docProcessingStateMachine = createKendraWorkflowStepFunction(
@@ -402,10 +394,32 @@ export class RagAppsyncStepfnKendra extends Construct {
       'presignedUrlDataSource',
       generatePresignedUrlLambda,
     );
-    presignedUrlDataSource.createResolver('presignedUrlResolver',  {
+
+    presignedUrlDataSource.createResolver('presignedUrlResolver', {
       typeName: 'Mutation',
       fieldName: 'generatePresignedUrl',
     });
+
+    const kendraSyncLambdaDataSource = ingestionGraphqlApi.addLambdaDataSource(
+      'kendraSyncLambdaDataSource',
+      kendraSyncLambda,
+    );
+    kendraSyncLambdaDataSource.createResolver('kendraSyncLambdaResolver',
+      {
+        typeName: 'Mutation',
+        fieldName: 'invokeMyLambda',
+        requestMappingTemplate: appsync.MappingTemplate.fromString(`
+    {
+      "version": "2017-02-28",
+      "operation": "Invoke",
+      "payload": {}
+    }
+  `),
+        responseMappingTemplate: appsync.MappingTemplate.fromString(`
+    $util.toJson($context.result)
+  `),
+      });
+
   }
 }
 

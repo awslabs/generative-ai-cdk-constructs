@@ -18,6 +18,16 @@ def generate_presigned_url(bucket_name, object_name, expiration):
         logger.error(f"Error generating presigned url: {str(e)}")
         return None
 
+def isvalid_file_format(file_name: str) -> bool:
+    file_format = ['.pdf','.html','xml','.xslt','.md','.csv','.xlsx','.xls','.json','.rtf','.ppt','.docx','txt']
+    if file_name.endswith(tuple(file_format)):
+        logger.info(f"File format: {file_name}")
+        return True
+    else:
+        logger.error(f'Invalid file format :: {file_format}')
+        return False
+
+
 def lambda_handler(event, context):
     file_name = event.get('fileName', '')
     expiration = event.get('expiration', 3600)
@@ -28,6 +38,15 @@ def lambda_handler(event, context):
             'fileName': None,
             'url': None,
         }
+
+    if not isvalid_file_format(file_name):
+        return {
+            'success': False,
+            'message': 'Invalid file format',
+            'fileName': file_name,
+            'url': None,
+        }
+
     try:
         presigned_url = generate_presigned_url(S3_BUCKET_NAME, file_name, expiration)
 
