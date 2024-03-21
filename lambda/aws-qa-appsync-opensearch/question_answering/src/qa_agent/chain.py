@@ -74,6 +74,11 @@ def run_question_answering(arguments):
 
             llm_response = run_qa_agent_rag_no_memory(arguments)
             return llm_response
+        
+        if response_generation_method == 'RAG':
+            logger.info('Running qa agent with a RAG approach')
+            llm_response = run_qa_agent_rag_no_memory(arguments)
+            return llm_response
 
         bucket_name = os.environ['INPUT_BUCKET']
 
@@ -101,17 +106,13 @@ def run_question_answering(arguments):
         logger.info(
             f'For the current question, we have a max model length of {model_max_tokens} and a document containing {document_number_of_tokens} tokens')
 
-        if response_generation_method == 'RAG':
-            logger.info('Running qa agent with a RAG approach')
-            llm_response = run_qa_agent_rag_no_memory(arguments)
+        # LONG CONTEXT
+        # why add 500 ? on top of the document content, we add the prompt. So we keep an extra 500 tokens of space just in case
+        if (document_number_of_tokens + 250) < model_max_tokens:
+            logger.info('Running qa agent with full document in context')
+            llm_response = run_qa_agent_from_single_document_no_memory(arguments)
         else:
-            # LONG CONTEXT
-            # why add 500 ? on top of the document content, we add the prompt. So we keep an extra 500 tokens of space just in case
-            if (document_number_of_tokens + 250) < model_max_tokens:
-                logger.info('Running qa agent with full document in context')
-                llm_response = run_qa_agent_from_single_document_no_memory(arguments)
-            else:
-                logger.info('Running qa agent with a RAG approach due to document size')
-                llm_response = run_qa_agent_rag_no_memory(arguments)
+            logger.info('Running qa agent with a RAG approach due to document size')
+            llm_response = run_qa_agent_rag_no_memory(arguments)
         return llm_response
     

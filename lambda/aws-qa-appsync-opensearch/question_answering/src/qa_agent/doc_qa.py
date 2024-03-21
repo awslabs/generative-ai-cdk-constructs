@@ -149,7 +149,8 @@ def run_qa_agent_rag_no_memory(input_params):
     # --------------------------------------------------------------------------
     logger.info(f'output_file_name is :: {output_file_name}')
     if output_file_name:
-        source_documents = [doc for doc in source_documents if doc.metadata['source'] == output_file_name]
+        file_without_extension = os.path.splitext(output_file_name)[0]
+        source_documents = [doc for doc in source_documents if file_without_extension in doc.metadata['source']]
         logger.info(source_documents)
     status_variables['sources'] = list(set(doc.metadata['source'] for doc in source_documents))
 
