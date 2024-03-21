@@ -16,15 +16,15 @@
 import boto3
 import os
 import base64
+import json
 
 from langchain.chains import LLMChain
-from llms import get_llm
+from llms.types import Provider, BedrockModel, Modality
 from typing import Any, Dict, List, Union
-from langchain.prompts import PromptTemplate
 from .s3inmemoryloader import S3FileLoaderInMemory
 from .StreamingCallbackHandler import StreamingCallbackHandler
 from .helper import load_vector_db_opensearch, send_job_status, JobStatus
-
+from adapters import registry
 
 from aws_lambda_powertools import Logger, Tracer, Metrics
 
@@ -41,15 +41,9 @@ def run_qa_agent_rag_no_memory(input_params):
     logger.info("starting qa agent with rag approach without memory :: {input_params}")
 
     base64_bytes = input_params['question'].encode("utf-8")
-    embedding_model = input_params['embeddings_model']
-    embedding_model_id = embedding_model['modelId']
-    modality=embedding_model.get("modality", "Text")
-
-    qa_model_id = input_params['qa_model']['modelId']
+    
     sample_string_bytes = base64.b64decode(base64_bytes)
     decoded_question = sample_string_bytes.decode("utf-8")
-
-    logger.info(decoded_question)
 
     status_variables = {
         'jobstatus': JobStatus.WORKING.status,
@@ -60,6 +54,79 @@ def run_qa_agent_rag_no_memory(input_params):
         'sources': ['']
     }
     send_job_status(status_variables)
+
+    # load models
+
+    # get model 
+    qa_model= input_params['qa_model']
+    streaming = qa_model.get("streaming", False)
+    callback_manager = [StreamingCallbackHandler(status_variables)] if streaming else None
+    qa_model_id = qa_model.get('modelId',BedrockModel.ANTHROPIC_CLAUDE_V2_1)
+    qa_model_args = qa_model.get('model_kwargs', {})
+    qa_modality=qa_model.get('modality', Modality.TEXT)
+    model_provider=qa_model.get("provider",Provider.BEDROCK) 
+
+    try:
+        json_qa_model_args = json.loads(qa_model_args)
+    except:
+        logger.error(f"Model args not properly formed {model_provider}.{qa_model_id}")
+        status_variables['jobstatus'] = JobStatus.ERROR_LOAD_ARGS.status
+        error = JobStatus.ERROR_LOAD_ARGS.get_message()
+        status_variables['answer'] = error.decode("utf-8")
+        send_job_status(status_variables)
+        return status_variables
+
+    model_adapter = registry.get_adapter(f"{model_provider}.{qa_model_id}")
+
+    if model_adapter is None:
+        logger.error(f"Model adapter not found for {model_provider}.{qa_model_id}")
+        status_variables['jobstatus'] = JobStatus.ERROR_LOAD_LLM.status
+        error = JobStatus.ERROR_LOAD_LLM.get_message()
+        status_variables['answer'] = error.decode("utf-8")
+        send_job_status(status_variables)
+        return status_variables
+
+    question_answering_model = model_adapter(
+        model_id=qa_model_id,
+        callback=callback_manager,
+        modality=qa_modality,
+        model_kwargs=json_qa_model_args,
+    )
+
+    # get embeddings model
+    em_model= input_params['embeddings_model']
+    em_model_id = em_model.get('modelId')
+    em_model_args = em_model.get('model_kwargs', {})
+    em_modality=em_model.get('modality', Modality.TEXT)
+    em_model_provider=em_model.get("provider",Provider.BEDROCK) 
+
+    try:
+        json_em_model_args = json.loads(em_model_args)
+    except:
+        logger.error(f"Model args not properly formed {model_provider}.{qa_model_id}")
+        status_variables['jobstatus'] = JobStatus.ERROR_LOAD_ARGS.status
+        error = JobStatus.ERROR_LOAD_ARGS.get_message()
+        status_variables['answer'] = error.decode("utf-8")
+        send_job_status(status_variables)
+        return status_variables
+
+    embeddings_model_adapter = registry.get_adapter(f"{em_model_provider}.{em_model_id}")
+
+    if embeddings_model_adapter is None:
+        logger.error(f"Model adapter not found for {model_provider}.{qa_model_id}")
+        status_variables['jobstatus'] = JobStatus.ERROR_LOAD_LLM.status
+        error = JobStatus.ERROR_LOAD_LLM.get_message()
+        status_variables['answer'] = error.decode("utf-8")
+        send_job_status(status_variables)
+        return status_variables
+
+    embeddings_model = embeddings_model_adapter(
+        model_id=em_model_id,
+        modality=qa_modality,
+        model_kwargs=json_em_model_args,
+    )
+
+    logger.info(decoded_question)
 
     # 1. Load index and question related content
     global _doc_index
@@ -72,8 +139,7 @@ def run_qa_agent_rag_no_memory(input_params):
                                               os.environ.get('OPENSEARCH_DOMAIN_ENDPOINT'),
                                               os.environ.get('OPENSEARCH_INDEX'),
                                               os.environ.get('OPENSEARCH_SECRET_ID'),
-                                              embedding_model_id,
-                                              modality)
+                                              embeddings_model.get_embeddings_model())
 
     else:
         logger.info("_retriever already exists")
@@ -107,26 +173,11 @@ def run_qa_agent_rag_no_memory(input_params):
         logger.info(source_documents)
     status_variables['sources'] = list(set(doc.metadata['source'] for doc in source_documents))
 
-    # 2 : load llm using the selector
-    streaming = input_params.get("streaming", False)
-    callback_manager = [StreamingCallbackHandler(status_variables)] if streaming else None
-    _qa_llm = get_llm(callback_manager,qa_model_id)
-
-    if (_qa_llm is None):
-        logger.error('llm is None, returning')
-        status_variables['jobstatus'] = JobStatus.ERROR_LOAD_LLM.status
-        error = JobStatus.ERROR_LOAD_LLM.get_message()
-        status_variables['answer'] = error.decode("utf-8")
-        send_job_status(status_variables)
-        return status_variables
-
-    # 3. Run it
-    template = """\n\nHuman: {context}
-    Answer from this text: {question}
-    \n\nAssistant:"""
+    # 2. Run it
+    
     verbose = input_params.get('verbose',False)
-    prompt = PromptTemplate(template=template, input_variables=["context", "question"])
-    chain = LLMChain(llm=_qa_llm, prompt=prompt, verbose=verbose)
+    prompt = question_answering_model.get_prompt()
+    chain = LLMChain(llm=question_answering_model.get_llm(), prompt=prompt, verbose=verbose)
 
     try:
         tmp = chain.predict(context=source_documents, question=decoded_question)
@@ -159,7 +210,6 @@ def run_qa_agent_from_single_document_no_memory(input_params):
     logger.info("starting qa agent without memory single document")
 
     base64_bytes = input_params['question'].encode("utf-8")
-    qa_model_id = input_params['qa_model']['modelId']
 
     sample_string_bytes = base64.b64decode(base64_bytes)
     decoded_question = sample_string_bytes.decode("utf-8")
@@ -175,6 +225,42 @@ def run_qa_agent_from_single_document_no_memory(input_params):
         'sources': ['']
     }
     send_job_status(status_variables)
+
+    # get model 
+    qa_model= input_params['qa_model']
+    streaming = qa_model.get("streaming", False)
+    callback_manager = [StreamingCallbackHandler(status_variables)] if streaming else None
+    qa_model_id = qa_model.get('modelId')
+    qa_model_args = qa_model.get('model_kwargs', {})
+    qa_modality=qa_model.get('modality', 'Text')
+    model_provider=qa_model.get("provider",Provider.BEDROCK) 
+
+    try:
+        json_qa_model_args = json.loads(qa_model_args)
+    except:
+        logger.error(f"Model args not properly formed {model_provider}.{qa_model_id}")
+        status_variables['jobstatus'] = JobStatus.ERROR_LOAD_ARGS.status
+        error = JobStatus.ERROR_LOAD_ARGS.get_message()
+        status_variables['answer'] = error.decode("utf-8")
+        send_job_status(status_variables)
+        return status_variables
+
+    model_adapter = registry.get_adapter(f"{model_provider}.{qa_model_id}")
+
+    if model_adapter is None:
+        logger.error(f"Model adapter not found for {model_provider}.{qa_model_id}")
+        status_variables['jobstatus'] = JobStatus.ERROR_LOAD_LLM.status
+        error = JobStatus.ERROR_LOAD_LLM.get_message()
+        status_variables['answer'] = error.decode("utf-8")
+        send_job_status(status_variables)
+        return status_variables
+
+    question_answering_model = model_adapter(
+        model_id=qa_model_id,
+        callback=callback_manager,
+        modality=qa_modality,
+        model_kwargs=json_qa_model_args,
+    )
 
     # 1 : load the document
     global _file_content
@@ -206,23 +292,11 @@ def run_qa_agent_from_single_document_no_memory(input_params):
     # 2 : run the question
     streaming = input_params.get("streaming", False)
     callback_manager = [StreamingCallbackHandler(status_variables)] if streaming else None
-    _qa_llm = get_llm(callback_manager,qa_model_id)
-
-    if (_qa_llm is None):
-        logger.info('llm is None, returning')
-        status_variables['jobstatus'] = JobStatus.ERROR_LOAD_LLM.status
-        error = JobStatus.ERROR_LOAD_LLM.get_message()
-        status_variables['answer'] = error.decode("utf-8")
-        send_job_status(status_variables)
-        return status_variables
 
     # 3: run LLM
-    template = """\n\nHuman: {context}
-    Answer from this text: {question}
-    \n\nAssistant:"""
     verbose = input_params.get('verbose',False)
-    prompt = PromptTemplate(template=template, input_variables=["context", "question"])
-    chain = LLMChain(llm=_qa_llm, prompt=prompt, verbose=verbose)
+    prompt = question_answering_model.get_prompt()
+    chain = LLMChain(llm=question_answering_model.get_llm(), prompt=prompt, verbose=verbose)
 
     try:
         logger.info(f'file content is: {_file_content}')

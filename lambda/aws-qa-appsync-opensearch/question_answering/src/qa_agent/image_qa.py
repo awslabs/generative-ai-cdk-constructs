@@ -18,12 +18,14 @@ import os
 import base64
 import base64
 
-from llms import get_llm,get_bedrock_fm
+from llms import get_bedrock_fm
+from llms.types import Provider, Modality
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from .sagemaker_endpoint import MultiModal
 from aws_lambda_powertools import Logger, Tracer, Metrics
 from .StreamingCallbackHandler import StreamingCallbackHandler
+from adapters import registry
 
 from .helper import  download_file, load_vector_db_opensearch,send_job_status, JobStatus,get_presigned_url,encode_image_to_base64
 
@@ -125,9 +127,19 @@ def run_qa_agent_rag_on_image_no_memory(input_params):
 
 def get_image_from_semantic_search_in_os(input_params,status_variables):
     
-    embeddings_model=input_params['embeddings_model']
-    embedding_model_id = embeddings_model['modelId']
-    modality=embeddings_model.get("modality", "Text")
+    em_model= input_params['embeddings_model']
+    em_model_id = em_model.get('modelId')
+    em_model_args = em_model.get('model_kwargs', {})
+    em_modality=em_model.get('modality', Modality.TEXT)
+    em_model_provider=em_model.get("provider",Provider.BEDROCK) 
+
+    embeddings_model_adapter = registry.get_adapter(f"{em_model_provider}.{em_model_id}")
+
+    embeddings_model = embeddings_model_adapter(
+        model_id=em_model_id,
+        modality=em_modality,
+        model_kwargs=em_model_args,
+    )
 
     if _doc_index is None:
         logger.info("loading opensearch retriever")
@@ -136,8 +148,7 @@ def get_image_from_semantic_search_in_os(input_params,status_variables):
                                               os.environ.get('OPENSEARCH_DOMAIN_ENDPOINT'),
                                               os.environ.get('OPENSEARCH_INDEX'),
                                               os.environ.get('OPENSEARCH_SECRET_ID'),
-                                              embedding_model_id,
-                                              modality)
+                                              embeddings_model.get_embeddings_model())
 
     else:
         logger.info("_retriever already exists")
@@ -173,14 +184,14 @@ def process_visual_qa(input_params,status_variables,filename):
     
     # default model provider is bedrock and defalut modality is tEXT
     modality=qa_model.get("modality", "Text")
-    model_provider=qa_model.get("provider","Bedrock")
+    model_provider=qa_model.get("provider",Provider.BEDROCK)
     logger.info(f"model provider is {model_provider} and modality is {modality}")  
    
     base64_bytes = input_params['question'].encode("utf-8")
     sample_string_bytes = base64.b64decode(base64_bytes)
     decoded_question = sample_string_bytes.decode("utf-8")
     
-    if model_provider=='Sagemaker Endpoint':
+    if model_provider==Provider.SAGEMAKER:
         _qa_llm = MultiModal.sagemakerendpoint_llm(qa_modelId)   
         if(_qa_llm is not None):
              status_variables['answer']=generate_vision_answer_sagemaker(_qa_llm,input_params,decoded_question,filename,status_variables)
@@ -191,7 +202,7 @@ def process_visual_qa(input_params,status_variables,filename):
             error = JobStatus.ERROR_LOAD_LLM.get_message()
             status_variables['answer'] = error.decode("utf-8")
         
-    elif model_provider=='Bedrock':
+    elif model_provider==Provider.BEDROCK:
         _qa_llm=get_bedrock_fm(qa_modelId,modality)
         if(_qa_llm is not None):
             local_file_path= download_file(bucket_name,filename)

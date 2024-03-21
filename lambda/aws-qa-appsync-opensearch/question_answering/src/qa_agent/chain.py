@@ -18,6 +18,7 @@ import os
 import base64
 
 from langchain.chains import LLMChain
+from llms.types import Modality
 from llms import  get_max_tokens
 from typing import Any, Dict, List, Union
 from .s3inmemoryloader import S3FileLoaderInMemory
@@ -48,7 +49,7 @@ def run_question_answering(arguments):
     modality=qa_model.get('modality','Text')
     
     # Visual QA
-    if modality.lower()=='image': 
+    if modality == Modality.IMAGE: 
          logger.info("Running QA for Image modality")             
 
           # user didn't provide a image url as input, we use the RAG source against the entire knowledge base
@@ -95,7 +96,8 @@ def run_question_answering(arguments):
             return ''
 
         model_id=qa_model['modelId']
-        model_max_tokens = get_max_tokens(model_id)
+        model_provider=qa_model['provider']
+        model_max_tokens = get_max_tokens(model_provider+'.'+model_id)
         logger.info(
             f'For the current question, we have a max model length of {model_max_tokens} and a document containing {document_number_of_tokens} tokens')
 

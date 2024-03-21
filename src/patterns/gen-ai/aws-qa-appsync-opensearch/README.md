@@ -28,6 +28,7 @@
   - [Initializer](#initializer)
   - [Pattern Construct Props](#pattern-construct-props)
   - [Pattern Properties](#pattern-properties)
+  - [Supported models](#supported-models)
   - [Default properties](#default-properties)
     - [Authentication](#authentication)
     - [Networking](#networking)
@@ -189,9 +190,11 @@ Mutation call to trigger the question:
     jobstatus: "", 
     qa_model: 
    	 {
+      provider: "Bedrock",
       modality: "Text",
       modelId: "anthropic.claude-v2:1", 
-      streaming: true
+      streaming: true,
+      model_kwargs: "{\"temperature\":0.5,\"top_p\":0.9,\"max_tokens_to_sample\":250}"
     },
     question:"d2hhdCBpcyBwcm9qZW4/",
     responseGenerationMethod: RAG
@@ -290,7 +293,29 @@ Parameters
 | s3InputAssetsBucketInterface | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.IBucket.html)                                 | Returns an instance of s3.IBucket created by the construct                                                                                                                     |
 | s3InputAssetsBucket          | [s3.Bucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html)                                   | Returns an instance of s3.Bucket created by the construct. IMPORTANT: If existingInputAssetsBucketObj was provided in Pattern Construct Props, this property will be undefined |
 | graphqlApi                   | [appsync.IGraphqlApi](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_appsync.GraphqlApi.html)                | Returns an instance of appsync.IGraphqlApi created by the construct                                                                                                            |
-| qaLambdaFunction             | [lambda.DockerImageFunction](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.DockerImageFunction.html) | Returns an instance of lambda.DockerImageFunction used for the question answering job created by the construct                                                                 |
+| qaLambdaFunction             | [lambda.DockerImageFunction](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.DockerImageFunction.html) | Returns an instance of lambda.DockerImageFunction used for the question answering job created by the construct  
+
+## Supported models
+
+Question answering
+
+| **Provider**  | **Model id** | **Modalities** | **Notes** |
+| :----------------------------- | :---- | ----- | --- |
+| Bedrock                          |  anthropic.claude-v2 | Text |  |
+| Bedrock                          |  anthropic.claude-v2:1 | Text |  |
+| Bedrock                          |  anthropic.claude-3-haiku-20240307-v1:0 | Text, Image |  |
+| Bedrock                          |  anthropic.claude-3-sonnet-20240229-v1:0 | Text, Image |  |
+| Bedrock                          |  anthropic.claude-instant-v1 | Text |  |
+| Bedrock                          |  amazon.titan-text-lite-v1 | Text |  |
+| Bedrock                          |  amazon.titan-text-express-v1 | Text |  |
+| SageMaker                          |  idefics | Text, Image | The model is not deployed as part of the construct and requires to be provisioned separately |
+
+Embeddings
+
+| **Provider**  | **Model id** | **Modalities** | **Notes** |
+| :----------------------------- | :---- | ----- | --- |
+| Bedrock                          |  amazon.titan-embed-image-v1 | Text |  |
+| Bedrock                          |  amazon.titan-embed-text-v1 | Text |  |
 
 ## Default properties
 
