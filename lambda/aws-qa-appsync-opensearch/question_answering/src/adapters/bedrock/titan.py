@@ -73,4 +73,5 @@ class BedrockTitanAdapter(ModelAdapter):
         )
 
 # Register the adapter
-registry.register(r"^Bedrock.amazon.titan*", BedrockTitanAdapter)
+registry.register(r"^Bedrock.amazon.titan-t*", BedrockTitanAdapter)
+registry.register(r"^Bedrock.amazon.titan-e*", BedrockTitanAdapter)
