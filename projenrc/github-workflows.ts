@@ -129,72 +129,12 @@ export function buildMonthlyIssuesMetricsWorkflow(project: AwsCdkConstructLibrar
     const workflow = project.github.addWorkflow('monthly-repo-metrics');
     if (workflow) {
       workflow.on({
-        workflowDispatch: {
-          schedule: {
-            cron: '0 2 1 * *',
-          },
-        },
+        workflowDispatch: {},
+        schedule: [
+          { cron: '0 2 1 * *' },
+        ],
       });
       workflow.addJobs({ build: buildjob });
-    }
-  }
-}
-
-/**
- * https://github.com/aws/aws-cdk/blob/main/.github/workflows/update-contributors.yml
- * GitHub action that runs monthly to create a pull request for updating a
- * CONTRIBUTORS file with the top contributors.
- * @param project AwsCdkConstructLibrary
- */
-export function buildUpdateContributorsWorkflow(project: AwsCdkConstructLibrary) {
-
-  const updateContributors: Job = {
-    permissions: {
-      pullRequests: JobPermission.WRITE,
-    },
-    if: "github.repository == 'awslabs/generative-ai-cdk-constructs'",
-    runsOn: ['ubuntu-latest'],
-    steps: [
-      {
-        name: 'Checkout project',
-        uses: 'actions/checkout@v3',
-      },
-      {
-        uses: 'minicli/action-contributors@v3.3',
-        name: 'Update a projects CONTRIBUTORS file',
-        env:
-        {
-          CONTRIB_REPOSITORY: 'awslabs/generative-ai-cdk-constructs',
-          CONTRIB_OUTPUT_FILE: 'CONTRIBUTORS.md',
-          CONTRIB_IGNORE: 'emerging-tech-cdk-constructs-bot, generative-ai-cdk-constructs-bot, dependabot[bot], dependabot, amazon-auto, github-actions',
-        },
-      },
-      {
-        name: 'Create a PR',
-        uses: 'peter-evans/create-pull-request@v5',
-        with: {
-          'branch': 'automation/update-contributors',
-          'author': 'emerging-tech-cdk-constructs-bot',
-          'commit-message': 'chore: update Contributors File',
-          'title': 'chore: update Contributors File',
-          'labels': 'auto-approve',
-          'token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
-        },
-      },
-    ],
-  };
-
-  if (project.github) {
-    const workflow = project.github.addWorkflow('update-contributors');
-    if (workflow) {
-      workflow.on({
-        workflowDispatch: {
-          schedule: {
-            cron: '0 0 1 * *',
-          },
-        },
-      });
-      workflow.addJobs({ main: updateContributors });
     }
   }
 }

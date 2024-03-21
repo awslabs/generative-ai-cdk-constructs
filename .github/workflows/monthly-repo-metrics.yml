@@ -2,9 +2,9 @@
 
 name: monthly-repo-metrics
 on:
-  workflow_dispatch:
-    schedule:
-      cron: 0 2 1 * *
+  workflow_dispatch: {}
+  schedule:
+    - cron: 0 2 1 * *
 jobs:
   build:
     name: metrics

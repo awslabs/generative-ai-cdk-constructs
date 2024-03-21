@@ -18,7 +18,6 @@
     ".github/workflows/semgrep.yml",
     ".github/workflows/stale.yml",
     ".github/workflows/testdeployment.yml",
-    ".github/workflows/update-contributors.yml",
     ".github/workflows/upgrade-main.yml",
     ".gitignore",
     ".mergify.yml",
