@@ -85,7 +85,7 @@ def run_qa_agent_rag_no_memory(input_params):
 
     # get embeddings model
     em_model= input_params['embeddings_model']
-    em_model_id = em_model.get('modelId')
+    em_model_id = em_model.get('modelId',BedrockModel.AMAZON_TITAN_EMBED_TEXT_V1)
     em_model_args = em_model.get('model_kwargs', {})
     em_modality=em_model.get('modality', Modality.TEXT)
     em_model_provider=em_model.get("provider",Provider.BEDROCK)

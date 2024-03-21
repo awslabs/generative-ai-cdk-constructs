@@ -202,10 +202,10 @@ def download_file(bucket,key )-> str:
             logger.info(f"file downloaded {file_path}")
             return file_path
         except ClientError as client_err:
-            logger.error(f"Couldn\'t download file {client_err.response['Error']['Message']}")
+            logger.error(f"Couldn\'t download file {key}/{file_path} from {bucket}: {client_err.response['Error']['Message']}")
         
         except Exception as exp:
-            logger.error(f"Couldn\'t download file : {exp}")
+            logger.error(f"Couldn\'t download file {key}/{file_path} from {bucket}: {exp}")
  
 def encode_image_to_base64(image_file_path,image_file) -> str:
         with open(image_file_path, "rb") as image_file:

@@ -1,5 +1,5 @@
-aws-lambda-powertools
-aws-xray-sdk
+aws-lambda-powertools==2.35.1
+aws-xray-sdk==2.13.0
 fastjsonschema
 typing-extensions
 aiohttp

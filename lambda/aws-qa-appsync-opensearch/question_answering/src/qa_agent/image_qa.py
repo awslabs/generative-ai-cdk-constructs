@@ -19,7 +19,7 @@ import base64
 import base64
 
 from llms import get_bedrock_fm
-from llms.types import Provider, Modality
+from llms.types import Provider, Modality, BedrockModel
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from .sagemaker_endpoint import MultiModal
@@ -128,9 +128,9 @@ def run_qa_agent_rag_on_image_no_memory(input_params):
 def get_image_from_semantic_search_in_os(input_params,status_variables):
     
     em_model= input_params['embeddings_model']
-    em_model_id = em_model.get('modelId')
+    em_model_id = em_model.get('modelId',BedrockModel.AMAZON_TITAN_EMBED_IMAGE_V1)
     em_model_args = em_model.get('model_kwargs', {})
-    em_modality=em_model.get('modality', Modality.TEXT)
+    em_modality=em_model.get('modality', Modality.IMAGE)
     em_model_provider=em_model.get("provider",Provider.BEDROCK) 
 
     embeddings_model_adapter = registry.get_adapter(f"{em_model_provider}.{em_model_id}")
