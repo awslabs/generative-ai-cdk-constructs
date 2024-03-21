@@ -6,7 +6,7 @@ class Modality(StrEnum):
 
 class Provider(StrEnum):
     BEDROCK = 'Bedrock'
-    SAGEMAKER = 'Sagemaker Endpoint'
+    SAGEMAKER = 'SagemakerEndpoint'
 
 class BedrockModel(StrEnum):
     # ANTHROPIC MODELS
