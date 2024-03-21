@@ -19,7 +19,6 @@ from pathlib import Path
 from aiohttp import ClientError
 from langchain_community.vectorstores import OpenSearchVectorSearch
 from opensearchpy import RequestsHttpConnection
-from llms import get_embeddings_llm
 import requests
 from enum import Enum
 from requests_aws4auth import AWS4Auth
@@ -52,6 +51,10 @@ class JobStatus(Enum):
     ERROR_LOAD_DOC = (
         'Failed to load document content',
         base64.b64encode("It seems I cannot load the document you are referring to, please verify that the document was correctly ingested or contect an administrator to get more information.".encode('utf-8'))
+    )
+    ERROR_LOAD_ARGS = (
+        'Failed to load the llm arguments provided', 
+        base64.b64encode("An internal error happened, and I am not able to load the args, please make sure the arguments provided are correctly structured.".encode('utf-8'))
     )
     ERROR_LOAD_LLM = (
         'Failed to load the llm', 
@@ -106,8 +109,7 @@ def load_vector_db_opensearch(region: str,
                               opensearch_domain_endpoint: str,
                               opensearch_index: str,
                               secret_id: str,
-                              model_id: str,
-                              modality: str) -> OpenSearchVectorSearch:
+                              llm) -> OpenSearchVectorSearch:
     logger.info(f"load_vector_db_opensearch, region={region}, "
                 f"opensearch_domain_endpoint={opensearch_domain_endpoint}, opensearch_index={opensearch_index}")
     
@@ -124,12 +126,11 @@ def load_vector_db_opensearch(region: str,
             opensearch_api_name,
             session_token=credentials.token,
         )
-    embedding_function = get_embeddings_llm(model_id,modality)
 
     opensearch_url = opensearch_domain_endpoint if opensearch_domain_endpoint.startswith("https://") else f"https://{opensearch_domain_endpoint}"
     
     vector_db = OpenSearchVectorSearch(index_name=opensearch_index,
-                                        embedding_function=embedding_function,
+                                        embedding_function=llm,
                                         opensearch_url=opensearch_url,
                                         http_auth=http_auth,
                                         use_ssl = True,
@@ -201,10 +202,10 @@ def download_file(bucket,key )-> str:
             logger.info(f"file downloaded {file_path}")
             return file_path
         except ClientError as client_err:
-            logger.error(f"Couldn\'t download file {client_err.response['Error']['Message']}")
+            logger.error(f"Couldn\'t download file {key}/{file_path} from {bucket}: {client_err.response['Error']['Message']}")
         
         except Exception as exp:
-            logger.error(f"Couldn\'t download file : {exp}")
+            logger.error(f"Couldn\'t download file {key}/{file_path} from {bucket}: {exp}")
  
 def encode_image_to_base64(image_file_path,image_file) -> str:
         with open(image_file_path, "rb") as image_file:
