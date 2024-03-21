@@ -66,16 +66,6 @@ def run_qa_agent_rag_no_memory(input_params):
     qa_modality=qa_model.get('modality', Modality.TEXT)
     model_provider=qa_model.get("provider",Provider.BEDROCK) 
 
-    try:
-        json_qa_model_args = json.loads(qa_model_args)
-    except:
-        logger.error(f"Model args not properly formed {model_provider}.{qa_model_id}")
-        status_variables['jobstatus'] = JobStatus.ERROR_LOAD_ARGS.status
-        error = JobStatus.ERROR_LOAD_ARGS.get_message()
-        status_variables['answer'] = error.decode("utf-8")
-        send_job_status(status_variables)
-        return status_variables
-
     model_adapter = registry.get_adapter(f"{model_provider}.{qa_model_id}")
 
     if model_adapter is None:
@@ -90,7 +80,7 @@ def run_qa_agent_rag_no_memory(input_params):
         model_id=qa_model_id,
         callback=callback_manager,
         modality=qa_modality,
-        model_kwargs=json_qa_model_args,
+        model_kwargs=qa_model_args,
     )
 
     # get embeddings model
@@ -98,17 +88,7 @@ def run_qa_agent_rag_no_memory(input_params):
     em_model_id = em_model.get('modelId')
     em_model_args = em_model.get('model_kwargs', {})
     em_modality=em_model.get('modality', Modality.TEXT)
-    em_model_provider=em_model.get("provider",Provider.BEDROCK) 
-
-    try:
-        json_em_model_args = json.loads(em_model_args)
-    except:
-        logger.error(f"Model args not properly formed {model_provider}.{qa_model_id}")
-        status_variables['jobstatus'] = JobStatus.ERROR_LOAD_ARGS.status
-        error = JobStatus.ERROR_LOAD_ARGS.get_message()
-        status_variables['answer'] = error.decode("utf-8")
-        send_job_status(status_variables)
-        return status_variables
+    em_model_provider=em_model.get("provider",Provider.BEDROCK)
 
     embeddings_model_adapter = registry.get_adapter(f"{em_model_provider}.{em_model_id}")
 
@@ -123,7 +103,7 @@ def run_qa_agent_rag_no_memory(input_params):
     embeddings_model = embeddings_model_adapter(
         model_id=em_model_id,
         modality=qa_modality,
-        model_kwargs=json_em_model_args,
+        model_kwargs=em_model_args,
     )
 
     logger.info(decoded_question)
@@ -233,17 +213,7 @@ def run_qa_agent_from_single_document_no_memory(input_params):
     qa_model_id = qa_model.get('modelId')
     qa_model_args = qa_model.get('model_kwargs', {})
     qa_modality=qa_model.get('modality', 'Text')
-    model_provider=qa_model.get("provider",Provider.BEDROCK) 
-
-    try:
-        json_qa_model_args = json.loads(qa_model_args)
-    except:
-        logger.error(f"Model args not properly formed {model_provider}.{qa_model_id}")
-        status_variables['jobstatus'] = JobStatus.ERROR_LOAD_ARGS.status
-        error = JobStatus.ERROR_LOAD_ARGS.get_message()
-        status_variables['answer'] = error.decode("utf-8")
-        send_job_status(status_variables)
-        return status_variables
+    model_provider=qa_model.get("provider",Provider.BEDROCK)
 
     model_adapter = registry.get_adapter(f"{model_provider}.{qa_model_id}")
 
@@ -259,7 +229,7 @@ def run_qa_agent_from_single_document_no_memory(input_params):
         model_id=qa_model_id,
         callback=callback_manager,
         modality=qa_modality,
-        model_kwargs=json_qa_model_args,
+        model_kwargs=qa_model_args,
     )
 
     # 1 : load the document
