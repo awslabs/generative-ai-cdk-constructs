@@ -140,7 +140,7 @@ ___
 
 ### graphqlApi
 
-• `Readonly` **graphqlApi**: `IGraphqlApi`
+• `Readonly` **graphqlApi**: `GraphqlApi`
 
 Returns an instance of appsync.IGraphqlApi created by the construct
 
