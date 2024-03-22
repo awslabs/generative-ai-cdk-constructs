@@ -10,14 +10,17 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+import * as path from 'node:path';
 import * as cdk from 'aws-cdk-lib';
 import { RemovalPolicy } from 'aws-cdk-lib';
 import { Table } from 'aws-cdk-lib/aws-dynamodb';
 import { SecurityGroup, SecurityGroupProps } from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kendra from 'aws-cdk-lib/aws-kendra';
+import { DockerImageFunction } from 'aws-cdk-lib/aws-lambda';
 import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { DefinitionBody, StateMachine } from 'aws-cdk-lib/aws-stepfunctions';
+import { Stack } from 'aws-cdk-lib/core';
 import { Construct } from 'constructs';
 import { addRolePolicies, createIAMRoleWithBasicExecutionPolicy } from './iam-roles-helper';
 import { consolidateProps, getStepFnLambdaInvoke, overrideProps } from './kendra-utils';
@@ -216,7 +219,7 @@ export function getCheckJobStatusLambdaRole(
   ]);
 
   const checkJobStatusFn = new cdk.aws_lambda.Function(
-    cdkStack,
+    scope,
     'checkJobStatusFN',
     {
       runtime: cdk.aws_lambda.Runtime.PYTHON_3_10,
@@ -224,12 +227,10 @@ export function getCheckJobStatusLambdaRole(
       code: cdk.aws_lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/kendra_sync_status/')),
       timeout: cdk.Duration.seconds(60),
       memorySize: 256,
-      role: checkJobStatusRole,
-      environment,
+      role: role,
     },
   );
 
-  syncRunTable.grantReadWriteData(checkJobStatusFn);
   return checkJobStatusFn;
 }
 
@@ -305,7 +306,7 @@ export function createS3FileUploader (cdkStack: Stack, s3_bucket: Bucket, props:
     resources: [s3_bucket.bucketArn],
   }]);
 
-  return new lambda.DockerImageFunction(
+  return new DockerImageFunction(
     cdkStack,
     's3FileUploaderFn',
     {
