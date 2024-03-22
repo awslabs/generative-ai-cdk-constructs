@@ -12,6 +12,7 @@
  */
 import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
+import { Duration } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import { Table } from 'aws-cdk-lib/aws-dynamodb';
@@ -28,14 +29,15 @@ import { Construct } from 'constructs';
 import { createKendraSyncRunTable } from '../../../common/helpers/dynamodb-helper';
 import { KendraConstruct } from '../../../common/helpers/kendra-construct';
 import {
-  createCheckJobsStatusFn,
-  createKendraStartDataSync,
   createKendraWorkflowStepFunction,
   createStepFunctionsExecutionHandlerRole,
-  createUpdateKendraJobStatusFn,
-  createGeneratePresignedUrlFn,
+  getKendraStartDataSyncLambdaRole,
+  getGeneratePresignedUrlLambdaRole, getCheckJobStatusLambdaRole, getUpdateKendraJobStatusLambdaRole,
 } from '../../../common/helpers/kendra-helper';
+import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
+import { lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import { AddAwsServiceEndpoint, buildVpc, createDefaultIsolatedVpcProps } from '../../../common/helpers/vpc-helper';
+import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
 /**
  * The properties for the RagAppsyncStepfnKendraProps class.
@@ -110,6 +112,26 @@ export interface RagAppsyncStepfnKendraProps {
      * @default - KENDRA_INDEX_ID
      */
   readonly indexIdEnvironmentVariableName?: string;
+  /**
+   * Optional. Allows to provide Generate Pre-signed Url custom lambda code
+   * and settings instead of the existing
+   */
+  readonly generatePresignedUrlLambdaProps?: DockerLambdaCustomProps | undefined;
+  /**
+   * Optional. Allows to provide Kendra Start Data Sync Job custom lambda code
+   * and settings instead of the existing
+   */
+  readonly kendraStartDataSyncLambdaProps?: DockerLambdaCustomProps | undefined;
+  /**
+   * Optional. Allows to provide Check Sync Job Status custom lambda code
+   * and settings instead of the existing
+   */
+  readonly checkJobsStatusLambdaProps?: DockerLambdaCustomProps | undefined;
+  /**
+   * Optional. Allows to provide Update Kndra Sync Job Status custom lambda code
+   * and settings instead of the existing
+   */
+  readonly updateKendraJobStatusLambdaProps?: DockerLambdaCustomProps | undefined;
 }
 
 enum ServiceEndpointTypeEnum {
@@ -141,7 +163,9 @@ export class RagAppsyncStepfnKendra extends Construct {
   private readonly kendraIndexId: string;
   private readonly awsRegion: string;
   private readonly awsAccountId: string;
+  lambdaTracing: lambda.Tracing=lambda.Tracing.ACTIVE;
   kendraInputBucketArn: string;
+  public readonly securityGroup: ec2.ISecurityGroup;
 
   /**
      * Returns an instance of appsync.IGraphqlApi created by the construct
@@ -346,36 +370,94 @@ export class RagAppsyncStepfnKendra extends Construct {
       DOCUMENTS_TABLE: this.syncRunTable.tableName,
       S3_BUCKET_NAME: this.kendraInputBucket.bucketName,
     };
-    // const s3FileUploaderLambda: DockerImageFunction = createS3FileUploader(this.stack, this.kendraInputBucket, s3FileUploaderProps);
-    const generatePresignedUrlLambda = createGeneratePresignedUrlFn(
-      this.stack,
-      this.kendraInputBucket,
-      lambdaPropsEnv,
+
+    const generatePresignedUrlRole = getGeneratePresignedUrlLambdaRole(this, this.kendraInputBucket);
+    const constructGeneratePresignedUrlLambdaProps = {
+      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/generate_presigned_url/src')),
+      functionName: 's3_pre_signed_links_generator_docker'+stage,
+      description: 'Lambda function for pre-signed links generation',
+      vpc: this.vpc,
+      tracing: this.lambdaTracing,
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      securityGroups: [this.securityGroup],
+      memorySize: lambdaMemorySizeLimiter(this, 1_769),
+      timeout: Duration.minutes(15),
+      role: generatePresignedUrlRole,
+      environment: lambdaPropsEnv,
+    };
+    const generatePresignedUrlLambda = buildDockerLambdaFunction(
+      this,
+      'generatePresignedUrlFN',
+      constructGeneratePresignedUrlLambdaProps,
+      props.generatePresignedUrlLambdaProps,
     );
 
-    const kendraSyncLambda = createKendraStartDataSync(
-      this.stack,
-      this.syncRunTable,
-      this.awsRegion,
-      this.awsAccountId,
-      this.kendraIndexId,
-      this.kendraDataSourceIndexId,
-      lambdaPropsEnv,
+    const startDataSyncRole = getKendraStartDataSyncLambdaRole(
+      this, this.syncRunTable, this.awsRegion, this.awsAccountId, this.kendraIndexId, this.kendraDataSourceIndexId,
     );
-    const createCheckJobsStatusLambda: cdk.aws_lambda.Function = createCheckJobsStatusFn(
-      this.stack,
-      this.awsRegion,
-      this.awsAccountId,
-      this.kendraIndexId,
-      this.kendraDataSourceIndexId,
-      this.syncRunTable,
-      lambdaPropsEnv,
+    const constructStartDataSyncJobLambdaProps = {
+      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/kendra_sync/src')),
+      functionName: 'kendra_start_sync_job_docker'+stage,
+      description: 'Lambda function for Kendra  sync job starting',
+      vpc: this.vpc,
+      tracing: this.lambdaTracing,
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      securityGroups: [this.securityGroup],
+      memorySize: lambdaMemorySizeLimiter(this, 1_769),
+      timeout: Duration.minutes(15),
+      role: startDataSyncRole,
+      environment: lambdaPropsEnv,
+    };
+    const kendraSyncLambda = buildDockerLambdaFunction(
+      this,
+      'kendraStartDataSync',
+      constructStartDataSyncJobLambdaProps,
+      props.kendraStartDataSyncLambdaProps,
     );
 
-    const updateKendraJobStatusLambda: cdk.aws_lambda.Function = createUpdateKendraJobStatusFn(
-      this.stack,
-      this.syncRunTable,
-      lambdaPropsEnv,
+    const checkJobStatusLambdaRole = getCheckJobStatusLambdaRole(
+      this, this.awsRegion, this.awsAccountId, this.kendraIndexId, this.kendraDataSourceIndexId,
+    );
+    const constructCheckJobStatusLambdaProps = {
+      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/kendra_sync_status/src')),
+      functionName: 'kendra_check_sync_job_status_docker'+stage,
+      description: 'Lambda function for getting kendra sync status',
+      vpc: this.vpc,
+      tracing: this.lambdaTracing,
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      securityGroups: [this.securityGroup],
+      memorySize: lambdaMemorySizeLimiter(this, 1_769),
+      timeout: Duration.minutes(15),
+      role: checkJobStatusLambdaRole,
+      environment: lambdaPropsEnv,
+    };
+
+    const createCheckJobsStatusLambda = buildDockerLambdaFunction(
+      this,
+      'checkJobStatusFN',
+      constructCheckJobStatusLambdaProps,
+      props.checkJobsStatusLambdaProps,
+    );
+
+    const updateKendraJobStatusLambdaRole = getUpdateKendraJobStatusLambdaRole(this, this.syncRunTable);
+    const constructKendraJobStatusLambdaProps = {
+      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/kendra_job_manager/src')),
+      functionName: 'kendra_job_manager_docker'+stage,
+      description: 'Lambda function for Kendra job status updates',
+      vpc: this.vpc,
+      tracing: this.lambdaTracing,
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      securityGroups: [this.securityGroup],
+      memorySize: lambdaMemorySizeLimiter(this, 1_769),
+      timeout: Duration.minutes(15),
+      role: updateKendraJobStatusLambdaRole,
+      environment: lambdaPropsEnv,
+    };
+    const updateKendraJobStatusLambda = buildDockerLambdaFunction(
+      this,
+      'updateKendraJobStatusFn',
+      constructKendraJobStatusLambdaProps,
+      props.updateKendraJobStatusLambdaProps,
     );
 
     this.docProcessingStateMachine = createKendraWorkflowStepFunction(

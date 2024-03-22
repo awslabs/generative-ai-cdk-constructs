@@ -10,17 +10,14 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
 import { RemovalPolicy } from 'aws-cdk-lib';
 import { Table } from 'aws-cdk-lib/aws-dynamodb';
 import { SecurityGroup, SecurityGroupProps } from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kendra from 'aws-cdk-lib/aws-kendra';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { DefinitionBody, StateMachine } from 'aws-cdk-lib/aws-stepfunctions';
-import { Stack } from 'aws-cdk-lib/core';
 import { Construct } from 'constructs';
 import { addRolePolicies, createIAMRoleWithBasicExecutionPolicy } from './iam-roles-helper';
 import { consolidateProps, getStepFnLambdaInvoke, overrideProps } from './kendra-utils';
@@ -159,20 +156,34 @@ export function createKendraWorkflowStepFunction(
   );
 }
 
-export function createKendraStartDataSync(
-  cdkStack: Stack,
-  syncRunTable: Table,
+export function getGeneratePresignedUrlLambdaRole(scope: Construct, bucket: Bucket) {
+  const role = createIAMRoleWithBasicExecutionPolicy(
+    scope,
+    'generatePresignedUrlRole',
+    'Role used by the Generate Pre-signed URL Lambda functio',
+  );
+  addRolePolicies(role, [
+    {
+      actions: ['s3:PutObject'],
+      resources: [bucket.bucketArn],
+    },
+  ]);
+  return role;
+}
+
+export function getKendraStartDataSyncLambdaRole(
+  scope: Construct,
+  table: Table,
   awsRegion: string,
   awsAccountId: string,
   kendraIndexId: string,
   kendraDataSourceIndexId: string,
-  environment: {[p: string]: string},
-): cdk.aws_lambda.Function {
-  const startDataSyncRole = createIAMRoleWithBasicExecutionPolicy(cdkStack, 'startDataSyncRole', 'Role used by the Document Status Update Lambda function');
-  addRolePolicies(startDataSyncRole, [
+) {
+  const role = createIAMRoleWithBasicExecutionPolicy(scope, 'startDataSyncRole', 'Role used by the Document Status Update Lambda function');
+  addRolePolicies(role, [
     {
       actions: ['dynamodb:PutItem', 'dynamodb:Query', 'dynamodb:GetItem', 'dynamodb:UpdateItem'],
-      resources: [syncRunTable.tableArn],
+      resources: [table.tableArn],
     },
     {
       actions: ['kendra:StartDataSourceSyncJob'],
@@ -182,32 +193,18 @@ export function createKendraStartDataSync(
       ],
     },
   ]);
-
-  return new cdk.aws_lambda.Function(
-    cdkStack,
-    'kendraStartDataSync',
-    {
-      runtime: cdk.aws_lambda.Runtime.PYTHON_3_10,
-      handler: 'start_sync.lambda_handler',
-      code: cdk.aws_lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/kendra_sync/')),
-      timeout: cdk.Duration.seconds(30),
-      role: startDataSyncRole,
-      environment,
-    },
-  );
+  return role;
 }
 
-export function createCheckJobsStatusFn(
-  cdkStack: Stack,
+export function getCheckJobStatusLambdaRole(
+  scope: Construct,
   awsRegion: string,
   awsAccountId: string,
   kendraIndexId: string,
   kendraDataSourceIndexId: string,
-  syncRunTable: Table,
-  environment: {[p: string]: string},
-): cdk.aws_lambda.Function {
-  const checkJobStatusRole = createIAMRoleWithBasicExecutionPolicy(cdkStack, 'textTractLambdaRole', 'Role used by the Text Extract Lambda function');
-  addRolePolicies(checkJobStatusRole, [
+) {
+  const role = createIAMRoleWithBasicExecutionPolicy(scope, 'textTractLambdaRole', 'Role used by the Text Extract Lambda function');
+  addRolePolicies(role, [
     {
       actions: ['kendra:ListDataSourceSyncJobs'],
       resources: [`arn:aws:kendra:${awsRegion}:${awsAccountId}:index/${kendraIndexId}`],
@@ -218,7 +215,7 @@ export function createCheckJobsStatusFn(
     },
   ]);
 
-  return new cdk.aws_lambda.Function(
+  const checkJobStatusFn = new cdk.aws_lambda.Function(
     cdkStack,
     'checkJobStatusFN',
     {
@@ -231,30 +228,20 @@ export function createCheckJobsStatusFn(
       environment,
     },
   );
+
+  syncRunTable.grantReadWriteData(checkJobStatusFn);
+  return checkJobStatusFn;
 }
 
-
-export function createUpdateKendraJobStatusFn(cdkStack: Stack, syncRunTable: Table, environment: {[p: string]: string}): cdk.aws_lambda.Function {
-  const updateKendraJobStatusRole = createIAMRoleWithBasicExecutionPolicy(cdkStack, 'updateKendraJobStatus', 'Role used by the Document Status Update Lambda function');
-  addRolePolicies(updateKendraJobStatusRole, [
+export function getUpdateKendraJobStatusLambdaRole(scope: Construct, table: Table) {
+  const role = createIAMRoleWithBasicExecutionPolicy(scope, 'updateKendraJobStatus', 'Role used by the Document Status Update Lambda function');
+  addRolePolicies(role, [
     {
       actions: ['dynamodb:PutItem', 'dynamodb:Query', 'dynamodb:GetItem', 'dynamodb:UpdateItem'],
-      resources: [syncRunTable.tableArn],
+      resources: [table.tableArn],
     },
   ]);
-
-  return new cdk.aws_lambda.Function(
-    cdkStack,
-    'updateKendraJobStatusFn',
-    {
-      runtime: cdk.aws_lambda.Runtime.PYTHON_3_10,
-      handler: 'update_job_status.lambda_handler',
-      code: cdk.aws_lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/kendra_job_manager/')),
-      timeout: cdk.Duration.seconds(30),
-      role: updateKendraJobStatusRole,
-      environment,
-    },
-  );
+  return role;
 }
 
 export function createStepFunctionsExecutionHandlerRole(
@@ -344,7 +331,7 @@ export function createGeneratePresignedUrlFn(
       resources: [bucket.bucketArn],
     },
   ]);
-  return new cdk.aws_lambda.Function(
+  const lambdaGenerateUrlFn = new cdk.aws_lambda.Function(
     cdkStack,
     'generatePresignedUrlFN',
     {
@@ -357,4 +344,6 @@ export function createGeneratePresignedUrlFn(
       environment,
     },
   );
+
+  return lambdaGenerateUrlFn;
 }
