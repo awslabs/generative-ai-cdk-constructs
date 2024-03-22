@@ -156,7 +156,7 @@ export class ContentGenerationAppSyncLambda extends BaseClass {
    */
   public readonly graphqlApi: appsync.GraphqlApi;
   /**
-   * Returns an instance of appsync.IGraphqlApi created by the construct
+   * Returns an instance of appsync.GraphqlApi created by the construct
    */
   public readonly cgLambdaFunction: lambda.DockerImageFunction;
 
