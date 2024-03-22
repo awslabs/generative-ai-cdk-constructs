@@ -154,7 +154,7 @@ export class ContentGenerationAppSyncLambda extends BaseClass {
   /**
    * Returns an instance of appsync.IGraphqlApi created by the construct
    */
-  public readonly graphqlApi: appsync.IGraphqlApi;
+  public readonly graphqlApi: appsync.GraphqlApi;
   /**
    * Returns an instance of appsync.IGraphqlApi created by the construct
    */
@@ -412,12 +412,10 @@ export class ContentGenerationAppSyncLambda extends BaseClass {
     generate_image_function_role.addToPolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
-        actions: ['s3:GetObject', 's3:GetObject*', 's3:GetBucket*', 's3:List*'],
+        actions: ['s3:GetObject', 's3:GetBucket', 's3:ListBucket', 's3:PutObject'],
         resources: [
-          'arn:' + Aws.PARTITION + ':s3:::' + this.s3GenerateAssetsBucketInterface?.bucketName,
-          'arn:' + Aws.PARTITION + ':s3:::' +
-            this.s3GenerateAssetsBucketInterface?.bucketName +
-            '/*',
+          'arn:' + Aws.PARTITION + ':s3:::' + this.s3GenerateAssetsBucketInterface.bucketName + '/*',
+
         ],
       }),
     );
@@ -441,11 +439,7 @@ export class ContentGenerationAppSyncLambda extends BaseClass {
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: [
-          'comprehend:DetectEntities',
-          'comprehend:DetectKeyPhrases',
-          'comprehend:DetectPiiEntities',
-          'comprehend:DetectSentiment',
-          'comprehend:DetectSyntax',
+          'comprehend:DetectToxicContent',
         ],
         resources: ['*'],
       }),
