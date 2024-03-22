@@ -152,7 +152,7 @@ export class ContentGenerationAppSyncLambda extends BaseClass {
    */
   public readonly s3GenerateAssetsBucket?: s3.Bucket;
   /**
-   * Returns an instance of appsync.IGraphqlApi created by the construct
+   * Returns an instance of appsync.GraphqlApi created by the construct
    */
   public readonly graphqlApi: appsync.GraphqlApi;
   /**
