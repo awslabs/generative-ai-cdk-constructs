@@ -81,6 +81,7 @@ def run_qa_agent_rag_no_memory(input_params):
         callback=callback_manager,
         modality=qa_modality,
         model_kwargs=qa_model_args,
+        streaming=streaming
     )
 
     # get embeddings model
@@ -104,6 +105,7 @@ def run_qa_agent_rag_no_memory(input_params):
         model_id=em_model_id,
         modality=qa_modality,
         model_kwargs=em_model_args,
+        streaming=streaming
     )
 
     logger.info(decoded_question)
@@ -231,6 +233,7 @@ def run_qa_agent_from_single_document_no_memory(input_params):
         callback=callback_manager,
         modality=qa_modality,
         model_kwargs=qa_model_args,
+        streaming=streaming
     )
 
     # 1 : load the document
