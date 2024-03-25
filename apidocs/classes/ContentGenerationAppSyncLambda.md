@@ -84,7 +84,7 @@ public
 
 • `Readonly` **cgLambdaFunction**: `DockerImageFunction`
 
-Returns an instance of appsync.IGraphqlApi created by the construct
+Returns an instance of appsync.GraphqlApi created by the construct
 
 ___
 
@@ -140,9 +140,9 @@ ___
 
 ### graphqlApi
 
-• `Readonly` **graphqlApi**: `IGraphqlApi`
+• `Readonly` **graphqlApi**: `GraphqlApi`
 
-Returns an instance of appsync.IGraphqlApi created by the construct
+Returns an instance of appsync.GraphqlApi created by the construct
 
 ___
 
