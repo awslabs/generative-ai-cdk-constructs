@@ -20,6 +20,7 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import * as kendra from 'aws-cdk-lib/aws-kendra';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
+import { DockerImageFunctionProps } from 'aws-cdk-lib/aws-lambda/lib/image-function';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import { Bucket, BucketAccessControl, HttpMethods } from 'aws-cdk-lib/aws-s3';
 import { StateMachine } from 'aws-cdk-lib/aws-stepfunctions';
@@ -43,6 +44,7 @@ import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCusto
  * The properties for the RagAppsyncStepfnKendraProps class.
  */
 export interface RagAppsyncStepfnKendraProps {
+  existingSecurityGroup: any;
   /**
      * Cognito user pool used for authentication.
      *
@@ -200,6 +202,22 @@ export class RagAppsyncStepfnKendra extends Construct {
     let stage = '-dev';
     if (props?.stage) {
       stage = props.stage;
+    }
+
+    if (props?.existingVpc) {
+      this.vpc = props.existingVpc;
+    } else {
+      this.vpc = new ec2.Vpc(this, 'Vpc', props.vpcProps);
+    }
+
+    if (props?.existingSecurityGroup) {
+      this.securityGroup = props.existingSecurityGroup;
+    } else {
+      this.securityGroup = new ec2.SecurityGroup(this, 'securityGroup', {
+        vpc: this.vpc,
+        allowAllOutbound: true,
+        securityGroupName: 'securityGroup' + stage,
+      });
     }
 
     let enableXRay = true;
@@ -374,7 +392,7 @@ export class RagAppsyncStepfnKendra extends Construct {
     const generatePresignedUrlRole = getGeneratePresignedUrlLambdaRole(this, this.kendraInputBucket);
     const constructGeneratePresignedUrlLambdaProps = {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/generate_presigned_url/src')),
-      functionName: 's3_pre_signed_links_generator_docker'+stage,
+      functionName: 's3_pre_signed_links_generator_docker' + stage,
       description: 'Lambda function for pre-signed links generation',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
@@ -418,7 +436,7 @@ export class RagAppsyncStepfnKendra extends Construct {
     const checkJobStatusLambdaRole = getCheckJobStatusLambdaRole(
       this, this.awsRegion, this.awsAccountId, this.kendraIndexId, this.kendraDataSourceIndexId,
     );
-    const constructCheckJobStatusLambdaProps = {
+    const constructCheckJobStatusLambdaProps: DockerImageFunctionProps = {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/kendra_sync_status/src')),
       functionName: 'kendra_check_sync_job_status_docker'+stage,
       description: 'Lambda function for getting kendra sync status',
@@ -428,8 +446,8 @@ export class RagAppsyncStepfnKendra extends Construct {
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769),
       timeout: Duration.minutes(15),
-      role: checkJobStatusLambdaRole,
       environment: lambdaPropsEnv,
+      role: checkJobStatusLambdaRole.role,
     };
 
     const createCheckJobsStatusLambda = buildDockerLambdaFunction(
