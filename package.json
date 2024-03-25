@@ -58,8 +58,8 @@
     "jest": "^29.7.0",
     "jest-junit": "^15",
     "jsii": "~5.3.0",
-    "jsii-diff": "^1.95.0",
-    "jsii-pacmak": "^1.95.0",
+    "jsii-diff": "^1.96.0",
+    "jsii-pacmak": "^1.96.0",
     "jsii-rosetta": "~5.3.0",
     "pinst": "^3.0.0",
     "projen": "~0.78.8",
@@ -76,8 +76,7 @@
   },
   "dependencies": {
     "aws-sdk-mock": "^5.9.0",
-    "cdk-nag": "^2.28.66"
-    "cdk-nag": "^2.28.70"
+    "cdk-nag": "^2.28.72"
   },
   "bundledDependencies": [
     "aws-sdk-mock"
