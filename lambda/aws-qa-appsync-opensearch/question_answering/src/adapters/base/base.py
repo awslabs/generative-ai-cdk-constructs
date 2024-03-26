@@ -16,9 +16,10 @@ from langchain.prompts.prompt import PromptTemplate
 
 
 class ModelAdapter:
-    def __init__(self, callback=None, modality='Text', model_kwargs={}):
+    def __init__(self, callback=None, modality='Text', model_kwargs={}, streaming=False):
         self.model_kwargs = model_kwargs
         self.modality = modality
+        self.streaming = streaming
 
         self.callback_handler = callback
 
