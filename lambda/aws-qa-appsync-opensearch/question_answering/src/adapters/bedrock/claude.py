@@ -50,9 +50,9 @@ class BedrockClaudeAdapter(ModelAdapter):
             "streaming": False 
         }
 
-        if self.callback_handler:
+        if self.callback_handler and self.streaming:
             kwargs["callbacks"] = self.callback_handler
-            kwargs["streaming"] = model_kwargs.get("streaming", False)
+            kwargs["streaming"] = True
 
         return Bedrock(
             **kwargs
@@ -104,9 +104,9 @@ class BedrockClaudev3Adapter(ModelAdapter):
             "streaming": False 
         }
 
-        if self.callback_handler:
+        if self.callback_handler and self.streaming:
             kwargs["callbacks"] = self.callback_handler
-            kwargs["streaming"] = model_kwargs.get("streaming", False)
+            kwargs["streaming"] = True
 
         return BedrockChat(
             **kwargs

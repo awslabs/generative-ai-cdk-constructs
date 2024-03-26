@@ -189,7 +189,7 @@ Mutation call to trigger the question:
     jobid: "123",
     jobstatus: "", 
     qa_model: 
-   	 {
+      {
       provider: "Bedrock",
       modality: "Text",
       modelId: "anthropic.claude-v2:1", 
@@ -299,23 +299,23 @@ Parameters
 
 Question answering
 
-| **Provider**  | **Model id** | **Modalities** | **Notes** |
-| :----------------------------- | :---- | ----- | --- |
-| Bedrock                          |  anthropic.claude-v2 | Text |  |
-| Bedrock                          |  anthropic.claude-v2:1 | Text |  |
-| Bedrock                          |  anthropic.claude-3-haiku-20240307-v1:0 | Text, Image |  |
-| Bedrock                          |  anthropic.claude-3-sonnet-20240229-v1:0 | Text, Image |  |
-| Bedrock                          |  anthropic.claude-instant-v1 | Text |  |
-| Bedrock                          |  amazon.titan-text-lite-v1 | Text |  |
-| Bedrock                          |  amazon.titan-text-express-v1 | Text |  |
-| SageMaker                          |  idefics | Text, Image | The model is not deployed as part of the construct and requires to be provisioned separately |
+| **Provider**  | **Model id** | **Modalities** | **Streaming** | **Notes** |
+| :----------------------------- | :---- | ----- | --- | --- |
+| Bedrock                          |  anthropic.claude-v2 | Text | ✅ | |
+| Bedrock                          |  anthropic.claude-v2:1 | Text | ✅ | Default model is none selected |
+| Bedrock                          |  anthropic.claude-3-haiku-20240307-v1:0 | Text, Image | ✅ | |
+| Bedrock                          |  anthropic.claude-3-sonnet-20240229-v1:0 | Text, Image | ✅ | |
+| Bedrock                          |  anthropic.claude-instant-v1 | Text | ✅ | |
+| Bedrock                          |  amazon.titan-text-lite-v1 | Text | ✅  |
+| Bedrock                          |  amazon.titan-text-express-v1 | Text | ✅  |
+| SageMaker                          |  idefics | Text, Image | ❌ | The model is not deployed as part of the construct and requires to be provisioned separately | 
 
 Embeddings
 
 | **Provider**  | **Model id** | **Modalities** | **Notes** |
 | :----------------------------- | :---- | ----- | --- |
 | Bedrock                          |  amazon.titan-embed-image-v1 | Text |  |
-| Bedrock                          |  amazon.titan-embed-text-v1 | Text |  |
+| Bedrock                          |  amazon.titan-embed-text-v1 | Text | Default model is none selected  |
 
 ## Default properties
 
