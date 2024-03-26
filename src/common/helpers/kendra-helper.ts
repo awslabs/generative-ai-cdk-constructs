@@ -217,21 +217,7 @@ export function getCheckJobStatusLambdaRole(
       resources: [`arn:aws:kendra:${awsRegion}:${awsAccountId}:index/${kendraIndexId}/data-source/${kendraDataSourceIndexId}`],
     },
   ]);
-
-  const checkJobStatusFn = new cdk.aws_lambda.Function(
-    scope,
-    'checkJobStatusFN',
-    {
-      runtime: cdk.aws_lambda.Runtime.PYTHON_3_10,
-      handler: 'check_sync_status.lambda_handler',
-      code: cdk.aws_lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/kendra_sync_status/')),
-      timeout: cdk.Duration.seconds(60),
-      memorySize: 256,
-      role: role,
-    },
-  );
-
-  return checkJobStatusFn;
+  return role;
 }
 
 export function getUpdateKendraJobStatusLambdaRole(scope: Construct, table: Table) {

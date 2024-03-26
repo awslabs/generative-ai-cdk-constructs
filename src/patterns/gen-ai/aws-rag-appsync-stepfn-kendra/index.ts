@@ -27,6 +27,7 @@ import { StateMachine } from 'aws-cdk-lib/aws-stepfunctions';
 import { Stack } from 'aws-cdk-lib/core';
 import { AwsCustomResource, AwsCustomResourcePolicy, PhysicalResourceId } from 'aws-cdk-lib/custom-resources';
 import { Construct } from 'constructs';
+import { BaseClass, BaseClassProps, ConstructName } from '../../../common/base-class';
 import { createKendraSyncRunTable } from '../../../common/helpers/dynamodb-helper';
 import { KendraConstruct } from '../../../common/helpers/kendra-construct';
 import {
@@ -134,6 +135,17 @@ export interface RagAppsyncStepfnKendraProps {
    * and settings instead of the existing
    */
   readonly updateKendraJobStatusLambdaProps?: DockerLambdaCustomProps | undefined;
+  /**
+   * Optional.CDK constructs provided collects anonymous operational
+   * metrics to help AWS improve the quality and features of the
+   * constructs. Data collection is subject to the AWS Privacy Policy
+   * (https://aws.amazon.com/privacy/). To opt out of this feature,
+   * simply disable it by setting the construct property
+   * "enableOperationalMetric" to false for each construct used.
+   *
+   * @default - true
+   */
+  readonly enableOperationalMetric?: boolean;
 }
 
 enum ServiceEndpointTypeEnum {
@@ -156,7 +168,7 @@ enum ServiceEndpointTypeEnum {
 /**
  * @summary The RagAppsyncStepfnKendra class.
  */
-export class RagAppsyncStepfnKendra extends Construct {
+export class RagAppsyncStepfnKendra extends BaseClass {
   public readonly vpc?: ec2.IVpc;
   public readonly kendraIndex: KendraConstruct;
   public readonly kendraInputBucket: Bucket;
@@ -194,6 +206,18 @@ export class RagAppsyncStepfnKendra extends Construct {
    */
   constructor(scope: Construct, id: string, props: RagAppsyncStepfnKendraProps) {
     super(scope, id);
+
+    const baseProps: BaseClassProps={
+      stage: props.stage,
+      enableOperationalMetric: props.enableOperationalMetric,
+      constructName: ConstructName.AWSRAGAPPSYNCSTEPFNKENDRA,
+      constructId: id,
+      observability: props.observability,
+    };
+
+    this.updateEnvSuffix(baseProps);
+    this.addObservabilityToConstruct(baseProps);
+
     this.awsAccountId = cdk.Stack.of(this).account;
     this.awsRegion = cdk.Stack.of(this).region;
     this.stack = cdk.Stack.of(this);
@@ -447,7 +471,7 @@ export class RagAppsyncStepfnKendra extends Construct {
       memorySize: lambdaMemorySizeLimiter(this, 1_769),
       timeout: Duration.minutes(15),
       environment: lambdaPropsEnv,
-      role: checkJobStatusLambdaRole.role,
+      role: checkJobStatusLambdaRole,
     };
 
     const createCheckJobsStatusLambda = buildDockerLambdaFunction(
