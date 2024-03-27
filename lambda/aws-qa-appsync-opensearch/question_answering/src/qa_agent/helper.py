@@ -180,7 +180,7 @@ def send_job_status(variables):
         auth=aws_auth_appsync,
         timeout=10
     )
-    logger.info('res :: {}',responseJobstatus)
+    #logger.info('res :: {}',responseJobstatus)
 
 def get_presigned_url(bucket,key) -> str:
         try:
