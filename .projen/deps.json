@@ -28,7 +28,15 @@
       "type": "build"
     },
     {
+      "name": "aws-sdk-mock",
+      "type": "build"
+    },
+    {
       "name": "commitlint",
+      "type": "build"
+    },
+    {
+      "name": "deepmerge",
       "type": "build"
     },
     {

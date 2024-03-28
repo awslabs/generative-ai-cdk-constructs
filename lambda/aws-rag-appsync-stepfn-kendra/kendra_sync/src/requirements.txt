@@ -1,0 +1,3 @@
+aws-lambda-powertools
+boto3>=1.34.29
+botocore>=1.34.29

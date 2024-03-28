@@ -237,7 +237,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
   /**
      * @summary Constructs a new instance of the RagAppsyncStepfnOpensearch class.
      * @param {cdk.App} scope - represents the scope for all the resources.
-     * @param {string} id - this is a a scope-unique id.
+     * @param {string} id - this is a scope-unique id.
      * @param {RagAppsyncStepfnOpensearchProps} props - user provided props for the construct.
      * @since 0.0.0
      * @access public

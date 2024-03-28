@@ -60,7 +60,7 @@ The RagAppsyncStepfnOpensearch class.
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `scope` | `Construct` | represents the scope for all the resources. |
-| `id` | `string` | this is a a scope-unique id. |
+| `id` | `string` | this is a scope-unique id. |
 | `props` | [`RagAppsyncStepfnOpensearchProps`](../interfaces/RagAppsyncStepfnOpensearchProps.md) | user provided props for the construct. |
 
 #### Returns
