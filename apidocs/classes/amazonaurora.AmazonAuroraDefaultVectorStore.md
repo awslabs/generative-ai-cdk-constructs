@@ -1,50 +1,71 @@
-[@cdklabs/generative-ai-cdk-constructs](../README.md) / [opensearch\_vectorindex](../modules/opensearch_vectorindex.md) / VectorIndex
+[@cdklabs/generative-ai-cdk-constructs](../README.md) / [amazonaurora](../modules/amazonaurora.md) / AmazonAuroraDefaultVectorStore
 
-# Class: VectorIndex
+# Class: AmazonAuroraDefaultVectorStore
 
-[opensearch\_vectorindex](../modules/opensearch_vectorindex.md).VectorIndex
+[amazonaurora](../modules/amazonaurora.md).AmazonAuroraDefaultVectorStore
 
-Deploy a vector index on the collection.
+Creates default AmazonAuroraVectorStore.
+
+It includes creation of a VPC with 3 subnets (public,
+private with NAT Gateway, private without NAT Gateway),
+with the Amazon Aurora Serverless V2 Cluster being
+The cluster has 1 writer/reader of PosstgreSQL version 15.5
+instance (min capacity 0.5, max capacity 4). Lambda custom
+resource executes required pgvector and Amazon Bedrock Knowledge
+Base SQL queries against Aurora cluster
+during deploy. The secret containing databases credentials is
+being deployed and securely stored in AWS Secrets Manager.
+You must specify the same embeddings model that you used in
+KnowledgeBaseV2 construct.
+
+**`See`**
+
+https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraPostgreSQL.VectorDB.html)
 
 ## Hierarchy
 
 - `Resource`
 
-  ↳ **`VectorIndex`**
+  ↳ **`AmazonAuroraDefaultVectorStore`**
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](opensearch_vectorindex.VectorIndex.md#constructor)
+- [constructor](amazonaurora.AmazonAuroraDefaultVectorStore.md#constructor)
 
 ### Properties
 
-- [env](opensearch_vectorindex.VectorIndex.md#env)
-- [indexName](opensearch_vectorindex.VectorIndex.md#indexname)
-- [node](opensearch_vectorindex.VectorIndex.md#node)
-- [physicalName](opensearch_vectorindex.VectorIndex.md#physicalname)
-- [stack](opensearch_vectorindex.VectorIndex.md#stack)
-- [vectorDimensions](opensearch_vectorindex.VectorIndex.md#vectordimensions)
-- [vectorField](opensearch_vectorindex.VectorIndex.md#vectorfield)
+- [auroraPgCRPolicy](amazonaurora.AmazonAuroraDefaultVectorStore.md#aurorapgcrpolicy)
+- [clusterIdentifier](amazonaurora.AmazonAuroraDefaultVectorStore.md#clusteridentifier)
+- [credentialsSecretArn](amazonaurora.AmazonAuroraDefaultVectorStore.md#credentialssecretarn)
+- [databaseName](amazonaurora.AmazonAuroraDefaultVectorStore.md#databasename)
+- [embeddingsModel](amazonaurora.AmazonAuroraDefaultVectorStore.md#embeddingsmodel)
+- [env](amazonaurora.AmazonAuroraDefaultVectorStore.md#env)
+- [node](amazonaurora.AmazonAuroraDefaultVectorStore.md#node)
+- [physicalName](amazonaurora.AmazonAuroraDefaultVectorStore.md#physicalname)
+- [primaryKeyField](amazonaurora.AmazonAuroraDefaultVectorStore.md#primarykeyfield)
+- [resourceArn](amazonaurora.AmazonAuroraDefaultVectorStore.md#resourcearn)
+- [stack](amazonaurora.AmazonAuroraDefaultVectorStore.md#stack)
+- [tableName](amazonaurora.AmazonAuroraDefaultVectorStore.md#tablename)
 
 ### Methods
 
-- [\_enableCrossEnvironment](opensearch_vectorindex.VectorIndex.md#_enablecrossenvironment)
-- [applyRemovalPolicy](opensearch_vectorindex.VectorIndex.md#applyremovalpolicy)
-- [generatePhysicalName](opensearch_vectorindex.VectorIndex.md#generatephysicalname)
-- [getResourceArnAttribute](opensearch_vectorindex.VectorIndex.md#getresourcearnattribute)
-- [getResourceNameAttribute](opensearch_vectorindex.VectorIndex.md#getresourcenameattribute)
-- [toString](opensearch_vectorindex.VectorIndex.md#tostring)
-- [isConstruct](opensearch_vectorindex.VectorIndex.md#isconstruct)
-- [isOwnedResource](opensearch_vectorindex.VectorIndex.md#isownedresource)
-- [isResource](opensearch_vectorindex.VectorIndex.md#isresource)
+- [\_enableCrossEnvironment](amazonaurora.AmazonAuroraDefaultVectorStore.md#_enablecrossenvironment)
+- [applyRemovalPolicy](amazonaurora.AmazonAuroraDefaultVectorStore.md#applyremovalpolicy)
+- [generatePhysicalName](amazonaurora.AmazonAuroraDefaultVectorStore.md#generatephysicalname)
+- [getResourceArnAttribute](amazonaurora.AmazonAuroraDefaultVectorStore.md#getresourcearnattribute)
+- [getResourceNameAttribute](amazonaurora.AmazonAuroraDefaultVectorStore.md#getresourcenameattribute)
+- [toString](amazonaurora.AmazonAuroraDefaultVectorStore.md#tostring)
+- [isConstruct](amazonaurora.AmazonAuroraDefaultVectorStore.md#isconstruct)
+- [isOwnedResource](amazonaurora.AmazonAuroraDefaultVectorStore.md#isownedresource)
+- [isResource](amazonaurora.AmazonAuroraDefaultVectorStore.md#isresource)
 
 ## Constructors
 
 ### constructor
 
-• **new VectorIndex**(`scope`, `id`, `props`): [`VectorIndex`](opensearch_vectorindex.VectorIndex.md)
+• **new AmazonAuroraDefaultVectorStore**(`scope`, `id`, `props`): [`AmazonAuroraDefaultVectorStore`](amazonaurora.AmazonAuroraDefaultVectorStore.md)
 
 #### Parameters
 
@@ -52,17 +73,57 @@ Deploy a vector index on the collection.
 | :------ | :------ |
 | `scope` | `Construct` |
 | `id` | `string` |
-| `props` | [`VectorIndexProps`](../interfaces/opensearch_vectorindex.VectorIndexProps.md) |
+| `props` | [`AmazonAuroraDefaultVectorStoreProps`](../interfaces/amazonaurora.AmazonAuroraDefaultVectorStoreProps.md) |
 
 #### Returns
 
-[`VectorIndex`](opensearch_vectorindex.VectorIndex.md)
+[`AmazonAuroraDefaultVectorStore`](amazonaurora.AmazonAuroraDefaultVectorStore.md)
 
 #### Overrides
 
 cdk.Resource.constructor
 
 ## Properties
+
+### auroraPgCRPolicy
+
+• `Private` **auroraPgCRPolicy**: `ManagedPolicy`
+
+An IAM policy that allows Data API access to Aurora.
+
+___
+
+### clusterIdentifier
+
+• `Readonly` **clusterIdentifier**: `string`
+
+Cluster identifier of your Amazon Aurora DB cluster.
+
+___
+
+### credentialsSecretArn
+
+• `Readonly` **credentialsSecretArn**: `string`
+
+The Secret ARN of your Amazon Aurora DB cluster.
+
+___
+
+### databaseName
+
+• `Readonly` **databaseName**: `string`
+
+The name of your Database.
+
+___
+
+### embeddingsModel
+
+• `Readonly` **embeddingsModel**: [`BedrockFoundationModel`](bedrock.BedrockFoundationModel.md)
+
+Model used for embeddings.
+
+___
 
 ### env
 
@@ -71,14 +132,6 @@ cdk.Resource.constructor
 #### Inherited from
 
 cdk.Resource.env
-
-___
-
-### indexName
-
-• `Readonly` **indexName**: `string`
-
-The name of the index.
 
 ___
 
@@ -113,6 +166,22 @@ cdk.Resource.physicalName
 
 ___
 
+### primaryKeyField
+
+• `Readonly` **primaryKeyField**: `string`
+
+Primary key of your Amazon Aurora DB cluster.
+
+___
+
+### resourceArn
+
+• `Readonly` **resourceArn**: `string`
+
+The ARN of your Amazon Aurora DB cluster.
+
+___
+
 ### stack
 
 • `Readonly` **stack**: `Stack`
@@ -123,19 +192,11 @@ cdk.Resource.stack
 
 ___
 
-### vectorDimensions
+### tableName
 
-• `Readonly` **vectorDimensions**: `number`
+• `Readonly` **tableName**: `string`
 
-The number of dimensions in the vector.
-
-___
-
-### vectorField
-
-• `Readonly` **vectorField**: `string`
-
-The name of the vector field.
+The Table Name of your Amazon Aurora DB cluster.
 
 ## Methods
 
