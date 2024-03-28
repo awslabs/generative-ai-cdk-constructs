@@ -18,8 +18,81 @@ import { Construct } from 'constructs';
 import { BedrockCRProvider } from './custom-resource-provider';
 import { BedrockFoundationModel } from './models';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
+import {
+  AmazonAuroraDefaultVectorStore,
+  AmazonAuroraVectorStore,
+} from '../amazonaurora';
 import { VectorIndex } from '../opensearch-vectorindex';
 import { VectorCollection } from '../opensearchserverless';
+import { PineconeVectorStore } from '../pinecone';
+import { RedisEnterpriseVectorStore } from '../redisenterprisecloud';
+
+/**
+ * Knowledge base can be backed by different vector databases.
+ * This enum represents the different vector databases that can be used.
+ *
+ * `OPENSEARCH_SERVERLESS` is the default vector database.
+ * `REDIS_ENTERPRISE_CLOUD` is the vector database for Redis Enterprise Cloud.
+ * `PINECONE` is the vector database for Pinecone.
+ * `AMAZON_AURORA` is the vector database for Amazon Aurora PostgreSQL.
+ */
+enum VectorStoreType {
+  /**
+   * `OPENSEARCH_SERVERLESS` is the vector store for OpenSearch Serverless.
+   */
+  OPENSEARCH_SERVERLESS = 'OPENSEARCH_SERVERLESS',
+  /**
+   * `REDIS_ENTERPRISE_CLOUD` is the vector store for Redis Enterprise Cloud.
+   */
+  REDIS_ENTERPRISE_CLOUD = 'REDIS_ENTERPRISE_CLOUD',
+  /**
+   * `PINECONE` is the vector store for Pinecone.
+   */
+  PINECONE = 'PINECONE',
+  /**
+   * `RDS` is the vector store for Amazon Aurora.
+   */
+  AMAZON_AURORA = 'RDS',
+}
+
+/**
+ * Interface for the configuration of the storage for knowledge base.
+ */
+interface StorageConfiguration {
+  /**
+   * The vector store, which can be of `VectorCollection`,
+   * `RedisEnterpriseVectorStore`, `PineconeVectorStore`,
+   * `AmazonAuroraVectorStore` or `AmazonAuroraDefaultVectorStore`
+   * types.
+   */
+  vectorStore: VectorCollection | RedisEnterpriseVectorStore |
+  PineconeVectorStore | AmazonAuroraDefaultVectorStore | AmazonAuroraVectorStore;
+
+  /**
+   * The type of the vector store.
+   */
+  vectorStoreType: VectorStoreType;
+
+  /**
+   * The name of the index.
+   */
+  indexName: string;
+
+  /**
+   * The field of the vector field for vector mapping.
+   */
+  vectorField: string;
+
+  /**
+   * The field of the text field for vector mapping.
+   */
+  textField: string;
+
+  /**
+   * The field of the metadata.
+   */
+  metadataField: string;
+}
 
 /**
  * Properties for a knowledge base
@@ -49,6 +122,8 @@ export interface KnowledgeBaseProps {
 
   /**
    * The name of the vector index.
+   * If vectorStore is not of type `VectorCollection`,
+   * do not include this property as it will throw error.
    *
    * @default - 'bedrock-knowledge-base-default-index'
    */
@@ -56,31 +131,39 @@ export interface KnowledgeBaseProps {
 
   /**
    * The name of the field in the vector index.
+   * If vectorStore is not of type `VectorCollection`,
+   * do not include this property as it will throw error.
    *
    * @default - 'bedrock-knowledge-base-default-vector'
    */
   readonly vectorField?: string;
 
   /**
-   * The vector store for the knowledge base.
+   * The vector store for the knowledge base. Must be either of
+   * type `VectorCollection`, `RedisEnterpriseVectorStore`,
+   * `PineconeVectorStore`, `AmazonAuroraVectorStore` or
+   * `AmazonAuroraDefaultVectorStore`.
    *
    * @default - A new OpenSearch Serverless vector collection is created.
    */
-  readonly vectorStore?: VectorCollection;
+  readonly vectorStore?: VectorCollection | RedisEnterpriseVectorStore |
+  PineconeVectorStore | AmazonAuroraVectorStore | AmazonAuroraDefaultVectorStore;
 
   /**
-   * The vector index for the knowledge base.
+   * The vector index for the OpenSearch Serverless backed knowledge base.
+   * If vectorStore is not of type `VectorCollection`, do not include
+   * this property as it will throw error.
    *
    * @default - A new vector index is created on the Vector Collection
+   * if vector store is of `VectorCollection` type.
    */
   readonly vectorIndex?: VectorIndex;
 }
 
 /**
- * Deploys a Bedrock Knowledge Base and configures a backend vector store.
+ * Deploys a Bedrock Knowledge Base and configures a backend by OpenSearch Serverless,
+ * Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
  *
- * At the moment, only OpenSearch Serverless is supported as a vector store.
- * This construct creates the collection and index.
  */
 export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
   /**
@@ -96,7 +179,8 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
   /**
    * The vector store for the knowledge base.
    */
-  public readonly vectorStore: VectorCollection;
+  public readonly vectorStore: VectorCollection | RedisEnterpriseVectorStore |
+  PineconeVectorStore | AmazonAuroraVectorStore | AmazonAuroraDefaultVectorStore;
 
   /**
    * A narrative instruction of the knowledge base.
@@ -125,14 +209,29 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
    */
   private vectorIndex?: VectorIndex;
 
+  /**
+   * The type of the knowledge base.
+   * @private
+   */
+  private vectorStoreType: VectorStoreType;
+
   constructor(scope: Construct, id: string, props: KnowledgeBaseProps) {
     super(scope, id);
-    const embeddingsModel = props.embeddingsModel;
     this.instruction = props.instruction;
+    const embeddingsModel = props.embeddingsModel;
     const indexName = props.indexName ?? 'bedrock-knowledge-base-default-index';
     const vectorField = props.vectorField ?? 'bedrock-knowledge-base-default-vector';
+    const textField = 'AMAZON_BEDROCK_TEXT_CHUNK';
+    const metadataField = 'AMAZON_BEDROCK_METADATA';
 
     validateModel(embeddingsModel);
+    validateVectorIndex(props.vectorStore, props.vectorIndex, props.vectorField, props.indexName);
+    if (props.vectorIndex) {
+      validateIndexParameters(props.vectorIndex, indexName, vectorField);
+    }
+    if (props.vectorStore instanceof AmazonAuroraDefaultVectorStore) {
+      validateModelComparability(embeddingsModel, props.vectorStore.embeddingsModel);
+    }
 
     this.name = generatePhysicalNameV2(
       this,
@@ -171,37 +270,130 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
       resources: [embeddingsModel.asArn(this)],
     }));
 
-    if (props.vectorStore) {
-      this.vectorStore = props.vectorStore;
-    } else {
-      this.vectorStore = new VectorCollection(this, 'KBVectors');
-    }
-    this.vectorStore.grantDataAccess(this.role);
+    /**
+     * Create the vector store if the vector store was provided by the user.
+     * Otherwise check againts all possible vector datastores.
+     * If none was provided create default OpenSearch Serverless Collection.
+     */
+    if (props.vectorStore instanceof VectorCollection) {
+      ({
+        vectorStore: this.vectorStore,
+        vectorStoreType: this.vectorStoreType,
+      } = this.handleOpenSearchCollection(props));
 
-    if (!props.vectorIndex) {
-      this.vectorIndex = new VectorIndex(this, 'KBIndex', {
-        collection: this.vectorStore,
-        indexName,
-        vectorField,
-        vectorDimensions: 1536,
-        mappings: [
-          {
-            mappingField: 'AMAZON_BEDROCK_TEXT_CHUNK',
-            dataType: 'text',
-            filterable: true,
-          },
-          {
-            mappingField: 'AMAZON_BEDROCK_METADATA',
-            dataType: 'text',
-            filterable: false,
-          },
+    } else if (props.vectorStore instanceof RedisEnterpriseVectorStore) {
+      ({
+        vectorStore: this.vectorStore,
+        vectorStoreType: this.vectorStoreType,
+      } = this.handleRedisEnterpriseVectorStore(props));
+
+    } else if (props.vectorStore instanceof PineconeVectorStore) {
+      ({
+        vectorStore: this.vectorStore,
+        vectorStoreType: this.vectorStoreType,
+      } = this.handlePineconeVectorStore(props));
+
+    } else if (props.vectorStore instanceof AmazonAuroraVectorStore) {
+      ({
+        vectorStore: this.vectorStore,
+        vectorStoreType: this.vectorStoreType,
+      } = this.handleAmazonAuroraVectorStore(props));
+
+    } else if (props.vectorStore instanceof AmazonAuroraDefaultVectorStore) {
+      ({
+        vectorStore: this.vectorStore,
+        vectorStoreType: this.vectorStoreType,
+      } = this.handleAmazonAuroraDefaultVectorStore(props));
+
+    } else {
+      ({
+        vectorStore: this.vectorStore,
+        vectorStoreType: this.vectorStoreType,
+      } = this.handleOpenSearchDefaultVectorCollection());
+    }
+
+    /**
+     * We need to add `secretsmanager:GetSecretValue` to the role
+     * of the knowledge base if we use data sources
+     * other than OpenSearch Serverless.
+     */
+    if (!(this.vectorStore instanceof VectorCollection)) {
+      this.role.addToPolicy(new iam.PolicyStatement({
+        actions: ['secretsmanager:GetSecretValue'],
+        resources: [
+          this.vectorStore.credentialsSecretArn,
         ],
-      });
-
-      this.vectorIndex.node.addDependency(this.vectorStore);
-    } else {
-      this.vectorIndex = props.vectorIndex;
+      }));
     }
+
+    /**
+     * We need to add `rds-data:ExecuteStatement`,
+     * `rds-data:BatchExecuteStatement` and
+     * `rds:DescribeDBClusters` to the role
+     * of the knowledge base if we use Amazon Aurora as
+     * a data source.
+     */
+    if (this.vectorStore instanceof AmazonAuroraDefaultVectorStore ||
+      this.vectorStore instanceof AmazonAuroraVectorStore) {
+      this.role.addToPolicy(new iam.PolicyStatement({
+        actions: [
+          'rds-data:ExecuteStatement',
+          'rds-data:BatchExecuteStatement',
+          'rds:DescribeDBClusters',
+        ],
+        resources: [
+          this.vectorStore.resourceArn,
+        ],
+      }));
+    }
+
+    /**
+     * Create the vector index if the vector store is OpenSearch Serverless
+     * and it was not provided. Otherwise use the provided vector index.
+     */
+    if (this.vectorStoreType === VectorStoreType.OPENSEARCH_SERVERLESS) {
+      if (!props.vectorIndex) {
+        this.vectorIndex = new VectorIndex(this, 'KBIndex', {
+          collection: this.vectorStore as VectorCollection,
+          indexName,
+          vectorField,
+          vectorDimensions: embeddingsModel.vectorDimensions!,
+          mappings: [
+            {
+              mappingField: 'AMAZON_BEDROCK_TEXT_CHUNK',
+              dataType: 'text',
+              filterable: true,
+            },
+            {
+              mappingField: 'AMAZON_BEDROCK_METADATA',
+              dataType: 'text',
+              filterable: false,
+            },
+          ],
+        });
+
+        this.vectorIndex.node.addDependency(this.vectorStore);
+      } else {
+        this.vectorIndex = props.vectorIndex;
+      }
+    }
+
+    /**
+     * Create storage configuraion. If it is of type of
+     * `AmazonAuroraVectorStore` get textField, metadataField,
+     * vectorField from the arguments. Otherwise use default values.
+     */
+    const storageConfiguration: StorageConfiguration = {
+      indexName: indexName,
+      vectorStore: this.vectorStore,
+      vectorStoreType: this.vectorStoreType,
+      vectorField: (this.vectorStore instanceof AmazonAuroraVectorStore) ?
+        this.vectorStore.vectorField : vectorField,
+      textField: (this.vectorStore instanceof AmazonAuroraVectorStore) ?
+        this.vectorStore.textField : textField,
+      metadataField: (this.vectorStore instanceof AmazonAuroraVectorStore) ?
+        this.vectorStore.metadataField : metadataField,
+    };
 
     const crProvider = BedrockCRProvider.getProvider(this);
     const knowledgeBase = new cdk.CustomResource(this, 'KB', {
@@ -217,18 +409,7 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
         roleArn: this.role.roleArn,
         name: this.name,
         description: props.description,
-        storageConfiguration: {
-          type: 'OPENSEARCH_SERVERLESS',
-          opensearchServerlessConfiguration: {
-            collectionArn: this.vectorStore.collectionArn,
-            vectorIndexName: indexName,
-            fieldMapping: {
-              vectorField: vectorField,
-              textField: 'AMAZON_BEDROCK_TEXT_CHUNK',
-              metadataField: 'AMAZON_BEDROCK_METADATA',
-            },
-          },
-        },
+        storageConfiguration: getStorageConfiguration(storageConfiguration),
         tags: this.cdkTagManager.renderedTags,
       },
     });
@@ -237,7 +418,16 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
       roles: [crProvider.role],
       statements: [
         new iam.PolicyStatement({
-          actions: ['bedrock:CreateKnowledgeBase'],
+          actions: [
+            'bedrock:CreateKnowledgeBase',
+            /**
+             * We need to add `bedrock:AssociateThirdPartyKnowledgeBase` if
+             * we are deploying Redis or Pinecone data sources
+             */
+            ...(this.vectorStoreType === VectorStoreType.REDIS_ENTERPRISE_CLOUD ||
+                this.vectorStoreType === VectorStoreType.PINECONE ?
+              ['bedrock:AssociateThirdPartyKnowledgeBase'] : []),
+          ],
           resources: ['*'],
         }),
         new iam.PolicyStatement(
@@ -268,7 +458,14 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
 
     knowledgeBase.node.addDependency(this.role);
     knowledgeBase.node.addDependency(kbCRPolicy);
-    knowledgeBase.node.addDependency(this.vectorIndex);
+    if (this.vectorStoreType === VectorStoreType.OPENSEARCH_SERVERLESS &&
+      this.vectorIndex) {
+      knowledgeBase.node.addDependency(this.vectorIndex);
+    }
+    if (this.vectorStoreType === VectorStoreType.AMAZON_AURORA &&
+      this.vectorStore instanceof AmazonAuroraDefaultVectorStore) {
+      knowledgeBase.node.addDependency(this.vectorStore);
+    }
 
     NagSuppressions.addResourceSuppressions(
       kbCRPolicy,
@@ -284,6 +481,126 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
     this.knowledgeBaseArn = knowledgeBase.getAttString('knowledgeBaseArn');
     this.knowledgeBaseId = knowledgeBase.getAttString('knowledgeBaseId');
   }
+
+  /**
+   * Handle VectorCollection type of VectorStore.
+   *
+   * @param props - The properties of the KnowledgeBase.
+   * @returns The instance of VectorCollection, VectorStoreType.
+   * @internal This is an internal core function and should not be called directly.
+   */
+  private handleOpenSearchCollection(
+    props: KnowledgeBaseProps,
+  ): {
+      vectorStore: VectorCollection;
+      vectorStoreType: VectorStoreType;
+    } {
+    const vectorStore = props.vectorStore as VectorCollection;
+    vectorStore.grantDataAccess(this.role);
+    return {
+      vectorStore: vectorStore,
+      vectorStoreType: VectorStoreType.OPENSEARCH_SERVERLESS,
+    };
+  }
+
+  /**
+   * Handle RedisEnterpriseVectorStore type of VectorStore.
+   *
+   * @param props - The properties of the KnowledgeBase.
+   * @returns The instance of RedisEnterpriseVectorStore, VectorStoreType.
+   * @internal This is an internal core function and should not be called directly.
+   */
+  private handleRedisEnterpriseVectorStore(
+    props: KnowledgeBaseProps,
+  ): {
+      vectorStore: RedisEnterpriseVectorStore;
+      vectorStoreType: VectorStoreType;
+    } {
+    const vectorStore = props.vectorStore as RedisEnterpriseVectorStore;
+    return {
+      vectorStore: vectorStore,
+      vectorStoreType: VectorStoreType.REDIS_ENTERPRISE_CLOUD,
+    };
+  }
+
+  /**
+ * Handle PineconeVectorStore type of VectorStore.
+ *
+ * @param props - The properties of the KnowledgeBase.
+ * @returns The instance of PineconeVectorStore, VectorStoreType.
+ * @internal This is an internal core function and should not be called directly.
+ */
+  private handlePineconeVectorStore(
+    props: KnowledgeBaseProps,
+  ): {
+      vectorStore: PineconeVectorStore;
+      vectorStoreType: VectorStoreType;
+    } {
+    const vectorStore = props.vectorStore as PineconeVectorStore;
+    return {
+      vectorStore: vectorStore,
+      vectorStoreType: VectorStoreType.PINECONE,
+    };
+  }
+
+  /**
+   * Handle AmazonAuroraVectorStore type of VectorStore.
+   *
+   * @param props - The properties of the KnowledgeBase.
+   * @returns The instance of AmazonAuroraVectorStore, VectorStoreType.
+   * @internal This is an internal core function and should not be called directly.
+   */
+  private handleAmazonAuroraVectorStore(
+    props: KnowledgeBaseProps,
+  ): {
+      vectorStore: AmazonAuroraVectorStore;
+      vectorStoreType: VectorStoreType;
+    } {
+    const vectorStore = props.vectorStore as AmazonAuroraVectorStore;
+    return {
+      vectorStore: vectorStore,
+      vectorStoreType: VectorStoreType.AMAZON_AURORA,
+    };
+  }
+
+  /**
+   * Handle AmazonAuroraDefaultVectorStore type of VectorStore.
+   *
+   * @param props - The properties of the KnowledgeBase.
+   * @returns The instance of AmazonAuroraDefaultVectorStore, VectorStoreType.
+   * @internal This is an internal core function and should not be called directly.
+   */
+  private handleAmazonAuroraDefaultVectorStore(
+    props: KnowledgeBaseProps,
+  ): {
+      vectorStore: AmazonAuroraDefaultVectorStore;
+      vectorStoreType: VectorStoreType;
+    } {
+    const vectorStore = props.vectorStore as AmazonAuroraDefaultVectorStore;
+    return {
+      vectorStore: vectorStore,
+      vectorStoreType: VectorStoreType.AMAZON_AURORA,
+    };
+  }
+
+  /**
+   * Handle the default VectorStore type.
+   *
+   * @returns The instance of VectorCollection, VectorStoreType.
+   * @internal This is an internal core function and should not be called directly.
+   */
+  private handleOpenSearchDefaultVectorCollection():
+  {
+    vectorStore: VectorCollection;
+    vectorStoreType: VectorStoreType;
+  } {
+    const vectorStore = new VectorCollection(this, 'KBVectors');
+    vectorStore.grantDataAccess(this.role);
+    return {
+      vectorStore: vectorStore,
+      vectorStoreType: VectorStoreType.OPENSEARCH_SERVERLESS,
+    };
+  }
 }
 
 /**
@@ -294,5 +611,157 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
 function validateModel(foundationModel: BedrockFoundationModel) {
   if (!foundationModel.supportsKnowledgeBase) {
     throw new Error(`The model ${foundationModel} is not supported by Bedrock Knowledge Base.`);
+  }
+}
+
+/**
+ * Validate if VectorIndex was provided for a VectorStore of type
+ * other than `VectorCollection`.
+ *
+ * @internal This is an internal core function and should not be called directly.
+ */
+function validateVectorIndex(
+  vectorStore: any,
+  vectorIndex: any,
+  vectorField: any,
+  indexName: any,
+) {
+  if (!(vectorStore instanceof VectorCollection) && vectorIndex) {
+    throw new Error('If vectorStore is not of type VectorCollection, vectorIndex should not be provided ' +
+    'in KnowledgeBase construct.');
+  }
+  if (!(vectorStore instanceof VectorCollection) && indexName) {
+    throw new Error('If vectorStore is not of type VectorCollection, indexName should not be provided ' +
+    'in KnowledgeBase construct.');
+  }
+  if (!(vectorStore instanceof VectorCollection) && vectorField) {
+    throw new Error('If vectorStore is not of type VectorCollection, vectorField should not be provided ' +
+    'in KnowledgeBase construct.');
+  }
+}
+
+/**
+ * Validate that indexName and vectorField parameters are identical
+ * in KnowledgeBase construct if VectorIndex was created manually.
+ *
+ * By default we assign `vectorIndex` to `bedrock-knowledge-base-default-index`
+ * value and if user provides `vectorIndex` manually, we need to make sure
+ * they also provide it in KnowledgeBase construct if the value is not
+ * `bedrock-knowledge-base-default-index`. Same for vectorField.
+ *
+ * @internal This is an internal core function and should not be called directly.
+ */
+function validateIndexParameters(
+  vectorIndex: VectorIndex,
+  indexName: string,
+  vectorField: string,
+) {
+  if (vectorIndex.indexName !== 'bedrock-knowledge-base-default-index') {
+    if (vectorIndex.indexName !== indexName) {
+      throw new Error('Default value of indexName is `bedrock-knowledge-base-default-index`.' +
+      ' If you create VectorIndex manually and assign vectorIndex to value other than' +
+      ' `bedrock-knowledge-base-default-index` then you must provide the same value in KnowledgeBase construct.' +
+      ' If you created VectorIndex manually and set it to `bedrock-knowledge-base-default-index`' +
+      ' then do not assign indexName in KnowledgeBase construct.');
+    }
+  }
+  if (vectorIndex.vectorField !== 'bedrock-knowledge-base-default-vector') {
+    if (vectorIndex.vectorField !== vectorField) {
+      throw new Error('Default value of vectorField is `bedrock-knowledge-base-default-vector`.' +
+      ' If you create VectorIndex manually and assign vectorField to value other than' +
+      ' `bedrock-knowledge-base-default-field` then you must provide the same value in KnowledgeBase construct.' +
+      ' If you created VectorIndex manually and set it to `bedrock-knowledge-base-default-vector`' +
+      ' then do not assign vectorField in KnowledgeBase construct.');
+    }
+  }
+}
+
+/**
+ * Validate that the embedding model provided for `AmazonAuroraDefaultVectorStore`
+ * construct is identical to provided for `KnowledgeBase` construct.
+ *
+ * @internal This is an internal core function and should not be called directly.
+ */
+function validateModelComparability(
+  foundationModel: BedrockFoundationModel,
+  foundationModel2: BedrockFoundationModel,
+) {
+  if (foundationModel.modelId !== foundationModel2.modelId) {
+    throw new Error('The embeddings model ' + foundationModel + ' provided in AmazonAuroraDefaultVectorStore' +
+    ' construct has to be identical to provided in KnowledgeBase construct.');
+  }
+}
+
+/**
+ * Determine storage configuration based on vector store type.
+ *
+ * @internal This is an internal core function and should not be called directly.
+ */
+function getStorageConfiguration(params: StorageConfiguration): any {
+  switch (params.vectorStoreType) {
+    case VectorStoreType.OPENSEARCH_SERVERLESS:
+      params.vectorStore = params.vectorStore as VectorCollection;
+      return {
+        type: VectorStoreType.OPENSEARCH_SERVERLESS,
+        opensearchServerlessConfiguration: {
+          collectionArn: params.vectorStore.collectionArn,
+          vectorIndexName: params.indexName,
+          fieldMapping: {
+            vectorField: params.vectorField,
+            textField: params.textField,
+            metadataField: params.metadataField,
+          },
+        },
+      };
+    case VectorStoreType.REDIS_ENTERPRISE_CLOUD:
+      params.vectorStore = params.vectorStore as RedisEnterpriseVectorStore;
+      return {
+        type: VectorStoreType.REDIS_ENTERPRISE_CLOUD,
+        redisEnterpriseCloudConfiguration: {
+          endpoint: params.vectorStore.endpoint,
+          credentialsSecretArn: params.vectorStore.credentialsSecretArn,
+          vectorIndexName: params.indexName,
+          fieldMapping: {
+            vectorField: params.vectorField,
+            textField: params.textField,
+            metadataField: params.metadataField,
+          },
+        },
+      };
+    case VectorStoreType.PINECONE:
+      params.vectorStore = params.vectorStore as PineconeVectorStore;
+      return {
+        type: VectorStoreType.PINECONE,
+        pineconeConfiguration: {
+          namespace: params.vectorStore.namespace || undefined,
+          connectionString: params.vectorStore.connectionString,
+          credentialsSecretArn: params.vectorStore.credentialsSecretArn,
+          fieldMapping: {
+            textField: params.textField,
+            metadataField: params.metadataField,
+          },
+        },
+      };
+    case VectorStoreType.AMAZON_AURORA:
+      params.vectorStore = params.vectorStore instanceof AmazonAuroraVectorStore ?
+        params.vectorStore as AmazonAuroraVectorStore :
+        params.vectorStore as AmazonAuroraDefaultVectorStore;
+      return {
+        type: VectorStoreType.AMAZON_AURORA,
+        rdsConfiguration: {
+          credentialsSecretArn: params.vectorStore.credentialsSecretArn,
+          databaseName: params.vectorStore.databaseName,
+          resourceArn: params.vectorStore.resourceArn,
+          tableName: params.vectorStore.tableName,
+          fieldMapping: {
+            vectorField: params.vectorField.replace(/-/g, '_'),
+            primaryKeyField: params.vectorStore.primaryKeyField,
+            textField: params.textField.toLowerCase(),
+            metadataField: params.metadataField.toLowerCase(),
+          },
+        },
+      };
+    default:
+      throw new Error(`Unsupported vector store type: ${params.vectorStoreType}`);
   }
 }

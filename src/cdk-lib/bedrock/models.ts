@@ -27,6 +27,11 @@ export interface BedrockFoundationModelProps {
    * @default - false
    */
   readonly supportsKnowledgeBase?: boolean;
+  /**
+   * Embedding models have different vector dimensions.
+   * Only applicable for embedding models.
+   */
+  readonly vectorDimensions?: number;
 }
 
 /**
@@ -55,23 +60,25 @@ export class BedrockFoundationModel {
 
   public static readonly TITAN_EMBED_TEXT_V1 = new BedrockFoundationModel(
     'amazon.titan-embed-text-v1',
-    { supportsKnowledgeBase: true },
+    { supportsKnowledgeBase: true, vectorDimensions: 1536 },
   );
   public static readonly COHERE_EMBED_ENGLISH_V3 = new BedrockFoundationModel(
     'cohere.embed-english-v3',
-    { supportsKnowledgeBase: true },
+    { supportsKnowledgeBase: true, vectorDimensions: 1024 },
   );
   public static readonly COHERE_EMBED_MULTILINGUAL_V3 = new BedrockFoundationModel(
     'cohere.embed-multilingual-v3',
-    { supportsKnowledgeBase: true },
+    { supportsKnowledgeBase: true, vectorDimensions: 1024 },
   );
 
   public readonly modelId: string;
   public readonly supportsAgents: boolean;
+  public readonly vectorDimensions?: number;
   public readonly supportsKnowledgeBase: boolean;
   constructor(value: string, props: BedrockFoundationModelProps = {}) {
     this.modelId = value;
     this.supportsAgents = props.supportsAgents ?? false;
+    this.vectorDimensions = props.vectorDimensions;
     this.supportsKnowledgeBase = props.supportsKnowledgeBase ?? false;
   }
 

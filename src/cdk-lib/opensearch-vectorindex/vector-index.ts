@@ -116,6 +116,19 @@ export interface VectorIndexProps {
  * Deploy a vector index on the collection.
  */
 export class VectorIndex extends cdk.Resource {
+  /**
+   * The name of the index.
+   */
+  public readonly indexName: string;
+  /**
+   * The name of the vector field.
+   */
+  public readonly vectorField: string;
+  /**
+   * The number of dimensions in the vector.
+   */
+  public readonly vectorDimensions: number;
+
   constructor(
     scope: Construct,
     id: string,
@@ -123,6 +136,9 @@ export class VectorIndex extends cdk.Resource {
   ) {
     super(scope, id);
 
+    this.indexName = props.indexName;
+    this.vectorField = props.vectorField;
+    this.vectorDimensions = props.vectorDimensions;
     const crProvider = OpenSearchIndexCRProvider.getProvider(this);
     crProvider.role.addManagedPolicy(props.collection.aossPolicy);
 

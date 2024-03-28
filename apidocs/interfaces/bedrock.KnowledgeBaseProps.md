@@ -47,6 +47,8 @@ ___
 • `Optional` `Readonly` **indexName**: `string`
 
 The name of the vector index.
+If vectorStore is not of type `VectorCollection`,
+do not include this property as it will throw error.
 
 **`Default`**
 
@@ -78,6 +80,8 @@ ___
 • `Optional` `Readonly` **vectorField**: `string`
 
 The name of the field in the vector index.
+If vectorStore is not of type `VectorCollection`,
+do not include this property as it will throw error.
 
 **`Default`**
 
@@ -91,21 +95,25 @@ ___
 
 • `Optional` `Readonly` **vectorIndex**: [`VectorIndex`](../classes/opensearch_vectorindex.VectorIndex.md)
 
-The vector index for the knowledge base.
+The vector index for the OpenSearch Serverless backed knowledge base.
+If vectorStore is not of type `VectorCollection`, do not include
+this property as it will throw error.
 
 **`Default`**
 
-```ts
 - A new vector index is created on the Vector Collection
-```
+if vector store is of `VectorCollection` type.
 
 ___
 
 ### vectorStore
 
-• `Optional` `Readonly` **vectorStore**: [`VectorCollection`](../classes/opensearchserverless.VectorCollection.md)
+• `Optional` `Readonly` **vectorStore**: [`AmazonAuroraDefaultVectorStore`](../classes/amazonaurora.AmazonAuroraDefaultVectorStore.md) \| [`AmazonAuroraVectorStore`](../classes/amazonaurora.AmazonAuroraVectorStore.md) \| [`VectorCollection`](../classes/opensearchserverless.VectorCollection.md) \| [`PineconeVectorStore`](../classes/pinecone.PineconeVectorStore.md) \| [`RedisEnterpriseVectorStore`](../classes/redisenterprisecloud.RedisEnterpriseVectorStore.md)
 
-The vector store for the knowledge base.
+The vector store for the knowledge base. Must be either of
+type `VectorCollection`, `RedisEnterpriseVectorStore`,
+`PineconeVectorStore`, `AmazonAuroraVectorStore` or
+`AmazonAuroraDefaultVectorStore`.
 
 **`Default`**
 

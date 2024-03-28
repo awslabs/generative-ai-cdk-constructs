@@ -10,6 +10,7 @@
 
 - [supportsAgents](bedrock.BedrockFoundationModelProps.md#supportsagents)
 - [supportsKnowledgeBase](bedrock.BedrockFoundationModelProps.md#supportsknowledgebase)
+- [vectorDimensions](bedrock.BedrockFoundationModelProps.md#vectordimensions)
 
 ## Properties
 
@@ -38,3 +39,12 @@ Bedrock Knowledge Base can use this model.
 ```ts
 - false
 ```
+
+___
+
+### vectorDimensions
+
+• `Optional` `Readonly` **vectorDimensions**: `number`
+
+Embedding models have different vector dimensions.
+Only applicable for embedding models.

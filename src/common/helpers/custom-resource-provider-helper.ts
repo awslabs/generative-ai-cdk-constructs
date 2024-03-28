@@ -11,6 +11,7 @@
  *  and limitations under the License.
  */
 import * as cdk from 'aws-cdk-lib';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as logs from 'aws-cdk-lib/aws-logs';
@@ -53,6 +54,20 @@ export interface CRProviderProps {
    * @default - None.
    */
   readonly layers?: lambda.ILayerVersion[];
+
+  /**
+   * The VPC to deploy Lambda function into.
+   *
+   * @default - None.
+   */
+  readonly vpc?: ec2.IVpc;
+
+  /**
+   * The security group for Lambda function.
+   *
+   * @default - None.
+   */
+  readonly securityGroup?: ec2.SecurityGroup;
 }
 
 export interface ICRProvider {
@@ -67,7 +82,7 @@ export interface ICRProviderClass {
 
 
 export function buildCustomResourceProvider(props: CRProviderProps): ICRProviderClass {
-  const { providerName, codePath, handler, runtime, layers } = props;
+  const { providerName, codePath, handler, runtime, layers, vpc, securityGroup } = props;
 
   class CRProvider extends Construct {
     static getProvider(scope: Construct): CRProvider {
@@ -101,6 +116,9 @@ export function buildCustomResourceProvider(props: CRProviderProps): ICRProvider
         role: this.role,
         timeout: cdk.Duration.minutes(15),
         memorySize: 128,
+        vpc,
+        vpcSubnets: vpc ? { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS } : undefined,
+        securityGroups: vpc && securityGroup ? [securityGroup] : undefined,
         logRetention: logs.RetentionDays.ONE_WEEK,
         description: 'Custom Resource Provider',
       });
