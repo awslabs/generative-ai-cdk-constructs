@@ -12,8 +12,9 @@
  */
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import * as deepmerge from 'deepmerge';
+// @ts-ignore
+// eslint-disable-next-line import/no-unresolved
+import { merge } from 'ts-merge';
 import { isPlainObject } from './utils';
 
 /**
@@ -46,13 +47,13 @@ export function consolidateProps(defaultProps: object, clientProps?: object, con
 export function overrideProps(DefaultProps: object, userProps: object, concatArray: boolean = false): any {
   // Override the sensible defaults with user provided props
   if (concatArray) {
-    return deepmerge(DefaultProps, userProps, {
-      arrayMerge: (destinationArray, sourceArray) => destinationArray.concat(sourceArray),
+    return merge(DefaultProps, userProps, {
+      arrayMerge: (destinationArray: any[], sourceArray: any[]) => destinationArray.concat(sourceArray),
       isMergeableObject: isPlainObject,
     });
   } else {
-    return deepmerge(DefaultProps, userProps, {
-      arrayMerge: (_destinationArray, sourceArray) => sourceArray, // underscore allows arg to be ignored
+    return merge(DefaultProps, userProps, {
+      arrayMerge: (_destinationArray: any[], sourceArray: any[]) => sourceArray, // underscore allows arg to be ignored
       isMergeableObject: isPlainObject,
     });
   }

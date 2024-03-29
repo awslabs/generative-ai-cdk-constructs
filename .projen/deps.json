@@ -36,10 +36,6 @@
       "type": "build"
     },
     {
-      "name": "deepmerge",
-      "type": "build"
-    },
-    {
       "name": "eslint-import-resolver-typescript",
       "type": "build"
     },
@@ -99,6 +95,10 @@
     {
       "name": "standard-version",
       "version": "^9",
+      "type": "build"
+    },
+    {
+      "name": "ts-deepmerge",
       "type": "build"
     },
     {
