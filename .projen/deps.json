@@ -118,6 +118,10 @@
       "type": "build"
     },
     {
+      "name": "deepmerge",
+      "type": "bundled"
+    },
+    {
       "name": "aws-cdk-lib",
       "version": "^2.122.0",
       "type": "peer"
@@ -129,10 +133,6 @@
     },
     {
       "name": "cdk-nag",
-      "type": "runtime"
-    },
-    {
-      "name": "deepmerge",
       "type": "runtime"
     }
   ],

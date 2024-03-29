@@ -61,6 +61,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   ],
   deps: [
     'cdk-nag',
+  ],
+  bundledDeps: [
     'deepmerge',
   ],
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
