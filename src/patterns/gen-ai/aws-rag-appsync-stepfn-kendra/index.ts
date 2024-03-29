@@ -187,12 +187,9 @@ export class RagAppsyncStepfnKendra extends BaseClass {
   /**
      * Returns an instance of appsync.IGraphqlApi created by the construct
      */
-  // @ts-ignore
   docProcessingStateMachine: StateMachine;
-  // @ts-ignore
   stepFunctionsExecutionHandlerRole: cdk.aws_iam.Role;
   removalPolicy: RemovalPolicy;
-  // @ts-ignore
   syncRunTable: Table;
   //   TODO(miketran): Right now, we support S3, then eventually will open it up to other data sources.
   private kendraDataSourceIndexId: string;
@@ -227,6 +224,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
     this.awsAccountId = cdk.Stack.of(this).account;
     this.awsRegion = cdk.Stack.of(this).region;
     this.stack = cdk.Stack.of(this);
+    this.removalPolicy = cdk.RemovalPolicy.DESTROY;
 
     // Staging environment
     let stage = '-dev';
