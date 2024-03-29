@@ -64,7 +64,6 @@
     "pinst": "^3.0.0",
     "projen": "~0.78.8",
     "standard-version": "^9",
-    "ts-deepmerge": "^7.0.0",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typedoc": "^0.25.12",
@@ -76,7 +75,8 @@
     "constructs": "^10.3.0"
   },
   "dependencies": {
-    "cdk-nag": "^2.28.72"
+    "cdk-nag": "^2.28.72",
+    "deepmerge": "^4.3.1"
   },
   "keywords": [
     "aws-cdk",

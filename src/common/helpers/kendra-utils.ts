@@ -12,10 +12,10 @@
  */
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved
-import { merge } from 'ts-merge';
 import { isPlainObject } from './utils';
+// https://github.com/webpack/webpack/issues/6584
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const merge = require('deepmerge');
 
 /**
  *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.

@@ -289,13 +289,13 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@commitlint/config-conventional,@mrgrain/jsii-struct-builder,@types/jest,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,aws-sdk-mock,commitlint,eslint-import-resolver-typescript,eslint-plugin-header,eslint-plugin-import,eslint,husky,jest,jest-junit,jsii-diff,jsii-pacmak,pinst,standard-version,ts-deepmerge,ts-jest,ts-node,typedoc,typedoc-plugin-markdown,typescript,aws-cdk-lib,constructs,cdk-nag"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@commitlint/config-conventional,@mrgrain/jsii-struct-builder,@types/jest,@types/node,@typescript-eslint/eslint-plugin,@typescript-eslint/parser,aws-sdk-mock,commitlint,eslint-import-resolver-typescript,eslint-plugin-header,eslint-plugin-import,eslint,husky,jest,jest-junit,jsii-diff,jsii-pacmak,pinst,standard-version,ts-jest,ts-node,typedoc,typedoc-plugin-markdown,typescript,aws-cdk-lib,constructs,cdk-nag,deepmerge"
         },
         {
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade @commitlint/config-conventional @mrgrain/jsii-struct-builder @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-sdk-mock commitlint eslint-import-resolver-typescript eslint-plugin-header eslint-plugin-import eslint husky jest jest-junit jsii-diff jsii-pacmak pinst standard-version ts-deepmerge ts-jest ts-node typedoc typedoc-plugin-markdown typescript aws-cdk-lib constructs cdk-nag"
+          "exec": "yarn upgrade @commitlint/config-conventional @mrgrain/jsii-struct-builder @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-sdk-mock commitlint eslint-import-resolver-typescript eslint-plugin-header eslint-plugin-import eslint husky jest jest-junit jsii-diff jsii-pacmak pinst standard-version ts-jest ts-node typedoc typedoc-plugin-markdown typescript aws-cdk-lib constructs cdk-nag deepmerge"
         },
         {
           "exec": "npx projen"

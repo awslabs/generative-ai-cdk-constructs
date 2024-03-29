@@ -98,10 +98,6 @@
       "type": "build"
     },
     {
-      "name": "ts-deepmerge",
-      "type": "build"
-    },
-    {
       "name": "ts-jest",
       "type": "build"
     },
@@ -133,6 +129,10 @@
     },
     {
       "name": "cdk-nag",
+      "type": "runtime"
+    },
+    {
+      "name": "deepmerge",
       "type": "runtime"
     }
   ],
