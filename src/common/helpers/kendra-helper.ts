@@ -170,6 +170,43 @@ export function getGeneratePresignedUrlLambdaRole(scope: Construct, bucket: Buck
       actions: ['s3:PutObject'],
       resources: [bucket.bucketArn],
     },
+    {
+      actions: [
+        'ec2:DescribeInstances',
+        'ec2:CreateNetworkInterface',
+        'ec2:AttachNetworkInterface',
+        'ec2:DescribeNetworkInterfaces',
+        'autoscaling:CompleteLifecycleAction',
+        'ec2:DeleteNetworkInterface',
+      ],
+      resources: ['*'],
+    },
+  ]);
+  return role;
+}
+
+export function getStartKendraSyncStepFnRole(scope: Construct, stateMachine: StateMachine) {
+  const role = createIAMRoleWithBasicExecutionPolicy(
+    scope,
+    'startKendraSyncStepFnRole',
+    'Role used for starting Kendra sync state machine',
+  );
+  addRolePolicies(role, [
+    {
+      actions: ['states:StartExecution'],
+      resources: [stateMachine.stateMachineArn],
+    },
+    {
+      actions: [
+        'ec2:DescribeInstances',
+        'ec2:CreateNetworkInterface',
+        'ec2:AttachNetworkInterface',
+        'ec2:DescribeNetworkInterfaces',
+        'autoscaling:CompleteLifecycleAction',
+        'ec2:DeleteNetworkInterface',
+      ],
+      resources: ['*'],
+    },
   ]);
   return role;
 }
@@ -194,6 +231,17 @@ export function getKendraStartDataSyncLambdaRole(
         `arn:aws:kendra:${awsRegion}:${awsAccountId}:index/${kendraIndexId}`,
         `arn:aws:kendra:${awsRegion}:${awsAccountId}:index/${kendraIndexId}/data-source/${kendraDataSourceIndexId}`,
       ],
+    },
+    {
+      actions: [
+        'ec2:DescribeInstances',
+        'ec2:CreateNetworkInterface',
+        'ec2:AttachNetworkInterface',
+        'ec2:DescribeNetworkInterfaces',
+        'autoscaling:CompleteLifecycleAction',
+        'ec2:DeleteNetworkInterface',
+      ],
+      resources: ['*'],
     },
   ]);
   return role;
@@ -226,6 +274,17 @@ export function getUpdateKendraJobStatusLambdaRole(scope: Construct, table: Tabl
     {
       actions: ['dynamodb:PutItem', 'dynamodb:Query', 'dynamodb:GetItem', 'dynamodb:UpdateItem'],
       resources: [table.tableArn],
+    },
+    {
+      actions: [
+        'ec2:DescribeInstances',
+        'ec2:CreateNetworkInterface',
+        'ec2:AttachNetworkInterface',
+        'ec2:DescribeNetworkInterfaces',
+        'autoscaling:CompleteLifecycleAction',
+        'ec2:DeleteNetworkInterface',
+      ],
+      resources: ['*'],
     },
   ]);
   return role;

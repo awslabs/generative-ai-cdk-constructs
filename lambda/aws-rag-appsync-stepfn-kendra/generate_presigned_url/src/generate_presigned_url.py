@@ -46,8 +46,11 @@ def isvalid_file_format(file_name: str) -> bool:
 @tracer.capture_lambda_handler
 @metrics.log_metrics(capture_cold_start_metric=True)
 def lambda_handler(event, context):
-    file_name = event.get('fileName', '')
-    expiration = event.get('expiration', 3600)
+    arguments = event.get('arguments', {})
+    file_name = arguments.get('fileName', '')
+    expiration = arguments.get('expiration', 3600)
+    print(f'The file name is: {expiration}')
+    print(f'The expiration is: {file_name}')
     if not file_name:
         metrics.add_metric(name="InvalidRequest", unit=MetricUnit.Count, value=1)
         return {

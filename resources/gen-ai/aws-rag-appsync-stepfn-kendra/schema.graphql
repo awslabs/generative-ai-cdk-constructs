@@ -20,17 +20,17 @@ input IngestionDocsInput {
 }
 
 type PresignedUrlResponse {
-    url: String
-    fileName: String
-    success: Boolean
-    message: String
+	url: String
+	fileName: String
+	success: Boolean
+	message: String
 }
 
 type Mutation @aws_iam @aws_cognito_user_pools {
 	ingestDocuments(ingestioninput: IngestionDocsInput!): IngestionDocs
 	updateIngestionJobStatus(ingestionjobid: ID, files: [FileStatusInput]): IngestionDocs
-    generatePresignedUrl(fileName: String!): PresignedUrlResponse
-    startKendraSyncJob: String
+	generatePresignedUrl(fileName: String!): PresignedUrlResponse
+	startKendraSyncJob: String
 }
 
 type Query @aws_iam @aws_cognito_user_pools {
@@ -39,9 +39,9 @@ type Query @aws_iam @aws_cognito_user_pools {
 
 type Subscription @aws_iam @aws_cognito_user_pools {
 	ingestDocuments(ingestionjobid: ID!): IngestionDocs
-		@aws_subscribe(mutations: ["ingestDocuments"])
+	@aws_subscribe(mutations: ["ingestDocuments"])
 	updateIngestionJobStatus(ingestionjobid: ID!): IngestionDocs
-		@aws_subscribe(mutations: ["updateIngestionJobStatus"])
+	@aws_subscribe(mutations: ["updateIngestionJobStatus"])
 }
 
 schema {
@@ -49,58 +49,3 @@ schema {
 	mutation: Mutation
 	subscription: Subscription
 }
-##type FileStatus @aws_iam @aws_cognito_user_pools {
-##	name: String
-##	status: String
-##}
-##
-##input FileStatusInput {
-##	name: String
-##	status: String
-##}
-##
-##type IngestionDocs @aws_iam @aws_cognito_user_pools {
-##	ingestionjobid: ID
-##	files: [FileStatus]
-##}
-##
-##input IngestionDocsInput {
-##	ingestionjobid: ID
-##	files: [FileStatusInput]
-##	ignore_existing: Boolean
-##}
-#input FileInput {
-#  fileName: String!
-#  fileContent: String!
-#}
-#
-#type FileResponse {
-#  success: Boolean!
-#  message: String
-#  fileName: String
-#}
-#
-#type Mutation @aws_iam @aws_cognito_user_pools {
-##	ingestDocuments(ingestioninput: IngestionDocsInput!): IngestionDocs
-#	updateIngestionJobStatus(ingestionjobid: ID, files: [FileStatusInput]): IngestionDocs
-#	uploadFile(fileInput: FileInput!): FileResponse
-#}
-#
-#type Query @aws_iam @aws_cognito_user_pools {
-#	ingest: IngestionDocs
-#}
-#
-#type Subscription @aws_iam @aws_cognito_user_pools {
-#	uploadFile(fileInput: FileInput!): FileResponse
-#		@aws_subscribe(mutations: ["uploadFile"])
-##	ingestDocuments(ingestionjobid: ID!): IngestionDocs
-##		@aws_subscribe(mutations: ["ingestDocuments"])
-#	updateIngestionJobStatus(ingestionjobid: ID!): IngestionDocs
-#		@aws_subscribe(mutations: ["updateIngestionJobStatus"])
-#}
-#
-#schema {
-#	query: Query
-#	mutation: Mutation
-#	subscription: Subscription
-#}

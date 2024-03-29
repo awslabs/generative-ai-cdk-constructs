@@ -12,7 +12,7 @@
  */
 import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
-import { Duration } from 'aws-cdk-lib';
+import { Duration, RemovalPolicy } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import { Table } from 'aws-cdk-lib/aws-dynamodb';
@@ -34,7 +34,10 @@ import {
   createKendraWorkflowStepFunction,
   createStepFunctionsExecutionHandlerRole,
   getKendraStartDataSyncLambdaRole,
-  getGeneratePresignedUrlLambdaRole, getCheckJobStatusLambdaRole, getUpdateKendraJobStatusLambdaRole,
+  getGeneratePresignedUrlLambdaRole,
+  getCheckJobStatusLambdaRole,
+  getUpdateKendraJobStatusLambdaRole,
+  getStartKendraSyncStepFnRole,
 } from '../../../common/helpers/kendra-helper';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import { lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
@@ -51,7 +54,7 @@ export interface RagAppsyncStepfnKendraProps {
      *
      * @default - None
      */
-  readonly cognitoUserPool: cognito.IUserPool;
+  readonly cognitoUserPool: cognito.UserPool;
 
   observability: boolean;
   stage: any;
@@ -188,12 +191,13 @@ export class RagAppsyncStepfnKendra extends BaseClass {
   docProcessingStateMachine: StateMachine;
   // @ts-ignore
   stepFunctionsExecutionHandlerRole: cdk.aws_iam.Role;
+  removalPolicy: RemovalPolicy;
   // @ts-ignore
   syncRunTable: Table;
   //   TODO(miketran): Right now, we support S3, then eventually will open it up to other data sources.
   private kendraDataSourceIndexId: string;
   private stack: Stack;
-  cognito: any;
+  cognito: cognito.UserPool;
 
 
   /**
@@ -217,6 +221,8 @@ export class RagAppsyncStepfnKendra extends BaseClass {
 
     this.updateEnvSuffix(baseProps);
     this.addObservabilityToConstruct(baseProps);
+
+    this.cognito = props.cognitoUserPool;
 
     this.awsAccountId = cdk.Stack.of(this).account;
     this.awsRegion = cdk.Stack.of(this).region;
@@ -292,7 +298,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
       IndexName: 'llmDemoKendraIndex',
       Edition: 'DEVELOPER_EDITION',
       kendraDataSyncInputBucketName: this.kendraInputBucket.bucketName,
-      CognitoUserPoolId: this.cognito.userPool.userPoolId,
+      CognitoUserPoolId: this.cognito.userPoolId,
     });
 
     this.kendraIndexId = this.kendraIndex.KendraIndexId;
@@ -391,7 +397,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
         authorizationConfig: {
           defaultAuthorization: {
             authorizationType: appsync.AuthorizationType.USER_POOL,
-            userPoolConfig: { userPool: props.cognitoUserPool },
+            userPoolConfig: { userPool: this.cognito },
           },
           additionalAuthorizationModes: [
             {
@@ -514,6 +520,31 @@ export class RagAppsyncStepfnKendra extends BaseClass {
       this.docProcessingStateMachine,
     );
 
+    const startKendraSyncStepFnRole = getStartKendraSyncStepFnRole(this, this.docProcessingStateMachine);
+    const constructStartKendraSyncStepFnLambdaProps = {
+      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/start_kendra_sync_stepfn/src')),
+      functionName: 'start_kndra_sync_step_fn' + stage,
+      description: 'Lambda for starting execution',
+      vpc: this.vpc,
+      tracing: this.lambdaTracing,
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      securityGroups: [this.securityGroup],
+      memorySize: lambdaMemorySizeLimiter(this, 1_769),
+      timeout: Duration.minutes(15),
+      role: startKendraSyncStepFnRole,
+      environment: {
+        ...lambdaPropsEnv,
+        STEP_FUNCTION_ARN: this.docProcessingStateMachine.stateMachineArn,
+      },
+    };
+
+    const startKendraStepFnLambda = buildDockerLambdaFunction(
+      this,
+      'startKendraStepFnLambda',
+      constructStartKendraSyncStepFnLambdaProps,
+      undefined,
+    );
+
     const presignedUrlDataSource = ingestionGraphqlApi.addLambdaDataSource(
       'presignedUrlDataSource',
       generatePresignedUrlLambda,
@@ -526,12 +557,12 @@ export class RagAppsyncStepfnKendra extends BaseClass {
 
     const kendraSyncLambdaDataSource = ingestionGraphqlApi.addLambdaDataSource(
       'kendraSyncLambdaDataSource',
-      kendraSyncLambda,
+      startKendraStepFnLambda,
     );
     kendraSyncLambdaDataSource.createResolver('kendraSyncLambdaResolver',
       {
         typeName: 'Mutation',
-        fieldName: 'invokeMyLambda',
+        fieldName: 'startKendraSyncJob',
         requestMappingTemplate: appsync.MappingTemplate.fromString(`
     {
       "version": "2017-02-28",
