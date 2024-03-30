@@ -12,7 +12,10 @@
  */
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { generatePhysicalName, generatePhysicalNameV2, lambdaMemorySizeLimiter, maximumLambdaMemorySizeContextItem, recommendedMaximumLambdaMemorySize } from '../../../src/common/helpers/utils';
+import { generatePhysicalName, generatePhysicalNameV2,
+  isPlainObject, lambdaMemorySizeLimiter, maximumLambdaMemorySizeContextItem, recommendedMaximumLambdaMemorySize } from '../../../src/common/helpers/utils';
+import {addCfnSuppressRules} from "../../../lib/common/helpers/utils";
+import { isObject } from 'util';
 
 describe('lambdaMemorySizeLimiter', () => {
   let testConstruct: TestConstruct;
@@ -270,6 +273,73 @@ describe('generatePhysicalNameV2', () => {
           maxLength: 13,
         });
     }).toThrow(new RegExp('^The generated name is longer than the maximum length of'));
+  });
+
+
+  describe("kendra general utils", () => {
+    describe('addCfnSuppressRules', () => {
+      it('should add suppression rules to a resource without existing rules', () => {
+        const stack = new cdk.Stack();
+        const cfnResource = new cdk.CfnResource(stack, 'MyResource', {
+          type: 'Custom::MyResource',
+        });
+
+        addCfnSuppressRules(cfnResource, [{ id: 'W1', reason: 'Test reason' }]);
+
+        expect(cfnResource.cfnOptions.metadata?.cfn_nag.rules_to_suppress).toEqual([
+          { id: 'W1', reason: 'Test reason' },
+        ]);
+      });
+
+      it('should append suppression rules to a resource with existing rules', () => {
+        const stack = new cdk.Stack();
+        const cfnResource = new cdk.CfnResource(stack, 'MyResource', {
+          type: 'Custom::MyResource',
+        });
+
+        cfnResource.addMetadata('cfn_nag', {
+          rules_to_suppress: [{ id: 'W2', reason: 'Existing reason' }],
+        });
+
+        addCfnSuppressRules(cfnResource, [{ id: 'W1', reason: 'Test reason' }]);
+
+        expect(cfnResource.cfnOptions.metadata?.cfn_nag.rules_to_suppress).toEqual([
+          { id: 'W2', reason: 'Existing reason' },
+          { id: 'W1', reason: 'Test reason' },
+        ]);
+      });
+    });
+    describe('isObject', () => {
+      it('should return true for plain objects', () => {
+        expect(isObject({})).toBeTruthy();
+        expect(isObject({ key: 'value' })).toBeTruthy();
+      });
+
+      it('should return false for non-objects', () => {
+        expect(isObject(null)).toBeFalsy();
+        expect(isObject(123)).toBeFalsy();
+        expect(isObject('string')).toBeFalsy();
+        expect(isObject(undefined)).toBeFalsy();
+      });
+    });
+
+    describe('isPlainObject', () => {
+      it('should return true for plain objects', () => {
+        expect(isPlainObject({})).toBeTruthy();
+        expect(isPlainObject({ key: 'value' })).toBeTruthy();
+      });
+
+      it('should return false for non-plain objects', () => {
+        expect(isPlainObject(new Date())).toBeFalsy();
+        expect(isPlainObject([])).toBeFalsy();
+        // @ts-ignore
+        expect(isPlainObject(null)).toBeFalsy();
+        function Constructor() {}
+        // @ts-ignore
+        expect(isPlainObject(new Constructor())).toBeFalsy();
+      });
+    });
+
   });
 });
 
