@@ -797,14 +797,6 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@jsii/check-node@1.95.0":
-  version "1.95.0"
-  resolved "https://registry.yarnpkg.com/@jsii/check-node/-/check-node-1.95.0.tgz#7cfc3c3792f199ab205ea9411223ee9ea1c37658"
-  integrity sha512-E5njkBk6X4WrQHtGeO0ed+cvkMxqinQZY83TJZ9RFEIwrndDfj7asMgWkRkYQRF05AlQXks+Eh8wza7ErIl85Q==
-  dependencies:
-    chalk "^4.1.2"
-    semver "^7.5.4"
-
 "@jsii/check-node@1.96.0":
   version "1.96.0"
   resolved "https://registry.yarnpkg.com/@jsii/check-node/-/check-node-1.96.0.tgz#f144caa92d0c47aac3b3aa315860847892d0b04e"
@@ -813,7 +805,7 @@
     chalk "^4.1.2"
     semver "^7.5.4"
 
-"@jsii/spec@1.96.0", "@jsii/spec@^1.95.0", "@jsii/spec@^1.96.0":
+"@jsii/spec@1.96.0", "@jsii/spec@^1.96.0":
   version "1.96.0"
   resolved "https://registry.yarnpkg.com/@jsii/spec/-/spec-1.96.0.tgz#5816f425878b8532584275f756f19e85a211bb04"
   integrity sha512-53GvfnEqT84OWnytLhFR5geMcjFpY/mKxmfLDf7mXNEMUW8oEwmWTGhdM+egQLut02Z64jbzXLm06JAPxJMw/w==
@@ -821,9 +813,9 @@
     ajv "^8.12.0"
 
 "@mrgrain/jsii-struct-builder@^0.7.20":
-  version "0.7.20"
-  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.20.tgz#825cfc538b240c4e6050614be4265c1379ef5ba3"
-  integrity sha512-exgo+b8eehZm3MW9bkuVtVl4931mPF3RMVup9gbe0lkQOeeJhVK09DB2v2Jjh0Yp+R6sq3i71VAssh4YLOFjjw==
+  version "0.7.21"
+  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.21.tgz#c08842b3bb451fbd9d3473d16325226ef48462c8"
+  integrity sha512-+DgF8/TzBRG98Xc/uq9XeZjBJ28NO5k0y8oBV5nIY8j/OD3jOWHPHC7VaxI6FubNQ3UhZaqaQ6UoqcLeZy8m+w==
   dependencies:
     "@jsii/spec" "^1.96.0"
 
@@ -1523,9 +1515,9 @@ case@1.6.3, case@^1.6.3:
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
 cdk-nag@^2.28.78:
-  version "2.28.78"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.78.tgz#6df20752f859d1d6d5920b60473a3abfaa712267"
-  integrity sha512-5lDDJ+/IxXYIZFW6BxYv7MKnhJa/og45gjr/XrVM7ffy0kmpArHtEkkjYRIegWOCQEonqmEjlelyaThR1PZZwg==
+  version "2.28.79"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.79.tgz#c6c214304eb5eeacffde5e432e9d730e15b2faeb"
+  integrity sha512-8w5fI4QhJJs7iCsMKPuAYj9V84Kl/x28QY2veWBYO0PS+3xMn3ubogYUlEYN0lXuu4S1gczPeNLBdm0e66heAQ==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -3726,12 +3718,12 @@ jsii-rosetta@^1.96.0:
     yargs "^16.2.0"
 
 jsii-rosetta@~5.3.0:
-  version "5.3.31"
-  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.3.31.tgz#4cdfc6889115847a142fef21bc25d9fc23c25c5f"
-  integrity sha512-dVrD8dTW24Oj4wYf43HXRQ+y//sTlWwcdLpfbJ7dZcK7LvVvgNXUjTbM4JZ6CMdNivRwOC9AG6W2xCbT/THFuw==
+  version "5.3.34"
+  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.3.34.tgz#c41a34db5585b22561c60d3190a99cf839b5818f"
+  integrity sha512-vXacl6+6IVAe01Te7NgFm4qJ5riSL/U6XhEvqppBjU2XyrnoLel76J+C6sgnA3i6pVIpcEDP1asANyro1xQiWg==
   dependencies:
-    "@jsii/check-node" "1.95.0"
-    "@jsii/spec" "^1.95.0"
+    "@jsii/check-node" "1.96.0"
+    "@jsii/spec" "^1.96.0"
     "@xmldom/xmldom" "^0.8.10"
     chalk "^4"
     commonmark "^0.31.0"
@@ -3764,9 +3756,9 @@ jsii@1.96.0:
     yargs "^16.2.0"
 
 jsii@~5.3.0:
-  version "5.3.31"
-  resolved "https://registry.yarnpkg.com/jsii/-/jsii-5.3.31.tgz#a870e84a83d9714cef14ec5697add6048e6c74cb"
-  integrity sha512-dIWAKLcaseBDDB3BVjFSbXTfy6qp8hKdUoopkXO4HlMQ/pz0P2SZWHmSP1LLp2XGTSB775QT0LEi3wpWtYVENg==
+  version "5.3.33"
+  resolved "https://registry.yarnpkg.com/jsii/-/jsii-5.3.33.tgz#c8b066f04943593448ed6266a8d0985f13a75c7f"
+  integrity sha512-6+Q2ysfWvzKBjZwAOrCmI4pgt+DNYTVrbQbT4Ij3nOXoZOgDGD9SYFxjkamftWgHb3bfc7UJHi5li7AlgNHtKw==
   dependencies:
     "@jsii/check-node" "1.96.0"
     "@jsii/spec" "^1.96.0"
