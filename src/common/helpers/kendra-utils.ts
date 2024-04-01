@@ -14,7 +14,7 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { isPlainObject } from './utils';
 // https://github.com/webpack/webpack/issues/6584
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+// eslint-disable-next-line @typescript-eslint/no-require-imports,import/no-extraneous-dependencies
 const merge = require('deepmerge');
 
 /**
@@ -48,8 +48,7 @@ export function overrideProps(DefaultProps: object, userProps: object, concatArr
   // Override the sensible defaults with user provided props
   if (concatArray) {
     return merge(DefaultProps, userProps, {
-      arrayMerge: (destinationArray: any[], sourceArray: any[]) => destinationArray.concat(sourceArray),
-      isMergeableObject: isPlainObject,
+      arrayMerge: (destinationArray: any[], sourceArray: any[]) => [...destinationArray, ...sourceArray],
     });
   } else {
     return merge(DefaultProps, userProps, {

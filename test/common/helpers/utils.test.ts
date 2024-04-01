@@ -10,12 +10,18 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+import { isObject } from 'util';
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { generatePhysicalName, generatePhysicalNameV2,
-  isPlainObject, lambdaMemorySizeLimiter, maximumLambdaMemorySizeContextItem, recommendedMaximumLambdaMemorySize } from '../../../src/common/helpers/utils';
-import {addCfnSuppressRules} from "../../../lib/common/helpers/utils";
-import { isObject } from 'util';
+import {
+  generatePhysicalName,
+  generatePhysicalNameV2,
+  isPlainObject,
+  lambdaMemorySizeLimiter,
+  maximumLambdaMemorySizeContextItem,
+  recommendedMaximumLambdaMemorySize,
+  addCfnSuppressRules,
+} from '../../../src/common/helpers/utils';
 
 describe('lambdaMemorySizeLimiter', () => {
   let testConstruct: TestConstruct;
@@ -276,7 +282,7 @@ describe('generatePhysicalNameV2', () => {
   });
 
 
-  describe("kendra general utils", () => {
+  describe('kendra general utils', () => {
     describe('addCfnSuppressRules', () => {
       it('should add suppression rules to a resource without existing rules', () => {
         const stack = new cdk.Stack();
