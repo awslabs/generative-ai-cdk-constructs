@@ -21,6 +21,7 @@ logger = Logger(service="SUMMARY_DOCUMENT_READER")
 tracer = Tracer(service="SUMMARY_DOCUMENT_READER")
 
 s3 = boto3.resource('s3')
+rekognition_client=boto3.client('rekognition')
 
 @tracer.capture_method
 def read_file_from_s3(bucket, key):
@@ -59,17 +60,44 @@ def get_file_transformation(transformed_asset_bucket,transformed_file_name,
     }
     if (check_file_exists(transformed_asset_bucket, transformed_file_name) is False):
             logger.info("Starting file transformation")
-            loader = S3FileLoaderInMemory(input_asset_bucket, original_file_name)
-            document_content = loader.load()
-            if not document_content:
-                response['status'] = 'Error'
-                response['summary'] = 'Not able to transform the file.'
-                return response 
-            encoded_string = document_content.encode("utf-8")
-            s3.Bucket(transformed_asset_bucket).put_object(Key=transformed_file_name, Body=encoded_string)
-            response['status'] = 'File transformed'
-            response['name'] = transformed_file_name
-            response['summary']=''
+            if(original_file_name.endswith('.pdf')):
+                loader = S3FileLoaderInMemory(input_asset_bucket, original_file_name)
+                document_content = loader.load()
+                if not document_content:
+                    response['status'] = 'Error'
+                    response['summary'] = 'Not able to transform the file.'
+                    return response 
+                encoded_string = document_content.encode("utf-8")
+                s3.Bucket(transformed_asset_bucket).put_object(Key=transformed_file_name, Body=encoded_string)
+                response['status'] = 'File transformed'
+                response['name'] = transformed_file_name
+                response['summary']=''
+            else:
+                with open(original_file_name, "rb") as img_file:
+                    image_bytes = {"Bytes": img_file.read()}
+                if(moderate_image(image_bytes) is False):
+                     logger.info("Upload image to processed assets bucket")
+                     s3.Bucket(transformed_asset_bucket).put_object(Key=original_file_name, Body=image_bytes)
+                     response['status'] = 'File transformed'
+                     response['name'] = original_file_name
+                     response['summary']=''
+                 
     else:   
             logger.info("File already exists,skip transformation.")           
     return response
+
+def moderate_image(image_bytes)-> str:
+        isToxicImage = False
+        try: 
+            rekognition_response = rekognition_client.detect_moderation_labels(
+                            Image=image_bytes)
+            print(rekognition_response)
+            for label in rekognition_response['ModerationLabels']:
+                    if(label['Confidence'] > 0.60):
+                            isToxicImage=True
+                            print(f'Image failed moderation check, exit image uploading')
+                            break  
+        except Exception as exp:
+            print(f"Couldn't analyze image: {exp}")  
+        
+        return isToxicImage

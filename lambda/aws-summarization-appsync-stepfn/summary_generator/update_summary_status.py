@@ -10,12 +10,13 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
+import base64
+from enum import Enum
 import os
 import requests
 import json
 import boto3
 from requests_aws4auth import AWS4Auth
-
 from aws_lambda_powertools import Logger, Tracer
 
 logger = Logger(service="SUMMARY_GENERATION")
@@ -32,6 +33,54 @@ aws_auth = AWS4Auth(
     session_token=credentials.token,
 )
 
+
+class JobStatus(Enum):
+    DONE = (
+        'Done', 
+        ''
+    )
+    WORKING = (
+        'Working on generating the summary', 
+        ''
+    )
+    STREAMING_NEW_TOKEN = (
+        'New LLM token', 
+        ''
+    )
+    STREAMING_ENDED = (
+        'LLM streaming ended', 
+        ''
+    )
+    ERROR_LOAD_DOC = (
+        'Failed to load document content',
+        base64.b64encode("It seems I cannot load the document you are referring to, please verify that the document was correctly ingested or contect an administrator to get more information.".encode('utf-8'))
+    )
+    ERROR_LOAD_ARGS = (
+        'Failed to load the llm arguments provided', 
+        base64.b64encode("An internal error happened, and I am not able to load the args, please make sure the arguments provided are correctly structured.".encode('utf-8'))
+    )
+    ERROR_LOAD_LLM = (
+        'Failed to load the llm', 
+        base64.b64encode("An internal error happened, and I am not able to load my brain, please contact an administrator.".encode('utf-8'))
+    )
+    ERROR_LOAD_INFO = (
+        'Failed to load information about the requested file', 
+        base64.b64encode("Sorry, but I am not able to access the document specified.".encode('utf-8'))
+    )
+    ERROR_PREDICTION = (
+        'Exception during prediction,Please verify model for the selected modality', 
+        base64.b64encode("Sorry, it seems an issue happened on my end, and I'm not able to answer your question. Please contact an administrator to understand why !".encode('utf-8'))
+    )
+    
+
+    def __init__(self, status, message):
+        self.status = status
+        self.message = message
+
+    def get_message(self):
+        return self.message
+    
+    
 @tracer.capture_method
 def get_credentials(secret_id: str, region_name: str) -> str:
     
@@ -45,24 +94,25 @@ def get_credentials(secret_id: str, region_name: str) -> str:
 def updateSummaryJobStatus(variables):
 
     logger.info(f"send  status variables :: {variables}")
+    summary = variables['summary']
+
     query = """
         mutation updateSummaryJobStatus {
-            updateSummaryJobStatus(files: $files, summary_job_id: \"$jobid\") {
-                files {
+            updateSummaryJobStatus(summary_job_id: \"$summary_job_id\",
+            name: \"$name\",status: \"$status\",summary: \""""+summary+"""\",) {       
+                    summary_job_id
                     name
                     status
                     summary
-                }
-                summary_job_id
+                      
             }
         }
     """
 
-    query = query.replace("$jobid", variables['jobid'])
-    query = query.replace("$files", str(variables['files']).replace("\'", "\""))
-    query = query.replace("\"name\"", "name")
-    query = query.replace("\"status\"", "status")
-    query = query.replace("\"summary\"", "summary")
+    query = query.replace("$summary_job_id", variables['summary_job_id'])
+    query = query.replace("$name", variables['name'])
+    query = query.replace("$status", variables['status'])
+    
     
 
     query = query.replace("\n", "")
@@ -72,6 +122,7 @@ def updateSummaryJobStatus(variables):
     logger.info({"request": request})
 
     GRAPHQL_URL = os.environ['GRAPHQL_URL']
+    #GRAPHQL_URL = "https://qyj3623iqjgf3mx2wahukffuyq.appsync-api.us-east-1.amazonaws.com/graphql"
     HEADERS={
         "Content-Type": "application/json",
     }
