@@ -8,15 +8,15 @@ Creates default AmazonAuroraVectorStore.
 
 It includes creation of a VPC with 3 subnets (public,
 private with NAT Gateway, private without NAT Gateway),
-with the Amazon Aurora Serverless V2 Cluster being
-The cluster has 1 writer/reader of PosstgreSQL version 15.5
+with the Amazon Aurora Serverless V2 Cluster.
+The cluster has 1 writer/reader of PostgreSQL version 15.5
 instance (min capacity 0.5, max capacity 4). Lambda custom
 resource executes required pgvector and Amazon Bedrock Knowledge
 Base SQL queries against Aurora cluster
-during deploy. The secret containing databases credentials is
+during deployment. The secret containing databases credentials is
 being deployed and securely stored in AWS Secrets Manager.
 You must specify the same embeddings model that you used in
-KnowledgeBaseV2 construct.
+KnowledgeBase construct.
 
 **`See`**
 
