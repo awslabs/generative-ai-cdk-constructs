@@ -122,7 +122,6 @@ def updateSummaryJobStatus(variables):
     logger.info({"request": request})
 
     GRAPHQL_URL = os.environ['GRAPHQL_URL']
-    #GRAPHQL_URL = "https://qyj3623iqjgf3mx2wahukffuyq.appsync-api.us-east-1.amazonaws.com/graphql"
     HEADERS={
         "Content-Type": "application/json",
     }
