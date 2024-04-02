@@ -159,7 +159,7 @@ def create_index(client: OpenSearch, index_name: str, mapping: dict[str, str]) -
 # Add retry on AuthorizationException to mitigate policy creation race condition
 @retry(
     retry=retry_if_exception_type(AuthorizationException),
-    stop=stop_after_attempt(3),
+    stop=stop_after_attempt(10),
     wait=wait_exponential_jitter(1, 3),
 )
 def handle_create(
