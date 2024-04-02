@@ -26,18 +26,20 @@ metrics = Metrics(namespace="summary_pipeline", service="SUMMARY_INPUT_VALIDATIO
 def handler(event, context: LambdaContext)-> dict:
      summary_input = event["detail"]["summaryInput"]
      job_id = summary_input['summary_job_id']
-     ignore_existing = summary_input.get("ignore_existing", False)
-
+     
+     
      # Add a correlationId (tracking code).
      logger.set_correlation_id(job_id)
      metrics.add_metadata(key='correlationId', value=job_id)
      tracer.put_annotation(key="correlationId", value=job_id)
 
      input_files = summary_input['files']
+     
+
 
      response = process_files(input_files,job_id)
      
-     response_transformed = append_job_info(response, job_id, ignore_existing)
+     response_transformed = append_job_info(response, summary_input)
     
      logger.info({"response": response_transformed})
      return response_transformed
@@ -57,7 +59,7 @@ def process_files(input_files,job_id):
                 'name':filename  , 
                 'summary':""     
             }       
-        if filename.lower().endswith(('.pdf')) or filename.lower().endswith(('.txt')):
+        if isvalid_file_format(filename):
             metrics.add_metric(name="SupportedFile", unit=MetricUnit.Count, value=1)          
             file_list.update({'status':'Supported'})
         else:
@@ -65,6 +67,15 @@ def process_files(input_files,job_id):
             file_list.update({'summary':"Invalid file format"})
             logger.info(f"file {filename} extension is currently not supported, skipping this file from summary generation")
             metrics.add_metric(name="UnsupportedFile", unit=MetricUnit.Count, value=1)
+        
+        status_variables = {
+        "summary_job_id": job_id,
+        "name": filename,
+        "status": "Working on generating the summary",
+        "summary": '',
+        }
+
+        updateFileStatus(status_variables)
         
         files_list.append(file_list)
 
@@ -76,8 +87,6 @@ def process_files(input_files,job_id):
             files_to_process.append(file)
             logger.info({"Valid file :: file_name":file['name'],"status":file['status']})
         
-
-    updateFileStatus({'jobid': job_id, 'files': files_list})
 
     if not files_to_process:
         valid = False
@@ -91,12 +100,29 @@ def process_files(input_files,job_id):
     return response
 
 @tracer.capture_method
-def append_job_info(response, job_id, ignore_existing):
+def append_job_info(response, summary_input):
     """
-    Append job ID and ignore_existing flag to 
-    each file in the provided response
+    Append job ID , ignore_existing flag,summary_model 
+    and language to each file in the provided response
     """
+    language = summary_input['language']
+    summary_model = summary_input['summary_model']
+    job_id= summary_input['summary_job_id']
+    ignore_existing = summary_input.get("ignore_existing", False)
+
     for file in response['files']:
         file['jobid'] = job_id
         file['ignore_existing'] = ignore_existing
+        file['summary_model']=summary_model
+        file['language']=language
     return response
+
+@tracer.capture_method
+def isvalid_file_format(file_name: str) -> bool:
+    file_format = ['.pdf','.txt','.jpg','.jpeg','.png','.svg']
+    if file_name.endswith(tuple(file_format)):
+        print(f'valid file format :: {file_format}')
+        return True
+    else:
+        print(f'Invalid file format :: {file_format}')
+        return False

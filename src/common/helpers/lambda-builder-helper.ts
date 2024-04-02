@@ -16,8 +16,10 @@ import { DockerImageFunctionProps } from 'aws-cdk-lib/aws-lambda/lib/image-funct
 import { Construct } from 'constructs';
 import { DockerLambdaCustomProps } from '../props/DockerLambdaCustomProps';
 
-export function buildDockerLambdaFunction(scope: Construct,
-  id: string, constructprops: DockerImageFunctionProps,
+export function buildDockerLambdaFunction(
+  scope: Construct,
+  id: string,
+  constructprops: DockerImageFunctionProps,
   userprops: DockerLambdaCustomProps | undefined) {
   if (userprops) { // user provided his own custom lambda function, merge his props with the construct ones
     return new lambda.DockerImageFunction(

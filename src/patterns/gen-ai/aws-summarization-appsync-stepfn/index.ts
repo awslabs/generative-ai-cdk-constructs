@@ -15,7 +15,6 @@ import { Duration, Aws, Stack } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import * as elasticache from 'aws-cdk-lib/aws-elasticache';
 import * as events from 'aws-cdk-lib/aws-events';
 import * as targets from 'aws-cdk-lib/aws-events-targets';
 import * as iam from 'aws-cdk-lib/aws-iam';
@@ -31,10 +30,8 @@ import { BaseClass, BaseClassProps } from '../../../common/base-class/base-class
 import { ConstructName } from '../../../common/base-class/construct-name-enum';
 import * as eventBridge from '../../../common/helpers/eventbridge-helper';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
-import * as redisHelper from '../../../common/helpers/redis-helper';
 import * as s3BucketHelper from '../../../common/helpers/s3-bucket-helper';
 import { generatePhysicalName, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
-import * as vpcHelper from '../../../common/helpers/vpc-helper';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
 export interface SummarizationAppsyncStepfnProps {
@@ -53,23 +50,6 @@ export interface SummarizationAppsyncStepfnProps {
    * @default - none
    */
   readonly existingVpc?: ec2.IVpc;
-
-  /**
-   * Optional. Existing Redis cluster to cache the generated summary
-   * for subsequent request of same document.
-   *
-   * @default - none
-   */
-  readonly existingRedisCulster?: elasticache.CfnCacheCluster;
-
-
-  /**
-   * Optional. Custom cfnCacheClusterProps for Redis.
-   * Providing existingRedisCulster and cfnCacheClusterProps together will result in error.
-   * @default cacheNodeType -  'cache.r6g.xlarge'
-   * @default numCacheNodes- 1
-   */
-  readonly cfnCacheClusterProps?: elasticache.CfnCacheClusterProps;
 
   /**
    * Optional. Security group for the lambda function which this construct will use.
@@ -216,10 +196,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
    * Returns an instance of appsync.CfnGraphQLApi for summary created by the construct
    */
   public readonly graphqlApi: appsync.IGraphqlApi ;
-  /**
-   * Returns an instance of redis cluster created by the construct
-   */
-  public readonly redisCluster: elasticache.CfnCacheCluster;
+
   /**
    * Returns the instance of ec2.IVpc used by the construct
    */
@@ -378,34 +355,6 @@ export class SummarizationAppsyncStepfn extends BaseClass {
           }],
         });
     }
-
-
-    // set up redis cluster
-    redisHelper.CheckRedisClusterProps(props);
-
-
-    // build redis cluster only when cfnCacheClusterProps is set
-    if (props?.cfnCacheClusterProps) {
-      const redisSecurityGroup =redisHelper.getRedisSecurityGroup(this, {
-        existingVpc: this.vpc,
-      });
-      const redisProps = {
-        existingVpc: this.vpc,
-        cfnCacheClusterProps: props.cfnCacheClusterProps,
-        subnetIds: vpcHelper.getPrivateSubnetIDs(this.vpc),
-        inboundSecurityGroup: this.securityGroup,
-        redisSecurityGroup: redisSecurityGroup,
-        redisPort: 8686,
-      };
-      this.redisCluster = redisHelper.buildRedisCluster(this, redisProps);
-      redisHelper.setInboundRules(redisSecurityGroup, this.securityGroup, redisProps.redisPort);
-    } else {
-      this.redisCluster= props?.existingRedisCulster!;
-    }
-
-    const redisHost = this.redisCluster?.attrRedisEndpointAddress!;
-    const redisPort = this.redisCluster?.attrRedisEndpointPort!;
-
 
     eventBridge.CheckEventBridgeProps(props);
     // Create event bridge
@@ -601,6 +550,14 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       }),
     );
 
+    documentReaderLambdaRole.addToPolicy(new iam.PolicyStatement({
+      effect: iam.Effect.ALLOW,
+      actions: [
+        'rekognition:DetectModerationLabels',
+      ],
+      resources: ['*'],
+    }));
+
     NagSuppressions.addResourceSuppressions(
       documentReaderLambdaRole,
       [
@@ -624,8 +581,6 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       timeout: Duration.minutes(5),
       role: documentReaderLambdaRole,
       environment: {
-        REDIS_HOST: redisHost,
-        REDIS_PORT: redisPort,
         TRANSFORMED_ASSET_BUCKET: transformedAssetBucketName,
         INPUT_ASSET_BUCKET: inputAssetBucketName,
         IS_FILE_TRANSFORMED: isFileTransformationRequired,
@@ -726,8 +681,6 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       tracing: this.lambdaTracing,
       role: summaryGeneratorLambdaRole,
       environment: {
-        REDIS_HOST: redisHost,
-        REDIS_PORT: redisPort,
         ASSET_BUCKET_NAME: transformedAssetBucketName,
         GRAPHQL_URL: updateGraphQlApiEndpoint,
         SUMMARY_LLM_CHAIN_TYPE: summaryChainType,
@@ -807,9 +760,6 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       outputPath: '$.validation_result.Payload.files',
     });
 
-    const summaryfromCacheChoice = new sfn.Choice(this, 'is Summary in Cache?', {
-    });
-
     const fileStatusForSummarization = new sfn.Choice(this, 'is file status ready for summarization?', {
       outputPath: '$.document_result.Payload',
     });
@@ -820,18 +770,13 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       maxConcurrency: 100,
     }).itemProcessor(
       documentReaderTask.next(
-        summaryfromCacheChoice
-          .when(
-            sfn.Condition.booleanEquals('$.document_result.Payload.is_summary_available', true),
-            jobSuccess,
-          ).otherwise(
-            fileStatusForSummarization.when(
-              sfn.Condition.stringMatches('$.document_result.Payload.status', 'Error'),
-              jobSuccess,
-            ).otherwise(
-              generateSummaryTask.next(jobSuccess),
-            ),
-          ),
+        fileStatusForSummarization.when(
+          sfn.Condition.stringMatches('$.document_result.Payload.status', 'Error'),
+          jobSuccess,
+        ).otherwise(
+          generateSummaryTask.next(jobSuccess),
+        )
+        ,
       ),
     );
 
