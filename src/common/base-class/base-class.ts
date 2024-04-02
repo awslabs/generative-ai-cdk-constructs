@@ -173,7 +173,7 @@ export class BaseClass extends Construct {
     if (props.observability == false) {
       this.enablexray = false;
       this.lambdaTracing = lambda.Tracing.DISABLED;
-      this.fieldLogLevel= appsync.FieldLogLevel.NONE,
+      this.fieldLogLevel= appsync.FieldLogLevel.NONE;
       this.retention= logs.RetentionDays.TEN_YEARS;
     };
   }

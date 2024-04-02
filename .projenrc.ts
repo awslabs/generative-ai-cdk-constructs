@@ -57,9 +57,14 @@ const project = new awscdk.AwsCdkConstructLibrary({
     '@mrgrain/jsii-struct-builder',
     'typedoc',
     'typedoc-plugin-markdown',
+    'aws-sdk-mock',
   ],
-  deps: ['cdk-nag'],
-
+  deps: [
+    'cdk-nag',
+  ],
+  bundledDeps: [
+    'deepmerge',
+  ],
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
   minNodeVersion: '18.12.0', // 'MAINTENANCE' (first LTS)
   maxNodeVersion: '20.x', // 'CURRENT'
