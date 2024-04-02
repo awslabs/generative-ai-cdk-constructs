@@ -20,6 +20,7 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 - [AWSCONTENTGENAPPSYNCLAMBDA](ConstructName.md#awscontentgenappsynclambda)
 - [AWSMODELDEPLOYMENTSAGEMAKER](ConstructName.md#awsmodeldeploymentsagemaker)
 - [AWSQAAPPSYNCOPENSEARCH](ConstructName.md#awsqaappsyncopensearch)
+- [AWSRAGAPPSYNCSTEPFNKENDRA](ConstructName.md#awsragappsyncstepfnkendra)
 - [AWSRAGAPPSYNCSTEPFNOPENSEARCH](ConstructName.md#awsragappsyncstepfnopensearch)
 - [AWSSUMMARIZATIONAPPSYNCSTEPFN](ConstructName.md#awssummarizationappsyncstepfn)
 - [CUSTOMSAGEMAKERENDPOINT](ConstructName.md#customsagemakerendpoint)
@@ -43,6 +44,12 @@ ___
 ### AWSQAAPPSYNCOPENSEARCH
 
 • **AWSQAAPPSYNCOPENSEARCH** = ``"C2"``
+
+___
+
+### AWSRAGAPPSYNCSTEPFNKENDRA
+
+• **AWSRAGAPPSYNCSTEPFNKENDRA** = ``"C9"``
 
 ___
 

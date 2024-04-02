@@ -28,6 +28,10 @@
       "type": "build"
     },
     {
+      "name": "aws-sdk-mock",
+      "type": "build"
+    },
+    {
       "name": "commitlint",
       "type": "build"
     },
@@ -112,6 +116,10 @@
     {
       "name": "typescript",
       "type": "build"
+    },
+    {
+      "name": "deepmerge",
+      "type": "bundled"
     },
     {
       "name": "aws-cdk-lib",
