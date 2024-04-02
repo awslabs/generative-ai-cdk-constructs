@@ -27,7 +27,6 @@
 - [lambdaTracing](SummarizationAppsyncStepfn.md#lambdatracing)
 - [node](SummarizationAppsyncStepfn.md#node)
 - [processedAssetBucket](SummarizationAppsyncStepfn.md#processedassetbucket)
-- [redisCluster](SummarizationAppsyncStepfn.md#rediscluster)
 - [retention](SummarizationAppsyncStepfn.md#retention)
 - [securityGroup](SummarizationAppsyncStepfn.md#securitygroup)
 - [stage](SummarizationAppsyncStepfn.md#stage)
@@ -197,14 +196,6 @@ ___
 • `Readonly` **processedAssetBucket**: `IBucket`
 
 Returns the instance of s3.IBucket used by the construct
-
-___
-
-### redisCluster
-
-• `Readonly` **redisCluster**: `CfnCacheCluster`
-
-Returns an instance of redis cluster created by the construct
 
 ___
 

@@ -118,8 +118,8 @@ def create_mapping(
                 "type": "knn_vector",
                 "dimension": dimensions,
                 "method": {
-                    "engine": "nmslib",
-                    "space_type": "cosinesimil",
+                    "engine": "faiss",
+                    "space_type": "l2",
                     "name": "hnsw",
                     "parameters": {},
                 },
