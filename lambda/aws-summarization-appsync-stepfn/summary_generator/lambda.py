@@ -10,40 +10,44 @@
 # OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 # and limitations under the License.
 #
-import os,boto3
+import json
 import base64
+import os,boto3
 
-from langchain.llms.bedrock import Bedrock
-from update_summary_status import updateSummaryJobStatus
+# langchain files
 from langchain.prompts import PromptTemplate
-# external files
+from langchain.llms.bedrock import Bedrock
+from langchain_core.messages import HumanMessage
 from langchain.docstore.document import Document
+from langchain_community.chat_models import BedrockChat
+from langchain_core.prompts import ChatPromptTemplate
 from langchain.chains.summarize import load_summarize_chain
 
-import redis
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.messages import (
+    SystemMessage,
+    HumanMessage,
+    AIMessage,
+)
 
-
+# aws libs
 from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
+
+# internal files
+from StreamingCallbackHandler import StreamingCallbackHandler
+from update_summary_status import JobStatus, updateSummaryJobStatus
+from helper import  read_file_from_s3,download_file,encode_image_to_base64,Modality
+
 
 logger = Logger(service="SUMMARY_GENERATION")
 tracer = Tracer(service="SUMMARY_GENERATION")
 metrics = Metrics(namespace="summary_pipeline", service="SUMMARY_GENERATION")
 
 
-# internal files
-from helper import  read_file_from_s3
 
 transformed_bucket_name = os.environ["ASSET_BUCKET_NAME"]
 chain_type = os.environ["SUMMARY_LLM_CHAIN_TYPE"]
-
-params = {
-        "max_tokens_to_sample": 4000,
-        "temperature": 0, 
-        "top_k": 250,
-        "top_p": 1,
-        "stop_sequences": ["\\n\\nHuman:"],
-    }
 
 bedrock_client = boto3.client('bedrock-runtime')
 
@@ -52,9 +56,16 @@ bedrock_client = boto3.client('bedrock-runtime')
 @metrics.log_metrics(capture_cold_start_metric=True)
 def handler(event, context: LambdaContext)-> dict:
     logger.info("Starting summary agent with input", event)
-    processed_files = []
 
     job_id = event["summary_job_id"]
+
+    language = event["language"]
+    summary_model= event["summary_model"]
+    model_id=summary_model.get('modelId','anthropic.claude-v2:1')
+    modality=summary_model.get('modality','Text')
+    model_args = summary_model.get('model_kwargs', {})
+    streaming = summary_model.get("streaming", False)
+ 
 
     logger.set_correlation_id(job_id)
     metrics.add_metadata(key='correlationId', value=job_id)
@@ -64,90 +75,101 @@ def handler(event, context: LambdaContext)-> dict:
     transformed_file_name = event["transformed_file_name"]
     
    
-    response = {
+    status_variables = {
         "summary_job_id": job_id,
-        "files": processed_files,
+        "name": original_file_name,
+        "status": JobStatus.WORKING.status,
+        "summary": '',
+        
     }
-    summary_llm = Bedrock(
-        model_id="anthropic.claude-v2:1",
-        client=bedrock_client,
-        model_kwargs=params,
-        streaming=False,
-    )
-    
-    redis_host = os.environ.get("REDIS_HOST", "N/A")
-    redis_port = os.environ.get("REDIS_PORT", "N/A")
 
-    if redis_host and redis_port:
-        logger.info("connecting to redis host...")
-        redis_client = redis.Redis(host=redis_host, port=redis_port)
-    else:
-        logger.info("Redis host or port not set in environment variables")
 
-    inputFile = read_file_from_s3(transformed_bucket_name, transformed_file_name)
-    if inputFile is None:
-        processed_file = {
-            'status':"Error",
-            'name':original_file_name,
-            'summary':"No file available to read."
-        }
-        processed_files.append(processed_file)
-        logger.exception(f"Error occured:: {response}")
-        return response
-
-    finalsummary = generate_summary(summary_llm,chain_type,inputFile)
-    
-    if not finalsummary:
-        logger.exception("Error occured while generating summary")
-        processed_file = {
-            'status':"Error",
-            'name':original_file_name,
-            'summary':"Something went wrong while generating summary!"
-        }
-    else:
-        llm_answer_bytes = finalsummary.encode("utf-8")
-        base64_bytes = base64.b64encode(llm_answer_bytes)
-        llm_answer_base64_string = base64_bytes.decode("utf-8")
-        logger.info(f" Generated summary is:: {finalsummary}")
-        processed_file = {
-            'status':"Completed",
-            'name':original_file_name,
-            'summary':llm_answer_base64_string
-        }
-    processed_files.append(processed_file)
-    
-
-    logger.info("Saving respone in Redis :: ",response)
-    try:
-        redis_client.set(original_file_name,
-                         llm_answer_base64_string, ex=604800)
-        logger.info("Saved summary in Redis")
-    except (ValueError, redis.ConnectionError) as e:
-        logger.exception(
-            "An error occured while trying to connect to Redis.\n"
-            f'Host: "{redis_host}", Port: "{redis_port}".\n'
-            f"Exception: {e}"
+    callback_manager = [StreamingCallbackHandler(status_variables)] if streaming else None
+    summary_llm = BedrockChat(
+            model_id=model_id,
+            streaming=streaming,
+            callbacks=callback_manager,
+            model_kwargs=model_args,
         )
-    updateSummaryJobStatus({'jobid': job_id, 'files': processed_files})
-    return response
+
+    if (modality==Modality.TEXT.status) :
+        try:
+            inputFile = read_file_from_s3(transformed_bucket_name, transformed_file_name)
+        except Exception as exp:
+            status_variables['status']=JobStatus.ERROR_LOAD_DOC.status
+            logger.exception(f"Error occured while processing  {transformed_file_name} from {transformed_bucket_name}, Reason : exp {exp}")
+            updateSummaryJobStatus(status_variables) 
+            return
+        generate_summary(summary_llm,inputFile,language)
+    
+    elif(modality==Modality.IMAGE.status) :
+        try:
+            local_file_path= download_file(transformed_bucket_name,transformed_file_name)
+            base64_images=encode_image_to_base64(local_file_path,transformed_file_name)  
+        except Exception as exp:
+            status_variables['status']=JobStatus.ERROR_LOAD_DOC.status
+            logger.exception(f"Error occured while processing  {transformed_file_name} from {transformed_bucket_name}, Reason : exp {exp}")
+            updateSummaryJobStatus(status_variables) 
+            return
+        generate_summary_for_image(summary_llm,base64_images,language)
+    
+    else:
+        logger.error(f"Modality {modality} is not supported with {Modality.IMAGE}")
+        status_variables['status']=JobStatus.ERROR_LOAD_LLM.status
+        updateSummaryJobStatus(status_variables)
+        return
+   
+    logger.info("Summary Genrated and published")
+   
 
 
-
-
-def generate_summary(_summary_llm,chain_type,inputFile)-> str:
+def generate_summary(_summary_llm,inputFile,language)-> str:
     
     logger.info(f" Using chain_type as {chain_type} for the document")    
     docs = [Document(page_content=inputFile)]
-    template = """\n\nHuman: Please read the text:\n{text}\n
-    Summarize the text in 300 words: 
-    \n\nAssistant:"""
-    prompt = PromptTemplate(template=template, input_variables=["text"])
-    
-    chain = load_summarize_chain(
-                _summary_llm, 
-                chain_type=chain_type, 
-                verbose=False,
-                prompt=prompt
-                )
-    return chain.run(docs)
+    messages = [
+    ("system", "Please read the text and summarize in {language} language"),
+    ("human", "{text},{language}"),
+    ]
 
+    prompt = ChatPromptTemplate.from_messages(messages)
+    chain = prompt | _summary_llm 
+
+    response = chain.invoke({"text": docs,"language":language})
+    logger.info(f'generated response is:::: {response}')
+   
+    
+def generate_summary_for_image(_summary_llm,base64_images,language)-> str:
+    
+    logger.info(f" generating image description...") 
+    prompt ="Describe this image."
+    
+    system_message = "Respond only in {language}."
+    human_message=[
+        
+            {
+                "type": "image",
+                "source": {
+                    "type": "base64",
+                    "media_type": "image/jpeg",
+                    "data": base64_images
+                }
+            },
+            {
+                "type": "text",
+                "text": prompt
+            
+            }
+       ]
+    #ai_message = "Here is my response after thinking step by step ."
+    ai_message = "Here is my response in 50 words." 
+    prompt = ChatPromptTemplate.from_messages(
+    [
+        SystemMessage(content=system_message),
+        HumanMessage(content=human_message),
+        AIMessage(content=ai_message),
+    ]
+    )
+
+    chain = prompt | _summary_llm | StrOutputParser()
+    chain.invoke({"question": "Describe the image"})

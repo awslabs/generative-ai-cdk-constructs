@@ -1,33 +1,47 @@
-type FileStatus @aws_iam
-@aws_cognito_user_pools {
-	name: String
-	status: String
-	summary: String
-}
-
 input FileStatusInput {
 	name: String
 	status: String
 	summary: String
 }
 
+enum Modality {
+	Image
+	Text
+}
+
+input ModelConfiguration {
+	provider: ModelProvider
+	modelId: String
+	modality: Modality
+	streaming: Boolean
+	model_kwargs: AWSJSON
+}
+
+enum ModelProvider {
+	Sagemaker
+	Bedrock
+}
+
 type SummaryDocs @aws_iam
 @aws_cognito_user_pools {
 	summary_job_id: ID
-	files: [FileStatus]
+	name: String
+	status: String
+	summary: String
 }
 
 input SummaryDocsInput {
 	summary_job_id: ID
 	files: [FileStatusInput]
 	ignore_existing: Boolean
+	language: String
+	summary_model: ModelConfiguration
 }
 
 type Mutation @aws_iam
 @aws_cognito_user_pools {
 	generateSummary(summaryInput: SummaryDocsInput!): SummaryDocs
-	updateSummaryJobStatus(summary_job_id: ID,files: [FileStatusInput]
-	): SummaryDocs
+	updateSummaryJobStatus(summary_job_id: ID,name: String,status:String, summary: String): SummaryDocs
 }
 
 type Query @aws_iam
