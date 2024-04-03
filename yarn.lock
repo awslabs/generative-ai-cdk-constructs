@@ -1027,16 +1027,16 @@
   integrity sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag==
 
 "@types/node@*":
-  version "20.12.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.12.2.tgz#9facdd11102f38b21b4ebedd9d7999663343d72e"
-  integrity sha512-zQ0NYO87hyN6Xrclcqp7f8ZbXNbRfoGWNcMvHTPQp9UUrwI0mI7XBz+cu7/W6/VClYo2g63B0cjull/srU7LgQ==
+  version "20.12.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.12.3.tgz#d6658c2c7776c1cad93534bb45428195ed840c65"
+  integrity sha512-sD+ia2ubTeWrOu+YMF+MTAB7E+O7qsMqAbMfW7DG3K1URwhZ5hN1pLlRVGbf4wDFzSfikL05M17EyorS86jShw==
   dependencies:
     undici-types "~5.26.4"
 
 "@types/node@^18":
-  version "18.19.28"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.28.tgz#c64a2c992c8ebbf61100a4570e4eebc1934ae030"
-  integrity sha512-J5cOGD9n4x3YGgVuaND6khm5x07MMdAKkRyXnjVR6KFhLMNh2yONGiP7Z+4+tBOt5mK+GvDTiacTOVGGpqiecw==
+  version "18.19.29"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.29.tgz#e7e9d796c1e195be7e7daf82b4abc50d017fb9db"
+  integrity sha512-5pAX7ggTmWZdhUrhRWLPf+5oM7F80bcKVCBbr0zwEkTNzTJL2CWQjznpFgHYy6GrzkYi2Yjy7DHKoynFxqPV8g==
   dependencies:
     undici-types "~5.26.4"
 
@@ -1399,9 +1399,9 @@ aws-sdk-mock@^5.9.0:
     traverse "^0.6.6"
 
 aws-sdk@^2.1231.0:
-  version "2.1584.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1584.0.tgz#3ffe7e9f2ae42587d80721cf17b4a93d2dda692c"
-  integrity sha512-57Qizb+bLOhrBLWQSWw6WXTtbO/lFKzLouHxTfm/QeXm38gs0Q0knFxhdH+sWc/DPPJYSRGy7MNiuQcmsq5zxA==
+  version "2.1591.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1591.0.tgz#0ff7f897059a509332907215a13f09fb446d8179"
+  integrity sha512-9HbejaKZM89OK4YpE5TpjJItAtU1xhsFvy2p9qZN7nEpfx3G0FpepaW2fdpHu51gFeUn1+g0XUwekyq2N/Xagw==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -1580,19 +1580,19 @@ camelcase@^6.2.0, camelcase@^6.3.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001587:
-  version "1.0.30001603"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001603.tgz#605046a5bdc95ba4a92496d67e062522dce43381"
-  integrity sha512-iL2iSS0eDILMb9n5yKQoTBim9jMZ0Yrk8g0N9K7UzYyWnfIKzXBZD5ngpM37ZcL/cv0Mli8XtVMRYMQAfFpi5Q==
+  version "1.0.30001605"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001605.tgz#ca12d7330dd8bcb784557eb9aa64f0037870d9d6"
+  integrity sha512-nXwGlFWo34uliI9z3n6Qc0wZaf7zaZWA1CPZ169La5mV3I/gem7bst0vr5XQH5TJXZIMfDeZyOrZnSlVzKxxHQ==
 
 case@1.6.3, case@^1.6.3:
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-nag@^2.28.79:
-  version "2.28.79"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.79.tgz#c6c214304eb5eeacffde5e432e9d730e15b2faeb"
-  integrity sha512-8w5fI4QhJJs7iCsMKPuAYj9V84Kl/x28QY2veWBYO0PS+3xMn3ubogYUlEYN0lXuu4S1gczPeNLBdm0e66heAQ==
+cdk-nag@^2.28.80:
+  version "2.28.80"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.80.tgz#48dbb593762a822d3f7da696c3b12ea8236232cb"
+  integrity sha512-0h6IMWF/ZcaQ6tr5cYHmg3rgyrc/3xRjzY3Fh7VxcROZz6U+bP/e0U761Gt+UWE0zzSBNl3sGap6kRwToYXewA==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -2188,9 +2188,9 @@ downlevel-dts@^0.11.0:
     typescript next
 
 electron-to-chromium@^1.4.668:
-  version "1.4.723"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.723.tgz#827da30c96b316684d352c3d81430029df01bb8e"
-  integrity sha512-rxFVtrMGMFROr4qqU6n95rUi9IlfIm+lIAt+hOToy/9r6CDv0XiEcQdC3VP71y1pE5CFTzKV0RvxOGYCPWWHPw==
+  version "1.4.724"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.724.tgz#e0a86fe4d3d0e05a4d7b032549d79608078f830d"
+  integrity sha512-RTRvkmRkGhNBPPpdrgtDKvmOEYTrPlXDfc0J/Nfq5s29tEahAwhiX4mmhNzj6febWMleulxVYPh7QwCSL/EldA==
 
 emittery@^0.13.1:
   version "0.13.1"
