@@ -74,7 +74,8 @@ The following constructs are available in the library:
 
 | **Construct** |Description| AWS Services used |
 |:-------------|:-------------|:-------------|
-| [Data ingestion pipeline](./src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/) | Ingestion pipeline providing a RAG (retrieval augmented generation) source for storing documents in a knowledge base. | Amazon OpenSearch, AWS Step Functions, Amazon Bedrock, AWS AppSync, AWS Lambda | 
+| [Data ingestion pipeline - OpenSearch](./src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/) | Ingestion pipeline providing a RAG (retrieval augmented generation) source for storing documents in a knowledge base. | Amazon OpenSearch, AWS Step Functions, Amazon Bedrock, AWS AppSync, AWS Lambda | 
+| [Data ingestion pipeline - Kendra](./src/patterns/gen-ai/aws-rag-appsync-stepfn-kendra/) | Ingestion pipeline providing a RAG (retrieval augmented generation) source for storing documents in a knowledge base. | Amazon Kendra, AWS Step Functions, AWS AppSync, AWS Lambda | 
 | [Question answering](./src/patterns/gen-ai/aws-qa-appsync-opensearch/) | Utilizing Large Language Models (Anthropic Claude V2.1.) for Question Answering on PDF documents with  RAG (retrieval augmented generation) source and/or long context. Additionally, leveraging Anthropic Claude 3 for visual question answering on images.| Amazon OpenSearch, AWS Lambda, Amazon Bedrock, AWS AppSync | 
 | [Summarization](./src/patterns/gen-ai/aws-summarization-appsync-stepfn/) | Document summarization with a large language model (Anthropic Claude V2.1). | AWS Lambda, Amazon Bedrock, AWS AppSync and Amazon ElastiCache for Redis.  |
 | [SageMaker model deployment (JumpStart)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_jumpstart.md) | Deploy a foundation model from Amazon SageMaker JumpStart to an Amazon SageMaker endpoint. | Amazon SageMaker | 
