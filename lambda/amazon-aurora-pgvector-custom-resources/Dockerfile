@@ -22,21 +22,3 @@ RUN poetry build
 RUN poetry run pip install --upgrade -t /asset dist/*.whl
 
 CMD ["echo", "Build completed"]
-
-# FROM public.ecr.aws/sam/build-python3.12:1
-
-# # Install build dependencies
-# RUN dnf -y install postgresql-devel gcc python3-devel
-
-# RUN mkdir /opt/lib
-# WORKDIR /opt/lib
-# RUN pip install poetry
-# COPY . .
-# RUN rm -rf dist/*
-   
-# # Build psycopg2 from source
-# RUN poetry install --no-root
-# RUN poetry build
-# RUN poetry run pip install --upgrade -t /asset dist/*.whl
-
-# CMD ["echo", "Build completed"]
