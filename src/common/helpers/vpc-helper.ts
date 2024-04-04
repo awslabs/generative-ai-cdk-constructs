@@ -118,7 +118,7 @@ export function getlambdaSecuritygroup(scope: Construct, vpc: IVpc): SecurityGro
  *
  * Creates the default vpc props with public , private_with_egress and private_isolated subnet configuration.
  */
-function DefaultVpcProps(): VpcProps {
+export function DefaultVpcProps(): VpcProps {
   return {
     subnetConfiguration: [
       {

@@ -20,7 +20,7 @@ import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import { buildCustomResourceProvider } from '../../common/helpers/custom-resource-provider-helper';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
-import { buildVpc } from '../../common/helpers/vpc-helper';
+import { buildVpc, DefaultVpcProps } from '../../common/helpers/vpc-helper';
 import { BedrockFoundationModel } from '../bedrock/models';
 
 
@@ -107,7 +107,9 @@ export class AmazonAuroraDefaultVectorStore extends cdk.Resource {
     this.clusterIdentifier = 'aurora-serverless-vector-cluster';
     this.embeddingsModel = props.embeddingsModel;
 
-    const vpc = buildVpc(this, {});
+    const vpc = buildVpc(this, {
+      defaultVpcProps: DefaultVpcProps(),
+    });
     vpc.addFlowLog('VpcFlowLog', {
       destination: ec2.FlowLogDestination.toCloudWatchLogs(),
     });
