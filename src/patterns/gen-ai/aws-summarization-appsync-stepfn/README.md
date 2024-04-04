@@ -34,15 +34,15 @@
 
 ## Overview
 
-This construct provides a workflow to summarize multiple PDF documents with Amazon Bedrock using Anthropic Claude V2.1 as the foundation model, AWS AppSync for GraphQL APIs, AWS Step Functions, and AWS Lambda functions.
+This construct presents a scalable and decoupled workflow to generate summaries for multiple PDF documents or images using Amazon Bedrock as the foundation. It leverages the state-of-the-art natural language processing capabilities of Anthropic's Claude V2.1/Claude-3 model, integrated with AWS services such as AppSync, Step Functions, Lambda, and EventBridge.
 
-A GraphQL request is submitted with the list of files which needs to be summarized by the construct.
+The workflow is initiated by submitting a GraphQL request to AWS AppSync, containing the list of files that require summarization. AppSync acts as the entry point, forwarding the request to an Amazon EventBridge event bus through a custom data source resolver. EventBridge decouples the architecture, enabling asynchronous processing and facilitating the distribution of the request to AWS Step Functions for orchestration.
 
-AWS AppSync forwards the request to an Amazon EventBridge through an EventBridge data source resolver. Amazon EventBridge decouples the architecture and  forwards the request to AWS Step Functions for further processing.
+Step Functions implements a stateful workflow that validates the input request, processes and transforms the files in parallel, and generates summaries for each file. The workflow leverages AWS Lambda functions for specific tasks, such as file validation, transformation, and summarization using the Anthropic Claude model.
 
-AWS Step Functions implements a workflow to validate the input request, then process and transform the files in parallel, and finally generate the summary of each file. For user-specific configuration, please refer to the pattern construct props.
+The pattern is designed to be configurable, allowing users to customize various aspects of the workflow through the construct's properties. These configurations may include settings for file types, summarization parameters, and other user-specific requirements.
 
-The status of each file is sent back to the client through an AppSync subscription.
+By combining the power of Anthropic's cutting-edge language model with the scalability and flexibility of AWS services, this pattern enables efficient and automated summarization of large volumes of documents or images, streamlining information processing and extraction tasks.
 
 This construct builds a Lambda function from a Docker image, thus you need [Docker desktop](https://www.docker.com/products/docker-desktop/) running on your machine.
 
@@ -97,15 +97,7 @@ summarization_test_construct = SummarizationAppsyncStepfn(
 )
 ```
 
-For optional props like Redis cluster set cfnCacheClusterProps.
 
-```
-const cfnCacheClusterProps: elasticache.CfnCacheClusterProps = {
-      cacheNodeType: 'cache.m4.large',
-      engine: 'redis',
-      numCacheNodes: 1,
-    };
-```
 If file transformation is required set isFileTransformationRequired to 'True'
 
  ```
@@ -123,12 +115,10 @@ Subscription call to receive notifications:
 ```
 subscription MySubscription {
   updateSummaryJobStatus(summary_job_id: "81") {
-    files {
       name
       status
       summary
-    }
-    summary_job_id
+      summary_job_id
   }
 }
 _______________________________________
@@ -138,14 +128,10 @@ Expected response:
 {
   "data": {
     "updateSummaryJobStatus": {
-      "files": [
-        {
           "name": "document1.txt",
           "status": "Completed",
           "summary": "<base 64 encoded summary>"
-        }
-      ],
-      "summary_job_id": "81"
+          "summary_job_id": "81"
     }
   }
 }
@@ -162,14 +148,12 @@ Mutation call to trigger the summarization:
 ```
 mutation MyMutation {
   generateSummary(summaryInput:
-    {files: {name: "document1.txt", status: "", summary: ""},
+    {name: "document1.pdf", status: "", summary: "",
       ignore_existing: false, summary_job_id: "81"}) {
-    files {
       name
       status
       summary
-    }
-    summary_job_id
+      summary_job_id
   }
 }
 _______________________________________
@@ -179,7 +163,7 @@ Expected response: It invoke an asynchronous summarization process thus the resp
 {
   "data": {
     "generateSummary": {
-      "files": null,
+      "name": null,
       "summary_job_id": null
     }
   }
@@ -217,8 +201,6 @@ Parameters
 | cognitoUserPool | [cognito.IUserPool](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cognito.IUserPool.html) | ![Required](https://img.shields.io/badge/required-ff0000) | Amazon Cognito user pool used for authentication. |
 | vpcProps | [ec2.VpcProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.VpcProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | The construct creates a custom VPC based on vpcProps. Providing both this and existingVpc will result in an error. |
 | existingVpc | [ec2.IVpc](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.IVpc.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | An existing VPC can be used to deploy the construct.|
-| existingRedisCulster | [elasticache.CfnCacheCluster](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_elasticache.CfnCacheClusterProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing Redis cluster to cache the generated summary for subsequent request of same document. |
-| cfnCacheClusterProps | [elasticache.CfnCacheClusterProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_elasticache.CfnCacheClusterProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Properties defining cfnCacheClusterProps. If there is no existing redis cluster cfnCacheClusterProps can be used to create a new cluster.|
 | existingSecurityGroup | [ec2.ISecurityGroup](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.ISecurityGroup.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Security group for the Lambda function which this construct will use. If no exisiting security group is provided it will create one from the VPC.|
 | existingInputAssetsBucketObj | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing S3 bucket to store the input document to be summarized. PDF is the supported input document format. If transformed (.txt format) file is available, then this bucket is optional. |
 | bucketInputsAssetsProps | [s3.BucketProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.BucketProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | User-provided props to override the default props for the S3 bucket. Providing both this and `existingInputAssetsBucketObj` will result in an error.|
@@ -244,7 +226,6 @@ Parameters
 | eventBridgeBus | [events.IEventBus](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_events.IEventBus.html) | An instance of events.IEventBus created by the construct |
 | mergeApi | [appsync.CfnGraphQLApi](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_appsync.CfnGraphQLApi.html) |  Instance of appsync.CfnGraphQLApi for Merged API created by the construct |
 | graphqlApi | [appsync.IGraphqlApi](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_appsync.IGraphqlApi.html) | Instance of appsync.CfnGraphQLApi for summary created by the construct|
-| redisCluster | [elasticache.CfnCacheCluster](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_elasticache.CfnCacheClusterProps.html) | Instance of Redis cluster created by the construct |
 | vpc | [ec2.IVpc](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.IVpc.html) |Returns the instance of ec2.ISecurityGroup used by the construct |
 | securityGroup | [ec2.ISecurityGroup](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.ISecurityGroup.html) | Returns the instance of ec2.ISecurityGroup used by the construct. |
 | inputAssetBucket | [s3.Bucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html) | Instance of s3.IBucket used by the construct |
@@ -260,8 +241,6 @@ Out-of-the-box implementation of the construct without any override will set the
 ### VPC
 - Sets up VPC to deploy the contruct
 
-### Amazon ElastiCache for Redis
-- Sets up Amazon ElastiCache for Redis cluster
 
 ### AppSync
 - Sets up AWS AppSync Merged API
@@ -310,13 +289,12 @@ The following table provides a sample cost breakdown for deploying this solution
 | Amazon Virtual Private Cloud |  | 0.00 |
 | AWS AppSync | 15 requests per hour to trigger summarization + (15 x 4 calls to notify clients through subscriptions) = 54,000 requests per month | 0.22 |
 | Amazon EventBridge | 15 requests per hour = 10800 custom events per month | 0.01 |
-| AWS Lambda | 15 summarization requests per hour with 2 files each time, through 4 Lambda functions each allocated with 7076 MB of memory allocated and 512 MB of ephemeral storage allocated and an average run time of 30 seconds = 43200 requests per month. This cost would reduce if redis cache is used which will skip lambda invocation. | 142.59 |
+| AWS Lambda | 15 summarization requests per hour with 2 files each time, through 4 Lambda functions each allocated with 7076 MB of memory allocated and 512 MB of ephemeral storage allocated and an average run time of 30 seconds = 43200 requests per month | 142.59 |
 | Amazon Simple Storage Service | 15 requests per hour for summarization with 2 files in input format (PDF) with an average size of 1MB and transformed files to text format with an average size of 1 MB = 43.2 GB per month in S3 Standard Storage | 0.99 |
 | Amazon Bedrock | With the on-demand mode, for text generation models, you are charged for every input token processed and every output token generated. Anthropic.claude model price for 1000 input tokens= $0.01102 and for 1000 output tokens = $0.03268. With a pdf of 50 pages (asumming each page having 200 words) , 50 * 200 , there are 10000 words, which are ~= 7500 tokens. Input token cost for 200 request per month = 7.5 * 0.01102 * 200 = 16.53. Asumming a summary of 200 words (150 tokens) for 200 requests per month cost of output token  = 150 * (0.03268/1000) * 200 = 9.804. Total cost for 200 summary requests , 16.53 + 9.804 = $26.334| 26.34 |
-| Amazon ElastiCache for Redis | With on-demand Instance type as 'cache.m4.large' and with 1 node the expecxted cost is  1 instance(s) x 0.156 USD hourly x (100 / 100 Utilized/Month) x 730 hours in a month = 113.8800 | 113.88 |
 | Amazon CloudWatch | 15 metrics using 5 GB data ingested for logs | 7.02 |
 | AWS X-Ray | 100,000 requests per month through AppSync and Lambda calls | 0.50 |
-| Total Deployment cost | | 292.04 |
+| Total Deployment cost | | 178.16 |
 
 The resources not created by this construct (Amazon Cognito User Pool, AppSync Merged API, AWS Secrets Manager secret) do not appear in the table above. You can refer to the decicated pages to get an estimate of the cost related to those services:
 - [AWS AppSync pricing (for Merged API if used)](https://aws.amazon.com/appsync/pricing/)
@@ -333,7 +311,6 @@ This construct requires you to provide an existing Amazon Cognito User Pool. Ple
 Optionnaly, you can provide existing resources to the constructs (marked optional in the construct pattern props). If you chose to do so, please refer to the official documentation on best practices to secure each service:
 - [Amazon Simple Storage Service](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html)
 - [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-best-practices.html)
-- [Amazon ElastiCache](https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/redis-security.html)
 - [Amazon EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-security.html)
 - [AWS AppSync](https://docs.aws.amazon.com/appsync/latest/devguide/best-practices.html)
 
@@ -363,7 +340,6 @@ To view the service quotas for all AWS services in the documentation without swi
 
 When deleting your stack which uses this construct, do not forget to go over the following instructions to avoid unexpected charges:
   - empty and delete the Amazon Simple Storage Bucket(s) created by this construct if you didn't provide existing ones during the construct creation
-  - empty the Amazon ElastiCache cluster for Redis
   - if the observability flag is turned on, delete all the associated logs created by the different services in Amazon CloudWatch logs
 
 ***

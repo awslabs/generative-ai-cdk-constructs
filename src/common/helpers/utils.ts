@@ -12,6 +12,7 @@
  */
 import * as cdk from 'aws-cdk-lib';
 import { IConstruct } from 'constructs';
+import { CfnNagSuppressRule } from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
 
 /**
  * The version of this package
@@ -136,4 +137,39 @@ export function lambdaMemorySizeLimiter(construct: IConstruct, requestedMemorySi
   } else {
     return requestedMemorySizeInMegabytes;
   }
+}
+
+/**
+ * Adds CFN NAG suppress rules to the CDK resource.
+ * @param resource The CDK resource
+ * @param rules The CFN NAG suppress rules
+ */
+export function addCfnSuppressRules(resource: cdk.Resource | cdk.CfnResource, rules: CfnNagSuppressRule[]) {
+  if (resource instanceof cdk.Resource) {
+    resource = resource.node.defaultChild as cdk.CfnResource;
+  }
+
+  if (resource.cfnOptions.metadata?.cfn_nag?.rules_to_suppress) {
+    resource.cfnOptions.metadata?.cfn_nag.rules_to_suppress.push(...rules);
+  } else {
+    resource.addMetadata('cfn_nag', {
+      rules_to_suppress: rules,
+    });
+  }
+}
+
+function isObject(val: object) {
+  return val !== null && typeof val === 'object' && !Array.isArray(val);
+}
+
+export function isPlainObject(o: object) {
+  if (!isObject(o)) return false;
+
+  if (Object.getPrototypeOf(o) === null) return true;
+
+  let proto = o;
+  while (Object.getPrototypeOf(proto) !== null) {
+    proto = Object.getPrototypeOf(proto);
+  }
+  return Object.getPrototypeOf(o) === proto;
 }

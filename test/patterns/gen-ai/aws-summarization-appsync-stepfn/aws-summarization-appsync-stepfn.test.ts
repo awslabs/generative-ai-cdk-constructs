@@ -16,7 +16,6 @@ import { aws_appsync as appsync } from 'aws-cdk-lib';
 import { Template, Match } from 'aws-cdk-lib/assertions';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
-import * as elasticache from 'aws-cdk-lib/aws-elasticache';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import {
   SummarizationAppsyncStepfn,
@@ -86,11 +85,6 @@ describe('Summarization Appsync Stepfn construct', () => {
       },
     );
 
-    const cfnCacheClusterProps: elasticache.CfnCacheClusterProps = {
-      cacheNodeType: 'cache.r6g.xlarge',
-      engine: 'redis',
-      numCacheNodes: 1,
-    };
 
     const userPoolLoaded = cognito.UserPool.fromUserPoolId(summarizationTestStack, 'testUserPool', cognitoPoolId);
 
@@ -98,7 +92,6 @@ describe('Summarization Appsync Stepfn construct', () => {
       cognitoUserPool: userPoolLoaded,
       existingMergedApi: mergedapi,
       existingVpc: vpc,
-      cfnCacheClusterProps: cfnCacheClusterProps,
     };
 
 
@@ -135,8 +128,6 @@ describe('Summarization Appsync Stepfn construct', () => {
           },
           INPUT_ASSET_BUCKET: { Ref: Match.stringLikeRegexp('testinputAssetsSummaryBucketdev') },
           IS_FILE_TRANSFORMED: 'false',
-          REDIS_HOST: { 'Fn::GetAtt': [Match.stringLikeRegexp('testredisCluster'), 'RedisEndpoint.Address'] },
-          REDIS_PORT: { 'Fn::GetAtt': [Match.stringLikeRegexp('testredisCluster'), 'RedisEndpoint.Port'] },
           TRANSFORMED_ASSET_BUCKET: { Ref: Match.stringLikeRegexp('testprocessedAssetsSummaryBucket') },
         },
       },
@@ -156,8 +147,6 @@ describe('Summarization Appsync Stepfn construct', () => {
               'GraphQLUrl',
             ],
           },
-          REDIS_HOST: { 'Fn::GetAtt': [Match.stringLikeRegexp('testredisCluster'), 'RedisEndpoint.Address'] },
-          REDIS_PORT: { 'Fn::GetAtt': [Match.stringLikeRegexp('testredisCluster'), 'RedisEndpoint.Port'] },
           SUMMARY_LLM_CHAIN_TYPE: 'stuff',
         },
       },
@@ -228,11 +217,6 @@ describe('Summarization Appsync Stepfn construct', () => {
       ));
   });
 
-  test('AWS elastic cache properties', () => {
-    summarizationTestTemplate.resourceCountIs('AWS::ElastiCache::CacheCluster', 1);
-    expect(summarizationTestConstruct.redisCluster.attrRedisEndpointPort).not.toBeNull;
-    expect(summarizationTestConstruct.redisCluster.attrRedisEndpointAddress).not.toBeNull;
-  });
 
   test('Step function count', () => {
     summarizationTestTemplate.resourceCountIs('AWS::StepFunctions::StateMachine', 1);

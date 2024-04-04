@@ -8,7 +8,6 @@
 
 - [bucketInputsAssetsProps](SummarizationAppsyncStepfnProps.md#bucketinputsassetsprops)
 - [bucketProcessedAssetsProps](SummarizationAppsyncStepfnProps.md#bucketprocessedassetsprops)
-- [cfnCacheClusterProps](SummarizationAppsyncStepfnProps.md#cfncacheclusterprops)
 - [cognitoUserPool](SummarizationAppsyncStepfnProps.md#cognitouserpool)
 - [customDocumentReaderDockerLambdaProps](SummarizationAppsyncStepfnProps.md#customdocumentreaderdockerlambdaprops)
 - [customInputValidationDockerLambdaProps](SummarizationAppsyncStepfnProps.md#custominputvalidationdockerlambdaprops)
@@ -19,7 +18,6 @@
 - [existingInputAssetsBucketObj](SummarizationAppsyncStepfnProps.md#existinginputassetsbucketobj)
 - [existingMergedApi](SummarizationAppsyncStepfnProps.md#existingmergedapi)
 - [existingProcessedAssetsBucketObj](SummarizationAppsyncStepfnProps.md#existingprocessedassetsbucketobj)
-- [existingRedisCulster](SummarizationAppsyncStepfnProps.md#existingredisculster)
 - [existingSecurityGroup](SummarizationAppsyncStepfnProps.md#existingsecuritygroup)
 - [existingVpc](SummarizationAppsyncStepfnProps.md#existingvpc)
 - [isFileTransformationRequired](SummarizationAppsyncStepfnProps.md#isfiletransformationrequired)
@@ -57,27 +55,6 @@ Providing both this and `existingProcessedAssetsBucketObj` will cause an error.
 
 ```ts
 - Default props are used
-```
-
-___
-
-### cfnCacheClusterProps
-
-• `Optional` `Readonly` **cfnCacheClusterProps**: `CfnCacheClusterProps`
-
-Optional. Custom cfnCacheClusterProps for Redis.
-Providing existingRedisCulster and cfnCacheClusterProps together will result in error.
-
-**`Default`**
-
-```ts
-cacheNodeType -  'cache.r6g.xlarge'
-```
-
-**`Default`**
-
-```ts
-numCacheNodes- 1
 ```
 
 ___
@@ -213,21 +190,6 @@ If None is provided then this contruct will create one.
 
 ```ts
 - None
-```
-
-___
-
-### existingRedisCulster
-
-• `Optional` `Readonly` **existingRedisCulster**: `CfnCacheCluster`
-
-Optional. Existing Redis cluster to cache the generated summary
-for subsequent request of same document.
-
-**`Default`**
-
-```ts
-- none
 ```
 
 ___

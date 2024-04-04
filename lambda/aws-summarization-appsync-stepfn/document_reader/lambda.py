@@ -12,7 +12,6 @@
 #
 import os
 from helper import check_file_exists,get_file_transformation
-import redis
 
 from update_summary_status import updateSummaryJobStatus
 from aws_lambda_powertools import Logger, Tracer, Metrics
@@ -34,40 +33,30 @@ is_file_tranformation_required = os.environ["IS_FILE_TRANSFORMED"]
 def handler(event, context: LambdaContext):
       
     logger.info(f"{event=}")
-    ignore_existing = event.get("ignore_existing", False)
     
     original_file_name = event["name"]
-    job_id = event["jobid"]  
+    job_id = event["jobid"] 
+    summary_model = event["summary_model"] 
+    language = event["language"]  
     response = {
-        "is_summary_available": False,
         "summary_job_id": job_id,
         "file_name": original_file_name,
-        "status": "Pending",
+        "status": "Working on generating the summary",
         "summary": "",
         "transformed_file_name":'',
+        "summary_model": summary_model,
+        "language": language,
     }
 
     logger.set_correlation_id(job_id)
     metrics.add_metadata(key='correlationId', value=job_id)
     tracer.put_annotation(key="correlationId", value=job_id)
     
-    filesummary = get_summary_from_cache(original_file_name) if not ignore_existing else None
     
-    if filesummary is not None:
-        metrics.add_metric(name="summary_cache_hit",unit=MetricUnit.Count, value=1)
-        response.update(
-            {
-                "file_name": original_file_name, 
-                "status": "Completed", 
-                "summary": filesummary,
-                "is_summary_available": True,
-            }
-        )
-    else:
-        metrics.add_metric(name="summary_llm_hit", unit=MetricUnit.Count, value=1)
-        transformed_file_name = original_file_name.replace(".pdf", ".txt")
+    metrics.add_metric(name="summary_llm_hit", unit=MetricUnit.Count, value=1)
+    transformed_file_name = original_file_name.replace(".pdf", ".txt")
         
-        if(is_file_tranformation_required):
+    if(is_file_tranformation_required):
              logger.info("File transformation required")
              transformed_file  = get_file_transformation(transformed_bucket_name, 
                                                          transformed_file_name,
@@ -79,13 +68,12 @@ def handler(event, context: LambdaContext):
                   "status": transformed_file['status'], 
                   "summary": transformed_file['summary'],
                   "transformed_file_name":transformed_file_name,
-                  "is_summary_available": False  
                 }
             )
-        else:
-             pdf_transformed_file = check_file_exists(transformed_bucket_name,
+    else:
+        pdf_transformed_file = check_file_exists(transformed_bucket_name,
                                                       transformed_file_name)
-             if pdf_transformed_file is False:
+        if pdf_transformed_file is False:
                 response.update(
                     {
                      "file_name": original_file_name, 
@@ -97,37 +85,8 @@ def handler(event, context: LambdaContext):
             
 
     logger.info({"document reader response:::": response})
-    updateSummaryJobStatus({'jobid': job_id, 'files':
-                            [{ 'status':response["status"],
-                              'name':response['file_name'] , 
-                              'summary':response["summary"] }]})
+    updateSummaryJobStatus({'summary_job_id': job_id,
+                            'status':response["status"],
+                            'name':response['file_name'] , 
+                            'summary':response["summary"] })
     return response
-
-@tracer.capture_method
-def get_summary_from_cache(file_name):
-
-    logger.info({"Searching Redis for cached summary file: "+file_name})
-    redis_host = os.environ.get("REDIS_HOST")
-    redis_port = os.environ.get("REDIS_PORT")
-    
-    logger.info(f"Redis host: {redis_host}")
-    logger.info(f"Redis port: {redis_port}")
-    
-    if redis_host is None or redis_port is None:
-        logger.exception({"Redis host or port is not set"})
-    else:
-        try:
-            logger.info({"Connecting Redis......"})
-            redis_client = redis.Redis(host=redis_host, port=redis_port)
-            fileSummary = redis_client.get(file_name)
-        except (ValueError, redis.ConnectionError) as e:
-            logger.exception({"An error occured while connecting to Redis" : e})
-            return
-
-        if fileSummary:
-            logger.info({"File summary found in cache: ": fileSummary})
-            return fileSummary.decode()
-
-
-    logger.info("File summary not found in cache, generating it from llm")
-
