@@ -33,17 +33,141 @@ See the [API documentation](../../../apidocs/modules/bedrock.md).
 With Knowledge Bases for Amazon Bedrock, you can give FMs and agents contextual information from your company’s private data sources for Retrieval Augmented Generation (RAG) to deliver more relevant, accurate, and customized responses.
 
 ### Create a Knowledge Base
-A vector index on a vector store is required to create a Knowledge Base. This construct currently only supports [Amazon OpenSearch Serverless](../opensearchserverless). By default, this resource will create an OpenSearch Serverless vector collection and index for each Knowledge Base you create, but you can provide an existing collection and/or index to have more control.
+A vector index on a vector store is required to create a Knowledge Base. This construct currently supports [Amazon OpenSearch Serverless](../opensearchserverless), [Amazon RDS Aurora PostgreSQL](../amazonaurora/), [Pinecone](../pinecone/) and [Redis Enterprise Cloud](../redisenterprisecloud/). By default, this resource will create an OpenSearch Serverless vector collection and index for each Knowledge Base you create, but you can provide an existing collection and/or index to have more control. For other resources you need to have the vector stores already created and credentials stored in AWS Secrets Manager. For Aurora, the construct provides an option to create a default `AmazonAuroraDefaultVectorStore` construct that will provision the vector store backed by Amazon Aurora for you. To learn more you can read [here](../amazonaurora/README.md).
 
 The resource accepts an `instruction` prop that is provided to any Bedrock Agent it is associated with so the agent can decide when to query the Knowledge Base.
 
 Amazon Bedrock Knowledge Bases currently only supports S3 as a data source. The `S3DataSource` resource is used to configure how the Knowledge Base handles the data source.
 
+Example of ``OpenSearch Serverless``:
 ```ts
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { bedrock } from '@cdklabs/generative-ai-cdk-constructs';
 
 const kb = new bedrock.KnowledgeBase(this, 'KnowledgeBase', {
+  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+  instruction: 'Use this knowledge base to answer questions about books. ' +
+    'It contains the full text of novels.',
+});
+
+const docBucket = new s3.Bucket(this, 'DocBucket');
+
+new bedrock.S3DataSource(this, 'DataSource', {
+  bucket: docBucket,
+  knowledgeBase: kb,
+  dataSourceName: 'books',
+  chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
+  maxTokens: 500,
+  overlapPercentage: 20,
+});
+```
+
+Example of ``Amazon RDS Aurora PostgreSQL`` (manual, you must have Amazon RDS Aurora PostgreSQL already created):
+```ts
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import { amazonaurora, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
+
+const auroraDbManual = new amazonaurora.AmazonAuroraVectorDatabase(
+  {
+    resourceArn: 'arn:aws:rds:your-region:123456789876:cluster:aurora-cluster-manual',
+    databaseName: 'bedrock_vector_db',
+    tableName: 'bedrock_integration.bedrock_kb',
+    credentialsSecretArn: 'arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name',
+    primaryKeyField: 'id',
+    vectorField: 'embedding',
+    textField: 'chunks',
+    metadataField: 'metadata',
+  });
+
+const kb = new bedrock.KnowledgeBase(this, 'KnowledgeBase', {
+  vectorStore: auroraDbManual,
+  embeddingsModel: bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+  instruction: 'Use this knowledge base to answer questions about books. ' +
+    'It contains the full text of novels.',
+});
+
+const docBucket = new s3.Bucket(this, 'DocBucket');
+
+new bedrock.S3DataSource(this, 'DataSource', {
+  bucket: docBucket,
+  knowledgeBase: kb,
+  dataSourceName: 'books',
+  chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
+  maxTokens: 500,
+  overlapPercentage: 20,
+});
+```
+
+Example of ``Amazon RDS Aurora PostgreSQL`` (default):
+```ts
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import { amazonaurora, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
+
+const auroraDb = new amazonaurora.AmazonAuroraDefaultVectorStore(stack, 'AuroraDefaultVectorStore', {
+  embeddingsModel: BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+});
+
+const kb = new bedrock.KnowledgeBase(this, 'KnowledgeBase', {
+  vectorStore: auroraDb,
+  embeddingsModel: bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+  instruction: 'Use this knowledge base to answer questions about books. ' +
+    'It contains the full text of novels.',
+});
+
+const docBucket = new s3.Bucket(this, 'DocBucket');
+
+new bedrock.S3DataSource(this, 'DataSource', {
+  bucket: docBucket,
+  knowledgeBase: kb,
+  dataSourceName: 'books',
+  chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
+  maxTokens: 500,
+  overlapPercentage: 20,
+});
+```
+
+Example of ``Pinecone`` (manual, you must have Pinecone vector store created):
+```ts
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import { pinecone, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
+
+const pinecone = new pinecone.PineconVectorStore({
+  connectionString: 'https://your-index-1234567.svc.gcp-starter.pinecone.io',
+  credentialsSecretArn: 'arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name'
+});
+
+const kb = new bedrock.KnowledgeBase(this, 'KnowledgeBase', {
+  vectorStore: pinecone,
+  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+  instruction: 'Use this knowledge base to answer questions about books. ' +
+    'It contains the full text of novels.',
+});
+
+const docBucket = new s3.Bucket(this, 'DocBucket');
+
+new bedrock.S3DataSource(this, 'DataSource', {
+  bucket: docBucket,
+  knowledgeBase: kb,
+  dataSourceName: 'books',
+  chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
+  maxTokens: 500,
+  overlapPercentage: 20,
+});
+```
+
+Example of ``Redis Enterprise Cloud`` (manual, you must have Redis Enterprise Cloud vector store created):
+```ts
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import { redisenterprisecloud, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
+
+const redisEnterpriseVectorStore = new redisenterprisecloud.RedisEnterpriseVectorStore({
+  endpoint: 'redis-endpoint',
+  vectorIndexName: 'your-index-name',
+  credentialsSecretArn: 'arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name'
+});
+
+const kb = new bedrock.KnowledgeBase(this, 'KnowledgeBase', {
+  vectorStore: redisEnterpriseVectorStore,
   embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
   instruction: 'Use this knowledge base to answer questions about books. ' +
     'It contains the full text of novels.',
