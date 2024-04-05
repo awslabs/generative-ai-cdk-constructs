@@ -6,9 +6,12 @@
 
 ### Namespaces
 
+- [amazonaurora](modules/amazonaurora.md)
 - [bedrock](modules/bedrock.md)
 - [opensearch\_vectorindex](modules/opensearch_vectorindex.md)
 - [opensearchserverless](modules/opensearchserverless.md)
+- [pinecone](modules/pinecone.md)
+- [redisenterprisecloud](modules/redisenterprisecloud.md)
 
 ### Enumerations
 

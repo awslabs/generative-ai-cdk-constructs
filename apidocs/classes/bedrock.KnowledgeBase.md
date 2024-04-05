@@ -4,10 +4,8 @@
 
 [bedrock](../modules/bedrock.md).KnowledgeBase
 
-Deploys a Bedrock Knowledge Base and configures a backend vector store.
-
-At the moment, only OpenSearch Serverless is supported as a vector store.
-This construct creates the collection and index.
+Deploys a Bedrock Knowledge Base and configures a backend by OpenSearch Serverless,
+Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
 
 ## Hierarchy
 
@@ -36,9 +34,16 @@ This construct creates the collection and index.
 - [role](bedrock.KnowledgeBase.md#role)
 - [vectorIndex](bedrock.KnowledgeBase.md#vectorindex)
 - [vectorStore](bedrock.KnowledgeBase.md#vectorstore)
+- [vectorStoreType](bedrock.KnowledgeBase.md#vectorstoretype)
 
 ### Methods
 
+- [handleAmazonAuroraDefaultVectorStore](bedrock.KnowledgeBase.md#handleamazonauroradefaultvectorstore)
+- [handleAmazonAuroraVectorStore](bedrock.KnowledgeBase.md#handleamazonauroravectorstore)
+- [handleOpenSearchCollection](bedrock.KnowledgeBase.md#handleopensearchcollection)
+- [handleOpenSearchDefaultVectorCollection](bedrock.KnowledgeBase.md#handleopensearchdefaultvectorcollection)
+- [handlePineconeVectorStore](bedrock.KnowledgeBase.md#handlepineconevectorstore)
+- [handleRedisEnterpriseVectorStore](bedrock.KnowledgeBase.md#handleredisenterprisevectorstore)
 - [toString](bedrock.KnowledgeBase.md#tostring)
 - [isConstruct](bedrock.KnowledgeBase.md#isconstruct)
 
@@ -140,11 +145,169 @@ ___
 
 ### vectorStore
 
-• `Readonly` **vectorStore**: [`VectorCollection`](opensearchserverless.VectorCollection.md)
+• `Readonly` **vectorStore**: [`AmazonAuroraDefaultVectorStore`](amazonaurora.AmazonAuroraDefaultVectorStore.md) \| [`AmazonAuroraVectorStore`](amazonaurora.AmazonAuroraVectorStore.md) \| [`VectorCollection`](opensearchserverless.VectorCollection.md) \| [`PineconeVectorStore`](pinecone.PineconeVectorStore.md) \| [`RedisEnterpriseVectorStore`](redisenterprisecloud.RedisEnterpriseVectorStore.md)
 
 The vector store for the knowledge base.
 
+___
+
+### vectorStoreType
+
+• `Private` **vectorStoreType**: `VectorStoreType`
+
+The type of the knowledge base.
+
 ## Methods
+
+### handleAmazonAuroraDefaultVectorStore
+
+▸ **handleAmazonAuroraDefaultVectorStore**(`props`): `Object`
+
+Handle AmazonAuroraDefaultVectorStore type of VectorStore.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `props` | [`KnowledgeBaseProps`](../interfaces/bedrock.KnowledgeBaseProps.md) | The properties of the KnowledgeBase. |
+
+#### Returns
+
+`Object`
+
+The instance of AmazonAuroraDefaultVectorStore, VectorStoreType.
+ This is an internal core function and should not be called directly.
+
+| Name | Type |
+| :------ | :------ |
+| `vectorStore` | [`AmazonAuroraDefaultVectorStore`](amazonaurora.AmazonAuroraDefaultVectorStore.md) |
+| `vectorStoreType` | `VectorStoreType` |
+
+___
+
+### handleAmazonAuroraVectorStore
+
+▸ **handleAmazonAuroraVectorStore**(`props`): `Object`
+
+Handle AmazonAuroraVectorStore type of VectorStore.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `props` | [`KnowledgeBaseProps`](../interfaces/bedrock.KnowledgeBaseProps.md) | The properties of the KnowledgeBase. |
+
+#### Returns
+
+`Object`
+
+The instance of AmazonAuroraVectorStore, VectorStoreType.
+ This is an internal core function and should not be called directly.
+
+| Name | Type |
+| :------ | :------ |
+| `vectorStore` | [`AmazonAuroraVectorStore`](amazonaurora.AmazonAuroraVectorStore.md) |
+| `vectorStoreType` | `VectorStoreType` |
+
+___
+
+### handleOpenSearchCollection
+
+▸ **handleOpenSearchCollection**(`props`): `Object`
+
+Handle VectorCollection type of VectorStore.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `props` | [`KnowledgeBaseProps`](../interfaces/bedrock.KnowledgeBaseProps.md) | The properties of the KnowledgeBase. |
+
+#### Returns
+
+`Object`
+
+The instance of VectorCollection, VectorStoreType.
+ This is an internal core function and should not be called directly.
+
+| Name | Type |
+| :------ | :------ |
+| `vectorStore` | [`VectorCollection`](opensearchserverless.VectorCollection.md) |
+| `vectorStoreType` | `VectorStoreType` |
+
+___
+
+### handleOpenSearchDefaultVectorCollection
+
+▸ **handleOpenSearchDefaultVectorCollection**(): `Object`
+
+Handle the default VectorStore type.
+
+#### Returns
+
+`Object`
+
+The instance of VectorCollection, VectorStoreType.
+ This is an internal core function and should not be called directly.
+
+| Name | Type |
+| :------ | :------ |
+| `vectorStore` | [`VectorCollection`](opensearchserverless.VectorCollection.md) |
+| `vectorStoreType` | `VectorStoreType` |
+
+___
+
+### handlePineconeVectorStore
+
+▸ **handlePineconeVectorStore**(`props`): `Object`
+
+Handle PineconeVectorStore type of VectorStore.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `props` | [`KnowledgeBaseProps`](../interfaces/bedrock.KnowledgeBaseProps.md) | The properties of the KnowledgeBase. |
+
+#### Returns
+
+`Object`
+
+The instance of PineconeVectorStore, VectorStoreType.
+ This is an internal core function and should not be called directly.
+
+| Name | Type |
+| :------ | :------ |
+| `vectorStore` | [`PineconeVectorStore`](pinecone.PineconeVectorStore.md) |
+| `vectorStoreType` | `VectorStoreType` |
+
+___
+
+### handleRedisEnterpriseVectorStore
+
+▸ **handleRedisEnterpriseVectorStore**(`props`): `Object`
+
+Handle RedisEnterpriseVectorStore type of VectorStore.
+
+#### Parameters
+
+| Name | Type | Description |
+| :------ | :------ | :------ |
+| `props` | [`KnowledgeBaseProps`](../interfaces/bedrock.KnowledgeBaseProps.md) | The properties of the KnowledgeBase. |
+
+#### Returns
+
+`Object`
+
+The instance of RedisEnterpriseVectorStore, VectorStoreType.
+ This is an internal core function and should not be called directly.
+
+| Name | Type |
+| :------ | :------ |
+| `vectorStore` | [`RedisEnterpriseVectorStore`](redisenterprisecloud.RedisEnterpriseVectorStore.md) |
+| `vectorStoreType` | `VectorStoreType` |
+
+___
 
 ### toString
 
