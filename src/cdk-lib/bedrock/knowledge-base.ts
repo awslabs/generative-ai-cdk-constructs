@@ -229,9 +229,6 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
     if (props.vectorIndex) {
       validateIndexParameters(props.vectorIndex, indexName, vectorField);
     }
-    if (props.vectorStore instanceof AmazonAuroraDefaultVectorStore) {
-      validateModelComparability(embeddingsModel, props.vectorStore.embeddingsModel);
-    }
 
     this.name = generatePhysicalNameV2(
       this,
@@ -673,22 +670,6 @@ function validateIndexParameters(
       ' If you created VectorIndex manually and set it to `bedrock-knowledge-base-default-vector`' +
       ' then do not assign vectorField in KnowledgeBase construct.');
     }
-  }
-}
-
-/**
- * Validate that the embedding model provided for `AmazonAuroraDefaultVectorStore`
- * construct is identical to provided for `KnowledgeBase` construct.
- *
- * @internal This is an internal core function and should not be called directly.
- */
-function validateModelComparability(
-  foundationModel: BedrockFoundationModel,
-  foundationModel2: BedrockFoundationModel,
-) {
-  if (foundationModel.modelId !== foundationModel2.modelId) {
-    throw new Error('The embeddings model ' + foundationModel + ' provided in AmazonAuroraDefaultVectorStore' +
-    ' construct has to be identical to provided in KnowledgeBase construct.');
   }
 }
 

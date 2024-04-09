@@ -8,13 +8,13 @@
 
 ### Properties
 
-- [embeddingsModel](amazonaurora.AmazonAuroraDefaultVectorStoreProps.md#embeddingsmodel)
+- [embeddingsModelVectorDimension](amazonaurora.AmazonAuroraDefaultVectorStoreProps.md#embeddingsmodelvectordimension)
 
 ## Properties
 
-### embeddingsModel
+### embeddingsModelVectorDimension
 
-• `Readonly` **embeddingsModel**: [`BedrockFoundationModel`](../classes/bedrock.BedrockFoundationModel.md)
+• `Readonly` **embeddingsModelVectorDimension**: `number`
 
 The embeddings model for the knowledge base.
 Must be identical as in the KnowledgeBaseV2 construct.
