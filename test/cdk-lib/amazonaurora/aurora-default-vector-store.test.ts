@@ -39,7 +39,7 @@ describe('Amazon Aurora Default Vector Store', () => {
 
     beforeAll(() => {
       auroraDefaultVectorStore = new AmazonAuroraDefaultVectorStore(stack, 'AuroraVectorStore', {
-        embeddingsModel: model,
+        embeddingsModelVectorDimension: model.vectorDimensions!,
       });
 
       NagSuppressions.addResourceSuppressionsByPath(
@@ -72,7 +72,7 @@ describe('Amazon Aurora Default Vector Store', () => {
       expect(auroraDefaultVectorStore.tableName).toEqual('bedrock_integration.bedrock_kb');
       expect(auroraDefaultVectorStore.primaryKeyField).toEqual('id');
       expect(auroraDefaultVectorStore.clusterIdentifier).toEqual('aurora-serverless-vector-cluster');
-      expect(auroraDefaultVectorStore.embeddingsModel).toEqual(model);
+      expect(auroraDefaultVectorStore.embeddingsModelVectorDimension).toEqual(model.vectorDimensions);
     });
 
     test('No unsuppressed Errors', () => {

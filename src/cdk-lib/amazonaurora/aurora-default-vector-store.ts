@@ -21,7 +21,6 @@ import { Construct } from 'constructs';
 import { buildCustomResourceProvider } from '../../common/helpers/custom-resource-provider-helper';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 import { buildVpc, DefaultVpcProps } from '../../common/helpers/vpc-helper';
-import { BedrockFoundationModel } from '../bedrock/models';
 
 
 export interface AmazonAuroraDefaultVectorStoreProps {
@@ -33,7 +32,7 @@ export interface AmazonAuroraDefaultVectorStoreProps {
    * needs to know the vector dimensions to create the vector
    * index of appropriate dimensions in the Aurora database.
    */
-  readonly embeddingsModel: BedrockFoundationModel;
+  readonly embeddingsModelVectorDimension: number;
 }
 
 /**
@@ -86,7 +85,7 @@ export class AmazonAuroraDefaultVectorStore extends cdk.Resource {
   /**
    * Model used for embeddings.
    */
-  public readonly embeddingsModel: BedrockFoundationModel;
+  public readonly embeddingsModelVectorDimension: number;
 
   /**
    * An IAM policy that allows Data API access to Aurora.
@@ -105,7 +104,7 @@ export class AmazonAuroraDefaultVectorStore extends cdk.Resource {
     this.tableName = 'bedrock_integration.bedrock_kb';
     this.primaryKeyField = 'id';
     this.clusterIdentifier = 'aurora-serverless-vector-cluster';
-    this.embeddingsModel = props.embeddingsModel;
+    this.embeddingsModelVectorDimension = props.embeddingsModelVectorDimension;
 
     const vpc = buildVpc(this, {
       defaultVpcProps: DefaultVpcProps(),
@@ -249,7 +248,7 @@ export class AmazonAuroraDefaultVectorStore extends cdk.Resource {
       properties: {
         DatabaseName: this.databaseName,
         SecretName: auroraCluster.secret?.secretName || '',
-        VectorDimensions: props.embeddingsModel.vectorDimensions!,
+        VectorDimensions: props.embeddingsModelVectorDimension!,
       },
     });
 

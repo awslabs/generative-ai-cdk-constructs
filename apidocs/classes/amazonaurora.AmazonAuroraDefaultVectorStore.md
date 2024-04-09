@@ -40,7 +40,7 @@ https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraPostgreSQL.Ve
 - [clusterIdentifier](amazonaurora.AmazonAuroraDefaultVectorStore.md#clusteridentifier)
 - [credentialsSecretArn](amazonaurora.AmazonAuroraDefaultVectorStore.md#credentialssecretarn)
 - [databaseName](amazonaurora.AmazonAuroraDefaultVectorStore.md#databasename)
-- [embeddingsModel](amazonaurora.AmazonAuroraDefaultVectorStore.md#embeddingsmodel)
+- [embeddingsModelVectorDimension](amazonaurora.AmazonAuroraDefaultVectorStore.md#embeddingsmodelvectordimension)
 - [env](amazonaurora.AmazonAuroraDefaultVectorStore.md#env)
 - [node](amazonaurora.AmazonAuroraDefaultVectorStore.md#node)
 - [physicalName](amazonaurora.AmazonAuroraDefaultVectorStore.md#physicalname)
@@ -117,9 +117,9 @@ The name of your Database.
 
 ___
 
-### embeddingsModel
+### embeddingsModelVectorDimension
 
-• `Readonly` **embeddingsModel**: [`BedrockFoundationModel`](bedrock.BedrockFoundationModel.md)
+• `Readonly` **embeddingsModelVectorDimension**: `number`
 
 Model used for embeddings.
 
