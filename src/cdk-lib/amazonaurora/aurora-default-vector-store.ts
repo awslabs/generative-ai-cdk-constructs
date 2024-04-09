@@ -25,8 +25,8 @@ import { buildVpc, DefaultVpcProps } from '../../common/helpers/vpc-helper';
 
 export interface AmazonAuroraDefaultVectorStoreProps {
   /**
-   * The embeddings model for the knowledge base.
-   * Must be identical as in the KnowledgeBaseV2 construct.
+   * The embeddings model vector dimension for the knowledge base.
+   * Must be identical as in the KnowledgeBase construct.
    * This is due to the factor that the embeddings models
    * have different vector dimensions and this construct
    * needs to know the vector dimensions to create the vector

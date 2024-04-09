@@ -16,6 +16,7 @@
 | **Language**     | **Package**        |
 |:-------------|-----------------|
 |![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) TypeScript|`@cdklabs/generative-ai-cdk-constructs`|
+|![Python Logo](https://docs.aws.amazon.com/cdk/api/latest/img/python32.png) Python|`cdklabs.generative_ai_cdk_constructs`|
 
 [Amazon Bedrock](https://aws.amazon.com/bedrock/) is a fully managed service that offers a choice of foundation models (FMs) along with a broad set of capabilities for building generative AI applications.
 
@@ -40,6 +41,9 @@ The resource accepts an `instruction` prop that is provided to any Bedrock Agent
 Amazon Bedrock Knowledge Bases currently only supports S3 as a data source. The `S3DataSource` resource is used to configure how the Knowledge Base handles the data source.
 
 Example of ``OpenSearch Serverless``:
+
+TypeScript
+
 ```ts
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { bedrock } from '@cdklabs/generative-ai-cdk-constructs';
@@ -62,12 +66,44 @@ new bedrock.S3DataSource(this, 'DataSource', {
 });
 ```
 
+Python
+```python
+
+from aws_cdk import (
+    aws_s3 as s3,
+)
+from cdklabs.generative_ai_cdk_constructs import (
+    bedrock
+)
+
+kb = bedrock.KnowledgeBase(self, 'KnowledgeBase', 
+            embeddings_model= bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+            instruction=  'Use this knowledge base to answer questions about books. ' +
+    'It contains the full text of novels.'                     
+        )
+
+docBucket = s3.Bucket(self, 'DockBucket')
+
+bedrock.S3DataSource(self, 'DataSource',
+    bucket= docBucket,
+    knowledge_base=kb,
+    data_source_name='books',
+    chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
+    max_tokens=500,
+    overlap_percentage=20   
+)
+
+```
+
 Example of ``Amazon RDS Aurora PostgreSQL`` (manual, you must have Amazon RDS Aurora PostgreSQL already created):
+
+TypeScript
+
 ```ts
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { amazonaurora, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
 
-const auroraDbManual = new amazonaurora.AmazonAuroraVectorDatabase(
+const auroraDbManual = new amazonaurora.AmazonAuroraVectorStore(
   {
     resourceArn: 'arn:aws:rds:your-region:123456789876:cluster:aurora-cluster-manual',
     databaseName: 'bedrock_vector_db',
@@ -98,7 +134,52 @@ new bedrock.S3DataSource(this, 'DataSource', {
 });
 ```
 
+Python
+```python
+
+from aws_cdk import (
+    aws_s3 as s3,
+)
+from cdklabs.generative_ai_cdk_constructs import (
+    bedrock,
+    amazonaurora
+)
+
+aurora = amazonaurora.AmazonAuroraVectorStore(
+    credentials_secret_arn='arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name',
+    database_name='bedrock_vector_db',
+    metadata_field='metadata',
+    primary_key_field='id',
+    resource_arn='arn:aws:rds:your-region:123456789876:cluster:aurora-cluster-manual',
+    table_name='bedrock_integration.bedrock_kb',
+    text_field='chunks',
+    vector_field='embedding',
+)
+
+kb = bedrock.KnowledgeBase(self, 'KnowledgeBase', 
+            vector_store= aurora,
+            embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+            instruction=  'Use this knowledge base to answer questions about books. ' +
+    'It contains the full text of novels.'                     
+        )
+
+docBucket = s3.Bucket(self, 'DockBucket')
+
+bedrock.S3DataSource(self, 'DataSource',
+    bucket= docBucket,
+    knowledge_base=kb,
+    data_source_name='books',
+    chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
+    max_tokens=500,
+    overlap_percentage=20   
+)
+
+```
+
 Example of ``Amazon RDS Aurora PostgreSQL`` (default):
+
+TypeScript
+
 ```ts
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { amazonaurora, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
@@ -126,7 +207,47 @@ new bedrock.S3DataSource(this, 'DataSource', {
 });
 ```
 
+Python
+
+```python
+
+from aws_cdk import (
+    aws_s3 as s3,
+)
+from cdklabs.generative_ai_cdk_constructs import (
+    bedrock,
+    amazonaurora
+)
+
+dimension = bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3.vector_dimensions
+
+aurora = amazonaurora.AmazonAuroraDefaultVectorStore(self, 'AuroraDefaultVectorStore',
+    embeddings_model_vector_dimension=dimension
+)
+
+kb = bedrock.KnowledgeBase(self, 'KnowledgeBase', 
+            vector_store= aurora,
+            embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+            instruction=  'Use this knowledge base to answer questions about books. ' +
+    'It contains the full text of novels.'                     
+        )
+
+docBucket = s3.Bucket(self, 'DockBucket')
+
+bedrock.S3DataSource(self, 'DataSource',
+    bucket= docBucket,
+    knowledge_base=kb,
+    data_source_name='books',
+    chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
+    max_tokens=500,
+    overlap_percentage=20   
+)
+```
+
 Example of ``Pinecone`` (manual, you must have Pinecone vector store created):
+
+TypeScript
+
 ```ts
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { pinecone, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
@@ -155,7 +276,45 @@ new bedrock.S3DataSource(this, 'DataSource', {
 });
 ```
 
+Python
+```python
+
+from aws_cdk import (
+    aws_s3 as s3,
+)
+from cdklabs.generative_ai_cdk_constructs import (
+    bedrock,
+    pinecone
+)
+
+pineconevs = pinecone.PineconeVectorStore(
+            connection_string='https://your-index-1234567.svc.gcp-starter.pinecone.io',
+            credentials_secret_arn='arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name',
+        )
+
+kb = bedrock.KnowledgeBase(self, 'KnowledgeBase', 
+            vector_store= pineconevs,
+            embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+            instruction=  'Use this knowledge base to answer questions about books. ' +
+    'It contains the full text of novels.'                     
+        )
+
+docBucket = s3.Bucket(self, 'DockBucket')
+
+bedrock.S3DataSource(self, 'DataSource',
+    bucket= docBucket,
+    knowledge_base=kb,
+    data_source_name='books',
+    chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
+    max_tokens=500,
+    overlap_percentage=20   
+)
+```
+
 Example of ``Redis Enterprise Cloud`` (manual, you must have Redis Enterprise Cloud vector store created):
+
+TypeScript
+
 ```ts
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { redisenterprisecloud, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
@@ -185,11 +344,49 @@ new bedrock.S3DataSource(this, 'DataSource', {
 });
 ```
 
+Python
+```python
+
+from aws_cdk import (
+    aws_s3 as s3,
+)
+from cdklabs.generative_ai_cdk_constructs import (
+    bedrock,
+    redisenterprisecloud
+)
+
+redisds = redisenterprisecloud.RedisEnterpriseVectorStoreProps(
+            credentials_secret_arn='arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name',
+            endpoint='redis-endpoint',
+            vector_index_name='your-index-name',
+        )
+
+kb = bedrock.KnowledgeBase(self, 'KnowledgeBase', 
+            vector_store= redisds,
+            embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+            instruction=  'Use this knowledge base to answer questions about books. ' +
+    'It contains the full text of novels.'                     
+        )
+
+docBucket = s3.Bucket(self, 'DockBucket')
+
+bedrock.S3DataSource(self, 'DataSource',
+    bucket= docBucket,
+    knowledge_base=kb,
+    data_source_name='books',
+    chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
+    max_tokens=500,
+    overlap_percentage=20   
+)
+```
+
 ## Agents
 Enable generative AI applications to execute multistep tasks across company systems and data sources.
 
 ### Create an Agent
 The following example creates an Agent with a simple instruction and default prompts that consults a Knowledge Base.
+
+TypeScript
 
 ```ts
 const agent = new bedrock.Agent(this, 'Agent', {
@@ -197,6 +394,17 @@ const agent = new bedrock.Agent(this, 'Agent', {
   instruction: 'You are a helpful and friendly agent that answers questions about literature.',
   knowledgeBases: [kb],
 });
+```
+
+Python
+```python
+agent = bedrock.Agent(
+    self,
+    "Agent",
+    foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+    instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
+    knowledge_bases= [kb]
+)
 ```
 
 ### Action Groups
@@ -217,6 +425,28 @@ agent.addActionGroup({
 });
 ```
 
+Python
+
+```python
+
+action_group_function = PythonFunction(
+            self,
+            "LambdaFunction",
+            runtime=Runtime.PYTHON_3_12,
+            entry="./lambda",  
+            index="app.py",
+            handler="lambda_handler",
+        )
+
+agent.add_action_group(
+            action_group_name="query-library",
+            description="Use these functions to get information about the books in the library.",
+            action_group_executor=action_group_function,
+            action_group_state="ENABLED",
+            api_schema=bedrock.ApiSchema.from_asset("action-group.yaml"),  
+        )
+```
+
 ### Prepare the Agent
 The `Agent` and `AgentActionGroup` constructs take an optional parameter `shouldPrepareAgent` to indicate that the Agent should be prepared after any updates to an agent, Knowledge Base association, or action group. This may increase the time to create and update those resources.
 
@@ -224,6 +454,8 @@ Creating an agent alias will also prepare the agent, so if you create an alias w
 
 #### Prompt Overrides
 Bedrock Agents allows you to customize the prompts and LLM configuration for its different steps. You can disable steps or create a new prompt template. Prompt templates can be inserted from plain text files.
+
+TypeScript
 
 ```ts
 import { readFileSync } from 'fs';
@@ -266,6 +498,46 @@ const agent = new bedrock.Agent(this, 'Agent', {
 });
 ```
 
+Python
+```python
+orchestration = open('prompts/orchestration.txt', encoding="utf-8").read()
+agent = bedrock.Agent(self, "Agent",
+            foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+            instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
+            knowledge_bases= [kb],
+            prompt_override_configuration= bedrock.PromptOverrideConfiguration(
+                prompt_configurations=[
+                    bedrock.PromptConfiguration(
+                        prompt_type=bedrock.PromptType.PRE_PROCESSING,
+                        prompt_state=bedrock.PromptState.DISABLED,
+                        prompt_creation_mode=bedrock.PromptCreationMode.OVERRIDDEN,
+                        base_prompt_template="disabled",
+                        inference_configuration=bedrock.InferenceConfiguration(
+                            temperature=0.0,
+                            top_k=250,
+                            top_p=1,
+                            maximum_length=1,
+                            stop_sequences=['\n\nHuman:'],
+                        )
+                    ),
+                    bedrock.PromptConfiguration(
+                        prompt_type=bedrock.PromptType.ORCHESTRATION,
+                        prompt_state=bedrock.PromptState.ENABLED,
+                        prompt_creation_mode=bedrock.PromptCreationMode.OVERRIDDEN,
+                        base_prompt_template=orchestration,
+                        inference_configuration=bedrock.InferenceConfiguration(
+                            temperature=0.0,
+                            top_k=250,
+                            top_p=1,
+                            maximum_length=2048,
+                            stop_sequences=['</invoke>', '</answer>', '</error>'],
+                        )
+                    )
+                ]
+            ),
+        )
+```
+
 ### Agent Alias
 After you have sufficiently iterated on your working draft and are satisfied with the behavior of your agent, you can set it up for deployment and integration into your application by creating aliases of your agent.
 
@@ -276,6 +548,8 @@ By default, the `Agent` resource does not create any aliases, and you can use th
 #### Tracking the latest version
 The `Agent` resource optionally takes an `aliasName` property that, if defined, will create an Alias that creates a new version on every change.
 
+TypeScript
+
 ```ts
 const agent = new bedrock.Agent(this, 'Agent', {
   foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
@@ -285,8 +559,22 @@ const agent = new bedrock.Agent(this, 'Agent', {
 });
 ```
 
+Python
+```python
+agent = bedrock.Agent(
+    self,
+    "Agent",
+    foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+    instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
+    knowledge_bases= [kb],
+    alias_name='latest'
+)
+```
+
 #### Specific version
 Using the `addAlias` method you can create aliases with a specific agent version.
+
+TypeScript
 
 ```ts
 agent.addAlias({
@@ -295,7 +583,18 @@ agent.addAlias({
 });
 ```
 
+Python
+
+```python
+agent.add_alias(self, 'ProdAlias', 
+  alias_name='prod',
+  agent_version='12'
+)
+```
+
 Alternatively, you can use the `AgentAlias` resource if you want to create an Alias for an existing Agent.
+
+TypeScript
 
 ```ts
 const alias = new bedrock.AgentAlias(this, 'ProdAlias', {
@@ -303,4 +602,13 @@ const alias = new bedrock.AgentAlias(this, 'ProdAlias', {
   aliasName: 'prod',
   agentVersion: '12',
 });
+```
+
+Python
+```python
+alias = bedrock.AgentAlias(self, 'ProdAlias',
+    agent_id='ABCDE12345',
+    alias_name='prod',
+    agent_version='12'
+)
 ```
