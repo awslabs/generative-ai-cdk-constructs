@@ -53,6 +53,6 @@ new amazonaurora.AmazonAuroraVectoStore(
 import { amazonaurora } from '@cdklabs/generative-ai-cdk-constructs';
 
 new amazonaurora.AmazonAuroraDefaultVectorStore(stack, 'AuroraDefaultVectorStore', {
-  embeddingsModel: BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+  embeddingsModel: BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3.vectorDimensions!,
 });
 ```

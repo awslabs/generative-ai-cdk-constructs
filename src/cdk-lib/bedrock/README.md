@@ -104,7 +104,7 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import { amazonaurora, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
 
 const auroraDb = new amazonaurora.AmazonAuroraDefaultVectorStore(stack, 'AuroraDefaultVectorStore', {
-  embeddingsModel: BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+  embeddingsModel: BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3.vectorDimensions!,
 });
 
 const kb = new bedrock.KnowledgeBase(this, 'KnowledgeBase', {
