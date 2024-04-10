@@ -75,6 +75,7 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 - [HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_3\_3\_GPU\_PY310\_CU121\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_tgi_inference_2_1_1_tgi1_3_3_gpu_py310_cu121_ubuntu20_04)
 - [HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_4\_0\_GPU\_PY310\_CU121\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_tgi_inference_2_1_1_tgi1_4_0_gpu_py310_cu121_ubuntu20_04)
 - [HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_4\_2\_GPU\_PY310\_CU121\_UBUNTU22\_04](DeepLearningContainerImage.md#huggingface_pytorch_tgi_inference_2_1_1_tgi1_4_2_gpu_py310_cu121_ubuntu22_04)
+- [HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_4\_5\_GPU\_PY310\_CU121\_UBUNTU22\_04](DeepLearningContainerImage.md#huggingface_pytorch_tgi_inference_2_1_1_tgi1_4_5_gpu_py310_cu121_ubuntu22_04)
 - [HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_11\_0\_TRANSFORMERS4\_26\_0\_CPU\_PY39\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_tensorflow_inference_2_11_0_transformers4_26_0_cpu_py39_ubuntu20_04)
 - [HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_11\_0\_TRANSFORMERS4\_26\_0\_GPU\_PY39\_CU112\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_tensorflow_inference_2_11_0_transformers4_26_0_gpu_py39_cu112_ubuntu20_04)
 - [HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_11\_1\_TRANSFORMERS4\_26\_0\_CPU\_PY39\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_tensorflow_inference_2_11_1_transformers4_26_0_cpu_py39_ubuntu20_04)
@@ -464,6 +465,12 @@ ___
 ### HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_4\_2\_GPU\_PY310\_CU121\_UBUNTU22\_04
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_4\_2\_GPU\_PY310\_CU121\_UBUNTU22\_04**: [`ContainerImage`](ContainerImage.md)
+
+___
+
+### HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_4\_5\_GPU\_PY310\_CU121\_UBUNTU22\_04
+
+▪ `Static` `Readonly` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_1\_1\_TGI1\_4\_5\_GPU\_PY310\_CU121\_UBUNTU22\_04**: [`ContainerImage`](ContainerImage.md)
 
 ___
 
