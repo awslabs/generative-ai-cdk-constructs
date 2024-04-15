@@ -68,14 +68,14 @@
     "ts-node": "^10.9.2",
     "typedoc": "^0.25.13",
     "typedoc-plugin-markdown": "^3.17.1",
-    "typescript": "^5.4.4"
+    "typescript": "^5.4.5"
   },
   "peerDependencies": {
     "aws-cdk-lib": "^2.122.0",
     "constructs": "^10.3.0"
   },
   "dependencies": {
-    "cdk-nag": "^2.28.85",
+    "cdk-nag": "^2.28.89",
     "deepmerge": "^4.3.1"
   },
   "bundledDependencies": [
