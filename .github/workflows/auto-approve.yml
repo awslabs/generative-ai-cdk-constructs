@@ -16,8 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-    if: (github.event.pull_request.user.login == 'emerging-tech-cdk-constructs-bot' || github.event.pull_request.user.login == 'generative-ai-cdk-constructs-bot') && contains(github.event.pull_request.labels.*.name, 'auto-approve')
+    if: contains(github.event.pull_request.labels.*.name, 'auto-approve')
     steps:
-      - uses: hmarr/auto-approve-action@44888193675f29a83e04faf4002fa8c0b537b1e4
+      - uses: hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363
         with:
           github-token: ${{ secrets.PROJEN_GITHUB_TOKEN }}
+          review-message: Auto approved automated PR

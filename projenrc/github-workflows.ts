@@ -100,6 +100,7 @@ export function buildMonthlyIssuesMetricsWorkflow(project: AwsCdkConstructLibrar
           'token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
           'content-filepath': './issue_metrics.md',
           'assignees': 'krokoko',
+          'labels': 'auto-approve'
         },
       },
       {
@@ -120,6 +121,7 @@ export function buildMonthlyIssuesMetricsWorkflow(project: AwsCdkConstructLibrar
           'token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
           'content-filepath': './issue_metrics.md',
           'assignees': 'krokoko',
+          'labels': 'auto-approve'
         },
       },
     ],
@@ -147,15 +149,16 @@ export function buildMonthlyIssuesMetricsWorkflow(project: AwsCdkConstructLibrar
 export function buildAutoApproveWorkflow(project: AwsCdkConstructLibrary) {
   const autoapprove: Job = {
     runsOn: ['ubuntu-latest'],
-    if: "(github.event.pull_request.user.login == 'emerging-tech-cdk-constructs-bot' || github.event.pull_request.user.login == 'generative-ai-cdk-constructs-bot') && contains(github.event.pull_request.labels.*.name, 'auto-approve')",
+    if: "contains(github.event.pull_request.labels.*.name, 'auto-approve')",
     permissions: {
       pullRequests: JobPermission.WRITE,
     },
     steps: [
       {
-        uses: 'hmarr/auto-approve-action@v3.2.1',
+        uses: 'hmarr/auto-approve-action@v4.0.0',
         with: {
           'github-token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
+          'review-message': 'Auto approved automated PR'
         },
       },
     ],
@@ -576,6 +579,7 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
           'author': 'github-actions <github-actions@github.com>',
           'committer': 'github-actions <github-actions@github.com>',
           'signoff': true,
+          'labels': 'auto-approve'
         },
       },
     ],
