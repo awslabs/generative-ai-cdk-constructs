@@ -35,6 +35,7 @@ jobs:
           token: ${{ secrets.PROJEN_GITHUB_TOKEN }}
           content-filepath: ./issue_metrics.md
           assignees: krokoko
+          labels: auto-approve
       - name: Report on PRs
         uses: github/issue-metrics@6bc5254e72971dbb7462db077779f1643f772afd
         env:
@@ -47,3 +48,4 @@ jobs:
           token: ${{ secrets.PROJEN_GITHUB_TOKEN }}
           content-filepath: ./issue_metrics.md
           assignees: krokoko
+          labels: auto-approve

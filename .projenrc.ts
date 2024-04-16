@@ -15,6 +15,7 @@ import { JsonPatch, awscdk } from 'projen';
 import { DependabotScheduleInterval, VersioningStrategy } from 'projen/lib/github';
 import { JobPermission } from 'projen/lib/github/workflows-model';
 import { NpmAccess } from 'projen/lib/javascript';
+import { buildUpgradeMainPRCustomJob } from './projenrc/github-jobs';
 import {
   buildMeritBadgerWorkflow,
   buildMonthlyIssuesMetricsWorkflow,
@@ -117,6 +118,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   sampleCode: false,
   stale: true,
 });
+
 // Add some useful github workflows
 buildMeritBadgerWorkflow(project);
 buildMonthlyIssuesMetricsWorkflow(project);
@@ -126,6 +128,12 @@ runSemGrepWorkflow(project);
 runBanditWorkflow(project);
 runCommitLintWorkflow(project);
 buildCodeGenerationWorkflow(project);
+
+const workflowUpgradeMain = project.github?.tryFindWorkflow('upgrade-main');
+if (workflowUpgradeMain) {
+  // upgrade the PR job to use the custom one adding a label
+  workflowUpgradeMain.updateJob('pr', buildUpgradeMainPRCustomJob());
+}
 
 // Add specific overrides https://projen.io/docs/integrations/github/#actions-versions
 project.github?.actions.set('actions/checkout@v3', 'actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744');
@@ -139,7 +147,7 @@ project.github?.actions.set('amannn/action-semantic-pull-request@v5.0.2', 'amann
 project.github?.actions.set('aws-github-ops/github-merit-badger@main', 'aws-github-ops/github-merit-badger@70d1c47f7051d6e324d4ddc48d676ba61ef69a3e');
 project.github?.actions.set('codecov/codecov-action@v3', 'codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d');
 project.github?.actions.set('github/issue-metrics@v2', 'github/issue-metrics@6bc5254e72971dbb7462db077779f1643f772afd');
-project.github?.actions.set('hmarr/auto-approve-action@v3.2.1', 'hmarr/auto-approve-action@44888193675f29a83e04faf4002fa8c0b537b1e4');
+project.github?.actions.set('hmarr/auto-approve-action@v4.0.0', 'hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363');
 project.github?.actions.set('minicli/action-contributors@v3.3', 'minicli/action-contributors@20ec03af008cb51110a3137fbf77f59a4fd7ff5a');
 project.github?.actions.set('oss-review-toolkit/ort-ci-github-action@v1', 'oss-review-toolkit/ort-ci-github-action@7f23c1f8d169dad430e41df223d3b8409c7a156e');
 project.github?.actions.set('peter-evans/create-issue-from-file@v4', 'peter-evans/create-issue-from-file@433e51abf769039ee20ba1293a088ca19d573b7f');
