@@ -100,7 +100,7 @@ export function buildMonthlyIssuesMetricsWorkflow(project: AwsCdkConstructLibrar
           'token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
           'content-filepath': './issue_metrics.md',
           'assignees': 'krokoko',
-          'labels': 'auto-approve'
+          'labels': 'auto-approve',
         },
       },
       {
@@ -121,7 +121,7 @@ export function buildMonthlyIssuesMetricsWorkflow(project: AwsCdkConstructLibrar
           'token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
           'content-filepath': './issue_metrics.md',
           'assignees': 'krokoko',
-          'labels': 'auto-approve'
+          'labels': 'auto-approve',
         },
       },
     ],
@@ -158,7 +158,7 @@ export function buildAutoApproveWorkflow(project: AwsCdkConstructLibrary) {
         uses: 'hmarr/auto-approve-action@v4.0.0',
         with: {
           'github-token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
-          'review-message': 'Auto approved automated PR'
+          'review-message': 'Auto approved automated PR',
         },
       },
     ],
@@ -579,7 +579,7 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
           'author': 'github-actions <github-actions@github.com>',
           'committer': 'github-actions <github-actions@github.com>',
           'signoff': true,
-          'labels': 'auto-approve'
+          'labels': 'auto-approve',
         },
       },
     ],

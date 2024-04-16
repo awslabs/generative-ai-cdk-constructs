@@ -15,6 +15,7 @@ import { JsonPatch, awscdk } from 'projen';
 import { DependabotScheduleInterval, VersioningStrategy } from 'projen/lib/github';
 import { JobPermission } from 'projen/lib/github/workflows-model';
 import { NpmAccess } from 'projen/lib/javascript';
+import { buildUpgradeMainPRCustomJob } from './projenrc/github-jobs';
 import {
   buildMeritBadgerWorkflow,
   buildMonthlyIssuesMetricsWorkflow,
@@ -117,6 +118,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   sampleCode: false,
   stale: true,
 });
+
 // Add some useful github workflows
 buildMeritBadgerWorkflow(project);
 buildMonthlyIssuesMetricsWorkflow(project);
@@ -126,6 +128,12 @@ runSemGrepWorkflow(project);
 runBanditWorkflow(project);
 runCommitLintWorkflow(project);
 buildCodeGenerationWorkflow(project);
+
+const workflowUpgradeMain = project.github?.tryFindWorkflow('upgrade-main');
+if (workflowUpgradeMain) {
+  // upgrade the PR job to use the custom one adding a label
+  workflowUpgradeMain.updateJob('pr', buildUpgradeMainPRCustomJob());
+}
 
 // Add specific overrides https://projen.io/docs/integrations/github/#actions-versions
 project.github?.actions.set('actions/checkout@v3', 'actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744');
