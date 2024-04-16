@@ -118,6 +118,8 @@
 - [HUGGINGFACE\_LLM\_CALM2\_7B\_CHAT\_BF16\_1\_2\_4](JumpStartModel.md#huggingface_llm_calm2_7b_chat_bf16_1_2_4)
 - [HUGGINGFACE\_LLM\_CULTRIX\_MISTRALTRIX\_V1\_1\_0\_0](JumpStartModel.md#huggingface_llm_cultrix_mistraltrix_v1_1_0_0)
 - [HUGGINGFACE\_LLM\_CULTRIX\_MISTRALTRIX\_V1\_1\_1\_0](JumpStartModel.md#huggingface_llm_cultrix_mistraltrix_v1_1_1_0)
+- [HUGGINGFACE\_LLM\_DBRX\_BASE\_1\_0\_0](JumpStartModel.md#huggingface_llm_dbrx_base_1_0_0)
+- [HUGGINGFACE\_LLM\_DBRX\_INSTRUCT\_1\_0\_0](JumpStartModel.md#huggingface_llm_dbrx_instruct_1_0_0)
 - [HUGGINGFACE\_LLM\_DOLPHIN\_2\_2\_1\_MISTRAL\_7B\_1\_0\_0](JumpStartModel.md#huggingface_llm_dolphin_2_2_1_mistral_7b_1_0_0)
 - [HUGGINGFACE\_LLM\_DOLPHIN\_2\_2\_1\_MISTRAL\_7B\_1\_1\_0](JumpStartModel.md#huggingface_llm_dolphin_2_2_1_mistral_7b_1_1_0)
 - [HUGGINGFACE\_LLM\_DOLPHIN\_2\_5\_MIXTRAL\_8X7B\_1\_0\_0](JumpStartModel.md#huggingface_llm_dolphin_2_5_mixtral_8x7b_1_0_0)
@@ -132,6 +134,8 @@
 - [HUGGINGFACE\_LLM\_ELEUTHERAI\_PYTHIA\_160M\_DEDUPED\_1\_1\_0](JumpStartModel.md#huggingface_llm_eleutherai_pythia_160m_deduped_1_1_0)
 - [HUGGINGFACE\_LLM\_ELEUTHERAI\_PYTHIA\_70M\_DEDUPED\_1\_0\_0](JumpStartModel.md#huggingface_llm_eleutherai_pythia_70m_deduped_1_0_0)
 - [HUGGINGFACE\_LLM\_ELEUTHERAI\_PYTHIA\_70M\_DEDUPED\_1\_1\_0](JumpStartModel.md#huggingface_llm_eleutherai_pythia_70m_deduped_1_1_0)
+- [HUGGINGFACE\_LLM\_ELYZA\_JAPANESE\_LLAMA\_2\_7B\_CHAT\_BF16\_1\_0\_0](JumpStartModel.md#huggingface_llm_elyza_japanese_llama_2_7b_chat_bf16_1_0_0)
+- [HUGGINGFACE\_LLM\_ELYZA\_JAPANESE\_LLAMA\_2\_7B\_FAST\_CHAT\_BF16\_1\_0\_0](JumpStartModel.md#huggingface_llm_elyza_japanese_llama_2_7b_fast_chat_bf16_1_0_0)
 - [HUGGINGFACE\_LLM\_FALCON\_180B\_BF16\_1\_0\_0](JumpStartModel.md#huggingface_llm_falcon_180b_bf16_1_0_0)
 - [HUGGINGFACE\_LLM\_FALCON\_180B\_BF16\_1\_1\_0](JumpStartModel.md#huggingface_llm_falcon_180b_bf16_1_1_0)
 - [HUGGINGFACE\_LLM\_FALCON\_180B\_BF16\_1\_2\_0](JumpStartModel.md#huggingface_llm_falcon_180b_bf16_1_2_0)
@@ -2336,6 +2340,18 @@ ___
 
 ___
 
+### HUGGINGFACE\_LLM\_DBRX\_BASE\_1\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_DBRX\_BASE\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### HUGGINGFACE\_LLM\_DBRX\_INSTRUCT\_1\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_DBRX\_INSTRUCT\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
 ### HUGGINGFACE\_LLM\_DOLPHIN\_2\_2\_1\_MISTRAL\_7B\_1\_0\_0
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_DOLPHIN\_2\_2\_1\_MISTRAL\_7B\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -2417,6 +2433,18 @@ ___
 ### HUGGINGFACE\_LLM\_ELEUTHERAI\_PYTHIA\_70M\_DEDUPED\_1\_1\_0
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_ELEUTHERAI\_PYTHIA\_70M\_DEDUPED\_1\_1\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### HUGGINGFACE\_LLM\_ELYZA\_JAPANESE\_LLAMA\_2\_7B\_CHAT\_BF16\_1\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_ELYZA\_JAPANESE\_LLAMA\_2\_7B\_CHAT\_BF16\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### HUGGINGFACE\_LLM\_ELYZA\_JAPANESE\_LLAMA\_2\_7B\_FAST\_CHAT\_BF16\_1\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_ELYZA\_JAPANESE\_LLAMA\_2\_7B\_FAST\_CHAT\_BF16\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ___
 
