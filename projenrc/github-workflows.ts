@@ -157,7 +157,7 @@ export function buildAutoApproveWorkflow(project: AwsCdkConstructLibrary) {
       {
         uses: 'hmarr/auto-approve-action@v4.0.0',
         with: {
-          'github-token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
+          'github-token': '${{ secrets.GITHUB_TOKEN }}',
           'review-message': 'Auto approved automated PR',
         },
       },
@@ -555,7 +555,7 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
         id: 'create-pr',
         uses: 'peter-evans/create-pull-request@v4',
         with: {
-          'token': '${{ secrets.GITHUB_TOKEN }}',
+          'token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
           'commit-message': [
             'chore(deps): upgrade list of models and DLC images',
 
