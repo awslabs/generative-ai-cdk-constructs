@@ -140,10 +140,11 @@ project.github?.actions.set('actions/checkout@v3', 'actions/checkout@b4ffde65f46
 project.github?.actions.set('actions/checkout@v4', 'actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11');
 project.github?.actions.set('actions/download-artifact@v3', 'actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a');
 project.github?.actions.set('actions/github-script@v6', 'actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410');
-project.github?.actions.set('actions/setup-node@v3', 'actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7');
+project.github?.actions.set('actions/setup-node@v3', 'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8');  // 
+project.github?.actions.set('actions/setup-node@v4', 'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8');
 project.github?.actions.set('actions/setup-python@v4', 'actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236');
 project.github?.actions.set('actions/stale@v4', 'actions/stale@a20b814fb01b71def3bd6f56e7494d667ddf28da');
-project.github?.actions.set('actions/upload-artifact@v3', 'actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32');
+project.github?.actions.set('actions/upload-artifact@v3', 'actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34');
 project.github?.actions.set('actions/upload-artifact@v4', 'actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34');
 project.github?.actions.set('amannn/action-semantic-pull-request@v5.0.2', 'amannn/action-semantic-pull-request@01d5fd8a8ebb9aafe902c40c53f0f4744f7381eb');
 project.github?.actions.set('aws-github-ops/github-merit-badger@main', 'aws-github-ops/github-merit-badger@70d1c47f7051d6e324d4ddc48d676ba61ef69a3e');
@@ -179,7 +180,7 @@ if (deployDocsWorkflow) {
       steps: [
         { uses: 'actions/checkout@v4' },
         {
-          uses: 'actions/setup-node@v3',
+          uses: 'actions/setup-node@v4',
           with: { 'node-version': '18' },
         },
         { run: 'cd website; yarn install --frozen-lockfile;' },
@@ -214,7 +215,7 @@ if (testDeploymentWorkflow) {
       runsOn: ['ubuntu-latest'],
       steps: [
         { uses: 'actions/checkout@v4', with: { 'fetch-depth': '0' } },
-        { uses: 'actions/setup-node@v3', with: { 'node-version': '18', 'cache': 'yarn' } },
+        { uses: 'actions/setup-node@v4', with: { 'node-version': '18', 'cache': 'yarn' } },
         { run: 'cd website; yarn install --frozen-lockfile' },
         { run: 'cd website; pwd; npx docusaurus build', name: 'Test build website' },
       ],

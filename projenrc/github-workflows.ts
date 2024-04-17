@@ -400,7 +400,7 @@ export function runCommitLintWorkflow(project: AwsCdkConstructLibrary) {
       },
       {
         name: 'Setup Node',
-        uses: 'actions/setup-node@v3',
+        uses: 'actions/setup-node@v4',
         with: {
           'node-version': '20.x',
         },
@@ -471,7 +471,7 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
       },
       {
         name: 'Setup Node.js',
-        uses: 'actions/setup-node@v3',
+        uses: 'actions/setup-node@v4',
         with: {
           'node-version': '20.x',
         },
