@@ -232,7 +232,7 @@ export function runSemGrepWorkflow(project: AwsCdkConstructLibrary) {
     name: 'semgrep/ci',
     runsOn: ['ubuntu-latest'],
     container: {
-      image: 'returntocorp/semgrep',
+      image: 'semgrep/semgrep',
     },
     permissions: {
       contents: JobPermission.READ,
@@ -304,7 +304,7 @@ export function runBanditWorkflow(project: AwsCdkConstructLibrary) {
     name: 'bandit/ci',
     runsOn: ['ubuntu-latest'],
     // container: {
-    //   image: 'returntocorp/semgrep',
+    //   image: 'semgrep/semgrep',
     // },
     permissions: {
       contents: JobPermission.READ,
