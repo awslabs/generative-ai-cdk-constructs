@@ -138,7 +138,8 @@ if (workflowUpgradeMain) {
 // Add specific overrides https://projen.io/docs/integrations/github/#actions-versions
 project.github?.actions.set('actions/checkout@v3', 'actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11');
 project.github?.actions.set('actions/checkout@v4', 'actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11');
-project.github?.actions.set('actions/download-artifact@v3', 'actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a');
+project.github?.actions.set('actions/download-artifact@v3', 'actions/download-artifact@b4aefff88e83a2676a730654e1ce3dce61880379');
+project.github?.actions.set('actions/download-artifact@v4', 'actions/download-artifact@b4aefff88e83a2676a730654e1ce3dce61880379');
 project.github?.actions.set('actions/github-script@v6', 'actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410');
 project.github?.actions.set('actions/setup-node@v3', 'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8');  // 
 project.github?.actions.set('actions/setup-node@v4', 'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8');
