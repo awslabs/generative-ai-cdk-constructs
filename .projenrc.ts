@@ -141,7 +141,7 @@ project.github?.actions.set('actions/checkout@v4', 'actions/checkout@b4ffde65f46
 project.github?.actions.set('actions/download-artifact@v3', 'actions/download-artifact@b4aefff88e83a2676a730654e1ce3dce61880379');
 project.github?.actions.set('actions/download-artifact@v4', 'actions/download-artifact@b4aefff88e83a2676a730654e1ce3dce61880379');
 project.github?.actions.set('actions/github-script@v6', 'actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410');
-project.github?.actions.set('actions/setup-node@v3', 'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8');  // 
+project.github?.actions.set('actions/setup-node@v3', 'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8'); //
 project.github?.actions.set('actions/setup-node@v4', 'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8');
 project.github?.actions.set('actions/setup-python@v4', 'actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d');
 project.github?.actions.set('actions/setup-python@v5', 'actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d');
