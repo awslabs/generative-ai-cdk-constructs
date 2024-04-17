@@ -253,7 +253,7 @@ export function runSemGrepWorkflow(project: AwsCdkConstructLibrary) {
       },
       {
         name: 'Store Semgrep as Artifact',
-        uses: 'actions/upload-artifact@v3',
+        uses: 'actions/upload-artifact@v4',
         with: {
           name: 'semgrep.json',
           path: 'semgrep.json',
@@ -332,7 +332,7 @@ export function runBanditWorkflow(project: AwsCdkConstructLibrary) {
       },
       {
         name: 'Store Bandit as Artifact',
-        uses: 'actions/upload-artifact@v3',
+        uses: 'actions/upload-artifact@v4',
         with: {
           name: 'bandit-report.html',
           path: 'bandit-report.html',
@@ -505,7 +505,7 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
       {
         name: 'Upload patch',
         if: `steps.${CREATE_PATCH_STEP_ID}.outputs.${PATCH_CREATED_OUTPUT}`,
-        uses: 'actions/upload-artifact@v3',
+        uses: 'actions/upload-artifact@v4',
         with: {
           name: '.repo.patch',
           path: '.repo.patch',

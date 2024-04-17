@@ -144,6 +144,7 @@ project.github?.actions.set('actions/setup-node@v3', 'actions/setup-node@1a4442c
 project.github?.actions.set('actions/setup-python@v4', 'actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236');
 project.github?.actions.set('actions/stale@v4', 'actions/stale@a20b814fb01b71def3bd6f56e7494d667ddf28da');
 project.github?.actions.set('actions/upload-artifact@v3', 'actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32');
+project.github?.actions.set('actions/upload-artifact@v4', 'actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34');
 project.github?.actions.set('amannn/action-semantic-pull-request@v5.0.2', 'amannn/action-semantic-pull-request@01d5fd8a8ebb9aafe902c40c53f0f4744f7381eb');
 project.github?.actions.set('aws-github-ops/github-merit-badger@main', 'aws-github-ops/github-merit-badger@70d1c47f7051d6e324d4ddc48d676ba61ef69a3e');
 project.github?.actions.set('codecov/codecov-action@v3', 'codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d');

@@ -41,7 +41,7 @@ jobs:
           git diff --staged --patch --exit-code > .repo.patch || echo "patch_created=true" >> $GITHUB_OUTPUT
       - name: Upload patch
         if: steps.create_patch.outputs.patch_created
-        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32
+        uses: actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34
         with:
           name: .repo.patch
           path: .repo.patch
