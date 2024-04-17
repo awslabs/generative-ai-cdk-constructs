@@ -72,7 +72,7 @@ jobs:
         id: create-pr
         uses: peter-evans/create-pull-request@38e0b6e68b4c852a5500a94740f0e535e0d7ba54
         with:
-          token: ${{ secrets.PROJEN_GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: |-
             chore(deps): upgrade list of models and DLC images
             Upgrade list of models and DLC images. See details in [workflow run].
