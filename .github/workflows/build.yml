@@ -28,7 +28,7 @@ jobs:
       - name: build
         run: npx projen build
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d
+        uses: codecov/codecov-action@84508663e988701840491b86de86b666e8a86bed
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: coverage

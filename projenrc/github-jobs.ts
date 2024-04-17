@@ -36,7 +36,7 @@ export function buildUpgradeMainPRCustomJob() {
       },
       {
         name: 'Download patch',
-        uses: 'actions/download-artifact@v3',
+        uses: 'actions/download-artifact@v4',
         with: {
           name: '.repo.patch',
           path: '${{ runner.temp }}',
