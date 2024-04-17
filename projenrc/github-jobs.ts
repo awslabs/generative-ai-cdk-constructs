@@ -58,7 +58,7 @@ export function buildUpgradeMainPRCustomJob() {
         id: 'create-pr',
         uses: 'peter-evans/create-pull-request@v4',
         with: {
-          'token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
+          'token': '${{ secrets.GITHUB_TOKEN }}',
           'commit-message': [
             'chore(deps): upgrade dependencies\n',
 
