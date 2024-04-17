@@ -1414,9 +1414,9 @@ aws-sdk-mock@^5.9.0:
     traverse "^0.6.6"
 
 aws-sdk@^2.1231.0:
-  version "2.1599.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1599.0.tgz#701850e6baabf6e796169e0894f062eee4509fba"
-  integrity sha512-jPb1LAN+s1TLTK+VR3TTJLr//sb3AhhT60Bm9jxB5G/fVeeRczXtBtixNpQ00gksQdkstILYLc9S6MuKMsksxA==
+  version "2.1601.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1601.0.tgz#9b5290b3a2ae38d3ce38b017d79b12925ca0eac4"
+  integrity sha512-znwVdKs3g0j1cAFfi+PGPSmBxXjiekJXp1nnOUq4rxXYvN7av8gxptXaQz+vqB4uhNFsD+OXNQh+6bd9eQxZmw==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -1604,10 +1604,10 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-nag@^2.28.89:
-  version "2.28.89"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.89.tgz#d25ef78b197ab87d1f0d76c667a7c5da33c65e6c"
-  integrity sha512-0K9roRBQNItmeGvwfZlP8DnETZaytmRFXxIva9hiKpdQOVN8HAfbNrVRQkqG/l30m9RFySf/pJHhOU0p/S5H7Q==
+cdk-nag@^2.28.91:
+  version "2.28.91"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.91.tgz#14fc9787a0ee38cc5d280d4913ce8bf0b3a4f8bc"
+  integrity sha512-7mJRLUUDPhCdJebWwo+eJNBYefzorNZxuMMNyE4uL8SLB1TqPoBrvELB1jt0fl53fCu6L97owtjryKLXhGE2yA==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -2203,9 +2203,9 @@ downlevel-dts@^0.11.0:
     typescript next
 
 electron-to-chromium@^1.4.668:
-  version "1.4.736"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.736.tgz#ecb4348f4d5c70fb1e31c347e5bad6b751066416"
-  integrity sha512-Rer6wc3ynLelKNM4lOCg7/zPQj8tPOCB2hzD32PX9wd3hgRRi9MxEbmkFCokzcEhRVMiOVLjnL9ig9cefJ+6+Q==
+  version "1.4.738"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.738.tgz#9a7fca98abaee61e20c9c25013d5ce60bb533436"
+  integrity sha512-lwKft2CLFztD+vEIpesrOtCrko/TFnEJlHFdRhazU7Y/jx5qc4cqsocfVrBg4So4gGe9lvxnbLIoev47WMpg+A==
 
 emittery@^0.13.1:
   version "0.13.1"
