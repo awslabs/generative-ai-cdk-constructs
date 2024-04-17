@@ -136,7 +136,7 @@ if (workflowUpgradeMain) {
 }
 
 // Add specific overrides https://projen.io/docs/integrations/github/#actions-versions
-project.github?.actions.set('actions/checkout@v3', 'actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744');
+project.github?.actions.set('actions/checkout@v4', 'actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744');
 project.github?.actions.set('actions/download-artifact@v3', 'actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a');
 project.github?.actions.set('actions/github-script@v6', 'actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410');
 project.github?.actions.set('actions/setup-node@v3', 'actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7');
@@ -175,7 +175,7 @@ if (deployDocsWorkflow) {
       },
       runsOn: ['ubuntu-latest'],
       steps: [
-        { uses: 'actions/checkout@v3' },
+        { uses: 'actions/checkout@v4' },
         {
           uses: 'actions/setup-node@v3',
           with: { 'node-version': '18' },
@@ -211,7 +211,7 @@ if (testDeploymentWorkflow) {
       },
       runsOn: ['ubuntu-latest'],
       steps: [
-        { uses: 'actions/checkout@v3', with: { 'fetch-depth': '0' } },
+        { uses: 'actions/checkout@v4', with: { 'fetch-depth': '0' } },
         { uses: 'actions/setup-node@v3', with: { 'node-version': '18', 'cache': 'yarn' } },
         { run: 'cd website; yarn install --frozen-lockfile' },
         { run: 'cd website; pwd; npx docusaurus build', name: 'Test build website' },

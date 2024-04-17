@@ -193,7 +193,7 @@ export function buildOrtToolkitWorkflow(project: AwsCdkConstructLibrary) {
     steps: [
       {
         name: 'Checkout project',
-        uses: 'actions/checkout@v3',
+        uses: 'actions/checkout@v4',
       },
       {
         name: 'Run GitHub Action for ORT',
@@ -245,7 +245,7 @@ export function runSemGrepWorkflow(project: AwsCdkConstructLibrary) {
     steps: [
       {
         name: 'Checkout project',
-        uses: 'actions/checkout@v3',
+        uses: 'actions/checkout@v4',
       },
       {
         name: 'Run Semgrep CI',
@@ -317,7 +317,7 @@ export function runBanditWorkflow(project: AwsCdkConstructLibrary) {
     steps: [
       {
         name: 'Checkout project',
-        uses: 'actions/checkout@v3',
+        uses: 'actions/checkout@v4',
       },
       {
         name: 'Setup Python',
@@ -393,7 +393,7 @@ export function runCommitLintWorkflow(project: AwsCdkConstructLibrary) {
     steps: [
       {
         name: 'Checkout project',
-        uses: 'actions/checkout@v3',
+        uses: 'actions/checkout@v4',
         with: {
           'fetch-depth': '0',
         },
@@ -464,7 +464,7 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
     steps: [
       {
         name: 'Checkout project',
-        uses: 'actions/checkout@v3',
+        uses: 'actions/checkout@v4',
         with: {
           ref: 'main',
         },
@@ -526,7 +526,7 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
     steps: [
       {
         name: 'Checkout',
-        uses: 'actions/checkout@v3',
+        uses: 'actions/checkout@v4',
         with: {
           ref: 'main',
         },
