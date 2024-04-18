@@ -136,16 +136,22 @@ if (workflowUpgradeMain) {
 }
 
 // Add specific overrides https://projen.io/docs/integrations/github/#actions-versions
-project.github?.actions.set('actions/checkout@v3', 'actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744');
-project.github?.actions.set('actions/download-artifact@v3', 'actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a');
+project.github?.actions.set('actions/checkout@v3', 'actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11'); // https://github.com/projen/projen/issues/3529
+project.github?.actions.set('actions/checkout@v4', 'actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11');
+project.github?.actions.set('actions/download-artifact@v3', 'actions/download-artifact@b4aefff88e83a2676a730654e1ce3dce61880379'); // https://github.com/projen/projen/issues/3529
+project.github?.actions.set('actions/download-artifact@v4', 'actions/download-artifact@b4aefff88e83a2676a730654e1ce3dce61880379');
 project.github?.actions.set('actions/github-script@v6', 'actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410');
-project.github?.actions.set('actions/setup-node@v3', 'actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7');
-project.github?.actions.set('actions/setup-python@v4', 'actions/setup-python@65d7f2d534ac1bc67fcd62888c5f4f3d2cb2b236');
+project.github?.actions.set('actions/setup-node@v3', 'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8'); // https://github.com/projen/projen/issues/3529
+project.github?.actions.set('actions/setup-node@v4', 'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8');
+project.github?.actions.set('actions/setup-python@v4', 'actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d'); // https://github.com/projen/projen/issues/3529
+project.github?.actions.set('actions/setup-python@v5', 'actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d');
 project.github?.actions.set('actions/stale@v4', 'actions/stale@a20b814fb01b71def3bd6f56e7494d667ddf28da');
-project.github?.actions.set('actions/upload-artifact@v3', 'actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32');
+project.github?.actions.set('actions/upload-artifact@v3', 'actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34'); // https://github.com/projen/projen/issues/3529
+project.github?.actions.set('actions/upload-artifact@v4', 'actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34');
 project.github?.actions.set('amannn/action-semantic-pull-request@v5.0.2', 'amannn/action-semantic-pull-request@01d5fd8a8ebb9aafe902c40c53f0f4744f7381eb');
 project.github?.actions.set('aws-github-ops/github-merit-badger@main', 'aws-github-ops/github-merit-badger@70d1c47f7051d6e324d4ddc48d676ba61ef69a3e');
-project.github?.actions.set('codecov/codecov-action@v3', 'codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d');
+project.github?.actions.set('codecov/codecov-action@v3', 'codecov/codecov-action@84508663e988701840491b86de86b666e8a86bed'); // https://github.com/projen/projen/issues/3529
+project.github?.actions.set('codecov/codecov-action@v4', 'codecov/codecov-action@84508663e988701840491b86de86b666e8a86bed');
 project.github?.actions.set('github/issue-metrics@v2', 'github/issue-metrics@6bc5254e72971dbb7462db077779f1643f772afd');
 project.github?.actions.set('hmarr/auto-approve-action@v4.0.0', 'hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363');
 project.github?.actions.set('minicli/action-contributors@v3.3', 'minicli/action-contributors@20ec03af008cb51110a3137fbf77f59a4fd7ff5a');
@@ -175,9 +181,9 @@ if (deployDocsWorkflow) {
       },
       runsOn: ['ubuntu-latest'],
       steps: [
-        { uses: 'actions/checkout@v3' },
+        { uses: 'actions/checkout@v4' },
         {
-          uses: 'actions/setup-node@v3',
+          uses: 'actions/setup-node@v4',
           with: { 'node-version': '18' },
         },
         { run: 'cd website; yarn install --frozen-lockfile;' },
@@ -211,8 +217,8 @@ if (testDeploymentWorkflow) {
       },
       runsOn: ['ubuntu-latest'],
       steps: [
-        { uses: 'actions/checkout@v3', with: { 'fetch-depth': '0' } },
-        { uses: 'actions/setup-node@v3', with: { 'node-version': '18', 'cache': 'yarn' } },
+        { uses: 'actions/checkout@v4', with: { 'fetch-depth': '0' } },
+        { uses: 'actions/setup-node@v4', with: { 'node-version': '18', 'cache': 'yarn' } },
         { run: 'cd website; yarn install --frozen-lockfile' },
         { run: 'cd website; pwd; npx docusaurus build', name: 'Test build website' },
       ],

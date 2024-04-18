@@ -29,14 +29,14 @@ export function buildUpgradeMainPRCustomJob() {
     steps: [
       {
         name: 'Checkout',
-        uses: 'actions/checkout@v3',
+        uses: 'actions/checkout@v4',
         with: {
           ref: 'main',
         },
       },
       {
         name: 'Download patch',
-        uses: 'actions/download-artifact@v3',
+        uses: 'actions/download-artifact@v4',
         with: {
           name: '.repo.patch',
           path: '${{ runner.temp }}',

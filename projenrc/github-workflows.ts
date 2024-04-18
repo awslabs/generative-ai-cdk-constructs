@@ -193,7 +193,7 @@ export function buildOrtToolkitWorkflow(project: AwsCdkConstructLibrary) {
     steps: [
       {
         name: 'Checkout project',
-        uses: 'actions/checkout@v3',
+        uses: 'actions/checkout@v4',
       },
       {
         name: 'Run GitHub Action for ORT',
@@ -232,7 +232,7 @@ export function runSemGrepWorkflow(project: AwsCdkConstructLibrary) {
     name: 'semgrep/ci',
     runsOn: ['ubuntu-latest'],
     container: {
-      image: 'returntocorp/semgrep',
+      image: 'semgrep/semgrep',
     },
     permissions: {
       contents: JobPermission.READ,
@@ -245,7 +245,7 @@ export function runSemGrepWorkflow(project: AwsCdkConstructLibrary) {
     steps: [
       {
         name: 'Checkout project',
-        uses: 'actions/checkout@v3',
+        uses: 'actions/checkout@v4',
       },
       {
         name: 'Run Semgrep CI',
@@ -253,7 +253,7 @@ export function runSemGrepWorkflow(project: AwsCdkConstructLibrary) {
       },
       {
         name: 'Store Semgrep as Artifact',
-        uses: 'actions/upload-artifact@v3',
+        uses: 'actions/upload-artifact@v4',
         with: {
           name: 'semgrep.json',
           path: 'semgrep.json',
@@ -304,7 +304,7 @@ export function runBanditWorkflow(project: AwsCdkConstructLibrary) {
     name: 'bandit/ci',
     runsOn: ['ubuntu-latest'],
     // container: {
-    //   image: 'returntocorp/semgrep',
+    //   image: 'semgrep/semgrep',
     // },
     permissions: {
       contents: JobPermission.READ,
@@ -317,11 +317,11 @@ export function runBanditWorkflow(project: AwsCdkConstructLibrary) {
     steps: [
       {
         name: 'Checkout project',
-        uses: 'actions/checkout@v3',
+        uses: 'actions/checkout@v4',
       },
       {
         name: 'Setup Python',
-        uses: 'actions/setup-python@v4',
+        uses: 'actions/setup-python@v5',
         with: {
           'python-version': '3.x',
         },
@@ -332,7 +332,7 @@ export function runBanditWorkflow(project: AwsCdkConstructLibrary) {
       },
       {
         name: 'Store Bandit as Artifact',
-        uses: 'actions/upload-artifact@v3',
+        uses: 'actions/upload-artifact@v4',
         with: {
           name: 'bandit-report.html',
           path: 'bandit-report.html',
@@ -393,14 +393,14 @@ export function runCommitLintWorkflow(project: AwsCdkConstructLibrary) {
     steps: [
       {
         name: 'Checkout project',
-        uses: 'actions/checkout@v3',
+        uses: 'actions/checkout@v4',
         with: {
           'fetch-depth': '0',
         },
       },
       {
         name: 'Setup Node',
-        uses: 'actions/setup-node@v3',
+        uses: 'actions/setup-node@v4',
         with: {
           'node-version': '20.x',
         },
@@ -464,14 +464,14 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
     steps: [
       {
         name: 'Checkout project',
-        uses: 'actions/checkout@v3',
+        uses: 'actions/checkout@v4',
         with: {
           ref: 'main',
         },
       },
       {
         name: 'Setup Node.js',
-        uses: 'actions/setup-node@v3',
+        uses: 'actions/setup-node@v4',
         with: {
           'node-version': '20.x',
         },
@@ -505,7 +505,7 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
       {
         name: 'Upload patch',
         if: `steps.${CREATE_PATCH_STEP_ID}.outputs.${PATCH_CREATED_OUTPUT}`,
-        uses: 'actions/upload-artifact@v3',
+        uses: 'actions/upload-artifact@v4',
         with: {
           name: '.repo.patch',
           path: '.repo.patch',
@@ -526,14 +526,14 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
     steps: [
       {
         name: 'Checkout',
-        uses: 'actions/checkout@v3',
+        uses: 'actions/checkout@v4',
         with: {
           ref: 'main',
         },
       },
       {
         name: 'Download patch',
-        uses: 'actions/download-artifact@v3',
+        uses: 'actions/download-artifact@v4',
         with: {
           name: '.repo.patch',
           path: '${{ runner.temp }}',
