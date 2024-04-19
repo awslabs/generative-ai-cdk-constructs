@@ -295,7 +295,7 @@ response = model.run(
 
 | **Error Code**     | **Message**        | **Description** |**Fix** |
 |:-------------|:----------------|-----------------|-----------------|
-| 601 | <llm_name> Exception during prediction | An exception happened while the LangChain client was running a prediction with the selected LLM | Verify logs to get the proper error message from the LangChain client |
+| 601 | &lt;llm_name&gt; Exception during prediction | An exception happened while the LangChain client was running a prediction with the selected LLM | Verify logs to get the proper error message from the LangChain client |
 
 ## Architecture
 ![Architecture Diagram](architecture.png)
