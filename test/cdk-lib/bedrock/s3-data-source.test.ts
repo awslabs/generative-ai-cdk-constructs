@@ -53,7 +53,7 @@ describe('S3 Data Source', () => {
       overlapPercentage: 20,
     });
 
-    Template.fromStack(stack).hasResourceProperties('Custom::Bedrock-DataSource', {
+    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
       vectorIngestionConfiguration: {
         chunkingConfiguration: {
           chunkingStrategy: 'FIXED_SIZE',
@@ -74,7 +74,7 @@ describe('S3 Data Source', () => {
       chunkingStrategy: bedrock.ChunkingStrategy.NONE,
     });
 
-    Template.fromStack(stack).hasResourceProperties('Custom::Bedrock-DataSource', {
+    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
       vectorIngestionConfiguration: {
         chunkingConfiguration: {
           chunkingStrategy: 'NONE',

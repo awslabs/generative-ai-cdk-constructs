@@ -16,7 +16,6 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 
-import { BedrockCRProvider } from './custom-resource-provider';
 
 export interface AgentAliasProps {
   /**
@@ -58,18 +57,16 @@ export class AgentAlias extends Construct implements cdk.ITaggableV2 {
    * TagManager facilitates a common implementation of tagging for Constructs
    */
   public readonly cdkTagManager =
-    new cdk.TagManager(cdk.TagType.MAP, 'Custom::Bedrock-AgentAlias');
+    new cdk.TagManager(cdk.TagType.MAP, 'AWS::Bedrock::AgentAlias');
 
   constructor(scope: Construct, id: string, props: AgentAliasProps) {
     super(scope, id);
-    const crProvider = BedrockCRProvider.getProvider(this);
 
-    const alias = new cdk.CustomResource(
+    const alias = new cdk.CfnResource(
       this,
       'Alias',
       {
-        serviceToken: crProvider.serviceToken,
-        resourceType: 'Custom::Bedrock-AgentAlias',
+        type: 'AWS::Bedrock::AgentAlias',
         properties: {
           agentId: props.agentId,
           aliasName: props.aliasName ?? 'latest',
@@ -81,7 +78,6 @@ export class AgentAlias extends Construct implements cdk.ITaggableV2 {
     );
 
     const aliasCRPolicy = new iam.Policy(this, 'AliasCRPolicy', {
-      roles: [crProvider.role],
       statements: [
 
         new iam.PolicyStatement({
@@ -126,11 +122,10 @@ export class AgentAlias extends Construct implements cdk.ITaggableV2 {
     );
 
     alias.node.addDependency(aliasCRPolicy);
-    alias.node.addDependency(crProvider);
 
-    this.aliasId = alias.getAttString('agentAliasId');
-    this.aliasArn = alias.getAttString('agentAliasArn');
-    this.aliasName = alias.getAttString('agentAliasName');
+    this.aliasId = alias.getAtt('agentAliasId').toString();
+    this.aliasArn = alias.getAtt('agentAliasArn').toString();
+    this.aliasName = alias.getAtt('agentAliasName').toString();
 
   }
 }

@@ -111,7 +111,7 @@ describe('AgentActionGroup', () => {
       apiSchema: bedrock.ApiSchema.fromBucket(bucket, 'test/api.yaml'),
     });
     const template = Template.fromStack(stack);
-    template.hasResourceProperties('Custom::Bedrock-AgentActionGroup', {
+    template.hasResourceProperties('AWS::Bedrock::Agent AgentActionGroup', {
       apiSchema: {
         s3: {
           s3BucketName: {

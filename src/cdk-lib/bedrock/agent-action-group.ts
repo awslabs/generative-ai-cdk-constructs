@@ -18,7 +18,6 @@ import { Construct } from 'constructs';
 
 import { Agent } from './agent';
 import { ApiSchema, ApiSchemaConfig } from './api-schema';
-import { BedrockCRProvider } from './custom-resource-provider';
 
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 
@@ -99,10 +98,8 @@ export class AgentActionGroup extends Construct {
       });
     }
 
-    const crProvider = BedrockCRProvider.getProvider(this);
-    const agentActionGroup = new cdk.CustomResource(this, 'ActionGroup', {
-      serviceToken: crProvider.serviceToken,
-      resourceType: 'Custom::Bedrock-AgentActionGroup',
+    const agentActionGroup = new cdk.CfnResource(this, 'ActionGroup', {
+      type: 'AWS::Bedrock::Agent AgentActionGroup',
       properties: {
         agentId: props.agent.agentId,
         actionGroupExecutor,
@@ -114,10 +111,9 @@ export class AgentActionGroup extends Construct {
         shouldPrepareAgent: props.shouldPrepareAgent,
       },
     });
-    this.actionGroupId = agentActionGroup.getAttString('actionGroupId');
+    this.actionGroupId = agentActionGroup.getAtt('actionGroupId').toString();
 
     const actionGroupCRPolicy = new iam.Policy(this, 'AgentActionGroupCRPolicy', {
-      roles: [crProvider.role],
       statements: [
         new iam.PolicyStatement({
           actions: [
@@ -149,7 +145,7 @@ export class AgentActionGroup extends Construct {
     );
 
     agentActionGroup.node.addDependency(actionGroupCRPolicy);
-    props.agent._addAliasDependency(agentActionGroup.getAttString('updatedAt'));
+    props.agent._addAliasDependency(agentActionGroup.getAtt('updatedAt').toString());
   }
 }
 

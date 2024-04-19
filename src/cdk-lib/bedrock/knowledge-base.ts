@@ -15,7 +15,6 @@ import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
-import { BedrockCRProvider } from './custom-resource-provider';
 import { BedrockFoundationModel } from './models';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 import {
@@ -201,7 +200,7 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
    * TagManager facilitates a common implementation of tagging for Constructs
    */
   public readonly cdkTagManager =
-    new cdk.TagManager(cdk.TagType.MAP, 'Custom::Bedrock-KnowledgeBase');
+    new cdk.TagManager(cdk.TagType.MAP, 'AWS::Bedrock::KnowledgeBase');
 
   /**
    * The OpenSearch vector index for the knowledge base.
@@ -392,10 +391,8 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
         this.vectorStore.metadataField : metadataField,
     };
 
-    const crProvider = BedrockCRProvider.getProvider(this);
-    const knowledgeBase = new cdk.CustomResource(this, 'KB', {
-      serviceToken: crProvider.serviceToken,
-      resourceType: 'Custom::Bedrock-KnowledgeBase',
+    const knowledgeBase = new cdk.CfnResource(this, 'KB', {
+      type: 'AWS::Bedrock::KnowledgeBase',
       properties: {
         knowledgeBaseConfiguration: {
           type: 'VECTOR',
@@ -412,7 +409,6 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
     });
 
     const kbCRPolicy = new iam.Policy(this, 'KBCRPolicy', {
-      roles: [crProvider.role],
       statements: [
         new iam.PolicyStatement({
           actions: [
@@ -474,9 +470,9 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
       ],
       true,
     );
-
-    this.knowledgeBaseArn = knowledgeBase.getAttString('knowledgeBaseArn');
-    this.knowledgeBaseId = knowledgeBase.getAttString('knowledgeBaseId');
+    // get arn of knowledgeBase and assign it to a strig variable
+    this.knowledgeBaseArn = knowledgeBase.getAtt('knowledgeBaseArn').toString();
+    this.knowledgeBaseId = knowledgeBase.getAtt('knowledgeBaseId').toString();
   }
 
   /**

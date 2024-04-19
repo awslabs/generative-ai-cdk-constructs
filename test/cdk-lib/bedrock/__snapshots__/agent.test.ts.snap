@@ -23,17 +23,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
   },
   "Resources": {
     "AgentAgentActionGrouptestactiongroupActionGroupD0F433CF": {
-      "DeletionPolicy": "Delete",
-      "DependsOn": [
-        "AgentAgentActionGrouptestactiongroupAgentActionGroupCRPolicyCB9FC6F0",
-      ],
       "Properties": {
-        "ServiceToken": {
-          "Fn::GetAtt": [
-            "BedrockCRProviderframeworkonEvent412F4EF1",
-            "Arn",
-          ],
-        },
         "actionGroupName": "test-action-group",
         "actionGroupState": "ENABLED",
         "agentId": {
@@ -48,74 +38,10 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
         "description": "Use these functions to get information about the books in the Project Gutenburg library.",
         "shouldPrepareAgent": false,
       },
-      "Type": "Custom::Bedrock-AgentActionGroup",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "AgentAgentActionGrouptestactiongroupAgentActionGroupCRPolicyCB9FC6F0": {
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-IAM5",
-              "reason": "Bedrock AgentActionGroup calls have wildcards restricted to agents in the account.",
-            },
-          ],
-        },
-      },
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
-                "bedrock:CreateAgentActionGroup",
-                "bedrock:DeleteAgentActionGroup",
-                "bedrock:UpdateAgentActionGroup",
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition",
-                    },
-                    ":bedrock:us-east-1:123456789012:agent/*",
-                  ],
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "AgentAgentActionGrouptestactiongroupAgentActionGroupCRPolicyCB9FC6F0",
-        "Roles": [
-          {
-            "Ref": "BedrockCRProviderCRRole90406B17",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
+      "Type": "AWS::Bedrock::Agent AgentActionGroup",
     },
     "AgentAgentAliasprodAlias575D4660": {
-      "DeletionPolicy": "Delete",
-      "DependsOn": [
-        "AgentAgentAliasprodAliasCRPolicyACECDEBD",
-        "BedrockCRProviderCRRole90406B17",
-        "BedrockCRProviderCustomResourcesFunctionLogRetention32CED555",
-        "BedrockCRProviderCustomResourcesFunction9A70E3A5",
-        "BedrockCRProviderframeworkonEventLogRetention862855F3",
-        "BedrockCRProviderframeworkonEvent412F4EF1",
-        "BedrockCRProviderProviderRoleDefaultPolicy517A1A7C",
-        "BedrockCRProviderProviderRoleE6EBD17C",
-      ],
       "Properties": {
-        "ServiceToken": {
-          "Fn::GetAtt": [
-            "BedrockCRProviderframeworkonEvent412F4EF1",
-            "Arn",
-          ],
-        },
         "agentId": {
           "Fn::GetAtt": [
             "AgentD78B2CA1",
@@ -144,137 +70,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
           },
         ],
       },
-      "Type": "Custom::Bedrock-AgentAlias",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "AgentAgentAliasprodAliasCRPolicyACECDEBD": {
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-IAM5",
-              "reason": "Bedrock Agent/Alias associations have wildcards restricted to agents and aliases in the account.",
-            },
-          ],
-        },
-      },
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
-                "bedrock:CreateAgentAlias",
-                "bedrock:UpdateAgentAlias",
-                "bedrock:DeleteAgentAlias",
-                "bedrock:PrepareAgent",
-                "bedrock:ListAgentAliases",
-                "bedrock:ListAgentVersions",
-                "bedrock:DeleteAgentVersion",
-                "bedrock:GetAgent",
-                "bedrock:TagResource",
-              ],
-              "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":bedrock:us-east-1:123456789012:agent-alias/*",
-                    ],
-                  ],
-                },
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":bedrock:us-east-1:123456789012:agent/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "AgentAgentAliasprodAliasCRPolicyACECDEBD",
-        "Roles": [
-          {
-            "Ref": "BedrockCRProviderCRRole90406B17",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "AgentAgentCRPolicy805C7219": {
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-IAM5",
-              "reason": "Bedrock CreateAgent can't be restricted by resource.",
-            },
-          ],
-        },
-      },
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": "iam:PassRole",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "AgentRole9D587F56",
-                  "Arn",
-                ],
-              },
-            },
-            {
-              "Action": "bedrock:CreateAgent",
-              "Effect": "Allow",
-              "Resource": "*",
-            },
-            {
-              "Action": [
-                "bedrock:DeleteAgent",
-                "bedrock:UpdateAgent",
-                "bedrock:TagResource",
-                "bedrock:GetAgent",
-                "bedrock:PrepareAgent",
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition",
-                    },
-                    ":bedrock:us-east-1:123456789012:agent/*",
-                  ],
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "AgentAgentCRPolicy805C7219",
-        "Roles": [
-          {
-            "Ref": "BedrockCRProviderCRRole90406B17",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
+      "Type": "AWS::Bedrock::AgentAlias",
     },
     "AgentAgentFMPolicyF0794CB5": {
       "Properties": {
@@ -327,24 +123,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       "Type": "AWS::IAM::Policy",
     },
     "AgentD78B2CA1": {
-      "DeletionPolicy": "Delete",
-      "DependsOn": [
-        "AgentAgentCRPolicy805C7219",
-        "BedrockCRProviderCRRole90406B17",
-        "BedrockCRProviderCustomResourcesFunctionLogRetention32CED555",
-        "BedrockCRProviderCustomResourcesFunction9A70E3A5",
-        "BedrockCRProviderframeworkonEventLogRetention862855F3",
-        "BedrockCRProviderframeworkonEvent412F4EF1",
-        "BedrockCRProviderProviderRoleDefaultPolicy517A1A7C",
-        "BedrockCRProviderProviderRoleE6EBD17C",
-      ],
       "Properties": {
-        "ServiceToken": {
-          "Fn::GetAtt": [
-            "BedrockCRProviderframeworkonEvent412F4EF1",
-            "Arn",
-          ],
-        },
         "agentName": "bedrock-agent-testsgent-03df32b3",
         "agentResourceRoleArn": {
           "Fn::GetAtt": [
@@ -391,88 +170,10 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
         },
         "shouldPrepareAgent": false,
       },
-      "Type": "Custom::Bedrock-Agent",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "AgentKBAssocCRPolicy83FB14ED": {
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-IAM5",
-              "reason": "Bedrock Agent/KB associations have wildcards restricted to agents and kbs in the account.",
-            },
-          ],
-        },
-      },
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
-                "bedrock:AssociateAgentKnowledgeBase",
-                "bedrock:UpdateAgentKnowledgeBase",
-                "bedrock:DisassociateAgentKnowledgeBase",
-              ],
-              "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":bedrock:us-east-1:123456789012:agent/*",
-                    ],
-                  ],
-                },
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:",
-                      {
-                        "Ref": "AWS::Partition",
-                      },
-                      ":bedrock:us-east-1:123456789012:knowledge-base/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "AgentKBAssocCRPolicy83FB14ED",
-        "Roles": [
-          {
-            "Ref": "BedrockCRProviderCRRole90406B17",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
+      "Type": "AWS::Bedrock::Agent",
     },
     "AgentKBAssocKBteststackKBF59CBB076A4D106D": {
-      "DeletionPolicy": "Delete",
-      "DependsOn": [
-        "AgentKBAssocCRPolicy83FB14ED",
-        "BedrockCRProviderCRRole90406B17",
-        "BedrockCRProviderCustomResourcesFunctionLogRetention32CED555",
-        "BedrockCRProviderCustomResourcesFunction9A70E3A5",
-        "BedrockCRProviderframeworkonEventLogRetention862855F3",
-        "BedrockCRProviderframeworkonEvent412F4EF1",
-        "BedrockCRProviderProviderRoleDefaultPolicy517A1A7C",
-        "BedrockCRProviderProviderRoleE6EBD17C",
-      ],
       "Properties": {
-        "ServiceToken": {
-          "Fn::GetAtt": [
-            "BedrockCRProviderframeworkonEvent412F4EF1",
-            "Arn",
-          ],
-        },
         "agentId": {
           "Fn::GetAtt": [
             "AgentD78B2CA1",
@@ -488,8 +189,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
         },
         "shouldPrepareAgent": false,
       },
-      "Type": "Custom::Bedrock-AgentKnowledgeBase",
-      "UpdateReplacePolicy": "Delete",
+      "Type": "AWS::Bedrock::Agent AgentKnowledgeBase",
     },
     "AgentRole9D587F56": {
       "Properties": {
@@ -535,276 +235,8 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       },
       "Type": "AWS::IAM::Role",
     },
-    "BedrockCRProviderCRRole90406B17": {
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-IAM4",
-              "reason": "CDK CustomResource Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.",
-            },
-          ],
-        },
-      },
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "BedrockCRProviderCustomResourcesFunction9A70E3A5": {
-      "DependsOn": [
-        "BedrockCRProviderCRRole90406B17",
-      ],
-      "Properties": {
-        "Code": {
-          "ZipFile": "mockCode",
-        },
-        "Description": "Custom Resource Provider",
-        "Handler": "custom_resources.on_event",
-        "MemorySize": 128,
-        "Role": {
-          "Fn::GetAtt": [
-            "BedrockCRProviderCRRole90406B17",
-            "Arn",
-          ],
-        },
-        "Runtime": "python3.12",
-        "Timeout": 900,
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "BedrockCRProviderCustomResourcesFunctionLogRetention32CED555": {
-      "Properties": {
-        "LogGroupName": {
-          "Fn::Join": [
-            "",
-            [
-              "/aws/lambda/",
-              {
-                "Ref": "BedrockCRProviderCustomResourcesFunction9A70E3A5",
-              },
-            ],
-          ],
-        },
-        "RetentionInDays": 7,
-        "ServiceToken": {
-          "Fn::GetAtt": [
-            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
-            "Arn",
-          ],
-        },
-      },
-      "Type": "Custom::LogRetention",
-    },
-    "BedrockCRProviderProviderRoleDefaultPolicy517A1A7C": {
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "applies_to": [
-                {
-                  "regex": "/^Resource::<BedrockCRProviderCustomResourcesFunction[A-Z0-9]+\\.Arn>:\\*$/g",
-                },
-              ],
-              "id": "AwsSolutions-IAM5",
-              "reason": "CDK CustomResource Provider has a wildcard to invoke any version of the specific Custom Resource function.",
-            },
-          ],
-        },
-      },
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": "lambda:InvokeFunction",
-              "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
-                    "BedrockCRProviderCustomResourcesFunction9A70E3A5",
-                    "Arn",
-                  ],
-                },
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      {
-                        "Fn::GetAtt": [
-                          "BedrockCRProviderCustomResourcesFunction9A70E3A5",
-                          "Arn",
-                        ],
-                      },
-                      ":*",
-                    ],
-                  ],
-                },
-              ],
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "BedrockCRProviderProviderRoleDefaultPolicy517A1A7C",
-        "Roles": [
-          {
-            "Ref": "BedrockCRProviderProviderRoleE6EBD17C",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "BedrockCRProviderProviderRoleE6EBD17C": {
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-IAM4",
-              "reason": "CDK CustomResource Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.",
-            },
-            {
-              "applies_to": [
-                {
-                  "regex": "/^Resource::<BedrockCRProviderCustomResourcesFunction[A-Z0-9]+\\.Arn>:\\*$/g",
-                },
-              ],
-              "id": "AwsSolutions-IAM5",
-              "reason": "CDK CustomResource Provider has a wildcard to invoke any version of the specific Custom Resource function.",
-            },
-          ],
-        },
-      },
-      "Properties": {
-        "AssumeRolePolicyDocument": {
-          "Statement": [
-            {
-              "Action": "sts:AssumeRole",
-              "Effect": "Allow",
-              "Principal": {
-                "Service": "lambda.amazonaws.com",
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "ManagedPolicyArns": [
-          {
-            "Fn::Join": [
-              "",
-              [
-                "arn:",
-                {
-                  "Ref": "AWS::Partition",
-                },
-                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
-              ],
-            ],
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Role",
-    },
-    "BedrockCRProviderframeworkonEvent412F4EF1": {
-      "DependsOn": [
-        "BedrockCRProviderProviderRoleDefaultPolicy517A1A7C",
-        "BedrockCRProviderProviderRoleE6EBD17C",
-      ],
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-L1",
-              "reason": "Lambda runtime version is managed upstream by CDK.",
-            },
-          ],
-        },
-      },
-      "Properties": {
-        "Code": {
-          "ZipFile": "mockCode",
-        },
-        "Description": "AWS CDK resource provider framework - onEvent (test-stack/BedrockCRProvider/Provider)",
-        "Environment": {
-          "Variables": {
-            "USER_ON_EVENT_FUNCTION_ARN": {
-              "Fn::GetAtt": [
-                "BedrockCRProviderCustomResourcesFunction9A70E3A5",
-                "Arn",
-              ],
-            },
-          },
-        },
-        "Handler": "framework.onEvent",
-        "Role": {
-          "Fn::GetAtt": [
-            "BedrockCRProviderProviderRoleE6EBD17C",
-            "Arn",
-          ],
-        },
-        "Runtime": "nodejs18.x",
-        "Timeout": 900,
-      },
-      "Type": "AWS::Lambda::Function",
-    },
-    "BedrockCRProviderframeworkonEventLogRetention862855F3": {
-      "Properties": {
-        "LogGroupName": {
-          "Fn::Join": [
-            "",
-            [
-              "/aws/lambda/",
-              {
-                "Ref": "BedrockCRProviderframeworkonEvent412F4EF1",
-              },
-            ],
-          ],
-        },
-        "RetentionInDays": 7,
-        "ServiceToken": {
-          "Fn::GetAtt": [
-            "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
-            "Arn",
-          ],
-        },
-      },
-      "Type": "Custom::LogRetention",
-    },
     "DataSource152DC04E": {
-      "DeletionPolicy": "Delete",
-      "DependsOn": [
-        "DataSourceDataSourceCRPolicy2053E4BF",
-      ],
       "Properties": {
-        "ServiceToken": {
-          "Fn::GetAtt": [
-            "BedrockCRProviderframeworkonEvent412F4EF1",
-            "Arn",
-          ],
-        },
         "dataSourceConfiguration": {
           "s3Configuration": {
             "bucketArn": {
@@ -825,83 +257,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
         "name": "test-docs",
         "vectorIngestionConfiguration": {},
       },
-      "Type": "Custom::Bedrock-DataSource",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "DataSourceDataSourceCRPolicy2053E4BF": {
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-IAM5",
-              "reason": "Bedrock CreateDataSource uses wildcards to access any object in the specified bucket. A weird race condition makes CreateDataSource fail due to permissions on the first attempt. Permitting CreateDataSource on all KnowledgeBases allows CFN to deploy this policy earlier and avoid the race.",
-            },
-          ],
-        },
-      },
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
-                "bedrock:CreateDataSource",
-                "bedrock:DeleteDataSource",
-                "bedrock:UpdateDataSource",
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition",
-                    },
-                    ":bedrock:us-east-1:123456789012:knowledge-base/*",
-                  ],
-                ],
-              },
-            },
-            {
-              "Action": [
-                "s3:GetObject",
-                "s3:ListBucket",
-              ],
-              "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::GetAtt": [
-                    "DocBucket01E283E8",
-                    "Arn",
-                  ],
-                },
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      {
-                        "Fn::GetAtt": [
-                          "DocBucket01E283E8",
-                          "Arn",
-                        ],
-                      },
-                      "/*",
-                    ],
-                  ],
-                },
-              ],
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "DataSourceDataSourceCRPolicy2053E4BF",
-        "Roles": [
-          {
-            "Ref": "BedrockCRProviderCRRole90406B17",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
+      "Type": "AWS::Bedrock::DataSource",
     },
     "DocBucket01E283E8": {
       "DeletionPolicy": "Retain",
@@ -909,21 +265,13 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       "UpdateReplacePolicy": "Retain",
     },
     "KBAD2CEA58": {
-      "DeletionPolicy": "Delete",
       "DependsOn": [
-        "KBKBCRPolicy1B1408B9",
         "KBKBIndexManageIndexPolicy12CCDA73",
         "KBKBIndexVectorIndexB98E4DB1",
         "KBRoleDefaultPolicy1639354E",
         "KBRole081DC46D",
       ],
       "Properties": {
-        "ServiceToken": {
-          "Fn::GetAtt": [
-            "BedrockCRProviderframeworkonEvent412F4EF1",
-            "Arn",
-          ],
-        },
         "description": "Documentation about CDK constructs.",
         "knowledgeBaseConfiguration": {
           "type": "VECTOR",
@@ -956,69 +304,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
           "type": "OPENSEARCH_SERVERLESS",
         },
       },
-      "Type": "Custom::Bedrock-KnowledgeBase",
-      "UpdateReplacePolicy": "Delete",
-    },
-    "KBKBCRPolicy1B1408B9": {
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-IAM5",
-              "reason": "Bedrock CreateKnowledgeBase can't be restricted by resource.",
-            },
-          ],
-        },
-      },
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": "bedrock:CreateKnowledgeBase",
-              "Effect": "Allow",
-              "Resource": "*",
-            },
-            {
-              "Action": [
-                "bedrock:UpdateKnowledgeBase",
-                "bedrock:DeleteKnowledgeBase",
-                "bedrock:TagResource",
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:",
-                    {
-                      "Ref": "AWS::Partition",
-                    },
-                    ":bedrock:us-east-1:123456789012:knowledge-base/*",
-                  ],
-                ],
-              },
-            },
-            {
-              "Action": "iam:PassRole",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "KBRole081DC46D",
-                  "Arn",
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "KBKBCRPolicy1B1408B9",
-        "Roles": [
-          {
-            "Ref": "BedrockCRProviderCRRole90406B17",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
+      "Type": "AWS::Bedrock::KnowledgeBase",
     },
     "KBKBIndexManageIndexPolicy12CCDA73": {
       "DependsOn": [

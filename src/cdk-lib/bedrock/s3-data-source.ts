@@ -18,7 +18,6 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 
-import { BedrockCRProvider } from './custom-resource-provider';
 import { KnowledgeBase } from './knowledge-base';
 
 const CHUNKING_OVERLAP = 20;
@@ -104,7 +103,7 @@ export class S3DataSource extends Construct {
   /**
    * The Data Source cfn resource.
    */
-  public readonly dataSource: cdk.CustomResource;
+  public readonly dataSource: cdk.CfnResource;
   /**
    * The unique identifier of the data source.
    */
@@ -134,10 +133,8 @@ export class S3DataSource extends Construct {
       true,
     );
 
-    const crProvider = BedrockCRProvider.getProvider(this);
-    this.dataSource = new cdk.CustomResource(this, 'DataSource', {
-      serviceToken: crProvider.serviceToken,
-      resourceType: 'Custom::Bedrock-DataSource',
+    this.dataSource = new cdk.CfnResource(this, 'DataSource', {
+      type: 'AWS::Bedrock::DataSource',
       properties: {
         knowledgeBaseId: knowledgeBase.knowledgeBaseId,
         name: dataSourceName,
@@ -160,7 +157,6 @@ export class S3DataSource extends Construct {
     this.dataSourceId = this.dataSource.getAtt('dataSourceId').toString();
 
     const dataSourceCRPolicy = new iam.Policy(this, 'DataSourceCRPolicy', {
-      roles: [crProvider.role],
       statements: [
         new iam.PolicyStatement({
           actions: [

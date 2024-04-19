@@ -105,7 +105,7 @@ beforeAll(() => {
 describe('Bedrock Agents', () => {
   describe('Knowledge Base', () => {
     test('Knowledge Base is created', () => {
-      Template.fromStack(stack).hasResourceProperties('Custom::Bedrock-KnowledgeBase', {
+      Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::KnowledgeBase', {
         description: 'Documentation about CDK constructs.',
         name: Match.stringLikeRegexp('^KB'),
         knowledgeBaseConfiguration: {
@@ -120,7 +120,7 @@ describe('Bedrock Agents', () => {
 
   describe('Data Source', () => {
     test('Data Source is created', () => {
-      Template.fromStack(stack).hasResourceProperties('Custom::Bedrock-DataSource', {
+      Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
         name: 'test-docs',
         knowledgeBaseId: {
           'Fn::GetAtt': [
@@ -149,7 +149,7 @@ describe('Bedrock Agents', () => {
     });
 
     test('Agent is created', () => {
-      Template.fromStack(stack).hasResourceProperties('Custom::Bedrock-Agent', {
+      Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
         foundationModel: 'anthropic.claude-v2:1',
         instruction: 'You provide support for developers working with CDK constructs.',
         idleSessionTTLInSeconds: 1800,
@@ -188,8 +188,8 @@ describe('Bedrock Agents', () => {
 
     test('Agent is created with one knowledge base', () => {
       const template = Template.fromStack(stack);
-      template.resourceCountIs('Custom::Bedrock-AgentKnowledgeBase', 1);
-      template.hasResourceProperties('Custom::Bedrock-AgentKnowledgeBase', {
+      template.resourceCountIs('AWS::Bedrock::Agent AgentKnowledgeBase', 1);
+      template.hasResourceProperties('AWS::Bedrock::Agent AgentKnowledgeBase', {
         agentId: {
           'Fn::GetAtt': [
             Match.stringLikeRegexp('^Agent'),
@@ -207,7 +207,7 @@ describe('Bedrock Agents', () => {
     });
 
     test('Agent Alias is created', () => {
-      Template.fromStack(stack).hasResourceProperties('Custom::Bedrock-AgentAlias', {
+      Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::AgentAlias', {
         agentId: {
           'Fn::GetAtt': [
             Match.stringLikeRegexp('^Agent'),
@@ -220,7 +220,7 @@ describe('Bedrock Agents', () => {
 
     test('Add Action Group', () => {
       expect(actionGroup).toBeInstanceOf(bedrock.AgentActionGroup);
-      Template.fromStack(stack).hasResourceProperties('Custom::Bedrock-AgentActionGroup', {
+      Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent AgentActionGroup', {
         agentId: {
           'Fn::GetAtt': [
             Match.stringLikeRegexp('^Agent'),

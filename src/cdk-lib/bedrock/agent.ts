@@ -21,7 +21,6 @@ import { AgentActionGroup } from './agent-action-group';
 
 import { AgentAlias } from './agent-alias';
 import { ApiSchema } from './api-schema';
-import { BedrockCRProvider } from './custom-resource-provider';
 import { KnowledgeBase } from './knowledge-base';
 import { BedrockFoundationModel } from './models';
 
@@ -352,7 +351,7 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
    * TagManager facilitates a common implementation of tagging for Constructs
    */
   public readonly cdkTagManager =
-    new cdk.TagManager(cdk.TagType.MAP, 'Custom::Bedrock-Agent');
+    new cdk.TagManager(cdk.TagType.MAP, 'AWS::Bedrock::Agent');
   /**
    * A list of values to indicate if PrepareAgent or an Alias needs to be updated.
    * @private
@@ -429,11 +428,9 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
       });
     }
 
-    const crProvider = BedrockCRProvider.getProvider(this);
 
-    const agent = new cdk.CustomResource(this, 'Agent', {
-      serviceToken: crProvider.serviceToken,
-      resourceType: 'Custom::Bedrock-Agent',
+    const agent = new cdk.CfnResource(this, 'Agent', {
+      type: 'AWS::Bedrock::Agent',
       properties: {
         agentName: this.name,
         foundationModel: String(props.foundationModel),
@@ -448,12 +445,11 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
       },
     });
 
-    this.agentId = agent.getAttString('agentId');
-    this.agentArn = agent.getAttString('agentArn');
+    this.agentId = agent.getAtt('agentId').toString();
+    this.agentArn = agent.getAtt('agentArn').toString();
 
 
     const agentCRPolicy = new iam.Policy(this, 'AgentCRPolicy', {
-      roles: [crProvider.role],
       statements: [
         new iam.PolicyStatement({
           actions: ['iam:PassRole'],
@@ -484,7 +480,6 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
     });
 
     agent.node.addDependency(agentCRPolicy);
-    agent.node.addDependency(crProvider);
 
     NagSuppressions.addResourceSuppressions(
       agentCRPolicy,
@@ -497,11 +492,10 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
       true,
     );
 
-    this._addAliasDependency(agent.getAttString('updatedAt'));
+    this._addAliasDependency(agent.getAtt('updatedAt').toString());
 
     if (props.knowledgeBases && props.knowledgeBases.length > 0) {
       const kbAssocCRPolicy = new iam.Policy(this, 'KBAssocCRPolicy', {
-        roles: [crProvider.role],
         statements: [
           new iam.PolicyStatement({
             actions: [
@@ -542,12 +536,11 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
         if (!kb.instruction) {
           throw new Error('Agent Knowledge Bases require instructions.');
         }
-        const kbAssoc = new cdk.CustomResource(
+        const kbAssoc = new cdk.CfnResource(
           this,
           `KBAssoc-${kb.name}`,
           {
-            serviceToken: crProvider.serviceToken,
-            resourceType: 'Custom::Bedrock-AgentKnowledgeBase',
+            type: 'AWS::Bedrock::Agent AgentKnowledgeBase',
             properties: {
               agentId: this.agentId,
               knowledgeBaseId: kb.knowledgeBaseId,
@@ -557,8 +550,7 @@ export class Agent extends Construct implements cdk.ITaggableV2 {
           },
         );
         kbAssoc.node.addDependency(kbAssocCRPolicy);
-        kbAssoc.node.addDependency(crProvider);
-        this._addAliasDependency(kbAssoc.getAttString('updatedAt'));
+        this._addAliasDependency(kbAssoc.getAtt('updatedAt').toString());
       }
     }
 

@@ -20,7 +20,7 @@
 
 [Amazon Bedrock](https://aws.amazon.com/bedrock/) is a fully managed service that offers a choice of foundation models (FMs) along with a broad set of capabilities for building generative AI applications.
 
-CloudFormation does not currently support any Bedrock resource types. This construct library includes L2 resources and custom resources to deploy Bedrock features.
+This construct library includes CloudFormation L1 resources to deploy Bedrock features.
 
 ## Table of contents
 - [API](#api)
