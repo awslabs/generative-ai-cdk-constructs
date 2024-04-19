@@ -1521,6 +1521,10 @@
 - [META\_TEXTGENERATION\_LLAMA\_2\_7B\_F\_3\_0\_4](JumpStartModel.md#meta_textgeneration_llama_2_7b_f_3_0_4)
 - [META\_TEXTGENERATION\_LLAMA\_2\_7B\_F\_3\_1\_0](JumpStartModel.md#meta_textgeneration_llama_2_7b_f_3_1_0)
 - [META\_TEXTGENERATION\_LLAMA\_2\_7B\_F\_3\_2\_0](JumpStartModel.md#meta_textgeneration_llama_2_7b_f_3_2_0)
+- [META\_TEXTGENERATION\_LLAMA\_3\_70B\_1\_0\_0](JumpStartModel.md#meta_textgeneration_llama_3_70b_1_0_0)
+- [META\_TEXTGENERATION\_LLAMA\_3\_70B\_INSTRUCT\_1\_0\_0](JumpStartModel.md#meta_textgeneration_llama_3_70b_instruct_1_0_0)
+- [META\_TEXTGENERATION\_LLAMA\_3\_8B\_1\_0\_0](JumpStartModel.md#meta_textgeneration_llama_3_8b_1_0_0)
+- [META\_TEXTGENERATION\_LLAMA\_3\_8B\_INSTRUCT\_1\_0\_0](JumpStartModel.md#meta_textgeneration_llama_3_8b_instruct_1_0_0)
 - [META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_13B\_1\_0\_0](JumpStartModel.md#meta_textgeneration_llama_codellama_13b_1_0_0)
 - [META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_13B\_1\_0\_1](JumpStartModel.md#meta_textgeneration_llama_codellama_13b_1_0_1)
 - [META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_13B\_1\_0\_2](JumpStartModel.md#meta_textgeneration_llama_codellama_13b_1_0_2)
@@ -10755,6 +10759,30 @@ ___
 ### META\_TEXTGENERATION\_LLAMA\_2\_7B\_F\_3\_2\_0
 
 ▪ `Static` `Readonly` **META\_TEXTGENERATION\_LLAMA\_2\_7B\_F\_3\_2\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### META\_TEXTGENERATION\_LLAMA\_3\_70B\_1\_0\_0
+
+▪ `Static` `Readonly` **META\_TEXTGENERATION\_LLAMA\_3\_70B\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### META\_TEXTGENERATION\_LLAMA\_3\_70B\_INSTRUCT\_1\_0\_0
+
+▪ `Static` `Readonly` **META\_TEXTGENERATION\_LLAMA\_3\_70B\_INSTRUCT\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### META\_TEXTGENERATION\_LLAMA\_3\_8B\_1\_0\_0
+
+▪ `Static` `Readonly` **META\_TEXTGENERATION\_LLAMA\_3\_8B\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### META\_TEXTGENERATION\_LLAMA\_3\_8B\_INSTRUCT\_1\_0\_0
+
+▪ `Static` `Readonly` **META\_TEXTGENERATION\_LLAMA\_3\_8B\_INSTRUCT\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ___
 
