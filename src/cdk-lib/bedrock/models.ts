@@ -57,11 +57,11 @@ export class BedrockFoundationModel {
     'amazon.titan-text-express-v1',
     { supportsAgents: true },
   );
-  public static readonly AMAZON_CLAUDE_SONNET_V1_0 = new BedrockFoundationModel(
+  public static readonly ANTHROPIC_CLAUDE_SONNET_V1_0 = new BedrockFoundationModel(
     'anthropic.claude-3-sonnet-20240229-v1:0',
     { supportsAgents: true },
   );
-  public static readonly AMAZON_CLAUDE_HAIKU_V1_0 = new BedrockFoundationModel(
+  public static readonly ANTHROPIC_CLAUDE_HAIKU_V1_0 = new BedrockFoundationModel(
     'anthropic.claude-3-haiku-20240307-v1:0',
     { supportsAgents: true },
   );
