@@ -55,7 +55,7 @@ Construct.constructor
 
 ### dataSource
 
-• `Readonly` **dataSource**: `CustomResource`
+• `Readonly` **dataSource**: `CfnResource`
 
 The Data Source cfn resource.
 
