@@ -22,7 +22,9 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 - [supportsKnowledgeBase](bedrock.BedrockFoundationModel.md#supportsknowledgebase)
 - [vectorDimensions](bedrock.BedrockFoundationModel.md#vectordimensions)
 - [AMAZON\_TITAN\_TEXT\_EXPRESS\_V1](bedrock.BedrockFoundationModel.md#amazon_titan_text_express_v1)
+- [ANTHROPIC\_CLAUDE\_HAIKU\_V1\_0](bedrock.BedrockFoundationModel.md#anthropic_claude_haiku_v1_0)
 - [ANTHROPIC\_CLAUDE\_INSTANT\_V1\_2](bedrock.BedrockFoundationModel.md#anthropic_claude_instant_v1_2)
+- [ANTHROPIC\_CLAUDE\_SONNET\_V1\_0](bedrock.BedrockFoundationModel.md#anthropic_claude_sonnet_v1_0)
 - [ANTHROPIC\_CLAUDE\_V2](bedrock.BedrockFoundationModel.md#anthropic_claude_v2)
 - [ANTHROPIC\_CLAUDE\_V2\_1](bedrock.BedrockFoundationModel.md#anthropic_claude_v2_1)
 - [COHERE\_EMBED\_ENGLISH\_V3](bedrock.BedrockFoundationModel.md#cohere_embed_english_v3)
@@ -83,9 +85,21 @@ ___
 
 ___
 
+### ANTHROPIC\_CLAUDE\_HAIKU\_V1\_0
+
+▪ `Static` `Readonly` **ANTHROPIC\_CLAUDE\_HAIKU\_V1\_0**: [`BedrockFoundationModel`](bedrock.BedrockFoundationModel.md)
+
+___
+
 ### ANTHROPIC\_CLAUDE\_INSTANT\_V1\_2
 
 ▪ `Static` `Readonly` **ANTHROPIC\_CLAUDE\_INSTANT\_V1\_2**: [`BedrockFoundationModel`](bedrock.BedrockFoundationModel.md)
+
+___
+
+### ANTHROPIC\_CLAUDE\_SONNET\_V1\_0
+
+▪ `Static` `Readonly` **ANTHROPIC\_CLAUDE\_SONNET\_V1\_0**: [`BedrockFoundationModel`](bedrock.BedrockFoundationModel.md)
 
 ___
 
