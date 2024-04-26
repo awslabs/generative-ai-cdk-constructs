@@ -1414,9 +1414,9 @@ aws-sdk-mock@^5.9.0:
     traverse "^0.6.6"
 
 aws-sdk@^2.1231.0:
-  version "2.1606.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1606.0.tgz#617b2afc5955aca4ac42c6ef6f5b649cbd36b3b1"
-  integrity sha512-Sg1y0p93XI0ce86D9mi402sKMiH7LDoq6k3YzMja9yA0i3i0Pg3py4jjZ7p3HlKNOsDUF0t+9DLdCjtbTbuM6w==
+  version "2.1607.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1607.0.tgz#b17db7a7a79ca1e3df1ec9bea7cff557d7e60245"
+  integrity sha512-U1iO2SeT+taFkE+cEpaju6itcdxBuqQo7bFngC6zrsae20p/KHcAPk/QHZGjrWgcEBAHWB26USgQxmEcbLuGUw==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -1604,10 +1604,10 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-nag@^2.28.98:
-  version "2.28.98"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.98.tgz#9497db3b7952731801680add7b86f8ac27f6b0e2"
-  integrity sha512-iRVqPZj2OCfhC0Q3I9+r6SrnkfmTukqU6xOMktcdfZlZO802nqQX9UY6NdMo7zyJRQGMKTKR++ItFBorAcpD1Q==
+cdk-nag@^2.28.99:
+  version "2.28.99"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.99.tgz#8dbde5e6dbcb370f668a4c0ffc8061343c97dcc7"
+  integrity sha512-fKJnYLBJE5BLglmjBE+fLGiRg4xHroaJxQKoZNsvir/dj/Kj/1pQz9ReeHsZSR4oFnJQTSdTD8jKtB9fv24vrw==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -2203,9 +2203,9 @@ downlevel-dts@^0.11.0:
     typescript next
 
 electron-to-chromium@^1.4.668:
-  version "1.4.748"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.748.tgz#aa7d4f2f3eac3a6a863cd1779bd4682b4bb68ed5"
-  integrity sha512-VWqjOlPZn70UZ8FTKUOkUvBLeTQ0xpty66qV0yJcAGY2/CthI4xyW9aEozRVtuwv3Kpf5xTesmJUcPwuJmgP4A==
+  version "1.4.749"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.749.tgz#9869e2e258141da26a2272b58264584c3461279d"
+  integrity sha512-LRMMrM9ITOvue0PoBrvNIraVmuDbJV5QC9ierz/z5VilMdPOVMjOtpICNld3PuXuTZ3CHH/UPxX9gHhAPwi+0Q==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -4702,9 +4702,9 @@ quick-lru@^4.0.1:
   integrity sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==
 
 react-is@^18.0.0:
-  version "18.2.0"
-  resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
-  integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
+  version "18.3.0"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.3.0.tgz#6c2d9b6cdd4c2cffb7c89b1bcb57bc44d12f1993"
+  integrity sha512-wRiUsea88TjKDc4FBEn+sLvIDesp6brMbGWnJGjew2waAc9evdhja/2LvePc898HJbHw0L+MTWy7NhpnELAvLQ==
 
 read-pkg-up@^3.0.0:
   version "3.0.0"
