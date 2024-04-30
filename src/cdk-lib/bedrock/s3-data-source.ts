@@ -12,7 +12,7 @@
  */
 
 import * as cdk from 'aws-cdk-lib';
-import * as iam from 'aws-cdk-lib/aws-iam';
+import { aws_bedrock as bedrock } from 'aws-cdk-lib';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { NagSuppressions } from 'cdk-nag';
@@ -133,73 +133,71 @@ export class S3DataSource extends Construct {
       true,
     );
 
-    this.dataSource = new cdk.CfnResource(this, 'DataSource', {
-      type: 'AWS::Bedrock::DataSource',
-      properties: {
-        knowledgeBaseId: knowledgeBase.knowledgeBaseId,
-        name: dataSourceName,
-        dataSourceConfiguration: {
-          type: 'S3',
-          s3Configuration: {
-            bucketArn: bucket.bucketArn,
-            inclusionPrefixes: inclusionPrefixes,
-          },
+    this.dataSource = new bedrock.CfnDataSource(this, 'DataSource', {
+      knowledgeBaseId: knowledgeBase.knowledgeBaseId,
+      name: dataSourceName,
+      dataSourceConfiguration: {
+        type: 'S3',
+        s3Configuration: {
+          bucketArn: bucket.bucketArn,
+          inclusionPrefixes: inclusionPrefixes,
         },
-        vectorIngestionConfiguration: vectorIngestionConfiguration(
-          chunkingStrategy, maxTokens, overlapPercentage,
-        ),
-        serverSideEncryptionConfiguration: kmsKey ? {
-          kmsKeyArn: kmsKey.keyArn,
-        } : undefined,
       },
+      vectorIngestionConfiguration: vectorIngestionConfiguration(
+        chunkingStrategy, maxTokens, overlapPercentage,
+      ),
+      serverSideEncryptionConfiguration: kmsKey ? {
+        kmsKeyArn: kmsKey.keyArn,
+      } : undefined,
+
     });
 
     this.dataSourceId = this.dataSource.getAtt('dataSourceId').toString();
 
-    const dataSourceCRPolicy = new iam.Policy(this, 'DataSourceCRPolicy', {
-      statements: [
-        new iam.PolicyStatement({
-          actions: [
-            'bedrock:CreateDataSource',
-            'bedrock:DeleteDataSource',
-            'bedrock:UpdateDataSource',
-          ],
-          resources: [
-            /** A weird race condition makes CreateDataSource fail due to permissions on the first attempt.
-             * A wildcard allows CFN to deploy this policy earlier and avoid the race. */
-            cdk.Stack.of(this).formatArn({
-              service: 'bedrock',
-              resource: 'knowledge-base',
-              resourceName: '*',
-              arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-            }),
-            // knowledgeBase.knowledgeBaseArn,
-          ],
-        }),
-        new iam.PolicyStatement({
-          actions: ['s3:GetObject', 's3:ListBucket'],
-          resources: [bucket.bucketArn, `${bucket.bucketArn}/*`],
-        }),
-      ],
-    });
+    //   const dataSourceCRPolicy = new iam.Policy(this, 'DataSourceCRPolicy', {
+    //     statements: [
+    //       new iam.PolicyStatement({
+    //         actions: [
+    //           'bedrock:CreateDataSource',
+    //           'bedrock:DeleteDataSource',
+    //           'bedrock:UpdateDataSource',
+    //         ],
+    //         resources: [
+    //           /** A weird race condition makes CreateDataSource fail due to permissions on the first attempt.
+    //            * A wildcard allows CFN to deploy this policy earlier and avoid the race. */
+    //           cdk.Stack.of(this).formatArn({
+    //             service: 'bedrock',
+    //             resource: 'knowledge-base',
+    //             resourceName: '*',
+    //             arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
+    //           }),
+    //           // knowledgeBase.knowledgeBaseArn,
+    //         ],
+    //       }),
+    //       new iam.PolicyStatement({
+    //         actions: ['s3:GetObject', 's3:ListBucket'],
+    //         resources: [bucket.bucketArn, `${bucket.bucketArn}/*`],
+    //       }),
+    //     ],
+    //   });
 
-    this.dataSource.node.addDependency(dataSourceCRPolicy);
+    //   this.dataSource.node.addDependency(dataSourceCRPolicy);
 
-    NagSuppressions.addResourceSuppressions(
-      dataSourceCRPolicy,
-      [
-        {
-          id: 'AwsSolutions-IAM5',
-          reason: 'Bedrock CreateDataSource uses wildcards to access any object in the specified bucket. ' +
-                  'A weird race condition makes CreateDataSource fail due to permissions on the first attempt. ' +
-                  'Permitting CreateDataSource on all KnowledgeBases allows CFN to deploy this policy earlier and '+
-                  'avoid the race.',
-        },
-      ],
-      true,
-    );
+    //   NagSuppressions.addResourceSuppressions(
+    //     dataSourceCRPolicy,
+    //     [
+    //       {
+    //         id: 'AwsSolutions-IAM5',
+    //         reason: 'Bedrock CreateDataSource uses wildcards to access any object in the specified bucket. ' +
+    //                 'A weird race condition makes CreateDataSource fail due to permissions on the first attempt. ' +
+    //                 'Permitting CreateDataSource on all KnowledgeBases allows CFN to deploy this policy earlier and '+
+    //                 'avoid the race.',
+    //       },
+    //     ],
+    //     true,
+    //   );
 
-    // ToDo: scheduled ingestion jobs
+  //   // ToDo: scheduled ingestion jobs
   }
 }
 

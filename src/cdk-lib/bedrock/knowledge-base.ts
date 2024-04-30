@@ -12,8 +12,8 @@
  */
 
 import * as cdk from 'aws-cdk-lib';
+import { aws_bedrock as bedrock } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
-import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import { BedrockFoundationModel } from './models';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
@@ -21,6 +21,7 @@ import {
   AmazonAuroraDefaultVectorStore,
   AmazonAuroraVectorStore,
 } from '../amazonaurora';
+
 import { VectorIndex } from '../opensearch-vectorindex';
 import { VectorCollection } from '../opensearchserverless';
 import { PineconeVectorStore } from '../pinecone';
@@ -157,6 +158,18 @@ export interface KnowledgeBaseProps {
    * if vector store is of `VectorCollection` type.
    */
   readonly vectorIndex?: VectorIndex;
+
+  /**
+   * Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
+   */
+  readonly knowledgeBaseState?: string;
+
+  /**
+   * OPTIONAL: Tag (KEY-VALUE) bedrock agent resource
+   *
+   * @default - false
+   */
+  readonly tags?: Record<string, string>;
 }
 
 /**
@@ -207,6 +220,17 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
    * @private
    */
   private vectorIndex?: VectorIndex;
+
+  /**
+   * The description knowledge base.
+   */
+  public readonly description: string;
+
+  /**
+   * Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
+   */
+  public readonly knowledgeBaseState: string;
+
 
   /**
    * The type of the knowledge base.
@@ -391,66 +415,84 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
         this.vectorStore.metadataField : metadataField,
     };
 
-    const knowledgeBase = new cdk.CfnResource(this, 'KB', {
-      type: 'AWS::Bedrock::KnowledgeBase',
-      properties: {
-        knowledgeBaseConfiguration: {
-          type: 'VECTOR',
-          vectorKnowledgeBaseConfiguration: {
-            embeddingModelArn: embeddingsModel.asArn(this),
-          },
+    // const knowledgeBase = new cdk.CfnResource(this, 'KB', {
+    //   type: 'AWS::Bedrock::KnowledgeBase',
+    //   properties: {
+    //     knowledgeBaseConfiguration: {
+    //       type: 'VECTOR',
+    //       vectorKnowledgeBaseConfiguration: {
+    //         embeddingModelArn: embeddingsModel.asArn(this),
+    //       },
+    //     },
+    //     roleArn: this.role.roleArn,
+    //     name: this.name,
+    //     description: props.description,
+    //     storageConfiguration: getStorageConfiguration(storageConfiguration),
+    //     tags: this.cdkTagManager.renderedTags,
+    //   },
+    // });
+
+    getStorageConfiguration(storageConfiguration);
+
+    const knowledgeBase = new bedrock.CfnKnowledgeBase(this, 'MyCfnKnowledgeBase', {
+      knowledgeBaseConfiguration: {
+        type: 'VECTOR',
+        vectorKnowledgeBaseConfiguration: {
+          embeddingModelArn: embeddingsModel.asArn(this),
         },
-        roleArn: this.role.roleArn,
-        name: this.name,
-        description: props.description,
-        storageConfiguration: getStorageConfiguration(storageConfiguration),
-        tags: this.cdkTagManager.renderedTags,
       },
+      name: this.name,
+      roleArn: this.role.roleArn,
+      //TO-DO ,storageConfiguration is not available in latest version (cdkv 2.139.0)
+      //storageConfiguration: getStorageConfiguration(storageConfiguration),
+      description: props.description,
+      tags: props.tags,
     });
 
-    const kbCRPolicy = new iam.Policy(this, 'KBCRPolicy', {
-      statements: [
-        new iam.PolicyStatement({
-          actions: [
-            'bedrock:CreateKnowledgeBase',
-            /**
-             * We need to add `bedrock:AssociateThirdPartyKnowledgeBase` if
-             * we are deploying Redis or Pinecone data sources
-             */
-            ...(this.vectorStoreType === VectorStoreType.REDIS_ENTERPRISE_CLOUD ||
-                this.vectorStoreType === VectorStoreType.PINECONE ?
-              ['bedrock:AssociateThirdPartyKnowledgeBase'] : []),
-          ],
-          resources: ['*'],
-        }),
-        new iam.PolicyStatement(
-          {
-            actions: [
-              'bedrock:UpdateKnowledgeBase',
-              'bedrock:DeleteKnowledgeBase',
-              'bedrock:TagResource',
-            ],
-            resources: [
-              cdk.Stack.of(this).formatArn({
-                service: 'bedrock',
-                resource: 'knowledge-base',
-                resourceName: '*',
-                arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-              }),
-            ],
-          },
-        ),
-        new iam.PolicyStatement(
-          {
-            actions: ['iam:PassRole'],
-            resources: [this.role.roleArn],
-          },
-        ),
-      ],
-    });
+    // const kbCRPolicy = new iam.Policy(this, 'KBCRPolicy', {
+    //   statements: [
+    //     new iam.PolicyStatement({
+    //       actions: [
+    //         'bedrock:CreateKnowledgeBase',
+    //         /**
+    //          * We need to add `bedrock:AssociateThirdPartyKnowledgeBase` if
+    //          * we are deploying Redis or Pinecone data sources
+    //          */
+    //         ...(this.vectorStoreType === VectorStoreType.REDIS_ENTERPRISE_CLOUD ||
+    //             this.vectorStoreType === VectorStoreType.PINECONE ?
+    //           ['bedrock:AssociateThirdPartyKnowledgeBase'] : []),
+    //       ],
+    //       resources: ['*'],
+    //     }),
+    //     new iam.PolicyStatement(
+    //       {
+    //         actions: [
+    //           'bedrock:UpdateKnowledgeBase',
+    //           'bedrock:DeleteKnowledgeBase',
+    //           'bedrock:TagResource',
+    //         ],
+    //         resources: [
+    //           cdk.Stack.of(this).formatArn({
+    //             service: 'bedrock',
+    //             resource: 'knowledge-base',
+    //             resourceName: '*',
+    //             arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
+    //           }),
+    //         ],
+    //       },
+    //     ),
+    //     new iam.PolicyStatement(
+    //       {
+    //         actions: ['iam:PassRole'],
+    //         resources: [this.role.roleArn],
+    //       },
+    //     ),
+    //   ],
+    // });
 
-    knowledgeBase.node.addDependency(this.role);
-    knowledgeBase.node.addDependency(kbCRPolicy);
+    //knowledgeBase.node.addDependency(this.role);
+    //knowledgeBase.node.addDependency(kbCRPolicy);
+
     if (this.vectorStoreType === VectorStoreType.OPENSEARCH_SERVERLESS &&
       this.vectorIndex) {
       knowledgeBase.node.addDependency(this.vectorIndex);
@@ -460,19 +502,21 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
       knowledgeBase.node.addDependency(this.vectorStore);
     }
 
-    NagSuppressions.addResourceSuppressions(
-      kbCRPolicy,
-      [
-        {
-          id: 'AwsSolutions-IAM5',
-          reason: "Bedrock CreateKnowledgeBase can't be restricted by resource.",
-        },
-      ],
-      true,
-    );
+    // NagSuppressions.addResourceSuppressions(
+    //   kbCRPolicy,
+    //   [
+    //     {
+    //       id: 'AwsSolutions-IAM5',
+    //       reason: "Bedrock CreateKnowledgeBase can't be restricted by resource.",
+    //     },
+    //   ],
+    //   true,
+    // );
     // get arn of knowledgeBase and assign it to a strig variable
-    this.knowledgeBaseArn = knowledgeBase.getAtt('knowledgeBaseArn').toString();
-    this.knowledgeBaseId = knowledgeBase.getAtt('knowledgeBaseId').toString();
+    this.knowledgeBaseArn = knowledgeBase.attrKnowledgeBaseArn;
+    this.knowledgeBaseId = knowledgeBase.attrKnowledgeBaseId;
+    this.description = knowledgeBase.getAtt('description').toString();
+    this.knowledgeBaseState = props.knowledgeBaseState || '';
   }
 
   /**

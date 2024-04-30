@@ -11,9 +11,8 @@
  *  and limitations under the License.
  */
 
-import * as cdk from 'aws-cdk-lib';
-import * as iam from 'aws-cdk-lib/aws-iam';
-import { NagSuppressions } from 'cdk-nag';
+
+import { aws_bedrock as bedrock } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 
@@ -38,9 +37,16 @@ export interface AgentAliasProps {
    * @default - Creates a new version of the agent.
    */
   readonly agentVersion?: string;
+
+  /**
+   * OPTIONAL: Tag (KEY-VALUE) bedrock agent resource
+   *
+   * @default - false
+   */
+  readonly tags?: Record<string, string>;
 }
 
-export class AgentAlias extends Construct implements cdk.ITaggableV2 {
+export class AgentAlias extends Construct {
   /**
    * The unique identifier of the agent alias.
    */
@@ -53,78 +59,70 @@ export class AgentAlias extends Construct implements cdk.ITaggableV2 {
    * The name for the agent alias.
    */
   public readonly aliasName: string;
-  /**
-   * TagManager facilitates a common implementation of tagging for Constructs
-   */
-  public readonly cdkTagManager =
-    new cdk.TagManager(cdk.TagType.MAP, 'AWS::Bedrock::AgentAlias');
+
 
   constructor(scope: Construct, id: string, props: AgentAliasProps) {
     super(scope, id);
 
-    const alias = new cdk.CfnResource(
-      this,
-      'Alias',
-      {
-        type: 'AWS::Bedrock::AgentAlias',
-        properties: {
-          agentId: props.agentId,
-          aliasName: props.aliasName ?? 'latest',
-          resourceUpdates: props.resourceUpdates,
-          agentVersion: props.agentVersion,
-          tags: this.cdkTagManager.renderedTags,
-        },
-      },
-    );
 
-    const aliasCRPolicy = new iam.Policy(this, 'AliasCRPolicy', {
-      statements: [
-
-        new iam.PolicyStatement({
-          actions: [
-            'bedrock:CreateAgentAlias',
-            'bedrock:UpdateAgentAlias',
-            'bedrock:DeleteAgentAlias',
-            'bedrock:PrepareAgent',
-            'bedrock:ListAgentAliases',
-            'bedrock:ListAgentVersions',
-            'bedrock:DeleteAgentVersion',
-            'bedrock:GetAgent',
-            'bedrock:TagResource',
-          ],
-          resources: [
-            cdk.Stack.of(this).formatArn({
-              service: 'bedrock',
-              resource: 'agent-alias',
-              resourceName: '*',
-              arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-            }),
-            cdk.Stack.of(this).formatArn({
-              service: 'bedrock',
-              resource: 'agent',
-              resourceName: '*',
-              arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-            }),
-          ],
-        }),
-      ],
+    const alias = new bedrock.CfnAgentAlias(this, 'MyCfnAgentAlias', {
+      agentAliasName: props.aliasName ?? 'latest',
+      agentId: props.agentId,
+      routingConfiguration: [{
+        agentVersion: props.agentVersion || '',
+      }],
+      tags: props.tags,
     });
 
-    NagSuppressions.addResourceSuppressions(
-      aliasCRPolicy,
-      [
-        {
-          id: 'AwsSolutions-IAM5',
-          reason: 'Bedrock Agent/Alias associations have wildcards restricted to agents and aliases in the account.',
-        },
-      ],
-      true,
-    );
 
-    alias.node.addDependency(aliasCRPolicy);
+    // const aliasCRPolicy = new iam.Policy(this, 'AliasCRPolicy', {
+    //   statements: [
 
-    this.aliasId = alias.getAtt('agentAliasId').toString();
-    this.aliasArn = alias.getAtt('agentAliasArn').toString();
+    //     new iam.PolicyStatement({
+    //       actions: [
+    //         'bedrock:CreateAgentAlias',
+    //         'bedrock:UpdateAgentAlias',
+    //         'bedrock:DeleteAgentAlias',
+    //         'bedrock:PrepareAgent',
+    //         'bedrock:ListAgentAliases',
+    //         'bedrock:ListAgentVersions',
+    //         'bedrock:DeleteAgentVersion',
+    //         'bedrock:GetAgent',
+    //         'bedrock:TagResource',
+    //       ],
+    //       resources: [
+    //         cdk.Stack.of(this).formatArn({
+    //           service: 'bedrock',
+    //           resource: 'agent-alias',
+    //           resourceName: '*',
+    //           arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
+    //         }),
+    //         cdk.Stack.of(this).formatArn({
+    //           service: 'bedrock',
+    //           resource: 'agent',
+    //           resourceName: '*',
+    //           arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
+    //         }),
+    //       ],
+    //     }),
+    //   ],
+    // });
+
+    // NagSuppressions.addResourceSuppressions(
+    //   aliasCRPolicy,
+    //   [
+    //     {
+    //       id: 'AwsSolutions-IAM5',
+    //       reason: 'Bedrock Agent/Alias associations have wildcards restricted to agents and aliases in the account.',
+    //     },
+    //   ],
+    //   true,
+    // );
+
+    // alias.node.addDependency(aliasCRPolicy);
+
+    this.aliasId = alias.attrAgentAliasId;
+    this.aliasArn = alias.attrAgentAliasArn;
     this.aliasName = alias.getAtt('agentAliasName').toString();
 
   }

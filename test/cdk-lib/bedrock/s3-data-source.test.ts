@@ -54,15 +54,17 @@ describe('S3 Data Source', () => {
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
-      vectorIngestionConfiguration: {
-        chunkingConfiguration: {
-          chunkingStrategy: 'FIXED_SIZE',
-          fixedSizeChunkingConfiguration: {
-            maxTokens: 1024,
-            overlapPercentage: 20,
-          },
-        },
-      },
+
+      VectorIngestionConfiguration:
+       {
+         ChunkingConfiguration: {
+           ChunkingStrategy: 'FIXED_SIZE',
+           FixedSizeChunkingConfiguration: {
+             MaxTokens: 1024,
+             OverlapPercentage: 20,
+           },
+         },
+       },
     });
   });
 
@@ -75,11 +77,11 @@ describe('S3 Data Source', () => {
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
-      vectorIngestionConfiguration: {
-        chunkingConfiguration: {
-          chunkingStrategy: 'NONE',
-        },
-      },
+      VectorIngestionConfiguration:
+       {
+         ChunkingConfiguration:
+        { ChunkingStrategy: 'NONE' },
+       },
     });
   });
 
