@@ -1,36 +1,60 @@
-[@cdklabs/generative-ai-cdk-constructs](../README.md) / [amazonaurora](../modules/amazonaurora.md) / AmazonAuroraVectorStoreProps
+[@cdklabs/generative-ai-cdk-constructs](../README.md) / [amazonaurora](../modules/amazonaurora.md) / ExistingAmazonAuroraVectorStoreProps
 
-# Interface: AmazonAuroraVectorStoreProps
+# Interface: ExistingAmazonAuroraVectorStoreProps
 
-[amazonaurora](../modules/amazonaurora.md).AmazonAuroraVectorStoreProps
+[amazonaurora](../modules/amazonaurora.md).ExistingAmazonAuroraVectorStoreProps
 
-Properties for configuring an Amazon Aurora Vector Store.
+Properties for an existing Aurora Vector Store.
+You database must have TCP/IP port that the
+database will use for application connections
+set up for `5432`.
 
 ## Hierarchy
 
 - [`BaseAuroraVectorStoreProps`](amazonaurora.BaseAuroraVectorStoreProps.md)
 
-  ↳ **`AmazonAuroraVectorStoreProps`**
+  ↳ **`ExistingAmazonAuroraVectorStoreProps`**
 
 ## Table of contents
 
 ### Properties
 
-- [databaseName](amazonaurora.AmazonAuroraVectorStoreProps.md#databasename)
-- [embeddingsModel](amazonaurora.AmazonAuroraVectorStoreProps.md#embeddingsmodel)
-- [metadataField](amazonaurora.AmazonAuroraVectorStoreProps.md#metadatafield)
-- [postgreSQLVersion](amazonaurora.AmazonAuroraVectorStoreProps.md#postgresqlversion)
-- [primaryKeyField](amazonaurora.AmazonAuroraVectorStoreProps.md#primarykeyfield)
-- [schemaName](amazonaurora.AmazonAuroraVectorStoreProps.md#schemaname)
-- [tableName](amazonaurora.AmazonAuroraVectorStoreProps.md#tablename)
-- [textField](amazonaurora.AmazonAuroraVectorStoreProps.md#textfield)
-- [vectorField](amazonaurora.AmazonAuroraVectorStoreProps.md#vectorfield)
+- [auroraSecurityGroupId](amazonaurora.ExistingAmazonAuroraVectorStoreProps.md#aurorasecuritygroupid)
+- [clusterIdentifier](amazonaurora.ExistingAmazonAuroraVectorStoreProps.md#clusteridentifier)
+- [databaseName](amazonaurora.ExistingAmazonAuroraVectorStoreProps.md#databasename)
+- [embeddingsModel](amazonaurora.ExistingAmazonAuroraVectorStoreProps.md#embeddingsmodel)
+- [metadataField](amazonaurora.ExistingAmazonAuroraVectorStoreProps.md#metadatafield)
+- [primaryKeyField](amazonaurora.ExistingAmazonAuroraVectorStoreProps.md#primarykeyfield)
+- [schemaName](amazonaurora.ExistingAmazonAuroraVectorStoreProps.md#schemaname)
+- [secret](amazonaurora.ExistingAmazonAuroraVectorStoreProps.md#secret)
+- [tableName](amazonaurora.ExistingAmazonAuroraVectorStoreProps.md#tablename)
+- [textField](amazonaurora.ExistingAmazonAuroraVectorStoreProps.md#textfield)
+- [vectorField](amazonaurora.ExistingAmazonAuroraVectorStoreProps.md#vectorfield)
+- [vpc](amazonaurora.ExistingAmazonAuroraVectorStoreProps.md#vpc)
 
 ## Properties
 
+### auroraSecurityGroupId
+
+• `Readonly` **auroraSecurityGroupId**: `string`
+
+The id of the security group associated with the RDS Aurora instance.
+This security group allows access to the Aurora Vector Store from Lambda's
+custom resource running pgVector SQL commands.
+
+___
+
+### clusterIdentifier
+
+• `Readonly` **clusterIdentifier**: `string`
+
+The unique cluster identifier of your Aurora RDS cluster.
+
+___
+
 ### databaseName
 
-• `Optional` `Readonly` **databaseName**: `string`
+• `Readonly` **databaseName**: `string`
 
 The name of the database for the Aurora Vector Store.
 
@@ -62,15 +86,6 @@ The field name for the metadata column in the Aurora Vector Store.
 
 ___
 
-### postgreSQLVersion
-
-• `Optional` `Readonly` **postgreSQLVersion**: `AuroraPostgresEngineVersion`
-
-The version of PostgreSQL to use for the Aurora Vector Store.
-By default, the latest supported version will be used.
-
-___
-
 ### primaryKeyField
 
 • `Optional` `Readonly` **primaryKeyField**: `string`
@@ -92,6 +107,16 @@ The schema name for the Aurora Vector Store.
 #### Inherited from
 
 [BaseAuroraVectorStoreProps](amazonaurora.BaseAuroraVectorStoreProps.md).[schemaName](amazonaurora.BaseAuroraVectorStoreProps.md#schemaname)
+
+___
+
+### secret
+
+• `Readonly` **secret**: `ISecret`
+
+The secret containing the database credentials.
+The secret must contain `host`, `port`, `username`,
+`password` and `dbname` values.
 
 ___
 
@@ -128,3 +153,11 @@ The field name for the vector column in the Aurora Vector Store.
 #### Inherited from
 
 [BaseAuroraVectorStoreProps](amazonaurora.BaseAuroraVectorStoreProps.md).[vectorField](amazonaurora.BaseAuroraVectorStoreProps.md#vectorfield)
+
+___
+
+### vpc
+
+• `Readonly` **vpc**: `IVpc`
+
+The VPC in which the existing Aurora Vector Store is located.

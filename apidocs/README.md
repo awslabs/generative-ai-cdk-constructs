@@ -8,6 +8,7 @@
 
 - [amazonaurora](modules/amazonaurora.md)
 - [bedrock](modules/bedrock.md)
+- [foundation\_models](modules/foundation_models.md)
 - [opensearch\_vectorindex](modules/opensearch_vectorindex.md)
 - [opensearchserverless](modules/opensearchserverless.md)
 - [pinecone](modules/pinecone.md)

@@ -91,6 +91,7 @@ The following constructs are available in the library:
 | [Amazon Bedrock](./src/cdk-lib/bedrock/README.md) | CDK L2 Constructs for Amazon Bedrock. | Amazon Bedrock, Amazon OpenSearch Serverless, AWS Lambda |
 | [Amazon OpenSearch Serverless Vector Collection](./src/cdk-lib/opensearchserverless/README.md) | CDK L2 Constructs to create a vector collection. | Amazon OpenSearch Vector Index |
 | [Amazon OpenSearch Vector Index](./src/cdk-lib/opensearch-vectorindex/README.md) | CDK L1 Custom Resource to create a vector index. | Amazon OpenSearch Serverless, AWS Lambda |
+| [Amazon Aurora Vector Store](./src/cdk-lib//amazonaurora/README.md) | CDK L2 Construct to create an Amazon Aurora cluster and prepare it to be used as vector store in Amazon Bedrock Knowledge Base. | AWS Lambda, Amazon RDS, AWS Secrets Manager |
 
 # Sample Use Cases
 

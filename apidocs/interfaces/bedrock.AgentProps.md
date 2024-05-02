@@ -67,7 +67,7 @@ ___
 
 ### foundationModel
 
-• `Readonly` **foundationModel**: [`BedrockFoundationModel`](../classes/bedrock.BedrockFoundationModel.md)
+• `Readonly` **foundationModel**: [`BedrockFoundationModel`](../classes/foundation_models.BedrockFoundationModel.md)
 
 The Bedrock text foundation model for the agent to use.
 

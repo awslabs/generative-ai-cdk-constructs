@@ -15,6 +15,8 @@ import * as cdk from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as bedrock from '../../../src/cdk-lib/bedrock';
+import * as foundationModels from '../../../src/cdk-lib/foundationmodels';
+
 
 // mock lambda.Code.fromDockerBuild()
 jest.mock('aws-cdk-lib/aws-lambda', () => {
@@ -39,7 +41,7 @@ describe('S3 Data Source', () => {
     stack = new cdk.Stack(app, 'TestStack');
     bucket = new s3.Bucket(stack, 'TestBucket');
     kb = new bedrock.KnowledgeBase(stack, 'KB', {
-      embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+      embeddingsModel: foundationModels.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
     });
   });
 

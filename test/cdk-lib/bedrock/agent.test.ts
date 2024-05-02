@@ -15,6 +15,7 @@ import * as cdk from 'aws-cdk-lib';
 import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as bedrock from '../../../src/cdk-lib/bedrock';
+import * as foundationModels from '../../../src/cdk-lib/foundationmodels';
 
 // mock lambda.Code.fromDockerBuild()
 jest.mock('aws-cdk-lib/aws-lambda', () => {
@@ -45,7 +46,7 @@ beforeAll(() => {
   });
   const bucket = new s3.Bucket(stack, 'DocBucket');
   kb = new bedrock.KnowledgeBase(stack, 'KB', {
-    embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+    embeddingsModel: foundationModels.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
     description: 'Documentation about CDK constructs.',
     instruction: 'Documentation about CDK constructs.',
   });
@@ -84,7 +85,7 @@ beforeAll(() => {
   };
 
   agent = new bedrock.Agent(stack, 'Agent', {
-    foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+    foundationModel: foundationModels.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
     instruction: 'You provide support for developers working with CDK constructs.',
     knowledgeBases: [kb],
     idleSessionTTL: cdk.Duration.minutes(30),

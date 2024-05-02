@@ -16,12 +16,9 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import { BedrockCRProvider } from './custom-resource-provider';
-import { BedrockFoundationModel } from './models';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
-import {
-  AmazonAuroraDefaultVectorStore,
-  AmazonAuroraVectorStore,
-} from '../amazonaurora';
+import { AmazonAuroraVectorStore } from '../amazonaurora';
+import { BedrockFoundationModel } from '../foundationmodels';
 import { VectorIndex } from '../opensearch-vectorindex';
 import { VectorCollection } from '../opensearchserverless';
 import { PineconeVectorStore } from '../pinecone';
@@ -61,12 +58,10 @@ enum VectorStoreType {
 interface StorageConfiguration {
   /**
    * The vector store, which can be of `VectorCollection`,
-   * `RedisEnterpriseVectorStore`, `PineconeVectorStore`,
-   * `AmazonAuroraVectorStore` or `AmazonAuroraDefaultVectorStore`
-   * types.
+   * `RedisEnterpriseVectorStore`, `PineconeVectorStore`
+   * or `AmazonAuroraVectorStore` types.
    */
-  vectorStore: VectorCollection | RedisEnterpriseVectorStore |
-  PineconeVectorStore | AmazonAuroraDefaultVectorStore | AmazonAuroraVectorStore;
+  vectorStore: VectorCollection | RedisEnterpriseVectorStore | PineconeVectorStore | AmazonAuroraVectorStore;
 
   /**
    * The type of the vector store.
@@ -141,13 +136,11 @@ export interface KnowledgeBaseProps {
   /**
    * The vector store for the knowledge base. Must be either of
    * type `VectorCollection`, `RedisEnterpriseVectorStore`,
-   * `PineconeVectorStore`, `AmazonAuroraVectorStore` or
-   * `AmazonAuroraDefaultVectorStore`.
+   * `PineconeVectorStore` or `AmazonAuroraVectorStore`.
    *
    * @default - A new OpenSearch Serverless vector collection is created.
    */
-  readonly vectorStore?: VectorCollection | RedisEnterpriseVectorStore |
-  PineconeVectorStore | AmazonAuroraVectorStore | AmazonAuroraDefaultVectorStore;
+  readonly vectorStore?: VectorCollection | RedisEnterpriseVectorStore | PineconeVectorStore | AmazonAuroraVectorStore;
 
   /**
    * The vector index for the OpenSearch Serverless backed knowledge base.
@@ -179,8 +172,7 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
   /**
    * The vector store for the knowledge base.
    */
-  public readonly vectorStore: VectorCollection | RedisEnterpriseVectorStore |
-  PineconeVectorStore | AmazonAuroraVectorStore | AmazonAuroraDefaultVectorStore;
+  public readonly vectorStore: VectorCollection | RedisEnterpriseVectorStore | PineconeVectorStore | AmazonAuroraVectorStore;
 
   /**
    * A narrative instruction of the knowledge base.
@@ -296,12 +288,6 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
         vectorStoreType: this.vectorStoreType,
       } = this.handleAmazonAuroraVectorStore(props));
 
-    } else if (props.vectorStore instanceof AmazonAuroraDefaultVectorStore) {
-      ({
-        vectorStore: this.vectorStore,
-        vectorStoreType: this.vectorStoreType,
-      } = this.handleAmazonAuroraDefaultVectorStore(props));
-
     } else {
       ({
         vectorStore: this.vectorStore,
@@ -330,8 +316,7 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
      * of the knowledge base if we use Amazon Aurora as
      * a data source.
      */
-    if (this.vectorStore instanceof AmazonAuroraDefaultVectorStore ||
-      this.vectorStore instanceof AmazonAuroraVectorStore) {
+    if (this.vectorStore instanceof AmazonAuroraVectorStore) {
       this.role.addToPolicy(new iam.PolicyStatement({
         actions: [
           'rds-data:ExecuteStatement',
@@ -459,8 +444,7 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
       this.vectorIndex) {
       knowledgeBase.node.addDependency(this.vectorIndex);
     }
-    if (this.vectorStoreType === VectorStoreType.AMAZON_AURORA &&
-      this.vectorStore instanceof AmazonAuroraDefaultVectorStore) {
+    if (this.vectorStoreType === VectorStoreType.AMAZON_AURORA) {
       knowledgeBase.node.addDependency(this.vectorStore);
     }
 
@@ -554,26 +538,6 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
       vectorStoreType: VectorStoreType;
     } {
     const vectorStore = props.vectorStore as AmazonAuroraVectorStore;
-    return {
-      vectorStore: vectorStore,
-      vectorStoreType: VectorStoreType.AMAZON_AURORA,
-    };
-  }
-
-  /**
-   * Handle AmazonAuroraDefaultVectorStore type of VectorStore.
-   *
-   * @param props - The properties of the KnowledgeBase.
-   * @returns The instance of AmazonAuroraDefaultVectorStore, VectorStoreType.
-   * @internal This is an internal core function and should not be called directly.
-   */
-  private handleAmazonAuroraDefaultVectorStore(
-    props: KnowledgeBaseProps,
-  ): {
-      vectorStore: AmazonAuroraDefaultVectorStore;
-      vectorStoreType: VectorStoreType;
-    } {
-    const vectorStore = props.vectorStore as AmazonAuroraDefaultVectorStore;
     return {
       vectorStore: vectorStore,
       vectorStoreType: VectorStoreType.AMAZON_AURORA,
@@ -724,16 +688,14 @@ function getStorageConfiguration(params: StorageConfiguration): any {
         },
       };
     case VectorStoreType.AMAZON_AURORA:
-      params.vectorStore = params.vectorStore instanceof AmazonAuroraVectorStore ?
-        params.vectorStore as AmazonAuroraVectorStore :
-        params.vectorStore as AmazonAuroraDefaultVectorStore;
+      params.vectorStore = params.vectorStore as AmazonAuroraVectorStore;
       return {
         type: VectorStoreType.AMAZON_AURORA,
         rdsConfiguration: {
           credentialsSecretArn: params.vectorStore.credentialsSecretArn,
           databaseName: params.vectorStore.databaseName,
           resourceArn: params.vectorStore.resourceArn,
-          tableName: params.vectorStore.tableName,
+          tableName: `${params.vectorStore.schemaName}.${params.vectorStore.tableName}`,
           fieldMapping: {
             vectorField: params.vectorField.replace(/-/g, '_'),
             primaryKeyField: params.vectorStore.primaryKeyField,

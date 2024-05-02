@@ -36,7 +36,7 @@ ___
 
 ### embeddingsModel
 
-• `Readonly` **embeddingsModel**: [`BedrockFoundationModel`](../classes/bedrock.BedrockFoundationModel.md)
+• `Readonly` **embeddingsModel**: [`BedrockFoundationModel`](../classes/foundation_models.BedrockFoundationModel.md)
 
 The embeddings model for the knowledge base
 
@@ -108,12 +108,11 @@ ___
 
 ### vectorStore
 
-• `Optional` `Readonly` **vectorStore**: [`AmazonAuroraDefaultVectorStore`](../classes/amazonaurora.AmazonAuroraDefaultVectorStore.md) \| [`AmazonAuroraVectorStore`](../classes/amazonaurora.AmazonAuroraVectorStore.md) \| [`VectorCollection`](../classes/opensearchserverless.VectorCollection.md) \| [`PineconeVectorStore`](../classes/pinecone.PineconeVectorStore.md) \| [`RedisEnterpriseVectorStore`](../classes/redisenterprisecloud.RedisEnterpriseVectorStore.md)
+• `Optional` `Readonly` **vectorStore**: [`AmazonAuroraVectorStore`](../classes/amazonaurora.AmazonAuroraVectorStore.md) \| [`VectorCollection`](../classes/opensearchserverless.VectorCollection.md) \| [`PineconeVectorStore`](../classes/pinecone.PineconeVectorStore.md) \| [`RedisEnterpriseVectorStore`](../classes/redisenterprisecloud.RedisEnterpriseVectorStore.md)
 
 The vector store for the knowledge base. Must be either of
 type `VectorCollection`, `RedisEnterpriseVectorStore`,
-`PineconeVectorStore`, `AmazonAuroraVectorStore` or
-`AmazonAuroraDefaultVectorStore`.
+`PineconeVectorStore` or `AmazonAuroraVectorStore`.
 
 **`Default`**
 

@@ -1,6 +1,5 @@
 import logging
 import os
-import sys
 import json
 import boto3
 import psycopg2
@@ -11,16 +10,6 @@ from custom_resources.cr_types import CustomResourceRequest, CustomResourceRespo
 
 from typing import TypedDict
 
-# Set the LD_LIBRARY_PATH to include the /opt/lib directory
-# if os.environ.get('AWS_EXECUTION_ENV'):
-#     os.environ['LD_LIBRARY_PATH'] = '/opt/lib'
-#     try:
-#         import psycopg2
-#         # Your code that uses psycopg2
-#     except ImportError:
-#         sys.exit('Unable to import module: %s' % 'psycopg2')
-
-
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
 logger = logging.getLogger(__name__)
@@ -28,10 +17,16 @@ logger.setLevel(LOG_LEVEL)
 
 
 class DatabaseProperties(TypedDict):
-    Host: str
-    DatabaseName: str
-    Port: int
     SecretName: str
+    ClusterIdentifier: str
+    DatabaseName: str
+    TableName: str
+    VectorDimensions: int
+    PrimaryKeyField: str
+    SchemaName: str
+    VectorField: str
+    TextField: str
+    MetadataField: str
 
 
 def get_secret(secret_name: str) -> dict:
@@ -47,53 +42,82 @@ def get_secret(secret_name: str) -> dict:
             return json.loads(get_secret_value_response['SecretString'])
         else:
             raise Exception("Couldn't parse the secret.")
+        
+
+def get_cluster_endpoint(
+    cluster_identifier: str,
+    db_name: str
+) -> str:
+    session = boto3.session.Session()
+    client = session.client(service_name='rds')
+    try:
+        describe_db_clusters_response = client.describe_db_clusters(
+            DBClusterIdentifier=cluster_identifier
+        )
+    except ClientError as e:
+        raise Exception(f"Couldn't retrieve the cluster endpoint: {str(e)}") from e
+    else:
+        for db_cluster in describe_db_clusters_response['DBClusters']:
+            if db_cluster['DatabaseName'] == db_name:
+                return db_cluster['Endpoint']
+        raise Exception(f"No endpoint for DB cluster found with the database name {db_name}.")
 
 
-def connect_to_database(secret: dict):
+def connect_to_database(
+    secret: dict,
+    host: str,
+    db_name: str
+):
     try:
         conn = psycopg2.connect(
-            host=secret['host'],
-            port=secret['port'],
-            dbname=secret['dbname'],
+            host=host,
+            port=5432,
+            dbname=db_name,
             user=secret['username'],
             password=secret['password']
         )
         return conn
     except psycopg2.OperationalError as e:
-        raise Exception("Couldn't connect to the database.") from e
+        raise Exception(f"Couldn't connect to the database: {str(e)}") from e
 
 
 def execute_sql_commands(
     conn: psycopg2.extensions.connection,
     password: str,
-    vector_dimensions: int
+    vector_dimensions: int,
+    table_name: str,
+    primary_key_field: str,
+    schema_name: str,
+    vector_field: str,
+    text_field: str,
+    metadata_field: str
 ):
     try:
         with conn.cursor() as cur:
             cur.execute("CREATE EXTENSION IF NOT EXISTS vector;")
-            cur.execute("CREATE SCHEMA bedrock_integration;")
+            cur.execute(f"CREATE SCHEMA {schema_name};")
             cur.execute(
-                f"CREATE ROLE bedrock_user "
-                "WITH PASSWORD '{password}' LOGIN;"
+                "CREATE ROLE bedrock_user "
+                f"WITH PASSWORD '{password}' LOGIN;"
             )
             cur.execute(
                 "GRANT ALL ON SCHEMA "
-                "bedrock_integration to bedrock_user;"
+                f"{schema_name} to bedrock_user;"
             )
             cur.execute(
-                "CREATE TABLE bedrock_integration.bedrock_kb ("
-                "id uuid PRIMARY KEY, "
-                f"bedrock_knowledge_base_default_vector vector({vector_dimensions}), "
-                "amazon_bedrock_text_chunk text, "
-                "amazon_bedrock_metadata json);"
+                f"CREATE TABLE {schema_name}.{table_name} ("
+                f"{primary_key_field} uuid PRIMARY KEY, "
+                f"{vector_field} vector({vector_dimensions}), "
+                f"{text_field} text, "
+                f"{metadata_field} json);"
             )
             cur.execute(
-                "CREATE INDEX on bedrock_integration.bedrock_kb "
-                "USING hnsw (bedrock_knowledge_base_default_vector vector_cosine_ops);"
+                f"CREATE INDEX on {schema_name}.{table_name} "
+                f"USING hnsw ({vector_field} vector_cosine_ops);"
             )
         conn.commit()
     except psycopg2.Error as e:
-        raise Exception("Couldn't execute SQL commands.") from e
+        raise Exception(f"Couldn't execute SQL commands: {str(e)}") from e
     finally:
         conn.close()
 
@@ -102,12 +126,37 @@ def on_create(
     event: CustomResourceRequest[DatabaseProperties]
 ) -> CustomResourceResponse:
     secret_name = event["ResourceProperties"]["SecretName"]
+    cluster_identifier = event["ResourceProperties"]["ClusterIdentifier"]
     db_name = event["ResourceProperties"]["DatabaseName"]
+    table_name = event["ResourceProperties"]["TableName"]
     vector_dimensions = event["ResourceProperties"]["VectorDimensions"]
+    primary_key_field = event["ResourceProperties"]["PrimaryKeyField"]
+    schema_name = event["ResourceProperties"]["SchemaName"]
+    vector_field = event["ResourceProperties"]["VectorField"]
+    text_field = event["ResourceProperties"]["TextField"]
+    metadata_field = event["ResourceProperties"]["MetadataField"]
 
     secret = get_secret(secret_name)
-    conn = connect_to_database(secret)
-    execute_sql_commands(conn, secret['password'], vector_dimensions)
+    host = get_cluster_endpoint(
+        cluster_identifier=cluster_identifier,
+        db_name=db_name
+    )
+    conn = connect_to_database(
+        secret=secret,
+        host=host,
+        db_name=db_name
+    )
+    execute_sql_commands(
+        conn=conn, 
+        password=secret['password'], 
+        vector_dimensions=vector_dimensions,
+        table_name=table_name,
+        primary_key_field=primary_key_field,
+        schema_name=schema_name,
+        vector_field=vector_field,
+        text_field=text_field,
+        metadata_field=metadata_field
+    )
 
     return {
         "PhysicalResourceId": f"{secret_name}-{db_name}",

@@ -38,7 +38,6 @@ Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
 
 ### Methods
 
-- [handleAmazonAuroraDefaultVectorStore](bedrock.KnowledgeBase.md#handleamazonauroradefaultvectorstore)
 - [handleAmazonAuroraVectorStore](bedrock.KnowledgeBase.md#handleamazonauroravectorstore)
 - [handleOpenSearchCollection](bedrock.KnowledgeBase.md#handleopensearchcollection)
 - [handleOpenSearchDefaultVectorCollection](bedrock.KnowledgeBase.md#handleopensearchdefaultvectorcollection)
@@ -145,7 +144,7 @@ ___
 
 ### vectorStore
 
-• `Readonly` **vectorStore**: [`AmazonAuroraDefaultVectorStore`](amazonaurora.AmazonAuroraDefaultVectorStore.md) \| [`AmazonAuroraVectorStore`](amazonaurora.AmazonAuroraVectorStore.md) \| [`VectorCollection`](opensearchserverless.VectorCollection.md) \| [`PineconeVectorStore`](pinecone.PineconeVectorStore.md) \| [`RedisEnterpriseVectorStore`](redisenterprisecloud.RedisEnterpriseVectorStore.md)
+• `Readonly` **vectorStore**: [`AmazonAuroraVectorStore`](amazonaurora.AmazonAuroraVectorStore.md) \| [`VectorCollection`](opensearchserverless.VectorCollection.md) \| [`PineconeVectorStore`](pinecone.PineconeVectorStore.md) \| [`RedisEnterpriseVectorStore`](redisenterprisecloud.RedisEnterpriseVectorStore.md)
 
 The vector store for the knowledge base.
 
@@ -158,32 +157,6 @@ ___
 The type of the knowledge base.
 
 ## Methods
-
-### handleAmazonAuroraDefaultVectorStore
-
-▸ **handleAmazonAuroraDefaultVectorStore**(`props`): `Object`
-
-Handle AmazonAuroraDefaultVectorStore type of VectorStore.
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `props` | [`KnowledgeBaseProps`](../interfaces/bedrock.KnowledgeBaseProps.md) | The properties of the KnowledgeBase. |
-
-#### Returns
-
-`Object`
-
-The instance of AmazonAuroraDefaultVectorStore, VectorStoreType.
- This is an internal core function and should not be called directly.
-
-| Name | Type |
-| :------ | :------ |
-| `vectorStore` | [`AmazonAuroraDefaultVectorStore`](amazonaurora.AmazonAuroraDefaultVectorStore.md) |
-| `vectorStoreType` | `VectorStoreType` |
-
-___
 
 ### handleAmazonAuroraVectorStore
 

@@ -23,6 +23,7 @@ export * as pinecone from './cdk-lib/pinecone';
 export * as redisenterprisecloud from './cdk-lib/redisenterprisecloud';
 export * as opensearchserverless from './cdk-lib/opensearchserverless';
 export * as opensearch_vectorindex from './cdk-lib/opensearch-vectorindex';
+export * as foundation_models from './cdk-lib/foundationmodels';
 export { version } from './common/helpers/utils';
 export * from './common/props/DockerLambdaCustomProps';
 export * from './common/props/LangchainProps';
