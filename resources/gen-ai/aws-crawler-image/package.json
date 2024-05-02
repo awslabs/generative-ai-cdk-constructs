@@ -1,0 +1,39 @@
+{
+  "name": "aws-web-crawler",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "A web crawler",
+  "scripts": {
+    "start": "npm run start:dev",
+    "start:prod": "node dist/main.js",
+    "start:dev": "tsx src/main.ts",
+    "build": "tsc",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@apify/log": "^2.5.0",
+    "@aws-sdk/client-dynamodb": "^3.521.0",
+    "@aws-sdk/client-s3": "^3.529.1",
+    "@aws-sdk/client-sns": "^3.565.0",
+    "@aws-sdk/lib-dynamodb": "^3.521.0",
+    "@aws-sdk/lib-storage": "^3.529.1",
+    "@mozilla/readability": "^0.5.0",
+    "crawlee": "^3.0.0",
+    "jsdom": "^24.0.0",
+    "playwright": "*",
+    "playwright-extra": "^4.3.6",
+    "puppeteer": "^22.4.1",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  },
+  "devDependencies": {
+    "@apify/tsconfig": "^0.1.0",
+    "@jest/globals": "^29.7.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "tsx": "^4.4.0",
+    "typescript": "~5.3.0"
+  },
+  "author": "It's not you it's me",
+  "license": "ISC"
+}
