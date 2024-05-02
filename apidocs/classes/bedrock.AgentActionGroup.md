@@ -19,6 +19,7 @@
 ### Properties
 
 - [actionGroupId](bedrock.AgentActionGroup.md#actiongroupid)
+- [actionGroupProperty](bedrock.AgentActionGroup.md#actiongroupproperty)
 - [node](bedrock.AgentActionGroup.md#node)
 
 ### Methods
@@ -55,6 +56,14 @@ Construct.constructor
 • `Readonly` **actionGroupId**: `string`
 
 The unique identifier of the action group.
+
+___
+
+### actionGroupProperty
+
+• `Readonly` **actionGroupProperty**: `AgentActionGroupProperty`
+
+The action group.
 
 ___
 

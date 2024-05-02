@@ -26,9 +26,11 @@ Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
 ### Properties
 
 - [cdkTagManager](bedrock.KnowledgeBase.md#cdktagmanager)
+- [description](bedrock.KnowledgeBase.md#description)
 - [instruction](bedrock.KnowledgeBase.md#instruction)
 - [knowledgeBaseArn](bedrock.KnowledgeBase.md#knowledgebasearn)
 - [knowledgeBaseId](bedrock.KnowledgeBase.md#knowledgebaseid)
+- [knowledgeBaseState](bedrock.KnowledgeBase.md#knowledgebasestate)
 - [name](bedrock.KnowledgeBase.md#name)
 - [node](bedrock.KnowledgeBase.md#node)
 - [role](bedrock.KnowledgeBase.md#role)
@@ -43,7 +45,6 @@ Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
 - [handleOpenSearchCollection](bedrock.KnowledgeBase.md#handleopensearchcollection)
 - [handleOpenSearchDefaultVectorCollection](bedrock.KnowledgeBase.md#handleopensearchdefaultvectorcollection)
 - [handlePineconeVectorStore](bedrock.KnowledgeBase.md#handlepineconevectorstore)
-- [handleRedisEnterpriseVectorStore](bedrock.KnowledgeBase.md#handleredisenterprisevectorstore)
 - [toString](bedrock.KnowledgeBase.md#tostring)
 - [isConstruct](bedrock.KnowledgeBase.md#isconstruct)
 
@@ -83,6 +84,14 @@ cdk.ITaggableV2.cdkTagManager
 
 ___
 
+### description
+
+• `Readonly` **description**: `string`
+
+The description knowledge base.
+
+___
+
 ### instruction
 
 • `Optional` `Readonly` **instruction**: `string`
@@ -104,6 +113,14 @@ ___
 • `Readonly` **knowledgeBaseId**: `string`
 
 The ID of the knowledge base.
+
+___
+
+### knowledgeBaseState
+
+• `Readonly` **knowledgeBaseState**: `string`
+
+Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
 
 ___
 
@@ -145,7 +162,7 @@ ___
 
 ### vectorStore
 
-• `Readonly` **vectorStore**: [`AmazonAuroraDefaultVectorStore`](amazonaurora.AmazonAuroraDefaultVectorStore.md) \| [`AmazonAuroraVectorStore`](amazonaurora.AmazonAuroraVectorStore.md) \| [`VectorCollection`](opensearchserverless.VectorCollection.md) \| [`PineconeVectorStore`](pinecone.PineconeVectorStore.md) \| [`RedisEnterpriseVectorStore`](redisenterprisecloud.RedisEnterpriseVectorStore.md)
+• `Readonly` **vectorStore**: [`AmazonAuroraDefaultVectorStore`](amazonaurora.AmazonAuroraDefaultVectorStore.md) \| [`AmazonAuroraVectorStore`](amazonaurora.AmazonAuroraVectorStore.md) \| [`VectorCollection`](opensearchserverless.VectorCollection.md) \| [`PineconeVectorStore`](pinecone.PineconeVectorStore.md)
 
 The vector store for the knowledge base.
 
@@ -279,32 +296,6 @@ The instance of PineconeVectorStore, VectorStoreType.
 | Name | Type |
 | :------ | :------ |
 | `vectorStore` | [`PineconeVectorStore`](pinecone.PineconeVectorStore.md) |
-| `vectorStoreType` | `VectorStoreType` |
-
-___
-
-### handleRedisEnterpriseVectorStore
-
-▸ **handleRedisEnterpriseVectorStore**(`props`): `Object`
-
-Handle RedisEnterpriseVectorStore type of VectorStore.
-
-#### Parameters
-
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `props` | [`KnowledgeBaseProps`](../interfaces/bedrock.KnowledgeBaseProps.md) | The properties of the KnowledgeBase. |
-
-#### Returns
-
-`Object`
-
-The instance of RedisEnterpriseVectorStore, VectorStoreType.
- This is an internal core function and should not be called directly.
-
-| Name | Type |
-| :------ | :------ |
-| `vectorStore` | [`RedisEnterpriseVectorStore`](redisenterprisecloud.RedisEnterpriseVectorStore.md) |
 | `vectorStoreType` | `VectorStoreType` |
 
 ___

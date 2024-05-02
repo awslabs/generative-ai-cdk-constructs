@@ -25,7 +25,6 @@ import {
 import { VectorIndex } from '../opensearch-vectorindex';
 import { VectorCollection } from '../opensearchserverless';
 import { PineconeVectorStore } from '../pinecone';
-import { RedisEnterpriseVectorStore } from '../redisenterprisecloud';
 
 /**
  * Knowledge base can be backed by different vector databases.
@@ -42,10 +41,6 @@ enum VectorStoreType {
    */
   OPENSEARCH_SERVERLESS = 'OPENSEARCH_SERVERLESS',
   /**
-   * `REDIS_ENTERPRISE_CLOUD` is the vector store for Redis Enterprise Cloud.
-   */
-  REDIS_ENTERPRISE_CLOUD = 'REDIS_ENTERPRISE_CLOUD',
-  /**
    * `PINECONE` is the vector store for Pinecone.
    */
   PINECONE = 'PINECONE',
@@ -60,12 +55,11 @@ enum VectorStoreType {
  */
 interface StorageConfiguration {
   /**
-   * The vector store, which can be of `VectorCollection`,
-   * `RedisEnterpriseVectorStore`, `PineconeVectorStore`,
+   * The vector store, which can be of `VectorCollection`, `PineconeVectorStore`,
    * `AmazonAuroraVectorStore` or `AmazonAuroraDefaultVectorStore`
    * types.
    */
-  vectorStore: VectorCollection | RedisEnterpriseVectorStore |
+  vectorStore: VectorCollection |
   PineconeVectorStore | AmazonAuroraDefaultVectorStore | AmazonAuroraVectorStore;
 
   /**
@@ -146,7 +140,7 @@ export interface KnowledgeBaseProps {
    *
    * @default - A new OpenSearch Serverless vector collection is created.
    */
-  readonly vectorStore?: VectorCollection | RedisEnterpriseVectorStore |
+  readonly vectorStore?: VectorCollection |
   PineconeVectorStore | AmazonAuroraVectorStore | AmazonAuroraDefaultVectorStore;
 
   /**
@@ -191,7 +185,7 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
   /**
    * The vector store for the knowledge base.
    */
-  public readonly vectorStore: VectorCollection | RedisEnterpriseVectorStore |
+  public readonly vectorStore: VectorCollection |
   PineconeVectorStore | AmazonAuroraVectorStore | AmazonAuroraDefaultVectorStore;
 
   /**
@@ -300,12 +294,6 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
         vectorStore: this.vectorStore,
         vectorStoreType: this.vectorStoreType,
       } = this.handleOpenSearchCollection(props));
-
-    } else if (props.vectorStore instanceof RedisEnterpriseVectorStore) {
-      ({
-        vectorStore: this.vectorStore,
-        vectorStoreType: this.vectorStoreType,
-      } = this.handleRedisEnterpriseVectorStore(props));
 
     } else if (props.vectorStore instanceof PineconeVectorStore) {
       ({
@@ -432,8 +420,6 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
     //   },
     // });
 
-    getStorageConfiguration(storageConfiguration);
-
     const knowledgeBase = new bedrock.CfnKnowledgeBase(this, 'MyCfnKnowledgeBase', {
       knowledgeBaseConfiguration: {
         type: 'VECTOR',
@@ -443,8 +429,7 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
       },
       name: this.name,
       roleArn: this.role.roleArn,
-      //TO-DO ,storageConfiguration is not available in latest version (cdkv 2.139.0)
-      //storageConfiguration: getStorageConfiguration(storageConfiguration),
+      storageConfiguration: getStorageConfiguration(storageConfiguration),
       description: props.description,
       tags: props.tags,
     });
@@ -537,26 +522,6 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
     return {
       vectorStore: vectorStore,
       vectorStoreType: VectorStoreType.OPENSEARCH_SERVERLESS,
-    };
-  }
-
-  /**
-   * Handle RedisEnterpriseVectorStore type of VectorStore.
-   *
-   * @param props - The properties of the KnowledgeBase.
-   * @returns The instance of RedisEnterpriseVectorStore, VectorStoreType.
-   * @internal This is an internal core function and should not be called directly.
-   */
-  private handleRedisEnterpriseVectorStore(
-    props: KnowledgeBaseProps,
-  ): {
-      vectorStore: RedisEnterpriseVectorStore;
-      vectorStoreType: VectorStoreType;
-    } {
-    const vectorStore = props.vectorStore as RedisEnterpriseVectorStore;
-    return {
-      vectorStore: vectorStore,
-      vectorStoreType: VectorStoreType.REDIS_ENTERPRISE_CLOUD,
     };
   }
 
@@ -718,7 +683,7 @@ function validateIndexParameters(
  *
  * @internal This is an internal core function and should not be called directly.
  */
-function getStorageConfiguration(params: StorageConfiguration): any {
+function getStorageConfiguration(params: StorageConfiguration): bedrock.CfnKnowledgeBase.StorageConfigurationProperty {
   switch (params.vectorStoreType) {
     case VectorStoreType.OPENSEARCH_SERVERLESS:
       params.vectorStore = params.vectorStore as VectorCollection;
@@ -726,21 +691,6 @@ function getStorageConfiguration(params: StorageConfiguration): any {
         type: VectorStoreType.OPENSEARCH_SERVERLESS,
         opensearchServerlessConfiguration: {
           collectionArn: params.vectorStore.collectionArn,
-          vectorIndexName: params.indexName,
-          fieldMapping: {
-            vectorField: params.vectorField,
-            textField: params.textField,
-            metadataField: params.metadataField,
-          },
-        },
-      };
-    case VectorStoreType.REDIS_ENTERPRISE_CLOUD:
-      params.vectorStore = params.vectorStore as RedisEnterpriseVectorStore;
-      return {
-        type: VectorStoreType.REDIS_ENTERPRISE_CLOUD,
-        redisEnterpriseCloudConfiguration: {
-          endpoint: params.vectorStore.endpoint,
-          credentialsSecretArn: params.vectorStore.credentialsSecretArn,
           vectorIndexName: params.indexName,
           fieldMapping: {
             vectorField: params.vectorField,

@@ -20,6 +20,7 @@ Properties for a Bedrock Agent.
 - [name](bedrock.AgentProps.md#name)
 - [promptOverrideConfiguration](bedrock.AgentProps.md#promptoverrideconfiguration)
 - [shouldPrepareAgent](bedrock.AgentProps.md#shouldprepareagent)
+- [tags](bedrock.AgentProps.md#tags)
 
 ## Properties
 
@@ -142,6 +143,20 @@ ___
 • `Optional` `Readonly` **shouldPrepareAgent**: `boolean`
 
 Whether to prepare the agent for use.
+
+**`Default`**
+
+```ts
+- false
+```
+
+___
+
+### tags
+
+• `Optional` `Readonly` **tags**: `Record`\<`string`, `string`\>
+
+OPTIONAL: Tag (KEY-VALUE) bedrock agent resource
 
 **`Default`**
 

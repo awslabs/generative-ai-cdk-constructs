@@ -10,10 +10,6 @@
 
   ↳ **`AgentAlias`**
 
-## Implements
-
-- `ITaggableV2`
-
 ## Table of contents
 
 ### Constructors
@@ -25,7 +21,6 @@
 - [aliasArn](bedrock.AgentAlias.md#aliasarn)
 - [aliasId](bedrock.AgentAlias.md#aliasid)
 - [aliasName](bedrock.AgentAlias.md#aliasname)
-- [cdkTagManager](bedrock.AgentAlias.md#cdktagmanager)
 - [node](bedrock.AgentAlias.md#node)
 
 ### Methods
@@ -78,18 +73,6 @@ ___
 • `Readonly` **aliasName**: `string`
 
 The name for the agent alias.
-
-___
-
-### cdkTagManager
-
-• `Readonly` **cdkTagManager**: `TagManager`
-
-TagManager facilitates a common implementation of tagging for Constructs
-
-#### Implementation of
-
-cdk.ITaggableV2.cdkTagManager
 
 ___
 

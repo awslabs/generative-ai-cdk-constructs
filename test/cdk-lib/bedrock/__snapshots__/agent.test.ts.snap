@@ -22,51 +22,18 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
     },
   },
   "Resources": {
-    "AgentAgentActionGrouptestactiongroupActionGroupD0F433CF": {
+    "AgentAgentAliasprodMyCfnAgentAlias3EE1B2C1": {
       "Properties": {
-        "actionGroupName": "test-action-group",
-        "actionGroupState": "ENABLED",
-        "agentId": {
+        "AgentAliasName": "prod",
+        "AgentId": {
           "Fn::GetAtt": [
             "AgentD78B2CA1",
-            "agentId",
+            "AgentId",
           ],
         },
-        "apiSchema": {
-          "payload": "mock schema",
-        },
-        "description": "Use these functions to get information about the books in the Project Gutenburg library.",
-        "shouldPrepareAgent": false,
-      },
-      "Type": "AWS::Bedrock::Agent AgentActionGroup",
-    },
-    "AgentAgentAliasprodAlias575D4660": {
-      "Properties": {
-        "agentId": {
-          "Fn::GetAtt": [
-            "AgentD78B2CA1",
-            "agentId",
-          ],
-        },
-        "aliasName": "prod",
-        "resourceUpdates": [
+        "RoutingConfiguration": [
           {
-            "Fn::GetAtt": [
-              "AgentD78B2CA1",
-              "updatedAt",
-            ],
-          },
-          {
-            "Fn::GetAtt": [
-              "AgentKBAssocKBteststackKBF59CBB076A4D106D",
-              "updatedAt",
-            ],
-          },
-          {
-            "Fn::GetAtt": [
-              "AgentAgentActionGrouptestactiongroupActionGroupD0F433CF",
-              "updatedAt",
-            ],
+            "AgentVersion": "",
           },
         ],
       },
@@ -105,8 +72,8 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
               "Effect": "Allow",
               "Resource": {
                 "Fn::GetAtt": [
-                  "KBAD2CEA58",
-                  "knowledgeBaseArn",
+                  "KBMyCfnKnowledgeBase0F2C5AD7",
+                  "KnowledgeBaseArn",
                 ],
               },
             },
@@ -124,72 +91,80 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
     },
     "AgentD78B2CA1": {
       "Properties": {
-        "agentName": "bedrock-agent-testsgent-03df32b3",
-        "agentResourceRoleArn": {
+        "ActionGroups": [
+          {
+            "ActionGroupName": "test-action-group",
+            "ActionGroupState": "ENABLED",
+            "ApiSchema": {
+              "Payload": "mock schema",
+            },
+            "Description": "Use these functions to get information about the books in the Project Gutenburg library.",
+            "SkipResourceInUseCheckOnDelete": false,
+          },
+        ],
+        "AgentName": "bedrock-agent-testsgent-03df32b3",
+        "AgentResourceRoleArn": {
           "Fn::GetAtt": [
             "AgentRole9D587F56",
             "Arn",
           ],
         },
-        "foundationModel": "anthropic.claude-v2:1",
-        "idleSessionTTLInSeconds": 1800,
-        "instruction": "You provide support for developers working with CDK constructs.",
-        "promptOverrideConfiguration": {
-          "promptConfigurations": [
+        "FoundationModel": "anthropic.claude-v2:1",
+        "IdleSessionTTLInSeconds": 1800,
+        "Instruction": "You provide support for developers working with CDK constructs.",
+        "KnowledgeBases": [
+          {
+            "Description": {
+              "Fn::GetAtt": [
+                "KBMyCfnKnowledgeBase0F2C5AD7",
+                "description",
+              ],
+            },
+            "KnowledgeBaseId": {
+              "Fn::GetAtt": [
+                "KBMyCfnKnowledgeBase0F2C5AD7",
+                "KnowledgeBaseId",
+              ],
+            },
+            "KnowledgeBaseState": "",
+          },
+        ],
+        "PromptOverrideConfiguration": {
+          "PromptConfigurations": [
             {
-              "basePromptTemplate": "This prompt is disabled.",
-              "inferenceConfiguration": {
-                "maximumLength": 0,
-                "stopSequences": [],
-                "temperature": 0,
-                "topK": 0,
-                "topP": 1,
+              "BasePromptTemplate": "This prompt is disabled.",
+              "InferenceConfiguration": {
+                "MaximumLength": 0,
+                "StopSequences": [],
+                "Temperature": 0,
+                "TopK": 0,
+                "TopP": 1,
               },
-              "promptCreationMode": "OVERRIDDEN",
-              "promptState": "DISABLED",
-              "promptType": "PRE_PROCESSING",
+              "PromptCreationMode": "OVERRIDDEN",
+              "PromptState": "DISABLED",
+              "PromptType": "PRE_PROCESSING",
             },
             {
-              "basePromptTemplate": "This prompt is enabled.",
-              "inferenceConfiguration": {
-                "maximumLength": 2048,
-                "stopSequences": [
+              "BasePromptTemplate": "This prompt is enabled.",
+              "InferenceConfiguration": {
+                "MaximumLength": 2048,
+                "StopSequences": [
                   "</function_call>",
                   "</answer>",
                   "</error>",
                 ],
-                "temperature": 0,
-                "topK": 250,
-                "topP": 1,
+                "Temperature": 0,
+                "TopK": 250,
+                "TopP": 1,
               },
-              "promptCreationMode": "OVERRIDDEN",
-              "promptState": "ENABLED",
-              "promptType": "ORCHESTRATION",
+              "PromptCreationMode": "OVERRIDDEN",
+              "PromptState": "ENABLED",
+              "PromptType": "ORCHESTRATION",
             },
           ],
         },
-        "shouldPrepareAgent": false,
       },
       "Type": "AWS::Bedrock::Agent",
-    },
-    "AgentKBAssocKBteststackKBF59CBB076A4D106D": {
-      "Properties": {
-        "agentId": {
-          "Fn::GetAtt": [
-            "AgentD78B2CA1",
-            "agentId",
-          ],
-        },
-        "description": "Documentation about CDK constructs.",
-        "knowledgeBaseId": {
-          "Fn::GetAtt": [
-            "KBAD2CEA58",
-            "knowledgeBaseId",
-          ],
-        },
-        "shouldPrepareAgent": false,
-      },
-      "Type": "AWS::Bedrock::Agent AgentKnowledgeBase",
     },
     "AgentRole9D587F56": {
       "Properties": {
@@ -237,25 +212,25 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
     },
     "DataSource152DC04E": {
       "Properties": {
-        "dataSourceConfiguration": {
-          "s3Configuration": {
-            "bucketArn": {
+        "DataSourceConfiguration": {
+          "S3Configuration": {
+            "BucketArn": {
               "Fn::GetAtt": [
                 "DocBucket01E283E8",
                 "Arn",
               ],
             },
           },
-          "type": "S3",
+          "Type": "S3",
         },
-        "knowledgeBaseId": {
+        "KnowledgeBaseId": {
           "Fn::GetAtt": [
-            "KBAD2CEA58",
-            "knowledgeBaseId",
+            "KBMyCfnKnowledgeBase0F2C5AD7",
+            "KnowledgeBaseId",
           ],
         },
-        "name": "test-docs",
-        "vectorIngestionConfiguration": {},
+        "Name": "test-docs",
+        "VectorIngestionConfiguration": {},
       },
       "Type": "AWS::Bedrock::DataSource",
     },
@@ -263,48 +238,6 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       "DeletionPolicy": "Retain",
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Retain",
-    },
-    "KBAD2CEA58": {
-      "DependsOn": [
-        "KBKBIndexManageIndexPolicy12CCDA73",
-        "KBKBIndexVectorIndexB98E4DB1",
-        "KBRoleDefaultPolicy1639354E",
-        "KBRole081DC46D",
-      ],
-      "Properties": {
-        "description": "Documentation about CDK constructs.",
-        "knowledgeBaseConfiguration": {
-          "type": "VECTOR",
-          "vectorKnowledgeBaseConfiguration": {
-            "embeddingModelArn": "arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v1",
-          },
-        },
-        "name": "KBteststackKBF59CBB07",
-        "roleArn": {
-          "Fn::GetAtt": [
-            "KBRole081DC46D",
-            "Arn",
-          ],
-        },
-        "storageConfiguration": {
-          "opensearchServerlessConfiguration": {
-            "collectionArn": {
-              "Fn::GetAtt": [
-                "KBKBVectorsVectorCollectionFFF498C9",
-                "Arn",
-              ],
-            },
-            "fieldMapping": {
-              "metadataField": "AMAZON_BEDROCK_METADATA",
-              "textField": "AMAZON_BEDROCK_TEXT_CHUNK",
-              "vectorField": "bedrock-knowledge-base-default-vector",
-            },
-            "vectorIndexName": "bedrock-knowledge-base-default-index",
-          },
-          "type": "OPENSEARCH_SERVERLESS",
-        },
-      },
-      "Type": "AWS::Bedrock::KnowledgeBase",
     },
     "KBKBIndexManageIndexPolicy12CCDA73": {
       "DependsOn": [
@@ -456,6 +389,46 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
         "Type": "VECTORSEARCH",
       },
       "Type": "AWS::OpenSearchServerless::Collection",
+    },
+    "KBMyCfnKnowledgeBase0F2C5AD7": {
+      "DependsOn": [
+        "KBKBIndexManageIndexPolicy12CCDA73",
+        "KBKBIndexVectorIndexB98E4DB1",
+      ],
+      "Properties": {
+        "Description": "Documentation about CDK constructs.",
+        "KnowledgeBaseConfiguration": {
+          "Type": "VECTOR",
+          "VectorKnowledgeBaseConfiguration": {
+            "EmbeddingModelArn": "arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v1",
+          },
+        },
+        "Name": "KBteststackKBF59CBB07",
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "KBRole081DC46D",
+            "Arn",
+          ],
+        },
+        "StorageConfiguration": {
+          "OpensearchServerlessConfiguration": {
+            "CollectionArn": {
+              "Fn::GetAtt": [
+                "KBKBVectorsVectorCollectionFFF498C9",
+                "Arn",
+              ],
+            },
+            "FieldMapping": {
+              "MetadataField": "AMAZON_BEDROCK_METADATA",
+              "TextField": "AMAZON_BEDROCK_TEXT_CHUNK",
+              "VectorField": "bedrock-knowledge-base-default-vector",
+            },
+            "VectorIndexName": "bedrock-knowledge-base-default-index",
+          },
+          "Type": "OPENSEARCH_SERVERLESS",
+        },
+      },
+      "Type": "AWS::Bedrock::KnowledgeBase",
     },
     "KBRole081DC46D": {
       "Metadata": {
