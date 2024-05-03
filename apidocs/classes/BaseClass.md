@@ -18,6 +18,8 @@
 
   ↳↳ [`ContentGenerationAppSyncLambda`](ContentGenerationAppSyncLambda.md)
 
+  ↳↳ [`WebCrawler`](WebCrawler.md)
+
 ## Table of contents
 
 ### Constructors

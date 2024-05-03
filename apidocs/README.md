@@ -34,6 +34,7 @@
 - [SageMakerEndpointBase](classes/SageMakerEndpointBase.md)
 - [SageMakerInstanceType](classes/SageMakerInstanceType.md)
 - [SummarizationAppsyncStepfn](classes/SummarizationAppsyncStepfn.md)
+- [WebCrawler](classes/WebCrawler.md)
 
 ### Interfaces
 
@@ -41,6 +42,7 @@
 - [BaseClassProps](interfaces/BaseClassProps.md)
 - [ContainerImageConfig](interfaces/ContainerImageConfig.md)
 - [ContentGenerationAppSyncLambdaProps](interfaces/ContentGenerationAppSyncLambdaProps.md)
+- [CrawlerWebSite](interfaces/CrawlerWebSite.md)
 - [CustomSageMakerEndpointProps](interfaces/CustomSageMakerEndpointProps.md)
 - [DockerLambdaCustomProps](interfaces/DockerLambdaCustomProps.md)
 - [HuggingFaceSageMakerEndpointProps](interfaces/HuggingFaceSageMakerEndpointProps.md)
@@ -53,6 +55,7 @@
 - [QaAppsyncOpensearchProps](interfaces/QaAppsyncOpensearchProps.md)
 - [RagAppsyncStepfnOpensearchProps](interfaces/RagAppsyncStepfnOpensearchProps.md)
 - [SummarizationAppsyncStepfnProps](interfaces/SummarizationAppsyncStepfnProps.md)
+- [WebCrawlerProps](interfaces/WebCrawlerProps.md)
 
 ### Variables
 

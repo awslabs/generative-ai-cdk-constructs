@@ -24,6 +24,43 @@ import { Construct } from 'constructs';
 import { ConstructName } from '../../../common/base-class';
 import { BaseClass, BaseClassProps } from '../../../common/base-class/base-class';
 
+export interface CrawlerWebSite {
+  /**
+   * Web site URL to be crawled.
+   */
+  readonly url: string;
+  /**
+   * Maximum number of requests to be made.
+   *
+   * @default - crawler limit
+   */
+  readonly maxRequests?: number;
+  /**
+   * Download files from the web site.
+   *
+   * @default - false
+   */
+  readonly downloadFiles?: number;
+  /**
+   * Maximum number of files to be downloaded.
+   *
+   * @default - crawler limit
+   */
+  readonly maxFiles?: number;
+  /**
+   * File types to be downloaded.
+   *
+   * @default - all file types
+   */
+  readonly fileTypes?: string[];
+  /**
+   * Ignore robots.txt file.
+   *
+   * @default - false
+   */
+  readonly ignoreRobotsTxt?: boolean;
+}
+
 export interface WebCrawlerProps {
   /**
    * Value will be appended to resources name.
@@ -50,11 +87,17 @@ export interface WebCrawlerProps {
    */
   readonly observability?: boolean;
   /**
-   * Optional. An existing VPC can be used to deploy the construct.
+   *  An existing VPC can be used to deploy the construct.
    *
    * @default - none
    */
   readonly existingVpc?: ec2.IVpc;
+  /**
+   *  Web sites to be crawled.
+   *
+   * @default - none
+   */
+  readonly webSites?: CrawlerWebSite[];
 }
 
 export class WebCrawler extends BaseClass {
@@ -125,7 +168,12 @@ export class WebCrawler extends BaseClass {
     const snsTopic = new sns.Topic(this, 'webCrawlerTopic');
 
     const computeEnvironment = new batch.FargateComputeEnvironment(this, 'webCrawlerEnvironment', {
-      vpc: props.existingVpc ?? ec2.Vpc.fromLookup(this, 'VPC', { isDefault: true }),
+      vpc:
+        props.existingVpc ??
+        new ec2.Vpc(this, 'webCrawlerVpc', {
+          createInternetGateway: false,
+          natGateways: 1,
+        }),
       maxvCpus: 8,
       replaceComputeEnvironment: true,
       updateTimeout: cdk.Duration.minutes(30),
@@ -149,8 +197,8 @@ export class WebCrawler extends BaseClass {
 
     const webCrawlerContainer = new batch.EcsFargateContainerDefinition(this, 'webCrawlerContainer', {
       cpu: 2,
-      memory: cdk.Size.mebibytes(2048),
-      image: ecs.ContainerImage.fromAsset(path.join(__dirname, '../../../../resources/aws-web-crawler-image'), {
+      memory: cdk.Size.mebibytes(4096),
+      image: ecs.ContainerImage.fromAsset(path.join(__dirname, '../../../../resources/gen-ai/aws-web-crawler-image'), {
         platform: aws_ecr_assets.Platform.LINUX_AMD64,
       }),
       jobRole: webCrawlerJobRole,
