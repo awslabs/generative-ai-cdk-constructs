@@ -106,7 +106,8 @@ def process_documents_in_es(index_exists, shards, http_auth,model_id):
         results = process_shard(shard=shard,
                     os_index_name=opensearch_index,
                     os_domain_ep=opensearch_domain,
-                    os_http_auth=http_auth)
+                    os_http_auth=http_auth,
+                    model_id=model_id)
 
 def process_documents_in_aoss(index_exists, shards, http_auth,model_id):
     bedrock_client = boto3.client('bedrock-runtime')
