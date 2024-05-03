@@ -21,8 +21,8 @@ export class S3StorageManager {
 
   async uploadData(jobId: string) {
     const bucketName = this.config.dataBucketName;
-    const siteId = this.config.siteId;
-    const prefix = `${siteId}/jobs/${jobId}`;
+    const siteUrl = this.config.siteUrl;
+    const prefix = `${encodeURIComponent(siteUrl)}/jobs/${jobId}`;
 
     const pagesKey = `${prefix}/${this.config.file_names.pages}`;
     const filesKey = `${prefix}/${this.config.file_names.files}`;
@@ -30,11 +30,8 @@ export class S3StorageManager {
     const sitemapsKey = `${prefix}/${this.config.file_names.sitemaps}`;
 
     await this.uploadFile(bucketName, pagesKey, this.config.file_paths.pages.toString());
-
     await this.uploadFile(bucketName, filesKey, this.config.file_paths.files.toString());
-
     await this.uploadFile(bucketName, errorsKey, this.config.file_paths.errors.toString());
-
     await this.uploadFile(bucketName, sitemapsKey, this.config.file_paths.sitemaps.toString());
   }
 

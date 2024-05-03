@@ -50,6 +50,12 @@ import { Utils } from './utils.js';
     log.info('Site Data', siteDataItem);
   }
 
+  const activeJobs = await dynamoDBManager.findActiveJob();
+  if (activeJobs.length > 0) {
+    log.error('Active jobs found', activeJobs);
+    return;
+  }
+
   if (!configManager.config.jobId) {
     const jobId = await dynamoDBManager.pubJobDataItem();
     configManager.setJobId(jobId);
@@ -59,42 +65,33 @@ import { Utils } from './utils.js';
     }
   }
 
-  if (!configManager.config.skip_crawl) {
-    log.info(`Job Id: ${configManager.config.jobId}`);
+  try {
+    if (!configManager.config.skip_crawl) {
+      log.info(`Job Id: ${configManager.config.jobId}`);
 
-    const crawler = new Crawler(configManager.config, siteDataItem, dynamoDBManager);
+      const crawler = new Crawler(configManager.config, siteDataItem, dynamoDBManager);
 
-    await crawler.start();
-    await s3StorageManager.uploadData(configManager.config.jobId);
-  }
+      await crawler.start();
+      await s3StorageManager.uploadData(configManager.config.jobId);
+    }
 
-  if (!configManager.config.skip_parse) {
-    try {
+    if (!configManager.config.skip_parse) {
       await dynamoDBManager.updateJobStatus(configManager.config.jobId, JobStatus.PARSING);
 
       await ScriptRunner.parseHTML(configManager.config);
-    } catch {
-      log.error('HTML parsing script failed');
-      await dynamoDBManager.updateJobStatus(configManager.config.jobId, JobStatus.FAILED);
-
-      return;
     }
-  }
 
-  if (!configManager.config.skip_download && siteDataItem.download_files) {
-    try {
+    if (!configManager.config.skip_download && siteDataItem.download_files) {
       await dynamoDBManager.updateJobStatus(configManager.config.jobId, JobStatus.DOWNLOADING_FILES);
 
       await ScriptRunner.downloadFiles(configManager.config);
-    } catch {
-      log.error('Download files script failed');
-      await dynamoDBManager.updateJobStatus(configManager.config.jobId, JobStatus.FAILED);
-
-      return;
     }
-  }
 
-  await dynamoDBManager.updateJobStatus(configManager.config.jobId, JobStatus.FINISHED);
+    await dynamoDBManager.updateJobStatus(configManager.config.jobId, JobStatus.FINISHED);
+  } catch (error: any) {
+    log.error('Error', error);
+    await dynamoDBManager.updateJobStatus(configManager.config.jobId, JobStatus.FAILED);
+  }
 
   await Utils.wait(10 * 1000);
   process.exit(0);

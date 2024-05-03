@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 import log from '@apify/log';
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, QueryCommand, QueryCommandInput } from '@aws-sdk/client-dynamodb';
 import {
   DynamoDBDocumentClient,
   GetCommand,
@@ -39,7 +39,7 @@ export class DynamoDBManager {
 
     const params: GetCommandInput = {
       TableName: this.config.sitesTableName,
-      Key: { site_id: this.config.siteId },
+      Key: { site_url: this.config.siteUrl },
       ConsistentRead: true,
     };
 
@@ -54,12 +54,53 @@ export class DynamoDBManager {
     return undefined;
   }
 
+  async findActiveJob(): Promise<any[]> {
+    const ddbClient = DynamoDBDocumentClient.from(this.client);
+    const currentTimestamp = Date.now();
+    const hours24 = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+
+    const params: QueryCommandInput = {
+      TableName: this.config.jobsTableName,
+      KeyConditionExpression: '#pk = :pkval',
+      ExpressionAttributeNames: {
+        '#pk': 'site_url',
+      },
+      ExpressionAttributeValues: {
+        ':pkval': { S: this.config.siteUrl },
+      },
+      ConsistentRead: true,
+    };
+
+    try {
+      let allItems: any[] = [];
+      let data;
+      do {
+        data = await ddbClient.send(new QueryCommand(params));
+        allItems = allItems.concat(data.Items as any);
+        params.ExclusiveStartKey = data.LastEvaluatedKey;
+      } while (data.LastEvaluatedKey);
+
+      const activeJobs = allItems.filter(
+        (item) =>
+          currentTimestamp - item.updated_at['N'] <= hours24 &&
+          item.status['S'] !== JobStatus.FINISHED &&
+          item.status['S'] !== JobStatus.FAILED,
+      );
+
+      return activeJobs;
+    } catch (error: any) {
+      log.error(error);
+    }
+
+    return [];
+  }
+
   async pubJobDataItem() {
     const docClient = DynamoDBDocumentClient.from(this.client);
     const jobId = Utils.generateDateTimeStringWithMilliseconds();
 
     const jobDataItem: JobDataItem = {
-      site_id: this.config.siteId,
+      site_url: this.config.siteUrl,
       job_id: jobId,
       status: JobStatus.PENDING,
       items_processed: 0,
@@ -89,7 +130,7 @@ export class DynamoDBManager {
     const jobs_params: UpdateCommandInput = {
       TableName: this.config.jobsTableName,
       Key: {
-        site_id: this.config.siteId,
+        site_url: this.config.siteUrl,
         job_id: jobId,
       },
       UpdateExpression: 'set #status = :s, updated_at = :u',
@@ -110,7 +151,7 @@ export class DynamoDBManager {
         const sites_params: UpdateCommandInput = {
           TableName: this.config.sitesTableName,
           Key: {
-            site_id: this.config.siteId,
+            site_url: this.config.siteUrl,
           },
           UpdateExpression: 'set last_finished_job_id = :j',
           ExpressionAttributeValues: {
@@ -133,7 +174,7 @@ export class DynamoDBManager {
     const params: UpdateCommandInput = {
       TableName: this.config.jobsTableName,
       Key: {
-        site_id: this.config.siteId,
+        site_url: this.config.siteUrl,
         job_id: jobId,
       },
       UpdateExpression: 'set items_processed = :p, updated_at = :u',

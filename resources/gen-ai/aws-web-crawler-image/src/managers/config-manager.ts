@@ -18,7 +18,7 @@ export interface Configuration {
   jobsTableName: string;
   dataBucketName: string;
   snsTopicArn: string;
-  siteId: string;
+  siteUrl: string;
   jobId: string;
   skip_crawl: boolean;
   skip_parse: boolean;
@@ -62,7 +62,7 @@ export class ConfigManager {
       jobsTableName: process.env.JOBS_TABLE_NAME ?? '',
       dataBucketName: process.env.DATA_BUCKET_NAME ?? '',
       snsTopicArn: process.env.SNS_TOPIC_ARN ?? '',
-      siteId: process.env.SITE_ID ?? '',
+      siteUrl: process.env.SITE_URL ?? '',
       jobId: process.env.JOB_ID ?? '',
       skip_crawl: process.env.SKIP_CRAWL === 'true',
       skip_parse: process.env.SKIP_PARSE === 'true',

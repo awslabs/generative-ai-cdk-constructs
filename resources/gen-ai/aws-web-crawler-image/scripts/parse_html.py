@@ -3,6 +3,7 @@ import sys
 import json
 import boto3
 import trafilatura
+import urllib.parse
 import trafilatura.filters
 from io import TextIOWrapper
 from tempfile import NamedTemporaryFile
@@ -14,7 +15,7 @@ SITES_TABLE_NAME = os.environ.get("SITES_TABLE_NAME")
 JOBS_TABLE_NAME = os.environ.get("JOBS_TABLE_NAME")
 PAGES_FILE_NAME = os.environ.get("PAGES_FILE_NAME")
 PAGES_FILE_PATH = os.environ.get("PAGES_FILE_PATH")
-SITE_ID = os.environ.get("SITE_ID")
+SITE_URL = os.environ.get("SITE_URL")
 JOB_ID = os.environ.get("JOB_ID")
 
 dynamodb = boto3.resource("dynamodb")
@@ -23,23 +24,25 @@ s3 = boto3.client("s3")
 
 def main():
     print("HTML parsing script started", flush=True)
-    site_data = get_site_by_id(SITE_ID)
+    site_data = get_site_by_url(SITE_URL)
 
     if not site_data:
-        print(f"Site with ID {SITE_ID} not found", flush=True)
+        print(f'Site with url "{SITE_URL}" not found', flush=True)
         return
 
     prev_changeset = get_prev_changeset(site_data)
     print(f"Previous changeset len: {len(prev_changeset)}", flush=True)
     pages_changeset_path = os.path.join(OUTPUT_PATH, "pages_changeset.jsonl")
-    pages_changeset_s3_key = f"{SITE_ID}/jobs/{JOB_ID}/pages_changeset.jsonl"
+    pages_changeset_s3_key = (
+        f"{url_encode(SITE_URL)}/jobs/{JOB_ID}/pages_changeset.jsonl"
+    )
 
     if os.path.exists(PAGES_FILE_PATH):
         with open(PAGES_FILE_PATH, "r") as file:
             process_lines(prev_changeset, pages_changeset_path, file)
     else:
         print(f"File {PAGES_FILE_PATH} does not exist", flush=True)
-        files_file_key = f"{SITE_ID}/jobs/{JOB_ID}/{PAGES_FILE_NAME}"
+        files_file_key = f"{SITE_URL}/jobs/{JOB_ID}/{PAGES_FILE_NAME}"
         with NamedTemporaryFile(dir="/tmp") as temp_file:
             try:
                 s3.download_file(DATA_BUCKET_NAME, files_file_key, temp_file.name)
@@ -56,10 +59,10 @@ def main():
     s3.upload_file(pages_changeset_path, DATA_BUCKET_NAME, pages_changeset_s3_key)
 
 
-def get_site_by_id(site_id: str):
+def get_site_by_url(site_url: str):
     table = dynamodb.Table(SITES_TABLE_NAME)
     try:
-        response = table.get_item(Key={"site_id": site_id}, ConsistentRead=True)
+        response = table.get_item(Key={"site_url": site_url}, ConsistentRead=True)
         item = response.get("Item")
         if item:
             return item
@@ -78,7 +81,7 @@ def get_prev_changeset(site_data: dict):
         return dict({})
 
     last_changeset_s3_key = (
-        f"{SITE_ID}/jobs/{last_finished_job_id}/pages_changeset.jsonl"
+        f"{url_encode(SITE_URL)}/jobs/{last_finished_job_id}/pages_changeset.jsonl"
     )
 
     with NamedTemporaryFile(dir="/tmp") as temp_file:
@@ -156,6 +159,10 @@ def process_lines(prev_changeset: dict, pages_changeset_path: str, file: TextIOW
                 changeset_file.write(json.dumps(deleted_page_data) + "\n")
 
     print(f"Parsed {idx} pages. Done.", flush=True)
+
+
+def url_encode(value: str):
+    return urllib.parse.quote(value, safe="")
 
 
 if __name__ == "__main__":

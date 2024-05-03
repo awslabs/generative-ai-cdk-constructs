@@ -11,7 +11,6 @@
  *  and limitations under the License.
  */
 export interface SiteDataItem {
-  site_id: string;
   site_url: string;
   sitemaps: string[];
   max_requests: number;
@@ -26,7 +25,7 @@ export interface SiteDataItem {
 }
 
 export interface JobDataItem {
-  site_id: string;
+  site_url: string;
   job_id: string;
   status: JobStatus;
   items_processed: number;
