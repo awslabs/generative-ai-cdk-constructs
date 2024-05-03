@@ -11,20 +11,21 @@
 - [ignoreRobotsTxt](CrawlerWebSite.md#ignorerobotstxt)
 - [maxFiles](CrawlerWebSite.md#maxfiles)
 - [maxRequests](CrawlerWebSite.md#maxrequests)
+- [scheduleEveryNDays](CrawlerWebSite.md#scheduleeveryndays)
 - [url](CrawlerWebSite.md#url)
 
 ## Properties
 
 ### downloadFiles
 
-• `Optional` `Readonly` **downloadFiles**: `number`
+• `Optional` `Readonly` **downloadFiles**: `boolean`
 
 Download files from the web site.
 
 **`Default`**
 
 ```ts
-- false
+- true
 ```
 
 ___
@@ -81,6 +82,20 @@ Maximum number of requests to be made.
 
 ```ts
 - crawler limit
+```
+
+___
+
+### scheduleEveryNDays
+
+• `Optional` `Readonly` **scheduleEveryNDays**: `number`
+
+Schedule the crawler to run every N days.
+
+**`Default`**
+
+```ts
+- not scheduled
 ```
 
 ___

@@ -38,9 +38,9 @@ export interface CrawlerWebSite {
   /**
    * Download files from the web site.
    *
-   * @default - false
+   * @default - true
    */
-  readonly downloadFiles?: number;
+  readonly downloadFiles?: boolean;
   /**
    * Maximum number of files to be downloaded.
    *
@@ -59,6 +59,12 @@ export interface CrawlerWebSite {
    * @default - false
    */
   readonly ignoreRobotsTxt?: boolean;
+  /**
+   * Schedule the crawler to run every N days.
+   *
+   * @default - not scheduled
+   */
+  readonly scheduleEveryNDays?: number;
 }
 
 export interface WebCrawlerProps {
