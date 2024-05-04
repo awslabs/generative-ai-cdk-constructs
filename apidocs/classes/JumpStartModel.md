@@ -14,21 +14,28 @@
 - [HUGGINGFACE\_ASR\_WHISPER\_BASE\_1\_0\_0](JumpStartModel.md#huggingface_asr_whisper_base_1_0_0)
 - [HUGGINGFACE\_ASR\_WHISPER\_BASE\_1\_0\_1](JumpStartModel.md#huggingface_asr_whisper_base_1_0_1)
 - [HUGGINGFACE\_ASR\_WHISPER\_BASE\_2\_0\_0](JumpStartModel.md#huggingface_asr_whisper_base_2_0_0)
+- [HUGGINGFACE\_ASR\_WHISPER\_BASE\_3\_0\_0](JumpStartModel.md#huggingface_asr_whisper_base_3_0_0)
 - [HUGGINGFACE\_ASR\_WHISPER\_LARGE\_1\_0\_0](JumpStartModel.md#huggingface_asr_whisper_large_1_0_0)
 - [HUGGINGFACE\_ASR\_WHISPER\_LARGE\_1\_0\_1](JumpStartModel.md#huggingface_asr_whisper_large_1_0_1)
 - [HUGGINGFACE\_ASR\_WHISPER\_LARGE\_2\_0\_0](JumpStartModel.md#huggingface_asr_whisper_large_2_0_0)
+- [HUGGINGFACE\_ASR\_WHISPER\_LARGE\_3\_0\_0](JumpStartModel.md#huggingface_asr_whisper_large_3_0_0)
 - [HUGGINGFACE\_ASR\_WHISPER\_LARGE\_V2\_1\_0\_0](JumpStartModel.md#huggingface_asr_whisper_large_v2_1_0_0)
 - [HUGGINGFACE\_ASR\_WHISPER\_LARGE\_V2\_1\_0\_1](JumpStartModel.md#huggingface_asr_whisper_large_v2_1_0_1)
 - [HUGGINGFACE\_ASR\_WHISPER\_LARGE\_V2\_2\_0\_0](JumpStartModel.md#huggingface_asr_whisper_large_v2_2_0_0)
+- [HUGGINGFACE\_ASR\_WHISPER\_LARGE\_V2\_3\_0\_0](JumpStartModel.md#huggingface_asr_whisper_large_v2_3_0_0)
+- [HUGGINGFACE\_ASR\_WHISPER\_LARGE\_V3\_1\_0\_0](JumpStartModel.md#huggingface_asr_whisper_large_v3_1_0_0)
 - [HUGGINGFACE\_ASR\_WHISPER\_MEDIUM\_1\_0\_0](JumpStartModel.md#huggingface_asr_whisper_medium_1_0_0)
 - [HUGGINGFACE\_ASR\_WHISPER\_MEDIUM\_1\_0\_1](JumpStartModel.md#huggingface_asr_whisper_medium_1_0_1)
 - [HUGGINGFACE\_ASR\_WHISPER\_MEDIUM\_2\_0\_0](JumpStartModel.md#huggingface_asr_whisper_medium_2_0_0)
+- [HUGGINGFACE\_ASR\_WHISPER\_MEDIUM\_3\_0\_0](JumpStartModel.md#huggingface_asr_whisper_medium_3_0_0)
 - [HUGGINGFACE\_ASR\_WHISPER\_SMALL\_1\_0\_0](JumpStartModel.md#huggingface_asr_whisper_small_1_0_0)
 - [HUGGINGFACE\_ASR\_WHISPER\_SMALL\_1\_0\_1](JumpStartModel.md#huggingface_asr_whisper_small_1_0_1)
 - [HUGGINGFACE\_ASR\_WHISPER\_SMALL\_2\_0\_0](JumpStartModel.md#huggingface_asr_whisper_small_2_0_0)
+- [HUGGINGFACE\_ASR\_WHISPER\_SMALL\_3\_0\_0](JumpStartModel.md#huggingface_asr_whisper_small_3_0_0)
 - [HUGGINGFACE\_ASR\_WHISPER\_TINY\_1\_0\_0](JumpStartModel.md#huggingface_asr_whisper_tiny_1_0_0)
 - [HUGGINGFACE\_ASR\_WHISPER\_TINY\_1\_0\_1](JumpStartModel.md#huggingface_asr_whisper_tiny_1_0_1)
 - [HUGGINGFACE\_ASR\_WHISPER\_TINY\_2\_0\_0](JumpStartModel.md#huggingface_asr_whisper_tiny_2_0_0)
+- [HUGGINGFACE\_ASR\_WHISPER\_TINY\_3\_0\_0](JumpStartModel.md#huggingface_asr_whisper_tiny_3_0_0)
 - [HUGGINGFACE\_EQA\_BERT\_BASE\_CASED\_1\_0\_0](JumpStartModel.md#huggingface_eqa_bert_base_cased_1_0_0)
 - [HUGGINGFACE\_EQA\_BERT\_BASE\_CASED\_1\_0\_1](JumpStartModel.md#huggingface_eqa_bert_base_cased_1_0_1)
 - [HUGGINGFACE\_EQA\_BERT\_BASE\_CASED\_1\_0\_2](JumpStartModel.md#huggingface_eqa_bert_base_cased_1_0_2)
@@ -116,6 +123,7 @@
 - [HUGGINGFACE\_LLM\_CALM2\_7B\_CHAT\_BF16\_1\_2\_2](JumpStartModel.md#huggingface_llm_calm2_7b_chat_bf16_1_2_2)
 - [HUGGINGFACE\_LLM\_CALM2\_7B\_CHAT\_BF16\_1\_2\_3](JumpStartModel.md#huggingface_llm_calm2_7b_chat_bf16_1_2_3)
 - [HUGGINGFACE\_LLM\_CALM2\_7B\_CHAT\_BF16\_1\_2\_4](JumpStartModel.md#huggingface_llm_calm2_7b_chat_bf16_1_2_4)
+- [HUGGINGFACE\_LLM\_COHEREFORAI\_C4AI\_COMMAND\_R\_PLUS\_1\_0\_0](JumpStartModel.md#huggingface_llm_cohereforai_c4ai_command_r_plus_1_0_0)
 - [HUGGINGFACE\_LLM\_CULTRIX\_MISTRALTRIX\_V1\_1\_0\_0](JumpStartModel.md#huggingface_llm_cultrix_mistraltrix_v1_1_0_0)
 - [HUGGINGFACE\_LLM\_CULTRIX\_MISTRALTRIX\_V1\_1\_1\_0](JumpStartModel.md#huggingface_llm_cultrix_mistraltrix_v1_1_1_0)
 - [HUGGINGFACE\_LLM\_DBRX\_BASE\_1\_0\_0](JumpStartModel.md#huggingface_llm_dbrx_base_1_0_0)
@@ -246,6 +254,7 @@
 - [HUGGINGFACE\_LLM\_HUGGINGFACEH4\_ZEPHYR\_7B\_ALPHA\_1\_1\_0](JumpStartModel.md#huggingface_llm_huggingfaceh4_zephyr_7b_alpha_1_1_0)
 - [HUGGINGFACE\_LLM\_HUGGINGFACEH4\_ZEPHYR\_7B\_BETA\_1\_0\_0](JumpStartModel.md#huggingface_llm_huggingfaceh4_zephyr_7b_beta_1_0_0)
 - [HUGGINGFACE\_LLM\_HUGGINGFACEH4\_ZEPHYR\_7B\_BETA\_1\_1\_0](JumpStartModel.md#huggingface_llm_huggingfaceh4_zephyr_7b_beta_1_1_0)
+- [HUGGINGFACE\_LLM\_MISTRALAI\_MIXTRAL\_8X22B\_INSTRUCT\_V0\_1\_1\_0\_0](JumpStartModel.md#huggingface_llm_mistralai_mixtral_8x22b_instruct_v0_1_1_0_0)
 - [HUGGINGFACE\_LLM\_MISTRAL\_7B\_1\_0\_0](JumpStartModel.md#huggingface_llm_mistral_7b_1_0_0)
 - [HUGGINGFACE\_LLM\_MISTRAL\_7B\_1\_1\_0](JumpStartModel.md#huggingface_llm_mistral_7b_1_1_0)
 - [HUGGINGFACE\_LLM\_MISTRAL\_7B\_2\_0\_0](JumpStartModel.md#huggingface_llm_mistral_7b_2_0_0)
@@ -1738,6 +1747,12 @@ ___
 
 ___
 
+### HUGGINGFACE\_ASR\_WHISPER\_BASE\_3\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_ASR\_WHISPER\_BASE\_3\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
 ### HUGGINGFACE\_ASR\_WHISPER\_LARGE\_1\_0\_0
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_ASR\_WHISPER\_LARGE\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -1753,6 +1768,12 @@ ___
 ### HUGGINGFACE\_ASR\_WHISPER\_LARGE\_2\_0\_0
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_ASR\_WHISPER\_LARGE\_2\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### HUGGINGFACE\_ASR\_WHISPER\_LARGE\_3\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_ASR\_WHISPER\_LARGE\_3\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ___
 
@@ -1774,6 +1795,18 @@ ___
 
 ___
 
+### HUGGINGFACE\_ASR\_WHISPER\_LARGE\_V2\_3\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_ASR\_WHISPER\_LARGE\_V2\_3\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### HUGGINGFACE\_ASR\_WHISPER\_LARGE\_V3\_1\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_ASR\_WHISPER\_LARGE\_V3\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
 ### HUGGINGFACE\_ASR\_WHISPER\_MEDIUM\_1\_0\_0
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_ASR\_WHISPER\_MEDIUM\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -1789,6 +1822,12 @@ ___
 ### HUGGINGFACE\_ASR\_WHISPER\_MEDIUM\_2\_0\_0
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_ASR\_WHISPER\_MEDIUM\_2\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### HUGGINGFACE\_ASR\_WHISPER\_MEDIUM\_3\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_ASR\_WHISPER\_MEDIUM\_3\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ___
 
@@ -1810,6 +1849,12 @@ ___
 
 ___
 
+### HUGGINGFACE\_ASR\_WHISPER\_SMALL\_3\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_ASR\_WHISPER\_SMALL\_3\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
 ### HUGGINGFACE\_ASR\_WHISPER\_TINY\_1\_0\_0
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_ASR\_WHISPER\_TINY\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -1825,6 +1870,12 @@ ___
 ### HUGGINGFACE\_ASR\_WHISPER\_TINY\_2\_0\_0
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_ASR\_WHISPER\_TINY\_2\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### HUGGINGFACE\_ASR\_WHISPER\_TINY\_3\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_ASR\_WHISPER\_TINY\_3\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ___
 
@@ -2347,6 +2398,12 @@ ___
 ### HUGGINGFACE\_LLM\_CALM2\_7B\_CHAT\_BF16\_1\_2\_4
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_CALM2\_7B\_CHAT\_BF16\_1\_2\_4**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### HUGGINGFACE\_LLM\_COHEREFORAI\_C4AI\_COMMAND\_R\_PLUS\_1\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_COHEREFORAI\_C4AI\_COMMAND\_R\_PLUS\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ___
 
@@ -3127,6 +3184,12 @@ ___
 ### HUGGINGFACE\_LLM\_HUGGINGFACEH4\_ZEPHYR\_7B\_BETA\_1\_1\_0
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_HUGGINGFACEH4\_ZEPHYR\_7B\_BETA\_1\_1\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### HUGGINGFACE\_LLM\_MISTRALAI\_MIXTRAL\_8X22B\_INSTRUCT\_V0\_1\_1\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_MISTRALAI\_MIXTRAL\_8X22B\_INSTRUCT\_V0\_1\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ___
 
