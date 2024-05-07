@@ -11,7 +11,6 @@
 - [actionGroupExecutor](bedrock.AgentActionGroupProps.md#actiongroupexecutor)
 - [actionGroupName](bedrock.AgentActionGroupProps.md#actiongroupname)
 - [actionGroupState](bedrock.AgentActionGroupProps.md#actiongroupstate)
-- [agent](bedrock.AgentActionGroupProps.md#agent)
 - [apiSchema](bedrock.AgentActionGroupProps.md#apischema)
 - [description](bedrock.AgentActionGroupProps.md#description)
 - [parentActionGroupSignature](bedrock.AgentActionGroupProps.md#parentactiongroupsignature)
@@ -46,14 +45,6 @@ ___
 • `Optional` `Readonly` **actionGroupState**: ``"ENABLED"`` \| ``"DISABLED"``
 
 Specifies whether the action group is available for the agent to invoke or not when sending an InvokeAgent request.
-
-___
-
-### agent
-
-• `Readonly` **agent**: [`Agent`](../classes/bedrock.Agent.md)
-
-Bedrock Agent
 
 ___
 

@@ -18,7 +18,8 @@
 
 ### Properties
 
-- [actionGroupId](bedrock.AgentActionGroup.md#actiongroupid)
+- [actionGroupExecutor](bedrock.AgentActionGroup.md#actiongroupexecutor)
+- [actionGroupName](bedrock.AgentActionGroup.md#actiongroupname)
 - [actionGroupProperty](bedrock.AgentActionGroup.md#actiongroupproperty)
 - [node](bedrock.AgentActionGroup.md#node)
 
@@ -51,9 +52,17 @@ Construct.constructor
 
 ## Properties
 
-### actionGroupId
+### actionGroupExecutor
 
-• `Readonly` **actionGroupId**: `string`
+• `Readonly` **actionGroupExecutor**: `undefined` \| `IFunction`
+
+The Lambda function containing the business logic that is carried out upon invoking the action.
+
+___
+
+### actionGroupName
+
+• `Readonly` **actionGroupName**: `string`
 
 The unique identifier of the action group.
 

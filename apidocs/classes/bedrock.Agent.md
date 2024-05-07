@@ -191,7 +191,7 @@ Add an action group to the agent.
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`AddAgentActionGroupProps`](../interfaces/bedrock.AddAgentActionGroupProps.md) |
+| `props` | [`AgentActionGroup`](bedrock.AgentActionGroup.md) |
 
 #### Returns
 
