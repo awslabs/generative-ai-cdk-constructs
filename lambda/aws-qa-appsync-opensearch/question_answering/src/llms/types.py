@@ -21,6 +21,7 @@ class BedrockModel(StrEnum):
     AMAZON_TITAN_EMBED_IMAGE_V1 = 'amazon.titan-embed-image-v1',
     AMAZON_TITAN_EMBED_TEXT_V1 = 'amazon.titan-embed-text-v1',
     AMAZON_TITAN_IMAGE_GENERATOR_V1 = 'amazon.titan-image-generator-v1',
+    AMAZON_TITAN_TEXT_PREMIER_V1 = 'amazon.titan-text-premier-v1:0'
 
 MAX_TOKENS_MAP = {
     Provider.BEDROCK+'.'+BedrockModel.ANTHROPIC_CLAUDE_V2_1 : 200000,
@@ -33,6 +34,7 @@ MAX_TOKENS_MAP = {
     Provider.BEDROCK+'.'+BedrockModel.AMAZON_TITAN_EMBED_TEXT_V1: 8000,
     Provider.BEDROCK+'.'+BedrockModel.AMAZON_TITAN_EMBED_IMAGE_V1: 128,
     Provider.BEDROCK+'.'+BedrockModel.AMAZON_TITAN_IMAGE_GENERATOR_V1: 77,
+    Provider.BEDROCK+'.'+BedrockModel.AMAZON_TITAN_TEXT_PREMIER_V1: 32000,
 }
 
 
