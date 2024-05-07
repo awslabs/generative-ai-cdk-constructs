@@ -19,7 +19,7 @@ export interface SiteDataItem {
   file_types: string[];
   ignore_robots_txt: boolean;
   last_finished_job_id: string;
-  schedule_every_n_days: number;
+  crawl_interval_days: number;
   created_at: number;
   updated_at: number;
 }

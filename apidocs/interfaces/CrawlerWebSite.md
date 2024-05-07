@@ -6,15 +6,29 @@
 
 ### Properties
 
+- [crawlIntervalDays](CrawlerWebSite.md#crawlintervaldays)
 - [downloadFiles](CrawlerWebSite.md#downloadfiles)
 - [fileTypes](CrawlerWebSite.md#filetypes)
 - [ignoreRobotsTxt](CrawlerWebSite.md#ignorerobotstxt)
 - [maxFiles](CrawlerWebSite.md#maxfiles)
 - [maxRequests](CrawlerWebSite.md#maxrequests)
-- [scheduleEveryNDays](CrawlerWebSite.md#scheduleeveryndays)
 - [url](CrawlerWebSite.md#url)
 
 ## Properties
+
+### crawlIntervalDays
+
+• `Optional` `Readonly` **crawlIntervalDays**: `number`
+
+Schedule the crawler to run every N days.
+
+**`Default`**
+
+```ts
+- not scheduled
+```
+
+___
 
 ### downloadFiles
 
@@ -82,20 +96,6 @@ Maximum number of requests to be made.
 
 ```ts
 - crawler limit
-```
-
-___
-
-### scheduleEveryNDays
-
-• `Optional` `Readonly` **scheduleEveryNDays**: `number`
-
-Schedule the crawler to run every N days.
-
-**`Default`**
-
-```ts
-- not scheduled
 ```
 
 ___

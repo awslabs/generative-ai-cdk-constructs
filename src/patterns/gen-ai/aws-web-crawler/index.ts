@@ -20,6 +20,7 @@ import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as sns from 'aws-cdk-lib/aws-sns';
+import * as cr from 'aws-cdk-lib/custom-resources';
 import { Construct } from 'constructs';
 import { ConstructName } from '../../../common/base-class';
 import { BaseClass, BaseClassProps } from '../../../common/base-class/base-class';
@@ -64,7 +65,7 @@ export interface CrawlerWebSite {
    *
    * @default - not scheduled
    */
-  readonly scheduleEveryNDays?: number;
+  readonly crawlIntervalDays?: number;
 }
 
 export interface WebCrawlerProps {
@@ -235,6 +236,65 @@ export class WebCrawler extends BaseClass {
         ),
       ],
     });
+
+    for (const site of props.webSites ?? []) {
+      new cr.AwsCustomResource(this, `site-${site.url}`, {
+        onCreate: {
+          service: 'DynamoDB',
+          action: 'putItem',
+          parameters: {
+            TableName: sitesTable.tableArn,
+            Item: {
+              site_url: { S: site.url },
+              sitemaps: { L: [] },
+              max_requests: { N: `${site.maxRequests ?? 0}` },
+              max_files: { N: `${site.maxFiles ?? 0}` },
+              download_files: { BOOL: site.downloadFiles ?? true },
+              file_types: { L: site.fileTypes ?? [] },
+              ignore_robots_txt: { BOOL: site.ignoreRobotsTxt ?? false },
+              crawl_interval_days: { N: `${site.crawlIntervalDays ?? 0}` },
+              last_finished_job_id: { S: '' },
+              created_at: { N: `${Date.now()}` },
+              updated_at: { N: `${Date.now()}` },
+            },
+          },
+          physicalResourceId: cr.PhysicalResourceId.of(site.url),
+        },
+        onUpdate: {
+          service: 'DynamoDB',
+          action: 'putItem',
+          parameters: {
+            TableName: sitesTable.tableArn,
+            Item: {
+              site_url: { S: site.url },
+              sitemaps: { L: [] },
+              max_requests: { N: `${site.maxRequests ?? 0}` },
+              max_files: { N: `${site.maxFiles ?? 0}` },
+              download_files: { BOOL: site.downloadFiles ?? true },
+              file_types: { L: site.fileTypes ?? [] },
+              ignore_robots_txt: { BOOL: site.ignoreRobotsTxt ?? false },
+              crawl_interval_days: { N: `${site.crawlIntervalDays ?? 0}` },
+            },
+          },
+        },
+        onDelete: {
+          service: 'DynamoDB',
+          action: 'deleteItem',
+          parameters: {
+            TableName: sitesTable.tableArn,
+            Key: {
+              site_url: { S: site.url },
+            },
+          },
+        },
+        policy: cr.AwsCustomResourcePolicy.fromStatements([
+          new iam.PolicyStatement({
+            actions: ['dynamodb:PutItem', 'dynamodb:GetItem', 'dynamodb:DeleteItem', 'dynamodb:UpdateItem'],
+            resources: [sitesTable.tableArn],
+          }),
+        ]),
+      });
+    }
 
     this.dataBucket = dataBucket;
     this.snsTopic = snsTopic;
