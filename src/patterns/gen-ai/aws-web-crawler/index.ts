@@ -238,14 +238,19 @@ export class WebCrawler extends BaseClass {
     });
 
     for (const site of props.webSites ?? []) {
-      new cr.AwsCustomResource(this, `site-${site.url}`, {
+      let siteUrl = site.url.trim();
+      if (!/^https?:\/\//.test(siteUrl.toLowerCase())) {
+        siteUrl = `https://${siteUrl}`;
+      }
+
+      new cr.AwsCustomResource(this, `site-${siteUrl}`, {
         onCreate: {
           service: 'DynamoDB',
           action: 'putItem',
           parameters: {
             TableName: sitesTable.tableArn,
             Item: {
-              site_url: { S: site.url },
+              site_url: { S: siteUrl },
               sitemaps: { L: [] },
               max_requests: { N: `${site.maxRequests ?? 0}` },
               max_files: { N: `${site.maxFiles ?? 0}` },
@@ -258,7 +263,7 @@ export class WebCrawler extends BaseClass {
               updated_at: { N: `${Date.now()}` },
             },
           },
-          physicalResourceId: cr.PhysicalResourceId.of(site.url),
+          physicalResourceId: cr.PhysicalResourceId.of(siteUrl),
         },
         onUpdate: {
           service: 'DynamoDB',
@@ -266,7 +271,7 @@ export class WebCrawler extends BaseClass {
           parameters: {
             TableName: sitesTable.tableArn,
             Item: {
-              site_url: { S: site.url },
+              site_url: { S: siteUrl },
               sitemaps: { L: [] },
               max_requests: { N: `${site.maxRequests ?? 0}` },
               max_files: { N: `${site.maxFiles ?? 0}` },
@@ -283,7 +288,7 @@ export class WebCrawler extends BaseClass {
           parameters: {
             TableName: sitesTable.tableArn,
             Key: {
-              site_url: { S: site.url },
+              site_url: { S: siteUrl },
             },
           },
         },
