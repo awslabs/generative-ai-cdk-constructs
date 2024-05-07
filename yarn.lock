@@ -830,19 +830,19 @@
   dependencies:
     ajv "^8.12.0"
 
-"@jsii/spec@^1.97.0", "@jsii/spec@^1.98.0":
+"@jsii/spec@^1.98.0":
   version "1.98.0"
   resolved "https://registry.yarnpkg.com/@jsii/spec/-/spec-1.98.0.tgz#7495f2d123b95b67ba0da4d3a18cac763d401da2"
   integrity sha512-5FCJedjFrxKt0wrcSnXetHHTXQV6OQM2NlE/WJNvjwqlk+RYfw+BwZOBYHsoaQx1Qh0pTwN7ZM9WmEusN3GdNw==
   dependencies:
     ajv "^8.12.0"
 
-"@mrgrain/jsii-struct-builder@^0.7.25":
-  version "0.7.25"
-  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.25.tgz#f672a6819054eed589f934bb7fe08a13d3dac0ef"
-  integrity sha512-HciRgpsPtQtD0edm0AltY/DGP05vd7NPGQYKC2IzEy7P+SNKAFKaWhMjjruLOJLNHWKPceg633APS1LWyVrrVw==
+"@mrgrain/jsii-struct-builder@^0.7.26":
+  version "0.7.26"
+  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.26.tgz#9e27467c04058444b039cee8dc077fa17cf40c48"
+  integrity sha512-IUAVlhbZJdMBME9HcWoF61ke+9lhHECFBWcuNUtZJZ4ioDeMQc9EcowQq13ViNkTveYiMErT2humY/Ecysa5+g==
   dependencies:
-    "@jsii/spec" "^1.97.0"
+    "@jsii/spec" "^1.98.0"
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -1044,16 +1044,16 @@
   integrity sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag==
 
 "@types/node@*":
-  version "20.12.8"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.12.8.tgz#35897bf2bfe3469847ab04634636de09552e8256"
-  integrity sha512-NU0rJLJnshZWdE/097cdCBbyW1h4hEg0xpovcoAQYHl8dnEyp/NAOiE45pvc+Bd1Dt+2r94v2eGFpQJ4R7g+2w==
+  version "20.12.10"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.12.10.tgz#8f0c3f12b0f075eee1fe20c1afb417e9765bef76"
+  integrity sha512-Eem5pH9pmWBHoGAT8Dr5fdc5rYA+4NAovdM4EktRPVAAiJhmWWfQrA0cFhAbOsQdSfIHjAud6YdkbL69+zSKjw==
   dependencies:
     undici-types "~5.26.4"
 
 "@types/node@^18":
-  version "18.19.31"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.31.tgz#b7d4a00f7cb826b60a543cebdbda5d189aaecdcd"
-  integrity sha512-ArgCD39YpyyrtFKIqMDvjz79jto5fcI/SVUs2HwB+f0dAzq68yqOdyaSivLiLugSziTpNXLQrVb7RZFmdZzbhA==
+  version "18.19.32"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.32.tgz#96e4c80dca0ccf48505add2a399f36465955e0be"
+  integrity sha512-2bkg93YBSDKk8DLmmHnmj/Rwr18TLx7/n+I23BigFwgexUJoMHZOd8X1OFxuF/W3NN0S2W2E5sVabI5CPinNvA==
   dependencies:
     undici-types "~5.26.4"
 
@@ -1416,9 +1416,9 @@ aws-sdk-mock@^5.9.0:
     traverse "^0.6.6"
 
 aws-sdk@^2.1231.0:
-  version "2.1612.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1612.0.tgz#9b55523e578f3094ff149f475bea216a84271b88"
-  integrity sha512-UNwmKh2IChGQzDm6Stxor2SbjealVld2awmf1Q8rxVO1UVvjRrQ97ArD2gWouJT7BuSqDsUpgMgf/LBAbLjMxQ==
+  version "2.1614.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1614.0.tgz#de824297ef6d3bd6d7cbe68b25b7f1b49d0edb15"
+  integrity sha512-dsfoOk/1UBGfELJ9skBma1RzfYXalK+0QdStuwKCqrYHgpF/mlf7BqYOB0acNQHzxgVxEP0LOGjWZOzWWwdGhw==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -1597,19 +1597,19 @@ camelcase@^6.2.0, camelcase@^6.3.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001587:
-  version "1.0.30001615"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001615.tgz#7c2c8772db681b6dee74d81d6550db68f2d28842"
-  integrity sha512-1IpazM5G3r38meiae0bHRnPhz+CBQ3ZLqbQMtrg+AsTPKAXgW38JNsXkyZ+v8waCsDmPq87lmfun5Q2AGysNEQ==
+  version "1.0.30001616"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001616.tgz#4342712750d35f71ebba9fcac65e2cf8870013c3"
+  integrity sha512-RHVYKov7IcdNjVHJFNY/78RdG4oGVjbayxv8u5IO74Wv7Hlq4PnJE6mo/OjFijjVFNy5ijnCt6H3IIo4t+wfEw==
 
 case@1.6.3, case@^1.6.3:
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-nag@^2.28.106:
-  version "2.28.106"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.106.tgz#cf62fc7b58c552afdb98d1213c38f0053a7885ea"
-  integrity sha512-x0ClejBMoiIbCTYEgJIDfYGzecYrYKJDv4IGeZA4jTbSmcx3gRxVHd8wST6viQiknfXR7vYuH68GRWNcJNk3+A==
+cdk-nag@^2.28.109:
+  version "2.28.109"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.109.tgz#724d5c896cdedf0da779d38120f9e1ce4ddd009e"
+  integrity sha512-Mow/zg41JTL1x+Gn6ZKbzikxrG4jbTzRAz33O6osG1er6o5at6aNTG/+e6XeiI8/fhwyxV/YskW1cBlnLj1PvA==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -2205,9 +2205,9 @@ downlevel-dts@^0.11.0:
     typescript next
 
 electron-to-chromium@^1.4.668:
-  version "1.4.754"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.754.tgz#20a9f3cc80e0fb6a804b86605e55da16918a58b0"
-  integrity sha512-7Kr5jUdns5rL/M9wFFmMZAgFDuL2YOnanFH4OI4iFzUqyh3XOL7nAGbSlSMZdzKMIyyTpNSbqZsWG9odwLeKvA==
+  version "1.4.757"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.757.tgz#45f7c9341b538f8c4b9ca8af9692e0ed1a776a44"
+  integrity sha512-jftDaCknYSSt/+KKeXzH3LX5E2CvRLm75P3Hj+J/dv3CL0qUYcOt13d5FN1NiL5IJbbhzHrb3BomeG2tkSlZmw==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -2818,9 +2818,9 @@ get-symbol-description@^1.0.0, get-symbol-description@^1.0.2:
     get-intrinsic "^1.2.4"
 
 get-tsconfig@^4.5.0:
-  version "4.7.3"
-  resolved "https://registry.yarnpkg.com/get-tsconfig/-/get-tsconfig-4.7.3.tgz#0498163d98f7b58484dd4906999c0c9d5f103f83"
-  integrity sha512-ZvkrzoUA0PQZM6fy6+/Hce561s+faD1rsNwhnO5FelNjyy7EMGJ3Rz1AQ8GYDWjhRs/7dBLOEJvhK8MiEJOAFg==
+  version "4.7.4"
+  resolved "https://registry.yarnpkg.com/get-tsconfig/-/get-tsconfig-4.7.4.tgz#228e1a3e37125aeb4467e9b992b92c4533093bd2"
+  integrity sha512-ofbkKj+0pjXjhejr007J/fLf+sW+8H7K5GCm+msC8q3IpvgjobpyPqSRFemNyIMxklC0zeJpi7VDFna19FacvQ==
   dependencies:
     resolve-pkg-maps "^1.0.0"
 
@@ -5580,9 +5580,9 @@ universalify@^2.0.0:
   integrity sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==
 
 update-browserslist-db@^1.0.13:
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/update-browserslist-db/-/update-browserslist-db-1.0.14.tgz#46a9367c323f8ade9a9dddb7f3ae7814b3a0b31c"
-  integrity sha512-JixKH8GR2pWYshIPUg/NujK3JO7JiqEEUiNArE86NQyrgUuZeTlZQN3xuS/yiV5Kb48ev9K6RqNkaJjXsdg7Jw==
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/update-browserslist-db/-/update-browserslist-db-1.0.15.tgz#60ed9f8cba4a728b7ecf7356f641a31e3a691d97"
+  integrity sha512-K9HWH62x3/EalU1U6sjSZiylm9C8tgq2mSvshZpqc7QE69RaA2qjhkW2HlNA0tFpEbtyFz7HTqbSdN4MSwUodA==
   dependencies:
     escalade "^3.1.2"
     picocolors "^1.0.0"
