@@ -586,9 +586,9 @@ agent.addAlias({
 Python
 
 ```python
-agent.add_alias(self, 'ProdAlias', 
-  alias_name='prod',
-  agent_version='12'
+agent.add_alias(
+    alias_name='prod',
+    agent_version='12'
 )
 ```
 
