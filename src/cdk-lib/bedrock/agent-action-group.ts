@@ -10,23 +10,17 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import * as cdk from 'aws-cdk-lib';
 import { aws_bedrock as bedrock } from 'aws-cdk-lib';
-import * as iam from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs';
 
-import { Agent } from './agent';
 import { ApiSchema, ApiSchemaConfig } from './api-schema';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 
 //import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 
 export interface AgentActionGroupProps {
-  /**
-   * Bedrock Agent
-   */
-  readonly agent: Agent;
+
   /**
    * The Lambda function containing the business logic that is carried out upon invoking the action.
    */
@@ -71,7 +65,12 @@ export class AgentActionGroup extends Construct {
   /**
    * The unique identifier of the action group.
    */
-  public readonly actionGroupId: string;
+  public readonly actionGroupName: string;
+
+  /**
+   * The Lambda function containing the business logic that is carried out upon invoking the action.
+   */
+  public readonly actionGroupExecutor: lambda.IFunction | undefined;
 
   /**
    * The action group.
@@ -98,11 +97,8 @@ export class AgentActionGroup extends Construct {
         lambda: props.
           actionGroupExecutor.functionArn,
       };
-      props.actionGroupExecutor.addPermission('AgentLambdaInvocationPolicy', {
-        principal: new iam.ServicePrincipal('bedrock.amazonaws.com'),
-        sourceArn: props.agent.agentArn,
-        sourceAccount: cdk.Stack.of(this).account,
-      });
+      this.actionGroupExecutor = props.actionGroupExecutor;
+
     }
 
     const agentActionGroupProperty: bedrock.CfnAgent.AgentActionGroupProperty = {
@@ -113,73 +109,12 @@ export class AgentActionGroup extends Construct {
       description: props.description,
       parentActionGroupSignature: props.parentActionGroupSignature,
       skipResourceInUseCheckOnDelete: false,
+
     };
 
     this.actionGroupProperty=agentActionGroupProperty;
-    this.actionGroupId = props.agent.agentId;
-    // const actionGroupName = props.actionGroupName ?? generatePhysicalNameV2(
-    //   this,
-    //   'action-group',
-    //   { maxLength: 100, separator: '-' });
+    this.actionGroupName = agentActionGroupProperty.actionGroupName;
 
-    // let actionGroupExecutor: ActionGroupExecutor | undefined = undefined;
-    // if (props.actionGroupExecutor?.functionArn) {
-    //   actionGroupExecutor = { lambda: props.actionGroupExecutor.functionArn };
-    //   props.actionGroupExecutor.addPermission('AgentLambdaInvocationPolicy', {
-    //     principal: new iam.ServicePrincipal('bedrock.amazonaws.com'),
-    //     sourceArn: props.agent.agentArn,
-    //     sourceAccount: cdk.Stack.of(this).account,
-    //   });
-    // }
-
-    // const agentActionGroup = new cdk.CfnResource(this, 'ActionGroup', {
-    //   type: 'AWS::Bedrock::Agent AgentActionGroup',
-    //   properties: {
-    //     agentId: props.agent.agentId,
-    //     actionGroupExecutor,
-    //     actionGroupName,
-    //     actionGroupState: props.actionGroupState,
-    //     apiSchema,
-    //     description: props.description,
-    //     parentActionGroupSignature: props.parentActionGroupSignature,
-    //     shouldPrepareAgent: props.shouldPrepareAgent,
-    //   },
-    // });
-    //this.actionGroupId = agentActionGroup.getAtt('actionGroupId').toString();
-
-    // const actionGroupCRPolicy = new iam.Policy(this, 'AgentActionGroupCRPolicy', {
-    //   statements: [
-    //     new iam.PolicyStatement({
-    //       actions: [
-    //         'bedrock:CreateAgentActionGroup',
-    //         'bedrock:DeleteAgentActionGroup',
-    //         'bedrock:UpdateAgentActionGroup',
-    //       ],
-    //       resources: [
-    //         cdk.Stack.of(this).formatArn({
-    //           service: 'bedrock',
-    //           resource: 'agent',
-    //           resourceName: '*',
-    //           arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-    //         }),
-    //       ],
-    //     }),
-    //   ],
-    // });
-
-    // NagSuppressions.addResourceSuppressions(
-    //   actionGroupCRPolicy,
-    //   [
-    //     {
-    //       id: 'AwsSolutions-IAM5',
-    //       reason: 'Bedrock AgentActionGroup calls have wildcards restricted to agents in the account.',
-    //     },
-    //   ],
-    //   true,
-    // );
-
-    // agentActionGroup.node.addDependency(actionGroupCRPolicy);
-    //props.agent._addAliasDependency(agentActionGroup.getAtt('updatedAt').toString());
   }
 }
 

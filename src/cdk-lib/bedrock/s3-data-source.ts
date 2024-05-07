@@ -152,52 +152,8 @@ export class S3DataSource extends Construct {
 
     });
 
-    this.dataSourceId = this.dataSource.getAtt('dataSourceId').toString();
+    this.dataSourceId = dataSourceName;
 
-    //   const dataSourceCRPolicy = new iam.Policy(this, 'DataSourceCRPolicy', {
-    //     statements: [
-    //       new iam.PolicyStatement({
-    //         actions: [
-    //           'bedrock:CreateDataSource',
-    //           'bedrock:DeleteDataSource',
-    //           'bedrock:UpdateDataSource',
-    //         ],
-    //         resources: [
-    //           /** A weird race condition makes CreateDataSource fail due to permissions on the first attempt.
-    //            * A wildcard allows CFN to deploy this policy earlier and avoid the race. */
-    //           cdk.Stack.of(this).formatArn({
-    //             service: 'bedrock',
-    //             resource: 'knowledge-base',
-    //             resourceName: '*',
-    //             arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-    //           }),
-    //           // knowledgeBase.knowledgeBaseArn,
-    //         ],
-    //       }),
-    //       new iam.PolicyStatement({
-    //         actions: ['s3:GetObject', 's3:ListBucket'],
-    //         resources: [bucket.bucketArn, `${bucket.bucketArn}/*`],
-    //       }),
-    //     ],
-    //   });
-
-    //   this.dataSource.node.addDependency(dataSourceCRPolicy);
-
-    //   NagSuppressions.addResourceSuppressions(
-    //     dataSourceCRPolicy,
-    //     [
-    //       {
-    //         id: 'AwsSolutions-IAM5',
-    //         reason: 'Bedrock CreateDataSource uses wildcards to access any object in the specified bucket. ' +
-    //                 'A weird race condition makes CreateDataSource fail due to permissions on the first attempt. ' +
-    //                 'Permitting CreateDataSource on all KnowledgeBases allows CFN to deploy this policy earlier and '+
-    //                 'avoid the race.',
-    //       },
-    //     ],
-    //     true,
-    //   );
-
-  //   // ToDo: scheduled ingestion jobs
   }
 }
 

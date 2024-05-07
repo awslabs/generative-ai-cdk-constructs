@@ -13,7 +13,9 @@
 
 import * as cdk from 'aws-cdk-lib';
 import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as s3 from 'aws-cdk-lib/aws-s3';
+import { NagSuppressions } from 'cdk-nag';
 import * as bedrock from '../../../src/cdk-lib/bedrock';
 
 // mock lambda.Code.fromDockerBuild()
@@ -29,10 +31,12 @@ jest.mock('aws-cdk-lib/aws-lambda', () => {
   };
 });
 
+
 let app: cdk.App;
 let stack: cdk.Stack;
 let kb: bedrock.KnowledgeBase;
 let agent: bedrock.Agent;
+let actionGroupFunction: lambda.Function;
 
 beforeAll(() => {
   app = new cdk.App();
@@ -82,10 +86,36 @@ beforeAll(() => {
     },
   };
 
+  actionGroupFunction = new lambda.Function(stack, 'ActionGroupFunction', {
+    code: lambda.Code.fromAsset('test/path'),
+    runtime: lambda.Runtime.NODEJS_LATEST,
+    handler: 'index.handler',
+  });
+
+  NagSuppressions.addResourceSuppressions(
+    actionGroupFunction,
+    [
+      {
+        id: 'AwsSolutions-IAM4',
+        reason: 'ActionGroup Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.',
+      },
+    ],
+    true,
+  );
+
+  const actiongroup = new bedrock.AgentActionGroup(stack, 'actionGroups', {
+    actionGroupName: 'test-action-group',
+    description: 'Use these functions to get information about the books in the Project Gutenburg library.',
+    actionGroupState: 'ENABLED',
+    actionGroupExecutor: actionGroupFunction,
+    apiSchema: bedrock.ApiSchema.fromInline('mock schema'),
+  });
+
   agent = new bedrock.Agent(stack, 'Agent', {
     foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
     instruction: 'You provide support for developers working with CDK constructs.',
     knowledgeBases: [kb],
+    actionGroups: [actiongroup],
     idleSessionTTL: cdk.Duration.minutes(30),
     promptOverrideConfiguration: {
       promptConfigurations: [preprocessingPrompt, orchestrationPrompt],
@@ -93,14 +123,13 @@ beforeAll(() => {
     aliasName: 'prod',
   });
 
-  agent.addActionGroup({
-    actionGroupName: 'test-action-group',
-    description: 'Use these functions to get information about the books in the Project Gutenburg library.',
-    actionGroupState: 'ENABLED',
-    apiSchema: bedrock.ApiSchema.fromInline('mock schema'),
-  });
+  // agent.addActionGroup({
+  //   actionGroupName: 'test-action-group',
+  //   description: 'Use these functions to get information about the books in the Project Gutenburg library.',
+  //   actionGroupState: 'ENABLED',
+  //   apiSchema: bedrock.ApiSchema.fromInline('mock schema'),
+  // });
 
-  agent.addKnowledgeBase(kb);
 
 });
 
@@ -224,6 +253,9 @@ describe('Bedrock Agents', () => {
     test('Add Action Group', () => {
       expect(agent.actionGroups).toHaveLength(1);
       expect(agent.actionGroups[0].actionGroupName).toEqual('test-action-group');
+      expect(agent.actionGroups[0].apiSchema).not.toBeNull();
+
+      console.log(agent.actionGroups[0].apiSchema);
     });
 
     test('No unsuppressed Errors', () => {

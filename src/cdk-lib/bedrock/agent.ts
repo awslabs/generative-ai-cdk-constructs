@@ -230,6 +230,15 @@ export interface AgentProps {
    * @default - No knowledge base is used.
    */
   readonly knowledgeBases?: KnowledgeBase[];
+
+
+  /**
+   * AgentActionGroup to make available to the agent.
+   *
+   * @default - No AgentActionGroup  is used.
+   */
+  readonly actionGroups?: AgentActionGroup[];
+
   /**
    * How long sessions should be kept open for the agent.
    *
@@ -338,6 +347,8 @@ export class Agent extends Construct {
    * The unique identifier of the agent.
    */
   public readonly agentId: string;
+
+
   /**
    * The ARN of the agent.
    */
@@ -427,6 +438,7 @@ export class Agent extends Construct {
     });
 
 
+    // add knowledge bases
     if (props.knowledgeBases && props.knowledgeBases.length > 0) {
       new iam.Policy(this, 'AgentKBPolicy', {
         roles: [this.role],
@@ -440,26 +452,22 @@ export class Agent extends Construct {
           }),
         ],
       });
+      props.knowledgeBases.forEach(kb => {
+        this.addKnowledgeBase(kb);
+      });
+    }
+
+    // add action groups
+    if (props.actionGroups && props.actionGroups.length > 0) {
+      props.actionGroups.forEach(ag => {
+        this.addActionGroup(ag);
+      });
     }
 
 
     const agent = new bedrock.CfnAgent(this, 'Agent', {
+
       agentName: this.name,
-
-      // the properties below are optional
-      // actionGroups: [{
-      //   actionGroupName: actionGroupName,
-
-
-      //   // the properties below are optional
-      //   actionGroupExecutor: actionGroupExecutorProperty,
-      //   actionGroupState: actionGroupProps.actionGroupState,
-      //   apiSchema: actionGroupProps.apiSchema,
-      //   description: actionGroupProps.description,
-      //   parentActionGroupSignature:actionGroupProps.parentActionGroupSignature,
-      //   skipResourceInUseCheckOnDelete: false,
-      // }],
-
       actionGroups: this.actionGroups,
 
       foundationModel: String(props.foundationModel),
@@ -479,113 +487,7 @@ export class Agent extends Construct {
     this.agentId = agent.attrAgentId;
     this.agentArn = agent.attrAgentArn;
 
-    // const agentCRPolicy = new iam.Policy(this, 'AgentCRPolicy', {
-    //   statements: [
-    //     new iam.PolicyStatement({
-    //       actions: ['iam:PassRole'],
-    //       resources: [this.role.roleArn],
-    //     }),
-    //     new iam.PolicyStatement({
-    //       actions: ['bedrock:CreateAgent'],
-    //       resources: ['*'],
-    //     }),
-    //     new iam.PolicyStatement({
-    //       actions: [
-    //         'bedrock:DeleteAgent',
-    //         'bedrock:UpdateAgent',
-    //         'bedrock:TagResource',
-    //         'bedrock:GetAgent',
-    //         'bedrock:PrepareAgent',
-    //       ],
-    //       resources: [
-    //         cdk.Stack.of(this).formatArn({
-    //           service: 'bedrock',
-    //           resource: 'agent',
-    //           resourceName: '*',
-    //           arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-    //         }),
-    //       ],
-    //     }),
-    //   ],
-    // });
-
-    //agent.node.addDependency(agentCRPolicy);
-
-    // NagSuppressions.addResourceSuppressions(
-    //   agentCRPolicy,
-    //   [
-    //     {
-    //       id: 'AwsSolutions-IAM5',
-    //       reason: "Bedrock CreateAgent can't be restricted by resource.",
-    //     },
-    //   ],
-    //   true,
-    // );
-
     this._addAliasDependency(agent.attrUpdatedAt);
-
-
-    //if (props.knowledgeBases && props.knowledgeBases.length > 0) {
-    // const kbAssocCRPolicy = new iam.Policy(this, 'KBAssocCRPolicy', {
-    //   statements: [
-    //     new iam.PolicyStatement({
-    //       actions: [
-    //         'bedrock:AssociateAgentKnowledgeBase',
-    //         'bedrock:UpdateAgentKnowledgeBase',
-    //         'bedrock:DisassociateAgentKnowledgeBase',
-    //       ],
-    //       resources: [
-    //         cdk.Stack.of(this).formatArn({
-    //           service: 'bedrock',
-    //           resource: 'agent',
-    //           resourceName: '*',
-    //           arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-    //         }),
-    //         cdk.Stack.of(this).formatArn({
-    //           service: 'bedrock',
-    //           resource: 'knowledge-base',
-    //           resourceName: '*',
-    //           arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-    //         }),
-    //       ],
-    //     }),
-    //   ],
-    // });
-
-    // NagSuppressions.addResourceSuppressions(
-    //   kbAssocCRPolicy,
-    //   [
-    //     {
-    //       id: 'AwsSolutions-IAM5',
-    //       reason: 'Bedrock Agent/KB associations have wildcards restricted to agents and kbs in the account.',
-    //     },
-    //   ],
-    //   true,
-    // );
-
-
-    // for (let kb of props.knowledgeBases ?? []) {
-    //   if (!kb.instruction) {
-    //     throw new Error('Agent Knowledge Bases require instructions.');
-    //   }
-    //   const kbAssoc = new cdk.CfnResource(
-    //     this,
-    //     `KBAssoc-${kb.name}`,
-    //     {
-    //       type: 'AWS::Bedrock::KnowledgeBase',
-    //       properties: {
-    //         agentId: this.agentId,
-    //         knowledgeBaseId: kb.knowledgeBaseId,
-    //         description: kb.instruction,
-    //         shouldPrepareAgent: this.shouldPrepareAgent,
-    //       },
-    //     },
-    //   );
-    //   //kbAssoc.node.addDependency(kbAssocCRPolicy);
-    //   this._addAliasDependency(kbAssoc.getAtt('updatedAt').toString());
-    // }
-    //}
-
 
     if (props.aliasName) {
       const alias = this.addAlias({
@@ -624,29 +526,21 @@ export class Agent extends Construct {
       knowledgeBaseId: kb.knowledgeBaseId,
       knowledgeBaseState: kb.knowledgeBaseState,
     };
-
     this.knowledgeBases.push(agentKnowledgeBaseProperty);
-
   }
 
   /**
    * Add an action group to the agent.
    */
-  public addActionGroup(props: AddAgentActionGroupProps) {
+  public addActionGroup(props: AgentActionGroup) {
 
-    const agentActionGroup = new AgentActionGroup
-    (this, `AgentActionGroup-${props.actionGroupName}`, {
-      agent: this,
-      actionGroupName: props.actionGroupName,
-      description: props.description,
-      parentActionGroupSignature: props.parentActionGroupSignature,
-      actionGroupExecutor: props.actionGroupExecutor,
-      actionGroupState: props.actionGroupState,
-      apiSchema: props.apiSchema,
+    this.actionGroups.push(props.actionGroupProperty);
+
+    props.actionGroupExecutor?.addPermission('AgentLambdaInvocationPolicy', {
+      principal: new iam.ServicePrincipal('bedrock.amazonaws.com'),
+      sourceArn: this.agentArn,
+      sourceAccount: cdk.Stack.of(this).account,
     });
-
-    this.actionGroups.push(agentActionGroup.actionGroupProperty);
-
   }
 
   /**

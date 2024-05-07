@@ -14,6 +14,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { aws_bedrock as bedrock } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import { NagSuppressions } from 'cdk-nag/lib/nag-suppressions';
 import { Construct } from 'constructs';
 import { BedrockFoundationModel } from './models';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
@@ -171,7 +172,7 @@ export interface KnowledgeBaseProps {
  * Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
  *
  */
-export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
+export class KnowledgeBase extends Construct {
   /**
    * The name of the knowledge base.
    */
@@ -203,11 +204,6 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
    */
   public readonly knowledgeBaseId: string;
 
-  /**
-   * TagManager facilitates a common implementation of tagging for Constructs
-   */
-  public readonly cdkTagManager =
-    new cdk.TagManager(cdk.TagType.MAP, 'AWS::Bedrock::KnowledgeBase');
 
   /**
    * The OpenSearch vector index for the knowledge base.
@@ -240,6 +236,10 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
     const vectorField = props.vectorField ?? 'bedrock-knowledge-base-default-vector';
     const textField = 'AMAZON_BEDROCK_TEXT_CHUNK';
     const metadataField = 'AMAZON_BEDROCK_METADATA';
+
+    this.description= props.description ?? '';
+    this.knowledgeBaseState = props.knowledgeBaseState ?? 'ENABLED';
+
 
     validateModel(embeddingsModel);
     validateVectorIndex(props.vectorStore, props.vectorIndex, props.vectorField, props.indexName);
@@ -403,22 +403,6 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
         this.vectorStore.metadataField : metadataField,
     };
 
-    // const knowledgeBase = new cdk.CfnResource(this, 'KB', {
-    //   type: 'AWS::Bedrock::KnowledgeBase',
-    //   properties: {
-    //     knowledgeBaseConfiguration: {
-    //       type: 'VECTOR',
-    //       vectorKnowledgeBaseConfiguration: {
-    //         embeddingModelArn: embeddingsModel.asArn(this),
-    //       },
-    //     },
-    //     roleArn: this.role.roleArn,
-    //     name: this.name,
-    //     description: props.description,
-    //     storageConfiguration: getStorageConfiguration(storageConfiguration),
-    //     tags: this.cdkTagManager.renderedTags,
-    //   },
-    // });
 
     const knowledgeBase = new bedrock.CfnKnowledgeBase(this, 'MyCfnKnowledgeBase', {
       knowledgeBaseConfiguration: {
@@ -434,50 +418,52 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
       tags: props.tags,
     });
 
-    // const kbCRPolicy = new iam.Policy(this, 'KBCRPolicy', {
-    //   statements: [
-    //     new iam.PolicyStatement({
-    //       actions: [
-    //         'bedrock:CreateKnowledgeBase',
-    //         /**
-    //          * We need to add `bedrock:AssociateThirdPartyKnowledgeBase` if
-    //          * we are deploying Redis or Pinecone data sources
-    //          */
-    //         ...(this.vectorStoreType === VectorStoreType.REDIS_ENTERPRISE_CLOUD ||
-    //             this.vectorStoreType === VectorStoreType.PINECONE ?
-    //           ['bedrock:AssociateThirdPartyKnowledgeBase'] : []),
-    //       ],
-    //       resources: ['*'],
-    //     }),
-    //     new iam.PolicyStatement(
-    //       {
-    //         actions: [
-    //           'bedrock:UpdateKnowledgeBase',
-    //           'bedrock:DeleteKnowledgeBase',
-    //           'bedrock:TagResource',
-    //         ],
-    //         resources: [
-    //           cdk.Stack.of(this).formatArn({
-    //             service: 'bedrock',
-    //             resource: 'knowledge-base',
-    //             resourceName: '*',
-    //             arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-    //           }),
-    //         ],
-    //       },
-    //     ),
-    //     new iam.PolicyStatement(
-    //       {
-    //         actions: ['iam:PassRole'],
-    //         resources: [this.role.roleArn],
-    //       },
-    //     ),
-    //   ],
-    // });
 
-    //knowledgeBase.node.addDependency(this.role);
-    //knowledgeBase.node.addDependency(kbCRPolicy);
+    const kbCRPolicy = new iam.Policy(this, 'KBCRPolicy', {
+      // roles: [crProvider.role],
+      roles: [this.role],
+      statements: [
+        new iam.PolicyStatement({
+          actions: [
+            'bedrock:CreateKnowledgeBase',
+            /**
+             * We need to add `bedrock:AssociateThirdPartyKnowledgeBase` if
+             * we are deploying Redis or Pinecone data sources
+             */
+            //...(this.vectorStoreType === VectorStoreType.REDIS_ENTERPRISE_CLOUD ||
+            ...(this.vectorStoreType === VectorStoreType.PINECONE ?
+              ['bedrock:AssociateThirdPartyKnowledgeBase'] : []),
+          ],
+          resources: ['*'],
+        }),
+        new iam.PolicyStatement(
+          {
+            actions: [
+              'bedrock:UpdateKnowledgeBase',
+              'bedrock:DeleteKnowledgeBase',
+              'bedrock:TagResource',
+            ],
+            resources: [
+              cdk.Stack.of(this).formatArn({
+                service: 'bedrock',
+                resource: 'knowledge-base',
+                resourceName: '*',
+                arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
+              }),
+            ],
+          },
+        ),
+        new iam.PolicyStatement(
+          {
+            actions: ['iam:PassRole'],
+            resources: [this.role.roleArn],
+          },
+        ),
+      ],
+    });
 
+    knowledgeBase.node.addDependency(this.role);
+    knowledgeBase.node.addDependency(kbCRPolicy);
     if (this.vectorStoreType === VectorStoreType.OPENSEARCH_SERVERLESS &&
       this.vectorIndex) {
       knowledgeBase.node.addDependency(this.vectorIndex);
@@ -487,21 +473,20 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
       knowledgeBase.node.addDependency(this.vectorStore);
     }
 
-    // NagSuppressions.addResourceSuppressions(
-    //   kbCRPolicy,
-    //   [
-    //     {
-    //       id: 'AwsSolutions-IAM5',
-    //       reason: "Bedrock CreateKnowledgeBase can't be restricted by resource.",
-    //     },
-    //   ],
-    //   true,
-    // );
-    // get arn of knowledgeBase and assign it to a strig variable
+    NagSuppressions.addResourceSuppressions(
+      kbCRPolicy,
+      [
+        {
+          id: 'AwsSolutions-IAM5',
+          reason: "Bedrock CreateKnowledgeBase can't be restricted by resource.",
+        },
+      ],
+      true,
+    );
+
     this.knowledgeBaseArn = knowledgeBase.attrKnowledgeBaseArn;
     this.knowledgeBaseId = knowledgeBase.attrKnowledgeBaseId;
-    this.description = knowledgeBase.getAtt('description').toString();
-    this.knowledgeBaseState = props.knowledgeBaseState || '';
+
   }
 
   /**
@@ -524,6 +509,7 @@ export class KnowledgeBase extends Construct implements cdk.ITaggableV2 {
       vectorStoreType: VectorStoreType.OPENSEARCH_SERVERLESS,
     };
   }
+
 
   /**
  * Handle PineconeVectorStore type of VectorStore.
@@ -683,7 +669,7 @@ function validateIndexParameters(
  *
  * @internal This is an internal core function and should not be called directly.
  */
-function getStorageConfiguration(params: StorageConfiguration): bedrock.CfnKnowledgeBase.StorageConfigurationProperty {
+function getStorageConfiguration(params: StorageConfiguration): any {
   switch (params.vectorStoreType) {
     case VectorStoreType.OPENSEARCH_SERVERLESS:
       params.vectorStore = params.vectorStore as VectorCollection;
@@ -691,12 +677,12 @@ function getStorageConfiguration(params: StorageConfiguration): bedrock.CfnKnowl
         type: VectorStoreType.OPENSEARCH_SERVERLESS,
         opensearchServerlessConfiguration: {
           collectionArn: params.vectorStore.collectionArn,
-          vectorIndexName: params.indexName,
           fieldMapping: {
             vectorField: params.vectorField,
             textField: params.textField,
             metadataField: params.metadataField,
           },
+          vectorIndexName: params.indexName,
         },
       };
     case VectorStoreType.PINECONE:
