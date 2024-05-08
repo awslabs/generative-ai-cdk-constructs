@@ -75,55 +75,9 @@ export class AgentAlias extends Construct {
     });
 
 
-    // const aliasCRPolicy = new iam.Policy(this, 'AliasCRPolicy', {
-    //   statements: [
-
-    //     new iam.PolicyStatement({
-    //       actions: [
-    //         'bedrock:CreateAgentAlias',
-    //         'bedrock:UpdateAgentAlias',
-    //         'bedrock:DeleteAgentAlias',
-    //         'bedrock:PrepareAgent',
-    //         'bedrock:ListAgentAliases',
-    //         'bedrock:ListAgentVersions',
-    //         'bedrock:DeleteAgentVersion',
-    //         'bedrock:GetAgent',
-    //         'bedrock:TagResource',
-    //       ],
-    //       resources: [
-    //         cdk.Stack.of(this).formatArn({
-    //           service: 'bedrock',
-    //           resource: 'agent-alias',
-    //           resourceName: '*',
-    //           arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-    //         }),
-    //         cdk.Stack.of(this).formatArn({
-    //           service: 'bedrock',
-    //           resource: 'agent',
-    //           resourceName: '*',
-    //           arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-    //         }),
-    //       ],
-    //     }),
-    //   ],
-    // });
-
-    // NagSuppressions.addResourceSuppressions(
-    //   aliasCRPolicy,
-    //   [
-    //     {
-    //       id: 'AwsSolutions-IAM5',
-    //       reason: 'Bedrock Agent/Alias associations have wildcards restricted to agents and aliases in the account.',
-    //     },
-    //   ],
-    //   true,
-    // );
-
-    // alias.node.addDependency(aliasCRPolicy);
-
     this.aliasId = alias.attrAgentAliasId;
     this.aliasArn = alias.attrAgentAliasArn;
-    this.aliasName = alias.getAtt('agentAliasName').toString();
+    this.aliasName = props.aliasName ?? 'latest';
 
   }
 }
