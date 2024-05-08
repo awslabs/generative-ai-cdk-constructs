@@ -18,6 +18,8 @@ import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as aws_ecr_assets from 'aws-cdk-lib/aws-ecr-assets';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as logs from 'aws-cdk-lib/aws-logs';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as sns from 'aws-cdk-lib/aws-sns';
 import * as cr from 'aws-cdk-lib/custom-resources';
@@ -144,6 +146,13 @@ export class WebCrawler extends BaseClass {
   constructor(scope: Construct, id: string, props: WebCrawlerProps) {
     super(scope, id);
 
+    const vpc =
+      props.existingVpc ??
+      new ec2.Vpc(this, 'webCrawlerVpc', {
+        createInternetGateway: true,
+        natGateways: 1,
+      });
+
     const baseProps: BaseClassProps = {
       stage: props.stage,
       enableOperationalMetric: props.enableOperationalMetric,
@@ -175,12 +184,7 @@ export class WebCrawler extends BaseClass {
     const snsTopic = new sns.Topic(this, 'webCrawlerTopic');
 
     const computeEnvironment = new batch.FargateComputeEnvironment(this, 'webCrawlerEnvironment', {
-      vpc:
-        props.existingVpc ??
-        new ec2.Vpc(this, 'webCrawlerVpc', {
-          createInternetGateway: false,
-          natGateways: 1,
-        }),
+      vpc,
       maxvCpus: 8,
       replaceComputeEnvironment: true,
       updateTimeout: cdk.Duration.minutes(30),
@@ -225,7 +229,8 @@ export class WebCrawler extends BaseClass {
 
     const webCrawlerJobDefinition = new batch.EcsJobDefinition(this, 'webCrawlerJob', {
       container: webCrawlerContainer,
-      retryAttempts: 3,
+      retryAttempts: 1,
+      timeout: cdk.Duration.hours(24),
       retryStrategies: [
         batch.RetryStrategy.of(batch.Action.EXIT, batch.Reason.CANNOT_PULL_CONTAINER),
         batch.RetryStrategy.of(
@@ -300,6 +305,30 @@ export class WebCrawler extends BaseClass {
         ]),
       });
     }
+
+    const schedulerFunction = new lambda.Function(this, 'webCrawlerSchedulerFunction', {
+      runtime: lambda.Runtime.PYTHON_3_12,
+      handler: 'lambda.handler',
+      timeout: cdk.Duration.minutes(15),
+      memorySize: 256,
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-web-crawler-scheduler')),
+      logGroup: new logs.LogGroup(this, 'webCrawlerSchedulerLogGroup', { retention: logs.RetentionDays.ONE_WEEK }),
+      environment: {
+        SITES_TABLE_NAME: sitesTable.tableName,
+        JOBS_TABLE_NAME: jobsTable.tableName,
+        JOB_QUEUE_ARN: jobQueue.jobQueueArn,
+        JOB_DEFINITION_ARN: webCrawlerJobDefinition.jobDefinitionArn,
+      },
+    });
+
+    sitesTable.grantReadWriteData(schedulerFunction);
+    jobsTable.grantReadWriteData(schedulerFunction);
+    schedulerFunction.addToRolePolicy(
+      new iam.PolicyStatement({
+        actions: ['batch:SubmitJob'],
+        resources: [webCrawlerJobDefinition.jobDefinitionArn, jobQueue.jobQueueArn],
+      }),
+    );
 
     this.dataBucket = dataBucket;
     this.snsTopic = snsTopic;
