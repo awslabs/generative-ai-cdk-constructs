@@ -335,7 +335,7 @@ export class WebCrawler extends BaseClass {
       }),
     );
 
-    const rule = new events.Rule(this, 'Rule', {
+    const rule = new events.Rule(this, 'webCrawlerSchedulerRule', {
       schedule: events.Schedule.expression('cron(0/15 * * * ? *)'),
     });
 
