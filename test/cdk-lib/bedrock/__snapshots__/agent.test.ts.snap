@@ -22,6 +22,90 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
     },
   },
   "Resources": {
+    "ActionGroupFunctionAgentLambdaInvocationPolicy5D75A82C": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "ActionGroupFunctionFE14D1CB",
+            "Arn",
+          ],
+        },
+        "Principal": "bedrock.amazonaws.com",
+        "SourceAccount": "123456789012",
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "ActionGroupFunctionFE14D1CB": {
+      "DependsOn": [
+        "ActionGroupFunctionServiceRole77660D62",
+      ],
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "ActionGroup Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "Code": {
+          "ZipFile": "mockCode",
+        },
+        "Handler": "index.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "ActionGroupFunctionServiceRole77660D62",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs18.x",
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "ActionGroupFunctionServiceRole77660D62": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "ActionGroup Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
     "AgentAgentAliasprodMyCfnAgentAlias3EE1B2C1": {
       "Properties": {
         "AgentAliasName": "prod",
@@ -93,6 +177,14 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       "Properties": {
         "ActionGroups": [
           {
+            "ActionGroupExecutor": {
+              "Lambda": {
+                "Fn::GetAtt": [
+                  "ActionGroupFunctionFE14D1CB",
+                  "Arn",
+                ],
+              },
+            },
             "ActionGroupName": "test-action-group",
             "ActionGroupState": "ENABLED",
             "ApiSchema": {
@@ -114,19 +206,14 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
         "Instruction": "You provide support for developers working with CDK constructs.",
         "KnowledgeBases": [
           {
-            "Description": {
-              "Fn::GetAtt": [
-                "KBMyCfnKnowledgeBase0F2C5AD7",
-                "description",
-              ],
-            },
+            "Description": "Documentation about CDK constructs.",
             "KnowledgeBaseId": {
               "Fn::GetAtt": [
                 "KBMyCfnKnowledgeBase0F2C5AD7",
                 "KnowledgeBaseId",
               ],
             },
-            "KnowledgeBaseState": "",
+            "KnowledgeBaseState": "ENABLED",
           },
         ],
         "PromptOverrideConfiguration": {
@@ -238,6 +325,67 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       "DeletionPolicy": "Retain",
       "Type": "AWS::S3::Bucket",
       "UpdateReplacePolicy": "Retain",
+    },
+    "KBKBCRPolicy1B1408B9": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "Bedrock CreateKnowledgeBase can't be restricted by resource.",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "bedrock:CreateKnowledgeBase",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": [
+                "bedrock:UpdateKnowledgeBase",
+                "bedrock:DeleteKnowledgeBase",
+                "bedrock:TagResource",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":bedrock:us-east-1:123456789012:knowledge-base/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "iam:PassRole",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "KBRole081DC46D",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "KBKBCRPolicy1B1408B9",
+        "Roles": [
+          {
+            "Ref": "KBRole081DC46D",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
     },
     "KBKBIndexManageIndexPolicy12CCDA73": {
       "DependsOn": [
@@ -392,8 +540,11 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
     },
     "KBMyCfnKnowledgeBase0F2C5AD7": {
       "DependsOn": [
+        "KBKBCRPolicy1B1408B9",
         "KBKBIndexManageIndexPolicy12CCDA73",
         "KBKBIndexVectorIndexB98E4DB1",
+        "KBRoleDefaultPolicy1639354E",
+        "KBRole081DC46D",
       ],
       "Properties": {
         "Description": "Documentation about CDK constructs.",

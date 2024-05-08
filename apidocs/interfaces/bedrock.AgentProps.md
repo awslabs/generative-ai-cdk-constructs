@@ -10,6 +10,7 @@ Properties for a Bedrock Agent.
 
 ### Properties
 
+- [actionGroups](bedrock.AgentProps.md#actiongroups)
 - [aliasName](bedrock.AgentProps.md#aliasname)
 - [description](bedrock.AgentProps.md#description)
 - [encryptionKey](bedrock.AgentProps.md#encryptionkey)
@@ -23,6 +24,20 @@ Properties for a Bedrock Agent.
 - [tags](bedrock.AgentProps.md#tags)
 
 ## Properties
+
+### actionGroups
+
+• `Optional` `Readonly` **actionGroups**: [`AgentActionGroup`](../classes/bedrock.AgentActionGroup.md)[]
+
+AgentActionGroup to make available to the agent.
+
+**`Default`**
+
+```ts
+- No AgentActionGroup  is used.
+```
+
+___
 
 ### aliasName
 

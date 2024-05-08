@@ -13,10 +13,6 @@ Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
 
   ↳ **`KnowledgeBase`**
 
-## Implements
-
-- `ITaggableV2`
-
 ## Table of contents
 
 ### Constructors
@@ -25,7 +21,6 @@ Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
 
 ### Properties
 
-- [cdkTagManager](bedrock.KnowledgeBase.md#cdktagmanager)
 - [description](bedrock.KnowledgeBase.md#description)
 - [instruction](bedrock.KnowledgeBase.md#instruction)
 - [knowledgeBaseArn](bedrock.KnowledgeBase.md#knowledgebasearn)
@@ -71,18 +66,6 @@ Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
 Construct.constructor
 
 ## Properties
-
-### cdkTagManager
-
-• `Readonly` **cdkTagManager**: `TagManager`
-
-TagManager facilitates a common implementation of tagging for Constructs
-
-#### Implementation of
-
-cdk.ITaggableV2.cdkTagManager
-
-___
 
 ### description
 
