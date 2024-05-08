@@ -1,11 +1,9 @@
 import os
 import time
 import boto3
-import logging
 from boto3.dynamodb.conditions import Key
 from datetime import datetime, timedelta
 
-logger = logging.getLogger()
 batch_client = boto3.client("batch")
 
 JOB_QUEUE_ARN = os.environ["JOB_QUEUE_ARN"]
@@ -19,54 +17,52 @@ jobs_table = dynamodb.Table(JOBS_TABLE_NAME)
 
 
 def handler(event, context) -> dict:
-    logger.info("Event", event)
+    print(event)
 
     targets = get_targets()
-    logger.info(f"Found: {len(targets)} targets")
+    print(f"Found: {len(targets)} targets")
 
     for target in targets:
         target_url = target["target_url"]
         last_finished_job_id = target.get("last_finished_job_id")
         crawl_interval_hours = target.get("crawl_interval_hours")
-        logger.info(
-            f"Target: {target_url}, last_finished_job_id: {last_finished_job_id}"
-        )
+        print(target)
 
         if not crawl_interval_hours:
-            logger.info(f"No crawl_interval_hours for {target_url}")
+            print(f"No crawl_interval_hours for {target_url}")
             continue
 
         unfinished_jobs = get_unfinished_jobs_for_target(target_url)
         if len(unfinished_jobs) > 0:
-            logger.info(f"Unfinished jobs for {target_url}", unfinished_jobs)
+            print(f"Unfinished jobs for {target_url}", unfinished_jobs)
             continue
         else:
-            logger.info(f"No unfinished jobs for {target_url} found")
+            print(f"No unfinished jobs for {target_url} found")
 
         if not last_finished_job_id:
-            logger.info(f"No last finished job for {target_url}")
+            print(f"No last finished job for {target_url}")
             run_job(target_url)
             continue
 
         last_finished_job = get_last_finished_job(target_url, last_finished_job_id)
         if not last_finished_job:
-            logger.info(f"No last finished job for {target_url}")
+            print(f"No last finished job for {target_url}")
             run_job(target_url)
             continue
 
         last_interval_start_timestamp = int(
             round(
                 datetime.timestamp(
-                    datetime.now() - timedelta(hours=crawl_interval_hours)
+                    datetime.now() - timedelta(hours=int(crawl_interval_hours))
                 )
             )
         )
 
         if last_finished_job["updated_at"] <= last_interval_start_timestamp:
-            logger.info(f"Time to run a job for {target_url}")
+            print(f"Time to run a job for {target_url}")
             run_job(target_url)
         else:
-            logger.info(f"Skipping job for {target_url}")
+            print(f"Skipping job for {target_url}")
             continue
 
     return {"ok": True}
@@ -75,11 +71,16 @@ def handler(event, context) -> dict:
 def get_targets():
     targets = []
 
-    response = targets_table.scan()
+    response = targets_table.scan(
+        ConsistentRead=True,
+    )
     targets.extend(response["Items"])
 
     while "LastEvaluatedKey" in response:
-        response = targets_table.scan(ExclusiveStartKey=response["LastEvaluatedKey"])
+        response = targets_table.scan(
+            ExclusiveStartKey=response["LastEvaluatedKey"],
+            ConsistentRead=True,
+        )
         targets.extend(response["Items"])
 
     return targets
@@ -94,7 +95,7 @@ def get_unfinished_jobs_for_target(target_url):
     )
 
     jobs = response["Items"]
-    logger.info(f"Jobs for {target_url}", jobs)
+    print(f"Jobs for {target_url}", jobs)
 
     # Check if any job is not "finished" or "failed" and updated_at is newer than 24 hours
     twenty_four_hours_ago = int(
@@ -139,6 +140,6 @@ def run_job(target_url):
         },
     )
 
-    logger.info(response)
+    print(response)
 
     return response
