@@ -167,12 +167,14 @@ export class WebCrawler extends BaseClass {
     const sitesTable = new dynamodb.Table(this, 'sitesTable', {
       partitionKey: { name: 'site_url', type: dynamodb.AttributeType.STRING },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
     const jobsTable = new dynamodb.Table(this, 'jobsTable', {
       partitionKey: { name: 'site_url', type: dynamodb.AttributeType.STRING },
       sortKey: { name: 'job_id', type: dynamodb.AttributeType.STRING },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
     const dataBucket = new s3.Bucket(this, 'webCrawlerDataBucket', {
@@ -189,6 +191,7 @@ export class WebCrawler extends BaseClass {
       replaceComputeEnvironment: true,
       updateTimeout: cdk.Duration.minutes(30),
       updateToLatestImageVersion: true,
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
     });
 
     const jobQueue = new batch.JobQueue(this, 'webCrawlerJobQueue', {

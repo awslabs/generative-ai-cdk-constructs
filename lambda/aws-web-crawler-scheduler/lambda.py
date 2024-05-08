@@ -35,14 +35,13 @@ def handler(event, context) -> dict:
             continue
 
         unfinished_jobs = get_unfinished_jobs_for_site(site_url)
-
         if len(unfinished_jobs) > 0:
             logger.info(f"Unfinished jobs for {site_url}", unfinished_jobs)
             continue
         else:
             logger.info(f"No unfinished jobs for {site_url} found")
 
-        if not site["last_finished_job_id"]:
+        if not last_finished_job_id:
             logger.info(f"No last finished job for {site_url}")
             run_job(site_url)
             continue

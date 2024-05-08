@@ -11,6 +11,7 @@
  *  and limitations under the License.
  */
 import { PathLike } from 'fs';
+import { tmpdir } from 'os';
 import * as path from 'path';
 
 export interface Configuration {
@@ -42,7 +43,7 @@ export class ConfigManager {
   public config: Configuration;
 
   constructor() {
-    const outputPath = './output';
+    const outputPath = tmpdir();
     const file_names = {
       pages: 'crawl_data.jsonl',
       files: 'crawl_files.jsonl',
