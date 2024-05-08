@@ -21,6 +21,7 @@ Deploy a Bedrock Agent.
 ### Properties
 
 - [actionGroups](bedrock.Agent.md#actiongroups)
+- [agent](bedrock.Agent.md#agent)
 - [agentArn](bedrock.Agent.md#agentarn)
 - [agentId](bedrock.Agent.md#agentid)
 - [aliasArn](bedrock.Agent.md#aliasarn)
@@ -35,7 +36,7 @@ Deploy a Bedrock Agent.
 ### Methods
 
 - [\_addAliasDependency](bedrock.Agent.md#_addaliasdependency)
-- [addActionGroup](bedrock.Agent.md#addactiongroup)
+- [addActionGroups](bedrock.Agent.md#addactiongroups)
 - [addAlias](bedrock.Agent.md#addalias)
 - [addKnowledgeBase](bedrock.Agent.md#addknowledgebase)
 - [toString](bedrock.Agent.md#tostring)
@@ -70,6 +71,14 @@ Construct.constructor
 • `Private` **actionGroups**: `AgentActionGroupProperty`[] = `[]`
 
 A list of action groups associated with the agent
+
+___
+
+### agent
+
+• `Readonly` **agent**: `CfnAgent`
+
+Instance of Agent
 
 ___
 
@@ -181,11 +190,11 @@ Register a dependency for aliases.
 
 ___
 
-### addActionGroup
+### addActionGroups
 
-▸ **addActionGroup**(`props`): `void`
+▸ **addActionGroups**(`props`): `void`
 
-Add an action group to the agent.
+Add action group  to the agent.
 
 #### Parameters
 
@@ -221,7 +230,7 @@ ___
 
 ▸ **addKnowledgeBase**(`kb`): `void`
 
-Add knowledge bases to the agent.
+Add knowledge base to the agent.
 
 #### Parameters
 
