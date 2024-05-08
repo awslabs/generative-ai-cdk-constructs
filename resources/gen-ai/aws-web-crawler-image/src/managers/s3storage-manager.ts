@@ -21,8 +21,8 @@ export class S3StorageManager {
 
   async uploadData(jobId: string) {
     const bucketName = this.config.dataBucketName;
-    const siteUrl = this.config.siteUrl;
-    const prefix = `${encodeURIComponent(siteUrl)}/jobs/${jobId}`;
+    const targetUrl = this.config.targetUrl;
+    const prefix = `${encodeURIComponent(targetUrl)}/jobs/${jobId}`;
 
     const pagesKey = `${prefix}/${this.config.file_names.pages}`;
     const filesKey = `${prefix}/${this.config.file_names.files}`;

@@ -11,11 +11,11 @@ from botocore.exceptions import ClientError
 
 OUTPUT_PATH = os.environ.get("OUTPUT_PATH")
 DATA_BUCKET_NAME = os.environ.get("DATA_BUCKET_NAME")
-SITES_TABLE_NAME = os.environ.get("SITES_TABLE_NAME")
+TARGETS_TABLE_NAME = os.environ.get("TARGETS_TABLE_NAME")
 JOBS_TABLE_NAME = os.environ.get("JOBS_TABLE_NAME")
 PAGES_FILE_NAME = os.environ.get("PAGES_FILE_NAME")
 PAGES_FILE_PATH = os.environ.get("PAGES_FILE_PATH")
-SITE_URL = os.environ.get("SITE_URL")
+TARGET_URL = os.environ.get("TARGET_URL")
 JOB_ID = os.environ.get("JOB_ID")
 
 dynamodb = boto3.resource("dynamodb")
@@ -24,17 +24,17 @@ s3 = boto3.client("s3")
 
 def main():
     print("HTML parsing script started", flush=True)
-    site_data = get_site_by_url(SITE_URL)
+    target_data = get_target_by_url(TARGET_URL)
 
-    if not site_data:
-        print(f'Site with url "{SITE_URL}" not found', flush=True)
+    if not target_data:
+        print(f'Target with url "{TARGET_URL}" not found', flush=True)
         return
 
-    prev_changeset = get_prev_changeset(site_data)
+    prev_changeset = get_prev_changeset(target_data)
     print(f"Previous changeset len: {len(prev_changeset)}", flush=True)
     pages_changeset_path = os.path.join(OUTPUT_PATH, "pages_changeset.jsonl")
     pages_changeset_s3_key = (
-        f"{url_encode(SITE_URL)}/jobs/{JOB_ID}/pages_changeset.jsonl"
+        f"{url_encode(TARGET_URL)}/jobs/{JOB_ID}/pages_changeset.jsonl"
     )
 
     if os.path.exists(PAGES_FILE_PATH):
@@ -42,7 +42,7 @@ def main():
             process_lines(prev_changeset, pages_changeset_path, file)
     else:
         print(f"File {PAGES_FILE_PATH} does not exist", flush=True)
-        files_file_key = f"{SITE_URL}/jobs/{JOB_ID}/{PAGES_FILE_NAME}"
+        files_file_key = f"{TARGET_URL}/jobs/{JOB_ID}/{PAGES_FILE_NAME}"
         with NamedTemporaryFile(dir="/tmp") as temp_file:
             try:
                 s3.download_file(DATA_BUCKET_NAME, files_file_key, temp_file.name)
@@ -59,10 +59,10 @@ def main():
     s3.upload_file(pages_changeset_path, DATA_BUCKET_NAME, pages_changeset_s3_key)
 
 
-def get_site_by_url(site_url: str):
-    table = dynamodb.Table(SITES_TABLE_NAME)
+def get_target_by_url(target_url: str):
+    table = dynamodb.Table(TARGETS_TABLE_NAME)
     try:
-        response = table.get_item(Key={"site_url": site_url}, ConsistentRead=True)
+        response = table.get_item(Key={"target_url": target_url}, ConsistentRead=True)
         item = response.get("Item")
         if item:
             return item
@@ -73,15 +73,15 @@ def get_site_by_url(site_url: str):
         return None
 
 
-def get_prev_changeset(site_data: dict):
-    last_finished_job_id = site_data.get("last_finished_job_id")
+def get_prev_changeset(target_data: dict):
+    last_finished_job_id = target_data.get("last_finished_job_id")
     print(f"Last finished job ID: {last_finished_job_id}", flush=True)
 
     if not last_finished_job_id or last_finished_job_id == JOB_ID:
         return dict({})
 
     last_changeset_s3_key = (
-        f"{url_encode(SITE_URL)}/jobs/{last_finished_job_id}/pages_changeset.jsonl"
+        f"{url_encode(TARGET_URL)}/jobs/{last_finished_job_id}/pages_changeset.jsonl"
     )
 
     with NamedTemporaryFile(dir="/tmp") as temp_file:

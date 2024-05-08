@@ -42,12 +42,12 @@ import { Utils } from './utils.js';
     mkdirSync(configManager.config.outputPath, { recursive: true });
   }
 
-  const siteDataItem = await dynamoDBManager.getSiteDataItem();
-  if (!siteDataItem) {
-    log.error('Site data not found');
+  const targetDataItem = await dynamoDBManager.getTargetDataItem();
+  if (!targetDataItem) {
+    log.error('Target data not found');
     return;
   } else {
-    log.info('Site Data', siteDataItem);
+    log.info('Target Data', targetDataItem);
   }
 
   const activeJobs = await dynamoDBManager.findActiveJob();
@@ -69,7 +69,7 @@ import { Utils } from './utils.js';
     if (!configManager.config.skip_crawl) {
       log.info(`Job Id: ${configManager.config.jobId}`);
 
-      const crawler = new Crawler(configManager.config, siteDataItem, dynamoDBManager);
+      const crawler = new Crawler(configManager.config, targetDataItem, dynamoDBManager);
 
       await crawler.start();
       await s3StorageManager.uploadData(configManager.config.jobId);
@@ -81,7 +81,7 @@ import { Utils } from './utils.js';
       await ScriptRunner.parseHTML(configManager.config);
     }
 
-    if (!configManager.config.skip_download && siteDataItem.download_files) {
+    if (!configManager.config.skip_download && targetDataItem.download_files) {
       await dynamoDBManager.updateJobStatus(configManager.config.jobId, JobStatus.DOWNLOADING_FILES);
 
       await ScriptRunner.downloadFiles(configManager.config);

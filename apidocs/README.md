@@ -16,6 +16,7 @@
 ### Enumerations
 
 - [ConstructName](enums/ConstructName.md)
+- [CrawlerTargetType](enums/CrawlerTargetType.md)
 
 ### Classes
 
@@ -42,7 +43,7 @@
 - [BaseClassProps](interfaces/BaseClassProps.md)
 - [ContainerImageConfig](interfaces/ContainerImageConfig.md)
 - [ContentGenerationAppSyncLambdaProps](interfaces/ContentGenerationAppSyncLambdaProps.md)
-- [CrawlerWebSite](interfaces/CrawlerWebSite.md)
+- [CrawlerTarget](interfaces/CrawlerTarget.md)
 - [CustomSageMakerEndpointProps](interfaces/CustomSageMakerEndpointProps.md)
 - [DockerLambdaCustomProps](interfaces/DockerLambdaCustomProps.md)
 - [HuggingFaceSageMakerEndpointProps](interfaces/HuggingFaceSageMakerEndpointProps.md)

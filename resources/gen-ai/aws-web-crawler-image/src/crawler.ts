@@ -29,7 +29,7 @@ import stealthPlugin from 'puppeteer-extra-plugin-stealth';
 import { extensionToMimeType, fileTypes, mimeTypeToExtension } from './common/content-types.js';
 import { Configuration } from './managers/config-manager.js';
 import { DynamoDBManager } from './managers/dynamodb-manager.js';
-import { DataItem, HtmlMetadata, JobStatus, SiteDataItem, SuccessDataItem } from './types.js';
+import { DataItem, HtmlMetadata, JobStatus, TargetDataItem, SuccessDataItem } from './types.js';
 import { Utils } from './utils.js';
 
 const MAX_REQUESTS = 25_000;
@@ -47,7 +47,7 @@ export class Crawler {
 
   constructor(
     private readonly config: Configuration,
-    private readonly siteDataItem: SiteDataItem,
+    private readonly targetDataItem: TargetDataItem,
     private readonly dynamoDBManager: DynamoDBManager,
   ) {
     this.maxRequests = this.get_max_requests();
@@ -57,8 +57,8 @@ export class Crawler {
   async start() {
     log.info('Starting Web Crawler');
 
-    const urls = new Set<string>([this.siteDataItem.site_url]);
-    const baseUrls = Utils.unique([Utils.getBaseUrl(this.siteDataItem.site_url) ?? '']).filter((c) => c);
+    const urls = new Set<string>([this.targetDataItem.target_url]);
+    const baseUrls = Utils.unique([Utils.getBaseUrl(this.targetDataItem.target_url) ?? '']).filter((c) => c);
 
     const sitemaps = await this.processRobotsTxt(baseUrls);
     await this.processSitemaps(sitemaps, urls);
@@ -182,7 +182,7 @@ export class Crawler {
       transformRequestFunction: (req) => {
         if (fileTypes.has(Utils.getFileType(req.url) ?? '')) return false;
 
-        if (this.siteDataItem.ignore_robots_txt !== true && this.robots && !this.robots.every((c) => c.isAllowed(req.url))) {
+        if (this.targetDataItem.ignore_robots_txt !== true && this.robots && !this.robots.every((c) => c.isAllowed(req.url))) {
           return false;
         }
 
@@ -261,7 +261,7 @@ export class Crawler {
   }
 
   private get_max_requests() {
-    let maxRequests = this.siteDataItem.max_requests ?? MAX_REQUESTS;
+    let maxRequests = this.targetDataItem.max_requests ?? MAX_REQUESTS;
     if (maxRequests === 0) maxRequests = MAX_REQUESTS;
     maxRequests = Math.min(maxRequests, MAX_REQUESTS);
     maxRequests = Math.max(maxRequests, 1);
@@ -272,7 +272,7 @@ export class Crawler {
   private async processRobotsTxt(baseUrls: string[]) {
     log.info('Processing robots.txt');
 
-    const sitemaps = new Set<string>([...(this.siteDataItem.sitemaps || [])]);
+    const sitemaps = new Set<string>([...(this.targetDataItem.sitemaps || [])]);
     for (const baseUrl of baseUrls) {
       const robots = await RobotsFile.find(baseUrl);
       this.robots.push(robots);

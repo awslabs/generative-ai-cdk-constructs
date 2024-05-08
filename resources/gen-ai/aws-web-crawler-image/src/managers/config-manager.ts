@@ -15,11 +15,11 @@ import { tmpdir } from 'os';
 import * as path from 'path';
 
 export interface Configuration {
-  sitesTableName: string;
+  targetsTableName: string;
   jobsTableName: string;
   dataBucketName: string;
   snsTopicArn: string;
-  siteUrl: string;
+  targetUrl: string;
   jobId: string;
   skip_crawl: boolean;
   skip_parse: boolean;
@@ -59,11 +59,11 @@ export class ConfigManager {
     };
 
     this.config = {
-      sitesTableName: process.env.SITES_TABLE_NAME ?? '',
+      targetsTableName: process.env.TARGETS_TABLE_NAME ?? '',
       jobsTableName: process.env.JOBS_TABLE_NAME ?? '',
       dataBucketName: process.env.DATA_BUCKET_NAME ?? '',
       snsTopicArn: process.env.SNS_TOPIC_ARN ?? '',
-      siteUrl: process.env.SITE_URL ?? '',
+      targetUrl: process.env.TARGET_URL ?? '',
       jobId: process.env.JOB_ID ?? '',
       skip_crawl: process.env.SKIP_CRAWL === 'true',
       skip_parse: process.env.SKIP_PARSE === 'true',

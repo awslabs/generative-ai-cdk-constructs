@@ -25,7 +25,7 @@ export class SNSManager {
 
     const params: PublishCommandInput = {
       Message: JSON.stringify({
-        site_url: this.config.siteUrl,
+        target_url: this.config.targetUrl,
         job_id: this.config.jobId,
         bucket: this.config.dataBucketName,
         status,

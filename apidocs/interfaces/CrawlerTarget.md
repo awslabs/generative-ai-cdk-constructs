@@ -1,26 +1,27 @@
-[@cdklabs/generative-ai-cdk-constructs](../README.md) / CrawlerWebSite
+[@cdklabs/generative-ai-cdk-constructs](../README.md) / CrawlerTarget
 
-# Interface: CrawlerWebSite
+# Interface: CrawlerTarget
 
 ## Table of contents
 
 ### Properties
 
-- [crawlIntervalDays](CrawlerWebSite.md#crawlintervaldays)
-- [downloadFiles](CrawlerWebSite.md#downloadfiles)
-- [fileTypes](CrawlerWebSite.md#filetypes)
-- [ignoreRobotsTxt](CrawlerWebSite.md#ignorerobotstxt)
-- [maxFiles](CrawlerWebSite.md#maxfiles)
-- [maxRequests](CrawlerWebSite.md#maxrequests)
-- [url](CrawlerWebSite.md#url)
+- [crawlIntervalHours](CrawlerTarget.md#crawlintervalhours)
+- [downloadFiles](CrawlerTarget.md#downloadfiles)
+- [fileTypes](CrawlerTarget.md#filetypes)
+- [ignoreRobotsTxt](CrawlerTarget.md#ignorerobotstxt)
+- [maxFiles](CrawlerTarget.md#maxfiles)
+- [maxRequests](CrawlerTarget.md#maxrequests)
+- [targetType](CrawlerTarget.md#targettype)
+- [url](CrawlerTarget.md#url)
 
 ## Properties
 
-### crawlIntervalDays
+### crawlIntervalHours
 
-• `Optional` `Readonly` **crawlIntervalDays**: `number`
+• `Optional` `Readonly` **crawlIntervalHours**: `number`
 
-Schedule the crawler to run every N days.
+Schedule the crawler to run every N hours.
 
 **`Default`**
 
@@ -100,8 +101,16 @@ Maximum number of requests to be made.
 
 ___
 
+### targetType
+
+• `Readonly` **targetType**: [`CrawlerTargetType`](../enums/CrawlerTargetType.md)
+
+Type of URL to be crawled.
+
+___
+
 ### url
 
 • `Readonly` **url**: `string`
 
-Web site URL to be crawled.
+Target URL to be crawled.

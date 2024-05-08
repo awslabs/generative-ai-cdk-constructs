@@ -25,9 +25,9 @@
 - [lambdaTracing](WebCrawler.md#lambdatracing)
 - [node](WebCrawler.md#node)
 - [retention](WebCrawler.md#retention)
-- [sitesTable](WebCrawler.md#sitestable)
 - [snsTopic](WebCrawler.md#snstopic)
 - [stage](WebCrawler.md#stage)
+- [targetsTable](WebCrawler.md#targetstable)
 - [webCrawlerJobDefinition](WebCrawler.md#webcrawlerjobdefinition)
 - [usageMetricMap](WebCrawler.md#usagemetricmap)
 
@@ -183,14 +183,6 @@ Default  log retention config for all constructs
 
 ___
 
-### sitesTable
-
-• `Readonly` **sitesTable**: `ITable`
-
-Returns the instance of Sites DynamoDB table
-
-___
-
 ### snsTopic
 
 • `Readonly` **snsTopic**: `ITopic`
@@ -214,6 +206,14 @@ Value will be appended to resources name.
 #### Inherited from
 
 [BaseClass](BaseClass.md).[stage](BaseClass.md#stage)
+
+___
+
+### targetsTable
+
+• `Readonly` **targetsTable**: `ITable`
+
+Returns the instance of Targets DynamoDB table
 
 ___
 

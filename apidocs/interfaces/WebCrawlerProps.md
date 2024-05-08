@@ -10,7 +10,7 @@
 - [existingVpc](WebCrawlerProps.md#existingvpc)
 - [observability](WebCrawlerProps.md#observability)
 - [stage](WebCrawlerProps.md#stage)
-- [webSites](WebCrawlerProps.md#websites)
+- [targets](WebCrawlerProps.md#targets)
 
 ## Properties
 
@@ -76,11 +76,11 @@ Value will be appended to resources name.
 
 ___
 
-### webSites
+### targets
 
-• `Optional` `Readonly` **webSites**: [`CrawlerWebSite`](CrawlerWebSite.md)[]
+• `Optional` `Readonly` **targets**: [`CrawlerTarget`](CrawlerTarget.md)[]
 
-Web sites to be crawled.
+Targets to be crawled.
 
 **`Default`**
 

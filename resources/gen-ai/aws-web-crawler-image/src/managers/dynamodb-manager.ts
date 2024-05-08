@@ -23,7 +23,7 @@ import {
 } from '@aws-sdk/lib-dynamodb';
 import { Configuration } from './config-manager.js';
 import { SNSManager } from './sns-manager.js';
-import { JobDataItem, JobStatus, SiteDataItem } from '../types.js';
+import { JobDataItem, JobStatus, TargetDataItem } from '../types.js';
 
 import { Utils } from '../utils.js';
 
@@ -34,19 +34,19 @@ export class DynamoDBManager {
     private readonly snsManager: SNSManager,
   ) {}
 
-  async getSiteDataItem(): Promise<SiteDataItem | undefined> {
+  async getTargetDataItem(): Promise<TargetDataItem | undefined> {
     const docClient = DynamoDBDocumentClient.from(this.client);
 
     const params: GetCommandInput = {
-      TableName: this.config.sitesTableName,
-      Key: { site_url: this.config.siteUrl },
+      TableName: this.config.targetsTableName,
+      Key: { target_url: this.config.targetUrl },
       ConsistentRead: true,
     };
 
     try {
       const data = await docClient.send(new GetCommand(params));
 
-      return data.Item as SiteDataItem;
+      return data.Item as TargetDataItem;
     } catch (error: any) {
       log.error(error);
     }
@@ -63,10 +63,10 @@ export class DynamoDBManager {
       TableName: this.config.jobsTableName,
       KeyConditionExpression: '#pk = :pkval',
       ExpressionAttributeNames: {
-        '#pk': 'site_url',
+        '#pk': 'target_url',
       },
       ExpressionAttributeValues: {
-        ':pkval': { S: this.config.siteUrl },
+        ':pkval': { S: this.config.targetUrl },
       },
       ConsistentRead: true,
     };
@@ -100,7 +100,7 @@ export class DynamoDBManager {
     const jobId = Utils.generateDateTimeStringWithMilliseconds();
 
     const jobDataItem: JobDataItem = {
-      site_url: this.config.siteUrl,
+      target_url: this.config.targetUrl,
       job_id: jobId,
       status: JobStatus.PENDING,
       items_processed: 0,
@@ -130,7 +130,7 @@ export class DynamoDBManager {
     const jobs_params: UpdateCommandInput = {
       TableName: this.config.jobsTableName,
       Key: {
-        site_url: this.config.siteUrl,
+        target_url: this.config.targetUrl,
         job_id: jobId,
       },
       UpdateExpression: 'set #status = :s, updated_at = :u',
@@ -148,10 +148,10 @@ export class DynamoDBManager {
 
       if (status === JobStatus.FINISHED) {
         log.info(`Updating last_finished_job_id to ${jobId}`);
-        const sites_params: UpdateCommandInput = {
-          TableName: this.config.sitesTableName,
+        const targets_params: UpdateCommandInput = {
+          TableName: this.config.targetsTableName,
           Key: {
-            site_url: this.config.siteUrl,
+            target_url: this.config.targetUrl,
           },
           UpdateExpression: 'set last_finished_job_id = :j',
           ExpressionAttributeValues: {
@@ -159,7 +159,7 @@ export class DynamoDBManager {
           },
         };
 
-        await docClient.send(new UpdateCommand(sites_params));
+        await docClient.send(new UpdateCommand(targets_params));
       }
     } catch (error: any) {
       log.error(error);
@@ -174,7 +174,7 @@ export class DynamoDBManager {
     const params: UpdateCommandInput = {
       TableName: this.config.jobsTableName,
       Key: {
-        site_url: this.config.siteUrl,
+        target_url: this.config.targetUrl,
         job_id: jobId,
       },
       UpdateExpression: 'set items_processed = :p, updated_at = :u',

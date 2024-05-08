@@ -29,11 +29,15 @@ import { Construct } from 'constructs';
 import { ConstructName } from '../../../common/base-class';
 import { BaseClass, BaseClassProps } from '../../../common/base-class/base-class';
 
-export interface CrawlerWebSite {
+export interface CrawlerTarget {
   /**
-   * Web site URL to be crawled.
+   * Target URL to be crawled.
    */
   readonly url: string;
+  /**
+   * Type of URL to be crawled.
+   */
+  readonly targetType: CrawlerTargetType;
   /**
    * Maximum number of requests to be made.
    *
@@ -65,11 +69,11 @@ export interface CrawlerWebSite {
    */
   readonly ignoreRobotsTxt?: boolean;
   /**
-   * Schedule the crawler to run every N days.
+   * Schedule the crawler to run every N hours.
    *
    * @default - not scheduled
    */
-  readonly crawlIntervalDays?: number;
+  readonly crawlIntervalHours?: number;
 }
 
 export interface WebCrawlerProps {
@@ -104,11 +108,16 @@ export interface WebCrawlerProps {
    */
   readonly existingVpc?: ec2.IVpc;
   /**
-   *  Web sites to be crawled.
+   *  Targets to be crawled.
    *
    * @default - none
    */
-  readonly webSites?: CrawlerWebSite[];
+  readonly targets?: CrawlerTarget[];
+}
+
+export enum CrawlerTargetType {
+  WEBSITE = 'website',
+  RSS_FEED = 'rss_feed',
 }
 
 export class WebCrawler extends BaseClass {
@@ -121,9 +130,9 @@ export class WebCrawler extends BaseClass {
    */
   public readonly snsTopic: sns.ITopic;
   /**
-   * Returns the instance of Sites DynamoDB table
+   * Returns the instance of Targets DynamoDB table
    */
-  public readonly sitesTable: dynamodb.ITable;
+  public readonly targetsTable: dynamodb.ITable;
   /**
    * Returns the instance of Jobs DynamoDB table
    */
@@ -166,14 +175,14 @@ export class WebCrawler extends BaseClass {
     this.updateEnvSuffix(baseProps);
     this.addObservabilityToConstruct(baseProps);
 
-    const sitesTable = new dynamodb.Table(this, 'sitesTable', {
-      partitionKey: { name: 'site_url', type: dynamodb.AttributeType.STRING },
+    const targetsTable = new dynamodb.Table(this, 'targetsTable', {
+      partitionKey: { name: 'target_url', type: dynamodb.AttributeType.STRING },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
     const jobsTable = new dynamodb.Table(this, 'jobsTable', {
-      partitionKey: { name: 'site_url', type: dynamodb.AttributeType.STRING },
+      partitionKey: { name: 'target_url', type: dynamodb.AttributeType.STRING },
       sortKey: { name: 'job_id', type: dynamodb.AttributeType.STRING },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
@@ -220,14 +229,14 @@ export class WebCrawler extends BaseClass {
       jobRole: webCrawlerJobRole,
       environment: {
         AWS_DEFAULT_REGION: cdk.Stack.of(this).region,
-        SITES_TABLE_NAME: sitesTable.tableName,
+        TARGETS_TABLE_NAME: targetsTable.tableName,
         JOBS_TABLE_NAME: jobsTable.tableName,
         DATA_BUCKET_NAME: dataBucket.bucketName,
         SNS_TOPIC_ARN: snsTopic.topicArn,
       },
     });
 
-    sitesTable.grantReadWriteData(webCrawlerJobRole);
+    targetsTable.grantReadWriteData(webCrawlerJobRole);
     jobsTable.grantReadWriteData(webCrawlerJobRole);
     dataBucket.grantReadWrite(webCrawlerJobRole);
     snsTopic.grantPublish(webCrawlerJobRole);
@@ -247,48 +256,50 @@ export class WebCrawler extends BaseClass {
       ],
     });
 
-    for (const site of props.webSites ?? []) {
-      let siteUrl = site.url.trim();
-      if (!/^https?:\/\//.test(siteUrl.toLowerCase())) {
-        siteUrl = `https://${siteUrl}`;
+    for (const target of props.targets ?? []) {
+      let targetUrl = target.url.trim();
+      if (!/^https?:\/\//.test(targetUrl.toLowerCase())) {
+        targetUrl = `https://${targetUrl}`;
       }
 
-      new cr.AwsCustomResource(this, `site-${siteUrl}`, {
+      new cr.AwsCustomResource(this, `target-${targetUrl}`, {
         onCreate: {
           service: 'DynamoDB',
           action: 'putItem',
           parameters: {
-            TableName: sitesTable.tableArn,
+            TableName: targetsTable.tableArn,
             Item: {
-              site_url: { S: siteUrl },
+              target_url: { S: targetUrl },
+              target_type: { S: target.targetType },
               sitemaps: { L: [] },
-              max_requests: { N: `${site.maxRequests ?? 0}` },
-              max_files: { N: `${site.maxFiles ?? 0}` },
-              download_files: { BOOL: site.downloadFiles ?? true },
-              file_types: { L: site.fileTypes ?? [] },
-              ignore_robots_txt: { BOOL: site.ignoreRobotsTxt ?? false },
-              crawl_interval_days: { N: `${site.crawlIntervalDays ?? 0}` },
+              max_requests: { N: `${target.maxRequests ?? 0}` },
+              max_files: { N: `${target.maxFiles ?? 0}` },
+              download_files: { BOOL: target.downloadFiles ?? true },
+              file_types: { L: target.fileTypes ?? [] },
+              ignore_robots_txt: { BOOL: target.ignoreRobotsTxt ?? false },
+              crawl_interval_hours: { N: `${target.crawlIntervalHours ?? 0}` },
               last_finished_job_id: { S: '' },
               created_at: { N: `${Date.now()}` },
               updated_at: { N: `${Date.now()}` },
             },
           },
-          physicalResourceId: cr.PhysicalResourceId.of(siteUrl),
+          physicalResourceId: cr.PhysicalResourceId.of(targetUrl),
         },
         onUpdate: {
           service: 'DynamoDB',
           action: 'putItem',
           parameters: {
-            TableName: sitesTable.tableArn,
+            TableName: targetsTable.tableArn,
             Item: {
-              site_url: { S: siteUrl },
+              target_url: { S: targetUrl },
+              target_type: { S: target.targetType },
               sitemaps: { L: [] },
-              max_requests: { N: `${site.maxRequests ?? 0}` },
-              max_files: { N: `${site.maxFiles ?? 0}` },
-              download_files: { BOOL: site.downloadFiles ?? true },
-              file_types: { L: site.fileTypes ?? [] },
-              ignore_robots_txt: { BOOL: site.ignoreRobotsTxt ?? false },
-              crawl_interval_days: { N: `${site.crawlIntervalDays ?? 0}` },
+              max_requests: { N: `${target.maxRequests ?? 0}` },
+              max_files: { N: `${target.maxFiles ?? 0}` },
+              download_files: { BOOL: target.downloadFiles ?? true },
+              file_types: { L: target.fileTypes ?? [] },
+              ignore_robots_txt: { BOOL: target.ignoreRobotsTxt ?? false },
+              crawl_interval_hours: { N: `${target.crawlIntervalHours ?? 0}` },
             },
           },
         },
@@ -296,16 +307,16 @@ export class WebCrawler extends BaseClass {
           service: 'DynamoDB',
           action: 'deleteItem',
           parameters: {
-            TableName: sitesTable.tableArn,
+            TableName: targetsTable.tableArn,
             Key: {
-              site_url: { S: siteUrl },
+              target_url: { S: targetUrl },
             },
           },
         },
         policy: cr.AwsCustomResourcePolicy.fromStatements([
           new iam.PolicyStatement({
             actions: ['dynamodb:PutItem', 'dynamodb:GetItem', 'dynamodb:DeleteItem', 'dynamodb:UpdateItem'],
-            resources: [sitesTable.tableArn],
+            resources: [targetsTable.tableArn],
           }),
         ]),
       });
@@ -319,14 +330,14 @@ export class WebCrawler extends BaseClass {
       code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-web-crawler-scheduler')),
       logGroup: new logs.LogGroup(this, 'webCrawlerSchedulerLogGroup', { retention: logs.RetentionDays.ONE_WEEK }),
       environment: {
-        SITES_TABLE_NAME: sitesTable.tableName,
+        TARGETS_TABLE_NAME: targetsTable.tableName,
         JOBS_TABLE_NAME: jobsTable.tableName,
         JOB_QUEUE_ARN: jobQueue.jobQueueArn,
         JOB_DEFINITION_ARN: webCrawlerJobDefinition.jobDefinitionArn,
       },
     });
 
-    sitesTable.grantReadWriteData(schedulerFunction);
+    targetsTable.grantReadWriteData(schedulerFunction);
     jobsTable.grantReadWriteData(schedulerFunction);
     schedulerFunction.addToRolePolicy(
       new iam.PolicyStatement({
@@ -343,7 +354,7 @@ export class WebCrawler extends BaseClass {
 
     this.dataBucket = dataBucket;
     this.snsTopic = snsTopic;
-    this.sitesTable = sitesTable;
+    this.targetsTable = targetsTable;
     this.jobsTable = jobsTable;
     this.jobQueue = jobQueue;
     this.webCrawlerJobDefinition = webCrawlerJobDefinition;

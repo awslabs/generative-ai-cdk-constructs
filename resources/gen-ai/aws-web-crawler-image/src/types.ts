@@ -10,8 +10,9 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-export interface SiteDataItem {
-  site_url: string;
+export interface TargetDataItem {
+  target_url: string;
+  target_type: TargetType;
   sitemaps: string[];
   max_requests: number;
   max_files: number;
@@ -19,13 +20,13 @@ export interface SiteDataItem {
   file_types: string[];
   ignore_robots_txt: boolean;
   last_finished_job_id: string;
-  crawl_interval_days: number;
+  crawl_interval_hours: number;
   created_at: number;
   updated_at: number;
 }
 
 export interface JobDataItem {
-  site_url: string;
+  target_url: string;
   job_id: string;
   status: JobStatus;
   items_processed: number;
@@ -55,6 +56,11 @@ export interface HtmlMetadata {
   description?: string;
   keywords?: string;
   author?: string;
+}
+
+export enum TargetType {
+  WEBSITE = 'website',
+  RSS_FEED = 'rss_feed',
 }
 
 export enum JobStatus {

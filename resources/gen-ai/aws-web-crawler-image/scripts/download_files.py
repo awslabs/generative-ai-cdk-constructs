@@ -16,8 +16,8 @@ OUTPUT_PATH = os.environ.get("OUTPUT_PATH")
 FILE_FILE_NAME = os.environ.get("FILES_FILE_NAME")
 FILES_FILE_PATH = os.environ.get("FILES_FILE_PATH")
 DATA_BUCKET_NAME = os.environ.get("DATA_BUCKET_NAME")
-SITES_TABLE_NAME = os.environ.get("SITES_TABLE_NAME")
-SITE_URL = os.environ.get("SITE_URL")
+TARGETS_TABLE_NAME = os.environ.get("TARGETS_TABLE_NAME")
+TARGET_URL = os.environ.get("TARGET_URL")
 JOB_ID = os.environ.get("JOB_ID")
 
 MAX_FILE_SIZE_IN_BYTES = 100 * 1024 * 1024  # 100 MB
@@ -52,28 +52,28 @@ headers = {
 def main():
     print("Download files script started", flush=True)
     print(f"Files file path: {FILES_FILE_PATH}", flush=True)
-    site_data = get_site_by_url(SITE_URL)
-    if not site_data:
-        print(f'Site with url "{SITE_URL}" not found', flush=True)
+    target_data = get_target_by_url(TARGET_URL)
+    if not target_data:
+        print(f'Target with url "{TARGET_URL}" not found', flush=True)
         return
 
-    prev_changeset = get_prev_changeset(site_data)
+    prev_changeset = get_prev_changeset(target_data)
     print(f"Previous changeset len: {len(prev_changeset)}", flush=True)
     changeset = dict({})
 
     if os.path.exists(FILES_FILE_PATH):
         with open(FILES_FILE_PATH, "r") as file:
-            process_lines(site_data, prev_changeset, changeset, file)
+            process_lines(target_data, prev_changeset, changeset, file)
     else:
         print(f"File {FILES_FILE_PATH} does not exist", flush=True)
-        files_file_s3_key = f"{url_encode(SITE_URL)}/jobs/{JOB_ID}/{FILE_FILE_NAME}"
+        files_file_s3_key = f"{url_encode(TARGET_URL)}/jobs/{JOB_ID}/{FILE_FILE_NAME}"
         with NamedTemporaryFile(dir="/tmp") as temp_file:
             try:
                 s3.download_file(DATA_BUCKET_NAME, files_file_s3_key, temp_file.name)
                 print(f"Data downloaded to {temp_file.name}", flush=True)
 
                 with open(temp_file.name, "r") as file:
-                    process_lines(site_data, prev_changeset, changeset, file)
+                    process_lines(target_data, prev_changeset, changeset, file)
             except ClientError as e:
                 if e.response["Error"]["Code"] == "404":
                     print(f"The object {files_file_s3_key} does not exist", flush=True)
@@ -83,10 +83,10 @@ def main():
     save_changeset(prev_changeset, changeset)
 
 
-def get_site_by_url(site_url: str):
-    table = dynamodb.Table(SITES_TABLE_NAME)
+def get_target_by_url(target_url: str):
+    table = dynamodb.Table(TARGETS_TABLE_NAME)
     try:
-        response = table.get_item(Key={"site_url": site_url}, ConsistentRead=True)
+        response = table.get_item(Key={"target_url": target_url}, ConsistentRead=True)
         item = response.get("Item")
         if item:
             return item
@@ -97,14 +97,14 @@ def get_site_by_url(site_url: str):
         return None
 
 
-def get_prev_changeset(site_data: dict):
-    last_finished_job_id = site_data.get("last_finished_job_id")
+def get_prev_changeset(target_data: dict):
+    last_finished_job_id = target_data.get("last_finished_job_id")
     print(f"Last finished job ID: {last_finished_job_id}", flush=True)
     if not last_finished_job_id or last_finished_job_id == JOB_ID:
         return dict({})
 
     last_changeset_s3_key = (
-        f"{url_encode(SITE_URL)}/jobs/{last_finished_job_id}/files_changeset.jsonl"
+        f"{url_encode(TARGET_URL)}/jobs/{last_finished_job_id}/files_changeset.jsonl"
     )
 
     with NamedTemporaryFile(dir="/tmp") as temp_file:
@@ -136,7 +136,7 @@ def get_prev_changeset(site_data: dict):
 def save_changeset(prev_changeset: dict, changeset: dict):
     files_changeset_path = os.path.join(OUTPUT_PATH, "files_changeset.jsonl")
     files_changeset_s3_key = (
-        f"{url_encode(SITE_URL)}/jobs/{JOB_ID}/files_changeset.jsonl"
+        f"{url_encode(TARGET_URL)}/jobs/{JOB_ID}/files_changeset.jsonl"
     )
 
     for url, data in prev_changeset.items():
@@ -155,13 +155,13 @@ def save_changeset(prev_changeset: dict, changeset: dict):
 
 
 def process_lines(
-    site_data: dict, prev_changeset: dict, changeset: dict, file: TextIOWrapper
+    target_data: dict, prev_changeset: dict, changeset: dict, file: TextIOWrapper
 ):
-    max_files = site_data.get("max_files", MAX_FILES)
+    max_files = target_data.get("max_files", MAX_FILES)
     if max_files <= 0:
         max_files = MAX_FILES
 
-    file_types = site_data.get("file_types", DEFAULT_FILE_TYPES)
+    file_types = target_data.get("file_types", DEFAULT_FILE_TYPES)
     if not file_types:
         file_types = DEFAULT_FILE_TYPES
 
@@ -252,7 +252,7 @@ def process_file(prev_changeset: dict, file_url: str, file_type: str):
     with tempfile.NamedTemporaryFile(delete=True) as temp_file:
         file_size = download_file(file_url, temp_file)
         checksum = get_checksum(temp_file)
-        file_s3_key = f"{url_encode(SITE_URL)}/files/{checksum}.{file_type}"
+        file_s3_key = f"{url_encode(TARGET_URL)}/files/{checksum}.{file_type}"
         file_data["checksum"] = checksum
         file_data["file_size"] = file_size
         file_data["s3_key"] = file_s3_key
