@@ -26,6 +26,7 @@ import {
 import { VectorIndex } from '../opensearch-vectorindex';
 import { VectorCollection } from '../opensearchserverless';
 import { PineconeVectorStore } from '../pinecone';
+import { Agent } from './../bedrock/agent';
 
 /**
  * Knowledge base can be backed by different vector databases.
@@ -177,6 +178,11 @@ export class KnowledgeBase extends Construct {
    * The name of the knowledge base.
    */
   public readonly name: string;
+
+  /**
+   * Instance of knowledge base.
+   */
+  public readonly knowledgeBase: bedrock.CfnKnowledgeBase;
 
   /**
    * The role the Knowledge Base uses to access the vector store and data source.
@@ -418,6 +424,7 @@ export class KnowledgeBase extends Construct {
       tags: props.tags,
     });
 
+    this.knowledgeBase=knowledgeBase;
 
     const kbCRPolicy = new iam.Policy(this, 'KBCRPolicy', {
       // roles: [crProvider.role],
@@ -571,6 +578,7 @@ export class KnowledgeBase extends Construct {
     };
   }
 
+  
   /**
    * Handle the default VectorStore type.
    *
@@ -589,7 +597,22 @@ export class KnowledgeBase extends Construct {
       vectorStoreType: VectorStoreType.OPENSEARCH_SERVERLESS,
     };
   }
+
+
+ /**
+ * Associate knowledge base with an agent
+ */
+  public  associateToAgent(agent: Agent){
+    const agentKnowledgeBaseProperty: bedrock.CfnAgent.AgentKnowledgeBaseProperty = {
+      description: this.description,
+      knowledgeBaseId: this.knowledgeBaseId,
+      knowledgeBaseState: this.knowledgeBaseState,
+    };
+    agent.knowledgeBases=[agentKnowledgeBaseProperty]
+  }
 }
+
+
 
 /**
  * Validate that Bedrock Knowledge Base can use the selected model.
