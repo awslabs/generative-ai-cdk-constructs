@@ -55,10 +55,13 @@ def handler(event, context) -> dict:
                 datetime.timestamp(
                     datetime.now() - timedelta(hours=int(crawl_interval_hours))
                 )
+                * 1000
             )
         )
 
-        if last_finished_job["updated_at"] <= last_interval_start_timestamp:
+        print(f"Last interval start timestamp: {last_interval_start_timestamp}")
+        last_finished_job_updated_at = int(last_finished_job["updated_at"])
+        if last_finished_job_updated_at <= last_interval_start_timestamp:
             print(f"Time to run a job for {target_url}")
             run_job(target_url)
         else:
@@ -99,14 +102,14 @@ def get_unfinished_jobs_for_target(target_url):
 
     # Check if any job is not "finished" or "failed" and updated_at is newer than 24 hours
     twenty_four_hours_ago = int(
-        round(datetime.timestamp(datetime.now() - timedelta(days=1)))
+        round(datetime.timestamp(datetime.now() - timedelta(days=1) * 1000))
     )
 
     unfinished_jobs = [
         job
         for job in jobs
         if job["status"] not in ["finished", "failed"]
-        and job["updated_at"] >= twenty_four_hours_ago
+        and int(job["updated_at"]) >= twenty_four_hours_ago
     ]
 
     return unfinished_jobs
