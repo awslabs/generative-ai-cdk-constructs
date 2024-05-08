@@ -348,6 +348,10 @@ export class Agent extends Construct {
    */
   public readonly agentId: string;
 
+  /**
+   * Instance of Agent
+   */
+  public readonly agent: bedrock.CfnAgent;
 
   /**
    * The ARN of the agent.
@@ -438,38 +442,10 @@ export class Agent extends Construct {
     });
 
 
-    // add knowledge bases
-    if (props.knowledgeBases && props.knowledgeBases.length > 0) {
-      new iam.Policy(this, 'AgentKBPolicy', {
-        roles: [this.role],
-        statements: [
-          new iam.PolicyStatement({
-            actions: [
-              'bedrock:UpdateKnowledgeBase',
-              'bedrock:Retrieve',
-            ],
-            resources: props.knowledgeBases.map(kb => kb.knowledgeBaseArn),
-          }),
-        ],
-      });
-      props.knowledgeBases.forEach(kb => {
-        this.addKnowledgeBase(kb);
-      });
-    }
-
-    // add action groups
-    if (props.actionGroups && props.actionGroups.length > 0) {
-      props.actionGroups.forEach(ag => {
-        this.addActionGroup(ag);
-      });
-    }
-
-
     const agent = new bedrock.CfnAgent(this, 'Agent', {
 
       agentName: this.name,
-      actionGroups: this.actionGroups,
-
+     
       foundationModel: String(props.foundationModel),
       instruction: props.instruction,
       description: props.description,
@@ -479,11 +455,9 @@ export class Agent extends Construct {
       tags: props.tags,
       promptOverrideConfiguration: props.promptOverrideConfiguration,
 
-      knowledgeBases: this.knowledgeBases,
-
     });
 
-
+    this.agent = agent;
     this.agentId = agent.attrAgentId;
     this.agentArn = agent.attrAgentArn;
 
@@ -514,9 +488,8 @@ export class Agent extends Construct {
   }
 
   /**
-   * Add knowledge bases to the agent.
+   * Add knowledge base to the agent.
    */
-
   public addKnowledgeBase(kb: KnowledgeBase) {
     if (!kb.instruction) {
       throw new Error('Agent Knowledge Bases require instructions.');
@@ -526,21 +499,21 @@ export class Agent extends Construct {
       knowledgeBaseId: kb.knowledgeBaseId,
       knowledgeBaseState: kb.knowledgeBaseState,
     };
-    this.knowledgeBases.push(agentKnowledgeBaseProperty);
+
+    this.agent.knowledgeBases= [agentKnowledgeBaseProperty];
   }
 
+
   /**
-   * Add an action group to the agent.
+   * Add action group  to the agent.
    */
-  public addActionGroup(props: AgentActionGroup) {
-
-    this.actionGroups.push(props.actionGroupProperty);
-
+  public addActionGroups(props: AgentActionGroup) {
     props.actionGroupExecutor?.addPermission('AgentLambdaInvocationPolicy', {
       principal: new iam.ServicePrincipal('bedrock.amazonaws.com'),
       sourceArn: this.agentArn,
       sourceAccount: cdk.Stack.of(this).account,
     });
+    this.agent.actionGroups= [props.actionGroupProperty];
   }
 
   /**

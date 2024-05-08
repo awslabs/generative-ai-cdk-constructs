@@ -367,9 +367,13 @@ TypeScript
 const agent = new bedrock.Agent(this, 'Agent', {
   foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
   instruction: 'You are a helpful and friendly agent that answers questions about literature.',
-  knowledgeBases: [kb],
-  actionGroups:[actiongroup]
+  
 });
+
+agent.addActionGroups(actiongroup);
+
+agent.addKnowledgeBase(kb);
+
 ```
 
 Python
@@ -379,9 +383,11 @@ agent = bedrock.Agent(
     "Agent",
     foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
     instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
-    knowledge_bases= [kb],
-    actionGroups=[actiongroup]
 )
+
+  agent.add_action_groups(actiongroup);
+
+  agent.add_knowledge_base(kb);
 ```
 
 ### Prepare the Agent
@@ -401,7 +407,6 @@ const orchestration = readFileSync('prompts/orchestration.txt', 'utf-8');
 const agent = new bedrock.Agent(this, 'Agent', {
   foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
   instruction: "You are a helpful and friendly agent that answers questions about literature.",
-  knowledgeBases: [kb],
   promptOverrideConfiguration: {
     promptConfigurations: [
       {
@@ -441,7 +446,6 @@ orchestration = open('prompts/orchestration.txt', encoding="utf-8").read()
 agent = bedrock.Agent(self, "Agent",
             foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
             instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
-            knowledge_bases= [kb],
             prompt_override_configuration= bedrock.PromptOverrideConfiguration(
                 prompt_configurations=[
                     bedrock.PromptConfiguration(
@@ -491,9 +495,9 @@ TypeScript
 const agent = new bedrock.Agent(this, 'Agent', {
   foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
   instruction: 'You are a helpful and friendly agent that answers questions about literature.',
-  knowledgeBases: [kb],
   aliasName: 'latest',
 });
+agent.addKnowledgeBase(kb);
 ```
 
 Python

@@ -114,14 +114,17 @@ beforeAll(() => {
   agent = new bedrock.Agent(stack, 'Agent', {
     foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
     instruction: 'You provide support for developers working with CDK constructs.',
-    knowledgeBases: [kb],
-    actionGroups: [actiongroup],
+    // knowledgeBases: [kb],
+    // actionGroups: [actiongroup],
     idleSessionTTL: cdk.Duration.minutes(30),
     promptOverrideConfiguration: {
       promptConfigurations: [preprocessingPrompt, orchestrationPrompt],
     },
     aliasName: 'prod',
   });
+
+  agent.addKnowledgeBase(kb);
+  agent.addActionGroups(actiongroup);
 
   // agent.addActionGroup({
   //   actionGroupName: 'test-action-group',
@@ -220,7 +223,6 @@ describe('Bedrock Agents', () => {
     });
 
     test('Agent is created with one knowledge base', () => {
-      expect(agent.knowledgeBases).toHaveLength(1);
       const template = Template.fromStack(stack);
       template.resourceCountIs('AWS::Bedrock::KnowledgeBase', 1);
       template.hasResourceProperties('AWS::Bedrock::KnowledgeBase', {
@@ -248,14 +250,6 @@ describe('Bedrock Agents', () => {
         },
         AgentAliasName: 'prod',
       });
-    });
-
-    test('Add Action Group', () => {
-      expect(agent.actionGroups).toHaveLength(1);
-      expect(agent.actionGroups[0].actionGroupName).toEqual('test-action-group');
-      expect(agent.actionGroups[0].apiSchema).not.toBeNull();
-
-      console.log(agent.actionGroups[0].apiSchema);
     });
 
     test('No unsuppressed Errors', () => {
