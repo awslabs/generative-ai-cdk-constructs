@@ -17,6 +17,8 @@ import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as aws_ecr_assets from 'aws-cdk-lib/aws-ecr-assets';
 import * as ecs from 'aws-cdk-lib/aws-ecs';
+import * as events from 'aws-cdk-lib/aws-events';
+import * as targets from 'aws-cdk-lib/aws-events-targets';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as logs from 'aws-cdk-lib/aws-logs';
@@ -332,6 +334,12 @@ export class WebCrawler extends BaseClass {
         resources: [webCrawlerJobDefinition.jobDefinitionArn, jobQueue.jobQueueArn],
       }),
     );
+
+    const rule = new events.Rule(this, 'Rule', {
+      schedule: events.Schedule.expression('cron(0/15 * * * ? *)'),
+    });
+
+    rule.addTarget(new targets.LambdaFunction(schedulerFunction));
 
     this.dataBucket = dataBucket;
     this.snsTopic = snsTopic;
