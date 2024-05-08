@@ -445,7 +445,7 @@ export class Agent extends Construct {
     const agent = new bedrock.CfnAgent(this, 'Agent', {
 
       agentName: this.name,
-     
+
       foundationModel: String(props.foundationModel),
       instruction: props.instruction,
       description: props.description,

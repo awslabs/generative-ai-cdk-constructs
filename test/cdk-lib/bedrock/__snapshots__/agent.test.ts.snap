@@ -33,6 +33,12 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
         },
         "Principal": "bedrock.amazonaws.com",
         "SourceAccount": "123456789012",
+        "SourceArn": {
+          "Fn::GetAtt": [
+            "AgentD78B2CA1",
+            "AgentArn",
+          ],
+        },
       },
       "Type": "AWS::Lambda::Permission",
     },
@@ -136,35 +142,6 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
           "Version": "2012-10-17",
         },
         "PolicyName": "AgentAgentFMPolicyF0794CB5",
-        "Roles": [
-          {
-            "Ref": "AgentRole9D587F56",
-          },
-        ],
-      },
-      "Type": "AWS::IAM::Policy",
-    },
-    "AgentAgentKBPolicy9EC0712A": {
-      "Properties": {
-        "PolicyDocument": {
-          "Statement": [
-            {
-              "Action": [
-                "bedrock:UpdateKnowledgeBase",
-                "bedrock:Retrieve",
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::GetAtt": [
-                  "KBMyCfnKnowledgeBase0F2C5AD7",
-                  "KnowledgeBaseArn",
-                ],
-              },
-            },
-          ],
-          "Version": "2012-10-17",
-        },
-        "PolicyName": "AgentAgentKBPolicy9EC0712A",
         "Roles": [
           {
             "Ref": "AgentRole9D587F56",
