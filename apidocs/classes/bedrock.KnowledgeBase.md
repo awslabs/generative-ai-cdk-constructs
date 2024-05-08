@@ -23,6 +23,7 @@ Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
 
 - [description](bedrock.KnowledgeBase.md#description)
 - [instruction](bedrock.KnowledgeBase.md#instruction)
+- [knowledgeBase](bedrock.KnowledgeBase.md#knowledgebase)
 - [knowledgeBaseArn](bedrock.KnowledgeBase.md#knowledgebasearn)
 - [knowledgeBaseId](bedrock.KnowledgeBase.md#knowledgebaseid)
 - [knowledgeBaseState](bedrock.KnowledgeBase.md#knowledgebasestate)
@@ -35,6 +36,7 @@ Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
 
 ### Methods
 
+- [associateToAgent](bedrock.KnowledgeBase.md#associatetoagent)
 - [handleAmazonAuroraDefaultVectorStore](bedrock.KnowledgeBase.md#handleamazonauroradefaultvectorstore)
 - [handleAmazonAuroraVectorStore](bedrock.KnowledgeBase.md#handleamazonauroravectorstore)
 - [handleOpenSearchCollection](bedrock.KnowledgeBase.md#handleopensearchcollection)
@@ -80,6 +82,14 @@ ___
 • `Optional` `Readonly` **instruction**: `string`
 
 A narrative instruction of the knowledge base.
+
+___
+
+### knowledgeBase
+
+• `Readonly` **knowledgeBase**: `CfnKnowledgeBase`
+
+Instance of knowledge base.
 
 ___
 
@@ -158,6 +168,24 @@ ___
 The type of the knowledge base.
 
 ## Methods
+
+### associateToAgent
+
+▸ **associateToAgent**(`agent`): `void`
+
+Associate knowledge base with an agent
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `agent` | [`Agent`](bedrock.Agent.md) |
+
+#### Returns
+
+`void`
+
+___
 
 ### handleAmazonAuroraDefaultVectorStore
 

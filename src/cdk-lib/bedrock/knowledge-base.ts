@@ -16,6 +16,7 @@ import { aws_bedrock as bedrock } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { NagSuppressions } from 'cdk-nag/lib/nag-suppressions';
 import { Construct } from 'constructs';
+import { Agent } from './../bedrock/agent';
 import { BedrockFoundationModel } from './models';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 import {
@@ -26,7 +27,6 @@ import {
 import { VectorIndex } from '../opensearch-vectorindex';
 import { VectorCollection } from '../opensearchserverless';
 import { PineconeVectorStore } from '../pinecone';
-import { Agent } from './../bedrock/agent';
 
 /**
  * Knowledge base can be backed by different vector databases.
@@ -578,7 +578,7 @@ export class KnowledgeBase extends Construct {
     };
   }
 
-  
+
   /**
    * Handle the default VectorStore type.
    *
@@ -599,19 +599,18 @@ export class KnowledgeBase extends Construct {
   }
 
 
- /**
+  /**
  * Associate knowledge base with an agent
  */
-  public  associateToAgent(agent: Agent){
+  public associateToAgent(agent: Agent) {
     const agentKnowledgeBaseProperty: bedrock.CfnAgent.AgentKnowledgeBaseProperty = {
       description: this.description,
       knowledgeBaseId: this.knowledgeBaseId,
       knowledgeBaseState: this.knowledgeBaseState,
     };
-    agent.knowledgeBases=[agentKnowledgeBaseProperty]
+    agent.knowledgeBases=[agentKnowledgeBaseProperty];
   }
 }
-
 
 
 /**
