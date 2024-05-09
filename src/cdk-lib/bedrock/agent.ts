@@ -454,7 +454,7 @@ export class Agent extends Construct {
       customerEncryptionKeyArn: props.encryptionKey?.keyArn,
       tags: props.tags,
       promptOverrideConfiguration: props.promptOverrideConfiguration,
-      autoPrepare: props.shouldPrepareAgent
+      autoPrepare: props.shouldPrepareAgent,
 
     });
 
