@@ -58,11 +58,11 @@ export class Crawler {
   async start() {
     log.info('Starting Web Crawler');
 
-    const urls = new Set<string>([this.targetDataItem.target_url, ...this.additionalUrls]);
+    const urls = new Set<string>([...this.additionalUrls]);
 
     if (this.targetDataItem.target_type === TargetType.WEBSITE) {
+      urls.add(this.targetDataItem.target_url);
       const baseUrls = Utils.unique([Utils.getBaseUrl(this.targetDataItem.target_url) ?? '']).filter((c) => c);
-
       const sitemaps = await this.processRobotsTxt(baseUrls);
       await this.processSitemaps(sitemaps, urls);
     }
