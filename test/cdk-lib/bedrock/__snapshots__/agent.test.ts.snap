@@ -145,7 +145,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       },
       "Type": "AWS::IAM::Policy",
     },
-    "AgentAgentKBPolicy9EC0712A": {
+    "AgentAgentKBPolicyKBteststackKBF59CBB07419A3243": {
       "Properties": {
         "PolicyDocument": {
           "Statement": [
@@ -165,7 +165,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
           ],
           "Version": "2012-10-17",
         },
-        "PolicyName": "AgentAgentKBPolicy9EC0712A",
+        "PolicyName": "AgentAgentKBPolicyKBteststackKBF59CBB07419A3243",
         "Roles": [
           {
             "Ref": "AgentRole9D587F56",
