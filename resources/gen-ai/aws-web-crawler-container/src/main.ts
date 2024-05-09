@@ -76,6 +76,7 @@ import { FeedParser } from './feed-parser.js';
     } catch (error: any) {
       log.error('Error', error);
       await dynamoDBManager.updateJobStatus(configManager.config.jobId, JobStatus.FAILED);
+      return;
     }
   }
 

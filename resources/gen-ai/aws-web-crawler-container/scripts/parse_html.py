@@ -115,6 +115,7 @@ def get_prev_changeset(target_data: dict):
 def process_lines(prev_changeset: dict, pages_changeset_path: str, file: TextIOWrapper):
     urls = set({})
     with open(pages_changeset_path, "w") as changeset_file:
+        idx = 0
         for idx, line in enumerate(file):
             if idx % 100 == 0:
                 print(f"Parsed {idx} pages", flush=True)
