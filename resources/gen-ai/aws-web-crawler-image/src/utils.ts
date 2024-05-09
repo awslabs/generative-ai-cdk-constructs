@@ -60,7 +60,7 @@ export abstract class Utils {
     const seconds = formatNumber(now.getSeconds(), 2);
     const milliseconds = formatNumber(now.getMilliseconds(), 3);
 
-    const retValue = `${year}${month}${day}${hours}${minutes}${seconds}${milliseconds}`;
+    const retValue = `${year}-${month}-${day}-${hours}-${minutes}-${seconds}${milliseconds}`;
 
     return retValue;
   }
