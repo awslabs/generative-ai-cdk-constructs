@@ -166,7 +166,10 @@ def list_unused_agent_versions(agent_id: str, session: boto3.Session) -> List[in
 
 def get_version(routing_configuration: List[Dict]) -> str:
     if len(routing_configuration) == 1:
-        return routing_configuration[0]["agentVersion"]
+        try:
+            return routing_configuration[0]["agentVersion"]
+        except KeyError:
+            return None
     else:
         return None
 
