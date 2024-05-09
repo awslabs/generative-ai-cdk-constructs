@@ -274,7 +274,7 @@ export class WebCrawler extends BaseClass {
         .substring(0, 12);
       target_s3_key = `${target_s3_key}-${hash}`;
 
-      new cr.AwsCustomResource(this, `target-${targetUrl}`, {
+      new cr.AwsCustomResource(this, `target-${target_s3_key}`, {
         onCreate: {
           service: 'DynamoDB',
           action: 'putItem',
