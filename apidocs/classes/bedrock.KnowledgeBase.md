@@ -23,9 +23,9 @@ Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
 
 - [description](bedrock.KnowledgeBase.md#description)
 - [instruction](bedrock.KnowledgeBase.md#instruction)
-- [knowledgeBase](bedrock.KnowledgeBase.md#knowledgebase)
 - [knowledgeBaseArn](bedrock.KnowledgeBase.md#knowledgebasearn)
 - [knowledgeBaseId](bedrock.KnowledgeBase.md#knowledgebaseid)
+- [knowledgeBaseInstance](bedrock.KnowledgeBase.md#knowledgebaseinstance)
 - [knowledgeBaseState](bedrock.KnowledgeBase.md#knowledgebasestate)
 - [name](bedrock.KnowledgeBase.md#name)
 - [node](bedrock.KnowledgeBase.md#node)
@@ -85,14 +85,6 @@ A narrative instruction of the knowledge base.
 
 ___
 
-### knowledgeBase
-
-• `Readonly` **knowledgeBase**: `CfnKnowledgeBase`
-
-Instance of knowledge base.
-
-___
-
 ### knowledgeBaseArn
 
 • `Readonly` **knowledgeBaseArn**: `string`
@@ -106,6 +98,14 @@ ___
 • `Readonly` **knowledgeBaseId**: `string`
 
 The ID of the knowledge base.
+
+___
+
+### knowledgeBaseInstance
+
+• `Readonly` **knowledgeBaseInstance**: `CfnKnowledgeBase`
+
+Instance of knowledge base.
 
 ___
 
