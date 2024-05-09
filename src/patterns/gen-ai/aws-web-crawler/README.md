@@ -42,7 +42,7 @@ export class SampleStack extends cdk.Stack {
           url: 'https://cloudprice.net/aws/ec2',
           targetType: CrawlerTargetType.WEBSITE,
           crawlIntervalHours: 1,
-          maxRequests: 250,
+          maxRequests: 15000,
         },
         {
           url: 'https://aws.amazon.com/about-aws/whats-new/recent/feed',
@@ -72,7 +72,7 @@ class SampleStack(Stack):
                     'url': 'https://cloudprice.net/aws/ec2',
                     'target_type': CrawlerTargetType.WEBSITE,
                     'crawl_interval_hours': 1,
-                    'max_requests': 250,
+                    'max_requests': 15000,
                 },
                 {
                     'url': 'https://aws.amazon.com/about-aws/whats-new/recent/feed',
