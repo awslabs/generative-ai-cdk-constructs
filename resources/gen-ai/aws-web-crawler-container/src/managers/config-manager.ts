@@ -25,6 +25,7 @@ export interface Configuration {
   skip_parse: boolean;
   skip_download: boolean;
   outputPath: string;
+  jobDate: Date;
   file_names: {
     pages: string;
     files: string;
@@ -59,6 +60,7 @@ export class ConfigManager {
     };
 
     this.config = {
+      jobDate: new Date(),
       targetsTableName: process.env.TARGETS_TABLE_NAME ?? '',
       jobsTableName: process.env.JOBS_TABLE_NAME ?? '',
       dataBucketName: process.env.DATA_BUCKET_NAME ?? '',

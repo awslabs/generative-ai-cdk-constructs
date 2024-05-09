@@ -24,8 +24,7 @@ export class FeedParser {
     const feed = await parser.parseURL(this.targetDataItem.target_url);
     log.info(`Found ${feed.items.length} items in the feed`);
 
-    const lastFinishedJobDate = new Date(this.targetDataItem.last_finished_job_date ?? 0);
-
+    const lastFinishedJobDate = new Date(this.targetDataItem.last_finished_job_date?.trim() || 0);
     const links = feed.items
       .filter((item) => !item.isoDate || new Date(item.isoDate) > lastFinishedJobDate)
       .map((c) => c.link)

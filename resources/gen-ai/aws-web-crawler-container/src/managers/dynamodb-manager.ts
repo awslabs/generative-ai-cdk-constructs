@@ -157,7 +157,7 @@ export class DynamoDBManager {
           ExpressionAttributeValues: {
             ':j': jobId,
             ':u': Date.now(),
-            ':d': new Date().toISOString(),
+            ':d': this.config.jobDate.toISOString(),
           },
         };
 

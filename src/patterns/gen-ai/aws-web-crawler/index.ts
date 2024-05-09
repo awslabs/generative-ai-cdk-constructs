@@ -225,7 +225,7 @@ export class WebCrawler extends BaseClass {
     const webCrawlerContainer = new batch.EcsFargateContainerDefinition(this, 'webCrawlerContainer', {
       cpu: 2,
       memory: cdk.Size.mebibytes(4096),
-      image: ecs.ContainerImage.fromAsset(path.join(__dirname, '../../../../resources/gen-ai/aws-web-crawler-image'), {
+      image: ecs.ContainerImage.fromAsset(path.join(__dirname, '../../../../resources/gen-ai/aws-web-crawler-container'), {
         platform: aws_ecr_assets.Platform.LINUX_AMD64,
       }),
       jobRole: webCrawlerJobRole,
@@ -292,6 +292,7 @@ export class WebCrawler extends BaseClass {
               ignore_robots_txt: { BOOL: target.ignoreRobotsTxt ?? false },
               crawl_interval_hours: { N: `${target.crawlIntervalHours ?? 0}` },
               last_finished_job_id: { S: '' },
+              last_finished_job_date: { S: '' },
               created_at: { N: `${Date.now()}` },
               updated_at: { N: `${Date.now()}` },
             },
