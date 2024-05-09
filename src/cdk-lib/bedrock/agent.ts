@@ -497,42 +497,46 @@ export class Agent extends Construct {
   /**
    * Add knowledge base to the agent.
    */
-  public addKnowledgeBase(kb: KnowledgeBase) {
-    if (!kb.instruction) {
-      throw new Error('Agent Knowledge Bases require instructions.');
-    }
-    new iam.Policy(this, `AgentKBPolicy-${kb.name}`, {
-      roles: [this.role],
-      statements: [
-        new iam.PolicyStatement({
-          actions: [
-            'bedrock:UpdateKnowledgeBase',
-            'bedrock:Retrieve',
-          ],
-          resources: [kb.knowledgeBaseArn],
-        }),
-      ],
-    });
-    const agentKnowledgeBaseProperty: bedrock.CfnAgent.AgentKnowledgeBaseProperty = {
-      description: kb.description,
-      knowledgeBaseId: kb.knowledgeBaseId,
-      knowledgeBaseState: kb.knowledgeBaseState,
-    };
+  public addKnowledgeBases(knowledgeBases: KnowledgeBase []) {
+    for (const kb of knowledgeBases) {
+      if (!kb.instruction) {
+        throw new Error('Agent Knowledge Bases require instructions.');
+      }
+      new iam.Policy(this, `AgentKBPolicy-${kb.name}`, {
+        roles: [this.role],
+        statements: [
+          new iam.PolicyStatement({
+            actions: [
+              'bedrock:UpdateKnowledgeBase',
+              'bedrock:Retrieve',
+            ],
+            resources: [kb.knowledgeBaseArn],
+          }),
+        ],
+      });
+      const agentKnowledgeBaseProperty: bedrock.CfnAgent.AgentKnowledgeBaseProperty = {
+        description: kb.description,
+        knowledgeBaseId: kb.knowledgeBaseId,
+        knowledgeBaseState: kb.knowledgeBaseState,
+      };
 
-    this.agentInstance.knowledgeBases= [agentKnowledgeBaseProperty];
+      this.agentInstance.knowledgeBases= [agentKnowledgeBaseProperty];
+    }
   }
 
 
   /**
    * Add action group  to the agent.
    */
-  public addActionGroups(props: AgentActionGroup) {
-    props.actionGroupExecutor?.addPermission('AgentLambdaInvocationPolicy', {
-      principal: new iam.ServicePrincipal('bedrock.amazonaws.com'),
-      sourceArn: this.agentArn,
-      sourceAccount: cdk.Stack.of(this).account,
-    });
-    this.agentInstance.actionGroups= [props.actionGroupProperty];
+  public addActionGroups(actionGroups:AgentActionGroup[]) {
+    for (const actionGroup of actionGroups) {
+      actionGroup.actionGroupExecutor?.addPermission('AgentLambdaInvocationPolicy', {
+        principal: new iam.ServicePrincipal('bedrock.amazonaws.com'),
+        sourceArn: this.agentArn,
+        sourceAccount: cdk.Stack.of(this).account,
+      });
+      this.agentInstance.actionGroups= [actionGroup.actionGroupProperty];
+    }
   }
 
   /**
