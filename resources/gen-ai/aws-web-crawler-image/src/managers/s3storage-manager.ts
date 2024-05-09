@@ -19,10 +19,9 @@ import { Configuration } from './config-manager.js';
 export class S3StorageManager {
   constructor(private readonly config: Configuration, private readonly client: S3Client) {}
 
-  async uploadData(jobId: string) {
+  async uploadData(jobId: string, targetS3Key: string) {
     const bucketName = this.config.dataBucketName;
-    const targetUrl = this.config.targetUrl;
-    const prefix = `${encodeURIComponent(targetUrl)}/jobs/${jobId}`;
+    const prefix = `${targetS3Key}/jobs/${jobId}`;
 
     const pagesKey = `${prefix}/${this.config.file_names.pages}`;
     const filesKey = `${prefix}/${this.config.file_names.files}`;

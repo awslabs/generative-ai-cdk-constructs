@@ -10,7 +10,9 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+import * as crypto from 'crypto';
 import * as path from 'path';
+import * as url from 'url';
 import * as cdk from 'aws-cdk-lib';
 import * as batch from 'aws-cdk-lib/aws-batch';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
@@ -262,6 +264,16 @@ export class WebCrawler extends BaseClass {
         targetUrl = `https://${targetUrl}`;
       }
 
+      let target_s3_key = encodeURIComponent(url.parse(targetUrl).hostname?.replace(/\./g, '-').substring(0, 30) ?? targetUrl);
+      const hash = crypto
+        .createHash('sha256')
+        .update(targetUrl)
+        .digest('base64')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .substring(0, 12);
+      target_s3_key = `${target_s3_key}-${hash}`;
+
       new cr.AwsCustomResource(this, `target-${targetUrl}`, {
         onCreate: {
           service: 'DynamoDB',
@@ -270,6 +282,7 @@ export class WebCrawler extends BaseClass {
             TableName: targetsTable.tableArn,
             Item: {
               target_url: { S: targetUrl },
+              target_s3_key: { S: target_s3_key },
               target_type: { S: target.targetType },
               sitemaps: { L: [] },
               max_requests: { N: `${target.maxRequests ?? 0}` },

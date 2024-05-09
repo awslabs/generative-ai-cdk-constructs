@@ -12,6 +12,7 @@
  */
 export interface TargetDataItem {
   target_url: string;
+  target_s3_key: string;
   target_type: TargetType;
   sitemaps: string[];
   max_requests: number;

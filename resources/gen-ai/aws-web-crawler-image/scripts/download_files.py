@@ -5,7 +5,6 @@ import boto3
 import hashlib
 import tempfile
 import requests
-import urllib.parse
 from time import sleep
 from io import TextIOWrapper
 from typing import Any
@@ -53,8 +52,11 @@ def main():
     print("Download files script started", flush=True)
     print(f"Files file path: {FILES_FILE_PATH}", flush=True)
     target_data = get_target_by_url(TARGET_URL)
+    target_url = target_data.get("target_url")
+    target_s3_key = target_data.get("target_s3_key")
+
     if not target_data:
-        print(f'Target with url "{TARGET_URL}" not found', flush=True)
+        print(f'Target with url "{target_url}" not found', flush=True)
         return
 
     prev_changeset = get_prev_changeset(target_data)
@@ -66,7 +68,7 @@ def main():
             process_lines(target_data, prev_changeset, changeset, file)
     else:
         print(f"File {FILES_FILE_PATH} does not exist", flush=True)
-        files_file_s3_key = f"{url_encode(TARGET_URL)}/jobs/{JOB_ID}/{FILE_FILE_NAME}"
+        files_file_s3_key = f"{target_s3_key}/jobs/{JOB_ID}/{FILE_FILE_NAME}"
         with NamedTemporaryFile(dir="/tmp") as temp_file:
             try:
                 s3.download_file(DATA_BUCKET_NAME, files_file_s3_key, temp_file.name)
@@ -80,7 +82,7 @@ def main():
                 else:
                     raise
 
-    save_changeset(prev_changeset, changeset)
+    save_changeset(target_data, prev_changeset, changeset)
 
 
 def get_target_by_url(target_url: str):
@@ -99,12 +101,14 @@ def get_target_by_url(target_url: str):
 
 def get_prev_changeset(target_data: dict):
     last_finished_job_id = target_data.get("last_finished_job_id")
+    target_s3_key = target_data.get("target_s3_key")
+
     print(f"Last finished job ID: {last_finished_job_id}", flush=True)
     if not last_finished_job_id or last_finished_job_id == JOB_ID:
         return dict({})
 
     last_changeset_s3_key = (
-        f"{url_encode(TARGET_URL)}/jobs/{last_finished_job_id}/files_changeset.jsonl"
+        f"{target_s3_key}/jobs/{last_finished_job_id}/files_changeset.jsonl"
     )
 
     with NamedTemporaryFile(dir="/tmp") as temp_file:
@@ -133,11 +137,10 @@ def get_prev_changeset(target_data: dict):
     return dict({})
 
 
-def save_changeset(prev_changeset: dict, changeset: dict):
+def save_changeset(target_data: dict, prev_changeset: dict, changeset: dict):
+    target_s3_key = target_data.get("target_s3_key")
     files_changeset_path = os.path.join(OUTPUT_PATH, "files_changeset.jsonl")
-    files_changeset_s3_key = (
-        f"{url_encode(TARGET_URL)}/jobs/{JOB_ID}/files_changeset.jsonl"
-    )
+    files_changeset_s3_key = f"{target_s3_key}/jobs/{JOB_ID}/files_changeset.jsonl"
 
     for url, data in prev_changeset.items():
         prev_operation = data.get("operation", "deleted")
@@ -197,14 +200,17 @@ def process_lines(
         urls_set.add(file_url)
 
         try:
-            item = process_file(prev_changeset, file_url, file_type)
+            item = process_file(target_data, prev_changeset, file_url, file_type)
             if item:
                 changeset[file_url] = item
         except Exception as e:
             print(f"Error: {e}", flush=True)
 
 
-def process_file(prev_changeset: dict, file_url: str, file_type: str):
+def process_file(
+    target_data: dict, prev_changeset: dict, file_url: str, file_type: str
+):
+    target_s3_key = target_data.get("target_s3_key")
     response = requests.head(file_url, headers=headers, timeout=60)
     if response.status_code not in [200, 301, 302]:
         print(f"Status code is {response.status_code}: {file_url}", flush=True)
@@ -252,7 +258,7 @@ def process_file(prev_changeset: dict, file_url: str, file_type: str):
     with tempfile.NamedTemporaryFile(delete=True) as temp_file:
         file_size = download_file(file_url, temp_file)
         checksum = get_checksum(temp_file)
-        file_s3_key = f"{url_encode(TARGET_URL)}/files/{checksum}.{file_type}"
+        file_s3_key = f"{target_s3_key}/files/{checksum}.{file_type}"
         file_data["checksum"] = checksum
         file_data["file_size"] = file_size
         file_data["s3_key"] = file_s3_key
@@ -308,10 +314,6 @@ def upload_file_to_s3(file_path: str, s3_file_key: str):
             print(f"Error checking file {s3_file_key}: {e}", flush=True)
 
     return False
-
-
-def url_encode(value: str):
-    return urllib.parse.quote(value, safe="")
 
 
 if __name__ == "__main__":

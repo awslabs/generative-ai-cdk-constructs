@@ -72,18 +72,16 @@ import { Utils } from './utils.js';
       const crawler = new Crawler(configManager.config, targetDataItem, dynamoDBManager);
 
       await crawler.start();
-      await s3StorageManager.uploadData(configManager.config.jobId);
+      await s3StorageManager.uploadData(configManager.config.jobId, targetDataItem.target_s3_key);
     }
 
     if (!configManager.config.skip_parse) {
       await dynamoDBManager.updateJobStatus(configManager.config.jobId, JobStatus.PARSING);
-
       await ScriptRunner.parseHTML(configManager.config);
     }
 
     if (!configManager.config.skip_download && targetDataItem.download_files) {
       await dynamoDBManager.updateJobStatus(configManager.config.jobId, JobStatus.DOWNLOADING_FILES);
-
       await ScriptRunner.downloadFiles(configManager.config);
     }
 
