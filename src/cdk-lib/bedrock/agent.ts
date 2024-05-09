@@ -501,6 +501,18 @@ export class Agent extends Construct {
     if (!kb.instruction) {
       throw new Error('Agent Knowledge Bases require instructions.');
     }
+    new iam.Policy(this, 'AgentKBPolicy', {
+      roles: [this.role],
+      statements: [
+        new iam.PolicyStatement({
+          actions: [
+            'bedrock:UpdateKnowledgeBase',
+            'bedrock:Retrieve',
+          ],
+          resources: [kb.knowledgeBaseArn],
+        }),
+      ],
+    });
     const agentKnowledgeBaseProperty: bedrock.CfnAgent.AgentKnowledgeBaseProperty = {
       description: kb.description,
       knowledgeBaseId: kb.knowledgeBaseId,
