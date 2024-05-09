@@ -501,7 +501,7 @@ export class Agent extends Construct {
     if (!kb.instruction) {
       throw new Error('Agent Knowledge Bases require instructions.');
     }
-    new iam.Policy(this, 'AgentKBPolicy', {
+    new iam.Policy(this, `AgentKBPolicy-${kb.name}`, {
       roles: [this.role],
       statements: [
         new iam.PolicyStatement({
