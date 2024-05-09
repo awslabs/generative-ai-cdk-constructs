@@ -24,6 +24,7 @@ Deploy a Bedrock Agent.
 - [agentArn](bedrock.Agent.md#agentarn)
 - [agentId](bedrock.Agent.md#agentid)
 - [agentInstance](bedrock.Agent.md#agentinstance)
+- [agentversion](bedrock.Agent.md#agentversion)
 - [aliasArn](bedrock.Agent.md#aliasarn)
 - [aliasId](bedrock.Agent.md#aliasid)
 - [aliasName](bedrock.Agent.md#aliasname)
@@ -95,6 +96,14 @@ ___
 • `Readonly` **agentInstance**: `CfnAgent`
 
 Instance of Agent
+
+___
+
+### agentversion
+
+• `Readonly` **agentversion**: `string`
+
+The version for the agent
 
 ___
 

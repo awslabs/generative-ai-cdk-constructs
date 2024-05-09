@@ -121,11 +121,6 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
             "AgentId",
           ],
         },
-        "RoutingConfiguration": [
-          {
-            "AgentVersion": "",
-          },
-        ],
       },
       "Type": "AWS::Bedrock::AgentAlias",
     },
