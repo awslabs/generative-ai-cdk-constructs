@@ -29,7 +29,7 @@ import stealthPlugin from 'puppeteer-extra-plugin-stealth';
 import { extensionToMimeType, fileTypes, mimeTypeToExtension } from './common/content-types.js';
 import { Configuration } from './managers/config-manager.js';
 import { DynamoDBManager } from './managers/dynamodb-manager.js';
-import { DataItem, HtmlMetadata, JobStatus, TargetDataItem, SuccessDataItem } from './types.js';
+import { DataItem, HtmlMetadata, JobStatus, TargetDataItem, SuccessDataItem, TargetType } from './types.js';
 import { Utils } from './utils.js';
 
 const MAX_REQUESTS = 25_000;
@@ -49,6 +49,7 @@ export class Crawler {
     private readonly config: Configuration,
     private readonly targetDataItem: TargetDataItem,
     private readonly dynamoDBManager: DynamoDBManager,
+    private readonly additionalUrls: string[],
   ) {
     this.maxRequests = this.get_max_requests();
     log.info(`Max requests: ${this.maxRequests}`);
@@ -57,17 +58,21 @@ export class Crawler {
   async start() {
     log.info('Starting Web Crawler');
 
-    const urls = new Set<string>([this.targetDataItem.target_url]);
-    const baseUrls = Utils.unique([Utils.getBaseUrl(this.targetDataItem.target_url) ?? '']).filter((c) => c);
+    const urls = new Set<string>([this.targetDataItem.target_url, ...this.additionalUrls]);
 
-    const sitemaps = await this.processRobotsTxt(baseUrls);
-    await this.processSitemaps(sitemaps, urls);
-    const urlsArray = Array.from(urls).sort();
-    await this.writeSitemaps(urlsArray);
+    if (this.targetDataItem.target_type === TargetType.WEBSITE) {
+      const baseUrls = Utils.unique([Utils.getBaseUrl(this.targetDataItem.target_url) ?? '']).filter((c) => c);
+
+      const sitemaps = await this.processRobotsTxt(baseUrls);
+      await this.processSitemaps(sitemaps, urls);
+    }
+
+    const initialUrls = Array.from(urls).sort();
+    await this.writeSitemaps(initialUrls);
 
     try {
       await this.openFiles();
-      await this.run(urlsArray);
+      await this.run(initialUrls);
     } finally {
       await this.closeFiles();
     }
@@ -177,18 +182,20 @@ export class Crawler {
       await this.writeData(ctx, 'pages', dataItem);
     }
 
-    await ctx.enqueueLinks({
-      strategy: EnqueueStrategy.SameDomain,
-      transformRequestFunction: (req) => {
-        if (fileTypes.has(Utils.getFileType(req.url) ?? '')) return false;
+    if (this.targetDataItem.target_type === TargetType.WEBSITE) {
+      await ctx.enqueueLinks({
+        strategy: EnqueueStrategy.SameDomain,
+        transformRequestFunction: (req) => {
+          if (fileTypes.has(Utils.getFileType(req.url) ?? '')) return false;
 
-        if (this.targetDataItem.ignore_robots_txt !== true && this.robots && !this.robots.every((c) => c.isAllowed(req.url))) {
-          return false;
-        }
+          if (this.targetDataItem.ignore_robots_txt !== true && this.robots && !this.robots.every((c) => c.isAllowed(req.url))) {
+            return false;
+          }
 
-        return req;
-      },
-    });
+          return req;
+        },
+      });
+    }
   }
 
   private async getPageMetadata(page: Page): Promise<HtmlMetadata> {

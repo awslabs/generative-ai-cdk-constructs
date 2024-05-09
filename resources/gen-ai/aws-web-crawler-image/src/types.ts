@@ -20,7 +20,8 @@ export interface TargetDataItem {
   download_files: boolean;
   file_types: string[];
   ignore_robots_txt: boolean;
-  last_finished_job_id: string;
+  last_finished_job_id?: string;
+  last_finished_job_date?: string;
   crawl_interval_hours: number;
   created_at: number;
   updated_at: number;

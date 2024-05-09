@@ -153,9 +153,11 @@ export class DynamoDBManager {
           Key: {
             target_url: this.config.targetUrl,
           },
-          UpdateExpression: 'set last_finished_job_id = :j',
+          UpdateExpression: 'set updated_at = :u, last_finished_job_id = :j, last_finished_job_date = :d',
           ExpressionAttributeValues: {
             ':j': jobId,
+            ':u': Date.now(),
+            ':d': new Date().toISOString(),
           },
         };
 

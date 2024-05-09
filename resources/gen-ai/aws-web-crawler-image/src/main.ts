@@ -21,8 +21,9 @@ import { ConfigManager } from './managers/config-manager.js';
 import { DynamoDBManager } from './managers/dynamodb-manager.js';
 import { S3StorageManager } from './managers/s3storage-manager.js';
 import { SNSManager } from './managers/sns-manager.js';
-import { JobStatus } from './types.js';
+import { JobStatus, TargetType } from './types.js';
 import { Utils } from './utils.js';
+import { FeedParser } from './feed-parser.js';
 
 (async function start() {
   log.info('Initializing Web Crawler');
@@ -65,11 +66,24 @@ import { Utils } from './utils.js';
     }
   }
 
+  const additionalUrls: string[] = [];
+  if (targetDataItem.target_type === TargetType.RSS_FEED) {
+    const feedParser = new FeedParser(targetDataItem);
+
+    try {
+      await feedParser.parseFeed();
+      additionalUrls.push(...feedParser.links);
+    } catch (error: any) {
+      log.error('Error', error);
+      await dynamoDBManager.updateJobStatus(configManager.config.jobId, JobStatus.FAILED);
+    }
+  }
+
   try {
     if (!configManager.config.skip_crawl) {
       log.info(`Job Id: ${configManager.config.jobId}`);
 
-      const crawler = new Crawler(configManager.config, targetDataItem, dynamoDBManager);
+      const crawler = new Crawler(configManager.config, targetDataItem, dynamoDBManager, additionalUrls);
 
       await crawler.start();
       await s3StorageManager.uploadData(configManager.config.jobId, targetDataItem.target_s3_key);

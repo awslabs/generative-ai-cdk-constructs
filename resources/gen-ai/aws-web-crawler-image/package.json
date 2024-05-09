@@ -1,8 +1,8 @@
 {
-  "name": "aws-web-crawler",
+  "name": "web-crawler",
   "version": "1.0.0",
   "type": "module",
-  "description": "A web crawler",
+  "description": "A web crawler that uses Playwright to scrape web pages",
   "scripts": {
     "start": "npm run start:dev",
     "start:prod": "node dist/main.js",
@@ -21,7 +21,8 @@
     "playwright": "^1.44.0",
     "playwright-extra": "^4.3.6",
     "puppeteer": "^22.8.0",
-    "puppeteer-extra-plugin-stealth": "^2.11.2"
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "rss-parser": "^3.13.0"
   },
   "devDependencies": {
     "@apify/tsconfig": "^0.1.0",
@@ -32,6 +33,6 @@
     "tsx": "^4.4.0",
     "typescript": "~5.3.0"
   },
-  "author": "Sergey Pugachev",
+  "author": "It's not you it's me",
   "license": "ISC"
 }
