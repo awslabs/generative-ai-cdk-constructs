@@ -351,7 +351,7 @@ export class Agent extends Construct {
   /**
    * Instance of Agent
    */
-  public readonly agent: bedrock.CfnAgent;
+  public readonly agentInstance: bedrock.CfnAgent;
 
   /**
    * The ARN of the agent.
@@ -454,10 +454,11 @@ export class Agent extends Construct {
       customerEncryptionKeyArn: props.encryptionKey?.keyArn,
       tags: props.tags,
       promptOverrideConfiguration: props.promptOverrideConfiguration,
+      autoPrepare: props.shouldPrepareAgent
 
     });
 
-    this.agent = agent;
+    this.agentInstance = agent;
     this.agentId = agent.attrAgentId;
     this.agentArn = agent.attrAgentArn;
 
@@ -500,7 +501,7 @@ export class Agent extends Construct {
       knowledgeBaseState: kb.knowledgeBaseState,
     };
 
-    this.agent.knowledgeBases= [agentKnowledgeBaseProperty];
+    this.agentInstance.knowledgeBases= [agentKnowledgeBaseProperty];
   }
 
 
@@ -513,7 +514,7 @@ export class Agent extends Construct {
       sourceArn: this.agentArn,
       sourceAccount: cdk.Stack.of(this).account,
     });
-    this.agent.actionGroups= [props.actionGroupProperty];
+    this.agentInstance.actionGroups= [props.actionGroupProperty];
   }
 
   /**
