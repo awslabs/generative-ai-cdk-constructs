@@ -182,7 +182,7 @@ export class KnowledgeBase extends Construct {
   /**
    * Instance of knowledge base.
    */
-  public readonly knowledgeBase: bedrock.CfnKnowledgeBase;
+  public readonly knowledgeBaseInstance: bedrock.CfnKnowledgeBase;
 
   /**
    * The role the Knowledge Base uses to access the vector store and data source.
@@ -424,7 +424,7 @@ export class KnowledgeBase extends Construct {
       tags: props.tags,
     });
 
-    this.knowledgeBase=knowledgeBase;
+    this.knowledgeBaseInstance=knowledgeBase;
 
     const kbCRPolicy = new iam.Policy(this, 'KBCRPolicy', {
       // roles: [crProvider.role],
