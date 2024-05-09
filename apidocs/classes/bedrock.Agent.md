@@ -21,9 +21,9 @@ Deploy a Bedrock Agent.
 ### Properties
 
 - [actionGroups](bedrock.Agent.md#actiongroups)
-- [agent](bedrock.Agent.md#agent)
 - [agentArn](bedrock.Agent.md#agentarn)
 - [agentId](bedrock.Agent.md#agentid)
+- [agentInstance](bedrock.Agent.md#agentinstance)
 - [aliasArn](bedrock.Agent.md#aliasarn)
 - [aliasId](bedrock.Agent.md#aliasid)
 - [aliasName](bedrock.Agent.md#aliasname)
@@ -74,14 +74,6 @@ A list of action groups associated with the agent
 
 ___
 
-### agent
-
-• `Readonly` **agent**: `CfnAgent`
-
-Instance of Agent
-
-___
-
 ### agentArn
 
 • `Readonly` **agentArn**: `string`
@@ -95,6 +87,14 @@ ___
 • `Readonly` **agentId**: `string`
 
 The unique identifier of the agent.
+
+___
+
+### agentInstance
+
+• `Readonly` **agentInstance**: `CfnAgent`
+
+Instance of Agent
 
 ___
 
