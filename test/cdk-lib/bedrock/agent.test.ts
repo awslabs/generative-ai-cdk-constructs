@@ -123,8 +123,8 @@ beforeAll(() => {
     aliasName: 'prod',
   });
 
-  agent.addKnowledgeBase(kb);
-  agent.addActionGroups(actiongroup);
+  agent.addKnowledgeBases([kb]);
+  agent.addActionGroups([actiongroup]);
 
   // agent.addActionGroup({
   //   actionGroupName: 'test-action-group',
