@@ -17,6 +17,7 @@
     "@aws-sdk/lib-dynamodb": "^3.521.0",
     "@aws-sdk/lib-storage": "^3.529.1",
     "@mozilla/readability": "^0.5.0",
+    "@types/xml2js": "^0.4.14",
     "crawlee": "^3.9.2",
     "playwright": "^1.44.0",
     "playwright-extra": "^4.3.6",
