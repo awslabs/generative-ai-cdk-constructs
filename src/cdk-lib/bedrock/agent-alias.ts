@@ -68,16 +68,20 @@ export class AgentAlias extends Construct {
     const alias = new bedrock.CfnAgentAlias(this, 'MyCfnAgentAlias', {
       agentAliasName: props.aliasName ?? 'latest',
       agentId: props.agentId,
-      routingConfiguration: [{
-        agentVersion: props.agentVersion || '',
-      }],
       tags: props.tags,
     });
 
+    if (props.agentVersion) {
+      alias.routingConfiguration = [{
+        agentVersion: props.agentVersion,
+      }];
+    }
 
     this.aliasId = alias.attrAgentAliasId;
     this.aliasArn = alias.attrAgentAliasArn;
     this.aliasName = props.aliasName ?? 'latest';
 
   }
+
+
 }

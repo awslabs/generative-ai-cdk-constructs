@@ -371,6 +371,11 @@ export class Agent extends Construct {
   public readonly aliasName?: string;
 
   /**
+   * The version for the agent
+   */
+  public readonly agentversion: string;
+
+  /**
    * A list of values to indicate if PrepareAgent or an Alias needs to be updated.
    * @private
    */
@@ -461,6 +466,7 @@ export class Agent extends Construct {
     this.agentInstance = agent;
     this.agentId = agent.attrAgentId;
     this.agentArn = agent.attrAgentArn;
+    this.agentversion = agent.attrAgentVersion;
 
     this._addAliasDependency(agent.attrUpdatedAt);
 
