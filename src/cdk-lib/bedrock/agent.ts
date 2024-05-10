@@ -505,6 +505,7 @@ export class Agent extends Construct {
    * Add knowledge base to the agent.
    */
   public addKnowledgeBases(knowledgeBases: KnowledgeBase []) {
+    const agentKnowledgeBasePropertyList = [];
     for (const kb of knowledgeBases) {
       if (!kb.instruction) {
         throw new Error('Agent Knowledge Bases require instructions.');
@@ -526,24 +527,33 @@ export class Agent extends Construct {
         knowledgeBaseId: kb.knowledgeBaseId,
         knowledgeBaseState: kb.knowledgeBaseState,
       };
-
-      this.agentInstance.knowledgeBases= [agentKnowledgeBaseProperty];
+      agentKnowledgeBasePropertyList.push(agentKnowledgeBaseProperty);
     }
+    this.agentInstance.knowledgeBases= agentKnowledgeBasePropertyList;
   }
 
 
   /**
    * Add action group  to the agent.
    */
-  public addActionGroups(actionGroups:AgentActionGroup[]) {
-    for (const actionGroup of actionGroups) {
-      actionGroup.actionGroupExecutor?.addPermission('AgentLambdaInvocationPolicy', {
+  public addActionGroups(props:AddAgentActionGroupProps[]) {
+    const actionGroupPropertyList = [];
+    for (const prop of props) {
+      prop.actionGroupExecutor?.addPermission('AgentLambdaInvocationPolicy', {
         principal: new iam.ServicePrincipal('bedrock.amazonaws.com'),
         sourceArn: this.agentArn,
         sourceAccount: cdk.Stack.of(this).account,
       });
-      this.agentInstance.actionGroups= [actionGroup.actionGroupProperty];
+      const actionGroup = new AgentActionGroup(this, 'actionGroups', {
+        actionGroupName: prop.actionGroupName,
+        description: prop.description,
+        actionGroupExecutor: prop.actionGroupExecutor,
+        actionGroupState: prop.actionGroupState,
+        apiSchema: prop.apiSchema,
+      });
+      actionGroupPropertyList.push(actionGroup.actionGroupProperty);
     }
+    this.agentInstance.actionGroups= actionGroupPropertyList;
   }
 
   /**
