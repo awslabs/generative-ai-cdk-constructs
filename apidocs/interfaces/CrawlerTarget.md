@@ -21,7 +21,7 @@
 
 • `Optional` `Readonly` **crawlIntervalHours**: `number`
 
-Schedule the crawler to run every N hours.
+Schedule the crawler to run every N hours following the completion of the previous job.
 
 **`Default`**
 
@@ -49,7 +49,7 @@ ___
 
 • `Optional` `Readonly` **fileTypes**: `string`[]
 
-File types to be downloaded.
+File types (extensions) to be downloaded.
 
 **`Default`**
 
@@ -63,7 +63,7 @@ ___
 
 • `Optional` `Readonly` **ignoreRobotsTxt**: `boolean`
 
-Ignore robots.txt file.
+Index pages that are disallowed by the robots.txt policy.
 
 **`Default`**
 
@@ -91,7 +91,7 @@ ___
 
 • `Optional` `Readonly` **maxRequests**: `number`
 
-Maximum number of requests to be made.
+Maximum number of requests to be made by crawler.
 
 **`Default`**
 

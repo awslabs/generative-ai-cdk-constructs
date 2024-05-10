@@ -22,6 +22,11 @@
 - [Pattern Construct Props](#pattern-construct-props)
 - [Target Properties](#target-properties)
 - [Crawler Output](#output)
+- [Architecture](#architecture)
+- [Cost](#cost)
+- [Security](#security)
+- [Quotas](#quotas)
+- [Clean up](#clean-up)
 
 ## Overview
 
@@ -184,6 +189,23 @@ Operations:
 - created
 - updated
 - deleted
+
+## Architecture
+![Architecture Diagram](architecture.png)
+
+## Cost
+
+When deploying this architecture, you as the customer are responsible for the costs of the AWS services utilized. Based on current pricing in the US East (N. Virginia) region, operating this infrastructure with the default configuration to crawle websites every day for 4 hours is estimated to cost approximately $52.75 per month. This cost estimate includes usage of the various AWS services leveraged in this architecture such as AWS Lambda, AWS Batch, AWS Fargate, and Amazon S3. 
+
+We recommend creating a budget through [AWS Cost Explorer](http://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this solution.
+
+The following table provides a sample cost breakdown for deploying this solution with the default parameters in the **US East (N. Virginia)** Region for **one month**.
+
+| **AWS Service**     | **Dimensions**        | **Cost [USD]** |
+|:-------------|:----------------|-----------------|
+| Amazon Virtual Private Cloud |  | 37.35 |
+| Amazon Simple Storage Service (S3) | 100 GB / month | 2.30 |
+| AWS Fargate | 4 hours per day  | 13.10 |
 
 
 ## Security

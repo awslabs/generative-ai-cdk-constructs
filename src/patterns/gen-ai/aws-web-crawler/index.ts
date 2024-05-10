@@ -224,13 +224,12 @@ export class WebCrawler extends BaseClass {
 
     const webCrawlerContainer = new batch.EcsFargateContainerDefinition(this, 'webCrawlerContainer', {
       cpu: 2,
-      memory: cdk.Size.mebibytes(4096),
+      memory: cdk.Size.mebibytes(6144),
       image: ecs.ContainerImage.fromAsset(path.join(__dirname, '../../../../resources/gen-ai/aws-web-crawler-container'), {
         platform: aws_ecr_assets.Platform.LINUX_AMD64,
       }),
       jobRole: webCrawlerJobRole,
       environment: {
-        CRAWLEE_AVAILABLE_MEMORY_RATIO: '0.75',
         AWS_DEFAULT_REGION: cdk.Stack.of(this).region,
         TARGETS_TABLE_NAME: targetsTable.tableName,
         JOBS_TABLE_NAME: jobsTable.tableName,
