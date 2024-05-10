@@ -19,10 +19,17 @@
 
 ## Table of contents
 - [Overview](#overview)
+- [Pattern Construct Props](#pattern-construct-props)
+- [Target Properties](#target-properties)
+- [Crawler Output](#output)
 
 ## Overview
 
-The WebCrawler construct provided here simplifies website crawling. It can crawl websites and RSS feeds on a schedule and store changeset data on S3.
+The WebCrawler construct provided here simplifies website crawling. It can crawl websites and RSS feeds on a schedule and store changeset data on S3. WebCrawler construct used [Crawlee](https://crawlee.dev/) library to crawl websites. 
+
+Crawling will begin shortly after the stack deployment. Please allow up to **15 minutes** for it to start the first time. 
+
+All job status changes are notified via the SNS Topic available through the `snsTopic` property.
 
 Here is a minimal deployable pattern definition:
 
@@ -82,6 +89,102 @@ class SampleStack(Stack):
             ]
         )
 ```
+
+## Pattern Construct Props
+
+| **Name**     | **Type**        | **Required** |**Description** |
+|:-------------|:----------------|-----------------|-----------------|
+| existingVpc | [ec2.IVpc](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.IVpc.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | An existing VPC can be used to deploy the construct.|
+| existingSecurityGroup | [ec2.ISecurityGroup](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.ISecurityGroup.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Security group for the Lambda function which this construct will use. If no exisiting security group is provided it will create one from the VPC.|
+| observability | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Enables observability on all services used. Warning: associated costs with the services used. It is a best practice to enable by default. Defaults to true.|
+| enableOperationalMetric | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | CDK construct collect anonymous operational metrics to help AWS improve the quality and features of the constructs. Data collection is subject to the AWS Privacy Policy (https://aws.amazon.com/privacy/). To opt out of this feature, simply disable it by setting the construct property "enableOperationalMetric" to false for each construct used. Defaults to true.|
+| stage | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | Value will be appended to resources name service. |
+| targets | CrawlerTarget[] | ![Optional](https://img.shields.io/badge/optional-4169E1) | Target websited and RSS feeds to be crawled |
+
+
+## Target Properties
+
+| **Name**     | **Type**        | **Required** |**Description** |
+|:-------------|:----------------|-----------------|-----------------|
+| url | string | ![Required](https://img.shields.io/badge/required-ff0000) | Target URL to be crawled. |
+| targetType | CrawlerTargetType | ![Required](https://img.shields.io/badge/required-ff0000) | Is it a website of RSS feed |
+| maxRequests | number | ![Optional](https://img.shields.io/badge/optional-4169E1) |  Maximum number of requests to be made by crawler. |
+| downloadFiles | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) |  Download files from the web site. |
+| maxFiles | number | ![Optional](https://img.shields.io/badge/optional-4169E1) | Maximum number of files to be downloaded. |
+| fileTypes | string[] | ![Optional](https://img.shields.io/badge/optional-4169E1) | File types (extensions) to be downloaded like "pdf". If no file types specified comman file types will be downloaded. |
+| ignoreRobotsTxt | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Index pages that are disallowed by the robots.txt policy. |
+| crawlIntervalHours | number | ![Optional](https://img.shields.io/badge/optional-4169E1) | Schedule the crawler to run every N hours following the completion of the previous job.  |
+
+## Crawler Output
+
+S3 output bucket names is available via `dataBucket` property. Data is stored on S3 in the following format:
+- /{target_key}/files/{file_name}
+- /{target_key}/jobs/{job_id}/{data_file}
+
+| File Name | Description |
+| -------- | ------- |
+| crawl_data.jsonl | Raw HTML crawler output |
+| crawl_files.jsonl| Links to files found on crawled pages |
+| crawl_errors.jsonl| Crawler errors |
+| crawl_sitemaps.jsonl| Links found in sitemaps |
+| pages_changeset.jsonl| Cleaned data in text format from the pages, including information on whether the page was created, updated, deleted or not changed after a previous crawl. |
+| files_changeset.jsonl| All downloaded files data including S3 key and information on whether the file was added, changed, or deleted after a previous crawl |
+
+All files are stored in jsonl format (JSON Lines) and can be processed line by line. Here is a Python snippet.
+
+```python
+import json
+
+with open(FILE_NAME, 'r') as file:
+    for line in file:
+        try:
+            json_data = json.loads(line)
+            # TODO: Process the JSON data
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON: {e}")
+```
+
+Page records have the following format
+
+```ts
+{
+  content_type: string;
+  url: string;
+  base_url?: string;
+  file_type?: string;
+  canonical?: string;
+  meta?: {
+    title?: string;
+    description?: string;
+    keywords?: string;
+    author?: string;
+  }
+  content?: string;
+  fingerprint?: string;
+  operation?: string;
+}
+```
+
+File records have the following format
+
+```ts
+{
+  url: string;
+  file_type: string;
+  file_size: number;
+  last_modified: string,
+  checksum?: string,
+  s3_key?: string
+  operation?: string;
+}
+```
+
+Operations:
+- not_changed
+- created
+- updated
+- deleted
+
 
 ## Security
 

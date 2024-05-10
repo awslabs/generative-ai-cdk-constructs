@@ -41,7 +41,7 @@ export interface CrawlerTarget {
    */
   readonly targetType: CrawlerTargetType;
   /**
-   * Maximum number of requests to be made.
+   * Maximum number of requests to be made by crawler.
    *
    * @default - crawler limit
    */
@@ -59,19 +59,19 @@ export interface CrawlerTarget {
    */
   readonly maxFiles?: number;
   /**
-   * File types to be downloaded.
+   * File types (extensions) to be downloaded.
    *
    * @default - all file types
    */
   readonly fileTypes?: string[];
   /**
-   * Ignore robots.txt file.
+   * Index pages that are disallowed by the robots.txt policy.
    *
    * @default - false
    */
   readonly ignoreRobotsTxt?: boolean;
   /**
-   * Schedule the crawler to run every N hours.
+   * Schedule the crawler to run every N hours following the completion of the previous job.
    *
    * @default - not scheduled
    */
@@ -230,6 +230,7 @@ export class WebCrawler extends BaseClass {
       }),
       jobRole: webCrawlerJobRole,
       environment: {
+        CRAWLEE_AVAILABLE_MEMORY_RATIO: '0.75',
         AWS_DEFAULT_REGION: cdk.Stack.of(this).region,
         TARGETS_TABLE_NAME: targetsTable.tableName,
         JOBS_TABLE_NAME: jobsTable.tableName,
