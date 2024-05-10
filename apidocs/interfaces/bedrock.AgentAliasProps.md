@@ -11,6 +11,7 @@
 - [agentId](bedrock.AgentAliasProps.md#agentid)
 - [agentVersion](bedrock.AgentAliasProps.md#agentversion)
 - [aliasName](bedrock.AgentAliasProps.md#aliasname)
+- [description](bedrock.AgentAliasProps.md#description)
 - [resourceUpdates](bedrock.AgentAliasProps.md#resourceupdates)
 - [tags](bedrock.AgentAliasProps.md#tags)
 
@@ -49,6 +50,14 @@ The name for the agent alias.
 ```ts
 - 'latest'
 ```
+
+___
+
+### description
+
+• `Optional` `Readonly` **description**: `string`
+
+Description for the agent alias.
 
 ___
 
