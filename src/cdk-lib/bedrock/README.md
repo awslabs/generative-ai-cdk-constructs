@@ -312,49 +312,6 @@ bedrock.S3DataSource(self, 'DataSource',
 ```
 
 
-### Action Groups
-An action group defines functions your agent can call. The functions are Lambda functions. The action group uses an OpenAPI schema to tell the agent what your functions do and how to call them.
-
-```ts
-const actionGroupFunction = new lambda_python.PythonFunction(this, 'ActionGroupFunction', {
-  runtime: lambda.Runtime.PYTHON_3_12,
-  entry: path.join(__dirname, '../lambda/action-group'),
-});
-
-const actiongroup = new bedrock.AgentActionGroup(this,'actionGroups',{
-      actionGroupName: 'query-library',
-      description: 'Use these functions to get information about the books in the library.',
-      actionGroupExecutor: actionGroupFunction,
-      actionGroupState: "ENABLED",
-      apiSchema: bedrock.ApiSchema.fromAsset(path.join(__dirname, 'action-group.yaml')),
-    })
-```
-
-Python
-
-```python
-
-action_group_function = PythonFunction(
-            self,
-            "LambdaFunction",
-            runtime=Runtime.PYTHON_3_12,
-            entry="./lambda",  
-            index="app.py",
-            handler="lambda_handler",
-        )
-
-actiongroup = bedrock.AgentActionGroup(
-    self,
-    "actionGroups",
-    action_group_name='query-library',
-    description='Use these functions to get information about the books in the library.',
-    action_group_executor= actionGroupFunction,
-    action_group_state= "ENABLED",
-    api_schema=bedrock.ApiSchema.from_asset("action-group.yaml"),  
-)
-```
-
-
 ## Agents
 Enable generative AI applications to execute multistep tasks across company systems and data sources.
 
@@ -370,8 +327,6 @@ const agent = new bedrock.Agent(this, 'Agent', {
   
 });
 
-agent.addActionGroups([actiongroup]);
-
 agent.addKnowledgeBase([kb]);
 
 ```
@@ -384,10 +339,47 @@ agent = bedrock.Agent(
     foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
     instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
 )
-
-  agent.add_action_groups(actiongroup);
-
   agent.add_knowledge_base(kb);
+```
+
+### Action Groups
+An action group defines functions your agent can call. The functions are Lambda functions. The action group uses an OpenAPI schema to tell the agent what your functions do and how to call them.
+
+```ts
+const actionGroupFunction = new lambda_python.PythonFunction(this, 'ActionGroupFunction', {
+  runtime: lambda.Runtime.PYTHON_3_12,
+  entry: path.join(__dirname, '../lambda/action-group'),
+});
+
+agent.addActionGroup({
+  actionGroupName: 'query-library',
+  description: 'Use these functions to get information about the books in the library.',
+  actionGroupExecutor: actionGroupFunction,
+  actionGroupState: "ENABLED",
+  apiSchema: bedrock.ApiSchema.fromAsset(path.join(__dirname, 'action-group.yaml')),
+});
+```
+
+Python
+
+```python
+
+action_group_function = PythonFunction(
+            self,
+            "LambdaFunction",
+            runtime=Runtime.PYTHON_3_12,
+            entry="./lambda",  
+            index="app.py",
+            handler="lambda_handler",
+        )
+
+agent.add_action_group(
+            action_group_name="query-library",
+            description="Use these functions to get information about the books in the library.",
+            action_group_executor=action_group_function,
+            action_group_state="ENABLED",
+            api_schema=bedrock.ApiSchema.from_asset("action-group.yaml"),  
+        )
 ```
 
 ### Prepare the Agent
