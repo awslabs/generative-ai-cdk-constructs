@@ -292,6 +292,12 @@ export interface AddAgentAliasProps {
    * @default - Creates a new version of the agent.
    */
   readonly agentVersion?: string;
+
+  /**
+   * Description for the agent alias.
+   *
+   */
+  readonly description?: string;
 }
 
 /**
@@ -490,6 +496,7 @@ export class Agent extends Construct {
       agentVersion: props.agentVersion,
       resourceUpdates: cdk.Lazy.list({ produce: () => this.resourceUpdates }),
       aliasName: props.aliasName,
+      description: props.description,
     });
     return alias;
   }

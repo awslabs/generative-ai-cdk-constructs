@@ -27,6 +27,12 @@ export interface AgentAliasProps {
    * @default - 'latest'
    */
   readonly aliasName?: string;
+
+  /**
+   * Description for the agent alias.
+   *
+   */
+  readonly description?: string;
   /**
    * The list of resource update timestamps to let CloudFormation determine when to update the alias.
    */
@@ -69,6 +75,7 @@ export class AgentAlias extends Construct {
       agentAliasName: props.aliasName ?? 'latest',
       agentId: props.agentId,
       tags: props.tags,
+      description: props.description,
     });
 
     if (props.agentVersion) {

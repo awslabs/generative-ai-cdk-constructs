@@ -370,9 +370,9 @@ const agent = new bedrock.Agent(this, 'Agent', {
   
 });
 
-agent.addActionGroups(actiongroup);
+agent.addActionGroups([actiongroup]);
 
-agent.addKnowledgeBase(kb);
+agent.addKnowledgeBase([kb]);
 
 ```
 
@@ -497,7 +497,7 @@ const agent = new bedrock.Agent(this, 'Agent', {
   instruction: 'You are a helpful and friendly agent that answers questions about literature.',
   aliasName: 'latest',
 });
-agent.addKnowledgeBase(kb);
+agent.addKnowledgeBase([kb]);
 ```
 
 Python
