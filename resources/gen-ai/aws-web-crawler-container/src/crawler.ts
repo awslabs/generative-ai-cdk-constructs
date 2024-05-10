@@ -117,7 +117,6 @@ export class Crawler {
         },
       },
       new CrawleeConfiguration({
-        persistStorage: this.debug,
         availableMemoryRatio: 0.75,
       }),
     );
