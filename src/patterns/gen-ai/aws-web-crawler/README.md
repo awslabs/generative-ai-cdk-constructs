@@ -21,7 +21,7 @@
 - [Overview](#overview)
 - [Pattern Construct Props](#pattern-construct-props)
 - [Target Properties](#target-properties)
-- [Crawler Output](#output)
+- [Crawler Output](#crawler-output)
 - [Architecture](#architecture)
 - [Cost](#cost)
 - [Security](#security)
