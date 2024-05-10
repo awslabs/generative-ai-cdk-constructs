@@ -201,7 +201,7 @@ ___
 
 ### addActionGroups
 
-▸ **addActionGroups**(`actionGroups`): `void`
+▸ **addActionGroups**(`props`): `void`
 
 Add action group  to the agent.
 
@@ -209,7 +209,7 @@ Add action group  to the agent.
 
 | Name | Type |
 | :------ | :------ |
-| `actionGroups` | [`AgentActionGroup`](bedrock.AgentActionGroup.md)[] |
+| `props` | [`AddAgentActionGroupProps`](../interfaces/bedrock.AddAgentActionGroupProps.md)[] |
 
 #### Returns
 

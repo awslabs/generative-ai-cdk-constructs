@@ -187,11 +187,6 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
               },
             },
             "ActionGroupName": "test-action-group",
-            "ActionGroupState": "ENABLED",
-            "ApiSchema": {
-              "Payload": "mock schema",
-            },
-            "Description": "Use these functions to get information about the books in the Project Gutenburg library.",
             "SkipResourceInUseCheckOnDelete": false,
           },
         ],
