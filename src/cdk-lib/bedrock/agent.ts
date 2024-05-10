@@ -544,7 +544,7 @@ export class Agent extends Construct {
         sourceArn: this.agentArn,
         sourceAccount: cdk.Stack.of(this).account,
       });
-      const actionGroup = new AgentActionGroup(this,  `ag-${prop.actionGroupName}`, {
+      const actionGroup = new AgentActionGroup(this, `ag-${prop.actionGroupName}`, {
         actionGroupName: prop.actionGroupName,
         description: prop.description,
         actionGroupExecutor: prop.actionGroupExecutor,
