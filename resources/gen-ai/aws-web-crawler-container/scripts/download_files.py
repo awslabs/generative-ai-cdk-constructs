@@ -20,7 +20,7 @@ TARGET_URL = os.environ.get("TARGET_URL")
 JOB_ID = os.environ.get("JOB_ID")
 
 MAX_FILE_SIZE_IN_BYTES = 100 * 1024 * 1024  # 100 MB
-MAX_FILES = 500
+MAX_FILES = 1000
 DEFAULT_FILE_TYPES = [
     "csv",
     "doc",

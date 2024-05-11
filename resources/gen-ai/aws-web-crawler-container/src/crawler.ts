@@ -32,7 +32,7 @@ import { DynamoDBManager } from './managers/dynamodb-manager.js';
 import { DataItem, HtmlMetadata, JobStatus, TargetDataItem, SuccessDataItem, TargetType } from './types.js';
 import { Utils } from './utils.js';
 
-const MAX_REQUESTS = 25_000;
+const MAX_REQUESTS = 100_000;
 
 export class Crawler {
   private readonly debug: boolean = false;

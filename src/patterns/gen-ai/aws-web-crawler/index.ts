@@ -246,7 +246,7 @@ export class WebCrawler extends BaseClass {
     const webCrawlerJobDefinition = new batch.EcsJobDefinition(this, 'webCrawlerJob', {
       container: webCrawlerContainer,
       retryAttempts: 1,
-      timeout: cdk.Duration.hours(24),
+      timeout: cdk.Duration.hours(36),
       retryStrategies: [
         batch.RetryStrategy.of(batch.Action.EXIT, batch.Reason.CANNOT_PULL_CONTAINER),
         batch.RetryStrategy.of(
