@@ -28,6 +28,7 @@
 - [snsTopic](WebCrawler.md#snstopic)
 - [stage](WebCrawler.md#stage)
 - [targetsTable](WebCrawler.md#targetstable)
+- [vpc](WebCrawler.md#vpc)
 - [webCrawlerJobDefinition](WebCrawler.md#webcrawlerjobdefinition)
 - [usageMetricMap](WebCrawler.md#usagemetricmap)
 
@@ -214,6 +215,14 @@ ___
 • `Readonly` **targetsTable**: `ITable`
 
 Returns the instance of Targets DynamoDB table
+
+___
+
+### vpc
+
+• `Readonly` **vpc**: `IVpc`
+
+Returns the instance of ec2.IVpc used by the construct
 
 ___
 

@@ -6,13 +6,31 @@
 
 ### Properties
 
+- [bucketOutputProps](WebCrawlerProps.md#bucketoutputprops)
 - [enableOperationalMetric](WebCrawlerProps.md#enableoperationalmetric)
+- [existingOutputBucketObj](WebCrawlerProps.md#existingoutputbucketobj)
 - [existingVpc](WebCrawlerProps.md#existingvpc)
 - [observability](WebCrawlerProps.md#observability)
 - [stage](WebCrawlerProps.md#stage)
 - [targets](WebCrawlerProps.md#targets)
+- [vpcProps](WebCrawlerProps.md#vpcprops)
 
 ## Properties
+
+### bucketOutputProps
+
+• `Optional` `Readonly` **bucketOutputProps**: `BucketProps`
+
+Optional user provided props to override the default props for the S3 Bucket.
+Providing both this and `existingOutputBucketObj` will cause an error.
+
+**`Default`**
+
+```ts
+- Default props are used
+```
+
+___
 
 ### enableOperationalMetric
 
@@ -33,11 +51,26 @@ simply disable it by setting the construct property
 
 ___
 
+### existingOutputBucketObj
+
+• `Optional` `Readonly` **existingOutputBucketObj**: `IBucket`
+
+Existing instance of S3 Bucket object, providing both this and `bucketOutputProps` will cause an error.
+
+**`Default`**
+
+```ts
+- None
+```
+
+___
+
 ### existingVpc
 
 • `Optional` `Readonly` **existingVpc**: `IVpc`
 
-An existing VPC can be used to deploy the construct.
+Optional An existing VPC in which to deploy the construct. Providing both this and
+vpcProps is an error.
 
 **`Default`**
 
@@ -81,6 +114,22 @@ ___
 • `Optional` `Readonly` **targets**: [`CrawlerTarget`](CrawlerTarget.md)[]
 
 Targets to be crawled.
+
+**`Default`**
+
+```ts
+- none
+```
+
+___
+
+### vpcProps
+
+• `Optional` `Readonly` **vpcProps**: `VpcProps`
+
+Optional custom properties for a VPC the construct will create. This VPC will
+be used by the Lambda functions the construct creates. Providing
+both this and existingVpc is an error.
 
 **`Default`**
 

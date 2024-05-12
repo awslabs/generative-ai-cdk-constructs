@@ -22,14 +22,20 @@ import * as ecs from 'aws-cdk-lib/aws-ecs';
 import * as events from 'aws-cdk-lib/aws-events';
 import * as targets from 'aws-cdk-lib/aws-events-targets';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import { PolicyStatement, AnyPrincipal, Effect, AccountPrincipal } from 'aws-cdk-lib/aws-iam';
+import * as kms from 'aws-cdk-lib/aws-kms';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as sns from 'aws-cdk-lib/aws-sns';
 import * as cr from 'aws-cdk-lib/custom-resources';
+import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import { ConstructName } from '../../../common/base-class';
 import { BaseClass, BaseClassProps } from '../../../common/base-class/base-class';
+import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
+import * as vpc_helper from '../../../common/helpers/vpc-helper';
+import { ServiceEndpointTypeEnum } from '../../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
 
 export interface CrawlerTarget {
   /**
@@ -104,11 +110,33 @@ export interface WebCrawlerProps {
    */
   readonly observability?: boolean;
   /**
-   *  An existing VPC can be used to deploy the construct.
+   * Existing instance of S3 Bucket object, providing both this and `bucketOutputProps` will cause an error.
+   *
+   * @default - None
+   */
+  readonly existingOutputBucketObj?: s3.IBucket;
+  /**
+   * Optional user provided props to override the default props for the S3 Bucket.
+   * Providing both this and `existingOutputBucketObj` will cause an error.
+   *
+   * @default - Default props are used
+   */
+  readonly bucketOutputProps?: s3.BucketProps;
+  /**
+   * Optional An existing VPC in which to deploy the construct. Providing both this and
+   * vpcProps is an error.
    *
    * @default - none
    */
   readonly existingVpc?: ec2.IVpc;
+  /**
+   * Optional custom properties for a VPC the construct will create. This VPC will
+   * be used by the compute resources the construct creates. Providing
+   * both this and existingVpc is an error.
+   *
+   * @default - none
+   */
+  readonly vpcProps?: ec2.VpcProps;
   /**
    *  Targets to be crawled.
    *
@@ -123,6 +151,10 @@ export enum CrawlerTargetType {
 }
 
 export class WebCrawler extends BaseClass {
+  /**
+   * Returns the instance of ec2.IVpc used by the construct
+   */
+  public readonly vpc: ec2.IVpc;
   /**
    * Returns the instance of S3 bucket used by the construct
    */
@@ -159,12 +191,39 @@ export class WebCrawler extends BaseClass {
   constructor(scope: Construct, id: string, props: WebCrawlerProps) {
     super(scope, id);
 
-    const vpc =
-      props.existingVpc ??
-      new ec2.Vpc(this, 'webCrawlerVpc', {
+    vpc_helper.CheckVpcProps(props);
+    s3_bucket_helper.CheckS3Props({
+      existingBucketObj: props.existingOutputBucketObj,
+      bucketProps: props.bucketOutputProps,
+    });
+
+    if (props?.existingVpc) {
+      this.vpc = props.existingVpc;
+    } else if (props.vpcProps) {
+      this.vpc = new ec2.Vpc(this, 'webCrawlerVpc', props.vpcProps);
+    } else {
+      this.vpc = new ec2.Vpc(this, 'webCrawlerVpc', {
         createInternetGateway: true,
         natGateways: 1,
       });
+    };
+
+    // add VPC endpoints for the compute environment
+    vpc_helper.AddAwsServiceEndpoint(this, this.vpc, ServiceEndpointTypeEnum.ECR_API);
+    vpc_helper.AddAwsServiceEndpoint(this, this.vpc, ServiceEndpointTypeEnum.ECR_DKR);
+    vpc_helper.AddAwsServiceEndpoint(this, this.vpc, ServiceEndpointTypeEnum.S3);
+
+    // vpc flowloggroup
+    const logGroup = new logs.LogGroup(this, 'webCrawlerConstructLogGroup');
+    const role = new iam.Role(this, 'webCrawlerConstructRole', {
+      assumedBy: new iam.ServicePrincipal('vpc-flow-logs.amazonaws.com'),
+    });
+
+    // vpc flowlogs
+    new ec2.FlowLog(this, 'FlowLog', {
+      resourceType: ec2.FlowLogResourceType.fromVpc(this.vpc),
+      destination: ec2.FlowLogDestination.toCloudWatchLogs(logGroup, role),
+    });
 
     const baseProps: BaseClassProps = {
       stage: props.stage,
@@ -181,6 +240,8 @@ export class WebCrawler extends BaseClass {
       partitionKey: { name: 'target_url', type: dynamodb.AttributeType.STRING },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
+      pointInTimeRecovery: true,
+      encryption: dynamodb.TableEncryption.AWS_MANAGED,
     });
 
     const jobsTable = new dynamodb.Table(this, 'jobsTable', {
@@ -188,18 +249,124 @@ export class WebCrawler extends BaseClass {
       sortKey: { name: 'job_id', type: dynamodb.AttributeType.STRING },
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
+      pointInTimeRecovery: true,
+      encryption: dynamodb.TableEncryption.AWS_MANAGED,
     });
 
-    const dataBucket = new s3.Bucket(this, 'webCrawlerDataBucket', {
-      accessControl: s3.BucketAccessControl.PRIVATE,
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-      enforceSSL: true,
+    // bucket for storing server access logging
+    const serverAccessLogBucket = new s3.Bucket(
+      this,
+      'serverAccessLogBucket' + this.stage,
+      {
+        blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+        encryption: s3.BucketEncryption.S3_MANAGED,
+        enforceSSL: true,
+        versioned: true,
+        lifecycleRules: [
+          {
+            expiration: cdk.Duration.days(90),
+          },
+        ],
+      },
+    );
+
+    // Bucket containing the output data uploaded by the crawler
+    let dataBucket: s3.IBucket;
+
+    if (!props.existingOutputBucketObj) {
+      let tmpBucket: s3.Bucket;
+      if (!props.bucketOutputProps) {
+        tmpBucket = new s3.Bucket(this, 'webCrawlerDataBucket' + this.stage, {
+          accessControl: s3.BucketAccessControl.PRIVATE,
+          blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+          encryption: s3.BucketEncryption.S3_MANAGED,
+          bucketName: 'outputBucket' + this.stage + '-' + cdk.Aws.ACCOUNT_ID,
+          serverAccessLogsBucket: serverAccessLogBucket,
+          enforceSSL: true,
+          versioned: true,
+          lifecycleRules: [
+            {
+              expiration: cdk.Duration.days(90),
+            },
+          ],
+        });
+      } else {
+        tmpBucket = new s3.Bucket(
+          this,
+          'webCrawlerDataBucket' + this.stage,
+          props.bucketOutputProps,
+        );
+      }
+      dataBucket = tmpBucket;
+      this.dataBucket = tmpBucket;
+    } else {
+      dataBucket = props.existingOutputBucketObj;
+    }
+
+    const snsTopic = new sns.Topic(this, 'webCrawlerTopic', {
+      masterKey: kms.Alias.fromAliasName(scope, 'aws-managed-key', 'alias/aws/sns'),
     });
 
-    const snsTopic = new sns.Topic(this, 'webCrawlerTopic');
+    // Apply topic policy to enforce only the topic owner can publish and subscribe to this topic
+    snsTopic.addToResourcePolicy(
+      new PolicyStatement({
+        sid: 'TopicOwnerOnlyAccess',
+        resources: [
+          `${snsTopic.topicArn}`,
+        ],
+        actions: [
+          'SNS:Publish',
+          'SNS:RemovePermission',
+          'SNS:SetTopicAttributes',
+          'SNS:DeleteTopic',
+          'SNS:ListSubscriptionsByTopic',
+          'SNS:GetTopicAttributes',
+          'SNS:Receive',
+          'SNS:AddPermission',
+          'SNS:Subscribe',
+        ],
+        principals: [new AccountPrincipal(cdk.Stack.of(snsTopic).account)],
+        effect: Effect.ALLOW,
+        conditions:
+              {
+                StringEquals: {
+                  'AWS:SourceOwner': cdk.Stack.of(snsTopic).account,
+                },
+              },
+      }),
+    );
+
+    // Apply Topic policy to enforce encryption of data in transit
+    snsTopic.addToResourcePolicy(
+      new PolicyStatement({
+        sid: 'HttpsOnly',
+        resources: [
+          `${snsTopic.topicArn}`,
+        ],
+        actions: [
+          'SNS:Publish',
+          'SNS:RemovePermission',
+          'SNS:SetTopicAttributes',
+          'SNS:DeleteTopic',
+          'SNS:ListSubscriptionsByTopic',
+          'SNS:GetTopicAttributes',
+          'SNS:Receive',
+          'SNS:AddPermission',
+          'SNS:Subscribe',
+        ],
+        principals: [new AnyPrincipal()],
+        effect: Effect.DENY,
+        conditions:
+          {
+            Bool: {
+              'aws:SecureTransport': 'false',
+            },
+          },
+      }),
+    );
 
     const computeEnvironment = new batch.FargateComputeEnvironment(this, 'webCrawlerEnvironment', {
-      vpc,
+      vpc: this.vpc,
       maxvCpus: 8,
       replaceComputeEnvironment: true,
       updateTimeout: cdk.Duration.minutes(30),
@@ -219,7 +386,42 @@ export class WebCrawler extends BaseClass {
 
     const webCrawlerJobRole = new iam.Role(this, 'webCrawlerJobRole', {
       assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
-      managedPolicies: [iam.ManagedPolicy.fromAwsManagedPolicyName('service-role/AmazonECSTaskExecutionRolePolicy')],
+      inlinePolicies: {
+        FargateContainerServiceRolePolicy: new iam.PolicyDocument({
+          statements: [
+            new iam.PolicyStatement({
+              actions: [
+                'ecr:BatchCheckLayerAvailability',
+                'ecr:GetDownloadUrlForLayer',
+                'ecr:BatchGetImage',
+              ],
+              effect: iam.Effect.ALLOW,
+              resources: [
+                'arn:' + cdk.Aws.PARTITION + ':ecr:' + cdk.Aws.REGION+ ':' + cdk.Aws.ACCOUNT_ID + ':repository/*',
+              ],
+            }),
+            new iam.PolicyStatement({
+              actions: [
+                'ecr:GetAuthorizationToken',
+              ],
+              effect: iam.Effect.ALLOW,
+              resources: [
+                '*',
+              ],
+            }),
+            new iam.PolicyStatement({
+              actions: [
+                'logs:CreateLogStream',
+                'logs:PutLogEvents',
+              ],
+              effect: iam.Effect.ALLOW,
+              resources: [
+                'arn:' + cdk.Aws.PARTITION + ':logs:' + cdk.Aws.REGION+ ':' + cdk.Aws.ACCOUNT_ID + ':log-group:*',
+              ],
+            }),
+          ],
+        }),
+      },
     });
 
     const webCrawlerContainer = new batch.EcsFargateContainerDefinition(this, 'webCrawlerContainer', {
@@ -242,6 +444,22 @@ export class WebCrawler extends BaseClass {
     jobsTable.grantReadWriteData(webCrawlerJobRole);
     dataBucket.grantReadWrite(webCrawlerJobRole);
     snsTopic.grantPublish(webCrawlerJobRole);
+
+    NagSuppressions.addResourceSuppressions(
+      webCrawlerJobRole,
+      [
+        {
+          id: 'AwsSolutions-IAM5',
+          reason: 'Role has been scoped.',
+        },
+        {
+          id: 'AwsSolutions-IAM4',
+          reason: 'The AWSLambdaBasicExecutionRole managed policy is required for ' +
+                  'the Lambda function to write logs to CloudWatch.',
+        },
+      ],
+      true,
+    );
 
     const webCrawlerJobDefinition = new batch.EcsJobDefinition(this, 'webCrawlerJob', {
       container: webCrawlerContainer,
@@ -274,7 +492,7 @@ export class WebCrawler extends BaseClass {
         .substring(0, 12);
       target_s3_key = `${target_s3_key}-${hash}`;
 
-      new cr.AwsCustomResource(this, `target-${target_s3_key}`, {
+      const custom_resource = new cr.AwsCustomResource(this, `target-${target_s3_key}`, {
         onCreate: {
           service: 'DynamoDB',
           action: 'putItem',
@@ -338,6 +556,18 @@ export class WebCrawler extends BaseClass {
           }),
         ]),
       });
+
+      NagSuppressions.addResourceSuppressions(
+        custom_resource,
+        [
+          {
+            id: 'AwsSolutions-L1',
+            reason: 'Provided by cdk, cannot configure runtime.',
+          },
+        ],
+        true,
+      );
+
     }
 
     const schedulerFunction = new lambda.Function(this, 'webCrawlerSchedulerFunction', {
