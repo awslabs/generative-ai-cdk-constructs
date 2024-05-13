@@ -102,6 +102,7 @@
 - [HUGGINGFACE\_LLM\_AHXT\_LITELLAMA\_460M\_1T\_1\_1\_0](JumpStartModel.md#huggingface_llm_ahxt_litellama_460m_1t_1_1_0)
 - [HUGGINGFACE\_LLM\_AI\_FOREVER\_MGPT\_1\_0\_0](JumpStartModel.md#huggingface_llm_ai_forever_mgpt_1_0_0)
 - [HUGGINGFACE\_LLM\_AI\_FOREVER\_MGPT\_1\_1\_0](JumpStartModel.md#huggingface_llm_ai_forever_mgpt_1_1_0)
+- [HUGGINGFACE\_LLM\_ALPINDALE\_WIZARD\_LM\_2\_8\_22B\_1\_0\_0](JumpStartModel.md#huggingface_llm_alpindale_wizard_lm_2_8_22b_1_0_0)
 - [HUGGINGFACE\_LLM\_AMAZON\_FALCONLITE2\_1\_0\_0](JumpStartModel.md#huggingface_llm_amazon_falconlite2_1_0_0)
 - [HUGGINGFACE\_LLM\_AMAZON\_FALCONLITE2\_1\_1\_0](JumpStartModel.md#huggingface_llm_amazon_falconlite2_1_1_0)
 - [HUGGINGFACE\_LLM\_AMAZON\_FALCONLITE\_1\_0\_0](JumpStartModel.md#huggingface_llm_amazon_falconlite_1_0_0)
@@ -123,6 +124,7 @@
 - [HUGGINGFACE\_LLM\_CALM2\_7B\_CHAT\_BF16\_1\_2\_2](JumpStartModel.md#huggingface_llm_calm2_7b_chat_bf16_1_2_2)
 - [HUGGINGFACE\_LLM\_CALM2\_7B\_CHAT\_BF16\_1\_2\_3](JumpStartModel.md#huggingface_llm_calm2_7b_chat_bf16_1_2_3)
 - [HUGGINGFACE\_LLM\_CALM2\_7B\_CHAT\_BF16\_1\_2\_4](JumpStartModel.md#huggingface_llm_calm2_7b_chat_bf16_1_2_4)
+- [HUGGINGFACE\_LLM\_COGNITIVE\_DOLPHIN\_29\_LLAMA3\_8B\_1\_0\_0](JumpStartModel.md#huggingface_llm_cognitive_dolphin_29_llama3_8b_1_0_0)
 - [HUGGINGFACE\_LLM\_COHEREFORAI\_C4AI\_COMMAND\_R\_PLUS\_1\_0\_0](JumpStartModel.md#huggingface_llm_cohereforai_c4ai_command_r_plus_1_0_0)
 - [HUGGINGFACE\_LLM\_CULTRIX\_MISTRALTRIX\_V1\_1\_0\_0](JumpStartModel.md#huggingface_llm_cultrix_mistraltrix_v1_1_0_0)
 - [HUGGINGFACE\_LLM\_CULTRIX\_MISTRALTRIX\_V1\_1\_1\_0](JumpStartModel.md#huggingface_llm_cultrix_mistraltrix_v1_1_1_0)
@@ -254,6 +256,8 @@
 - [HUGGINGFACE\_LLM\_HUGGINGFACEH4\_ZEPHYR\_7B\_ALPHA\_1\_1\_0](JumpStartModel.md#huggingface_llm_huggingfaceh4_zephyr_7b_alpha_1_1_0)
 - [HUGGINGFACE\_LLM\_HUGGINGFACEH4\_ZEPHYR\_7B\_BETA\_1\_0\_0](JumpStartModel.md#huggingface_llm_huggingfaceh4_zephyr_7b_beta_1_0_0)
 - [HUGGINGFACE\_LLM\_HUGGINGFACEH4\_ZEPHYR\_7B\_BETA\_1\_1\_0](JumpStartModel.md#huggingface_llm_huggingfaceh4_zephyr_7b_beta_1_1_0)
+- [HUGGINGFACE\_LLM\_HUGGINGFACEH4\_ZEPHYR\_ORPO\_141B\_A35B\_V01\_1\_0\_0](JumpStartModel.md#huggingface_llm_huggingfaceh4_zephyr_orpo_141b_a35b_v01_1_0_0)
+- [HUGGINGFACE\_LLM\_LLAMA\_3\_8B\_INSTRUCT\_GRADIENT\_1\_0\_0](JumpStartModel.md#huggingface_llm_llama_3_8b_instruct_gradient_1_0_0)
 - [HUGGINGFACE\_LLM\_MISTRALAI\_MIXTRAL\_8X22B\_INSTRUCT\_V0\_1\_1\_0\_0](JumpStartModel.md#huggingface_llm_mistralai_mixtral_8x22b_instruct_v0_1_1_0_0)
 - [HUGGINGFACE\_LLM\_MISTRAL\_7B\_1\_0\_0](JumpStartModel.md#huggingface_llm_mistral_7b_1_0_0)
 - [HUGGINGFACE\_LLM\_MISTRAL\_7B\_1\_1\_0](JumpStartModel.md#huggingface_llm_mistral_7b_1_1_0)
@@ -294,6 +298,8 @@
 - [HUGGINGFACE\_LLM\_MIXTRAL\_8X7B\_INSTRUCT\_1\_4\_0](JumpStartModel.md#huggingface_llm_mixtral_8x7b_instruct_1_4_0)
 - [HUGGINGFACE\_LLM\_MIXTRAL\_8X7B\_INSTRUCT\_GPTQ\_1\_0\_0](JumpStartModel.md#huggingface_llm_mixtral_8x7b_instruct_gptq_1_0_0)
 - [HUGGINGFACE\_LLM\_MIXTRAL\_8X7B\_INSTRUCT\_GPTQ\_1\_1\_0](JumpStartModel.md#huggingface_llm_mixtral_8x7b_instruct_gptq_1_1_0)
+- [HUGGINGFACE\_LLM\_NEXAAIDEV\_OCTOPUS\_V2\_1\_0\_0](JumpStartModel.md#huggingface_llm_nexaaidev_octopus_v2_1_0_0)
+- [HUGGINGFACE\_LLM\_NEXUSFLOW\_STARLING\_LM\_7B\_BETA\_1\_0\_0](JumpStartModel.md#huggingface_llm_nexusflow_starling_lm_7b_beta_1_0_0)
 - [HUGGINGFACE\_LLM\_NOUSRESEARCH\_NOUS\_HERMES\_2\_SOLAR\_10\_7B\_1\_0\_0](JumpStartModel.md#huggingface_llm_nousresearch_nous_hermes_2_solar_10_7b_1_0_0)
 - [HUGGINGFACE\_LLM\_NOUSRESEARCH\_NOUS\_HERMES\_2\_SOLAR\_10\_7B\_1\_1\_0](JumpStartModel.md#huggingface_llm_nousresearch_nous_hermes_2_solar_10_7b_1_1_0)
 - [HUGGINGFACE\_LLM\_NOUSRESEARCH\_NOUS\_HERMES\_LLAMA2\_13B\_1\_0\_0](JumpStartModel.md#huggingface_llm_nousresearch_nous_hermes_llama2_13b_1_0_0)
@@ -315,6 +321,7 @@
 - [HUGGINGFACE\_LLM\_SEALION\_3B\_1\_0\_0](JumpStartModel.md#huggingface_llm_sealion_3b_1_0_0)
 - [HUGGINGFACE\_LLM\_SEALION\_7B\_1\_0\_0](JumpStartModel.md#huggingface_llm_sealion_7b_1_0_0)
 - [HUGGINGFACE\_LLM\_SEALION\_7B\_INSTRUCT\_1\_0\_0](JumpStartModel.md#huggingface_llm_sealion_7b_instruct_1_0_0)
+- [HUGGINGFACE\_LLM\_SHENZHI\_WANG\_LLAMA3\_8B\_CHINESE\_CHAT\_1\_0\_0](JumpStartModel.md#huggingface_llm_shenzhi_wang_llama3_8b_chinese_chat_1_0_0)
 - [HUGGINGFACE\_LLM\_STARCODERBASE\_1\_0\_0](JumpStartModel.md#huggingface_llm_starcoderbase_1_0_0)
 - [HUGGINGFACE\_LLM\_STARCODERBASE\_1\_1\_0](JumpStartModel.md#huggingface_llm_starcoderbase_1_1_0)
 - [HUGGINGFACE\_LLM\_STARCODER\_1\_0\_0](JumpStartModel.md#huggingface_llm_starcoder_1_0_0)
@@ -2300,6 +2307,12 @@ ___
 
 ___
 
+### HUGGINGFACE\_LLM\_ALPINDALE\_WIZARD\_LM\_2\_8\_22B\_1\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_ALPINDALE\_WIZARD\_LM\_2\_8\_22B\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
 ### HUGGINGFACE\_LLM\_AMAZON\_FALCONLITE2\_1\_0\_0
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_AMAZON\_FALCONLITE2\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -2423,6 +2436,12 @@ ___
 ### HUGGINGFACE\_LLM\_CALM2\_7B\_CHAT\_BF16\_1\_2\_4
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_CALM2\_7B\_CHAT\_BF16\_1\_2\_4**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### HUGGINGFACE\_LLM\_COGNITIVE\_DOLPHIN\_29\_LLAMA3\_8B\_1\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_COGNITIVE\_DOLPHIN\_29\_LLAMA3\_8B\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ___
 
@@ -3212,6 +3231,18 @@ ___
 
 ___
 
+### HUGGINGFACE\_LLM\_HUGGINGFACEH4\_ZEPHYR\_ORPO\_141B\_A35B\_V01\_1\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_HUGGINGFACEH4\_ZEPHYR\_ORPO\_141B\_A35B\_V01\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### HUGGINGFACE\_LLM\_LLAMA\_3\_8B\_INSTRUCT\_GRADIENT\_1\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_LLAMA\_3\_8B\_INSTRUCT\_GRADIENT\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
 ### HUGGINGFACE\_LLM\_MISTRALAI\_MIXTRAL\_8X22B\_INSTRUCT\_V0\_1\_1\_0\_0
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_MISTRALAI\_MIXTRAL\_8X22B\_INSTRUCT\_V0\_1\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -3452,6 +3483,18 @@ ___
 
 ___
 
+### HUGGINGFACE\_LLM\_NEXAAIDEV\_OCTOPUS\_V2\_1\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_NEXAAIDEV\_OCTOPUS\_V2\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### HUGGINGFACE\_LLM\_NEXUSFLOW\_STARLING\_LM\_7B\_BETA\_1\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_NEXUSFLOW\_STARLING\_LM\_7B\_BETA\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
 ### HUGGINGFACE\_LLM\_NOUSRESEARCH\_NOUS\_HERMES\_2\_SOLAR\_10\_7B\_1\_0\_0
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_NOUSRESEARCH\_NOUS\_HERMES\_2\_SOLAR\_10\_7B\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -3575,6 +3618,12 @@ ___
 ### HUGGINGFACE\_LLM\_SEALION\_7B\_INSTRUCT\_1\_0\_0
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_SEALION\_7B\_INSTRUCT\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### HUGGINGFACE\_LLM\_SHENZHI\_WANG\_LLAMA3\_8B\_CHINESE\_CHAT\_1\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_SHENZHI\_WANG\_LLAMA3\_8B\_CHINESE\_CHAT\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ___
 

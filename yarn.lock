@@ -1417,9 +1417,9 @@ aws-sdk-mock@^5.9.0:
     traverse "^0.6.6"
 
 aws-sdk@^2.1231.0:
-  version "2.1616.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1616.0.tgz#faeaa8eb252e48d5eb9145bb3dc7b58f98c86e6b"
-  integrity sha512-Wes2FOJn/5Bo35ku+KYvn/H+xnuPuI97mQKxhU+d3TczAY56rFH/qw7Bff8HI0Gi6m6lDEhhq76qvG4gfdPexg==
+  version "2.1618.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1618.0.tgz#591b27e0ea38dcfd2d1492dc31aaf98a39ee1035"
+  integrity sha512-yfDi9cOpT+dnKMHaR8aFhRyISMItQrRW0v5usaNh7WvXl/YVN1YI0tMSdF1riqaOpbwKgk7162YBj+RoALimHg==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -1598,19 +1598,19 @@ camelcase@^6.2.0, camelcase@^6.3.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001587:
-  version "1.0.30001616"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001616.tgz#4342712750d35f71ebba9fcac65e2cf8870013c3"
-  integrity sha512-RHVYKov7IcdNjVHJFNY/78RdG4oGVjbayxv8u5IO74Wv7Hlq4PnJE6mo/OjFijjVFNy5ijnCt6H3IIo4t+wfEw==
+  version "1.0.30001617"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001617.tgz#809bc25f3f5027ceb33142a7d6c40759d7a901eb"
+  integrity sha512-mLyjzNI9I+Pix8zwcrpxEbGlfqOkF9kM3ptzmKNw5tizSyYwMe+nGLTqMK9cO+0E+Bh6TsBxNAaHWEM8xwSsmA==
 
 case@1.6.3, case@^1.6.3:
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-nag@^2.28.111:
-  version "2.28.111"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.111.tgz#4ec0b530c4e4db3978d7206bae81a0242b767f1d"
-  integrity sha512-W6nE0j72ZEWqlbyNYnQYOfXI5qxDnB716eKTRdB6LcF44ByxmmQAsxsNByxM8KRGl101A2zNUGWkNPLBOQZiig==
+cdk-nag@^2.28.114:
+  version "2.28.114"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.114.tgz#891b32ce55ad91708dd8c61371d212de491dc0ef"
+  integrity sha512-spPssrHMvQi9sDsCc3mCj51ASeldtMuumlJbUZ1b76ZFciai1pWVrTo6K7MhsMVuYubzOLfOT6NXaziutSfcxA==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -2206,9 +2206,9 @@ downlevel-dts@^0.11.0:
     typescript next
 
 electron-to-chromium@^1.4.668:
-  version "1.4.759"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.759.tgz#ed7f4d9eed25124708ab0f4422e66b16534648d3"
-  integrity sha512-qZJc+zsuI+/5UjOSFnpkJBwwLMH1AZgyKqJ7LUNnRsB7v/cDjMu9DvXgp9kH6PTTZxjnPXGp2Uhurw+2Ll4Hjg==
+  version "1.4.763"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.763.tgz#64f2041ed496fd6fc710b9be806fe91da9334f91"
+  integrity sha512-k4J8NrtJ9QrvHLRo8Q18OncqBCB7tIUyqxRcJnlonQ0ioHKYB988GcDFF3ZePmnb8eHEopDs/wPHR/iGAFgoUQ==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -2819,9 +2819,9 @@ get-symbol-description@^1.0.0, get-symbol-description@^1.0.2:
     get-intrinsic "^1.2.4"
 
 get-tsconfig@^4.5.0:
-  version "4.7.4"
-  resolved "https://registry.yarnpkg.com/get-tsconfig/-/get-tsconfig-4.7.4.tgz#228e1a3e37125aeb4467e9b992b92c4533093bd2"
-  integrity sha512-ofbkKj+0pjXjhejr007J/fLf+sW+8H7K5GCm+msC8q3IpvgjobpyPqSRFemNyIMxklC0zeJpi7VDFna19FacvQ==
+  version "4.7.5"
+  resolved "https://registry.yarnpkg.com/get-tsconfig/-/get-tsconfig-4.7.5.tgz#5e012498579e9a6947511ed0cd403272c7acbbaf"
+  integrity sha512-ZCuZCnlqNzjb4QprAzXKdpp/gh6KTxSJuw3IBsPnV/7fV4NxC9ckB+vPTt8w7fJA0TaSD7c55BR47JD6MEDyDw==
   dependencies:
     resolve-pkg-maps "^1.0.0"
 
@@ -4913,9 +4913,9 @@ semver@^6.0.0, semver@^6.3.0, semver@^6.3.1:
   integrity sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==
 
 semver@^7.1.1, semver@^7.3.4, semver@^7.5.3, semver@^7.5.4:
-  version "7.6.1"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-7.6.1.tgz#60bfe090bf907a25aa8119a72b9f90ef7ca281b2"
-  integrity sha512-f/vbBsu+fOiYt+lmwZV0rVwJScl46HppnOA1ZvIuBWKOTlllpyJ3bfVax76/OrhCH38dyxoDIA8K7uB963IYgA==
+  version "7.6.2"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.6.2.tgz#1e3b34759f896e8f14d6134732ce798aeb0c6e13"
+  integrity sha512-FNAIBWCx9qcRhoHcgcJ0gvU7SN1lYU2ZXuSfl04bSC5OpvDHFyJCjdNHomPXxjQlCBU67YW64PzY7/VIEH7F2w==
 
 set-function-length@^1.2.1:
   version "1.2.2"
