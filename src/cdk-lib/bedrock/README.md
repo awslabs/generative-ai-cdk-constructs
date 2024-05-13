@@ -252,13 +252,13 @@ TypeScript
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { pinecone, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
 
-const pinecone = new pinecone.PineconVectorStore({
+const pineconeds = new pinecone.PineconeVectorStore({
   connectionString: 'https://your-index-1234567.svc.gcp-starter.pinecone.io',
   credentialsSecretArn: 'arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name'
 });
 
 const kb = new bedrock.KnowledgeBase(this, 'KnowledgeBase', {
-  vectorStore: pinecone,
+  vectorStore: pineconeds,
   embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
   instruction: 'Use this knowledge base to answer questions about books. ' +
     'It contains the full text of novels.',
