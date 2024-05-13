@@ -35,6 +35,14 @@ export interface PineconeVectorStoreProps {
    * Name space that will be used for writing new data to your Pinecone database.
    */
   readonly namespace?: string;
+  /**
+   * The name of the field in which Amazon Bedrock stores metadata about the vector store.
+   */
+  readonly metadataField: string;
+  /**
+   * The name of the field in which Amazon Bedrock stores the raw text from your data.
+   */
+  readonly textField: string;
 }
 
 /**
@@ -45,12 +53,16 @@ export class PineconeVectorStore {
   readonly credentialsSecretArn: string;
   readonly kmsKey?: string;
   readonly namespace?: string;
+  readonly metadataField: string;
+  readonly textField: string;
 
   constructor(props: PineconeVectorStoreProps) {
     this.connectionString = props.connectionString;
     this.credentialsSecretArn = props.credentialsSecretArn;
     this.kmsKey = props.kmsKey;
     this.namespace = props.namespace;
+    this.metadataField = props.metadataField;
+    this.textField = props.textField;
   }
 }
 

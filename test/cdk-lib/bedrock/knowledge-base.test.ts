@@ -167,6 +167,8 @@ describe('KnowledgeBase', () => {
       new PineconeVectorStore({
         connectionString: 'test-connection-string',
         credentialsSecretArn: 'test-secret-arn',
+        textField: 'testextfield',
+        metadataField: 'testmetadata',
       }),
     ];
     const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;

@@ -403,9 +403,9 @@ export class KnowledgeBase extends Construct {
       vectorStoreType: this.vectorStoreType,
       vectorField: (this.vectorStore instanceof AmazonAuroraVectorStore) ?
         this.vectorStore.vectorField : vectorField,
-      textField: (this.vectorStore instanceof AmazonAuroraVectorStore) ?
+      textField: (this.vectorStore instanceof AmazonAuroraVectorStore || this.vectorStore instanceof PineconeVectorStore) ?
         this.vectorStore.textField : textField,
-      metadataField: (this.vectorStore instanceof AmazonAuroraVectorStore) ?
+      metadataField: (this.vectorStore instanceof AmazonAuroraVectorStore || this.vectorStore instanceof PineconeVectorStore) ?
         this.vectorStore.metadataField : metadataField,
     };
 
