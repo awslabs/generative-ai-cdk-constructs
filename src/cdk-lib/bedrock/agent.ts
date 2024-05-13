@@ -230,8 +230,6 @@ export interface AgentProps {
    * @default - No knowledge base is used.
    */
   readonly knowledgeBases?: KnowledgeBase[];
-
-
   /**
    * AgentActionGroup to make available to the agent.
    *
@@ -353,12 +351,10 @@ export class Agent extends Construct {
    * The unique identifier of the agent.
    */
   public readonly agentId: string;
-
   /**
    * Instance of Agent
    */
   public readonly agentInstance: bedrock.CfnAgent;
-
   /**
    * The ARN of the agent.
    */
@@ -375,12 +371,10 @@ export class Agent extends Construct {
    * The name for the agent alias.
    */
   public readonly aliasName?: string;
-
   /**
    * The version for the agent
    */
   public readonly agentversion: string;
-
   /**
    * A list of values to indicate if PrepareAgent or an Alias needs to be updated.
    * @private
@@ -392,18 +386,15 @@ export class Agent extends Construct {
    * @private
    */
   public actionGroups: bedrock.CfnAgent.AgentActionGroupProperty[]=[];
-
-
   /**
    * A list of KnowledgeBases associated with the agent.
    *
    * @default - No knowledge base is used.
    */
-  public knowledgeBases: bedrock.CfnAgent.AgentKnowledgeBaseProperty []=[];;
+  public knowledgeBases: bedrock.CfnAgent.AgentKnowledgeBaseProperty []=[];
 
 
-  constructor(scope: Construct, id: string, props: AgentProps,
-  ) {
+  constructor(scope: Construct, id: string, props: AgentProps) {
     super(scope, id);
     validatePromptOverrideConfiguration(props.promptOverrideConfiguration);
 
@@ -484,6 +475,10 @@ export class Agent extends Construct {
       this.aliasArn = alias.aliasArn;
       this.aliasName = alias.aliasName;
     }
+
+    if (props.knowledgeBases) {
+      this.addKnowledgeBases(props.knowledgeBases);
+    }
   }
 
 
@@ -502,34 +497,44 @@ export class Agent extends Construct {
   }
 
   /**
-   * Add knowledge base to the agent.
+   * Add knowledge bases to the agent.
    */
   public addKnowledgeBases(knowledgeBases: KnowledgeBase []) {
-    const agentKnowledgeBasePropertyList = [];
     for (const kb of knowledgeBases) {
-      if (!kb.instruction) {
-        throw new Error('Agent Knowledge Bases require instructions.');
-      }
-      new iam.Policy(this, `AgentKBPolicy-${kb.name}`, {
-        roles: [this.role],
-        statements: [
-          new iam.PolicyStatement({
-            actions: [
-              'bedrock:UpdateKnowledgeBase',
-              'bedrock:Retrieve',
-            ],
-            resources: [kb.knowledgeBaseArn],
-          }),
-        ],
-      });
-      const agentKnowledgeBaseProperty: bedrock.CfnAgent.AgentKnowledgeBaseProperty = {
-        description: kb.description,
-        knowledgeBaseId: kb.knowledgeBaseId,
-        knowledgeBaseState: kb.knowledgeBaseState,
-      };
-      agentKnowledgeBasePropertyList.push(agentKnowledgeBaseProperty);
+      this.addKnowledgeBase(kb);
     }
-    this.agentInstance.knowledgeBases= agentKnowledgeBasePropertyList;
+  }
+
+  /**
+   * Add knowledge base to the agent.
+   */
+  public addKnowledgeBase(knowledgeBase: KnowledgeBase) {
+    if (!knowledgeBase.instruction) {
+      throw new Error('Agent Knowledge Bases require instructions.');
+    }
+    new iam.Policy(this, `AgentKBPolicy-${knowledgeBase.name}`, {
+      roles: [this.role],
+      statements: [
+        new iam.PolicyStatement({
+          actions: [
+            'bedrock:UpdateKnowledgeBase',
+            'bedrock:Retrieve',
+          ],
+          resources: [knowledgeBase.knowledgeBaseArn],
+        }),
+      ],
+    });
+    const agentKnowledgeBaseProperty: bedrock.CfnAgent.AgentKnowledgeBaseProperty = {
+      description: knowledgeBase.description,
+      knowledgeBaseId: knowledgeBase.knowledgeBaseId,
+      knowledgeBaseState: knowledgeBase.knowledgeBaseState,
+    };
+
+    if (!this.agentInstance.knowledgeBases || !Array.isArray(this.agentInstance.knowledgeBases)) {
+      this.agentInstance.knowledgeBases = [agentKnowledgeBaseProperty];
+    } else {
+      (this.agentInstance.knowledgeBases as any).push(agentKnowledgeBaseProperty);
+    }
   }
 
 

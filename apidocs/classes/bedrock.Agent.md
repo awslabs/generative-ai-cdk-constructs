@@ -39,6 +39,7 @@ Deploy a Bedrock Agent.
 - [\_addAliasDependency](bedrock.Agent.md#_addaliasdependency)
 - [addActionGroups](bedrock.Agent.md#addactiongroups)
 - [addAlias](bedrock.Agent.md#addalias)
+- [addKnowledgeBase](bedrock.Agent.md#addknowledgebase)
 - [addKnowledgeBases](bedrock.Agent.md#addknowledgebases)
 - [toString](bedrock.Agent.md#tostring)
 - [isConstruct](bedrock.Agent.md#isconstruct)
@@ -235,11 +236,29 @@ Add an alias to the agent.
 
 ___
 
+### addKnowledgeBase
+
+▸ **addKnowledgeBase**(`knowledgeBase`): `void`
+
+Add knowledge base to the agent.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `knowledgeBase` | [`KnowledgeBase`](bedrock.KnowledgeBase.md) |
+
+#### Returns
+
+`void`
+
+___
+
 ### addKnowledgeBases
 
 ▸ **addKnowledgeBases**(`knowledgeBases`): `void`
 
-Add knowledge base to the agent.
+Add knowledge bases to the agent.
 
 #### Parameters
 

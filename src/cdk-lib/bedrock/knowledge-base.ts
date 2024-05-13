@@ -209,8 +209,6 @@ export class KnowledgeBase extends Construct {
    * The ID of the knowledge base.
    */
   public readonly knowledgeBaseId: string;
-
-
   /**
    * The OpenSearch vector index for the knowledge base.
    * @private
@@ -243,7 +241,7 @@ export class KnowledgeBase extends Construct {
     const textField = 'AMAZON_BEDROCK_TEXT_CHUNK';
     const metadataField = 'AMAZON_BEDROCK_METADATA';
 
-    this.description= props.description ?? '';
+    this.description= props.description ?? 'CDK deployed Knowledge base'; // even though this prop is optional, if no value is provided it will fail to deploy
     this.knowledgeBaseState = props.knowledgeBaseState ?? 'ENABLED';
 
 
