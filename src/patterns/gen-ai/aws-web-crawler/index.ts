@@ -206,7 +206,7 @@ export class WebCrawler extends BaseClass {
         createInternetGateway: true,
         natGateways: 1,
       });
-    };
+    }
 
     // add VPC endpoints for the compute environment
     vpc_helper.AddAwsServiceEndpoint(this, this.vpc, ServiceEndpointTypeEnum.ECR_API);
@@ -254,21 +254,17 @@ export class WebCrawler extends BaseClass {
     });
 
     // bucket for storing server access logging
-    const serverAccessLogBucket = new s3.Bucket(
-      this,
-      'serverAccessLogBucket' + this.stage,
-      {
-        blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-        encryption: s3.BucketEncryption.S3_MANAGED,
-        enforceSSL: true,
-        versioned: true,
-        lifecycleRules: [
-          {
-            expiration: cdk.Duration.days(90),
-          },
-        ],
-      },
-    );
+    const serverAccessLogBucket = new s3.Bucket(this, 'serverAccessLogBucket' + this.stage, {
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      encryption: s3.BucketEncryption.S3_MANAGED,
+      enforceSSL: true,
+      versioned: true,
+      lifecycleRules: [
+        {
+          expiration: cdk.Duration.days(90),
+        },
+      ],
+    });
 
     // Bucket containing the output data uploaded by the crawler
     let dataBucket: s3.IBucket;
@@ -280,7 +276,7 @@ export class WebCrawler extends BaseClass {
           accessControl: s3.BucketAccessControl.PRIVATE,
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
-          bucketName: 'outputBucket' + this.stage + '-' + cdk.Aws.ACCOUNT_ID,
+          bucketName: 'outputbucket' + this.stage.toLowerCase() + '-' + cdk.Aws.ACCOUNT_ID,
           serverAccessLogsBucket: serverAccessLogBucket,
           enforceSSL: true,
           versioned: true,
@@ -291,11 +287,7 @@ export class WebCrawler extends BaseClass {
           ],
         });
       } else {
-        tmpBucket = new s3.Bucket(
-          this,
-          'webCrawlerDataBucket' + this.stage,
-          props.bucketOutputProps,
-        );
+        tmpBucket = new s3.Bucket(this, 'webCrawlerDataBucket' + this.stage, props.bucketOutputProps);
       }
       dataBucket = tmpBucket;
       this.dataBucket = tmpBucket;
@@ -311,9 +303,7 @@ export class WebCrawler extends BaseClass {
     snsTopic.addToResourcePolicy(
       new PolicyStatement({
         sid: 'TopicOwnerOnlyAccess',
-        resources: [
-          `${snsTopic.topicArn}`,
-        ],
+        resources: [`${snsTopic.topicArn}`],
         actions: [
           'SNS:Publish',
           'SNS:RemovePermission',
@@ -327,12 +317,11 @@ export class WebCrawler extends BaseClass {
         ],
         principals: [new AccountPrincipal(cdk.Stack.of(snsTopic).account)],
         effect: Effect.ALLOW,
-        conditions:
-              {
-                StringEquals: {
-                  'AWS:SourceOwner': cdk.Stack.of(snsTopic).account,
-                },
-              },
+        conditions: {
+          StringEquals: {
+            'AWS:SourceOwner': cdk.Stack.of(snsTopic).account,
+          },
+        },
       }),
     );
 
@@ -340,9 +329,7 @@ export class WebCrawler extends BaseClass {
     snsTopic.addToResourcePolicy(
       new PolicyStatement({
         sid: 'HttpsOnly',
-        resources: [
-          `${snsTopic.topicArn}`,
-        ],
+        resources: [`${snsTopic.topicArn}`],
         actions: [
           'SNS:Publish',
           'SNS:RemovePermission',
@@ -356,12 +343,11 @@ export class WebCrawler extends BaseClass {
         ],
         principals: [new AnyPrincipal()],
         effect: Effect.DENY,
-        conditions:
-          {
-            Bool: {
-              'aws:SecureTransport': 'false',
-            },
+        conditions: {
+          Bool: {
+            'aws:SecureTransport': 'false',
           },
+        },
       }),
     );
 
@@ -390,34 +376,19 @@ export class WebCrawler extends BaseClass {
         FargateContainerServiceRolePolicy: new iam.PolicyDocument({
           statements: [
             new iam.PolicyStatement({
-              actions: [
-                'ecr:BatchCheckLayerAvailability',
-                'ecr:GetDownloadUrlForLayer',
-                'ecr:BatchGetImage',
-              ],
+              actions: ['ecr:BatchCheckLayerAvailability', 'ecr:GetDownloadUrlForLayer', 'ecr:BatchGetImage'],
               effect: iam.Effect.ALLOW,
-              resources: [
-                'arn:' + cdk.Aws.PARTITION + ':ecr:' + cdk.Aws.REGION+ ':' + cdk.Aws.ACCOUNT_ID + ':repository/*',
-              ],
+              resources: ['arn:' + cdk.Aws.PARTITION + ':ecr:' + cdk.Aws.REGION + ':' + cdk.Aws.ACCOUNT_ID + ':repository/*'],
             }),
             new iam.PolicyStatement({
-              actions: [
-                'ecr:GetAuthorizationToken',
-              ],
+              actions: ['ecr:GetAuthorizationToken'],
               effect: iam.Effect.ALLOW,
-              resources: [
-                '*',
-              ],
+              resources: ['*'],
             }),
             new iam.PolicyStatement({
-              actions: [
-                'logs:CreateLogStream',
-                'logs:PutLogEvents',
-              ],
+              actions: ['logs:CreateLogStream', 'logs:PutLogEvents'],
               effect: iam.Effect.ALLOW,
-              resources: [
-                'arn:' + cdk.Aws.PARTITION + ':logs:' + cdk.Aws.REGION+ ':' + cdk.Aws.ACCOUNT_ID + ':log-group:*',
-              ],
+              resources: ['arn:' + cdk.Aws.PARTITION + ':logs:' + cdk.Aws.REGION + ':' + cdk.Aws.ACCOUNT_ID + ':log-group:*'],
             }),
           ],
         }),
@@ -454,8 +425,9 @@ export class WebCrawler extends BaseClass {
         },
         {
           id: 'AwsSolutions-IAM4',
-          reason: 'The AWSLambdaBasicExecutionRole managed policy is required for ' +
-                  'the Lambda function to write logs to CloudWatch.',
+          reason:
+            'The AWSLambdaBasicExecutionRole managed policy is required for ' +
+            'the Lambda function to write logs to CloudWatch.',
         },
       ],
       true,
@@ -464,7 +436,7 @@ export class WebCrawler extends BaseClass {
     const webCrawlerJobDefinition = new batch.EcsJobDefinition(this, 'webCrawlerJob', {
       container: webCrawlerContainer,
       retryAttempts: 1,
-      timeout: cdk.Duration.hours(36),
+      timeout: cdk.Duration.hours(48),
       retryStrategies: [
         batch.RetryStrategy.of(batch.Action.EXIT, batch.Reason.CANNOT_PULL_CONTAINER),
         batch.RetryStrategy.of(
@@ -567,7 +539,6 @@ export class WebCrawler extends BaseClass {
         ],
         true,
       );
-
     }
 
     const schedulerFunction = new lambda.Function(this, 'webCrawlerSchedulerFunction', {

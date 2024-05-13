@@ -128,7 +128,7 @@ ___
 • `Optional` `Readonly` **vpcProps**: `VpcProps`
 
 Optional custom properties for a VPC the construct will create. This VPC will
-be used by the Lambda functions the construct creates. Providing
+be used by the compute resources the construct creates. Providing
 both this and existingVpc is an error.
 
 **`Default`**
