@@ -1,0 +1,24 @@
+{
+  "name": "lambda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apify/tsconfig": "^0.1.0",
+    "@mozilla/readability": "^0.5.0",
+    "@sparticuz/chromium": "^123.0.1",
+    "crawlee": "^3.9.2",
+    "jquery": "^3.7.1",
+    "jsdom": "^24.0.0",
+    "playwright": "1.44.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}

@@ -143,6 +143,12 @@ export interface WebCrawlerProps {
    * @default - none
    */
   readonly targets?: CrawlerTarget[];
+  /**
+   *  Deploy Lambda crawler.
+   *
+   * @default - false
+   */
+  readonly enableLambdaCrawler?: boolean;
 }
 
 export enum CrawlerTargetType {
@@ -179,6 +185,10 @@ export class WebCrawler extends BaseClass {
    * Returns the instance of JobDefinition used by the construct
    */
   public readonly webCrawlerJobDefinition: batch.IJobDefinition;
+  /**
+   * Lambda crawler
+   */
+  public readonly lambdaCrawler: lambda.IFunction | undefined;
 
   /**
    * @summary Constructs a new instance of the WebCrawler class.
@@ -570,6 +580,19 @@ export class WebCrawler extends BaseClass {
     });
 
     rule.addTarget(new targets.LambdaFunction(schedulerFunction));
+
+    if (props.enableLambdaCrawler) {
+      const lambdaCrawler = new lambda.Function(this, 'lambdaCrawler', {
+        architecture: lambda.Architecture.X86_64,
+        timeout: cdk.Duration.minutes(15),
+        memorySize: 2048,
+        handler: 'index.handler',
+        runtime: lambda.Runtime.NODEJS_20_X,
+        code: lambda.Code.fromDockerBuild(path.join(__dirname, '../../../../lambda/aws-web-crawler-lambda')),
+      });
+
+      this.lambdaCrawler = lambdaCrawler;
+    }
 
     this.dataBucket = dataBucket;
     this.snsTopic = snsTopic;

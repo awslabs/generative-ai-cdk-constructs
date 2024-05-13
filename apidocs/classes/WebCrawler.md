@@ -22,6 +22,7 @@
 - [fieldLogLevel](WebCrawler.md#fieldloglevel)
 - [jobQueue](WebCrawler.md#jobqueue)
 - [jobsTable](WebCrawler.md#jobstable)
+- [lambdaCrawler](WebCrawler.md#lambdacrawler)
 - [lambdaTracing](WebCrawler.md#lambdatracing)
 - [node](WebCrawler.md#node)
 - [retention](WebCrawler.md#retention)
@@ -139,6 +140,14 @@ ___
 • `Readonly` **jobsTable**: `ITable`
 
 Returns the instance of Jobs DynamoDB table
+
+___
+
+### lambdaCrawler
+
+• `Readonly` **lambdaCrawler**: `undefined` \| `IFunction`
+
+Lambda crawler
 
 ___
 

@@ -7,6 +7,7 @@
 ### Properties
 
 - [bucketOutputProps](WebCrawlerProps.md#bucketoutputprops)
+- [enableLambdaCrawler](WebCrawlerProps.md#enablelambdacrawler)
 - [enableOperationalMetric](WebCrawlerProps.md#enableoperationalmetric)
 - [existingOutputBucketObj](WebCrawlerProps.md#existingoutputbucketobj)
 - [existingVpc](WebCrawlerProps.md#existingvpc)
@@ -28,6 +29,20 @@ Providing both this and `existingOutputBucketObj` will cause an error.
 
 ```ts
 - Default props are used
+```
+
+___
+
+### enableLambdaCrawler
+
+• `Optional` `Readonly` **enableLambdaCrawler**: `boolean`
+
+Deploy Lambda crawler.
+
+**`Default`**
+
+```ts
+- false
 ```
 
 ___
