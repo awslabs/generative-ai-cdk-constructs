@@ -286,7 +286,7 @@ export class WebCrawler extends BaseClass {
           accessControl: s3.BucketAccessControl.PRIVATE,
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
-          bucketName: 'outputbucket' + this.stage.toLowerCase() + '-' + cdk.Aws.ACCOUNT_ID,
+          bucketName: 'outputbucket' + this.stage.toLowerCase() + '-' + cdk.Aws.REGION + '-' + cdk.Aws.ACCOUNT_ID,
           serverAccessLogsBucket: serverAccessLogBucket,
           enforceSSL: true,
           versioned: true,
