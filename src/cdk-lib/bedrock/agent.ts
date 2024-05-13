@@ -525,7 +525,7 @@ export class Agent extends Construct {
       ],
     });
     const agentKnowledgeBaseProperty: bedrock.CfnAgent.AgentKnowledgeBaseProperty = {
-      description: knowledgeBase.description,
+      description: knowledgeBase.instruction, // known issue: wrong parameter mapping in Cfn. Workaround: pass instruction through description
       knowledgeBaseId: knowledgeBase.knowledgeBaseId,
       knowledgeBaseState: knowledgeBase.knowledgeBaseState,
     };
