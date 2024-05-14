@@ -14,7 +14,7 @@
 - [apiSchema](bedrock.AgentActionGroupProps.md#apischema)
 - [description](bedrock.AgentActionGroupProps.md#description)
 - [parentActionGroupSignature](bedrock.AgentActionGroupProps.md#parentactiongroupsignature)
-- [shouldPrepareAgent](bedrock.AgentActionGroupProps.md#shouldprepareagent)
+- [skipResourceInUseCheckOnDelete](bedrock.AgentActionGroupProps.md#skipresourceinusecheckondelete)
 
 ## Properties
 
@@ -28,7 +28,7 @@ ___
 
 ### actionGroupName
 
-• `Optional` `Readonly` **actionGroupName**: `string`
+• `Readonly` **actionGroupName**: `string`
 
 The name of the action group.
 
@@ -79,14 +79,8 @@ prompt additional information.
 
 ___
 
-### shouldPrepareAgent
+### skipResourceInUseCheckOnDelete
 
-• `Optional` `Readonly` **shouldPrepareAgent**: `boolean`
+• `Optional` `Readonly` **skipResourceInUseCheckOnDelete**: `boolean`
 
-Whether to prepare the agent for use.
-
-**`Default`**
-
-```ts
-- false
-```
+Specifies whether the agent should skip the resource in use check on delete.

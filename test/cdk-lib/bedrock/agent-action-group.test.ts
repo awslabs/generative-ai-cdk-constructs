@@ -91,6 +91,7 @@ describe('AgentActionGroup', () => {
   test('Fails when both description and parentActionGroupSignature are provided', () => {
     expect(() => {
       new bedrock.AgentActionGroup(stack, 'ActionGroup', {
+        actionGroupName: 'GetBookInformation',
         description: 'Use these functions to get information about the books in the Project Gutenburg library.',
         parentActionGroupSignature: 'AMAZON.UserInput',
         actionGroupExecutor: actionGroupFunction,
@@ -125,6 +126,7 @@ describe('AgentActionGroup', () => {
 
   test('No unsuppressed Errors', () => {
     new bedrock.AgentActionGroup(stack, 'ActionGroup', {
+      actionGroupName: 'GetBookInformation',
       description: 'Use these functions to get information about the books in the Project Gutenburg library.',
       actionGroupExecutor: actionGroupFunction,
       actionGroupState: 'ENABLED',

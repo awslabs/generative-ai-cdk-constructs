@@ -37,6 +37,7 @@ Deploy a Bedrock Agent.
 ### Methods
 
 - [\_addAliasDependency](bedrock.Agent.md#_addaliasdependency)
+- [addActionGroup](bedrock.Agent.md#addactiongroup)
 - [addActionGroups](bedrock.Agent.md#addactiongroups)
 - [addAlias](bedrock.Agent.md#addalias)
 - [addKnowledgeBase](bedrock.Agent.md#addknowledgebase)
@@ -200,17 +201,35 @@ Register a dependency for aliases.
 
 ___
 
-### addActionGroups
+### addActionGroup
 
-▸ **addActionGroups**(`props`): `void`
+▸ **addActionGroup**(`actionGroup`): `void`
 
-Add action group  to the agent.
+Add action group to the agent.
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`AddAgentActionGroupProps`](../interfaces/bedrock.AddAgentActionGroupProps.md)[] |
+| `actionGroup` | [`AgentActionGroup`](bedrock.AgentActionGroup.md) |
+
+#### Returns
+
+`void`
+
+___
+
+### addActionGroups
+
+▸ **addActionGroups**(`actionGroups`): `void`
+
+Add action groups to the agent.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `actionGroups` | [`AgentActionGroup`](bedrock.AgentActionGroup.md)[] |
 
 #### Returns
 
