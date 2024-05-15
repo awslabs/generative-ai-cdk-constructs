@@ -189,7 +189,12 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
             "ActionGroupName": "test-action-group",
             "ActionGroupState": "ENABLED",
             "ApiSchema": {
-              "Payload": "mock schema",
+              "S3": {
+                "S3BucketName": {
+                  "Ref": "TestBucket560B80BC",
+                },
+                "S3ObjectKey": "test/api.yaml",
+              },
             },
             "Description": "Use these functions to get information about the books in the Project Gutenburg library.",
             "SkipResourceInUseCheckOnDelete": false,
@@ -1039,6 +1044,11 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
         },
       },
       "Type": "Custom::LogRetention",
+    },
+    "TestBucket560B80BC": {
+      "DeletionPolicy": "Retain",
+      "Type": "AWS::S3::Bucket",
+      "UpdateReplacePolicy": "Retain",
     },
   },
   "Rules": {
