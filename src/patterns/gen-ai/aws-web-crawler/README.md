@@ -19,18 +19,21 @@
 
 ## Table of contents
 - [Overview](#overview)
+- [Initializer](#initializer)
 - [Pattern Construct Props](#pattern-construct-props)
-- [Target Properties](#target-properties)
+- [Pattern Properties](#pattern-properties)
+- [Default properties](#default-properties)
 - [Crawler Output](#crawler-output)
 - [Architecture](#architecture)
 - [Cost](#cost)
 - [Security](#security)
+- [Supported AWS Regions](#supported-aws-regions)
 - [Quotas](#quotas)
 - [Clean up](#clean-up)
 
 ## Overview
 
-The WebCrawler construct provided here simplifies website crawling. It can crawl websites and RSS feeds on a schedule and store changeset data on S3. WebCrawler construct used [Crawlee](https://crawlee.dev/) library to crawl websites. 
+The WebCrawler construct provided here simplifies website crawling. It can crawl websites and RSS feeds on a schedule and store changeset data on S3. WebCrawler construct uses [Crawlee](https://crawlee.dev/) library to crawl websites. 
 
 Crawling will begin shortly after the stack deployment. Please allow up to **15 minutes** for it to start the first time. 
 
@@ -95,12 +98,26 @@ class SampleStack(Stack):
         )
 ```
 
+## Initializer
+
+```
+new WebCrawler(scope: Construct, id: string, props: WebCrawlerProps)
+```
+
+Parameters
+
+- scope [Construct](https://docs.aws.amazon.com/cdk/api/v2/docs/constructs.Construct.html)
+- id string
+- props [WebCrawlerProps](../aws-web-crawler/index.ts)
+
 ## Pattern Construct Props
 
 | **Name**     | **Type**        | **Required** |**Description** |
 |:-------------|:----------------|-----------------|-----------------|
 | existingVpc | [ec2.IVpc](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.IVpc.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | An existing VPC can be used to deploy the construct.|
-| existingSecurityGroup | [ec2.ISecurityGroup](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.ISecurityGroup.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Security group for the Lambda function which this construct will use. If no exisiting security group is provided it will create one from the VPC.|
+| vpcProps | [ec2.VpcProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.VpcProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Optional custom properties for a VPC the construct will create. This VPC will be used by the compute resources the construct creates. Providing both this and existingVpc is an error.|
+| existingOutputBucketObj | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.IBucket.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing instance of S3 Bucket object, providing both this and `bucketOutputProps` will cause an error..|
+| bucketOutputProps | [s3.BucketProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.BucketProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | User provided props to override the default props for the S3 Bucket. Providing both this and `existingOutputBucketObj` will cause an error.|
 | observability | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Enables observability on all services used. Warning: associated costs with the services used. It is a best practice to enable by default. Defaults to true.|
 | enableOperationalMetric | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | CDK construct collect anonymous operational metrics to help AWS improve the quality and features of the constructs. Data collection is subject to the AWS Privacy Policy (https://aws.amazon.com/privacy/). To opt out of this feature, simply disable it by setting the construct property "enableOperationalMetric" to false for each construct used. Defaults to true.|
 | stage | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | Value will be appended to resources name service. |
@@ -109,16 +126,40 @@ class SampleStack(Stack):
 
 ## Target Properties
 
-| **Name**     | **Type**        | **Required** |**Description** |
+| **Name**     | **Type** |**Description** |
 |:-------------|:----------------|-----------------|-----------------|
-| url | string | ![Required](https://img.shields.io/badge/required-ff0000) | Target URL to be crawled. |
-| targetType | CrawlerTargetType | ![Required](https://img.shields.io/badge/required-ff0000) | Is it a website of RSS feed |
-| maxRequests | number | ![Optional](https://img.shields.io/badge/optional-4169E1) |  Maximum number of requests to be made by crawler. |
-| downloadFiles | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) |  Download files from the web site. |
-| maxFiles | number | ![Optional](https://img.shields.io/badge/optional-4169E1) | Maximum number of files to be downloaded. |
-| fileTypes | string[] | ![Optional](https://img.shields.io/badge/optional-4169E1) | File types (extensions) to be downloaded like "pdf". If no file types specified comman file types will be downloaded. |
-| ignoreRobotsTxt | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Index pages that are disallowed by the robots.txt policy. |
-| crawlIntervalHours | number | ![Optional](https://img.shields.io/badge/optional-4169E1) | Schedule the crawler to run every N hours following the completion of the previous job.  |
+| vpc | [ec2.IVpc](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.IVpc.html) | The VPC used by the construct (whether created by the construct or provided by the client). |
+| dataBucket | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.IBucket.html) | Returns an instance of s3.Bucket created by the construct. |
+| snsTopic | [sns.ITopic](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_sns.ITopic.html) | Returns an instance of SNS Topic created by the construct. |
+| targetsTable | [dynamodb.ITable](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_dynamodb.ITable.html) | Returns the instance of Targets DynamoDB table created by the construct. |
+| jobsTable | [dynamodb.ITable](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_dynamodb.ITable.html) | Returns the instance of Jobs DynamoDB table created by the construct. |
+| jobQueue | [batch.IJobQueue](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_batch.IJobQueue.html) | Returns the instance of batch.IJobQueue created by the construct. |
+| webCrawlerJobDefinition | [batch.IJobDefinition](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_batch.IJobDefinition.html) | Returns the instance of JobDefinition created by the construct. |
+| lambdaCrawler | [lambda.IFunction](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.IFunction.html) | Returns the instance of the lambda function created by the construct if ```enableLambdaCrawler``` was set to true in the construct properties.  |
+
+## Default properties
+
+Out of the box implementation of the construct without any override will set the following defaults:
+
+### Networking
+
+- Set up a VPC
+    - Uses existing VPC if provided, otherwise creates a new one
+    - Setup VPC endpoints for Amazon S3 and ECR
+    - Setup a VPC flow logs
+
+### Fargate
+
+- when an infrastructure update is triggered, any running jobs will be allowed to run until 30min has expired
+- 2vCPUs
+- 6144 MB as the container memory hard limit
+- hard limit of 48 hours for container timeout, and 100 000 pages crawled
+
+### Amazon S3 Buckets
+
+- Set up one Amazon S3 Bucket
+    - Uses existing bucket if provided, otherwise creates new one
+- Setup a logging access S3 bucket
 
 ## Crawler Output
 
@@ -212,11 +253,21 @@ The following table provides a sample cost breakdown for deploying this solution
 
 When you build systems on AWS infrastructure, security responsibilities are shared between you and AWS. This [shared responsibility](http://aws.amazon.com/compliance/shared-responsibility-model/) model reduces your operational burden because AWS operates, manages, and controls the components including the host operating system, virtualization layer, and physical security of the facilities in which the services operate. For more information about AWS security, visit [AWS Cloud Security](http://aws.amazon.com/security/).
 
-You can visit the [official documentation](https://docs.aws.amazon.com/sagemaker/latest/dg/best-practice-endpoint-security.html) for security best practices related to Amazon SageMaker endpoints.
+Optionnaly, you can provide existing resources to the constructs (marked optional in the construct pattern props). If you chose to do so, please refer to the official documentation on best practices to secure each service:
+- [Amazon Simple Storage Service](https://docs.aws.amazon.com/AmazonS3/latest/userguide/security-best-practices.html)
+- [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-best-practices.html)
 
-If you grant access to a user to your account where this construct is deployed, this user may access information stored by the construct (Amazon CloudWatch logs). To help secure your AWS resources, please follow the best practices for [AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html).
+If you grant access to a user to your account where this construct is deployed, this user may access information stored by the construct (Amazon Simple Storage Service buckets, Amazon CloudWatch logs). To help secure your AWS resources, please follow the best practices for [AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html).
 
-AWS CloudTrail provides a number of security features to consider as you develop and implement your own security policies. Please follow the related best practices through the [official documentation](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/best-practices-security.html).
+> **Note**
+> This construct stores documents in the output assets bucket. You should validate each file stored in the output bucket before using it in your application. See [here](https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html) for file input validation best practices.
+> If you use the data generated by this construct in a knowledge base, ensure you only ingest the appropriate documents. Any results returned by the knowledge base is eligible for inclusion into the prompt; and therefore, being sent to the LLM. If using a third-party LLM, ensure you audit the documents contained within your knowledge base.
+> Web scraping functionality must be used responsibly and in compliance with applicable laws and regulations. Extracting copyrighted content, personal information without consent, or engaging in activities that interfere with the normal operation of websites may constitute unlawful behavior. The legality of web scraping varies across jurisdictions and depends on specific circumstances. In the United States, web scraping must not violate the Computer Fraud and Abuse Act (CFAA), the Digital Millennium Copyright Act (DMCA), or any relevant terms of service agreements. Users of this construct are solely responsible for ensuring that their web scraping activities are legally and ethically permissible. The construct provider shall not be held liable for any misuse or unlawful actions resulting from the use of this web scraping functionality.
+> This construct provides several configurable options for logging. Please consider security best practices when enabling or disabling logging and related features. Verbose logging, for instance, may log content of API calls. You can disable this functionality by ensuring observability flag is set to false.
+
+## Supported AWS Regions
+
+This solution uses multiple AWS services, which might not be currently available in all AWS Regions. You must launch this construct in an AWS Region where these services are available. For the most current availability of AWS services by Region, see the [AWS Regional Services List](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/).
 
 ## Quotas
 
