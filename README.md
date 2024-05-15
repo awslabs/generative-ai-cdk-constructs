@@ -82,6 +82,7 @@ The following constructs are available in the library:
 | [SageMaker model deployment (Hugging Face)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_hugging_face.md) | Deploy a foundation model from Hugging Face to an Amazon SageMaker endpoint. | Amazon SageMaker | 
 | [SageMaker model deployment (Custom)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_custom_sagemaker_endpoint.md) | Deploy a foundation model from an S3 location to an Amazon SageMaker endpoint. | Amazon SageMaker |
 | [Content Generation](./src/patterns/gen-ai/aws-contentgen-appsync-lambda/) | Generate images from text using Amazon titan-image-generator-v1 or stability.stable-diffusion-xl model.  | AWS Lambda, Amazon Bedrock, AWS AppSync | 
+| [Web crawler](./src/patterns/gen-ai/aws-web-crawler/) | Crawl websites and RSS feeds on a schedule and store changeset data in an Amazon Simple Storage Service bucket.  | AWS Lambda, AWS Batch, AWS Fargate, Amazon DynamoDB  | 
 
 **L2 Constructs**
 
