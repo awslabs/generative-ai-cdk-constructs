@@ -17,6 +17,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { NagSuppressions } from 'cdk-nag';
 import * as bedrock from '../../../src/cdk-lib/bedrock';
 
+
 // mock lambda.Code.fromDockerBuild()
 jest.mock('aws-cdk-lib/aws-lambda', () => {
   const actualLambda = jest.requireActual('aws-cdk-lib/aws-lambda');
@@ -46,13 +47,6 @@ describe('AgentActionGroup', () => {
       },
     });
 
-    // agent = new bedrock.Agent(stack, 'Agent', {
-    //   foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
-    //   instruction: 'You provide support for developers working with CDK constructs.',
-    //   idleSessionTTL: cdk.Duration.minutes(30),
-
-    // });
-
     actionGroupFunction = new lambda.Function(stack, 'ActionGroupFunction', {
       code: lambda.Code.fromAsset('test/path'),
       runtime: lambda.Runtime.NODEJS_LATEST,
@@ -70,23 +64,7 @@ describe('AgentActionGroup', () => {
       true,
     );
   });
-  // moved to Agent.ts
 
-  // test('actionGroupExecutor invocation policy is configured', () =>{
-  //   new bedrock.AgentActionGroup(stack, 'ActionGroup', {
-  //     description: 'Use these functions to get information about the books in the Project Gutenburg library.',
-  //     actionGroupExecutor: actionGroupFunction,
-  //     actionGroupState: 'ENABLED',
-  //     apiSchema: bedrock.ApiSchema.fromInline(actionGroupAPISpec),
-  //   });
-
-  //   const template = Template.fromStack(stack);
-  //   template.hasResourceProperties('AWS::Lambda::Permission', {
-  //     Action: 'lambda:InvokeFunction',
-  //     Principal: 'bedrock.amazonaws.com',
-  //     SourceAccount: '123456789012',
-  //   });
-  // });
 
   test('Fails when both description and parentActionGroupSignature are provided', () => {
     expect(() => {
@@ -101,28 +79,6 @@ describe('AgentActionGroup', () => {
     }).toThrowError('Cannot specify both description and parentActionSignature');
   });
 
-  // test('ApiSchema from S3', () => {
-  //   const bucket = new s3.Bucket(stack, 'TestBucket');
-  //   new bedrock.AgentActionGroup(stack, 'ActionGroup', {
-  //     agent,
-  //     description: 'Use these functions to get information about the books in the Project Gutenburg library.',
-  //     actionGroupExecutor: actionGroupFunction,
-  //     actionGroupState: 'ENABLED',
-  //     apiSchema: bedrock.ApiSchema.fromBucket(bucket, 'test/api.yaml'),
-  //   });
-  //   const template = Template.fromStack(stack);
-  //   template.hasResourceProperties('AWS::Bedrock::Agent', {
-  //     apiSchema: {
-  //       s3: {
-  //         s3BucketName: {
-  //           Ref: Match.stringLikeRegexp('^TestBucket'),
-  //         },
-  //         s3ObjectKey: 'test/api.yaml',
-  //       },
-  //     },
-  //   });
-
-  // });
 
   test('No unsuppressed Errors', () => {
     new bedrock.AgentActionGroup(stack, 'ActionGroup', {

@@ -103,19 +103,19 @@ beforeAll(() => {
     true,
   );
 
+  const apiSchemaBucket = new s3.Bucket(stack, 'TestBucket');
   const actiongroup = new bedrock.AgentActionGroup(stack, 'actionGroups', {
     actionGroupName: 'test-action-group',
     description: 'Use these functions to get information about the books in the Project Gutenburg library.',
     actionGroupState: 'ENABLED',
     actionGroupExecutor: actionGroupFunction,
-    apiSchema: bedrock.ApiSchema.fromInline('mock schema'),
+    apiSchema: bedrock.ApiSchema.fromBucket(apiSchemaBucket, 'test/api.yaml'),
   });
 
   agent = new bedrock.Agent(stack, 'Agent', {
     foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
     instruction: 'You provide support for developers working with CDK constructs.',
-    // knowledgeBases: [kb],
-    // actionGroups: [actiongroup],
+    knowledgeBases: [kb],
     idleSessionTTL: cdk.Duration.minutes(30),
     promptOverrideConfiguration: {
       promptConfigurations: [preprocessingPrompt, orchestrationPrompt],
@@ -123,15 +123,7 @@ beforeAll(() => {
     aliasName: 'prod',
   });
 
-  agent.addKnowledgeBases([kb]);
   agent.addActionGroups([actiongroup]);
-
-  // agent.addActionGroup({
-  //   actionGroupName: 'test-action-group',
-  //   description: 'Use these functions to get information about the books in the Project Gutenburg library.',
-  //   actionGroupState: 'ENABLED',
-  //   apiSchema: bedrock.ApiSchema.fromInline('mock schema'),
-  // });
 
 
 });
@@ -240,6 +232,35 @@ describe('Bedrock Agents', () => {
       });
     });
 
+    test('Agent action group and ApiSchema from S3', () => {
+      const template = Template.fromStack(stack);
+      template.hasResourceProperties('AWS::Bedrock::Agent', {
+
+        ActionGroups: [
+          {
+            ActionGroupExecutor: {
+              Lambda: {
+                'Fn::GetAtt': [
+                  Match.stringLikeRegexp('ActionGroupFunction'), 'Arn',
+                ],
+              },
+            },
+            ActionGroupName: 'test-action-group',
+            ActionGroupState: 'ENABLED',
+            ApiSchema: {
+              S3: {
+                S3BucketName: {
+                  Ref: Match.stringLikeRegexp('^TestBucket'),
+                },
+                S3ObjectKey: 'test/api.yaml',
+              },
+            },
+          },
+        ],
+      });
+
+    });
+
     test('Agent Alias is created', () => {
       Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::AgentAlias', {
         AgentId: {
@@ -251,6 +272,7 @@ describe('Bedrock Agents', () => {
         AgentAliasName: 'prod',
       });
     });
+
 
     test('No unsuppressed Errors', () => {
       const errors = Annotations.fromStack(stack).findError(
