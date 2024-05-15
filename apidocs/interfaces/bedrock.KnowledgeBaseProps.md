@@ -14,6 +14,8 @@ Properties for a knowledge base
 - [embeddingsModel](bedrock.KnowledgeBaseProps.md#embeddingsmodel)
 - [indexName](bedrock.KnowledgeBaseProps.md#indexname)
 - [instruction](bedrock.KnowledgeBaseProps.md#instruction)
+- [knowledgeBaseState](bedrock.KnowledgeBaseProps.md#knowledgebasestate)
+- [tags](bedrock.KnowledgeBaseProps.md#tags)
 - [vectorField](bedrock.KnowledgeBaseProps.md#vectorfield)
 - [vectorIndex](bedrock.KnowledgeBaseProps.md#vectorindex)
 - [vectorStore](bedrock.KnowledgeBaseProps.md#vectorstore)
@@ -75,6 +77,28 @@ query this Knowledge Base.
 
 ___
 
+### knowledgeBaseState
+
+• `Optional` `Readonly` **knowledgeBaseState**: `string`
+
+Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
+
+___
+
+### tags
+
+• `Optional` `Readonly` **tags**: `Record`\<`string`, `string`\>
+
+OPTIONAL: Tag (KEY-VALUE) bedrock agent resource
+
+**`Default`**
+
+```ts
+- false
+```
+
+___
+
 ### vectorField
 
 • `Optional` `Readonly` **vectorField**: `string`
@@ -108,7 +132,7 @@ ___
 
 ### vectorStore
 
-• `Optional` `Readonly` **vectorStore**: [`AmazonAuroraDefaultVectorStore`](../classes/amazonaurora.AmazonAuroraDefaultVectorStore.md) \| [`AmazonAuroraVectorStore`](../classes/amazonaurora.AmazonAuroraVectorStore.md) \| [`VectorCollection`](../classes/opensearchserverless.VectorCollection.md) \| [`PineconeVectorStore`](../classes/pinecone.PineconeVectorStore.md) \| [`RedisEnterpriseVectorStore`](../classes/redisenterprisecloud.RedisEnterpriseVectorStore.md)
+• `Optional` `Readonly` **vectorStore**: [`AmazonAuroraDefaultVectorStore`](../classes/amazonaurora.AmazonAuroraDefaultVectorStore.md) \| [`AmazonAuroraVectorStore`](../classes/amazonaurora.AmazonAuroraVectorStore.md) \| [`VectorCollection`](../classes/opensearchserverless.VectorCollection.md) \| [`PineconeVectorStore`](../classes/pinecone.PineconeVectorStore.md)
 
 The vector store for the knowledge base. Must be either of
 type `VectorCollection`, `RedisEnterpriseVectorStore`,

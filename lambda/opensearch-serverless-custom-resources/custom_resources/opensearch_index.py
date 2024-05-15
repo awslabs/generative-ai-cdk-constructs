@@ -20,6 +20,7 @@ from opensearchpy import (
 import boto3
 import logging
 import os
+import time
 from tenacity import (
     retry,
     retry_if_exception_type,
@@ -154,6 +155,8 @@ def create_index(client: OpenSearch, index_name: str, mapping: dict[str, str]) -
         },
         params={"wait_for_active_shards": "all"},
     )
+    logger.debug(f"sleep for 30 seconds for bedrock KB  {index_name}")
+    time.sleep(30)
 
 
 # Add retry on AuthorizationException to mitigate policy creation race condition

@@ -12,10 +12,6 @@ Deploy a Bedrock Agent.
 
   ↳ **`Agent`**
 
-## Implements
-
-- `ITaggableV2`
-
 ## Table of contents
 
 ### Constructors
@@ -24,23 +20,28 @@ Deploy a Bedrock Agent.
 
 ### Properties
 
+- [actionGroups](bedrock.Agent.md#actiongroups)
 - [agentArn](bedrock.Agent.md#agentarn)
 - [agentId](bedrock.Agent.md#agentid)
+- [agentInstance](bedrock.Agent.md#agentinstance)
+- [agentversion](bedrock.Agent.md#agentversion)
 - [aliasArn](bedrock.Agent.md#aliasarn)
 - [aliasId](bedrock.Agent.md#aliasid)
 - [aliasName](bedrock.Agent.md#aliasname)
-- [cdkTagManager](bedrock.Agent.md#cdktagmanager)
+- [knowledgeBases](bedrock.Agent.md#knowledgebases)
 - [name](bedrock.Agent.md#name)
 - [node](bedrock.Agent.md#node)
 - [resourceUpdates](bedrock.Agent.md#resourceupdates)
 - [role](bedrock.Agent.md#role)
-- [shouldPrepareAgent](bedrock.Agent.md#shouldprepareagent)
 
 ### Methods
 
 - [\_addAliasDependency](bedrock.Agent.md#_addaliasdependency)
 - [addActionGroup](bedrock.Agent.md#addactiongroup)
+- [addActionGroups](bedrock.Agent.md#addactiongroups)
 - [addAlias](bedrock.Agent.md#addalias)
+- [addKnowledgeBase](bedrock.Agent.md#addknowledgebase)
+- [addKnowledgeBases](bedrock.Agent.md#addknowledgebases)
 - [toString](bedrock.Agent.md#tostring)
 - [isConstruct](bedrock.Agent.md#isconstruct)
 
@@ -68,6 +69,14 @@ Construct.constructor
 
 ## Properties
 
+### actionGroups
+
+• `Private` **actionGroups**: `AgentActionGroupProperty`[] = `[]`
+
+A list of action groups associated with the agent
+
+___
+
 ### agentArn
 
 • `Readonly` **agentArn**: `string`
@@ -81,6 +90,22 @@ ___
 • `Readonly` **agentId**: `string`
 
 The unique identifier of the agent.
+
+___
+
+### agentInstance
+
+• `Readonly` **agentInstance**: `CfnAgent`
+
+Instance of Agent
+
+___
+
+### agentversion
+
+• `Readonly` **agentversion**: `string`
+
+The version for the agent
 
 ___
 
@@ -108,15 +133,17 @@ The name for the agent alias.
 
 ___
 
-### cdkTagManager
+### knowledgeBases
 
-• `Readonly` **cdkTagManager**: `TagManager`
+• **knowledgeBases**: `AgentKnowledgeBaseProperty`[] = `[]`
 
-TagManager facilitates a common implementation of tagging for Constructs
+A list of KnowledgeBases associated with the agent.
 
-#### Implementation of
+**`Default`**
 
-cdk.ITaggableV2.cdkTagManager
+```ts
+- No knowledge base is used.
+```
 
 ___
 
@@ -154,14 +181,6 @@ ___
 
 The IAM role for the agent.
 
-___
-
-### shouldPrepareAgent
-
-• `Private` `Readonly` **shouldPrepareAgent**: `boolean`
-
-If prepare agent should be called on resource updates.
-
 ## Methods
 
 ### \_addAliasDependency
@@ -184,19 +203,37 @@ ___
 
 ### addActionGroup
 
-▸ **addActionGroup**(`props`): [`AgentActionGroup`](bedrock.AgentActionGroup.md)
+▸ **addActionGroup**(`actionGroup`): `void`
 
-Add an action group to the agent.
+Add action group to the agent.
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `props` | [`AddAgentActionGroupProps`](../interfaces/bedrock.AddAgentActionGroupProps.md) |
+| `actionGroup` | [`AgentActionGroup`](bedrock.AgentActionGroup.md) |
 
 #### Returns
 
-[`AgentActionGroup`](bedrock.AgentActionGroup.md)
+`void`
+
+___
+
+### addActionGroups
+
+▸ **addActionGroups**(`actionGroups`): `void`
+
+Add action groups to the agent.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `actionGroups` | [`AgentActionGroup`](bedrock.AgentActionGroup.md)[] |
+
+#### Returns
+
+`void`
 
 ___
 
@@ -215,6 +252,42 @@ Add an alias to the agent.
 #### Returns
 
 [`AgentAlias`](bedrock.AgentAlias.md)
+
+___
+
+### addKnowledgeBase
+
+▸ **addKnowledgeBase**(`knowledgeBase`): `void`
+
+Add knowledge base to the agent.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `knowledgeBase` | [`KnowledgeBase`](bedrock.KnowledgeBase.md) |
+
+#### Returns
+
+`void`
+
+___
+
+### addKnowledgeBases
+
+▸ **addKnowledgeBases**(`knowledgeBases`): `void`
+
+Add knowledge bases to the agent.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `knowledgeBases` | [`KnowledgeBase`](bedrock.KnowledgeBase.md)[] |
+
+#### Returns
+
+`void`
 
 ___
 

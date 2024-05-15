@@ -36,7 +36,9 @@ import { pinecone } from '@cdklabs/generative-ai-cdk-constructs';
 
 new pinecone.PineconeVectorStore({
   connectionString: 'https://your-index-1234567.svc.gcp-starter.pinecone.io',
-  credentialsSecretArn: 'arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name'
+  credentialsSecretArn: 'arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name',
+  textField: 'question',
+  metadataField: 'metadata'
 });
 ```
 

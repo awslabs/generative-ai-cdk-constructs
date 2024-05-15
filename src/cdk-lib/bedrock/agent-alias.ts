@@ -11,12 +11,10 @@
  *  and limitations under the License.
  */
 
-import * as cdk from 'aws-cdk-lib';
-import * as iam from 'aws-cdk-lib/aws-iam';
-import { NagSuppressions } from 'cdk-nag';
+
+import { aws_bedrock as bedrock } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
-import { BedrockCRProvider } from './custom-resource-provider';
 
 export interface AgentAliasProps {
   /**
@@ -29,6 +27,12 @@ export interface AgentAliasProps {
    * @default - 'latest'
    */
   readonly aliasName?: string;
+
+  /**
+   * Description for the agent alias.
+   *
+   */
+  readonly description?: string;
   /**
    * The list of resource update timestamps to let CloudFormation determine when to update the alias.
    */
@@ -39,9 +43,16 @@ export interface AgentAliasProps {
    * @default - Creates a new version of the agent.
    */
   readonly agentVersion?: string;
+
+  /**
+   * OPTIONAL: Tag (KEY-VALUE) bedrock agent resource
+   *
+   * @default - false
+   */
+  readonly tags?: Record<string, string>;
 }
 
-export class AgentAlias extends Construct implements cdk.ITaggableV2 {
+export class AgentAlias extends Construct {
   /**
    * The unique identifier of the agent alias.
    */
@@ -54,83 +65,30 @@ export class AgentAlias extends Construct implements cdk.ITaggableV2 {
    * The name for the agent alias.
    */
   public readonly aliasName: string;
-  /**
-   * TagManager facilitates a common implementation of tagging for Constructs
-   */
-  public readonly cdkTagManager =
-    new cdk.TagManager(cdk.TagType.MAP, 'Custom::Bedrock-AgentAlias');
+
 
   constructor(scope: Construct, id: string, props: AgentAliasProps) {
     super(scope, id);
-    const crProvider = BedrockCRProvider.getProvider(this);
 
-    const alias = new cdk.CustomResource(
-      this,
-      'Alias',
-      {
-        serviceToken: crProvider.serviceToken,
-        resourceType: 'Custom::Bedrock-AgentAlias',
-        properties: {
-          agentId: props.agentId,
-          aliasName: props.aliasName ?? 'latest',
-          resourceUpdates: props.resourceUpdates,
-          agentVersion: props.agentVersion,
-          tags: this.cdkTagManager.renderedTags,
-        },
-      },
-    );
 
-    const aliasCRPolicy = new iam.Policy(this, 'AliasCRPolicy', {
-      roles: [crProvider.role],
-      statements: [
-
-        new iam.PolicyStatement({
-          actions: [
-            'bedrock:CreateAgentAlias',
-            'bedrock:UpdateAgentAlias',
-            'bedrock:DeleteAgentAlias',
-            'bedrock:PrepareAgent',
-            'bedrock:ListAgentAliases',
-            'bedrock:ListAgentVersions',
-            'bedrock:DeleteAgentVersion',
-            'bedrock:GetAgent',
-            'bedrock:TagResource',
-          ],
-          resources: [
-            cdk.Stack.of(this).formatArn({
-              service: 'bedrock',
-              resource: 'agent-alias',
-              resourceName: '*',
-              arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-            }),
-            cdk.Stack.of(this).formatArn({
-              service: 'bedrock',
-              resource: 'agent',
-              resourceName: '*',
-              arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-            }),
-          ],
-        }),
-      ],
+    const alias = new bedrock.CfnAgentAlias(this, 'MyCfnAgentAlias', {
+      agentAliasName: props.aliasName ?? 'latest',
+      agentId: props.agentId,
+      tags: props.tags,
+      description: props.description,
     });
 
-    NagSuppressions.addResourceSuppressions(
-      aliasCRPolicy,
-      [
-        {
-          id: 'AwsSolutions-IAM5',
-          reason: 'Bedrock Agent/Alias associations have wildcards restricted to agents and aliases in the account.',
-        },
-      ],
-      true,
-    );
+    if (props.agentVersion) {
+      alias.routingConfiguration = [{
+        agentVersion: props.agentVersion,
+      }];
+    }
 
-    alias.node.addDependency(aliasCRPolicy);
-    alias.node.addDependency(crProvider);
-
-    this.aliasId = alias.getAttString('agentAliasId');
-    this.aliasArn = alias.getAttString('agentAliasArn');
-    this.aliasName = alias.getAttString('agentAliasName');
+    this.aliasId = alias.attrAgentAliasId;
+    this.aliasArn = alias.attrAgentAliasArn;
+    this.aliasName = props.aliasName ?? 'latest';
 
   }
+
+
 }

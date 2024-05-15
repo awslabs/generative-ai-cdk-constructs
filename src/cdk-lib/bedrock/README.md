@@ -20,7 +20,7 @@
 
 [Amazon Bedrock](https://aws.amazon.com/bedrock/) is a fully managed service that offers a choice of foundation models (FMs) along with a broad set of capabilities for building generative AI applications.
 
-CloudFormation does not currently support any Bedrock resource types. This construct library includes L2 resources and custom resources to deploy Bedrock features.
+This construct library includes CloudFormation L1 resources to deploy Bedrock features.
 
 ## Table of contents
 - [API](#api)
@@ -34,7 +34,7 @@ See the [API documentation](../../../apidocs/modules/bedrock.md).
 With Knowledge Bases for Amazon Bedrock, you can give FMs and agents contextual information from your company’s private data sources for Retrieval Augmented Generation (RAG) to deliver more relevant, accurate, and customized responses.
 
 ### Create a Knowledge Base
-A vector index on a vector store is required to create a Knowledge Base. This construct currently supports [Amazon OpenSearch Serverless](../opensearchserverless), [Amazon RDS Aurora PostgreSQL](../amazonaurora/), [Pinecone](../pinecone/) and [Redis Enterprise Cloud](../redisenterprisecloud/). By default, this resource will create an OpenSearch Serverless vector collection and index for each Knowledge Base you create, but you can provide an existing collection and/or index to have more control. For other resources you need to have the vector stores already created and credentials stored in AWS Secrets Manager. For Aurora, the construct provides an option to create a default `AmazonAuroraDefaultVectorStore` construct that will provision the vector store backed by Amazon Aurora for you. To learn more you can read [here](../amazonaurora/README.md).
+A vector index on a vector store is required to create a Knowledge Base. This construct currently supports [Amazon OpenSearch Serverless](../opensearchserverless), [Amazon RDS Aurora PostgreSQL](../amazonaurora/), [Pinecone](../pinecone/) . By default, this resource will create an OpenSearch Serverless vector collection and index for each Knowledge Base you create, but you can provide an existing collection and/or index to have more control. For other resources you need to have the vector stores already created and credentials stored in AWS Secrets Manager. For Aurora, the construct provides an option to create a default `AmazonAuroraDefaultVectorStore` construct that will provision the vector store backed by Amazon Aurora for you. To learn more you can read [here](../amazonaurora/README.md).
 
 The resource accepts an `instruction` prop that is provided to any Bedrock Agent it is associated with so the agent can decide when to query the Knowledge Base.
 
@@ -184,8 +184,8 @@ TypeScript
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { amazonaurora, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
 
-const auroraDb = new amazonaurora.AmazonAuroraDefaultVectorStore(stack, 'AuroraDefaultVectorStore', {
-  embeddingsModel: BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3.vectorDimensions!,
+const auroraDb = new amazonaurora.AmazonAuroraDefaultVectorStore(this, 'AuroraDefaultVectorStore', {
+  embeddingsModelVectorDimension: BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3.vectorDimensions!,
 });
 
 const kb = new bedrock.KnowledgeBase(this, 'KnowledgeBase', {
@@ -252,13 +252,15 @@ TypeScript
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { pinecone, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
 
-const pinecone = new pinecone.PineconVectorStore({
+const pineconeds = new pinecone.PineconeVectorStore({
   connectionString: 'https://your-index-1234567.svc.gcp-starter.pinecone.io',
-  credentialsSecretArn: 'arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name'
+  credentialsSecretArn: 'arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name',
+  textField: 'question',
+  metadataField: 'metadata'
 });
 
 const kb = new bedrock.KnowledgeBase(this, 'KnowledgeBase', {
-  vectorStore: pinecone,
+  vectorStore: pineconeds,
   embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
   instruction: 'Use this knowledge base to answer questions about books. ' +
     'It contains the full text of novels.',
@@ -290,6 +292,8 @@ from cdklabs.generative_ai_cdk_constructs import (
 pineconevs = pinecone.PineconeVectorStore(
             connection_string='https://your-index-1234567.svc.gcp-starter.pinecone.io',
             credentials_secret_arn='arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name',
+            text_field='question',
+            metadata_field='metadata'
         )
 
 kb = bedrock.KnowledgeBase(self, 'KnowledgeBase', 
@@ -311,74 +315,6 @@ bedrock.S3DataSource(self, 'DataSource',
 )
 ```
 
-Example of ``Redis Enterprise Cloud`` (manual, you must have Redis Enterprise Cloud vector store created):
-
-TypeScript
-
-```ts
-import * as s3 from 'aws-cdk-lib/aws-s3';
-import { redisenterprisecloud, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
-
-const redisEnterpriseVectorStore = new redisenterprisecloud.RedisEnterpriseVectorStore({
-  endpoint: 'redis-endpoint',
-  vectorIndexName: 'your-index-name',
-  credentialsSecretArn: 'arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name'
-});
-
-const kb = new bedrock.KnowledgeBase(this, 'KnowledgeBase', {
-  vectorStore: redisEnterpriseVectorStore,
-  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
-  instruction: 'Use this knowledge base to answer questions about books. ' +
-    'It contains the full text of novels.',
-});
-
-const docBucket = new s3.Bucket(this, 'DocBucket');
-
-new bedrock.S3DataSource(this, 'DataSource', {
-  bucket: docBucket,
-  knowledgeBase: kb,
-  dataSourceName: 'books',
-  chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
-  maxTokens: 500,
-  overlapPercentage: 20,
-});
-```
-
-Python
-```python
-
-from aws_cdk import (
-    aws_s3 as s3,
-)
-from cdklabs.generative_ai_cdk_constructs import (
-    bedrock,
-    redisenterprisecloud
-)
-
-redisds = redisenterprisecloud.RedisEnterpriseVectorStoreProps(
-            credentials_secret_arn='arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name',
-            endpoint='redis-endpoint',
-            vector_index_name='your-index-name',
-        )
-
-kb = bedrock.KnowledgeBase(self, 'KnowledgeBase', 
-            vector_store= redisds,
-            embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
-            instruction=  'Use this knowledge base to answer questions about books. ' +
-    'It contains the full text of novels.'                     
-        )
-
-docBucket = s3.Bucket(self, 'DockBucket')
-
-bedrock.S3DataSource(self, 'DataSource',
-    bucket= docBucket,
-    knowledge_base=kb,
-    data_source_name='books',
-    chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
-    max_tokens=500,
-    overlap_percentage=20   
-)
-```
 
 ## Agents
 Enable generative AI applications to execute multistep tasks across company systems and data sources.
@@ -392,8 +328,11 @@ TypeScript
 const agent = new bedrock.Agent(this, 'Agent', {
   foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
   instruction: 'You are a helpful and friendly agent that answers questions about literature.',
-  knowledgeBases: [kb],
+  
 });
+
+agent.addKnowledgeBase([kb]);
+
 ```
 
 Python
@@ -403,8 +342,8 @@ agent = bedrock.Agent(
     "Agent",
     foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
     instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
-    knowledge_bases= [kb]
 )
+  agent.add_knowledge_base(kb);
 ```
 
 ### Action Groups
@@ -448,9 +387,9 @@ agent.add_action_group(
 ```
 
 ### Prepare the Agent
-The `Agent` and `AgentActionGroup` constructs take an optional parameter `shouldPrepareAgent` to indicate that the Agent should be prepared after any updates to an agent, Knowledge Base association, or action group. This may increase the time to create and update those resources.
+The `Agent`  constructs take an optional parameter `autoPrepare` to indicate that the Agent should be prepared after any updates to an agent, Knowledge Base association, or action group. This may increase the time to create and update those resources. By default, this value is false .
 
-Creating an agent alias will also prepare the agent, so if you create an alias with `addAlias` or by providing an `aliasName` when creating the agent then you should not set `shouldPrepareAgent` to ***true*** on other resources.
+Creating an agent alias will also prepare the agent, so if you create an alias with `addAlias` or by providing an `aliasName` when creating the agent then you should not set `autoPrepare` to ***true*** on other resources.
 
 #### Prompt Overrides
 Bedrock Agents allows you to customize the prompts and LLM configuration for its different steps. You can disable steps or create a new prompt template. Prompt templates can be inserted from plain text files.
@@ -464,7 +403,6 @@ const orchestration = readFileSync('prompts/orchestration.txt', 'utf-8');
 const agent = new bedrock.Agent(this, 'Agent', {
   foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
   instruction: "You are a helpful and friendly agent that answers questions about literature.",
-  knowledgeBases: [kb],
   promptOverrideConfiguration: {
     promptConfigurations: [
       {
@@ -504,7 +442,6 @@ orchestration = open('prompts/orchestration.txt', encoding="utf-8").read()
 agent = bedrock.Agent(self, "Agent",
             foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
             instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
-            knowledge_bases= [kb],
             prompt_override_configuration= bedrock.PromptOverrideConfiguration(
                 prompt_configurations=[
                     bedrock.PromptConfiguration(
@@ -554,9 +491,9 @@ TypeScript
 const agent = new bedrock.Agent(this, 'Agent', {
   foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
   instruction: 'You are a helpful and friendly agent that answers questions about literature.',
-  knowledgeBases: [kb],
   aliasName: 'latest',
 });
+agent.addKnowledgeBase([kb]);
 ```
 
 Python

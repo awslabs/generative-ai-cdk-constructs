@@ -11,7 +11,9 @@
 - [agentId](bedrock.AgentAliasProps.md#agentid)
 - [agentVersion](bedrock.AgentAliasProps.md#agentversion)
 - [aliasName](bedrock.AgentAliasProps.md#aliasname)
+- [description](bedrock.AgentAliasProps.md#description)
 - [resourceUpdates](bedrock.AgentAliasProps.md#resourceupdates)
+- [tags](bedrock.AgentAliasProps.md#tags)
 
 ## Properties
 
@@ -51,8 +53,30 @@ The name for the agent alias.
 
 ___
 
+### description
+
+• `Optional` `Readonly` **description**: `string`
+
+Description for the agent alias.
+
+___
+
 ### resourceUpdates
 
 • `Optional` `Readonly` **resourceUpdates**: `string`[]
 
 The list of resource update timestamps to let CloudFormation determine when to update the alias.
+
+___
+
+### tags
+
+• `Optional` `Readonly` **tags**: `Record`\<`string`, `string`\>
+
+OPTIONAL: Tag (KEY-VALUE) bedrock agent resource
+
+**`Default`**
+
+```ts
+- false
+```
