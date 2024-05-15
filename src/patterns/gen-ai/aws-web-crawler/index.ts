@@ -554,6 +554,8 @@ export class WebCrawler extends BaseClass {
     const schedulerFunction = new lambda.Function(this, 'webCrawlerSchedulerFunction', {
       runtime: lambda.Runtime.PYTHON_3_12,
       handler: 'lambda.handler',
+      functionName: 'lambda_crawler_scheduler' + this.stage,
+      tracing: this.lambdaTracing,
       timeout: cdk.Duration.minutes(15),
       memorySize: 256,
       code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-web-crawler-scheduler')),
@@ -584,6 +586,8 @@ export class WebCrawler extends BaseClass {
     if (props.enableLambdaCrawler) {
       const lambdaCrawler = new lambda.Function(this, 'lambdaCrawler', {
         architecture: lambda.Architecture.X86_64,
+        functionName: 'lambda_crawler_function' + this.stage,
+        tracing: this.lambdaTracing,
         timeout: cdk.Duration.minutes(15),
         memorySize: 2048,
         handler: 'index.handler',
