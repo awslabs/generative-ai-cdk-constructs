@@ -26,7 +26,6 @@
 
 ### Interfaces
 
-- [AddAgentActionGroupProps](../interfaces/bedrock.AddAgentActionGroupProps.md)
 - [AddAgentAliasProps](../interfaces/bedrock.AddAgentAliasProps.md)
 - [AgentActionGroupProps](../interfaces/bedrock.AgentActionGroupProps.md)
 - [AgentAliasProps](../interfaces/bedrock.AgentAliasProps.md)

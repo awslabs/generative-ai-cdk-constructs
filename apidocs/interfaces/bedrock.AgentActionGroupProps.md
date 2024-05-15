@@ -11,11 +11,10 @@
 - [actionGroupExecutor](bedrock.AgentActionGroupProps.md#actiongroupexecutor)
 - [actionGroupName](bedrock.AgentActionGroupProps.md#actiongroupname)
 - [actionGroupState](bedrock.AgentActionGroupProps.md#actiongroupstate)
-- [agent](bedrock.AgentActionGroupProps.md#agent)
 - [apiSchema](bedrock.AgentActionGroupProps.md#apischema)
 - [description](bedrock.AgentActionGroupProps.md#description)
 - [parentActionGroupSignature](bedrock.AgentActionGroupProps.md#parentactiongroupsignature)
-- [shouldPrepareAgent](bedrock.AgentActionGroupProps.md#shouldprepareagent)
+- [skipResourceInUseCheckOnDelete](bedrock.AgentActionGroupProps.md#skipresourceinusecheckondelete)
 
 ## Properties
 
@@ -29,7 +28,7 @@ ___
 
 ### actionGroupName
 
-• `Optional` `Readonly` **actionGroupName**: `string`
+• `Readonly` **actionGroupName**: `string`
 
 The name of the action group.
 
@@ -46,14 +45,6 @@ ___
 • `Optional` `Readonly` **actionGroupState**: ``"ENABLED"`` \| ``"DISABLED"``
 
 Specifies whether the action group is available for the agent to invoke or not when sending an InvokeAgent request.
-
-___
-
-### agent
-
-• `Readonly` **agent**: [`Agent`](../classes/bedrock.Agent.md)
-
-Bedrock Agent
 
 ___
 
@@ -88,14 +79,8 @@ prompt additional information.
 
 ___
 
-### shouldPrepareAgent
+### skipResourceInUseCheckOnDelete
 
-• `Optional` `Readonly` **shouldPrepareAgent**: `boolean`
+• `Optional` `Readonly` **skipResourceInUseCheckOnDelete**: `boolean`
 
-Whether to prepare the agent for use.
-
-**`Default`**
-
-```ts
-- false
-```
+Specifies whether the agent should skip the resource in use check on delete.

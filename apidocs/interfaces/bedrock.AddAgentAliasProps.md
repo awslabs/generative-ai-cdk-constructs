@@ -12,6 +12,7 @@ Properties to add an Alias to an Agent
 
 - [agentVersion](bedrock.AddAgentAliasProps.md#agentversion)
 - [aliasName](bedrock.AddAgentAliasProps.md#aliasname)
+- [description](bedrock.AddAgentAliasProps.md#description)
 
 ## Properties
 
@@ -34,3 +35,11 @@ ___
 • `Readonly` **aliasName**: `string`
 
 The name for the agent alias.
+
+___
+
+### description
+
+• `Optional` `Readonly` **description**: `string`
+
+Description for the agent alias.

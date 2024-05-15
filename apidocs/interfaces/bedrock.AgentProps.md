@@ -10,6 +10,7 @@ Properties for a Bedrock Agent.
 
 ### Properties
 
+- [actionGroups](bedrock.AgentProps.md#actiongroups)
 - [aliasName](bedrock.AgentProps.md#aliasname)
 - [description](bedrock.AgentProps.md#description)
 - [encryptionKey](bedrock.AgentProps.md#encryptionkey)
@@ -20,8 +21,23 @@ Properties for a Bedrock Agent.
 - [name](bedrock.AgentProps.md#name)
 - [promptOverrideConfiguration](bedrock.AgentProps.md#promptoverrideconfiguration)
 - [shouldPrepareAgent](bedrock.AgentProps.md#shouldprepareagent)
+- [tags](bedrock.AgentProps.md#tags)
 
 ## Properties
+
+### actionGroups
+
+• `Optional` `Readonly` **actionGroups**: [`AgentActionGroup`](../classes/bedrock.AgentActionGroup.md)[]
+
+AgentActionGroup to make available to the agent.
+
+**`Default`**
+
+```ts
+- No AgentActionGroup  is used.
+```
+
+___
 
 ### aliasName
 
@@ -142,6 +158,20 @@ ___
 • `Optional` `Readonly` **shouldPrepareAgent**: `boolean`
 
 Whether to prepare the agent for use.
+
+**`Default`**
+
+```ts
+- false
+```
+
+___
+
+### tags
+
+• `Optional` `Readonly` **tags**: `Record`\<`string`, `string`\>
+
+OPTIONAL: Tag (KEY-VALUE) bedrock agent resource
 
 **`Default`**
 
