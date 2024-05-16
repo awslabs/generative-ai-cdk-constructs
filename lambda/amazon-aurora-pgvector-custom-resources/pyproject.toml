@@ -12,7 +12,7 @@ authors = [ "Amazon Web Services - Prototyping and Cloud Engineering" ]
 boto3 = "^1.33.6"
 python = "^3.11"
 tenacity = "^8.2.3"
-psycopg2-binary = "^2.9.9"
+pg8000 = "^1.22.3"
 botocore = "^1.34.67"
 
 [tool.poetry.dev-dependencies]
