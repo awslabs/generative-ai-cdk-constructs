@@ -12,6 +12,7 @@ Properties for a knowledge base
 
 - [description](bedrock.KnowledgeBaseProps.md#description)
 - [embeddingsModel](bedrock.KnowledgeBaseProps.md#embeddingsmodel)
+- [existingRole](bedrock.KnowledgeBaseProps.md#existingrole)
 - [indexName](bedrock.KnowledgeBaseProps.md#indexname)
 - [instruction](bedrock.KnowledgeBaseProps.md#instruction)
 - [knowledgeBaseState](bedrock.KnowledgeBaseProps.md#knowledgebasestate)
@@ -41,6 +42,18 @@ ___
 • `Readonly` **embeddingsModel**: [`BedrockFoundationModel`](../classes/bedrock.BedrockFoundationModel.md)
 
 The embeddings model for the knowledge base
+
+___
+
+### existingRole
+
+• `Optional` `Readonly` **existingRole**: `Role`
+
+Existing IAM role with a policy statement
+granting permission to invoke the specific embeddings model.
+Any entity (e.g., an AWS service or application) that assumes
+this role will be able to invoke or use the
+specified embeddings model within the Bedrock service.
 
 ___
 

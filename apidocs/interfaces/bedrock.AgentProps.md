@@ -15,6 +15,7 @@ Properties for a Bedrock Agent.
 - [description](bedrock.AgentProps.md#description)
 - [enableUserInput](bedrock.AgentProps.md#enableuserinput)
 - [encryptionKey](bedrock.AgentProps.md#encryptionkey)
+- [existingRole](bedrock.AgentProps.md#existingrole)
 - [foundationModel](bedrock.AgentProps.md#foundationmodel)
 - [idleSessionTTL](bedrock.AgentProps.md#idlesessionttl)
 - [instruction](bedrock.AgentProps.md#instruction)
@@ -95,6 +96,15 @@ KMS encryption key to use for the agent.
 ```ts
 - An AWS managed key is used.
 ```
+
+___
+
+### existingRole
+
+• `Optional` `Readonly` **existingRole**: `Role`
+
+The existing IAM Role for the agent with a trust policy that
+allows the Bedrock service to assume the role.
 
 ___
 
