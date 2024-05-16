@@ -212,6 +212,13 @@ export interface AgentProps {
    * @default - A name is automatically generated.
    */
   readonly name?: string;
+
+  /**
+   * The existing IAM Role for the agent with a trust policy that 
+   * allows the Bedrock service to assume the role. 
+   */
+  readonly existingRole: iam.Role;
+
   /**
    * A narrative instruction to provide the agent as context.
    */
@@ -376,6 +383,9 @@ export class Agent extends Construct {
       'bedrock-agent',
       { maxLength: 32, lower: true, separator: '-' });
 
+    if(props.existingRole){
+      this.role = props.existingRole;
+    }else{
     this.role = new iam.Role(this, 'Role', {
       assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com'),
       roleName: generatePhysicalNameV2(
@@ -413,7 +423,7 @@ export class Agent extends Construct {
         }),
       ],
     });
-
+  }
 
     const agent = new bedrock.CfnAgent(this, 'Agent', {
 
