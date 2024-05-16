@@ -355,13 +355,15 @@ const actionGroupFunction = new lambda_python.PythonFunction(this, 'ActionGroupF
   entry: path.join(__dirname, '../lambda/action-group'),
 });
 
-agent.addActionGroup({
+const actionGroup = new bedrock.AgentActionGroup(this,'MyActionGroup',{
   actionGroupName: 'query-library',
   description: 'Use these functions to get information about the books in the library.',
   actionGroupExecutor: actionGroupFunction,
   actionGroupState: "ENABLED",
   apiSchema: bedrock.ApiSchema.fromAsset(path.join(__dirname, 'action-group.yaml')),
 });
+
+agent.addActionGroup(actionGroup);
 ```
 
 Python
@@ -375,21 +377,23 @@ action_group_function = PythonFunction(
             entry="./lambda",  
             index="app.py",
             handler="lambda_handler",
-        )
+)
 
-agent.add_action_group(
-            action_group_name="query-library",
-            description="Use these functions to get information about the books in the library.",
-            action_group_executor=action_group_function,
-            action_group_state="ENABLED",
-            api_schema=bedrock.ApiSchema.from_asset("action-group.yaml"),  
-        )
+actionGroup = bedrock.AgentActionGroup(self,
+    "MyActionGroup",
+    action_group_name="query-library",
+    description="Use these functions to get information about the books in the library.",
+    action_group_executor=action_group_function,
+    action_group_state="ENABLED",
+    api_schema=bedrock.ApiSchema.from_asset("action-group.yaml"))
+
+agent.add_action_group(actionGroup)
 ```
 
 ### Prepare the Agent
-The `Agent`  constructs take an optional parameter `autoPrepare` to indicate that the Agent should be prepared after any updates to an agent, Knowledge Base association, or action group. This may increase the time to create and update those resources. By default, this value is false .
+The `Agent`  constructs take an optional parameter `shouldPrepareAgent` to indicate that the Agent should be prepared after any updates to an agent, Knowledge Base association, or action group. This may increase the time to create and update those resources. By default, this value is false .
 
-Creating an agent alias will also prepare the agent, so if you create an alias with `addAlias` or by providing an `aliasName` when creating the agent then you should not set `autoPrepare` to ***true*** on other resources.
+Creating an agent alias will not prepare the agent, so if you create an alias with `addAlias` or by providing an `aliasName` when creating the agent then you should set `shouldPrepareAgent` to ***true***.
 
 #### Prompt Overrides
 Bedrock Agents allows you to customize the prompts and LLM configuration for its different steps. You can disable steps or create a new prompt template. Prompt templates can be inserted from plain text files.
@@ -491,9 +495,9 @@ TypeScript
 const agent = new bedrock.Agent(this, 'Agent', {
   foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
   instruction: 'You are a helpful and friendly agent that answers questions about literature.',
+  knowledgeBases: [kb],
   aliasName: 'latest',
 });
-agent.addKnowledgeBase([kb]);
 ```
 
 Python
