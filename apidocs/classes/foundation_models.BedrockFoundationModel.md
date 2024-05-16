@@ -21,6 +21,7 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 - [supportsAgents](foundation_models.BedrockFoundationModel.md#supportsagents)
 - [supportsKnowledgeBase](foundation_models.BedrockFoundationModel.md#supportsknowledgebase)
 - [vectorDimensions](foundation_models.BedrockFoundationModel.md#vectordimensions)
+- [AMAZON\_TITAN\_PREMIER\_V1\_0](foundation_models.BedrockFoundationModel.md#amazon_titan_premier_v1_0)
 - [AMAZON\_TITAN\_TEXT\_EXPRESS\_V1](foundation_models.BedrockFoundationModel.md#amazon_titan_text_express_v1)
 - [ANTHROPIC\_CLAUDE\_HAIKU\_V1\_0](foundation_models.BedrockFoundationModel.md#anthropic_claude_haiku_v1_0)
 - [ANTHROPIC\_CLAUDE\_INSTANT\_V1\_2](foundation_models.BedrockFoundationModel.md#anthropic_claude_instant_v1_2)
@@ -79,6 +80,12 @@ ___
 ### vectorDimensions
 
 • `Optional` `Readonly` **vectorDimensions**: `number`
+
+___
+
+### AMAZON\_TITAN\_PREMIER\_V1\_0
+
+▪ `Static` `Readonly` **AMAZON\_TITAN\_PREMIER\_V1\_0**: [`BedrockFoundationModel`](foundation_models.BedrockFoundationModel.md)
 
 ___
 

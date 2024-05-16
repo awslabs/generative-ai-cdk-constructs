@@ -90,6 +90,10 @@ export class BedrockFoundationModel {
     'cohere.embed-multilingual-v3',
     { supportsKnowledgeBase: true, vectorDimensions: 1024 },
   );
+  public static readonly AMAZON_TITAN_PREMIER_V1_0 = new BedrockFoundationModel(
+    'amazon.titan-text-premier-v1:0',
+    { supportsAgents: true },
+  );
 
   public readonly modelId: string;
   public readonly supportsAgents: boolean;

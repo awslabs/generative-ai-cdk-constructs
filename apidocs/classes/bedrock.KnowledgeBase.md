@@ -154,7 +154,7 @@ ___
 
 ### vectorStore
 
-• `Readonly` **vectorStore**: [`AmazonAuroraDefaultVectorStore`](amazonaurora.AmazonAuroraDefaultVectorStore.md) \| [`AmazonAuroraVectorStore`](amazonaurora.AmazonAuroraVectorStore.md) \| [`VectorCollection`](opensearchserverless.VectorCollection.md) \| [`PineconeVectorStore`](pinecone.PineconeVectorStore.md)
+• `Readonly` **vectorStore**: [`AmazonAuroraVectorStore`](amazonaurora.AmazonAuroraVectorStore.md) \| [`VectorCollection`](opensearchserverless.VectorCollection.md) \| [`PineconeVectorStore`](pinecone.PineconeVectorStore.md)
 
 The vector store for the knowledge base.
 
@@ -167,6 +167,24 @@ ___
 The type of the knowledge base.
 
 ## Methods
+
+### associateToAgent
+
+▸ **associateToAgent**(`agent`): `void`
+
+Associate knowledge base with an agent
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `agent` | [`Agent`](bedrock.Agent.md) |
+
+#### Returns
+
+`void`
+
+___
 
 ### handleAmazonAuroraVectorStore
 

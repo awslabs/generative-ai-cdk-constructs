@@ -13,7 +13,7 @@
 
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { BedrockFoundationModel } from '../../../src/cdk-lib/bedrock/models';
+import { BedrockFoundationModel } from '../../../src/cdk-lib/foundationmodels';
 
 describe('BedrockFoundationModel', () => {
   test('returns string', () => {

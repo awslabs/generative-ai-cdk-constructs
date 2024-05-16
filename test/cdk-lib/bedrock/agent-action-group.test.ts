@@ -16,8 +16,6 @@ import { Annotations, Match } from 'aws-cdk-lib/assertions';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { NagSuppressions } from 'cdk-nag';
 import * as bedrock from '../../../src/cdk-lib/bedrock';
-import * as foundationModels from '../../../src/cdk-lib/foundationmodels';
-
 
 // mock lambda.Code.fromDockerBuild()
 jest.mock('aws-cdk-lib/aws-lambda', () => {

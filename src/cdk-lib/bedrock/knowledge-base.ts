@@ -17,11 +17,11 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import { NagSuppressions } from 'cdk-nag/lib/nag-suppressions';
 import { Construct } from 'constructs';
 import { Agent } from './../bedrock/agent';
-import { BedrockFoundationModel } from './models';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 import {
   AmazonAuroraVectorStore,
 } from '../amazonaurora';
+import { BedrockFoundationModel } from '../foundationmodels';
 
 import { VectorIndex } from '../opensearch-vectorindex';
 import { VectorCollection } from '../opensearchserverless';
@@ -59,7 +59,7 @@ interface StorageConfiguration {
    * The vector store, which can be of `VectorCollection`, `PineconeVectorStore`,
    * `AmazonAuroraVectorStore`
    * types.
-   * 
+   *
    */
   vectorStore: VectorCollection |
   PineconeVectorStore | AmazonAuroraVectorStore;
@@ -143,7 +143,7 @@ export interface KnowledgeBaseProps {
    * @default - A new OpenSearch Serverless vector collection is created.
    */
   readonly vectorStore?: VectorCollection |
-  PineconeVectorStore | AmazonAuroraVectorStore; 
+  PineconeVectorStore | AmazonAuroraVectorStore;
 
   /**
    * The vector index for the OpenSearch Serverless backed knowledge base.
@@ -193,7 +193,7 @@ export class KnowledgeBase extends Construct {
    * The vector store for the knowledge base.
    */
   public readonly vectorStore: VectorCollection |
-  PineconeVectorStore | AmazonAuroraVectorStore; 
+  PineconeVectorStore | AmazonAuroraVectorStore;
 
   /**
    * A narrative instruction of the knowledge base.

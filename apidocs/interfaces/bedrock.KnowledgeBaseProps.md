@@ -132,7 +132,7 @@ ___
 
 ### vectorStore
 
-• `Optional` `Readonly` **vectorStore**: [`AmazonAuroraVectorStore`](../classes/amazonaurora.AmazonAuroraVectorStore.md) \| [`VectorCollection`](../classes/opensearchserverless.VectorCollection.md) \| [`PineconeVectorStore`](../classes/pinecone.PineconeVectorStore.md) \| [`RedisEnterpriseVectorStore`](../classes/redisenterprisecloud.RedisEnterpriseVectorStore.md)
+• `Optional` `Readonly` **vectorStore**: [`AmazonAuroraVectorStore`](../classes/amazonaurora.AmazonAuroraVectorStore.md) \| [`VectorCollection`](../classes/opensearchserverless.VectorCollection.md) \| [`PineconeVectorStore`](../classes/pinecone.PineconeVectorStore.md)
 
 The vector store for the knowledge base. Must be either of
 type `VectorCollection`, `RedisEnterpriseVectorStore`,
