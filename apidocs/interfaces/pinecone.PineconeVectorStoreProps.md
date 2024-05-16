@@ -13,7 +13,9 @@ Properties for a PineconeVectorStore
 - [connectionString](pinecone.PineconeVectorStoreProps.md#connectionstring)
 - [credentialsSecretArn](pinecone.PineconeVectorStoreProps.md#credentialssecretarn)
 - [kmsKey](pinecone.PineconeVectorStoreProps.md#kmskey)
+- [metadataField](pinecone.PineconeVectorStoreProps.md#metadatafield)
 - [namespace](pinecone.PineconeVectorStoreProps.md#namespace)
+- [textField](pinecone.PineconeVectorStoreProps.md#textfield)
 
 ## Properties
 
@@ -48,8 +50,24 @@ can decrypt it.
 
 ___
 
+### metadataField
+
+• `Readonly` **metadataField**: `string`
+
+The name of the field in which Amazon Bedrock stores metadata about the vector store.
+
+___
+
 ### namespace
 
 • `Optional` `Readonly` **namespace**: `string`
 
 Name space that will be used for writing new data to your Pinecone database.
+
+___
+
+### textField
+
+• `Readonly` **textField**: `string`
+
+The name of the field in which Amazon Bedrock stores the raw text from your data.

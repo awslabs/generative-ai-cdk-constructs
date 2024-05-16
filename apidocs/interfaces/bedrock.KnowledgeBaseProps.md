@@ -14,6 +14,8 @@ Properties for a knowledge base
 - [embeddingsModel](bedrock.KnowledgeBaseProps.md#embeddingsmodel)
 - [indexName](bedrock.KnowledgeBaseProps.md#indexname)
 - [instruction](bedrock.KnowledgeBaseProps.md#instruction)
+- [knowledgeBaseState](bedrock.KnowledgeBaseProps.md#knowledgebasestate)
+- [tags](bedrock.KnowledgeBaseProps.md#tags)
 - [vectorField](bedrock.KnowledgeBaseProps.md#vectorfield)
 - [vectorIndex](bedrock.KnowledgeBaseProps.md#vectorindex)
 - [vectorStore](bedrock.KnowledgeBaseProps.md#vectorstore)
@@ -71,6 +73,28 @@ query this Knowledge Base.
 
 ```ts
 - No description provided.
+```
+
+___
+
+### knowledgeBaseState
+
+• `Optional` `Readonly` **knowledgeBaseState**: `string`
+
+Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
+
+___
+
+### tags
+
+• `Optional` `Readonly` **tags**: `Record`\<`string`, `string`\>
+
+OPTIONAL: Tag (KEY-VALUE) bedrock agent resource
+
+**`Default`**
+
+```ts
+- false
 ```
 
 ___

@@ -21,8 +21,6 @@ import { KnowledgeBase } from '../../../src/cdk-lib/bedrock/knowledge-base';
 import { BedrockFoundationModel } from '../../../src/cdk-lib/foundationmodels';
 import { VectorCollection } from '../../../src/cdk-lib/opensearchserverless';
 import { PineconeVectorStore } from '../../../src/cdk-lib/pinecone';
-import { RedisEnterpriseVectorStore } from '../../../src/cdk-lib/redisenterprisecloud';
-
 
 describe('KnowledgeBase', () => {
   let app: cdk.App;
@@ -169,11 +167,8 @@ describe('KnowledgeBase', () => {
       new PineconeVectorStore({
         connectionString: 'test-connection-string',
         credentialsSecretArn: 'test-secret-arn',
-      }),
-      new RedisEnterpriseVectorStore({
-        endpoint: 'test-endpoint',
-        credentialsSecretArn: 'test-secret',
-        vectorIndexName: 'test-index',
+        textField: 'testextfield',
+        metadataField: 'testmetadata',
       }),
     ];
     const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;

@@ -17,7 +17,9 @@ Class to define a PineconeVectorStore.
 - [connectionString](pinecone.PineconeVectorStore.md#connectionstring)
 - [credentialsSecretArn](pinecone.PineconeVectorStore.md#credentialssecretarn)
 - [kmsKey](pinecone.PineconeVectorStore.md#kmskey)
+- [metadataField](pinecone.PineconeVectorStore.md#metadatafield)
 - [namespace](pinecone.PineconeVectorStore.md#namespace)
+- [textField](pinecone.PineconeVectorStore.md#textfield)
 
 ## Constructors
 
@@ -55,6 +57,18 @@ ___
 
 ___
 
+### metadataField
+
+• `Readonly` **metadataField**: `string`
+
+___
+
 ### namespace
 
 • `Optional` `Readonly` **namespace**: `string`
+
+___
+
+### textField
+
+• `Readonly` **textField**: `string`

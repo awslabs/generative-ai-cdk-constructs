@@ -55,16 +55,18 @@ describe('S3 Data Source', () => {
       overlapPercentage: 20,
     });
 
-    Template.fromStack(stack).hasResourceProperties('Custom::Bedrock-DataSource', {
-      vectorIngestionConfiguration: {
-        chunkingConfiguration: {
-          chunkingStrategy: 'FIXED_SIZE',
-          fixedSizeChunkingConfiguration: {
-            maxTokens: 1024,
-            overlapPercentage: 20,
-          },
-        },
-      },
+    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
+
+      VectorIngestionConfiguration:
+       {
+         ChunkingConfiguration: {
+           ChunkingStrategy: 'FIXED_SIZE',
+           FixedSizeChunkingConfiguration: {
+             MaxTokens: 1024,
+             OverlapPercentage: 20,
+           },
+         },
+       },
     });
   });
 
@@ -76,12 +78,12 @@ describe('S3 Data Source', () => {
       chunkingStrategy: bedrock.ChunkingStrategy.NONE,
     });
 
-    Template.fromStack(stack).hasResourceProperties('Custom::Bedrock-DataSource', {
-      vectorIngestionConfiguration: {
-        chunkingConfiguration: {
-          chunkingStrategy: 'NONE',
-        },
-      },
+    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
+      VectorIngestionConfiguration:
+       {
+         ChunkingConfiguration:
+        { ChunkingStrategy: 'NONE' },
+       },
     });
   });
 

@@ -38,6 +38,8 @@ describe('Pinecone Vector Store', () => {
         connectionString: 'test-connection-string',
         credentialsSecretArn: 'test-secret-arn',
         namespace: 'test-namespace',
+        textField: 'testextfield',
+        metadataField: 'testmetadata',
       });
 
       app.synth();
@@ -49,6 +51,8 @@ describe('Pinecone Vector Store', () => {
       expect(pineconeVectorStore.credentialsSecretArn).toEqual('test-secret-arn');
       expect(pineconeVectorStore.namespace).toEqual('test-namespace');
       expect(pineconeVectorStore.kmsKey).toBeUndefined();
+      expect(pineconeVectorStore.textField).toEqual('testextfield');
+      expect(pineconeVectorStore.metadataField).toEqual('testmetadata');
     });
 
     test('No unsuppressed Errors', () => {
@@ -68,6 +72,8 @@ describe('Pinecone Vector Store', () => {
         connectionString: 'test-connection-string',
         credentialsSecretArn: 'test-secret-arn',
         kmsKey: 'test-kms-key',
+        textField: 'testextfield',
+        metadataField: 'testmetadata',
       });
 
       app.synth();
@@ -79,6 +85,8 @@ describe('Pinecone Vector Store', () => {
       expect(pineconeVectorStore.credentialsSecretArn).toEqual('test-secret-arn');
       expect(pineconeVectorStore.namespace).toBeUndefined();
       expect(pineconeVectorStore.kmsKey).toEqual('test-kms-key');
+      expect(pineconeVectorStore.textField).toEqual('testextfield');
+      expect(pineconeVectorStore.metadataField).toEqual('testmetadata');
     });
 
     test('No unsuppressed Errors', () => {
