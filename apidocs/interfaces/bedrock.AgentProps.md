@@ -13,6 +13,7 @@ Properties for a Bedrock Agent.
 - [actionGroups](bedrock.AgentProps.md#actiongroups)
 - [aliasName](bedrock.AgentProps.md#aliasname)
 - [description](bedrock.AgentProps.md#description)
+- [enableUserInput](bedrock.AgentProps.md#enableuserinput)
 - [encryptionKey](bedrock.AgentProps.md#encryptionkey)
 - [foundationModel](bedrock.AgentProps.md#foundationmodel)
 - [idleSessionTTL](bedrock.AgentProps.md#idlesessionttl)
@@ -63,6 +64,22 @@ A description of the agent.
 
 ```ts
 - No description is provided.
+```
+
+___
+
+### enableUserInput
+
+• `Optional` `Readonly` **enableUserInput**: `boolean`
+
+Select whether the agent can prompt additional
+information from the user when it does not have
+enough information to respond to an utterance
+
+**`Default`**
+
+```ts
+- False
 ```
 
 ___
