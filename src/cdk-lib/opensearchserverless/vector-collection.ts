@@ -16,6 +16,25 @@ import * as oss from 'aws-cdk-lib/aws-opensearchserverless';
 import { Construct } from 'constructs';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 
+export enum VectorCollectionStandbyReplicas {
+  ENABLED = 'ENABLED',
+  DISABLED = 'DISABLED',
+}
+
+export interface VectorCollectionProps {
+  /**
+   * The name of the collection.
+   */
+  readonly collectionName: string;
+
+  /**
+   * Indicates whether to use standby replicas for the collection.
+   *
+   * @default ENABLED
+   */
+  readonly standbyReplicas?: VectorCollectionStandbyReplicas;
+}
+
 /**
  * Deploys an OpenSearch Serverless Collection to be used as a vector store.
  *
@@ -26,6 +45,11 @@ export class VectorCollection extends Construct {
    * The name of the collection.
    */
   public collectionName: string;
+
+  /**
+   * Indicates whether to use standby replicas for the collection.
+   */
+  public standbyReplicas: VectorCollectionStandbyReplicas;
 
   /**
    * The ID of the collection.
@@ -52,13 +76,15 @@ export class VectorCollection extends Construct {
    */
   private dataAccessPolicyDocument: any[] = [];
 
-  constructor(scope: Construct, id: string) {
+  constructor(scope: Construct, id: string, props?: VectorCollectionProps) {
     super(scope, id);
 
-    this.collectionName = generatePhysicalNameV2(
+    this.collectionName = props?.collectionName ?? generatePhysicalNameV2(
       this,
       'VectorStore',
       { maxLength: 32, lower: true });
+
+    this.standbyReplicas = props?.standbyReplicas ?? VectorCollectionStandbyReplicas.ENABLED;
 
     const encryptionPolicyName = generatePhysicalNameV2(this,
       'EncryptionPolicy',
@@ -103,6 +129,7 @@ export class VectorCollection extends Construct {
     const collection = new oss.CfnCollection(this, 'VectorCollection', {
       name: this.collectionName,
       type: 'VECTORSEARCH',
+      standbyReplicas: this.standbyReplicas,
     });
 
     this.collectionArn = collection.attrArn;

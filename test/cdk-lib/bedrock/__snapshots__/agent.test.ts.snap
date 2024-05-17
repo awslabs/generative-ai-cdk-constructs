@@ -540,6 +540,7 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       ],
       "Properties": {
         "Name": "vectorstoreteststectors7d46d76b",
+        "StandbyReplicas": "ENABLED",
         "Type": "VECTORSEARCH",
       },
       "Type": "AWS::OpenSearchServerless::Collection",
