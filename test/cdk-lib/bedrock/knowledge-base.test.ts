@@ -104,12 +104,14 @@ describe('KnowledgeBase', () => {
       embeddingsModel: model,
       vectorStore: vectorStore,
       instruction: 'Test instruction',
+      name: 'TestKnowledgeBase',
     });
 
     expect(knowledgeBase.instruction).toBe('Test instruction');
     expect(knowledgeBase.name).toBeDefined();
     expect(knowledgeBase.role).toBeDefined();
     expect(knowledgeBase.vectorStore).toBe(vectorStore);
+    expect(knowledgeBase.name).toBe('TestKnowledgeBase');
   });
 
   test('Should correctly initialize role with necessary permissions', () => {
