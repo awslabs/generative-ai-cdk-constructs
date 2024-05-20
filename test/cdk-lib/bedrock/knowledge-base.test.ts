@@ -96,20 +96,22 @@ describe('KnowledgeBase', () => {
   });
 
   test('Should correctly initialize with custom props', () => {
-    const vectorStore = new AmazonAuroraDefaultVectorStore(stack, 'AuroraDefaultVectorStore6', {
-      embeddingsModelVectorDimension: BedrockFoundationModel.TITAN_EMBED_TEXT_V1.vectorDimensions!,
-    });
     const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
+    const vectorStore = new AmazonAuroraDefaultVectorStore(stack, 'AuroraDefaultVectorStore6', {
+      embeddingsModelVectorDimension: model.vectorDimensions!,
+    });
     const knowledgeBase = new KnowledgeBase(stack, 'AuroraDefaultKnowledgeBase', {
       embeddingsModel: model,
       vectorStore: vectorStore,
       instruction: 'Test instruction',
+      name: 'TestKnowledgeBase',
     });
 
     expect(knowledgeBase.instruction).toBe('Test instruction');
     expect(knowledgeBase.name).toBeDefined();
     expect(knowledgeBase.role).toBeDefined();
     expect(knowledgeBase.vectorStore).toBe(vectorStore);
+    expect(knowledgeBase.name).toBe('TestKnowledgeBase');
   });
 
   test('Should correctly initialize role with necessary permissions', () => {
@@ -129,10 +131,10 @@ describe('KnowledgeBase', () => {
   });
 
   test('Should throw error when vectorStore is not VectorCollection and indexName is provided', () => {
-    const vectorStore = new AmazonAuroraDefaultVectorStore(stack, 'AmazonAuroraDefaultVectorStore6', {
-      embeddingsModelVectorDimension: BedrockFoundationModel.TITAN_EMBED_TEXT_V1.vectorDimensions!,
-    });
     const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
+    const vectorStore = new AmazonAuroraDefaultVectorStore(stack, 'AmazonAuroraDefaultVectorStore6', {
+      embeddingsModelVectorDimension: model.vectorDimensions!,
+    });
 
     expect(() => {
       new KnowledgeBase(stack, 'AuroraDefaultKnowledgeBase6', {
@@ -144,10 +146,10 @@ describe('KnowledgeBase', () => {
   });
 
   test('Should throw error when vectorStore is not VectorCollection and vectorField is provided', () => {
-    const vectorStore = new AmazonAuroraDefaultVectorStore(stack, 'AmazonAuroraDefaultVectorStore5', {
-      embeddingsModelVectorDimension: BedrockFoundationModel.TITAN_EMBED_TEXT_V1.vectorDimensions!,
-    });
     const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
+    const vectorStore = new AmazonAuroraDefaultVectorStore(stack, 'AmazonAuroraDefaultVectorStore5', {
+      embeddingsModelVectorDimension: model.vectorDimensions!,
+    });
 
     expect(() => {
       new KnowledgeBase(stack, 'AuroraDefaultKnowledgeBase5', {
@@ -187,10 +189,10 @@ describe('KnowledgeBase', () => {
   });
 
   test('Should correctly initialize with AmazonAuroraDefaultVectorStore and custom embeddingsModel', () => {
-    const vectorStore = new AmazonAuroraDefaultVectorStore(stack, 'AuroraDefaultVectorStore2', {
-      embeddingsModelVectorDimension: BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3.vectorDimensions!,
-    });
     const model = BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3;
+    const vectorStore = new AmazonAuroraDefaultVectorStore(stack, 'AuroraDefaultVectorStore2', {
+      embeddingsModelVectorDimension: model.vectorDimensions!,
+    });
 
     const knowledgeBase = new KnowledgeBase(stack, 'AuroraDefaultKnowledgeBase2', {
       embeddingsModel: model,

@@ -15,6 +15,7 @@ Properties for a knowledge base
 - [indexName](bedrock.KnowledgeBaseProps.md#indexname)
 - [instruction](bedrock.KnowledgeBaseProps.md#instruction)
 - [knowledgeBaseState](bedrock.KnowledgeBaseProps.md#knowledgebasestate)
+- [name](bedrock.KnowledgeBaseProps.md#name)
 - [tags](bedrock.KnowledgeBaseProps.md#tags)
 - [vectorField](bedrock.KnowledgeBaseProps.md#vectorfield)
 - [vectorIndex](bedrock.KnowledgeBaseProps.md#vectorindex)
@@ -82,6 +83,14 @@ ___
 • `Optional` `Readonly` **knowledgeBaseState**: `string`
 
 Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
+
+___
+
+### name
+
+• `Optional` `Readonly` **name**: `string`
+
+The name of the knowledge base.
 
 ___
 
