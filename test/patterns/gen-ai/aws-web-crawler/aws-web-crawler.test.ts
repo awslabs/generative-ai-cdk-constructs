@@ -17,7 +17,7 @@ import {
   WebCrawlerProps,
 } from '../../../../src/patterns/gen-ai/aws-web-crawler';
 
-describe('Web Crawler construct', () => {
+describe('Web Crawler construct default', () => {
   let wcTestTemplate: Template;
   let wcTestConstruct: WebCrawler;
 
@@ -46,7 +46,7 @@ describe('Web Crawler construct', () => {
     });
 
     wcTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
-      FunctionName: Match.stringLikeRegexp('lambda_crawler_scheduler'),
+      FunctionName: Match.stringLikeRegexp('lambda_crawler_function'),
     });
   });
 
@@ -88,5 +88,41 @@ describe('Web Crawler construct', () => {
         ],
       }),
     );
+  });
+});
+
+describe('Web Crawler construct lambda crawler disabled', () => {
+  let wcTestTemplate: Template;
+  let wcTestConstruct: WebCrawler;
+
+  afterAll(() => {
+    console.log('Test completed');
+  });
+
+  beforeAll(() => {
+    const wcTestStack = new cdk.Stack(undefined, undefined, {
+      env: { account: cdk.Aws.ACCOUNT_ID, region: cdk.Aws.REGION },
+    });
+
+    const wcTestProps: WebCrawlerProps = {
+      enableLambdaCrawler: false,
+    };
+
+    wcTestConstruct = new WebCrawler(wcTestStack, 'test', wcTestProps);
+    wcTestTemplate = Template.fromStack(wcTestStack);
+
+    console.log(wcTestTemplate);
+  });
+
+  test('Lambda properties', () => {
+    expect(wcTestConstruct.lambdaCrawler).toBeNull; //disabled so should not be instanciated
+
+    wcTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
+      FunctionName: Match.stringLikeRegexp('lambda_crawler_scheduler-dev'),
+    });
+  });
+
+  test('Lambda function count', () => {
+    wcTestTemplate.resourceCountIs('AWS::Lambda::Function', 1);
   });
 });

@@ -17,5 +17,4 @@ WORKDIR /asset
 COPY package*.json ./
 RUN npm i
 COPY . .
-RUN npx -p typescript tsc --init
 RUN npx tsc
