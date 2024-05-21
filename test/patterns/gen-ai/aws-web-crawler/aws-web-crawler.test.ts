@@ -18,76 +18,75 @@ import {
 } from '../../../../src/patterns/gen-ai/aws-web-crawler';
 
 describe('Web Crawler construct', () => {
-    let wcTestTemplate: Template;
-    let wcTestConstruct: WebCrawler;
-  
-    afterAll(() => {
-      console.log('Test completed');
-    });
-  
-    beforeAll(() => {
-      const wcTestStack = new cdk.Stack(undefined, undefined, {
-        env: { account: cdk.Aws.ACCOUNT_ID, region: cdk.Aws.REGION },
-      });
-  
-      const wcTestProps: WebCrawlerProps = {
-        enableLambdaCrawler: true
-      };
-  
-      wcTestConstruct = new WebCrawler(wcTestStack, 'test', wcTestProps);
-      wcTestTemplate = Template.fromStack(wcTestStack);
+  let wcTestTemplate: Template;
+  let wcTestConstruct: WebCrawler;
 
-      console.log(wcTestTemplate);
-    });
-  
-    test('Lambda properties', () => {
-      wcTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
-        PackageType: 'Image',
-        FunctionName: Match.stringLikeRegexp('lambda_crawler_function'),
-      });
+  afterAll(() => {
+    console.log('Test completed');
+  });
 
-      wcTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
-        PackageType: 'Image',
-        FunctionName: Match.stringLikeRegexp('lambda_crawler_scheduler'),
-      });
+  beforeAll(() => {
+    const wcTestStack = new cdk.Stack(undefined, undefined, {
+      env: { account: cdk.Aws.ACCOUNT_ID, region: cdk.Aws.REGION },
     });
 
-    test('Lambda function count', () => {
-        wcTestTemplate.resourceCountIs('AWS::Lambda::Function', 2);
+    const wcTestProps: WebCrawlerProps = {
+      enableLambdaCrawler: true,
+    };
+
+    wcTestConstruct = new WebCrawler(wcTestStack, 'test', wcTestProps);
+    wcTestTemplate = Template.fromStack(wcTestStack);
+
+    console.log(wcTestTemplate);
+  });
+
+  test('Lambda properties', () => {
+    wcTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
+      FunctionName: Match.stringLikeRegexp('lambda_crawler_scheduler-dev'),
     });
 
-    test('S3 Bucket Properties', () => {
-        wcTestTemplate.hasResourceProperties('AWS::S3::Bucket', {
-          BucketEncryption: {
-            ServerSideEncryptionConfiguration: [
-              { ServerSideEncryptionByDefault: { SSEAlgorithm: 'AES256' } },
-            ],
+    wcTestTemplate.hasResourceProperties('AWS::Lambda::Function', {
+      FunctionName: Match.stringLikeRegexp('lambda_crawler_scheduler'),
+    });
+  });
+
+  test('Lambda function count', () => {
+    wcTestTemplate.resourceCountIs('AWS::Lambda::Function', 2);
+  });
+
+  test('S3 Bucket Properties', () => {
+    wcTestTemplate.hasResourceProperties('AWS::S3::Bucket', {
+      BucketEncryption: {
+        ServerSideEncryptionConfiguration: [
+          { ServerSideEncryptionByDefault: { SSEAlgorithm: 'AES256' } },
+        ],
+      },
+    });
+    expect(wcTestConstruct.dataBucket).not.toBeNull;
+  });
+
+  test('S3 Bucket Count', () => {
+    wcTestTemplate.resourceCountIs('AWS::S3::Bucket', 2);
+  });
+
+  test('Event Bus rule Target', () => {
+    wcTestTemplate.hasResourceProperties(
+      'AWS::Events::Rule',
+      Match.objectEquals({
+        ScheduleExpression: 'cron(0/15 * * * ? *)',
+        State: 'ENABLED',
+        Targets: [
+          {
+            Arn: {
+              'Fn::GetAtt': [
+                Match.stringLikeRegexp('testwebCrawlerSchedulerFunction'),
+                'Arn',
+              ],
+            },
+            Id: 'Target0',
           },
-        });
-        expect(wcTestConstruct.dataBucket).not.toBeNull;
-      });
-    
-      test('S3 Bucket Count', () => {
-        wcTestTemplate.resourceCountIs('AWS::S3::Bucket', 2);
-      });
-
-      test('Event Bus rule Target', () => {
-        wcTestTemplate.hasResourceProperties(
-          'AWS::Events::Rule',
-          Match.objectEquals({
-            State: 'ENABLED',
-            Targets: [
-              {
-                Arn: {
-                  'Fn::GetAtt': [
-                    Match.stringLikeRegexp('lambda_crawler_scheduler'),
-                    'Arn',
-                  ],
-                },
-                Id: 'Target0',
-              },
-            ],
-          }),
-        );
-      });
+        ],
+      }),
+    );
+  });
 });
