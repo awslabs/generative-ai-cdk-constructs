@@ -4,6 +4,14 @@
 
 ## Table of contents
 
+### Enumerations
+
+- [VectorCollectionStandbyReplicas](../enums/opensearchserverless.VectorCollectionStandbyReplicas.md)
+
 ### Classes
 
 - [VectorCollection](../classes/opensearchserverless.VectorCollection.md)
+
+### Interfaces
+
+- [VectorCollectionProps](../interfaces/opensearchserverless.VectorCollectionProps.md)

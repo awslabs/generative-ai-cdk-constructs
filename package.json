@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@commitlint/config-conventional": "^18.6.3",
-    "@mrgrain/jsii-struct-builder": "^0.7.27",
+    "@mrgrain/jsii-struct-builder": "^0.7.28",
     "@types/jest": "^29.5.12",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^6",
