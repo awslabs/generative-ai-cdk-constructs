@@ -11,10 +11,11 @@
 # and limitations under the License.
 #
 
-FROM public.ecr.aws/lambda/nodejs:14.2024.05.21.12
+FROM public.ecr.aws/sam/build-nodejs20.x
 
 WORKDIR /asset
 COPY package*.json ./
-RUN npm i
+RUN npm ci
 COPY . .
 RUN npx tsc
+RUN mv dist/* . && rm -rf dist 
