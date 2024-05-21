@@ -270,7 +270,7 @@ export class KnowledgeBase extends Construct {
       'KB',
       { maxLength: 32 });
 
-   
+
     if (props.existingRole) {
       this.role = props.existingRole;
     } else {
