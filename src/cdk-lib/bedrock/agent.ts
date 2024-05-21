@@ -235,6 +235,16 @@ export interface AgentProps {
    */
   readonly actionGroups?: AgentActionGroup[];
 
+
+  /**
+   * Select whether the agent can prompt additional
+   * information from the user when it does not have
+   * enough information to respond to an utterance
+   *
+   * @default - False
+   */
+  readonly enableUserInput?: boolean;
+
   /**
    * How long sessions should be kept open for the agent.
    *
@@ -443,6 +453,15 @@ export class Agent extends Construct {
 
     if (props.actionGroups) {
       this.addActionGroups(props.actionGroups);
+    }
+    // To allow your agent to request the user for additional information
+    // when trying to complete a task , add this action group
+    if (props.enableUserInput) {
+      this.addActionGroup(new AgentActionGroup(this, 'userInputEnabledActionGroup', {
+        actionGroupName: 'UserInputAction',
+        parentActionGroupSignature: 'AMAZON.UserInput',
+        actionGroupState: 'ENABLED',
+      }));
     }
   }
 

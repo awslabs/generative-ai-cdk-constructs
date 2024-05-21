@@ -29,6 +29,7 @@ It includes all policies.
 - [dataAccessPolicy](opensearchserverless.VectorCollection.md#dataaccesspolicy)
 - [dataAccessPolicyDocument](opensearchserverless.VectorCollection.md#dataaccesspolicydocument)
 - [node](opensearchserverless.VectorCollection.md#node)
+- [standbyReplicas](opensearchserverless.VectorCollection.md#standbyreplicas)
 
 ### Methods
 
@@ -40,7 +41,7 @@ It includes all policies.
 
 ### constructor
 
-• **new VectorCollection**(`scope`, `id`): [`VectorCollection`](opensearchserverless.VectorCollection.md)
+• **new VectorCollection**(`scope`, `id`, `props?`): [`VectorCollection`](opensearchserverless.VectorCollection.md)
 
 #### Parameters
 
@@ -48,6 +49,7 @@ It includes all policies.
 | :------ | :------ |
 | `scope` | `Construct` |
 | `id` | `string` |
+| `props?` | [`VectorCollectionProps`](../interfaces/opensearchserverless.VectorCollectionProps.md) |
 
 #### Returns
 
@@ -116,6 +118,14 @@ The tree node.
 #### Inherited from
 
 Construct.node
+
+___
+
+### standbyReplicas
+
+• **standbyReplicas**: [`VectorCollectionStandbyReplicas`](../enums/opensearchserverless.VectorCollectionStandbyReplicas.md)
+
+Indicates whether to use standby replicas for the collection.
 
 ## Methods
 

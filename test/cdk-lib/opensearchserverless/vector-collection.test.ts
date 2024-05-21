@@ -15,7 +15,7 @@ import * as cdk from 'aws-cdk-lib';
 import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { AwsSolutionsChecks } from 'cdk-nag';
-import { VectorCollection } from '../../../src/cdk-lib/opensearchserverless';
+import { VectorCollection, VectorCollectionStandbyReplicas } from '../../../src/cdk-lib/opensearchserverless';
 
 
 function setupStack() {
@@ -28,9 +28,15 @@ function setupStack() {
     },
   });
 
-  const aossVector = new VectorCollection(stack, 'test-aoss-vector');
+  const collectionName = 'test-aoss-collection';
+  const standbyReplicas = VectorCollectionStandbyReplicas.DISABLED;
 
-  return { app, stack, aossVector };
+  const aossVector = new VectorCollection(stack, 'test-aoss-vector', {
+    collectionName: collectionName,
+    standbyReplicas: standbyReplicas,
+  });
+
+  return { app, stack, aossVector, collectionName, standbyReplicas };
 }
 
 describe('OpenSearch Serverless Vector Store', () => {
@@ -96,12 +102,16 @@ describe('OpenSearch Serverless Vector Store', () => {
     let stack: cdk.Stack;
     let aossVector: VectorCollection;
     let testRole: iam.Role;
+    let collectionName: string;
+    let standbyReplicas: VectorCollectionStandbyReplicas;
 
     beforeAll(() => {
       const s = setupStack();
       app = s.app;
       stack = s.stack;
       aossVector = s.aossVector;
+      collectionName = s.collectionName;
+      standbyReplicas = s.standbyReplicas;
 
       testRole = new iam.Role(stack, 'TestRole', {
         assumedBy: new iam.AccountRootPrincipal(),
@@ -117,6 +127,11 @@ describe('OpenSearch Serverless Vector Store', () => {
     test('Should have the correct resources', () => {
       template.resourceCountIs('AWS::OpenSearchServerless::Collection', 1);
       template.resourceCountIs('AWS::OpenSearchServerless::AccessPolicy', 1);
+    });
+
+    test('Should correctly initialize with custom props', () => {
+      expect(aossVector.collectionName).toBe(collectionName);
+      expect(aossVector.standbyReplicas).toBe(standbyReplicas);
     });
 
     test('DataAccessPolicy should allow testRole', () => {
