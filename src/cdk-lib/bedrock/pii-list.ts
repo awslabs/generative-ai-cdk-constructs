@@ -48,7 +48,7 @@ export enum PersonalIdentifiableInformation {
 
 export enum PiiEntitiesConfigAction{
   BLOCK ='BLOCK',
-  ANONYMIZE= 'MASK'
+  MASK= 'MASK'
 }
 
 export interface SensitiveInformationPolicyConfigProps{
@@ -219,7 +219,6 @@ export class SensitiveInformationPolicyConfig extends Construct {
 
 
   }
-
 
 
 }

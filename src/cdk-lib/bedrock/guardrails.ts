@@ -12,6 +12,7 @@
  */
 
 
+import * as fs from 'fs';
 import { CfnTag, aws_bedrock as bedrock } from 'aws-cdk-lib';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
@@ -68,7 +69,7 @@ export interface GuardrailProps {
   /**
    *  List of words to filter from prompt and output response.
    */
-  readonly wordsFilter?: bedrock.CfnGuardrail.WordConfigProperty[];
+  //readonly wordsFilter?: bedrock.CfnGuardrail.WordConfigProperty[];
 
   /**
    * The description of the guardrail.
@@ -151,14 +152,38 @@ export class Guardrail extends Construct {
   }
 
 
-  public addWordcPolicyConfig(props: GuardrailProps) {
-    if (props.wordsFilter && props.wordsFilter .length >0 ) {
+  public async uploadWordPolicyFromFile(filePath: string) {
+    try {
+      const wordsFilter: bedrock.CfnGuardrail.WordConfigProperty[] = [];
+
+      // Read the file line by line and extract the words
+      const fileContents = await fs.promises.readFile(filePath, 'utf8');
+      const lines = fileContents.trim().split(',');
+
+      for (const line of lines) {
+        const word = line.trim();
+        if (word) {
+          wordsFilter.push({ text: word });
+        }
+      }
+
+      // Add the word policy configuration
+      this.addWordPolicyConfig(wordsFilter);
+    } catch (error) {
+      console.error('Error reading file and adding word policy config:', error);
+      throw error;
+    }
+  }
+
+
+  public addWordPolicyConfig(wordsFilter?: bedrock.CfnGuardrail.WordConfigProperty[]) {
+    if (wordsFilter && wordsFilter .length >0 ) {
       this.guardrailInstance.wordPolicyConfig=
     {
       managedWordListsConfig: [{
         type: 'PROFANITY',
       }],
-      wordsConfig: props.wordsFilter,
+      wordsConfig: wordsFilter,
     };
     } else {
       throw new Error('props.wordsFilter is empty or undefined in GuardrailProps.');
