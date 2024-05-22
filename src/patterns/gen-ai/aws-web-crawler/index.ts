@@ -427,12 +427,19 @@ export class WebCrawler extends BaseClass {
     snsTopic.grantPublish(webCrawlerJobRole);
 
     NagSuppressions.addResourceSuppressions(
-      webCrawlerJobRole,
+      webCrawlerContainer.executionRole,
       [
         {
           id: 'AwsSolutions-IAM5',
-          reason: 'Role has been scoped.',
+          reason: 'CDK CustomResource Provider has a wildcard to invoke any version of the specific Custom Resource function.',
         },
+      ],
+      true,
+    );
+
+    NagSuppressions.addResourceSuppressions(
+      webCrawlerContainer.executionRole,
+      [
         {
           id: 'AwsSolutions-IAM4',
           reason:
@@ -440,7 +447,29 @@ export class WebCrawler extends BaseClass {
             'the Lambda function to write logs to CloudWatch.',
         },
       ],
+    );
+
+    NagSuppressions.addResourceSuppressions(
+      webCrawlerJobRole,
+      [
+        {
+          id: 'AwsSolutions-IAM5',
+          reason: 'CDK CustomResource Provider has a wildcard to invoke any version of the specific Custom Resource function.',
+        },
+      ],
       true,
+    );
+
+    NagSuppressions.addResourceSuppressions(
+      webCrawlerJobRole,
+      [
+        {
+          id: 'AwsSolutions-IAM4',
+          reason:
+            'The AWSLambdaBasicExecutionRole managed policy is required for ' +
+            'the Lambda function to write logs to CloudWatch.',
+        },
+      ],
     );
 
     const webCrawlerJobDefinition = new batch.EcsJobDefinition(this, 'webCrawlerJob', {
@@ -474,7 +503,7 @@ export class WebCrawler extends BaseClass {
         .substring(0, 12);
       target_s3_key = `${target_s3_key}-${hash}`;
 
-      const custom_resource = new cr.AwsCustomResource(this, `target-${target_s3_key}`, {
+      new cr.AwsCustomResource(this, `target-${target_s3_key}`, {
         onCreate: {
           service: 'DynamoDB',
           action: 'putItem',
@@ -539,15 +568,26 @@ export class WebCrawler extends BaseClass {
         ]),
       });
 
-      NagSuppressions.addResourceSuppressions(
-        custom_resource,
+      NagSuppressions.addResourceSuppressionsByPath(
+        cdk.Stack.of(this),
+        `${cdk.Stack.of(this).stackName}/AWS${cr.AwsCustomResource.PROVIDER_FUNCTION_UUID.replace(/-/g, '')}/ServiceRole/Resource`,
+        [
+          {
+            id: 'AwsSolutions-IAM4',
+            reason: 'CDK CustomResource Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.',
+          },
+        ],
+      );
+
+      NagSuppressions.addResourceSuppressionsByPath(
+        cdk.Stack.of(this),
+        `${cdk.Stack.of(this).stackName}/AWS${cr.AwsCustomResource.PROVIDER_FUNCTION_UUID.replace(/-/g, '')}/Resource`,
         [
           {
             id: 'AwsSolutions-L1',
-            reason: 'Provided by cdk, cannot configure runtime.',
+            reason: 'Lambda runtime version is managed upstream by CDK.',
           },
         ],
-        true,
       );
     }
 
@@ -567,6 +607,27 @@ export class WebCrawler extends BaseClass {
         JOB_DEFINITION_ARN: webCrawlerJobDefinition.jobDefinitionArn,
       },
     });
+
+    NagSuppressions.addResourceSuppressions(
+      schedulerFunction.role!,
+      [
+        {
+          id: 'AwsSolutions-IAM4',
+          reason: 'Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.',
+        },
+      ],
+    );
+
+    NagSuppressions.addResourceSuppressions(
+      schedulerFunction.role!,
+      [
+        {
+          id: 'AwsSolutions-IAM5',
+          reason: 'AWSLambdaBasicExecutionRole is used.',
+        },
+      ],
+      true,
+    );
 
     targetsTable.grantReadWriteData(schedulerFunction);
     jobsTable.grantReadWriteData(schedulerFunction);
@@ -596,6 +657,27 @@ export class WebCrawler extends BaseClass {
       });
 
       this.lambdaCrawler = lambdaCrawler;
+
+      NagSuppressions.addResourceSuppressions(
+        lambdaCrawler.role!,
+        [
+          {
+            id: 'AwsSolutions-IAM5',
+            reason: 'AWSLambdaBasicExecutionRole is used.',
+          },
+        ],
+        true,
+      );
+
+      NagSuppressions.addResourceSuppressions(
+        lambdaCrawler.role!,
+        [
+          {
+            id: 'AwsSolutions-IAM4',
+            reason: 'Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.',
+          },
+        ],
+      );
     }
 
     this.dataBucket = dataBucket;
