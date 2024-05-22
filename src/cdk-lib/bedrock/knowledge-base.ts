@@ -112,6 +112,15 @@ export interface KnowledgeBaseProps {
   readonly description?: string;
 
   /**
+   * Existing IAM role with a policy statement
+   * granting permission to invoke the specific embeddings model.
+   * Any entity (e.g., an AWS service or application) that assumes
+   * this role will be able to invoke or use the
+   * specified embeddings model within the Bedrock service.
+   */
+  readonly existingRole?: iam.Role;
+
+  /**
    * A narrative description of the knowledge base.
    *
    * A Bedrock Agent can use this instruction to determine if it should
@@ -261,39 +270,43 @@ export class KnowledgeBase extends Construct {
       'KB',
       { maxLength: 32 });
 
-    const roleName = generatePhysicalNameV2(
-      this,
-      'AmazonBedrockExecutionRoleForKnowledgeBase',
-      { maxLength: 64 });
-    this.role = new iam.Role(this, 'Role', {
-      roleName: roleName,
-      assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com'),
-    });
-    this.role.assumeRolePolicy!.addStatements(
-      new iam.PolicyStatement({
-        actions: ['sts:AssumeRole'],
-        principals: [new iam.ServicePrincipal('bedrock.amazonaws.com')],
-        conditions: {
-          StringEquals: {
-            'aws:SourceAccount': cdk.Stack.of(this).account,
-          },
-          ArnLike: {
-            'aws:SourceArn': cdk.Stack.of(this).formatArn({
-              service: 'bedrock',
-              resource: 'knowledge-base',
-              resourceName: '*',
-              arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-            }),
-          },
-        },
-      }),
-    );
 
-    this.role.addToPolicy(new iam.PolicyStatement({
-      actions: ['bedrock:InvokeModel'],
-      resources: [embeddingsModel.asArn(this)],
-    }));
+    if (props.existingRole) {
+      this.role = props.existingRole;
+    } else {
+      const roleName = generatePhysicalNameV2(
+        this,
+        'AmazonBedrockExecutionRoleForKnowledgeBase',
+        { maxLength: 64 });
+      this.role = new iam.Role(this, 'Role', {
+        roleName: roleName,
+        assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com'),
+      });
+      this.role.assumeRolePolicy!.addStatements(
+        new iam.PolicyStatement({
+          actions: ['sts:AssumeRole'],
+          principals: [new iam.ServicePrincipal('bedrock.amazonaws.com')],
+          conditions: {
+            StringEquals: {
+              'aws:SourceAccount': cdk.Stack.of(this).account,
+            },
+            ArnLike: {
+              'aws:SourceArn': cdk.Stack.of(this).formatArn({
+                service: 'bedrock',
+                resource: 'knowledge-base',
+                resourceName: '*',
+                arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
+              }),
+            },
+          },
+        }),
+      );
 
+      this.role.addToPolicy(new iam.PolicyStatement({
+        actions: ['bedrock:InvokeModel'],
+        resources: [embeddingsModel.asArn(this)],
+      }));
+    }
     /**
      * Create the vector store if the vector store was provided by the user.
      * Otherwise check againts all possible vector datastores.
