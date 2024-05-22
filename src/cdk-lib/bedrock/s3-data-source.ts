@@ -11,7 +11,6 @@
  *  and limitations under the License.
  */
 
-import * as cdk from 'aws-cdk-lib';
 import { aws_bedrock as bedrock } from 'aws-cdk-lib';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import * as s3 from 'aws-cdk-lib/aws-s3';
@@ -103,7 +102,7 @@ export class S3DataSource extends Construct {
   /**
    * The Data Source cfn resource.
    */
-  public readonly dataSource: cdk.CfnResource;
+  public readonly dataSource: bedrock.CfnDataSource;
   /**
    * The unique identifier of the data source.
    */
@@ -152,8 +151,7 @@ export class S3DataSource extends Construct {
 
     });
 
-    this.dataSourceId = dataSourceName;
-
+    this.dataSourceId = this.dataSource.attrDataSourceId;
   }
 }
 
