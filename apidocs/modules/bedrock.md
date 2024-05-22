@@ -7,7 +7,11 @@
 ### Enumerations
 
 - [ChunkingStrategy](../enums/bedrock.ChunkingStrategy.md)
+- [FiltersConfigStrength](../enums/bedrock.FiltersConfigStrength.md)
+- [FiltersConfigType](../enums/bedrock.FiltersConfigType.md)
 - [ParserMode](../enums/bedrock.ParserMode.md)
+- [PersonalIdentifiableInformation](../enums/bedrock.PersonalIdentifiableInformation.md)
+- [PiiEntitiesConfigAction](../enums/bedrock.PiiEntitiesConfigAction.md)
 - [PromptCreationMode](../enums/bedrock.PromptCreationMode.md)
 - [PromptState](../enums/bedrock.PromptState.md)
 - [PromptType](../enums/bedrock.PromptType.md)
@@ -19,10 +23,14 @@
 - [AgentAlias](../classes/bedrock.AgentAlias.md)
 - [ApiSchema](../classes/bedrock.ApiSchema.md)
 - [BedrockFoundationModel](../classes/bedrock.BedrockFoundationModel.md)
+- [ContentPolicyConfig](../classes/bedrock.ContentPolicyConfig.md)
+- [Guardrail](../classes/bedrock.Guardrail.md)
 - [InlineApiSchema](../classes/bedrock.InlineApiSchema.md)
 - [KnowledgeBase](../classes/bedrock.KnowledgeBase.md)
 - [S3ApiSchema](../classes/bedrock.S3ApiSchema.md)
 - [S3DataSource](../classes/bedrock.S3DataSource.md)
+- [SensitiveInformationPolicyConfig](../classes/bedrock.SensitiveInformationPolicyConfig.md)
+- [Topic](../classes/bedrock.Topic.md)
 
 ### Interfaces
 
@@ -32,12 +40,16 @@
 - [AgentProps](../interfaces/bedrock.AgentProps.md)
 - [ApiSchemaConfig](../interfaces/bedrock.ApiSchemaConfig.md)
 - [BedrockFoundationModelProps](../interfaces/bedrock.BedrockFoundationModelProps.md)
+- [ContentPolicyConfigProps](../interfaces/bedrock.ContentPolicyConfigProps.md)
+- [GuardrailProps](../interfaces/bedrock.GuardrailProps.md)
 - [InferenceConfiguration](../interfaces/bedrock.InferenceConfiguration.md)
 - [KnowledgeBaseProps](../interfaces/bedrock.KnowledgeBaseProps.md)
 - [PromptConfiguration](../interfaces/bedrock.PromptConfiguration.md)
 - [PromptOverrideConfiguration](../interfaces/bedrock.PromptOverrideConfiguration.md)
 - [S3DataSourceProps](../interfaces/bedrock.S3DataSourceProps.md)
 - [S3Identifier](../interfaces/bedrock.S3Identifier.md)
+- [SensitiveInformationPolicyConfigProps](../interfaces/bedrock.SensitiveInformationPolicyConfigProps.md)
+- [TopicProps](../interfaces/bedrock.TopicProps.md)
 
 ### Functions
 
