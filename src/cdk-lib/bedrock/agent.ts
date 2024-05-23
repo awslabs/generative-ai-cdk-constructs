@@ -212,6 +212,13 @@ export interface AgentProps {
    * @default - A name is automatically generated.
    */
   readonly name?: string;
+
+  /**
+   * The existing IAM Role for the agent with a trust policy that
+   * allows the Bedrock service to assume the role.
+   */
+  readonly existingRole?: iam.Role;
+
   /**
    * A narrative instruction to provide the agent as context.
    */
@@ -376,44 +383,47 @@ export class Agent extends Construct {
       'bedrock-agent',
       { maxLength: 32, lower: true, separator: '-' });
 
-    this.role = new iam.Role(this, 'Role', {
-      assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com'),
-      roleName: generatePhysicalNameV2(
-        this,
-        'AmazonBedrockExecutionRoleForAgents_',
-        { maxLength: 64, lower: false }),
-    });
+    if (props.existingRole) {
+      this.role = props.existingRole;
+    } else {
+      this.role = new iam.Role(this, 'Role', {
+        assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com'),
+        roleName: generatePhysicalNameV2(
+          this,
+          'AmazonBedrockExecutionRoleForAgents_',
+          { maxLength: 64, lower: false }),
+      });
 
-    this.role.assumeRolePolicy!.addStatements(
-      new iam.PolicyStatement({
-        actions: ['sts:AssumeRole'],
-        principals: [new iam.ServicePrincipal('bedrock.amazonaws.com')],
-        conditions: {
-          StringEquals: {
-            'aws:SourceAccount': cdk.Stack.of(this).account,
-          },
-          ArnLike: {
-            'aws:SourceArn': cdk.Stack.of(this).formatArn({
-              service: 'bedrock',
-              resource: 'agent',
-              resourceName: '*',
-              arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-            }),
-          },
-        },
-      }),
-    );
-
-    new iam.Policy(this, 'AgentFMPolicy', {
-      roles: [this.role],
-      statements: [
+      this.role.assumeRolePolicy!.addStatements(
         new iam.PolicyStatement({
-          actions: ['bedrock:InvokeModel'],
-          resources: [props.foundationModel.asArn(this)],
+          actions: ['sts:AssumeRole'],
+          principals: [new iam.ServicePrincipal('bedrock.amazonaws.com')],
+          conditions: {
+            StringEquals: {
+              'aws:SourceAccount': cdk.Stack.of(this).account,
+            },
+            ArnLike: {
+              'aws:SourceArn': cdk.Stack.of(this).formatArn({
+                service: 'bedrock',
+                resource: 'agent',
+                resourceName: '*',
+                arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
+              }),
+            },
+          },
         }),
-      ],
-    });
+      );
 
+      new iam.Policy(this, 'AgentFMPolicy', {
+        roles: [this.role],
+        statements: [
+          new iam.PolicyStatement({
+            actions: ['bedrock:InvokeModel'],
+            resources: [props.foundationModel.asArn(this)],
+          }),
+        ],
+      });
+    }
 
     const agent = new bedrock.CfnAgent(this, 'Agent', {
 
