@@ -29,7 +29,7 @@ export class Topic extends Construct {
     this.topicConfigList = [];
   }
 
-  public createFinancialAdviceTopic(props?: TopicProps): void {
+  public financialAdviceTopic(props?: TopicProps): void {
     this.createTopic({
       name: props?.name ?? 'Financial_Advice',
       definition: props?.definition ?? 'Discussions that involve providing guidance, recommendations, or suggestions related to managing, investing, or handling finances, investments, or assets.',
@@ -44,7 +44,7 @@ export class Topic extends Construct {
     });
   }
 
-  public createPoliticalAdviceTopic(props?: TopicProps): void {
+  public politicalAdviceTopic(props?: TopicProps): void {
     this.createTopic({
       name: props?.name ?? 'Political_Advice',
       definition: props?.definition ?? 'Conversations that express views, opinions, or endorsements related to political parties, political ideologies, elections, or political figures.',
@@ -54,6 +54,54 @@ export class Topic extends Construct {
         'Can you tell me which political party is better?',
         'What do you think about the new policy introduced by the president?',
         'Should I vote for this candidate?',
+      ],
+      type: props?.type ?? 'DENY',
+    });
+  }
+
+  public medicalAdvice(props?: TopicProps): void {
+    this.createTopic({
+      name: props?.name ?? 'Medical_Advice',
+      definition: props?.definition ?? 'Providing recommendations, diagnosis, treatment options, or guidance on medical conditions, symptoms, medications, or health-related issues.',
+      examples: props?.examples ?? [
+        'What should I do to treat a persistent cough?',
+        'Can you recommend some medication for my headache?',
+        'What are the symptoms of a specific medical condition?',
+        'Is this drug effective for treating my illness?',
+        "Do I need to see a doctor for this pain I'm experiencing?",
+
+      ],
+      type: props?.type ?? 'DENY',
+    });
+  }
+
+  public inappropriateContent(props?: TopicProps): void {
+    this.createTopic({
+      name: props?.name ?? 'Inappropriate_Content',
+      definition: props?.definition ?? 'Any discussions or references that include hate speech, discriminatory remarks, sexual content, or explicit language.',
+      examples: props?.examples ?? [
+        'Why are people from X country so [discriminatory remark]?',
+        'Can you tell me a dirty joke?',
+        '[Use of explicit language]',
+        'This service is as bad as [hate speech].',
+        'Do you have any adult content or products?',
+
+      ],
+      type: props?.type ?? 'DENY',
+    });
+  }
+
+  public legalAdvice(props?: TopicProps): void {
+    this.createTopic({
+      name: props?.name ?? 'Legal_Advice',
+      definition: props?.definition ?? 'Offering guidance or suggestions on legal matters, legal actions, interpretation of laws, or legal rights and responsibilities.',
+      examples: props?.examples ?? [
+        'Can I sue someone for this?',
+        'What are my legal rights in this situation?',
+        'Is this action against the law?',
+        'What should I do to file a legal complaint?',
+        'Can you explain this law to me?',
+
       ],
       type: props?.type ?? 'DENY',
     });

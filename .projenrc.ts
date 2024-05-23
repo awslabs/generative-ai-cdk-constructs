@@ -59,6 +59,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     'typedoc',
     'typedoc-plugin-markdown',
     'aws-sdk-mock',
+    '@aws-cdk/assert',
   ],
   deps: [
     'cdk-nag',

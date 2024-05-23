@@ -72,6 +72,16 @@ export class ContentPolicyConfig extends Construct {
       },
       {
         type: FiltersConfigType.PROMPT_ATTACK,
+        inputStrength: FiltersConfigStrength.NONE,
+        outputStrength: FiltersConfigStrength.NONE,
+      },
+      {
+        type: FiltersConfigType.SEXUAL,
+        inputStrength: FiltersConfigStrength.HIGH,
+        outputStrength: FiltersConfigStrength.HIGH,
+      },
+      {
+        type: FiltersConfigType.INSULTS,
         inputStrength: FiltersConfigStrength.HIGH,
         outputStrength: FiltersConfigStrength.HIGH,
       });

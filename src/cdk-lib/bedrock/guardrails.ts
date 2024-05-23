@@ -30,15 +30,15 @@ export interface GuardrailProps {
   /**
    * The message to return when the guardrail blocks a prompt.
    */
-  readonly blockedInputMessaging: string;
+  readonly blockedInputMessaging? : string;
   /**
    * The message to return when the guardrail blocks a model response.
    */
-  readonly blockedOutputsMessaging	: string;
+  readonly blockedOutputsMessaging?	: string;
   /**
    * The name of the guardrail.
    */
-  readonly name	?: string;
+  readonly name	: string;
 
   /**
     * List of content filter configs in content policy.
@@ -50,26 +50,6 @@ export interface GuardrailProps {
     */
   readonly piiConfig?: SensitiveInformationPolicyConfigProps[];
 
-  // /**
-  //  *  PII fields which needs to be masked.
-  //  */
-  // readonly guardrailPiiEntityConfig?: PersonalIdentifiableInformation[];
-
-  // /**
-  //  * List of regex.
-
-  //  */
-  // readonly guardrailRegexesConfig?: bedrock.CfnGuardrail.RegexConfigProperty;
-
-  /**
-   *  Topic policy config for a guardrail.
-   */
-  // readonly topic?: Topic;
-
-  /**
-   *  List of words to filter from prompt and output response.
-   */
-  //readonly wordsFilter?: bedrock.CfnGuardrail.WordConfigProperty[];
 
   /**
    * The description of the guardrail.
@@ -105,6 +85,20 @@ export class Guardrail extends Construct {
    */
   public readonly kmsKeyArn	: string;
 
+  /**
+   * guardrail version
+   *
+   * @default
+   */
+  public readonly guardrailVersion	: string;
+
+  /**
+   * guardrail Id
+   *
+   * @default
+   */
+  public readonly guardrailId	: string;
+
 
   /**
    * Instance of guardrail
@@ -123,9 +117,12 @@ export class Guardrail extends Construct {
       enableKeyRotation: true,
     }).keyArn;
 
+    const defaultBlockedInputMessaging ='Sorry, your query voilates our usage policy.';
+    const defaultBlockedOutputsMessaging = 'Sorry, I am unable to answer your question because of our usage policy.';
+
     this.guardrailInstance = new bedrock.CfnGuardrail(this, 'MyGuardrail', {
-      blockedInputMessaging: props.blockedInputMessaging,
-      blockedOutputsMessaging: props.blockedOutputsMessaging,
+      blockedInputMessaging: props.blockedInputMessaging ?? defaultBlockedInputMessaging,
+      blockedOutputsMessaging: props.blockedOutputsMessaging ?? defaultBlockedOutputsMessaging,
       name: this.name,
       description: props.description,
       kmsKeyArn: this.kmsKeyArn,
@@ -133,6 +130,10 @@ export class Guardrail extends Construct {
         filtersConfig: new ContentPolicyConfig(this, `'CP${id}'`, props.filtersConfig).contentPolicyConfigList,
       },
     });
+
+    this.guardrailVersion = this.guardrailInstance.attrVersion;
+    this.guardrailId = this.guardrailInstance.attrGuardrailId;
+
   }
 
   public addSensitiveInformationPolicyConfig(

@@ -567,19 +567,14 @@ Word filters – Configure filters to block undesirable words, phrases, and prof
 
 Sensitive information filters – Block or mask sensitive information such as personally identifiable information (PII) or custom regex in user inputs and model responses.
 
-You can create a Guardrail with a minimum blockedInputMessaging ,blockedOutputsMessaging and  content filter policy.
+You can create a Guardrail with a minimum blockedInputMessaging ,blockedOutputsMessaging and default content filter policy.
 
 TypeScript
 
 ```ts
 const guardrails = new bedrock.Guardrail(this,'bedrockGuardrails',{
-        blockedInputMessaging:"Sorry, your query voilates our usage policy.",
-        blockedOutputsMessaging:"Sorry, I am unable to answer your question because of our usage policy.",
-        filtersConfig: [{
-            filtersConfigType: FiltersConfigType.HATE,
-            inputStrength: FiltersConfigStrength.HIGH,
-            outputStrength: FiltersConfigStrength.HIGH
-        }],
+        name: "my-BedrockGuardrails",
+        description: "Legal ethical guardrails.",
     });
 
    // Optional - Add Sensitive information filters
@@ -601,16 +596,15 @@ const guardrails = new bedrock.Guardrail(this,'bedrockGuardrails',{
     // Optional - Add Denied topics . You can use default Topic or create your custom Topic with createTopic function. The default Topics can also be overwritten.
 
     const topic = new Topic(this,'topic');
-    topic.createFinancialAdviceTopic()
-    topic.createPoliticalAdviceTopic()
+    topic.financialAdviceTopic()
+    topic.politicalAdviceTopic()
     
     guardrails.addTopicPolicyConfig(topic)
 
     // Optional - Add Word filters. You can upload words from a file with uploadWordPolicyFromFile function.
 
-     guardrails.addWordPolicyConfig([{
-        text:"Let it be"
-    }])
+     guardrails.uploadWordPolicyFromFile('./scripts/wordsPolicy.csv')
+    
 ```
 
 Python
@@ -619,12 +613,34 @@ Python
 guardrails =  bedrock.Guardrail(
         self,
         'bedrockGuardrails',
-        blocked_input_messaging:"Sorry, your query voilates our usage policy.",
-        blocked_outputs_messaging:"Sorry, I am unable to answer your question because of our usage policy.",
-        filters_config: [{
-            filters_configType: FiltersConfigType.HATE,
-            input_strength: FiltersConfigStrength.HIGH,
-            output_strength: FiltersConfigStrength.HIGH
-        }],
+        name= "my-BedrockGuardrails",
+        description= "Legal ethical guardrails.",
     )
+    #Optional - Add Sensitive information filters
+
+    guardrails.add_sensitive_information_policy_config([{
+      type= personal_identifiable_information.EMAIL,
+      action=   pii_entities_config_action.BLOCK
+    },
+    {
+        type: personal_identifiable_information.USERNAME,
+        action:   pii_entities_config_action.BLOCK  
+    }],{
+        name= "CUSTOMER_ID", 
+        description= "customer id",
+        pattern= "/^[A-Z]{2}\d{6}$/",
+        action= "BLOCK", 
+    })
+
+    #Optional - Add Denied topics . You can use default Topic or create your custom Topic with createTopic function. The default Topics can also be overwritten.
+
+    topic = bedrock.Topic(self,'topic')
+    topic.financial_advice_topic()
+    topic.political_advice_topic()
+    
+    guardrails.add_topic_policy_config(topic)
+
+    #Optional - Add Word filters. You can upload words from a file with uploadWordPolicyFromFile function.
+
+     guardrails.upload_word_policy_from_file('./scripts/wordsPolicy.csv')  
 ```
