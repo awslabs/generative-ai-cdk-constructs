@@ -21,4 +21,4 @@ ___
 
 ### type
 
-• `Readonly` **type**: [`PersonalIdentifiableInformation`](../enums/bedrock.PersonalIdentifiableInformation.md)
+• `Readonly` **type**: [`General`](../enums/bedrock.General.md) \| [`InformationTechnology`](../enums/bedrock.InformationTechnology.md) \| [`Finance`](../enums/bedrock.Finance.md) \| [`USASpecific`](../enums/bedrock.USASpecific.md) \| [`CanadaSpecific`](../enums/bedrock.CanadaSpecific.md) \| [`UKSpecific`](../enums/bedrock.UKSpecific.md)

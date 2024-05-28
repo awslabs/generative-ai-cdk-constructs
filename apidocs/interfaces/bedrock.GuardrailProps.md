@@ -23,7 +23,7 @@ Bedrock guardrail props
 
 ### blockedInputMessaging
 
-• `Readonly` **blockedInputMessaging**: `string`
+• `Optional` `Readonly` **blockedInputMessaging**: `string`
 
 The message to return when the guardrail blocks a prompt.
 
@@ -31,7 +31,7 @@ ___
 
 ### blockedOutputsMessaging
 
-• `Readonly` **blockedOutputsMessaging**: `string`
+• `Optional` `Readonly` **blockedOutputsMessaging**: `string`
 
 The message to return when the guardrail blocks a model response.
 
@@ -63,7 +63,7 @@ ___
 
 ### name
 
-• `Optional` `Readonly` **name**: `string`
+• `Readonly` **name**: `string`
 
 The name of the guardrail.
 

@@ -108,7 +108,9 @@ beforeAll(() => {
     actionGroupName: 'test-action-group',
     description: 'Use these functions to get information about the books in the Project Gutenburg library.',
     actionGroupState: 'ENABLED',
-    actionGroupExecutor: actionGroupFunction,
+    actionGroupExecutor: {
+      lambda: actionGroupFunction,
+    },
     apiSchema: bedrock.ApiSchema.fromBucket(apiSchemaBucket, 'test/api.yaml'),
   });
 

@@ -536,7 +536,7 @@ export class Agent extends Construct {
    * Add action group to the agent.
    */
   public addActionGroup(actionGroup: AgentActionGroup) {
-    actionGroup.actionGroupExecutor?.addPermission('AgentLambdaInvocationPolicy', {
+    actionGroup.actionGroupExecutor?.lambda?.addPermission('AgentLambdaInvocationPolicy', {
       principal: new iam.ServicePrincipal('bedrock.amazonaws.com'),
       sourceArn: this.agentArn,
       sourceAccount: cdk.Stack.of(this).account,

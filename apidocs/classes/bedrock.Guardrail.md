@@ -20,7 +20,9 @@ Deploy bedrock guardrail .
 
 ### Properties
 
+- [guardrailId](bedrock.Guardrail.md#guardrailid)
 - [guardrailInstance](bedrock.Guardrail.md#guardrailinstance)
+- [guardrailVersion](bedrock.Guardrail.md#guardrailversion)
 - [kmsKeyArn](bedrock.Guardrail.md#kmskeyarn)
 - [name](bedrock.Guardrail.md#name)
 - [node](bedrock.Guardrail.md#node)
@@ -59,11 +61,39 @@ Construct.constructor
 
 ## Properties
 
+### guardrailId
+
+• `Readonly` **guardrailId**: `string`
+
+guardrail Id
+
+**`Default`**
+
+```ts
+
+```
+
+___
+
 ### guardrailInstance
 
 • `Readonly` **guardrailInstance**: `CfnGuardrail`
 
 Instance of guardrail
+
+___
+
+### guardrailVersion
+
+• `Readonly` **guardrailVersion**: `string`
+
+guardrail version
+
+**`Default`**
+
+```ts
+
+```
 
 ___
 

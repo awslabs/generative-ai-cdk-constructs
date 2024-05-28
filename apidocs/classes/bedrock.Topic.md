@@ -23,9 +23,12 @@
 
 ### Methods
 
-- [createFinancialAdviceTopic](bedrock.Topic.md#createfinancialadvicetopic)
-- [createPoliticalAdviceTopic](bedrock.Topic.md#createpoliticaladvicetopic)
 - [createTopic](bedrock.Topic.md#createtopic)
+- [financialAdviceTopic](bedrock.Topic.md#financialadvicetopic)
+- [inappropriateContent](bedrock.Topic.md#inappropriatecontent)
+- [legalAdvice](bedrock.Topic.md#legaladvice)
+- [medicalAdvice](bedrock.Topic.md#medicaladvice)
+- [politicalAdviceTopic](bedrock.Topic.md#politicaladvicetopic)
 - [toString](bedrock.Topic.md#tostring)
 - [topicConfigPropertyList](bedrock.Topic.md#topicconfigpropertylist)
 - [isConstruct](bedrock.Topic.md#isconstruct)
@@ -71,38 +74,6 @@ ___
 
 ## Methods
 
-### createFinancialAdviceTopic
-
-▸ **createFinancialAdviceTopic**(`props?`): `void`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `props?` | [`TopicProps`](../interfaces/bedrock.TopicProps.md) |
-
-#### Returns
-
-`void`
-
-___
-
-### createPoliticalAdviceTopic
-
-▸ **createPoliticalAdviceTopic**(`props?`): `void`
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `props?` | [`TopicProps`](../interfaces/bedrock.TopicProps.md) |
-
-#### Returns
-
-`void`
-
-___
-
 ### createTopic
 
 ▸ **createTopic**(`props`): `void`
@@ -112,6 +83,86 @@ ___
 | Name | Type |
 | :------ | :------ |
 | `props` | [`TopicProps`](../interfaces/bedrock.TopicProps.md) |
+
+#### Returns
+
+`void`
+
+___
+
+### financialAdviceTopic
+
+▸ **financialAdviceTopic**(`props?`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props?` | [`TopicProps`](../interfaces/bedrock.TopicProps.md) |
+
+#### Returns
+
+`void`
+
+___
+
+### inappropriateContent
+
+▸ **inappropriateContent**(`props?`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props?` | [`TopicProps`](../interfaces/bedrock.TopicProps.md) |
+
+#### Returns
+
+`void`
+
+___
+
+### legalAdvice
+
+▸ **legalAdvice**(`props?`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props?` | [`TopicProps`](../interfaces/bedrock.TopicProps.md) |
+
+#### Returns
+
+`void`
+
+___
+
+### medicalAdvice
+
+▸ **medicalAdvice**(`props?`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props?` | [`TopicProps`](../interfaces/bedrock.TopicProps.md) |
+
+#### Returns
+
+`void`
+
+___
+
+### politicalAdviceTopic
+
+▸ **politicalAdviceTopic**(`props?`): `void`
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `props?` | [`TopicProps`](../interfaces/bedrock.TopicProps.md) |
 
 #### Returns
 

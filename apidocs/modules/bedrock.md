@@ -6,15 +6,20 @@
 
 ### Enumerations
 
+- [CanadaSpecific](../enums/bedrock.CanadaSpecific.md)
 - [ChunkingStrategy](../enums/bedrock.ChunkingStrategy.md)
 - [FiltersConfigStrength](../enums/bedrock.FiltersConfigStrength.md)
 - [FiltersConfigType](../enums/bedrock.FiltersConfigType.md)
+- [Finance](../enums/bedrock.Finance.md)
+- [General](../enums/bedrock.General.md)
+- [InformationTechnology](../enums/bedrock.InformationTechnology.md)
 - [ParserMode](../enums/bedrock.ParserMode.md)
-- [PersonalIdentifiableInformation](../enums/bedrock.PersonalIdentifiableInformation.md)
 - [PiiEntitiesConfigAction](../enums/bedrock.PiiEntitiesConfigAction.md)
 - [PromptCreationMode](../enums/bedrock.PromptCreationMode.md)
 - [PromptState](../enums/bedrock.PromptState.md)
 - [PromptType](../enums/bedrock.PromptType.md)
+- [UKSpecific](../enums/bedrock.UKSpecific.md)
+- [USASpecific](../enums/bedrock.USASpecific.md)
 
 ### Classes
 
@@ -34,6 +39,7 @@
 
 ### Interfaces
 
+- [ActionGroupExecutor](../interfaces/bedrock.ActionGroupExecutor.md)
 - [AddAgentAliasProps](../interfaces/bedrock.AddAgentAliasProps.md)
 - [AgentActionGroupProps](../interfaces/bedrock.AgentActionGroupProps.md)
 - [AgentAliasProps](../interfaces/bedrock.AgentAliasProps.md)
