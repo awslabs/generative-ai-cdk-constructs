@@ -18,8 +18,8 @@ import * as kms from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 
 import { ContentPolicyConfig, ContentPolicyConfigProps } from './content-policy';
-import { SensitiveInformationPolicyConfig, SensitiveInformationPolicyConfigProps } from './pii-list';
 import { GuardrailVersion } from './guardrail-version';
+import { SensitiveInformationPolicyConfig, SensitiveInformationPolicyConfigProps } from './pii-list';
 import { Topic } from './topic-list';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 
