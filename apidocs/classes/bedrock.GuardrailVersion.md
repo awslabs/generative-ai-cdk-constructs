@@ -6,7 +6,7 @@
 
 Creates a version of the guardrail.
 
-Use this API to create a snapshot of the guardrail when you are satisfied with 
+Use this API to create a snapshot of the guardrail when you are satisfied with
 a configuration, or to compare the configuration with another version.
 
 ## Hierarchy
