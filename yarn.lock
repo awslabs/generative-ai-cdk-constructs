@@ -836,10 +836,10 @@
   dependencies:
     ajv "^8.12.0"
 
-"@mrgrain/jsii-struct-builder@^0.7.28":
-  version "0.7.28"
-  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.28.tgz#84f82324f6ab7cfacadacaa7826928f360da409f"
-  integrity sha512-H/AGUu+tIiMwmIfNgg0860FiAqbxYvx8Jr/tOkJgrY3T5cOITMmHAyFWmfCKQG+9j6d7qL18aaExUltTeB3+AQ==
+"@mrgrain/jsii-struct-builder@^0.7.29":
+  version "0.7.29"
+  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.29.tgz#2abc4cf0ee8757ce9f4c0d3e321c7682f1d0c508"
+  integrity sha512-L980+xSTa1dNYK0+ANSPPAfwrvfxoNMaaIfKrXnyTbNvMY89m80DwxcLx6n6aNs513MNIJBOcLeLA1T8Yeop5Q==
   dependencies:
     "@jsii/spec" "^1.98.0"
 
@@ -1597,19 +1597,19 @@ camelcase@^6.2.0, camelcase@^6.3.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001587:
-  version "1.0.30001621"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001621.tgz#4adcb443c8b9c8303e04498318f987616b8fea2e"
-  integrity sha512-+NLXZiviFFKX0fk8Piwv3PfLPGtRqJeq2TiNoUff/qB5KJgwecJTvCXDpmlyP/eCI/GUEmp/h/y5j0yckiiZrA==
+  version "1.0.30001623"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001623.tgz#e982099dcb229bb6ab35f5aebe2f8d79ccf6e8a8"
+  integrity sha512-X/XhAVKlpIxWPpgRTnlgZssJrF0m6YtRA0QDWgsBNT12uZM6LPRydR7ip405Y3t1LamD8cP2TZFEDZFBf5ApcA==
 
 case@1.6.3, case@^1.6.3:
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-nag@^2.28.124:
-  version "2.28.124"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.124.tgz#589c0d0d9d3da3f495948007263e3d8d847e3626"
-  integrity sha512-vpuMKsKp9gG2P1M8c51lsTeLsJc1WAK35qQujiOiy14ehjyLbvsvaW0oPYG4Yl7kXnTasNw5O99BOOWwp5c10g==
+cdk-nag@^2.28.125:
+  version "2.28.125"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.125.tgz#a238123b8e24da6aec53d5cf19b285520ab30d38"
+  integrity sha512-K1t2+VBFm+GRTcA8ncEXZ15JRNnd43KoSNoRQODU68KJLevSdqeZuJb0fF3SSCgZaMghycI/In0MqGCUmw2IDA==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -4883,9 +4883,9 @@ sax@1.2.1:
   integrity sha512-8I2a3LovHTOpm7NV5yOyO8IHqgVsfK4+UuySrXU8YXkSRX7k6hCV9b3HrkKCr3nMpgj+0bmocaJJWpvp1oc7ZA==
 
 sax@>=0.6.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/sax/-/sax-1.3.0.tgz#a5dbe77db3be05c9d1ee7785dbd3ea9de51593d0"
-  integrity sha512-0s+oAmw9zLl1V1cS9BtZN7JAd0cW5e0QH4W3LWEK6a4LaLEA2OTpGYWDY+6XasBLtz6wkm3u1xRw95mRuJ59WA==
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/sax/-/sax-1.4.1.tgz#44cc8988377f126304d3b3fc1010c733b929ef0f"
+  integrity sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg==
 
 semver-intersect@^1.5.0:
   version "1.5.0"
