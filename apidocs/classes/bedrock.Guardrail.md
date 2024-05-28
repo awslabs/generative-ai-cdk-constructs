@@ -32,6 +32,7 @@ Deploy bedrock guardrail .
 - [addSensitiveInformationPolicyConfig](bedrock.Guardrail.md#addsensitiveinformationpolicyconfig)
 - [addTags](bedrock.Guardrail.md#addtags)
 - [addTopicPolicyConfig](bedrock.Guardrail.md#addtopicpolicyconfig)
+- [addVersion](bedrock.Guardrail.md#addversion)
 - [addWordPolicyConfig](bedrock.Guardrail.md#addwordpolicyconfig)
 - [toString](bedrock.Guardrail.md#tostring)
 - [uploadWordPolicyFromFile](bedrock.Guardrail.md#uploadwordpolicyfromfile)
@@ -177,6 +178,24 @@ ___
 #### Returns
 
 `void`
+
+___
+
+### addVersion
+
+▸ **addVersion**(`description?`): [`GuardrailVersion`](bedrock.GuardrailVersion.md)
+
+Creates a version of the guardrail.
+
+#### Parameters
+
+| Name | Type |
+| :------ | :------ |
+| `description?` | `string` |
+
+#### Returns
+
+[`GuardrailVersion`](bedrock.GuardrailVersion.md)
 
 ___
 

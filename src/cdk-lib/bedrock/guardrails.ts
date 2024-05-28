@@ -19,6 +19,7 @@ import { Construct } from 'constructs';
 
 import { ContentPolicyConfig, ContentPolicyConfigProps } from './content-policy';
 import { SensitiveInformationPolicyConfig, SensitiveInformationPolicyConfigProps } from './pii-list';
+import { GuardrailVersion } from './guardrail-version';
 import { Topic } from './topic-list';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 
@@ -210,5 +211,15 @@ export class Guardrail extends Construct {
     }
   }
 
+  /**
+   * Creates a version of the guardrail.
+   */
+  public addVersion(description?: string): GuardrailVersion {
+    const version = new GuardrailVersion(this, `GuardrailVersion-${this.guardrailId}`, {
+      guardrailIdentifier: this.guardrailId,
+      description,
+    });
+    return version;
+  }
 
 }

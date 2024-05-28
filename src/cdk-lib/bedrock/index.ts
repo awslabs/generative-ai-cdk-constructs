@@ -19,6 +19,7 @@ export * from './agent-alias';
 export * from './agent-action-group';
 export * from './api-schema';
 export * from './guardrails';
+export * from './guardrail-version';
 export * from './topic-list';
 export * from './pii-list';
 export * from './content-policy';

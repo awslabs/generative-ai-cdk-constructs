@@ -30,6 +30,7 @@
 - [BedrockFoundationModel](../classes/bedrock.BedrockFoundationModel.md)
 - [ContentPolicyConfig](../classes/bedrock.ContentPolicyConfig.md)
 - [Guardrail](../classes/bedrock.Guardrail.md)
+- [GuardrailVersion](../classes/bedrock.GuardrailVersion.md)
 - [InlineApiSchema](../classes/bedrock.InlineApiSchema.md)
 - [KnowledgeBase](../classes/bedrock.KnowledgeBase.md)
 - [S3ApiSchema](../classes/bedrock.S3ApiSchema.md)
