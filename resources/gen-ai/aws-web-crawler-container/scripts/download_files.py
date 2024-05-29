@@ -69,7 +69,7 @@ def main():
     else:
         print(f"File {FILES_FILE_PATH} does not exist", flush=True)
         files_file_s3_key = f"{target_s3_key}/jobs/{JOB_ID}/{FILE_FILE_NAME}"
-        with NamedTemporaryFile(dir="/tmp") as temp_file:
+        with NamedTemporaryFile(dir=tempfile.gettempdir()) as temp_file:
             try:
                 s3.download_file(DATA_BUCKET_NAME, files_file_s3_key, temp_file.name)
                 print(f"Data downloaded to {temp_file.name}", flush=True)
@@ -111,7 +111,7 @@ def get_prev_changeset(target_data: dict):
         f"{target_s3_key}/jobs/{last_finished_job_id}/files_changeset.jsonl"
     )
 
-    with NamedTemporaryFile(dir="/tmp") as temp_file:
+    with NamedTemporaryFile(dir=tempfile.gettempdir()) as temp_file:
         try:
             s3.download_file(DATA_BUCKET_NAME, last_changeset_s3_key, temp_file.name)
             print(f"Previous changeset downloaded to {temp_file.name}", flush=True)

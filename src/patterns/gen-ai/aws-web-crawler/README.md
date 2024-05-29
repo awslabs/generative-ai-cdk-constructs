@@ -127,7 +127,7 @@ Parameters
 ## Target Properties
 
 | **Name**     | **Type** |**Description** |
-|:-------------|:----------------|-----------------|-----------------|
+|:-------------|:----------------|-----------------|
 | vpc | [ec2.IVpc](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.IVpc.html) | The VPC used by the construct (whether created by the construct or provided by the client). |
 | dataBucket | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.IBucket.html) | Returns an instance of s3.Bucket created by the construct. |
 | snsTopic | [sns.ITopic](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_sns.ITopic.html) | Returns an instance of SNS Topic created by the construct. |
