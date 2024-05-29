@@ -37,6 +37,8 @@ export enum ChunkingStrategy {
   FIXED_SIZE = 'FIXED_SIZE',
   /**
    * `FIXED_SIZE` with the default chunk size of 300 tokens and 20% overlap.
+   * If default is selected, chunk size and overlap set by the user will be
+   * ignored.
    */
   DEFAULT = 'DEFAULT',
   /**
@@ -202,8 +204,16 @@ function vectorIngestionConfiguration(
       },
     };
 
-  } else {
-    return {};
+  } else { // DEFAULT
+    return {
+      chunkingConfiguration: {
+        chunkingStrategy: ChunkingStrategy.FIXED_SIZE,
+        fixedSizeChunkingConfiguration: {
+          maxTokens: CHUNKING_MAX_TOKENS,
+          overlapPercentage: CHUNKING_OVERLAP,
+        },
+      },
+    };
   }
 
 }
