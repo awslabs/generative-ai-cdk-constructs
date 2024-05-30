@@ -39,7 +39,7 @@ export interface GuardrailProps {
   /**
    * The name of the guardrail.
    */
-  readonly name	: string;
+  readonly name?: string;
 
   /**
     * List of content filter configs in content policy.
@@ -214,8 +214,8 @@ export class Guardrail extends Construct {
   /**
    * Creates a version of the guardrail.
    */
-  public addVersion(description?: string): GuardrailVersion {
-    const version = new GuardrailVersion(this, `GuardrailVersion-${this.guardrailId}`, {
+  public addVersion(id: string, description?: string): GuardrailVersion {
+    const version = new GuardrailVersion(this, id, {
       guardrailIdentifier: this.guardrailId,
       description,
     });

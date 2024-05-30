@@ -183,7 +183,7 @@ ___
 
 ### addVersion
 
-▸ **addVersion**(`description?`): [`GuardrailVersion`](bedrock.GuardrailVersion.md)
+▸ **addVersion**(`id`, `description?`): [`GuardrailVersion`](bedrock.GuardrailVersion.md)
 
 Creates a version of the guardrail.
 
@@ -191,6 +191,7 @@ Creates a version of the guardrail.
 
 | Name | Type |
 | :------ | :------ |
+| `id` | `string` |
 | `description?` | `string` |
 
 #### Returns

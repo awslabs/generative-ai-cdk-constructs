@@ -63,7 +63,7 @@ ___
 
 ### name
 
-• `Readonly` **name**: `string`
+• `Optional` `Readonly` **name**: `string`
 
 The name of the guardrail.
 
