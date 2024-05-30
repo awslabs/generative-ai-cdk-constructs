@@ -135,7 +135,8 @@ Parameters
 | jobsTable | [dynamodb.ITable](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_dynamodb.ITable.html) | Returns the instance of Jobs DynamoDB table created by the construct. |
 | jobQueue | [batch.IJobQueue](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_batch.IJobQueue.html) | Returns the instance of batch.IJobQueue created by the construct. |
 | webCrawlerJobDefinition | [batch.IJobDefinition](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_batch.IJobDefinition.html) | Returns the instance of JobDefinition created by the construct. |
-| lambdaCrawler | [lambda.IFunction](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.IFunction.html) | Returns the instance of the lambda function created by the construct if ```enableLambdaCrawler``` was set to true in the construct properties.  |
+| lambdaCrawler | [lambda.IFunction](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.IFunction.html) | Returns the instance of the lambda function created by the construct if ```enableLambdaCrawler``` was set to true in the construct properties. |
+| lambdaCrawlerApiSchemaPath | string | Returns the path to the OpenAPI specification for the Lambda Crawler. |
 
 ## Default properties
 
