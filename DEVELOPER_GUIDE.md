@@ -133,7 +133,7 @@ Navigate to the [Generative AI CDK Construct Repository] (https://github.com/aws
 |--resources (If you need additional resources packaged with your library)
 |--projenrc (Folder containing utilities for the main projenrc file)
 |--src/ (Source .ts files)
-    |--common/ (Common code reused accross constructs)
+    |--common/ (Common code reused across constructs)
         |--helpers
             |-- README.md (Documentation for helper functions)
             |-- *-helper.ts (Helper source file)
@@ -145,7 +145,7 @@ Navigate to the [Generative AI CDK Construct Repository] (https://github.com/aws
                 |--architecture.png (Construct diagram)
     |--index.ts (Constructs need to be exported from this index.ts file)
 |--test/
-    |--common/ (Common code reused accross constructs)
+    |--common/ (Common code reused across constructs)
         |--helpers
             |-- *-helper.test.ts (Helper source file)
     |--patterns/
