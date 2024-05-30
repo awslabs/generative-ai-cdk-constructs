@@ -358,7 +358,9 @@ const actionGroupFunction = new lambda_python.PythonFunction(this, 'ActionGroupF
 const actionGroup = new bedrock.AgentActionGroup(this,'MyActionGroup',{
   actionGroupName: 'query-library',
   description: 'Use these functions to get information about the books in the library.',
-  actionGroupExecutor: actionGroupFunction,
+  actionGroupExecutor: {
+    lambda: actionGroupFunction,
+  },
   actionGroupState: "ENABLED",
   apiSchema: bedrock.ApiSchema.fromAsset(path.join(__dirname, 'action-group.yaml')),
 });
@@ -383,7 +385,9 @@ actionGroup = bedrock.AgentActionGroup(self,
     "MyActionGroup",
     action_group_name="query-library",
     description="Use these functions to get information about the books in the library.",
-    action_group_executor=action_group_function,
+    action_group_executor= bedrock.ActionGroupExecutor(
+      lambda=action_group_function
+    ),
     action_group_state="ENABLED",
     api_schema=bedrock.ApiSchema.from_asset("action-group.yaml"))
 
