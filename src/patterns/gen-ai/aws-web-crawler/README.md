@@ -19,13 +19,13 @@
 
 ## Table of contents
 - [Overview](#overview)
-- [Web Crawler Agent for Amazon Bedrock](#web-crawler-agent-for-amazon-bedrock)
 - [Initializer](#initializer)
 - [Pattern Construct Props](#pattern-construct-props)
 - [Pattern Properties](#pattern-properties)
 - [Default properties](#default-properties)
 - [Crawler Output](#crawler-output)
 - [Architecture](#architecture)
+- [Web Crawler Agent for Amazon Bedrock](#web-crawler-agent-for-amazon-bedrock)
 - [Cost](#cost)
 - [Security](#security)
 - [Supported AWS Regions](#supported-aws-regions)
@@ -97,44 +97,6 @@ class SampleStack(Stack):
                 }
             ]
         )
-```
-
-## Web Crawler Agent for Amazon Bedrock
-
-The WebCrawler construct also provides a Lambda Crawler function that can be used as an action in the Amazon Bedrock Agent. Here is an example of an agent capable of accessing the web.
-
-```typescript
-import * as cdk from 'aws-cdk-lib';
-import { Construct } from 'constructs';
-import { WebCrawler, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
-
-export class WebCrawlerAgentStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
-    super(scope, id, props);
-
-    const crawler = new WebCrawler(this, 'WebCrawler', {
-      enableLambdaCrawler: true,
-    });
-
-    const agent = new bedrock.Agent(this, 'WebAgent', {
-      foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
-      instruction: `You are a helpful and friendly agent with access to the internet. 
-      You can get content from web pages provided by an URL. 
-      You can summarize web pages.`,
-    });
-
-    agent.addActionGroup(
-      new bedrock.AgentActionGroup(this, 'WebCrawlerActionGroup', {
-        actionGroupName: 'web-crawler',
-        description: 'Use this function to get content from a web page by HTTP or HTTPS URL',
-        actionGroupExecutor: crawler.lambdaCrawler,
-        actionGroupState: 'ENABLED',
-        apiSchema: bedrock.ApiSchema.fromAsset(crawler.lambdaCrawlerApiSchemaPath),
-      }),
-    );
-  }
-}
-
 ```
 
 ## Initializer
@@ -273,6 +235,44 @@ Operations:
 
 ## Architecture
 ![Architecture Diagram](architecture.png)
+
+## Web Crawler Agent for Amazon Bedrock
+
+The WebCrawler construct also provides a Lambda Crawler function that can be used as an action in the Amazon Bedrock Agent. Here is an example of an agent capable of accessing the web.
+
+```typescript
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { WebCrawler, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
+
+export class WebCrawlerAgentStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+
+    const crawler = new WebCrawler(this, 'WebCrawler', {
+      enableLambdaCrawler: true,
+    });
+
+    const agent = new bedrock.Agent(this, 'WebAgent', {
+      foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
+      instruction: `You are a helpful and friendly agent with access to the internet. 
+      You can get content from web pages provided by an URL. 
+      You can summarize web pages.`,
+    });
+
+    agent.addActionGroup(
+      new bedrock.AgentActionGroup(this, 'WebCrawlerActionGroup', {
+        actionGroupName: 'web-crawler',
+        description: 'Use this function to get content from a web page by HTTP or HTTPS URL',
+        actionGroupExecutor: crawler.lambdaCrawler,
+        actionGroupState: 'ENABLED',
+        apiSchema: bedrock.ApiSchema.fromAsset(crawler.lambdaCrawlerApiSchemaPath),
+      }),
+    );
+  }
+}
+
+```
 
 ## Cost
 
