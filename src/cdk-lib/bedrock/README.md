@@ -584,12 +584,12 @@ const guardrails = new bedrock.Guardrail(this,'bedrockGuardrails',{
    // Optional - Add Sensitive information filters
 
     guardrails.addSensitiveInformationPolicyConfig([{
-      type: PersonalIdentifiableInformation.EMAIL,
-      action:   PiiEntitiesConfigAction.BLOCK
+      type: bedrock.General.EMAIL,
+      action: bedrock.PiiEntitiesConfigAction.BLOCK
     },
     {
-        type: PersonalIdentifiableInformation.USERNAME,
-        action:   PiiEntitiesConfigAction.BLOCK  
+        type: bedrock.General.USERNAME,
+        action: bedrock.PiiEntitiesConfigAction.BLOCK
     }],{
         name: "CUSTOMER_ID", 
         description: "customer id",
@@ -600,21 +600,23 @@ const guardrails = new bedrock.Guardrail(this,'bedrockGuardrails',{
     // Optional - Add Denied topics . You can use default Topic or create your custom Topic with createTopic function. The default Topics can also be overwritten.
 
     const topic = new Topic(this,'topic');
-    topic.financialAdviceTopic()
-    topic.politicalAdviceTopic()
+    topic.financialAdviceTopic();
+    topic.politicalAdviceTopic();
     
-    guardrails.addTopicPolicyConfig(topic)
+    guardrails.addTopicPolicyConfig(topic);
 
     // Optional - Add Word filters. You can upload words from a file with uploadWordPolicyFromFile function.
 
-     guardrails.uploadWordPolicyFromFile('./scripts/wordsPolicy.csv')
+    guardrails.uploadWordPolicyFromFile('./scripts/wordsPolicy.csv');
+
+    guardrails.addVersion('id1','testversion');
     
 ```
 
 Python
 ```python
 
-guardrails =  bedrock.Guardrail(
+    guardrails = bedrock.Guardrail(
         self,
         'bedrockGuardrails',
         name= "my-BedrockGuardrails",
@@ -622,19 +624,22 @@ guardrails =  bedrock.Guardrail(
     )
     #Optional - Add Sensitive information filters
 
-    guardrails.add_sensitive_information_policy_config([{
-      type= personal_identifiable_information.EMAIL,
-      action=   pii_entities_config_action.BLOCK
-    },
-    {
-        type: personal_identifiable_information.USERNAME,
-        action:   pii_entities_config_action.BLOCK  
-    }],{
+    guardrails.add_sensitive_information_policy_config(
+        props= [ 
+            bedrock.SensitiveInformationPolicyConfigProps(
+                type= bedrock.General.EMAIL,
+                action= bedrock.PiiEntitiesConfigAction.BLOCK
+            ),
+            bedrock.SensitiveInformationPolicyConfigProps(
+                type= bedrock.General.USERNAME,
+                action= bedrock.PiiEntitiesConfigAction.BLOCK
+            ),
+        ],
         name= "CUSTOMER_ID", 
         description= "customer id",
         pattern= "/^[A-Z]{2}\d{6}$/",
-        action= "BLOCK", 
-    })
+        action= "BLOCK"
+    )
 
     #Optional - Add Denied topics . You can use default Topic or create your custom Topic with createTopic function. The default Topics can also be overwritten.
 
@@ -646,5 +651,7 @@ guardrails =  bedrock.Guardrail(
 
     #Optional - Add Word filters. You can upload words from a file with uploadWordPolicyFromFile function.
 
-     guardrails.upload_word_policy_from_file('./scripts/wordsPolicy.csv')  
+    guardrails.upload_word_policy_from_file('./scripts/wordsPolicy.csv')
+
+    guardrails.add_version('id1', 'testversion');  
 ```
