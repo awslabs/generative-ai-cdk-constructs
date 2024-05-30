@@ -25,6 +25,8 @@ splitting them up such that each file corresponds to a chunk.
 • **DEFAULT** = ``"DEFAULT"``
 
 `FIXED_SIZE` with the default chunk size of 300 tokens and 20% overlap.
+If default is selected, chunk size and overlap set by the user will be
+ignored.
 
 ___
 
