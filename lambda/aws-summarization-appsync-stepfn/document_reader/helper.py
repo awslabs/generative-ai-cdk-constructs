@@ -11,9 +11,11 @@
 # and limitations under the License.
 #
 from typing import Dict
+from aiohttp import ClientError
 import boto3
 from PyPDF2 import PdfReader
-
+import tempfile
+import os
 from aws_lambda_powertools import Logger, Tracer
 from s3inmemoryloader import S3FileLoaderInMemory
 
@@ -22,6 +24,8 @@ tracer = Tracer(service="SUMMARY_DOCUMENT_READER")
 
 s3 = boto3.resource('s3')
 rekognition_client=boto3.client('rekognition')
+
+s3_client = boto3.client('s3')
 
 @tracer.capture_method
 def read_file_from_s3(bucket, key):
@@ -42,10 +46,10 @@ def check_file_exists(bucket,key):
         return True
     except s3_client.exceptions.ClientError as exp:
         if exp.response['Error']['Code'] == '404':
-            logger.exception('Object doesn\'t exist')
+            logger.info('Object doesn\'t already exist in tranformed bucket, processing it now.. ')
             return False 
         else:
-            logger.exception('An error occured')
+            logger.exception('Object doesn\'t already exist in tranformed bucket, processing it now..')
             return False
 
 
@@ -73,11 +77,15 @@ def get_file_transformation(transformed_asset_bucket,transformed_file_name,
                 response['name'] = transformed_file_name
                 response['summary']=''
             else:
-                with open(original_file_name, "rb") as img_file:
+                input_file= download_file(input_asset_bucket,original_file_name)
+                with open(input_file, "rb") as img_file:
                     image_bytes = {"Bytes": img_file.read()}
                 if(moderate_image(image_bytes) is False):
                      logger.info("Upload image to processed assets bucket")
-                     s3.Bucket(transformed_asset_bucket).put_object(Key=original_file_name, Body=image_bytes)
+                     s3_client.copy_object(Bucket=transformed_asset_bucket, 
+                                           Key=original_file_name, 
+                                           CopySource=input_asset_bucket+'/'+original_file_name
+                                            )
                      response['status'] = 'File transformed'
                      response['name'] = original_file_name
                      response['summary']=''
@@ -85,6 +93,19 @@ def get_file_transformation(transformed_asset_bucket,transformed_file_name,
     else:   
             logger.info("File already exists,skip transformation.")           
     return response
+
+def download_file(bucket,key )-> str:
+        try: 
+            file_path = os.path.join(tempfile.gettempdir(), os.path.basename(key))
+            s3_client.download_file(bucket, key,file_path)
+            logger.info(f"file downloaded {file_path}")
+            return file_path
+        except ClientError as client_err:
+            logger.error(f"Couldn\'t download file {key}/{file_path} from {bucket}: {client_err.response['Error']['Message']}")
+        
+        except Exception as exp:
+            logger.error(f"Couldn\'t download file {key}/{file_path} from {bucket}: {exp}")
+
 
 def moderate_image(image_bytes)-> str:
         isToxicImage = False

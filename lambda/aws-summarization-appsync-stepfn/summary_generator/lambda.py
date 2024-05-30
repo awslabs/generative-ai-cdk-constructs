@@ -48,8 +48,8 @@ metrics = Metrics(namespace="summary_pipeline", service="SUMMARY_GENERATION")
 
 transformed_bucket_name = os.environ["ASSET_BUCKET_NAME"]
 chain_type = os.environ["SUMMARY_LLM_CHAIN_TYPE"]
-
 bedrock_client = boto3.client('bedrock-runtime')
+
 
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler
@@ -142,9 +142,9 @@ def generate_summary(_summary_llm,inputFile,language)-> str:
 def generate_summary_for_image(_summary_llm,base64_images,language)-> str:
     
     logger.info(f" generating image description...") 
-    prompt ="Describe this image."
-    
-    system_message = "Respond only in {language}."
+    prompt =f"Think step by step and then describe this image in {language} language."
+     
+    system_message = f"Respond only in {language}."
     human_message=[
         
             {
@@ -161,8 +161,7 @@ def generate_summary_for_image(_summary_llm,base64_images,language)-> str:
             
             }
        ]
-    #ai_message = "Here is my response after thinking step by step ."
-    ai_message = "Here is my response in 50 words." 
+    ai_message = "Here is my response after thinking step by step ." 
     prompt = ChatPromptTemplate.from_messages(
     [
         SystemMessage(content=system_message),
@@ -172,4 +171,4 @@ def generate_summary_for_image(_summary_llm,base64_images,language)-> str:
     )
 
     chain = prompt | _summary_llm | StrOutputParser()
-    chain.invoke({"question": "Describe the image"})
+    chain.invoke({"question": prompt})
