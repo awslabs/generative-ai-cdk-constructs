@@ -323,7 +323,15 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
           ],
         },
         "Name": "test-docs",
-        "VectorIngestionConfiguration": {},
+        "VectorIngestionConfiguration": {
+          "ChunkingConfiguration": {
+            "ChunkingStrategy": "FIXED_SIZE",
+            "FixedSizeChunkingConfiguration": {
+              "MaxTokens": 300,
+              "OverlapPercentage": 20,
+            },
+          },
+        },
       },
       "Type": "AWS::Bedrock::DataSource",
     },
