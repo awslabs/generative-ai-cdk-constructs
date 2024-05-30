@@ -23,6 +23,7 @@
 - [jobQueue](WebCrawler.md#jobqueue)
 - [jobsTable](WebCrawler.md#jobstable)
 - [lambdaCrawler](WebCrawler.md#lambdacrawler)
+- [lambdaCrawlerApiSchemaPath](WebCrawler.md#lambdacrawlerapischemapath)
 - [lambdaTracing](WebCrawler.md#lambdatracing)
 - [node](WebCrawler.md#node)
 - [retention](WebCrawler.md#retention)
@@ -148,6 +149,14 @@ ___
 • `Readonly` **lambdaCrawler**: `undefined` \| `IFunction`
 
 Lambda crawler
+
+___
+
+### lambdaCrawlerApiSchemaPath
+
+• `Readonly` **lambdaCrawlerApiSchemaPath**: `string`
+
+Lambda crawler API schema path
 
 ___
 

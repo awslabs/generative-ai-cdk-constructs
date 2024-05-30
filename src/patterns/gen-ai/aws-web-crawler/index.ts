@@ -189,6 +189,10 @@ export class WebCrawler extends BaseClass {
    * Lambda crawler
    */
   public readonly lambdaCrawler: lambda.IFunction | undefined;
+  /**
+   * Lambda crawler API schema path
+   */
+  public readonly lambdaCrawlerApiSchemaPath: string;
 
   /**
    * @summary Constructs a new instance of the WebCrawler class.
@@ -437,17 +441,13 @@ export class WebCrawler extends BaseClass {
       true,
     );
 
-    NagSuppressions.addResourceSuppressions(
-      webCrawlerContainer.executionRole,
-      [
-        {
-          id: 'AwsSolutions-IAM4',
-          reason:
-            'The AWSLambdaBasicExecutionRole managed policy is required for ' +
-            'the Lambda function to write logs to CloudWatch.',
-        },
-      ],
-    );
+    NagSuppressions.addResourceSuppressions(webCrawlerContainer.executionRole, [
+      {
+        id: 'AwsSolutions-IAM4',
+        reason:
+          'The AWSLambdaBasicExecutionRole managed policy is required for ' + 'the Lambda function to write logs to CloudWatch.',
+      },
+    ]);
 
     NagSuppressions.addResourceSuppressions(
       webCrawlerJobRole,
@@ -460,17 +460,13 @@ export class WebCrawler extends BaseClass {
       true,
     );
 
-    NagSuppressions.addResourceSuppressions(
-      webCrawlerJobRole,
-      [
-        {
-          id: 'AwsSolutions-IAM4',
-          reason:
-            'The AWSLambdaBasicExecutionRole managed policy is required for ' +
-            'the Lambda function to write logs to CloudWatch.',
-        },
-      ],
-    );
+    NagSuppressions.addResourceSuppressions(webCrawlerJobRole, [
+      {
+        id: 'AwsSolutions-IAM4',
+        reason:
+          'The AWSLambdaBasicExecutionRole managed policy is required for ' + 'the Lambda function to write logs to CloudWatch.',
+      },
+    ]);
 
     const webCrawlerJobDefinition = new batch.EcsJobDefinition(this, 'webCrawlerJob', {
       container: webCrawlerContainer,
@@ -570,7 +566,10 @@ export class WebCrawler extends BaseClass {
 
       NagSuppressions.addResourceSuppressionsByPath(
         cdk.Stack.of(this),
-        `${cdk.Stack.of(this).stackName}/AWS${cr.AwsCustomResource.PROVIDER_FUNCTION_UUID.replace(/-/g, '')}/ServiceRole/Resource`,
+        `${cdk.Stack.of(this).stackName}/AWS${cr.AwsCustomResource.PROVIDER_FUNCTION_UUID.replace(
+          /-/g,
+          '',
+        )}/ServiceRole/Resource`,
         [
           {
             id: 'AwsSolutions-IAM4',
@@ -608,15 +607,12 @@ export class WebCrawler extends BaseClass {
       },
     });
 
-    NagSuppressions.addResourceSuppressions(
-      schedulerFunction.role!,
-      [
-        {
-          id: 'AwsSolutions-IAM4',
-          reason: 'Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.',
-        },
-      ],
-    );
+    NagSuppressions.addResourceSuppressions(schedulerFunction.role!, [
+      {
+        id: 'AwsSolutions-IAM4',
+        reason: 'Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.',
+      },
+    ]);
 
     NagSuppressions.addResourceSuppressions(
       schedulerFunction.role!,
@@ -669,15 +665,12 @@ export class WebCrawler extends BaseClass {
         true,
       );
 
-      NagSuppressions.addResourceSuppressions(
-        lambdaCrawler.role!,
-        [
-          {
-            id: 'AwsSolutions-IAM4',
-            reason: 'Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.',
-          },
-        ],
-      );
+      NagSuppressions.addResourceSuppressions(lambdaCrawler.role!, [
+        {
+          id: 'AwsSolutions-IAM4',
+          reason: 'Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.',
+        },
+      ]);
     }
 
     this.dataBucket = dataBucket;
@@ -686,5 +679,6 @@ export class WebCrawler extends BaseClass {
     this.jobsTable = jobsTable;
     this.jobQueue = jobQueue;
     this.webCrawlerJobDefinition = webCrawlerJobDefinition;
+    this.lambdaCrawlerApiSchemaPath = path.join(__dirname, '../../../../lambda/aws-web-crawler-lambda/action-group.yaml');
   }
 }
