@@ -358,7 +358,9 @@ const actionGroupFunction = new lambda_python.PythonFunction(this, 'ActionGroupF
 const actionGroup = new bedrock.AgentActionGroup(this,'MyActionGroup',{
   actionGroupName: 'query-library',
   description: 'Use these functions to get information about the books in the library.',
-  actionGroupExecutor: actionGroupFunction,
+  actionGroupExecutor: {
+    lambda: actionGroupFunction,
+  },
   actionGroupState: "ENABLED",
   apiSchema: bedrock.ApiSchema.fromAsset(path.join(__dirname, 'action-group.yaml')),
 });
@@ -383,7 +385,9 @@ actionGroup = bedrock.AgentActionGroup(self,
     "MyActionGroup",
     action_group_name="query-library",
     description="Use these functions to get information about the books in the library.",
-    action_group_executor=action_group_function,
+    action_group_executor= bedrock.ActionGroupExecutor(
+      lambda=action_group_function
+    ),
     action_group_state="ENABLED",
     api_schema=bedrock.ApiSchema.from_asset("action-group.yaml"))
 
@@ -552,4 +556,102 @@ alias = bedrock.AgentAlias(self, 'ProdAlias',
     alias_name='prod',
     agent_version='12'
 )
+```
+### Bedrock Guardrails
+
+Amazon Bedrock's Guardrails feature enables you to implement robust governance and control mechanisms for your generative AI applications, ensuring alignment with your specific use cases and responsible AI policies. Guardrails empowers you to create multiple tailored policy configurations, each designed to address the unique requirements and constraints of different use cases. These policy configurations can then be seamlessly applied across multiple foundation models (FMs) and Agents, ensuring a consistent user experience and standardizing safety, security, and privacy controls throughout your generative AI ecosystem.
+
+With Guardrails, you can define and enforce granular, customizable policies to precisely govern the behavior of your generative AI applications. You can configure the following policies in a guardrail to avoid undesirable and harmful content and remove sensitive information for privacy protection.
+
+Content filters – Adjust filter strengths to block input prompts or model responses containing harmful content.
+
+Denied topics – Define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses.
+
+Word filters – Configure filters to block undesirable words, phrases, and profanity. Such words can include offensive terms, competitor names etc.
+
+Sensitive information filters – Block or mask sensitive information such as personally identifiable information (PII) or custom regex in user inputs and model responses.
+
+You can create a Guardrail with a minimum blockedInputMessaging ,blockedOutputsMessaging and default content filter policy.
+
+TypeScript
+
+```ts
+const guardrails = new bedrock.Guardrail(this,'bedrockGuardrails',{
+        name: "my-BedrockGuardrails",
+        description: "Legal ethical guardrails.",
+    });
+
+   // Optional - Add Sensitive information filters
+
+    guardrails.addSensitiveInformationPolicyConfig([{
+      type: bedrock.General.EMAIL,
+      action: bedrock.PiiEntitiesConfigAction.BLOCK
+    },
+    {
+        type: bedrock.General.USERNAME,
+        action: bedrock.PiiEntitiesConfigAction.BLOCK
+    }],{
+        name: "CUSTOMER_ID", 
+        description: "customer id",
+        pattern: "/^[A-Z]{2}\d{6}$/",
+        action: "BLOCK", 
+    });
+
+    // Optional - Add Denied topics . You can use default Topic or create your custom Topic with createTopic function. The default Topics can also be overwritten.
+
+    const topic = new Topic(this,'topic');
+    topic.financialAdviceTopic();
+    topic.politicalAdviceTopic();
+    
+    guardrails.addTopicPolicyConfig(topic);
+
+    // Optional - Add Word filters. You can upload words from a file with uploadWordPolicyFromFile function.
+
+    guardrails.uploadWordPolicyFromFile('./scripts/wordsPolicy.csv');
+
+    guardrails.addVersion('id1','testversion');
+    
+```
+
+Python
+```python
+
+    guardrails = bedrock.Guardrail(
+        self,
+        'bedrockGuardrails',
+        name= "my-BedrockGuardrails",
+        description= "Legal ethical guardrails.",
+    )
+    #Optional - Add Sensitive information filters
+
+    guardrails.add_sensitive_information_policy_config(
+        props= [ 
+            bedrock.SensitiveInformationPolicyConfigProps(
+                type= bedrock.General.EMAIL,
+                action= bedrock.PiiEntitiesConfigAction.BLOCK
+            ),
+            bedrock.SensitiveInformationPolicyConfigProps(
+                type= bedrock.General.USERNAME,
+                action= bedrock.PiiEntitiesConfigAction.BLOCK
+            ),
+        ],
+        name= "CUSTOMER_ID", 
+        description= "customer id",
+        pattern= "/^[A-Z]{2}\d{6}$/",
+        action= "BLOCK"
+    )
+
+    #Optional - Add Denied topics . You can use default Topic or create your custom Topic with createTopic function. The default Topics can also be overwritten.
+
+    topic = bedrock.Topic(self,'topic')
+    topic.financial_advice_topic()
+    topic.political_advice_topic()
+    
+    guardrails.add_topic_policy_config(topic)
+
+    #Optional - Add Word filters. You can upload words from a file with uploadWordPolicyFromFile function.
+
+    guardrails.upload_word_policy_from_file('./scripts/wordsPolicy.csv')
+
+    guardrails.add_version('id1', 'testversion');  
 ```

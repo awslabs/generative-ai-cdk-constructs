@@ -13,6 +13,7 @@
 - [actionGroupState](bedrock.AgentActionGroupProps.md#actiongroupstate)
 - [apiSchema](bedrock.AgentActionGroupProps.md#apischema)
 - [description](bedrock.AgentActionGroupProps.md#description)
+- [functionSchema](bedrock.AgentActionGroupProps.md#functionschema)
 - [parentActionGroupSignature](bedrock.AgentActionGroupProps.md#parentactiongroupsignature)
 - [skipResourceInUseCheckOnDelete](bedrock.AgentActionGroupProps.md#skipresourceinusecheckondelete)
 
@@ -20,9 +21,7 @@
 
 ### actionGroupExecutor
 
-• `Optional` `Readonly` **actionGroupExecutor**: `IFunction`
-
-The Lambda function containing the business logic that is carried out upon invoking the action.
+• `Optional` `Readonly` **actionGroupExecutor**: [`ActionGroupExecutor`](bedrock.ActionGroupExecutor.md)
 
 ___
 
@@ -66,6 +65,14 @@ A description of the action group.
 **`Note`**
 
 This object is a Union. Only one member of this object can be specified or returned.
+
+___
+
+### functionSchema
+
+• `Optional` `Readonly` **functionSchema**: `FunctionSchemaProperty`
+
+Defines functions that each define parameters that the agent needs to invoke from the user.
 
 ___
 
