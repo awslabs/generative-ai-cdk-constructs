@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 import * as path from 'path';
-import { Duration, Aws, Stack } from 'aws-cdk-lib';
+import { Duration, Aws } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
@@ -31,7 +31,7 @@ import { ConstructName } from '../../../common/base-class/construct-name-enum';
 import * as eventBridge from '../../../common/helpers/eventbridge-helper';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import * as s3BucketHelper from '../../../common/helpers/s3-bucket-helper';
-import { generatePhysicalName, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
+import { lambdaMemorySizeLimiter, generatePhysicalNameV2 } from '../../../common/helpers/utils';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
 export interface SummarizationAppsyncStepfnProps {
@@ -198,6 +198,16 @@ export class SummarizationAppsyncStepfn extends BaseClass {
   public readonly graphqlApi: appsync.IGraphqlApi ;
 
   /**
+   * Graphql Api Id value
+   */
+  public readonly graphqlApiId: string ;
+
+  /**
+   *  Graphql Url value
+   */
+  public readonly graphqlUrl: string ;
+
+  /**
    * Returns the instance of ec2.IVpc used by the construct
    */
   public readonly vpc: ec2.IVpc;
@@ -313,8 +323,10 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       this.inputAssetBucket = new s3.Bucket(this,
         'inputAssetsSummaryBucket'+this.stage, props.bucketInputsAssetsProps);
     } else {
-      const bucketName= 'input-assets-summary-bucket'+this.stage+'-'+Aws.ACCOUNT_ID;
-      this.inputAssetBucket = new s3.Bucket(this, 'inputAssetsSummaryBucket'+this.stage,
+      const bucketName= generatePhysicalNameV2(this,
+        'input-assets-bucket'+this.stage,
+        { maxLength: 63, lower: true });
+      this.inputAssetBucket = new s3.Bucket(this, bucketName,
         {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
@@ -340,9 +352,11 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       this.processedAssetBucket = new s3.Bucket(this,
         'processedAssetsSummaryBucket'+this.stage, props.bucketProcessedAssetsProps);
     } else {
-      const bucketName= 'processed-assets-summary-bucket'+this.stage+'-'+Aws.ACCOUNT_ID;
+      const bucketName= generatePhysicalNameV2(this,
+        'processed-assets-bucket'+this.stage,
+        { maxLength: 63, lower: true });
 
-      this.processedAssetBucket = new s3.Bucket(this, 'processedAssetsSummaryBucket'+this.stage,
+      this.processedAssetBucket = new s3.Bucket(this, bucketName,
         {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
@@ -376,10 +390,12 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       ],
     };
 
-    const apiName = props.summaryApiName || 'summaryApi';
+    const apiName = props.summaryApiName || generatePhysicalNameV2(this,
+      'summaryApi'+this.stage,
+      { maxLength: 32, lower: true });
 
     // graphql api for summary. client invoke this api with given schema and cognito user pool auth.
-    const summarizationGraphqlApi = new appsync.GraphqlApi(this, 'summarizationGraphqlApi'+this.stage,
+    const summarizationGraphqlApi = new appsync.GraphqlApi(this, apiName,
       {
         name: apiName+this.stage,
         logConfig: {
@@ -393,6 +409,8 @@ export class SummarizationAppsyncStepfn extends BaseClass {
         xrayEnabled: this.enablexray,
       });
     this.graphqlApi= summarizationGraphqlApi;
+    this.graphqlApiId = summarizationGraphqlApi.apiId;
+    this.graphqlUrl= summarizationGraphqlApi.graphqlUrl;
 
     // If the user provides a mergedApi endpoint, the lambda
     // functions will use this endpoint to send their status updates
@@ -473,7 +491,9 @@ export class SummarizationAppsyncStepfn extends BaseClass {
 
     const construct_input_validation_lambda_props = {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/input_validator')),
-      functionName: 'summary_input_validator'+this.stage,
+      functionName: generatePhysicalNameV2(this,
+        'summary_input_validator'+this.stage,
+        { maxLength: 63, lower: true }),
       description: 'Lambda function to validate input for summary api',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
@@ -669,8 +689,11 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       true,
     );
 
+    const functionName = generatePhysicalNameV2(this,
+      'summary_generator'+this.stage,
+      { maxLength: 32, lower: true });
     const construct_generate_summary_lambda_props = {
-      functionName: 'summary_generator'+this.stage,
+      functionName: functionName,
       description: 'Lambda function to generate the summary',
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/summary_generator')),
       vpc: this.vpc,
@@ -689,7 +712,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
 
     // Lambda function used to generate the summary in the step function
     const generateSummarylambda = buildDockerLambdaFunction(this,
-      'generateSummarylambda' + this.stage,
+      functionName,
       construct_generate_summary_lambda_props,
       props.customSummaryGeneratorDockerLambdaProps,
     );
@@ -729,7 +752,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       resultPath: '$.validation_result',
     });
 
-    const documentReaderTask = new sfnTask.LambdaInvoke(this, 'Read document and check summary in cache ', {
+    const documentReaderTask = new sfnTask.LambdaInvoke(this, 'Read document.', {
       lambdaFunction: documentReaderLambda,
       resultPath: '$.document_result',
     });
@@ -741,7 +764,9 @@ export class SummarizationAppsyncStepfn extends BaseClass {
     });
 
     const dlq: sqs.Queue = new sqs.Queue(this, 'dlq', {
-      queueName: 'summarydlq'+this.stage,
+      queueName: generatePhysicalNameV2(this,
+        'summarydlq'+this.stage,
+        { maxLength: 32, lower: true }),
       retentionPeriod: Duration.days(7),
       enforceSSL: true,
     });
@@ -783,12 +808,9 @@ export class SummarizationAppsyncStepfn extends BaseClass {
     const maxLogGroupNameLength = 255;
     const logGroupPrefix = '/aws/vendedlogs/states/constructs/';
     const maxGeneratedNameLength = maxLogGroupNameLength - logGroupPrefix.length;
-    const nameParts: string[] = [
-      Stack.of(scope).stackName, // Name of the stack
-      scope.node.id, // Construct ID
-      'StateMachineLogSummarization', // Literal string for log group name portion
-    ];
-    const logGroupName = generatePhysicalName(logGroupPrefix, nameParts, maxGeneratedNameLength);
+
+    const logGroupName = generatePhysicalNameV2(this, logGroupPrefix,
+      { maxLength: maxGeneratedNameLength, lower: true });
     const summarizationLogGroup = new logs.LogGroup(this, 'summarizationLogGroup', {
       logGroupName: logGroupName,
     });

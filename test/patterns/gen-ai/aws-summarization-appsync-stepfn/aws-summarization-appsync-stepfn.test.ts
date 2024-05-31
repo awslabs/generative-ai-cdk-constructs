@@ -126,9 +126,9 @@ describe('Summarization Appsync Stepfn construct', () => {
               'GraphQLUrl',
             ],
           },
-          INPUT_ASSET_BUCKET: { Ref: Match.stringLikeRegexp('testinputAssetsSummaryBucketdev') },
+          INPUT_ASSET_BUCKET: { Ref: Match.stringLikeRegexp('testinputassetsbucket') },
           IS_FILE_TRANSFORMED: 'false',
-          TRANSFORMED_ASSET_BUCKET: { Ref: Match.stringLikeRegexp('testprocessedAssetsSummaryBucket') },
+          TRANSFORMED_ASSET_BUCKET: { Ref: Match.stringLikeRegexp('testprocessedassetsbucket') },
         },
       },
     });
@@ -139,7 +139,7 @@ describe('Summarization Appsync Stepfn construct', () => {
         Variables: {
           ASSET_BUCKET_NAME: {
             Ref: Match.stringLikeRegexp
-            ('testprocessedAssetsSummaryBucket'),
+            ('testprocessedassetsbucket'),
           },
           GRAPHQL_URL: {
             'Fn::GetAtt': [
