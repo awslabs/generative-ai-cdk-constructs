@@ -1,6 +1,10 @@
 {
   "dependencies": [
     {
+      "name": "@aws-cdk/assert",
+      "type": "build"
+    },
+    {
       "name": "@commitlint/config-conventional",
       "type": "build"
     },
@@ -123,7 +127,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.141.0",
+      "version": "^2.143.0",
       "type": "peer"
     },
     {

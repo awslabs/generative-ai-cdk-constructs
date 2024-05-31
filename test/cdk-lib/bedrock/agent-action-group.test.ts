@@ -72,7 +72,9 @@ describe('AgentActionGroup', () => {
         actionGroupName: 'GetBookInformation',
         description: 'Use these functions to get information about the books in the Project Gutenburg library.',
         parentActionGroupSignature: 'AMAZON.UserInput',
-        actionGroupExecutor: actionGroupFunction,
+        actionGroupExecutor: {
+          lambda: actionGroupFunction,
+        },
         actionGroupState: 'ENABLED',
         apiSchema: bedrock.ApiSchema.fromInline(actionGroupAPISpec),
       });
@@ -84,7 +86,9 @@ describe('AgentActionGroup', () => {
     new bedrock.AgentActionGroup(stack, 'ActionGroup', {
       actionGroupName: 'GetBookInformation',
       description: 'Use these functions to get information about the books in the Project Gutenburg library.',
-      actionGroupExecutor: actionGroupFunction,
+      actionGroupExecutor: {
+        lambda: actionGroupFunction,
+      },
       actionGroupState: 'ENABLED',
       apiSchema: bedrock.ApiSchema.fromInline(actionGroupAPISpec),
     });
