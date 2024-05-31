@@ -207,6 +207,8 @@
 - [HUGGINGFACE\_LLM\_FALCON\_7B\_BF16\_2\_2\_2](JumpStartModel.md#huggingface_llm_falcon_7b_bf16_2_2_2)
 - [HUGGINGFACE\_LLM\_FALCON\_7B\_BF16\_2\_2\_3](JumpStartModel.md#huggingface_llm_falcon_7b_bf16_2_2_3)
 - [HUGGINGFACE\_LLM\_FALCON\_7B\_BF16\_2\_2\_4](JumpStartModel.md#huggingface_llm_falcon_7b_bf16_2_2_4)
+- [HUGGINGFACE\_LLM\_FALCON\_7B\_BF16\_3\_0\_0](JumpStartModel.md#huggingface_llm_falcon_7b_bf16_3_0_0)
+- [HUGGINGFACE\_LLM\_FALCON\_7B\_BF16\_4\_0\_0](JumpStartModel.md#huggingface_llm_falcon_7b_bf16_4_0_0)
 - [HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_1\_0\_0](JumpStartModel.md#huggingface_llm_falcon_7b_instruct_bf16_1_0_0)
 - [HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_1\_1\_0](JumpStartModel.md#huggingface_llm_falcon_7b_instruct_bf16_1_1_0)
 - [HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_1\_1\_1](JumpStartModel.md#huggingface_llm_falcon_7b_instruct_bf16_1_1_1)
@@ -224,6 +226,8 @@
 - [HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_2\_2\_2](JumpStartModel.md#huggingface_llm_falcon_7b_instruct_bf16_2_2_2)
 - [HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_2\_2\_3](JumpStartModel.md#huggingface_llm_falcon_7b_instruct_bf16_2_2_3)
 - [HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_2\_2\_4](JumpStartModel.md#huggingface_llm_falcon_7b_instruct_bf16_2_2_4)
+- [HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_3\_0\_0](JumpStartModel.md#huggingface_llm_falcon_7b_instruct_bf16_3_0_0)
+- [HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_4\_0\_0](JumpStartModel.md#huggingface_llm_falcon_7b_instruct_bf16_4_0_0)
 - [HUGGINGFACE\_LLM\_GARAGE\_BAIND\_PLATYPUS2\_7B\_1\_0\_0](JumpStartModel.md#huggingface_llm_garage_baind_platypus2_7b_1_0_0)
 - [HUGGINGFACE\_LLM\_GARAGE\_BAIND\_PLATYPUS2\_7B\_1\_1\_0](JumpStartModel.md#huggingface_llm_garage_baind_platypus2_7b_1_1_0)
 - [HUGGINGFACE\_LLM\_GEMMA\_2B\_1\_0\_0](JumpStartModel.md#huggingface_llm_gemma_2b_1_0_0)
@@ -2953,6 +2957,18 @@ ___
 
 ___
 
+### HUGGINGFACE\_LLM\_FALCON\_7B\_BF16\_3\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_FALCON\_7B\_BF16\_3\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### HUGGINGFACE\_LLM\_FALCON\_7B\_BF16\_4\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_FALCON\_7B\_BF16\_4\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
 ### HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_1\_0\_0
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -3052,6 +3068,18 @@ ___
 ### HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_2\_2\_4
 
 ▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_2\_2\_4**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_3\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_3\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+___
+
+### HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_4\_0\_0
+
+▪ `Static` `Readonly` **HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_4\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ___
 
