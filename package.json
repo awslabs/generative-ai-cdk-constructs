@@ -76,7 +76,7 @@
     "constructs": "^10.3.0"
   },
   "dependencies": {
-    "cdk-nag": "^2.28.127",
+    "cdk-nag": "^2.28.128",
     "deepmerge": "^4.3.1"
   },
   "bundledDependencies": [
