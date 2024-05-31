@@ -17,12 +17,23 @@ import { Construct } from 'constructs';
 import { ApiSchema, ApiSchemaConfig } from './api-schema';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 
-export interface AgentActionGroupProps {
-
+export interface ActionGroupExecutor {
   /**
    * The Lambda function containing the business logic that is carried out upon invoking the action.
    */
-  readonly actionGroupExecutor?: lambda.IFunction;
+  readonly lambda?: lambda.IFunction;
+  /**
+   * To return the action group invocation results directly in the InvokeAgent response, specify RETURN_CONTROL .
+   */
+  readonly customControl?: string;
+}
+
+export interface AgentActionGroupProps {
+  /*
+   * Contains details about the Lambda function containing the business logic that is carried out upon invoking
+   * the action or the custom control method for handling the information elicited from the user.
+   */
+  readonly actionGroupExecutor?: ActionGroupExecutor;
   /**
    * The name of the action group.
    *
@@ -45,6 +56,11 @@ export interface AgentActionGroupProps {
    */
   readonly description?: string;
   /**
+   * Defines functions that each define parameters that the agent needs to invoke from the user.
+   *
+   */
+  readonly functionSchema?: bedrock.CfnAgent.FunctionSchemaProperty;
+  /**
    * If you specify this value as AMAZON.UserInput, the agent will prompt additional information from the user when it
    * doesn't have enough information to respond to an utterance. Leave this field blank if you don't want the agent to
    * prompt additional information.
@@ -66,7 +82,7 @@ export class AgentActionGroup extends Construct {
   /**
    * The Lambda function containing the business logic that is carried out upon invoking the action.
    */
-  public readonly actionGroupExecutor: lambda.IFunction | undefined;
+  public readonly actionGroupExecutor: ActionGroupExecutor | undefined;
 
   /**
    * The action group.
@@ -100,6 +116,11 @@ export class AgentActionGroup extends Construct {
    */
   public readonly skipResourceInUseCheckOnDelete: boolean | undefined;
 
+  /**
+   * A list of action groups associated with the agent
+   */
+  public readonly functionSchema: bedrock.CfnAgent.FunctionSchemaProperty | undefined;
+
   constructor(scope: Construct, id: string, props: AgentActionGroupProps) {
     super(scope, id);
 
@@ -117,14 +138,13 @@ export class AgentActionGroup extends Construct {
 
     let actionGroupExecutorProperty: bedrock.CfnAgent.ActionGroupExecutorProperty | undefined;
 
-    if (props.actionGroupExecutor?.functionArn) {
+    if (props.actionGroupExecutor) {
       actionGroupExecutorProperty = {
-        lambda: props.
-          actionGroupExecutor.functionArn,
+        lambda: props.actionGroupExecutor.lambda?.functionArn,
+        customControl: props.actionGroupExecutor.customControl,
       };
       this.actionGroupExecutor = props.actionGroupExecutor;
-
-    }
+    };
 
     const agentActionGroupProperty: bedrock.CfnAgent.AgentActionGroupProperty = {
       actionGroupName: actionGroupName,
@@ -133,8 +153,8 @@ export class AgentActionGroup extends Construct {
       apiSchema: apiSchema,
       description: props.description,
       parentActionGroupSignature: props.parentActionGroupSignature,
+      functionSchema: props.functionSchema,
       skipResourceInUseCheckOnDelete: skipResourceInUseCheckOnDelete,
-
     };
 
     this.actionGroupProperty=agentActionGroupProperty;
@@ -144,6 +164,7 @@ export class AgentActionGroup extends Construct {
     this.parentActionGroupSignature = props.parentActionGroupSignature;
     this.actionGroupState = props.actionGroupState;
     this.skipResourceInUseCheckOnDelete = skipResourceInUseCheckOnDelete;
+    this.functionSchema = props.functionSchema;
   }
 }
 

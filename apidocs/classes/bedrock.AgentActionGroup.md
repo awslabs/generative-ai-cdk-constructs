@@ -24,6 +24,7 @@
 - [actionGroupState](bedrock.AgentActionGroup.md#actiongroupstate)
 - [apiSchema](bedrock.AgentActionGroup.md#apischema)
 - [description](bedrock.AgentActionGroup.md#description)
+- [functionSchema](bedrock.AgentActionGroup.md#functionschema)
 - [node](bedrock.AgentActionGroup.md#node)
 - [parentActionGroupSignature](bedrock.AgentActionGroup.md#parentactiongroupsignature)
 - [skipResourceInUseCheckOnDelete](bedrock.AgentActionGroup.md#skipresourceinusecheckondelete)
@@ -59,7 +60,7 @@ Construct.constructor
 
 ### actionGroupExecutor
 
-• `Readonly` **actionGroupExecutor**: `undefined` \| `IFunction`
+• `Readonly` **actionGroupExecutor**: `undefined` \| [`ActionGroupExecutor`](../interfaces/bedrock.ActionGroupExecutor.md)
 
 The Lambda function containing the business logic that is carried out upon invoking the action.
 
@@ -102,6 +103,14 @@ ___
 • `Readonly` **description**: `undefined` \| `string`
 
 The description.
+
+___
+
+### functionSchema
+
+• `Readonly` **functionSchema**: `undefined` \| `FunctionSchemaProperty`
+
+A list of action groups associated with the agent
 
 ___
 
