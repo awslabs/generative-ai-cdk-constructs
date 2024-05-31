@@ -22,6 +22,8 @@
 - [eventBridgeBus](SummarizationAppsyncStepfn.md#eventbridgebus)
 - [fieldLogLevel](SummarizationAppsyncStepfn.md#fieldloglevel)
 - [graphqlApi](SummarizationAppsyncStepfn.md#graphqlapi)
+- [graphqlApiId](SummarizationAppsyncStepfn.md#graphqlapiid)
+- [graphqlUrl](SummarizationAppsyncStepfn.md#graphqlurl)
 - [inputAssetBucket](SummarizationAppsyncStepfn.md#inputassetbucket)
 - [inputValidationLambdaFunction](SummarizationAppsyncStepfn.md#inputvalidationlambdafunction)
 - [lambdaTracing](SummarizationAppsyncStepfn.md#lambdatracing)
@@ -142,6 +144,22 @@ ___
 • `Readonly` **graphqlApi**: `IGraphqlApi`
 
 Returns an instance of appsync.CfnGraphQLApi for summary created by the construct
+
+___
+
+### graphqlApiId
+
+• `Readonly` **graphqlApiId**: `string`
+
+Graphql Api Id value
+
+___
+
+### graphqlUrl
+
+• `Readonly` **graphqlUrl**: `string`
+
+Graphql Url value
 
 ___
 
