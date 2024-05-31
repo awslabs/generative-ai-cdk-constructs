@@ -117,7 +117,6 @@ export class BaseClass extends Construct {
   }
 
   /*
-  * If enableOperationalMetric is set to true,
   * update template description with construct usage metric and
   * add AWS_SDK_UA_APP_ID to user agent on aws sdk.
   */
