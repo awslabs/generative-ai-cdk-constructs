@@ -188,7 +188,7 @@ export class Crawler {
         transformRequestFunction: (req) => {
           if (fileTypes.has(Utils.getFileType(req.url) ?? '')) return false;
 
-          if (this.targetDataItem.ignore_robots_txt !== true && this.robots && !this.robots.every((c) => c.isAllowed(req.url))) {
+          if (this.robots && !this.robots.every((c) => c.isAllowed(req.url))) {
             return false;
           }
 

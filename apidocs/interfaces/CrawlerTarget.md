@@ -9,7 +9,6 @@
 - [crawlIntervalHours](CrawlerTarget.md#crawlintervalhours)
 - [downloadFiles](CrawlerTarget.md#downloadfiles)
 - [fileTypes](CrawlerTarget.md#filetypes)
-- [ignoreRobotsTxt](CrawlerTarget.md#ignorerobotstxt)
 - [maxFiles](CrawlerTarget.md#maxfiles)
 - [maxRequests](CrawlerTarget.md#maxrequests)
 - [targetType](CrawlerTarget.md#targettype)
@@ -55,20 +54,6 @@ File types (extensions) to be downloaded.
 
 ```ts
 - all file types
-```
-
-___
-
-### ignoreRobotsTxt
-
-• `Optional` `Readonly` **ignoreRobotsTxt**: `boolean`
-
-Index pages that are disallowed by the robots.txt policy.
-
-**`Default`**
-
-```ts
-- false
 ```
 
 ___

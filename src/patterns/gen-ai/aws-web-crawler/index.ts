@@ -71,12 +71,6 @@ export interface CrawlerTarget {
    */
   readonly fileTypes?: string[];
   /**
-   * Index pages that are disallowed by the robots.txt policy.
-   *
-   * @default - false
-   */
-  readonly ignoreRobotsTxt?: boolean;
-  /**
    * Schedule the crawler to run every N hours following the completion of the previous job.
    *
    * @default - not scheduled
@@ -514,7 +508,6 @@ export class WebCrawler extends BaseClass {
               max_files: { N: `${target.maxFiles ?? 0}` },
               download_files: { BOOL: target.downloadFiles ?? true },
               file_types: { L: target.fileTypes ?? [] },
-              ignore_robots_txt: { BOOL: target.ignoreRobotsTxt ?? false },
               crawl_interval_hours: { N: `${target.crawlIntervalHours ?? 0}` },
               last_finished_job_id: { S: '' },
               last_finished_job_date: { S: '' },
@@ -533,14 +526,13 @@ export class WebCrawler extends BaseClass {
               target_url: { S: targetUrl },
             },
             UpdateExpression:
-              'SET target_type = :target_type, max_requests = :max_requests, max_files = :max_files, download_files = :download_files, file_types = :file_types, ignore_robots_txt = :ignore_robots_txt, crawl_interval_hours = :crawl_interval_hours',
+              'SET target_type = :target_type, max_requests = :max_requests, max_files = :max_files, download_files = :download_files, file_types = :file_types, crawl_interval_hours = :crawl_interval_hours',
             ExpressionAttributeValues: {
               ':target_type': { S: target.targetType },
               ':max_requests': { N: `${target.maxRequests ?? 0}` },
               ':max_files': { N: `${target.maxFiles ?? 0}` },
               ':download_files': { BOOL: target.downloadFiles ?? true },
               ':file_types': { L: target.fileTypes ?? [] },
-              ':ignore_robots_txt': { BOOL: target.ignoreRobotsTxt ?? false },
               ':crawl_interval_hours': { N: `${target.crawlIntervalHours ?? 0}` },
             },
             ReturnValues: 'UPDATED_NEW',
