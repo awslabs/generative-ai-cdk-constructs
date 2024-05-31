@@ -27,19 +27,6 @@ export interface BaseClassProps {
    */
   readonly stage?: string;
 
-
-  /**
-   * Optional.CDK constructs provided collects anonymous operational
-   * metrics to help AWS improve the quality and features of the
-   * constructs. Data collection is subject to the AWS Privacy Policy
-   * (https://aws.amazon.com/privacy/). To opt out of this feature,
-   * simply disable it by setting the construct property
-   * "enableOperationalMetric" to false for each construct used.
-   *
-   * @default - true
-   */
-  readonly enableOperationalMetric?: boolean;
-
   /**
    * name of the construct.
    *
@@ -138,34 +125,28 @@ export class BaseClass extends Construct {
   ) {
     const solutionId = `genai_cdk_${version}/${props.constructName}/${props.constructId}`;
 
-    const enableOperationalMetric =
-      props.enableOperationalMetric !== undefined &&
-      props.enableOperationalMetric !== null ? props.enableOperationalMetric : true;
-
-    if (enableOperationalMetric) {
-      if (lambdaFunctions
-          && lambdaFunctions.length > 0) {
-        for (let lambdaFunction of lambdaFunctions) {
-          lambdaFunction.addEnvironment(
-            'AWS_SDK_UA_APP_ID', solutionId,
-          );
-        }
+    if (lambdaFunctions
+        && lambdaFunctions.length > 0) {
+      for (let lambdaFunction of lambdaFunctions) {
+        lambdaFunction.addEnvironment(
+          'AWS_SDK_UA_APP_ID', solutionId,
+        );
       }
+    }
 
-      if (props && BaseClass.usageMetricMap.hasOwnProperty(props.constructName)) {
-        BaseClass.usageMetricMap[props.constructName]=BaseClass.usageMetricMap[props.constructName]+1;
-      } else {
-        throw Error('construct name is not present in usageMetricMap ');
-      }
+    if (props && BaseClass.usageMetricMap.hasOwnProperty(props.constructName)) {
+      BaseClass.usageMetricMap[props.constructName]=BaseClass.usageMetricMap[props.constructName]+1;
+    } else {
+      throw Error('construct name is not present in usageMetricMap ');
+    }
 
-      const usageMetricMapSerialized = JSON.stringify(BaseClass.usageMetricMap).replace(/[{}]/g, '').replace(/"/g, '');
+    const usageMetricMapSerialized = JSON.stringify(BaseClass.usageMetricMap).replace(/[{}]/g, '').replace(/"/g, '');
 
-      // Description format :(usage id :uksb-1tupboc45)(version:0.0.0) (constructs :::{\"C1\":1,\"C2\":5,\"C3\":3,\"C4\":0,\"C5\":0,\"C6\":0,\"C7\":0,\"C8\":0}) ",
-      // where C1,C2, etc are mapped with construct-name-enum and the values shows the number of time stack created/deleted.
-      Stack.of(scope).templateOptions.description =
-      `Description: (${this.constructUsageMetric}) (version:${version}) (tag:${ usageMetricMapSerialized}) `;
+    // Description format :(usage id :uksb-1tupboc45)(version:0.0.0) (constructs :::{\"C1\":1,\"C2\":5,\"C3\":3,\"C4\":0,\"C5\":0,\"C6\":0,\"C7\":0,\"C8\":0}) ",
+    // where C1,C2, etc are mapped with construct-name-enum and the values shows the number of time stack created/deleted.
+    Stack.of(scope).templateOptions.description =
+    `Description: (${this.constructUsageMetric}) (version:${version}) (tag:${ usageMetricMapSerialized}) `;
 
-    };
   }
 
   // observability

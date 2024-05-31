@@ -33,7 +33,6 @@ export interface CustomSageMakerEndpointProps {
   readonly volumeSizeInGb?: number | undefined;
   readonly vpcConfig?: sagemaker.CfnModel.VpcConfigProperty | undefined;
   readonly modelDataUrl: string;
-  readonly enableOperationalMetric?: boolean;
 
 }
 
@@ -57,7 +56,6 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
     super(scope, id);
 
     const baseProps: BaseClassProps={
-      enableOperationalMetric: props.enableOperationalMetric,
       constructName: ConstructName.CUSTOMSAGEMAKERENDPOINT,
       constructId: id,
     };
