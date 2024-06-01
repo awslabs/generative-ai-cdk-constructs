@@ -7,7 +7,6 @@
 ### Properties
 
 - [container](HuggingFaceSageMakerEndpointProps.md#container)
-- [enableOperationalMetric](HuggingFaceSageMakerEndpointProps.md#enableoperationalmetric)
 - [endpointName](HuggingFaceSageMakerEndpointProps.md#endpointname)
 - [environment](HuggingFaceSageMakerEndpointProps.md#environment)
 - [instanceCount](HuggingFaceSageMakerEndpointProps.md#instancecount)
@@ -22,12 +21,6 @@
 ### container
 
 • `Readonly` **container**: [`ContainerImage`](../classes/ContainerImage.md)
-
-___
-
-### enableOperationalMetric
-
-• `Optional` `Readonly` **enableOperationalMetric**: `boolean`
 
 ___
 

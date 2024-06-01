@@ -100,19 +100,6 @@ export interface ContentGenerationAppSyncLambdaProps {
    * @default - true
    */
   readonly observability?: boolean;
-
-  /**
-   * Optional.CDK constructs provided collects anonymous operational
-   * metrics to help AWS improve the quality and features of the
-   * constructs. Data collection is subject to the AWS Privacy Policy
-   * (https://aws.amazon.com/privacy/). To opt out of this feature,
-   * simply disable it by setting the construct property
-   * "enableOperationalMetric" to false for each construct used.
-   *
-   * @default - true
-   */
-  readonly enableOperationalMetric?: boolean;
-
   /**
    * Optional. Allows a user to configure
    * Lambda provisioned concurrency for consistent performance
@@ -173,7 +160,6 @@ export class ContentGenerationAppSyncLambda extends BaseClass {
 
     const baseProps: BaseClassProps={
       stage: props.stage,
-      enableOperationalMetric: props.enableOperationalMetric,
       constructName: ConstructName.AWSCONTENTGENAPPSYNCLAMBDA,
       constructId: id,
       observability: props.observability,
