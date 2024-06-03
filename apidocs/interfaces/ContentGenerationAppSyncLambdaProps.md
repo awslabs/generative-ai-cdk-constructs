@@ -10,7 +10,6 @@ The properties for the ContentGenerationAppSyncLambdaProps class.
 
 - [cognitoUserPool](ContentGenerationAppSyncLambdaProps.md#cognitouserpool)
 - [customDockerLambdaProps](ContentGenerationAppSyncLambdaProps.md#customdockerlambdaprops)
-- [enableOperationalMetric](ContentGenerationAppSyncLambdaProps.md#enableoperationalmetric)
 - [existingBusInterface](ContentGenerationAppSyncLambdaProps.md#existingbusinterface)
 - [existingGeneratedAssetsBucketObj](ContentGenerationAppSyncLambdaProps.md#existinggeneratedassetsbucketobj)
 - [existingMergedApi](ContentGenerationAppSyncLambdaProps.md#existingmergedapi)
@@ -44,25 +43,6 @@ ___
 
 Optional. Allows to provide custom lambda code
 and settings instead of the existing
-
-___
-
-### enableOperationalMetric
-
-• `Optional` `Readonly` **enableOperationalMetric**: `boolean`
-
-Optional.CDK constructs provided collects anonymous operational
-metrics to help AWS improve the quality and features of the
-constructs. Data collection is subject to the AWS Privacy Policy
-(https://aws.amazon.com/privacy/). To opt out of this feature,
-simply disable it by setting the construct property
-"enableOperationalMetric" to false for each construct used.
-
-**`Default`**
-
-```ts
-- true
-```
 
 ___
 

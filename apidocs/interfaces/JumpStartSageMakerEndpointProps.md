@@ -7,7 +7,6 @@
 ### Properties
 
 - [acceptEula](JumpStartSageMakerEndpointProps.md#accepteula)
-- [enableOperationalMetric](JumpStartSageMakerEndpointProps.md#enableoperationalmetric)
 - [endpointName](JumpStartSageMakerEndpointProps.md#endpointname)
 - [environment](JumpStartSageMakerEndpointProps.md#environment)
 - [instanceCount](JumpStartSageMakerEndpointProps.md#instancecount)
@@ -22,12 +21,6 @@
 ### acceptEula
 
 • `Optional` `Readonly` **acceptEula**: `boolean`
-
-___
-
-### enableOperationalMetric
-
-• `Optional` `Readonly` **enableOperationalMetric**: `boolean`
 
 ___
 

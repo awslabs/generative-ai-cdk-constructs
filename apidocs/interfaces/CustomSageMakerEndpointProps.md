@@ -7,7 +7,6 @@
 ### Properties
 
 - [container](CustomSageMakerEndpointProps.md#container)
-- [enableOperationalMetric](CustomSageMakerEndpointProps.md#enableoperationalmetric)
 - [endpointName](CustomSageMakerEndpointProps.md#endpointname)
 - [environment](CustomSageMakerEndpointProps.md#environment)
 - [instanceCount](CustomSageMakerEndpointProps.md#instancecount)
@@ -25,12 +24,6 @@
 ### container
 
 • `Readonly` **container**: [`ContainerImage`](../classes/ContainerImage.md)
-
-___
-
-### enableOperationalMetric
-
-• `Optional` `Readonly` **enableOperationalMetric**: `boolean`
 
 ___
 
