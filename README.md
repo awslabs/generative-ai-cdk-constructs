@@ -119,7 +119,7 @@ The official samples repository https://github.com/aws-samples/generative-ai-cdk
 
 # Operational Metrics Collection
 
-Provided CDK constructs collect anonymous operational metrics to help AWS improve the quality and features of the constructs. Data collection is subject to the AWS Privacy Policy (https://aws.amazon.com/privacy/). To opt out of this feature, simply disable it by setting the construct property "enableOperationalMetric" to false for each construct used. Defaults to true.
+Generative AI CDK Constructs may collect anonymous operational metrics, including: the region a construct is deployed, the name and version of the construct deployed, and related information. We may use the metrics to maintain, provide, develop, and improve the constructs and AWS services.
 
 # Roadmap
 

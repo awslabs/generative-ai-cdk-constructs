@@ -30,7 +30,6 @@ export interface HuggingFaceSageMakerEndpointProps {
   readonly environment?: { [key: string]: string };
   readonly startupHealthCheckTimeoutInSeconds?: number;
   readonly vpcConfig?: sagemaker.CfnModel.VpcConfigProperty | undefined;
-  readonly enableOperationalMetric?: boolean;
 }
 
 /**
@@ -55,7 +54,6 @@ export class HuggingFaceSageMakerEndpoint extends SageMakerEndpointBase implemen
     super(scope, id);
 
     const baseProps: BaseClassProps={
-      enableOperationalMetric: props.enableOperationalMetric,
       constructName: ConstructName.HUGGINGFACESAGEMAKERENDPOINT,
       constructId: id,
     };
