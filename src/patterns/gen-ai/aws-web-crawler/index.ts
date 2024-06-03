@@ -86,17 +86,6 @@ export interface WebCrawlerProps {
    */
   readonly stage?: string;
   /**
-   * Optional.CDK constructs provided collects anonymous operational
-   * metrics to help AWS improve the quality and features of the
-   * constructs. Data collection is subject to the AWS Privacy Policy
-   * (https://aws.amazon.com/privacy/). To opt out of this feature,
-   * simply disable it by setting the construct property
-   * "enableOperationalMetric" to false for each construct used.
-   *
-   * @default - true
-   */
-  readonly enableOperationalMetric?: boolean;
-  /**
    * Enable observability. Warning: associated cost with the services
    * used. Best practice to enable by default.
    *
@@ -235,7 +224,6 @@ export class WebCrawler extends BaseClass {
 
     const baseProps: BaseClassProps = {
       stage: props.stage,
-      enableOperationalMetric: props.enableOperationalMetric,
       constructName: ConstructName.AWSWEBCRAWLER,
       constructId: id,
       observability: props.observability,
