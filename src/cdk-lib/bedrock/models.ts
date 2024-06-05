@@ -69,10 +69,13 @@ export class BedrockFoundationModel {
     'amazon.titan-text-premier-v1:0',
     { supportsAgents: true },
   );
-
   public static readonly TITAN_EMBED_TEXT_V1 = new BedrockFoundationModel(
     'amazon.titan-embed-text-v1',
     { supportsKnowledgeBase: true, vectorDimensions: 1536 },
+  );
+  public static readonly TITAN_EMBED_TEXT_V2 = new BedrockFoundationModel(
+    'amazon.titan-embed-text-v2:0',
+    { supportsKnowledgeBase: true, vectorDimensions: 1024 },
   );
   public static readonly COHERE_EMBED_ENGLISH_V3 = new BedrockFoundationModel(
     'cohere.embed-english-v3',
