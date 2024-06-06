@@ -43,6 +43,7 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 - [DJL\_INFERENCE\_0\_26\_0\_NEURONX\_SDK2\_16\_0](DeepLearningContainerImage.md#djl_inference_0_26_0_neuronx_sdk2_16_0)
 - [DJL\_INFERENCE\_0\_27\_0\_DEEPSPEED0\_12\_6\_CU121](DeepLearningContainerImage.md#djl_inference_0_27_0_deepspeed0_12_6_cu121)
 - [DJL\_INFERENCE\_0\_27\_0\_NEURONX\_SDK2\_18\_1](DeepLearningContainerImage.md#djl_inference_0_27_0_neuronx_sdk2_18_1)
+- [DJL\_INFERENCE\_0\_28\_0\_NEURONX\_SDK2\_18\_2](DeepLearningContainerImage.md#djl_inference_0_28_0_neuronx_sdk2_18_2)
 - [HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_10\_2\_TRANSFORMERS4\_17\_0\_CPU\_PY38\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_inference_1_10_2_transformers4_17_0_cpu_py38_ubuntu20_04)
 - [HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_10\_2\_TRANSFORMERS4\_17\_0\_GPU\_PY38\_CU113\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_inference_1_10_2_transformers4_17_0_gpu_py38_cu113_ubuntu20_04)
 - [HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_13\_1\_TRANSFORMERS4\_26\_0\_CPU\_PY39\_UBUNTU20\_04](DeepLearningContainerImage.md#huggingface_pytorch_inference_1_13_1_transformers4_26_0_cpu_py39_ubuntu20_04)
@@ -279,6 +280,12 @@ ___
 ### DJL\_INFERENCE\_0\_27\_0\_NEURONX\_SDK2\_18\_1
 
 ▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_27\_0\_NEURONX\_SDK2\_18\_1**: [`ContainerImage`](ContainerImage.md)
+
+___
+
+### DJL\_INFERENCE\_0\_28\_0\_NEURONX\_SDK2\_18\_2
+
+▪ `Static` `Readonly` **DJL\_INFERENCE\_0\_28\_0\_NEURONX\_SDK2\_18\_2**: [`ContainerImage`](ContainerImage.md)
 
 ___
 
