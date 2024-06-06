@@ -13,9 +13,10 @@
 from typing import Dict
 from aiohttp import ClientError
 import boto3
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 import tempfile
 import os
+
 from aws_lambda_powertools import Logger, Tracer
 from s3inmemoryloader import S3FileLoaderInMemory
 
