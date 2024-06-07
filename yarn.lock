@@ -1462,9 +1462,9 @@ aws-sdk-mock@^5.9.0:
     traverse "^0.6.6"
 
 aws-sdk@^2.1231.0:
-  version "2.1635.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1635.0.tgz#3185c9715aab8215794463c0cdc7ffab70ced26c"
-  integrity sha512-zab4y8ftjgcctYao33c1fr8Yx1wMuRlEbZT7hwEXcK8Ta3+LAEXJs1wKjPpium+KUwl6zw7wxhaIdEibiz6InA==
+  version "2.1636.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1636.0.tgz#2755de04924d1841bd4f1ea53dee959edc147126"
+  integrity sha512-0w/jOCYnwewLYjH4UCh3GTBjR/NMdvEKNrd1pnM4FvfJSmjfzCinDvmf5Qc6xeIrqPfrdYOoQh7NJhYeJScCIQ==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -1643,19 +1643,19 @@ camelcase@^6.2.0, camelcase@^6.3.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001587:
-  version "1.0.30001628"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001628.tgz#90b6cd85ddc2e9f831de0225f4ca5a130c8d8222"
-  integrity sha512-S3BnR4Kh26TBxbi5t5kpbcUlLJb9lhtDXISDPwOfI+JoC+ik0QksvkZtUVyikw3hjnkgkMPSJ8oIM9yMm9vflA==
+  version "1.0.30001629"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001629.tgz#907a36f4669031bd8a1a8dbc2fa08b29e0db297e"
+  integrity sha512-c3dl911slnQhmxUIT4HhYzT7wnBK/XYpGnYLOj4nJBaRiw52Ibe7YxlDaAeRECvA786zCuExhxIUJ2K7nHMrBw==
 
 case@1.6.3, case@^1.6.3:
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-nag@^2.28.134:
-  version "2.28.134"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.134.tgz#89286f502d8a266029b2e18a78f4d64b33cd616b"
-  integrity sha512-hjKwU/hVCH+qRnlI2fWKTWq0UvY9wXRPSGzFak/MiEwNc6Ch6gcp8UeeY+kYGxab5GexesYXfQ/ax7iaqUJdHQ==
+cdk-nag@^2.28.135:
+  version "2.28.135"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.135.tgz#2e6dc4731ee64849baa46f7b24f435c72ad419e2"
+  integrity sha512-MWOxJiWBpOIfM1cVspmjHKQ0OZIdEfw2qg1vlDsZLM+fgiIrC5jjcehpeaNZO1rGfbh3y+jgP2WcoALE6nsu7A==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -2251,9 +2251,9 @@ downlevel-dts@^0.11.0:
     typescript next
 
 electron-to-chromium@^1.4.668:
-  version "1.4.790"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.790.tgz#2a3a5509593745c5d65d8acd66b308f2a25da041"
-  integrity sha512-eVGeQxpaBYbomDBa/Mehrs28MdvCXfJmEFzaMFsv8jH/MJDLIylJN81eTJ5kvx7B7p18OiPK0BkC06lydEy63A==
+  version "1.4.793"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.793.tgz#7536a58ab166fb399683e837d5e1ae5f5f593e2a"
+  integrity sha512-eGGzOCtlwNLVoMgOAXKLvesX6X7HM/KMJ+3x/yjcCBbZfpFhQvZUFvhnHxJT3jHJ8RpstR5npd0krWLPTCoh0g==
 
 emittery@^0.13.1:
   version "0.13.1"
