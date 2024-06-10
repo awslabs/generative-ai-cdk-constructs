@@ -4,7 +4,7 @@ fastjsonschema
 typing-extensions
 boto3>=1.34.29
 botocore>=1.34.29
-requests==2.31.0
+requests==2.32.0
 requests-aws4auth==1.2.3
 langchain==0.1.11
 langchain-community<0.1, >0.0.25

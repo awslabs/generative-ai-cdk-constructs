@@ -16,7 +16,7 @@ from langchain.docstore.document import Document
 from langchain.document_loaders.base import BaseLoader
 from langchain.docstore.document import Document
 from langchain.text_splitter import NLTKTextSplitter
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 from aws_lambda_powertools import Logger, Tracer
 
 logger = Logger(service="SUMMARY_DOCUMENT_READER")
