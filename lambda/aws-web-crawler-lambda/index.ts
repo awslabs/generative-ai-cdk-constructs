@@ -14,17 +14,6 @@ import 'jquery';
 import { Crawler } from './crawler';
 import { CrawlerRequestTest } from './types';
 
-/*
-{
-  "urls": [
-    "https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html",
-    "https://docs.aws.amazon.com/bedrock/latest/studio-ug/what-is-bedrock-studio.html"
-  ]
-}
-
-https://docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html
-*/
-
 export async function handler(event: any) {
   console.log('Event', event);
 
