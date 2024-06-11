@@ -71,7 +71,7 @@ def transform_image_document(input_bucket: str,file_name: str,output_bucket: str
                 lables_txt= convert_lables_to_sentence(result_lables)            
                 
                 # upload descriptive text file as .txt for ingested image
-                with open ('/tmp/'+name+'.txt','w') as f:
+                with open (tempfile.gettempdir()+name+'.txt','w') as f:
                          f.write(json.dumps(lables_txt))  
                 #s3.upload_file('/tmp/'+name+'.txt',output_bucket,name+".txt")
                 upload_file(output_bucket,f'{name}.txt',f'{name}.txt')

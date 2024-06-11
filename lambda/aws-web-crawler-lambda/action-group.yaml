@@ -1,0 +1,48 @@
+openapi: 3.0.1
+info:
+  title: Web Crawler API
+  description: API to fetch content and metadata from a given URL.
+  version: 1.0.0
+paths:
+  /crawler:
+    get:
+      summary: Get content and metadata from a URL
+      description: Fetches the content and metadata of the provided URL.
+      parameters:
+        - name: url
+          in: query
+          required: true
+          description: The URL to fetch the content and metadata from.
+          schema:
+            type: string
+            format: uri
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  content_type:
+                    type: string
+                    example: "text/html"
+                  url:
+                    type: string
+                    example: "https://cloudprice.net/aws/ec2/instances/g6.4xlarge"
+                  meta:
+                    type: object
+                    properties:
+                      title:
+                        type: string
+                        example: "g6.4xlarge specs and pricing | AWS | CloudPrice"
+                      description:
+                        type: string
+                        example: "Compare Azure VMs, AWS EC2, GCP instance prices and specifications across regions, currencies, spot and standard tiers, savings, and reserved instances."
+                      keywords:
+                        type: string
+                  text_content:
+                    type: string               
