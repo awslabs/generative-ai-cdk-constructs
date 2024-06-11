@@ -44,23 +44,8 @@ export abstract class Utils {
   }
 
   static generateDateTimeStringWithMilliseconds() {
-    const formatNumber = (num: number, digits: number) => {
-      return num.toLocaleString('en-US', {
-        minimumIntegerDigits: digits,
-        useGrouping: false,
-      });
-    };
-
     const now = new Date();
-    const year = formatNumber(now.getFullYear(), 4);
-    const month = formatNumber(now.getMonth() + 1, 2);
-    const day = formatNumber(now.getDate(), 2);
-    const hours = formatNumber(now.getHours(), 2);
-    const minutes = formatNumber(now.getMinutes(), 2);
-    const seconds = formatNumber(now.getSeconds(), 2);
-    const milliseconds = formatNumber(now.getMilliseconds(), 3);
-
-    const retValue = `${year}-${month}-${day}-${hours}-${minutes}-${seconds}${milliseconds}`;
+    const retValue = `${now.toISOString()}`;
 
     return retValue;
   }
