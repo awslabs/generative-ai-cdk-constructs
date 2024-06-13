@@ -42,76 +42,76 @@ import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCusto
  */
 export interface RagAppsyncStepfnOpensearchProps {
   /**
-   * Optional custom properties for a VPC the construct will create. This VPC will
-   * be used by the Lambda functions the construct creates. Providing
-   * both this and existingVpc is an error.
-   *
-   * @default - none
-   */
+     * Optional custom properties for a VPC the construct will create. This VPC will
+     * be used by the Lambda functions the construct creates. Providing
+     * both this and existingVpc is an error.
+     *
+     * @default - none
+     */
   readonly vpcProps?: ec2.VpcProps;
   /**
-   * Optional An existing VPC in which to deploy the construct. Providing both this and
-   * vpcProps is an error.
-   *
-   * @default - none
-   */
+     * Optional An existing VPC in which to deploy the construct. Providing both this and
+     * vpcProps is an error.
+     *
+     * @default - none
+     */
   readonly existingVpc?: ec2.IVpc;
   /**
-   * Optional existing security group allowing access to opensearch. Used by the lambda functions
-   * built by this construct. If not provided, the construct will create one.
-   *
-   * @default - none
-   */
+     * Optional existing security group allowing access to opensearch. Used by the lambda functions
+     * built by this construct. If not provided, the construct will create one.
+     *
+     * @default - none
+     */
   readonly existingSecurityGroup?: ec2.ISecurityGroup;
   /**
-   * Optional Existing instance of an EventBridge bus. If not provided, the construct will create one.
-   *
-   * @default - None
-   */
+     * Optional Existing instance of an EventBridge bus. If not provided, the construct will create one.
+     *
+     * @default - None
+     */
   readonly existingBusInterface?: events.IEventBus;
   /**
-   * Existing instance of S3 Bucket object, providing both this and `bucketInputsAssetsProps` will cause an error.
-   *
-   * @default - None
-   */
+     * Existing instance of S3 Bucket object, providing both this and `bucketInputsAssetsProps` will cause an error.
+     *
+     * @default - None
+     */
   readonly existingInputAssetsBucketObj?: s3.IBucket;
   /**
-   * Optional user provided props to override the default props for the S3 Bucket.
-   * Providing both this and `existingInputAssetsBucketObj` will cause an error.
-   *
-   * @default - Default props are used
-   */
+     * Optional user provided props to override the default props for the S3 Bucket.
+     * Providing both this and `existingInputAssetsBucketObj` will cause an error.
+     *
+     * @default - Default props are used
+     */
   readonly bucketInputsAssetsProps?: s3.BucketProps;
   /**
-   * Existing instance of S3 Bucket object, providing both this and `bucketProcessedAssetsProps` will cause an error.
-   *
-   * @default - None
-   */
+     * Existing instance of S3 Bucket object, providing both this and `bucketProcessedAssetsProps` will cause an error.
+     *
+     * @default - None
+     */
   readonly existingProcessedAssetsBucketObj?: s3.IBucket;
   /**
-   * Optional user provided props to override the default props for the S3 Bucket.
-   * Providing both this and `existingProcessedAssetsBucketObj` will cause an error.
-   *
-   * @default - Default props are used
-   */
+     * Optional user provided props to override the default props for the S3 Bucket.
+     * Providing both this and `existingProcessedAssetsBucketObj` will cause an error.
+     *
+     * @default - Default props are used
+     */
   readonly bucketProcessedAssetsProps?: s3.BucketProps;
   /**
-   * Optional existing Amazon OpenSearch Service domain.
-   *
-   * @default - None
-   */
+     * Optional existing Amazon OpenSearch Service domain.
+     *
+     * @default - None
+     */
   readonly existingOpensearchDomain?: opensearchservice.IDomain;
   /**
-   * Optional existing Amazon OpenSearch Serverless collection.
-   *
-   * @default - None
-   */
+     * Optional existing Amazon OpenSearch Serverless collection.
+     *
+     * @default - None
+     */
   readonly existingOpensearchServerlessCollection?: openSearchServerless.CfnCollection;
   /**
-   * Index name for the OpenSearch Service.
-   *
-   * @default - None
-   */
+     * Index name for the OpenSearch Service.
+     *
+     * @default - None
+     */
   readonly openSearchIndexName: string;
   /**
      * Optional. SecretsManager secret to authenticate against the OpenSearch Service domain if
@@ -121,103 +121,103 @@ export interface RagAppsyncStepfnOpensearchProps {
      */
   readonly openSearchSecret?: secret.ISecret;
   /**
-   * Existing merged Appsync GraphQL api.
-   *
-   * @default - None
-   */
+     * Existing merged Appsync GraphQL api.
+     *
+     * @default - None
+     */
   readonly existingMergedApi?: appsync.CfnGraphQLApi;
   /**
-   * Cognito user pool used for authentication.
-   *
-   * @default - None
-   */
+     * Cognito user pool used for authentication.
+     *
+     * @default - None
+     */
   readonly cognitoUserPool: cognito.IUserPool;
   /**
-   * Value will be appended to resources name.
-   *
-   * @default - _dev
-   */
+     * Value will be appended to resources name.
+     *
+     * @default - _dev
+     */
   readonly stage?: string;
   /**
-   * Optional. Allows to provide Embeddings custom lambda code
-   * and settings instead of the existing
-   */
+     * Optional. Allows to provide Embeddings custom lambda code
+     * and settings instead of the existing
+     */
   readonly customEmbeddingsDockerLambdaProps?: DockerLambdaCustomProps | undefined;
   /**
-   * Optional. Allows to provide Input Validation custom lambda code
-   * and settings instead of the existing
-   */
+     * Optional. Allows to provide Input Validation custom lambda code
+     * and settings instead of the existing
+     */
   readonly customInputValidationDockerLambdaProps?: DockerLambdaCustomProps | undefined;
   /**
-   * Optional. Allows to provide File Transformer custom lambda code
-   * and settings instead of the existing
-   */
+     * Optional. Allows to provide File Transformer custom lambda code
+     * and settings instead of the existing
+     */
   readonly customFileTransformerDockerLambdaProps?: DockerLambdaCustomProps | undefined;
   /**
-   * Enable observability. Warning: associated cost with the services
-   * used. Best practice to enable by default.
-   *
-   * @default - true
-   */
+     * Enable observability. Warning: associated cost with the services
+     * used. Best practice to enable by default.
+     *
+     * @default - true
+     */
   readonly observability?: boolean;
 }
 
 /**
-   * @summary The RagAppsyncStepfnOpensearch class.
-   */
+ * @summary The RagAppsyncStepfnOpensearch class.
+ */
 
 export class RagAppsyncStepfnOpensearch extends BaseClass {
   /**
-   * Returns the instance of ec2.IVpc used by the construct
-   */
+     * Returns the instance of ec2.IVpc used by the construct
+     */
   public readonly vpc: ec2.IVpc;
   /**
-   * Returns the instance of ec2.ISecurityGroup used by the construct
-   */
+     * Returns the instance of ec2.ISecurityGroup used by the construct
+     */
   public readonly securityGroup: ec2.ISecurityGroup;
   /**
-   * Returns the instance of events.IEventBus used by the construct
-   */
+     * Returns the instance of events.IEventBus used by the construct
+     */
   public readonly ingestionBus: events.IEventBus;
   /**
-   * Returns an instance of s3.IBucket created by the construct
-   */
+     * Returns an instance of s3.IBucket created by the construct
+     */
   public readonly s3InputAssetsBucketInterface: s3.IBucket;
   /**
-   * Returns an instance of s3.Bucket created by the construct.
-   * IMPORTANT: If existingInputAssetsBucketObj was provided in Pattern Construct Props,
-   * this property will be undefined
-   */
+     * Returns an instance of s3.Bucket created by the construct.
+     * IMPORTANT: If existingInputAssetsBucketObj was provided in Pattern Construct Props,
+     * this property will be undefined
+     */
   public readonly s3InputAssetsBucket?: s3.Bucket;
   /**
-   * Returns an instance of s3.IBucket created by the construct
-   */
+     * Returns an instance of s3.IBucket created by the construct
+     */
   public readonly s3ProcessedAssetsBucketInterface: s3.IBucket;
   /**
-   * Returns an instance of s3.Bucket created by the construct.
-   * IMPORTANT: If existingProcessedAssetsBucketObj was provided in Pattern Construct Props,
-   * this property will be undefined
-   */
+     * Returns an instance of s3.Bucket created by the construct.
+     * IMPORTANT: If existingProcessedAssetsBucketObj was provided in Pattern Construct Props,
+     * this property will be undefined
+     */
   public readonly s3ProcessedAssetsBucket?: s3.Bucket;
   /**
-   * Returns an instance of appsync.IGraphqlApi created by the construct
-   */
+     * Returns an instance of appsync.IGraphqlApi created by the construct
+     */
   public readonly graphqlApi: appsync.IGraphqlApi;
   /**
-   * Returns an instance of stepfn.StateMachine created by the construct
-   */
+     * Returns an instance of stepfn.StateMachine created by the construct
+     */
   public readonly stateMachine: stepfn.StateMachine;
   /**
-   * Returns an instance of lambda.DockerImageFunction used for the embeddings job created by the construct
-   */
+     * Returns an instance of lambda.DockerImageFunction used for the embeddings job created by the construct
+     */
   public readonly embeddingsLambdaFunction: lambda.DockerImageFunction;
   /**
-   * Returns an instance of lambda.DockerImageFunction used for the file transformer job created by the construct
-   */
+     * Returns an instance of lambda.DockerImageFunction used for the file transformer job created by the construct
+     */
   public readonly fileTransformerLambdaFunction: lambda.DockerImageFunction;
   /**
-   * Returns an instance of lambda.DockerImageFunction used for the input validation job created by the construct
-   */
+     * Returns an instance of lambda.DockerImageFunction used for the input validation job created by the construct
+     */
   public readonly inputValidationLambdaFunction: lambda.DockerImageFunction;
 
 
@@ -233,7 +233,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
     super(scope, id);
 
 
-    const baseProps: BaseClassProps={
+    const baseProps: BaseClassProps = {
       stage: props.stage,
       constructName: ConstructName.AWSRAGAPPSYNCSTEPFNOPENSEARCH,
       constructId: id,
@@ -270,7 +270,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
         {
           vpc: this.vpc,
           allowAllOutbound: true,
-          securityGroupName: 'securityGroup'+this.stage,
+          securityGroupName: 'securityGroup' + this.stage,
         },
       );
     }
@@ -289,7 +289,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
 
     // bucket for storing server access logging
     const serverAccessLogBucket = new s3.Bucket(this,
-      'serverAccessLogBucket'+this.stage,
+      'serverAccessLogBucket' + this.stage,
       {
         blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
         encryption: s3.BucketEncryption.S3_MANAGED,
@@ -305,11 +305,11 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
     if (!props.existingInputAssetsBucketObj) {
       let tmpBucket: s3.Bucket;
       if (!props.bucketInputsAssetsProps) {
-        tmpBucket = new s3.Bucket(this, 'inputAssetsBucket'+this.stage,
+        tmpBucket = new s3.Bucket(this, 'inputAssetsBucket' + this.stage,
           {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
-            bucketName: 'input-assets-bucket'+this.stage+'-'+Aws.ACCOUNT_ID,
+            bucketName: 'input-assets-bucket' + this.stage + '-' + Aws.ACCOUNT_ID,
             serverAccessLogsBucket: serverAccessLogBucket,
             enforceSSL: true,
             versioned: true,
@@ -318,7 +318,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
             }],
           });
       } else {
-        tmpBucket = new s3.Bucket(this, 'InputAssetsBucket'+this.stage, props.bucketInputsAssetsProps);
+        tmpBucket = new s3.Bucket(this, 'InputAssetsBucket' + this.stage, props.bucketInputsAssetsProps);
       }
       inputAssetsBucket = tmpBucket;
       this.s3InputAssetsBucket = tmpBucket;
@@ -335,11 +335,11 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
     if (!props.existingProcessedAssetsBucketObj) {
       let tmpBucket: s3.Bucket;
       if (!props.bucketInputsAssetsProps) {
-        tmpBucket = new s3.Bucket(this, 'processedAssetsBucket'+this.stage,
+        tmpBucket = new s3.Bucket(this, 'processedAssetsBucket' + this.stage,
           {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
-            bucketName: 'processed-assets-bucket'+this.stage+'-'+Aws.ACCOUNT_ID,
+            bucketName: 'processed-assets-bucket' + this.stage + '-' + Aws.ACCOUNT_ID,
             serverAccessLogsBucket: serverAccessLogBucket,
             enforceSSL: true,
             versioned: true,
@@ -348,7 +348,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
             }],
           });
       } else {
-        tmpBucket = new s3.Bucket(this, 'processedAssetsBucket'+this.stage, props.bucketProcessedAssetsProps);
+        tmpBucket = new s3.Bucket(this, 'processedAssetsBucket' + this.stage, props.bucketProcessedAssetsProps);
       }
       processedAssetsBucket = tmpBucket;
       this.s3ProcessedAssetsBucket = tmpBucket;
@@ -364,7 +364,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
       this,
       'ingestionGraphqlApi',
       {
-        name: 'ingestionGraphqlApi'+this.stage,
+        name: 'ingestionGraphqlApi' + this.stage,
         definition: appsync.Definition.fromFile(
           path.join(__dirname, '../../../../resources/gen-ai/aws-rag-appsync-stepfn-opensearch/schema.graphql'),
         ),
@@ -387,7 +387,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
       },
     );
 
-    this.graphqlApi=ingestion_graphql_api;
+    this.graphqlApi = ingestion_graphql_api;
 
     // If the user provides a mergedApi endpoint, the lambda
     // functions will use this endpoint to send their status updates
@@ -418,13 +418,12 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
         ),
         responseMappingTemplate: appsync.MappingTemplate.fromString('$util.toJson($context.result)'),
       },
-
     );
 
     if (!props.existingBusInterface) {
-      this.ingestionBus = new events.EventBus(this, 'ingestionEventBus'+this.stage,
+      this.ingestionBus = new events.EventBus(this, 'ingestionEventBus' + this.stage,
         {
-          eventBusName: 'ingestionEventBus'+this.stage,
+          eventBusName: 'ingestionEventBus' + this.stage,
         },
       );
     } else {
@@ -433,16 +432,16 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
 
     // create httpdatasource with ingestion_graphql_api
     const event_bridge_datasource = this.graphqlApi.addEventBridgeDataSource(
-      'ingestionEventBridgeDataSource'+this.stage,
+      'ingestionEventBridgeDataSource' + this.stage,
       this.ingestionBus,
       {
-        name: 'ingestionEventBridgeDataSource'+this.stage,
+        name: 'ingestionEventBridgeDataSource' + this.stage,
       },
     );
 
     const construct_input_validation_lambda_props = {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/input_validation/src')),
-      functionName: 'ingestion_input_validation_docker'+this.stage,
+      functionName: 'ingestion_input_validation_docker' + this.stage,
       description: 'Lambda function for validating input files formats',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
@@ -578,7 +577,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
         'appsync:GraphQL',
       ],
       resources: [
-        'arn:' + Aws.PARTITION + ':appsync:' + Aws.REGION+':' + Aws.ACCOUNT_ID + ':apis/' + updateGraphQlApiId + '/*',
+        'arn:' + Aws.PARTITION + ':appsync:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':apis/' + updateGraphQlApiId + '/*',
       ],
     }));
 
@@ -595,7 +594,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
 
     const construct__file_transformer_lambda_props = {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/s3_file_transformer/src')),
-      functionName: 's3_file_transformer_docker'+this.stage,
+      functionName: 's3_file_transformer_docker' + this.stage,
       description: 'Lambda function for converting files from their input format to text',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
@@ -612,14 +611,16 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
     };
 
     const s3_transformer_job_function = buildDockerLambdaFunction(this,
-      'lambda_function_s3_file_transformer'+this.stage,
+      'lambda_function_s3_file_transformer' + this.stage,
       construct__file_transformer_lambda_props,
       props.customFileTransformerDockerLambdaProps,
     );
 
 
     let SecretId = 'NONE';
-    if (props.openSearchSecret) {SecretId = props.openSearchSecret.secretName;}
+    if (props.openSearchSecret) {
+      SecretId = props.openSearchSecret.secretName;
+    }
 
 
     const embeddings_job_function_role = new iam.Role(this, 'embeddings_job_function_role', {
@@ -684,8 +685,8 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
         effect: iam.Effect.ALLOW,
         actions: ['es:*'],
         resources: [
-          'arn:' + Aws.PARTITION + ':es:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':domain/'+props.existingOpensearchDomain.domainName + '/*',
-          'arn:' + Aws.PARTITION + ':es:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':domain/'+props.existingOpensearchDomain.domainName,
+          'arn:' + Aws.PARTITION + ':es:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':domain/' + props.existingOpensearchDomain.domainName + '/*',
+          'arn:' + Aws.PARTITION + ':es:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':domain/' + props.existingOpensearchDomain.domainName,
         ],
       }));
     }
@@ -723,11 +724,13 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
 
 
     // The lambda will access the opensearch credentials
-    if (props.openSearchSecret) {props.openSearchSecret.grantRead(embeddings_job_function_role);}
+    if (props.openSearchSecret) {
+      props.openSearchSecret.grantRead(embeddings_job_function_role);
+    }
 
     const construct_embeddings_lambda_props = {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/embeddings_job/src')),
-      functionName: 'embeddings_job_docker'+this.stage,
+      functionName: 'embeddings_job_docker' + this.stage,
       description: 'Lambda function for creating documents chunks, embeddings and storing them in Amazon Opensearch',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
@@ -748,13 +751,13 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
 
     // Lambda function performing the embedding job
     const embeddings_job_function = buildDockerLambdaFunction(this,
-      'lambda_function_embeddings_job'+this.stage,
+      'lambda_function_embeddings_job' + this.stage,
       construct_embeddings_lambda_props,
       props.customEmbeddingsDockerLambdaProps,
     );
 
-    const lambdaFunctions=[embeddings_job_function, s3_transformer_job_function, validate_input_function];
-    this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
+    const lambdaFunctions = [embeddings_job_function, s3_transformer_job_function, validate_input_function];
+    this.updateConstructUsageMetricCode(baseProps, scope, lambdaFunctions);
 
     // Add GraphQl permissions to the IAM role for the Lambda function
     embeddings_job_function.addToRolePolicy(new iam.PolicyStatement({
@@ -834,7 +837,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
       this,
       'IngestionStateMachine',
       {
-        stateMachineName: 'IngestionStateMachine'+this.stage,
+        stateMachineName: 'IngestionStateMachine' + this.stage,
         definitionBody: stepfn.DefinitionBody.fromChainable(definition),
         timeout: Duration.minutes(30),
         logs: {
@@ -845,7 +848,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
       },
     );
 
-    this.stateMachine=ingestion_step_function;
+    this.stateMachine = ingestion_step_function;
 
     this.ingestionBus.grantPutEventsTo(event_bridge_datasource.grantPrincipal);
 
@@ -881,7 +884,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
 
     const rule = new events.Rule(
       this,
-      'ingestionRule'+this.stage,
+      'ingestionRule' + this.stage,
       {
         description: 'Rule to trigger ingestion function',
         eventBus: this.ingestionBus,
