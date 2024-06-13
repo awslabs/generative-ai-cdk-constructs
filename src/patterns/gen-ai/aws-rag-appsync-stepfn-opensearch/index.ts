@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 import * as path from 'path';
-import { Duration, Aws, Stack } from 'aws-cdk-lib';
+import { Duration, Aws } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
@@ -33,7 +33,7 @@ import { ConstructName } from '../../../common/base-class/construct-name-enum';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import * as opensearch_helper from '../../../common/helpers/opensearch-helper';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
-import { generatePhysicalName, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
+import { generatePhysicalNameV2, lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
@@ -102,7 +102,7 @@ export interface RagAppsyncStepfnOpensearchProps {
    */
   readonly existingOpensearchDomain?: opensearchservice.IDomain;
   /**
-   * Optional existing Amazon Amazon OpenSearch Serverless collection.
+   * Optional existing Amazon OpenSearch Serverless collection.
    *
    * @default - None
    */
@@ -822,12 +822,10 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
     const maxLogGroupNameLength = 255;
     const logGroupPrefix = '/aws/vendedlogs/states/constructs/';
     const maxGeneratedNameLength = maxLogGroupNameLength - logGroupPrefix.length;
-    const nameParts: string[] = [
-      Stack.of(scope).stackName, // Name of the stack
-      scope.node.id, // Construct ID
-      'StateMachineLogRag', // Literal string for log group name portion
-    ];
-    const logGroupName = generatePhysicalName(logGroupPrefix, nameParts, maxGeneratedNameLength);
+
+    const logGroupName = generatePhysicalNameV2(this, logGroupPrefix, {
+      maxLength: maxGeneratedNameLength,
+    });
     const ragLogGroup = new logs.LogGroup(this, 'ingestionStepFunctionLogGroup', {
       logGroupName: logGroupName,
     });
