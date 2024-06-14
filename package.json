@@ -59,8 +59,8 @@
     "jest": "^29.7.0",
     "jest-junit": "^15",
     "jsii": "~5.3.0",
-    "jsii-diff": "^1.99.0",
-    "jsii-pacmak": "^1.99.0",
+    "jsii-diff": "^1.100.0",
+    "jsii-pacmak": "^1.100.0",
     "jsii-rosetta": "~5.3.0",
     "pinst": "^3.0.0",
     "projen": "~0.78.8",
@@ -76,7 +76,7 @@
     "constructs": "^10.3.0"
   },
   "dependencies": {
-    "cdk-nag": "^2.28.141",
+    "cdk-nag": "^2.28.142",
     "deepmerge": "^4.3.1"
   },
   "bundledDependencies": [
