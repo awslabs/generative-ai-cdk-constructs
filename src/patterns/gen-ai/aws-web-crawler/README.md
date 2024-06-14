@@ -263,7 +263,9 @@ export class WebCrawlerAgentStack extends cdk.Stack {
       new bedrock.AgentActionGroup(this, 'WebCrawlerActionGroup', {
         actionGroupName: 'web-crawler',
         description: 'Use this function to get content from a web page by HTTP or HTTPS URL',
-        actionGroupExecutor: crawler.lambdaCrawler,
+        actionGroupExecutor: {
+          lambda: crawler.lambdaCrawler
+        },
         actionGroupState: 'ENABLED',
         apiSchema: bedrock.ApiSchema.fromAsset(crawler.lambdaCrawlerApiSchemaPath),
       }),
