@@ -4,6 +4,7 @@ botocore>=1.34.29
 requests==2.32.0
 requests-aws4auth==1.2.3
 langchain==0.2.3
+langchain-community==0.2.4
 nltk==3.8.1
 urllib3<2
 aws-lambda-powertools
