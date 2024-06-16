@@ -87,6 +87,9 @@ export enum ServiceEndpointTypeEnum {
   SQS = 'SQS',
   SSM = 'SSM',
   STEP_FUNCTIONS = 'STEP_FUNCTIONS',
+  BEDROCK_RUNTIME = 'BEDROCK_RUNTIME',
+  COMPREHEND = 'COMPREHEND',
+  REKOGNITION = 'REKOGNITION'
 }
 
 // interface ServiceEndpointTypeEnum {

@@ -60,7 +60,7 @@ export interface BuildVpcProps {
   /**
    * One of the default VPC configurations available in vpc-defaults
    */
-  readonly defaultVpcProps: VpcProps;
+  readonly defaultVpcProps?: VpcProps;
   /**
    * User provided props to override the default props for the VPC.
    */
@@ -77,7 +77,7 @@ export function buildVpc(scope: Construct, props: BuildVpcProps): IVpc {
     return props?.existingVpc;
   }
 
-  let defaultVpcProps= DefaultVpcProps();
+  let defaultVpcProps= createDefaultIsolatedVpcProps();
 
   let cumulativeProps: VpcProps = defaultVpcProps;
 
@@ -277,32 +277,46 @@ const endpointSettings: EndpointDefinition[] = [
     endpointType: EndpointTypes.INTERFACE,
     endpointInterfaceService: InterfaceVpcEndpointAwsService.KENDRA,
   },
+  {
+    endpointName: ServiceEndpointTypeEnum.BEDROCK_RUNTIME,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.BEDROCK_RUNTIME,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.COMPREHEND,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.COMPREHEND,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.REKOGNITION,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.REKOGNITION,
+  },
 ];
 
 export function AddAwsServiceEndpoint(
   scope: Construct,
   vpc: IVpc,
-  interfaceTag: ServiceEndpointTypeEnum,
+  interfaceTags: ServiceEndpointTypeEnum[],
 ) {
-  if (CheckIfEndpointAlreadyExists(vpc, interfaceTag)) {
-    return;
-  }
+  interfaceTags.forEach((interfaceTag) => {
+    if (CheckIfEndpointAlreadyExists(vpc, interfaceTag)) {
+      return;
+    }
+    const service = endpointSettings.find(
+      (endpoint) => endpoint.endpointName === interfaceTag,
+    );
+    if (!service) {
+      throw new Error('Unsupported Service sent to AddServiceEndpoint');
+    }
+    if (service.endpointType === EndpointTypes.GATEWAY) {
+      AddGatewayEndpoint(vpc, service, interfaceTag);
+    }
+    if (service.endpointType === EndpointTypes.INTERFACE) {
+      AddInterfaceEndpoint(scope, vpc, service, interfaceTag);
+    }
+    // ESLint requires this return statement, so disabling SonarQube warning
+    return; // NOSONAR
+  });
 
-  const service = endpointSettings.find(
-    (endpoint) => endpoint.endpointName === interfaceTag,
-  );
-
-  if (!service) {
-    throw new Error('Unsupported Service sent to AddServiceEndpoint');
-  }
-
-  if (service.endpointType === EndpointTypes.GATEWAY) {
-    AddGatewayEndpoint(vpc, service, interfaceTag);
-  }
-  if (service.endpointType === EndpointTypes.INTERFACE) {
-    AddInterfaceEndpoint(scope, vpc, service, interfaceTag);
-  }
-
-  // ESLint requires this return statement, so disabling SonarQube warning
-  return; // NOSONAR
 }

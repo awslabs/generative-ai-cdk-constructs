@@ -38,7 +38,7 @@ describe('VPC Utilities', () => {
 
       // Assert subnets are created as expected
       template.hasResourceProperties('AWS::EC2::Subnet', {
-        CidrBlock: Match.stringLikeRegexp('^10\\.0\\.[0-9]+\\.0/24$'),
+        CidrBlock: Match.stringLikeRegexp('^(10\.0\.0\.0|10\.0\.64\.0)\/18$'),
         MapPublicIpOnLaunch: false,
         VpcId: Match.anyValue(), // Use anyValue if you're not asserting the exact VPC ID
         // If you need to assert on Tags, ensure they match the expected structure
@@ -53,7 +53,7 @@ describe('VPC Utilities', () => {
   describe('AddAwsServiceEndpoint', () => {
     it('adds a DynamoDB gateway endpoint to the VPC', () => {
       const vpc = new Vpc(stack, 'TestVpc');
-      AddAwsServiceEndpoint(stack, vpc, ServiceEndpointTypeEnum.DYNAMODB);
+      AddAwsServiceEndpoint(stack, vpc, [ServiceEndpointTypeEnum.DYNAMODB]);
 
       const template = Template.fromStack(stack);
       template.hasResourceProperties('AWS::EC2::VPCEndpoint', {

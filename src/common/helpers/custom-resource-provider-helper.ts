@@ -117,7 +117,7 @@ export function buildCustomResourceProvider(props: CRProviderProps): ICRProvider
         timeout: cdk.Duration.minutes(15),
         memorySize: 128,
         vpc,
-        vpcSubnets: vpc ? { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS } : undefined,
+        vpcSubnets: vpc ? { subnetType: ec2.SubnetType.PRIVATE_ISOLATED } : undefined,
         securityGroups: vpc && securityGroup ? [securityGroup] : undefined,
         logRetention: logs.RetentionDays.ONE_WEEK,
         description: 'Custom Resource Provider',

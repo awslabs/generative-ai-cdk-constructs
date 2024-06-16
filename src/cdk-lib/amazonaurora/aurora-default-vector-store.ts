@@ -133,7 +133,7 @@ export class AmazonAuroraDefaultVectorStore extends cdk.Resource {
       clusterIdentifier: this.clusterIdentifier,
       defaultDatabaseName: this.databaseName,
       vpc: vpc,
-      vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
       securityGroups: [auroraSecurityGroup],
       iamAuthentication: true,
       storageEncrypted: true,

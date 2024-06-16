@@ -206,9 +206,8 @@ export class WebCrawler extends BaseClass {
     }
 
     // add VPC endpoints for the compute environment
-    vpc_helper.AddAwsServiceEndpoint(this, this.vpc, ServiceEndpointTypeEnum.ECR_API);
-    vpc_helper.AddAwsServiceEndpoint(this, this.vpc, ServiceEndpointTypeEnum.ECR_DKR);
-    vpc_helper.AddAwsServiceEndpoint(this, this.vpc, ServiceEndpointTypeEnum.S3);
+    vpc_helper.AddAwsServiceEndpoint(this, this.vpc, [ServiceEndpointTypeEnum.ECR_API,
+      ServiceEndpointTypeEnum.ECR_DKR, ServiceEndpointTypeEnum.S3]);
 
     // vpc flowloggroup
     const logGroup = new logs.LogGroup(this, 'webCrawlerConstructLogGroup');

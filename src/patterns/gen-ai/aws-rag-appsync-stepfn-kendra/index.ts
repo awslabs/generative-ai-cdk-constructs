@@ -269,7 +269,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
         },
       });
 
-      AddAwsServiceEndpoint(scope, this.vpc, ServiceEndpointTypeEnum.KENDRA);
+      AddAwsServiceEndpoint(scope, this.vpc, [ServiceEndpointTypeEnum.KENDRA]);
     }
     this.kendraInputBucket = new Bucket(this, 'kendraInputBucket', {
       accessControl: BucketAccessControl.PRIVATE,
