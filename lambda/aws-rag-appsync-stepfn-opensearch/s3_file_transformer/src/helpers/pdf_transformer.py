@@ -13,7 +13,7 @@
 import boto3
 from io import BytesIO
 from typing import List
-from PyPDF2 import PdfReader
+from pypdf import PdfReader
 from langchain.document_loaders.base import BaseLoader
 
 from aws_lambda_powertools import Logger, Tracer

@@ -23,6 +23,7 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 - [AWSRAGAPPSYNCSTEPFNKENDRA](ConstructName.md#awsragappsyncstepfnkendra)
 - [AWSRAGAPPSYNCSTEPFNOPENSEARCH](ConstructName.md#awsragappsyncstepfnopensearch)
 - [AWSSUMMARIZATIONAPPSYNCSTEPFN](ConstructName.md#awssummarizationappsyncstepfn)
+- [AWSWEBCRAWLER](ConstructName.md#awswebcrawler)
 - [CUSTOMSAGEMAKERENDPOINT](ConstructName.md#customsagemakerendpoint)
 - [HUGGINGFACESAGEMAKERENDPOINT](ConstructName.md#huggingfacesagemakerendpoint)
 - [JUMPSTARTSAGEMAKERENDPOINT](ConstructName.md#jumpstartsagemakerendpoint)
@@ -62,6 +63,12 @@ ___
 ### AWSSUMMARIZATIONAPPSYNCSTEPFN
 
 • **AWSSUMMARIZATIONAPPSYNCSTEPFN** = ``"C3"``
+
+___
+
+### AWSWEBCRAWLER
+
+• **AWSWEBCRAWLER** = ``"C10"``
 
 ___
 
