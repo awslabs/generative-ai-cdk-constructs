@@ -73,7 +73,7 @@ export class BedrockFoundationModel {
     'amazon.titan-embed-text-v1',
     { supportsKnowledgeBase: true, vectorDimensions: 1536 },
   );
-  public static readonly TITAN_EMBED_TEXT_V2 = new BedrockFoundationModel(
+  public static readonly TITAN_EMBED_TEXT_V2_1024 = new BedrockFoundationModel(
     'amazon.titan-embed-text-v2:0',
     { supportsKnowledgeBase: true, vectorDimensions: 1024 },
   );
