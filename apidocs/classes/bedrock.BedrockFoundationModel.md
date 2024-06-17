@@ -31,6 +31,7 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 - [COHERE\_EMBED\_ENGLISH\_V3](bedrock.BedrockFoundationModel.md#cohere_embed_english_v3)
 - [COHERE\_EMBED\_MULTILINGUAL\_V3](bedrock.BedrockFoundationModel.md#cohere_embed_multilingual_v3)
 - [TITAN\_EMBED\_TEXT\_V1](bedrock.BedrockFoundationModel.md#titan_embed_text_v1)
+- [TITAN\_EMBED\_TEXT\_V2\_1024](bedrock.BedrockFoundationModel.md#titan_embed_text_v2_1024)
 
 ### Methods
 
@@ -137,6 +138,12 @@ ___
 ### TITAN\_EMBED\_TEXT\_V1
 
 ▪ `Static` `Readonly` **TITAN\_EMBED\_TEXT\_V1**: [`BedrockFoundationModel`](bedrock.BedrockFoundationModel.md)
+
+___
+
+### TITAN\_EMBED\_TEXT\_V2\_1024
+
+▪ `Static` `Readonly` **TITAN\_EMBED\_TEXT\_V2\_1024**: [`BedrockFoundationModel`](bedrock.BedrockFoundationModel.md)
 
 ## Methods
 
