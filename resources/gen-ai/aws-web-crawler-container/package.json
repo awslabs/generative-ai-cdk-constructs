@@ -21,7 +21,7 @@
     "crawlee": "^3.9.2",
     "playwright": "^1.44.0",
     "playwright-extra": "^4.3.6",
-    "puppeteer": "^22.8.0",
+    "puppeteer": "^22.11.2",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "rss-parser": "^3.13.0"
   },
