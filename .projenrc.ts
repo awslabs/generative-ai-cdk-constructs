@@ -248,7 +248,7 @@ project.github?.addDependabot({
       patterns: ['*'],
     },
   },
-  labels: ['auto-approve']
+  labels: ['auto-approve'],
 });
 
 project.synth();
