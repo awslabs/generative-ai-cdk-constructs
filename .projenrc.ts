@@ -79,9 +79,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
   npmTokenSecret: 'NPM_TOKEN',
   npmAccess: NpmAccess.PUBLIC,
 
-  // Manual release, remove once NuGet Account is activated
-  releaseTrigger: ReleaseTrigger.manual(),
-
   publishToPypi: {
     distName: PUBLICATION_NAMESPACE+'.'+PROJECT_NAME,
     module: (PUBLICATION_NAMESPACE.replace(/-/g, '_'))+'.'+(PROJECT_NAME.replace(/-/g, '_')), // PEP 8, convert hypens
