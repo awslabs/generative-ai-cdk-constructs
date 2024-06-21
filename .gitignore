@@ -38,9 +38,6 @@ __pycache__/
 !.ort.yml
 .idea
 .vscode
-website/build
-website/node_modules
-website/.docusaurus
 /test-reports/
 junit.xml
 /coverage/
@@ -67,8 +64,6 @@ tsconfig.json
 !/.github/workflows/bandit.yml
 !/.github/workflows/commitlint.yml
 !/.github/workflows/code-generation.yml
-!/.github/workflows/deploydocs.yml
-!/.github/workflows/testdeployment.yml
 !/.github/dependabot.yml
 !/.projenrc.ts
 !/src/common/props/LangchainProps.ts
