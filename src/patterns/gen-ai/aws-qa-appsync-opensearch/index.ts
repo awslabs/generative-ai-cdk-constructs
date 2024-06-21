@@ -86,7 +86,7 @@ export interface QaAppsyncOpensearchProps {
    */
   readonly existingOpensearchDomain?: opensearchservice.IDomain;
   /**
-   * Existing Amazon Amazon OpenSearch Serverless collection.
+   * Existing Amazon OpenSearch Serverless collection.
    *
    * @default - None
    */
@@ -198,7 +198,7 @@ export class QaAppsyncOpensearch extends BaseClass {
   /**
    * @summary Constructs a new instance of the RagAppsyncStepfnOpensearch class.
    * @param {cdk.App} scope - represents the scope for all the resources.
-   * @param {string} id - this is a a scope-unique id.
+   * @param {string} id - this is a scope-unique id.
    * @param {QaAppsyncOpensearchProps} props - user provided props for the construct.
    * @since 0.0.0
    * @access public
@@ -217,6 +217,7 @@ export class QaAppsyncOpensearch extends BaseClass {
     this.addObservabilityToConstruct(baseProps);
 
 
+    opensearch_helper.CheckOpenSearchProps(props);
     vpc_helper.CheckVpcProps(props);
     s3_bucket_helper.CheckS3Props({
       existingBucketObj: props.existingInputAssetsBucketObj,
@@ -226,8 +227,19 @@ export class QaAppsyncOpensearch extends BaseClass {
     if (props?.existingVpc) {
       this.vpc = props.existingVpc;
     } else {
-      this.vpc = new ec2.Vpc(this, 'Vpc', props.vpcProps);
+      this.vpc = vpc_helper.buildVpc(scope, {
+        defaultVpcProps: props?.vpcProps,
+      });
+      vpc_helper.createOpenSearchVpcEndpoint(scope, this.vpc, props);
     }
+
+
+    //vpc endpoints
+    vpc_helper.AddAwsServiceEndpoint(scope, this.vpc, [
+      vpc_helper.ServiceEndpointTypeEnum.S3,
+      vpc_helper.ServiceEndpointTypeEnum.BEDROCK_RUNTIME,
+      vpc_helper.ServiceEndpointTypeEnum.APP_SYNC,
+    ]);
 
     // Security group
     if (props?.existingSecurityGroup) {
@@ -540,7 +552,7 @@ export class QaAppsyncOpensearch extends BaseClass {
       description: 'Lambda function for question answering',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(15),

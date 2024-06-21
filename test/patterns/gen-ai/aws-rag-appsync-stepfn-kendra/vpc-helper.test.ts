@@ -13,8 +13,7 @@
 import { App, Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
-import { buildVpc, AddAwsServiceEndpoint, createDefaultIsolatedVpcProps } from '../../../../src/common/helpers/vpc-helper';
-import { ServiceEndpointTypeEnum } from '../../../../src/patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
+import { buildVpc, AddAwsServiceEndpoint, createDefaultIsolatedVpcProps, ServiceEndpointTypeEnum } from '../../../../src/common/helpers/vpc-helper';
 
 describe('VPC Utilities', () => {
   let app: App;

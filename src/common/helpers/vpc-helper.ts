@@ -10,6 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import {
   CfnSubnet,
   FlowLog,
@@ -22,19 +23,47 @@ import {
   VpcProps,
 } from 'aws-cdk-lib/aws-ec2';
 import { CfnLogGroup } from 'aws-cdk-lib/aws-logs';
+import { CfnVpcEndpoint } from 'aws-cdk-lib/aws-opensearchserverless';
 import { Construct } from 'constructs';
 import { buildSecurityGroup } from './kendra-helper';
+import { OpenSearchProps } from './opensearch-helper';
 import { addCfnSuppressRules } from './utils';
 import {
-  EndpointDefinition,
   EndpointTypes,
-  ServiceEndpointTypeEnum,
 } from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
 
 export interface VpcPropsSet {
   readonly existingVpc?: IVpc;
   readonly vpcProps?: VpcProps;
   readonly deployVpc?: boolean;
+}
+
+export interface EndpointDefinition {
+  endpointName: ServiceEndpointTypeEnum;
+  endpointType: EndpointTypes;
+  endpointGatewayService?: ec2.GatewayVpcEndpointAwsService;
+  endpointInterfaceService?: ec2.InterfaceVpcEndpointAwsService;
+}
+
+export enum ServiceEndpointTypeEnum {
+  DYNAMODB = 'DDB',
+  ECR_API = 'ECR_API',
+  ECR_DKR = 'ECR_DKR',
+  EVENTS = 'CLOUDWATCH_EVENTS',
+  KENDRA = 'KENDRA',
+  KINESIS_FIREHOSE = 'KINESIS_FIREHOSE',
+  KINESIS_STREAMS = 'KINESIS_STREAMS',
+  S3 = 'S3',
+  SAGEMAKER_RUNTIME = 'SAGEMAKER_RUNTIME',
+  SECRETS_MANAGER = 'SECRETS_MANAGER',
+  SNS = 'SNS',
+  SQS = 'SQS',
+  SSM = 'SSM',
+  STEP_FUNCTIONS = 'STEP_FUNCTIONS',
+  BEDROCK_RUNTIME = 'BEDROCK_RUNTIME',
+  COMPREHEND = 'COMPREHEND',
+  REKOGNITION = 'REKOGNITION',
+  APP_SYNC = 'APP_SYNC'
 }
 
 export function CheckVpcProps(propsObject: VpcPropsSet | any) {
@@ -71,6 +100,7 @@ export interface BuildVpcProps {
    */
   readonly constructVpcProps?: VpcProps;
 }
+
 
 export function buildVpc(scope: Construct, props: BuildVpcProps): IVpc {
   if (props?.existingVpc) {
@@ -139,6 +169,17 @@ export function DefaultVpcProps(): VpcProps {
     ],
     ipAddresses: IpAddresses.cidr('10.0.0.0/16'),
   };
+}
+
+export function createOpenSearchVpcEndpoint(scope: Construct, vpc: IVpc, props: OpenSearchProps) {
+  if (props?.existingOpensearchServerlessCollection) {
+    new CfnVpcEndpoint(scope, 'VpcEndpoint', {
+      name: 'VpcEndpoint',
+      vpcId: vpc.vpcId,
+      subnetIds: vpc.selectSubnets({ subnetType: ec2.SubnetType.PRIVATE_ISOLATED }).subnetIds,
+      securityGroupIds: getPrivateSubnetIDs(vpc),
+    });
+  }
 }
 
 export function suppressMapPublicIpWarnings(vpc: Vpc) {
@@ -291,6 +332,11 @@ const endpointSettings: EndpointDefinition[] = [
     endpointName: ServiceEndpointTypeEnum.REKOGNITION,
     endpointType: EndpointTypes.INTERFACE,
     endpointInterfaceService: InterfaceVpcEndpointAwsService.REKOGNITION,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.APP_SYNC,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.APP_SYNC,
   },
 ];
 

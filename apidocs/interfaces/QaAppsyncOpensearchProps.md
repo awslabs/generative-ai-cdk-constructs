@@ -125,7 +125,7 @@ ___
 
 • `Optional` `Readonly` **existingOpensearchServerlessCollection**: `CfnCollection`
 
-Existing Amazon Amazon OpenSearch Serverless collection.
+Existing Amazon OpenSearch Serverless collection.
 
 **`Default`**
 

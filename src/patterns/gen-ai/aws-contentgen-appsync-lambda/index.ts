@@ -29,7 +29,6 @@ import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
 import { lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
-import { ServiceEndpointTypeEnum } from '../aws-rag-appsync-stepfn-kendra/types';
 
 /**
  * The properties for the ContentGenerationAppSyncLambdaProps class.
@@ -183,8 +182,8 @@ export class ContentGenerationAppSyncLambda extends BaseClass {
       });
     }
     // vpc endpoints
-    vpc_helper.AddAwsServiceEndpoint(scope, this.vpc, [ServiceEndpointTypeEnum.S3,
-      ServiceEndpointTypeEnum.BEDROCK_RUNTIME, ServiceEndpointTypeEnum.REKOGNITION]);
+    vpc_helper.AddAwsServiceEndpoint(scope, this.vpc, [vpc_helper.ServiceEndpointTypeEnum.S3,
+      vpc_helper.ServiceEndpointTypeEnum.BEDROCK_RUNTIME, vpc_helper.ServiceEndpointTypeEnum.REKOGNITION]);
 
     // Security group
     if (props?.existingSecurityGroup) {
