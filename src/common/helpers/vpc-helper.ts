@@ -177,7 +177,7 @@ export function createOpenSearchVpcEndpoint(scope: Construct, vpc: IVpc, props: 
       name: 'VpcEndpoint',
       vpcId: vpc.vpcId,
       subnetIds: vpc.selectSubnets({ subnetType: ec2.SubnetType.PRIVATE_ISOLATED }).subnetIds,
-      securityGroupIds: getPrivateSubnetIDs(vpc),
+      securityGroupIds: [getlambdaSecuritygroup(scope,vpc).securityGroupId],
     });
   }
 }
