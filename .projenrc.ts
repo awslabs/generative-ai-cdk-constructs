@@ -14,7 +14,6 @@ import { ProjenStruct, Struct } from '@mrgrain/jsii-struct-builder';
 import { JsonPatch, awscdk } from 'projen';
 import { DependabotScheduleInterval, VersioningStrategy } from 'projen/lib/github';
 import { NpmAccess } from 'projen/lib/javascript';
-import { ReleaseTrigger } from 'projen/lib/release';
 import { buildUpgradeMainPRCustomJob } from './projenrc/github-jobs';
 import {
   buildMeritBadgerWorkflow,
