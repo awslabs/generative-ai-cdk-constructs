@@ -34,7 +34,7 @@ const CDK_VERSION: string = '2.143.0';
 
 function camelCaseIt(input: string): string {
   // Hypens and dashes to spaces and then CamelCase...
-  return input.replace(/-/g, ' ').replace(/_/g, ' ').replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, _) { if (+match === 0) return ""; return match.toUpperCase(); });
+  return input.replace(/-/g, ' ').replace(/_/g, ' ').replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, _) { if (+match === 0) return ''; return match.toUpperCase(); });
 }
 
 const project = new awscdk.AwsCdkConstructLibrary({
