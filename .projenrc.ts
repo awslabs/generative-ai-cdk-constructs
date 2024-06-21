@@ -32,6 +32,11 @@ const PUBLICATION_NAMESPACE = 'cdklabs';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
 const CDK_VERSION: string = '2.143.0';
 
+function camelCaseIt(input: string): string {
+  // Hypens and dashes to spaces and then CamelCase...
+  return input.replace(/-/g, ' ').replace(/_/g, ' ').replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, _) { if (+match === 0) return ""; return match.toUpperCase(); });
+}
+
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Amazon Web Services - Prototyping and Cloud Engineering',
   authorAddress: 'https://aws.amazon.com',
@@ -84,8 +89,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
 
   publishToNuget: {
-    dotNetNamespace: PUBLICATION_NAMESPACE+'.'+PROJECT_NAME.replace(/-/g, '_'),
-    packageId: PUBLICATION_NAMESPACE+'.'+PROJECT_NAME.replace(/-/g, '_'),
+    dotNetNamespace: camelCaseIt(PUBLICATION_NAMESPACE)+'.'+camelCaseIt(PROJECT_NAME),
+    packageId: camelCaseIt(PUBLICATION_NAMESPACE)+'.'+camelCaseIt(PROJECT_NAME),
   },
 
   codeCov: true,

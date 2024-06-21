@@ -13,7 +13,6 @@
     ".github/workflows/monthly-repo-metrics.yml",
     ".github/workflows/ort-toolkit.yml",
     ".github/workflows/pull-request-lint.yml",
-    ".github/workflows/release.yml",
     ".github/workflows/semgrep.yml",
     ".github/workflows/stale.yml",
     ".github/workflows/upgrade-main.yml",
