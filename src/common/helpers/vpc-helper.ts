@@ -175,13 +175,13 @@ export function DefaultVpcProps(): VpcProps {
   };
 }
 
-export function createOpenSearchVpcEndpoint(scope: Construct, vpc: IVpc, props: OpenSearchProps) {
+export function createOpenSearchVpcEndpoint(scope: Construct, vpc: IVpc, sg: ec2.ISecurityGroup, props: OpenSearchProps) {
   if (props?.existingOpensearchServerlessCollection) {
     new CfnVpcEndpoint(scope, 'VpcEndpoint', {
       name: 'VpcEndpoint',
       vpcId: vpc.vpcId,
       subnetIds: vpc.selectSubnets({ subnetType: ec2.SubnetType.PRIVATE_ISOLATED }).subnetIds,
-      securityGroupIds: [getlambdaSecuritygroup(scope, vpc, 'aoss').securityGroupId],
+      securityGroupIds: [sg.securityGroupId],
     });
   }
   if (props?.existingOpensearchDomain) {
@@ -198,7 +198,7 @@ export function createOpenSearchVpcEndpoint(scope: Construct, vpc: IVpc, props: 
         Endpoint: props?.existingOpensearchDomain.domainEndpoint,
         DomainArn: props?.existingOpensearchDomain.domainArn,
         SubnetIds: vpc.selectSubnets({ subnetType: ec2.SubnetType.PRIVATE_ISOLATED }).subnetIds,
-        SecurityGroupIds: [getlambdaSecuritygroup(scope, vpc, 'es').securityGroupId],
+        SecurityGroupIds: [sg.securityGroupId],
       },
     });
   }

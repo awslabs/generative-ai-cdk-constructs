@@ -230,9 +230,7 @@ export class QaAppsyncOpensearch extends BaseClass {
       this.vpc = vpc_helper.buildVpc(scope, {
         defaultVpcProps: props?.vpcProps,
       });
-      vpc_helper.createOpenSearchVpcEndpoint(scope, this.vpc, props);
     }
-
 
     //vpc endpoints
     vpc_helper.AddAwsServiceEndpoint(scope, this.vpc, [
@@ -250,6 +248,11 @@ export class QaAppsyncOpensearch extends BaseClass {
         allowAllOutbound: true,
         securityGroupName: 'securityGroup' + this.stage,
       });
+    }
+
+    //vpc endpoint for opensearch
+    if (!props?.existingVpc) {
+      vpc_helper.createOpenSearchVpcEndpoint(scope, this.vpc, this.securityGroup, props);
     }
 
     // vpc flowloggroup

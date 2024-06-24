@@ -32,6 +32,7 @@ import * as eventBridge from '../../../common/helpers/eventbridge-helper';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import * as s3BucketHelper from '../../../common/helpers/s3-bucket-helper';
 import { lambdaMemorySizeLimiter, generatePhysicalNameV2 } from '../../../common/helpers/utils';
+import * as vpc_helper from '../../../common/helpers/vpc-helper';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
 export interface SummarizationAppsyncStepfnProps {
@@ -257,8 +258,16 @@ export class SummarizationAppsyncStepfn extends BaseClass {
     if (props?.existingVpc) {
       this.vpc = props.existingVpc;
     } else {
-      this.vpc = new ec2.Vpc(this, 'Vpc', props.vpcProps);
+      this.vpc = vpc_helper.buildVpc(scope, {
+        defaultVpcProps: props?.vpcProps,
+      });
     }
+
+    // vpc endpoints
+    vpc_helper.AddAwsServiceEndpoint(scope, this.vpc, [vpc_helper.ServiceEndpointTypeEnum.S3,
+      vpc_helper.ServiceEndpointTypeEnum.BEDROCK_RUNTIME, vpc_helper.ServiceEndpointTypeEnum.REKOGNITION,
+      vpc_helper.ServiceEndpointTypeEnum.APP_SYNC]);
+
     // Security group
     if (props?.existingSecurityGroup) {
       this.securityGroup = props.existingSecurityGroup;

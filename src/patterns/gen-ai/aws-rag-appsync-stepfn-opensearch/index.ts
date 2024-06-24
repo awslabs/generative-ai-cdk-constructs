@@ -257,8 +257,17 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
     if (props?.existingVpc) {
       this.vpc = props.existingVpc;
     } else {
-      this.vpc = new ec2.Vpc(this, 'Vpc', props.vpcProps);
+      this.vpc = vpc_helper.buildVpc(scope, {
+        defaultVpcProps: props?.vpcProps,
+      });
     }
+
+    //vpc endpoints
+    vpc_helper.AddAwsServiceEndpoint(scope, this.vpc, [
+      vpc_helper.ServiceEndpointTypeEnum.S3,
+      vpc_helper.ServiceEndpointTypeEnum.BEDROCK_RUNTIME,
+      vpc_helper.ServiceEndpointTypeEnum.APP_SYNC,
+    ]);
 
     // Security group
     if (props?.existingSecurityGroup) {
@@ -273,6 +282,11 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
           securityGroupName: 'securityGroup'+this.stage,
         },
       );
+    }
+
+    //vpc endpoint for opensearch
+    if (!props?.existingVpc) {
+      vpc_helper.createOpenSearchVpcEndpoint(scope, this.vpc, this.securityGroup, props);
     }
 
     // vpc flowloggroup

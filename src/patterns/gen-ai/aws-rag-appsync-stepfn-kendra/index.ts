@@ -41,7 +41,7 @@ import {
 } from '../../../common/helpers/kendra-helper';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import { lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
-import { AddAwsServiceEndpoint, buildVpc, createDefaultIsolatedVpcProps } from '../../../common/helpers/vpc-helper';
+import { AddAwsServiceEndpoint, buildVpc, createDefaultIsolatedVpcProps, ServiceEndpointTypeEnum } from '../../../common/helpers/vpc-helper';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
 /**
@@ -138,23 +138,6 @@ export interface RagAppsyncStepfnKendraProps {
    * and settings instead of the existing
    */
   readonly updateKendraJobStatusLambdaProps?: DockerLambdaCustomProps | undefined;
-}
-
-enum ServiceEndpointTypeEnum {
-  DYNAMODB= 'DDB',
-  ECR_API= 'ECR_API',
-  ECR_DKR= 'ECR_DKR',
-  EVENTS= 'CLOUDWATCH_EVENTS',
-  KENDRA= 'KENDRA',
-  KINESIS_FIREHOSE= 'KINESIS_FIREHOSE',
-  KINESIS_STREAMS= 'KINESIS_STREAMS',
-  S3= 'S3',
-  SAGEMAKER_RUNTIME= 'SAGEMAKER_RUNTIME',
-  SECRETS_MANAGER= 'SECRETS_MANAGER',
-  SNS= 'SNS',
-  SQS= 'SQS',
-  SSM= 'SSM',
-  STEP_FUNCTIONS= 'STEP_FUNCTIONS',
 }
 
 /**
