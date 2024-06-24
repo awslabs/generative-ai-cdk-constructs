@@ -32,6 +32,11 @@ const PUBLICATION_NAMESPACE = 'cdklabs';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
 const CDK_VERSION: string = '2.143.0';
 
+function camelCaseIt(input: string): string {
+  // Hypens and dashes to spaces and then CamelCase...
+  return input.replace(/-/g, ' ').replace(/_/g, ' ').replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, _) { if (+match === 0) return ''; return match.toUpperCase(); });
+}
+
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Amazon Web Services - Prototyping and Cloud Engineering',
   authorAddress: 'https://aws.amazon.com',
@@ -78,6 +83,11 @@ const project = new awscdk.AwsCdkConstructLibrary({
     distName: PUBLICATION_NAMESPACE+'.'+PROJECT_NAME,
     module: (PUBLICATION_NAMESPACE.replace(/-/g, '_'))+'.'+(PROJECT_NAME.replace(/-/g, '_')), // PEP 8, convert hypens
     // twineRegistryUrl: '${{ secrets.TWINE_REGISTRY_URL }}',
+  },
+
+  publishToNuget: {
+    dotNetNamespace: camelCaseIt(PUBLICATION_NAMESPACE)+'.'+camelCaseIt(PROJECT_NAME),
+    packageId: camelCaseIt(PUBLICATION_NAMESPACE)+'.'+camelCaseIt(PROJECT_NAME),
   },
 
   codeCov: true,
@@ -138,6 +148,8 @@ project.github?.actions.set('actions/checkout@v4', 'actions/checkout@b4ffde65f46
 project.github?.actions.set('actions/download-artifact@v3', 'actions/download-artifact@b4aefff88e83a2676a730654e1ce3dce61880379'); // https://github.com/projen/projen/issues/3529
 project.github?.actions.set('actions/download-artifact@v4', 'actions/download-artifact@b4aefff88e83a2676a730654e1ce3dce61880379');
 project.github?.actions.set('actions/github-script@v6', 'actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410');
+project.github?.actions.set('actions/setup-dotnet@v3', 'actions/setup-dotnet@4d6c8fcf3c8f7a60068d26b594648e99df24cee3');
+project.github?.actions.set('actions/setup-dotnet@v4', 'actions/setup-dotnet@4d6c8fcf3c8f7a60068d26b594648e99df24cee3');
 project.github?.actions.set('actions/setup-node@v3', 'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8'); // https://github.com/projen/projen/issues/3529
 project.github?.actions.set('actions/setup-node@v4', 'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8');
 project.github?.actions.set('actions/setup-python@v4', 'actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d'); // https://github.com/projen/projen/issues/3529

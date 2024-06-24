@@ -17,6 +17,7 @@
     "generate-models-containers": "npx projen generate-models-containers",
     "package": "npx projen package",
     "package-all": "npx projen package-all",
+    "package:dotnet": "npx projen package:dotnet",
     "package:js": "npx projen package:js",
     "package:python": "npx projen package:python",
     "post-compile": "npx projen post-compile",
@@ -148,6 +149,10 @@
       "python": {
         "distName": "cdklabs.generative-ai-cdk-constructs",
         "module": "cdklabs.generative_ai_cdk_constructs"
+      },
+      "dotnet": {
+        "namespace": "Cdklabs.GenerativeAiCdkConstructs",
+        "packageId": "Cdklabs.GenerativeAiCdkConstructs"
       }
     },
     "tsc": {
