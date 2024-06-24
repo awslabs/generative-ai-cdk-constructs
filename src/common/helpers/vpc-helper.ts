@@ -10,6 +10,8 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+import * as path from 'path';
+import { CustomResource } from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import {
   CfnSubnet,
@@ -22,12 +24,14 @@ import {
   Vpc,
   VpcProps,
 } from 'aws-cdk-lib/aws-ec2';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { CfnLogGroup } from 'aws-cdk-lib/aws-logs';
 import { CfnVpcEndpoint } from 'aws-cdk-lib/aws-opensearchserverless';
 import { Construct } from 'constructs';
 import { buildSecurityGroup } from './kendra-helper';
 import { OpenSearchProps } from './opensearch-helper';
 import { addCfnSuppressRules } from './utils';
+import { buildCustomResourceProvider } from '../../common/helpers/custom-resource-provider-helper';
 import {
   EndpointTypes,
 } from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
@@ -132,12 +136,12 @@ export function getPrivateSubnetIDs (vpc: IVpc): string [] {
 }
 
 // get lambda security group for passed VPC
-export function getlambdaSecuritygroup(scope: Construct, vpc: IVpc): SecurityGroup {
+export function getlambdaSecuritygroup(scope: Construct, vpc: IVpc, id: string): SecurityGroup {
   let lambdaSecurityGroup= new SecurityGroup(scope, 'lambdaSecurityGroup', {
     vpc: vpc,
     allowAllOutbound: true,
     description: 'security group for lambda',
-    securityGroupName: 'lambdaSecurityGroup',
+    securityGroupName: `lambdaSecurityGroup-${id}`,
   });
   return lambdaSecurityGroup;
 }
@@ -177,7 +181,25 @@ export function createOpenSearchVpcEndpoint(scope: Construct, vpc: IVpc, props: 
       name: 'VpcEndpoint',
       vpcId: vpc.vpcId,
       subnetIds: vpc.selectSubnets({ subnetType: ec2.SubnetType.PRIVATE_ISOLATED }).subnetIds,
-      securityGroupIds: [getlambdaSecuritygroup(scope,vpc).securityGroupId],
+      securityGroupIds: [getlambdaSecuritygroup(scope, vpc, 'aoss').securityGroupId],
+    });
+  }
+  if (props?.existingOpensearchDomain) {
+    const openSearchVpcEndpointCRProvider = buildCustomResourceProvider({
+      providerName: 'OpenSearchIndexCRProvider',
+      codePath: path.join(
+        __dirname, '../../../lambda/opensearch-serverless-custom-resources'),
+      handler: 'custom_resources.on_event',
+      runtime: lambda.Runtime.PYTHON_3_12,
+    });
+    new CustomResource(scope, 'OpenSearchVpcEndpointCR', {
+      serviceToken: openSearchVpcEndpointCRProvider.getProvider(scope).serviceToken,
+      properties: {
+        Endpoint: props?.existingOpensearchDomain.domainEndpoint,
+        DomainArn: props?.existingOpensearchDomain.domainArn,
+        SubnetIds: vpc.selectSubnets({ subnetType: ec2.SubnetType.PRIVATE_ISOLATED }).subnetIds,
+        SecurityGroupIds: [getlambdaSecuritygroup(scope, vpc, 'es').securityGroupId],
+      },
     });
   }
 }
