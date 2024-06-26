@@ -93,7 +93,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     javaPackage: `io.github.${PUBLICATION_NAMESPACE.replace(/-/g, '_')}.${PROJECT_NAME.replace(/-/g, '_')}`,
     mavenGroupId: `io.github.${PUBLICATION_NAMESPACE}`,
     mavenArtifactId: PROJECT_NAME,
-    mavenEndpoint: "https://s01.oss.sonatype.org",
+    mavenEndpoint: 'https://s01.oss.sonatype.org',
   },
 
   codeCov: true,
