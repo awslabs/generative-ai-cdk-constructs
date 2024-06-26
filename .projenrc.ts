@@ -82,7 +82,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
   publishToPypi: {
     distName: PUBLICATION_NAMESPACE+'.'+PROJECT_NAME,
     module: (PUBLICATION_NAMESPACE.replace(/-/g, '_'))+'.'+(PROJECT_NAME.replace(/-/g, '_')), // PEP 8, convert hypens
-    // twineRegistryUrl: '${{ secrets.TWINE_REGISTRY_URL }}',
   },
 
   publishToNuget: {
@@ -91,9 +90,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
   },
 
   publishToMaven: {
-    javaPackage: `io.github.${PUBLICATION_NAMESPACE}.${camelCaseIt(PROJECT_NAME)}`,
+    javaPackage: `io.github.${PUBLICATION_NAMESPACE.replace(/-/g, '_')}.${PROJECT_NAME.replace(/-/g, '_')}`,
     mavenGroupId: `io.github.${PUBLICATION_NAMESPACE}`,
-    mavenArtifactId: `${camelCaseIt(PROJECT_NAME)}`,
+    mavenArtifactId: PROJECT_NAME,
+    mavenEndpoint: "https://s01.oss.sonatype.org",
   },
 
   codeCov: true,

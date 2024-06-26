@@ -148,10 +148,10 @@
     "outdir": "dist",
     "targets": {
       "java": {
-        "package": "io.github.cdklabs.GenerativeAiCdkConstructs",
+        "package": "io.github.cdklabs.generative_ai_cdk_constructs",
         "maven": {
           "groupId": "io.github.cdklabs",
-          "artifactId": "GenerativeAiCdkConstructs"
+          "artifactId": "generative-ai-cdk-constructs"
         }
       },
       "python": {
