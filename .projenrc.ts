@@ -90,6 +90,12 @@ const project = new awscdk.AwsCdkConstructLibrary({
     packageId: camelCaseIt(PUBLICATION_NAMESPACE)+'.'+camelCaseIt(PROJECT_NAME),
   },
 
+  publishToMaven: {
+    javaPackage: `io.github.${PUBLICATION_NAMESPACE}.${camelCaseIt(PROJECT_NAME)}`,
+    mavenGroupId: `io.github.${PUBLICATION_NAMESPACE}`,
+    mavenArtifactId: `${camelCaseIt(PROJECT_NAME)}`,
+  },
+
   codeCov: true,
   codeCovTokenSecret: 'CODECOV_TOKEN',
 
@@ -154,6 +160,8 @@ project.github?.actions.set('actions/setup-node@v3', 'actions/setup-node@60edb5d
 project.github?.actions.set('actions/setup-node@v4', 'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8');
 project.github?.actions.set('actions/setup-python@v4', 'actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d'); // https://github.com/projen/projen/issues/3529
 project.github?.actions.set('actions/setup-python@v5', 'actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d');
+project.github?.actions.set('actions/setup-java@v3', 'actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9');
+project.github?.actions.set('actions/setup-java@v4', 'actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9');
 project.github?.actions.set('actions/stale@v4', 'actions/stale@a20b814fb01b71def3bd6f56e7494d667ddf28da');
 project.github?.actions.set('actions/upload-artifact@v3', 'actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34'); // https://github.com/projen/projen/issues/3529
 project.github?.actions.set('actions/upload-artifact@v4', 'actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34');
