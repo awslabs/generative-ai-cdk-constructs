@@ -12,23 +12,23 @@
  */
 
 export enum CharacterFilterType {
-  ICU_NORMALIZER = "icu_normalizer",
+  ICU_NORMALIZER = 'icu_normalizer',
 }
 
 // Currently we only support Kuromoji and ICU tokenizers.
 // Also see the following link for more information regarding supported plugins:
 // https://docs.aws.amazon.com/opensearch-service/latest/developerguide/serverless-genref.html#serverless-plugins
 export enum TokenizerType {
-  KUROMOJI_TOKENIZER = "kuromoji_tokenizer",
-  ICU_TOKENIZER = "icu_tokenizer",
+  KUROMOJI_TOKENIZER = 'kuromoji_tokenizer',
+  ICU_TOKENIZER = 'icu_tokenizer',
 }
 
 export enum TokenFilterType {
-  KUROMOJI_BASEFORM = "kuromoji_baseform",
-  KUROMOJI_PART_OF_SPEECH = "kuromoji_part_of_speech",
-  KUROMOJI_STEMMER = "kuromoji_stemmer",
-  CJK_WIDTH = "cjk_width",
-  JA_STOP = "ja_stop",
-  LOWERCASE = "lowercase",
-  ICU_FOLDING = "icu_folding",
+  KUROMOJI_BASEFORM = 'kuromoji_baseform',
+  KUROMOJI_PART_OF_SPEECH = 'kuromoji_part_of_speech',
+  KUROMOJI_STEMMER = 'kuromoji_stemmer',
+  CJK_WIDTH = 'cjk_width',
+  JA_STOP = 'ja_stop',
+  LOWERCASE = 'lowercase',
+  ICU_FOLDING = 'icu_folding',
 }
