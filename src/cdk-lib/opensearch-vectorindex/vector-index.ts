@@ -10,14 +10,19 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import * as path from 'path';
-import * as cdk from 'aws-cdk-lib';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
-import * as oss from 'aws-cdk-lib/aws-opensearchserverless';
-import { Construct } from 'constructs';
-import { buildCustomResourceProvider } from '../../common/helpers/custom-resource-provider-helper';
-import { generatePhysicalNameV2 } from '../../common/helpers/utils';
-import { VectorCollection } from '../opensearchserverless';
+import * as path from "path";
+import * as cdk from "aws-cdk-lib";
+import * as lambda from "aws-cdk-lib/aws-lambda";
+import * as oss from "aws-cdk-lib/aws-opensearchserverless";
+import { Construct } from "constructs";
+import { buildCustomResourceProvider } from "../../common/helpers/custom-resource-provider-helper";
+import { generatePhysicalNameV2 } from "../../common/helpers/utils";
+import { VectorCollection } from "../opensearchserverless";
+import {
+  CharacterFilterType,
+  TokenFilterType,
+  TokenizerType,
+} from "../opensearchserverless/analysis-plugins";
 
 /**
  * Metadata field definitions.
@@ -56,7 +61,7 @@ type MetadataManagementField = {
    * Whether the field is filterable.
    */
   readonly Filterable: boolean;
-}
+};
 
 /**
  * Properties for the Custom::OpenSearchIndex custom resource.
@@ -84,6 +89,30 @@ interface VectorIndexResourceProps {
    * The metadata management fields.
    */
   readonly MetadataManagement: MetadataManagementField[];
+  /**
+   * The analyzer to use.
+   */
+  readonly Analyzer?: AnalyzerProps;
+}
+
+/**
+ * Properties for the Analyzer.
+ *
+ * @internal
+ */
+export interface AnalyzerProps {
+  /**
+   * The analyzers to use.
+   */
+  readonly CharacterFilters: CharacterFilterType[];
+  /**
+   * The tokenizer to use.
+   */
+  readonly Tokenizer: TokenizerType;
+  /**
+   * The token filters to use.
+   */
+  readonly TokenFilters: TokenFilterType[];
 }
 
 /**
@@ -110,6 +139,11 @@ export interface VectorIndexProps {
    * The metadata management fields.
    */
   readonly mappings: MetadataManagementFieldProps[];
+  /**
+   * The analyzer to use.
+   * @default - No analyzer.
+   */
+  readonly analyzer?: AnalyzerProps;
 }
 
 /**
@@ -129,11 +163,7 @@ export class VectorIndex extends cdk.Resource {
    */
   public readonly vectorDimensions: number;
 
-  constructor(
-    scope: Construct,
-    id: string,
-    props: VectorIndexProps,
-  ) {
+  constructor(scope: Construct, id: string, props: VectorIndexProps) {
     super(scope, id);
 
     this.indexName = props.indexName;
@@ -142,46 +172,49 @@ export class VectorIndex extends cdk.Resource {
     const crProvider = OpenSearchIndexCRProvider.getProvider(this);
     crProvider.role.addManagedPolicy(props.collection.aossPolicy);
 
-    const manageIndexPolicyName = generatePhysicalNameV2(this,
-      'ManageIndexPolicy',
-      { maxLength: 32, lower: true });
-    const manageIndexPolicy = new oss.CfnAccessPolicy(this, 'ManageIndexPolicy', {
-      name: manageIndexPolicyName,
-      type: 'data',
-      policy: JSON.stringify([
-        {
-          Rules: [
-            {
-              Resource: [`index/${props.collection.collectionName}/*`],
-              Permission: [
-                'aoss:DescribeIndex',
-                'aoss:CreateIndex',
-                'aoss:DeleteIndex',
-                'aoss:UpdateIndex',
-              ],
-              ResourceType: 'index',
-            },
-            {
-              Resource: [`collection/${props.collection.collectionName}`],
-              Permission: [
-                'aoss:DescribeCollectionItems',
-              ],
-              ResourceType: 'collection',
-            },
-          ],
-          Principal: [
-            crProvider.role.roleArn,
-          ],
-          Description: '',
-        },
-      ]),
-    });
+    const manageIndexPolicyName = generatePhysicalNameV2(
+      this,
+      "ManageIndexPolicy",
+      { maxLength: 32, lower: true }
+    );
+    const manageIndexPolicy = new oss.CfnAccessPolicy(
+      this,
+      "ManageIndexPolicy",
+      {
+        name: manageIndexPolicyName,
+        type: "data",
+        policy: JSON.stringify([
+          {
+            Rules: [
+              {
+                Resource: [`index/${props.collection.collectionName}/*`],
+                Permission: [
+                  "aoss:DescribeIndex",
+                  "aoss:CreateIndex",
+                  "aoss:DeleteIndex",
+                  "aoss:UpdateIndex",
+                ],
+                ResourceType: "index",
+              },
+              {
+                Resource: [`collection/${props.collection.collectionName}`],
+                Permission: ["aoss:DescribeCollectionItems"],
+                ResourceType: "collection",
+              },
+            ],
+            Principal: [crProvider.role.roleArn],
+            Description: "",
+          },
+        ]),
+      }
+    );
 
-
-    const vectorIndex = new cdk.CustomResource(this, 'VectorIndex', {
+    const vectorIndex = new cdk.CustomResource(this, "VectorIndex", {
       serviceToken: crProvider.serviceToken,
       properties: {
-        Endpoint: `${props.collection.collectionId}.${cdk.Stack.of(this).region}.aoss.amazonaws.com`,
+        Endpoint: `${props.collection.collectionId}.${
+          cdk.Stack.of(this).region
+        }.aoss.amazonaws.com`,
         IndexName: props.indexName,
         VectorField: props.vectorField,
         Dimensions: props.vectorDimensions,
@@ -192,15 +225,15 @@ export class VectorIndex extends cdk.Resource {
             Filterable: m.filterable,
           };
         }),
+        Analyzer: props.analyzer,
       } as VectorIndexResourceProps,
-      resourceType: 'Custom::OpenSearchIndex',
+      resourceType: "Custom::OpenSearchIndex",
     });
 
     vectorIndex.node.addDependency(manageIndexPolicy);
     vectorIndex.node.addDependency(props.collection);
     vectorIndex.node.addDependency(props.collection.dataAccessPolicy);
   }
-
 }
 
 /**
@@ -209,9 +242,11 @@ export class VectorIndex extends cdk.Resource {
  * @internal This is an internal core function and should not be called directly by Solutions Constructs clients.
  */
 export const OpenSearchIndexCRProvider = buildCustomResourceProvider({
-  providerName: 'OpenSearchIndexCRProvider',
+  providerName: "OpenSearchIndexCRProvider",
   codePath: path.join(
-    __dirname, '../../../lambda/opensearch-serverless-custom-resources'),
-  handler: 'custom_resources.on_event',
+    __dirname,
+    "../../../lambda/opensearch-serverless-custom-resources"
+  ),
+  handler: "custom_resources.on_event",
   runtime: lambda.Runtime.PYTHON_3_12,
 });
