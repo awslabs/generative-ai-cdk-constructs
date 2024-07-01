@@ -24,7 +24,7 @@ import {
   AmazonAuroraVectorStore,
 } from '../amazonaurora';
 
-import { VectorIndex, Analyzer } from '../opensearch-vectorindex';
+import { VectorIndex } from '../opensearch-vectorindex';
 import { VectorCollection } from '../opensearchserverless';
 import { PineconeVectorStore } from '../pinecone';
 
@@ -174,10 +174,6 @@ export interface KnowledgeBaseProps {
    * if vector store is of `VectorCollection` type.
    */
   readonly vectorIndex?: VectorIndex;
-  /**
-   * The analyzer for the OpenSearch Serverless backed knowledge base.
-   */
-  readonly analyzer?: Analyzer;
 
   /**
    * Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
@@ -416,7 +412,6 @@ export class KnowledgeBase extends Construct {
               filterable: false,
             },
           ],
-          analyzer: props.analyzer,
         });
 
         this.vectorIndex.node.addDependency(this.vectorStore);

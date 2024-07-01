@@ -10,7 +10,6 @@ Properties for a knowledge base
 
 ### Properties
 
-- [analyzer](bedrock.KnowledgeBaseProps.md#analyzer)
 - [description](bedrock.KnowledgeBaseProps.md#description)
 - [embeddingsModel](bedrock.KnowledgeBaseProps.md#embeddingsmodel)
 - [existingRole](bedrock.KnowledgeBaseProps.md#existingrole)
@@ -24,14 +23,6 @@ Properties for a knowledge base
 - [vectorStore](bedrock.KnowledgeBaseProps.md#vectorstore)
 
 ## Properties
-
-### analyzer
-
-• `Optional` `Readonly` **analyzer**: [`Analyzer`](opensearch_vectorindex.Analyzer.md)
-
-The analyzer for the OpenSearch Serverless backed knowledge base.
-
-___
 
 ### description
 

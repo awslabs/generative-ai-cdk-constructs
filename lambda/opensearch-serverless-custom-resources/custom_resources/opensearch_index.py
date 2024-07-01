@@ -76,12 +76,13 @@ def validate_event(event: CustomResourceRequest[VectorIndexProperties]) -> bool:
             raise ValueError("MetadataManagement is required")
         if event["RequestType"] == "Update" and event["PhysicalResourceId"] is None:
             raise ValueError("PhysicalResourceId is required")
-        if event["Analyzer"] is not None:
-            if event["Analyzer"]["CharacterFilters"] is None:
+        if event["ResourceProperties"].get("Analyzer") is not None:
+            analyzer = event["ResourceProperties"]["Analyzer"]
+            if analyzer["CharacterFilters"] is None:
                 raise ValueError("CharacterFilters is required")
-            if event["Analyzer"]["Tokenizer"] is None:
+            if analyzer["Tokenizer"] is None:
                 raise ValueError("Tokenizer is required")
-            if event["Analyzer"]["TokenFilters"] is None:
+            if analyzer["TokenFilters"] is None:
                 raise ValueError("TokenFilters is required")
     elif event["RequestType"] == "Delete":
         if event["PhysicalResourceId"] is None:
@@ -179,6 +180,8 @@ def create_index(
     client: OpenSearch, index_name: str, mapping: dict[str, str], setting: dict[str, str]
 ) -> None:
     logger.debug(f"creating index {index_name}")
+    logger.debug(f"setting: {setting}")
+    logger.debug(f"mapping: {mapping}")
     client.indices.create(
         index_name,
         body={
