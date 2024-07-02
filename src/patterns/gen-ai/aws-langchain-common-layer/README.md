@@ -55,7 +55,7 @@ TypeScript
 ``` typescript
 import { Construct } from 'constructs';
 import { Stack, StackProps, Aws } from 'aws-cdk-lib';
-import { LangchainCommonDepsLayer, LangchainCommonLayer } from '@cdklabs/generative-ai-cdk-constructs';
+import { LangchainCommonDepsLayer } from '@cdklabs/generative-ai-cdk-constructs';
 
 const lambdaArchitecture = lambda.Architecture.ARM_64;
 const lambdaRuntime = lambda.Runtime.PYTHON_3_10;
@@ -71,11 +71,6 @@ const lambdaDepsLayer = new LangchainCommonDepsLayer(this, 'lambdagenaidepslayer
         architecture: lambdaArchitecture,
         autoUpgrade: true
       });
-
-const lambdaCommonLayer = new LangchainCommonLayer(this, 'lambdagenaicommonlayer', {
-    compatibleRuntimes: [lambdaRuntime],
-    compatibleArchitectures: [lambdaArchitecture],
-});
 
 //Then pass the layers above to your lambda function constructor
 ```
@@ -112,97 +107,6 @@ lambda_deps_layer = LangchainCommonDepsLayer(
     auto_upgrade=True,
 )
 
-lambda_common_layer = LangchainCommonLayer(
-    self,
-    'lambdagenaicommonlayer',
-    compatible_runtimes=[lambda_runtime],
-    compatible_architectures=[lambda_architecture],
-)
-
-# Then pass the layers above to your lambda function constructor
-```
-
-Here is an example of a Lambda handler which uses the layers above:
-
-```
-import json
-import boto3
-import uuid
-from genai_core.adapters.registry import registry
-
-sequence_number = 0
-
-def on_llm_new_token(
-    connection_id, user_id, session_id, self, token, run_id, *args, **kwargs
-):
-    global sequence_number
-    sequence_number += 1
-    run_id = str(run_id)
-    
-    print(token)
-
-def handler(event, context):
-    print(event)
-    connection_id = event["connection_id"]
-    provider = event["provider"]
-    model_id = event["model_id"]
-    session_id=event["session_id"]
-    user_id=event["user_id"]
-    prompt = event["text"]
-
-    model_kwargs=json.loads(event["model_kwargs"])
-    adapter_args=json.loads(event["adapter_args"])
-    
-    if not session_id:
-        session_id = str(uuid.uuid4())
-
-    if not user_id:
-        user_id = str(uuid.uuid4())
-    
-    adapter = registry.get_adapter(f"{provider}.{model_id}")
-    
-    adapter.on_llm_new_token = lambda *args, **kwargs: on_llm_new_token(
-        connection_id, user_id, session_id, *args, **kwargs
-    )
-
-    model = adapter(
-        model_id=model_id,
-        session_id=session_id,
-        user_id=user_id,
-        model_kwargs=model_kwargs,
-        adapter_kwargs=adapter_args
-    )
-
-    response = model.run(
-        prompt=prompt,
-        tools=[],
-    )
-```
-
-An example of an event:
-```
-event = {
-  "connection_id": "234",
-  "provider": "bedrock",
-  "model_id": "anthropic.claude-v2:1",
-  "session_id": "123",
-  "user_id": "873",
-  "text": "What is your name ?",
-  "model_kwargs": "{\"streaming\":true}",
-  "adapter_args": "{}"
-}
-```
-
-Where:
-- connection_id: a unique connection id
-- provider: LLM provider (currently supported: bedrock, sagemaker, openai)
-- model_id: model identified as specified by the model provider
-- session_id: session identified, used if chat history is enabled
-- user_id: identified for a specific user
-- text: user question
-- model_kwargs: dictionary containing model arguments (temperature, ...). Please refer to the model documentation for a complete list of arguments available.
-- adapter_kwargs: used to control the configuration of the adapter (enable chat history, RAG,...). Currently, values for this parameter are not used.
-
 ## Initializer
 
 ```
@@ -228,90 +132,10 @@ new LangchainCommonDepsLayer(scope: Construct, id: string, props: LangchainLayer
 | license | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | The SPDX licence identifier or URL to the license file for this layer |
 | removalPolicy | [RemovalPolicy](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.RemovalPolicy.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Whether to retain this version of the layer when a new version is added or when the stack is deleted. Default: DESTROY |
 
-```
-new LangchainCommonLayer(scope: Construct, id: string, props: LangchainLayerProps)
-```
-
-Parameters
-
-- scope [Construct](https://docs.aws.amazon.com/cdk/api/v2/docs/constructs.Construct.html)
-- id string
-- props [AdapterProps](https://github.com/awslabs/generative-ai-cdk-constructs/blob/main/src/AdapterProps.ts)
-
-#### Pattern Construct Props
-
-| **Name**     | **Type**        | **Required** |**Description** |
-|:-------------|:----------------|-----------------|-----------------|
-| compatibleRuntimes | [lambda.Runtime[]](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Runtime.html) | ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function runtime compatible with this layer. |
-| compatibleArchitectures | [lambda.Architecture[]](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.Architecture.html)| ![Required](https://img.shields.io/badge/required-ff0000) | Lambda function architecture compatible with this layer. |
-| autoUpgrade | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Add '--upgrade' to pip install requirements.txt. In case of a LangchainCommonLayer, this parameter is not used. |
-| description | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | Default: Dependencies to build gen ai applications with the langchain client |
-| layerVersionName | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | The name of the layer |
-| license | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | The SPDX licence identifier or URL to the license file for this layer |
-| removalPolicy | [RemovalPolicy](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.RemovalPolicy.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Whether to retain this version of the layer when a new version is added or when the stack is deleted. Default: DESTROY |
-| local | "python" or "python3" | ![Optional](https://img.shields.io/badge/optional-4169E1) | Local compute will be used when installing requirements.txt when set. By default, a docker container will be spun up to install requirements. |
-
-## Pattern Properties
-
-| **Name**     | **Type**        | **Description** |
-|:-------------|:----------------|-----------------|
-| layer | [lambda.LayerVersion](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_lambda.LayerVersion.html) | The instance of lambda.LayerVersion created by the construct |
 
 ## Default properties
 
 Out-of-the-box implementation of the construct without any override will not set any default values. Depending on the features enabled, user will need to provide environmental variable values to the AWS Lambda function used by the LangchainCommonLayer.
-
-## Python utility layer (LangchainCommonLayer)
-
-This utility layer provides helper functions to accelerate the development of generative AI applications on AWS. 
-
-| **Provider** | **Prediction (waiting)** | **Streaming** |
-|:-------------|:----------------|-----------------|
-| OpenAI | ✅ | ✅  |
-| Amazon SageMaker | ✅ | ❌ |
-| Amazon Bedrock | ✅ | ✅  |
-
-### Registry
-
-The model registry is a catalog, statically initialized, providing the list of supported models by the library. 
-
-Available models in the registry:
-
-| **Provider** | **Model** |
-|:-------------|:----------------|
-| OpenAI | All |
-| Amazon SageMaker | FalconLite, Llama2 |
-| Amazon Bedrock | All |
-
-### Adapters
-
-Adapters provide a generic interface to call models from different providers using the same input/output format. Adapters will correctly configure the client (boto3, openai,...) and provide the glue code to correctly serialize/deserialize requests (input/output consistency). 
-
-```
-from genai_core.adapters.registry import registry
-
-adapter = registry.get_adapter(f"{provider}.{model_id}")
-
-model = adapter(
-        model_id=model_id,
-        session_id=session_id,
-        user_id=user_id,
-        model_kwargs=model_kwargs,
-        adapter_kwargs=adapter_args
-    )
-
-response = model.run(
-        prompt=prompt,
-        tools=[],
-    )
-```
-
-
-## Troubleshooting
-
-| **Error Code**     | **Message**        | **Description** |**Fix** |
-|:-------------|:----------------|-----------------|-----------------|
-| 601 | <llm_name> Exception during prediction | An exception happened while the LangChain client was running a prediction with the selected LLM | Verify logs to get the proper error message from the LangChain client |
 
 ## Architecture
 ![Architecture Diagram](architecture.png)
@@ -321,18 +145,6 @@ response = model.run(
 You are responsible for the cost of the AWS services used while running this construct. As of this revision, the cost for running this construct with the default settings in the US East (N. Virginia) Region is approximately $0.25 per month.
 
 We recommend creating a budget through [AWS Cost Explorer](http://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this solution.
-
-The following table provides a sample cost breakdown for deploying this solution with the default parameters in the **US East (N. Virginia)** Region for **one month**.
-
-
-| **AWS Service**     | **Dimensions**        | **Cost [USD]** |
-|:-------------|:----------------|-----------------|
-| AWS Lambda | 1 Lambda function with 128 MB memory and 512 MB ephemeral storage with an average duration of 10 seconds | 0.00 |
-| Amazon Bedrock | An application developer makes the following API calls to Amazon Bedrock: A request to Anthropic’s Claude V2.1 model to summarize an input of 11K tokens of input text to an output of 4K tokens. Total cost incurred is = 11K tokens/1000 * $0.01102 + 4K tokens/1000 * $0.03268 = $0.25 | 0.25 |
-| Total monthly cost | | 0.25 |
-
-> **Note**
-> The costs of API calls to third-party LLM providers are not included in these estimates. See the pricing guide of your LLM provider.
 
 ## Security
 

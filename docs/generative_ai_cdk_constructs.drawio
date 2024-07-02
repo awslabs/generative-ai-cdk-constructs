@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2024-05-15T15:46:20.083Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.2.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="Ujq2-Hu4LODn1_BOerQH" version="24.2.5" type="device" pages="10">
+<mxfile host="Electron" modified="2024-07-02T00:52:48.483Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.4.13 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="7Bo-kMY3EzOB2eYsUAEn" version="24.4.13" type="device" pages="10">
   <diagram id="yqzoU6PykweUqwamPqNK" name="aws-rag-appsync-stepfn-opensearch">
     <mxGraphModel dx="2726" dy="658" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -495,32 +495,26 @@
     </mxGraphModel>
   </diagram>
   <diagram id="RhHeRPy2IWVfX898XMI6" name="aws-langchain-common-layer">
-    <mxGraphModel dx="1026" dy="669" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1026" dy="675" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="igxRs5G-zJLwPDVD-uiK-1" value="" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="290" y="260" width="210" height="290" as="geometry" />
+          <mxGeometry x="290" y="310" width="210" height="240" as="geometry" />
         </mxCell>
         <mxCell id="igxRs5G-zJLwPDVD-uiK-3" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
-          <mxGeometry x="240" y="260" width="30" height="290" as="geometry" />
+          <mxGeometry x="240" y="310" width="30" height="240" as="geometry" />
         </mxCell>
         <mxCell id="igxRs5G-zJLwPDVD-uiK-4" value="Function&lt;br&gt;code" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-          <mxGeometry x="360" y="280" width="70" height="40" as="geometry" />
+          <mxGeometry x="360" y="320" width="70" height="40" as="geometry" />
         </mxCell>
         <mxCell id="igxRs5G-zJLwPDVD-uiK-5" value="Execution environment" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="320" y="560" width="150" height="30" as="geometry" />
         </mxCell>
         <mxCell id="igxRs5G-zJLwPDVD-uiK-6" value="" style="endArrow=none;html=1;rounded=0;" parent="1" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="290" y="340" as="sourcePoint" />
-            <mxPoint x="500" y="340" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="igxRs5G-zJLwPDVD-uiK-7" value="" style="endArrow=none;html=1;rounded=0;" parent="1" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="290" y="380" as="sourcePoint" />
-            <mxPoint x="500" y="380" as="targetPoint" />
+            <mxPoint x="290" y="377" as="sourcePoint" />
+            <mxPoint x="500" y="377" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="igxRs5G-zJLwPDVD-uiK-8" value="" style="endArrow=none;html=1;rounded=0;" parent="1" edge="1">
@@ -539,10 +533,7 @@
           <mxGeometry x="335" y="490" width="120" height="30" as="geometry" />
         </mxCell>
         <mxCell id="igxRs5G-zJLwPDVD-uiK-11" value="LangchainCommonDepsLayer" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#b85450;fillColor=#f8cecc;" parent="1" vertex="1">
-          <mxGeometry x="300" y="345" width="190" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="igxRs5G-zJLwPDVD-uiK-12" value="LangchainCommonLayer" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#b85450;fillColor=#f8cecc;" parent="1" vertex="1">
-          <mxGeometry x="316" y="386" width="160" height="30" as="geometry" />
+          <mxGeometry x="300" y="386" width="190" height="30" as="geometry" />
         </mxCell>
         <mxCell id="igxRs5G-zJLwPDVD-uiK-13" value="Lambda powertools" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="330" y="425" width="130" height="30" as="geometry" />
