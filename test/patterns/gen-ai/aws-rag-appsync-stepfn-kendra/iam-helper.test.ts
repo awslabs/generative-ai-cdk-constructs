@@ -10,14 +10,17 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import { Stack } from 'aws-cdk-lib';
+import * as cdk from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import { addRolePolicies, createIAMRoleWithBasicExecutionPolicy } from '../../../../src/common/helpers/iam-roles-helper';
 
 describe('iam-roles-helper', () => {
   describe('createIAMRoleWithBasicExecutionPolicy', () => {
     it('creates an IAM role with a basic execution policy', () => {
-      const stack = new Stack();
+      let app = new cdk.App();
+      cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new cdk.Stack(app);
       const roleId = 'TestRole';
       const roleDescription = 'Test Description';
 
@@ -42,7 +45,9 @@ describe('iam-roles-helper', () => {
   });
   describe('addRolePolicies', () => {
     it('adds policy statements to the IAM role', () => {
-      const stack = new Stack();
+      let app = new cdk.App();
+      cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new cdk.Stack(app);
       const role = createIAMRoleWithBasicExecutionPolicy(stack, 'TestRole', 'Test Description');
 
       addRolePolicies(role, [{

@@ -15,12 +15,14 @@ import { Template, Match } from 'aws-cdk-lib/assertions';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as oss from 'aws-cdk-lib/aws-opensearchserverless';
 import * as secret from 'aws-cdk-lib/aws-secretsmanager';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import {
   QaAppsyncOpensearch,
   QaAppsyncOpensearchProps,
 } from '../../../../src/patterns/gen-ai/aws-qa-appsync-opensearch';
 
 describe('QA Appsync Open search construct', () => {
+  let app: cdk.App;
   let qaTestTemplate: Template;
   let qaTestConstruct: QaAppsyncOpensearch;
   const cognitoPoolId = 'region_XXXXX';
@@ -30,7 +32,9 @@ describe('QA Appsync Open search construct', () => {
   });
 
   beforeAll(() => {
-    const qaTestStack = new cdk.Stack(undefined, undefined, {
+    app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    const qaTestStack = new cdk.Stack(app, 'undefined', {
       env: { account: cdk.Aws.ACCOUNT_ID, region: cdk.Aws.REGION },
     });
 

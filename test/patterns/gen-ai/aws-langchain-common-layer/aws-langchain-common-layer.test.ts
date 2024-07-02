@@ -13,47 +13,14 @@
 import * as cdk from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import {
-  LangchainCommonLayer,
   LangchainCommonDepsLayer,
 } from '../../../../src/patterns/gen-ai/aws-langchain-common-layer';
 
-describe('LangchainCommonLayer construct', () => {
-
-  let LangchainCommonLayerTestTemplate: Template;
-  let LangchainCommonLayerTestConstruct: LangchainCommonLayer;
-
-  afterAll(() => {
-    console.log('Test completed');
-    console.log(LangchainCommonLayerTestTemplate.toJSON());
-  });
-
-  beforeAll(() => {
-
-    const LangchainCommonLayerTestStack = new cdk.Stack(undefined, undefined, {
-      env: { account: cdk.Aws.ACCOUNT_ID, region: 'us-east-1' },
-    });
-
-    // Lambda layer
-    const lambdaArchitecture = lambda.Architecture.ARM_64;
-    const lambdaRuntime = lambda.Runtime.PYTHON_3_10;
-
-    LangchainCommonLayerTestConstruct = new LangchainCommonLayer(LangchainCommonLayerTestStack, 'lambdagenaicommonlayer', {
-      compatibleRuntimes: [lambdaRuntime],
-      compatibleArchitectures: [lambdaArchitecture],
-    });
-    LangchainCommonLayerTestTemplate = Template.fromStack(LangchainCommonLayerTestStack);
-
-  });
-
-  test('LayerVersion count', () => {
-    LangchainCommonLayerTestTemplate.resourceCountIs('AWS::Lambda::LayerVersion', 1);
-    expect(LangchainCommonLayerTestConstruct.layer).not.toBeNull;
-  });
-});
-
 describe('LangchainCommonDepsLayer construct', () => {
 
+  let app: cdk.App;
   let LangchainCommonLayerDepsTestTemplate: Template;
   let LangchainCommonLayerDepsTestConstruct: LangchainCommonDepsLayer;
 
@@ -63,8 +30,9 @@ describe('LangchainCommonDepsLayer construct', () => {
   });
 
   beforeAll(() => {
-
-    const LangchainCommonLayerDepsTestStack = new cdk.Stack(undefined, undefined, {
+    app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    const LangchainCommonLayerDepsTestStack = new cdk.Stack(app, 'undefined', {
       env: { account: cdk.Aws.ACCOUNT_ID, region: 'us-east-1' },
     });
 

@@ -23,7 +23,6 @@
     ".projen/files.json",
     ".projen/tasks.json",
     "LICENSE",
-    "src/common/props/AdapterProps.ts",
     "src/common/props/DockerLambdaCustomProps.ts",
     "src/common/props/LangchainProps.ts",
     "tsconfig.dev.json"

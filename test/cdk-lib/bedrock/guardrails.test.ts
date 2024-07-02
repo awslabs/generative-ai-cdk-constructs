@@ -13,6 +13,7 @@
 
 import { expect as cdkExpect, haveResource } from '@aws-cdk/assert';
 import * as cdk from 'aws-cdk-lib';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import { FiltersConfigStrength, FiltersConfigType } from '../../../src/cdk-lib/bedrock/content-policy';
 import { Guardrail, GuardrailProps } from '../../../src/cdk-lib/bedrock/guardrails';
 import { General, PiiEntitiesConfigAction } from '../../../src/cdk-lib/bedrock/pii-list';
@@ -21,7 +22,9 @@ import { Topic } from '../../../src/cdk-lib/bedrock/topic-list';
 
 describe('Guardrail', () => {
   test('creates a Guardrail with default properties', () => {
-    const stack = new cdk.Stack();
+    const app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    const stack = new cdk.Stack(app);
     const guardrail = new Guardrail(stack, 'MyGuardrail', {
       name: 'my-guardrail',
     });

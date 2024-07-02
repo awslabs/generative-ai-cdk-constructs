@@ -206,11 +206,6 @@ new ProjenStruct(project, { name: 'LangchainProps', filePath: 'src/common/props/
   .withoutDeprecated()
   .omit('code', 'compatibleRuntimes', 'compatibleArchitectures');
 
-new ProjenStruct(project, { name: 'AdapterProps', filePath: 'src/common/props/AdapterProps.ts' })
-  .mixin(Struct.fromFqn('aws-cdk-lib.aws_lambda.LayerVersionProps'))
-  .withoutDeprecated()
-  .omit('code');
-
 new ProjenStruct(project, { name: 'DockerLambdaCustomProps', filePath: 'src/common/props/DockerLambdaCustomProps.ts' })
   .mixin(Struct.fromFqn('aws-cdk-lib.aws_lambda.DockerImageFunctionProps'))
   .withoutDeprecated()

@@ -67,5 +67,4 @@ tsconfig.json
 !/.github/dependabot.yml
 !/.projenrc.ts
 !/src/common/props/LangchainProps.ts
-!/src/common/props/AdapterProps.ts
 !/src/common/props/DockerLambdaCustomProps.ts

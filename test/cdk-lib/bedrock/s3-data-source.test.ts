@@ -14,6 +14,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import * as s3 from 'aws-cdk-lib/aws-s3';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import * as bedrock from '../../../src/cdk-lib/bedrock';
 
 // mock lambda.Code.fromDockerBuild()
@@ -36,6 +37,7 @@ describe('S3 Data Source', () => {
 
   beforeEach(() => {
     const app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
     stack = new cdk.Stack(app, 'TestStack');
     bucket = new s3.Bucket(stack, 'TestBucket');
     kb = new bedrock.KnowledgeBase(stack, 'KB', {

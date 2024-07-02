@@ -13,12 +13,14 @@
 import * as cdk from 'aws-cdk-lib';
 import { Template, Match } from 'aws-cdk-lib/assertions';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import {
   ContentGenerationAppSyncLambda,
   ContentGenerationAppSyncLambdaProps,
 } from '../../../../src/patterns/gen-ai/aws-contentgen-appsync-lambda';
 
 describe('Image generation appsync lambda construct', () => {
+  let app: cdk.App;
   let imageTestTemplate: Template;
   let imageTestConstruct: ContentGenerationAppSyncLambda;
   const cognitoPoolId = 'region_XXXXX';
@@ -28,7 +30,9 @@ describe('Image generation appsync lambda construct', () => {
   });
 
   beforeAll(() => {
-    const imageTestStack = new cdk.Stack(undefined, undefined, {
+    app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    const imageTestStack = new cdk.Stack(app, 'undefined', {
       env: { account: cdk.Aws.ACCOUNT_ID, region: cdk.Aws.REGION },
     });
 
