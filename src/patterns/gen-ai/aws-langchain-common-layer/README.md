@@ -43,11 +43,7 @@ Thanks to the original authors:
 
 ## Overview
 
-This construct provides two AWS Lambda layers:
-- one dependency layer which contains needed python pip packages to build generative AI applications based on the [LangChain](https://python.langchain.com/docs/get_started/introduction) client. The list of libraries installed and their version is available [here](../../../../layers/langchain-common-deps/requirements.txt)
-- one Python code layer which contains helper functions to accelerate development of generative AI applications on AWS based on the [LangChain](https://python.langchain.com/docs/get_started/introduction) client.
-
-This construct has a dependency on [Powertools for AWS Lambda (Python)](https://github.com/aws-powertools/powertools-lambda-python).
+This construct provides an AWS Lambda layer which contains needed python pip packages to build generative AI applications based on the [LangChain](https://python.langchain.com/docs/get_started/introduction) client. The list of libraries installed and their version is available [here](../../../../layers/langchain-common-deps/requirements.txt)
 
 Here is a minimal deployable pattern definition:
 
@@ -60,19 +56,13 @@ import { LangchainCommonDepsLayer } from '@cdklabs/generative-ai-cdk-constructs'
 const lambdaArchitecture = lambda.Architecture.ARM_64;
 const lambdaRuntime = lambda.Runtime.PYTHON_3_10;
 
-// This is one way of getting a lambda powertools layer
-const powerToolsArn =
-        lambdaArchitecture === lambda.Architecture.X86_64
-          ? `arn:${Aws.PARTITION}:lambda:${Aws.REGION}:017000801446:layer:AWSLambdaPowertoolsPythonV2:42`
-          : `arn:${Aws.PARTITION}:lambda:${Aws.REGION}:017000801446:layer:AWSLambdaPowertoolsPythonV2-Arm64:42`;
-
 const lambdaDepsLayer = new LangchainCommonDepsLayer(this, 'lambdagenaidepslayer', {
         runtime: lambdaRuntime,
         architecture: lambdaArchitecture,
         autoUpgrade: true
       });
 
-//Then pass the layers above to your lambda function constructor
+//Then pass the layer above to your lambda function constructor
 ```
 
 Python
@@ -87,17 +77,6 @@ from cdklabs.generative_ai_cdk_constructs import (
 lambda_architecture = lambda_.Architecture.ARM_64
 lambda_runtime = lambda_.Runtime.PYTHON_3_10
 
-# This is one way of getting a lambda powertools layer
-powertools_arn = (
-    f'arn:aws:lambda:{Aws.REGION}:017000801446:'
-    'layer:AWSLambdaPowertoolsPythonV2-Arm64:42'
-)
-
-if lambda_architecture == lambda_.Architecture.X86_64:
-    powertools_arn = (
-        f'arn:aws:lambda:{Aws.REGION}:017000801446:'
-        'layer:AWSLambdaPowertoolsPythonV2:42'
-    )
 
 lambda_deps_layer = LangchainCommonDepsLayer(
     self,
