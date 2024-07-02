@@ -11,3 +11,4 @@
  *  and limitations under the License.
  */
 export * from './vector-collection';
+export * from './analysis-plugins';

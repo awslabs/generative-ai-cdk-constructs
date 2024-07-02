@@ -6,6 +6,9 @@
 
 ### Enumerations
 
+- [CharacterFilterType](../enums/opensearchserverless.CharacterFilterType.md)
+- [TokenFilterType](../enums/opensearchserverless.TokenFilterType.md)
+- [TokenizerType](../enums/opensearchserverless.TokenizerType.md)
 - [VectorCollectionStandbyReplicas](../enums/opensearchserverless.VectorCollectionStandbyReplicas.md)
 
 ### Classes

@@ -10,6 +10,7 @@
 
 ### Interfaces
 
+- [Analyzer](../interfaces/opensearch_vectorindex.Analyzer.md)
 - [MetadataManagementFieldProps](../interfaces/opensearch_vectorindex.MetadataManagementFieldProps.md)
 - [VectorIndexProps](../interfaces/opensearch_vectorindex.VectorIndexProps.md)
 
