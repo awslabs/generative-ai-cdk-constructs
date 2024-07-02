@@ -175,18 +175,26 @@ export interface VectorIndexAttributes {
   readonly collection: VectorCollection;
   /**
    * The model to use for the embeddings.
+   *
+   * @default - BedrockFoundationModel.TITAN_EMBED_TEXT_V1
    */
   readonly embeddingsModel?: BedrockFoundationModel;
   /**
    * The name of the index.
+   *
+   * @default - bedrock-knowledge-base-default-index
    */
   readonly indexName?: string;
   /**
    * The name of the vector field.
+   *
+   * @default - bedrock-knowledge-base-default-vector
    */
   readonly vectorField?: string;
   /**
    * The analyzer to use.
+   *
+   * @default - No analyzer.
    */
   readonly analyzer?: Analyzer;
 }
