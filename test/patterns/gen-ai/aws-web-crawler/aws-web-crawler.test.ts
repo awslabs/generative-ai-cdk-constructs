@@ -12,12 +12,14 @@
  */
 import * as cdk from 'aws-cdk-lib';
 import { Template, Match } from 'aws-cdk-lib/assertions';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import {
   WebCrawler,
   WebCrawlerProps,
 } from '../../../../src/patterns/gen-ai/aws-web-crawler';
 
 describe('Web Crawler construct default', () => {
+  let app: cdk.App;
   let wcTestTemplate: Template;
   let wcTestConstruct: WebCrawler;
 
@@ -26,7 +28,9 @@ describe('Web Crawler construct default', () => {
   });
 
   beforeAll(() => {
-    const wcTestStack = new cdk.Stack(undefined, undefined, {
+    app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    const wcTestStack = new cdk.Stack(app, 'undefined', {
       env: { account: cdk.Aws.ACCOUNT_ID, region: cdk.Aws.REGION },
     });
 

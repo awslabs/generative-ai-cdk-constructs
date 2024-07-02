@@ -17,6 +17,7 @@ import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as os from 'aws-cdk-lib/aws-opensearchservice';
 import * as secret from 'aws-cdk-lib/aws-secretsmanager';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import { DockerLambdaCustomProps } from '../../../../src/common/props/DockerLambdaCustomProps';
 import {
   QaAppsyncOpensearch,
@@ -24,6 +25,7 @@ import {
 } from '../../../../src/patterns/gen-ai/aws-qa-appsync-opensearch';
 
 describe('QA Appsync Open search construct', () => {
+  let app: cdk.App;
   let qaTestTemplate: Template;
   let qaTestConstruct: QaAppsyncOpensearch;
   const cognitoPoolId = 'region_XXXXX';
@@ -33,7 +35,9 @@ describe('QA Appsync Open search construct', () => {
   });
 
   beforeAll(() => {
-    const qaTestStack = new cdk.Stack(undefined, undefined, {
+    app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    const qaTestStack = new cdk.Stack(app, 'undefined', {
       env: { account: cdk.Aws.ACCOUNT_ID, region: cdk.Aws.REGION },
     });
 

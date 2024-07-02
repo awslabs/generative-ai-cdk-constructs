@@ -28,7 +28,6 @@
 - [JumpStartModel](classes/JumpStartModel.md)
 - [JumpStartSageMakerEndpoint](classes/JumpStartSageMakerEndpoint.md)
 - [LangchainCommonDepsLayer](classes/LangchainCommonDepsLayer.md)
-- [LangchainCommonLayer](classes/LangchainCommonLayer.md)
 - [QaAppsyncOpensearch](classes/QaAppsyncOpensearch.md)
 - [RagAppsyncStepfnOpensearch](classes/RagAppsyncStepfnOpensearch.md)
 - [SageMakerEndpointBase](classes/SageMakerEndpointBase.md)
@@ -38,7 +37,6 @@
 
 ### Interfaces
 
-- [AdapterProps](interfaces/AdapterProps.md)
 - [BaseClassProps](interfaces/BaseClassProps.md)
 - [ContainerImageConfig](interfaces/ContainerImageConfig.md)
 - [ContentGenerationAppSyncLambdaProps](interfaces/ContentGenerationAppSyncLambdaProps.md)

@@ -11,11 +11,9 @@
  *  and limitations under the License.
  */
 import * as path from 'path';
-import { Annotations } from 'aws-cdk-lib';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs';
 import { Layer } from '../../../common/helpers/python-lambda-layer-helper';
-import { AdapterProps } from '../../../common/props/AdapterProps';
 import { LangchainProps } from '../../../common/props/LangchainProps';
 
 /**
@@ -79,45 +77,6 @@ export class LangchainCommonDepsLayer extends Construct {
     });
 
     this.layer = layer.layer;
-  }
-}
-
-/**
-   * @summary LangchainCommonLayer allows developers to instantiate a llm client adapter on bedrock, sagemaker or openai following best practise.
-   *
-   * @example
-   * import boto3
-   * from genai_core.adapters.registry import registry
-   *
-   * adapter = registry.get_adapter(f"{provider}.{model_id}")
-   * bedrock_client = boto3.client('bedrock-runtime')
-   */
-export class LangchainCommonLayer extends Construct {
-  /**
-   * Returns the instance of lambda.LayerVersion created by the construct
-   */
-  public readonly layer: lambda.LayerVersion;
-
-  /**
-     * @summary This construct allows developers to instantiate a llm client adapter on bedrock, sagemaker or openai following best practise.
-     * @param {cdk.App} scope - represents the scope for all the resources.
-     * @param {string} id - this is a a scope-unique id.
-     * @param {AdapterProps} props - user provided props for the construct.
-     * @since 0.0.0
-     * @access public
-     */
-  constructor(scope: Construct, id: string, props: AdapterProps) {
-    super(scope, id);
-
-    Annotations.of(scope).addWarningV2('@cdklabs/generative-ai-cdk-constructs:LangchainCommonLayer.deprecation', 'This construct is deprecated and will not receive further support. It will be removed in the next release of the library.');
-
-    const layer = new lambda.LayerVersion(this, 'Model Adapter Layer', {
-      code: lambda.Code.fromAsset(path.join(__dirname, '../../../../layers/langchain-common-layer')),
-      description: 'Utilities to instantiate a llm client adapter. Adapters include bedrock, sagemaker, and openai',
-      ...props,
-    });
-
-    this.layer = layer;
   }
 }
 
