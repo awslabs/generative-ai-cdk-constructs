@@ -10,9 +10,10 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import { App, Stack } from 'aws-cdk-lib';
+import { App, Stack, Aspects } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import { buildVpc, AddAwsServiceEndpoint, createDefaultIsolatedVpcProps } from '../../../../src/common/helpers/vpc-helper';
 import { ServiceEndpointTypeEnum } from '../../../../src/patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
 
@@ -22,6 +23,7 @@ describe('VPC Utilities', () => {
 
   beforeEach(() => {
     app = new App();
+    Aspects.of(app).add(new AwsSolutionsChecks());
     stack = new Stack(app, 'TestStack');
   });
 
