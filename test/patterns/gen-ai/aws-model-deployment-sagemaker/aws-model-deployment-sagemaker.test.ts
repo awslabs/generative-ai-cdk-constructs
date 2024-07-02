@@ -13,6 +13,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import {
   JumpStartSageMakerEndpoint,
   JumpStartModel,
@@ -24,6 +25,7 @@ import {
 
 describe('JumpStartSageMakerEndpoint construct', () => {
 
+  let app: cdk.App;
   let JmpStrtTestTemplate: Template;
   let JmpStrtTestConstruct: JumpStartSageMakerEndpoint;
 
@@ -33,7 +35,9 @@ describe('JumpStartSageMakerEndpoint construct', () => {
 
   beforeAll(() => {
 
-    const JmpStrtTestStack = new cdk.Stack(undefined, undefined, {
+    app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    const JmpStrtTestStack = new cdk.Stack(app, 'undefined', {
       env: { account: cdk.Aws.ACCOUNT_ID, region: 'us-east-1' },
     });
 
@@ -94,6 +98,7 @@ describe('JumpStartSageMakerEndpoint construct', () => {
 
 describe('JumpStartSageMakerEndpoint eula validation', () => {
 
+  let app: cdk.App;
   let JmpStrtTestStack: cdk.Stack;
 
   afterAll(() => {
@@ -102,7 +107,9 @@ describe('JumpStartSageMakerEndpoint eula validation', () => {
 
   beforeAll(() => {
 
-    JmpStrtTestStack = new cdk.Stack(undefined, undefined, {
+    app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    JmpStrtTestStack = new cdk.Stack(app, 'undefined', {
       env: { account: cdk.Aws.ACCOUNT_ID, region: 'us-east-1' },
     });
 
@@ -155,6 +162,7 @@ describe('JumpStartSageMakerEndpoint eula validation', () => {
 
 describe('JumpStartSageMakerEndpoint VPC construct', () => {
 
+  let app: cdk.App;
   let JmpStrtTestTemplate: Template;
   let JmpStrtTestConstruct: JumpStartSageMakerEndpoint;
 
@@ -164,7 +172,9 @@ describe('JumpStartSageMakerEndpoint VPC construct', () => {
 
   beforeAll(() => {
 
-    const JmpStrtTestStack = new cdk.Stack(undefined, undefined, {
+    app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    const JmpStrtTestStack = new cdk.Stack(app, 'undefined', {
       env: { account: cdk.Aws.ACCOUNT_ID, region: 'us-east-1' },
     });
 
@@ -266,6 +276,7 @@ describe('JumpStartSageMakerEndpoint VPC construct', () => {
 
 describe('HuggingFaceSageMakerEndpoint construct', () => {
 
+  let app: cdk.App;
   let HgngfcTestTemplate: Template;
   let HgngfcTestConstruct: HuggingFaceSageMakerEndpoint;
 
@@ -275,7 +286,9 @@ describe('HuggingFaceSageMakerEndpoint construct', () => {
 
   beforeAll(() => {
 
-    const HgngfcTestStack = new cdk.Stack(undefined, undefined, {
+    app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    const HgngfcTestStack = new cdk.Stack(app, 'undefined', {
       env: { account: cdk.Aws.ACCOUNT_ID, region: 'us-east-1' },
     });
 
@@ -342,6 +355,7 @@ describe('HuggingFaceSageMakerEndpoint construct', () => {
 
 describe('CustomSageMakerEndpoint construct', () => {
 
+  let app: cdk.App;
   let CstTestTemplate: Template;
   let CstTestConstruct: CustomSageMakerEndpoint;
 
@@ -351,7 +365,9 @@ describe('CustomSageMakerEndpoint construct', () => {
 
   beforeAll(() => {
 
-    const CstTestStack = new cdk.Stack(undefined, undefined, {
+    app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    const CstTestStack = new cdk.Stack(app, 'undefined', {
       env: { account: cdk.Aws.ACCOUNT_ID, region: 'us-east-1' },
     });
 
