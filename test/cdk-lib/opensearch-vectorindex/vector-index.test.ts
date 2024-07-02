@@ -211,7 +211,7 @@ describe('OpenSearch Serverless Vector Index with analyzer', () => {
     template.resourceCountIs('AWS::OpenSearchServerless::Collection', 1);
     template.resourceCountIs('Custom::OpenSearchIndex', 1);
     template.resourceCountIs('AWS::OpenSearchServerless::AccessPolicy', 2);
-    template.resourceCountIs('AWS::Lambda::Function', 4);
+    template.resourceCountIs('AWS::Lambda::Function', 3);
   });
 
   test('ManageIndexPolicy should allow CRProvider', () => {
