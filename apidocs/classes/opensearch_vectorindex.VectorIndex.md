@@ -32,7 +32,6 @@ Deploy a vector index on the collection.
 
 - [\_enableCrossEnvironment](opensearch_vectorindex.VectorIndex.md#_enablecrossenvironment)
 - [applyRemovalPolicy](opensearch_vectorindex.VectorIndex.md#applyremovalpolicy)
-- [fromAnalyzer](opensearch_vectorindex.VectorIndex.md#fromanalyzer)
 - [generatePhysicalName](opensearch_vectorindex.VectorIndex.md#generatephysicalname)
 - [getResourceArnAttribute](opensearch_vectorindex.VectorIndex.md#getresourcearnattribute)
 - [getResourceNameAttribute](opensearch_vectorindex.VectorIndex.md#getresourcenameattribute)
@@ -186,28 +185,6 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 #### Inherited from
 
 cdk.Resource.applyRemovalPolicy
-
-___
-
-### fromAnalyzer
-
-▸ **fromAnalyzer**(`collection`, `embeddingsModel`, `vectorField`, `analyzer`, `indexName?`): [`VectorIndex`](opensearch_vectorindex.VectorIndex.md)
-
-Create a VectorIndex from an analyzer.
-
-#### Parameters
-
-| Name | Type |
-| :------ | :------ |
-| `collection` | [`VectorCollection`](opensearchserverless.VectorCollection.md) |
-| `embeddingsModel` | [`BedrockFoundationModel`](bedrock.BedrockFoundationModel.md) |
-| `vectorField` | `string` |
-| `analyzer` | [`Analyzer`](../interfaces/opensearch_vectorindex.Analyzer.md) |
-| `indexName?` | `string` |
-
-#### Returns
-
-[`VectorIndex`](opensearch_vectorindex.VectorIndex.md)
 
 ___
 

@@ -193,7 +193,7 @@ export class VectorIndex extends cdk.Resource {
     const manageIndexPolicyName = generatePhysicalNameV2(
       this,
       'ManageIndexPolicy',
-      { maxLength: 32, lower: true }
+      { maxLength: 32, lower: true },
     );
     const manageIndexPolicy = new oss.CfnAccessPolicy(
       this,
@@ -224,15 +224,15 @@ export class VectorIndex extends cdk.Resource {
             Description: '',
           },
         ]),
-      }
+      },
     );
 
     const analyzerProps = props.analyzer
       ? {
-          CharacterFilters: props.analyzer.characterFilters,
-          Tokenizer: props.analyzer.tokenizer,
-          TokenFilters: props.analyzer.tokenFilters,
-        }
+        CharacterFilters: props.analyzer.characterFilters,
+        Tokenizer: props.analyzer.tokenizer,
+        TokenFilters: props.analyzer.tokenFilters,
+      }
       : undefined;
     const vectorIndex = new cdk.CustomResource(this, 'VectorIndex', {
       serviceToken: crProvider.serviceToken,
@@ -270,7 +270,7 @@ export const OpenSearchIndexCRProvider = buildCustomResourceProvider({
   providerName: 'OpenSearchIndexCRProvider',
   codePath: path.join(
     __dirname,
-    '../../../lambda/opensearch-serverless-custom-resources'
+    '../../../lambda/opensearch-serverless-custom-resources',
   ),
   handler: 'custom_resources.on_event',
   runtime: lambda.Runtime.PYTHON_3_12,
