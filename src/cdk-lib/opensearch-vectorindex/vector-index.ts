@@ -17,7 +17,6 @@ import * as oss from 'aws-cdk-lib/aws-opensearchserverless';
 import { Construct } from 'constructs';
 import { buildCustomResourceProvider } from '../../common/helpers/custom-resource-provider-helper';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
-import { BedrockFoundationModel } from '../bedrock/models';
 import { VectorCollection } from '../opensearchserverless';
 import {
   CharacterFilterType,
@@ -166,40 +165,6 @@ export interface VectorIndexProps {
 }
 
 /**
- * Attributes for the VectorIndex.
- */
-export interface VectorIndexAttributes {
-  /**
-   * The collection to deploy the index on.
-   */
-  readonly collection: VectorCollection;
-  /**
-   * The model to use for the embeddings.
-   *
-   * @default - BedrockFoundationModel.TITAN_EMBED_TEXT_V1
-   */
-  readonly embeddingsModel?: BedrockFoundationModel;
-  /**
-   * The name of the index.
-   *
-   * @default - bedrock-knowledge-base-default-index
-   */
-  readonly indexName?: string;
-  /**
-   * The name of the vector field.
-   *
-   * @default - bedrock-knowledge-base-default-vector
-   */
-  readonly vectorField?: string;
-  /**
-   * The analyzer to use.
-   *
-   * @default - No analyzer.
-   */
-  readonly analyzer?: Analyzer;
-}
-
-/**
  * Deploy a vector index on the collection.
  */
 export class VectorIndex extends cdk.Resource {
@@ -293,56 +258,6 @@ export class VectorIndex extends cdk.Resource {
     vectorIndex.node.addDependency(manageIndexPolicy);
     vectorIndex.node.addDependency(props.collection);
     vectorIndex.node.addDependency(props.collection.dataAccessPolicy);
-  }
-
-  /**
-   * Create a VectorIndex from an VectorCollection.
-   */
-  public static fromVectorIndexAttributes(
-    scope: Construct,
-    id: string,
-    attr: VectorIndexAttributes
-  ): VectorIndex {
-    const embeddingsModel =
-      attr.embeddingsModel ?? BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
-    validateModel(embeddingsModel);
-    const indexName = attr.indexName ?? 'bedrock-knowledge-base-default-index';
-    const vectorField =
-      attr.vectorField ?? 'bedrock-knowledge-base-default-vector';
-
-    const vectorIndex = new VectorIndex(scope, id, {
-      collection: attr.collection,
-      indexName,
-      vectorField,
-      vectorDimensions: embeddingsModel.vectorDimensions!,
-      mappings: [
-        {
-          mappingField: 'AMAZON_BEDROCK_TEXT_CHUNK',
-          dataType: 'text',
-          filterable: true,
-        },
-        {
-          mappingField: 'AMAZON_BEDROCK_METADATA',
-          dataType: 'text',
-          filterable: false,
-        },
-      ],
-      analyzer: attr.analyzer,
-    });
-    return vectorIndex;
-  }
-}
-
-/**
- * Validate that Bedrock Knowledge Base can use the selected model.
- *
- * @internal This is an internal core function and should not be called directly.
- */
-function validateModel(foundationModel: BedrockFoundationModel) {
-  if (!foundationModel.supportsKnowledgeBase) {
-    throw new Error(
-      `The model ${foundationModel} is not supported by Bedrock Knowledge Base.`
-    );
   }
 }
 
