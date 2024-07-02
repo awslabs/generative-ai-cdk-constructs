@@ -16,11 +16,13 @@ import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as os from 'aws-cdk-lib/aws-opensearchservice';
 import * as secret from 'aws-cdk-lib/aws-secretsmanager';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import { RagAppsyncStepfnOpensearch, RagAppsyncStepfnOpensearchProps } from '../../../../src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch';
 
 
 describe('RAG Appsync Stepfn Open search construct', () => {
 
+  let app: cdk.App;
   let ragTestTemplate: Template;
   let ragTestConstruct: RagAppsyncStepfnOpensearch;
   const cognitoPoolId = 'region_XXXXX';
@@ -30,7 +32,9 @@ describe('RAG Appsync Stepfn Open search construct', () => {
   });
 
   beforeAll(() => {
-    const ragTestStack = new cdk.Stack(undefined, undefined, {
+    app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    const ragTestStack = new cdk.Stack(app, 'undefined', {
       env: { account: cdk.Aws.ACCOUNT_ID, region: cdk.Aws.REGION },
     });
 

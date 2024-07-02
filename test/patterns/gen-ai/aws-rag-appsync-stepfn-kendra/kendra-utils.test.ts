@@ -10,14 +10,17 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+import * as cdk from 'aws-cdk-lib';
 import { Function, Code, Runtime } from 'aws-cdk-lib/aws-lambda';
 import { LambdaInvoke } from 'aws-cdk-lib/aws-stepfunctions-tasks';
-import { Stack } from 'aws-cdk-lib/core';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import { getStepFnLambdaInvoke, consolidateProps, overrideProps } from '../../../../src/common/helpers/kendra-utils';
 
 describe('Kendra Utilities', () => {
   describe('getStepFnLambdaInvoke', () => {
-    const stack = new Stack();
+    let app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    const stack = new cdk.Stack(app);
     const lambdaFunction = new Function(stack, 'TestFunction', {
       runtime: Runtime.NODEJS_18_X,
       handler: 'index.handler',

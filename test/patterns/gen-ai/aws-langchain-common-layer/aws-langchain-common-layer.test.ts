@@ -13,12 +13,14 @@
 import * as cdk from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import {
   LangchainCommonDepsLayer,
 } from '../../../../src/patterns/gen-ai/aws-langchain-common-layer';
 
 describe('LangchainCommonDepsLayer construct', () => {
 
+  let app: cdk.App;
   let LangchainCommonLayerDepsTestTemplate: Template;
   let LangchainCommonLayerDepsTestConstruct: LangchainCommonDepsLayer;
 
@@ -28,8 +30,9 @@ describe('LangchainCommonDepsLayer construct', () => {
   });
 
   beforeAll(() => {
-
-    const LangchainCommonLayerDepsTestStack = new cdk.Stack(undefined, undefined, {
+    app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    const LangchainCommonLayerDepsTestStack = new cdk.Stack(app, 'undefined', {
       env: { account: cdk.Aws.ACCOUNT_ID, region: 'us-east-1' },
     });
 

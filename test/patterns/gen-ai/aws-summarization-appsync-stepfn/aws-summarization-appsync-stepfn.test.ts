@@ -17,6 +17,7 @@ import { Template, Match } from 'aws-cdk-lib/assertions';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import {
   SummarizationAppsyncStepfn,
   SummarizationAppsyncStepfnProps,
@@ -25,7 +26,7 @@ import {
 
 describe('Summarization Appsync Stepfn construct', () => {
 
-
+  let app: cdk.App;
   let summarizationTestTemplate: Template;
   let summarizationTestConstruct: SummarizationAppsyncStepfn;
   const cognitoPoolId = 'region_XXXXX';
@@ -37,7 +38,9 @@ describe('Summarization Appsync Stepfn construct', () => {
 
 
   beforeAll(() => {
-    const summarizationTestStack = new cdk.Stack(undefined, undefined, {
+    app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    const summarizationTestStack = new cdk.Stack(app, 'undefined', {
       env: { account: cdk.Aws.ACCOUNT_ID, region: cdk.Aws.REGION },
     });
 
