@@ -85,6 +85,7 @@ lambda_deps_layer = LangchainCommonDepsLayer(
     architecture=lambda_architecture,
     auto_upgrade=True,
 )
+```
 
 ## Initializer
 
