@@ -11,26 +11,25 @@
 # and limitations under the License.
 #
 
-from opensearchpy import (
-    OpenSearch,
-    RequestsHttpConnection,
-    AWSV4SignerAuth,
-    AuthorizationException,
-)
-import boto3
 import logging
 import os
 import time
+from typing import Sequence, TypedDict
+
+import boto3
+from custom_resources.cr_types import CustomResourceRequest, CustomResourceResponse
+from opensearchpy import (
+    AuthorizationException,
+    AWSV4SignerAuth,
+    OpenSearch,
+    RequestsHttpConnection,
+)
 from tenacity import (
     retry,
     retry_if_exception_type,
     stop_after_attempt,
     wait_exponential_jitter,
 )
-
-from typing import TypedDict, Sequence
-
-from custom_resources.cr_types import CustomResourceRequest, CustomResourceResponse
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
@@ -44,12 +43,19 @@ class MetadataManagementField(TypedDict):
     Filterable: bool
 
 
+class AnalyzerProperties(TypedDict):
+    CharacterFilters: Sequence[str]
+    Tokenizer: str
+    TokenFilters: Sequence[str]
+
+
 class VectorIndexProperties(TypedDict):
     Endpoint: str
     IndexName: str
     VectorField: str
     Dimensions: int | str
     MetadataManagement: Sequence[MetadataManagementField]
+    Analyzer: AnalyzerProperties | None
 
 
 def validate_event(event: CustomResourceRequest[VectorIndexProperties]) -> bool:
@@ -70,6 +76,14 @@ def validate_event(event: CustomResourceRequest[VectorIndexProperties]) -> bool:
             raise ValueError("MetadataManagement is required")
         if event["RequestType"] == "Update" and event["PhysicalResourceId"] is None:
             raise ValueError("PhysicalResourceId is required")
+        if event["ResourceProperties"].get("Analyzer") is not None:
+            analyzer = event["ResourceProperties"]["Analyzer"]
+            if analyzer["CharacterFilters"] is None:
+                raise ValueError("CharacterFilters is required")
+            if analyzer["Tokenizer"] is None:
+                raise ValueError("Tokenizer is required")
+            if analyzer["TokenFilters"] is None:
+                raise ValueError("TokenFilters is required")
     elif event["RequestType"] == "Delete":
         if event["PhysicalResourceId"] is None:
             raise ValueError("PhysicalResourceId is required")
@@ -139,18 +153,39 @@ def create_mapping(
     return mapping
 
 
-def create_index(client: OpenSearch, index_name: str, mapping: dict[str, str]) -> None:
+def create_setting(analyzer: AnalyzerProperties | None) -> dict:
+    setting = {
+        "index": {
+            "number_of_shards": "2",
+            "knn.algo_param": {"ef_search": "512"},
+            "knn": "true",
+        },
+    }
+    if analyzer:
+        setting["analysis"] = {
+            "analyzer": {
+                "custom_analyzer": {
+                    "type": "custom",
+                    "tokenizer": analyzer["Tokenizer"],
+                    "char_filter": analyzer["CharacterFilters"],
+                    "filter": analyzer["TokenFilters"],
+                }
+            }
+        }
+
+    return setting
+
+
+def create_index(
+    client: OpenSearch, index_name: str, mapping: dict[str, str], setting: dict[str, str]
+) -> None:
     logger.debug(f"creating index {index_name}")
+    logger.debug(f"setting: {setting}")
+    logger.debug(f"mapping: {mapping}")
     client.indices.create(
         index_name,
         body={
-            "settings": {
-                "index": {
-                    "number_of_shards": "2",
-                    "knn.algo_param": {"ef_search": "512"},
-                    "knn": "true",
-                }
-            },
+            "settings": setting,
             "mappings": mapping,
         },
         params={"wait_for_active_shards": "all"},
@@ -171,13 +206,15 @@ def handle_create(
     vector_field: str,
     dimensions: int,
     metadata_management: Sequence[MetadataManagementField],
+    analyzer: AnalyzerProperties | None,
 ):
     if client.indices.exists(index_name):
         raise ValueError(f"Index {index_name} already exists")
 
     try:
         mapping = create_mapping(vector_field, dimensions, metadata_management)
-        create_index(client, index_name, mapping)
+        setting = create_setting(analyzer)
+        create_index(client, index_name, mapping, setting)
     except Exception as e:
         logger.error(f"Error creating index {index_name}")
         logger.exception(e)
@@ -211,6 +248,7 @@ def on_create(
         event["ResourceProperties"]["VectorField"],
         int(event["ResourceProperties"]["Dimensions"]),
         event["ResourceProperties"]["MetadataManagement"],
+        event["ResourceProperties"].get("Analyzer", None),
     )
     return {"PhysicalResourceId": physical_id}
 
