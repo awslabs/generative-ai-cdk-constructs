@@ -10,6 +10,7 @@ Properties for the VectorIndex.
 
 ### Properties
 
+- [analyzer](opensearch_vectorindex.VectorIndexProps.md#analyzer)
 - [collection](opensearch_vectorindex.VectorIndexProps.md#collection)
 - [indexName](opensearch_vectorindex.VectorIndexProps.md#indexname)
 - [mappings](opensearch_vectorindex.VectorIndexProps.md#mappings)
@@ -17,6 +18,20 @@ Properties for the VectorIndex.
 - [vectorField](opensearch_vectorindex.VectorIndexProps.md#vectorfield)
 
 ## Properties
+
+### analyzer
+
+• `Optional` `Readonly` **analyzer**: [`Analyzer`](opensearch_vectorindex.Analyzer.md)
+
+The analyzer to use.
+
+**`Default`**
+
+```ts
+- No analyzer.
+```
+
+___
 
 ### collection
 
