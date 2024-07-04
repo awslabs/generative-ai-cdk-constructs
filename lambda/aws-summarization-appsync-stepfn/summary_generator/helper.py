@@ -13,7 +13,6 @@
 import base64
 from enum import Enum
 import os
-import nltk
 import boto3
 import tempfile
 from aws_lambda_powertools import Logger, Tracer
