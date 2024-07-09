@@ -22,6 +22,10 @@ Specify the configuration of AWS Distro for OpenTelemetry (ADOT) instrumentation
 - No ADOT instrumentation
 ```
 
+#### Stability
+
+stable
+
 ***
 
 ### applicationLogLevel?
@@ -35,6 +39,10 @@ Sets the application log level for the function.
 ```ts
 "INFO"
 ```
+
+#### Stability
+
+stable
 
 ***
 
@@ -50,6 +58,10 @@ The system architectures compatible with this lambda function.
 Architecture.X86_64
 ```
 
+#### Stability
+
+stable
+
 ***
 
 ### code
@@ -60,6 +72,10 @@ The source code of your Lambda function.
 You can point to a file in an
 Amazon Simple Storage Service (Amazon S3) bucket or specify your source
 code as inline text.
+
+#### Stability
+
+stable
 
 ***
 
@@ -75,6 +91,10 @@ Code signing config associated with this function.
 - Not Sign the Code
 ```
 
+#### Stability
+
+stable
+
 ***
 
 ### currentVersionOptions?
@@ -86,6 +106,10 @@ Options for the `lambda.Version` resource automatically created by the `fn.curre
 #### Default
 
 - default options as described in `VersionOptions`
+
+#### Stability
+
+stable
 
 ***
 
@@ -100,6 +124,10 @@ If SNS topic is desired, specify `deadLetterTopic` property instead.
 
 - SQS queue with 14 day retention period if `deadLetterQueueEnabled` is `true`
 
+#### Stability
+
+stable
+
 ***
 
 ### deadLetterQueueEnabled?
@@ -113,6 +141,10 @@ an SQS queue with default options will be defined for your Function.
 #### Default
 
 - false unless `deadLetterQueue` is set, which implies DLQ is enabled.
+
+#### Stability
+
+stable
 
 ***
 
@@ -129,6 +161,10 @@ rather than an SNS topic. Using an SNS topic as a DLQ requires this property to 
 ```ts
 - no SNS topic
 ```
+
+#### Stability
+
+stable
 
 ***
 
@@ -147,6 +183,10 @@ Lambda function source code.
 - No environment variables.
 ```
 
+#### Stability
+
+stable
+
 ***
 
 ### environmentEncryption?
@@ -161,6 +201,10 @@ The AWS KMS key that's used to encrypt your function's environment variables.
 - AWS Lambda creates and uses an AWS managed customer master key (CMK).
 ```
 
+#### Stability
+
+stable
+
 ***
 
 ### ephemeralStorageSize?
@@ -174,6 +218,10 @@ The size of the function’s /tmp directory in MiB.
 ```ts
 512 MiB
 ```
+
+#### Stability
+
+stable
 
 ***
 
@@ -190,6 +238,10 @@ You can also add event sources using `addEventSource`.
 - No event sources.
 ```
 
+#### Stability
+
+stable
+
 ***
 
 ### filesystem?
@@ -203,6 +255,10 @@ The filesystem configuration for the lambda function.
 ```ts
 - will not mount any filesystem
 ```
+
+#### Stability
+
+stable
 
 ***
 
@@ -219,6 +275,10 @@ You can call `addToRolePolicy` to the created lambda to add statements post crea
 - No policy statements are added to the created Lambda role.
 ```
 
+#### Stability
+
+stable
+
 ***
 
 ### insightsVersion?
@@ -232,6 +292,10 @@ Specify the version of CloudWatch Lambda insights to use for monitoring.
 ```ts
 - No Lambda Insights
 ```
+
+#### Stability
+
+stable
 
 ***
 
@@ -248,6 +312,10 @@ Only used if 'vpc' is supplied.
 false
 ```
 
+#### Stability
+
+stable
+
 ***
 
 ### logFormat?
@@ -261,6 +329,10 @@ Sets the logFormat for the function.
 ```ts
 "Text"
 ```
+
+#### Stability
+
+stable
 
 ***
 
@@ -280,6 +352,10 @@ If you are deploying to another type of region, please check regional availabili
 #### Default
 
 `/aws/lambda/${this.functionName}` - default log group created by Lambda
+
+#### Stability
+
+stable
 
 ***
 
@@ -312,6 +388,10 @@ myLogGroup.logGroupName;
 logs.RetentionDays.INFINITE
 ```
 
+#### Stability
+
+stable
+
 ***
 
 ### logRetentionRetryOptions?
@@ -330,6 +410,10 @@ This is a legacy API and we strongly recommend you migrate to `logGroup` if you 
 - Default AWS SDK retry options.
 ```
 
+#### Stability
+
+stable
+
 ***
 
 ### logRetentionRole?
@@ -346,6 +430,10 @@ This is a legacy API and we strongly recommend you migrate to `logGroup` if you 
 - A new role is created.
 ```
 
+#### Stability
+
+stable
+
 ***
 
 ### loggingFormat?
@@ -359,6 +447,10 @@ Sets the loggingFormat for the function.
 ```ts
 LoggingFormat.TEXT
 ```
+
+#### Stability
+
+stable
 
 ***
 
@@ -376,6 +468,10 @@ Maximum: 6 hours
 Duration.hours(6)
 ```
 
+#### Stability
+
+stable
+
 ***
 
 ### memorySize?
@@ -387,11 +483,15 @@ Lambda uses this value to proportionally allocate the amount of CPU
 power. For more information, see Resource Model in the AWS Lambda
 Developer Guide.
 
-#### Default Value
+#### Default
 
 ```ts
 128
 ```
+
+#### Stability
+
+stable
 
 ***
 
@@ -407,6 +507,10 @@ The destination for failed invocations.
 - no destination
 ```
 
+#### Stability
+
+stable
+
 ***
 
 ### onSuccess?
@@ -420,6 +524,10 @@ The destination for successful invocations.
 ```ts
 - no destination
 ```
+
+#### Stability
+
+stable
 
 ***
 
@@ -435,6 +543,10 @@ Specify the configuration of Parameters and Secrets Extension.
 - No Parameters and Secrets Extension
 ```
 
+#### Stability
+
+stable
+
 ***
 
 ### profiling?
@@ -449,6 +561,10 @@ Enable profiling.
 - No profiling.
 ```
 
+#### Stability
+
+stable
+
 ***
 
 ### profilingGroup?
@@ -460,6 +576,10 @@ Profiling Group.
 #### Default
 
 - A new profiling group will be created if `profiling` is set.
+
+#### Stability
+
+stable
 
 ***
 
@@ -474,6 +594,10 @@ The maximum of concurrent executions you want to reserve for the function.
 ```ts
 - No specific limit - account limit.
 ```
+
+#### Stability
+
+stable
 
 ***
 
@@ -491,6 +615,10 @@ Maximum: 2
 2
 ```
 
+#### Stability
+
+stable
+
 ***
 
 ### runtimeManagementMode?
@@ -504,6 +632,10 @@ Sets the runtime management configuration for a function's version.
 ```ts
 Auto
 ```
+
+#### Stability
+
+stable
 
 ***
 
@@ -520,6 +652,10 @@ SnapStart is currently supported only for Java 11, 17 runtime
 - No snapstart
 ```
 
+#### Stability
+
+stable
+
 ***
 
 ### systemLogLevel?
@@ -533,6 +669,10 @@ Sets the system log level for the function.
 ```ts
 "INFO"
 ```
+
+#### Stability
+
+stable
 
 ***
 
@@ -549,3 +689,7 @@ based on the function's expected execution time.
 ```ts
 Duration.seconds(3)
 ```
+
+#### Stability
+
+stable
