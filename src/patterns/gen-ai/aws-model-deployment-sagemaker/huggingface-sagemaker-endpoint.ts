@@ -33,7 +33,7 @@ export interface HuggingFaceSageMakerEndpointProps {
 }
 
 /**
- * @summary The HuggingFaceSageMakerEndpoint class.
+ * The HuggingFaceSageMakerEndpoint class.
  */
 export class HuggingFaceSageMakerEndpoint extends SageMakerEndpointBase implements iam.IGrantable {
   public readonly grantPrincipal: iam.IPrincipal;

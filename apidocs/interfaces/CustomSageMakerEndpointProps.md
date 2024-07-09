@@ -1,96 +1,83 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / CustomSageMakerEndpointProps
 
 # Interface: CustomSageMakerEndpointProps
-
-## Table of contents
-
-### Properties
-
-- [container](CustomSageMakerEndpointProps.md#container)
-- [endpointName](CustomSageMakerEndpointProps.md#endpointname)
-- [environment](CustomSageMakerEndpointProps.md#environment)
-- [instanceCount](CustomSageMakerEndpointProps.md#instancecount)
-- [instanceType](CustomSageMakerEndpointProps.md#instancetype)
-- [modelDataDownloadTimeoutInSeconds](CustomSageMakerEndpointProps.md#modeldatadownloadtimeoutinseconds)
-- [modelDataUrl](CustomSageMakerEndpointProps.md#modeldataurl)
-- [modelId](CustomSageMakerEndpointProps.md#modelid)
-- [role](CustomSageMakerEndpointProps.md#role)
-- [startupHealthCheckTimeoutInSeconds](CustomSageMakerEndpointProps.md#startuphealthchecktimeoutinseconds)
-- [volumeSizeInGb](CustomSageMakerEndpointProps.md#volumesizeingb)
-- [vpcConfig](CustomSageMakerEndpointProps.md#vpcconfig)
 
 ## Properties
 
 ### container
 
-• `Readonly` **container**: [`ContainerImage`](../classes/ContainerImage.md)
+> `readonly` **container**: [`ContainerImage`](../classes/ContainerImage.md)
 
-___
+***
 
 ### endpointName
 
-• `Readonly` **endpointName**: `string`
+> `readonly` **endpointName**: `string`
 
-___
+***
 
-### environment
+### environment?
 
-• `Optional` `Readonly` **environment**: `Object`
+> `readonly` `optional` **environment**: `object`
 
-#### Index signature
+#### Index Signature
 
-▪ [key: `string`]: `string`
+ \[`key`: `string`\]: `string`
 
-___
+***
 
-### instanceCount
+### instanceCount?
 
-• `Optional` `Readonly` **instanceCount**: `number`
+> `readonly` `optional` **instanceCount**: `number`
 
-___
+***
 
 ### instanceType
 
-• `Readonly` **instanceType**: [`SageMakerInstanceType`](../classes/SageMakerInstanceType.md)
+> `readonly` **instanceType**: [`SageMakerInstanceType`](../classes/SageMakerInstanceType.md)
 
-___
+***
 
-### modelDataDownloadTimeoutInSeconds
+### modelDataDownloadTimeoutInSeconds?
 
-• `Optional` `Readonly` **modelDataDownloadTimeoutInSeconds**: `number`
+> `readonly` `optional` **modelDataDownloadTimeoutInSeconds**: `number`
 
-___
+***
 
 ### modelDataUrl
 
-• `Readonly` **modelDataUrl**: `string`
+> `readonly` **modelDataUrl**: `string`
 
-___
+***
 
 ### modelId
 
-• `Readonly` **modelId**: `string`
+> `readonly` **modelId**: `string`
 
-___
+***
 
-### role
+### role?
 
-• `Optional` `Readonly` **role**: `Role`
+> `readonly` `optional` **role**: `Role`
 
-___
+***
 
-### startupHealthCheckTimeoutInSeconds
+### startupHealthCheckTimeoutInSeconds?
 
-• `Optional` `Readonly` **startupHealthCheckTimeoutInSeconds**: `number`
+> `readonly` `optional` **startupHealthCheckTimeoutInSeconds**: `number`
 
-___
+***
 
-### volumeSizeInGb
+### volumeSizeInGb?
 
-• `Optional` `Readonly` **volumeSizeInGb**: `number`
+> `readonly` `optional` **volumeSizeInGb**: `number`
 
-___
+***
 
-### vpcConfig
+### vpcConfig?
 
-• `Optional` `Readonly` **vpcConfig**: `VpcConfigProperty`
+> `readonly` `optional` **vpcConfig**: `VpcConfigProperty`

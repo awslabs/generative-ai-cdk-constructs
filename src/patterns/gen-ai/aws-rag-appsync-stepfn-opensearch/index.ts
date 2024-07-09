@@ -163,7 +163,7 @@ export interface RagAppsyncStepfnOpensearchProps {
 }
 
 /**
-   * @summary The RagAppsyncStepfnOpensearch class.
+   * The RagAppsyncStepfnOpensearch class.
    */
 
 export class RagAppsyncStepfnOpensearch extends BaseClass {
@@ -222,12 +222,12 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
 
 
   /**
-     * @summary Constructs a new instance of the RagAppsyncStepfnOpensearch class.
+     * Constructs a new instance of the RagAppsyncStepfnOpensearch class.
      * @param {cdk.App} scope - represents the scope for all the resources.
      * @param {string} id - this is a scope-unique id.
      * @param {RagAppsyncStepfnOpensearchProps} props - user provided props for the construct.
      * @since 0.0.0
-     * @access public
+     * @public
      */
   constructor(scope: Construct, id: string, props: RagAppsyncStepfnOpensearchProps) {
     super(scope, id);

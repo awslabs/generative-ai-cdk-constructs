@@ -1,75 +1,65 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / HuggingFaceSageMakerEndpointProps
 
 # Interface: HuggingFaceSageMakerEndpointProps
-
-## Table of contents
-
-### Properties
-
-- [container](HuggingFaceSageMakerEndpointProps.md#container)
-- [endpointName](HuggingFaceSageMakerEndpointProps.md#endpointname)
-- [environment](HuggingFaceSageMakerEndpointProps.md#environment)
-- [instanceCount](HuggingFaceSageMakerEndpointProps.md#instancecount)
-- [instanceType](HuggingFaceSageMakerEndpointProps.md#instancetype)
-- [modelId](HuggingFaceSageMakerEndpointProps.md#modelid)
-- [role](HuggingFaceSageMakerEndpointProps.md#role)
-- [startupHealthCheckTimeoutInSeconds](HuggingFaceSageMakerEndpointProps.md#startuphealthchecktimeoutinseconds)
-- [vpcConfig](HuggingFaceSageMakerEndpointProps.md#vpcconfig)
 
 ## Properties
 
 ### container
 
-• `Readonly` **container**: [`ContainerImage`](../classes/ContainerImage.md)
+> `readonly` **container**: [`ContainerImage`](../classes/ContainerImage.md)
 
-___
+***
 
-### endpointName
+### endpointName?
 
-• `Optional` `Readonly` **endpointName**: `string`
+> `readonly` `optional` **endpointName**: `string`
 
-___
+***
 
-### environment
+### environment?
 
-• `Optional` `Readonly` **environment**: `Object`
+> `readonly` `optional` **environment**: `object`
 
-#### Index signature
+#### Index Signature
 
-▪ [key: `string`]: `string`
+ \[`key`: `string`\]: `string`
 
-___
+***
 
-### instanceCount
+### instanceCount?
 
-• `Optional` `Readonly` **instanceCount**: `number`
+> `readonly` `optional` **instanceCount**: `number`
 
-___
+***
 
 ### instanceType
 
-• `Readonly` **instanceType**: [`SageMakerInstanceType`](../classes/SageMakerInstanceType.md)
+> `readonly` **instanceType**: [`SageMakerInstanceType`](../classes/SageMakerInstanceType.md)
 
-___
+***
 
 ### modelId
 
-• `Readonly` **modelId**: `string`
+> `readonly` **modelId**: `string`
 
-___
+***
 
-### role
+### role?
 
-• `Optional` `Readonly` **role**: `Role`
+> `readonly` `optional` **role**: `Role`
 
-___
+***
 
-### startupHealthCheckTimeoutInSeconds
+### startupHealthCheckTimeoutInSeconds?
 
-• `Optional` `Readonly` **startupHealthCheckTimeoutInSeconds**: `number`
+> `readonly` `optional` **startupHealthCheckTimeoutInSeconds**: `number`
 
-___
+***
 
-### vpcConfig
+### vpcConfig?
 
-• `Optional` `Readonly` **vpcConfig**: `VpcConfigProperty`
+> `readonly` `optional` **vpcConfig**: `VpcConfigProperty`

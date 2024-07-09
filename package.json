@@ -69,8 +69,8 @@
     "ts-jest": "^29.2.0",
     "ts-node": "^10.9.2",
     "typedoc": "^0.26.3",
-    "typedoc-plugin-markdown": "^3.17.1",
-    "typescript": "^5.4.5"
+    "typedoc-plugin-markdown": "^4.1.2",
+    "typescript": "^5.5.3"
   },
   "peerDependencies": {
     "aws-cdk-lib": "^2.143.0",

@@ -1,26 +1,23 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / IInstanceAliase
 
 # Interface: IInstanceAliase
-
-## Table of contents
-
-### Properties
-
-- [aliases](IInstanceAliase.md#aliases)
-- [region](IInstanceAliase.md#region)
 
 ## Properties
 
 ### aliases
 
-• **aliases**: `Object`
+> **aliases**: `object`
 
-#### Index signature
+#### Index Signature
 
-▪ [key: `string`]: `string`
+ \[`key`: `string`\]: `string`
 
-___
+***
 
 ### region
 
-• **region**: `string`
+> **region**: `string`

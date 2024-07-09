@@ -85,8 +85,8 @@ export interface InferenceConfiguration {
    *
    * Floating point
    *
-   * @min 0
-   * @max 1
+   * min 0
+   * max 1
    */
   readonly temperature: number;
   /**
@@ -99,8 +99,8 @@ export interface InferenceConfiguration {
    *
    * Floating point
    *
-   * @min 0
-   * @max 1
+   * min 0
+   * max 1
    */
   readonly topP: number;
   /**
@@ -112,15 +112,15 @@ export interface InferenceConfiguration {
    *
    * Integer
    *
-   * @min 0
-   * @max 500
+   * min 0
+   * max 500
    */
   readonly topK: number;
   /**
    * A list of stop sequences. A stop sequence is a sequence of characters that
    * causes the model to stop generating the response.
    *
-   * @length 0-4
+   * length 0-4
    */
   readonly stopSequences: string[];
   /**
@@ -128,8 +128,8 @@ export interface InferenceConfiguration {
    *
    * Integer
    *
-   * @min 0
-   * @max 4096
+   * min 0
+   * max 4096
    */
   readonly maximumLength: number;
 }
@@ -150,7 +150,7 @@ export interface PromptConfiguration {
   /**
    * Defines the prompt template with which to replace the default prompt template.
    *
-   * @length 0-100000
+   * length 0-100000
    */
   readonly basePromptTemplate: string;
   /**

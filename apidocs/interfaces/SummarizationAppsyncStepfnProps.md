@@ -1,273 +1,253 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / SummarizationAppsyncStepfnProps
 
 # Interface: SummarizationAppsyncStepfnProps
 
-## Table of contents
-
-### Properties
-
-- [bucketInputsAssetsProps](SummarizationAppsyncStepfnProps.md#bucketinputsassetsprops)
-- [bucketProcessedAssetsProps](SummarizationAppsyncStepfnProps.md#bucketprocessedassetsprops)
-- [cognitoUserPool](SummarizationAppsyncStepfnProps.md#cognitouserpool)
-- [customDocumentReaderDockerLambdaProps](SummarizationAppsyncStepfnProps.md#customdocumentreaderdockerlambdaprops)
-- [customInputValidationDockerLambdaProps](SummarizationAppsyncStepfnProps.md#custominputvalidationdockerlambdaprops)
-- [customSummaryGeneratorDockerLambdaProps](SummarizationAppsyncStepfnProps.md#customsummarygeneratordockerlambdaprops)
-- [eventBusProps](SummarizationAppsyncStepfnProps.md#eventbusprops)
-- [existingBusInterface](SummarizationAppsyncStepfnProps.md#existingbusinterface)
-- [existingInputAssetsBucketObj](SummarizationAppsyncStepfnProps.md#existinginputassetsbucketobj)
-- [existingMergedApi](SummarizationAppsyncStepfnProps.md#existingmergedapi)
-- [existingProcessedAssetsBucketObj](SummarizationAppsyncStepfnProps.md#existingprocessedassetsbucketobj)
-- [existingSecurityGroup](SummarizationAppsyncStepfnProps.md#existingsecuritygroup)
-- [existingVpc](SummarizationAppsyncStepfnProps.md#existingvpc)
-- [isFileTransformationRequired](SummarizationAppsyncStepfnProps.md#isfiletransformationrequired)
-- [observability](SummarizationAppsyncStepfnProps.md#observability)
-- [stage](SummarizationAppsyncStepfnProps.md#stage)
-- [summaryApiName](SummarizationAppsyncStepfnProps.md#summaryapiname)
-- [summaryChainType](SummarizationAppsyncStepfnProps.md#summarychaintype)
-- [vpcProps](SummarizationAppsyncStepfnProps.md#vpcprops)
-
 ## Properties
 
-### bucketInputsAssetsProps
+### bucketInputsAssetsProps?
 
-• `Optional` `Readonly` **bucketInputsAssetsProps**: `BucketProps`
+> `readonly` `optional` **bucketInputsAssetsProps**: `BucketProps`
 
 Optional. User provided props to override the default props for the S3 Bucket.
 Providing both this and `existingInputAssetsBucketObj` will cause an error.
 
-**`Default`**
+#### Default
 
 ```ts
 - Default props are used
 ```
 
-___
+***
 
-### bucketProcessedAssetsProps
+### bucketProcessedAssetsProps?
 
-• `Optional` `Readonly` **bucketProcessedAssetsProps**: `BucketProps`
+> `readonly` `optional` **bucketProcessedAssetsProps**: `BucketProps`
 
 Optional. User provided props to override the default props for the S3 Bucket.
 Providing both this and `existingProcessedAssetsBucketObj` will cause an error.
 
-**`Default`**
+#### Default
 
 ```ts
 - Default props are used
 ```
 
-___
+***
 
 ### cognitoUserPool
 
-• `Readonly` **cognitoUserPool**: `IUserPool`
+> `readonly` **cognitoUserPool**: `IUserPool`
 
 Required. Cognito user pool used for authentication.
 
-**`Default`**
+#### Default
 
 ```ts
 - None
 ```
 
-___
+***
 
-### customDocumentReaderDockerLambdaProps
+### customDocumentReaderDockerLambdaProps?
 
-• `Optional` `Readonly` **customDocumentReaderDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
+> `readonly` `optional` **customDocumentReaderDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
 
 Optional. Allows to provide Embeddings custom lambda code
 and settings instead of the existing
 
-___
+***
 
-### customInputValidationDockerLambdaProps
+### customInputValidationDockerLambdaProps?
 
-• `Optional` `Readonly` **customInputValidationDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
+> `readonly` `optional` **customInputValidationDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
 
 Optional. Allows to provide Input Validation custom lambda code
 and settings instead of the existing
 
-___
+***
 
-### customSummaryGeneratorDockerLambdaProps
+### customSummaryGeneratorDockerLambdaProps?
 
-• `Optional` `Readonly` **customSummaryGeneratorDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
+> `readonly` `optional` **customSummaryGeneratorDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
 
 Optional. Allows to provide File Transformer custom lambda code
 and settings instead of the existing
 
-___
+***
 
-### eventBusProps
+### eventBusProps?
 
-• `Optional` `Readonly` **eventBusProps**: `EventBusProps`
+> `readonly` `optional` **eventBusProps**: `EventBusProps`
 
 Optional. A new custom EventBus is created with provided props.
 Providing existingEventBusInterface and eventBusProps both will result in validation error.
 
-**`Default`**
+#### Default
 
 ```ts
 - None
 ```
 
-___
+***
 
-### existingBusInterface
+### existingBusInterface?
 
-• `Optional` `Readonly` **existingBusInterface**: `IEventBus`
+> `readonly` `optional` **existingBusInterface**: `IEventBus`
 
 Optional. Existing instance of EventBus. The summary construct integrate appsync with event bridge'
 to route the request to step functions.
 
-**`Default`**
+#### Default
 
 ```ts
 - None
 ```
 
-___
+***
 
-### existingInputAssetsBucketObj
+### existingInputAssetsBucketObj?
 
-• `Optional` `Readonly` **existingInputAssetsBucketObj**: `IBucket`
+> `readonly` `optional` **existingInputAssetsBucketObj**: `IBucket`
 
 Optional. Existing s3 Bucket to store the input document which needs to be summarized.
 pdf is the supported input document format. If transformed (txt format) file is
 available then this bucket is optional.
 
-**`Default`**
+#### Default
 
 ```ts
 - None
 ```
 
-___
+***
 
-### existingMergedApi
+### existingMergedApi?
 
-• `Optional` `Readonly` **existingMergedApi**: `CfnGraphQLApi`
+> `readonly` `optional` **existingMergedApi**: `CfnGraphQLApi`
 
 Optional - Existing merged Appsync GraphQL api.
 
-**`Default`**
+#### Default
 
 ```ts
 - None
 ```
 
-___
+***
 
-### existingProcessedAssetsBucketObj
+### existingProcessedAssetsBucketObj?
 
-• `Optional` `Readonly` **existingProcessedAssetsBucketObj**: `IBucket`
+> `readonly` `optional` **existingProcessedAssetsBucketObj**: `IBucket`
 
 Optional. This bucket stores the transformed (txt) assets for generating summary.
 If None is provided then this contruct will create one.
 
-**`Default`**
+#### Default
 
 ```ts
 - None
 ```
 
-___
+***
 
-### existingSecurityGroup
+### existingSecurityGroup?
 
-• `Optional` `Readonly` **existingSecurityGroup**: `ISecurityGroup`
+> `readonly` `optional` **existingSecurityGroup**: `ISecurityGroup`
 
 Optional. Security group for the lambda function which this construct will use.
 If no exisiting security group is provided it will create one from the vpc.
 
-**`Default`**
+#### Default
 
 ```ts
 - none
 ```
 
-___
+***
 
-### existingVpc
+### existingVpc?
 
-• `Optional` `Readonly` **existingVpc**: `IVpc`
+> `readonly` `optional` **existingVpc**: `IVpc`
 
 Optional. An existing VPC can be used to deploy the construct.
 Providing both this and vpcProps is an error.
 
-**`Default`**
+#### Default
 
 ```ts
 - none
 ```
 
-___
+***
 
-### isFileTransformationRequired
+### isFileTransformationRequired?
 
-• `Optional` `Readonly` **isFileTransformationRequired**: `string`
+> `readonly` `optional` **isFileTransformationRequired**: `string`
 
 Optional. The summary construct transform the input document into txt format. If the
 transformation is not required then this flag can be set to false. If set to true
 then a transformed asset bucket is created which transform the input document from
 input asset bucket to txt format.
 
-**`Default`**
+#### Default
 
 ```ts
 - False
 ```
 
-___
+***
 
-### observability
+### observability?
 
-• `Optional` `Readonly` **observability**: `boolean`
+> `readonly` `optional` **observability**: `boolean`
 
 Enable observability. Warning: associated cost with the services
 used. Best practice to enable by default.
 
-**`Default`**
+#### Default
 
 ```ts
 - true
 ```
 
-___
+***
 
-### stage
+### stage?
 
-• `Optional` `Readonly` **stage**: `string`
+> `readonly` `optional` **stage**: `string`
 
 Value will be appended to resources name.
 
-**`Default`**
+#### Default
 
 ```ts
 - _dev
 ```
 
-___
+***
 
-### summaryApiName
+### summaryApiName?
 
-• `Optional` `Readonly` **summaryApiName**: `string`
+> `readonly` `optional` **summaryApiName**: `string`
 
 Optional. User provided Name for summary api on appsync.
 A graphql api will be created by this construct with this name.
 
-**`Default`**
+#### Default
 
 ```ts
 'summaryApi'
 ```
 
-___
+***
 
-### summaryChainType
+### summaryChainType?
 
-• `Optional` `Readonly` **summaryChainType**: `string`
+> `readonly` `optional` **summaryChainType**: `string`
 
 Optional. Chain type defines how to pass the document to LLM.
 there are three types of chain types.
@@ -275,22 +255,22 @@ Stuff: Simply "stuff" all your documents into a single prompt.
 Map-reduce: Summarize each document on it's own in a "map" step and then "reduce" the summaries into a final summary
 Refine :  This constructs a response by looping over the input documents and iteratively updating its answer
 
-**`Default`**
+#### Default
 
 ```ts
 - Stuff
 ```
 
-___
+***
 
-### vpcProps
+### vpcProps?
 
-• `Optional` `Readonly` **vpcProps**: `VpcProps`
+> `readonly` `optional` **vpcProps**: `VpcProps`
 
 Optional. The construct creates a custom VPC based on vpcProps.
 Providing both this and existingVpc is an error.
 
-**`Default`**
+#### Default
 
 ```ts
 - none

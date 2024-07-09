@@ -1,56 +1,51 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / BaseClassProps
 
 # Interface: BaseClassProps
-
-## Table of contents
-
-### Properties
-
-- [constructId](BaseClassProps.md#constructid)
-- [constructName](BaseClassProps.md#constructname)
-- [observability](BaseClassProps.md#observability)
-- [stage](BaseClassProps.md#stage)
 
 ## Properties
 
 ### constructId
 
-• `Readonly` **constructId**: `string`
+> `readonly` **constructId**: `string`
 
 construct id.
 
-___
+***
 
 ### constructName
 
-• `Readonly` **constructName**: [`ConstructName`](../enums/ConstructName.md)
+> `readonly` **constructName**: [`ConstructName`](../enumerations/ConstructName.md)
 
 name of the construct.
 
-___
+***
 
-### observability
+### observability?
 
-• `Optional` `Readonly` **observability**: `boolean`
+> `readonly` `optional` **observability**: `boolean`
 
 Enable observability. Warning: associated cost with the services
 used. Best practice to enable by default.
 
-**`Default`**
+#### Default
 
 ```ts
 - true
 ```
 
-___
+***
 
-### stage
+### stage?
 
-• `Optional` `Readonly` **stage**: `string`
+> `readonly` `optional` **stage**: `string`
 
 Value will be appended to resources name.
 
-**`Default`**
+#### Default
 
 ```ts
 - _dev

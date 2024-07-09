@@ -1,75 +1,65 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / JumpStartSageMakerEndpointProps
 
 # Interface: JumpStartSageMakerEndpointProps
 
-## Table of contents
-
-### Properties
-
-- [acceptEula](JumpStartSageMakerEndpointProps.md#accepteula)
-- [endpointName](JumpStartSageMakerEndpointProps.md#endpointname)
-- [environment](JumpStartSageMakerEndpointProps.md#environment)
-- [instanceCount](JumpStartSageMakerEndpointProps.md#instancecount)
-- [instanceType](JumpStartSageMakerEndpointProps.md#instancetype)
-- [model](JumpStartSageMakerEndpointProps.md#model)
-- [role](JumpStartSageMakerEndpointProps.md#role)
-- [startupHealthCheckTimeoutInSeconds](JumpStartSageMakerEndpointProps.md#startuphealthchecktimeoutinseconds)
-- [vpcConfig](JumpStartSageMakerEndpointProps.md#vpcconfig)
-
 ## Properties
 
-### acceptEula
+### acceptEula?
 
-• `Optional` `Readonly` **acceptEula**: `boolean`
+> `readonly` `optional` **acceptEula**: `boolean`
 
-___
+***
 
 ### endpointName
 
-• `Readonly` **endpointName**: `string`
+> `readonly` **endpointName**: `string`
 
-___
+***
 
-### environment
+### environment?
 
-• `Optional` `Readonly` **environment**: `Object`
+> `readonly` `optional` **environment**: `object`
 
-#### Index signature
+#### Index Signature
 
-▪ [key: `string`]: `string`
+ \[`key`: `string`\]: `string`
 
-___
+***
 
-### instanceCount
+### instanceCount?
 
-• `Optional` `Readonly` **instanceCount**: `number`
+> `readonly` `optional` **instanceCount**: `number`
 
-___
+***
 
-### instanceType
+### instanceType?
 
-• `Optional` `Readonly` **instanceType**: [`SageMakerInstanceType`](../classes/SageMakerInstanceType.md)
+> `readonly` `optional` **instanceType**: [`SageMakerInstanceType`](../classes/SageMakerInstanceType.md)
 
-___
+***
 
 ### model
 
-• `Readonly` **model**: [`JumpStartModel`](../classes/JumpStartModel.md)
+> `readonly` **model**: [`JumpStartModel`](../classes/JumpStartModel.md)
 
-___
+***
 
-### role
+### role?
 
-• `Optional` `Readonly` **role**: `Role`
+> `readonly` `optional` **role**: `Role`
 
-___
+***
 
-### startupHealthCheckTimeoutInSeconds
+### startupHealthCheckTimeoutInSeconds?
 
-• `Optional` `Readonly` **startupHealthCheckTimeoutInSeconds**: `number`
+> `readonly` `optional` **startupHealthCheckTimeoutInSeconds**: `number`
 
-___
+***
 
-### vpcConfig
+### vpcConfig?
 
-• `Optional` `Readonly` **vpcConfig**: `VpcConfigProperty`
+> `readonly` `optional` **vpcConfig**: `VpcConfigProperty`

@@ -1,92 +1,69 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / LangchainProps
 
 # Interface: LangchainProps
 
 LangchainProps
 
-## Hierarchy
+## Extended by
 
-- **`LangchainProps`**
-
-  ↳ [`LangchainLayerProps`](LangchainLayerProps.md)
-
-## Table of contents
-
-### Properties
-
-- [description](LangchainProps.md#description)
-- [layerVersionName](LangchainProps.md#layerversionname)
-- [license](LangchainProps.md#license)
-- [removalPolicy](LangchainProps.md#removalpolicy)
+- [`LangchainLayerProps`](LangchainLayerProps.md)
 
 ## Properties
 
-### description
+### description?
 
-• `Optional` `Readonly` **description**: `string`
+> `readonly` `optional` **description**: `string`
 
 The description the this Lambda Layer.
 
-**`Default`**
+#### Default
 
 ```ts
 - No description.
 ```
 
-**`Stability`**
+***
 
-stable
+### layerVersionName?
 
-___
-
-### layerVersionName
-
-• `Optional` `Readonly` **layerVersionName**: `string`
+> `readonly` `optional` **layerVersionName**: `string`
 
 The name of the layer.
 
-**`Default`**
+#### Default
 
 ```ts
 - A name will be generated.
 ```
 
-**`Stability`**
+***
 
-stable
+### license?
 
-___
-
-### license
-
-• `Optional` `Readonly` **license**: `string`
+> `readonly` `optional` **license**: `string`
 
 The SPDX licence identifier or URL to the license file for this layer.
 
-**`Default`**
+#### Default
 
 ```ts
 - No license information will be recorded.
 ```
 
-**`Stability`**
+***
 
-stable
+### removalPolicy?
 
-___
-
-### removalPolicy
-
-• `Optional` `Readonly` **removalPolicy**: `RemovalPolicy`
+> `readonly` `optional` **removalPolicy**: `RemovalPolicy`
 
 Whether to retain this version of the layer when a new version is added or when the stack is deleted.
 
-**`Default`**
+#### Default
 
 ```ts
 RemovalPolicy.DESTROY
 ```
-
-**`Stability`**
-
-stable

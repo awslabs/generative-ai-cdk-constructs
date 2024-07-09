@@ -113,7 +113,7 @@ export interface ContentGenerationAppSyncLambdaProps {
 }
 
 /**
- * @summary The ContentGenerationAppSyncLambda class.
+ * The ContentGenerationAppSyncLambda class.
  */
 export class ContentGenerationAppSyncLambda extends BaseClass {
   /**
@@ -148,12 +148,12 @@ export class ContentGenerationAppSyncLambda extends BaseClass {
   public readonly cgLambdaFunction: lambda.DockerImageFunction;
 
   /**
-   * @summary Constructs a new instance of the ContentGenerationAppSyncLambda class.
+   * Constructs a new instance of the ContentGenerationAppSyncLambda class.
    * @param {cdk.App} scope - represents the scope for all the resources.
    * @param {string} id - this is a a scope-unique id.
    * @param {ContentGenerationAppSyncLambdaProps} props - user provided props for the construct.
    * @since 0.0.0
-   * @access public
+   * @public
    */
   constructor(scope: Construct, id: string, props: ContentGenerationAppSyncLambdaProps) {
     super(scope, id);

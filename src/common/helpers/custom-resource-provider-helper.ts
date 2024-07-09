@@ -75,7 +75,9 @@ export interface ICRProvider {
   provider: cr.Provider;
   serviceToken: string;
 }
-
+/**
+ * Get the ICRProvider
+ */
 export interface ICRProviderClass {
   getProvider(scope: Construct): ICRProvider;
 }

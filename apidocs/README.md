@@ -1,23 +1,23 @@
-@cdklabs/generative-ai-cdk-constructs
+**@cdklabs/generative-ai-cdk-constructs** • **Docs**
+
+***
 
 # @cdklabs/generative-ai-cdk-constructs
 
-## Table of contents
+## Namespaces
 
-### Namespaces
+- [amazonaurora](namespaces/amazonaurora/README.md)
+- [bedrock](namespaces/bedrock/README.md)
+- [opensearch\_vectorindex](namespaces/opensearch_vectorindex/README.md)
+- [opensearchserverless](namespaces/opensearchserverless/README.md)
+- [pinecone](namespaces/pinecone/README.md)
 
-- [amazonaurora](modules/amazonaurora.md)
-- [bedrock](modules/bedrock.md)
-- [opensearch\_vectorindex](modules/opensearch_vectorindex.md)
-- [opensearchserverless](modules/opensearchserverless.md)
-- [pinecone](modules/pinecone.md)
+## Enumerations
 
-### Enumerations
+- [ConstructName](enumerations/ConstructName.md)
+- [CrawlerTargetType](enumerations/CrawlerTargetType.md)
 
-- [ConstructName](enums/ConstructName.md)
-- [CrawlerTargetType](enums/CrawlerTargetType.md)
-
-### Classes
+## Classes
 
 - [BaseClass](classes/BaseClass.md)
 - [ContainerImage](classes/ContainerImage.md)
@@ -35,7 +35,7 @@
 - [SummarizationAppsyncStepfn](classes/SummarizationAppsyncStepfn.md)
 - [WebCrawler](classes/WebCrawler.md)
 
-### Interfaces
+## Interfaces
 
 - [BaseClassProps](interfaces/BaseClassProps.md)
 - [ContainerImageConfig](interfaces/ContainerImageConfig.md)
@@ -55,14 +55,6 @@
 - [SummarizationAppsyncStepfnProps](interfaces/SummarizationAppsyncStepfnProps.md)
 - [WebCrawlerProps](interfaces/WebCrawlerProps.md)
 
-### Variables
-
-- [version](README.md#version)
-
 ## Variables
 
-### version
-
-• `Const` **version**: `any`
-
-The version of this package
+- [version](variables/version.md)

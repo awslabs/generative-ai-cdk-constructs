@@ -1,73 +1,34 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / HuggingFaceSageMakerEndpoint
 
 # Class: HuggingFaceSageMakerEndpoint
 
-**`Summary`**
-
 The HuggingFaceSageMakerEndpoint class.
 
-## Hierarchy
+## Extends
 
 - [`SageMakerEndpointBase`](SageMakerEndpointBase.md)
-
-  ↳ **`HuggingFaceSageMakerEndpoint`**
 
 ## Implements
 
 - `IGrantable`
 
-## Table of contents
-
-### Constructors
-
-- [constructor](HuggingFaceSageMakerEndpoint.md#constructor)
-
-### Properties
-
-- [cfnEndpoint](HuggingFaceSageMakerEndpoint.md#cfnendpoint)
-- [cfnEndpointConfig](HuggingFaceSageMakerEndpoint.md#cfnendpointconfig)
-- [cfnModel](HuggingFaceSageMakerEndpoint.md#cfnmodel)
-- [constructUsageMetric](HuggingFaceSageMakerEndpoint.md#constructusagemetric)
-- [enablexray](HuggingFaceSageMakerEndpoint.md#enablexray)
-- [endpointArn](HuggingFaceSageMakerEndpoint.md#endpointarn)
-- [environment](HuggingFaceSageMakerEndpoint.md#environment)
-- [fieldLogLevel](HuggingFaceSageMakerEndpoint.md#fieldloglevel)
-- [grantPrincipal](HuggingFaceSageMakerEndpoint.md#grantprincipal)
-- [instanceCount](HuggingFaceSageMakerEndpoint.md#instancecount)
-- [instanceType](HuggingFaceSageMakerEndpoint.md#instancetype)
-- [lambdaTracing](HuggingFaceSageMakerEndpoint.md#lambdatracing)
-- [modelId](HuggingFaceSageMakerEndpoint.md#modelid)
-- [node](HuggingFaceSageMakerEndpoint.md#node)
-- [retention](HuggingFaceSageMakerEndpoint.md#retention)
-- [role](HuggingFaceSageMakerEndpoint.md#role)
-- [stage](HuggingFaceSageMakerEndpoint.md#stage)
-- [startupHealthCheckTimeoutInSeconds](HuggingFaceSageMakerEndpoint.md#startuphealthchecktimeoutinseconds)
-- [usageMetricMap](HuggingFaceSageMakerEndpoint.md#usagemetricmap)
-
-### Methods
-
-- [addObservabilityToConstruct](HuggingFaceSageMakerEndpoint.md#addobservabilitytoconstruct)
-- [addToRolePolicy](HuggingFaceSageMakerEndpoint.md#addtorolepolicy)
-- [createSageMakerRole](HuggingFaceSageMakerEndpoint.md#createsagemakerrole)
-- [grantInvoke](HuggingFaceSageMakerEndpoint.md#grantinvoke)
-- [toString](HuggingFaceSageMakerEndpoint.md#tostring)
-- [updateConstructUsageMetricCode](HuggingFaceSageMakerEndpoint.md#updateconstructusagemetriccode)
-- [updateEnvSuffix](HuggingFaceSageMakerEndpoint.md#updateenvsuffix)
-- [isConstruct](HuggingFaceSageMakerEndpoint.md#isconstruct)
-
 ## Constructors
 
-### constructor
+### new HuggingFaceSageMakerEndpoint()
 
-• **new HuggingFaceSageMakerEndpoint**(`scope`, `id`, `props`): [`HuggingFaceSageMakerEndpoint`](HuggingFaceSageMakerEndpoint.md)
+> **new HuggingFaceSageMakerEndpoint**(`scope`, `id`, `props`): [`HuggingFaceSageMakerEndpoint`](HuggingFaceSageMakerEndpoint.md)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `scope` | `Construct` |
-| `id` | `string` |
-| `props` | [`HuggingFaceSageMakerEndpointProps`](../interfaces/HuggingFaceSageMakerEndpointProps.md) |
+• **scope**: `Construct`
+
+• **id**: `string`
+
+• **props**: [`HuggingFaceSageMakerEndpointProps`](../interfaces/HuggingFaceSageMakerEndpointProps.md)
 
 #### Returns
 
@@ -75,47 +36,47 @@ The HuggingFaceSageMakerEndpoint class.
 
 #### Overrides
 
-[SageMakerEndpointBase](SageMakerEndpointBase.md).[constructor](SageMakerEndpointBase.md#constructor)
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`constructor`](SageMakerEndpointBase.md#constructors)
 
 ## Properties
 
 ### cfnEndpoint
 
-• `Readonly` **cfnEndpoint**: `CfnEndpoint`
+> `readonly` **cfnEndpoint**: `CfnEndpoint`
 
-___
+***
 
 ### cfnEndpointConfig
 
-• `Readonly` **cfnEndpointConfig**: `CfnEndpointConfig`
+> `readonly` **cfnEndpointConfig**: `CfnEndpointConfig`
 
-___
+***
 
 ### cfnModel
 
-• `Readonly` **cfnModel**: `CfnModel`
+> `readonly` **cfnModel**: `CfnModel`
 
-___
+***
 
 ### constructUsageMetric
 
-• `Readonly` **constructUsageMetric**: ``"uksb-1tupboc45"``
+> `readonly` **constructUsageMetric**: `"uksb-1tupboc45"` = `'uksb-1tupboc45'`
 
 construct usage metric , added in template description
 
 #### Inherited from
 
-[SageMakerEndpointBase](SageMakerEndpointBase.md).[constructUsageMetric](SageMakerEndpointBase.md#constructusagemetric)
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`constructUsageMetric`](SageMakerEndpointBase.md#constructusagemetric)
 
-___
+***
 
 ### enablexray
 
-• **enablexray**: `boolean` = `true`
+> **enablexray**: `boolean` = `true`
 
 enable disable xray tracing
 
-**`Default`**
+#### Default
 
 ```ts
 - True
@@ -123,67 +84,59 @@ enable disable xray tracing
 
 #### Inherited from
 
-[SageMakerEndpointBase](SageMakerEndpointBase.md).[enablexray](SageMakerEndpointBase.md#enablexray)
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`enablexray`](SageMakerEndpointBase.md#enablexray)
 
-___
+***
 
 ### endpointArn
 
-• `Readonly` **endpointArn**: `string`
+> `readonly` **endpointArn**: `string`
 
-___
-
-### environment
-
-• `Private` `Optional` `Readonly` **environment**: `Object`
-
-#### Index signature
-
-▪ [key: `string`]: `string`
-
-___
+***
 
 ### fieldLogLevel
 
-• **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
+> **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
 
 Default  log config for all constructs
 
 #### Inherited from
 
-[SageMakerEndpointBase](SageMakerEndpointBase.md).[fieldLogLevel](SageMakerEndpointBase.md#fieldloglevel)
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`fieldLogLevel`](SageMakerEndpointBase.md#fieldloglevel)
 
-___
+***
 
 ### grantPrincipal
 
-• `Readonly` **grantPrincipal**: `IPrincipal`
+> `readonly` **grantPrincipal**: `IPrincipal`
+
+The principal to grant permissions to
 
 #### Implementation of
 
-iam.IGrantable.grantPrincipal
+`iam.IGrantable.grantPrincipal`
 
-___
+***
 
 ### instanceCount
 
-• `Readonly` **instanceCount**: `number`
+> `readonly` **instanceCount**: `number`
 
-___
+***
 
 ### instanceType
 
-• `Readonly` **instanceType**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+> `readonly` **instanceType**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
-___
+***
 
 ### lambdaTracing
 
-• **lambdaTracing**: `Tracing` = `lambda.Tracing.ACTIVE`
+> **lambdaTracing**: `Tracing` = `lambda.Tracing.ACTIVE`
 
 enable disable lambda tracing
 
-**`Default`**
+#### Default
 
 ```ts
 - Active
@@ -191,53 +144,53 @@ enable disable lambda tracing
 
 #### Inherited from
 
-[SageMakerEndpointBase](SageMakerEndpointBase.md).[lambdaTracing](SageMakerEndpointBase.md#lambdatracing)
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`lambdaTracing`](SageMakerEndpointBase.md#lambdatracing)
 
-___
+***
 
 ### modelId
 
-• `Readonly` **modelId**: `string`
+> `readonly` **modelId**: `string`
 
-___
+***
 
 ### node
 
-• `Readonly` **node**: `Node`
+> `readonly` **node**: `Node`
 
 The tree node.
 
 #### Inherited from
 
-[SageMakerEndpointBase](SageMakerEndpointBase.md).[node](SageMakerEndpointBase.md#node)
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`node`](SageMakerEndpointBase.md#node)
 
-___
+***
 
 ### retention
 
-• **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
+> **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
 
 Default  log retention config for all constructs
 
 #### Inherited from
 
-[SageMakerEndpointBase](SageMakerEndpointBase.md).[retention](SageMakerEndpointBase.md#retention)
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`retention`](SageMakerEndpointBase.md#retention)
 
-___
+***
 
 ### role
 
-• `Readonly` **role**: `Role`
+> `readonly` **role**: `Role`
 
-___
+***
 
 ### stage
 
-• **stage**: `string`
+> **stage**: `string`
 
 Value will be appended to resources name.
 
-**`Default`**
+#### Default
 
 ```ts
 - _dev
@@ -245,37 +198,29 @@ Value will be appended to resources name.
 
 #### Inherited from
 
-[SageMakerEndpointBase](SageMakerEndpointBase.md).[stage](SageMakerEndpointBase.md#stage)
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`stage`](SageMakerEndpointBase.md#stage)
 
-___
-
-### startupHealthCheckTimeoutInSeconds
-
-• `Private` `Readonly` **startupHealthCheckTimeoutInSeconds**: `number`
-
-___
+***
 
 ### usageMetricMap
 
-▪ `Static` `Protected` **usageMetricMap**: `Record`\<`string`, `number`\>
+> `protected` `static` **usageMetricMap**: `Record`\<`string`, `number`\>
 
 Record<string, number> , maps construct name with number of deployments
 
 #### Inherited from
 
-[SageMakerEndpointBase](SageMakerEndpointBase.md).[usageMetricMap](SageMakerEndpointBase.md#usagemetricmap)
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`usageMetricMap`](SageMakerEndpointBase.md#usagemetricmap)
 
 ## Methods
 
-### addObservabilityToConstruct
+### addObservabilityToConstruct()
 
-▸ **addObservabilityToConstruct**(`props`): `void`
+> `protected` **addObservabilityToConstruct**(`props`): `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
 
 #### Returns
 
@@ -283,29 +228,27 @@ Record<string, number> , maps construct name with number of deployments
 
 #### Inherited from
 
-[SageMakerEndpointBase](SageMakerEndpointBase.md).[addObservabilityToConstruct](SageMakerEndpointBase.md#addobservabilitytoconstruct)
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`addObservabilityToConstruct`](SageMakerEndpointBase.md#addobservabilitytoconstruct)
 
-___
+***
 
-### addToRolePolicy
+### addToRolePolicy()
 
-▸ **addToRolePolicy**(`statement`): `void`
+> **addToRolePolicy**(`statement`): `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `statement` | `PolicyStatement` |
+• **statement**: `PolicyStatement`
 
 #### Returns
 
 `void`
 
-___
+***
 
-### createSageMakerRole
+### createSageMakerRole()
 
-▸ **createSageMakerRole**(): `Role`
+> `protected` **createSageMakerRole**(): `Role`
 
 #### Returns
 
@@ -313,29 +256,27 @@ ___
 
 #### Inherited from
 
-[SageMakerEndpointBase](SageMakerEndpointBase.md).[createSageMakerRole](SageMakerEndpointBase.md#createsagemakerrole)
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`createSageMakerRole`](SageMakerEndpointBase.md#createsagemakerrole)
 
-___
+***
 
-### grantInvoke
+### grantInvoke()
 
-▸ **grantInvoke**(`grantee`): `Grant`
+> **grantInvoke**(`grantee`): `Grant`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `grantee` | `IGrantable` |
+• **grantee**: `IGrantable`
 
 #### Returns
 
 `Grant`
 
-___
+***
 
-### toString
+### toString()
 
-▸ **toString**(): `string`
+> **toString**(): `string`
 
 Returns a string representation of this construct.
 
@@ -345,21 +286,21 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-[SageMakerEndpointBase](SageMakerEndpointBase.md).[toString](SageMakerEndpointBase.md#tostring)
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`toString`](SageMakerEndpointBase.md#tostring)
 
-___
+***
 
-### updateConstructUsageMetricCode
+### updateConstructUsageMetricCode()
 
-▸ **updateConstructUsageMetricCode**(`props`, `scope`, `lambdaFunctions`): `void`
+> `protected` **updateConstructUsageMetricCode**(`props`, `scope`, `lambdaFunctions`): `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
-| `scope` | `Construct` |
-| `lambdaFunctions` | `DockerImageFunction`[] |
+• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
+
+• **scope**: `Construct`
+
+• **lambdaFunctions**: `DockerImageFunction`[]
 
 #### Returns
 
@@ -367,19 +308,17 @@ ___
 
 #### Inherited from
 
-[SageMakerEndpointBase](SageMakerEndpointBase.md).[updateConstructUsageMetricCode](SageMakerEndpointBase.md#updateconstructusagemetriccode)
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`updateConstructUsageMetricCode`](SageMakerEndpointBase.md#updateconstructusagemetriccode)
 
-___
+***
 
-### updateEnvSuffix
+### updateEnvSuffix()
 
-▸ **updateEnvSuffix**(`props`): `void`
+> `protected` **updateEnvSuffix**(`props`): `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
 
 #### Returns
 
@@ -387,13 +326,13 @@ ___
 
 #### Inherited from
 
-[SageMakerEndpointBase](SageMakerEndpointBase.md).[updateEnvSuffix](SageMakerEndpointBase.md#updateenvsuffix)
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`updateEnvSuffix`](SageMakerEndpointBase.md#updateenvsuffix)
 
-___
+***
 
-### isConstruct
+### isConstruct()
 
-▸ **isConstruct**(`x`): x is Construct
+> `static` **isConstruct**(`x`): `x is Construct`
 
 Checks if `x` is a construct.
 
@@ -413,16 +352,16 @@ this type-testing method instead.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `x` | `any` | Any object |
+• **x**: `any`
+
+Any object
 
 #### Returns
 
-x is Construct
+`x is Construct`
 
 true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-[SageMakerEndpointBase](SageMakerEndpointBase.md).[isConstruct](SageMakerEndpointBase.md#isconstruct)
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`isConstruct`](SageMakerEndpointBase.md#isconstruct)

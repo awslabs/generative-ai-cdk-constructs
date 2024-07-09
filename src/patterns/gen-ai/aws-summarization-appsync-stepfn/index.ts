@@ -232,12 +232,12 @@ export class SummarizationAppsyncStepfn extends BaseClass {
 
 
   /**
-     * @summary Constructs a new instance of the SummarizationAppsyncStepfn class.
+     * Constructs a new instance of the SummarizationAppsyncStepfn class.
      * @param {Construct} scope - represents the scope for all the resources.
      * @param {string} id - this is a a scope-unique id.
      * @param {SummarizationAppsyncStepfnProps} props - user provided props for the construct.
      * @since 0.0.0
-     * @access public
+     * @public
      */
   constructor(scope: Construct, id: string, props: SummarizationAppsyncStepfnProps) {
     super(scope, id);

@@ -178,12 +178,12 @@ export class WebCrawler extends BaseClass {
   public readonly lambdaCrawlerApiSchemaPath: string;
 
   /**
-   * @summary Constructs a new instance of the WebCrawler class.
+   * Constructs a new instance of the WebCrawler class.
    * @param {Construct} scope - represents the scope for all the resources.
    * @param {string} id - this is a a scope-unique id.
    * @param {WebCrawlerProps} props - user provided props for the construct.
    * @since 0.0.0
-   * @access public
+   * @public
    */
   constructor(scope: Construct, id: string, props: WebCrawlerProps) {
     super(scope, id);

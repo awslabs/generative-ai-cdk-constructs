@@ -1,93 +1,81 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / IJumpStartModelSpec
 
 # Interface: IJumpStartModelSpec
 
-## Table of contents
-
-### Properties
-
-- [artifactKey](IJumpStartModelSpec.md#artifactkey)
-- [defaultInstanceType](IJumpStartModelSpec.md#defaultinstancetype)
-- [environment](IJumpStartModelSpec.md#environment)
-- [instanceAliases](IJumpStartModelSpec.md#instancealiases)
-- [instanceTypes](IJumpStartModelSpec.md#instancetypes)
-- [instanceVariants](IJumpStartModelSpec.md#instancevariants)
-- [modelId](IJumpStartModelSpec.md#modelid)
-- [modelPackageArns](IJumpStartModelSpec.md#modelpackagearns)
-- [prepackedArtifactKey](IJumpStartModelSpec.md#prepackedartifactkey)
-- [requiresEula](IJumpStartModelSpec.md#requireseula)
-- [version](IJumpStartModelSpec.md#version)
-
 ## Properties
 
-### artifactKey
+### artifactKey?
 
-• `Optional` **artifactKey**: `string`
+> `optional` **artifactKey**: `string`
 
-___
+***
 
 ### defaultInstanceType
 
-• **defaultInstanceType**: `string`
+> **defaultInstanceType**: `string`
 
-___
+***
 
 ### environment
 
-• **environment**: `Object`
+> **environment**: `object`
 
-#### Index signature
+#### Index Signature
 
-▪ [key: `string`]: `string` \| `number` \| `boolean`
+ \[`key`: `string`\]: `string` \| `number` \| `boolean`
 
-___
+***
 
-### instanceAliases
+### instanceAliases?
 
-• `Optional` **instanceAliases**: [`IInstanceAliase`](IInstanceAliase.md)[]
+> `optional` **instanceAliases**: [`IInstanceAliase`](IInstanceAliase.md)[]
 
-___
+***
 
 ### instanceTypes
 
-• **instanceTypes**: `string`[]
+> **instanceTypes**: `string`[]
 
-___
+***
 
-### instanceVariants
+### instanceVariants?
 
-• `Optional` **instanceVariants**: [`IInstanceValiant`](IInstanceValiant.md)[]
+> `optional` **instanceVariants**: [`IInstanceValiant`](IInstanceValiant.md)[]
 
-___
+***
 
 ### modelId
 
-• **modelId**: `string`
+> **modelId**: `string`
 
-___
+***
 
-### modelPackageArns
+### modelPackageArns?
 
-• `Optional` **modelPackageArns**: `Object`
+> `optional` **modelPackageArns**: `object`
 
-#### Index signature
+#### Index Signature
 
-▪ [region: `string`]: `string`
+ \[`region`: `string`\]: `string`
 
-___
+***
 
-### prepackedArtifactKey
+### prepackedArtifactKey?
 
-• `Optional` **prepackedArtifactKey**: `string`
+> `optional` **prepackedArtifactKey**: `string`
 
-___
+***
 
 ### requiresEula
 
-• **requiresEula**: `boolean`
+> **requiresEula**: `boolean`
 
-___
+***
 
 ### version
 
-• **version**: `string`
+> **version**: `string`
