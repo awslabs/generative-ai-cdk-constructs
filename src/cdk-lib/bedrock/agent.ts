@@ -83,10 +83,7 @@ export interface InferenceConfiguration {
    * higher-probability options, while a higher value makes the model more
    * likely to choose lower-probability options.
    *
-   * Floating point
-   *
-   * min 0
-   * max 1
+   * @remarks Floating point minimum zero `0` and maximum `1`
    */
   readonly temperature: number;
   /**
