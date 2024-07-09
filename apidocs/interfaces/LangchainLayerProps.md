@@ -63,6 +63,10 @@ The description the this Lambda Layer.
 - No description.
 ```
 
+#### Stability
+
+stable
+
 #### Inherited from
 
 [`LangchainProps`](LangchainProps.md).[`description`](LangchainProps.md#description)
@@ -81,6 +85,10 @@ The name of the layer.
 - A name will be generated.
 ```
 
+#### Stability
+
+stable
+
 #### Inherited from
 
 [`LangchainProps`](LangchainProps.md).[`layerVersionName`](LangchainProps.md#layerversionname)
@@ -98,6 +106,10 @@ The SPDX licence identifier or URL to the license file for this layer.
 ```ts
 - No license information will be recorded.
 ```
+
+#### Stability
+
+stable
 
 #### Inherited from
 
@@ -132,6 +144,10 @@ Whether to retain this version of the layer when a new version is added or when 
 ```ts
 RemovalPolicy.DESTROY
 ```
+
+#### Stability
+
+stable
 
 #### Inherited from
 
