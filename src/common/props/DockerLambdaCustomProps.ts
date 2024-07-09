@@ -10,7 +10,6 @@ export interface DockerLambdaCustomProps {
    * You can point to a file in an
    * Amazon Simple Storage Service (Amazon S3) bucket or specify your source
    * code as inline text.
-   * @stability stable
    */
   readonly code: aws_lambda.DockerImageCode;
   /**
@@ -18,50 +17,42 @@ export interface DockerLambdaCustomProps {
    * Because the execution time affects cost, set this value
    * based on the function's expected execution time.
    * @default Duration.seconds(3)
-   * @stability stable
    */
   readonly timeout?: Duration;
   /**
    * Sets the system log level for the function.
    * @default "INFO"
-   * @stability stable
    */
   readonly systemLogLevel?: string;
   /**
    * Enable SnapStart for Lambda Function.
    * SnapStart is currently supported only for Java 11, 17 runtime
    * @default - No snapstart
-   * @stability stable
    */
   readonly snapStart?: aws_lambda.SnapStartConf;
   /**
    * Sets the runtime management configuration for a function's version.
    * @default Auto
-   * @stability stable
    */
   readonly runtimeManagementMode?: aws_lambda.RuntimeManagementMode;
   /**
    * The maximum of concurrent executions you want to reserve for the function.
    * @default - No specific limit - account limit.
-   * @stability stable
    */
   readonly reservedConcurrentExecutions?: number;
   /**
    * Profiling Group.
    * @default - A new profiling group will be created if `profiling` is set.
-   * @stability stable
    */
   readonly profilingGroup?: aws_codeguruprofiler.IProfilingGroup;
   /**
    * Enable profiling.
    * @default - No profiling.
-   * @stability stable
    */
   readonly profiling?: boolean;
   /**
    * Specify the configuration of Parameters and Secrets Extension.
    * @default - No Parameters and Secrets Extension
-   * @stability stable
    */
   readonly paramsAndSecrets?: aws_lambda.ParamsAndSecretsLayerVersion;
   /**
@@ -70,7 +61,6 @@ export interface DockerLambdaCustomProps {
    * power. For more information, see Resource Model in the AWS Lambda
    * Developer Guide.
    * @default 128
-   * @stability stable
    */
   readonly memorySize?: number;
   /**
@@ -78,7 +68,6 @@ export interface DockerLambdaCustomProps {
    * This is a legacy API and we strongly recommend you migrate to `logGroup` if you can.
    * `logGroup` allows you to create a fully customizable log group and instruct the Lambda function to send logs to it.
    * @default - A new role is created.
-   * @stability stable
    */
   readonly logRetentionRole?: aws_iam.IRole;
   /**
@@ -88,7 +77,6 @@ export interface DockerLambdaCustomProps {
    * This is a legacy API and we strongly recommend you migrate to `logGroup` if you can.
    * `logGroup` allows you to create a fully customizable log group and instruct the Lambda function to send logs to it.
    * @default - Default AWS SDK retry options.
-   * @stability stable
    */
   readonly logRetentionRetryOptions?: aws_lambda.LogRetentionRetryOptions;
   /**
@@ -111,7 +99,6 @@ export interface DockerLambdaCustomProps {
    * myLogGroup.logGroupName;
    * ```
    * @default logs.RetentionDays.INFINITE
-   * @stability stable
    */
   readonly logRetention?: aws_logs.RetentionDays;
   /**
@@ -124,64 +111,54 @@ export interface DockerLambdaCustomProps {
    * Providing a user-controlled log group was rolled out to commercial regions on 2023-11-16.
    * If you are deploying to another type of region, please check regional availability first.
    * @default `/aws/lambda/${this.functionName}` - default log group created by Lambda
-   * @stability stable
    */
   readonly logGroup?: aws_logs.ILogGroup;
   /**
    * Sets the loggingFormat for the function.
    * @default LoggingFormat.TEXT
-   * @stability stable
    */
   readonly loggingFormat?: aws_lambda.LoggingFormat;
   /**
    * Sets the logFormat for the function.
    * @default "Text"
-   * @stability stable
    */
   readonly logFormat?: string;
   /**
    * Allows outbound IPv6 traffic on VPC functions that are connected to dual-stack subnets.
    * Only used if 'vpc' is supplied.
    * @default false
-   * @stability stable
    */
   readonly ipv6AllowedForDualStack?: boolean;
   /**
    * Specify the version of CloudWatch Lambda insights to use for monitoring.
    * @default - No Lambda Insights
-   * @stability stable
    */
   readonly insightsVersion?: aws_lambda.LambdaInsightsVersion;
   /**
    * Initial policy statements to add to the created Lambda Role.
    * You can call `addToRolePolicy` to the created lambda to add statements post creation.
    * @default - No policy statements are added to the created Lambda role.
-   * @stability stable
    */
   readonly initialPolicy?: Array<aws_iam.PolicyStatement>;
   /**
    * The filesystem configuration for the lambda function.
    * @default - will not mount any filesystem
-   * @stability stable
    */
   readonly filesystem?: aws_lambda.FileSystem;
   /**
    * Event sources for this function.
    * You can also add event sources using `addEventSource`.
    * @default - No event sources.
-   * @stability stable
    */
   readonly events?: Array<aws_lambda.IEventSource>;
   /**
    * The size of the function’s /tmp directory in MiB.
    * @default 512 MiB
-   * @stability stable
    */
   readonly ephemeralStorageSize?: Size;
   /**
    * The AWS KMS key that's used to encrypt your function's environment variables.
    * @default - AWS Lambda creates and uses an AWS managed customer master key (CMK).
-   * @stability stable
    */
   readonly environmentEncryption?: aws_kms.IKey;
   /**
@@ -190,7 +167,6 @@ export interface DockerLambdaCustomProps {
    * as test and production environment configurations, without changing your
    * Lambda function source code.
    * @default - No environment variables.
-   * @stability stable
    */
   readonly environment?: Record<string, string>;
   /**
@@ -198,7 +174,6 @@ export interface DockerLambdaCustomProps {
    * Note that if `deadLetterQueueEnabled` is set to `true`, an SQS queue will be created
    * rather than an SNS topic. Using an SNS topic as a DLQ requires this property to be set explicitly.
    * @default - no SNS topic
-   * @stability stable
    */
   readonly deadLetterTopic?: aws_sns.ITopic;
   /**
@@ -206,44 +181,37 @@ export interface DockerLambdaCustomProps {
    * If `deadLetterQueue` is undefined,
    * an SQS queue with default options will be defined for your Function.
    * @default - false unless `deadLetterQueue` is set, which implies DLQ is enabled.
-   * @stability stable
    */
   readonly deadLetterQueueEnabled?: boolean;
   /**
    * The SQS queue to use if DLQ is enabled.
    * If SNS topic is desired, specify `deadLetterTopic` property instead.
    * @default - SQS queue with 14 day retention period if `deadLetterQueueEnabled` is `true`
-   * @stability stable
    */
   readonly deadLetterQueue?: aws_sqs.IQueue;
   /**
    * Options for the `lambda.Version` resource automatically created by the `fn.currentVersion` method.
    * @default - default options as described in `VersionOptions`
-   * @stability stable
    */
   readonly currentVersionOptions?: aws_lambda.VersionOptions;
   /**
    * Code signing config associated with this function.
    * @default - Not Sign the Code
-   * @stability stable
    */
   readonly codeSigningConfig?: aws_lambda.ICodeSigningConfig;
   /**
    * The system architectures compatible with this lambda function.
    * @default Architecture.X86_64
-   * @stability stable
    */
   readonly architecture?: aws_lambda.Architecture;
   /**
    * Sets the application log level for the function.
    * @default "INFO"
-   * @stability stable
    */
   readonly applicationLogLevel?: string;
   /**
    * Specify the configuration of AWS Distro for OpenTelemetry (ADOT) instrumentation.
    * @default - No ADOT instrumentation
-   * @stability stable
    */
   readonly adotInstrumentation?: aws_lambda.AdotInstrumentationConfig;
   /**
@@ -251,19 +219,16 @@ export interface DockerLambdaCustomProps {
    * Minimum: 0
    * Maximum: 2
    * @default 2
-   * @stability stable
    */
   readonly retryAttempts?: number;
   /**
    * The destination for successful invocations.
    * @default - no destination
-   * @stability stable
    */
   readonly onSuccess?: aws_lambda.IDestination;
   /**
    * The destination for failed invocations.
    * @default - no destination
-   * @stability stable
    */
   readonly onFailure?: aws_lambda.IDestination;
   /**
@@ -271,7 +236,6 @@ export interface DockerLambdaCustomProps {
    * Minimum: 60 seconds
    * Maximum: 6 hours
    * @default Duration.hours(6)
-   * @stability stable
    */
   readonly maxEventAge?: Duration;
 }

@@ -26,10 +26,6 @@ The description the this Lambda Layer.
 - No description.
 ```
 
-#### Stability
-
-stable
-
 ***
 
 ### layerVersionName?
@@ -43,10 +39,6 @@ The name of the layer.
 ```ts
 - A name will be generated.
 ```
-
-#### Stability
-
-stable
 
 ***
 
@@ -62,10 +54,6 @@ The SPDX licence identifier or URL to the license file for this layer.
 - No license information will be recorded.
 ```
 
-#### Stability
-
-stable
-
 ***
 
 ### removalPolicy?
@@ -79,7 +67,3 @@ Whether to retain this version of the layer when a new version is added or when 
 ```ts
 RemovalPolicy.DESTROY
 ```
-
-#### Stability
-
-stable
