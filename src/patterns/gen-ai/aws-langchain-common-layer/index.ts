@@ -51,7 +51,7 @@ export interface LangchainLayerProps extends LangchainProps {
 }
 
 /**
-   * @summary The LangchainCommonDepsLayer class.
+   * The LangchainCommonDepsLayer class.
    */
 export class LangchainCommonDepsLayer extends Construct {
   /**
@@ -60,12 +60,12 @@ export class LangchainCommonDepsLayer extends Construct {
   public readonly layer: lambda.LayerVersion;
 
   /**
-     * @summary This construct creates a lambda layer loaded with relevant libraries to run genai applications. Libraries include boto3, botocore, requests, requests-aws4auth, langchain, opensearch-py and openai.
+     * This construct creates a lambda layer loaded with relevant libraries to run genai applications. Libraries include boto3, botocore, requests, requests-aws4auth, langchain, opensearch-py and openai.
      * @param {cdk.App} scope - represents the scope for all the resources.
      * @param {string} id - this is a a scope-unique id.
      * @param {LangchainLayerProps} props - user provided props for the construct.
      * @since 0.0.0
-     * @access public
+     * @public
      */
   constructor(scope: Construct, id: string, props: LangchainLayerProps) {
     super(scope, id);

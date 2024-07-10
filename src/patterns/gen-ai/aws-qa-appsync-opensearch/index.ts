@@ -145,7 +145,7 @@ export interface QaAppsyncOpensearchProps {
 }
 
 /**
- * @summary The QaAppsyncOpensearch class.
+ * The QaAppsyncOpensearch class.
  */
 export class QaAppsyncOpensearch extends BaseClass {
   /**
@@ -181,12 +181,12 @@ export class QaAppsyncOpensearch extends BaseClass {
 
 
   /**
-   * @summary Constructs a new instance of the RagAppsyncStepfnOpensearch class.
+   * Constructs a new instance of the RagAppsyncStepfnOpensearch class.
    * @param {cdk.App} scope - represents the scope for all the resources.
    * @param {string} id - this is a a scope-unique id.
    * @param {QaAppsyncOpensearchProps} props - user provided props for the construct.
    * @since 0.0.0
-   * @access public
+   * @public
    */
   constructor(scope: Construct, id: string, props: QaAppsyncOpensearchProps) {
     super(scope, id);

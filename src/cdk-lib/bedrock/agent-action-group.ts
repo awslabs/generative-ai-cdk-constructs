@@ -52,7 +52,7 @@ export interface AgentActionGroupProps {
   /**
    * A description of the action group.
    *
-   * @note This object is a Union. Only one member of this object can be specified or returned.
+   * @remarks This object is a Union. Only one member of this object can be specified or returned.
    */
   readonly description?: string;
   /**

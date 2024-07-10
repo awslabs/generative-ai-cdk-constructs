@@ -1,112 +1,80 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / ContentGenerationAppSyncLambda
 
 # Class: ContentGenerationAppSyncLambda
 
-**`Summary`**
-
 The ContentGenerationAppSyncLambda class.
 
-## Hierarchy
+## Extends
 
 - [`BaseClass`](BaseClass.md)
 
-  ↳ **`ContentGenerationAppSyncLambda`**
-
-## Table of contents
-
-### Constructors
-
-- [constructor](ContentGenerationAppSyncLambda.md#constructor)
-
-### Properties
-
-- [cgLambdaFunction](ContentGenerationAppSyncLambda.md#cglambdafunction)
-- [constructUsageMetric](ContentGenerationAppSyncLambda.md#constructusagemetric)
-- [enablexray](ContentGenerationAppSyncLambda.md#enablexray)
-- [fieldLogLevel](ContentGenerationAppSyncLambda.md#fieldloglevel)
-- [generatedImageBus](ContentGenerationAppSyncLambda.md#generatedimagebus)
-- [graphqlApi](ContentGenerationAppSyncLambda.md#graphqlapi)
-- [lambdaTracing](ContentGenerationAppSyncLambda.md#lambdatracing)
-- [node](ContentGenerationAppSyncLambda.md#node)
-- [retention](ContentGenerationAppSyncLambda.md#retention)
-- [s3GenerateAssetsBucket](ContentGenerationAppSyncLambda.md#s3generateassetsbucket)
-- [s3GenerateAssetsBucketInterface](ContentGenerationAppSyncLambda.md#s3generateassetsbucketinterface)
-- [securityGroup](ContentGenerationAppSyncLambda.md#securitygroup)
-- [stage](ContentGenerationAppSyncLambda.md#stage)
-- [vpc](ContentGenerationAppSyncLambda.md#vpc)
-- [usageMetricMap](ContentGenerationAppSyncLambda.md#usagemetricmap)
-
-### Methods
-
-- [addObservabilityToConstruct](ContentGenerationAppSyncLambda.md#addobservabilitytoconstruct)
-- [toString](ContentGenerationAppSyncLambda.md#tostring)
-- [updateConstructUsageMetricCode](ContentGenerationAppSyncLambda.md#updateconstructusagemetriccode)
-- [updateEnvSuffix](ContentGenerationAppSyncLambda.md#updateenvsuffix)
-- [isConstruct](ContentGenerationAppSyncLambda.md#isconstruct)
-
 ## Constructors
 
-### constructor
+### new ContentGenerationAppSyncLambda()
 
-• **new ContentGenerationAppSyncLambda**(`scope`, `id`, `props`): [`ContentGenerationAppSyncLambda`](ContentGenerationAppSyncLambda.md)
+> **new ContentGenerationAppSyncLambda**(`scope`, `id`, `props`): [`ContentGenerationAppSyncLambda`](ContentGenerationAppSyncLambda.md)
+
+Constructs a new instance of the ContentGenerationAppSyncLambda class.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `scope` | `Construct` | represents the scope for all the resources. |
-| `id` | `string` | this is a a scope-unique id. |
-| `props` | [`ContentGenerationAppSyncLambdaProps`](../interfaces/ContentGenerationAppSyncLambdaProps.md) | user provided props for the construct. |
+• **scope**: `Construct`
+
+represents the scope for all the resources.
+
+• **id**: `string`
+
+this is a a scope-unique id.
+
+• **props**: [`ContentGenerationAppSyncLambdaProps`](../interfaces/ContentGenerationAppSyncLambdaProps.md)
+
+user provided props for the construct.
 
 #### Returns
 
 [`ContentGenerationAppSyncLambda`](ContentGenerationAppSyncLambda.md)
 
-**`Summary`**
-
-Constructs a new instance of the ContentGenerationAppSyncLambda class.
-
-**`Since`**
+#### Since
 
 0.0.0
 
-**`Access`**
-
-public
-
 #### Overrides
 
-[BaseClass](BaseClass.md).[constructor](BaseClass.md#constructor)
+[`BaseClass`](BaseClass.md).[`constructor`](BaseClass.md#constructors)
 
 ## Properties
 
 ### cgLambdaFunction
 
-• `Readonly` **cgLambdaFunction**: `DockerImageFunction`
+> `readonly` **cgLambdaFunction**: `DockerImageFunction`
 
 Returns an instance of appsync.GraphqlApi created by the construct
 
-___
+***
 
 ### constructUsageMetric
 
-• `Readonly` **constructUsageMetric**: ``"uksb-1tupboc45"``
+> `readonly` **constructUsageMetric**: `"uksb-1tupboc45"` = `'uksb-1tupboc45'`
 
 construct usage metric , added in template description
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[constructUsageMetric](BaseClass.md#constructusagemetric)
+[`BaseClass`](BaseClass.md).[`constructUsageMetric`](BaseClass.md#constructusagemetric)
 
-___
+***
 
 ### enablexray
 
-• **enablexray**: `boolean` = `true`
+> **enablexray**: `boolean` = `true`
 
 enable disable xray tracing
 
-**`Default`**
+#### Default
 
 ```ts
 - True
@@ -114,45 +82,45 @@ enable disable xray tracing
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[enablexray](BaseClass.md#enablexray)
+[`BaseClass`](BaseClass.md).[`enablexray`](BaseClass.md#enablexray)
 
-___
+***
 
 ### fieldLogLevel
 
-• **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
+> **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
 
 Default  log config for all constructs
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[fieldLogLevel](BaseClass.md#fieldloglevel)
+[`BaseClass`](BaseClass.md).[`fieldLogLevel`](BaseClass.md#fieldloglevel)
 
-___
+***
 
 ### generatedImageBus
 
-• `Readonly` **generatedImageBus**: `IEventBus`
+> `readonly` **generatedImageBus**: `IEventBus`
 
 Returns the instance of events.IEventBus used by the construct
 
-___
+***
 
 ### graphqlApi
 
-• `Readonly` **graphqlApi**: `GraphqlApi`
+> `readonly` **graphqlApi**: `GraphqlApi`
 
 Returns an instance of appsync.GraphqlApi created by the construct
 
-___
+***
 
 ### lambdaTracing
 
-• **lambdaTracing**: `Tracing` = `lambda.Tracing.ACTIVE`
+> **lambdaTracing**: `Tracing` = `lambda.Tracing.ACTIVE`
 
 enable disable lambda tracing
 
-**`Default`**
+#### Default
 
 ```ts
 - Active
@@ -160,67 +128,67 @@ enable disable lambda tracing
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[lambdaTracing](BaseClass.md#lambdatracing)
+[`BaseClass`](BaseClass.md).[`lambdaTracing`](BaseClass.md#lambdatracing)
 
-___
+***
 
 ### node
 
-• `Readonly` **node**: `Node`
+> `readonly` **node**: `Node`
 
 The tree node.
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[node](BaseClass.md#node)
+[`BaseClass`](BaseClass.md).[`node`](BaseClass.md#node)
 
-___
+***
 
 ### retention
 
-• **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
+> **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
 
 Default  log retention config for all constructs
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[retention](BaseClass.md#retention)
+[`BaseClass`](BaseClass.md).[`retention`](BaseClass.md#retention)
 
-___
+***
 
-### s3GenerateAssetsBucket
+### s3GenerateAssetsBucket?
 
-• `Optional` `Readonly` **s3GenerateAssetsBucket**: `Bucket`
+> `readonly` `optional` **s3GenerateAssetsBucket**: `Bucket`
 
 Returns an instance of s3.Bucket created by the construct.
 IMPORTANT: If existingGeneratedAssetsBucketObj was provided in Pattern Construct Props,
 this property will be undefined
 
-___
+***
 
 ### s3GenerateAssetsBucketInterface
 
-• `Readonly` **s3GenerateAssetsBucketInterface**: `IBucket`
+> `readonly` **s3GenerateAssetsBucketInterface**: `IBucket`
 
 Returns an instance of s3.IBucket created by the construct
 
-___
+***
 
 ### securityGroup
 
-• `Readonly` **securityGroup**: `ISecurityGroup`
+> `readonly` **securityGroup**: `ISecurityGroup`
 
 Returns the instance of ec2.ISecurityGroup used by the construct
 
-___
+***
 
 ### stage
 
-• **stage**: `string`
+> **stage**: `string`
 
 Value will be appended to resources name.
 
-**`Default`**
+#### Default
 
 ```ts
 - _dev
@@ -228,39 +196,37 @@ Value will be appended to resources name.
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[stage](BaseClass.md#stage)
+[`BaseClass`](BaseClass.md).[`stage`](BaseClass.md#stage)
 
-___
+***
 
 ### vpc
 
-• `Readonly` **vpc**: `IVpc`
+> `readonly` **vpc**: `IVpc`
 
 Returns the instance of ec2.IVpc used by the construct
 
-___
+***
 
 ### usageMetricMap
 
-▪ `Static` `Protected` **usageMetricMap**: `Record`\<`string`, `number`\>
+> `protected` `static` **usageMetricMap**: `Record`\<`string`, `number`\>
 
 Record<string, number> , maps construct name with number of deployments
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[usageMetricMap](BaseClass.md#usagemetricmap)
+[`BaseClass`](BaseClass.md).[`usageMetricMap`](BaseClass.md#usagemetricmap)
 
 ## Methods
 
-### addObservabilityToConstruct
+### addObservabilityToConstruct()
 
-▸ **addObservabilityToConstruct**(`props`): `void`
+> `protected` **addObservabilityToConstruct**(`props`): `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
 
 #### Returns
 
@@ -268,13 +234,13 @@ Record<string, number> , maps construct name with number of deployments
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[addObservabilityToConstruct](BaseClass.md#addobservabilitytoconstruct)
+[`BaseClass`](BaseClass.md).[`addObservabilityToConstruct`](BaseClass.md#addobservabilitytoconstruct)
 
-___
+***
 
-### toString
+### toString()
 
-▸ **toString**(): `string`
+> **toString**(): `string`
 
 Returns a string representation of this construct.
 
@@ -284,21 +250,21 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[toString](BaseClass.md#tostring)
+[`BaseClass`](BaseClass.md).[`toString`](BaseClass.md#tostring)
 
-___
+***
 
-### updateConstructUsageMetricCode
+### updateConstructUsageMetricCode()
 
-▸ **updateConstructUsageMetricCode**(`props`, `scope`, `lambdaFunctions`): `void`
+> `protected` **updateConstructUsageMetricCode**(`props`, `scope`, `lambdaFunctions`): `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
-| `scope` | `Construct` |
-| `lambdaFunctions` | `DockerImageFunction`[] |
+• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
+
+• **scope**: `Construct`
+
+• **lambdaFunctions**: `DockerImageFunction`[]
 
 #### Returns
 
@@ -306,19 +272,17 @@ ___
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[updateConstructUsageMetricCode](BaseClass.md#updateconstructusagemetriccode)
+[`BaseClass`](BaseClass.md).[`updateConstructUsageMetricCode`](BaseClass.md#updateconstructusagemetriccode)
 
-___
+***
 
-### updateEnvSuffix
+### updateEnvSuffix()
 
-▸ **updateEnvSuffix**(`props`): `void`
+> `protected` **updateEnvSuffix**(`props`): `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
 
 #### Returns
 
@@ -326,13 +290,13 @@ ___
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[updateEnvSuffix](BaseClass.md#updateenvsuffix)
+[`BaseClass`](BaseClass.md).[`updateEnvSuffix`](BaseClass.md#updateenvsuffix)
 
-___
+***
 
-### isConstruct
+### isConstruct()
 
-▸ **isConstruct**(`x`): x is Construct
+> `static` **isConstruct**(`x`): `x is Construct`
 
 Checks if `x` is a construct.
 
@@ -352,16 +316,16 @@ this type-testing method instead.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `x` | `any` | Any object |
+• **x**: `any`
+
+Any object
 
 #### Returns
 
-x is Construct
+`x is Construct`
 
 true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[isConstruct](BaseClass.md#isconstruct)
+[`BaseClass`](BaseClass.md).[`isConstruct`](BaseClass.md#isconstruct)

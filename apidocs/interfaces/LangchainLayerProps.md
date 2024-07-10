@@ -1,174 +1,162 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / LangchainLayerProps
 
 # Interface: LangchainLayerProps
 
 The properties for the LangchainLayerProps class.
 
-## Hierarchy
+## Extends
 
 - [`LangchainProps`](LangchainProps.md)
 
-  ↳ **`LangchainLayerProps`**
-
-## Table of contents
-
-### Properties
-
-- [additionalPackages](LangchainLayerProps.md#additionalpackages)
-- [architecture](LangchainLayerProps.md#architecture)
-- [autoUpgrade](LangchainLayerProps.md#autoupgrade)
-- [description](LangchainLayerProps.md#description)
-- [layerVersionName](LangchainLayerProps.md#layerversionname)
-- [license](LangchainLayerProps.md#license)
-- [local](LangchainLayerProps.md#local)
-- [removalPolicy](LangchainLayerProps.md#removalpolicy)
-- [runtime](LangchainLayerProps.md#runtime)
-
 ## Properties
 
-### additionalPackages
+### additionalPackages?
 
-• `Optional` `Readonly` **additionalPackages**: `string`[]
+> `readonly` `optional` **additionalPackages**: `string`[]
 
 A prop allowing additional python pip libraries to be installed with this langchain layer
 
-**`Default`**
+#### Default
 
 ```ts
 - none
 ```
 
-___
+***
 
 ### architecture
 
-• `Readonly` **architecture**: `Architecture`
+> `readonly` **architecture**: `Architecture`
 
 Required. Lambda function architecture compatible with this Layer.
 
-___
+***
 
-### autoUpgrade
+### autoUpgrade?
 
-• `Optional` `Readonly` **autoUpgrade**: `boolean`
+> `readonly` `optional` **autoUpgrade**: `boolean`
 
 Optional: Add '--upgrade' to pip install requirements.txt
 In case of a LangchainCommonLayer, this parameter is not used.
 
-**`Default`**
+#### Default
 
 ```ts
 - false
 ```
 
-___
+***
 
-### description
+### description?
 
-• `Optional` `Readonly` **description**: `string`
+> `readonly` `optional` **description**: `string`
 
 The description the this Lambda Layer.
 
-**`Default`**
+#### Default
 
 ```ts
 - No description.
 ```
 
-**`Stability`**
+#### Stability
 
 stable
 
 #### Inherited from
 
-[LangchainProps](LangchainProps.md).[description](LangchainProps.md#description)
+[`LangchainProps`](LangchainProps.md).[`description`](LangchainProps.md#description)
 
-___
+***
 
-### layerVersionName
+### layerVersionName?
 
-• `Optional` `Readonly` **layerVersionName**: `string`
+> `readonly` `optional` **layerVersionName**: `string`
 
 The name of the layer.
 
-**`Default`**
+#### Default
 
 ```ts
 - A name will be generated.
 ```
 
-**`Stability`**
+#### Stability
 
 stable
 
 #### Inherited from
 
-[LangchainProps](LangchainProps.md).[layerVersionName](LangchainProps.md#layerversionname)
+[`LangchainProps`](LangchainProps.md).[`layerVersionName`](LangchainProps.md#layerversionname)
 
-___
+***
 
-### license
+### license?
 
-• `Optional` `Readonly` **license**: `string`
+> `readonly` `optional` **license**: `string`
 
 The SPDX licence identifier or URL to the license file for this layer.
 
-**`Default`**
+#### Default
 
 ```ts
 - No license information will be recorded.
 ```
 
-**`Stability`**
+#### Stability
 
 stable
 
 #### Inherited from
 
-[LangchainProps](LangchainProps.md).[license](LangchainProps.md#license)
+[`LangchainProps`](LangchainProps.md).[`license`](LangchainProps.md#license)
 
-___
+***
 
-### local
+### local?
 
-• `Optional` `Readonly` **local**: ``"python"`` \| ``"python3"``
+> `readonly` `optional` **local**: `"python"` \| `"python3"`
 
 Optional: Local compute will be used when installing requirements.txt.
 By default, a docker container will be spun up to install requirements. To override this behavior, use the python alias string of `python` or `python3`
 The string value will be the python alias used to install requirements.
 
-**`Default`**
+#### Default
 
 ```ts
 - none
 ```
 
-___
+***
 
-### removalPolicy
+### removalPolicy?
 
-• `Optional` `Readonly` **removalPolicy**: `RemovalPolicy`
+> `readonly` `optional` **removalPolicy**: `RemovalPolicy`
 
 Whether to retain this version of the layer when a new version is added or when the stack is deleted.
 
-**`Default`**
+#### Default
 
 ```ts
 RemovalPolicy.DESTROY
 ```
 
-**`Stability`**
+#### Stability
 
 stable
 
 #### Inherited from
 
-[LangchainProps](LangchainProps.md).[removalPolicy](LangchainProps.md#removalpolicy)
+[`LangchainProps`](LangchainProps.md).[`removalPolicy`](LangchainProps.md#removalpolicy)
 
-___
+***
 
 ### runtime
 
-• `Readonly` **runtime**: `Runtime`
+> `readonly` **runtime**: `Runtime`
 
 Required. Lambda function runtime compatible with this Layer.

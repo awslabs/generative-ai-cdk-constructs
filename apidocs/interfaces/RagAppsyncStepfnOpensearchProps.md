@@ -1,287 +1,267 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / RagAppsyncStepfnOpensearchProps
 
 # Interface: RagAppsyncStepfnOpensearchProps
 
 The properties for the RagAppsyncStepfnOpensearchProps class.
 
-## Table of contents
-
-### Properties
-
-- [bucketInputsAssetsProps](RagAppsyncStepfnOpensearchProps.md#bucketinputsassetsprops)
-- [bucketProcessedAssetsProps](RagAppsyncStepfnOpensearchProps.md#bucketprocessedassetsprops)
-- [cognitoUserPool](RagAppsyncStepfnOpensearchProps.md#cognitouserpool)
-- [customEmbeddingsDockerLambdaProps](RagAppsyncStepfnOpensearchProps.md#customembeddingsdockerlambdaprops)
-- [customFileTransformerDockerLambdaProps](RagAppsyncStepfnOpensearchProps.md#customfiletransformerdockerlambdaprops)
-- [customInputValidationDockerLambdaProps](RagAppsyncStepfnOpensearchProps.md#custominputvalidationdockerlambdaprops)
-- [existingBusInterface](RagAppsyncStepfnOpensearchProps.md#existingbusinterface)
-- [existingInputAssetsBucketObj](RagAppsyncStepfnOpensearchProps.md#existinginputassetsbucketobj)
-- [existingMergedApi](RagAppsyncStepfnOpensearchProps.md#existingmergedapi)
-- [existingOpensearchDomain](RagAppsyncStepfnOpensearchProps.md#existingopensearchdomain)
-- [existingOpensearchServerlessCollection](RagAppsyncStepfnOpensearchProps.md#existingopensearchserverlesscollection)
-- [existingProcessedAssetsBucketObj](RagAppsyncStepfnOpensearchProps.md#existingprocessedassetsbucketobj)
-- [existingSecurityGroup](RagAppsyncStepfnOpensearchProps.md#existingsecuritygroup)
-- [existingVpc](RagAppsyncStepfnOpensearchProps.md#existingvpc)
-- [observability](RagAppsyncStepfnOpensearchProps.md#observability)
-- [openSearchIndexName](RagAppsyncStepfnOpensearchProps.md#opensearchindexname)
-- [openSearchSecret](RagAppsyncStepfnOpensearchProps.md#opensearchsecret)
-- [stage](RagAppsyncStepfnOpensearchProps.md#stage)
-- [vpcProps](RagAppsyncStepfnOpensearchProps.md#vpcprops)
-
 ## Properties
 
-### bucketInputsAssetsProps
+### bucketInputsAssetsProps?
 
-• `Optional` `Readonly` **bucketInputsAssetsProps**: `BucketProps`
+> `readonly` `optional` **bucketInputsAssetsProps**: `BucketProps`
 
 Optional user provided props to override the default props for the S3 Bucket.
 Providing both this and `existingInputAssetsBucketObj` will cause an error.
 
-**`Default`**
+#### Default
 
 ```ts
 - Default props are used
 ```
 
-___
+***
 
-### bucketProcessedAssetsProps
+### bucketProcessedAssetsProps?
 
-• `Optional` `Readonly` **bucketProcessedAssetsProps**: `BucketProps`
+> `readonly` `optional` **bucketProcessedAssetsProps**: `BucketProps`
 
 Optional user provided props to override the default props for the S3 Bucket.
 Providing both this and `existingProcessedAssetsBucketObj` will cause an error.
 
-**`Default`**
+#### Default
 
 ```ts
 - Default props are used
 ```
 
-___
+***
 
 ### cognitoUserPool
 
-• `Readonly` **cognitoUserPool**: `IUserPool`
+> `readonly` **cognitoUserPool**: `IUserPool`
 
 Cognito user pool used for authentication.
 
-**`Default`**
+#### Default
 
 ```ts
 - None
 ```
 
-___
+***
 
-### customEmbeddingsDockerLambdaProps
+### customEmbeddingsDockerLambdaProps?
 
-• `Optional` `Readonly` **customEmbeddingsDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
+> `readonly` `optional` **customEmbeddingsDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
 
 Optional. Allows to provide Embeddings custom lambda code
 and settings instead of the existing
 
-___
+***
 
-### customFileTransformerDockerLambdaProps
+### customFileTransformerDockerLambdaProps?
 
-• `Optional` `Readonly` **customFileTransformerDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
+> `readonly` `optional` **customFileTransformerDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
 
 Optional. Allows to provide File Transformer custom lambda code
 and settings instead of the existing
 
-___
+***
 
-### customInputValidationDockerLambdaProps
+### customInputValidationDockerLambdaProps?
 
-• `Optional` `Readonly` **customInputValidationDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
+> `readonly` `optional` **customInputValidationDockerLambdaProps**: [`DockerLambdaCustomProps`](DockerLambdaCustomProps.md)
 
 Optional. Allows to provide Input Validation custom lambda code
 and settings instead of the existing
 
-___
+***
 
-### existingBusInterface
+### existingBusInterface?
 
-• `Optional` `Readonly` **existingBusInterface**: `IEventBus`
+> `readonly` `optional` **existingBusInterface**: `IEventBus`
 
 Optional Existing instance of an EventBridge bus. If not provided, the construct will create one.
 
-**`Default`**
+#### Default
 
 ```ts
 - None
 ```
 
-___
+***
 
-### existingInputAssetsBucketObj
+### existingInputAssetsBucketObj?
 
-• `Optional` `Readonly` **existingInputAssetsBucketObj**: `IBucket`
+> `readonly` `optional` **existingInputAssetsBucketObj**: `IBucket`
 
 Existing instance of S3 Bucket object, providing both this and `bucketInputsAssetsProps` will cause an error.
 
-**`Default`**
+#### Default
 
 ```ts
 - None
 ```
 
-___
+***
 
-### existingMergedApi
+### existingMergedApi?
 
-• `Optional` `Readonly` **existingMergedApi**: `CfnGraphQLApi`
+> `readonly` `optional` **existingMergedApi**: `CfnGraphQLApi`
 
 Existing merged Appsync GraphQL api.
 
-**`Default`**
+#### Default
 
 ```ts
 - None
 ```
 
-___
+***
 
-### existingOpensearchDomain
+### existingOpensearchDomain?
 
-• `Optional` `Readonly` **existingOpensearchDomain**: `IDomain`
+> `readonly` `optional` **existingOpensearchDomain**: `IDomain`
 
 Optional existing Amazon OpenSearch Service domain.
 
-**`Default`**
+#### Default
 
 ```ts
 - None
 ```
 
-___
+***
 
-### existingOpensearchServerlessCollection
+### existingOpensearchServerlessCollection?
 
-• `Optional` `Readonly` **existingOpensearchServerlessCollection**: `CfnCollection`
+> `readonly` `optional` **existingOpensearchServerlessCollection**: `CfnCollection`
 
 Optional existing Amazon Amazon OpenSearch Serverless collection.
 
-**`Default`**
+#### Default
 
 ```ts
 - None
 ```
 
-___
+***
 
-### existingProcessedAssetsBucketObj
+### existingProcessedAssetsBucketObj?
 
-• `Optional` `Readonly` **existingProcessedAssetsBucketObj**: `IBucket`
+> `readonly` `optional` **existingProcessedAssetsBucketObj**: `IBucket`
 
 Existing instance of S3 Bucket object, providing both this and `bucketProcessedAssetsProps` will cause an error.
 
-**`Default`**
+#### Default
 
 ```ts
 - None
 ```
 
-___
+***
 
-### existingSecurityGroup
+### existingSecurityGroup?
 
-• `Optional` `Readonly` **existingSecurityGroup**: `ISecurityGroup`
+> `readonly` `optional` **existingSecurityGroup**: `ISecurityGroup`
 
 Optional existing security group allowing access to opensearch. Used by the lambda functions
 built by this construct. If not provided, the construct will create one.
 
-**`Default`**
+#### Default
 
 ```ts
 - none
 ```
 
-___
+***
 
-### existingVpc
+### existingVpc?
 
-• `Optional` `Readonly` **existingVpc**: `IVpc`
+> `readonly` `optional` **existingVpc**: `IVpc`
 
 Optional An existing VPC in which to deploy the construct. Providing both this and
 vpcProps is an error.
 
-**`Default`**
+#### Default
 
 ```ts
 - none
 ```
 
-___
+***
 
-### observability
+### observability?
 
-• `Optional` `Readonly` **observability**: `boolean`
+> `readonly` `optional` **observability**: `boolean`
 
 Enable observability. Warning: associated cost with the services
 used. Best practice to enable by default.
 
-**`Default`**
+#### Default
 
 ```ts
 - true
 ```
 
-___
+***
 
 ### openSearchIndexName
 
-• `Readonly` **openSearchIndexName**: `string`
+> `readonly` **openSearchIndexName**: `string`
 
 Index name for the OpenSearch Service.
 
-**`Default`**
+#### Default
 
 ```ts
 - None
 ```
 
-___
+***
 
-### openSearchSecret
+### openSearchSecret?
 
-• `Optional` `Readonly` **openSearchSecret**: `ISecret`
+> `readonly` `optional` **openSearchSecret**: `ISecret`
 
 Optional. SecretsManager secret to authenticate against the OpenSearch Service domain if
 domain is configured with Username/Password.
 
-**`Default`**
+#### Default
 
 ```ts
 - None
 ```
 
-___
+***
 
-### stage
+### stage?
 
-• `Optional` `Readonly` **stage**: `string`
+> `readonly` `optional` **stage**: `string`
 
 Value will be appended to resources name.
 
-**`Default`**
+#### Default
 
 ```ts
 - _dev
 ```
 
-___
+***
 
-### vpcProps
+### vpcProps?
 
-• `Optional` `Readonly` **vpcProps**: `VpcProps`
+> `readonly` `optional` **vpcProps**: `VpcProps`
 
 Optional custom properties for a VPC the construct will create. This VPC will
 be used by the Lambda functions the construct creates. Providing
 both this and existingVpc is an error.
 
-**`Default`**
+#### Default
 
 ```ts
 - none

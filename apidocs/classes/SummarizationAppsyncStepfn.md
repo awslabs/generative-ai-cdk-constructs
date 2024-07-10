@@ -1,113 +1,78 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / SummarizationAppsyncStepfn
 
 # Class: SummarizationAppsyncStepfn
 
-## Hierarchy
+## Extends
 
 - [`BaseClass`](BaseClass.md)
 
-  ↳ **`SummarizationAppsyncStepfn`**
-
-## Table of contents
-
-### Constructors
-
-- [constructor](SummarizationAppsyncStepfn.md#constructor)
-
-### Properties
-
-- [constructUsageMetric](SummarizationAppsyncStepfn.md#constructusagemetric)
-- [documentReaderLambdaFunction](SummarizationAppsyncStepfn.md#documentreaderlambdafunction)
-- [enablexray](SummarizationAppsyncStepfn.md#enablexray)
-- [eventBridgeBus](SummarizationAppsyncStepfn.md#eventbridgebus)
-- [fieldLogLevel](SummarizationAppsyncStepfn.md#fieldloglevel)
-- [graphqlApi](SummarizationAppsyncStepfn.md#graphqlapi)
-- [graphqlApiId](SummarizationAppsyncStepfn.md#graphqlapiid)
-- [graphqlUrl](SummarizationAppsyncStepfn.md#graphqlurl)
-- [inputAssetBucket](SummarizationAppsyncStepfn.md#inputassetbucket)
-- [inputValidationLambdaFunction](SummarizationAppsyncStepfn.md#inputvalidationlambdafunction)
-- [lambdaTracing](SummarizationAppsyncStepfn.md#lambdatracing)
-- [node](SummarizationAppsyncStepfn.md#node)
-- [processedAssetBucket](SummarizationAppsyncStepfn.md#processedassetbucket)
-- [retention](SummarizationAppsyncStepfn.md#retention)
-- [securityGroup](SummarizationAppsyncStepfn.md#securitygroup)
-- [stage](SummarizationAppsyncStepfn.md#stage)
-- [stateMachine](SummarizationAppsyncStepfn.md#statemachine)
-- [summaryGeneratorLambdaFunction](SummarizationAppsyncStepfn.md#summarygeneratorlambdafunction)
-- [vpc](SummarizationAppsyncStepfn.md#vpc)
-- [usageMetricMap](SummarizationAppsyncStepfn.md#usagemetricmap)
-
-### Methods
-
-- [addObservabilityToConstruct](SummarizationAppsyncStepfn.md#addobservabilitytoconstruct)
-- [toString](SummarizationAppsyncStepfn.md#tostring)
-- [updateConstructUsageMetricCode](SummarizationAppsyncStepfn.md#updateconstructusagemetriccode)
-- [updateEnvSuffix](SummarizationAppsyncStepfn.md#updateenvsuffix)
-- [isConstruct](SummarizationAppsyncStepfn.md#isconstruct)
-
 ## Constructors
 
-### constructor
+### new SummarizationAppsyncStepfn()
 
-• **new SummarizationAppsyncStepfn**(`scope`, `id`, `props`): [`SummarizationAppsyncStepfn`](SummarizationAppsyncStepfn.md)
+> **new SummarizationAppsyncStepfn**(`scope`, `id`, `props`): [`SummarizationAppsyncStepfn`](SummarizationAppsyncStepfn.md)
+
+Constructs a new instance of the SummarizationAppsyncStepfn class.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `scope` | `Construct` | represents the scope for all the resources. |
-| `id` | `string` | this is a a scope-unique id. |
-| `props` | [`SummarizationAppsyncStepfnProps`](../interfaces/SummarizationAppsyncStepfnProps.md) | user provided props for the construct. |
+• **scope**: `Construct`
+
+represents the scope for all the resources.
+
+• **id**: `string`
+
+this is a a scope-unique id.
+
+• **props**: [`SummarizationAppsyncStepfnProps`](../interfaces/SummarizationAppsyncStepfnProps.md)
+
+user provided props for the construct.
 
 #### Returns
 
 [`SummarizationAppsyncStepfn`](SummarizationAppsyncStepfn.md)
 
-**`Summary`**
-
-Constructs a new instance of the SummarizationAppsyncStepfn class.
-
-**`Since`**
+#### Since
 
 0.0.0
 
-**`Access`**
-
-public
-
 #### Overrides
 
-[BaseClass](BaseClass.md).[constructor](BaseClass.md#constructor)
+[`BaseClass`](BaseClass.md).[`constructor`](BaseClass.md#constructors)
 
 ## Properties
 
 ### constructUsageMetric
 
-• `Readonly` **constructUsageMetric**: ``"uksb-1tupboc45"``
+> `readonly` **constructUsageMetric**: `"uksb-1tupboc45"` = `'uksb-1tupboc45'`
 
 construct usage metric , added in template description
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[constructUsageMetric](BaseClass.md#constructusagemetric)
+[`BaseClass`](BaseClass.md).[`constructUsageMetric`](BaseClass.md#constructusagemetric)
 
-___
+***
 
 ### documentReaderLambdaFunction
 
-• `Readonly` **documentReaderLambdaFunction**: `DockerImageFunction`
+> `readonly` **documentReaderLambdaFunction**: `DockerImageFunction`
 
 Returns an instance of lambda.DockerImageFunction used for the document reading job created by the construct
 
-___
+***
 
 ### enablexray
 
-• **enablexray**: `boolean` = `true`
+> **enablexray**: `boolean` = `true`
 
 enable disable xray tracing
 
-**`Default`**
+#### Default
 
 ```ts
 - True
@@ -115,77 +80,77 @@ enable disable xray tracing
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[enablexray](BaseClass.md#enablexray)
+[`BaseClass`](BaseClass.md).[`enablexray`](BaseClass.md#enablexray)
 
-___
+***
 
 ### eventBridgeBus
 
-• `Readonly` **eventBridgeBus**: `IEventBus`
+> `readonly` **eventBridgeBus**: `IEventBus`
 
 Returns an instance of events.IEventBus created by the construct
 
-___
+***
 
 ### fieldLogLevel
 
-• **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
+> **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
 
 Default  log config for all constructs
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[fieldLogLevel](BaseClass.md#fieldloglevel)
+[`BaseClass`](BaseClass.md).[`fieldLogLevel`](BaseClass.md#fieldloglevel)
 
-___
+***
 
 ### graphqlApi
 
-• `Readonly` **graphqlApi**: `IGraphqlApi`
+> `readonly` **graphqlApi**: `IGraphqlApi`
 
 Returns an instance of appsync.CfnGraphQLApi for summary created by the construct
 
-___
+***
 
 ### graphqlApiId
 
-• `Readonly` **graphqlApiId**: `string`
+> `readonly` **graphqlApiId**: `string`
 
 Graphql Api Id value
 
-___
+***
 
 ### graphqlUrl
 
-• `Readonly` **graphqlUrl**: `string`
+> `readonly` **graphqlUrl**: `string`
 
 Graphql Url value
 
-___
+***
 
 ### inputAssetBucket
 
-• `Readonly` **inputAssetBucket**: `IBucket`
+> `readonly` **inputAssetBucket**: `IBucket`
 
 Returns the instance of s3.IBucket used by the construct
 
-___
+***
 
 ### inputValidationLambdaFunction
 
-• `Readonly` **inputValidationLambdaFunction**: `DockerImageFunction`
+> `readonly` **inputValidationLambdaFunction**: `DockerImageFunction`
 
 Returns an instance of lambda.DockerImageFunction used for the input validation job created by the construct
 
-___
+***
 
 ### lambdaTracing
 
-• **lambdaTracing**: `Tracing` = `lambda.Tracing.ACTIVE`
+> **lambdaTracing**: `Tracing` = `lambda.Tracing.ACTIVE`
 
 enable disable lambda tracing
 
-**`Default`**
+#### Default
 
 ```ts
 - Active
@@ -193,57 +158,57 @@ enable disable lambda tracing
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[lambdaTracing](BaseClass.md#lambdatracing)
+[`BaseClass`](BaseClass.md).[`lambdaTracing`](BaseClass.md#lambdatracing)
 
-___
+***
 
 ### node
 
-• `Readonly` **node**: `Node`
+> `readonly` **node**: `Node`
 
 The tree node.
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[node](BaseClass.md#node)
+[`BaseClass`](BaseClass.md).[`node`](BaseClass.md#node)
 
-___
+***
 
 ### processedAssetBucket
 
-• `Readonly` **processedAssetBucket**: `IBucket`
+> `readonly` **processedAssetBucket**: `IBucket`
 
 Returns the instance of s3.IBucket used by the construct
 
-___
+***
 
 ### retention
 
-• **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
+> **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
 
 Default  log retention config for all constructs
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[retention](BaseClass.md#retention)
+[`BaseClass`](BaseClass.md).[`retention`](BaseClass.md#retention)
 
-___
+***
 
 ### securityGroup
 
-• `Readonly` **securityGroup**: `ISecurityGroup`
+> `readonly` **securityGroup**: `ISecurityGroup`
 
 Returns the instance of ec2.ISecurityGroup used by the construct
 
-___
+***
 
 ### stage
 
-• **stage**: `string`
+> **stage**: `string`
 
 Value will be appended to resources name.
 
-**`Default`**
+#### Default
 
 ```ts
 - _dev
@@ -251,61 +216,59 @@ Value will be appended to resources name.
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[stage](BaseClass.md#stage)
+[`BaseClass`](BaseClass.md).[`stage`](BaseClass.md#stage)
 
-___
+***
 
 ### stateMachine
 
-• `Readonly` **stateMachine**: `StateMachine`
+> `readonly` **stateMachine**: `StateMachine`
 
 Step function
 
-**`Default`**
+#### Default
 
 ```ts
 - fieldLogLevel - None
 ```
 
-___
+***
 
 ### summaryGeneratorLambdaFunction
 
-• `Readonly` **summaryGeneratorLambdaFunction**: `DockerImageFunction`
+> `readonly` **summaryGeneratorLambdaFunction**: `DockerImageFunction`
 
 Returns an instance of lambda.DockerImageFunction used for the summary generation job created by the construct
 
-___
+***
 
 ### vpc
 
-• `Readonly` **vpc**: `IVpc`
+> `readonly` **vpc**: `IVpc`
 
 Returns the instance of ec2.IVpc used by the construct
 
-___
+***
 
 ### usageMetricMap
 
-▪ `Static` `Protected` **usageMetricMap**: `Record`\<`string`, `number`\>
+> `protected` `static` **usageMetricMap**: `Record`\<`string`, `number`\>
 
 Record<string, number> , maps construct name with number of deployments
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[usageMetricMap](BaseClass.md#usagemetricmap)
+[`BaseClass`](BaseClass.md).[`usageMetricMap`](BaseClass.md#usagemetricmap)
 
 ## Methods
 
-### addObservabilityToConstruct
+### addObservabilityToConstruct()
 
-▸ **addObservabilityToConstruct**(`props`): `void`
+> `protected` **addObservabilityToConstruct**(`props`): `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
 
 #### Returns
 
@@ -313,13 +276,13 @@ Record<string, number> , maps construct name with number of deployments
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[addObservabilityToConstruct](BaseClass.md#addobservabilitytoconstruct)
+[`BaseClass`](BaseClass.md).[`addObservabilityToConstruct`](BaseClass.md#addobservabilitytoconstruct)
 
-___
+***
 
-### toString
+### toString()
 
-▸ **toString**(): `string`
+> **toString**(): `string`
 
 Returns a string representation of this construct.
 
@@ -329,21 +292,21 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[toString](BaseClass.md#tostring)
+[`BaseClass`](BaseClass.md).[`toString`](BaseClass.md#tostring)
 
-___
+***
 
-### updateConstructUsageMetricCode
+### updateConstructUsageMetricCode()
 
-▸ **updateConstructUsageMetricCode**(`props`, `scope`, `lambdaFunctions`): `void`
+> `protected` **updateConstructUsageMetricCode**(`props`, `scope`, `lambdaFunctions`): `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
-| `scope` | `Construct` |
-| `lambdaFunctions` | `DockerImageFunction`[] |
+• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
+
+• **scope**: `Construct`
+
+• **lambdaFunctions**: `DockerImageFunction`[]
 
 #### Returns
 
@@ -351,19 +314,17 @@ ___
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[updateConstructUsageMetricCode](BaseClass.md#updateconstructusagemetriccode)
+[`BaseClass`](BaseClass.md).[`updateConstructUsageMetricCode`](BaseClass.md#updateconstructusagemetriccode)
 
-___
+***
 
-### updateEnvSuffix
+### updateEnvSuffix()
 
-▸ **updateEnvSuffix**(`props`): `void`
+> `protected` **updateEnvSuffix**(`props`): `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
 
 #### Returns
 
@@ -371,13 +332,13 @@ ___
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[updateEnvSuffix](BaseClass.md#updateenvsuffix)
+[`BaseClass`](BaseClass.md).[`updateEnvSuffix`](BaseClass.md#updateenvsuffix)
 
-___
+***
 
-### isConstruct
+### isConstruct()
 
-▸ **isConstruct**(`x`): x is Construct
+> `static` **isConstruct**(`x`): `x is Construct`
 
 Checks if `x` is a construct.
 
@@ -397,16 +358,16 @@ this type-testing method instead.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `x` | `any` | Any object |
+• **x**: `any`
+
+Any object
 
 #### Returns
 
-x is Construct
+`x is Construct`
 
 true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-[BaseClass](BaseClass.md).[isConstruct](BaseClass.md#isconstruct)
+[`BaseClass`](BaseClass.md).[`isConstruct`](BaseClass.md#isconstruct)
