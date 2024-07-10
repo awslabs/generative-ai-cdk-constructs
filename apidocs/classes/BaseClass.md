@@ -1,62 +1,35 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / BaseClass
 
 # Class: BaseClass
 
-## Hierarchy
+## Extends
 
 - `Construct`
 
-  ↳ **`BaseClass`**
+## Extended by
 
-  ↳↳ [`RagAppsyncStepfnOpensearch`](RagAppsyncStepfnOpensearch.md)
-
-  ↳↳ [`SummarizationAppsyncStepfn`](SummarizationAppsyncStepfn.md)
-
-  ↳↳ [`QaAppsyncOpensearch`](QaAppsyncOpensearch.md)
-
-  ↳↳ [`SageMakerEndpointBase`](SageMakerEndpointBase.md)
-
-  ↳↳ [`ContentGenerationAppSyncLambda`](ContentGenerationAppSyncLambda.md)
-
-  ↳↳ [`WebCrawler`](WebCrawler.md)
-
-## Table of contents
-
-### Constructors
-
-- [constructor](BaseClass.md#constructor)
-
-### Properties
-
-- [constructUsageMetric](BaseClass.md#constructusagemetric)
-- [enablexray](BaseClass.md#enablexray)
-- [fieldLogLevel](BaseClass.md#fieldloglevel)
-- [lambdaTracing](BaseClass.md#lambdatracing)
-- [node](BaseClass.md#node)
-- [retention](BaseClass.md#retention)
-- [stage](BaseClass.md#stage)
-- [usageMetricMap](BaseClass.md#usagemetricmap)
-
-### Methods
-
-- [addObservabilityToConstruct](BaseClass.md#addobservabilitytoconstruct)
-- [toString](BaseClass.md#tostring)
-- [updateConstructUsageMetricCode](BaseClass.md#updateconstructusagemetriccode)
-- [updateEnvSuffix](BaseClass.md#updateenvsuffix)
-- [isConstruct](BaseClass.md#isconstruct)
+- [`RagAppsyncStepfnOpensearch`](RagAppsyncStepfnOpensearch.md)
+- [`SummarizationAppsyncStepfn`](SummarizationAppsyncStepfn.md)
+- [`QaAppsyncOpensearch`](QaAppsyncOpensearch.md)
+- [`SageMakerEndpointBase`](SageMakerEndpointBase.md)
+- [`ContentGenerationAppSyncLambda`](ContentGenerationAppSyncLambda.md)
+- [`WebCrawler`](WebCrawler.md)
 
 ## Constructors
 
-### constructor
+### new BaseClass()
 
-• **new BaseClass**(`scope`, `id`): [`BaseClass`](BaseClass.md)
+> **new BaseClass**(`scope`, `id`): [`BaseClass`](BaseClass.md)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `scope` | `Construct` |
-| `id` | `string` |
+• **scope**: `Construct`
+
+• **id**: `string`
 
 #### Returns
 
@@ -64,115 +37,113 @@
 
 #### Overrides
 
-Construct.constructor
+`Construct.constructor`
 
 ## Properties
 
 ### constructUsageMetric
 
-• `Readonly` **constructUsageMetric**: ``"uksb-1tupboc45"``
+> `readonly` **constructUsageMetric**: `"uksb-1tupboc45"` = `'uksb-1tupboc45'`
 
 construct usage metric , added in template description
 
-___
+***
 
 ### enablexray
 
-• **enablexray**: `boolean` = `true`
+> **enablexray**: `boolean` = `true`
 
 enable disable xray tracing
 
-**`Default`**
+#### Default
 
 ```ts
 - True
 ```
 
-___
+***
 
 ### fieldLogLevel
 
-• **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
+> **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
 
 Default  log config for all constructs
 
-___
+***
 
 ### lambdaTracing
 
-• **lambdaTracing**: `Tracing` = `lambda.Tracing.ACTIVE`
+> **lambdaTracing**: `Tracing` = `lambda.Tracing.ACTIVE`
 
 enable disable lambda tracing
 
-**`Default`**
+#### Default
 
 ```ts
 - Active
 ```
 
-___
+***
 
 ### node
 
-• `Readonly` **node**: `Node`
+> `readonly` **node**: `Node`
 
 The tree node.
 
 #### Inherited from
 
-Construct.node
+`Construct.node`
 
-___
+***
 
 ### retention
 
-• **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
+> **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
 
 Default  log retention config for all constructs
 
-___
+***
 
 ### stage
 
-• **stage**: `string`
+> **stage**: `string`
 
 Value will be appended to resources name.
 
-**`Default`**
+#### Default
 
 ```ts
 - _dev
 ```
 
-___
+***
 
 ### usageMetricMap
 
-▪ `Static` `Protected` **usageMetricMap**: `Record`\<`string`, `number`\>
+> `protected` `static` **usageMetricMap**: `Record`\<`string`, `number`\>
 
 Record<string, number> , maps construct name with number of deployments
 
 ## Methods
 
-### addObservabilityToConstruct
+### addObservabilityToConstruct()
 
-▸ **addObservabilityToConstruct**(`props`): `void`
+> `protected` **addObservabilityToConstruct**(`props`): `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
 
 #### Returns
 
 `void`
 
-___
+***
 
-### toString
+### toString()
 
-▸ **toString**(): `string`
+> **toString**(): `string`
 
 Returns a string representation of this construct.
 
@@ -182,47 +153,45 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-Construct.toString
+`Construct.toString`
 
-___
+***
 
-### updateConstructUsageMetricCode
+### updateConstructUsageMetricCode()
 
-▸ **updateConstructUsageMetricCode**(`props`, `scope`, `lambdaFunctions`): `void`
+> `protected` **updateConstructUsageMetricCode**(`props`, `scope`, `lambdaFunctions`): `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
-| `scope` | `Construct` |
-| `lambdaFunctions` | `DockerImageFunction`[] |
+• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
+
+• **scope**: `Construct`
+
+• **lambdaFunctions**: `DockerImageFunction`[]
 
 #### Returns
 
 `void`
 
-___
+***
 
-### updateEnvSuffix
+### updateEnvSuffix()
 
-▸ **updateEnvSuffix**(`props`): `void`
+> `protected` **updateEnvSuffix**(`props`): `void`
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `props` | [`BaseClassProps`](../interfaces/BaseClassProps.md) |
+• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
 
 #### Returns
 
 `void`
 
-___
+***
 
-### isConstruct
+### isConstruct()
 
-▸ **isConstruct**(`x`): x is Construct
+> `static` **isConstruct**(`x`): `x is Construct`
 
 Checks if `x` is a construct.
 
@@ -242,16 +211,16 @@ this type-testing method instead.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `x` | `any` | Any object |
+• **x**: `any`
+
+Any object
 
 #### Returns
 
-x is Construct
+`x is Construct`
 
 true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-Construct.isConstruct
+`Construct.isConstruct`

@@ -1,92 +1,76 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / LangchainCommonDepsLayer
 
 # Class: LangchainCommonDepsLayer
 
-**`Summary`**
-
 The LangchainCommonDepsLayer class.
 
-## Hierarchy
+## Extends
 
 - `Construct`
 
-  ↳ **`LangchainCommonDepsLayer`**
-
-## Table of contents
-
-### Constructors
-
-- [constructor](LangchainCommonDepsLayer.md#constructor)
-
-### Properties
-
-- [layer](LangchainCommonDepsLayer.md#layer)
-- [node](LangchainCommonDepsLayer.md#node)
-
-### Methods
-
-- [toString](LangchainCommonDepsLayer.md#tostring)
-- [isConstruct](LangchainCommonDepsLayer.md#isconstruct)
-
 ## Constructors
 
-### constructor
+### new LangchainCommonDepsLayer()
 
-• **new LangchainCommonDepsLayer**(`scope`, `id`, `props`): [`LangchainCommonDepsLayer`](LangchainCommonDepsLayer.md)
+> **new LangchainCommonDepsLayer**(`scope`, `id`, `props`): [`LangchainCommonDepsLayer`](LangchainCommonDepsLayer.md)
+
+This construct creates a lambda layer loaded with relevant libraries to run genai applications. Libraries include boto3, botocore, requests, requests-aws4auth, langchain, opensearch-py and openai.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `scope` | `Construct` | represents the scope for all the resources. |
-| `id` | `string` | this is a a scope-unique id. |
-| `props` | [`LangchainLayerProps`](../interfaces/LangchainLayerProps.md) | user provided props for the construct. |
+• **scope**: `Construct`
+
+represents the scope for all the resources.
+
+• **id**: `string`
+
+this is a a scope-unique id.
+
+• **props**: [`LangchainLayerProps`](../interfaces/LangchainLayerProps.md)
+
+user provided props for the construct.
 
 #### Returns
 
 [`LangchainCommonDepsLayer`](LangchainCommonDepsLayer.md)
 
-**`Summary`**
-
-This construct creates a lambda layer loaded with relevant libraries to run genai applications. Libraries include boto3, botocore, requests, requests-aws4auth, langchain, opensearch-py and openai.
-
-**`Since`**
+#### Since
 
 0.0.0
 
-**`Access`**
-
-public
-
 #### Overrides
 
-Construct.constructor
+`Construct.constructor`
 
 ## Properties
 
 ### layer
 
-• `Readonly` **layer**: `LayerVersion`
+> `readonly` **layer**: `LayerVersion`
 
 Returns the instance of lambda.LayerVersion created by the construct
 
-___
+***
 
 ### node
 
-• `Readonly` **node**: `Node`
+> `readonly` **node**: `Node`
 
 The tree node.
 
 #### Inherited from
 
-Construct.node
+`Construct.node`
 
 ## Methods
 
-### toString
+### toString()
 
-▸ **toString**(): `string`
+> **toString**(): `string`
 
 Returns a string representation of this construct.
 
@@ -96,13 +80,13 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-Construct.toString
+`Construct.toString`
 
-___
+***
 
-### isConstruct
+### isConstruct()
 
-▸ **isConstruct**(`x`): x is Construct
+> `static` **isConstruct**(`x`): `x is Construct`
 
 Checks if `x` is a construct.
 
@@ -122,16 +106,16 @@ this type-testing method instead.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `x` | `any` | Any object |
+• **x**: `any`
+
+Any object
 
 #### Returns
 
-x is Construct
+`x is Construct`
 
 true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-Construct.isConstruct
+`Construct.isConstruct`

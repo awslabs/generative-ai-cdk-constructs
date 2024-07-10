@@ -1,18 +1,16 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / ContainerImageConfig
 
 # Interface: ContainerImageConfig
-
-## Table of contents
-
-### Properties
-
-- [imageName](ContainerImageConfig.md#imagename)
 
 ## Properties
 
 ### imageName
 
-• `Readonly` **imageName**: `string`
+> `readonly` **imageName**: `string`
 
 The image name. Images in Amazon ECR repositories can be specified by either using the full registry/repository:tag or
 registry/repository@digest.

@@ -1,33 +1,29 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / IInstanceValiant
 
 # Interface: IInstanceValiant
 
-## Table of contents
-
-### Properties
-
-- [environment](IInstanceValiant.md#environment)
-- [imageUri](IInstanceValiant.md#imageuri)
-- [instanceType](IInstanceValiant.md#instancetype)
-
 ## Properties
 
-### environment
+### environment?
 
-• `Optional` **environment**: `Object`
+> `optional` **environment**: `object`
 
-#### Index signature
+#### Index Signature
 
-▪ [key: `string`]: `string`
+ \[`key`: `string`\]: `string`
 
-___
+***
 
-### imageUri
+### imageUri?
 
-• `Optional` **imageUri**: `string`
+> `optional` **imageUri**: `string`
 
-___
+***
 
 ### instanceType
 
-• **instanceType**: `string`
+> **instanceType**: `string`

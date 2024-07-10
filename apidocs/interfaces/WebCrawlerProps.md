@@ -1,132 +1,123 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / WebCrawlerProps
 
 # Interface: WebCrawlerProps
 
-## Table of contents
-
-### Properties
-
-- [bucketOutputProps](WebCrawlerProps.md#bucketoutputprops)
-- [enableLambdaCrawler](WebCrawlerProps.md#enablelambdacrawler)
-- [existingOutputBucketObj](WebCrawlerProps.md#existingoutputbucketobj)
-- [existingVpc](WebCrawlerProps.md#existingvpc)
-- [observability](WebCrawlerProps.md#observability)
-- [stage](WebCrawlerProps.md#stage)
-- [targets](WebCrawlerProps.md#targets)
-- [vpcProps](WebCrawlerProps.md#vpcprops)
-
 ## Properties
 
-### bucketOutputProps
+### bucketOutputProps?
 
-• `Optional` `Readonly` **bucketOutputProps**: `BucketProps`
+> `readonly` `optional` **bucketOutputProps**: `BucketProps`
 
 Optional user provided props to override the default props for the S3 Bucket.
 Providing both this and `existingOutputBucketObj` will cause an error.
 
-**`Default`**
+#### Default
 
 ```ts
 - Default props are used
 ```
 
-___
+***
 
-### enableLambdaCrawler
+### enableLambdaCrawler?
 
-• `Optional` `Readonly` **enableLambdaCrawler**: `boolean`
+> `readonly` `optional` **enableLambdaCrawler**: `boolean`
 
 Deploy Lambda crawler.
 
-**`Default`**
+#### Default
 
 ```ts
 - false
 ```
 
-___
+***
 
-### existingOutputBucketObj
+### existingOutputBucketObj?
 
-• `Optional` `Readonly` **existingOutputBucketObj**: `IBucket`
+> `readonly` `optional` **existingOutputBucketObj**: `IBucket`
 
 Existing instance of S3 Bucket object, providing both this and `bucketOutputProps` will cause an error.
 
-**`Default`**
+#### Default
 
 ```ts
 - None
 ```
 
-___
+***
 
-### existingVpc
+### existingVpc?
 
-• `Optional` `Readonly` **existingVpc**: `IVpc`
+> `readonly` `optional` **existingVpc**: `IVpc`
 
 Optional An existing VPC in which to deploy the construct. Providing both this and
 vpcProps is an error.
 
-**`Default`**
+#### Default
 
 ```ts
 - none
 ```
 
-___
+***
 
-### observability
+### observability?
 
-• `Optional` `Readonly` **observability**: `boolean`
+> `readonly` `optional` **observability**: `boolean`
 
 Enable observability. Warning: associated cost with the services
 used. Best practice to enable by default.
 
-**`Default`**
+#### Default
 
 ```ts
 - true
 ```
 
-___
+***
 
-### stage
+### stage?
 
-• `Optional` `Readonly` **stage**: `string`
+> `readonly` `optional` **stage**: `string`
 
 Value will be appended to resources name.
 
-**`Default`**
+#### Default
 
 ```ts
 - _dev
 ```
 
-___
+***
 
-### targets
+### targets?
 
-• `Optional` `Readonly` **targets**: [`CrawlerTarget`](CrawlerTarget.md)[]
+> `readonly` `optional` **targets**: [`CrawlerTarget`](CrawlerTarget.md)[]
 
 Targets to be crawled.
 
-**`Default`**
+#### Default
 
 ```ts
 - none
 ```
 
-___
+***
 
-### vpcProps
+### vpcProps?
 
-• `Optional` `Readonly` **vpcProps**: `VpcProps`
+> `readonly` `optional` **vpcProps**: `VpcProps`
 
 Optional custom properties for a VPC the construct will create. This VPC will
 be used by the compute resources the construct creates. Providing
 both this and existingVpc is an error.
 
-**`Default`**
+#### Default
 
 ```ts
 - none

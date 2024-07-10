@@ -1,32 +1,22 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+
+***
+
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / ContainerImage
 
-# Class: ContainerImage
+# Class: `abstract` ContainerImage
 
 https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
-## Hierarchy
+## Extended by
 
-- **`ContainerImage`**
-
-  ↳ [`DeepLearningContainerImage`](DeepLearningContainerImage.md)
-
-## Table of contents
-
-### Constructors
-
-- [constructor](ContainerImage.md#constructor)
-
-### Methods
-
-- [bind](ContainerImage.md#bind)
-- [fromAsset](ContainerImage.md#fromasset)
-- [fromEcrRepository](ContainerImage.md#fromecrrepository)
+- [`DeepLearningContainerImage`](DeepLearningContainerImage.md)
 
 ## Constructors
 
-### constructor
+### new ContainerImage()
 
-• **new ContainerImage**(): [`ContainerImage`](ContainerImage.md)
+> **new ContainerImage**(): [`ContainerImage`](ContainerImage.md)
 
 #### Returns
 
@@ -34,50 +24,47 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 ## Methods
 
-### bind
+### bind()
 
-▸ **bind**(`scope`, `grantable`): [`ContainerImageConfig`](../interfaces/ContainerImageConfig.md)
+> `abstract` **bind**(`scope`, `grantable`): [`ContainerImageConfig`](../interfaces/ContainerImageConfig.md)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `scope` | `Construct` |
-| `grantable` | `IGrantable` |
+• **scope**: `Construct`
+
+• **grantable**: `IGrantable`
 
 #### Returns
 
 [`ContainerImageConfig`](../interfaces/ContainerImageConfig.md)
 
-___
+***
 
-### fromAsset
+### fromAsset()
 
-▸ **fromAsset**(`directory`, `options?`): [`ContainerImage`](ContainerImage.md)
+> `static` **fromAsset**(`directory`, `options`): [`ContainerImage`](ContainerImage.md)
 
 #### Parameters
 
-| Name | Type |
-| :------ | :------ |
-| `directory` | `string` |
-| `options` | `DockerImageAssetOptions` |
+• **directory**: `string`
+
+• **options**: `DockerImageAssetOptions` = `{}`
 
 #### Returns
 
 [`ContainerImage`](ContainerImage.md)
 
-___
+***
 
-### fromEcrRepository
+### fromEcrRepository()
 
-▸ **fromEcrRepository**(`repository`, `tag?`): [`ContainerImage`](ContainerImage.md)
+> `static` **fromEcrRepository**(`repository`, `tag`): [`ContainerImage`](ContainerImage.md)
 
 #### Parameters
 
-| Name | Type | Default value |
-| :------ | :------ | :------ |
-| `repository` | `IRepository` | `undefined` |
-| `tag` | `string` | `'latest'` |
+• **repository**: `IRepository`
+
+• **tag**: `string` = `'latest'`
 
 #### Returns
 

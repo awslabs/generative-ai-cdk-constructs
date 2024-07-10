@@ -36,7 +36,7 @@ export interface JumpStartSageMakerEndpointProps {
 }
 
 /**
- * @summary The JumpStartSageMakerEndpoint class.
+ * The JumpStartSageMakerEndpoint class.
  */
 export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
   public readonly grantPrincipal: iam.IPrincipal;

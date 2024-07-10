@@ -70,12 +70,17 @@ export interface CRProviderProps {
   readonly securityGroup?: ec2.SecurityGroup;
 }
 
+/**
+ * The ICR provider
+ */
 export interface ICRProvider {
   role: iam.Role;
   provider: cr.Provider;
   serviceToken: string;
 }
-
+/**
+ * Get the ICRProvider
+ */
 export interface ICRProviderClass {
   getProvider(scope: Construct): ICRProvider;
 }
