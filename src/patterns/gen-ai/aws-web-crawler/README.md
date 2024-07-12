@@ -86,14 +86,14 @@ class SampleStack(Stack):
             targets=[
                 {
                     'url': 'https://cloudprice.net/aws/ec2',
-                    'target_type': CrawlerTargetType.WEBSITE,
-                    'crawl_interval_hours': 24,
-                    'max_requests': 15000,
+                    'targetType': CrawlerTargetType.WEBSITE,
+                    'crawlIntervalHours': 24,
+                    'maxRequests': 15000,
                 },
                 {
                     'url': 'https://aws.amazon.com/about-aws/whats-new/recent/feed',
-                    'target_type': CrawlerTargetType.RSS_FEED,
-                    'crawl_interval_hours': 24,
+                    'targetType': CrawlerTargetType.RSS_FEED,
+                    'crawlIntervalHours': 24,
                 }
             ]
         )
@@ -121,7 +121,7 @@ Parameters
 | bucketOutputProps | [s3.BucketProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.BucketProps.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | User provided props to override the default props for the S3 Bucket. Providing both this and `existingOutputBucketObj` will cause an error.|
 | observability | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Enables observability on all services used. Warning: associated costs with the services used. It is a best practice to enable by default. Defaults to true.|
 | stage | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | Value will be appended to resources name service. |
-| targets | CrawlerTarget[] | ![Optional](https://img.shields.io/badge/optional-4169E1) | Target websited and RSS feeds to be crawled |
+| targets | CrawlerTarget[] | ![Optional](https://img.shields.io/badge/optional-4169E1) | Target website and RSS feeds to be crawled |
 | enableLambdaCrawler | boolean | ![Optional](https://img.shields.io/badge/optional-4169E1) | Specifies whether a separate crawler available as a Lambda function should be deployed. |
 
 ## Target Properties
