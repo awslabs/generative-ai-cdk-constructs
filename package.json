@@ -67,10 +67,10 @@
     "pinst": "^3.0.0",
     "projen": "~0.78.8",
     "standard-version": "^9",
-    "ts-jest": "^29.2.0",
+    "ts-jest": "^29.2.2",
     "ts-node": "^10.9.2",
-    "typedoc": "^0.26.3",
-    "typedoc-plugin-markdown": "^4.1.2",
+    "typedoc": "^0.26.4",
+    "typedoc-plugin-markdown": "^4.2.1",
     "typescript": "^5.5.3"
   },
   "peerDependencies": {
@@ -78,7 +78,7 @@
     "constructs": "^10.3.0"
   },
   "dependencies": {
-    "cdk-nag": "^2.28.157",
+    "cdk-nag": "^2.28.159",
     "deepmerge": "^4.3.1"
   },
   "bundledDependencies": [
