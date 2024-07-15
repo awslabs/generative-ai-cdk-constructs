@@ -838,9 +838,9 @@
     ajv "^8.13.0"
 
 "@mrgrain/jsii-struct-builder@^0.7.35":
-  version "0.7.35"
-  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.35.tgz#6d6ab4b9de38ff506b704e21200f5115d337bf0e"
-  integrity sha512-kF9Nl/6xsY0BaPwnZXY8Bu590HPyNygjPT//pQM9RREC6N8rKiUDLRi3NsTX6D5MqG2Q3kihZcQJt+gwNsKqJQ==
+  version "0.7.36"
+  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.36.tgz#a381783b749ffc6e7d6c592086e24583378eaef0"
+  integrity sha512-oB/D8Xq2Zj7rKubCS6PGeFAksyuDnd7uI2COLk86kg4CIqSmCyEotHIUaN26S0S/6jzlP3alz/E9tq+Ios42Gg==
   dependencies:
     "@jsii/spec" "^1.101.0"
 
