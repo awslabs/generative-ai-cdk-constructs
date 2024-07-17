@@ -157,7 +157,8 @@ project.github?.actions.set('actions/setup-python@v5', 'actions/setup-python@82c
 project.github?.actions.set('actions/stale@v4', 'actions/stale@a20b814fb01b71def3bd6f56e7494d667ddf28da');
 project.github?.actions.set('actions/upload-artifact@v3', 'actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34'); // https://github.com/projen/projen/issues/3529
 project.github?.actions.set('actions/upload-artifact@v4', 'actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34');
-project.github?.actions.set('amannn/action-semantic-pull-request@v5.0.2', 'amannn/action-semantic-pull-request@01d5fd8a8ebb9aafe902c40c53f0f4744f7381eb');
+project.github?.actions.set('amannn/action-semantic-pull-request@v5.0.2', 'amannn/action-semantic-pull-request@e9fabac35e210fea40ca5b14c0da95a099eff26f');
+project.github?.actions.set('amannn/action-semantic-pull-request@v5.4.0', 'amannn/action-semantic-pull-request@e9fabac35e210fea40ca5b14c0da95a099eff26f');
 project.github?.actions.set('aws-github-ops/github-merit-badger@main', 'aws-github-ops/github-merit-badger@70d1c47f7051d6e324d4ddc48d676ba61ef69a3e');
 project.github?.actions.set('codecov/codecov-action@v3', 'codecov/codecov-action@84508663e988701840491b86de86b666e8a86bed'); // https://github.com/projen/projen/issues/3529
 project.github?.actions.set('codecov/codecov-action@v4', 'codecov/codecov-action@84508663e988701840491b86de86b666e8a86bed');
