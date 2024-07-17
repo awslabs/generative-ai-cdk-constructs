@@ -30,7 +30,7 @@ import {
 const GITHUB_USER = 'awslabs';
 const PUBLICATION_NAMESPACE = 'cdklabs';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
-const CDK_VERSION: string = '2.143.0';
+const CDK_VERSION: string = '2.149.0';
 
 function camelCaseIt(input: string): string {
   // Hypens and dashes to spaces and then CamelCase...
@@ -43,10 +43,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
   authorOrganization: true,
   description: 'AWS Generative AI CDK Constructs is a library for well-architected generative AI patterns.',
   cdkVersion: CDK_VERSION,
-  projenVersion: '~0.78.8',
+  projenVersion: '~0.84.5',
   constructsVersion: '10.3.0',
   defaultReleaseBranch: 'main',
-  jsiiVersion: '~5.3.0',
+  jsiiVersion: '~5.4.0',
   name: '@' + PUBLICATION_NAMESPACE + '/' + PROJECT_NAME,
   projenrcTs: true,
   repositoryUrl: 'https://github.com/' + GITHUB_USER + '/' + PROJECT_NAME,
