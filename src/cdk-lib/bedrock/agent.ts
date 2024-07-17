@@ -19,6 +19,7 @@ import { Construct } from 'constructs';
 
 import { AgentActionGroup } from './agent-action-group';
 import { AgentAlias } from './agent-alias';
+import { Guardrail } from './guardrails';
 import { KnowledgeBase } from './knowledge-base';
 import { BedrockFoundationModel } from './models';
 
@@ -71,6 +72,14 @@ export enum PromptCreationMode {
 export enum PromptState {
   ENABLED = 'ENABLED',
   DISABLED = 'DISABLED'
+}
+
+/** Details about the guardrail associated with the agent. */
+export interface GuardrailConfiguration {
+  /*The version of the guardrail.*/
+  readonly guardrailVersion?: string;
+  /*The identified of the guardrail.*/
+  readonly guardrailId?: string;
 }
 
 /**
@@ -242,7 +251,11 @@ export interface AgentProps {
    */
   readonly actionGroups?: AgentActionGroup[];
 
-
+  /** Guardrail configuration
+   *
+   * @default - No guardrails associated to the agent.
+  */
+  readonly guardrailConfiguration?: GuardrailConfiguration;
   /**
    * Select whether the agent can prompt additional
    * information from the user when it does not have
@@ -438,7 +451,10 @@ export class Agent extends Construct {
       tags: props.tags,
       promptOverrideConfiguration: props.promptOverrideConfiguration,
       autoPrepare: props.shouldPrepareAgent,
-
+      guardrailConfiguration: {
+        guardrailIdentifier: props.guardrailConfiguration?.guardrailId,
+        guardrailVersion: props.guardrailConfiguration?.guardrailVersion,
+      },
     });
 
     this.agentInstance = agent;
@@ -556,6 +572,16 @@ export class Agent extends Construct {
     for (const actionGroup of actionGroups) {
       this.addActionGroup(actionGroup);
     }
+  }
+
+  /**
+   * Add guardrail to the agent.
+   */
+  public addGuardrail(guardrail: Guardrail) {
+    this.agentInstance.guardrailConfiguration = {
+      guardrailIdentifier: guardrail.guardrailId,
+      guardrailVersion: guardrail.guardrailVersion,
+    };
   }
 
   /**

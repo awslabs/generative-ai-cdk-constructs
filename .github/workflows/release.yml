@@ -13,6 +13,7 @@ jobs:
       contents: write
     outputs:
       latest_commit: ${{ steps.git_remote.outputs.latest_commit }}
+      tag_exists: ${{ steps.check_tag_exists.outputs.exists }}
     env:
       CI: "true"
     steps:
@@ -37,9 +38,17 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: coverage
+      - name: Check if version has already been tagged
+        id: check_tag_exists
+        run: |-
+          TAG=$(cat dist/dist/releasetag.txt)
+          ([ ! -z "$TAG" ] && git ls-remote -q --exit-code --tags origin $TAG && (echo "exists=true" >> $GITHUB_OUTPUT)) || (echo "exists=false" >> $GITHUB_OUTPUT)
+          cat $GITHUB_OUTPUT
       - name: Check for new commits
         id: git_remote
-        run: echo "latest_commit=$(git ls-remote origin -h ${{ github.ref }} | cut -f1)" >> $GITHUB_OUTPUT
+        run: |-
+          echo "latest_commit=$(git ls-remote origin -h ${{ github.ref }} | cut -f1)" >> $GITHUB_OUTPUT
+          cat $GITHUB_OUTPUT
       - name: Backup artifact permissions
         if: ${{ steps.git_remote.outputs.latest_commit == github.sha }}
         run: cd dist && getfacl -R . > permissions-backup.acl
@@ -50,13 +59,14 @@ jobs:
         with:
           name: build-artifact
           path: dist
+          overwrite: true
   release_github:
     name: Publish to GitHub Releases
     needs: release
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    if: needs.release.outputs.latest_commit == github.sha
+    if: needs.release.outputs.tag_exists != 'true' && needs.release.outputs.latest_commit == github.sha
     steps:
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
@@ -84,8 +94,9 @@ jobs:
     needs: release
     runs-on: ubuntu-latest
     permissions:
+      id-token: write
       contents: read
-    if: needs.release.outputs.latest_commit == github.sha
+    if: needs.release.outputs.tag_exists != 'true' && needs.release.outputs.latest_commit == github.sha
     steps:
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
@@ -110,6 +121,7 @@ jobs:
         env:
           NPM_DIST_TAG: latest
           NPM_REGISTRY: registry.npmjs.org
+          NPM_CONFIG_PROVENANCE: "true"
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx -p publib@latest publib-npm
   release_pypi:
@@ -118,7 +130,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    if: needs.release.outputs.latest_commit == github.sha
+    if: needs.release.outputs.tag_exists != 'true' && needs.release.outputs.latest_commit == github.sha
     steps:
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
@@ -153,7 +165,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-    if: needs.release.outputs.latest_commit == github.sha
+    if: needs.release.outputs.tag_exists != 'true' && needs.release.outputs.latest_commit == github.sha
     steps:
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:

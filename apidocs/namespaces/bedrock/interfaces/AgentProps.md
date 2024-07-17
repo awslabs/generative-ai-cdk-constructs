@@ -99,6 +99,20 @@ The Bedrock text foundation model for the agent to use.
 
 ***
 
+### guardrailConfiguration?
+
+> `readonly` `optional` **guardrailConfiguration**: [`GuardrailConfiguration`](GuardrailConfiguration.md)
+
+Guardrail configuration
+
+#### Default
+
+```ts
+- No guardrails associated to the agent.
+```
+
+***
+
 ### idleSessionTTL?
 
 > `readonly` `optional` **idleSessionTTL**: `Duration`

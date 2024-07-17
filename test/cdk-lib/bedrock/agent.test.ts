@@ -127,6 +127,22 @@ beforeAll(() => {
 
   agent.addActionGroups([actiongroup]);
 
+  const guardrail = new bedrock.Guardrail(stack, 'MyGuardrail', {
+    name: 'my-custom-guardrail',
+    blockedInputMessaging: 'Blocked input message',
+    blockedOutputsMessaging: 'Blocked output message',
+    filtersConfig: [
+      {
+        filtersConfigType: bedrock.FiltersConfigType.HATE,
+        inputStrength: bedrock.FiltersConfigStrength.HIGH,
+        outputStrength: bedrock.FiltersConfigStrength.HIGH,
+      },
+    ],
+    kmsKeyArn: 'arn:aws:kms:region:XXXXX:key/12345678-1234-1234-1234-123456789012',
+  });
+
+  agent.addGuardrail(guardrail);
+
 
 });
 
@@ -260,6 +276,28 @@ describe('Bedrock Agents', () => {
           },
         ],
       });
+
+    });
+
+    test('Guardrail is associated', () => {
+      const template = Template.fromStack(stack);
+      console.log(template.toJSON());
+      template.hasResourceProperties('AWS::Bedrock::Guardrail', {
+        BlockedInputMessaging: 'Blocked input message',
+        BlockedOutputsMessaging: 'Blocked output message',
+        ContentPolicyConfig: {
+          FiltersConfig: [
+            {
+              Type: 'HATE',
+              InputStrength: 'HIGH',
+              OutputStrength: 'HIGH',
+            },
+          ],
+        },
+        KmsKeyArn: 'arn:aws:kms:region:XXXXX:key/12345678-1234-1234-1234-123456789012',
+        Name: 'my-custom-guardrail',
+      },
+      );
 
     });
 

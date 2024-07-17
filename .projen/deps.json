@@ -93,7 +93,7 @@
     },
     {
       "name": "projen",
-      "version": "~0.78.8",
+      "version": "~0.80.10",
       "type": "build"
     },
     {
@@ -127,7 +127,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.143.0",
+      "version": "^2.149.0",
       "type": "peer"
     },
     {
