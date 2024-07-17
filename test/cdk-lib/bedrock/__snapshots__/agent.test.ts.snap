@@ -145,6 +145,64 @@ exports[`Bedrock Agents Agent matches snapshot 1`] = `
       },
       "Type": "AWS::IAM::Policy",
     },
+    "AgentAgentGuardrailPolicymycustomguardrail474C4E4F": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "bedrock:ApplyGuardrail",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":bedrock:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":guardrail/",
+                    {
+                      "Fn::GetAtt": [
+                        "MyGuardrail198F06A2",
+                        "GuardrailId",
+                      ],
+                    },
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "kms:Decrypt",
+              "Condition": {
+                "StringEquals": {
+                  "aws:ResourceAccount": {
+                    "Ref": "AWS::AccountId",
+                  },
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "arn:aws:kms:region:XXXXX:key/12345678-1234-1234-1234-123456789012",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "AgentAgentGuardrailPolicymycustomguardrail474C4E4F",
+        "Roles": [
+          {
+            "Ref": "AgentRole9D587F56",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
     "AgentAgentKBPolicyKBteststackKBF59CBB07419A3243": {
       "Properties": {
         "PolicyDocument": {

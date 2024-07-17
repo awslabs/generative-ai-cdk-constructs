@@ -105,6 +105,11 @@ The Bedrock text foundation model for the agent to use.
 
 Guardrail configuration
 
+Warning: If you provide a guardrail configuration through the constructor,
+you will need to provide the correct permissions for your agent to access
+the guardrails. If you want the permissions to be configured on your behalf,
+use the addGuardrail method.
+
 #### Default
 
 ```ts
