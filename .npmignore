@@ -39,3 +39,4 @@ yarn.lock
 /apidocs/
 /.gitattributes
 /.projenrc.ts
+/projenrc

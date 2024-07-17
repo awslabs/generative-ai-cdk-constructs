@@ -37,12 +37,14 @@ jobs:
         run: |-
           git add .
           git diff --staged --patch --exit-code > .repo.patch || echo "self_mutation_happened=true" >> $GITHUB_OUTPUT
+        working-directory: ./
       - name: Upload patch
         if: steps.self_mutation.outputs.self_mutation_happened
         uses: actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34
         with:
           name: .repo.patch
           path: .repo.patch
+          overwrite: true
       - name: Fail build on mutation
         if: steps.self_mutation.outputs.self_mutation_happened
         run: |-
@@ -57,6 +59,7 @@ jobs:
         with:
           name: build-artifact
           path: dist
+          overwrite: true
   self-mutation:
     needs: build
     runs-on: ubuntu-latest
@@ -152,7 +155,7 @@ jobs:
           node-version: 20.x
       - uses: actions/setup-dotnet@4d6c8fcf3c8f7a60068d26b594648e99df24cee3
         with:
-          dotnet-version: 3.x
+          dotnet-version: 6.x
       - name: Download build artifacts
         uses: actions/download-artifact@b4aefff88e83a2676a730654e1ce3dce61880379
         with:

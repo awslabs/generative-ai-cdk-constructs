@@ -28,16 +28,16 @@ stable
 
 ***
 
-### applicationLogLevel?
+### applicationLogLevelV2?
 
-> `readonly` `optional` **applicationLogLevel**: `string`
+> `readonly` `optional` **applicationLogLevelV2**: `ApplicationLogLevel`
 
 Sets the application log level for the function.
 
 #### Default
 
 ```ts
-"INFO"
+ApplicationLogLevel.INFO
 ```
 
 #### Stability
@@ -310,24 +310,6 @@ Only used if 'vpc' is supplied.
 
 ```ts
 false
-```
-
-#### Stability
-
-stable
-
-***
-
-### logFormat?
-
-> `readonly` `optional` **logFormat**: `string`
-
-Sets the logFormat for the function.
-
-#### Default
-
-```ts
-"Text"
 ```
 
 #### Stability
@@ -658,16 +640,16 @@ stable
 
 ***
 
-### systemLogLevel?
+### systemLogLevelV2?
 
-> `readonly` `optional` **systemLogLevel**: `string`
+> `readonly` `optional` **systemLogLevelV2**: `SystemLogLevel`
 
 Sets the system log level for the function.
 
 #### Default
 
 ```ts
-"INFO"
+SystemLogLevel.INFO
 ```
 
 #### Stability
