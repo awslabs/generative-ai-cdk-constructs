@@ -204,6 +204,22 @@ Add an alias to the agent.
 
 ***
 
+### addGuardrail()
+
+> **addGuardrail**(`guardrail`): `void`
+
+Add guardrail to the agent.
+
+#### Parameters
+
+• **guardrail**: [`Guardrail`](Guardrail.md)
+
+#### Returns
+
+`void`
+
+***
+
 ### addKnowledgeBase()
 
 > **addKnowledgeBase**(`knowledgeBase`): `void`

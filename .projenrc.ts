@@ -157,7 +157,7 @@ project.github?.actions.set('actions/setup-python@v5', 'actions/setup-python@82c
 project.github?.actions.set('actions/stale@v4', 'actions/stale@a20b814fb01b71def3bd6f56e7494d667ddf28da');
 project.github?.actions.set('actions/upload-artifact@v3', 'actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34'); // https://github.com/projen/projen/issues/3529
 project.github?.actions.set('actions/upload-artifact@v4', 'actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34');
-project.github?.actions.set('amannn/action-semantic-pull-request@v5.0.2', 'amannn/action-semantic-pull-request@e9fabac35e210fea40ca5b14c0da95a099eff26f');
+project.github?.actions.set('amannn/action-semantic-pull-request@v5.0.2', 'amannn/action-semantic-pull-request@01d5fd8a8ebb9aafe902c40c53f0f4744f7381eb');
 project.github?.actions.set('amannn/action-semantic-pull-request@v5.4.0', 'amannn/action-semantic-pull-request@e9fabac35e210fea40ca5b14c0da95a099eff26f');
 project.github?.actions.set('aws-github-ops/github-merit-badger@main', 'aws-github-ops/github-merit-badger@70d1c47f7051d6e324d4ddc48d676ba61ef69a3e');
 project.github?.actions.set('codecov/codecov-action@v3', 'codecov/codecov-action@84508663e988701840491b86de86b666e8a86bed'); // https://github.com/projen/projen/issues/3529
@@ -169,6 +169,7 @@ project.github?.actions.set('oss-review-toolkit/ort-ci-github-action@v1', 'oss-r
 project.github?.actions.set('peter-evans/create-issue-from-file@v4', 'peter-evans/create-issue-from-file@433e51abf769039ee20ba1293a088ca19d573b7f');
 project.github?.actions.set('peter-evans/create-pull-request@v4', 'peter-evans/create-pull-request@38e0b6e68b4c852a5500a94740f0e535e0d7ba54');
 project.github?.actions.set('peter-evans/create-pull-request@v5', 'peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38');
+project.github?.actions.set('peter-evans/create-pull-request@v6', 'peter-evans/create-pull-request@b1ddad2c994a25fbc81a28b3ec0e368bb2021c50');
 project.github?.actions.set('aws-actions/configure-aws-credentials@v4.0.2', 'aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502');
 
 // We don't want to package certain things
