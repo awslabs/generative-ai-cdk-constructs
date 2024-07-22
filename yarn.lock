@@ -838,9 +838,9 @@
     ajv "^8.13.0"
 
 "@mrgrain/jsii-struct-builder@^0.7.36":
-  version "0.7.36"
-  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.36.tgz#a381783b749ffc6e7d6c592086e24583378eaef0"
-  integrity sha512-oB/D8Xq2Zj7rKubCS6PGeFAksyuDnd7uI2COLk86kg4CIqSmCyEotHIUaN26S0S/6jzlP3alz/E9tq+Ios42Gg==
+  version "0.7.37"
+  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.37.tgz#8e656eefda72a8ad6f79864fae35ae70d2787753"
+  integrity sha512-Xcjy6fZ4PgeICoF0KEcIpOJWNAMiIcb0ENke95mG89pl1HjxYRs+ZAwoAVyJkaRcKdxQ1w5eLjKH6x5EzvFY0w==
   dependencies:
     "@jsii/spec" "^1.101.0"
 
@@ -1619,9 +1619,9 @@ case@1.6.3, case@^1.6.3:
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
 cdk-nag@^2.28.162:
-  version "2.28.162"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.162.tgz#b68d8b401182eeace8711724cba82dc0a8e24caf"
-  integrity sha512-TGdZCbRzH2xZjp6xXEYVC5FgJh2ArinvhelsdRmcy7JdYQmD6kbYYjvty0yScVemfUuUdUfiGEsHF3d/9uz87A==
+  version "2.28.163"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.163.tgz#d24672b49fc6e2c1e6886b1a2026a4c504927c99"
+  integrity sha512-CKTUq5YzU4PYxz4MbhBMy9bC/dsEsnv2Ftty00bBjrBCokE1WSr4ILeYHX28RAHqunLLmtZKhf3cDDpx1VUqGA==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -5549,9 +5549,9 @@ typedarray@^0.0.6:
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
 typedoc-plugin-markdown@^4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/typedoc-plugin-markdown/-/typedoc-plugin-markdown-4.2.1.tgz#b32fddc246c5bfe7e4879834fc3f8b1486de7286"
-  integrity sha512-7hQt/1WaW/VI4+x3sxwcCGsEylP1E1GvF6OTTELK5sfTEp6AeK+83jkCOgZGp1pI2DiOammMYQMnxxOny9TKsQ==
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/typedoc-plugin-markdown/-/typedoc-plugin-markdown-4.2.2.tgz#703b4a6ac5520880843bbc9060f114a40c868063"
+  integrity sha512-4Amnhjiw4L9aN5yBn6Ryh5WZr+uW41e6IU3EuQCNcVWgHQC+tlNIbbQMKVYAb33ES7yaM01dAXGS4BdJtQi7mA==
 
 typedoc@^0.26.5:
   version "0.26.5"
