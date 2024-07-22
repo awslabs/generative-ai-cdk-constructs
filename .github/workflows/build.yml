@@ -124,8 +124,8 @@ jobs:
     steps:
       - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
         with:
-          distribution: temurin
-          java-version: 11.x
+          distribution: corretto
+          java-version: "11"
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
           node-version: 20.x
