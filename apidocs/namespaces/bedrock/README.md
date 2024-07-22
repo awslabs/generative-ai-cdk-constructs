@@ -52,6 +52,7 @@
 - [ApiSchemaConfig](interfaces/ApiSchemaConfig.md)
 - [BedrockFoundationModelProps](interfaces/BedrockFoundationModelProps.md)
 - [ContentPolicyConfigProps](interfaces/ContentPolicyConfigProps.md)
+- [GuardrailConfiguration](interfaces/GuardrailConfiguration.md)
 - [GuardrailProps](interfaces/GuardrailProps.md)
 - [InferenceConfiguration](interfaces/InferenceConfiguration.md)
 - [KnowledgeBaseProps](interfaces/KnowledgeBaseProps.md)

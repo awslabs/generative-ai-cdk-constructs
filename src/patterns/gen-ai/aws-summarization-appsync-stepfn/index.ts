@@ -380,7 +380,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
 
     const apiName = props.summaryApiName || generatePhysicalNameV2(this,
       'summaryApi'+this.stage,
-      { maxLength: 32, lower: true });
+      { maxLength: 63, lower: true });
 
     // graphql api for summary. client invoke this api with given schema and cognito user pool auth.
     const summarizationGraphqlApi = new appsync.GraphqlApi(this, apiName,
@@ -679,7 +679,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
 
     const functionName = generatePhysicalNameV2(this,
       'summary_generator'+this.stage,
-      { maxLength: 32, lower: true });
+      { maxLength: 63, lower: true });
     const construct_generate_summary_lambda_props = {
       functionName: functionName,
       description: 'Lambda function to generate the summary',
@@ -754,7 +754,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
     const dlq: sqs.Queue = new sqs.Queue(this, 'dlq', {
       queueName: generatePhysicalNameV2(this,
         'summarydlq'+this.stage,
-        { maxLength: 32, lower: true }),
+        { maxLength: 63, lower: true }),
       retentionPeriod: Duration.days(7),
       enforceSSL: true,
     });

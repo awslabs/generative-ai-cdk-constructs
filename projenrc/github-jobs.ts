@@ -56,7 +56,7 @@ export function buildUpgradeMainPRCustomJob() {
       {
         name: 'Create Pull Request',
         id: 'create-pr',
-        uses: 'peter-evans/create-pull-request@v4',
+        uses: 'peter-evans/create-pull-request@v6',
         with: {
           'token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
           'commit-message': [

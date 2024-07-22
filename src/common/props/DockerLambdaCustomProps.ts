@@ -23,10 +23,10 @@ export interface DockerLambdaCustomProps {
   readonly timeout?: Duration;
   /**
    * Sets the system log level for the function.
-   * @default "INFO"
+   * @default SystemLogLevel.INFO
    * @stability stable
    */
-  readonly systemLogLevel?: string;
+  readonly systemLogLevelV2?: aws_lambda.SystemLogLevel;
   /**
    * Enable SnapStart for Lambda Function.
    * SnapStart is currently supported only for Java 11, 17 runtime
@@ -134,12 +134,6 @@ export interface DockerLambdaCustomProps {
    */
   readonly loggingFormat?: aws_lambda.LoggingFormat;
   /**
-   * Sets the logFormat for the function.
-   * @default "Text"
-   * @stability stable
-   */
-  readonly logFormat?: string;
-  /**
    * Allows outbound IPv6 traffic on VPC functions that are connected to dual-stack subnets.
    * Only used if 'vpc' is supplied.
    * @default false
@@ -236,10 +230,10 @@ export interface DockerLambdaCustomProps {
   readonly architecture?: aws_lambda.Architecture;
   /**
    * Sets the application log level for the function.
-   * @default "INFO"
+   * @default ApplicationLogLevel.INFO
    * @stability stable
    */
-  readonly applicationLogLevel?: string;
+  readonly applicationLogLevelV2?: aws_lambda.ApplicationLogLevel;
   /**
    * Specify the configuration of AWS Distro for OpenTelemetry (ADOT) instrumentation.
    * @default - No ADOT instrumentation

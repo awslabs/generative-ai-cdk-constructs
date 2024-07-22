@@ -23,12 +23,12 @@
     },
     {
       "name": "@typescript-eslint/eslint-plugin",
-      "version": "^6",
+      "version": "^7",
       "type": "build"
     },
     {
       "name": "@typescript-eslint/parser",
-      "version": "^6",
+      "version": "^7",
       "type": "build"
     },
     {
@@ -79,12 +79,12 @@
     },
     {
       "name": "jsii-rosetta",
-      "version": "~5.3.0",
+      "version": "~5.4.0",
       "type": "build"
     },
     {
       "name": "jsii",
-      "version": "~5.3.0",
+      "version": "~5.4.0",
       "type": "build"
     },
     {
@@ -93,7 +93,7 @@
     },
     {
       "name": "projen",
-      "version": "~0.78.8",
+      "version": "~0.84.5",
       "type": "build"
     },
     {
@@ -127,7 +127,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.143.0",
+      "version": "^2.149.0",
       "type": "peer"
     },
     {
