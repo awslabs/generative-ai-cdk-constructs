@@ -1,0 +1,10 @@
+class LLMNotLoadedException(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+        self.message = f"[501] The LLM {message} was not loaded correctly"
+        
+
+class KnowledgeBaseIDNotFound(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+        self.message = f"[404] Error occured, Reason ::  {message}"

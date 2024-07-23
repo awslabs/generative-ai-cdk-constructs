@@ -1,0 +1,5 @@
+aws-lambda-powertools
+aws-xray-sdk
+boto3>=1.28.61
+requests==2.32.0
+requests-aws4auth==1.2.3

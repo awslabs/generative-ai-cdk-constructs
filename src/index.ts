@@ -17,6 +17,8 @@ export * from './patterns/gen-ai/aws-qa-appsync-opensearch';
 export * from './patterns/gen-ai/aws-model-deployment-sagemaker';
 export * from './patterns/gen-ai/aws-contentgen-appsync-lambda';
 export * from './patterns/gen-ai/aws-web-crawler';
+export * from './patterns/gen-ai/aws-text-to-sql';
+
 
 export * as bedrock from './cdk-lib/bedrock';
 export * as amazonaurora from './cdk-lib/amazonaurora';
