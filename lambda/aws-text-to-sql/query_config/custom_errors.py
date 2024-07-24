@@ -8,3 +8,8 @@ class KnowledgeBaseIDNotFound(Exception):
     def __init__(self, message):
         super().__init__(message)
         self.message = f"[404] Error occured, Reason ::  {message}"
+        
+class FileNotFound(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+        self.message = f"[404] File not found, {message}"

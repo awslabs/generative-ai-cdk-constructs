@@ -1,8 +1,11 @@
 import os
 import boto3
-from config_types import  WorkflowStrategy
+import botocore
+import tempfile
+import json
+from config_types import  WorkflowStrategy,Metadata_source,Database_supported
 from bedrock import get_llm
-from custom_errors  import LLMNotLoadedException,KnowledgeBaseIDNotFound
+from custom_errors  import LLMNotLoadedException,KnowledgeBaseIDNotFound,FileNotFound
 # aws libs
 from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
@@ -29,25 +32,24 @@ bedrock_agent_runtime = boto3.client('bedrock-agent-runtime')
 @metrics.log_metrics(capture_cold_start_metric=True)
 def handler(event, context: LambdaContext)-> dict:
     user_question = event['user_question']
-    logger.info("Starting textToSql configurer with input", event)
+    logger.info(f"Load texttpsql config files for input  :: {event}", )
     
-    keys = ['workflow_config.json', 'few_shots.json','knowledge_layer.json']
-    file_contents = load_files_from_s3(keys, prefix='config')
-    
+    keys = ['config/workflow_config.json', 'config/few_shots.json','config/knowledge_layer.json']
+    file_contents = load_files_from_s3(keys)
     # check if file_contents has key workflow_config.json
-    if 'workflow_config.json' in file_contents:
-        config = file_contents['workflow_config.json']
+    if 'config/workflow_config.json' in file_contents:
+        config = json.loads(file_contents['config/workflow_config.json'])
         
     else:
         raise ValueError("workflow_config.json not found in file_contents")
     
-    if 'knowledge_layer.json' in file_contents:
-        config = file_contents['workflow_config.json']
-        knowledge_layer = file_contents["config/knowledge_layer.json"]
+    if 'config/knowledge_layer.json' in file_contents:
+        knowledge_layer = json.loads(file_contents["config/knowledge_layer.json"])
     else:
         raise ValueError("knowledge_layer.json not found in file_contents")
     
-    few_shots_config = file_contents['few_shots.json']
+    #print(f'config :: {config}')
+    few_shots_config = 'config/few_shots.json'
     execute_query_config = config.get("execute_sql")
     sql_generation_config = config.get("sql_generation")
     sql_synth_config = config.get("sql_synth")
@@ -59,13 +61,14 @@ def handler(event, context: LambdaContext)-> dict:
     semantic_layer_strategy = semantic_layer.get('strategy', WorkflowStrategy.AUTO)
 
     if (semantic_layer_strategy != WorkflowStrategy.DISABLED ):    
-        new_user_question = get_reformulated_question(semantic_layer, knowledge_layer, knowledge_base,user_question,metadata_source)
+        reformulated_user_question = get_reformulated_question(semantic_layer, knowledge_layer, knowledge_base,user_question,metadata_source)
     else:
         logger.info('Semantic validation strategy disabled, using the same question as asked by the user...')
-        new_user_question = user_question
+        reformulated_user_question = user_question
         
     response = {
-        'new_user_question':new_user_question,
+        'reformulated_user_question':reformulated_user_question,
+        'user_question':user_question,
         'db_name':db_name,
         'metadata_source':metadata_source,
         'sql_generation_config':sql_generation_config,
@@ -75,7 +78,7 @@ def handler(event, context: LambdaContext)-> dict:
         'semantic_layer_strategy':semantic_layer_strategy
         
     }
-
+    logger.info(f"Returning response :: {response}")
     return response
 
 
@@ -83,30 +86,31 @@ def handler(event, context: LambdaContext)-> dict:
 
 
 
-def load_files_from_s3(keys, bucket_name=config_bucket, prefix=''):
+def load_files_from_s3(keys, bucket_name=config_bucket):
     """
     Load files from an Amazon S3 bucket based on a list of keys and a prefix.
 
     Args:
         keys (list): A list of object keys (file paths) to load.
         bucket_name (str): The name of the S3 bucket.
-        prefix (str): The prefix for the bucket name.
 
     Returns:
         dict: A dictionary containing the file contents, with file paths as keys.
     """
     file_contents = {}
-
+    
     # Iterate over the list of keys
     for key in keys:
         try:
-            file_obj = s3.get_object(Bucket=f"{prefix}/{bucket_name}", Key=key)
+            logger.info(f"Loading files from S3: {bucket_name} key {key} ")   
+            file_obj = s3.get_object(Bucket=f"{bucket_name}", Key=key)
             file_data = file_obj['Body'].read().decode('utf-8')
 
             file_contents[key] = file_data
         except Exception as e:
-            print(f"Error loading file {key}: {e}")
+            raise FileNotFound(f"Error loading file from S3: {e}")
 
+    logger.info(f"Loaded {len(file_contents)} files from S3")   
     return file_contents
 
 
@@ -133,18 +137,19 @@ def get_reformulated_question(semantic_layer, knowledge_layer, knowledge_base, u
     if semantic_layer_llm is None:
         raise LLMNotLoadedException("semantic_layer")
 
-    if metadata_source == "config_file":
-        answer_prompt = load_prompt(semantic_layer['prompt_template_path'])
+    if metadata_source == Metadata_source.CONFIG_FILE: 
+        downloaded_file=download_file_from_s3(config_bucket, semantic_layer['prompt_template_path'])
+        answer_prompt = load_prompt(downloaded_file)
         knowledge_layer_data=knowledge_layer
     else:
-        answer_prompt = load_prompt(semantic_layer['kb_prompt_template_path'])
+        downloaded_file=download_file_from_s3(config_bucket, semantic_layer['kb_prompt_template_path'])
+        answer_prompt = load_prompt(downloaded_file)
         knowledge_layer_data = get_knowledge_layer_data(metadata_source, knowledge_base, user_question, semantic_layer)
 
     chain = LLMChain(llm=semantic_layer_llm, prompt=answer_prompt, verbose=False)
     response = chain.predict(knowledge_layer=knowledge_layer_data, question=user_question)
     new_question = extract_reformulated_question(response)
 
-    logger.info(f"Reformulated user question: {new_question}")
     return new_question
 
 
@@ -161,7 +166,7 @@ def get_knowledge_layer_data(metadata_source, knowledge_base, user_question, sem
     Returns:
         dict: The knowledge layer data.
     """
-    if metadata_source == "config_file":
+    if metadata_source == Metadata_source.CONFIG_FILE:
         logger.info('Semantic validation strategy enabled, running LLM against question + knowledge layer config file')
         return 
     else:
@@ -177,3 +182,28 @@ def get_knowledge_layer_data(metadata_source, knowledge_base, user_question, sem
         return response['retrievalResults']
 
 
+
+
+def download_file_from_s3(bucket_name, object_key):
+    """
+    Download a file from an Amazon S3 bucket.
+
+    Args:
+        bucket_name (str): The name of the S3 bucket.
+        object_key (str): The key (path) of the object in the bucket.
+
+    Returns:
+        bool: True if the file was downloaded successfully, False otherwise.
+    """
+    s3 = boto3.client('s3')
+
+    try:
+        download_path = os.path.join(tempfile.gettempdir(), os.path.basename(object_key))
+        s3.download_file(bucket_name, object_key, download_path)
+    except botocore.exceptions.ClientError as e:
+        raise FileNotFound(f"Error loading file from S3: {e}")
+
+    return download_path
+
+
+handler({"user_question": "How many makers are there?"}, None)

@@ -340,7 +340,7 @@ export class TextToSql extends BaseClass {
         DB_NAME: props.dbName,
         METADATA_SOURCE: props.metadataSource,
         CONFIG_BUCKET: this.configAssetBucket.bucketName,
-        KB_ID: props.existingKnowledgeBaseId ?props.existingKnowledgeBaseId : '',
+        KNOWLEDGE_BASE_ID: props.existingKnowledgeBaseId ?props.existingKnowledgeBaseId : '',
       },
     };
 

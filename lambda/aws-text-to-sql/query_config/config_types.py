@@ -10,6 +10,17 @@ class Workflow(StrEnum):
 
 class Provider(StrEnum):
     BEDROCK = 'Bedrock'
+    
+class Database_supported(StrEnum):
+    SQLITE = 'Sqlite',
+    POSTGRESQL='postgresql'
+    MYSQL='mysql'
+    
+    
+    
+class Metadata_source(StrEnum):
+    CONFIG_FILE = 'config_file',
+    KNOWLEDGE_BASE = 'knowledge_base'
 
 class BedrockModel(StrEnum):
     # ANTHROPIC MODELS
