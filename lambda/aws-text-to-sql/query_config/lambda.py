@@ -206,4 +206,3 @@ def download_file_from_s3(bucket_name, object_key):
     return download_path
 
 
-handler({"user_question": "How many makers are there?"}, None)
