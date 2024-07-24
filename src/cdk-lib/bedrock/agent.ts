@@ -455,16 +455,19 @@ export class Agent extends Construct {
       tags: props.tags,
       promptOverrideConfiguration: props.promptOverrideConfiguration,
       autoPrepare: props.shouldPrepareAgent,
-      guardrailConfiguration: {
-        guardrailIdentifier: props.guardrailConfiguration?.guardrailId,
-        guardrailVersion: props.guardrailConfiguration?.guardrailVersion,
-      },
     });
 
     this.agentInstance = agent;
     this.agentId = agent.attrAgentId;
     this.agentArn = agent.attrAgentArn;
     this.agentversion = agent.attrAgentVersion;
+
+    if (props.guardrailConfiguration) {
+      this.agentInstance.guardrailConfiguration = {
+        guardrailIdentifier: props.guardrailConfiguration?.guardrailId,
+        guardrailVersion: props.guardrailConfiguration?.guardrailVersion,
+      };
+    }
 
     this._addAliasDependency(agent.attrUpdatedAt);
 
