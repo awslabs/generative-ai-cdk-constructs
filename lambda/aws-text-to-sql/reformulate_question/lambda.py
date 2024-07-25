@@ -3,7 +3,7 @@ import boto3
 import botocore
 import tempfile
 import json
-from config_types import  WorkflowStrategy,Metadata_source,Database_supported
+from config_types import  WorkflowStrategy,Metadata_source,ConfigFilesName
 from bedrock import get_llm
 from custom_errors  import LLMNotLoadedException,KnowledgeBaseIDNotFound,FileNotFound
 # aws libs
@@ -24,6 +24,7 @@ metadata_source = os.environ["METADATA_SOURCE"]
 config_bucket = os.environ["CONFIG_BUCKET"]
 knowledge_base_id = os.environ["KNOWLEDGE_BASE_ID"]
 
+
 s3 = boto3.client('s3')
 bedrock_agent_runtime = boto3.client('bedrock-agent-runtime')
 
@@ -34,29 +35,22 @@ def handler(event, context: LambdaContext)-> dict:
     user_question = event['user_question']
     logger.info(f"Load texttpsql config files for input  :: {event}", )
     
-    keys = ['config/workflow_config.json', 'config/few_shots.json','config/knowledge_layer.json']
+    keys = [ConfigFilesName.WORKFLOW_JSON,ConfigFilesName.KNOWLEDGE_LAYER_JSON]
     file_contents = load_files_from_s3(keys)
     # check if file_contents has key workflow_config.json
-    if 'config/workflow_config.json' in file_contents:
-        config = json.loads(file_contents['config/workflow_config.json'])
+    if ConfigFilesName.WORKFLOW_JSON in file_contents:
+        config = json.loads(file_contents[ConfigFilesName.WORKFLOW_JSON])
         
     else:
-        raise ValueError("workflow_config.json not found in file_contents")
+        raise ValueError(f"{ConfigFilesName.WORKFLOW_JSON} not found in file_contents")
     
-    if 'config/knowledge_layer.json' in file_contents:
-        knowledge_layer = json.loads(file_contents["config/knowledge_layer.json"])
+    if ConfigFilesName.KNOWLEDGE_LAYER_JSON in file_contents:
+        knowledge_layer = json.loads(file_contents[ConfigFilesName.KNOWLEDGE_LAYER_JSON])
     else:
-        raise ValueError("knowledge_layer.json not found in file_contents")
+        raise ValueError(f"{ConfigFilesName.KNOWLEDGE_LAYER_JSON} not found in file_contents")
     
-    #print(f'config :: {config}')
-    few_shots_config = 'config/few_shots.json'
-    execute_query_config = config.get("execute_sql")
-    sql_generation_config = config.get("sql_generation")
-    sql_synth_config = config.get("sql_synth")
     semantic_layer = config.get("semantic_layer")
     knowledge_base=config.get("knowledge_base")
-    
-
     
     semantic_layer_strategy = semantic_layer.get('strategy', WorkflowStrategy.AUTO)
 
@@ -68,21 +62,11 @@ def handler(event, context: LambdaContext)-> dict:
         
     response = {
         'reformulated_user_question':reformulated_user_question,
-        'user_question':user_question,
-        'db_name':db_name,
-        'metadata_source':metadata_source,
-        'sql_generation_config':sql_generation_config,
-        'sql_synth':sql_synth_config,
-        'few_shots_config':few_shots_config,
-        'execute_query_config':execute_query_config,
-        'semantic_layer_strategy':semantic_layer_strategy
-        
+        'user_question':user_question,  
+        'semantic_layer_strategy':semantic_layer_strategy      
     }
     logger.info(f"Returning response :: {response}")
     return response
-
-
-
 
 
 
@@ -204,5 +188,4 @@ def download_file_from_s3(bucket_name, object_key):
         raise FileNotFound(f"Error loading file from S3: {e}")
 
     return download_path
-
 

@@ -258,7 +258,7 @@ export class TextToSql extends BaseClass {
                   'arn:' +
                     Aws.PARTITION +
                     ':s3:::' +
-                    this.configAssetBucket +
+                    this.configAssetBucket.bucketName +
                     '/*',
 
                   'arn:' +
@@ -315,19 +315,19 @@ export class TextToSql extends BaseClass {
       true,
     );
 
-    const queryConfigFunctionName = generatePhysicalNameV2(
+    const reformulateQuestionFunctionName = generatePhysicalNameV2(
       this,
-      'queryconfigurerFunction' + this.stage,
+      'reformulateQuestionFunction' + this.stage,
       { maxLength: 63, lower: true },
     );
 
 
-    const queryConfigFunctionProps = {
-      functionName: queryConfigFunctionName,
+    const reformulateQuestionFunctionProps = {
+      functionName: reformulateQuestionFunctionName,
       description:
-        'Lambda function to do all config work before query generation',
+        'Lambda function to reformulate user question',
       code: lambda.DockerImageCode.fromImageAsset(
-        path.join(__dirname, '../../../../lambda/aws-text-to-sql/query_config'),
+        path.join(__dirname, '../../../../lambda/aws-text-to-sql/reformulate_question'),
       ),
       vpc: this.vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
@@ -345,12 +345,13 @@ export class TextToSql extends BaseClass {
     };
 
     // Lambda function to load  the config and do all pre steps before query generation.
-    const queryConfigurerFunction = buildDockerLambdaFunction(
+    const reformulateQuestionFunction = buildDockerLambdaFunction(
       this,
-      'queryconfigurerFunction' + this.stage,
-      queryConfigFunctionProps,
+      'reformulateQuestionFunction' + this.stage,
+      reformulateQuestionFunctionProps,
       props.customQueryConfigurerLambdaProps,
     );
+
     const queryGeneratorFunctionName = generatePhysicalNameV2(
       this,
       'queryGeneratorFunction' + this.stage,
@@ -374,6 +375,11 @@ export class TextToSql extends BaseClass {
       timeout: Duration.minutes(10),
       tracing: this.lambdaTracing,
       role: textToSQLFunctionRole,
+      environment: {
+        DB_NAME: props.dbName,
+        CONFIG_BUCKET: this.configAssetBucket.bucketName,
+      },
+
 
     };
 
@@ -409,6 +415,10 @@ export class TextToSql extends BaseClass {
       timeout: Duration.minutes(10),
       tracing: this.lambdaTracing,
       role: textToSQLFunctionRole,
+      environment: {
+        DB_NAME: props.dbName,
+        CONFIG_BUCKET: this.configAssetBucket.bucketName,
+      },
     };
 
     // Lambda function used to generate the query
@@ -418,6 +428,42 @@ export class TextToSql extends BaseClass {
       queryExecutorFunctionProps,
       props.customQueryExecutorLambdaProps,
     );
+
+    // lambda function for autocorrect loop
+
+    const autocorrectQueryFunctionName = generatePhysicalNameV2(
+      this,
+      'autocorrectQueryFunction' + this.stage,
+      { maxLength: 63, lower: true },
+    );
+
+    const autocorrectQueryFunctionProps = {
+      functionName: autocorrectQueryFunctionName,
+      description:
+        'Lambda function to keep the count of autocorrect loop.',
+      code: lambda.DockerImageCode.fromImageAsset(
+        path.join(
+          __dirname,
+          '../../../../lambda/aws-text-to-sql/query_autocorrect',
+        ),
+      ),
+      vpc: this.vpc,
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      securityGroups: [this.securityGroup],
+      memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
+      timeout: Duration.minutes(10),
+      tracing: this.lambdaTracing,
+      role: textToSQLFunctionRole,
+
+    };
+
+    const autocorrectQueryFunction = buildDockerLambdaFunction(
+      this,
+      'autocorrectQueryFunction' + this.stage,
+      autocorrectQueryFunctionProps,
+      undefined,
+    );
+
 
     const feedbackQueueName = generatePhysicalNameV2(
       this,
@@ -431,16 +477,16 @@ export class TextToSql extends BaseClass {
     });
 
     // STEP FUNCTION
-    //const startState = new stepfunctions.Pass(this, "StartState");
+    const completedState = new stepfunctions.Pass(this, 'Done');
 
     //const endState = new stepfunctions.Pass(this, 'EndState');
 
-    const queryConfigState = new tasks.LambdaInvoke(
+    const reformulateQuestionState = new tasks.LambdaInvoke(
       this,
-      'Query Config state',
+      'reformulate_question',
       {
-        lambdaFunction: queryConfigurerFunction,
-        outputPath: '$.',
+        lambdaFunction: reformulateQuestionFunction,
+        // outputPath: '$.',
         resultPath: '$.queryConfig',
         payload: stepfunctions.TaskInput.fromObject({
           user_question: stepfunctions.JsonPath.stringAt('$.user_question'),
@@ -451,12 +497,13 @@ export class TextToSql extends BaseClass {
 
     const reformulatedQuestionFeedbackState = new tasks.SqsSendMessage(
       this,
-      'reformulatedQuestionFeedbackState',
+      'get_feedback_on_reformulated_question',
       {
         queue,
         messageBody: stepfunctions.TaskInput.fromObject({
           message: 'Following is the reformulated question. Do you agree with the new question?',
-          reformualted_question: stepfunctions.JsonPath.stringAt('$.queryConfig.new_user_question'),
+          reformualted_question: stepfunctions.TaskInput.fromJsonPathAt('$.reformulated_user_question'),
+          user_question: stepfunctions.TaskInput.fromJsonPathAt('$.user_question'),
           TaskToken: stepfunctions.JsonPath.taskToken,
         }),
         integrationPattern:
@@ -466,13 +513,16 @@ export class TextToSql extends BaseClass {
 
     const generatedQueryFeedbackOneState = new tasks.SqsSendMessage(
       this,
-      'generatedQueryFeedbackOneState',
+      'get_feedback_on_generated_query_path_one',
       {
         queue,
         messageBody: stepfunctions.TaskInput.fromObject({
           message: 'Following is the generated query. Do you agree with it or want to override?',
-          generated_query: stepfunctions.JsonPath.stringAt('$.queryConfig.validated_sql_query'),
+          generated_query: stepfunctions.JsonPath.stringAt('$.queryConfig.Payload.validated_sql_query'),
+          reformualted_question: stepfunctions.TaskInput.fromJsonPathAt('$.reformulated_user_question'),
+          user_question: stepfunctions.TaskInput.fromJsonPathAt('$.user_question'),
           TaskToken: stepfunctions.JsonPath.taskToken,
+
         }),
         integrationPattern:
           stepfunctions.IntegrationPattern.WAIT_FOR_TASK_TOKEN,
@@ -481,12 +531,14 @@ export class TextToSql extends BaseClass {
 
     const generatedQueryFeedbackTwoState = new tasks.SqsSendMessage(
       this,
-      'generatedQueryFeedbackTwoState',
+      'get_feedback_on_generated_query_path_two',
       {
         queue,
         messageBody: stepfunctions.TaskInput.fromObject({
           message: 'Following is the generated query. Do you agree with it or want to override?',
-          generated_query: stepfunctions.JsonPath.stringAt('$.queryConfig.validated_sql_query'),
+          generated_query: stepfunctions.JsonPath.stringAt('$.queryConfig.Payload.validated_sql_query'),
+          reformualted_question: stepfunctions.TaskInput.fromJsonPathAt('$.reformulated_user_question'),
+          user_question: stepfunctions.TaskInput.fromJsonPathAt('$.user_question'),
           TaskToken: stepfunctions.JsonPath.taskToken,
         }),
         integrationPattern:
@@ -496,60 +548,104 @@ export class TextToSql extends BaseClass {
 
     const queryGeneratorOneState = new tasks.LambdaInvoke(
       this,
-      'queryGeneratorOneState',
+      'generate_query_path_one',
       {
         lambdaFunction: queryGeneratorFunction,
-        outputPath: '$.queryGenerated',
+        //outputPath: '$.queryGenerated',
         resultPath: '$.queryConfig',
-        inputPath: '$.',
       },
     );
 
-    const queryGeneratorTwoState = new tasks.LambdaInvoke(
+    const alternateQueryGeneratorState = new tasks.LambdaInvoke(
       this,
-      'queryGeneratorTwoState',
+      'generate_alternate_query',
       {
         lambdaFunction: queryGeneratorFunction,
-        outputPath: '$.status',
+        //outputPath: '$.queryGenerated',
+        resultPath: '$.queryConfig',
+      },
+    );
+
+
+    const autocorrectChoiceState = new stepfunctions.Choice(
+      this,
+      'is_autocorrect_required?',
+      {
+        //inputPath: '$.queryStatus.Payload',
+
+      },
+    );
+
+    const configureCountState = new stepfunctions.Pass(this, 'configure_count', {
+      result: stepfunctions.Result.fromObject({
+        count: 3,
+        index: 0,
+        step: 1,
+      }),
+      resultPath: '$.iterator',
+    });
+
+    const iteratorState = new tasks.LambdaInvoke(this, 'iterator', {
+      lambdaFunction: autocorrectQueryFunction,
+      resultPath: '$.iterator',
+
+    });
+
+    const isCountReachedState = new stepfunctions.Choice(this, 'is_count_reached', {
+      //inputPath: '$.iterator',
+    });
+
+    const queryGeneratorTwoState = new tasks.LambdaInvoke(
+      this,
+      'generate_query_path_two',
+      {
+        lambdaFunction: queryGeneratorFunction,
+        //outputPath: '$.status',
+        resultPath: '$.queryConfig',
       },
     );
 
     const queryExecutorState = new tasks.LambdaInvoke(
       this,
-      'Query Executor state',
+      'execute_query',
       {
         lambdaFunction: queryExecutorFunction,
-        outputPath: '$.status',
+        // outputPath: '$.status',
+        resultPath: '$.queryStatus',
       },
-    );
+    ).next(autocorrectChoiceState.when(
+      stepfunctions.Condition.stringEquals('$.queryStatus.Payload.status', 'QUERY_ERROR'),
+      configureCountState.next(iteratorState).next(isCountReachedState.when(
+        stepfunctions.Condition.booleanEquals('$.iterator.Payload.continue', true),
+        alternateQueryGeneratorState.next(iteratorState),
+      ).otherwise(completedState),
+      )).otherwise(completedState));
 
     const feedbackChoiceStateOne = new stepfunctions.Choice(
       this,
-      'feedbackChoiceStateOne',
+      'is_feedback_req_on_reformualted_question?',
       {
-        inputPath: '$.queryConfig',
-        outputPath: '$.',
+        inputPath: '$.queryConfig.Payload',
 
       },
     );
     const feedbackChoiceStateTwo = new stepfunctions.Choice(
       this,
-      'feedbackChoiceStateTwo',
+      'is_feedback_req_on_generated_query_path_two?',
       {
-        outputPath: '$.is_feed_back_req',
+        inputPath: '$.queryConfig.Payload',
       },
     );
     const feedbackChoiceStateThree = new stepfunctions.Choice(
       this,
-      'feedbackChoiceStateThree',
+      'is_feedback_req_on_generated_query_path_one?',
       {
-        outputPath: '$.is_feed_back_req',
       },
     );
 
     const constructProps: EventbridgeToStepfunctionsProps = {
       stateMachineProps: {
-        definition: queryConfigState
+        definition: reformulateQuestionState
           .next(
             feedbackChoiceStateOne
               .when(
@@ -559,10 +655,10 @@ export class TextToSql extends BaseClass {
                 ),
                 reformulatedQuestionFeedbackState.next(
                   queryGeneratorOneState.next(
-                    feedbackChoiceStateTwo
+                    feedbackChoiceStateThree
                       .when(
                         stepfunctions.Condition.stringEquals(
-                          '$.sql_validation_strategy',
+                          '$.queryConfig.Payload.sql_validation_strategy',
                           'human',
                         ),
                         generatedQueryFeedbackOneState.next(queryExecutorState),
@@ -573,11 +669,11 @@ export class TextToSql extends BaseClass {
               )
               .otherwise(
                 queryGeneratorTwoState.next(
-                  feedbackChoiceStateThree
+                  feedbackChoiceStateTwo
                     .when(
-                      stepfunctions.Condition.booleanEquals(
-                        '$.is_generated_sql_feedback_req',
-                        true,
+                      stepfunctions.Condition.stringEquals(
+                        '$.queryConfig.Payload.sql_validation_strategy',
+                        'human',
                       ),
                       generatedQueryFeedbackTwoState.next(queryExecutorState),
                     )

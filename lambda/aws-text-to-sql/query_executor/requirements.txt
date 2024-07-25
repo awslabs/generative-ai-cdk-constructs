@@ -1,5 +1,7 @@
-aws-lambda-powertools
-aws-xray-sdk
+aws-lambda-powertools>=2.41.0
+aws-xray-sdk>=2.14.0
 boto3>=1.28.61
-requests==2.32.0
-requests-aws4auth==1.2.3
+langchain_aws>=0.1.12
+langchain-core>=0.2.22
+langchain>=0.2.10
+langchain_community>=0.2.10

@@ -10,8 +10,6 @@ tracer = Tracer(service="QUERY_CONFIG")
 metrics = Metrics(namespace="textToSql_pipeline", service="QUERY_CONFIG")
 
 
-
-
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler
 @metrics.log_metrics(capture_cold_start_metric=True)
@@ -21,5 +19,17 @@ def handler(event, context: LambdaContext)-> dict:
         'db_name':'dd',
         'metadata_source':'dd'
     }
+    index = event['iterator']['index']
+    step = event['iterator']['step']
+    count = event['iterator']['count']
 
+    index = index + step
+
+    response.update({
+            'index': index,
+            'step': step,
+            'count': count,
+            'continue': index < count
+        })
+    logger.info("Response Feedback", response)  
     return response

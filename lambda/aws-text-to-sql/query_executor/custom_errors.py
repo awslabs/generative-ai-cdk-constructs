@@ -3,18 +3,12 @@ class LLMNotLoadedException(Exception):
         super().__init__(message)
         self.message = f"[501] The LLM {message} was not loaded correctly"
         
-
-class StrategyNotFoundException(Exception):
+class QueryExecutionException(Exception):
     def __init__(self, message):
         super().__init__(message)
-        self.message = f"[503] The selected strategy {message} doesn't exist"
+        self.message = f"[502] Failed to run query {message} against DB"
         
-        
-class QueryGenerationException(Exception):
-    def __init__(self, message):
-        super().__init__(message)
-        self.message = f"[502] Failed to generate query {message}."
-        
+   
 class FileNotFound(Exception):
     def __init__(self, message):
         super().__init__(message)

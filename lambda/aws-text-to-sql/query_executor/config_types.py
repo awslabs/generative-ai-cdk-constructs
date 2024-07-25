@@ -1,27 +1,29 @@
 from enum import StrEnum
+    
+class FewShotsStrategy(StrEnum):
+    STATIC = 'static',
+    DYNAMIC = 'dynamic',
 
 class WorkflowStrategy(StrEnum):
     AUTO = 'auto',
     HUMAN_LOOP = 'human',
     DISABLED = 'disabled'
 
-class Workflow(StrEnum):
-    BEDROCK = 'Bedrock'
-
-class Provider(StrEnum):
-    BEDROCK = 'Bedrock'
-    
 class Database_supported(StrEnum):
     SQLITE = 'Sqlite',
     POSTGRESQL='postgresql'
     MYSQL='mysql'
-    
-    
-    
-class Metadata_source(StrEnum):
-    CONFIG_FILE = 'config_file',
-    KNOWLEDGE_BASE = 'knowledge_base'
 
+class ConfigFilesName(StrEnum):
+    WORKFLOW_JSON = 'config/workflow_config.json'
+    KNOWLEDGE_LAYER_JSON = 'config/knowledge_layer.json'
+    FEW_SHOTS_JSON = 'config/few_shots.json'
+    
+    
+class Provider(StrEnum):
+    BEDROCK = 'Bedrock'
+    
+    
 class BedrockModel(StrEnum):
     # ANTHROPIC MODELS
     ANTHROPIC_CLAUDE_V2_1 = 'anthropic.claude-v2:1',
@@ -50,4 +52,3 @@ MAX_TOKENS_MAP = {
     Provider.BEDROCK+'.'+BedrockModel.AMAZON_TITAN_IMAGE_GENERATOR_V1: 77,
     Provider.BEDROCK+'.'+BedrockModel.AMAZON_TITAN_TEXT_PREMIER_V1: 32000,
 }
-
