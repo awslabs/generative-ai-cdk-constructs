@@ -15,21 +15,24 @@ metrics = Metrics(namespace="textToSql_pipeline", service="QUERY_CONFIG")
 @metrics.log_metrics(capture_cold_start_metric=True)
 def handler(event, context: LambdaContext)-> dict:
     logger.info("Request Feedback", event)
-    response = {
-        'db_name':'dd',
-        'metadata_source':'dd'
-    }
-    index = event['iterator']['index']
-    step = event['iterator']['step']
-    count = event['iterator']['count']
+    
+    if 'iterator' in event:
+        if 'index' in event['iterator']:
+            index= event['iterator']['index']
+            step = event['iterator']['step']
+            count = event['iterator']['count']
+        elif 'Payload' in event['iterator']:
+                index= event['iterator']['Payload']['index']
+                step = event['iterator']['Payload']['step']
+                count = event['iterator']['Payload']['count']
 
     index = index + step
 
-    response.update({
+    response ={
             'index': index,
             'step': step,
             'count': count,
             'continue': index < count
-        })
-    logger.info("Response Feedback", response)  
+        }
+    logger.info(f"Response :: {response}")  
     return response

@@ -68,6 +68,11 @@ const textToSql  = new  emergingTech.TextToSql(this, "TextToSql", {
       stage:"dev",
     })
     
+// sample input to construct 
+{
+  "user_question": "How many makers are there?",
+  "unique_id":1234
+}    
 ```
 
 Python

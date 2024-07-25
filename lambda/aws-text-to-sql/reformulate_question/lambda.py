@@ -32,8 +32,10 @@ bedrock_agent_runtime = boto3.client('bedrock-agent-runtime')
 @tracer.capture_lambda_handler
 @metrics.log_metrics(capture_cold_start_metric=True)
 def handler(event, context: LambdaContext)-> dict:
+    logger.info(f"Starting textToSql construct for input :: {event}", )
+
     user_question = event['user_question']
-    logger.info(f"Load texttpsql config files for input  :: {event}", )
+    question_unique_id = event['unique_id']
     
     keys = [ConfigFilesName.WORKFLOW_JSON,ConfigFilesName.KNOWLEDGE_LAYER_JSON]
     file_contents = load_files_from_s3(keys)
@@ -63,6 +65,7 @@ def handler(event, context: LambdaContext)-> dict:
     response = {
         'reformulated_user_question':reformulated_user_question,
         'user_question':user_question,  
+        'question_unique_id':question_unique_id,
         'semantic_layer_strategy':semantic_layer_strategy      
     }
     logger.info(f"Returning response :: {response}")

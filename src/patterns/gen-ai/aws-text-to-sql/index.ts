@@ -476,8 +476,20 @@ export class TextToSql extends BaseClass {
       visibilityTimeout: Duration.seconds(3600),
     });
 
+    const outputQueueName = generatePhysicalNameV2(
+      this,
+      'outputQueue' + this.stage,
+      { maxLength: 63, lower: true },
+    );
+
+    const outputQueue = new sqs.Queue(this, 'outputQueue', {
+      queueName: outputQueueName,
+      visibilityTimeout: Duration.seconds(3600),
+    });
+
+
     // STEP FUNCTION
-    const completedState = new stepfunctions.Pass(this, 'Done');
+    //const completedState = new stepfunctions.Pass(this, 'Done');
 
     //const endState = new stepfunctions.Pass(this, 'EndState');
 
@@ -486,12 +498,7 @@ export class TextToSql extends BaseClass {
       'reformulate_question',
       {
         lambdaFunction: reformulateQuestionFunction,
-        // outputPath: '$.',
         resultPath: '$.queryConfig',
-        payload: stepfunctions.TaskInput.fromObject({
-          user_question: stepfunctions.JsonPath.stringAt('$.user_question'),
-        }),
-
       },
     );
 
@@ -504,6 +511,7 @@ export class TextToSql extends BaseClass {
           message: 'Following is the reformulated question. Do you agree with the new question?',
           reformualted_question: stepfunctions.TaskInput.fromJsonPathAt('$.reformulated_user_question'),
           user_question: stepfunctions.TaskInput.fromJsonPathAt('$.user_question'),
+          question_unique_id: stepfunctions.TaskInput.fromJsonPathAt('$.question_unique_id'),
           TaskToken: stepfunctions.JsonPath.taskToken,
         }),
         integrationPattern:
@@ -521,6 +529,7 @@ export class TextToSql extends BaseClass {
           generated_query: stepfunctions.JsonPath.stringAt('$.queryConfig.Payload.validated_sql_query'),
           reformualted_question: stepfunctions.TaskInput.fromJsonPathAt('$.reformulated_user_question'),
           user_question: stepfunctions.TaskInput.fromJsonPathAt('$.user_question'),
+          question_unique_id: stepfunctions.TaskInput.fromJsonPathAt('$.question_unique_id'),
           TaskToken: stepfunctions.JsonPath.taskToken,
 
         }),
@@ -539,6 +548,7 @@ export class TextToSql extends BaseClass {
           generated_query: stepfunctions.JsonPath.stringAt('$.queryConfig.Payload.validated_sql_query'),
           reformualted_question: stepfunctions.TaskInput.fromJsonPathAt('$.reformulated_user_question'),
           user_question: stepfunctions.TaskInput.fromJsonPathAt('$.user_question'),
+          question_unique_id: stepfunctions.TaskInput.fromJsonPathAt('$.question_unique_id'),
           TaskToken: stepfunctions.JsonPath.taskToken,
         }),
         integrationPattern:
@@ -551,7 +561,6 @@ export class TextToSql extends BaseClass {
       'generate_query_path_one',
       {
         lambdaFunction: queryGeneratorFunction,
-        //outputPath: '$.queryGenerated',
         resultPath: '$.queryConfig',
       },
     );
@@ -561,7 +570,6 @@ export class TextToSql extends BaseClass {
       'generate_alternate_query',
       {
         lambdaFunction: queryGeneratorFunction,
-        //outputPath: '$.queryGenerated',
         resultPath: '$.queryConfig',
       },
     );
@@ -600,17 +608,25 @@ export class TextToSql extends BaseClass {
       'generate_query_path_two',
       {
         lambdaFunction: queryGeneratorFunction,
-        //outputPath: '$.status',
         resultPath: '$.queryConfig',
       },
     );
+
+    const outputState =new tasks.SqsSendMessage(this, 'publish_query_result', {
+      queue: outputQueue,
+      messageBody: stepfunctions.TaskInput.fromObject({
+        result: stepfunctions.TaskInput.fromJsonPathAt('$.queryStatus.Payload.result'),
+        user_question: stepfunctions.TaskInput.fromJsonPathAt('$.user_question'),
+        question_unique_id: stepfunctions.TaskInput.fromJsonPathAt('$.question_unique_id'),
+
+      }),
+    });
 
     const queryExecutorState = new tasks.LambdaInvoke(
       this,
       'execute_query',
       {
         lambdaFunction: queryExecutorFunction,
-        // outputPath: '$.status',
         resultPath: '$.queryStatus',
       },
     ).next(autocorrectChoiceState.when(
@@ -618,8 +634,8 @@ export class TextToSql extends BaseClass {
       configureCountState.next(iteratorState).next(isCountReachedState.when(
         stepfunctions.Condition.booleanEquals('$.iterator.Payload.continue', true),
         alternateQueryGeneratorState.next(iteratorState),
-      ).otherwise(completedState),
-      )).otherwise(completedState));
+      ).otherwise(outputState),
+      )).otherwise(outputState));
 
     const feedbackChoiceStateOne = new stepfunctions.Choice(
       this,
@@ -633,7 +649,6 @@ export class TextToSql extends BaseClass {
       this,
       'is_feedback_req_on_generated_query_path_two?',
       {
-        inputPath: '$.queryConfig.Payload',
       },
     );
     const feedbackChoiceStateThree = new stepfunctions.Choice(
