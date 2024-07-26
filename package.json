@@ -8,6 +8,7 @@
   "scripts": {
     "build": "npx projen build",
     "bump": "npx projen bump",
+    "bundle-vector-index": "npx projen bundle-vector-index",
     "clobber": "npx projen clobber",
     "compat": "npx projen compat",
     "compile": "npx projen compile",
@@ -52,6 +53,7 @@
     "aws-sdk-mock": "^5.9.0",
     "commitlint": "^18.6.1",
     "constructs": "10.3.0",
+    "esbuild": "^0.23.0",
     "eslint": "^8",
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-header": "^3.1.1",

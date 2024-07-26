@@ -41,6 +41,15 @@
       ],
       "condition": "! git log --oneline -1 | grep -q \"chore(release):\""
     },
+    "bundle-vector-index": {
+      "name": "bundle-vector-index",
+      "description": "Bundle the vector-index Lambda function",
+      "steps": [
+        {
+          "exec": "node src/cdk-lib/opensearch-vectorindex/vector-index/build.js"
+        }
+      ]
+    },
     "clobber": {
       "name": "clobber",
       "description": "hard resets to HEAD of origin and cleans the local repo",
@@ -224,6 +233,9 @@
       "description": "Runs after successful compilation",
       "steps": [
         {
+          "exec": "yarn run bundle-vector-index"
+        },
+        {
           "exec": "npx typedoc --plugin typedoc-plugin-markdown --out apidocs --readme none --categoryOrder \"Namespaces,Classes,Interfaces,*\" --disableSources ./src/index.ts"
         }
       ]
@@ -306,13 +318,13 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws-cdk/assert,@commitlint/config-conventional,@mrgrain/jsii-struct-builder,@types/jest,aws-sdk-mock,commitlint,eslint-import-resolver-typescript,eslint-plugin-header,eslint-plugin-import,husky,jest,jsii-diff,jsii-pacmak,pinst,ts-jest,ts-node,typedoc,typedoc-plugin-markdown,typescript,deepmerge,cdk-nag"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws-cdk/assert,@commitlint/config-conventional,@mrgrain/jsii-struct-builder,@types/jest,aws-sdk-mock,commitlint,esbuild,eslint-import-resolver-typescript,eslint-plugin-header,eslint-plugin-import,husky,jest,jsii-diff,jsii-pacmak,pinst,ts-jest,ts-node,typedoc,typedoc-plugin-markdown,typescript,deepmerge,cdk-nag"
         },
         {
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade @aws-cdk/assert @commitlint/config-conventional @mrgrain/jsii-struct-builder @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-sdk-mock commitlint eslint-import-resolver-typescript eslint-plugin-header eslint-plugin-import eslint husky jest jest-junit jsii-diff jsii-pacmak jsii-rosetta jsii pinst projen standard-version ts-jest ts-node typedoc typedoc-plugin-markdown typescript deepmerge aws-cdk-lib constructs cdk-nag"
+          "exec": "yarn upgrade @aws-cdk/assert @commitlint/config-conventional @mrgrain/jsii-struct-builder @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-sdk-mock commitlint esbuild eslint-import-resolver-typescript eslint-plugin-header eslint-plugin-import eslint husky jest jest-junit jsii-diff jsii-pacmak jsii-rosetta jsii pinst projen standard-version ts-jest ts-node typedoc typedoc-plugin-markdown typescript deepmerge aws-cdk-lib constructs cdk-nag"
         },
         {
           "exec": "npx projen"

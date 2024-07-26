@@ -1,0 +1,16 @@
+{
+  "name": "vector-index",
+  "version": "1.0.0",
+  "description": "Lambda function for managing OpenSearch Serverless vector index",
+  "main": "dist/index.js",
+  "types": "dist/lambda-function.d.ts",
+  "dependencies": {
+    "@aws-sdk/client-opensearchserverless": "^3.609.0",
+    "@aws-sdk/credential-provider-node": "^3.609.0",
+    "@opensearch-project/opensearch": "^2.10.0"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "8.10.140",
+    "typescript": "~5.0.3"
+  }
+}
