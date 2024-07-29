@@ -8,6 +8,12 @@
 
 ## Properties
 
+### asyncInference?
+
+> `readonly` `optional` **asyncInference**: [`AsyncInferenceConfig`](AsyncInferenceConfig.md)
+
+***
+
 ### container
 
 > `readonly` **container**: [`ContainerImage`](../classes/ContainerImage.md)

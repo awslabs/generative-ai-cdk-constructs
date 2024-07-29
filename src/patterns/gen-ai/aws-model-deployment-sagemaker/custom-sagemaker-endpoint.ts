@@ -20,6 +20,12 @@ import { SageMakerInstanceType } from './sagemaker-instance-type';
 import { ConstructName } from '../../../common/base-class';
 import { BaseClassProps } from '../../../common/base-class/base-class';
 
+export interface AsyncInferenceConfig {
+  readonly failurePath: string;
+  readonly outputPath: string;
+  readonly maxConcurrentInvocationsPerInstance?: number;
+}
+
 export interface CustomSageMakerEndpointProps {
   readonly modelId: string;
   readonly endpointName: string;
@@ -33,6 +39,7 @@ export interface CustomSageMakerEndpointProps {
   readonly volumeSizeInGb?: number | undefined;
   readonly vpcConfig?: sagemaker.CfnModel.VpcConfigProperty | undefined;
   readonly modelDataUrl: string;
+  readonly asyncInference?: AsyncInferenceConfig | undefined;
 
 }
 
@@ -127,6 +134,23 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
         },
       ],
     });
+
+    if (props.asyncInference) {
+
+      const asyncInferenceConfigProperty: sagemaker.CfnEndpointConfig.AsyncInferenceConfigProperty = {
+        outputConfig: {
+          s3FailurePath: props.asyncInference.failurePath,
+          s3OutputPath: props.asyncInference.outputPath,
+        },
+
+        // the properties below are optional
+        clientConfig: {
+          maxConcurrentInvocationsPerInstance: props.asyncInference.maxConcurrentInvocationsPerInstance ?? 10,
+        },
+      };
+
+      endpointConfig.asyncInferenceConfig = asyncInferenceConfigProperty;
+    }
 
     endpointConfig.addDependency(model);
 
