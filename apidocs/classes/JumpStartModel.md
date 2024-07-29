@@ -10054,6 +10054,42 @@
 
 ***
 
+### META\_TEXTGENERATION\_LLAMA\_3\_1\_405B\_FP8\_1\_0\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_3\_1\_405B\_FP8\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### META\_TEXTGENERATION\_LLAMA\_3\_1\_405B\_INSTRUCT\_FP8\_1\_0\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_3\_1\_405B\_INSTRUCT\_FP8\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### META\_TEXTGENERATION\_LLAMA\_3\_1\_70B\_1\_0\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_3\_1\_70B\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### META\_TEXTGENERATION\_LLAMA\_3\_1\_70B\_INSTRUCT\_1\_0\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_3\_1\_70B\_INSTRUCT\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### META\_TEXTGENERATION\_LLAMA\_3\_1\_8B\_1\_0\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_3\_1\_8B\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### META\_TEXTGENERATION\_LLAMA\_3\_1\_8B\_INSTRUCT\_1\_0\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_3\_1\_8B\_INSTRUCT\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
 ### META\_TEXTGENERATION\_LLAMA\_3\_70B\_1\_0\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_3\_70B\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
