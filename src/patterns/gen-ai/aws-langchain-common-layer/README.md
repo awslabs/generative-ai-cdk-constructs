@@ -45,10 +45,23 @@ Thanks to the original authors:
 
 This construct provides an AWS Lambda layer which contains needed python pip packages to build generative AI applications based on the [LangChain](https://python.langchain.com/docs/get_started/introduction) client. The list of libraries installed and their version is available [here](../../../../layers/langchain-common-deps/requirements.txt)
 
+---
+
+### Building with Differing Architectures
+
+Use Docker's default platform environmental variable, [`DOCKER_DEFAULT_PLATFORM`](https://docs.docker.com/engine/reference/commandline/cli/), when synthesizing or deploying on different architectures. For example: ARM chips (such as Apple silicon series macOS M1, M2, and M3) are by default `arm64` architectures and may bundle unsupported packages into `x86_64` Lambda Layers.
+
+A solution is:
+
+```bash
+DOCKER_DEFAULT_PLATFORM=linux/amd64 cdk deploy
+```
+
 Here is a minimal deployable pattern definition:
 
 TypeScript
-``` typescript
+
+```typescript
 import { Construct } from 'constructs';
 import { Stack, StackProps, Aws } from 'aws-cdk-lib';
 import { LangchainCommonDepsLayer } from '@cdklabs/generative-ai-cdk-constructs';
@@ -66,6 +79,7 @@ const lambdaDepsLayer = new LangchainCommonDepsLayer(this, 'lambdagenaidepslayer
 ```
 
 Python
+
 ``` python
 from constructs import Construct
 from aws_cdk import Aws, aws_lambda as lambda_
@@ -89,17 +103,17 @@ lambda_deps_layer = LangchainCommonDepsLayer(
 
 ## Initializer
 
-```
+```typescript
 new LangchainCommonDepsLayer(scope: Construct, id: string, props: LangchainLayerProps)
 ```
 
-#### Parameters
+### Parameters
 
 - scope [Construct](https://docs.aws.amazon.com/cdk/api/v2/docs/constructs.Construct.html)
 - id string
 - props [LangchainLayerProps](https://github.com/awslabs/generative-ai-cdk-constructs/blob/main/src/patterns/gen-ai/aws-langchain-common-layer/index.ts#L23)
 
-#### Pattern Construct Props
+### Pattern Construct Props
 
 | **Name**     | **Type**        | **Required** |**Description** |
 |:-------------|:----------------|-----------------|-----------------|
@@ -112,12 +126,12 @@ new LangchainCommonDepsLayer(scope: Construct, id: string, props: LangchainLayer
 | license | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | The SPDX licence identifier or URL to the license file for this layer |
 | removalPolicy | [RemovalPolicy](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.RemovalPolicy.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | Whether to retain this version of the layer when a new version is added or when the stack is deleted. Default: DESTROY |
 
-
 ## Default properties
 
 Out-of-the-box implementation of the construct without any override will not set any default values. Depending on the features enabled, user will need to provide environmental variable values to the AWS Lambda function used by the LangchainCommonLayer.
 
 ## Architecture
+
 ![Architecture Diagram](architecture.png)
 
 ## Cost
