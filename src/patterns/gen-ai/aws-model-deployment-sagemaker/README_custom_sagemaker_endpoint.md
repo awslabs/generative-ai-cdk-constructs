@@ -168,6 +168,10 @@ If defined, the SageMaker endpoint will perform asynchronous inference.
 - modelDataDownloadTimeoutInSeconds: 600 if not provided
 - instanceCount: 1 if not provided
 
+If async configuration is enabled:
+- Enable server-side encryption for SNS Topics using AWS managed KMS Key
+- maxConcurrentInvocationsPerInstance: 10 if not provided
+
 ## Troubleshooting
 
 

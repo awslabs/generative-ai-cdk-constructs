@@ -12,6 +12,7 @@
  */
 import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as kms from 'aws-cdk-lib/aws-kms';
 import * as sagemaker from 'aws-cdk-lib/aws-sagemaker';
 import * as sns from 'aws-cdk-lib/aws-sns';
 import { Construct } from 'constructs';
@@ -202,9 +203,12 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
   }
 
   private buildSnsTopic(topicName: string, displayName: string): sns.Topic {
+    const masterKey = kms.Alias.fromAliasName(this, `aws-managed-key-${topicName}`, 'alias/aws/sns');
+
     const topic = new sns.Topic(this, topicName, {
       topicName,
       displayName,
+      masterKey: masterKey,
     });
 
     topic.grantPublish(this.role);
