@@ -1708,6 +1708,12 @@
 
 ***
 
+### HUGGINGFACE\_LLM\_MISTRALAI\_MIXTRAL\_8X22B\_INSTRUCT\_V0\_1\_1\_3\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_MISTRALAI\_MIXTRAL\_8X22B\_INSTRUCT\_V0\_1\_1\_3\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
 ### HUGGINGFACE\_LLM\_MISTRAL\_7B\_1\_0\_0
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_MISTRAL\_7B\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -1876,6 +1882,12 @@
 
 ***
 
+### HUGGINGFACE\_LLM\_MISTRAL\_7B\_INSTRUCT\_3\_6\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_MISTRAL\_7B\_INSTRUCT\_3\_6\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
 ### HUGGINGFACE\_LLM\_MISTRAL\_7B\_INSTRUCT\_V3\_1\_0\_0
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_MISTRAL\_7B\_INSTRUCT\_V3\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -1885,6 +1897,12 @@
 ### HUGGINGFACE\_LLM\_MISTRAL\_7B\_INSTRUCT\_V3\_1\_0\_1
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_MISTRAL\_7B\_INSTRUCT\_V3\_1\_0\_1**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### HUGGINGFACE\_LLM\_MISTRAL\_7B\_INSTRUCT\_V3\_1\_0\_2
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_MISTRAL\_7B\_INSTRUCT\_V3\_1\_0\_2**: [`JumpStartModel`](JumpStartModel.md)
 
 ***
 
@@ -2026,6 +2044,12 @@
 
 ***
 
+### HUGGINGFACE\_LLM\_MIXTRAL\_8X7B\_INSTRUCT\_1\_10\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_MIXTRAL\_8X7B\_INSTRUCT\_1\_10\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
 ### HUGGINGFACE\_LLM\_MIXTRAL\_8X7B\_INSTRUCT\_1\_1\_0
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_MIXTRAL\_8X7B\_INSTRUCT\_1\_1\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -2119,6 +2143,12 @@
 ### HUGGINGFACE\_LLM\_MIXTRAL\_8X7B\_INSTRUCT\_GPTQ\_1\_2\_0
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_MIXTRAL\_8X7B\_INSTRUCT\_GPTQ\_1\_2\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### HUGGINGFACE\_LLM\_MIXTRAL\_8X7B\_INSTRUCT\_GPTQ\_1\_2\_1
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_MIXTRAL\_8X7B\_INSTRUCT\_GPTQ\_1\_2\_1**: [`JumpStartModel`](JumpStartModel.md)
 
 ***
 
