@@ -13,6 +13,7 @@
 import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as sagemaker from 'aws-cdk-lib/aws-sagemaker';
+import * as sns from 'aws-cdk-lib/aws-sns';
 import { Construct } from 'constructs';
 import { ContainerImage } from './container-image';
 import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
@@ -49,6 +50,8 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
   public readonly cfnModel: sagemaker.CfnModel;
   public readonly cfnEndpoint: sagemaker.CfnEndpoint;
   public readonly cfnEndpointConfig: sagemaker.CfnEndpointConfig;
+  public readonly successTopic?: sns.Topic;
+  public readonly errorTopic?: sns.Topic;
 
   public readonly instanceType?: SageMakerInstanceType;
   public readonly instanceCount: number;
@@ -70,7 +73,6 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
     // No lambda function to use AWS SDK for service metric
     const lambdaFunctions: cdk.aws_lambda.DockerImageFunction[]=[];
     this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
-
 
     this.instanceType = props.instanceType;
     this.modelId = props.modelId;
@@ -137,13 +139,23 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
 
     if (props.asyncInference) {
 
+      // build sns topics for success and failure
+      const successTopic = this.buildSnsTopic(`success-topic-${id}`, 'Success Topic');
+      const failureTopic = this.buildSnsTopic(`failure-topic-${id}`, 'Failure Topic');
+
+      this.errorTopic = failureTopic;
+      this.successTopic = successTopic;
+
+      // configure async inference
       const asyncInferenceConfigProperty: sagemaker.CfnEndpointConfig.AsyncInferenceConfigProperty = {
         outputConfig: {
           s3FailurePath: props.asyncInference.failurePath,
           s3OutputPath: props.asyncInference.outputPath,
+          notificationConfig: {
+            successTopic: successTopic.topicArn,
+            errorTopic: failureTopic.topicArn,
+          },
         },
-
-        // the properties below are optional
         clientConfig: {
           maxConcurrentInvocationsPerInstance: props.asyncInference.maxConcurrentInvocationsPerInstance ?? 10,
         },
@@ -187,5 +199,28 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
       actions: ['sagemaker:InvokeEndpoint'],
       resourceArns: [this.endpointArn],
     });
+  }
+
+  private buildSnsTopic(topicName: string, displayName: string): sns.Topic {
+    const topic = new sns.Topic(this, topicName, {
+      topicName,
+      displayName,
+    });
+
+    topic.grantPublish(this.role);
+
+    topic.addToResourcePolicy(new iam.PolicyStatement({
+      actions: ['sns:Publish'],
+      effect: iam.Effect.DENY,
+      resources: [topic.topicArn],
+      conditions: {
+        Bool: {
+          'aws:SecureTransport': 'false',
+        },
+      },
+      principals: [new iam.AnyPrincipal()],
+    }));
+
+    return topic;
   }
 }
