@@ -261,12 +261,12 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       this.vpc = vpc_helper.buildVpc(scope, {
         defaultVpcProps: props?.vpcProps,
       });
-    }
 
-    // vpc endpoints
-    vpc_helper.AddAwsServiceEndpoint(scope, this.vpc, [vpc_helper.ServiceEndpointTypeEnum.S3,
-      vpc_helper.ServiceEndpointTypeEnum.BEDROCK_RUNTIME, vpc_helper.ServiceEndpointTypeEnum.REKOGNITION,
-      vpc_helper.ServiceEndpointTypeEnum.APP_SYNC]);
+      // vpc endpoints
+      vpc_helper.AddAwsServiceEndpoint(scope, this.vpc, [vpc_helper.ServiceEndpointTypeEnum.S3,
+        vpc_helper.ServiceEndpointTypeEnum.BEDROCK_RUNTIME, vpc_helper.ServiceEndpointTypeEnum.REKOGNITION,
+        vpc_helper.ServiceEndpointTypeEnum.APP_SYNC]);
+    }
 
     // Security group
     if (props?.existingSecurityGroup) {
