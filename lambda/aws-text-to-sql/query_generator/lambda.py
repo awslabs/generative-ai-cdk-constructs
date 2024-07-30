@@ -23,6 +23,7 @@ s3 = boto3.client('s3')
 db_name = os.environ["DB_NAME"]
 config_bucket = os.environ["CONFIG_BUCKET"]
 
+
 @logger.inject_lambda_context(log_event=True)
 @tracer.capture_lambda_handler
 @metrics.log_metrics(capture_cold_start_metric=True)

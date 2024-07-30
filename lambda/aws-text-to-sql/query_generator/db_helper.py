@@ -1,10 +1,19 @@
+import os
+import boto3
+import json
+import pymysql
 from langchain_community.utilities import SQLDatabase
 from config_types import Database_supported
 from aws_lambda_powertools import Logger, Tracer, Metrics
+from sqlalchemy import create_engine
+from sqlalchemy.engine import URL
 
 logger = Logger(service="QUERY_GENERATOR")
 tracer = Tracer(service="QUERY_GENERATOR")
 metrics = Metrics(namespace="textToSql_pipeline", service="QUERY_GENERATOR")
+
+proxy_endpoint = os.environ['PROXY_ENDPOINT']
+secret_arn = os.environ['SECRET_ARN']
 
 
 def get_db_connection(db_name):
@@ -19,12 +28,38 @@ def get_db_connection(db_name):
             case Database_supported.POSTGRESQL:
                 print("Retrieve db schema from postgresql")
                 # update connection url
-                return SQLDatabase.from_uri("postgresql://<username>:<password>@<host>:<port>/<database>", sample_rows_in_table_info=3)
             case Database_supported.MYSQL:
                 print("Retrieve db schema from mysql")
-                return SQLDatabase.from_uri("mysql://<username>:<password>@<host>:<port>/<database>", sample_rows_in_table_info=3)
+                credentials = get_secret()
+                db_user = credentials['username']
+                db_password = credentials['password']
+                db_host = proxy_endpoint
+                db_name = credentials['dbname']
+                db_uri = f"mysql+pymysql://{db_user}:{db_password}@{db_host}/{db_name}"
+                
+                print(f"db_uri :: {db_uri}")
+                return SQLDatabase.from_uri(db_uri, sample_rows_in_table_info=3)
+
 
             case _:
                 print(f"Error: {db_name} database is not supported.")
     except Exception as exp:
         logger.error(f'response :: {exp}')
+
+
+def get_secret():
+    session = boto3.session.Session()
+    client = session.client(
+        service_name='secretsmanager',
+        region_name=session.region_name
+    )
+
+    get_secret_value_response = client.get_secret_value(
+        SecretId=secret_arn
+    )
+
+    if 'dbSecret' in get_secret_value_response:
+        secret = get_secret_value_response['dbSecret']
+    
+    logger.info(f'secret :: {secret}')  
+    return json.loads(secret)

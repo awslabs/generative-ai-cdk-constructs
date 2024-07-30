@@ -11,8 +11,8 @@ class WorkflowStrategy(StrEnum):
 
 class Database_supported(StrEnum):
     SQLITE = 'Sqlite',
-    POSTGRESQL='postgresql'
-    MYSQL='mysql'
+    POSTGRESQL='PostgreSQL'
+    MYSQL='MySQL'
     
     
 class Provider(StrEnum):
