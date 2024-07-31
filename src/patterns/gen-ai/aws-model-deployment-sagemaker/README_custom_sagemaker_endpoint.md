@@ -44,7 +44,7 @@ env: {
 },
 ```
 
-Here is a minimal deployable pattern definition:
+Here is a minimal deployable pattern definition to deploy a real-time Amazon SageMaker endpoint:
 
 TypeScript
 ```typescript
@@ -95,6 +95,12 @@ CustomSageMakerEndpoint(
 )
 ```
 
+The construct also allows you to deploy an asyncronous SageMaker endpoint. Amazon SageMaker Asynchronous Inference is a capability in SageMaker that queues incoming requests and processes them asynchronously. This option is ideal for requests with large payload sizes (up to 1GB), long processing times (up to one hour), and near real-time latency requirements. 
+
+Asynchronous Inference enables you to save on costs by autoscaling the instance count to zero when there are no requests to process, so you only pay when your endpoint is processing requests. For more information about asynchronous inference, please refer to the [documentation](https://docs.aws.amazon.com/sagemaker/latest/dg/async-inference.html). 
+
+To configure the endpoint in asynchronous mode, you simply need to define the [AsyncInferenceConfig](#asyncinferenceconfig) in the construct properties. In this case, the construct will provision two Amazon Simple Notification Service topics which can be used to received notifications about inference (failure and success).
+
 ## Initializer
 
 ```
@@ -125,6 +131,17 @@ Parameters
 | startupHealthCheckTimeoutInSeconds | Integer | ![Optional](https://img.shields.io/badge/optional-4169E1) | The timeout value, in seconds, for your inference container to pass health check by SageMaker Hosting |
 | modelDataDownloadTimeoutInSeconds | Integer | ![Optional](https://img.shields.io/badge/optional-4169E1) | The timeout value, in seconds, to download and extract the model that you want to host from Amazon S3 to the individual inference instance associated with this production variant. |
 | volumeSizeInGb | Integer | ![Optional](https://img.shields.io/badge/optional-4169E1) | The size, in GB, of the ML storage volume attached to individual inference instance associated with the production variant. Currently only Amazon EBS gp2 storage volumes are supported. |
+| asyncInference | AsyncInferenceConfig | ![Optional](https://img.shields.io/badge/optional-4169E1) | Specifies configuration for how an endpoint performs asynchronous inference. Refer to [AsyncInferenceConfig](#asyncinferenceconfig) for details. If not defined, the endpoint will be configured as real-time.|
+
+### AsyncInferenceConfig
+
+If defined, the SageMaker endpoint will perform asynchronous inference.
+
+| **Name**     | **Type**        | **Required** |**Description** |
+|:-------------|:----------------|-----------------|-----------------|
+| failurePath | string | ![Required](https://img.shields.io/badge/required-ff0000) | The Amazon S3 location to upload failure inference responses to. This location needs to be in the same bucket containing the model artifacts. |
+| outputPath | string | ![Required](https://img.shields.io/badge/required-ff0000) | The Amazon S3 location to upload inference responses to. This location needs to be in the same bucket containing the model artifacts. |
+| maxConcurrentInvocationsPerInstance | number | ![Optional](https://img.shields.io/badge/optional-4169E1) | The maximum number of concurrent requests sent by the SageMaker client to the model container. |
 
 ## Pattern Properties
 
@@ -141,6 +158,8 @@ Parameters
 |instanceType| SageMakerInstanceType | The ML compute instance type |
 |instanceCount| number | Number of instances to launch initially|
 |role| [iam.Role](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_iam.Role.html) |The IAM role that SageMaker can assume to access model artifacts and docker image for deployment on ML compute instances or for batch transform jobs |
+|successTopic| [sns.Topic](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_sns.Topic.html) | Amazon SNS topic to post a notification to when an inference completes successfully. If async configuration is not provided, this will not be defined.|
+|errorTopic| [sns.Topic](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_sns.Topic.html) | Amazon SNS topic to post a notification to when an inference fails. If async configuration is not provided, this will not be defined.|
 
 ## Default properties
 
@@ -149,12 +168,25 @@ Parameters
 - modelDataDownloadTimeoutInSeconds: 600 if not provided
 - instanceCount: 1 if not provided
 
+If async configuration is enabled:
+- Enable server-side encryption for SNS Topics using AWS managed KMS Key
+- maxConcurrentInvocationsPerInstance: 10 if not provided
+
 ## Troubleshooting
 
 
 
 ## Architecture
-![Architecture Diagram](architecture_CustomSageMakerEndpoint.png)
+
+Real-time endpoint architecture:
+
+![Architecture Real-time Diagram](architecture_rt_CustomSageMakerEndpoint.png)
+
+Asynchronous endpoint architecture:
+
+To invoke the endpoint, you need to place the request payload in Amazon Simple Storage Service (S3). You also need to provide a pointer to this payload as a part of the InvokeEndpointAsync request. Upon invocation, SageMaker queues the request for processing and returns an identifier and output location as a response. Upon processing, SageMaker places the result in the Amazon S3 location.
+
+![Architecture Async Diagram](architecture_async_CustomSageMakerEndpoint.png)
 
 ## Cost
 
