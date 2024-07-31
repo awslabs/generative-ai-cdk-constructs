@@ -12,13 +12,21 @@
  */
 import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as kms from 'aws-cdk-lib/aws-kms';
 import * as sagemaker from 'aws-cdk-lib/aws-sagemaker';
+import * as sns from 'aws-cdk-lib/aws-sns';
 import { Construct } from 'constructs';
 import { ContainerImage } from './container-image';
 import { SageMakerEndpointBase } from './sagemaker-endpoint-base';
 import { SageMakerInstanceType } from './sagemaker-instance-type';
 import { ConstructName } from '../../../common/base-class';
 import { BaseClassProps } from '../../../common/base-class/base-class';
+
+export interface AsyncInferenceConfig {
+  readonly failurePath: string;
+  readonly outputPath: string;
+  readonly maxConcurrentInvocationsPerInstance?: number;
+}
 
 export interface CustomSageMakerEndpointProps {
   readonly modelId: string;
@@ -33,6 +41,7 @@ export interface CustomSageMakerEndpointProps {
   readonly volumeSizeInGb?: number | undefined;
   readonly vpcConfig?: sagemaker.CfnModel.VpcConfigProperty | undefined;
   readonly modelDataUrl: string;
+  readonly asyncInference?: AsyncInferenceConfig | undefined;
 
 }
 
@@ -42,6 +51,8 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
   public readonly cfnModel: sagemaker.CfnModel;
   public readonly cfnEndpoint: sagemaker.CfnEndpoint;
   public readonly cfnEndpointConfig: sagemaker.CfnEndpointConfig;
+  public readonly successTopic?: sns.Topic;
+  public readonly errorTopic?: sns.Topic;
 
   public readonly instanceType?: SageMakerInstanceType;
   public readonly instanceCount: number;
@@ -63,7 +74,6 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
     // No lambda function to use AWS SDK for service metric
     const lambdaFunctions: cdk.aws_lambda.DockerImageFunction[]=[];
     this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
-
 
     this.instanceType = props.instanceType;
     this.modelId = props.modelId;
@@ -128,6 +138,33 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
       ],
     });
 
+    if (props.asyncInference) {
+
+      // build sns topics for success and failure
+      const successTopic = this.buildSnsTopic(`success-topic-${id}`, 'Success Topic');
+      const failureTopic = this.buildSnsTopic(`failure-topic-${id}`, 'Failure Topic');
+
+      this.errorTopic = failureTopic;
+      this.successTopic = successTopic;
+
+      // configure async inference
+      const asyncInferenceConfigProperty: sagemaker.CfnEndpointConfig.AsyncInferenceConfigProperty = {
+        outputConfig: {
+          s3FailurePath: props.asyncInference.failurePath,
+          s3OutputPath: props.asyncInference.outputPath,
+          notificationConfig: {
+            successTopic: successTopic.topicArn,
+            errorTopic: failureTopic.topicArn,
+          },
+        },
+        clientConfig: {
+          maxConcurrentInvocationsPerInstance: props.asyncInference.maxConcurrentInvocationsPerInstance ?? 10,
+        },
+      };
+
+      endpointConfig.asyncInferenceConfig = asyncInferenceConfigProperty;
+    }
+
     endpointConfig.addDependency(model);
 
     const endpoint = new sagemaker.CfnEndpoint(scope, `${modelIdStr}-endpoint-${id}`, {
@@ -163,5 +200,31 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
       actions: ['sagemaker:InvokeEndpoint'],
       resourceArns: [this.endpointArn],
     });
+  }
+
+  private buildSnsTopic(topicName: string, displayName: string): sns.Topic {
+    const masterKey = kms.Alias.fromAliasName(this, `aws-managed-key-${topicName}`, 'alias/aws/sns');
+
+    const topic = new sns.Topic(this, topicName, {
+      topicName,
+      displayName,
+      masterKey: masterKey,
+    });
+
+    topic.grantPublish(this.role);
+
+    topic.addToResourcePolicy(new iam.PolicyStatement({
+      actions: ['sns:Publish'],
+      effect: iam.Effect.DENY,
+      resources: [topic.topicArn],
+      conditions: {
+        Bool: {
+          'aws:SecureTransport': 'false',
+        },
+      },
+      principals: [new iam.AnyPrincipal()],
+    }));
+
+    return topic;
   }
 }
