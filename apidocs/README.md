@@ -37,6 +37,7 @@
 
 ## Interfaces
 
+- [AsyncInferenceConfig](interfaces/AsyncInferenceConfig.md)
 - [BaseClassProps](interfaces/BaseClassProps.md)
 - [ContainerImageConfig](interfaces/ContainerImageConfig.md)
 - [ContentGenerationAppSyncLambdaProps](interfaces/ContentGenerationAppSyncLambdaProps.md)
