@@ -103,6 +103,10 @@ export interface BuildVpcProps {
    * and user props for the VPC.
    */
   readonly constructVpcProps?: VpcProps;
+  /**
+   * Name for construct managed VPC.
+   */
+  readonly vpcName: string;
 }
 
 
@@ -118,7 +122,7 @@ export function buildVpc(scope: Construct, props: BuildVpcProps): IVpc {
   // Merge props provided by construct builder and by the end user
   // If user provided props are empty, the vpc will use only the builder provided props
   //cumulativeProps = consolidateProps(cumulativeProps, props?.userVpcProps, props?.constructVpcProps);
-  const vpc = new Vpc(scope, 'Vpc', cumulativeProps);
+  const vpc = new Vpc(scope, props.vpcName, cumulativeProps);
 
   // Add VPC FlowLogs with the default setting of trafficType:ALL and destination: CloudWatch Logs
   const flowLog: FlowLog = vpc.addFlowLog('FlowLog');
@@ -177,8 +181,8 @@ export function DefaultVpcProps(): VpcProps {
 
 export function createOpenSearchVpcEndpoint(scope: Construct, vpc: IVpc, sg: ec2.ISecurityGroup, props: OpenSearchProps) {
   if (props?.existingOpensearchServerlessCollection) {
-    new CfnVpcEndpoint(scope, 'VpcEndpoint', {
-      name: 'VpcEndpoint',
+    new CfnVpcEndpoint(scope, `${vpc.node.id}-VpcEndpoint`, {
+      name: `${vpc.node.id.toLocaleLowerCase()}-ep`,
       vpcId: vpc.vpcId,
       subnetIds: vpc.selectSubnets({ subnetType: ec2.SubnetType.PRIVATE_ISOLATED }).subnetIds,
       securityGroupIds: [sg.securityGroupId],
@@ -231,7 +235,7 @@ export function suppressEncryptedLogWarnings(flowLog: FlowLog) {
 function AddInterfaceEndpoint(scope: Construct, vpc: IVpc, service: EndpointDefinition, interfaceTag: ServiceEndpointTypeEnum) {
   const endpointDefaultSecurityGroup = buildSecurityGroup(
     scope,
-    `${scope.node.id}-${service.endpointName}`,
+    `${scope.node.id}-${service.endpointName}-${vpc.node.id}`,
     {
       vpc,
       allowAllOutbound: true,

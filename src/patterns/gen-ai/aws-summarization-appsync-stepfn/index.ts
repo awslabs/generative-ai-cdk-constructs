@@ -260,6 +260,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
     } else {
       this.vpc = vpc_helper.buildVpc(scope, {
         defaultVpcProps: props?.vpcProps,
+        vpcName: 'sumAppSyncStepFnVpc',
       });
 
       // vpc endpoints
@@ -494,7 +495,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       description: 'Lambda function to validate input for summary api',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 1),
       timeout: Duration.minutes(5),
@@ -591,7 +592,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       functionName: 'summary_document_reader'+this.stage,
       description: 'Lambda function to read the input transformed document',
       vpc: this.vpc,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 1),
       tracing: this.lambdaTracing,
@@ -694,7 +695,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       description: 'Lambda function to generate the summary',
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/summary_generator')),
       vpc: this.vpc,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(10),

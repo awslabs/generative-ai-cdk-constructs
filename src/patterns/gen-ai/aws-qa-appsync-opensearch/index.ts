@@ -229,6 +229,7 @@ export class QaAppsyncOpensearch extends BaseClass {
     } else {
       this.vpc = vpc_helper.buildVpc(scope, {
         defaultVpcProps: props?.vpcProps,
+        vpcName: 'qaAppSyncOsVpc',
       });
 
       //vpc endpoints

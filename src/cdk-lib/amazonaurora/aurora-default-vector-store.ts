@@ -108,6 +108,7 @@ export class AmazonAuroraDefaultVectorStore extends cdk.Resource {
 
     const vpc = buildVpc(this, {
       defaultVpcProps: DefaultVpcProps(),
+      vpcName: 'auroraDefaultVectorStoreVpc',
     });
     vpc.addFlowLog('VpcFlowLog', {
       destination: ec2.FlowLogDestination.toCloudWatchLogs(),

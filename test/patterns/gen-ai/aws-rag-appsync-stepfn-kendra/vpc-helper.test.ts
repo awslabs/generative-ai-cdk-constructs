@@ -26,7 +26,7 @@ describe('VPC Utilities', () => {
 
   describe('buildVpc', () => {
     it('creates a VPC with default isolated configuration', () => {
-      buildVpc(stack, { defaultVpcProps: createDefaultIsolatedVpcProps() });
+      buildVpc(stack, { defaultVpcProps: createDefaultIsolatedVpcProps(), vpcName: 'testVpc' });
 
       // Assert VPC is created with expected properties
       const template = Template.fromStack(stack);

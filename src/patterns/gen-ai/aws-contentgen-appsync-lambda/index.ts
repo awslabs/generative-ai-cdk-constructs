@@ -179,11 +179,12 @@ export class ContentGenerationAppSyncLambda extends BaseClass {
     } else {
       this.vpc = vpc_helper.buildVpc(scope, {
         defaultVpcProps: props?.vpcProps,
+        vpcName: 'cgAppSyncLambdaVpc',
       });
+      // vpc endpoints
+      vpc_helper.AddAwsServiceEndpoint(scope, this.vpc, [vpc_helper.ServiceEndpointTypeEnum.S3,
+        vpc_helper.ServiceEndpointTypeEnum.BEDROCK_RUNTIME, vpc_helper.ServiceEndpointTypeEnum.REKOGNITION]);
     }
-    // vpc endpoints
-    vpc_helper.AddAwsServiceEndpoint(scope, this.vpc, [vpc_helper.ServiceEndpointTypeEnum.S3,
-      vpc_helper.ServiceEndpointTypeEnum.BEDROCK_RUNTIME, vpc_helper.ServiceEndpointTypeEnum.REKOGNITION]);
 
     // Security group
     if (props?.existingSecurityGroup) {
