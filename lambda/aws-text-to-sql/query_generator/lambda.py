@@ -40,7 +40,9 @@ def handler(event, context: LambdaContext)-> dict:
 
     
     sql_generation_config = config.get("sql_generation")
+    execute_sql_config = config.get("execute_sql")
     sql_validation_strategy = sql_generation_config.get('strategy', WorkflowStrategy.AUTO)
+    execute_sql_strategy = execute_sql_config.get('strategy', WorkflowStrategy.DISABLED)
     text_to_sql_query_generation_llm = get_llm(sql_generation_config)
     if text_to_sql_query_generation_llm is None:
         raise LLMNotLoadedException("text_to_sql_query_generation_llm")
@@ -81,7 +83,8 @@ def handler(event, context: LambdaContext)-> dict:
 
     response = {
         'validated_sql_query':validated_sql_query,
-        'sql_validation_strategy':sql_validation_strategy
+        'sql_validation_strategy':sql_validation_strategy,
+        'execute_sql_strategy':execute_sql_strategy
     }
 
     return response

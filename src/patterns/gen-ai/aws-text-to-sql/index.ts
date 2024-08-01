@@ -851,6 +851,19 @@ export class TextToSql extends BaseClass {
       {},
     );
 
+    const executeQueryChoiceState = new stepfunctions.Choice(
+      this,
+      'is_query_execution_req?',
+      {},
+    ).when(
+      stepfunctions.Condition.stringEquals(
+        '$.queryConfig.Payload.execute_sql_strategy',
+        'disabled',
+      ),
+      outputState,
+    ).otherwise(queryExecutorState);
+
+
     const constructProps: EventbridgeToStepfunctionsProps = {
       stateMachineProps: {
         definition: reformulateQuestionState.next(
@@ -868,9 +881,10 @@ export class TextToSql extends BaseClass {
                         '$.queryConfig.Payload.sql_validation_strategy',
                         'human',
                       ),
-                      generatedQueryFeedbackOneState.next(queryExecutorState),
+                      generatedQueryFeedbackOneState.next(executeQueryChoiceState,
+                      ),
                     )
-                    .otherwise(queryExecutorState),
+                    .otherwise(executeQueryChoiceState),
                 ),
               ),
             )
@@ -882,9 +896,9 @@ export class TextToSql extends BaseClass {
                       '$.queryConfig.Payload.sql_validation_strategy',
                       'human',
                     ),
-                    generatedQueryFeedbackTwoState.next(queryExecutorState),
+                    generatedQueryFeedbackTwoState.next(executeQueryChoiceState),
                   )
-                  .otherwise(queryExecutorState),
+                  .otherwise(executeQueryChoiceState),
               ),
             ),
         ),
