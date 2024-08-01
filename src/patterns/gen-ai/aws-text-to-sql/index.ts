@@ -80,7 +80,14 @@ export interface TextToSqlProps {
    * If no exisiting security group is provided it will create one from the vpc.
    * @default - none
    */
-  readonly existingSecurityGroup?: ec2.ISecurityGroup;
+  readonly existingLambdaSecurityGroup?: ec2.ISecurityGroup;
+
+  /**
+   * Optional. Security group for the db instance which this construct will use.
+   * If no exisiting security group is provided it will create one from the vpc.
+   * @default - none
+   */
+  readonly existingDBSecurityGroup?: ec2.ISecurityGroup;
 
   /**
    * Value will be appended to resources name.
@@ -108,6 +115,36 @@ export interface TextToSqlProps {
    */
 
   readonly databaseType?: DatabaseType;
+
+  /**
+   *  Optional. Existing Aurora Managed DB cluster
+   */
+  readonly existingAuroraDbCluster?: rds.DatabaseCluster;
+
+
+  /**
+   *  Optional. Aurora Managed DB cluster prps.
+   *  Passing existingAuroraDbCluster and databaseClusterProps will result in error.
+   */
+  readonly databaseClusterProps ? : rds.DatabaseClusterProps;
+
+  /**
+   *  Optional. RDS Instance prps.
+   *  Passing existingRdsDbInstance and databaseInstanceProps will result in error.
+   */
+  readonly databaseInstanceProps ? : rds.DatabaseInstanceProps;
+
+  /**
+   *  Optional. db port number.
+   *  @default -3306
+   */
+  readonly dbPort ?: number;
+
+
+  /**
+   * Returns the RDS db instance  used by the construct
+   */
+  readonly existingRdsDbInstance?: rds.DatabaseInstance;
 
   /**
    * Optional. Allows to provide custom lambda code for all pre steps required before generating the query.
@@ -172,6 +209,8 @@ export interface TextToSqlProps {
    * @default - None
    */
   readonly existingKnowledgeBaseId?: string;
+
+
 }
 
 export class TextToSql extends BaseClass {
@@ -188,22 +227,37 @@ export class TextToSql extends BaseClass {
   /**
    * Returns the instance of ec2.ISecurityGroup used by the construct
    */
-  public readonly securityGroup: ec2.ISecurityGroup;
+  public readonly lambdaSecurityGroup: ec2.ISecurityGroup;
+
+  /**
+   * Returns the instance of ec2.ISecurityGroup used by the construct
+   */
+  public readonly dbSecurityGroup!: ec2.ISecurityGroup;
 
   /**
    * Returns the instance of s3.IBucket used by the construct
    */
-  public readonly configAssetBucket: s3.IBucket;
+  public readonly configAssetBucket!: s3.IBucket;
 
   /**
    * Returns the instance of RDS proxy used by the construct
    */
-  public readonly proxy: rds.DatabaseProxy | undefined;
+  //public readonly proxy: rds.DatabaseProxy | undefined;
 
+
+  /**
+   * Returns the instance of aurora cluster  used by the construct
+   */
+  public readonly databaseCluster!: rds.DatabaseCluster;
+
+  /**
+   * Returns the RDS db instance  used by the construct
+   */
+  public readonly dbInstance!: rds.DatabaseInstance;
   /**
    * Returns the instance of secret manager used by the construct
    */
-  public readonly secret: secretsmanager.Secret;
+  public readonly secret!: secretsmanager.Secret;
 
   /**
    * Constructs a new instance of the TextToSql class.
@@ -223,6 +277,7 @@ export class TextToSql extends BaseClass {
       observability: props.observability,
     };
 
+    this.validateDbProps(props);
     this.updateEnvSuffix(baseProps);
     this.addObservabilityToConstruct(baseProps);
 
@@ -237,15 +292,33 @@ export class TextToSql extends BaseClass {
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
         description: 'Subnet group for Aurora Serverless',
       });
+
     }
+
+    const dbPort = props.dbPort ? props.dbPort : 3306;
+
+
     // Security group
-    if (props?.existingSecurityGroup) {
-      this.securityGroup = props.existingSecurityGroup;
+    if (props?.existingLambdaSecurityGroup) {
+      this.lambdaSecurityGroup = props.existingLambdaSecurityGroup;
     } else {
-      this.securityGroup = new ec2.SecurityGroup(this, 'securityGroup', {
+      this.lambdaSecurityGroup = new ec2.SecurityGroup(this, 'lambdaSecurityGroup', {
         vpc: this.vpc,
         allowAllOutbound: true,
       });
+    }
+    if (props?.existingDBSecurityGroup) {
+      this.dbSecurityGroup = props.existingDBSecurityGroup;
+    } else {
+      this.dbSecurityGroup = new ec2.SecurityGroup(this, 'DBSecurityGroup', {
+        vpc: this.vpc,
+      });
+      // Add an inbound rule to allow traffic from the Lambda security group
+      this.dbSecurityGroup.addIngressRule(
+        ec2.Peer.securityGroupId(this.lambdaSecurityGroup.securityGroupId),
+        ec2.Port.tcp(dbPort), // Assuming MySQL is running on port 3306
+        'Allow Lambda function to access the database',
+      );
     }
 
     // vpc flowloggroup
@@ -264,84 +337,31 @@ export class TextToSql extends BaseClass {
     });
 
 
-    // Create a database cluster based on the provided properties
-    if (props.databaseType === DatabaseType.RDS) {
-      this.secret = new secretsmanager.Secret(this, 'AuroraSecret', {
-        secretName: 'dbSecret',
-      });
-      if (props.dbName === DbName.MYSQL) {
-        const instanceIdentifier = 'mysql-01';
-        const dbServer = new rds.DatabaseInstance(this, 'MysqlRdsInstance', {
-          vpcSubnets: {
-            onePerAz: true,
-            subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
-          },
-          credentials: rds.Credentials.fromSecret(this.secret),
-          vpc: this.vpc,
-          port: 3306,
-          databaseName: 'main',
-          allocatedStorage: 20,
-          instanceIdentifier,
-          engine: rds.DatabaseInstanceEngine.mysql({
-            version: rds.MysqlEngineVersion.VER_8_0,
-          }),
-          instanceType: ec2.InstanceType.of(
-            ec2.InstanceClass.T2,
-            ec2.InstanceSize.LARGE,
-          ),
-        });
-
-        // Create an RDS Proxy
-        this.proxy = new rds.DatabaseProxy(this, 'DatabaseProxy', {
-          proxyTarget: rds.ProxyTarget.fromInstance(dbServer),
-          secrets: [this.secret],
-          vpc: this.vpc,
-          clientPasswordAuthType:
-            rds.ClientPasswordAuthType.MYSQL_NATIVE_PASSWORD,
-        });
-      } else {
-        // Add code for RDS PostgreSQL instance
-      }
+    // assign existing db or db props
+    if (props.existingAuroraDbCluster) {
+      this.databaseCluster = props.existingAuroraDbCluster;
+    } else if (props.databaseClusterProps) {
+      this.databaseCluster = new rds.DatabaseCluster(this, 'AuroraCluster'+this.stage, props.databaseClusterProps);
+    } else if (props.existingRdsDbInstance) {
+      this.dbInstance = props.existingRdsDbInstance;
+    } else if (props.databaseInstanceProps) {
+      this.dbInstance = new rds.DatabaseInstance(this, 'AuroraInstance'+this.stage, props.databaseInstanceProps);
     } else {
-      // Default is Aurora cluster, create secret credentials
-      this.secret = new secretsmanager.Secret(this, 'AuroraSecret', {
-        secretName: 'dbSecret',
-      });
-
-      // create database cluster
-      if (props.dbName === DbName.MYSQL) {
-        const databaseCluster = new rds.DatabaseCluster(this, 'AuroraCluster', {
-          engine: rds.DatabaseClusterEngine.auroraMysql({
-            version: rds.AuroraMysqlEngineVersion.VER_3_07_0,
-          }),
-          instanceProps: {
-            vpc: this.vpc,
-            vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-            instanceType: ec2.InstanceType.of(
-              ec2.InstanceClass.BURSTABLE3,
-              ec2.InstanceSize.MEDIUM,
-            ),
-          },
-          instances: 1,
-          defaultDatabaseName: 'textToSQLDatabase',
-        });
-        // Create RDS proxy
-        this.proxy = new rds.DatabaseProxy(this, 'DatabaseProxy', {
-          proxyTarget: rds.ProxyTarget.fromCluster(databaseCluster),
-          secrets: [this.secret],
-          vpc: this.vpc,
-          clientPasswordAuthType:
-            rds.ClientPasswordAuthType.MYSQL_NATIVE_PASSWORD,
-        });
+      this.secret = this.createSecret();
+      // create db instance
+      if (props.databaseType === DatabaseType.RDS) {
+        this.dbInstance = this.createRdsInstance(props, dbPort);
       } else {
-        // TODO : Add code for Aurora PostgreSQL cluster
+        // default aurora cluster
+        this.databaseCluster = this.createAuroraCluster(props, dbPort);
       }
+
     }
 
-    let proxyEndpoint='';
-    if (this.proxy) {
-      proxyEndpoint= this.proxy.endpoint;
-    }
+    // let proxyEndpoint='';
+    // if (this.proxy) {
+    //   proxyEndpoint= this.proxy.endpoint;
+    // }
 
     // s3 bucket
     if (props?.existingconfigAssetsBucketObj) {
@@ -459,7 +479,7 @@ export class TextToSql extends BaseClass {
       ),
       vpc: this.vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-      securityGroups: [this.securityGroup],
+      securityGroups: [this.lambdaSecurityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(10),
       tracing: this.lambdaTracing,
@@ -501,7 +521,7 @@ export class TextToSql extends BaseClass {
       ),
       vpc: this.vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-      securityGroups: [this.securityGroup],
+      securityGroups: [this.lambdaSecurityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(10),
       tracing: this.lambdaTracing,
@@ -509,7 +529,7 @@ export class TextToSql extends BaseClass {
       environment: {
         DB_NAME: props.dbName,
         CONFIG_BUCKET: this.configAssetBucket.bucketName,
-        PROXY_ENDPOINT: proxyEndpoint,
+        //PROXY_ENDPOINT: proxyEndpoint,
         SECRET_ARN: this.secret.secretArn,
 
       },
@@ -542,7 +562,7 @@ export class TextToSql extends BaseClass {
       ),
       vpc: this.vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-      securityGroups: [this.securityGroup],
+      securityGroups: [this.lambdaSecurityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(10),
       tracing: this.lambdaTracing,
@@ -550,7 +570,7 @@ export class TextToSql extends BaseClass {
       environment: {
         DB_NAME: props.dbName,
         CONFIG_BUCKET: this.configAssetBucket.bucketName,
-        PROXY_ENDPOINT: proxyEndpoint,
+        //PROXY_ENDPOINT: proxyEndpoint,
         SECRET_ARN: this.secret.secretArn,
       },
     };
@@ -582,7 +602,7 @@ export class TextToSql extends BaseClass {
       ),
       vpc: this.vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
-      securityGroups: [this.securityGroup],
+      securityGroups: [this.lambdaSecurityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(10),
       tracing: this.lambdaTracing,
@@ -880,4 +900,105 @@ export class TextToSql extends BaseClass {
       constructProps,
     );
   }
+
+
+  private validateDbProps(props: TextToSqlProps): void {
+    // Check if existingAuroraDbCluster and databaseClusterProps are set at the same time
+    if (props.existingAuroraDbCluster && props.databaseClusterProps) {
+      throw new Error(
+        'Only one of existingAuroraDbCluster or databaseClusterProps can be set at a time.',
+      );
+    }
+
+    // Check if databaseInstanceProps and existingRdsDbInstance are set at the same time
+    if (props.databaseInstanceProps && props.existingRdsDbInstance) {
+      throw new Error(
+        'Only one of databaseInstanceProps or existingRdsDbInstance can be set at a time.',
+      );
+    }
+
+    // Check if existingAuroraDbCluster and existingRdsDbInstance are set at the same time
+    if (props.existingAuroraDbCluster && props.existingRdsDbInstance) {
+      throw new Error(
+        'Only one of existingAuroraDbCluster or existingRdsDbInstance can be set at a time.',
+      );
+    }
+  }
+
+  private createSecret(): secretsmanager.Secret {
+    return new secretsmanager.Secret(this, 'AuroraSecret' + this.stage, {
+      secretName: 'texttosqldbsecret',
+      generateSecretString: {
+        excludePunctuation: true,
+        passwordLength: 16,
+        secretStringTemplate: JSON.stringify({
+          username: 'admin',
+        }),
+        generateStringKey: 'password',
+      },
+    });
+  }
+
+  private createRdsInstance(props: TextToSqlProps, dbPort: number): rds.DatabaseInstance {
+    switch (props.dbName) {
+      case DbName.MYSQL:
+        const instanceIdentifier = 'mysql-01';
+        return new rds.DatabaseInstance(this, 'MysqlRdsInstance', {
+          vpcSubnets: {
+            onePerAz: true,
+            subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+          },
+          securityGroups: [this.dbSecurityGroup],
+          credentials: rds.Credentials.fromSecret(this.secret),
+          vpc: this.vpc,
+          port: dbPort,
+          databaseName: 'textosqldb' + this.stage,
+          allocatedStorage: 20,
+          instanceIdentifier,
+          engine: rds.DatabaseInstanceEngine.mysql({
+            version: rds.MysqlEngineVersion.VER_8_0_37,
+          }),
+          instanceType: ec2.InstanceType.of(
+            ec2.InstanceClass.T2,
+            ec2.InstanceSize.LARGE,
+          ),
+        });
+      // case DbName.POSTGRESQL:
+      //   // Add code for RDS PostgreSQL instance
+      //   return undefined;
+      default:
+        throw new Error('Invalid database name');
+    }
+  }
+
+  private createAuroraCluster(props: TextToSqlProps, dbPort: number): rds.DatabaseCluster {
+    switch (props.dbName) {
+      case DbName.MYSQL:
+        return new rds.DatabaseCluster(this, 'AuroraCluster', {
+          engine: rds.DatabaseClusterEngine.auroraMysql({
+            version: rds.AuroraMysqlEngineVersion.VER_3_07_0,
+          }),
+          port: dbPort,
+
+          instanceProps: {
+            vpc: this.vpc,
+            vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+            securityGroups: [this.dbSecurityGroup],
+            instanceType: ec2.InstanceType.of(
+              ec2.InstanceClass.BURSTABLE3,
+              ec2.InstanceSize.MEDIUM,
+            ),
+          },
+          instances: 1,
+          defaultDatabaseName: 'textToSQLDatabase',
+        });
+      // case DbName.POSTGRESQL:
+      //   // Add code for Aurora PostgreSQL cluster
+      //   return undefined;
+      default:
+        throw new Error('Invalid database name');
+    }
+  }
 }
+
+

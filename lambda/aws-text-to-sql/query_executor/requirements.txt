@@ -5,3 +5,4 @@ langchain_aws>=0.1.12
 langchain-core>=0.2.22
 langchain>=0.2.10
 langchain_community>=0.2.10
+pymysql>=1.1.1

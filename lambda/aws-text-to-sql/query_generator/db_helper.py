@@ -12,7 +12,7 @@ logger = Logger(service="QUERY_GENERATOR")
 tracer = Tracer(service="QUERY_GENERATOR")
 metrics = Metrics(namespace="textToSql_pipeline", service="QUERY_GENERATOR")
 
-proxy_endpoint = os.environ['PROXY_ENDPOINT']
+#proxy_endpoint = os.environ['PROXY_ENDPOINT']
 secret_arn = os.environ['SECRET_ARN']
 
 
@@ -33,7 +33,7 @@ def get_db_connection(db_name):
                 credentials = get_secret()
                 db_user = credentials['username']
                 db_password = credentials['password']
-                db_host = proxy_endpoint
+                db_host = credentials['host']
                 db_name = credentials['dbname']
                 db_uri = f"mysql+pymysql://{db_user}:{db_password}@{db_host}/{db_name}"
                 
@@ -54,12 +54,17 @@ def get_secret():
         region_name=session.region_name
     )
 
+    print(f"secret_arn :: {secret_arn}")
     get_secret_value_response = client.get_secret_value(
         SecretId=secret_arn
     )
+    
+    print(f"get_secret_value_response :: {get_secret_value_response}")
 
-    if 'dbSecret' in get_secret_value_response:
-        secret = get_secret_value_response['dbSecret']
+    if 'SecretString' in get_secret_value_response:
+        secret = get_secret_value_response['SecretString']
+    else:
+        logger.error("Error: Unable to retrieve texttosqldbsecret value")
     
     logger.info(f'secret :: {secret}')  
     return json.loads(secret)
