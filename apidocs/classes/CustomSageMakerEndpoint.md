@@ -92,6 +92,12 @@ enable disable xray tracing
 
 ***
 
+### errorTopic?
+
+> `readonly` `optional` **errorTopic**: `Topic`
+
+***
+
 ### fieldLogLevel
 
 > **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
@@ -209,6 +215,12 @@ Value will be appended to resources name.
 #### Inherited from
 
 [`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`stage`](SageMakerEndpointBase.md#stage)
+
+***
+
+### successTopic?
+
+> `readonly` `optional` **successTopic**: `Topic`
 
 ***
 

@@ -11,9 +11,9 @@
     "test": "jest"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.521.0",
-    "@aws-sdk/client-s3": "^3.529.1",
-    "@aws-sdk/client-sns": "^3.565.0",
+    "@aws-sdk/client-dynamodb": "^3.621.0",
+    "@aws-sdk/client-s3": "^3.621.0",
+    "@aws-sdk/client-sns": "^3.621.0",
     "@aws-sdk/lib-dynamodb": "^3.521.0",
     "@aws-sdk/lib-storage": "^3.529.1",
     "@mozilla/readability": "^0.5.0",
