@@ -6,7 +6,7 @@ from bedrock import get_llm
 from langchain_core.prompts import  PromptTemplate
 from langchain.chains import  LLMChain
 from config_types import WorkflowStrategy,ConfigFilesName
-from custom_errors import LLMNotLoadedException,FileNotFound
+from custom_errors import LLMNotLoadedException,FileNotFound,GeneratedQueryNotFound
 from db_helper  import get_db_connection
 
 # aws libs
@@ -48,7 +48,12 @@ def handler(event, context: LambdaContext)-> dict:
     user_question = event.get("reformulated_user_question")
     
     print(f"Retrieve schema from:: {db_name}")
-    generated_sql_query = event.get("generated_query")
+    
+    generated_sql_query = event["queryConfig"]["Payload"]["validated_sql_query"]
+    if generated_sql_query is None or generated_sql_query == "":
+        raise GeneratedQueryNotFound("generated_sql_query is None or empty")
+    
+    print(f"generated SQL Query: {generated_sql_query}")
     sql_synth = config.get("sql_synth")
     
     

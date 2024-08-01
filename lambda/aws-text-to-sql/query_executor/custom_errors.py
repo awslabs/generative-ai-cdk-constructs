@@ -8,6 +8,11 @@ class QueryExecutionException(Exception):
         super().__init__(message)
         self.message = f"[502] Failed to run query {message} against DB"
         
+class GeneratedQueryNotFound(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+        self.message = f"[502] Failed to run query {message} against DB"
+        
    
 class FileNotFound(Exception):
     def __init__(self, message):

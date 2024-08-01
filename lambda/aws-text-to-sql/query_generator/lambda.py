@@ -118,13 +118,16 @@ def get_fewshots_static_prompt(event, sql_generation_config,original_user_questi
     else:
         raise ValueError(f"{ConfigFilesName.FEW_SHOTS_JSON} not found in file_contents")
 
-    generated_query = event.get("generated_query", None)
+    
     query_status = event.get("queryStatus", None)
 
     autocorrect = False
     if query_status is not None and query_status.get("Payload").get("status") == "QUERY_ERROR":
         autocorrect = True
         error_message = query_status.get("Payload").get("result")
+        generated_sql_query = event["queryConfig"]["Payload"]["validated_sql_query"]
+        if generated_sql_query is None or generated_sql_query == "":
+            logger.info("generated_sql_query is not found. Generating alternative sql...")
     else:
         logger.info("autocorrect is False, execute query without autocorrect")
 
@@ -137,7 +140,7 @@ def get_fewshots_static_prompt(event, sql_generation_config,original_user_questi
             max_number_few_shots,
             original_user_question,
             error_message,
-            generated_query,
+            generated_sql_query,
             table_info
         )
     else:

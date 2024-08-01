@@ -8,8 +8,7 @@ class StrategyNotFoundException(Exception):
     def __init__(self, message):
         super().__init__(message)
         self.message = f"[503] The selected strategy {message} doesn't exist"
-        
-        
+                
 class QueryGenerationException(Exception):
     def __init__(self, message):
         super().__init__(message)
