@@ -1,0 +1,21 @@
+{
+  "extends": "https://raw.githubusercontent.com/todogroup/repolinter/v0.11.2/rulesets/default.json",
+  "rules": {
+    "github-pull-request-template-exists": {
+      "rule": {
+        "type": "file-existence",
+        "options": {
+          "dirs": true,
+          "globsAny": [
+            "PULL_REQUEST_TEMPLATE*",
+            ".github/PULL_REQUEST_TEMPLATE*",
+            "pull_request_template.md",
+            "docs/pull_request_template.md",
+            "docs/PULL_REQUEST_TEMPLATE*",
+            ".github/pull_request_template.md"
+          ]
+        }
+      }
+    }
+  }
+}
