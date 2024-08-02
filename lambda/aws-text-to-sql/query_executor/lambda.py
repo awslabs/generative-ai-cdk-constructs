@@ -44,12 +44,12 @@ def handler(event, context: LambdaContext)-> dict:
         raise ValueError(f"{ConfigFilesName.WORKFLOW_JSON} not found in file_contents")
     
     
-    execute_query_config = config.get("execute_sql")
-    user_question = event.get("reformulated_user_question")
+    execute_query_config = config.get("execute_sql",None)
+    user_question = event.get("reformulated_user_question",None)
     
     print(f"Retrieve schema from:: {db_name}")
     
-    generated_sql_query = event["queryConfig"]["Payload"]["validated_sql_query"]
+    generated_sql_query = event.get("generated_query",None)
     if generated_sql_query is None or generated_sql_query == "":
         raise GeneratedQueryNotFound("generated_sql_query is None or empty")
     

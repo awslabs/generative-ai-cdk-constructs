@@ -34,7 +34,9 @@
 
 ## Overview
 
-This construct leverages natural language processing (NLP) techniques to generate SQL queries based on user input in natural language form. Given the inherent ambiguity in natural language, the system employs semantic linking, which utilizes a knowledge layer loaded from configuration files or a knowledge base. 
+This CDK construct leverages generative AI capabilities to generate SQL queries based on user input in natural language form.  
+
+Given the inherent ambiguity in natural language, the system employs semantic linking, which utilizes a knowledge layer loaded from configuration files or a knowledge base. 
 
 The semantic linking component reformulates the user's query to disambiguate and clarify the intent. It then prompts the user for feedback on the reformulated query. If the user approves the reformulated query, the construct generates the corresponding SQL query and presents it to the user for further validation.
 

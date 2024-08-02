@@ -128,7 +128,7 @@ def get_fewshots_static_prompt(event, sql_generation_config,original_user_questi
     if query_status is not None and query_status.get("Payload").get("status") == "QUERY_ERROR":
         autocorrect = True
         error_message = query_status.get("Payload").get("result")
-        generated_sql_query = event["queryConfig"]["Payload"]["validated_sql_query"]
+        generated_sql_query = event.get("generated_query", None)
         if generated_sql_query is None or generated_sql_query == "":
             logger.info("generated_sql_query is not found. Generating alternative sql...")
     else:

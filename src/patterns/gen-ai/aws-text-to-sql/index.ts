@@ -42,12 +42,12 @@ import {
 } from '../../../common/helpers/utils';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
-export enum DatabaseType{
+export enum DatabaseType {
   AURORA = 'Aurora',
-  RDS = 'RDS'
+  RDS = 'RDS',
 }
 
-export enum DbName{
+export enum DbName {
   MYSQL = 'MySQL',
   POSTGRESQL = 'PostgreSQL',
 }
@@ -121,25 +121,23 @@ export interface TextToSqlProps {
    */
   readonly existingAuroraDbCluster?: rds.DatabaseCluster;
 
-
   /**
    *  Optional. Aurora Managed DB cluster prps.
    *  Passing existingAuroraDbCluster and databaseClusterProps will result in error.
    */
-  readonly databaseClusterProps ? : rds.DatabaseClusterProps;
+  readonly databaseClusterProps?: rds.DatabaseClusterProps;
 
   /**
    *  Optional. RDS Instance prps.
    *  Passing existingRdsDbInstance and databaseInstanceProps will result in error.
    */
-  readonly databaseInstanceProps ? : rds.DatabaseInstanceProps;
+  readonly databaseInstanceProps?: rds.DatabaseInstanceProps;
 
   /**
    *  Optional. db port number.
    *  @default -3306
    */
-  readonly dbPort ?: number;
-
+  readonly dbPort?: number;
 
   /**
    * Returns the RDS db instance  used by the construct
@@ -209,8 +207,6 @@ export interface TextToSqlProps {
    * @default - None
    */
   readonly existingKnowledgeBaseId?: string;
-
-
 }
 
 export class TextToSql extends BaseClass {
@@ -243,7 +239,6 @@ export class TextToSql extends BaseClass {
    * Returns the instance of RDS proxy used by the construct
    */
   //public readonly proxy: rds.DatabaseProxy | undefined;
-
 
   /**
    * Returns the instance of aurora cluster  used by the construct
@@ -292,20 +287,22 @@ export class TextToSql extends BaseClass {
         vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
         description: 'Subnet group for Aurora Serverless',
       });
-
     }
 
     const dbPort = props.dbPort ? props.dbPort : 3306;
-
 
     // Security group
     if (props?.existingLambdaSecurityGroup) {
       this.lambdaSecurityGroup = props.existingLambdaSecurityGroup;
     } else {
-      this.lambdaSecurityGroup = new ec2.SecurityGroup(this, 'lambdaSecurityGroup', {
-        vpc: this.vpc,
-        allowAllOutbound: true,
-      });
+      this.lambdaSecurityGroup = new ec2.SecurityGroup(
+        this,
+        'lambdaSecurityGroup',
+        {
+          vpc: this.vpc,
+          allowAllOutbound: true,
+        },
+      );
     }
     if (props?.existingDBSecurityGroup) {
       this.dbSecurityGroup = props.existingDBSecurityGroup;
@@ -336,16 +333,23 @@ export class TextToSql extends BaseClass {
       ),
     });
 
-
     // assign existing db or db props
     if (props.existingAuroraDbCluster) {
       this.databaseCluster = props.existingAuroraDbCluster;
     } else if (props.databaseClusterProps) {
-      this.databaseCluster = new rds.DatabaseCluster(this, 'AuroraCluster'+this.stage, props.databaseClusterProps);
+      this.databaseCluster = new rds.DatabaseCluster(
+        this,
+        'AuroraCluster' + this.stage,
+        props.databaseClusterProps,
+      );
     } else if (props.existingRdsDbInstance) {
       this.dbInstance = props.existingRdsDbInstance;
     } else if (props.databaseInstanceProps) {
-      this.dbInstance = new rds.DatabaseInstance(this, 'AuroraInstance'+this.stage, props.databaseInstanceProps);
+      this.dbInstance = new rds.DatabaseInstance(
+        this,
+        'AuroraInstance' + this.stage,
+        props.databaseInstanceProps,
+      );
     } else {
       this.secret = this.createSecret();
       // create db instance
@@ -355,7 +359,6 @@ export class TextToSql extends BaseClass {
         // default aurora cluster
         this.databaseCluster = this.createAuroraCluster(props, dbPort);
       }
-
     }
 
     // let proxyEndpoint='';
@@ -494,7 +497,6 @@ export class TextToSql extends BaseClass {
       },
     };
 
-
     // Lambda function to load  the config and do all pre steps before query generation.
     const reformulateQuestionFunction = buildDockerLambdaFunction(
       this,
@@ -531,7 +533,6 @@ export class TextToSql extends BaseClass {
         CONFIG_BUCKET: this.configAssetBucket.bucketName,
         //PROXY_ENDPOINT: proxyEndpoint,
         SECRET_ARN: this.secret.secretArn,
-
       },
     };
 
@@ -638,7 +639,6 @@ export class TextToSql extends BaseClass {
       visibilityTimeout: Duration.seconds(3600),
     });
 
-
     this.secret.grantRead(queryGeneratorFunction);
     this.secret.grantRead(queryExecutorFunction);
 
@@ -679,66 +679,31 @@ export class TextToSql extends BaseClass {
       },
     );
 
-    const generatedQueryFeedbackOneState = new tasks.SqsSendMessage(
-      this,
-      'get_feedback_on_generated_query_path_one',
-      {
-        queue,
-        messageBody: stepfunctions.TaskInput.fromObject({
-          message:
-            'Following is the generated query. Do you agree with it or want to override?',
-          generated_query: stepfunctions.JsonPath.stringAt(
-            '$.queryConfig.Payload.validated_sql_query',
-          ),
-          reformualted_question: stepfunctions.TaskInput.fromJsonPathAt(
-            '$.reformulated_user_question',
-          ),
-          user_question:
-            stepfunctions.TaskInput.fromJsonPathAt('$.user_question'),
-          question_unique_id: stepfunctions.TaskInput.fromJsonPathAt(
-            '$.question_unique_id',
-          ),
-          TaskToken: stepfunctions.JsonPath.taskToken,
-        }),
-        integrationPattern:
-          stepfunctions.IntegrationPattern.WAIT_FOR_TASK_TOKEN,
-      },
-    );
-
-    const generatedQueryFeedbackTwoState = new tasks.SqsSendMessage(
-      this,
-      'get_feedback_on_generated_query_path_two',
-      {
-        queue,
-        messageBody: stepfunctions.TaskInput.fromObject({
-          message:
-            'Following is the generated query. Do you agree with it or want to override?',
-          generated_query: stepfunctions.JsonPath.stringAt(
-            '$.queryConfig.Payload.validated_sql_query',
-          ),
-          reformualted_question: stepfunctions.TaskInput.fromJsonPathAt(
-            '$.reformulated_user_question',
-          ),
-          user_question:
-            stepfunctions.TaskInput.fromJsonPathAt('$.user_question'),
-          question_unique_id: stepfunctions.TaskInput.fromJsonPathAt(
-            '$.question_unique_id',
-          ),
-          TaskToken: stepfunctions.JsonPath.taskToken,
-        }),
-        integrationPattern:
-          stepfunctions.IntegrationPattern.WAIT_FOR_TASK_TOKEN,
-      },
-    );
-
-    const queryGeneratorOneState = new tasks.LambdaInvoke(
-      this,
-      'generate_query_path_one',
-      {
-        lambdaFunction: queryGeneratorFunction,
-        resultPath: '$.queryConfig',
-      },
-    );
+    // const generatedQueryFeedbackTwoState = new tasks.SqsSendMessage(
+    //   this,
+    //   'get_feedback_on_generated_query_path_two',
+    //   {
+    //     queue,
+    //     messageBody: stepfunctions.TaskInput.fromObject({
+    //       message:
+    //         'Following is the generated query. Do you agree with it or want to override?',
+    //       generated_query: stepfunctions.JsonPath.stringAt(
+    //         '$.queryConfig.Payload.validated_sql_query',
+    //       ),
+    //       reformualted_question: stepfunctions.TaskInput.fromJsonPathAt(
+    //         '$.reformulated_user_question',
+    //       ),
+    //       user_question:
+    //         stepfunctions.TaskInput.fromJsonPathAt('$.user_question'),
+    //       question_unique_id: stepfunctions.TaskInput.fromJsonPathAt(
+    //         '$.question_unique_id',
+    //       ),
+    //       TaskToken: stepfunctions.JsonPath.taskToken,
+    //     }),
+    //     integrationPattern:
+    //       stepfunctions.IntegrationPattern.WAIT_FOR_TASK_TOKEN,
+    //   },
+    // );
 
     const alternateQueryGeneratorState = new tasks.LambdaInvoke(
       this,
@@ -783,14 +748,14 @@ export class TextToSql extends BaseClass {
       },
     );
 
-    const queryGeneratorTwoState = new tasks.LambdaInvoke(
-      this,
-      'generate_query_path_two',
-      {
-        lambdaFunction: queryGeneratorFunction,
-        resultPath: '$.queryConfig',
-      },
-    );
+    // const queryGeneratorTwoState = new tasks.LambdaInvoke(
+    //   this,
+    //   'generate_query_path_two',
+    //   {
+    //     lambdaFunction: queryGeneratorFunction,
+    //     resultPath: '$.queryConfig',
+    //   },
+    // );
 
     const outputState = new tasks.SqsSendMessage(this, 'publish_query_result', {
       queue: outputQueue,
@@ -805,6 +770,22 @@ export class TextToSql extends BaseClass {
         ),
       }),
     });
+
+    const alternateQueryCorrectChoiceState = new stepfunctions.Choice(
+      this,
+      'is_alternate_query_correct?',
+      {
+        //inputPath: '$.queryStatus.Payload',
+      },
+    );
+    const alternateQueryExecutorState = new tasks.LambdaInvoke(this, 'execute_alternate_query', {
+      lambdaFunction: queryExecutorFunction,
+      resultPath: '$.queryStatus',
+    }).next(alternateQueryCorrectChoiceState.when(
+      stepfunctions.Condition.stringEquals(
+        '$.queryStatus.Payload.status',
+        'QUERY_ERROR',
+      ), iteratorState).otherwise(outputState));
 
     const queryExecutorState = new tasks.LambdaInvoke(this, 'execute_query', {
       lambdaFunction: queryExecutorFunction,
@@ -825,7 +806,7 @@ export class TextToSql extends BaseClass {
                     '$.iterator.Payload.continue',
                     true,
                   ),
-                  alternateQueryGeneratorState.next(iteratorState),
+                  alternateQueryGeneratorState.next(alternateQueryExecutorState),
                 )
                 .otherwise(outputState),
             ),
@@ -840,30 +821,76 @@ export class TextToSql extends BaseClass {
         inputPath: '$.queryConfig.Payload',
       },
     );
-    const feedbackChoiceStateTwo = new stepfunctions.Choice(
-      this,
-      'is_feedback_req_on_generated_query_path_two?',
-      {},
-    );
-    const feedbackChoiceStateThree = new stepfunctions.Choice(
-      this,
-      'is_feedback_req_on_generated_query_path_one?',
-      {},
-    );
+    // const feedbackChoiceStateTwo = new stepfunctions.Choice(
+    //   this,
+    //   'is_feedback_req_on_generated_query_path_two?',
+    //   {},
+    // );
 
     const executeQueryChoiceState = new stepfunctions.Choice(
       this,
       'is_query_execution_req?',
       {},
-    ).when(
-      stepfunctions.Condition.stringEquals(
-        '$.queryConfig.Payload.execute_sql_strategy',
-        'disabled',
-      ),
-      outputState,
-    ).otherwise(queryExecutorState);
+    )
+      .when(
+        stepfunctions.Condition.stringEquals(
+          '$.execute_sql_strategy',
+          'disabled',
+        ),
+        outputState,
+      )
+      .otherwise(queryExecutorState);
+
+    const generatedQueryFeedbackState = new tasks.SqsSendMessage(
+      this,
+      'get_feedback_on_generated_query',
+      {
+        queue,
+        messageBody: stepfunctions.TaskInput.fromObject({
+          message:
+            'Following is the generated query. Do you agree with it or want to override?',
+          generated_query: stepfunctions.JsonPath.stringAt(
+            '$.queryConfig.Payload.validated_sql_query',
+          ),
+          reformualted_question: stepfunctions.TaskInput.fromJsonPathAt(
+            '$.reformulated_user_question',
+          ),
+          user_question:
+            stepfunctions.TaskInput.fromJsonPathAt('$.user_question'),
+          question_unique_id: stepfunctions.TaskInput.fromJsonPathAt(
+            '$.question_unique_id',
+          ),
+          execute_sql_strategy: stepfunctions.TaskInput.fromJsonPathAt(
+            '$.queryConfig.Payload.execute_sql_strategy',
+          ),
+          TaskToken: stepfunctions.JsonPath.taskToken,
+        }),
+        integrationPattern:
+          stepfunctions.IntegrationPattern.WAIT_FOR_TASK_TOKEN,
+      },
+    ).next(executeQueryChoiceState);
+
+    const generateQueryfeedbackChoiceState = new stepfunctions.Choice(
+      this,
+      'is_feedback_req_on_generated_query ?',
+      {},
+    )
+      .when(
+        stepfunctions.Condition.stringEquals(
+          '$.queryConfig.Payload.sql_validation_strategy',
+          'human',
+        ),
+        generatedQueryFeedbackState,
+      )
+      .otherwise(executeQueryChoiceState);
+
+    const queryGeneratorState = new tasks.LambdaInvoke(this, 'generate_query', {
+      lambdaFunction: queryGeneratorFunction,
+      resultPath: '$.queryConfig',
+    }).next(generateQueryfeedbackChoiceState);
 
 
+    //create step function with event bridge
     const constructProps: EventbridgeToStepfunctionsProps = {
       stateMachineProps: {
         definition: reformulateQuestionState.next(
@@ -873,34 +900,9 @@ export class TextToSql extends BaseClass {
                 '$.semantic_layer_strategy',
                 'human',
               ),
-              reformulatedQuestionFeedbackState.next(
-                queryGeneratorOneState.next(
-                  feedbackChoiceStateThree
-                    .when(
-                      stepfunctions.Condition.stringEquals(
-                        '$.queryConfig.Payload.sql_validation_strategy',
-                        'human',
-                      ),
-                      generatedQueryFeedbackOneState.next(executeQueryChoiceState,
-                      ),
-                    )
-                    .otherwise(executeQueryChoiceState),
-                ),
-              ),
+              reformulatedQuestionFeedbackState.next(queryGeneratorState),
             )
-            .otherwise(
-              queryGeneratorTwoState.next(
-                feedbackChoiceStateTwo
-                  .when(
-                    stepfunctions.Condition.stringEquals(
-                      '$.queryConfig.Payload.sql_validation_strategy',
-                      'human',
-                    ),
-                    generatedQueryFeedbackTwoState.next(executeQueryChoiceState),
-                  )
-                  .otherwise(executeQueryChoiceState),
-              ),
-            ),
+            .otherwise(queryGeneratorState),
         ),
       },
       eventRuleProps: {
@@ -914,7 +916,6 @@ export class TextToSql extends BaseClass {
       constructProps,
     );
   }
-
 
   private validateDbProps(props: TextToSqlProps): void {
     // Check if existingAuroraDbCluster and databaseClusterProps are set at the same time
@@ -953,7 +954,10 @@ export class TextToSql extends BaseClass {
     });
   }
 
-  private createRdsInstance(props: TextToSqlProps, dbPort: number): rds.DatabaseInstance {
+  private createRdsInstance(
+    props: TextToSqlProps,
+    dbPort: number,
+  ): rds.DatabaseInstance {
     switch (props.dbName) {
       case DbName.MYSQL:
         const instanceIdentifier = 'mysql-01';
@@ -985,7 +989,10 @@ export class TextToSql extends BaseClass {
     }
   }
 
-  private createAuroraCluster(props: TextToSqlProps, dbPort: number): rds.DatabaseCluster {
+  private createAuroraCluster(
+    props: TextToSqlProps,
+    dbPort: number,
+  ): rds.DatabaseCluster {
     switch (props.dbName) {
       case DbName.MYSQL:
         return new rds.DatabaseCluster(this, 'AuroraCluster', {
@@ -1014,5 +1021,3 @@ export class TextToSql extends BaseClass {
     }
   }
 }
-
-
