@@ -28,7 +28,7 @@ This construct library provides a resource that creates a vector index on an Ama
 
 ## API
 
-See the [API documentation](../../../apidocs/modules/opensearchserverless.md).
+See the [API documentation](../../../apidocs/namespaces/opensearch_vectorindex/README.md).
 
 ## Vector Index
 
