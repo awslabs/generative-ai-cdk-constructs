@@ -196,7 +196,7 @@ export function createOpenSearchVpcEndpoint(scope: Construct, vpc: IVpc, sg: ec2
       handler: 'custom_resources.on_event',
       runtime: lambda.Runtime.PYTHON_3_12,
     });
-    new CustomResource(scope, 'OpenSearchVpcEndpointCR', {
+    new CustomResource(scope, `OpenSearchVpcEndpointCR-${vpc.node.id}`, {
       serviceToken: openSearchVpcEndpointCRProvider.getProvider(scope).serviceToken,
       properties: {
         Endpoint: props?.existingOpensearchDomain.domainEndpoint,
