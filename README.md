@@ -28,6 +28,7 @@
 - [Contributors](#contributors)
 - [Operational Metrics Collection](#operational-metrics-collection)
 - [Roadmap](#roadmap)
+- [License](#license)
 - [Legal Disclaimer](#legal-disclaimer)
 
 ## Introduction
@@ -130,6 +131,10 @@ Generative AI CDK Constructs may collect anonymous operational metrics, includin
 ## Roadmap
 
 Roadmap is available through the [GitHub Project](https://github.com/orgs/awslabs/projects/136)
+
+## License
+
+Apache-2.0
 
 ## Legal Disclaimer
 
