@@ -69,6 +69,25 @@ If you want to add a new construct to the library, check out our [design guideli
 - Import the library:
   - `import cdklabs.generative_ai_cdk_constructs`
 
+### For NuGet
+
+- Create or use an existing CDK application in Python
+  - `cdk init app --language csharp`
+- Install the package while in the Visual Studio project:
+  - `dotnet add package CdkLabs.GenerativeAICdkConstructs`
+- Use the namespace:
+  - `using Cdklabs.GenerativeAiCdkConstructs;`
+
+### For Go
+- Create or use an existing CDK application in Python
+  - `cdk init app --language go`
+- Get the module:
+  - `go get github.com/cdklabs/generative-ai-cdk-constructs-go/generative-ai-cdk-constructs`
+- Import the library:
+  - `import "github.com/cdklabs/generative-ai-cdk-constructs-go/generative-ai-cdk-constructs"`
+
+_NOTE: The [Go distribution repository](https://github.com/cdklabs/generative-ai-cdk-constructs-go), distributes the JSII tar gzipped versioned source from the [source repository](https://github.awslabs/generative-ai-cdk-constructs)_
+
 Refer to the documentation for additional guidance on a particular construct: [Catalog](#catalog)
 
 ## Catalog
