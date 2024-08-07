@@ -25,7 +25,7 @@ This construct library provides a class that defines an existing Pinecone databa
 - [Pinecone Vector Store](#pinecone-vector-store)
 
 ## API
-See the [API documentation](../../../apidocs/modules/pinecone.md).
+See the [API documentation](../../../apidocs/namespaces/pinecone/README.md).
 
 ## Pinecone Vector Store
 
