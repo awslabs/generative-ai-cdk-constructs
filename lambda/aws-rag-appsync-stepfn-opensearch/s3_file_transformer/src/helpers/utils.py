@@ -65,14 +65,14 @@ def transform_image_document(input_bucket: str,file_name: str,output_bucket: str
         if(imt_object.check_moderation()):
                 return 'Image not supported'
         else:
-                result_lables = imt_object.detect_image_lables()
+                result_labels = imt_object.detect_image_lables()
                                
                 name, extension = os.path.splitext(file_name)
-                lables_txt= convert_lables_to_sentence(result_lables)            
+                labels_txt= convert_lables_to_sentence(result_labels)
                 
                 # upload descriptive text file as .txt for ingested image
                 with open (os.path.join(tempfile.gettempdir(), name+'.txt'),'w') as f:
-                         f.write(json.dumps(lables_txt))  
+                         f.write(json.dumps(labels_txt))
                 #s3.upload_file('/tmp/'+name+'.txt',output_bucket,name+".txt")
                 upload_file(output_bucket,f'{name}.txt',f'{name}.txt')
                 
