@@ -8,6 +8,7 @@ queue_rules:
       - -label~=(do-not-merge)
       - status-success=build
       - status-success=package-js
+      - status-success=package-java
       - status-success=package-python
       - status-success=package-dotnet
 pull_request_rules:
@@ -26,5 +27,6 @@ pull_request_rules:
       - -label~=(do-not-merge)
       - status-success=build
       - status-success=package-js
+      - status-success=package-java
       - status-success=package-python
       - status-success=package-dotnet
