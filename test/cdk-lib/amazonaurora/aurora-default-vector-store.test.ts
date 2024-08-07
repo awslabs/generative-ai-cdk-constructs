@@ -12,6 +12,7 @@
  */
 import * as cdk from 'aws-cdk-lib';
 import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
+import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag';
 import { AmazonAuroraDefaultVectorStore } from '../../../src/cdk-lib/amazonaurora';
 import { BedrockFoundationModel } from '../../../src/cdk-lib/bedrock/models';
@@ -21,6 +22,7 @@ describe('Amazon Aurora Default Vector Store', () => {
   let stack: cdk.Stack;
   let template: Template;
   let model: BedrockFoundationModel;
+  let vpc: Vpc;
 
   beforeAll(() => {
     app = new cdk.App();
@@ -32,6 +34,7 @@ describe('Amazon Aurora Default Vector Store', () => {
       },
     });
     model = BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3;
+    vpc = new Vpc(stack, 'Vpc', { maxAzs: 2 });
   });
 
   describe('Default Amazon Aurora Default Vector Store', () => {
@@ -40,6 +43,7 @@ describe('Amazon Aurora Default Vector Store', () => {
     beforeAll(() => {
       auroraDefaultVectorStore = new AmazonAuroraDefaultVectorStore(stack, 'AuroraVectorStore', {
         embeddingsModelVectorDimension: model.vectorDimensions!,
+        vpc: vpc,
       });
 
       NagSuppressions.addResourceSuppressionsByPath(
@@ -65,6 +69,10 @@ describe('Amazon Aurora Default Vector Store', () => {
     test('Should create AmazonAuroraDefaultVectorStore resources', () => {
       template.resourceCountIs('AWS::RDS::DBCluster', 1);
       template.resourceCountIs('Custom::AmazonAuroraPgVector', 1);
+    });
+
+    test('Should use existing VPC', () => {
+      expect(auroraDefaultVectorStore.vpc).toEqual(vpc);
     });
 
     test('Should have correct properties', () => {
