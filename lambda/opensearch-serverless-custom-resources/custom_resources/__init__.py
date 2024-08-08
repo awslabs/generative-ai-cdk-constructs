@@ -19,7 +19,6 @@ import time
 
 from .cr_types import CustomResourceRequest, CustomResourceResponse
 from .opensearch_index import on_event as on_event_opensearch_index
-from .opensearch_vpc_endpoint import on_event as on_event_opensearch_vpc_endpoint
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
@@ -33,8 +32,6 @@ def on_event(event: CustomResourceRequest, context):
 
     if resource_type == "Custom::OpenSearchIndex":
         return on_event_opensearch_index(event, context)
-    if resource_type == "Custom::VpcEndpoint":
-        return on_event_opensearch_vpc_endpoint(event, context)
     if resource_type == "Custom::NoOp":
         logger.info("NoOp resource type")
         # Return a response with a physical resource ID that is not empty.
