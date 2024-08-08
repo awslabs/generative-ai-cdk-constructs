@@ -13,7 +13,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/cdklabs.generative-ai-cdk-constructs)](https://pypi.org/project/cdklabs.generative-ai-cdk-constructs/)
 [![npm version](https://img.shields.io/npm/v/@cdklabs/generative-ai-cdk-constructs)](https://www.npmjs.com/package/@cdklabs/generative-ai-cdk-constructs)
 [![NuGet Version](https://img.shields.io/nuget/v/Cdklabs.GenerativeAiCdkConstructs)](https://nuget.info/packages/Cdklabs.GenerativeAiCdkConstructs)
-[![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/cdklabs/generative-ai-cdk-constructs-go?filename=generative-ai-cdk-constructs%2Fgo.mod)](https://github.com/cdklabs/generative-ai-cdk-constructs-go)
+[![GitHub Tag](https://img.shields.io/github/v/tag/awslabs/generative-ai-cdk-constructs?label=go&color=orange)](https://github.com/cdklabs/generative-ai-cdk-constructs-go)
 
 ## Table of contents
 
