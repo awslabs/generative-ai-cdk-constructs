@@ -35,6 +35,7 @@ import { ConstructName } from '../../../common/base-class';
 import { BaseClass, BaseClassProps } from '../../../common/base-class/base-class';
 import * as s3_bucket_helper from '../../../common/helpers/s3-bucket-helper';
 import * as vpc_helper from '../../../common/helpers/vpc-helper';
+import { ServiceEndpointTypeEnum } from '../../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
 
 export interface CrawlerTarget {
   /**
@@ -201,24 +202,13 @@ export class WebCrawler extends BaseClass {
       this.vpc = new ec2.Vpc(this, 'webCrawlerVpc', {
         createInternetGateway: true,
         natGateways: 1,
-        subnetConfiguration: [
-          {
-            name: 'public',
-            subnetType: ec2.SubnetType.PUBLIC,
-            cidrMask: 24,
-          },
-          {
-            cidrMask: 18,
-            name: 'isolated',
-            subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
-          },
-        ],
       });
-
-      // add VPC endpoints for the compute environment
-      vpc_helper.AddAwsServiceEndpoint(this, this.vpc, [vpc_helper.ServiceEndpointTypeEnum.ECR_API,
-        vpc_helper.ServiceEndpointTypeEnum.ECR_DKR, vpc_helper.ServiceEndpointTypeEnum.S3]);
     }
+
+    // add VPC endpoints for the compute environment
+    vpc_helper.AddAwsServiceEndpoint(this, this.vpc, ServiceEndpointTypeEnum.ECR_API);
+    vpc_helper.AddAwsServiceEndpoint(this, this.vpc, ServiceEndpointTypeEnum.ECR_DKR);
+    vpc_helper.AddAwsServiceEndpoint(this, this.vpc, ServiceEndpointTypeEnum.S3);
 
     // vpc flowloggroup
     const logGroup = new logs.LogGroup(this, 'webCrawlerConstructLogGroup');
@@ -363,7 +353,7 @@ export class WebCrawler extends BaseClass {
       replaceComputeEnvironment: true,
       updateTimeout: cdk.Duration.minutes(30),
       updateToLatestImageVersion: true,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
     });
 
     const jobQueue = new batch.JobQueue(this, 'webCrawlerJobQueue', {
