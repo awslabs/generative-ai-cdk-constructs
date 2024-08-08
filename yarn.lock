@@ -1397,9 +1397,9 @@ aws-sdk-mock@^5.9.0:
     traverse "^0.6.6"
 
 aws-sdk@^2.1231.0:
-  version "2.1669.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1669.0.tgz#23aae49658cd199b08b59d9b36cb51a1ab71ed96"
-  integrity sha512-ua3AfvS2rUiOpf9choxNXLKE3T70yY6klGovdekXd5ZTwzDXQoYw1dokfArIub/2BM9Dmgi/bFq/crnz83tX0w==
+  version "2.1670.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1670.0.tgz#5b09589193c47915e98d8eb17aba1a85de4fd033"
+  integrity sha512-OvHPuCKubcp5u0xbfqxSYjGnNiK38ZF52Gsog185UgaO4LfGL51QXs974XLub4rztLa3/qOGynKI3bpFsbSQoA==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -1578,19 +1578,19 @@ camelcase@^6.2.0, camelcase@^6.3.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001646:
-  version "1.0.30001649"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001649.tgz#3ec700309ca0da2b0d3d5fb03c411b191761c992"
-  integrity sha512-fJegqZZ0ZX8HOWr6rcafGr72+xcgJKI9oWfDW5DrD7ExUtgZC7a7R7ZYmZqplh7XDocFdGeIFn7roAxhOeYrPQ==
+  version "1.0.30001650"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001650.tgz#dd1eba0938e39536d184c3c99b2569a13788bc16"
+  integrity sha512-fgEc7hP/LB7iicdXHUI9VsBsMZmUmlVJeQP2qqQW+3lkqVhbmjEU8zp+h5stWeilX+G7uXuIUIIlWlDw9jdt8g==
 
 case@1.6.3, case@^1.6.3:
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-nag@^2.28.174:
-  version "2.28.174"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.174.tgz#3b6ebdcfb1ced3068f09a4f15b0b45d8849bc0b9"
-  integrity sha512-gqFUAdO0NUxcj5w8uahes2O2heKttl65N4WNASZ3QrB1krSMsPvfDqlG7Ua4iaqG9Rjn4RvmerUjsn1DLcw5+w==
+cdk-nag@^2.28.175:
+  version "2.28.175"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.175.tgz#83aa76ef74e5834d9902563dd3bb49fec101bb18"
+  integrity sha512-8CdL5D2/56E9ieEnY1e479wcJ6rIX58ZarEdq2gkpRXWFWJ/JVVfdcc4eWPVE6YL7dyPea+V/XsktyrPIDoOuw==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -5535,9 +5535,9 @@ typescript@^5.5.4:
   integrity sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==
 
 typescript@next:
-  version "5.6.0-dev.20240806"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.6.0-dev.20240806.tgz#f8f4701cb4a8f2ef6c71e314292f5c1b1f3973ad"
-  integrity sha512-Z1wBRhFTpBIiu3jcsAkMBdefugM+kECHRO22B9Ai6D1CiHZjdvE+QLDThIoPbGFHvsEyR4gP8/0pv93QKPtcJQ==
+  version "5.6.0-dev.20240807"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.6.0-dev.20240807.tgz#2c3eee13cdd8a251607fadd29a7f181758d5191f"
+  integrity sha512-+5sI7HI0VR04hysSSG6XUTEXoUf4nZTMc+p7WLpdWmxqYVO/dodTdMbWRw+JeKNPW9tXzJ66jrGvED+hfBmizw==
 
 typescript@~5.4:
   version "5.4.5"
