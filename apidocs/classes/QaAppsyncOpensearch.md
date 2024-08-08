@@ -28,7 +28,7 @@ represents the scope for all the resources.
 
 • **id**: `string`
 
-this is a a scope-unique id.
+this is a scope-unique id.
 
 • **props**: [`QaAppsyncOpensearchProps`](../interfaces/QaAppsyncOpensearchProps.md)
 
