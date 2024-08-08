@@ -190,6 +190,10 @@ project.npmignore?.addPatterns(
   'tsconfig.dev.json',
   'yarn.lock',
   '/apidocs/',
+  'repolinter.json',
+  'commitlint.config.js',
+  '.ort.yml',
+  '.husky',
 );
 
 // Add License header automatically
