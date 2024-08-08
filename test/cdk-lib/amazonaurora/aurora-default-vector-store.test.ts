@@ -12,7 +12,7 @@
  */
 import * as cdk from 'aws-cdk-lib';
 import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
-import { Vpc, SubnetType } from 'aws-cdk-lib/aws-ec2';
+import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag';
 import { AmazonAuroraDefaultVectorStore } from '../../../src/cdk-lib/amazonaurora';
 import { BedrockFoundationModel } from '../../../src/cdk-lib/bedrock/models';
@@ -36,14 +36,6 @@ describe('Amazon Aurora Default Vector Store', () => {
     model = BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3;
     vpc = new Vpc(stack, 'Vpc', {
       maxAzs: 2,
-      natGateways: 0,
-      subnetConfiguration: [
-        {
-          cidrMask: 18,
-          name: 'isolated',
-          subnetType: SubnetType.PRIVATE_ISOLATED,
-        },
-      ],
     });
   });
 
