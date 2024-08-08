@@ -28,7 +28,7 @@ This construct library includes CloudFormation L1 resources to deploy Bedrock fe
 - [Agents](#agents)
 
 ## API
-See the [API documentation](../../../apidocs/modules/bedrock.md).
+See the [API documentation](../../../apidocs/namespaces/bedrock/README.md).
 
 ## Knowledge Bases
 With Knowledge Bases for Amazon Bedrock, you can give FMs and agents contextual information from your company’s private data sources for Retrieval Augmented Generation (RAG) to deliver more relevant, accurate, and customized responses.
