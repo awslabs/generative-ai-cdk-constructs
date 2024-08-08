@@ -91,6 +91,11 @@ const project = new awscdk.AwsCdkConstructLibrary({
     packageId: camelCaseIt(PUBLICATION_NAMESPACE)+'.'+camelCaseIt(PROJECT_NAME),
   },
 
+  publishToGo: {
+    moduleName: `github.com/${PUBLICATION_NAMESPACE}/${PROJECT_NAME}-go`,
+    packageName: PROJECT_NAME,
+  },
+
   codeCov: true,
   codeCovTokenSecret: 'CODECOV_TOKEN',
 
@@ -151,6 +156,7 @@ project.github?.actions.set('actions/download-artifact@v4', 'actions/download-ar
 project.github?.actions.set('actions/github-script@v6', 'actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410');
 project.github?.actions.set('actions/setup-dotnet@v3', 'actions/setup-dotnet@4d6c8fcf3c8f7a60068d26b594648e99df24cee3');
 project.github?.actions.set('actions/setup-dotnet@v4', 'actions/setup-dotnet@4d6c8fcf3c8f7a60068d26b594648e99df24cee3');
+project.github?.actions.set('actions/setup-go@v5', 'actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32');
 project.github?.actions.set('actions/setup-node@v3', 'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8'); // https://github.com/projen/projen/issues/3529
 project.github?.actions.set('actions/setup-node@v4', 'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8');
 project.github?.actions.set('actions/setup-python@v4', 'actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d'); // https://github.com/projen/projen/issues/3529
