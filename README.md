@@ -12,6 +12,7 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/cdklabs.generative-ai-cdk-constructs)](https://pypi.org/project/cdklabs.generative-ai-cdk-constructs/)
 [![npm version](https://img.shields.io/npm/v/@cdklabs/generative-ai-cdk-constructs)](https://www.npmjs.com/package/@cdklabs/generative-ai-cdk-constructs)
+[![NuGet Version](https://img.shields.io/nuget/v/Cdklabs.GenerativeAiCdkConstructs)](https://nuget.info/packages/Cdklabs.GenerativeAiCdkConstructs)
 
 ## Table of contents
 
@@ -66,6 +67,15 @@ If you want to add a new construct to the library, check out our [design guideli
   - `pip install cdklabs.generative-ai-cdk-constructs`
 - Import the library:
   - `import cdklabs.generative_ai_cdk_constructs`
+
+### For NuGet
+
+- Create or use an existing CDK application in Python
+  - `cdk init app --language csharp`
+- Install the package while in the Visual Studio project:
+  - `dotnet add package CdkLabs.GenerativeAICdkConstructs`
+- Use the namespace:
+  - `using Cdklabs.GenerativeAiCdkConstructs;`
 
 Refer to the documentation for additional guidance on a particular construct: [Catalog](#catalog)
 

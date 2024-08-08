@@ -10,6 +10,9 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+import * as path from 'path';
+import { CustomResource } from 'aws-cdk-lib';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import {
   CfnSubnet,
   FlowLog,
@@ -21,20 +24,50 @@ import {
   Vpc,
   VpcProps,
 } from 'aws-cdk-lib/aws-ec2';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { CfnLogGroup } from 'aws-cdk-lib/aws-logs';
+import { CfnVpcEndpoint } from 'aws-cdk-lib/aws-opensearchserverless';
 import { Construct } from 'constructs';
 import { buildSecurityGroup } from './kendra-helper';
+import { OpenSearchProps } from './opensearch-helper';
 import { addCfnSuppressRules } from './utils';
+import { buildCustomResourceProvider } from '../../common/helpers/custom-resource-provider-helper';
 import {
-  EndpointDefinition,
   EndpointTypes,
-  ServiceEndpointTypeEnum,
 } from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
 
 export interface VpcPropsSet {
   readonly existingVpc?: IVpc;
   readonly vpcProps?: VpcProps;
   readonly deployVpc?: boolean;
+}
+
+export interface EndpointDefinition {
+  endpointName: ServiceEndpointTypeEnum;
+  endpointType: EndpointTypes;
+  endpointGatewayService?: ec2.GatewayVpcEndpointAwsService;
+  endpointInterfaceService?: ec2.InterfaceVpcEndpointAwsService;
+}
+
+export enum ServiceEndpointTypeEnum {
+  DYNAMODB = 'DDB',
+  ECR_API = 'ECR_API',
+  ECR_DKR = 'ECR_DKR',
+  EVENTS = 'CLOUDWATCH_EVENTS',
+  KENDRA = 'KENDRA',
+  KINESIS_FIREHOSE = 'KINESIS_FIREHOSE',
+  KINESIS_STREAMS = 'KINESIS_STREAMS',
+  S3 = 'S3',
+  SAGEMAKER_RUNTIME = 'SAGEMAKER_RUNTIME',
+  SECRETS_MANAGER = 'SECRETS_MANAGER',
+  SNS = 'SNS',
+  SQS = 'SQS',
+  SSM = 'SSM',
+  STEP_FUNCTIONS = 'STEP_FUNCTIONS',
+  BEDROCK_RUNTIME = 'BEDROCK_RUNTIME',
+  COMPREHEND = 'COMPREHEND',
+  REKOGNITION = 'REKOGNITION',
+  APP_SYNC = 'APP_SYNC'
 }
 
 export function CheckVpcProps(propsObject: VpcPropsSet | any) {
@@ -60,7 +93,7 @@ export interface BuildVpcProps {
   /**
    * One of the default VPC configurations available in vpc-defaults
    */
-  readonly defaultVpcProps: VpcProps;
+  readonly defaultVpcProps?: VpcProps;
   /**
    * User provided props to override the default props for the VPC.
    */
@@ -70,21 +103,26 @@ export interface BuildVpcProps {
    * and user props for the VPC.
    */
   readonly constructVpcProps?: VpcProps;
+  /**
+   * Name for construct managed VPC.
+   */
+  readonly vpcName: string;
 }
+
 
 export function buildVpc(scope: Construct, props: BuildVpcProps): IVpc {
   if (props?.existingVpc) {
     return props?.existingVpc;
   }
 
-  let defaultVpcProps= DefaultVpcProps();
+  let defaultVpcProps= createDefaultIsolatedVpcProps();
 
   let cumulativeProps: VpcProps = defaultVpcProps;
 
   // Merge props provided by construct builder and by the end user
   // If user provided props are empty, the vpc will use only the builder provided props
   //cumulativeProps = consolidateProps(cumulativeProps, props?.userVpcProps, props?.constructVpcProps);
-  const vpc = new Vpc(scope, 'Vpc', cumulativeProps);
+  const vpc = new Vpc(scope, props.vpcName, cumulativeProps);
 
   // Add VPC FlowLogs with the default setting of trafficType:ALL and destination: CloudWatch Logs
   const flowLog: FlowLog = vpc.addFlowLog('FlowLog');
@@ -102,12 +140,12 @@ export function getPrivateSubnetIDs (vpc: IVpc): string [] {
 }
 
 // get lambda security group for passed VPC
-export function getlambdaSecuritygroup(scope: Construct, vpc: IVpc): SecurityGroup {
+export function getlambdaSecuritygroup(scope: Construct, vpc: IVpc, id: string): SecurityGroup {
   let lambdaSecurityGroup= new SecurityGroup(scope, 'lambdaSecurityGroup', {
     vpc: vpc,
     allowAllOutbound: true,
     description: 'security group for lambda',
-    securityGroupName: 'lambdaSecurityGroup',
+    securityGroupName: `lambdaSecurityGroup-${id}`,
   });
   return lambdaSecurityGroup;
 }
@@ -141,6 +179,35 @@ export function DefaultVpcProps(): VpcProps {
   };
 }
 
+export function createOpenSearchVpcEndpoint(scope: Construct, vpc: IVpc, sg: ec2.ISecurityGroup, props: OpenSearchProps) {
+  if (props?.existingOpensearchServerlessCollection) {
+    new CfnVpcEndpoint(scope, `${vpc.node.id}-VpcEndpoint`, {
+      name: `${vpc.node.id.toLocaleLowerCase()}-ep`,
+      vpcId: vpc.vpcId,
+      subnetIds: vpc.selectSubnets({ subnetType: ec2.SubnetType.PRIVATE_ISOLATED }).subnetIds,
+      securityGroupIds: [sg.securityGroupId],
+    });
+  }
+  if (props?.existingOpensearchDomain) {
+    const openSearchVpcEndpointCRProvider = buildCustomResourceProvider({
+      providerName: 'OpenSearchIndexCRProvider',
+      codePath: path.join(
+        __dirname, '../../../lambda/opensearch-serverless-custom-resources'),
+      handler: 'custom_resources.on_event',
+      runtime: lambda.Runtime.PYTHON_3_12,
+    });
+    new CustomResource(scope, `OpenSearchVpcEndpointCR-${vpc.node.id}`, {
+      serviceToken: openSearchVpcEndpointCRProvider.getProvider(scope).serviceToken,
+      properties: {
+        Endpoint: props?.existingOpensearchDomain.domainEndpoint,
+        DomainArn: props?.existingOpensearchDomain.domainArn,
+        SubnetIds: vpc.selectSubnets({ subnetType: ec2.SubnetType.PRIVATE_ISOLATED }).subnetIds,
+        SecurityGroupIds: [sg.securityGroupId],
+      },
+    });
+  }
+}
+
 export function suppressMapPublicIpWarnings(vpc: Vpc) {
   // Add Cfn Nag suppression for PUBLIC subnets to suppress WARN W33: EC2 Subnet should not have MapPublicIpOnLaunch set to true
   vpc.publicSubnets.forEach((subnet) => {
@@ -168,7 +235,7 @@ export function suppressEncryptedLogWarnings(flowLog: FlowLog) {
 function AddInterfaceEndpoint(scope: Construct, vpc: IVpc, service: EndpointDefinition, interfaceTag: ServiceEndpointTypeEnum) {
   const endpointDefaultSecurityGroup = buildSecurityGroup(
     scope,
-    `${scope.node.id}-${service.endpointName}`,
+    `${scope.node.id}-${service.endpointName}-${vpc.node.id}`,
     {
       vpc,
       allowAllOutbound: true,
@@ -277,32 +344,51 @@ const endpointSettings: EndpointDefinition[] = [
     endpointType: EndpointTypes.INTERFACE,
     endpointInterfaceService: InterfaceVpcEndpointAwsService.KENDRA,
   },
+  {
+    endpointName: ServiceEndpointTypeEnum.BEDROCK_RUNTIME,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.BEDROCK_RUNTIME,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.COMPREHEND,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.COMPREHEND,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.REKOGNITION,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.REKOGNITION,
+  },
+  {
+    endpointName: ServiceEndpointTypeEnum.APP_SYNC,
+    endpointType: EndpointTypes.INTERFACE,
+    endpointInterfaceService: InterfaceVpcEndpointAwsService.APP_SYNC,
+  },
 ];
 
 export function AddAwsServiceEndpoint(
   scope: Construct,
   vpc: IVpc,
-  interfaceTag: ServiceEndpointTypeEnum,
+  interfaceTags: ServiceEndpointTypeEnum[],
 ) {
-  if (CheckIfEndpointAlreadyExists(vpc, interfaceTag)) {
-    return;
-  }
+  interfaceTags.forEach((interfaceTag) => {
+    if (CheckIfEndpointAlreadyExists(vpc, interfaceTag)) {
+      return;
+    }
+    const service = endpointSettings.find(
+      (endpoint) => endpoint.endpointName === interfaceTag,
+    );
+    if (!service) {
+      throw new Error('Unsupported Service sent to AddServiceEndpoint');
+    }
+    if (service.endpointType === EndpointTypes.GATEWAY) {
+      AddGatewayEndpoint(vpc, service, interfaceTag);
+    }
+    if (service.endpointType === EndpointTypes.INTERFACE) {
+      AddInterfaceEndpoint(scope, vpc, service, interfaceTag);
+    }
+    // ESLint requires this return statement, so disabling SonarQube warning
+    return; // NOSONAR
+  });
 
-  const service = endpointSettings.find(
-    (endpoint) => endpoint.endpointName === interfaceTag,
-  );
-
-  if (!service) {
-    throw new Error('Unsupported Service sent to AddServiceEndpoint');
-  }
-
-  if (service.endpointType === EndpointTypes.GATEWAY) {
-    AddGatewayEndpoint(vpc, service, interfaceTag);
-  }
-  if (service.endpointType === EndpointTypes.INTERFACE) {
-    AddInterfaceEndpoint(scope, vpc, service, interfaceTag);
-  }
-
-  // ESLint requires this return statement, so disabling SonarQube warning
-  return; // NOSONAR
 }

@@ -131,6 +131,7 @@ export class AmazonAuroraDefaultVectorStore extends cdk.Resource {
     this.vpc = buildVpc(this, {
       defaultVpcProps: DefaultVpcProps(),
       existingVpc: props.vpc,
+      vpcName: 'auroraDefaultVectorStoreVpc',
     });
     this.vpc.addFlowLog('VpcFlowLog', {
       destination: ec2.FlowLogDestination.toCloudWatchLogs(),
@@ -156,7 +157,7 @@ export class AmazonAuroraDefaultVectorStore extends cdk.Resource {
       clusterIdentifier: this.clusterIdentifier,
       defaultDatabaseName: this.databaseName,
       vpc: this.vpc,
-      vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
       securityGroups: [this.auroraSecurityGroup],
       iamAuthentication: true,
       storageEncrypted: true,

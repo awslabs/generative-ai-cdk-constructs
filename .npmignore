@@ -37,6 +37,10 @@ projenrc
 tsconfig.dev.json
 yarn.lock
 /apidocs/
+repolinter.json
+commitlint.config.js
+.ort.yml
+.husky
 /.gitattributes
 /.projenrc.ts
 /projenrc
