@@ -92,6 +92,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
   publishToGo: {
     moduleName: `github.com/${PUBLICATION_NAMESPACE}/${PROJECT_NAME}-go`,
+    packageName: PROJECT_NAME,
   },
 
   codeCov: true,
