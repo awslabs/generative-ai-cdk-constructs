@@ -108,7 +108,7 @@ Existing Amazon OpenSearch Service domain.
 
 > `readonly` `optional` **existingOpensearchServerlessCollection**: `CfnCollection`
 
-Existing Amazon Amazon OpenSearch Serverless collection.
+Existing Amazon OpenSearch Serverless collection.
 
 #### Default
 
