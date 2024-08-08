@@ -14,7 +14,8 @@ import { App, Stack, Aspects } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { AwsSolutionsChecks } from 'cdk-nag';
-import { buildVpc, AddAwsServiceEndpoint, createDefaultIsolatedVpcProps, ServiceEndpointTypeEnum } from '../../../../src/common/helpers/vpc-helper';
+import { buildVpc, AddAwsServiceEndpoint, createDefaultIsolatedVpcProps } from '../../../../src/common/helpers/vpc-helper';
+import { ServiceEndpointTypeEnum } from '../../../../src/patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
 
 describe('VPC Utilities', () => {
   let app: App;
@@ -28,7 +29,7 @@ describe('VPC Utilities', () => {
 
   describe('buildVpc', () => {
     it('creates a VPC with default isolated configuration', () => {
-      buildVpc(stack, { defaultVpcProps: createDefaultIsolatedVpcProps(), vpcName: 'testVpc' });
+      buildVpc(stack, { defaultVpcProps: createDefaultIsolatedVpcProps() });
 
       // Assert VPC is created with expected properties
       const template = Template.fromStack(stack);
@@ -39,7 +40,7 @@ describe('VPC Utilities', () => {
 
       // Assert subnets are created as expected
       template.hasResourceProperties('AWS::EC2::Subnet', {
-        CidrBlock: Match.stringLikeRegexp('^(10\.0\.0\.0|10\.0\.64\.0)\/18$'),
+        CidrBlock: Match.stringLikeRegexp('^10\\.0\\.[0-9]+\\.0/24$'),
         MapPublicIpOnLaunch: false,
         VpcId: Match.anyValue(), // Use anyValue if you're not asserting the exact VPC ID
         // If you need to assert on Tags, ensure they match the expected structure
@@ -54,7 +55,7 @@ describe('VPC Utilities', () => {
   describe('AddAwsServiceEndpoint', () => {
     it('adds a DynamoDB gateway endpoint to the VPC', () => {
       const vpc = new Vpc(stack, 'TestVpc');
-      AddAwsServiceEndpoint(stack, vpc, [ServiceEndpointTypeEnum.DYNAMODB]);
+      AddAwsServiceEndpoint(stack, vpc, ServiceEndpointTypeEnum.DYNAMODB);
 
       const template = Template.fromStack(stack);
       template.hasResourceProperties('AWS::EC2::VPCEndpoint', {

@@ -257,17 +257,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
     if (props?.existingVpc) {
       this.vpc = props.existingVpc;
     } else {
-      this.vpc = vpc_helper.buildVpc(scope, {
-        defaultVpcProps: props?.vpcProps,
-        vpcName: 'ragAppSyncStepfnOsVpc',
-      });
-
-      //vpc endpoints
-      vpc_helper.AddAwsServiceEndpoint(scope, this.vpc, [
-        vpc_helper.ServiceEndpointTypeEnum.S3,
-        vpc_helper.ServiceEndpointTypeEnum.BEDROCK_RUNTIME,
-        vpc_helper.ServiceEndpointTypeEnum.APP_SYNC,
-      ]);
+      this.vpc = new ec2.Vpc(this, 'Vpc', props.vpcProps);
     }
 
     // Security group
@@ -283,11 +273,6 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
           securityGroupName: 'securityGroup'+this.stage,
         },
       );
-    }
-
-    //vpc endpoint for opensearch
-    if (!props?.existingVpc) {
-      vpc_helper.createOpenSearchVpcEndpoint(scope, this.vpc, this.securityGroup, props);
     }
 
     // vpc flowloggroup
@@ -461,7 +446,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
       description: 'Lambda function for validating input files formats',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(15),
@@ -614,7 +599,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
       description: 'Lambda function for converting files from their input format to text',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(15),
@@ -746,7 +731,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
       description: 'Lambda function for creating documents chunks, embeddings and storing them in Amazon Opensearch',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(15),

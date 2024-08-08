@@ -97,7 +97,7 @@ describe('QA Appsync Open search construct', () => {
   });
 
   test('Lambda function count', () => {
-    qaTestTemplate.resourceCountIs('AWS::Lambda::Function', 4);
+    qaTestTemplate.resourceCountIs('AWS::Lambda::Function', 2);
   });
 
   test('Lambda Provisioned Concurrency count', () => {
@@ -266,7 +266,7 @@ describe('QA Appsync Open search construct custom lambda', () => {
   });
 
   test('Lambda function count', () => {
-    qaTestTemplate.resourceCountIs('AWS::Lambda::Function', 4);
+    qaTestTemplate.resourceCountIs('AWS::Lambda::Function', 2);
   });
 
   test('Lambda Provisioned Concurrency count', () => {
