@@ -32,7 +32,6 @@ import * as eventBridge from '../../../common/helpers/eventbridge-helper';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import * as s3BucketHelper from '../../../common/helpers/s3-bucket-helper';
 import { lambdaMemorySizeLimiter, generatePhysicalNameV2 } from '../../../common/helpers/utils';
-import * as vpc_helper from '../../../common/helpers/vpc-helper';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
 export interface SummarizationAppsyncStepfnProps {
@@ -258,17 +257,8 @@ export class SummarizationAppsyncStepfn extends BaseClass {
     if (props?.existingVpc) {
       this.vpc = props.existingVpc;
     } else {
-      this.vpc = vpc_helper.buildVpc(scope, {
-        defaultVpcProps: props?.vpcProps,
-        vpcName: 'sumAppSyncStepFnVpc',
-      });
-
-      // vpc endpoints
-      vpc_helper.AddAwsServiceEndpoint(scope, this.vpc, [vpc_helper.ServiceEndpointTypeEnum.S3,
-        vpc_helper.ServiceEndpointTypeEnum.BEDROCK_RUNTIME, vpc_helper.ServiceEndpointTypeEnum.REKOGNITION,
-        vpc_helper.ServiceEndpointTypeEnum.APP_SYNC]);
+      this.vpc = new ec2.Vpc(this, 'Vpc', props.vpcProps);
     }
-
     // Security group
     if (props?.existingSecurityGroup) {
       this.securityGroup = props.existingSecurityGroup;
@@ -495,7 +485,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       description: 'Lambda function to validate input for summary api',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 1),
       timeout: Duration.minutes(5),
@@ -592,7 +582,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       functionName: 'summary_document_reader'+this.stage,
       description: 'Lambda function to read the input transformed document',
       vpc: this.vpc,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 1),
       tracing: this.lambdaTracing,
@@ -695,7 +685,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       description: 'Lambda function to generate the summary',
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/summary_generator')),
       vpc: this.vpc,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(10),

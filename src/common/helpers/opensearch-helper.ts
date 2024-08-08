@@ -42,11 +42,6 @@ export function CheckOpenSearchProps(propsObject: OpenSearchProps | any) {
     errorFound = true;
   }
 
-  if (propsObject.existingOpenSearchDomain && !propsObject.existingVpc) {
-    errorMessages += 'Error - When using an existing OpenSearch domain, you must also provide an existing VPC.\n';
-    errorFound = true;
-  }
-
   if (errorFound) {
     throw new Error(errorMessages);
   }

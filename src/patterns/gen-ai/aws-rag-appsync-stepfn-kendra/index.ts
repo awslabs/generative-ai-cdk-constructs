@@ -41,7 +41,7 @@ import {
 } from '../../../common/helpers/kendra-helper';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import { lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
-import { AddAwsServiceEndpoint, buildVpc, createDefaultIsolatedVpcProps, ServiceEndpointTypeEnum } from '../../../common/helpers/vpc-helper';
+import { AddAwsServiceEndpoint, buildVpc, createDefaultIsolatedVpcProps } from '../../../common/helpers/vpc-helper';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
 /**
@@ -138,6 +138,23 @@ export interface RagAppsyncStepfnKendraProps {
    * and settings instead of the existing
    */
   readonly updateKendraJobStatusLambdaProps?: DockerLambdaCustomProps | undefined;
+}
+
+enum ServiceEndpointTypeEnum {
+  DYNAMODB= 'DDB',
+  ECR_API= 'ECR_API',
+  ECR_DKR= 'ECR_DKR',
+  EVENTS= 'CLOUDWATCH_EVENTS',
+  KENDRA= 'KENDRA',
+  KINESIS_FIREHOSE= 'KINESIS_FIREHOSE',
+  KINESIS_STREAMS= 'KINESIS_STREAMS',
+  S3= 'S3',
+  SAGEMAKER_RUNTIME= 'SAGEMAKER_RUNTIME',
+  SECRETS_MANAGER= 'SECRETS_MANAGER',
+  SNS= 'SNS',
+  SQS= 'SQS',
+  SSM= 'SSM',
+  STEP_FUNCTIONS= 'STEP_FUNCTIONS',
 }
 
 /**
@@ -250,10 +267,9 @@ export class RagAppsyncStepfnKendra extends BaseClass {
           enableDnsHostnames: true,
           enableDnsSupport: true,
         },
-        vpcName: 'ragAppSyncStepfnKendraVpc',
       });
 
-      AddAwsServiceEndpoint(scope, this.vpc, [ServiceEndpointTypeEnum.KENDRA]);
+      AddAwsServiceEndpoint(scope, this.vpc, ServiceEndpointTypeEnum.KENDRA);
     }
     this.kendraInputBucket = new Bucket(this, 'kendraInputBucket', {
       accessControl: BucketAccessControl.PRIVATE,
@@ -396,7 +412,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
       description: 'Lambda function for pre-signed links generation',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769),
       timeout: Duration.minutes(15),
@@ -419,7 +435,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
       description: 'Lambda function for Kendra  sync job starting',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769),
       timeout: Duration.minutes(15),
@@ -442,7 +458,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
       description: 'Lambda function for getting kendra sync status',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769),
       timeout: Duration.minutes(15),
@@ -464,7 +480,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
       description: 'Lambda function for Kendra job status updates',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769),
       timeout: Duration.minutes(15),
@@ -497,7 +513,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
       description: 'Lambda for starting execution',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769),
       timeout: Duration.minutes(15),
