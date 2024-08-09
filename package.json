@@ -18,6 +18,7 @@
     "package": "npx projen package",
     "package-all": "npx projen package-all",
     "package:dotnet": "npx projen package:dotnet",
+    "package:go": "npx projen package:go",
     "package:js": "npx projen package:js",
     "package:python": "npx projen package:python",
     "post-compile": "npx projen post-compile",
@@ -77,7 +78,7 @@
     "constructs": "^10.3.0"
   },
   "dependencies": {
-    "cdk-nag": "^2.28.174",
+    "cdk-nag": "^2.28.175",
     "deepmerge": "^4.3.1"
   },
   "bundledDependencies": [
@@ -156,6 +157,10 @@
       "dotnet": {
         "namespace": "Cdklabs.GenerativeAiCdkConstructs",
         "packageId": "Cdklabs.GenerativeAiCdkConstructs"
+      },
+      "go": {
+        "moduleName": "github.com/cdklabs/generative-ai-cdk-constructs-go",
+        "packageName": "generative-ai-cdk-constructs"
       }
     },
     "tsc": {
