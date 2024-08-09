@@ -43,79 +43,6 @@ export interface MetadataManagementFieldProps {
 }
 
 /**
- * Metadata field definitions as the API expects them.
- *
- * @internal - JSII requires the exported interface to have camel camelCase properties,
- * but the API expect PascalCase properties
- */
-type MetadataManagementField = {
-  /**
-   * The name of the field.
-   */
-  readonly MappingField: string;
-  /**
-   * The data type of the field.
-   */
-  readonly DataType: string;
-  /**
-   * Whether the field is filterable.
-   */
-  readonly Filterable: boolean;
-};
-
-/**
- * Properties for the Custom::OpenSearchIndex custom resource.
- *
- * @internal
- */
-interface VectorIndexResourceProps {
-  /**
-   * The OpenSearch Endpoint.
-   */
-  readonly Endpoint: string;
-  /**
-   * The name of the index.
-   */
-  readonly IndexName: string;
-  /**
-   * The name of the vector field.
-   */
-  readonly VectorField: string;
-  /**
-   * The number of dimensions in the vector.
-   */
-  readonly Dimensions: number;
-  /**
-   * The metadata management fields.
-   */
-  readonly MetadataManagement: MetadataManagementField[];
-  /**
-   * The analyzer to use.
-   */
-  readonly Analyzer?: AnalyzerProps;
-}
-
-/**
- * Properties for the Analyzer used in Custom::OpenSearchIndex custom resource.
- *
- * @internal - JSII requires the exported interface to have camel camelCase properties
- */
-interface AnalyzerProps {
-  /**
-   * The analyzers to use.
-   */
-  readonly CharacterFilters: CharacterFilterType[];
-  /**
-   * The tokenizer to use.
-   */
-  readonly Tokenizer: TokenizerType;
-  /**
-   * The token filters to use.
-   */
-  readonly TokenFilters: TokenFilterType[];
-}
-
-/**
  * Properties for the Analyzer.
  */
 export interface Analyzer {
@@ -162,6 +89,41 @@ export interface VectorIndexProps {
    * @default - No analyzer.
    */
   readonly analyzer?: Analyzer;
+  /**
+   * The engine to use for vector search.
+   * @default 'faiss'
+   */
+  readonly engine?: string;
+  /**
+   * The space type for vector search.
+   * @default 'l2'
+   */
+  readonly spaceType?: string;
+  /**
+   * The method name for vector search.
+   * @default 'hnsw'
+   */
+  readonly methodName?: string;
+  /**
+   * Additional parameters for vector search.
+   * @default {}
+   */
+  readonly parameters?: Record<string, any>;
+  /**
+   * The number of shards for the index.
+   * @default 2
+   */
+  readonly numberOfShards?: number;
+  /**
+   * The ef_search parameter for vector search.
+   * @default 512
+   */
+  readonly efSearch?: number;
+  /**
+   * Custom settings for the index.
+   * @default {}
+   */
+  readonly customSettings?: Record<string, any>;
 }
 
 /**
@@ -187,6 +149,7 @@ export class VectorIndex extends cdk.Resource {
     this.indexName = props.indexName;
     this.vectorField = props.vectorField;
     this.vectorDimensions = props.vectorDimensions;
+
     const crProvider = OpenSearchIndexCRProvider.getProvider(this);
     crProvider.role.addManagedPolicy(props.collection.aossPolicy);
 
@@ -234,24 +197,29 @@ export class VectorIndex extends cdk.Resource {
         TokenFilters: props.analyzer.tokenFilters,
       }
       : undefined;
+
     const vectorIndex = new cdk.CustomResource(this, 'VectorIndex', {
       serviceToken: crProvider.serviceToken,
       properties: {
-        Endpoint: `${props.collection.collectionId}.${
-          cdk.Stack.of(this).region
-        }.aoss.amazonaws.com`,
+        CollectionName: props.collection.collectionName,
+        Endpoint: `${props.collection.collectionId}.${cdk.Stack.of(this).region}.aoss.amazonaws.com`,
         IndexName: props.indexName,
         VectorField: props.vectorField,
-        Dimensions: props.vectorDimensions,
-        MetadataManagement: props.mappings.map((m) => {
-          return {
-            MappingField: m.mappingField,
-            DataType: m.dataType,
-            Filterable: m.filterable,
-          };
-        }),
+        VectorDimension: props.vectorDimensions,
+        Engine: props.engine || 'faiss',
+        SpaceType: props.spaceType || 'l2',
+        MethodName: props.methodName || 'hnsw',
+        Parameters: JSON.stringify(props.parameters || {}),
+        NumberOfShards: props.numberOfShards || 2,
+        EfSearch: props.efSearch || 512,
+        CustomSettings: JSON.stringify(props.customSettings || {}),
+        MetadataManagement: props.mappings.map((m) => ({
+          MappingField: m.mappingField,
+          DataType: m.dataType,
+          Filterable: m.filterable,
+        })),
         Analyzer: analyzerProps,
-      } as VectorIndexResourceProps,
+      },
       resourceType: 'Custom::OpenSearchIndex',
     });
 
@@ -268,10 +236,7 @@ export class VectorIndex extends cdk.Resource {
  */
 export const OpenSearchIndexCRProvider = buildCustomResourceProvider({
   providerName: 'OpenSearchIndexCRProvider',
-  codePath: path.join(
-    __dirname,
-    '../../../lambda/opensearch-serverless-custom-resources',
-  ),
-  handler: 'custom_resources.on_event',
-  runtime: lambda.Runtime.PYTHON_3_12,
+  codePath: path.join(__dirname, 'vector-index'),
+  handler: 'index.handler',
+  runtime: lambda.Runtime.NODEJS_18_X,
 });

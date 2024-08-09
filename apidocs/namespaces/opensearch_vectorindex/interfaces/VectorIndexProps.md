@@ -32,6 +32,48 @@ The OpenSearch Vector Collection.
 
 ***
 
+### customSettings?
+
+> `readonly` `optional` **customSettings**: `Record`\<`string`, `any`\>
+
+Custom settings for the index.
+
+#### Default
+
+```ts
+{}
+```
+
+***
+
+### efSearch?
+
+> `readonly` `optional` **efSearch**: `number`
+
+The ef_search parameter for vector search.
+
+#### Default
+
+```ts
+512
+```
+
+***
+
+### engine?
+
+> `readonly` `optional` **engine**: `string`
+
+The engine to use for vector search.
+
+#### Default
+
+```ts
+'faiss'
+```
+
+***
+
 ### indexName
 
 > `readonly` **indexName**: `string`
@@ -45,6 +87,62 @@ The name of the index.
 > `readonly` **mappings**: [`MetadataManagementFieldProps`](MetadataManagementFieldProps.md)[]
 
 The metadata management fields.
+
+***
+
+### methodName?
+
+> `readonly` `optional` **methodName**: `string`
+
+The method name for vector search.
+
+#### Default
+
+```ts
+'hnsw'
+```
+
+***
+
+### numberOfShards?
+
+> `readonly` `optional` **numberOfShards**: `number`
+
+The number of shards for the index.
+
+#### Default
+
+```ts
+2
+```
+
+***
+
+### parameters?
+
+> `readonly` `optional` **parameters**: `Record`\<`string`, `any`\>
+
+Additional parameters for vector search.
+
+#### Default
+
+```ts
+{}
+```
+
+***
+
+### spaceType?
+
+> `readonly` `optional` **spaceType**: `string`
+
+The space type for vector search.
+
+#### Default
+
+```ts
+'l2'
+```
 
 ***
 

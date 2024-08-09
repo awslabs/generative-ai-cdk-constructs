@@ -40,6 +40,10 @@
       "type": "build"
     },
     {
+      "name": "esbuild",
+      "type": "build"
+    },
+    {
       "name": "eslint-import-resolver-typescript",
       "type": "build"
     },
