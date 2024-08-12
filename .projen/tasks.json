@@ -207,21 +207,21 @@
         }
       ]
     },
-    "package:java": {
-      "name": "package:java",
-      "description": "Create java language bindings",
-      "steps": [
-        {
-          "exec": "jsii-pacmak -v --target java"
-        }
-      ]
-    },
     "package:go": {
       "name": "package:go",
       "description": "Create go language bindings",
       "steps": [
         {
           "exec": "jsii-pacmak -v --target go"
+        }
+      ]
+    },
+    "package:java": {
+      "name": "package:java",
+      "description": "Create java language bindings",
+      "steps": [
+        {
+          "exec": "jsii-pacmak -v --target java"
         }
       ]
     },

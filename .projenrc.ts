@@ -95,7 +95,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     mavenArtifactId: PROJECT_NAME,
     mavenEndpoint: 'https://s01.oss.sonatype.org',
   },
-  
+
   publishToGo: {
     moduleName: `github.com/${PUBLICATION_NAMESPACE}/${PROJECT_NAME}-go`,
     packageName: PROJECT_NAME,
