@@ -28,7 +28,7 @@ This construct library provides a class that defines a `AmazonAuroraVectorStore`
 
 
 ## API
-See the [API documentation](../../../apidocs/modules/amazonaurora.md).
+See the [API documentation](../../../apidocs/namespaces/amazonaurora/README.md).
 
 ## Amazon Aurora Vector Store
 

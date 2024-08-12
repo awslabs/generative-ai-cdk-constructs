@@ -14,8 +14,7 @@
 [![npm version](https://img.shields.io/npm/v/@cdklabs/generative-ai-cdk-constructs)](https://www.npmjs.com/package/@cdklabs/generative-ai-cdk-constructs)
 [![NuGet Version](https://img.shields.io/nuget/v/Cdklabs.GenerativeAiCdkConstructs)](https://nuget.info/packages/Cdklabs.GenerativeAiCdkConstructs)
 [![Maven Central Version](https://img.shields.io/maven-central/v/io.github.cdklabs/generative-ai-cdk-constructs)(https://central.sonatype.com/artifact/io.github.cdklabs/generative-ai-cdk-constructs)]
-[![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/awslabs/generative-ai-cdk-constructs)()]
-
+[![Go Version](https://img.shields.io/github/v/tag/awslabs/generative-ai-cdk-constructs?label=go&color=orange)](https://pkg.go.dev/github.com/cdklabs/generative-ai-cdk-constructs-go/generative-ai-cdk-constructs)
 
 ## Table of contents
 
@@ -30,6 +29,7 @@
 - [Contributors](#contributors)
 - [Operational Metrics Collection](#operational-metrics-collection)
 - [Roadmap](#roadmap)
+- [License](#license)
 - [Legal Disclaimer](#legal-disclaimer)
 
 ## Introduction
@@ -69,6 +69,25 @@ If you want to add a new construct to the library, check out our [design guideli
   - `pip install cdklabs.generative-ai-cdk-constructs`
 - Import the library:
   - `import cdklabs.generative_ai_cdk_constructs`
+
+### For NuGet
+
+- Create or use an existing CDK application in Python
+  - `cdk init app --language csharp`
+- Install the package while in the Visual Studio project:
+  - `dotnet add package CdkLabs.GenerativeAICdkConstructs`
+- Use the namespace:
+  - `using Cdklabs.GenerativeAiCdkConstructs;`
+
+### For Go
+- Create or use an existing CDK application in Python
+  - `cdk init app --language go`
+- Get the module:
+  - `go get github.com/cdklabs/generative-ai-cdk-constructs-go/generative-ai-cdk-constructs`
+- Import the library:
+  - `import "github.com/cdklabs/generative-ai-cdk-constructs-go/generative-ai-cdk-constructs"`
+
+_NOTE: The [Go distribution repository](https://github.com/cdklabs/generative-ai-cdk-constructs-go), distributes the JSII tar gzipped versioned source from the [source repository](https://github.awslabs/generative-ai-cdk-constructs)_
 
 Refer to the documentation for additional guidance on a particular construct: [Catalog](#catalog)
 
@@ -132,6 +151,10 @@ Generative AI CDK Constructs may collect anonymous operational metrics, includin
 ## Roadmap
 
 Roadmap is available through the [GitHub Project](https://github.com/orgs/awslabs/projects/136)
+
+## License
+
+Apache-2.0
 
 ## Legal Disclaimer
 
