@@ -807,9 +807,9 @@
     ajv "^8.17.1"
 
 "@mrgrain/jsii-struct-builder@^0.7.39":
-  version "0.7.39"
-  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.39.tgz#0a740cec966134b246b4ffef50eea605de890172"
-  integrity sha512-J2r50p2g8GuDlV8LxXjmPQYS/X6hH+vphO7KjGwruZ0Oq4ByLtY28ZRD4O+pmuz/Z3Z5GHpt7io3ovWDe40wmg==
+  version "0.7.40"
+  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.40.tgz#1170fe0f89c76cb570c1cf95861e8e817b195b80"
+  integrity sha512-AjHPHFD6JRYi+NDluiBJXz9HJtNQ9sxcldHL7C76vb1K68ao/y02QIdM2rklZXuPaE33OuoUOgGWWFzJGVTakw==
   dependencies:
     "@jsii/spec" "^1.102.0"
 
@@ -3802,9 +3802,9 @@ jsii-reflect@^1.102.0:
     yargs "^16.2.0"
 
 jsii-rosetta@~5.4.0:
-  version "5.4.29"
-  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.4.29.tgz#1529ffae4684bd7f7980557c742880c50b445d41"
-  integrity sha512-6/eQFAS+O1szcdczogAn+P6yqjJu88kqZbpGPL0Ks9LxA94EbwNxiAPwsh1g3GvY+ETDVKfND7iEE0tiVpvTsA==
+  version "5.4.30"
+  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.4.30.tgz#9f891a5116937b030f3859ff3074f6b1162e0328"
+  integrity sha512-DyJlVO1L7p37poEtja3ktr3zGv15kvnkVrJ+uPuv5+QOvSs2XTTzi2qsgt/l7N/6yXelQ2LDvSDzXfEY08UZjg==
   dependencies:
     "@jsii/check-node" "1.102.0"
     "@jsii/spec" "^1.102.0"
