@@ -13,3 +13,13 @@ class FileNotFound(Exception):
     def __init__(self, message):
         super().__init__(message)
         self.message = f"[404] File not found, {message}"
+        
+class TaskTokenMissing(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+        self.message = f"[404] step function task token not found, {message}"
+
+class UserQuestionMissing(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+        self.message = f"[404] user question or question id is not found, {message}"

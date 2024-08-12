@@ -16,6 +16,7 @@ import {
   EventbridgeToStepfunctions,
   EventbridgeToStepfunctionsProps,
 } from '@aws-solutions-constructs/aws-eventbridge-stepfunctions';
+import * as cdk from 'aws-cdk-lib';
 import { Aws, Duration } from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as events from 'aws-cdk-lib/aws-events';
@@ -35,6 +36,7 @@ import {
   BaseClassProps,
 } from '../../../common/base-class/base-class';
 import { ConstructName } from '../../../common/base-class/construct-name-enum';
+import { buildCustomResourceProvider } from '../../../common/helpers/custom-resource-provider-helper';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import {
   generatePhysicalNameV2,
@@ -80,14 +82,14 @@ export interface TextToSqlProps {
    * If no exisiting security group is provided it will create one from the vpc.
    * @default - none
    */
-  readonly existingLambdaSecurityGroup?: ec2.ISecurityGroup;
+  readonly existingLambdaSecurityGroup?: ec2.SecurityGroup;
 
   /**
    * Optional. Security group for the db instance which this construct will use.
    * If no exisiting security group is provided it will create one from the vpc.
    * @default - none
    */
-  readonly existingDBSecurityGroup?: ec2.ISecurityGroup;
+  readonly existingDBSecurityGroup?: ec2.SecurityGroup;
 
   /**
    * Value will be appended to resources name.
@@ -163,13 +165,6 @@ export interface TextToSqlProps {
   | undefined;
 
   /**
-   * Optional. Allows to provide custom lambda code for requesting the feedback from the user.
-   * If not provided, default code will be used.
-   *
-   */
-  readonly customFeedbackLambdaProps?: DockerLambdaCustomProps | undefined;
-
-  /**
    * Optional. Allows to provide custom lambda code for executing the query.
    * If not provided, default code will be used.
    *
@@ -223,12 +218,12 @@ export class TextToSql extends BaseClass {
   /**
    * Returns the instance of ec2.ISecurityGroup used by the construct
    */
-  public readonly lambdaSecurityGroup: ec2.ISecurityGroup;
+  public readonly lambdaSecurityGroup: ec2.SecurityGroup;
 
   /**
    * Returns the instance of ec2.ISecurityGroup used by the construct
    */
-  public readonly dbSecurityGroup!: ec2.ISecurityGroup;
+  public readonly dbSecurityGroup!: ec2.SecurityGroup;
 
   /**
    * Returns the instance of s3.IBucket used by the construct
@@ -236,9 +231,14 @@ export class TextToSql extends BaseClass {
   public readonly configAssetBucket!: s3.IBucket;
 
   /**
-   * Returns the instance of RDS proxy used by the construct
+   * Returns the instance of EventBus used by the construct
    */
-  //public readonly proxy: rds.DatabaseProxy | undefined;
+  public readonly eventBus?: events.IEventBus;
+
+  /**
+   * Returns the instance of EventBus used by the construct
+   */
+  public readonly eventsRule?: events.Rule;
 
   /**
    * Returns the instance of aurora cluster  used by the construct
@@ -253,6 +253,21 @@ export class TextToSql extends BaseClass {
    * Returns the instance of secret manager used by the construct
    */
   public readonly secret!: secretsmanager.Secret;
+
+  /**
+   * Returns the instance of feedback Queue  used by the construct
+   */
+  public readonly feedbackQueue: sqs.Queue;
+
+  /**
+   * Returns the instance of output Queue used by the construct
+   */
+  public readonly outputQueue: sqs.Queue;
+
+  /**
+   * Returns the Instance of stepfunction created by the construct
+   */
+  public readonly stepFunction ?: stepfunctions.StateMachine;
 
   /**
    * Constructs a new instance of the TextToSql class.
@@ -365,13 +380,14 @@ export class TextToSql extends BaseClass {
     // if (this.proxy) {
     //   proxyEndpoint= this.proxy.endpoint;
     // }
+    //
+    // If the construct is not uploading the config files.
 
     // s3 bucket
     if (props?.existingconfigAssetsBucketObj) {
       this.configAssetBucket = props.existingconfigAssetsBucketObj;
     } else if (props?.configAssetsBucketProps) {
       const factories = new ConstructsFactories(this, 'resourceFactory');
-
       this.configAssetBucket = factories.s3BucketFactory('configBucket', {
         bucketProps: props.configAssetsBucketProps,
       }).s3Bucket;
@@ -381,7 +397,20 @@ export class TextToSql extends BaseClass {
         'configBucket',
         {},
       ).s3Bucket;
+
+      // create default bucket to upload the config files
+      // const asset = new s3assets.Asset(this, 'configBucketAsset', {
+      //   path: path.join(
+      //     __dirname,
+      //     '../../../../resources/gen-ai/aws-text-to-sql',
+      //   ),
+      // });
     }
+
+    const configFilePath = path.join(
+      __dirname,
+      '../../../../resources/gen-ai/aws-text-to-sql',
+    );
 
     const textToSQLFunctionRole = new iam.Role(
       this,
@@ -410,7 +439,7 @@ export class TextToSql extends BaseClass {
                     ':s3:::' +
                     this.configAssetBucket.bucketName +
                     '/*',
-
+                  `arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`,
                   'arn:' +
                     Aws.PARTITION +
                     ':bedrock:' +
@@ -453,6 +482,78 @@ export class TextToSql extends BaseClass {
         resources: ['*'],
       }),
     );
+
+    const configLoaderPolicy = new iam.ManagedPolicy(this, 'AuroraPgPolicy', {
+      managedPolicyName: generatePhysicalNameV2(this, 'configLoaderPolicy', {
+        maxLength: 32,
+        lower: true,
+      }),
+      statements: [
+        new iam.PolicyStatement({
+          actions: [
+            'ec2:DescribeInstances',
+            'ec2:CreateNetworkInterface',
+            'ec2:AttachNetworkInterface',
+            'ec2:DescribeNetworkInterfaces',
+            'autoscaling:CompleteLifecycleAction',
+            'ec2:DeleteNetworkInterface',
+          ],
+          resources: ['*'],
+        }),
+
+        new iam.PolicyStatement({
+          actions: [
+            'logs:CreateLogGroup',
+            'logs:CreateLogStream',
+            'logs:PutLogEvents',
+            'bedrock:InvokeModel',
+            'bedrock:InvokeModelWithResponseStream',
+            's3:GetObject',
+            's3:GetBucketLocation',
+            's3:ListBucket',
+            's3:PutObject',
+          ],
+          resources: [
+            `arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`,
+            'arn:' +
+              Aws.PARTITION +
+              ':s3:::' +
+              this.configAssetBucket.bucketName +
+              '/*',
+            `arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`,
+            'arn:' +
+              Aws.PARTITION +
+              ':bedrock:' +
+              Aws.REGION +
+              '::foundation-model/*',
+          ],
+        }),
+      ],
+    });
+
+    const customResource = buildCustomResourceProvider({
+      providerName: 'ConfigFileLoaderCRProvider',
+      vpc: this.vpc,
+      securityGroup: this.lambdaSecurityGroup,
+      codePath: path.join(__dirname, '../../../../lambda/aws-text-to-sql'),
+      handler: 'custom_resources.on_event',
+      runtime: cdk.aws_lambda.Runtime.PYTHON_3_12,
+    });
+
+    const crProvider = customResource.getProvider(this);
+    crProvider.role.addManagedPolicy(configLoaderPolicy);
+
+    const configFileLoader = new cdk.CustomResource(this, 'ConfigFileLoader', {
+      resourceType: 'Custom::ConfigFileLoader',
+      serviceToken: crProvider.serviceToken,
+      properties: {
+        configBucket: this.configAssetBucket.bucketName,
+        configFilePath: configFilePath,
+      },
+    });
+
+    configFileLoader.node.addDependency(this.configAssetBucket);
+    //crProvider.role.node.addDependency(configLoaderPolicy);
 
     NagSuppressions.addResourceSuppressions(
       textToSQLFunctionRole,
@@ -627,6 +728,7 @@ export class TextToSql extends BaseClass {
       queueName: feedbackQueueName,
       visibilityTimeout: Duration.seconds(3600),
     });
+    this.feedbackQueue = queue;
 
     const outputQueueName = generatePhysicalNameV2(
       this,
@@ -638,6 +740,7 @@ export class TextToSql extends BaseClass {
       queueName: outputQueueName,
       visibilityTimeout: Duration.seconds(3600),
     });
+    this.outputQueue = outputQueue;
 
     this.secret.grantRead(queryGeneratorFunction);
     this.secret.grantRead(queryExecutorFunction);
@@ -652,6 +755,7 @@ export class TextToSql extends BaseClass {
       'reformulate_question',
       {
         lambdaFunction: reformulateQuestionFunction,
+        inputPath: '$.detail',
         resultPath: '$.queryConfig',
       },
     );
@@ -678,33 +782,6 @@ export class TextToSql extends BaseClass {
           stepfunctions.IntegrationPattern.WAIT_FOR_TASK_TOKEN,
       },
     );
-
-    // const generatedQueryFeedbackTwoState = new tasks.SqsSendMessage(
-    //   this,
-    //   'get_feedback_on_generated_query_path_two',
-    //   {
-    //     queue,
-    //     messageBody: stepfunctions.TaskInput.fromObject({
-    //       message:
-    //         'Following is the generated query. Do you agree with it or want to override?',
-    //       generated_query: stepfunctions.JsonPath.stringAt(
-    //         '$.queryConfig.Payload.validated_sql_query',
-    //       ),
-    //       reformualted_question: stepfunctions.TaskInput.fromJsonPathAt(
-    //         '$.reformulated_user_question',
-    //       ),
-    //       user_question:
-    //         stepfunctions.TaskInput.fromJsonPathAt('$.user_question'),
-    //       question_unique_id: stepfunctions.TaskInput.fromJsonPathAt(
-    //         '$.question_unique_id',
-    //       ),
-    //       TaskToken: stepfunctions.JsonPath.taskToken,
-    //     }),
-    //     integrationPattern:
-    //       stepfunctions.IntegrationPattern.WAIT_FOR_TASK_TOKEN,
-    //   },
-    // );
-
     const alternateQueryGeneratorState = new tasks.LambdaInvoke(
       this,
       'generate_alternate_query',
@@ -778,14 +855,24 @@ export class TextToSql extends BaseClass {
         //inputPath: '$.queryStatus.Payload',
       },
     );
-    const alternateQueryExecutorState = new tasks.LambdaInvoke(this, 'execute_alternate_query', {
-      lambdaFunction: queryExecutorFunction,
-      resultPath: '$.queryStatus',
-    }).next(alternateQueryCorrectChoiceState.when(
-      stepfunctions.Condition.stringEquals(
-        '$.queryStatus.Payload.status',
-        'QUERY_ERROR',
-      ), iteratorState).otherwise(outputState));
+    const alternateQueryExecutorState = new tasks.LambdaInvoke(
+      this,
+      'execute_alternate_query',
+      {
+        lambdaFunction: queryExecutorFunction,
+        resultPath: '$.queryStatus',
+      },
+    ).next(
+      alternateQueryCorrectChoiceState
+        .when(
+          stepfunctions.Condition.stringEquals(
+            '$.queryStatus.Payload.status',
+            'QUERY_ERROR',
+          ),
+          iteratorState,
+        )
+        .otherwise(outputState),
+    );
 
     const queryExecutorState = new tasks.LambdaInvoke(this, 'execute_query', {
       lambdaFunction: queryExecutorFunction,
@@ -852,6 +939,9 @@ export class TextToSql extends BaseClass {
           generated_query: stepfunctions.JsonPath.stringAt(
             '$.queryConfig.Payload.validated_sql_query',
           ),
+          execute_sql_strategy: stepfunctions.JsonPath.stringAt(
+            '$.queryConfig.Payload.execute_sql_strategy',
+          ),
           reformualted_question: stepfunctions.TaskInput.fromJsonPathAt(
             '$.reformulated_user_question',
           ),
@@ -860,9 +950,7 @@ export class TextToSql extends BaseClass {
           question_unique_id: stepfunctions.TaskInput.fromJsonPathAt(
             '$.question_unique_id',
           ),
-          execute_sql_strategy: stepfunctions.TaskInput.fromJsonPathAt(
-            '$.queryConfig.Payload.execute_sql_strategy',
-          ),
+
           TaskToken: stepfunctions.JsonPath.taskToken,
         }),
         integrationPattern:
@@ -889,7 +977,6 @@ export class TextToSql extends BaseClass {
       resultPath: '$.queryConfig',
     }).next(generateQueryfeedbackChoiceState);
 
-
     //create step function with event bridge
     const constructProps: EventbridgeToStepfunctionsProps = {
       stateMachineProps: {
@@ -905,16 +992,30 @@ export class TextToSql extends BaseClass {
             .otherwise(queryGeneratorState),
         ),
       },
+      eventBusProps: {
+        eventBusName: generatePhysicalNameV2(
+          this,
+          'textToSqlBus' + this.stage,
+          { maxLength: 63, lower: true },
+        ),
+      },
+
       eventRuleProps: {
-        schedule: events.Schedule.rate(Duration.days(1)),
+        eventPattern: {
+          source: ['webclient'],
+        },
       },
     };
 
-    new EventbridgeToStepfunctions(
+    const eventBridgeToStepfunction = new EventbridgeToStepfunctions(
       this,
       'test-eventbridge-stepfunctions-stack',
       constructProps,
     );
+
+    this.eventBus = eventBridgeToStepfunction.eventBus;
+    this.eventsRule = eventBridgeToStepfunction.eventsRule;
+    this.stepFunction = eventBridgeToStepfunction.stateMachine;
   }
 
   private validateDbProps(props: TextToSqlProps): void {
