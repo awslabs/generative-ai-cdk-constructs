@@ -59,6 +59,18 @@ AWS Lambda functions provisioned in this construct use [Powertools for AWS Lambd
 | s3_file_transformer | INGESTION_FILE_TRANSFORMER | N/A |
 | embeddings_job | INGESTION_EMBEDDING_JOB | N/A |
 
+### Index creation and embeddings model selection
+
+As of today, the construct manages only one OpenSearch index. The index name is configured through the construct property [openSearchIndexName](https://github.com/awslabs/generative-ai-cdk-constructs/blob/main/src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/index.ts#L742C27-L742C51). If the index doesn't exist, the construct will create it when ingesting a document. This means that the value of the field [knn_vector](https://opensearch.org/docs/latest/field-types/supported-field-types/knn-vector/) in the OpenSearch index will be set to the value of the length of the embedding vector for the embedding model selected. For instance, the model [Amazon Titan Embeddings Text model V2](https://docs.aws.amazon.com/bedrock/latest/userguide/titan-embedding-models.html) outputs a vector of size 1024 dimensions. Thus, if using this model, the OpenSearch vector index knn_vector field value will be set to 1024.
+
+Once an embedding model has been selected and documents have been ingested, you have to use the same embedding model for subsequent files to ingest. This is because every embeddings model develops its own distinctive embedding space. An embedding produced within one space holds no meaning or relevance in a different embedding space, even if the spaces are the same size. If you want to use a different embedding model, you will need to re-deploy the construct with a different index name (another index will be created) or destroy the stack containing the ingestion construct, and re-create it.
+
+This also applies to the selection of the embedding model used to retrieve information from the OpenSearch index. You will have to use the same embedding model for querying as the one used to create the embeddings.
+
+### CRUD operations
+
+As of today, the construct allows you to only ingest documents and create embeddings. The construct doesn't support additional operations on documents/embeddings (update, deletion).
+
 Here is a minimal deployable pattern definition:
 
 TypeScript
@@ -305,6 +317,7 @@ By default the construct will enable logging and tracing on all services which s
 | | Error_File already exists | The file provided as input is already transformed in the output bucket | Remove the file from the transformed output bucket, and if needed also from the knowledge base | 
 | | Error_Unable to load document | The Lambda transformer function was unable to load the document provided as input argument | Verify that the input file is located in the input bucket| 
 | | Error_Unsupported | The input file document is in a format not supported by the workflow | Provide a file in a supported format | 
+| | Vector dimension mismatch | Files have been ingested using an embeddings model with an output vector size different from the knn_vector field of the OpenSearch index. See this [bug](https://github.com/awslabs/generative-ai-cdk-constructs/issues/616) for more details. | Use the same embeddings model to ingest all files. Also see the previous section [Index creation and embeddings model selection](#index-creation-and-embeddings-model-selection).|
 
 ## Architecture
 ![Architecture Diagram](architecture.png)
