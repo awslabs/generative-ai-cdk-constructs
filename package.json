@@ -8,7 +8,6 @@
   "scripts": {
     "build": "npx projen build",
     "bump": "npx projen bump",
-    "bundle-vector-index": "npx projen bundle-vector-index",
     "clobber": "npx projen clobber",
     "compat": "npx projen compat",
     "compile": "npx projen compile",

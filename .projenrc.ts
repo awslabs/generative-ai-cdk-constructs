@@ -254,14 +254,8 @@ project.addTask('generate-models-containers', {
   ],
 });
 
-project.addTask('bundle-vector-index', {
-  description: 'Bundle the vector-index Lambda function',
-  exec: 'node src/cdk-lib/opensearch-vectorindex/vector-index/build.js',
-});
-
 const postCompile = project.tasks.tryFind('post-compile');
 if (postCompile) {
-  postCompile.exec('yarn run bundle-vector-index');
   postCompile.exec('npx typedoc --plugin typedoc-plugin-markdown --out apidocs --readme none --categoryOrder "Namespaces,Classes,Interfaces,*" --disableSources ./src/index.ts');
 }
 

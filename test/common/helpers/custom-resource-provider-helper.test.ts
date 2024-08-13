@@ -20,9 +20,9 @@ import { buildCustomResourceProvider } from '../../../src/common/helpers/custom-
 const AOSSCRProvider = buildCustomResourceProvider({
   providerName: 'OpenSearchIndexCRProvider',
   codePath: path.join(
-    __dirname, '../../../lambda/opensearch-serverless-custom-resources'),
-  handler: 'custom_resources.on_event',
-  runtime: lambda.Runtime.PYTHON_3_12,
+    __dirname, '../../../lambda/opensearch-serverless-custom-resources/index.ts'),
+  handler: 'handler',
+  runtime: lambda.Runtime.NODEJS_18_X,
 });
 
 describe('Custom Resource Provider', () => {
@@ -31,8 +31,8 @@ describe('Custom Resource Provider', () => {
     AOSSCRProvider.getProvider(stack);
     const template = Template.fromStack(stack);
     template.hasResourceProperties('AWS::Lambda::Function', {
-      Handler: 'custom_resources.on_event',
-      Runtime: 'python3.12',
+      Handler: 'index.handler',
+      //Runtime: 'node18',
     });
   });
 

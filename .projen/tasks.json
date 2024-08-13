@@ -41,15 +41,6 @@
       ],
       "condition": "! git log --oneline -1 | grep -q \"chore(release):\""
     },
-    "bundle-vector-index": {
-      "name": "bundle-vector-index",
-      "description": "Bundle the vector-index Lambda function",
-      "steps": [
-        {
-          "exec": "node src/cdk-lib/opensearch-vectorindex/vector-index/build.js"
-        }
-      ]
-    },
     "clobber": {
       "name": "clobber",
       "description": "hard resets to HEAD of origin and cleans the local repo",
@@ -244,9 +235,6 @@
       "name": "post-compile",
       "description": "Runs after successful compilation",
       "steps": [
-        {
-          "exec": "yarn run bundle-vector-index"
-        },
         {
           "exec": "npx typedoc --plugin typedoc-plugin-markdown --out apidocs --readme none --categoryOrder \"Namespaces,Classes,Interfaces,*\" --disableSources ./src/index.ts"
         }

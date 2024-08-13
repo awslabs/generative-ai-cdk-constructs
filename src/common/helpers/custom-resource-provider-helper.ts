@@ -14,6 +14,7 @@ import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as lambdanode from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as cr from 'aws-cdk-lib/custom-resources';
 import { NagSuppressions } from 'cdk-nag';
@@ -113,20 +114,39 @@ export function buildCustomResourceProvider(props: CRProviderProps): ICRProvider
         ],
       });
 
-      const customResourceFunction = new lambda.Function(this, 'CustomResourcesFunction', {
-        code: lambda.Code.fromAsset(codePath),
-        handler,
-        runtime,
-        layers,
-        role: this.role,
-        timeout: cdk.Duration.minutes(15),
-        memorySize: 128,
-        vpc,
-        vpcSubnets: vpc ? { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS } : undefined,
-        securityGroups: vpc && securityGroup ? [securityGroup] : undefined,
-        logRetention: logs.RetentionDays.ONE_WEEK,
-        description: 'Custom Resource Provider',
-      });
+      let customResourceFunction;
+
+      if (runtime.family === lambda.RuntimeFamily.NODEJS) {
+        customResourceFunction = new lambdanode.NodejsFunction(this, 'CustomResourcesFunction', {
+          entry: codePath,
+          handler,
+          runtime,
+          role: this.role,
+          timeout: cdk.Duration.minutes(15),
+          memorySize: 128,
+          vpc,
+          vpcSubnets: vpc ? { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS } : undefined,
+          securityGroups: vpc && securityGroup ? [securityGroup] : undefined,
+          logRetention: logs.RetentionDays.ONE_WEEK,
+          description: 'Custom Resource Provider',
+        });
+
+      } else {
+        customResourceFunction = new lambda.Function(this, 'CustomResourcesFunction', {
+          code: lambda.Code.fromDockerBuild(codePath),
+          handler,
+          runtime,
+          layers,
+          role: this.role,
+          timeout: cdk.Duration.minutes(15),
+          memorySize: 128,
+          vpc,
+          vpcSubnets: vpc ? { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS } : undefined,
+          securityGroups: vpc && securityGroup ? [securityGroup] : undefined,
+          logRetention: logs.RetentionDays.ONE_WEEK,
+          description: 'Custom Resource Provider',
+        });
+      }
 
       const providerRole = new iam.Role(this, 'ProviderRole', {
         assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
@@ -173,6 +193,17 @@ export function buildCustomResourceProvider(props: CRProviderProps): ICRProvider
             id: 'AwsSolutions-IAM5',
             reason: 'CDK CustomResource Provider has a wildcard to invoke any version of the specific Custom Resource function.',
             appliesTo: [{ regex: `/^Resource::<${id}${customResourceFunction.node.id}[A-Z0-9]+\\.Arn>:\\*$/g` }],
+          },
+        ],
+        true,
+      );
+
+      NagSuppressions.addResourceSuppressions(
+        customResourceFunction,
+        [
+          {
+            id: 'AwsSolutions-L1',
+            reason: 'Lambda runtime version is managed upstream by CDK',
           },
         ],
         true,
