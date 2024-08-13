@@ -806,10 +806,10 @@
   dependencies:
     ajv "^8.17.1"
 
-"@mrgrain/jsii-struct-builder@^0.7.39":
-  version "0.7.39"
-  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.39.tgz#0a740cec966134b246b4ffef50eea605de890172"
-  integrity sha512-J2r50p2g8GuDlV8LxXjmPQYS/X6hH+vphO7KjGwruZ0Oq4ByLtY28ZRD4O+pmuz/Z3Z5GHpt7io3ovWDe40wmg==
+"@mrgrain/jsii-struct-builder@^0.7.40":
+  version "0.7.40"
+  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.40.tgz#1170fe0f89c76cb570c1cf95861e8e817b195b80"
+  integrity sha512-AjHPHFD6JRYi+NDluiBJXz9HJtNQ9sxcldHL7C76vb1K68ao/y02QIdM2rklZXuPaE33OuoUOgGWWFzJGVTakw==
   dependencies:
     "@jsii/spec" "^1.102.0"
 
@@ -1397,9 +1397,9 @@ aws-sdk-mock@^5.9.0:
     traverse "^0.6.6"
 
 aws-sdk@^2.1231.0:
-  version "2.1672.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1672.0.tgz#7526f12bda7b56a16c84e82f14dbb4b34a2b233f"
-  integrity sha512-en4uaVWE/wPa9YsF2XAYtKP0hLQ10s93/nWe+SQ8Yox1xrDn1Tr32MMOtSLRXLxPRKcvmI7Yzw7jiQMgs1jqBQ==
+  version "2.1673.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1673.0.tgz#08dd3196c0f305457a184ec0e86b15de08026505"
+  integrity sha512-7tcc+y7XmCt2aq3vq46xpJTDMNqukFhJOXsQuuwsMZiydZpGG7l7wbpTOtfFhktieSjLg4V9eyznpnZNz5aooA==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -3021,9 +3021,9 @@ ieee754@^1.1.4:
   integrity sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==
 
 ignore@^5.2.0, ignore@^5.3.1:
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.3.1.tgz#5073e554cd42c5b33b394375f538b8593e34d4ef"
-  integrity sha512-5Fytz/IraMjqpwfd34ke28PTVMjZjJG2MPn5t7OE4eUCUNf8BAa7b5WUS9/Qvr6mwOQS7Mk6vdsMno5he+T8Xw==
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.3.2.tgz#3cd40e729f3643fd87cb04e50bf0eb722bc596f5"
+  integrity sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==
 
 import-fresh@^3.0.0, import-fresh@^3.2.1, import-fresh@^3.3.0:
   version "3.3.0"
@@ -3802,9 +3802,9 @@ jsii-reflect@^1.102.0:
     yargs "^16.2.0"
 
 jsii-rosetta@~5.4.0:
-  version "5.4.29"
-  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.4.29.tgz#1529ffae4684bd7f7980557c742880c50b445d41"
-  integrity sha512-6/eQFAS+O1szcdczogAn+P6yqjJu88kqZbpGPL0Ks9LxA94EbwNxiAPwsh1g3GvY+ETDVKfND7iEE0tiVpvTsA==
+  version "5.4.30"
+  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.4.30.tgz#9f891a5116937b030f3859ff3074f6b1162e0328"
+  integrity sha512-DyJlVO1L7p37poEtja3ktr3zGv15kvnkVrJ+uPuv5+QOvSs2XTTzi2qsgt/l7N/6yXelQ2LDvSDzXfEY08UZjg==
   dependencies:
     "@jsii/check-node" "1.102.0"
     "@jsii/spec" "^1.102.0"
@@ -5535,9 +5535,9 @@ typescript@^5.5.4:
   integrity sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==
 
 typescript@next:
-  version "5.6.0-dev.20240811"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.6.0-dev.20240811.tgz#288099c366542edd0da1bb3765ecf2f8c57ea02c"
-  integrity sha512-+vAe1vHwzxr6s3eb/nz86lOBvZE0v2DmTPESd7GS6ffUbAt1g2cE/1X+X98czFgov6Dh49LVaftAVoTBCfSMBQ==
+  version "5.6.0-dev.20240812"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.6.0-dev.20240812.tgz#5eeb148dbeebc734d1cf014392249215036df72c"
+  integrity sha512-TR3m7teVCHUhgqmFTj3TKFevzF4GMWOvesnhjWlBfUn3TRy4Z3xhJ9FzxzeEfupEqNWOagszD1Q0Ym46BtyE2g==
 
 typescript@~5.4:
   version "5.4.5"
