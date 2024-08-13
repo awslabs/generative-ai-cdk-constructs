@@ -3,6 +3,7 @@ import boto3
 import botocore
 import tempfile
 import json
+import time
 from config_types import WorkflowStrategy, Metadata_source, ConfigFilesName
 from bedrock import get_llm
 from custom_errors import LLMNotLoadedException, KnowledgeBaseIDNotFound, FileNotFound
@@ -24,7 +25,6 @@ metadata_source = os.environ["METADATA_SOURCE"]
 config_bucket = os.environ["CONFIG_BUCKET"]
 knowledge_base_id = os.environ["KNOWLEDGE_BASE_ID"]
 
-
 s3 = boto3.client('s3')
 bedrock_agent_runtime = boto3.client('bedrock-agent-runtime')
 
@@ -33,12 +33,12 @@ bedrock_agent_runtime = boto3.client('bedrock-agent-runtime')
 @tracer.capture_lambda_handler
 @metrics.log_metrics(capture_cold_start_metric=True)
 def handler(event, context: LambdaContext) -> dict:
+    
+    start_time = time.time()
     logger.info(f"Starting textToSql construct for input :: {event}", )
-
     user_question = event['user_question']
     question_unique_id = event['unique_id']
-    is_feedback_request = event.get('get_feedback', False)
-
+    
     keys = [ConfigFilesName.WORKFLOW_JSON,
             ConfigFilesName.KNOWLEDGE_LAYER_JSON]
     file_contents = load_files_from_s3(keys)
@@ -59,7 +59,8 @@ def handler(event, context: LambdaContext) -> dict:
 
     semantic_layer = config.get("semantic_layer")
     knowledge_base = config.get("knowledge_base")
-
+    execute_sql_config = config.get("execute_sql")
+    execute_sql_strategy = execute_sql_config.get('strategy', WorkflowStrategy.DISABLED)
     semantic_layer_strategy = semantic_layer.get(
         'strategy', WorkflowStrategy.AUTO)
 
@@ -75,7 +76,9 @@ def handler(event, context: LambdaContext) -> dict:
         'reformulated_user_question': reformulated_user_question,
         'user_question': user_question,
         'question_unique_id': question_unique_id,
-        'semantic_layer_strategy': semantic_layer_strategy
+        'semantic_layer_strategy': semantic_layer_strategy,
+        'execute_sql_strategy':execute_sql_strategy,
+        'execution_start_time':start_time
     }
     logger.info(f"Returning response :: {response}")
     return response
@@ -126,7 +129,7 @@ def get_reformulated_question(semantic_layer, knowledge_layer, knowledge_base, u
     Raises:
         LLMNotLoadedException: If the language model for the semantic layer cannot be loaded.
     """
-
+    
     logger.info(f'Reformulating user question :: {user_question}')
     semantic_layer_llm = get_llm(semantic_layer)
     if semantic_layer_llm is None:
@@ -207,3 +210,5 @@ def download_file_from_s3(bucket_name, object_key):
         raise FileNotFound(f"Error loading file from S3: {e}")
 
     return download_path
+
+

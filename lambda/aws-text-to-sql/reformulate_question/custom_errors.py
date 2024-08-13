@@ -22,4 +22,4 @@ class TaskTokenMissing(Exception):
 class UserQuestionMissing(Exception):
     def __init__(self, message):
         super().__init__(message)
-        self.message = f"[404] user question or question id is not found, {message}"
+        self.message = f"[404] step function task token not found, {message}"

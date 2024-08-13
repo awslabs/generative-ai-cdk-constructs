@@ -53,6 +53,12 @@ export enum DbName {
   MYSQL = 'MySQL',
   POSTGRESQL = 'PostgreSQL',
 }
+
+export enum MetatdataSource {
+  CONFIG_FILE = 'config_file',
+  KNOWLEDGE_BASE = 'knowledge_base'
+}
+
 export interface TextToSqlProps {
   /**
    * Optional. The construct creates a custom VPC based on vpcProps.
@@ -140,6 +146,7 @@ export interface TextToSqlProps {
    *  @default -3306
    */
   readonly dbPort?: number;
+
 
   /**
    * Returns the RDS db instance  used by the construct
@@ -431,6 +438,7 @@ export class TextToSql extends BaseClass {
                   's3:GetBucketLocation',
                   's3:ListBucket',
                   's3:PutObject',
+
                 ],
                 resources: [
                   `arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`,
@@ -482,6 +490,18 @@ export class TextToSql extends BaseClass {
         resources: ['*'],
       }),
     );
+
+    textToSQLFunctionRole.addToPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: ['s3:ListBucket'],
+        resources: ['arn:' +
+                    Aws.PARTITION +
+                    ':s3:::' +
+                    this.configAssetBucket.bucketName],
+      }),
+    );
+
 
     const configLoaderPolicy = new iam.ManagedPolicy(this, 'AuroraPgPolicy', {
       managedPolicyName: generatePhysicalNameV2(this, 'configLoaderPolicy', {
@@ -776,6 +796,10 @@ export class TextToSql extends BaseClass {
           question_unique_id: stepfunctions.TaskInput.fromJsonPathAt(
             '$.question_unique_id',
           ),
+          execute_sql_strategy:
+            stepfunctions.TaskInput.fromJsonPathAt('$.execute_sql_strategy'),
+          execution_start_time:
+            stepfunctions.TaskInput.fromJsonPathAt('$.execution_start_time'),
           TaskToken: stepfunctions.JsonPath.taskToken,
         }),
         integrationPattern:
@@ -939,9 +963,12 @@ export class TextToSql extends BaseClass {
           generated_query: stepfunctions.JsonPath.stringAt(
             '$.queryConfig.Payload.validated_sql_query',
           ),
-          execute_sql_strategy: stepfunctions.JsonPath.stringAt(
-            '$.queryConfig.Payload.execute_sql_strategy',
+          execute_sql_strategy: stepfunctions.TaskInput.fromJsonPathAt(
+            '$.execute_sql_strategy',
           ),
+          execution_start_time:
+            stepfunctions.TaskInput.fromJsonPathAt('$.execution_start_time'),
+
           reformualted_question: stepfunctions.TaskInput.fromJsonPathAt(
             '$.reformulated_user_question',
           ),

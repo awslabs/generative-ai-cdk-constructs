@@ -11,6 +11,9 @@ class Workflow(StrEnum):
 class Provider(StrEnum):
     BEDROCK = 'Bedrock'
     
+class MetricFileName(StrEnum):
+    METRIC_FILE_NAME = 'texttosql_metrics.csv'
+    
 class Database_supported(StrEnum):
     SQLITE = 'Sqlite',
     POSTGRESQL='PostgreSQL'

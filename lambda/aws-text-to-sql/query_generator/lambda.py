@@ -1,6 +1,9 @@
 import os
 import boto3
 import json
+import tempfile
+import csv
+import time
 # aws libs
 from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
@@ -40,9 +43,8 @@ def handler(event, context: LambdaContext)-> dict:
 
     
     sql_generation_config = config.get("sql_generation")
-    execute_sql_config = config.get("execute_sql")
+    generate_metrics= config.get("generate_metrics")
     sql_validation_strategy = sql_generation_config.get('strategy', WorkflowStrategy.AUTO)
-    execute_sql_strategy = execute_sql_config.get('strategy', WorkflowStrategy.DISABLED)
     text_to_sql_query_generation_llm = get_llm(sql_generation_config)
     if text_to_sql_query_generation_llm is None:
         raise LLMNotLoadedException("text_to_sql_query_generation_llm")
@@ -54,6 +56,8 @@ def handler(event, context: LambdaContext)-> dict:
 
     reformulated_user_question = event.get("reformulated_user_question")    
     original_user_question = event.get("user_question")  
+    unique_id = event.get("question_unique_id")  
+    execution_start_time = event.get("execution_start_time")  
     
     logger.info(f' reforumlated question :: {reformulated_user_question}')
     logger.info(f' original question ::{original_user_question}')
@@ -84,9 +88,29 @@ def handler(event, context: LambdaContext)-> dict:
     response = {
         'validated_sql_query':validated_sql_query,
         'sql_validation_strategy':sql_validation_strategy,
-        'execute_sql_strategy':execute_sql_strategy
     }
-
+    end_time = time.time()
+    query_generation_time = end_time - execution_start_time
+    generate_metrics_strategy = generate_metrics.get(
+        'strategy', WorkflowStrategy.DISABLED)
+    metrics_file_name = generate_metrics.get(
+        'metrics_file_name', "metric/texttosql_metrics.csv")
+    if generate_metrics_strategy == WorkflowStrategy.AUTO:
+        metrics_data={
+                'user_question':original_user_question,
+                'reformulated_question':reformulated_user_question,
+                'unique_id':unique_id,
+                'generated_sql': validated_sql_query,
+                'expected_sql': '',
+                'generated_sql_correct':'' ,
+                'generated_sql_match_pinned_sql': '',
+                'query_generation_time':  query_generation_time,
+                'generated_result_correct': ''
+            }
+        
+        save_metrics(metrics_data, metrics_file_name)
+    else:
+        logger.info('Metrics generation strategy disabled...')
     return response
 
 
@@ -311,3 +335,52 @@ def load_files_from_s3(keys, bucket_name):
     logger.info(f"Loaded {len(file_contents)} files from S3")   
     return file_contents
 
+def save_metrics(data, file_key):
+    columns = list(data.keys())
+    unique_id = data['unique_id']
+
+    # List files in the S3 bucket
+    bucket_objects = s3.list_objects_v2(Bucket=config_bucket)
+    file_exists = False
+
+    if 'Contents' in bucket_objects:
+        for obj in bucket_objects['Contents']:
+            if obj['Key'] == file_key:
+                file_exists = True
+                break
+
+    if file_exists:
+        # Download the file from S3
+        with tempfile.NamedTemporaryFile(mode='w+b', delete=False) as temp_file:
+            s3.download_fileobj(config_bucket, file_key, temp_file)
+            temp_file.seek(0)
+
+        with open(temp_file.name, 'r') as csvfile:
+            reader = csv.DictReader(csvfile)
+            rows = list(reader)
+    else:
+        rows = []
+
+    row_exists = False
+    for row in rows:
+        if row['unique_id'] == unique_id:
+            row_exists = True
+            rows.remove(row)
+            rows.append(data)
+            break
+
+    if not row_exists:
+        rows.append(data)
+
+    # Write the updated data to a temporary file
+    with tempfile.NamedTemporaryFile(mode='w', delete=False) as temp_file:
+        writer = csv.DictWriter(temp_file, fieldnames=columns)
+        writer.writeheader()
+        writer.writerows(rows)
+
+    # Upload the temporary file to S3
+    with open(temp_file.name, 'rb') as file_data:
+        s3.upload_fileobj(file_data, config_bucket, file_key)
+
+    os.unlink(temp_file.name)
+    print(f"Data saved to s3://{config_bucket}/{file_key}")

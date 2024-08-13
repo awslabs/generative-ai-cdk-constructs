@@ -2,6 +2,7 @@ import os
 import time
 import json
 import boto3
+import json
 from bedrock import get_llm
 from langchain_core.prompts import  PromptTemplate
 from langchain.chains import  LLMChain
@@ -45,15 +46,24 @@ def handler(event, context: LambdaContext)-> dict:
     
     
     execute_query_config = config.get("execute_sql",None)
-    user_question = event.get("reformulated_user_question",None)
+    reformulated_user_question = event.get("reformulated_user_question",None)
     
-    print(f"Retrieve schema from:: {db_name}")
+    
+    logger.info(f"Retrieve schema from:: {db_name}")
     
     generated_sql_query = event.get("generated_query",None)
     if generated_sql_query is None or generated_sql_query == "":
-        raise GeneratedQueryNotFound("generated_sql_query is None or empty")
-    
-    print(f"generated SQL Query: {generated_sql_query}")
+        # generated query is set in validated_sql_query for execute_query_strategy = auto 
+        queryConfig = event.get("queryConfig").get("Payload", None)
+        generated_sql_query = queryConfig.get("validated_sql_query",None)
+        
+        logger.info(f"validated_sql_query  {generated_sql_query}")
+        
+        if generated_sql_query is None or generated_sql_query == "":
+            raise GeneratedQueryNotFound("generated_sql_query is None or empty")
+        
+
+    logger.info(f"generated SQL Query: {generated_sql_query}")
     sql_synth = config.get("sql_synth")
     
     
@@ -61,9 +71,11 @@ def handler(event, context: LambdaContext)-> dict:
     
     if (execute_query_strategy != WorkflowStrategy.DISABLED):
         db = get_db_connection(db_name)
-        print("db tables::")
-        print(db.get_usable_table_names())
+        
+        logger.info(db.get_usable_table_names())
+        start_time = time.time()
         query_result = execute_query(generated_sql_query,db)
+        end_time = time.time()
         if "QUERY_ERROR" in query_result:
             response['status'] = 'QUERY_ERROR'
         else:
@@ -72,8 +84,9 @@ def handler(event, context: LambdaContext)-> dict:
         logger.info('Executing query against the database disabled')
         response['status'] = 'success'
         
-    formatted_output = format_output(query_result, sql_synth,user_question,generated_sql_query)
+    formatted_output = format_output(query_result, sql_synth,reformulated_user_question,generated_sql_query)
     response ['result'] = formatted_output
+    
     
     return response
 
@@ -183,6 +196,3 @@ def load_files_from_s3(keys, bucket_name=config_bucket):
     logger.info(f"Loaded {len(file_contents)} files from S3")   
     return file_contents
 
-input = {
-    
-}

@@ -14,7 +14,6 @@ metrics = Metrics(namespace="textToSql_pipeline", service="QUERY_EXECUTOR")
 
 secret_arn = os.environ['SECRET_ARN']
 
-
 def get_db_connection(db_name):
     try:
         match db_name:
