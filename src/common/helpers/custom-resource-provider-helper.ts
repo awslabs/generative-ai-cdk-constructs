@@ -14,7 +14,6 @@ import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
-import * as lambdanode from 'aws-cdk-lib/aws-lambda-nodejs';
 import * as logs from 'aws-cdk-lib/aws-logs';
 import * as cr from 'aws-cdk-lib/custom-resources';
 import { NagSuppressions } from 'cdk-nag';
@@ -117,8 +116,9 @@ export function buildCustomResourceProvider(props: CRProviderProps): ICRProvider
       let customResourceFunction;
 
       if (runtime.family === lambda.RuntimeFamily.NODEJS) {
-        customResourceFunction = new lambdanode.NodejsFunction(this, 'CustomResourcesFunction', {
-          entry: codePath,
+
+        customResourceFunction = new lambda.Function(this, 'CustomResourcesFunction', {
+          code: lambda.Code.fromAsset(codePath),
           handler,
           runtime,
           role: this.role,

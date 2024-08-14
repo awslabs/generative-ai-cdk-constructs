@@ -41,6 +41,15 @@
       ],
       "condition": "! git log --oneline -1 | grep -q \"chore(release):\""
     },
+    "bundle-vector-index": {
+      "name": "bundle-vector-index",
+      "description": "Bundle the vector-index Lambda function",
+      "steps": [
+        {
+          "exec": "node lambda/opensearch-serverless-custom-resources/build.js"
+        }
+      ]
+    },
     "clobber": {
       "name": "clobber",
       "description": "hard resets to HEAD of origin and cleans the local repo",
@@ -154,6 +163,16 @@
         }
       ]
     },
+    "install-vector-index": {
+      "name": "install-vector-index",
+      "steps": [
+        {
+          "say": "install deps",
+          "cwd": "lambda/opensearch-serverless-custom-resources",
+          "exec": "yarn install"
+        }
+      ]
+    },
     "install:ci": {
       "name": "install:ci",
       "description": "Install project dependencies using frozen lockfile",
@@ -246,7 +265,15 @@
     },
     "pre-compile": {
       "name": "pre-compile",
-      "description": "Prepare the project for compilation"
+      "description": "Prepare the project for compilation",
+      "steps": [
+        {
+          "exec": "cd lambda/opensearch-serverless-custom-resources && yarn install"
+        },
+        {
+          "exec": "yarn run bundle-vector-index"
+        }
+      ]
     },
     "release": {
       "name": "release",

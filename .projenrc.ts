@@ -254,6 +254,17 @@ project.addTask('generate-models-containers', {
   ],
 });
 
+project.addTask('bundle-vector-index', {
+  description: 'Bundle the vector-index Lambda function',
+  exec: 'node lambda/opensearch-serverless-custom-resources/build.js',
+});
+
+const preCompile = project.tasks.tryFind('pre-compile');
+if (preCompile) {
+  preCompile.exec('cd lambda/opensearch-serverless-custom-resources && yarn install');
+  preCompile.exec('yarn run bundle-vector-index');
+}
+
 const postCompile = project.tasks.tryFind('post-compile');
 if (postCompile) {
   postCompile.exec('npx typedoc --plugin typedoc-plugin-markdown --out apidocs --readme none --categoryOrder "Namespaces,Classes,Interfaces,*" --disableSources ./src/index.ts');

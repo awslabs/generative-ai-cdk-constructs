@@ -20,7 +20,7 @@ import { buildCustomResourceProvider } from '../../../src/common/helpers/custom-
 const AOSSCRProvider = buildCustomResourceProvider({
   providerName: 'OpenSearchIndexCRProvider',
   codePath: path.join(
-    __dirname, '../../../lambda/opensearch-serverless-custom-resources/index.ts'),
+    __dirname, '../../../lambda/opensearch-serverless-custom-resources'),
   handler: 'handler',
   runtime: lambda.Runtime.NODEJS_18_X,
 });
