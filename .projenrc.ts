@@ -32,10 +32,10 @@ const PUBLICATION_NAMESPACE = 'cdklabs';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
 const CDK_VERSION: string = '2.149.0';
 
-// function camelCaseIt(input: string): string {
-//   // Hypens and dashes to spaces and then CamelCase...
-//   return input.replace(/-/g, ' ').replace(/_/g, ' ').replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, _) { if (+match === 0) return ''; return match.toUpperCase(); });
-// }
+function camelCaseIt(input: string): string {
+   // Hypens and dashes to spaces and then CamelCase...
+   return input.replace(/-/g, ' ').replace(/_/g, ' ').replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, _) { if (+match === 0) return ''; return match.toUpperCase(); });
+ }
 
 const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Amazon Web Services - Prototyping and Cloud Engineering',
@@ -91,10 +91,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
     // twineRegistryUrl: '${{ secrets.TWINE_REGISTRY_URL }}',
   },
 
-  // publishToNuget: {
-  //   dotNetNamespace: camelCaseIt(PUBLICATION_NAMESPACE)+'.'+camelCaseIt(PROJECT_NAME),
-  //   packageId: camelCaseIt(PUBLICATION_NAMESPACE)+'.'+camelCaseIt(PROJECT_NAME),
-  // },
+  publishToNuget: {
+     dotNetNamespace: camelCaseIt(PUBLICATION_NAMESPACE)+'.'+camelCaseIt(PROJECT_NAME),
+     packageId: camelCaseIt(PUBLICATION_NAMESPACE)+'.'+camelCaseIt(PROJECT_NAME),
+   },
 
   publishToGo: {
     moduleName: `github.com/${PUBLICATION_NAMESPACE}/${PROJECT_NAME}-go`,
