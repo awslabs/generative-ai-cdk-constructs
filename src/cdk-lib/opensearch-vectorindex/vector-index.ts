@@ -237,6 +237,6 @@ export class VectorIndex extends cdk.Resource {
 export const OpenSearchIndexCRProvider = buildCustomResourceProvider({
   providerName: 'OpenSearchIndexCRProvider',
   codePath: path.join(__dirname, '../../../lambda/opensearch-serverless-custom-resources'),
-  handler: 'handler',
+  handler: 'index.handler',
   runtime: lambda.Runtime.NODEJS_18_X,
 });
