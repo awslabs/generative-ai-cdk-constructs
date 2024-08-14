@@ -70,7 +70,7 @@
     "ts-jest": "^29.2.4",
     "ts-node": "^10.9.2",
     "typedoc": "^0.26.5",
-    "typedoc-plugin-markdown": "^4.2.3",
+    "typedoc-plugin-markdown": "^4.2.4",
     "typescript": "^5.5.4"
   },
   "peerDependencies": {
@@ -78,7 +78,7 @@
     "constructs": "^10.3.0"
   },
   "dependencies": {
-    "cdk-nag": "^2.28.177",
+    "cdk-nag": "^2.28.178",
     "deepmerge": "^4.3.1"
   },
   "bundledDependencies": [
