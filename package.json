@@ -16,7 +16,6 @@
     "eject": "npx projen eject",
     "eslint": "npx projen eslint",
     "generate-models-containers": "npx projen generate-models-containers",
-    "install-vector-index": "npx projen install-vector-index",
     "package": "npx projen package",
     "package-all": "npx projen package-all",
     "package:dotnet": "npx projen package:dotnet",

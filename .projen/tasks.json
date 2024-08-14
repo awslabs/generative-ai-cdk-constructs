@@ -163,16 +163,6 @@
         }
       ]
     },
-    "install-vector-index": {
-      "name": "install-vector-index",
-      "steps": [
-        {
-          "say": "install deps",
-          "cwd": "lambda/opensearch-serverless-custom-resources",
-          "exec": "yarn install"
-        }
-      ]
-    },
     "install:ci": {
       "name": "install:ci",
       "description": "Install project dependencies using frozen lockfile",
