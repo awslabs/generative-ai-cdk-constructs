@@ -9,5 +9,5 @@ esbuild.build({
     target: 'node18',
     sourcemap: true,
     outfile: path.join(__dirname, 'index.js'),
-    external:['@aws-sdk/*'],
+    external:['aws-sdk'],
 }).catch(() => process.exit(1));
