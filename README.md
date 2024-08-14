@@ -12,6 +12,8 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/cdklabs.generative-ai-cdk-constructs)](https://pypi.org/project/cdklabs.generative-ai-cdk-constructs/)
 [![npm version](https://img.shields.io/npm/v/@cdklabs/generative-ai-cdk-constructs)](https://www.npmjs.com/package/@cdklabs/generative-ai-cdk-constructs)
+[![NuGet Version](https://img.shields.io/nuget/v/Cdklabs.GenerativeAiCdkConstructs)](https://nuget.info/packages/Cdklabs.GenerativeAiCdkConstructs)
+[![GitHub Tag](https://img.shields.io/github/v/tag/awslabs/generative-ai-cdk-constructs?label=go&color=orange)](https://github.com/cdklabs/generative-ai-cdk-constructs-go)
 
 ## Table of contents
 
@@ -26,6 +28,7 @@
 - [Contributors](#contributors)
 - [Operational Metrics Collection](#operational-metrics-collection)
 - [Roadmap](#roadmap)
+- [License](#license)
 - [Legal Disclaimer](#legal-disclaimer)
 
 ## Introduction
@@ -66,6 +69,25 @@ If you want to add a new construct to the library, check out our [design guideli
 - Import the library:
   - `import cdklabs.generative_ai_cdk_constructs`
 
+### For NuGet
+
+- Create or use an existing CDK application in Python
+  - `cdk init app --language csharp`
+- Install the package while in the Visual Studio project:
+  - `dotnet add package CdkLabs.GenerativeAICdkConstructs`
+- Use the namespace:
+  - `using Cdklabs.GenerativeAiCdkConstructs;`
+
+### For Go
+- Create or use an existing CDK application in Python
+  - `cdk init app --language go`
+- Get the module:
+  - `go get github.com/cdklabs/generative-ai-cdk-constructs-go/generative-ai-cdk-constructs`
+- Import the library:
+  - `import "github.com/cdklabs/generative-ai-cdk-constructs-go/generative-ai-cdk-constructs"`
+
+_NOTE: The [Go distribution repository](https://github.com/cdklabs/generative-ai-cdk-constructs-go), distributes the JSII tar gzipped versioned source from the [source repository](https://github.awslabs/generative-ai-cdk-constructs)_
+
 Refer to the documentation for additional guidance on a particular construct: [Catalog](#catalog)
 
 ## Catalog
@@ -101,21 +123,23 @@ The official samples repository https://github.com/aws-samples/generative-ai-cdk
 
 ## Additional Resources
 
-| Resource |Description|
-|:-------------|:-------------|
-| [AWS re:Invent 2023 - Keynote with Dr. Werner Vogels](https://youtu.be/UTRBVPvzt9w?t=6252) | Dr. Werner Vogels, Amazon.com's VP and CTO, announces the AWS Generative AI CDK Constructs during his AWS re:Invent 2023 keynote. |
-| [Workshop - Building Generative AI Apps on AWS with CDK](https://catalog.workshops.aws/building-genai-apps) | In this workshop, you will explore how to build a sample generative AI app on AWS using CDK and Generative AI CDK Constructs. |
-| [Build generative AI applications with Amazon Titan Text Premier, Amazon Bedrock, and AWS CDK](https://aws.amazon.com/blogs/machine-learning/build-generative-ai-applications-with-amazon-titan-text-premier-amazon-bedrock-and-aws-cdk/) | Blog post exploring building and deploying two sample applications powered by Amazon Titan Text Premier using the Generative AI CDK constructs. |
-| [aws-cdk-stack-builder-tool](https://github.com/aws-samples/aws-cdk-stack-builder-tool) | AWS CDK Builder is a browser-based tool designed to streamline bootstrapping of Infrastructure as Code (IaC) projects using the AWS Cloud Development Kit (CDK). |
-| [CDK Live! Building generative AI applications and architectures leveraging AWS CDK Constructs!](https://www.youtube.com/watch?v=NI1F4Xxqyr8) | CDK Live! episode focused on building and deploying generative AI applications and architectures on AWS using the AWS Cloud Development Kit (CDK) and the AWS Generative AI CDK Constructs. |
-| [Announcing AWS Generative AI CDK Constructs!](https://aws.amazon.com/blogs/devops/announcing-generative-ai-cdk-constructs/) | Blog post announcing the release of the AWS Generative AI CDK Constructs. |
-| [aws-genai-llm-chatbot](https://github.com/aws-samples/aws-genai-llm-chatbot/tree/main) | Multi-Model and Multi-RAG Powered Chatbot Using AWS CDK on AWS allowing you to experiment with a variety of Large Language Models and Multimodal Language Models, settings and prompts in your own AWS account. |
-| [amazon-bedrock-rag](https://github.com/aws-samples/amazon-bedrock-rag) | Fully managed RAG solution using Knowledge Bases for Amazon Bedrock. |
-| [Amazon Bedrock Multimodal Search](https://github.com/aws-samples/amazon-bedrock-titan-multimodal-search) | Multimodal product search app built using Amazon Titan Multimodal Embeddings model. |
-| [Amazon Bedrock Knowledge Bases with Private Data](https://blog.serverlessadvocate.com/amazon-bedrock-knowledge-bases-with-private-data-7685d04ef396) | Blog post and associated code sample demonstrating how to integrate Knowledge Bases into Amazon Bedrock to provide foundational models with contextual data from private data sources. |
-| [Automating tasks using Amazon Bedrock Agents and AI](https://blog.serverlessadvocate.com/automating-tasks-using-amazon-bedrock-agents-and-ai-4b6fb8856589) | Blog post and associated code sample demonstrating how to deploy an Amazon Bedrock Agent and a Knowledge Base through a hotel and spa use case. |
-| [Agents for Amazon Bedrock - Powertools for AWS Lambda (Python)](https://docs.powertools.aws.dev/lambda/python/latest/core/event_handler/bedrock_agents/#using-aws-cloud-developer-kit-cdk) | Create Agents for Amazon Bedrock using event handlers and auto generation of OpenAPI schemas. |
-| [Text to SQL Bedrock Agent](https://github.com/aws-samples/amazon-bedrock-samples/tree/main/agents-for-bedrock/use-case-examples/text-2-sql-agent-cdk-enhanced) | Harnessing the power of natural language processing, the "Text to SQL Bedrock Agent" facilitates the automatic transformation of natural language questions into executable SQL queries. |
+| Resource | Type | Description|
+|:-------------|:-------------|:-------------|
+| [AWS re:Invent 2023 - Keynote with Dr. Werner Vogels](https://youtu.be/UTRBVPvzt9w?t=6252) | Keynote | Dr. Werner Vogels, Amazon.com's VP and CTO, announces the AWS Generative AI CDK Constructs during his AWS re:Invent 2023 keynote. |
+| [Workshop - Building Generative AI Apps on AWS with CDK](https://catalog.workshops.aws/building-genai-apps) | Workshop | In this workshop, you will explore how to build a sample generative AI app on AWS using CDK and Generative AI CDK Constructs. |
+| [Build generative AI applications with Amazon Titan Text Premier, Amazon Bedrock, and AWS CDK](https://aws.amazon.com/blogs/machine-learning/build-generative-ai-applications-with-amazon-titan-text-premier-amazon-bedrock-and-aws-cdk/) | Blog post + Code sample | Blog post exploring building and deploying two sample applications powered by Amazon Titan Text Premier using the Generative AI CDK constructs. |
+| [aws-cdk-stack-builder-tool](https://github.com/aws-samples/aws-cdk-stack-builder-tool) | Code sample | AWS CDK Builder is a browser-based tool designed to streamline bootstrapping of Infrastructure as Code (IaC) projects using the AWS Cloud Development Kit (CDK). |
+| [CDK Live! Building generative AI applications and architectures leveraging AWS CDK Constructs!](https://www.youtube.com/watch?v=NI1F4Xxqyr8) | Video | CDK Live! episode focused on building and deploying generative AI applications and architectures on AWS using the AWS Cloud Development Kit (CDK) and the AWS Generative AI CDK Constructs. |
+| [Announcing AWS Generative AI CDK Constructs!](https://aws.amazon.com/blogs/devops/announcing-generative-ai-cdk-constructs/) | Blog post | Blog post announcing the release of the AWS Generative AI CDK Constructs. |
+| [Streamline insurance underwriting with generative AI using Amazon Bedrock](https://aws.amazon.com/blogs/machine-learning/streamline-insurance-underwriting-with-generative-ai-using-amazon-bedrock-part-1/)| Blog post + Code sample | Blog post and code sample discussing how to use AWS generative artificial intelligence (AI) solutions like Amazon Bedrock to improve the underwriting process, including rule validation, underwriting guidelines adherence, and decision justification. |
+| [aws-genai-llm-chatbot](https://github.com/aws-samples/aws-genai-llm-chatbot/tree/main) | Code sample | Multi-Model and Multi-RAG Powered Chatbot Using AWS CDK on AWS allowing you to experiment with a variety of Large Language Models and Multimodal Language Models, settings and prompts in your own AWS account. |
+| [bedrock-claude-chat](https://github.com/aws-samples/bedrock-claude-chat) | Code sample | AWS-native chatbot using Bedrock + Claude (+Mistral). |
+| [amazon-bedrock-rag](https://github.com/aws-samples/amazon-bedrock-rag)| Code sample | Fully managed RAG solution using Knowledge Bases for Amazon Bedrock. |
+| [Amazon Bedrock Multimodal Search](https://github.com/aws-samples/amazon-bedrock-titan-multimodal-search) | Code sample | Multimodal product search app built using Amazon Titan Multimodal Embeddings model. |
+| [Amazon Bedrock Knowledge Bases with Private Data](https://blog.serverlessadvocate.com/amazon-bedrock-knowledge-bases-with-private-data-7685d04ef396)| Blog post + Code sample  | Blog post and associated code sample demonstrating how to integrate Knowledge Bases into Amazon Bedrock to provide foundational models with contextual data from private data sources. |
+| [Automating tasks using Amazon Bedrock Agents and AI](https://blog.serverlessadvocate.com/automating-tasks-using-amazon-bedrock-agents-and-ai-4b6fb8856589) | Blog post + Code sample | Blog post and associated code sample demonstrating how to deploy an Amazon Bedrock Agent and a Knowledge Base through a hotel and spa use case. |
+| [Agents for Amazon Bedrock - Powertools for AWS Lambda (Python)](https://docs.powertools.aws.dev/lambda/python/latest/core/event_handler/bedrock_agents/#using-aws-cloud-developer-kit-cdk) | Code sample | Create Agents for Amazon Bedrock using event handlers and auto generation of OpenAPI schemas. |
+| [Text to SQL Bedrock Agent](https://github.com/aws-samples/amazon-bedrock-samples/tree/main/agents-for-bedrock/use-case-examples/text-2-sql-agent-cdk-enhanced) | Code sample | Harnessing the power of natural language processing, the "Text to SQL Bedrock Agent" facilitates the automatic transformation of natural language questions into executable SQL queries. |
 
 ## Contributors
 
@@ -128,6 +152,10 @@ Generative AI CDK Constructs may collect anonymous operational metrics, includin
 ## Roadmap
 
 Roadmap is available through the [GitHub Project](https://github.com/orgs/awslabs/projects/136)
+
+## License
+
+Apache-2.0
 
 ## Legal Disclaimer
 

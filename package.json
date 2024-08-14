@@ -18,6 +18,7 @@
     "package": "npx projen package",
     "package-all": "npx projen package-all",
     "package:dotnet": "npx projen package:dotnet",
+    "package:go": "npx projen package:go",
     "package:js": "npx projen package:js",
     "package:python": "npx projen package:python",
     "post-compile": "npx projen post-compile",
@@ -43,7 +44,7 @@
   "devDependencies": {
     "@aws-cdk/assert": "^2.68.0",
     "@commitlint/config-conventional": "^18.6.3",
-    "@mrgrain/jsii-struct-builder": "^0.7.37",
+    "@mrgrain/jsii-struct-builder": "^0.7.40",
     "@types/jest": "^29.5.12",
     "@types/node": "^18",
     "@typescript-eslint/eslint-plugin": "^7",
@@ -60,16 +61,16 @@
     "jest": "^29.7.0",
     "jest-junit": "^15",
     "jsii": "~5.4.0",
-    "jsii-diff": "^1.101.0",
-    "jsii-pacmak": "^1.101.0",
+    "jsii-diff": "^1.102.0",
+    "jsii-pacmak": "^1.102.0",
     "jsii-rosetta": "~5.4.0",
     "pinst": "^3.0.0",
     "projen": "~0.84.5",
     "standard-version": "^9",
-    "ts-jest": "^29.2.3",
+    "ts-jest": "^29.2.4",
     "ts-node": "^10.9.2",
     "typedoc": "^0.26.5",
-    "typedoc-plugin-markdown": "^4.2.2",
+    "typedoc-plugin-markdown": "^4.2.4",
     "typescript": "^5.5.4"
   },
   "peerDependencies": {
@@ -77,7 +78,7 @@
     "constructs": "^10.3.0"
   },
   "dependencies": {
-    "cdk-nag": "^2.28.163",
+    "cdk-nag": "^2.28.178",
     "deepmerge": "^4.3.1"
   },
   "bundledDependencies": [
@@ -156,6 +157,10 @@
       "dotnet": {
         "namespace": "Cdklabs.GenerativeAiCdkConstructs",
         "packageId": "Cdklabs.GenerativeAiCdkConstructs"
+      },
+      "go": {
+        "moduleName": "github.com/cdklabs/generative-ai-cdk-constructs-go",
+        "packageName": "generative-ai-cdk-constructs"
       }
     },
     "tsc": {
