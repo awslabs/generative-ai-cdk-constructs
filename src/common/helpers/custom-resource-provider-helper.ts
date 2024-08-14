@@ -10,6 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
@@ -18,6 +19,8 @@ import * as logs from 'aws-cdk-lib/aws-logs';
 import * as cr from 'aws-cdk-lib/custom-resources';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import * as esbuild from 'esbuild';
 
 export interface CRProviderProps {
   /**
@@ -117,8 +120,24 @@ export function buildCustomResourceProvider(props: CRProviderProps): ICRProvider
 
       if (runtime.family === lambda.RuntimeFamily.NODEJS) {
 
+        const lambdaDir = path.resolve(codePath);
+        const outputDir = path.join(lambdaDir, 'dist');
+        const outputFile = path.join(outputDir, 'index.js');
+
+        esbuild.buildSync({
+          entryPoints: [path.join(lambdaDir, 'index.ts')],
+          bundle: true,
+          minify: true,
+          platform: 'node',
+          target: 'node18',
+          sourcemap: true,
+          outfile: outputFile,
+          external: ['aws-sdk'],
+        });
+
         customResourceFunction = new lambda.Function(this, 'CustomResourcesFunction', {
-          code: lambda.Code.fromAsset(codePath),
+          code: lambda.Code.fromAsset(outputDir),
+          // code: lambda.Code.fromAsset(codePath),
           handler,
           runtime,
           role: this.role,
