@@ -45,7 +45,7 @@ def handler(event, context: LambdaContext)-> dict:
         raise ValueError(f"{ConfigFilesName.WORKFLOW_JSON} not found in file_contents")
     
     
-    execute_query_config = config.get("execute_sql",None)
+    execute_query_config = config.get("sql_execution",None)
     reformulated_user_question = event.get("reformulated_user_question",None)
     
     

@@ -11,46 +11,46 @@
  *  and limitations under the License.
  */
 
-import * as cdk from "aws-cdk-lib";
-import { Template, Match } from "aws-cdk-lib/assertions";
-import * as ec2 from "aws-cdk-lib/aws-ec2";
-import { AwsSolutionsChecks } from "cdk-nag";
+import * as cdk from 'aws-cdk-lib';
+import { Template, Match } from 'aws-cdk-lib/assertions';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import {
   TextToSql,
   TextToSqlProps,
   DatabaseType,
   DbName,
   MetatdataSource,
-} from "../../../../src/patterns/gen-ai/aws-text-to-sql";
+} from '../../../../src/patterns/gen-ai/aws-text-to-sql';
 
-describe("Text to SQL Construct", () => {
+describe('Text to SQL Construct', () => {
   let app: cdk.App;
   let texttoSqlTemplate: Template;
   let textToSqlTestConstruct: TextToSql;
 
   afterAll(() => {
-    console.log("Test completed");
+    console.log('Test completed');
   });
 
   beforeAll(() => {
     app = new cdk.App();
     cdk.Aspects.of(app).add(new AwsSolutionsChecks());
-    const textToSqlTestStack = new cdk.Stack(app, "textToSqlTestStack", {
+    const textToSqlTestStack = new cdk.Stack(app, 'textToSqlTestStack', {
       env: { account: cdk.Aws.ACCOUNT_ID, region: cdk.Aws.REGION },
     });
 
-    const vpc = new ec2.Vpc(textToSqlTestStack, "test-vpc", {
-      ipAddresses: ec2.IpAddresses.cidr("10.0.0.0/16"),
+    const vpc = new ec2.Vpc(textToSqlTestStack, 'test-vpc', {
+      ipAddresses: ec2.IpAddresses.cidr('10.0.0.0/16'),
       enableDnsHostnames: true,
       enableDnsSupport: true,
       subnetConfiguration: [
         {
-          name: "public",
+          name: 'public',
           subnetType: ec2.SubnetType.PUBLIC,
           cidrMask: 24,
         },
         {
-          name: "private",
+          name: 'private',
           subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
           cidrMask: 24,
         },
@@ -60,98 +60,96 @@ describe("Text to SQL Construct", () => {
       databaseType: DatabaseType.AURORA,
       dbName: DbName.MYSQL,
       metadataSource: MetatdataSource.CONFIG_FILE,
-      stage: "dev",
+      stage: 'dev',
       existingVpc: vpc,
     };
 
     textToSqlTestConstruct = new TextToSql(
       textToSqlTestStack,
-      "TextToSql",
-      props
+      'TextToSql',
+      props,
     );
     texttoSqlTemplate = Template.fromStack(textToSqlTestStack);
   });
 
-  test("S3 bucket count", () => {
-    texttoSqlTemplate.resourceCountIs("AWS::S3::Bucket", 2);
+  test('S3 bucket count', () => {
+    texttoSqlTemplate.resourceCountIs('AWS::S3::Bucket', 2);
     expect(textToSqlTestConstruct.configAssetBucket).not.toBeNull;
   });
-  test("Step function  count", () => {
-    texttoSqlTemplate.resourceCountIs("AWS::StepFunctions::StateMachine", 1);
+  test('Step function  count', () => {
+    texttoSqlTemplate.resourceCountIs('AWS::StepFunctions::StateMachine', 1);
     expect(textToSqlTestConstruct.stepFunction).not.toBeNull;
   });
-  test("Event bridge   count", () => {
-    texttoSqlTemplate.resourceCountIs("AWS::Events::EventBus", 1);
+  test('Event bridge   count', () => {
+    texttoSqlTemplate.resourceCountIs('AWS::Events::EventBus', 1);
   });
 
-  test("Lambda function count", () => {
-    texttoSqlTemplate.resourceCountIs("AWS::Lambda::Function", 7);
+  test('Lambda function count', () => {
+    texttoSqlTemplate.resourceCountIs('AWS::Lambda::Function', 7);
   });
 
-  test("refromulate lambda properties", () => {
-    texttoSqlTemplate.hasResourceProperties("AWS::Lambda::Function", {
-      PackageType: "Image",
-      FunctionName: Match.stringLikeRegexp("reformulatequestionfunction"),
+  test('refromulate lambda properties', () => {
+    texttoSqlTemplate.hasResourceProperties('AWS::Lambda::Function', {
+      PackageType: 'Image',
+      FunctionName: Match.stringLikeRegexp('reformulatequestionfunction'),
       Environment: {
         Variables: {
-          DB_NAME: Match.stringLikeRegexp("MySQL"),
-          METADATA_SOURCE: Match.stringLikeRegexp("config_file"),
+          DB_NAME: Match.stringLikeRegexp('MySQL'),
+          METADATA_SOURCE: Match.stringLikeRegexp('config_file'),
           CONFIG_BUCKET: {
             Ref: Match.anyValue(),
           },
-          KNOWLEDGE_BASE_ID: "",
         },
       },
     });
   });
 
-  test("refromulate lambda properties", () => {
-    texttoSqlTemplate.hasResourceProperties("AWS::Lambda::Function", {
-      PackageType: "Image",
-      FunctionName: Match.stringLikeRegexp("reformulatequestionfunction"),
+  test('refromulate lambda properties', () => {
+    texttoSqlTemplate.hasResourceProperties('AWS::Lambda::Function', {
+      PackageType: 'Image',
+      FunctionName: Match.stringLikeRegexp('reformulatequestionfunction'),
       Environment: {
         Variables: {
-          DB_NAME: Match.stringLikeRegexp("MySQL"),
-          METADATA_SOURCE: Match.stringLikeRegexp("config_file"),
+          DB_NAME: Match.stringLikeRegexp('MySQL'),
+          METADATA_SOURCE: Match.stringLikeRegexp('config_file'),
           CONFIG_BUCKET: {
             Ref: Match.anyValue(),
           },
-          KNOWLEDGE_BASE_ID: "",
         },
       },
     });
   });
 
-  test("query generator lambda properties", () => {
-    texttoSqlTemplate.hasResourceProperties("AWS::Lambda::Function", {
-      PackageType: "Image",
-      FunctionName: Match.stringLikeRegexp("querygeneratorfunction"),
+  test('query generator lambda properties', () => {
+    texttoSqlTemplate.hasResourceProperties('AWS::Lambda::Function', {
+      PackageType: 'Image',
+      FunctionName: Match.stringLikeRegexp('querygeneratorfunction'),
       Environment: {
         Variables: {
-          DB_NAME: Match.stringLikeRegexp("MySQL"),
+          DB_NAME: Match.stringLikeRegexp('MySQL'),
           CONFIG_BUCKET: {
             Ref: Match.anyValue(),
           },
           SECRET_ARN: {
-            Ref: Match.stringLikeRegexp("TextToSqlAurora"),
+            Ref: Match.stringLikeRegexp('TextToSqlAurora'),
           },
         },
       },
     });
   });
 
-  test("query executor properties", () => {
-    texttoSqlTemplate.hasResourceProperties("AWS::Lambda::Function", {
-      PackageType: "Image",
-      FunctionName: Match.stringLikeRegexp("queryexecutorfunction"),
+  test('query executor properties', () => {
+    texttoSqlTemplate.hasResourceProperties('AWS::Lambda::Function', {
+      PackageType: 'Image',
+      FunctionName: Match.stringLikeRegexp('queryexecutorfunction'),
       Environment: {
         Variables: {
-          DB_NAME: Match.stringLikeRegexp("MySQL"),
+          DB_NAME: Match.stringLikeRegexp('MySQL'),
           CONFIG_BUCKET: {
             Ref: Match.anyValue(),
           },
           SECRET_ARN: {
-            Ref: Match.stringLikeRegexp("TextToSqlAurora"),
+            Ref: Match.stringLikeRegexp('TextToSqlAurora'),
           },
         },
       },

@@ -122,7 +122,8 @@ Knowledge Base Configuration
 ```json
 "sql_generation": {
     "strategy": "auto", // Set to "human" to enable interactive feedback, set to "auto" for no feedback operation
-    "sql_generation_prompt_path": "config/sql_generation_prompt.json",
+    "sql_generation_prompt_path": "", // If none , then default prompts for sql generation are used
+    "few_shots_examples": "config/few_shots.json", //
     "few_shot_strategy": "static", // Utilize a fixed set of few-shot examples
     "max_few_shots": 5, // Maximum number of few-shot examples to provide
     "model_id": "anthropic.claude-3-haiku-20240307-v1:0", // Specify the Anthropic Claude model to use
@@ -135,7 +136,7 @@ Knowledge Base Configuration
 ```
    To execute the query
 ```json
-"execute_sql": {
+"sql_execution": {
     "strategy": "human" // Setting the "strategy" value to "human" execute the generated query , "disabled" skip the query execution and returned generated query.
 },
     
@@ -144,7 +145,7 @@ Knowledge Base Configuration
   "sql_synth": {
         "strategy": "auto", // Setting the "strategy" to "disabled" will skip the query result formatting eith llm
         "prompt_template_path": "config/sql_synth_prompt.json",
-        "id": "anthropic.claude-3-haiku-20240307-v1:0",
+        "model_id": "anthropic.claude-3-haiku-20240307-v1:0",
         "topp": 1,
         "topk": 1,
         "temperature": 0
@@ -160,6 +161,14 @@ Knowledge Base Configuration
         "topp": 1,
         "topk": 1,
         "temperature": 0
+    }
+  ```
+
+  To generate query metrics
+  ```json
+  "generate_metrics": {
+        "strategy": "auto", // "auto" save the query metrics in a csv file and "disabled" can skip query metrics.
+        "metrics_file_name": "metric/texttosql_metrics.csv"  
     }
   ```
 ## Pattern Construct Props

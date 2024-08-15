@@ -1,45 +1,43 @@
-{
-    "user_question": "How many makers are there ?",
+    {
     "verbose": false,
-    "knowledge_base": {
-        "enable": true,
-        "id": "WUL39PUAZL",
-        "embedding_model": "amazon.titan-text-lite-v1"
-    },
-    "sql_generation": {
-        "strategy": "human",
-        "sql_generation_prompt_path": "config/sql_generation_prompt.json",
-        "few_shots_strategy": "static",
-        "few_shots_max": 5,
-        "id": "anthropic.claude-3-haiku-20240307-v1:0",
-        "topp": 1,
-        "topk": 1,
-        "temperature": 0,
-        "generation_prompt_template_path": "config/X.json",
-        "validation_prompt_template_path": "config/X.json"
-    },
-    "execute_sql": {
-        "strategy": "human",
-        "id": "anthropic.claude-3-haiku-20240307-v1:0",
-        "topp": 1,
-        "topk": 1,
-        "temperature": 0
-    },
-    "sql_synth": {
-        "strategy": "human",
-        "prompt_template_path": "config/sql_synth_prompt.json",
-        "id": "anthropic.claude-3-haiku-20240307-v1:0",
-        "topp": 1,
-        "topk": 1,
-        "temperature": 0
-    },
     "semantic_layer": {
-        "strategy": "human",
-        "prompt_template_path": "config/knowledge_layer_prompt.json",
-        "kb_prompt_template_path": "config/kb_schema_linking_prompt.json",
+        "strategy": "auto",
+        "config_files":{
+            "prompt_template_path": "config/knowledge_layer_prompt.json"
+        },
+        "knowledge_base": {
+            "kb_prompt_template_path": "config/kb_schema_linking_prompt.json",
+            "id": "",
+            "embedding_model": "amazon.titan-text-lite-v1"
+        },     
         "model_id": "anthropic.claude-3-haiku-20240307-v1:0",
         "topp": 1,
         "topk": 1,
         "temperature": 0
+    },
+    "sql_generation": {
+        "strategy": "auto",
+        "few_shots_file_path": "config/few_shots.json",
+        "few_shots_strategy": "static",
+        "few_shots_max": 5,
+        "model_id": "anthropic.claude-3-haiku-20240307-v1:0",
+        "topp": 1,
+        "topk": 1,
+        "temperature": 0
+    },
+    "sql_execution": {
+        "strategy": "auto"
+    },
+    "sql_synth": {
+        "strategy": "auto",
+        "prompt_template_path": "config/sql_synth_prompt.json",
+        "model_id": "anthropic.claude-3-haiku-20240307-v1:0",
+        "topp": 1,
+        "topk": 1,
+        "temperature": 0
+    },
+    "generate_metrics": {
+        "strategy": "auto",
+        "metrics_file_name": "metric/texttosql_metrics.csv"  
     }
 }

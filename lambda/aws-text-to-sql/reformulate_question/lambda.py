@@ -23,7 +23,6 @@ metrics = Metrics(namespace="textToSql_pipeline", service="QUERY_CONFIG")
 db_name = os.environ["DB_NAME"]
 metadata_source = os.environ["METADATA_SOURCE"]
 config_bucket = os.environ["CONFIG_BUCKET"]
-knowledge_base_id = os.environ["KNOWLEDGE_BASE_ID"]
 
 s3 = boto3.client('s3')
 bedrock_agent_runtime = boto3.client('bedrock-agent-runtime')
@@ -58,8 +57,8 @@ def handler(event, context: LambdaContext) -> dict:
             f"{ConfigFilesName.KNOWLEDGE_LAYER_JSON} not found in file_contents")
 
     semantic_layer = config.get("semantic_layer")
-    knowledge_base = config.get("knowledge_base")
-    execute_sql_config = config.get("execute_sql")
+    knowledge_base = semantic_layer.get("knowledge_base")
+    execute_sql_config = config.get("sql_execution")
     execute_sql_strategy = execute_sql_config.get('strategy', WorkflowStrategy.DISABLED)
     semantic_layer_strategy = semantic_layer.get(
         'strategy', WorkflowStrategy.AUTO)
@@ -106,7 +105,7 @@ def load_files_from_s3(keys, bucket_name=config_bucket):
 
             file_contents[key] = file_data
         except Exception as e:
-            raise FileNotFound(f"Error loading file from S3: {e}")
+            raise FileNotFound(f"Error loading file {key} from S3 {bucket_name}: {e}")
 
     logger.info(f"Loaded {len(file_contents)} files from S3")
     return file_contents
@@ -137,12 +136,12 @@ def get_reformulated_question(semantic_layer, knowledge_layer, knowledge_base, u
 
     if metadata_source == Metadata_source.CONFIG_FILE:
         downloaded_file = download_file_from_s3(
-            config_bucket, semantic_layer['prompt_template_path'])
+            config_bucket, semantic_layer['config_files']['prompt_template_path'])
         answer_prompt = load_prompt(downloaded_file)
         knowledge_layer_data = knowledge_layer
     else:
         downloaded_file = download_file_from_s3(
-            config_bucket, semantic_layer['kb_prompt_template_path'])
+            config_bucket, semantic_layer['knowledge_base']['kb_prompt_template_path'])
         answer_prompt = load_prompt(downloaded_file)
         knowledge_layer_data = get_knowledge_layer_data(
             metadata_source, knowledge_base, user_question, semantic_layer)
@@ -176,9 +175,10 @@ def get_knowledge_layer_data(metadata_source, knowledge_base, user_question, sem
     else:
         logger.info(
             'Semantic validation strategy enabled, running LLM against question + knowledge base')
+        knowledge_base_id = semantic_layer['knowledge_base']['id']
         if knowledge_base_id is None:
             raise KnowledgeBaseIDNotFound(
-                "KNOWLEDGE_BASE_ID environment variable is not set")
+                "KNOWLEDGE_BASE_ID  not set in workflow.json file")
 
         response = bedrock_agent_runtime.retrieve(
             retrievalQuery={'text': user_question},
@@ -207,8 +207,7 @@ def download_file_from_s3(bucket_name, object_key):
             tempfile.gettempdir(), os.path.basename(object_key))
         s3.download_file(bucket_name, object_key, download_path)
     except botocore.exceptions.ClientError as e:
-        raise FileNotFound(f"Error loading file from S3: {e}")
+        raise FileNotFound(f"Error loading file {object_key} from S3 {bucket_name}: {e}")
 
     return download_path
-
 

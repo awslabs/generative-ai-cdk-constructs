@@ -20,8 +20,8 @@ class Provider(StrEnum):
     
 class ConfigFilesName(StrEnum):
     WORKFLOW_JSON = 'config/workflow_config.json'
-    KNOWLEDGE_LAYER_JSON = 'config/knowledge_layer.json'
-    FEW_SHOTS_JSON = 'config/few_shots.json'
+   #KNOWLEDGE_LAYER_JSON = 'config/knowledge_layer.json'
+    
     
     
 class BedrockModel(StrEnum):

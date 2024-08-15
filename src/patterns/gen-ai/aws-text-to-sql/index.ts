@@ -203,12 +203,7 @@ export interface TextToSqlProps {
    */
   readonly existingconfigAssetsBucketObj?: s3.IBucket;
 
-  /**
-   * Optional. Existing Knowledge base ID.
-   *
-   * @default - None
-   */
-  readonly existingKnowledgeBaseId?: string;
+
 }
 
 export class TextToSql extends BaseClass {
@@ -612,9 +607,6 @@ export class TextToSql extends BaseClass {
         DB_NAME: props.dbName,
         METADATA_SOURCE: props.metadataSource,
         CONFIG_BUCKET: this.configAssetBucket.bucketName,
-        KNOWLEDGE_BASE_ID: props.existingKnowledgeBaseId
-          ? props.existingKnowledgeBaseId
-          : '',
       },
     };
 

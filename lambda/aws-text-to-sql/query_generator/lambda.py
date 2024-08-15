@@ -8,7 +8,7 @@ import time
 from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from bedrock import get_llm
-from custom_errors  import LLMNotLoadedException,StrategyNotFoundException,QueryGenerationException,FileNotFound
+from custom_errors  import LLMNotLoadedException,StrategyNotFoundException,QueryGenerationException,FileNotFound,InvalidWorkFlowJson
 from db_helper  import get_db_connection
 from config_types import  FewShotsStrategy,WorkflowStrategy,ConfigFilesName
 from langchain_core.prompts import FewShotPromptTemplate, PromptTemplate,ChatPromptTemplate
@@ -137,13 +137,21 @@ def get_fewshots_static_prompt(event, sql_generation_config,original_user_questi
     Returns:
         str: The generated few-shot prompt.
     """
-    few_shots_config = ConfigFilesName.FEW_SHOTS_JSON
-    file_contents = load_files_from_s3([few_shots_config], config_bucket)
-
-    if ConfigFilesName.FEW_SHOTS_JSON in file_contents:
-        few_shots = json.loads(file_contents[ConfigFilesName.FEW_SHOTS_JSON])
+   
+    
+    few_shots_file_path = sql_generation_config.get("few_shots_examples", None)
+    
+    if few_shots_file_path is None:
+        
+        raise InvalidWorkFlowJson("few_shots_examples not found in sql_generation_config ")
     else:
-        raise ValueError(f"{ConfigFilesName.FEW_SHOTS_JSON} not found in file_contents")
+        keys = [few_shots_file_path]
+        file_contents = load_files_from_s3(keys,config_bucket)
+    
+    if few_shots_file_path in file_contents:
+        few_shots = json.loads(file_contents[few_shots_file_path])    
+    else:
+        raise ValueError(f"{few_shots_file_path} not found in file_contents")
 
     
     query_status = event.get("queryStatus", None)
@@ -199,7 +207,8 @@ def get_fewshots_static_autocorrect_prompt(few_shots, max_number_few_shots, user
     logger.info("Autocorrect is enabled, running LLM against few shots prompt")
 
     example_prompt = PromptTemplate.from_template("User input: {input}\n<query>{query}</query>")
-    prompt_prefix = f"You are a {db_name} expert. This is the error {error} in this sql {generated_sql}. To correct this error, please generate an alternative syntactically correct {db_name} query for the question {user_question} and write it between the xml tags <query></query>."
+    guardrails =  " Do not suggest any query with write operation for example no UPDATE, DELETE, TRUNCATE, ALTER, DROP key word in the suggested query."
+    prompt_prefix = f"You are a {db_name} expert. This is the error {error} in this sql {generated_sql}. To correct this error, please generate an alternative syntactically correct {db_name} query for the question {user_question} and write it between the xml tags <query></query>."+guardrails
     prompt_suffix = "User input: {input}\n<query> </query>"
     prompt = FewShotPromptTemplate(
         examples=few_shots[:max_number_few_shots],
@@ -221,7 +230,6 @@ def get_fewshots_static_regular_prompt(few_shots, max_number_few_shots, table_in
     Args:
         few_shots (list): A list of few-shot examples.
         max_number_few_shots (int): The maximum number of few-shots to include in the prompt.
-        top_k (int): The maximum number of rows to return in the SQL query.
         table_info (str): Information about the relevant tables.
 
     Returns:
@@ -229,9 +237,13 @@ def get_fewshots_static_regular_prompt(few_shots, max_number_few_shots, table_in
     """
     logger.info("Running LLM against few shots prompt")
 
+    top_k = 5
+    guardrails =  " Do not suggest any query with write operation for example no UPDATE, DELETE, TRUNCATE, ALTER, DROP key word in the suggested query."
     example_prompt = PromptTemplate.from_template("User input: {input}\n<query>{query}</query>")
-    prompt_prefix = "You are a SQLlite expert. Given an input question, create a syntactically correct SQLlite query to run and write it between the xml tags <query></query>. Unless otherwise specificed, do not return more than {top_k} rows.\n\nHere is the relevant table info: {table_info}\n\nBelow are a number of examples of questions and their corresponding SQL queries."
-    prompt_suffix = "User input: {input}\n<query> </query>"
+    db_expert=f'You are a {db_name} expert. Given an input question, create a syntactically correct {db_name} query to run and write it between the xml tags <query></query>'+guardrails
+    prompt_prefix = db_expert+" \n\nHere is the relevant table info: {table_info}\n\nBelow are a number of examples of questions and their corresponding SQL queries." 
+    prompt_suffix = "Unless otherwise specificed, do not return more than {top_k} rows. User input: {input}\n<query> </query>"
+    logger.info(f"query prompt :: {prompt_prefix} {prompt_suffix}")
     prompt = FewShotPromptTemplate(
         examples=few_shots[:max_number_few_shots],
         example_prompt=example_prompt,
@@ -271,7 +283,8 @@ def generate_sql_from_text(text_to_sql_query_generation_llm,user_question, db, p
         else:
             print("couldn't parse any genearted sql, returning...")
     except Exception as e:
-        raise QueryGenerationException("generated_sql_query")
+        logger.error(f"Error generating SQL query: {e}")
+        raise QueryGenerationException(e)
 
     logger.info(f' return Generated SQL query: {generated_sql_query}')
     return generated_sql_query
@@ -330,7 +343,7 @@ def load_files_from_s3(keys, bucket_name):
 
             file_contents[key] = file_data
         except Exception as e:
-            raise FileNotFound(f"Error loading file from S3: {e}")
+            raise FileNotFound(f"Error loading file {key} from S3 {bucket_name}: {e}")
 
     logger.info(f"Loaded {len(file_contents)} files from S3")   
     return file_contents
@@ -384,3 +397,4 @@ def save_metrics(data, file_key):
 
     os.unlink(temp_file.name)
     print(f"Data saved to s3://{config_bucket}/{file_key}")
+

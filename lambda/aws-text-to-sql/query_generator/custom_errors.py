@@ -18,3 +18,8 @@ class FileNotFound(Exception):
     def __init__(self, message):
         super().__init__(message)
         self.message = f"[404] File not found, {message}"
+        
+class InvalidWorkFlowJson(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+        self.message = f"[500] Invalid workflow.json file, {message}"

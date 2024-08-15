@@ -12,9 +12,7 @@ logger = Logger(service="QUERY_GENERATOR")
 tracer = Tracer(service="QUERY_GENERATOR")
 metrics = Metrics(namespace="textToSql_pipeline", service="QUERY_GENERATOR")
 
-#proxy_endpoint = os.environ['PROXY_ENDPOINT']
 secret_arn = os.environ['SECRET_ARN']
-
 
 def get_db_connection(db_name):
     try:
