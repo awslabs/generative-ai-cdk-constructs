@@ -107,17 +107,26 @@ Parameters
 
 The Text to SQL workflow is orchestrated by the workflow_config.json file, which dictates the primary execution flow.
 
-Knowledge Base Configuration
-
+Semantic layer Configuration to reduce the natural language ambiguity
 ```json
-"knowledge_base": {
-  "enable": true, // enable knowledge base functionaity
-  "id": XXXX,// KB id
-  "embedding_model": "amazon.titan-text-lite-v1" // embedding model
-},
+"semantic_layer": {
+        "strategy": "auto", // Set to "human" to enable interactive feedback, set to "auto" for no feedback operation,
+        "config_files":{ // either config file or knowledge_base is used
+            "prompt_template_path": "config/knowledge_layer_prompt.json"
+        },
+        "knowledge_base": {
+            "kb_prompt_template_path": "config/kb_schema_linking_prompt.json",
+            "id": "", // knowledge base id
+            "embedding_model": "amazon.titan-text-lite-v1"
+        },     
+        "model_id": "anthropic.claude-3-haiku-20240307-v1:0",
+        "topp": 1,
+        "topk": 1,
+        "temperature": 0
+    },
 ```
   
-  To generate the sql
+To generate the sql
   
 ```json
 "sql_generation": {
@@ -151,18 +160,7 @@ Knowledge Base Configuration
         "temperature": 0
     },
   ```
-  To reduce the natural language ambiguity
-  ```json
-  "semantic_layer": {
-        "strategy": "human",// Set to "human" to enable interactive feedback, set to "auto" for no feedback operation,
-        "prompt_template_path": "config/knowledge_layer_prompt.json",
-        "kb_prompt_template_path": "config/kb_schema_linking_prompt.json",
-        "model_id": "anthropic.claude-3-haiku-20240307-v1:0",
-        "topp": 1,
-        "topk": 1,
-        "temperature": 0
-    }
-  ```
+  
 
   To generate query metrics
   ```json
