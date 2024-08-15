@@ -324,7 +324,7 @@
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade @aws-cdk/assert @commitlint/config-conventional @mrgrain/jsii-struct-builder @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-sdk-mock commitlint eslint-import-resolver-typescript eslint-plugin-header eslint-plugin-import eslint husky jest jest-junit jsii-diff jsii-pacmak jsii-rosetta jsii pinst projen standard-version ts-jest ts-node typedoc typedoc-plugin-markdown typescript deepmerge aws-cdk-lib constructs cdk-nag"
+          "exec": "yarn upgrade @aws-cdk/assert @aws-solutions-constructs/aws-constructs-factories @commitlint/config-conventional @mrgrain/jsii-struct-builder @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-sdk-mock commitlint eslint-import-resolver-typescript eslint-plugin-header eslint-plugin-import eslint husky jest jest-junit jsii-diff jsii-pacmak jsii-rosetta jsii pinst projen standard-version ts-jest ts-node typedoc typedoc-plugin-markdown typescript deepmerge aws-cdk-lib constructs @aws-solutions-constructs/aws-eventbridge-stepfunctions @aws-solutions-constructs/core cdk-nag"
         },
         {
           "exec": "npx projen"
