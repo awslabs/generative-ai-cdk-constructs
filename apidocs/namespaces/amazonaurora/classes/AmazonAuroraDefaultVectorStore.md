@@ -52,6 +52,14 @@ https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraPostgreSQL.Ve
 
 ## Properties
 
+### auroraSecurityGroup
+
+> `readonly` **auroraSecurityGroup**: `ISecurityGroup`
+
+The Security Group attached to the Aurora DB Instances in the Cluster.
+
+***
+
 ### clusterIdentifier
 
 > `readonly` **clusterIdentifier**: `string`
@@ -166,6 +174,14 @@ The stack in which this resource is defined.
 > `readonly` **tableName**: `string`
 
 The Table Name of your Amazon Aurora DB cluster.
+
+***
+
+### vpc
+
+> `readonly` **vpc**: `IVpc`
+
+The VPC where the Aurora DB Cluster is deployed.
 
 ## Methods
 

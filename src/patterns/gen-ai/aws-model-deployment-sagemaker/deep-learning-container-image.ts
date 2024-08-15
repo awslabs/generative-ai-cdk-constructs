@@ -41,6 +41,7 @@ export class DeepLearningContainerImage extends ContainerImage {
   public static readonly DJL_INFERENCE_0_27_0_DEEPSPEED0_12_6_CU121 = this.fromDeepLearningContainerImage('djl-inference', '0.27.0-deepspeed0.12.6-cu121');
   public static readonly DJL_INFERENCE_0_27_0_NEURONX_SDK2_18_1 = this.fromDeepLearningContainerImage('djl-inference', '0.27.0-neuronx-sdk2.18.1');
   public static readonly DJL_INFERENCE_0_28_0_NEURONX_SDK2_18_2 = this.fromDeepLearningContainerImage('djl-inference', '0.28.0-neuronx-sdk2.18.2');
+  public static readonly DJL_INFERENCE_0_29_0_NEURONX_SDK2_19_1 = this.fromDeepLearningContainerImage('djl-inference', '0.29.0-neuronx-sdk2.19.1');
   public static readonly HUGGINGFACE_PYTORCH_INFERENCE_1_10_2_TRANSFORMERS4_17_0_CPU_PY38_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference', '1.10.2-transformers4.17.0-cpu-py38-ubuntu20.04');
   public static readonly HUGGINGFACE_PYTORCH_INFERENCE_1_10_2_TRANSFORMERS4_17_0_GPU_PY38_CU113_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference', '1.10.2-transformers4.17.0-gpu-py38-cu113-ubuntu20.04');
   public static readonly HUGGINGFACE_PYTORCH_INFERENCE_1_13_1_TRANSFORMERS4_26_0_CPU_PY39_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference', '1.13.1-transformers4.26.0-cpu-py39-ubuntu20.04');
@@ -80,6 +81,7 @@ export class DeepLearningContainerImage extends ContainerImage {
   public static readonly HUGGINGFACE_PYTORCH_TGI_INFERENCE_2_1_1_TGI2_0_1_GPU_PY310_CU121_UBUNTU22_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-tgi-inference', '2.1.1-tgi2.0.1-gpu-py310-cu121-ubuntu22.04');
   public static readonly HUGGINGFACE_PYTORCH_TGI_INFERENCE_2_3_0_TGI2_0_2_GPU_PY310_CU121_UBUNTU22_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-tgi-inference', '2.3.0-tgi2.0.2-gpu-py310-cu121-ubuntu22.04');
   public static readonly HUGGINGFACE_PYTORCH_TGI_INFERENCE_2_3_0_TGI2_0_3_GPU_PY310_CU121_UBUNTU22_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-tgi-inference', '2.3.0-tgi2.0.3-gpu-py310-cu121-ubuntu22.04');
+  public static readonly HUGGINGFACE_PYTORCH_TGI_INFERENCE_2_3_0_TGI2_2_0_GPU_PY310_CU121_UBUNTU22_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-tgi-inference', '2.3.0-tgi2.2.0-gpu-py310-cu121-ubuntu22.04');
   public static readonly HUGGINGFACE_TENSORFLOW_INFERENCE_2_11_0_TRANSFORMERS4_26_0_CPU_PY39_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-tensorflow-inference', '2.11.0-transformers4.26.0-cpu-py39-ubuntu20.04');
   public static readonly HUGGINGFACE_TENSORFLOW_INFERENCE_2_11_0_TRANSFORMERS4_26_0_GPU_PY39_CU112_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-tensorflow-inference', '2.11.0-transformers4.26.0-gpu-py39-cu112-ubuntu20.04');
   public static readonly HUGGINGFACE_TENSORFLOW_INFERENCE_2_11_1_TRANSFORMERS4_26_0_CPU_PY39_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-tensorflow-inference', '2.11.1-transformers4.26.0-cpu-py39-ubuntu20.04');

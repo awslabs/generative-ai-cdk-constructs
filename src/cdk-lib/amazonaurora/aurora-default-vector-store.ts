@@ -33,6 +33,18 @@ export interface AmazonAuroraDefaultVectorStoreProps {
    * index of appropriate dimensions in the Aurora database.
    */
   readonly embeddingsModelVectorDimension: number;
+
+  /**
+   * The VPC where the Aurora Vector Store will be deployed in.
+   * The provided VPC must have at least one subnet of type
+   * `ec2.SubnetType.PUBLIC` and at least one subnet of type
+   * `ec2.SubnetType.PRIVATE_WITH_EGRESS`. If no subnets of these
+   * types are available, the deployment will fail.
+   * If not provided, a new VPC with the required subnet
+   * configuration will be created automatically.
+   * @default - "A new VPC will be created."
+   */
+  readonly vpc?: ec2.IVpc;
 }
 
 /**
@@ -88,6 +100,16 @@ export class AmazonAuroraDefaultVectorStore extends cdk.Resource {
   public readonly embeddingsModelVectorDimension: number;
 
   /**
+   * The VPC where the Aurora DB Cluster is deployed.
+   */
+  public readonly vpc: ec2.IVpc;
+
+  /**
+   * The Security Group attached to the Aurora DB Instances in the Cluster.
+   */
+  public readonly auroraSecurityGroup: ec2.ISecurityGroup;
+
+  /**
    * An IAM policy that allows Data API access to Aurora.
    * @private
    */
@@ -106,21 +128,22 @@ export class AmazonAuroraDefaultVectorStore extends cdk.Resource {
     this.clusterIdentifier = 'aurora-serverless-vector-cluster';
     this.embeddingsModelVectorDimension = props.embeddingsModelVectorDimension;
 
-    const vpc = buildVpc(this, {
+    this.vpc = buildVpc(this, {
       defaultVpcProps: DefaultVpcProps(),
+      existingVpc: props.vpc,
     });
-    vpc.addFlowLog('VpcFlowLog', {
+    this.vpc.addFlowLog('VpcFlowLog', {
       destination: ec2.FlowLogDestination.toCloudWatchLogs(),
     });
 
-    const auroraSecurityGroup = new ec2.SecurityGroup(this, 'AuroraSecurityGroup', {
-      vpc: vpc,
+    this.auroraSecurityGroup = new ec2.SecurityGroup(this, 'AuroraSecurityGroup', {
+      vpc: this.vpc,
       securityGroupName: 'aurora-security-group',
       description: 'Security group for access to Aurora from Lambda',
     });
 
     const lambdaSecurityGroup = new ec2.SecurityGroup(this, 'LambdaSecurityGroup', {
-      vpc: vpc,
+      vpc: this.vpc,
       securityGroupName: 'lambda-security-group',
       description: 'Security group for Lambda access to Aurora',
     });
@@ -132,9 +155,9 @@ export class AmazonAuroraDefaultVectorStore extends cdk.Resource {
       credentials: rds.Credentials.fromGeneratedSecret('postgres'),
       clusterIdentifier: this.clusterIdentifier,
       defaultDatabaseName: this.databaseName,
-      vpc: vpc,
+      vpc: this.vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PUBLIC },
-      securityGroups: [auroraSecurityGroup],
+      securityGroups: [this.auroraSecurityGroup],
       iamAuthentication: true,
       storageEncrypted: true,
       serverlessV2MinCapacity: 0.5,
@@ -154,7 +177,7 @@ export class AmazonAuroraDefaultVectorStore extends cdk.Resource {
 
     auroraCluster.addRotationSingleUser();
 
-    auroraSecurityGroup.addIngressRule(
+    this.auroraSecurityGroup.addIngressRule(
       lambdaSecurityGroup,
       ec2.Port.tcp(5432),
       'Allow PostgreSQL access from Lambda security group',
@@ -205,12 +228,12 @@ export class AmazonAuroraDefaultVectorStore extends cdk.Resource {
         {
           id: 'AwsSolutions-IAM4',
           reason: 'The AWSLambdaBasicExecutionRole managed policy is required for ' +
-                  'the Lambda function to write logs to CloudWatch.',
+            'the Lambda function to write logs to CloudWatch.',
         },
         {
           id: 'AwsSolutions-IAM5',
           reason: 'This policy is required to allow the custom resource to create a ' +
-                  'network interface for the Aurora cluster and it has to be wildcard.',
+            'network interface for the Aurora cluster and it has to be wildcard.',
         },
       ],
       true,
@@ -222,7 +245,7 @@ export class AmazonAuroraDefaultVectorStore extends cdk.Resource {
         {
           id: 'AwsSolutions-RDS10',
           reason: 'Deletion protection is disabled to make sure a customer can stop ' +
-                  'incurring charges if they want to delete the construct.',
+            'incurring charges if they want to delete the construct.',
         },
       ],
       true,
@@ -230,7 +253,7 @@ export class AmazonAuroraDefaultVectorStore extends cdk.Resource {
 
     const customResource = buildCustomResourceProvider({
       providerName: 'AmazonAuroraPgVectorCRProvider',
-      vpc: vpc,
+      vpc: this.vpc,
       securityGroup: lambdaSecurityGroup,
       codePath: path.join(
         __dirname, '../../../lambda/amazon-aurora-pgvector-custom-resources'),
