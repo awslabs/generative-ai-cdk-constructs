@@ -90,7 +90,11 @@ def handler(event, context: LambdaContext)-> dict:
         'sql_validation_strategy':sql_validation_strategy,
     }
     end_time = time.time()
-    query_generation_time = end_time - execution_start_time
+    if end_time is not None and execution_start_time is not None:
+        query_generation_time = end_time - execution_start_time
+    else:
+        query_generation_time = None
+
     generate_metrics_strategy = generate_metrics.get(
         'strategy', WorkflowStrategy.DISABLED)
     metrics_file_name = generate_metrics.get(
