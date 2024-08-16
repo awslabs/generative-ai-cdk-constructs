@@ -5,6 +5,11 @@
       "type": "build"
     },
     {
+      "name": "@aws-solutions-constructs/aws-constructs-factories",
+      "version": "2.63.0",
+      "type": "build"
+    },
+    {
       "name": "@commitlint/config-conventional",
       "type": "build"
     },
@@ -134,6 +139,21 @@
       "name": "constructs",
       "version": "^10.3.0",
       "type": "peer"
+    },
+    {
+      "name": "@aws-solutions-constructs/aws-constructs-factories",
+      "version": "2.63.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-solutions-constructs/aws-eventbridge-stepfunctions",
+      "version": "2.63.0",
+      "type": "runtime"
+    },
+    {
+      "name": "@aws-solutions-constructs/core",
+      "version": "2.63.0",
+      "type": "runtime"
     },
     {
       "name": "cdk-nag",

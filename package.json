@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "@aws-cdk/assert": "^2.68.0",
+    "@aws-solutions-constructs/aws-constructs-factories": "2.63.0",
     "@commitlint/config-conventional": "^18.6.3",
     "@mrgrain/jsii-struct-builder": "^0.7.40",
     "@types/jest": "^29.5.12",
@@ -78,6 +79,9 @@
     "constructs": "^10.3.0"
   },
   "dependencies": {
+    "@aws-solutions-constructs/aws-constructs-factories": "2.63.0",
+    "@aws-solutions-constructs/aws-eventbridge-stepfunctions": "2.63.0",
+    "@aws-solutions-constructs/core": "2.63.0",
     "cdk-nag": "^2.28.179",
     "deepmerge": "^4.3.1"
   },

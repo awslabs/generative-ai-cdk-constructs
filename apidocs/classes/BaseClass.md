@@ -18,6 +18,7 @@
 - [`SageMakerEndpointBase`](SageMakerEndpointBase.md)
 - [`ContentGenerationAppSyncLambda`](ContentGenerationAppSyncLambda.md)
 - [`WebCrawler`](WebCrawler.md)
+- [`TextToSql`](TextToSql.md)
 
 ## Constructors
 
