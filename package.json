@@ -82,7 +82,7 @@
     "@aws-solutions-constructs/aws-constructs-factories": "2.63.0",
     "@aws-solutions-constructs/aws-eventbridge-stepfunctions": "2.63.0",
     "@aws-solutions-constructs/core": "2.63.0",
-    "cdk-nag": "^2.28.180",
+    "cdk-nag": "^2.28.181",
     "deepmerge": "^4.3.1"
   },
   "bundledDependencies": [
