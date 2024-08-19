@@ -96,6 +96,8 @@ export class BedrockFoundationModel {
   public readonly supportsAgents: boolean;
   public readonly vectorDimensions?: number;
   public readonly supportsKnowledgeBase: boolean;
+  public readonly supportsMemory: boolean;
+
   constructor(value: string, props: BedrockFoundationModelProps = {}) {
     this.modelId = value;
     this.supportsAgents = props.supportsAgents ?? false;

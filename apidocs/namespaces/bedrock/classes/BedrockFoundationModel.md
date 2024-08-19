@@ -47,6 +47,12 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 ***
 
+### supportsMemory
+
+> `readonly` **supportsMemory**: `boolean`
+
+***
+
 ### vectorDimensions?
 
 > `readonly` `optional` **vectorDimensions**: `number`

@@ -36,6 +36,20 @@ Bedrock Knowledge Base can use this model.
 
 ***
 
+### supportsMemory?
+
+> `readonly` `optional` **supportsMemory**: `boolean`
+
+Whether Memory for Agents feature is supported for this model.
+
+#### Default
+
+```ts
+- false
+```
+
+***
+
 ### vectorDimensions?
 
 > `readonly` `optional` **vectorDimensions**: `number`
