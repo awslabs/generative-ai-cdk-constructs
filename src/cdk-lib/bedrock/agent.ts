@@ -380,13 +380,13 @@ export class Agent extends Construct {
    * A list of action groups associated with the agent
    * @private
    */
-  public actionGroups: bedrock.CfnAgent.AgentActionGroupProperty[]=[];
+  public actionGroups: bedrock.CfnAgent.AgentActionGroupProperty[] = [];
   /**
    * A list of KnowledgeBases associated with the agent.
    *
    * @default - No knowledge base is used.
    */
-  public knowledgeBases: bedrock.CfnAgent.AgentKnowledgeBaseProperty []=[];
+  public knowledgeBases: bedrock.CfnAgent.AgentKnowledgeBaseProperty[] = [];
 
 
   constructor(scope: Construct, id: string, props: AgentProps) {
@@ -494,6 +494,7 @@ export class Agent extends Construct {
         actionGroupName: 'UserInputAction',
         parentActionGroupSignature: 'AMAZON.UserInput',
         actionGroupState: 'ENABLED',
+        skipResourceInUseCheckOnDelete: true,
       }));
     }
   }
@@ -516,7 +517,7 @@ export class Agent extends Construct {
   /**
    * Add knowledge bases to the agent.
    */
-  public addKnowledgeBases(knowledgeBases: KnowledgeBase []) {
+  public addKnowledgeBases(knowledgeBases: KnowledgeBase[]) {
     for (const kb of knowledgeBases) {
       this.addKnowledgeBase(kb);
     }
@@ -679,7 +680,7 @@ export function validateInferenceConfiguration(inferenceConfiguration: Inference
  *
  * @internal This is an internal core function and should not be called directly.
  */
-export function validatePromptOverrideConfiguration(promptOverrideConfiguration: PromptOverrideConfiguration|undefined) {
+export function validatePromptOverrideConfiguration(promptOverrideConfiguration: PromptOverrideConfiguration | undefined) {
   if (!promptOverrideConfiguration) {
     return;
   }
