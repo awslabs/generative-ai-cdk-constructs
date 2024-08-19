@@ -22,6 +22,12 @@ export interface BedrockFoundationModelProps {
    */
   readonly supportsAgents?: boolean;
   /**
+   * Whether Memory for Agents feature is supported for this model.
+   *
+   * @default - false
+   */
+  readonly supportsMemory?: boolean;
+  /**
    * Bedrock Knowledge Base can use this model.
    *
    * @default - false
@@ -59,11 +65,11 @@ export class BedrockFoundationModel {
   );
   public static readonly ANTHROPIC_CLAUDE_SONNET_V1_0 = new BedrockFoundationModel(
     'anthropic.claude-3-sonnet-20240229-v1:0',
-    { supportsAgents: true },
+    { supportsAgents: true, supportsMemory: true },
   );
   public static readonly ANTHROPIC_CLAUDE_HAIKU_V1_0 = new BedrockFoundationModel(
     'anthropic.claude-3-haiku-20240307-v1:0',
-    { supportsAgents: true },
+    { supportsAgents: true, supportsMemory: true },
   );
   public static readonly AMAZON_TITAN_PREMIER_V1_0 = new BedrockFoundationModel(
     'amazon.titan-text-premier-v1:0',
@@ -95,6 +101,7 @@ export class BedrockFoundationModel {
     this.supportsAgents = props.supportsAgents ?? false;
     this.vectorDimensions = props.vectorDimensions;
     this.supportsKnowledgeBase = props.supportsKnowledgeBase ?? false;
+    this.supportsMemory = props.supportsMemory ?? false;
   }
 
   toString(): string {
