@@ -123,6 +123,7 @@ describe('Agent with guardrails through addGuardrail', () => {
         promptConfigurations: [preprocessingPrompt, orchestrationPrompt],
       },
       aliasName: 'prod',
+      enableUserInput: true,
     });
 
     agent.addActionGroups([actiongroup]);
@@ -238,12 +239,12 @@ describe('Agent with guardrails through addGuardrail', () => {
     template.resourceCountIs('AWS::Bedrock::KnowledgeBase', 1);
     template.hasResourceProperties('AWS::Bedrock::KnowledgeBase', {
       KnowledgeBaseConfiguration: {
-        Type: Match.stringLikeRegexp ('VECTOR'),
+        Type: Match.stringLikeRegexp('VECTOR'),
       },
-      Name: Match.stringLikeRegexp ('KBteststack'),
+      Name: Match.stringLikeRegexp('KBteststack'),
       RoleArn: {
         'Fn::GetAtt':
-      [Match.stringLikeRegexp('KBRole'), 'Arn'],
+          [Match.stringLikeRegexp('KBRole'), 'Arn'],
 
       },
 
@@ -256,6 +257,12 @@ describe('Agent with guardrails through addGuardrail', () => {
     template.hasResourceProperties('AWS::Bedrock::Agent', {
 
       ActionGroups: [
+        {
+          ActionGroupName: 'UserInputAction',
+          ActionGroupState: 'ENABLED',
+          ParentActionGroupSignature: 'AMAZON.UserInput',
+          SkipResourceInUseCheckOnDelete: false,
+        },
         {
           ActionGroupExecutor: {
             Lambda: {
@@ -508,12 +515,12 @@ describe('Agent with guardrails through constructor', () => {
     template.resourceCountIs('AWS::Bedrock::KnowledgeBase', 1);
     template.hasResourceProperties('AWS::Bedrock::KnowledgeBase', {
       KnowledgeBaseConfiguration: {
-        Type: Match.stringLikeRegexp ('VECTOR'),
+        Type: Match.stringLikeRegexp('VECTOR'),
       },
-      Name: Match.stringLikeRegexp ('KBteststack'),
+      Name: Match.stringLikeRegexp('KBteststack'),
       RoleArn: {
         'Fn::GetAtt':
-      [Match.stringLikeRegexp('KBRole'), 'Arn'],
+          [Match.stringLikeRegexp('KBRole'), 'Arn'],
 
       },
 
@@ -526,6 +533,12 @@ describe('Agent with guardrails through constructor', () => {
     template.hasResourceProperties('AWS::Bedrock::Agent', {
 
       ActionGroups: [
+        {
+          ActionGroupName: 'UserInputAction',
+          ActionGroupState: 'DISABLED',
+          ParentActionGroupSignature: 'AMAZON.UserInput',
+          SkipResourceInUseCheckOnDelete: false,
+        },
         {
           ActionGroupExecutor: {
             Lambda: {
@@ -765,12 +778,12 @@ describe('Agent without guardrails', () => {
     template.resourceCountIs('AWS::Bedrock::KnowledgeBase', 1);
     template.hasResourceProperties('AWS::Bedrock::KnowledgeBase', {
       KnowledgeBaseConfiguration: {
-        Type: Match.stringLikeRegexp ('VECTOR'),
+        Type: Match.stringLikeRegexp('VECTOR'),
       },
-      Name: Match.stringLikeRegexp ('KBteststack'),
+      Name: Match.stringLikeRegexp('KBteststack'),
       RoleArn: {
         'Fn::GetAtt':
-      [Match.stringLikeRegexp('KBRole'), 'Arn'],
+          [Match.stringLikeRegexp('KBRole'), 'Arn'],
 
       },
 
@@ -783,6 +796,12 @@ describe('Agent without guardrails', () => {
     template.hasResourceProperties('AWS::Bedrock::Agent', {
 
       ActionGroups: [
+        {
+          ActionGroupName: 'UserInputAction',
+          ActionGroupState: 'DISABLED',
+          ParentActionGroupSignature: 'AMAZON.UserInput',
+          SkipResourceInUseCheckOnDelete: false,
+        },
         {
           ActionGroupExecutor: {
             Lambda: {
