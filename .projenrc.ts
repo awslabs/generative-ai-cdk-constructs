@@ -64,14 +64,11 @@ const project = new awscdk.AwsCdkConstructLibrary({
     'typedoc-plugin-markdown',
     'aws-sdk-mock',
     '@aws-cdk/assert',
-    '@aws-solutions-constructs/aws-constructs-factories@2.63.0',
 
   ],
   deps: [
     'cdk-nag',
-    '@aws-solutions-constructs/core@2.63.0',
-    '@aws-solutions-constructs/aws-eventbridge-stepfunctions@2.63.0',
-    '@aws-solutions-constructs/aws-constructs-factories@2.63.0',
+
 
   ],
   bundledDeps: [
