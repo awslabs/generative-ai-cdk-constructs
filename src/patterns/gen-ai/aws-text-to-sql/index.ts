@@ -11,13 +11,8 @@
  *  and limitations under the License.
  */
 import * as path from 'path';
-import { ConstructsFactories } from '@aws-solutions-constructs/aws-constructs-factories';
-import {
-  EventbridgeToStepfunctions,
-  EventbridgeToStepfunctionsProps,
-} from '@aws-solutions-constructs/aws-eventbridge-stepfunctions';
 import * as cdk from 'aws-cdk-lib';
-import { Aws, Duration } from 'aws-cdk-lib';
+import { Aws, Duration, aws_events_targets as eventsTarget } from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as events from 'aws-cdk-lib/aws-events';
 import * as iam from 'aws-cdk-lib/aws-iam';
@@ -37,12 +32,17 @@ import {
 } from '../../../common/base-class/base-class';
 import { ConstructName } from '../../../common/base-class/construct-name-enum';
 import { buildCustomResourceProvider } from '../../../common/helpers/custom-resource-provider-helper';
+import * as eventBridgeHelper from '../../../common/helpers/eventbridge-helper';
+
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
+import * as s3BucketHelper from '../../../common/helpers/s3-bucket-helper';
 import {
   generatePhysicalNameV2,
   lambdaMemorySizeLimiter,
 } from '../../../common/helpers/utils';
+import * as vpcHelper from '../../../common/helpers/vpc-helper';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
+import { ServiceEndpointTypeEnum } from '../../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
 
 export enum DatabaseType {
   AURORA = 'Aurora',
@@ -56,7 +56,7 @@ export enum DbName {
 
 export enum MetatdataSource {
   CONFIG_FILE = 'config_file',
-  KNOWLEDGE_BASE = 'knowledge_base'
+  KNOWLEDGE_BASE = 'knowledge_base',
 }
 
 export interface TextToSqlProps {
@@ -147,7 +147,6 @@ export interface TextToSqlProps {
    */
   readonly dbPort?: number;
 
-
   /**
    * Returns the RDS db instance  used by the construct
    */
@@ -203,7 +202,19 @@ export interface TextToSqlProps {
    */
   readonly existingconfigAssetsBucketObj?: s3.IBucket;
 
+  /**
+   * Optional. Existing instance of event bus, providing both this and `eventBusProps` will cause an error.
+   *
+   * @default - None.
+   */
+  readonly existingEventBusInterface?: events.IEventBus;
 
+  /**
+   * Optional user provided event bus props
+   *
+   * @default - Default props are used.
+   */
+  readonly eventBusProps?: events.EventBusProps;
 }
 
 export class TextToSql extends BaseClass {
@@ -269,7 +280,7 @@ export class TextToSql extends BaseClass {
   /**
    * Returns the Instance of stepfunction created by the construct
    */
-  public readonly stepFunction ?: stepfunctions.StateMachine;
+  public readonly stepFunction?: stepfunctions.StateMachine;
 
   /**
    * Constructs a new instance of the TextToSql class.
@@ -289,6 +300,13 @@ export class TextToSql extends BaseClass {
       observability: props.observability,
     };
 
+    vpcHelper.CheckVpcProps(props);
+    s3BucketHelper.CheckS3Props({
+      existingBucketObj: props.existingconfigAssetsBucketObj,
+      bucketProps: props.configAssetsBucketProps,
+    });
+    eventBridgeHelper.CheckEventBridgeProps(props);
+
     this.validateDbProps(props);
     this.updateEnvSuffix(baseProps);
     this.addObservabilityToConstruct(baseProps);
@@ -305,6 +323,19 @@ export class TextToSql extends BaseClass {
         description: 'Subnet group for Aurora Serverless',
       });
     }
+
+    // add VPC endpoints for the compute environment
+    vpcHelper.AddAwsServiceEndpoint(
+      this,
+      this.vpc,
+      ServiceEndpointTypeEnum.EVENTS,
+    );
+    vpcHelper.AddAwsServiceEndpoint(
+      this,
+      this.vpc,
+      ServiceEndpointTypeEnum.STEP_FUNCTIONS,
+    );
+    vpcHelper.AddAwsServiceEndpoint(this, this.vpc, ServiceEndpointTypeEnum.S3);
 
     const dbPort = props.dbPort ? props.dbPort : 3306;
 
@@ -378,35 +409,57 @@ export class TextToSql extends BaseClass {
       }
     }
 
-    // let proxyEndpoint='';
-    // if (this.proxy) {
-    //   proxyEndpoint= this.proxy.endpoint;
-    // }
-    //
-    // If the construct is not uploading the config files.
+    // bucket for storing server access logging
+    const serverAccessLogBucket = new s3.Bucket(
+      this,
+      'serverAccessLogBucket' + this.stage,
+      {
+        blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+        encryption: s3.BucketEncryption.S3_MANAGED,
+        enforceSSL: true,
+        versioned: true,
+        lifecycleRules: [
+          {
+            expiration: cdk.Duration.days(90),
+          },
+        ],
+      },
+    );
 
-    // s3 bucket
+    // config asset bucket
     if (props?.existingconfigAssetsBucketObj) {
       this.configAssetBucket = props.existingconfigAssetsBucketObj;
     } else if (props?.configAssetsBucketProps) {
-      const factories = new ConstructsFactories(this, 'resourceFactory');
-      this.configAssetBucket = factories.s3BucketFactory('configBucket', {
-        bucketProps: props.configAssetsBucketProps,
-      }).s3Bucket;
+      this.configAssetBucket = new s3.Bucket(
+        this,
+        'configasset' + this.stage,
+        props.configAssetsBucketProps,
+      );
     } else {
-      const factories = new ConstructsFactories(this, 'resourceFactory');
-      this.configAssetBucket = factories.s3BucketFactory(
-        'configBucket',
-        {},
-      ).s3Bucket;
-
-      // create default bucket to upload the config files
-      // const asset = new s3assets.Asset(this, 'configBucketAsset', {
-      //   path: path.join(
-      //     __dirname,
-      //     '../../../../resources/gen-ai/aws-text-to-sql',
-      //   ),
-      // });
+      this.configAssetBucket = new s3.Bucket(
+        this,
+        'configasset' + this.stage,
+        {
+          accessControl: s3.BucketAccessControl.PRIVATE,
+          blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+          encryption: s3.BucketEncryption.S3_MANAGED,
+          bucketName:
+            'configasset' +
+            this.stage.toLowerCase() +
+            '-' +
+            cdk.Aws.REGION +
+            '-' +
+            cdk.Aws.ACCOUNT_ID,
+          serverAccessLogsBucket: serverAccessLogBucket,
+          enforceSSL: true,
+          versioned: true,
+          lifecycleRules: [
+            {
+              expiration: cdk.Duration.days(90),
+            },
+          ],
+        },
+      );
     }
 
     const configFilePath = path.join(
@@ -433,7 +486,6 @@ export class TextToSql extends BaseClass {
                   's3:GetBucketLocation',
                   's3:ListBucket',
                   's3:PutObject',
-
                 ],
                 resources: [
                   `arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/*`,
@@ -490,13 +542,11 @@ export class TextToSql extends BaseClass {
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
         actions: ['s3:ListBucket'],
-        resources: ['arn:' +
-                    Aws.PARTITION +
-                    ':s3:::' +
-                    this.configAssetBucket.bucketName],
+        resources: [
+          'arn:' + Aws.PARTITION + ':s3:::' + this.configAssetBucket.bucketName,
+        ],
       }),
     );
-
 
     const configLoaderPolicy = new iam.ManagedPolicy(this, 'AuroraPgPolicy', {
       managedPolicyName: generatePhysicalNameV2(this, 'configLoaderPolicy', {
@@ -788,10 +838,12 @@ export class TextToSql extends BaseClass {
           question_unique_id: stepfunctions.TaskInput.fromJsonPathAt(
             '$.question_unique_id',
           ),
-          execute_sql_strategy:
-            stepfunctions.TaskInput.fromJsonPathAt('$.execute_sql_strategy'),
-          execution_start_time:
-            stepfunctions.TaskInput.fromJsonPathAt('$.execution_start_time'),
+          execute_sql_strategy: stepfunctions.TaskInput.fromJsonPathAt(
+            '$.execute_sql_strategy',
+          ),
+          execution_start_time: stepfunctions.TaskInput.fromJsonPathAt(
+            '$.execution_start_time',
+          ),
           TaskToken: stepfunctions.JsonPath.taskToken,
         }),
         integrationPattern:
@@ -958,8 +1010,9 @@ export class TextToSql extends BaseClass {
           execute_sql_strategy: stepfunctions.TaskInput.fromJsonPathAt(
             '$.execute_sql_strategy',
           ),
-          execution_start_time:
-            stepfunctions.TaskInput.fromJsonPathAt('$.execution_start_time'),
+          execution_start_time: stepfunctions.TaskInput.fromJsonPathAt(
+            '$.execution_start_time',
+          ),
 
           reformualted_question: stepfunctions.TaskInput.fromJsonPathAt(
             '$.reformulated_user_question',
@@ -996,9 +1049,36 @@ export class TextToSql extends BaseClass {
       resultPath: '$.queryConfig',
     }).next(generateQueryfeedbackChoiceState);
 
-    //create step function with event bridge
-    const constructProps: EventbridgeToStepfunctionsProps = {
-      stateMachineProps: {
+    // event bridge
+    // Create an IAM role for Events to start the State Machine
+    const eventsRole = new iam.Role(this, 'EventsRuleRole', {
+      assumedBy: new iam.ServicePrincipal('events.amazonaws.com'),
+    });
+
+    if (props?.existingEventBusInterface) {
+      this.eventBus = props.existingEventBusInterface;
+    } else if (props?.eventBusProps) {
+      this.eventBus = eventBridgeHelper.buildEventBus(this, {
+        eventBusProps: props.eventBusProps,
+      });
+    } else {
+      this.eventBus = new events.EventBus(
+        this,
+        'textToSqlBus' + props.stage,
+        {
+          eventBusName: generatePhysicalNameV2(
+            this,
+            'textToSql' + this.stage,
+            { maxLength: 63, lower: true },
+          ),
+        },
+      );
+    }
+
+    this.stepFunction = new stepfunctions.StateMachine(
+      this,
+      'textToSqlStepFunction' + props.stage,
+      {
         definition: reformulateQuestionState.next(
           feedbackChoiceStateOne
             .when(
@@ -1010,32 +1090,28 @@ export class TextToSql extends BaseClass {
             )
             .otherwise(queryGeneratorState),
         ),
+        timeout: Duration.days(90),
       },
-      eventBusProps: {
-        eventBusName: generatePhysicalNameV2(
-          this,
-          'textToSqlBus' + this.stage,
-          { maxLength: 63, lower: true },
-        ),
-      },
-
-      eventRuleProps: {
-        eventPattern: {
-          source: ['webclient'],
-        },
-      },
-    };
-
-    const eventBridgeToStepfunction = new EventbridgeToStepfunctions(
-      this,
-      'test-eventbridge-stepfunctions-stack',
-      constructProps,
     );
 
-    this.eventBus = eventBridgeToStepfunction.eventBus;
-    this.eventsRule = eventBridgeToStepfunction.eventsRule;
-    this.stepFunction = eventBridgeToStepfunction.stateMachine;
-  }
+
+    this.eventsRule = new events.Rule(this, 'EventsRule', {
+      eventBus: this.eventBus,
+      targets: [new eventsTarget.SfnStateMachine(
+        this.stepFunction, {
+          role: eventsRole,
+        },
+      )],
+      eventPattern: {
+        source: ['webclient'],
+      },
+    });
+
+    this.eventBus.grantPutEventsTo(this.stepFunction);
+
+    // Grant the start execution permission to the Events service
+    this.stepFunction.grantStartExecution(eventsRole);
+  } // end construct
 
   private validateDbProps(props: TextToSqlProps): void {
     // Check if existingAuroraDbCluster and databaseClusterProps are set at the same time

@@ -66,7 +66,12 @@ def on_create(
 def on_update(
     _event: CustomResourceRequest[ConfigLoaderProperties],
 ) -> CustomResourceResponse:
-    raise ValueError("Update not supported")
+    return {
+        "PhysicalResourceId": _event["PhysicalResourceId"],
+        "Data": {
+            "Message": "Update is not needed. Ignoring."
+        }
+    }
 
 
 def on_delete(
