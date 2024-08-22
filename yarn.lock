@@ -1043,9 +1043,9 @@
   integrity sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag==
 
 "@types/node@*":
-  version "22.4.1"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.4.1.tgz#9b595d292c65b94c20923159e2ce947731b6fdce"
-  integrity sha512-1tbpb9325+gPnKK0dMm+/LMriX0vKxf6RnB0SZUqfyVkQ4fMgUSySqhxE/y8Jvs4NyF1yHzTfG9KlnkIODxPKg==
+  version "22.5.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.5.0.tgz#10f01fe9465166b4cab72e75f60d8b99d019f958"
+  integrity sha512-DkFrJOe+rfdHTqqMg0bSNlGlQ85hSoh2TPzZyhHsXnMtligRWpxUySiyw8FY14ITt24HVCiQPWxS3KO/QlGmWg==
   dependencies:
     undici-types "~6.19.2"
 
@@ -1418,9 +1418,9 @@ aws-sdk-mock@^5.9.0:
     traverse "^0.6.6"
 
 aws-sdk@^2.1231.0:
-  version "2.1679.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1679.0.tgz#f6a9462902e381ffaf95a4d9be0c6d1cd90dd31e"
-  integrity sha512-76zSe/U7+5hzyGD7KAs71of1r6tRhrq+tXsOYbCDKPVqqtjxQiy88n0AC0Tcjx29nQSegydyjHxg27YJlcCXOg==
+  version "2.1680.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1680.0.tgz#02f4007deb7b3729be72699098d185b51330a072"
+  integrity sha512-XHNyhvVB49DC7Ea7+Gsvy4B+xP7tyry6Gw3b9g/DcilA1xmxxRzu8VE9GJ2rP4jYMc/TkX9FHkp5WLo57sITZA==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -1611,10 +1611,10 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-nag@^2.28.184:
-  version "2.28.184"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.184.tgz#610193dbd8ee19116c5b49dd96acb4a49dd6218a"
-  integrity sha512-PEsu0ogHwKkzzGebH+QAxE0jATE3uvo78ErKR0JphQObQD+8itMqDK3Vo5OfvynAeHzuiikaql9tEePvOK1New==
+cdk-nag@^2.28.185:
+  version "2.28.185"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.185.tgz#a7154e9b414e5533df63cf0f22be13ea8863ca18"
+  integrity sha512-dsxhV5LuJ+X4fN3DW1dv9cZNooX24NRe7fcMfGUyl3Chos2wrwtWHMlEbfCHShIshIZcEnyUdaHsCdkwOpY1rQ==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -2216,9 +2216,9 @@ ejs@^3.1.10:
     jake "^10.8.5"
 
 electron-to-chromium@^1.5.4:
-  version "1.5.12"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.12.tgz#ee31756eaa2e06f2aa606f170b7ad06dd402b4e4"
-  integrity sha512-tIhPkdlEoCL1Y+PToq3zRNehUaKp3wBX/sr7aclAWdIWjvqAe/Im/H0SiCM4c1Q8BLPHCdoJTol+ZblflydehA==
+  version "1.5.13"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.13.tgz#1abf0410c5344b2b829b7247e031f02810d442e6"
+  integrity sha512-lbBcvtIJ4J6sS4tb5TLp1b4LyfCdMkwStzXPyAgVgTRAsep4bvrAGaBOP7ZJtQMNJpSQ9SqG4brWOroNaQtm7Q==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -3159,9 +3159,9 @@ is-callable@^1.1.3, is-callable@^1.1.4, is-callable@^1.2.7:
   integrity sha512-1BC0BVFhS/p0qtw6enp8e+8OD0UrK0oFLztSjNzhcKA3WDuJxxAPXzPuPtKkjEY9UUoEWlX/8fgKeu2S8i9JTA==
 
 is-core-module@^2.11.0, is-core-module@^2.13.0, is-core-module@^2.13.1, is-core-module@^2.5.0:
-  version "2.15.0"
-  resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.15.0.tgz#71c72ec5442ace7e76b306e9d48db361f22699ea"
-  integrity sha512-Dd+Lb2/zvk9SKy1TGCt1wFJFo/MWBPMX5x7KcvLajWTGuomczdQX61PvY5yK6SVACwpoexWo81IfFyoKY2QnTA==
+  version "2.15.1"
+  resolved "https://registry.yarnpkg.com/is-core-module/-/is-core-module-2.15.1.tgz#a7363a25bee942fefab0de13bf6aa372c82dcc37"
+  integrity sha512-z0vtXSwucUJtANQWldhbtbt7BnL0vxiFjIdDLAatwhDYty2bad6s+rijD6Ri4YuYJubLzIJLUidCh09e1djEVQ==
   dependencies:
     hasown "^2.0.2"
 
@@ -5559,9 +5559,9 @@ typescript@^5.5.4:
   integrity sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==
 
 typescript@next:
-  version "5.7.0-dev.20240820"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.0-dev.20240820.tgz#dbe59f1177153e26a55c6c05d7982b4f5d3303ac"
-  integrity sha512-5qaYMUGLvSJ2v7a5i/EtE/UZEL4boEichoP4z50a/bOYX45Lvn+I0RPkV917qdE5cGX+kIVtgmSNUEcng7GWqw==
+  version "5.7.0-dev.20240821"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.0-dev.20240821.tgz#3c89a3f52ae55648249707dc59014fe4980b1bd3"
+  integrity sha512-0Fy9p2k7DxC6OWPSXqJbrzkaxL4R7N+VRaxHnFeWnYSqwLfKQTX2JeARy+MGcSphRP9KKe/DtMGXYdoULHjMHw==
 
 typescript@~5.4:
   version "5.4.5"
