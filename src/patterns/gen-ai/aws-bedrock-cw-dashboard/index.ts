@@ -68,7 +68,7 @@ export class BedrockCwDashboard extends Construct {
   public readonly dashboard: Dashboard;
 
   /**
-   * Constructs a new instance of the ContentGenerationAppSyncLambda class.
+   * Constructs a new instance of the BedrockCwDashboard class.
    * @param {cdk.App} scope - represents the scope for all the resources.
    * @param {string} id - this is a a scope-unique id.
    * @param {BedrockCwDashboardProps} props - user provided props for the construct.
