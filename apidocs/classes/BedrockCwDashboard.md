@@ -18,7 +18,7 @@ The BedrockCwDashboard class.
 
 > **new BedrockCwDashboard**(`scope`, `id`, `props`): [`BedrockCwDashboard`](BedrockCwDashboard.md)
 
-Constructs a new instance of the ContentGenerationAppSyncLambda class.
+Constructs a new instance of the BedrockCwDashboard class.
 
 #### Parameters
 
