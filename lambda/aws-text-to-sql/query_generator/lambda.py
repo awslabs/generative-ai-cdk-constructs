@@ -86,8 +86,9 @@ def handler(event, context: LambdaContext)-> dict:
         logger.info('Semantic validation strategy not enabled, running sql query as is')
 
     response = {
-        'validated_sql_query':validated_sql_query,
+        'result':validated_sql_query,
         'sql_validation_strategy':sql_validation_strategy,
+        
     }
     end_time = time.time()
     if end_time is not None and execution_start_time is not None:
@@ -281,11 +282,13 @@ def generate_sql_from_text(text_to_sql_query_generation_llm,user_question, db, p
         logger.info(f"question :: {user_question}")
         response = chain.invoke({"question": user_question})
 
+        logger.info(f"llm response .. {response}")
         generated_sql_query = extract_sql_query(response)
         if generated_sql_query:
             logger.info(f'Generated SQL query: {generated_sql_query}')
         else:
             print("couldn't parse any genearted sql, returning...")
+            generated_sql_query = None
     except Exception as e:
         logger.error(f"Error generating SQL query: {e}")
         raise QueryGenerationException(e)

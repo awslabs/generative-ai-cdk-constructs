@@ -11,4 +11,4 @@ def extract_sql_query(text):
     if match:
         return match.group(1)
     else:
-        return None
+        return text

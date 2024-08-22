@@ -863,7 +863,7 @@ export class TextToSql extends BaseClass {
       this,
       'is_autocorrect_required?',
       {
-        //inputPath: '$.queryStatus.Payload',
+        //inputPath: '$.queryConfig.Payload',
       },
     );
 
@@ -906,7 +906,7 @@ export class TextToSql extends BaseClass {
       queue: outputQueue,
       messageBody: stepfunctions.TaskInput.fromObject({
         result: stepfunctions.TaskInput.fromJsonPathAt(
-          '$.queryStatus.Payload.result',
+          '$.queryConfig.Payload.result',
         ),
         user_question:
           stepfunctions.TaskInput.fromJsonPathAt('$.user_question'),
@@ -920,7 +920,7 @@ export class TextToSql extends BaseClass {
       this,
       'is_alternate_query_correct?',
       {
-        //inputPath: '$.queryStatus.Payload',
+        //inputPath: '$.queryConfig.Payload',
       },
     );
     const alternateQueryExecutorState = new tasks.LambdaInvoke(
@@ -928,13 +928,13 @@ export class TextToSql extends BaseClass {
       'execute_alternate_query',
       {
         lambdaFunction: queryExecutorFunction,
-        resultPath: '$.queryStatus',
+        resultPath: '$.queryConfig',
       },
     ).next(
       alternateQueryCorrectChoiceState
         .when(
           stepfunctions.Condition.stringEquals(
-            '$.queryStatus.Payload.status',
+            '$.queryConfig.Payload.status',
             'QUERY_ERROR',
           ),
           iteratorState,
@@ -944,12 +944,12 @@ export class TextToSql extends BaseClass {
 
     const queryExecutorState = new tasks.LambdaInvoke(this, 'execute_query', {
       lambdaFunction: queryExecutorFunction,
-      resultPath: '$.queryStatus',
+      resultPath: '$.queryConfig',
     }).next(
       autocorrectChoiceState
         .when(
           stepfunctions.Condition.stringEquals(
-            '$.queryStatus.Payload.status',
+            '$.queryConfig.Payload.status',
             'QUERY_ERROR',
           ),
           configureCountState
@@ -1005,7 +1005,7 @@ export class TextToSql extends BaseClass {
           message:
             'Following is the generated query. Do you agree with it or want to override?',
           generated_query: stepfunctions.JsonPath.stringAt(
-            '$.queryConfig.Payload.validated_sql_query',
+            '$.queryConfig.Payload.result',
           ),
           execute_sql_strategy: stepfunctions.TaskInput.fromJsonPathAt(
             '$.execute_sql_strategy',

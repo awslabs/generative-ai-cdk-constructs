@@ -55,7 +55,7 @@ def handler(event, context: LambdaContext)-> dict:
     if generated_sql_query is None or generated_sql_query == "":
         # generated query is set in validated_sql_query for execute_query_strategy = auto 
         queryConfig = event.get("queryConfig").get("Payload", None)
-        generated_sql_query = queryConfig.get("validated_sql_query",None)
+        generated_sql_query = queryConfig.get("result",None)
         
         logger.info(f"validated_sql_query  {generated_sql_query}")
         
