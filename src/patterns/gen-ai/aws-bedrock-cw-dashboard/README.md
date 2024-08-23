@@ -24,6 +24,7 @@
 
 - [aws-bedrock-cw-dashboard](#aws-qa-appsync-opensearch)
   - [Table of contents](#table-of-contents)
+  - [Credits](#credits)
   - [Overview](#overview)
   - [Initializer](#initializer)
   - [Pattern Construct Props](#pattern-construct-props)
@@ -34,6 +35,10 @@
   - [Security](#security)
   - [Supported AWS Regions](#supported-aws-regions)
   - [Quotas](#quotas)
+
+## Credits
+
+Thanks to @jimini55, @scoropeza, @PaulVincent707, @Ishanrpatel, @lowelljehu and @rddefauw for the initial version of this construct.
 
 ## Overview
 
