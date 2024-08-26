@@ -380,13 +380,13 @@ export class Agent extends Construct {
    * A list of action groups associated with the agent
    * @private
    */
-  public actionGroups: bedrock.CfnAgent.AgentActionGroupProperty[]=[];
+  public actionGroups: bedrock.CfnAgent.AgentActionGroupProperty[] = [];
   /**
    * A list of KnowledgeBases associated with the agent.
    *
    * @default - No knowledge base is used.
    */
-  public knowledgeBases: bedrock.CfnAgent.AgentKnowledgeBaseProperty []=[];
+  public knowledgeBases: bedrock.CfnAgent.AgentKnowledgeBaseProperty[] = [];
 
 
   constructor(scope: Construct, id: string, props: AgentProps) {
@@ -488,14 +488,12 @@ export class Agent extends Construct {
       this.addActionGroups(props.actionGroups);
     }
     // To allow your agent to request the user for additional information
-    // when trying to complete a task , add this action group
-    if (props.enableUserInput) {
-      this.addActionGroup(new AgentActionGroup(this, 'userInputEnabledActionGroup', {
-        actionGroupName: 'UserInputAction',
-        parentActionGroupSignature: 'AMAZON.UserInput',
-        actionGroupState: 'ENABLED',
-      }));
-    }
+    // when trying to complete a task, add this action group
+    this.addActionGroup(new AgentActionGroup(this, 'userInputEnabledActionGroup', {
+      actionGroupName: 'UserInputAction',
+      parentActionGroupSignature: 'AMAZON.UserInput',
+      actionGroupState: props.enableUserInput ? 'ENABLED' : 'DISABLED',
+    }));
   }
 
 
@@ -516,7 +514,7 @@ export class Agent extends Construct {
   /**
    * Add knowledge bases to the agent.
    */
-  public addKnowledgeBases(knowledgeBases: KnowledgeBase []) {
+  public addKnowledgeBases(knowledgeBases: KnowledgeBase[]) {
     for (const kb of knowledgeBases) {
       this.addKnowledgeBase(kb);
     }
@@ -679,7 +677,7 @@ export function validateInferenceConfiguration(inferenceConfiguration: Inference
  *
  * @internal This is an internal core function and should not be called directly.
  */
-export function validatePromptOverrideConfiguration(promptOverrideConfiguration: PromptOverrideConfiguration|undefined) {
+export function validatePromptOverrideConfiguration(promptOverrideConfiguration: PromptOverrideConfiguration | undefined) {
   if (!promptOverrideConfiguration) {
     return;
   }
