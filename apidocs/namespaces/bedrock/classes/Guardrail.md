@@ -106,6 +106,20 @@ The tree node.
 
 ## Methods
 
+### addContextualGroundingPolicyConfig()
+
+> **addContextualGroundingPolicyConfig**(`props`): `void`
+
+#### Parameters
+
+• **props**: [`ContextualGroundingPolicyConfigProps`](../interfaces/ContextualGroundingPolicyConfigProps.md)[]
+
+#### Returns
+
+`void`
+
+***
+
 ### addSensitiveInformationPolicyConfig()
 
 > **addSensitiveInformationPolicyConfig**(`props`, `guardrailRegexesConfig`): `void`

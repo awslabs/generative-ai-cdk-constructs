@@ -31,10 +31,35 @@ export enum FiltersConfigStrength {
   HIGH = 'HIGH',
 }
 
+export enum ContextualGroundingFilterConfigType {
+  /**Grounding score represents the confidence that the model response is factually correct and grounded in the source.
+   * If the model response has a lower score than the defined threshold, the response will be blocked and the configured
+   * blocked message will be returned to the user. A higher threshold level blocks more responses. */
+  GROUNDING = 'GROUNDING',
+  /**Relevance score represents the confidence that the model response is relevant to the user's query.
+   * If the model response has a lower score than the defined threshold, the response will be blocked and
+   * the configured blocked message will be returned to the user. A higher threshold level blocks more responses */
+  RELEVANCE = 'RELEVANCE'
+}
+
 export interface ContentPolicyConfigProps{
   readonly filtersConfigType: FiltersConfigType;
   readonly inputStrength?: FiltersConfigStrength;
   readonly outputStrength?: FiltersConfigStrength;
+}
+
+export interface ContextualGroundingPolicyConfigProps {
+  /**The filter details for the guardrails contextual grounding filter.
+   * GROUNDING: Validate if the model responses are grounded and factually correct based on the information provided in the reference source,
+   * and block responses that are below the defined threshold of grounding.
+   * RELEVANCE: Validate if the model responses are relevant to the user's query and block responses
+   * that are below the defined threshold of relevance.
+  */
+  readonly filtersConfigType: ContextualGroundingFilterConfigType;
+  /** The threshold details for the guardrails contextual grounding filter.
+   * 0 blocks nothing, 0.99 blocks almost everything
+  */
+  readonly threshold: number;
 }
 
 export class ContentPolicyConfig extends Construct {
