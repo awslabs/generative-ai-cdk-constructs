@@ -23,6 +23,7 @@
 ## Classes
 
 - [BaseClass](classes/BaseClass.md)
+- [BedrockCwDashboard](classes/BedrockCwDashboard.md)
 - [ContainerImage](classes/ContainerImage.md)
 - [ContentGenerationAppSyncLambda](classes/ContentGenerationAppSyncLambda.md)
 - [CustomSageMakerEndpoint](classes/CustomSageMakerEndpoint.md)
@@ -43,6 +44,7 @@
 
 - [AsyncInferenceConfig](interfaces/AsyncInferenceConfig.md)
 - [BaseClassProps](interfaces/BaseClassProps.md)
+- [BedrockCwDashboardProps](interfaces/BedrockCwDashboardProps.md)
 - [ContainerImageConfig](interfaces/ContainerImageConfig.md)
 - [ContentGenerationAppSyncLambdaProps](interfaces/ContentGenerationAppSyncLambdaProps.md)
 - [CrawlerTarget](interfaces/CrawlerTarget.md)
@@ -55,6 +57,7 @@
 - [JumpStartSageMakerEndpointProps](interfaces/JumpStartSageMakerEndpointProps.md)
 - [LangchainLayerProps](interfaces/LangchainLayerProps.md)
 - [LangchainProps](interfaces/LangchainProps.md)
+- [ModelMonitoringProps](interfaces/ModelMonitoringProps.md)
 - [QaAppsyncOpensearchProps](interfaces/QaAppsyncOpensearchProps.md)
 - [RagAppsyncStepfnOpensearchProps](interfaces/RagAppsyncStepfnOpensearchProps.md)
 - [SummarizationAppsyncStepfnProps](interfaces/SummarizationAppsyncStepfnProps.md)
