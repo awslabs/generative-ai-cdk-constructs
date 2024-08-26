@@ -12,10 +12,10 @@
 
 > `readonly` **filtersConfigType**: [`ContextualGroundingFilterConfigType`](../enumerations/ContextualGroundingFilterConfigType.md)
 
-The filter details for the guardrails contextual grounding filter. 
-GROUNDING: Validate if the model responses are grounded and factually correct based on the information provided in the reference source, 
+The filter details for the guardrails contextual grounding filter.
+GROUNDING: Validate if the model responses are grounded and factually correct based on the information provided in the reference source,
 and block responses that are below the defined threshold of grounding.
-RELEVANCE: Validate if the model responses are relevant to the user's query and block responses 
+RELEVANCE: Validate if the model responses are relevant to the user's query and block responses
 that are below the defined threshold of relevance.
 
 ***
