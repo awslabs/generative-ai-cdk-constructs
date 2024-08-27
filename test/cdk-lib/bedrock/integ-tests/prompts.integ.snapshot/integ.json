@@ -1,0 +1,19 @@
+{
+  "version": "36.0.17",
+  "testCases": {
+    "ServiceTest/DefaultTest": {
+      "stacks": [
+        "aws-cdk-bedrock-prompts-integ-test"
+      ],
+      "cdkCommandOptions": {
+        "destroy": {
+          "args": {
+            "force": true
+          }
+        }
+      },
+      "assertionStack": "ServiceTest/DefaultTest/DeployAssert",
+      "assertionStackName": "ServiceTestDefaultTestDeployAssertE49B1ECE"
+    }
+  }
+}

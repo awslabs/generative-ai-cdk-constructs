@@ -32,6 +32,11 @@
       "type": "build"
     },
     {
+      "name": "aws-cdk",
+      "version": "^2",
+      "type": "build"
+    },
+    {
       "name": "aws-sdk-mock",
       "type": "build"
     },
