@@ -393,7 +393,7 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws-cdk/assert,@aws-cdk/integ-tests-alpha,@commitlint/config-conventional,@mrgrain/jsii-struct-builder,@types/jest,aws-sdk-mock,commitlint,eslint-import-resolver-typescript,eslint-plugin-header,eslint-plugin-import,husky,jest,jsii-diff,jsii-pacmak,pinst,ts-jest,ts-node,typedoc,typedoc-plugin-markdown,typescript,deepmerge,cdk-nag"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws-cdk/assert,@commitlint/config-conventional,@mrgrain/jsii-struct-builder,@types/jest,aws-sdk-mock,commitlint,eslint-import-resolver-typescript,eslint-plugin-header,eslint-plugin-import,husky,jest,jsii-diff,jsii-pacmak,pinst,ts-jest,ts-node,typedoc,typedoc-plugin-markdown,typescript,deepmerge,cdk-nag"
         },
         {
           "exec": "yarn install --check-files"

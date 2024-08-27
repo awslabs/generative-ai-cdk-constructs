@@ -51,6 +51,11 @@ export class PromptVersion extends Construct {
   public readonly prompt: Prompt;
 
   /**
+   * The version of the prompt that was created.
+   */
+  public readonly version: string;
+
+  /**
    * Instance of prompt version.
    */
   private readonly _resource: bedrock.CfnPromptVersion;
@@ -67,6 +72,7 @@ export class PromptVersion extends Construct {
     });
 
     this.versionArn = this._resource.attrArn;
+    this.version = this._resource.attrVersion;
 
   }
 
