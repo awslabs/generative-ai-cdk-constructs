@@ -77,6 +77,14 @@ export class BedrockFoundationModel {
     'amazon.titan-embed-text-v2:0',
     { supportsKnowledgeBase: true, vectorDimensions: 1024 },
   );
+  public static readonly TITAN_EMBED_TEXT_V2_512 = new BedrockFoundationModel(
+    'amazon.titan-embed-text-v2:0',
+    { supportsKnowledgeBase: true, vectorDimensions: 512 },
+  );
+  public static readonly TITAN_EMBED_TEXT_V2_256 = new BedrockFoundationModel(
+    'amazon.titan-embed-text-v2:0',
+    { supportsKnowledgeBase: true, vectorDimensions: 256 },
+  );
   public static readonly COHERE_EMBED_ENGLISH_V3 = new BedrockFoundationModel(
     'cohere.embed-english-v3',
     { supportsKnowledgeBase: true, vectorDimensions: 1024 },

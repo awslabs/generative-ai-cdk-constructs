@@ -213,10 +213,10 @@ export class KnowledgeBase extends Construct {
    * The vector store for the knowledge base.
    */
   public readonly vectorStore:
-  | VectorCollection
-  | PineconeVectorStore
-  | AmazonAuroraVectorStore
-  | AmazonAuroraDefaultVectorStore;
+    | VectorCollection
+    | PineconeVectorStore
+    | AmazonAuroraVectorStore
+    | AmazonAuroraDefaultVectorStore;
 
   /**
    * A narrative instruction of the knowledge base.
@@ -435,12 +435,12 @@ export class KnowledgeBase extends Construct {
           : vectorField,
       textField:
         this.vectorStore instanceof AmazonAuroraVectorStore ||
-        this.vectorStore instanceof PineconeVectorStore
+          this.vectorStore instanceof PineconeVectorStore
           ? this.vectorStore.textField
           : textField,
       metadataField:
         this.vectorStore instanceof AmazonAuroraVectorStore ||
-        this.vectorStore instanceof PineconeVectorStore
+          this.vectorStore instanceof PineconeVectorStore
           ? this.vectorStore.metadataField
           : metadataField,
     };
@@ -453,6 +453,11 @@ export class KnowledgeBase extends Construct {
           type: 'VECTOR',
           vectorKnowledgeBaseConfiguration: {
             embeddingModelArn: embeddingsModel.asArn(this),
+            // Used this approach as if property is specified on models that do not 
+            // support configurable dimensions CloudFormation throws an error at runtime
+            embeddingModelConfiguration: (embeddingsModel.modelId === "amazon.titan-embed-text-v2:0")
+              ? ({ bedrockEmbeddingModelConfiguration: { dimensions: embeddingsModel.vectorDimensions } })
+              : undefined,
           },
         },
         name: this.name,
@@ -632,11 +637,11 @@ export class KnowledgeBase extends Construct {
    */
   public associateToAgent(agent: Agent) {
     const agentKnowledgeBaseProperty: bedrock.CfnAgent.AgentKnowledgeBaseProperty =
-      {
-        description: this.description,
-        knowledgeBaseId: this.knowledgeBaseId,
-        knowledgeBaseState: this.knowledgeBaseState,
-      };
+    {
+      description: this.description,
+      knowledgeBaseId: this.knowledgeBaseId,
+      knowledgeBaseState: this.knowledgeBaseState,
+    };
     agent.knowledgeBases = [agentKnowledgeBaseProperty];
   }
 }
@@ -669,19 +674,19 @@ function validateVectorIndex(
   if (!(vectorStore instanceof VectorCollection) && vectorIndex) {
     throw new Error(
       'If vectorStore is not of type VectorCollection, vectorIndex should not be provided ' +
-        'in KnowledgeBase construct.',
+      'in KnowledgeBase construct.',
     );
   }
   if (!(vectorStore instanceof VectorCollection) && indexName) {
     throw new Error(
       'If vectorStore is not of type VectorCollection, indexName should not be provided ' +
-        'in KnowledgeBase construct.',
+      'in KnowledgeBase construct.',
     );
   }
   if (!(vectorStore instanceof VectorCollection) && vectorField) {
     throw new Error(
       'If vectorStore is not of type VectorCollection, vectorField should not be provided ' +
-        'in KnowledgeBase construct.',
+      'in KnowledgeBase construct.',
     );
   }
 }
@@ -706,10 +711,10 @@ function validateIndexParameters(
     if (vectorIndex.indexName !== indexName) {
       throw new Error(
         'Default value of indexName is `bedrock-knowledge-base-default-index`.' +
-          ' If you create VectorIndex manually and assign vectorIndex to value other than' +
-          ' `bedrock-knowledge-base-default-index` then you must provide the same value in KnowledgeBase construct.' +
-          ' If you created VectorIndex manually and set it to `bedrock-knowledge-base-default-index`' +
-          ' then do not assign indexName in KnowledgeBase construct.',
+        ' If you create VectorIndex manually and assign vectorIndex to value other than' +
+        ' `bedrock-knowledge-base-default-index` then you must provide the same value in KnowledgeBase construct.' +
+        ' If you created VectorIndex manually and set it to `bedrock-knowledge-base-default-index`' +
+        ' then do not assign indexName in KnowledgeBase construct.',
       );
     }
   }
@@ -717,10 +722,10 @@ function validateIndexParameters(
     if (vectorIndex.vectorField !== vectorField) {
       throw new Error(
         'Default value of vectorField is `bedrock-knowledge-base-default-vector`.' +
-          ' If you create VectorIndex manually and assign vectorField to value other than' +
-          ' `bedrock-knowledge-base-default-field` then you must provide the same value in KnowledgeBase construct.' +
-          ' If you created VectorIndex manually and set it to `bedrock-knowledge-base-default-vector`' +
-          ' then do not assign vectorField in KnowledgeBase construct.',
+        ' If you create VectorIndex manually and assign vectorField to value other than' +
+        ' `bedrock-knowledge-base-default-field` then you must provide the same value in KnowledgeBase construct.' +
+        ' If you created VectorIndex manually and set it to `bedrock-knowledge-base-default-vector`' +
+        ' then do not assign vectorField in KnowledgeBase construct.',
       );
     }
   }
