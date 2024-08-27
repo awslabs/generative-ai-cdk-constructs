@@ -14,6 +14,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 import { AwsSolutionsChecks } from 'cdk-nag';
+import { expect as cdkExpect, haveResourceLike } from '@aws-cdk/assert';
 import {
   AmazonAuroraDefaultVectorStore,
 } from '../../../src/cdk-lib/amazonaurora';
@@ -78,13 +79,13 @@ describe('KnowledgeBase', () => {
     const condition = Object.keys(conditions)[0];
     template.hasResource(
       'AWS::OpenSearchServerless::AccessPolicy', {
-        Condition: condition,
-        Properties: {
-          Name: Match.stringLikeRegexp('^dataaccesspolicy[a-z0-9]+'),
-          Policy: '[]',
-          Type: 'data',
-        },
-      });
+      Condition: condition,
+      Properties: {
+        Name: Match.stringLikeRegexp('^dataaccesspolicy[a-z0-9]+'),
+        Policy: '[]',
+        Type: 'data',
+      },
+    });
   });
 
   test('Should have correct properties', () => {
@@ -210,4 +211,27 @@ describe('KnowledgeBase', () => {
     const errorData = errors.map(error => error.entry.data);
     expect(errorData).toHaveLength(2); // AwsSolutions-IAM4 and AwsSolutions-IAM5
   });
+
+  test('Knowledge Base with Embedding Model supporting Configurable Dimensions', () => {
+    //GIVEN
+    new KnowledgeBase(stack, 'AuroraDefaultKnowledgeBaseTitan512', {
+      embeddingsModel: BedrockFoundationModel.TITAN_EMBED_TEXT_V2_512,
+    });
+    //THEN
+    cdkExpect(stack).to(
+      haveResourceLike('AWS::Bedrock::KnowledgeBase', {
+        KnowledgeBaseConfiguration: {
+          Type: "VECTOR",
+          VectorKnowledgeBaseConfiguration: {
+            EmbeddingModelConfiguration: {
+              BedrockEmbeddingModelConfiguration: {
+                Dimensions: 512
+              }
+            }
+          }
+        }
+      })
+    )
+  }
+  )
 });
