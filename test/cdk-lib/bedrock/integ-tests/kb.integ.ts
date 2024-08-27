@@ -18,7 +18,6 @@ import { BedrockFoundationModel } from '../../../../src/cdk-lib/bedrock/models';
 const app = new cdk.App();
 const stack = new cdk.Stack(app, 'aws-cdk-bedrock-knowledge-base-integ-test');
 
-// const kb1 =
 new KnowledgeBase(stack, 'kb1', {
   name: 'kb1',
   embeddingsModel: BedrockFoundationModel.TITAN_EMBED_TEXT_V2_512,
@@ -35,7 +34,7 @@ new KnowledgeBase(stack, 'kb3', {
 });
 
 
-new integ.IntegTest(app, 'ServiceTest', {
+new integ.IntegTest(app, 'KBTest', {
   testCases: [stack],
   cdkCommandOptions: {
     destroy: {
@@ -44,30 +43,7 @@ new integ.IntegTest(app, 'ServiceTest', {
       },
     },
   },
+  diffAssets: true,
 });
-
-// const apiCall =
-// integ_case.assertions.awsApiCall('bedrock-agent', 'GetKnowledgeBase', {
-//   knowledgeBaseId: kb1.knowledgeBaseId,
-// });
-
-
-// integ_case.assertions.expect(
-//   'custom-size-embedding-kb',
-//   integ.ExpectedResult.objectLike({
-//     knowledgeBase: {
-//       knowledgeBaseConfiguration: {
-//         vectorKnowledgeBaseConfiguration: {
-//           embeddingModelConfiguration: {
-//             bedrockEmbeddingModelConfiguration: {
-//               dimensions: "512"
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }),
-//   integ.ActualResult.fromAwsApiCall(apiCall, 'Body')
-// )
 
 app.synth();

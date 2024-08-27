@@ -1,10 +1,11 @@
 {
   "version": "36.0.17",
   "testCases": {
-    "ServiceTest/DefaultTest": {
+    "KBTest/DefaultTest": {
       "stacks": [
         "aws-cdk-bedrock-knowledge-base-integ-test"
       ],
+      "diffAssets": true,
       "cdkCommandOptions": {
         "destroy": {
           "args": {
@@ -12,8 +13,8 @@
           }
         }
       },
-      "assertionStack": "ServiceTest/DefaultTest/DeployAssert",
-      "assertionStackName": "ServiceTestDefaultTestDeployAssertE49B1ECE"
+      "assertionStack": "KBTest/DefaultTest/DeployAssert",
+      "assertionStackName": "KBTestDefaultTestDeployAssert33E2E71B"
     }
   }
 }
