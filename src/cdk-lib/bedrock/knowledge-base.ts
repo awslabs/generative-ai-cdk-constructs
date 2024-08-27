@@ -213,10 +213,10 @@ export class KnowledgeBase extends Construct {
    * The vector store for the knowledge base.
    */
   public readonly vectorStore:
-    | VectorCollection
-    | PineconeVectorStore
-    | AmazonAuroraVectorStore
-    | AmazonAuroraDefaultVectorStore;
+  | VectorCollection
+  | PineconeVectorStore
+  | AmazonAuroraVectorStore
+  | AmazonAuroraDefaultVectorStore;
 
   /**
    * A narrative instruction of the knowledge base.
@@ -453,9 +453,9 @@ export class KnowledgeBase extends Construct {
           type: 'VECTOR',
           vectorKnowledgeBaseConfiguration: {
             embeddingModelArn: embeddingsModel.asArn(this),
-            // Used this approach as if property is specified on models that do not 
+            // Used this approach as if property is specified on models that do not
             // support configurable dimensions CloudFormation throws an error at runtime
-            embeddingModelConfiguration: (embeddingsModel.modelId === "amazon.titan-embed-text-v2:0")
+            embeddingModelConfiguration: (embeddingsModel.modelId === 'amazon.titan-embed-text-v2:0')
               ? ({ bedrockEmbeddingModelConfiguration: { dimensions: embeddingsModel.vectorDimensions } })
               : undefined,
           },

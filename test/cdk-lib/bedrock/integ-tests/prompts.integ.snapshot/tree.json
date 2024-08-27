@@ -1,0 +1,282 @@
+{
+  "version": "tree-0.1",
+  "tree": {
+    "id": "App",
+    "path": "",
+    "children": {
+      "aws-cdk-bedrock-prompts-integ-test": {
+        "id": "aws-cdk-bedrock-prompts-integ-test",
+        "path": "aws-cdk-bedrock-prompts-integ-test",
+        "children": {
+          "cmk": {
+            "id": "cmk",
+            "path": "aws-cdk-bedrock-prompts-integ-test/cmk",
+            "children": {
+              "Resource": {
+                "id": "Resource",
+                "path": "aws-cdk-bedrock-prompts-integ-test/cmk/Resource",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::KMS::Key",
+                  "aws:cdk:cloudformation:props": {
+                    "keyPolicy": {
+                      "Statement": [
+                        {
+                          "Action": "kms:*",
+                          "Effect": "Allow",
+                          "Principal": {
+                            "AWS": {
+                              "Fn::Join": [
+                                "",
+                                [
+                                  "arn:",
+                                  {
+                                    "Ref": "AWS::Partition"
+                                  },
+                                  ":iam::",
+                                  {
+                                    "Ref": "AWS::AccountId"
+                                  },
+                                  ":root"
+                                ]
+                              ]
+                            }
+                          },
+                          "Resource": "*"
+                        }
+                      ],
+                      "Version": "2012-10-17"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_kms.CfnKey",
+                  "version": "2.154.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.aws_kms.Key",
+              "version": "2.154.1"
+            }
+          },
+          "prompt1": {
+            "id": "prompt1",
+            "path": "aws-cdk-bedrock-prompts-integ-test/prompt1",
+            "children": {
+              "Prompt": {
+                "id": "Prompt",
+                "path": "aws-cdk-bedrock-prompts-integ-test/prompt1/Prompt",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Bedrock::Prompt",
+                  "aws:cdk:cloudformation:props": {
+                    "customerEncryptionKeyArn": {
+                      "Fn::GetAtt": [
+                        "cmk01DE03DA",
+                        "Arn"
+                      ]
+                    },
+                    "defaultVariant": "variant1",
+                    "description": "my first prompt",
+                    "name": "prompt1",
+                    "variants": [
+                      {
+                        "name": "variant1",
+                        "templateType": "TEXT",
+                        "modelId": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":bedrock:",
+                              {
+                                "Ref": "AWS::Region"
+                              },
+                              "::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0"
+                            ]
+                          ]
+                        },
+                        "inferenceConfiguration": {
+                          "text": {
+                            "temperature": 1,
+                            "topP": 0.999,
+                            "maxTokens": 2000,
+                            "topK": 250
+                          }
+                        },
+                        "templateConfiguration": {
+                          "text": {
+                            "inputVariables": [
+                              {
+                                "name": "topic"
+                              }
+                            ],
+                            "text": "This is my first text prompt. Please summarize our conversation on: {{topic}}."
+                          }
+                        }
+                      },
+                      {
+                        "name": "variant2",
+                        "templateType": "TEXT",
+                        "modelId": {
+                          "Fn::Join": [
+                            "",
+                            [
+                              "arn:",
+                              {
+                                "Ref": "AWS::Partition"
+                              },
+                              ":bedrock:",
+                              {
+                                "Ref": "AWS::Region"
+                              },
+                              "::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0"
+                            ]
+                          ]
+                        },
+                        "inferenceConfiguration": {
+                          "text": {
+                            "temperature": 0.5,
+                            "topP": 0.999,
+                            "maxTokens": 2000,
+                            "topK": 250
+                          }
+                        },
+                        "templateConfiguration": {
+                          "text": {
+                            "inputVariables": [
+                              {
+                                "name": "topic"
+                              }
+                            ],
+                            "text": "This is my second text prompt. Please summarize our conversation on: {{topic}}."
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_bedrock.CfnPrompt",
+                  "version": "2.154.1"
+                }
+              },
+              "PromptVersion-my first version": {
+                "id": "PromptVersion-my first version",
+                "path": "aws-cdk-bedrock-prompts-integ-test/prompt1/PromptVersion-my first version",
+                "attributes": {
+                  "aws:cdk:cloudformation:type": "AWS::Bedrock::PromptVersion",
+                  "aws:cdk:cloudformation:props": {
+                    "description": "my first version",
+                    "promptArn": {
+                      "Fn::GetAtt": [
+                        "prompt1Prompt7E73129C",
+                        "Arn"
+                      ]
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.aws_bedrock.CfnPromptVersion",
+                  "version": "2.154.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "constructs.Construct",
+              "version": "10.3.0"
+            }
+          },
+          "BootstrapVersion": {
+            "id": "BootstrapVersion",
+            "path": "aws-cdk-bedrock-prompts-integ-test/BootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnParameter",
+              "version": "2.154.1"
+            }
+          },
+          "CheckBootstrapVersion": {
+            "id": "CheckBootstrapVersion",
+            "path": "aws-cdk-bedrock-prompts-integ-test/CheckBootstrapVersion",
+            "constructInfo": {
+              "fqn": "aws-cdk-lib.CfnRule",
+              "version": "2.154.1"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "aws-cdk-lib.Stack",
+          "version": "2.154.1"
+        }
+      },
+      "ServiceTest": {
+        "id": "ServiceTest",
+        "path": "ServiceTest",
+        "children": {
+          "DefaultTest": {
+            "id": "DefaultTest",
+            "path": "ServiceTest/DefaultTest",
+            "children": {
+              "Default": {
+                "id": "Default",
+                "path": "ServiceTest/DefaultTest/Default",
+                "constructInfo": {
+                  "fqn": "constructs.Construct",
+                  "version": "10.3.0"
+                }
+              },
+              "DeployAssert": {
+                "id": "DeployAssert",
+                "path": "ServiceTest/DefaultTest/DeployAssert",
+                "children": {
+                  "BootstrapVersion": {
+                    "id": "BootstrapVersion",
+                    "path": "ServiceTest/DefaultTest/DeployAssert/BootstrapVersion",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnParameter",
+                      "version": "2.154.1"
+                    }
+                  },
+                  "CheckBootstrapVersion": {
+                    "id": "CheckBootstrapVersion",
+                    "path": "ServiceTest/DefaultTest/DeployAssert/CheckBootstrapVersion",
+                    "constructInfo": {
+                      "fqn": "aws-cdk-lib.CfnRule",
+                      "version": "2.154.1"
+                    }
+                  }
+                },
+                "constructInfo": {
+                  "fqn": "aws-cdk-lib.Stack",
+                  "version": "2.154.1"
+                }
+              }
+            },
+            "constructInfo": {
+              "fqn": "@aws-cdk/integ-tests-alpha.IntegTestCase",
+              "version": "2.154.1-alpha.0"
+            }
+          }
+        },
+        "constructInfo": {
+          "fqn": "@aws-cdk/integ-tests-alpha.IntegTest",
+          "version": "2.154.1-alpha.0"
+        }
+      },
+      "Tree": {
+        "id": "Tree",
+        "path": "Tree",
+        "constructInfo": {
+          "fqn": "constructs.Construct",
+          "version": "10.3.0"
+        }
+      }
+    },
+    "constructInfo": {
+      "fqn": "aws-cdk-lib.App",
+      "version": "2.154.1"
+    }
+  }
+}

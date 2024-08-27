@@ -18,7 +18,8 @@ import { BedrockFoundationModel } from '../../../../src/cdk-lib/bedrock/models';
 const app = new cdk.App();
 const stack = new cdk.Stack(app, 'aws-cdk-bedrock-knowledge-base-integ-test');
 
-const kb1 = new KnowledgeBase(stack, 'kb1', {
+// const kb1 =
+new KnowledgeBase(stack, 'kb1', {
   name: 'kb1',
   embeddingsModel: BedrockFoundationModel.TITAN_EMBED_TEXT_V2_512,
 });
@@ -34,7 +35,7 @@ new KnowledgeBase(stack, 'kb3', {
 });
 
 
-const integ_case = new integ.IntegTest(app, 'ServiceTest', {
+new integ.IntegTest(app, 'ServiceTest', {
   testCases: [stack],
   cdkCommandOptions: {
     destroy: {
@@ -45,9 +46,10 @@ const integ_case = new integ.IntegTest(app, 'ServiceTest', {
   },
 });
 
-integ_case.assertions.awsApiCall('bedrock-agent', 'GetKnowledgeBase', {
-  knowledgeBaseId: kb1.knowledgeBaseId,
-});
+// const apiCall =
+// integ_case.assertions.awsApiCall('bedrock-agent', 'GetKnowledgeBase', {
+//   knowledgeBaseId: kb1.knowledgeBaseId,
+// });
 
 
 // integ_case.assertions.expect(

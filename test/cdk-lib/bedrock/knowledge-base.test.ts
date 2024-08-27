@@ -11,10 +11,10 @@
  *  and limitations under the License.
  */
 
+import { expect as cdkExpect, haveResourceLike } from '@aws-cdk/assert';
 import * as cdk from 'aws-cdk-lib';
 import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 import { AwsSolutionsChecks } from 'cdk-nag';
-import { expect as cdkExpect, haveResourceLike } from '@aws-cdk/assert';
 import {
   AmazonAuroraDefaultVectorStore,
 } from '../../../src/cdk-lib/amazonaurora';
@@ -79,13 +79,13 @@ describe('KnowledgeBase', () => {
     const condition = Object.keys(conditions)[0];
     template.hasResource(
       'AWS::OpenSearchServerless::AccessPolicy', {
-      Condition: condition,
-      Properties: {
-        Name: Match.stringLikeRegexp('^dataaccesspolicy[a-z0-9]+'),
-        Policy: '[]',
-        Type: 'data',
-      },
-    });
+        Condition: condition,
+        Properties: {
+          Name: Match.stringLikeRegexp('^dataaccesspolicy[a-z0-9]+'),
+          Policy: '[]',
+          Type: 'data',
+        },
+      });
   });
 
   test('Should have correct properties', () => {
@@ -221,17 +221,17 @@ describe('KnowledgeBase', () => {
     cdkExpect(stack).to(
       haveResourceLike('AWS::Bedrock::KnowledgeBase', {
         KnowledgeBaseConfiguration: {
-          Type: "VECTOR",
+          Type: 'VECTOR',
           VectorKnowledgeBaseConfiguration: {
             EmbeddingModelConfiguration: {
               BedrockEmbeddingModelConfiguration: {
-                Dimensions: 512
-              }
-            }
-          }
-        }
-      })
-    )
-  }
-  )
+                Dimensions: 512,
+              },
+            },
+          },
+        },
+      }),
+    );
+  },
+  );
 });

@@ -1642,19 +1642,6 @@
    }
   }
  },
- "Outputs": {
-  "ExportsOutputFnGetAttkb1MyCfnKnowledgeBase0F2774BEKnowledgeBaseId2A9A762E": {
-   "Value": {
-    "Fn::GetAtt": [
-     "kb1MyCfnKnowledgeBase0F2774BE",
-     "KnowledgeBaseId"
-    ]
-   },
-   "Export": {
-    "Name": "aws-cdk-bedrock-knowledge-base-integ-test:ExportsOutputFnGetAttkb1MyCfnKnowledgeBase0F2774BEKnowledgeBaseId2A9A762E"
-   }
-  }
- },
  "Parameters": {
   "BootstrapVersion": {
    "Type": "AWS::SSM::Parameter::Value<String>",

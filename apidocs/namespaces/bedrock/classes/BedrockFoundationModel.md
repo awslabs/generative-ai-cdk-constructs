@@ -117,6 +117,18 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 > `readonly` `static` **TITAN\_EMBED\_TEXT\_V2\_1024**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
 
+***
+
+### TITAN\_EMBED\_TEXT\_V2\_256
+
+> `readonly` `static` **TITAN\_EMBED\_TEXT\_V2\_256**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### TITAN\_EMBED\_TEXT\_V2\_512
+
+> `readonly` `static` **TITAN\_EMBED\_TEXT\_V2\_512**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
 ## Methods
 
 ### asArn()
