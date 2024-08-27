@@ -17,7 +17,7 @@ import { CfnTag, aws_bedrock as bedrock } from 'aws-cdk-lib';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 
-import { ContentPolicyConfig, ContentPolicyConfigProps } from './content-policy';
+import { ContentPolicyConfig, ContentPolicyConfigProps, ContextualGroundingPolicyConfigProps } from './content-policy';
 import { GuardrailVersion } from './guardrail-version';
 import { SensitiveInformationPolicyConfig, SensitiveInformationPolicyConfigProps } from './pii-list';
 import { Topic } from './topic-list';
@@ -45,6 +45,11 @@ export interface GuardrailProps {
     * List of content filter configs in content policy.
     */
   readonly filtersConfig?: ContentPolicyConfigProps[];
+
+  /**
+    * Contextual grounding policy config for a guardrail.
+    */
+  readonly contextualGroundingfiltersConfig?: ContextualGroundingPolicyConfigProps[];
 
   /**
     * PII fields which needs to be masked.
@@ -132,6 +137,16 @@ export class Guardrail extends Construct {
       },
     });
 
+    if (props.contextualGroundingfiltersConfig) {
+      this.guardrailInstance.contextualGroundingPolicyConfig={
+        filtersConfig:
+          props.contextualGroundingfiltersConfig.map((prop) => ({
+            type: prop.filtersConfigType,
+            threshold: prop.threshold,
+          })),
+      };
+    }
+
     this.guardrailVersion = this.guardrailInstance.attrVersion;
     this.guardrailId = this.guardrailInstance.attrGuardrailId;
 
@@ -150,6 +165,20 @@ export class Guardrail extends Construct {
     } else {
       throw new Error('No guardrailPiiEntityConfig or guardrailRegexesConfig is set in GuardrailProps.');
 
+    }
+  }
+
+  public addContextualGroundingPolicyConfig( props: ContextualGroundingPolicyConfigProps[]) {
+    if (props) {
+      this.guardrailInstance.contextualGroundingPolicyConfig={
+        filtersConfig:
+          props.map((prop) => ({
+            type: prop.filtersConfigType,
+            threshold: prop.threshold,
+          })),
+      };
+    } else {
+      throw new Error('No ContextualGroundingPolicyConfig is set in GuardrailProps.');
     }
   }
 

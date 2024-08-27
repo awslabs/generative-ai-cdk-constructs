@@ -26,6 +26,14 @@ The message to return when the guardrail blocks a model response.
 
 ***
 
+### contextualGroundingfiltersConfig?
+
+> `readonly` `optional` **contextualGroundingfiltersConfig**: [`ContextualGroundingPolicyConfigProps`](ContextualGroundingPolicyConfigProps.md)[]
+
+Contextual grounding policy config for a guardrail.
+
+***
+
 ### description?
 
 > `readonly` `optional` **description**: `string`

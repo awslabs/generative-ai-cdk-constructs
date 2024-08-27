@@ -597,6 +597,19 @@ const guardrails = new bedrock.Guardrail(this,'bedrockGuardrails',{
         action: "BLOCK", 
     });
 
+    // Optional - Add contextual grounding
+
+    guardrails.addContextualGroundingPolicyConfig([
+      {
+        threshold: 0.5,
+        filtersConfigType: bedrock.ContextualGroundingFilterConfigType.GROUNDING,
+      },
+      {
+        threshold: 0.9,
+        filtersConfigType: bedrock.ContextualGroundingFilterConfigType.RELEVANCE,
+      },
+    ]);
+
     // Optional - Add Denied topics . You can use default Topic or create your custom Topic with createTopic function. The default Topics can also be overwritten.
 
     const topic = new Topic(this,'topic');
@@ -639,6 +652,21 @@ Python
         description= "customer id",
         pattern= "/^[A-Z]{2}\d{6}$/",
         action= "BLOCK"
+    )
+
+    # Optional - Add contextual grounding
+
+    guardrails.add_contextual_grounding_policy_config(
+      props= [ 
+        bedrock.ContextualGroundingPolicyConfigProps(
+            threshold= 0.5,
+            filters_config_type= bedrock.ContextualGroundingFilterConfigType.GROUNDING
+        ),
+        bedrock.ContextualGroundingPolicyConfigProps(
+            threshold= 0.5,
+            filters_config_type= bedrock.ContextualGroundingFilterConfigType.RELEVANCE
+        ),
+      ],
     )
 
     #Optional - Add Denied topics . You can use default Topic or create your custom Topic with createTopic function. The default Topics can also be overwritten.
