@@ -12,6 +12,7 @@
 
 - [CanadaSpecific](enumerations/CanadaSpecific.md)
 - [ChunkingStrategy](enumerations/ChunkingStrategy.md)
+- [ContextualGroundingFilterConfigType](enumerations/ContextualGroundingFilterConfigType.md)
 - [FiltersConfigStrength](enumerations/FiltersConfigStrength.md)
 - [FiltersConfigType](enumerations/FiltersConfigType.md)
 - [Finance](enumerations/Finance.md)
@@ -52,6 +53,7 @@
 - [ApiSchemaConfig](interfaces/ApiSchemaConfig.md)
 - [BedrockFoundationModelProps](interfaces/BedrockFoundationModelProps.md)
 - [ContentPolicyConfigProps](interfaces/ContentPolicyConfigProps.md)
+- [ContextualGroundingPolicyConfigProps](interfaces/ContextualGroundingPolicyConfigProps.md)
 - [GuardrailConfiguration](interfaces/GuardrailConfiguration.md)
 - [GuardrailProps](interfaces/GuardrailProps.md)
 - [InferenceConfiguration](interfaces/InferenceConfiguration.md)

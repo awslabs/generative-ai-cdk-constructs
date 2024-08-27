@@ -565,6 +565,25 @@ stable
 
 ***
 
+### recursiveLoop?
+
+> `readonly` `optional` **recursiveLoop**: `RecursiveLoop`
+
+Sets the Recursive Loop Protection for Lambda Function.
+It lets Lambda detect and terminate unintended recusrive loops.
+
+#### Default
+
+```ts
+RecursiveLoop.Terminate
+```
+
+#### Stability
+
+stable
+
+***
+
 ### reservedConcurrentExecutions?
 
 > `readonly` `optional` **reservedConcurrentExecutions**: `number`
