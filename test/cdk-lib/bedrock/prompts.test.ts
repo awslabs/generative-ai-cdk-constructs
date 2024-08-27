@@ -32,7 +32,7 @@ describe('Prompt', () => {
     const cmk = kms.Key.fromKeyArn(stack, 'cmk', 'arn:aws:kms:region:XXXXX:key/12345678-1234-1234-1234-123456789012');
 
     const prompt = new Prompt(stack, 'prompt1', {
-      name: 'prompt1',
+      promptName: 'prompt1',
       description: 'my cmk prompt',
       encryptionKey: cmk,
     });
@@ -45,13 +45,13 @@ describe('Prompt', () => {
         CustomerEncryptionKeyArn: cmk.keyArn,
       }),
     );
-    expect(prompt.name).toEqual('prompt1');
+    expect(prompt.promptName).toEqual('prompt1');
   });
 
   test('creates a Prompt with one variant', () => {
     // GIVEN
     const variant1 = PromptVariant.text({
-      name: 'variant1',
+      variantName: 'variant1',
       model: cdk_bedrock.FoundationModel.fromFoundationModelId(stack, 'model1', cdk_bedrock.FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_SONNET_20240229_V1_0),
       templateConfiguration: {
         inputVariables: [{ name: 'topic' }],
@@ -66,7 +66,7 @@ describe('Prompt', () => {
     });
 
     new Prompt(stack, 'prompt1', {
-      name: 'prompt1',
+      promptName: 'prompt1',
       description: 'my prompt',
       defaultVariant: variant1,
       variants: [variant1],
@@ -105,7 +105,7 @@ describe('Prompt', () => {
   test('creates a prompt version', () => {
     // GIVEN
     const prompt = new Prompt(stack, 'prompt1', {
-      name: 'prompt1',
+      promptName: 'prompt1',
       description: 'my versioned prompt',
     });
 
@@ -128,7 +128,7 @@ describe('Prompt', () => {
   test('throws on invalid prompt name', () => {
     //GIVEN
     new Prompt(stack, 'prompt1', {
-      name: '-my-prompt',
+      promptName: '-my-prompt',
       description: 'my prompt',
     });
     // THEN
@@ -138,7 +138,7 @@ describe('Prompt', () => {
   test('throws on invalid prompt variant number', () => {
     //GIVEN
     const variants = [1, 2, 3, 4].map(id => (PromptVariant.text({
-      name: `variant${id}`,
+      variantName: `variant${id}`,
       model: cdk_bedrock.FoundationModel.fromFoundationModelId(stack, `model${id}`, cdk_bedrock.FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_SONNET_20240229_V1_0),
       templateConfiguration: {
         inputVariables: [{ name: 'topic' }],
@@ -152,7 +152,7 @@ describe('Prompt', () => {
       },
     })));
     new Prompt(stack, 'prompt1', {
-      name: 'my-prompt',
+      promptName: 'my-prompt',
       description: 'my prompt',
       variants,
     });

@@ -19,11 +19,10 @@ import { Prompt, PromptVariant } from '../../../../src/cdk-lib/bedrock/prompt';
 const app = new cdk.App();
 const stack = new cdk.Stack(app, 'aws-cdk-bedrock-prompts-integ-test');
 
-
 const cmk = new kms.Key(stack, 'cmk', {});
 const claudeModel = cdk_bedrock.FoundationModel.fromFoundationModelId(stack, 'model1', cdk_bedrock.FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_SONNET_20240229_V1_0);
 const variant1 = PromptVariant.text({
-  name: 'variant1',
+  variantName: 'variant1',
   model: claudeModel,
   templateConfiguration: {
     inputVariables: [{ name: 'topic' }],
@@ -38,7 +37,7 @@ const variant1 = PromptVariant.text({
 });
 
 const prompt1 = new Prompt(stack, 'prompt1', {
-  name: 'prompt1',
+  promptName: 'prompt1',
   description: 'my first prompt',
   defaultVariant: variant1,
   variants: [variant1],
@@ -46,7 +45,7 @@ const prompt1 = new Prompt(stack, 'prompt1', {
 });
 
 const variant2 = PromptVariant.text({
-  name: 'variant2',
+  variantName: 'variant2',
   model: claudeModel,
   templateConfiguration: {
     inputVariables: [{ name: 'topic' }],

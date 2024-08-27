@@ -24,7 +24,7 @@ export interface CommonPromptVariantProps {
   /**
    * The name of the prompt variant.
    */
-  readonly name: string;
+  readonly variantName: string;
   /**
    * The model which is used to run the prompt. The model could be a foundation
    * model, a custom model, or a provisioned model.
@@ -50,13 +50,16 @@ export interface TextPromptVariantProps extends CommonPromptVariantProps {
  * generate an appropriate response or output for a given task or instruction.
  * You can optimize the prompt for specific use cases and models.
  */
-export class PromptVariant implements bedrock.CfnPrompt.PromptVariantProperty {
+export abstract class PromptVariant {
+  // ------------------------------------------------------
+  // Static Methods
+  // ------------------------------------------------------
   /**
    * Static method to create a text template
    */
   public static text(props: TextPromptVariantProps): PromptVariant {
-    return new PromptVariant({
-      name: props.name,
+    return {
+      name: props.variantName,
       templateType: PromptTemplateType.TEXT,
       modelId: props.model.modelArn,
       inferenceConfiguration: {
@@ -65,37 +68,36 @@ export class PromptVariant implements bedrock.CfnPrompt.PromptVariantProperty {
       templateConfiguration: {
         text: { ...props.templateConfiguration },
       },
-    });
+    };
   }
+  // ------------------------------------------------------
+  // Properties
+  // ------------------------------------------------------
   /**
    * The name of the prompt variant.
    */
-  public name: string;
+  public abstract name: string;
   /**
    * The type of prompt template.
    */
-  public templateType: PromptTemplateType;
+  public abstract templateType: PromptTemplateType;
   /**
    * The inference configuration.
    */
-  public inferenceConfiguration?: bedrock.CfnPrompt.PromptInferenceConfigurationProperty;
+  public abstract inferenceConfiguration?: bedrock.CfnPrompt.PromptInferenceConfigurationProperty;
   /**
    * The unique identifier of the model with which to run inference on the prompt.
    */
-  public modelId?: string;
+  public abstract modelId?: string;
   /**
    * The template configuration.
    */
-  public templateConfiguration?: bedrock.CfnPrompt.PromptTemplateConfigurationProperty;
+  public abstract templateConfiguration?: bedrock.CfnPrompt.PromptTemplateConfigurationProperty;
 
-
-  private constructor(props: bedrock.CfnPrompt.PromptVariantProperty) {
-    this.name = props.name;
-    this.templateType = props.templateType as PromptTemplateType;
-    this.modelId = props.modelId;
-    this.inferenceConfiguration = props?.inferenceConfiguration as bedrock.CfnPrompt.PromptInferenceConfigurationProperty;
-    this.templateConfiguration = props?.templateConfiguration as bedrock.CfnPrompt.PromptTemplateConfigurationProperty;
-  }
+  // ------------------------------------------------------
+  // Constructor
+  // ------------------------------------------------------
+  protected constructor() { }
 
 }
 
@@ -120,7 +122,7 @@ export interface PromptProps {
   /**
    * The name of the prompt.
    */
-  readonly name: string;
+  readonly promptName: string;
   /**
    * A description of what the prompt does.
    * @default - No description provided.
@@ -169,7 +171,7 @@ export class Prompt extends Construct implements IPrompt {
   /**
    * The name of the prompt.
    */
-  public readonly name: string;
+  public readonly promptName: string;
   /**
    * The KMS key that the prompt is encrypted with.
    */
@@ -201,7 +203,7 @@ export class Prompt extends Construct implements IPrompt {
     // ------------------------------------------------------
     // Set properties or defaults
     // ------------------------------------------------------
-    this.name = props.name;
+    this.promptName = props.promptName;
     this.encryptionKey = props.encryptionKey;
     this.variants = props.variants ?? [];
 
@@ -218,7 +220,7 @@ export class Prompt extends Construct implements IPrompt {
       customerEncryptionKeyArn: this.encryptionKey?.keyArn,
       defaultVariant: props.defaultVariant?.name,
       description: props.description,
-      name: props.name,
+      name: props.promptName,
       variants: Lazy.any({
         produce: () => (this.variants),
       }),
@@ -238,12 +240,12 @@ export class Prompt extends Construct implements IPrompt {
   private validatePromptName() {
     const errors: string[] = [];
 
-    const matchesPattern = /^([0-9a-zA-Z][_-]?){1,100}$/.test(this.name);
+    const matchesPattern = /^([0-9a-zA-Z][_-]?){1,100}$/.test(this.promptName);
     if (!matchesPattern) {
       errors.push('Valid characters are a-z, A-Z, 0-9, _ (underscore) and - (hyphen). And must not begin with a hyphen');
     }
     if (errors.length > 0) {
-      errors.unshift(`Invalid prompt name (value: ${this.name})`);
+      errors.unshift(`Invalid prompt name (value: ${this.promptName})`);
     }
     return errors;
   }
