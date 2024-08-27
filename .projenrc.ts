@@ -34,7 +34,7 @@ const CDK_VERSION: string = '2.154.1';
 
 function camelCaseIt(input: string): string {
   // Hypens and dashes to spaces and then CamelCase...
-  return input.replace(/-/g, ' ').replace(/_/g, ' ').replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, _) { if (+match === 0) return ''; return match.toUpperCase(); });
+  return input.replace(/-/g, ' ').replace(/_/g, ' ').replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, _) { if (+match === 0) return ''; return match.toUpperCase(); });
 }
 
 const project = new awscdk.AwsCdkConstructLibrary({
@@ -64,6 +64,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     'typedoc-plugin-markdown',
     'aws-sdk-mock',
     '@aws-cdk/assert',
+    '@aws-cdk/integ-tests-alpha',
   ],
   deps: [
     'cdk-nag',
@@ -80,14 +81,14 @@ const project = new awscdk.AwsCdkConstructLibrary({
   npmAccess: NpmAccess.PUBLIC,
 
   publishToPypi: {
-    distName: PUBLICATION_NAMESPACE+'.'+PROJECT_NAME,
-    module: (PUBLICATION_NAMESPACE.replace(/-/g, '_'))+'.'+(PROJECT_NAME.replace(/-/g, '_')), // PEP 8, convert hypens
+    distName: PUBLICATION_NAMESPACE + '.' + PROJECT_NAME,
+    module: (PUBLICATION_NAMESPACE.replace(/-/g, '_')) + '.' + (PROJECT_NAME.replace(/-/g, '_')), // PEP 8, convert hypens
     // twineRegistryUrl: '${{ secrets.TWINE_REGISTRY_URL }}',
   },
 
   publishToNuget: {
-    dotNetNamespace: camelCaseIt(PUBLICATION_NAMESPACE)+'.'+camelCaseIt(PROJECT_NAME),
-    packageId: camelCaseIt(PUBLICATION_NAMESPACE)+'.'+camelCaseIt(PROJECT_NAME),
+    dotNetNamespace: camelCaseIt(PUBLICATION_NAMESPACE) + '.' + camelCaseIt(PROJECT_NAME),
+    packageId: camelCaseIt(PUBLICATION_NAMESPACE) + '.' + camelCaseIt(PROJECT_NAME),
   },
 
   publishToGo: {
@@ -243,7 +244,7 @@ project.addTask('generate-models-containers', {
     },
     {
       say: 'Generate new list of models available from Jumpstart and DLC containers',
-      cwd: project.srcdir+'/patterns/gen-ai/aws-model-deployment-sagemaker/code-generation',
+      cwd: project.srcdir + '/patterns/gen-ai/aws-model-deployment-sagemaker/code-generation',
       exec: 'npm run generate',
     },
     {

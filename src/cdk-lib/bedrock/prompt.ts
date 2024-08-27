@@ -11,11 +11,10 @@
  *  and limitations under the License.
  */
 
-import { Construct } from 'constructs';
-import { Arn, ArnFormat, aws_kms as kms, Lazy } from 'aws-cdk-lib';
-import { aws_bedrock as bedrock } from 'aws-cdk-lib';
-import { IKey } from 'aws-cdk-lib/aws-kms';
+import { Arn, ArnFormat, aws_kms as kms, Lazy, aws_bedrock as bedrock } from 'aws-cdk-lib';
 import { IModel } from 'aws-cdk-lib/aws-bedrock';
+import { IKey } from 'aws-cdk-lib/aws-kms';
+import { Construct } from 'constructs';
 
 export enum PromptTemplateType {
   TEXT = 'TEXT',
@@ -27,7 +26,7 @@ export interface CommonPromptVariantProps {
    */
   readonly name: string;
   /**
-   * The model which is used to run the prompt. The model could be a foundation 
+   * The model which is used to run the prompt. The model could be a foundation
    * model, a custom model, or a provisioned model.
    */
   readonly model: IModel;
@@ -53,6 +52,22 @@ export interface TextPromptVariantProps extends CommonPromptVariantProps {
  */
 export class PromptVariant implements bedrock.CfnPrompt.PromptVariantProperty {
   /**
+   * Static method to create a text template
+   */
+  public static text(props: TextPromptVariantProps): PromptVariant {
+    return new PromptVariant({
+      name: props.name,
+      templateType: PromptTemplateType.TEXT,
+      modelId: props.model.modelArn,
+      inferenceConfiguration: {
+        text: { ...props.inferenceConfiguration },
+      },
+      templateConfiguration: {
+        text: { ...props.templateConfiguration },
+      },
+    });
+  }
+  /**
    * The name of the prompt variant.
    */
   public name: string;
@@ -73,22 +88,6 @@ export class PromptVariant implements bedrock.CfnPrompt.PromptVariantProperty {
    */
   public templateConfiguration?: bedrock.CfnPrompt.PromptTemplateConfigurationProperty;
 
-  /**
-   * Static method to create a text template
-   */
-  public static text(props: TextPromptVariantProps): PromptVariant {
-    return new PromptVariant({
-      name: props.name,
-      templateType: PromptTemplateType.TEXT,
-      modelId: props.model.modelArn,
-      inferenceConfiguration: {
-        text: { ...props.inferenceConfiguration }
-      },
-      templateConfiguration: {
-        text: { ...props.templateConfiguration }
-      }
-    });
-  }
 
   private constructor(props: bedrock.CfnPrompt.PromptVariantProperty) {
     this.name = props.name;
@@ -138,8 +137,8 @@ export interface PromptProps {
    */
   readonly defaultVariant?: PromptVariant;
   /**
-   * The variants of your prompt. Variants can use different messages, models, 
-   * or configurations so that you can compare their outputs to decide the best 
+   * The variants of your prompt. Variants can use different messages, models,
+   * or configurations so that you can compare their outputs to decide the best
    * variant for your use case. Maximum of 3 variants.
    */
   readonly variants?: PromptVariant[];
@@ -147,13 +146,26 @@ export interface PromptProps {
 }
 
 /**
- * Prompts are a specific set of inputs that guide FMs on Amazon Bedrock to 
- * generate an appropriate response or output for a given task or instruction. 
+ * Prompts are a specific set of inputs that guide FMs on Amazon Bedrock to
+ * generate an appropriate response or output for a given task or instruction.
  * You can optimize the prompt for specific use cases and models.
  * @resource AWS::Bedrock::Prompt
  * @see https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management.html
  */
 export class Prompt extends Construct implements IPrompt {
+  // ------------------------------------------------------
+  // Import Methods
+  // ------------------------------------------------------
+  public static fromPromptArn(promptArn: string): IPrompt {
+    const formattedArn = Arn.split(promptArn, ArnFormat.SLASH_RESOURCE_NAME);
+    return {
+      promptArn: promptArn,
+      promptId: formattedArn.resourceName!,
+    };
+  }
+  // ------------------------------------------------------
+  // Attributes
+  // ------------------------------------------------------
   /**
    * The name of the prompt.
    */
@@ -176,22 +188,46 @@ export class Prompt extends Construct implements IPrompt {
    * The variants of the prompt.
    */
   readonly variants: PromptVariant[];
-
   /**
    * L1 resource
    */
   private readonly _resource: bedrock.CfnPrompt;
 
   // ------------------------------------------------------
-  // Import Methods
+  // Constructor
   // ------------------------------------------------------
-  public static fromPromptArn(promptArn: string): IPrompt {
-    const formattedArn = Arn.split(promptArn, ArnFormat.SLASH_RESOURCE_NAME);
-    return {
-      promptArn: promptArn,
-      promptId: formattedArn.resourceName!,
-    };
+  constructor(scope: Construct, id: string, props: PromptProps) {
+    super(scope, id);
+    // ------------------------------------------------------
+    // Set properties or defaults
+    // ------------------------------------------------------
+    this.name = props.name;
+    this.encryptionKey = props.encryptionKey;
+    this.variants = props.variants ?? [];
+
+    // ------------------------------------------------------
+    // Validation
+    // ------------------------------------------------------
+    this.node.addValidation({ validate: () => this.validatePromptName() });
+    this.node.addValidation({ validate: () => this.validatePromptVariants() });
+
+    // ------------------------------------------------------
+    // L1 Instantiation
+    // ------------------------------------------------------
+    this._resource = new bedrock.CfnPrompt(this, 'Prompt', {
+      customerEncryptionKeyArn: this.encryptionKey?.keyArn,
+      defaultVariant: props.defaultVariant?.name,
+      description: props.description,
+      name: props.name,
+      variants: Lazy.any({
+        produce: () => (this.variants),
+      }),
+    });
+
+    this.promptArn = this._resource.attrArn;
+    this.promptId = this._resource.attrId;
   }
+
   // ------------------------------------------------------
   // Validation Methods
   // ------------------------------------------------------
@@ -224,40 +260,8 @@ export class Prompt extends Construct implements IPrompt {
   }
 
   // ------------------------------------------------------
-  // Constructor
+  // Helper Methods
   // ------------------------------------------------------
-  constructor(scope: Construct, id: string, props: PromptProps) {
-    super(scope, id);
-    // ------------------------------------------------------
-    // Set properties or defaults
-    // ------------------------------------------------------
-    this.name = props.name;
-    this.encryptionKey = props.encryptionKey;
-    this.variants = props.variants ?? [];
-
-    // ------------------------------------------------------
-    // Validation
-    // ------------------------------------------------------
-    this.node.addValidation({ validate: () => this.validatePromptName() });
-    this.node.addValidation({ validate: () => this.validatePromptVariants() });
-
-    // ------------------------------------------------------
-    // L1 Instantiation
-    // ------------------------------------------------------
-    this._resource = new bedrock.CfnPrompt(this, 'Prompt', {
-      customerEncryptionKeyArn: this.encryptionKey?.keyArn,
-      defaultVariant: props.defaultVariant?.name,
-      description: props.description,
-      name: props.name,
-      variants: Lazy.any({
-        produce: () => (this.variants),
-      }),
-    })
-
-    this.promptArn = this._resource.attrArn;
-    this.promptId = this._resource.attrId;
-  }
-
   /**
    * Creates a prompt version, a static snapshot of your prompt that can be
    * deployed to production.

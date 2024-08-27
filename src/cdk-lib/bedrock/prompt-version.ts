@@ -31,9 +31,9 @@ export interface PromptVersionProps {
 /**
  * Creates a version of the prompt.
  *
- * Use this to create a static snapshot of your prompt that can be deployed 
- * to production. Versions allow you to easily switch between different 
- * configurations for your prompt and update your application with the most 
+ * Use this to create a static snapshot of your prompt that can be deployed
+ * to production. Versions allow you to easily switch between different
+ * configurations for your prompt and update your application with the most
  * appropriate version for your use-case.
  * @resource AWS::Bedrock::PromptVersion
  * @see https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.html
@@ -58,7 +58,7 @@ export class PromptVersion extends Construct {
   constructor(scope: Construct, id: string, props: PromptVersionProps) {
     super(scope, id);
 
-    this.prompt = props.prompt
+    this.prompt = props.prompt;
 
     // L1 instantiation
     this._resource = new bedrock.CfnPromptVersion(this, id, {

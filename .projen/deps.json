@@ -5,6 +5,10 @@
       "type": "build"
     },
     {
+      "name": "@aws-cdk/integ-tests-alpha",
+      "type": "build"
+    },
+    {
       "name": "@commitlint/config-conventional",
       "type": "build"
     },
