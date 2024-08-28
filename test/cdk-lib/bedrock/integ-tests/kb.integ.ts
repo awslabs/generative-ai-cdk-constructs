@@ -36,14 +36,20 @@ new KnowledgeBase(stack, 'kb3', {
 
 new integ.IntegTest(app, 'KBTest', {
   testCases: [stack],
+
   cdkCommandOptions: {
+    deploy: {
+      args: {
+        ci: true,
+      },
+    },
     destroy: {
       args: {
         force: true,
       },
     },
   },
-  diffAssets: true,
+  diffAssets: false,
 });
 
 app.synth();

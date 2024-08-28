@@ -5,8 +5,13 @@
       "stacks": [
         "aws-cdk-bedrock-knowledge-base-integ-test"
       ],
-      "diffAssets": true,
+      "diffAssets": false,
       "cdkCommandOptions": {
+        "deploy": {
+          "args": {
+            "ci": true
+          }
+        },
         "destroy": {
           "args": {
             "force": true
