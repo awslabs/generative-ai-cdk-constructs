@@ -16,7 +16,6 @@
 
 - [ConstructName](enumerations/ConstructName.md)
 - [CrawlerTargetType](enumerations/CrawlerTargetType.md)
-- [DatabaseType](enumerations/DatabaseType.md)
 - [DbName](enumerations/DbName.md)
 - [MetatdataSource](enumerations/MetatdataSource.md)
 

@@ -18,7 +18,6 @@ import { AwsSolutionsChecks } from 'cdk-nag';
 import {
   TextToSql,
   TextToSqlProps,
-  DatabaseType,
   DbName,
   MetatdataSource,
 } from '../../../../src/patterns/gen-ai/aws-text-to-sql';
@@ -39,6 +38,7 @@ describe('Text to SQL Construct', () => {
       env: { account: cdk.Aws.ACCOUNT_ID, region: cdk.Aws.REGION },
     });
 
+    const secretCompleteArn = 'arn:aws:secretsmanager:us-east-1:XXXXX:secret:texttosqldbsecret-XXXXXX';
     const vpc = new ec2.Vpc(textToSqlTestStack, 'test-vpc', {
       ipAddresses: ec2.IpAddresses.cidr('10.0.0.0/16'),
       enableDnsHostnames: true,
@@ -57,8 +57,8 @@ describe('Text to SQL Construct', () => {
       ],
     });
     const props: TextToSqlProps = {
-      databaseType: DatabaseType.AURORA,
       dbName: DbName.MYSQL,
+      databaseSecretARN: secretCompleteArn,
       metadataSource: MetatdataSource.CONFIG_FILE,
       stage: 'dev',
       existingVpc: vpc,
@@ -130,9 +130,8 @@ describe('Text to SQL Construct', () => {
           CONFIG_BUCKET: {
             Ref: Match.anyValue(),
           },
-          SECRET_ARN: {
-            Ref: Match.stringLikeRegexp('TextToSqlAurora'),
-          },
+          SECRET_ARN: Match.stringLikeRegexp('arn:aws:secretsmanager:'),
+
         },
       },
     });
@@ -148,9 +147,8 @@ describe('Text to SQL Construct', () => {
           CONFIG_BUCKET: {
             Ref: Match.anyValue(),
           },
-          SECRET_ARN: {
-            Ref: Match.stringLikeRegexp('TextToSqlAurora'),
-          },
+          SECRET_ARN: Match.stringLikeRegexp('arn:aws:secretsmanager:'),
+
         },
       },
     });

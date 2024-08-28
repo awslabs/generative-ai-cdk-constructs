@@ -49,36 +49,11 @@ If not provided, default code will be used.
 
 ***
 
-### databaseClusterProps?
+### databaseSecretARN
 
-> `readonly` `optional` **databaseClusterProps**: `DatabaseClusterProps`
+> `readonly` **databaseSecretARN**: `string`
 
-Optional. Aurora Managed DB cluster prps.
- Passing existingAuroraDbCluster and databaseClusterProps will result in error.
-
-***
-
-### databaseInstanceProps?
-
-> `readonly` `optional` **databaseInstanceProps**: `DatabaseInstanceProps`
-
-Optional. RDS Instance prps.
- Passing existingRdsDbInstance and databaseInstanceProps will result in error.
-
-***
-
-### databaseType?
-
-> `readonly` `optional` **databaseType**: [`DatabaseType`](../enumerations/DatabaseType.md)
-
-Database type. Select between Aurora or RDS as database type. If none selected then Aurora is
-used as default database type.
-
-#### Default
-
-```ts
-- Aurora
-```
+Database secret. DB credentials to connect to Database.
 
 ***
 
@@ -115,14 +90,6 @@ Optional user provided event bus props
 ```ts
 - Default props are used.
 ```
-
-***
-
-### existingAuroraDbCluster?
-
-> `readonly` `optional` **existingAuroraDbCluster**: `DatabaseCluster`
-
-Optional. Existing Aurora Managed DB cluster
 
 ***
 
@@ -167,14 +134,6 @@ If no exisiting security group is provided it will create one from the vpc.
 ```ts
 - none
 ```
-
-***
-
-### existingRdsDbInstance?
-
-> `readonly` `optional` **existingRdsDbInstance**: `DatabaseInstance`
-
-Returns the RDS db instance  used by the construct
 
 ***
 

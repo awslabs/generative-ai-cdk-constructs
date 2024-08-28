@@ -37,13 +37,14 @@
 
 ## Overview
 
-This CDK construct leverages state-of-the-art generative AI capabilities to facilitate natural language-based SQL query generation. It seamlessly integrates with both Amazon Aurora and Amazon RDS database services, currently supporting MySQL databases. If you have an existing MySQL database hosted on an Amazon Aurora or Amazon RDS instance, you can seamlessly integrate it with the construct. Alternatively, the construct can provision the necessary database infrastructure for you.
+This CDK construct leverages state-of-the-art generative AI capabilities to facilitate natural language-based SQL query generation. It seamlessly integrates with your choice of database (MySQL, PostgreSQL, or SQLite) on AWS, currently supporting MySQL databases.
 
 To address the inherent ambiguity present in natural language, the system employs a sophisticated semantic linking mechanism. This mechanism utilizes a knowledge layer loaded from configuration files or an Amazon Bedrock knowledge base to reformulate the user's query, disambiguating and clarifying the intent. The system then prompts the user for feedback on the reformulated query, ensuring accurate interpretation of the user's intent. Upon user approval of the reformulated query, the construct generates the corresponding SQL query and presents it to the user for further validation.
 
 Once the user approves the generated SQL query, they have the option to execute it against the target database. In the event of any issues with the generated query, the construct is equipped with an autocorrection mechanism that allows for a configurable number of retries.
 
 The system's architecture is built upon a serverless workflow orchestrated by AWS Step Functions and AWS Lambda, triggered by an Amazon EventBridge event. The AWS Step Functions workflow publishes a task token on an Amazon Simple Queue Service (SQS) queue and awaits user feedback, ensuring a seamless and efficient user experience. The feedback strategy is configurable in config files and can be skipped by updating the config files.
+
 
 The construct support anthropic claude 3 models (anthropic.claude-3-haiku-20240307-v1:0, anthropic.claude-3-sonnet-20240229-v1:0). Please make sure the model is enabled in your account.Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
 
@@ -62,9 +63,10 @@ import { Construct } from 'constructs';
 import { Stack, StackProps } from 'aws-cdk-lib';
 import * as emergingTech from '@cdklabs/generative-ai-cdk-constructs';
 
-// get an existing userpool 
+// db secret arn
+const secretCompleteArn = "arn:aws:xxx"
 const textToSql  = new  emergingTech.TextToSql(this, "TextToSql", {
-      databaseType: emergingTech.DatabaseType.AURORA,
+      databaseSecretARN: secretCompleteArn,
       dbName: emergingTech.DbName.MYSQL,
       metadataSource: emergingTech.MetatdataSource.CONFIG_FILE,
       stage:"dev",
@@ -78,12 +80,13 @@ from constructs import Construct
 from aws_cdk import aws_cognito as cognito
 from cdklabs.generative_ai_cdk_constructs import TextToSql
 
+secret_complete_arn = "arn:aws:xxx"
 text_to_sql_construct = TextToSql(
     self, 
     'TextToSql', 
+     database_secret_arn= secret_complete_arn,
      db_name= TextToSql.DbName.MYSQL,
      metadata_source=TextToSql.MetatdataSource.CONFIG_FILE,
-     database_type= TextToSql.DatabaseType.AURORA,
      stage="dev",
 )
 ```
@@ -176,6 +179,7 @@ To generate the sql
 | :--------------------------------- | :--------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | dbName                           | string                                                                                                               | ![Required](https://img.shields.io/badge/required-ff0000) | Database name. This is the target database against which the query will be generated.                                                                |
 | metadataSource                   | string                                                                                                               | ![Required](https://img.shields.io/badge/required-ff0000) | Two metatdata source are supported: 1. config_file 2. Knowledge base                                                                                 |
+| databaseSecretARN                   | string                                                                                                               | ![Required](https://img.shields.io/badge/required-ff0000) | The complete ARN is the ARN with the Secrets Manager-supplied suffix. This secret stores database credentials.                                                                                 |
 | vpcProps                         | [ec2.VpcProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.VpcProps.html)                        | ![Optional](https://img.shields.io/badge/optional-4169E1) | The construct creates a custom VPC based on vpcProps. Providing both this and existingVpc will result in an error.                                   |
 | existingVpc                      | [ec2.IVpc](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.IVpc.html)                                | ![Optional](https://img.shields.io/badge/optional-4169E1) | An existing VPC can be used to deploy the construct.                                                                                                 |
 | existingSubnetGroup              | [rds.SubnetGroup](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_rds.SubnetGroup.html)                  | ![Optional](https://img.shields.io/badge/optional-4169E1) | An existing subnet group can be used to deploy the construct.                                                                                        |
@@ -184,17 +188,10 @@ To generate the sql
 | existingconfigAssetsBucketObj    | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html)                             | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing S3 bucket to store the config files.                                                                                                        |
 | configAssetsBucketProps          | [s3.BucketProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.BucketProps.html)                    | ![Optional](https://img.shields.io/badge/optional-4169E1) | User-provided props to override the default props for the S3 bucket. Providing both this and`existingconfigAssetsBucketObj` will result in an error. |
 | stage                            | string                                                                                                               | ![Optional](https://img.shields.io/badge/optional-4169E1) | Value will be appended to resources name service.                                                                                                    |
-| observability                    | boolean                                                                                                              | ![Optional](https://img.shields.io/badge/optional-4169E1) | Enable cloudwatch logging.                                                                                                                           |
-| databaseType                     | string                                                                                                               | ![Optional](https://img.shields.io/badge/optional-4169E1) | Database type. Select between Aurora or RDS as database type. If none selected then Aurora is used as default database type.                         |
-| existingAuroraDbCluster          | [rds.DatabaseCluster](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_rds.DatabaseCluster.html)          | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing Aurora Managed DB cluster                                                                                                                   |
-| databaseClusterProps             | [rds.DatabaseClusterProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_rds.DatabaseCluster.html)     | ![Optional](https://img.shields.io/badge/optional-4169E1) | Aurora Managed DB cluster props.Passing existingAuroraDbCluster and databaseClusterProps will result in error.                                       |
-| databaseInstanceProps            | [rds.DatabaseInstanceProps](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_docdb.DatabaseInstance.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | RDS Instance prps. Passing existingRdsDbInstance and databaseInstanceProps will result in error.                                                     |
-| dbPort                           | string                                                                                                               | ![Optional](https://img.shields.io/badge/optional-4169E1) | db port number.                                                                                                                                      |
-| existingRdsDbInstance            | [rds.DatabaseInstance](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_docdb.DatabaseInstance.html)      | ![Optional](https://img.shields.io/badge/optional-4169E1) | RDS Instance prps. Passing existingRdsDbInstance and databaseInstanceProps will result in error.                                                     |
+| observability                    | boolean                                                                                                              | ![Optional](https://img.shields.io/badge/optional-4169E1) | Enable cloudwatch logging.                                                                | 
 | customQueryConfigurerLambdaProps | [DockerLambdaCustomProps](../../../common/props/DockerLambdaCustomProps.ts)                                          | ![Optional](https://img.shields.io/badge/optional-4169E1) | Allows to provide custom lambda code for all pre steps required before generating the query.                                                         |
 | customQueryGeneratorLambdaProps  | [DockerLambdaCustomProps](../../../common/props/DockerLambdaCustomProps.ts)                                          | ![Optional](https://img.shields.io/badge/optional-4169E1) | Allows to provide custom lambda code for generating the query.                                                                                       |
 | customFeedbackLambdaProps        | [DockerLambdaCustomProps](../../../common/props/DockerLambdaCustomProps.ts)                                          | ![Optional](https://img.shields.io/badge/optional-4169E1) | Allows to provide custom lambda code for requesting the feedback from the user.                                                                      |
-| customQueryExecutorLambdaProps   | [DockerLambdaCustomProps](../../../common/props/DockerLambdaCustomProps.ts)                                          | ![Optional](https://img.shields.io/badge/optional-4169E1) | Allows to provide custom lambda code for executing the query.                                                                                        |
 | customQueryExecutorLambdaProps   | [DockerLambdaCustomProps](../../../common/props/DockerLambdaCustomProps.ts)                                          | ![Optional](https://img.shields.io/badge/optional-4169E1) | Allows to provide custom lambda code for executing the query.                                                                                        |
 | existingKnowledgeBaseId          | string                                                                                                               | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing Knowledge base ID.                                                                                                                          |
 
@@ -208,8 +205,6 @@ To generate the sql
 | lambdaSecurityGroup | [ec2.ISecurityGroup](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.SecurityGroup.html)        | Returns the instance of ec2.ISecurityGroup used by the construct |
 | dbSecurityGroup     | [ec2.ISecurityGroup](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.SecurityGroup.html)        | Returns the instance of ec2.ISecurityGroup used by the construct |
 | configAssetBucket   | [s3.IBucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html)                        | Returns the instance of s3.IBucket used by the construct         |
-| databaseCluster     | [rds.DatabaseCluster](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_rds.DatabaseCluster.html)     | Returns the instance of aurora cluster  used by the construct    |
-| dbInstance          | [rds.DatabaseInstance](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_rds.DatabaseInstance.html)   | Returns the RDS db instance  used by the construct               |
 | secret              | [secretsmanager.Secret](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_secretsmanager.Secret.html) | Returns the instance of secret manager used by the construct     |
 
 ## Default properties
@@ -218,15 +213,7 @@ Out-of-the-box implementation of the construct without any override will set the
 
 ### VPC, Private Subnet and Security group
 
-- Sets up VPC to deploy the contruct
-  - Private subnet for Amazon Aurora/Amazon RDS
-  - Security group for private subnet
-
-### Amazon Aurora cluster / Amazon RDS instance
-
-- Sets either Amazon Aurora or Amazon RDS based on databaseType prop.
-  - Sets up Amazon Aurora cluster with auroraMysql, engine version VER_3_07_0, 1 reader and 1 writer medium type instances.
-  - Sets up Amazon RDS instance with MySql, engine version VER_8_0_37, with one large type instance.
+- Sets up VPC to deploy the contruct with public and private subnet.
 
 ### Amazon S3 Buckets
 
@@ -266,7 +253,7 @@ The following table provides a sample cost breakdown for deploying this solution
 | AWS Lambda                    | 100000 invocation request, x86 arch, 3 sec duration of each request, 7076 MB, ephermal storage 512 MB. ~~ 27.88 per lambda function . 4 X 27.88 | 111.52                 |
 | Amazon Simple Storage Service | 100000 GET request, 100 GB data transfer.                                                                                                       | 0.11                   |
 | Amazon Bedrock                | With the on-demand mode, for around 2000 request per day with 2000 input token and 1000 output token per request, with Anthropic Claude 3 Haiku | 95.00                  |
-| Amazon Aurora MySql           | With 1 Node , db.t3.medium size, 150 hours of usage per month(1 instance(s) x 0.082 USD hourly x 150 hours in a month)                          | 12.30                  |
+| Amazon Aurora MySql** (The construct don't create any database by itself, the db credentials are passed to construct from your sample app)           | With 1 Node , db.t3.medium size, 150 hours of usage per month(1 instance(s) x 0.082 USD hourly x 150 hours in a month)                          | 12.30                  |
 | Amazon CloudWatch             | 15 metrics using 5 GB data ingested for logs                                                                                                    | 7.02                   |
 | AWS X-Ray                     | 100,000 requests per month through AppSync and Lambda calls                                                                                     | 0.50                   |
 | Total Deployment cost         | For roughly around 40,000 requests(2000 input tokens / average request and 1000 output tokens/ average request)                                 | 264.85                 |
@@ -283,10 +270,22 @@ Optionaly, you can provide existing resources to the constructs (marked optional
 
 - [Amazon VPC](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-best-practices.html)
 - [Amazon EventBridge](https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-security.html)
-- [Amazon Aurora Cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.BestPractices.html)
-- [Amazon RDS](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_BestPractices.html)
+
 
 If you grant access to a user to your account where this construct is deployed, this user may access information stored by the construct (Amazon Simple Storage Service buckets, Amazon Elasticache, Amazon CloudWatch logs). To help secure your AWS resources, please follow the best practices for [AWS Identity and Access Management (IAM)](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html).
+
+
+In aws-text-to-sql construct workflows, you may encounter scenarios where you need to execute SQL queries against your database. To ensure secure and controlled access, it's essential to follow best practices. 
+
+ - Create a dedicated database user with read-only permissions.This user should have the minimum required privileges to execute the desired SQL queries.
+
+ - The SQL query execution strategy is controlled by the `workflow_config.json` file. This configuration file allows you to enable or disable SQL query execution within your AWS workflow.
+
+```json
+"sql_execution": {
+    "strategy": "disabled"
+}
+```
 
 > **Note**
 

@@ -66,22 +66,6 @@ construct usage metric , added in template description
 
 ***
 
-### databaseCluster
-
-> `readonly` **databaseCluster**: `DatabaseCluster`
-
-Returns the instance of aurora cluster  used by the construct
-
-***
-
-### dbInstance
-
-> `readonly` **dbInstance**: `DatabaseInstance`
-
-Returns the RDS db instance  used by the construct
-
-***
-
 ### dbSecurityGroup
 
 > `readonly` **dbSecurityGroup**: `SecurityGroup`
@@ -199,14 +183,6 @@ Default  log retention config for all constructs
 #### Inherited from
 
 [`BaseClass`](BaseClass.md).[`retention`](BaseClass.md#retention)
-
-***
-
-### secret
-
-> `readonly` **secret**: `Secret`
-
-Returns the instance of secret manager used by the construct
 
 ***
 
