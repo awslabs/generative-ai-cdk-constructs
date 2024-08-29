@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 import { ProjenStruct, Struct } from '@mrgrain/jsii-struct-builder';
-import { JsonPatch, awscdk } from 'projen';
+import { JsonPatch, awscdk, ReleasableCommits } from 'projen';
 import { DependabotScheduleInterval, VersioningStrategy } from 'projen/lib/github';
 import { NpmAccess } from 'projen/lib/javascript';
 import { buildUpgradeMainPRCustomJob } from './projenrc/github-jobs';
@@ -130,6 +130,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   stability: 'experimental',
   sampleCode: false,
   stale: true,
+  releasableCommits: ReleasableCommits.featuresAndFixes(),
 });
 
 // Add some useful github workflows
