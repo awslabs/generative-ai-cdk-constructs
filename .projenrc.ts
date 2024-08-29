@@ -113,6 +113,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
       },
     },
   },
+  integrationTestAutoDiscover: true,
   docgen: false,
   licensed: true,
   license: 'Apache-2.0',
@@ -208,6 +209,7 @@ project.eslint?.addPlugins('header');
 project.eslint?.addRules({
   'header/header': [2, 'header.js'],
 });
+project.eslint?.addRules({ 'space-infix-ops': ['error', { int32Hint: false }] });
 
 project.eslint?.addIgnorePattern('LangchainProps.ts');
 project.eslint?.addIgnorePattern('AdapterProps.ts');

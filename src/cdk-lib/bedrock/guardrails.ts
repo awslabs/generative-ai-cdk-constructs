@@ -123,7 +123,7 @@ export class Guardrail extends Construct {
       enableKeyRotation: true,
     }).keyArn;
 
-    const defaultBlockedInputMessaging ='Sorry, your query voilates our usage policy.';
+    const defaultBlockedInputMessaging = 'Sorry, your query voilates our usage policy.';
     const defaultBlockedOutputsMessaging = 'Sorry, I am unable to answer your question because of our usage policy.';
 
     this.guardrailInstance = new bedrock.CfnGuardrail(this, 'MyGuardrail', {
@@ -138,7 +138,7 @@ export class Guardrail extends Construct {
     });
 
     if (props.contextualGroundingfiltersConfig) {
-      this.guardrailInstance.contextualGroundingPolicyConfig={
+      this.guardrailInstance.contextualGroundingPolicyConfig = {
         filtersConfig:
           props.contextualGroundingfiltersConfig.map((prop) => ({
             type: prop.filtersConfigType,
@@ -157,7 +157,7 @@ export class Guardrail extends Construct {
     guardrailRegexesConfig : bedrock.CfnGuardrail.RegexConfigProperty) {
 
     if (props) {
-      this.guardrailInstance.sensitiveInformationPolicyConfig=
+      this.guardrailInstance.sensitiveInformationPolicyConfig =
     {
       piiEntitiesConfig: new SensitiveInformationPolicyConfig(this, 'PII', props).piiConfigList,
       regexesConfig: [guardrailRegexesConfig],
@@ -170,7 +170,7 @@ export class Guardrail extends Construct {
 
   public addContextualGroundingPolicyConfig( props: ContextualGroundingPolicyConfigProps[]) {
     if (props) {
-      this.guardrailInstance.contextualGroundingPolicyConfig={
+      this.guardrailInstance.contextualGroundingPolicyConfig = {
         filtersConfig:
           props.map((prop) => ({
             type: prop.filtersConfigType,
@@ -208,8 +208,8 @@ export class Guardrail extends Construct {
 
 
   public addWordPolicyConfig(wordsFilter?: bedrock.CfnGuardrail.WordConfigProperty[]) {
-    if (wordsFilter && wordsFilter .length >0 ) {
-      this.guardrailInstance.wordPolicyConfig=
+    if (wordsFilter && wordsFilter .length > 0 ) {
+      this.guardrailInstance.wordPolicyConfig =
     {
       managedWordListsConfig: [{
         type: 'PROFANITY',
@@ -224,7 +224,7 @@ export class Guardrail extends Construct {
 
   public addTopicPolicyConfig(topic: Topic) {
     if (topic ) {
-      this.guardrailInstance.topicPolicyConfig=
+      this.guardrailInstance.topicPolicyConfig =
     {
       topicsConfig: topic.topicConfigPropertyList(),
 
@@ -236,7 +236,7 @@ export class Guardrail extends Construct {
   }
   public addTags(props: GuardrailProps) {
     if (props && props.tags) {
-      this.guardrailInstance.tags =props.tags;
+      this.guardrailInstance.tags = props.tags;
     }
   }
 

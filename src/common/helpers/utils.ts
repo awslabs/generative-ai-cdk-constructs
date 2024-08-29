@@ -104,9 +104,9 @@ export function generatePhysicalNameV2(
 ): string {
   const {
     maxLength = 256,
-    lower= false,
-    separator= '',
-    allowedSpecialCharacters=undefined,
+    lower = false,
+    separator = '',
+    allowedSpecialCharacters = undefined,
   } = options ?? {};
   if (maxLength < (prefix + separator).length) {
     throw new Error('The prefix is longer than the maximum length.');
