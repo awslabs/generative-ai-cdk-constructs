@@ -157,7 +157,7 @@ export class AgentActionGroup extends Construct {
       skipResourceInUseCheckOnDelete: skipResourceInUseCheckOnDelete,
     };
 
-    this.actionGroupProperty=agentActionGroupProperty;
+    this.actionGroupProperty = agentActionGroupProperty;
     this.actionGroupName = agentActionGroupProperty.actionGroupName;
     this.apiSchema = apiSchema;
     this.description = props.description;

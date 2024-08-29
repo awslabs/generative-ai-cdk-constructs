@@ -53,7 +53,7 @@ export class BaseClass extends Construct {
   /**
    * Record<string, number> , maps construct name with number of deployments
    */
-  protected static usageMetricMap : Record<string, number> ={
+  protected static usageMetricMap : Record<string, number> = {
     [ConstructName.AWSRAGAPPSYNCSTEPFNOPENSEARCH]: 0,
     [ConstructName.AWSQAAPPSYNCOPENSEARCH]: 0,
     [ConstructName.AWSSUMMARIZATIONAPPSYNCSTEPFN]: 0,
@@ -82,7 +82,7 @@ export class BaseClass extends Construct {
    *
    * @default - Active
    */
-  lambdaTracing: lambda.Tracing=lambda.Tracing.ACTIVE;
+  lambdaTracing: lambda.Tracing = lambda.Tracing.ACTIVE;
 
   /**
    * enable disable xray tracing
@@ -94,12 +94,12 @@ export class BaseClass extends Construct {
   /**
    * Default  log config for all constructs
    */
-  fieldLogLevel:appsync.FieldLogLevel=appsync.FieldLogLevel.ALL;
+  fieldLogLevel:appsync.FieldLogLevel = appsync.FieldLogLevel.ALL;
 
   /**
    * Default  log retention config for all constructs
    */
-  retention: logs.RetentionDays=logs.RetentionDays.TEN_YEARS;
+  retention: logs.RetentionDays = logs.RetentionDays.TEN_YEARS;
 
 
   constructor(scope: Construct, id: string) {
@@ -134,7 +134,7 @@ export class BaseClass extends Construct {
     }
 
     if (props && BaseClass.usageMetricMap.hasOwnProperty(props.constructName)) {
-      BaseClass.usageMetricMap[props.constructName]=BaseClass.usageMetricMap[props.constructName]+1;
+      BaseClass.usageMetricMap[props.constructName] = BaseClass.usageMetricMap[props.constructName] + 1;
     } else {
       throw Error('construct name is not present in usageMetricMap ');
     }
@@ -153,8 +153,8 @@ export class BaseClass extends Construct {
     if (props.observability == false) {
       this.enablexray = false;
       this.lambdaTracing = lambda.Tracing.DISABLED;
-      this.fieldLogLevel= appsync.FieldLogLevel.NONE;
-      this.retention= logs.RetentionDays.TEN_YEARS;
+      this.fieldLogLevel = appsync.FieldLogLevel.NONE;
+      this.retention = logs.RetentionDays.TEN_YEARS;
     };
   }
 }

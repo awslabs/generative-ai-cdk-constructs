@@ -59,13 +59,13 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
   constructor(scope: Construct, id: string, props: JumpStartSageMakerEndpointProps) {
     super(scope, id);
 
-    const baseProps: BaseClassProps={
+    const baseProps: BaseClassProps = {
       constructName: ConstructName.JUMPSTARTSAGEMAKERENDPOINT,
       constructId: id,
     };
 
     // No lambda function to use AWS SDK for service metric
-    const lambdaFunctions: cdk.aws_lambda.DockerImageFunction[]=[];
+    const lambdaFunctions: cdk.aws_lambda.DockerImageFunction[] = [];
     this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
 
 
@@ -83,7 +83,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
 
     if (!this.acceptEula && this.spec.requiresEula) {
       throw new Error(
-        'The AcceptEula value must be explicitly defined as True in order to accept the EULA for the model '+this.spec.modelId+'. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.',
+        'The AcceptEula value must be explicitly defined as True in order to accept the EULA for the model ' + this.spec.modelId + '. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.',
       );
     }
 
@@ -127,7 +127,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
 
     const endpoint = new sagemaker.CfnEndpoint(scope, `${this.spec.modelId}-endpoint-${id}`, {
       endpointConfigName: endpointConfig.getAtt('EndpointConfigName').toString(),
-      endpointName: 'jumpstart-'+props.endpointName,
+      endpointName: 'jumpstart-' + props.endpointName,
     });
 
     endpoint.addDependency(endpointConfig);
