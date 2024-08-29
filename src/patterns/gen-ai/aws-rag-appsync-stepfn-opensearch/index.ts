@@ -233,7 +233,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
     super(scope, id);
 
 
-    const baseProps: BaseClassProps={
+    const baseProps: BaseClassProps = {
       stage: props.stage,
       constructName: ConstructName.AWSRAGAPPSYNCSTEPFNOPENSEARCH,
       constructId: id,
@@ -270,7 +270,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
         {
           vpc: this.vpc,
           allowAllOutbound: true,
-          securityGroupName: 'securityGroup'+this.stage,
+          securityGroupName: 'securityGroup' + this.stage,
         },
       );
     }
@@ -289,7 +289,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
 
     // bucket for storing server access logging
     const serverAccessLogBucket = new s3.Bucket(this,
-      'serverAccessLogBucket'+this.stage,
+      'serverAccessLogBucket' + this.stage,
       {
         blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
         encryption: s3.BucketEncryption.S3_MANAGED,
@@ -305,11 +305,11 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
     if (!props.existingInputAssetsBucketObj) {
       let tmpBucket: s3.Bucket;
       if (!props.bucketInputsAssetsProps) {
-        tmpBucket = new s3.Bucket(this, 'inputAssetsBucket'+this.stage,
+        tmpBucket = new s3.Bucket(this, 'inputAssetsBucket' + this.stage,
           {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
-            bucketName: 'input-assets-bucket'+this.stage+'-'+Aws.ACCOUNT_ID,
+            bucketName: 'input-assets-bucket' + this.stage + '-' + Aws.ACCOUNT_ID,
             serverAccessLogsBucket: serverAccessLogBucket,
             enforceSSL: true,
             versioned: true,
@@ -318,7 +318,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
             }],
           });
       } else {
-        tmpBucket = new s3.Bucket(this, 'InputAssetsBucket'+this.stage, props.bucketInputsAssetsProps);
+        tmpBucket = new s3.Bucket(this, 'InputAssetsBucket' + this.stage, props.bucketInputsAssetsProps);
       }
       inputAssetsBucket = tmpBucket;
       this.s3InputAssetsBucket = tmpBucket;
@@ -335,11 +335,11 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
     if (!props.existingProcessedAssetsBucketObj) {
       let tmpBucket: s3.Bucket;
       if (!props.bucketInputsAssetsProps) {
-        tmpBucket = new s3.Bucket(this, 'processedAssetsBucket'+this.stage,
+        tmpBucket = new s3.Bucket(this, 'processedAssetsBucket' + this.stage,
           {
             blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
             encryption: s3.BucketEncryption.S3_MANAGED,
-            bucketName: 'processed-assets-bucket'+this.stage+'-'+Aws.ACCOUNT_ID,
+            bucketName: 'processed-assets-bucket' + this.stage + '-' + Aws.ACCOUNT_ID,
             serverAccessLogsBucket: serverAccessLogBucket,
             enforceSSL: true,
             versioned: true,
@@ -348,7 +348,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
             }],
           });
       } else {
-        tmpBucket = new s3.Bucket(this, 'processedAssetsBucket'+this.stage, props.bucketProcessedAssetsProps);
+        tmpBucket = new s3.Bucket(this, 'processedAssetsBucket' + this.stage, props.bucketProcessedAssetsProps);
       }
       processedAssetsBucket = tmpBucket;
       this.s3ProcessedAssetsBucket = tmpBucket;
@@ -364,7 +364,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
       this,
       'ingestionGraphqlApi',
       {
-        name: 'ingestionGraphqlApi'+this.stage,
+        name: 'ingestionGraphqlApi' + this.stage,
         definition: appsync.Definition.fromFile(
           path.join(__dirname, '../../../../resources/gen-ai/aws-rag-appsync-stepfn-opensearch/schema.graphql'),
         ),
@@ -387,7 +387,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
       },
     );
 
-    this.graphqlApi=ingestion_graphql_api;
+    this.graphqlApi = ingestion_graphql_api;
 
     // If the user provides a mergedApi endpoint, the lambda
     // functions will use this endpoint to send their status updates
@@ -422,9 +422,9 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
     );
 
     if (!props.existingBusInterface) {
-      this.ingestionBus = new events.EventBus(this, 'ingestionEventBus'+this.stage,
+      this.ingestionBus = new events.EventBus(this, 'ingestionEventBus' + this.stage,
         {
-          eventBusName: 'ingestionEventBus'+this.stage,
+          eventBusName: 'ingestionEventBus' + this.stage,
         },
       );
     } else {
@@ -433,16 +433,16 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
 
     // create httpdatasource with ingestion_graphql_api
     const event_bridge_datasource = this.graphqlApi.addEventBridgeDataSource(
-      'ingestionEventBridgeDataSource'+this.stage,
+      'ingestionEventBridgeDataSource' + this.stage,
       this.ingestionBus,
       {
-        name: 'ingestionEventBridgeDataSource'+this.stage,
+        name: 'ingestionEventBridgeDataSource' + this.stage,
       },
     );
 
     const construct_input_validation_lambda_props = {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/input_validation/src')),
-      functionName: 'ingestion_input_validation_docker'+this.stage,
+      functionName: 'ingestion_input_validation_docker' + this.stage,
       description: 'Lambda function for validating input files formats',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
@@ -578,7 +578,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
         'appsync:GraphQL',
       ],
       resources: [
-        'arn:' + Aws.PARTITION + ':appsync:' + Aws.REGION+':' + Aws.ACCOUNT_ID + ':apis/' + updateGraphQlApiId + '/*',
+        'arn:' + Aws.PARTITION + ':appsync:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':apis/' + updateGraphQlApiId + '/*',
       ],
     }));
 
@@ -595,7 +595,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
 
     const construct__file_transformer_lambda_props = {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/s3_file_transformer/src')),
-      functionName: 's3_file_transformer_docker'+this.stage,
+      functionName: 's3_file_transformer_docker' + this.stage,
       description: 'Lambda function for converting files from their input format to text',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
@@ -612,7 +612,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
     };
 
     const s3_transformer_job_function = buildDockerLambdaFunction(this,
-      'lambda_function_s3_file_transformer'+this.stage,
+      'lambda_function_s3_file_transformer' + this.stage,
       construct__file_transformer_lambda_props,
       props.customFileTransformerDockerLambdaProps,
     );
@@ -684,8 +684,8 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
         effect: iam.Effect.ALLOW,
         actions: ['es:*'],
         resources: [
-          'arn:' + Aws.PARTITION + ':es:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':domain/'+props.existingOpensearchDomain.domainName + '/*',
-          'arn:' + Aws.PARTITION + ':es:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':domain/'+props.existingOpensearchDomain.domainName,
+          'arn:' + Aws.PARTITION + ':es:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':domain/' + props.existingOpensearchDomain.domainName + '/*',
+          'arn:' + Aws.PARTITION + ':es:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':domain/' + props.existingOpensearchDomain.domainName,
         ],
       }));
     }
@@ -727,7 +727,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
 
     const construct_embeddings_lambda_props = {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-opensearch/embeddings_job/src')),
-      functionName: 'embeddings_job_docker'+this.stage,
+      functionName: 'embeddings_job_docker' + this.stage,
       description: 'Lambda function for creating documents chunks, embeddings and storing them in Amazon Opensearch',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
@@ -748,12 +748,12 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
 
     // Lambda function performing the embedding job
     const embeddings_job_function = buildDockerLambdaFunction(this,
-      'lambda_function_embeddings_job'+this.stage,
+      'lambda_function_embeddings_job' + this.stage,
       construct_embeddings_lambda_props,
       props.customEmbeddingsDockerLambdaProps,
     );
 
-    const lambdaFunctions=[embeddings_job_function, s3_transformer_job_function, validate_input_function];
+    const lambdaFunctions = [embeddings_job_function, s3_transformer_job_function, validate_input_function];
     this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
 
     // Add GraphQl permissions to the IAM role for the Lambda function
@@ -836,7 +836,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
       this,
       'IngestionStateMachine',
       {
-        stateMachineName: 'IngestionStateMachine'+this.stage,
+        stateMachineName: 'IngestionStateMachine' + this.stage,
         definitionBody: stepfn.DefinitionBody.fromChainable(definition),
         timeout: Duration.minutes(30),
         logs: {
@@ -847,7 +847,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
       },
     );
 
-    this.stateMachine=ingestion_step_function;
+    this.stateMachine = ingestion_step_function;
 
     this.ingestionBus.grantPutEventsTo(event_bridge_datasource.grantPrincipal);
 
@@ -883,7 +883,7 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
 
     const rule = new events.Rule(
       this,
-      'ingestionRule'+this.stage,
+      'ingestionRule' + this.stage,
       {
         description: 'Rule to trigger ingestion function',
         eventBus: this.ingestionBus,

@@ -53,13 +53,13 @@ export class HuggingFaceSageMakerEndpoint extends SageMakerEndpointBase implemen
   constructor(scope: Construct, id: string, props: HuggingFaceSageMakerEndpointProps) {
     super(scope, id);
 
-    const baseProps: BaseClassProps={
+    const baseProps: BaseClassProps = {
       constructName: ConstructName.HUGGINGFACESAGEMAKERENDPOINT,
       constructId: id,
     };
 
     // No lambda function to use AWS SDK for service metric
-    const lambdaFunctions: cdk.aws_lambda.DockerImageFunction[]=[];
+    const lambdaFunctions: cdk.aws_lambda.DockerImageFunction[] = [];
     this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
 
 
