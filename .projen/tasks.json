@@ -314,7 +314,12 @@
     },
     "post-upgrade": {
       "name": "post-upgrade",
-      "description": "Runs after upgrading dependencies"
+      "description": "Runs after upgrading dependencies",
+      "steps": [
+        {
+          "spawn": "integ:snapshot-all"
+        }
+      ]
     },
     "pre-compile": {
       "name": "pre-compile",

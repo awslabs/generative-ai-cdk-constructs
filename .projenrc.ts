@@ -95,7 +95,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
     moduleName: `github.com/${PUBLICATION_NAMESPACE}/${PROJECT_NAME}-go`,
     packageName: PROJECT_NAME,
   },
-
   codeCov: true,
   codeCovTokenSecret: 'CODECOV_TOKEN',
 
@@ -148,6 +147,11 @@ if (workflowUpgradeMain) {
   // upgrade the PR job to use the custom one adding a label
   workflowUpgradeMain.updateJob('pr', buildUpgradeMainPRCustomJob());
 }
+
+// Update Snapshots
+project.upgradeWorkflow?.postUpgradeTask.spawn(
+  project.tasks.tryFind('integ:snapshot-all')!,
+);
 
 // Add specific overrides https://projen.io/docs/integrations/github/#actions-versions
 project.github?.actions.set('actions/checkout@v3', 'actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11'); // https://github.com/projen/projen/issues/3529
