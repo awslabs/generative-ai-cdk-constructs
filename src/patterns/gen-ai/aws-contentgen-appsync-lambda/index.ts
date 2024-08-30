@@ -158,7 +158,7 @@ export class ContentGenerationAppSyncLambda extends BaseClass {
   constructor(scope: Construct, id: string, props: ContentGenerationAppSyncLambdaProps) {
     super(scope, id);
 
-    const baseProps: BaseClassProps={
+    const baseProps: BaseClassProps = {
       stage: props.stage,
       constructName: ConstructName.AWSCONTENTGENAPPSYNCLAMBDA,
       constructId: id,
@@ -490,7 +490,7 @@ export class ContentGenerationAppSyncLambda extends BaseClass {
 
     generate_image_function.currentVersion;
 
-    const lambdaFunctions=[generate_image_function];
+    const lambdaFunctions = [generate_image_function];
     this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
 
 

@@ -191,7 +191,7 @@ export class QaAppsyncOpensearch extends BaseClass {
   constructor(scope: Construct, id: string, props: QaAppsyncOpensearchProps) {
     super(scope, id);
 
-    const baseProps: BaseClassProps={
+    const baseProps: BaseClassProps = {
       stage: props.stage,
       constructName: ConstructName.AWSQAAPPSYNCOPENSEARCH,
       constructId: id,
@@ -482,7 +482,7 @@ export class QaAppsyncOpensearch extends BaseClass {
         effect: iam.Effect.ALLOW,
         actions: ['aoss:APIAccessAll'],
         resources: [
-          'arn:' + Aws.PARTITION + ':aoss:' + Aws.REGION+':' + Aws.ACCOUNT_ID + ':collection/'+props.existingOpensearchServerlessCollection.attrId,
+          'arn:' + Aws.PARTITION + ':aoss:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':collection/' + props.existingOpensearchServerlessCollection.attrId,
         ],
       }));
     }
@@ -554,7 +554,7 @@ export class QaAppsyncOpensearch extends BaseClass {
     question_answering_function.currentVersion;
 
 
-    const lambdaFunctions=[question_answering_function];
+    const lambdaFunctions = [question_answering_function];
     this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
 
     // Add GraphQl permissions to the IAM role for the Lambda function
