@@ -8,8 +8,7 @@
 
 Creates default AmazonAuroraVectorStore.
 
-It includes creation of a VPC with 3 subnets (public,
-private with NAT Gateway, private without NAT Gateway),
+It includes creation of a VPC with 1 subnets (private isolated),
 with the Amazon Aurora Serverless V2 Cluster.
 The cluster has 1 writer/reader of PostgreSQL version 15.5
 instance (min capacity 0.5, max capacity 4). Lambda custom
