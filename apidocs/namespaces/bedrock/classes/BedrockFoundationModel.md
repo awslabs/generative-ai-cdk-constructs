@@ -135,6 +135,9 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 > **asArn**(`construct`): `string`
 
+Returns the ARN of the foundation model in the following format:
+`arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}`
+
 #### Parameters
 
 • **construct**: `IConstruct`
@@ -142,6 +145,20 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 #### Returns
 
 `string`
+
+***
+
+### asIModel()
+
+> **asIModel**(`construct`): `IModel`
+
+#### Parameters
+
+• **construct**: `IConstruct`
+
+#### Returns
+
+`IModel`
 
 ***
 
