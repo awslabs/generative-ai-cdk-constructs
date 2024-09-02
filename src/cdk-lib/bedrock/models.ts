@@ -11,7 +11,9 @@
  *  and limitations under the License.
  */
 
-import * as cdk from 'aws-cdk-lib';
+
+import { Stack } from 'aws-cdk-lib';
+import { IModel } from 'aws-cdk-lib/aws-bedrock';
 import { IConstruct } from 'constructs';
 
 export interface BedrockFoundationModelProps {
@@ -109,8 +111,16 @@ export class BedrockFoundationModel {
     return this.modelId;
   }
 
+  /**
+   * Returns the ARN of the foundation model in the following format:
+   * `arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}`
+   */
   asArn(construct: IConstruct): string {
-    const region = cdk.Stack.of(construct).region;
+    const region = Stack.of(construct).region;
     return `arn:aws:bedrock:${region}::foundation-model/${this.modelId}`;
+  }
+
+  asIModel(construct: IConstruct): IModel {
+    return { modelArn: this.asArn(construct) };
   }
 }
