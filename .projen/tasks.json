@@ -164,6 +164,69 @@
         }
       ]
     },
+    "integ:kb:assert": {
+      "name": "integ:kb:assert",
+      "description": "assert the snapshot of integration test 'kb'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/cdk-lib/bedrock/integ-tests/kb.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'kb'. Run 'projen integ:kb:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/kb.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/cdk-lib/bedrock/integ-tests/.tmp/kb.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/cdk-lib/bedrock/integ-tests/kb.integ.snapshot/ test/cdk-lib/bedrock/integ-tests/.tmp/kb.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:kb:deploy": {
+      "name": "integ:kb:deploy",
+      "description": "deploy integration test 'kb' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/cdk-lib/bedrock/integ-tests/.tmp/kb.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/kb.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/cdk-lib/bedrock/integ-tests/.tmp/kb.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/cdk-lib/bedrock/integ-tests/kb.integ.snapshot"
+        },
+        {
+          "exec": "mv test/cdk-lib/bedrock/integ-tests/.tmp/kb.integ/deploy.cdk.out test/cdk-lib/bedrock/integ-tests/kb.integ.snapshot"
+        },
+        {
+          "spawn": "integ:kb:destroy"
+        }
+      ]
+    },
+    "integ:kb:destroy": {
+      "name": "integ:kb:destroy",
+      "description": "destroy integration test 'kb'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/cdk-lib/bedrock/integ-tests/kb.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:kb:snapshot": {
+      "name": "integ:kb:snapshot",
+      "description": "update snapshot for integration test \"kb\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/kb.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/cdk-lib/bedrock/integ-tests/kb.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:kb:watch": {
+      "name": "integ:kb:watch",
+      "description": "watch integration test 'kb' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/kb.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/cdk-lib/bedrock/integ-tests/.tmp/kb.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:prompts:assert": {
       "name": "integ:prompts:assert",
       "description": "assert the snapshot of integration test 'prompts'",
@@ -231,6 +294,9 @@
       "name": "integ:snapshot-all",
       "description": "update snapshot for all integration tests",
       "steps": [
+        {
+          "spawn": "integ:kb:snapshot"
+        },
         {
           "spawn": "integ:prompts:snapshot"
         }
@@ -360,6 +426,9 @@
         },
         {
           "spawn": "eslint"
+        },
+        {
+          "spawn": "integ:kb:assert"
         },
         {
           "spawn": "integ:prompts:assert"

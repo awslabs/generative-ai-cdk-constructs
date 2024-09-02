@@ -56,6 +56,14 @@ junit.xml
 !/.eslintrc.json
 .jsii
 tsconfig.json
+test/cdk-lib/bedrock/integ-tests/kb.integ.snapshot/asset.*
+test/cdk-lib/bedrock/integ-tests/kb.integ.snapshot/**/asset.*
+test/cdk-lib/bedrock/integ-tests/kb.integ.snapshot/cdk.out
+test/cdk-lib/bedrock/integ-tests/kb.integ.snapshot/**/cdk.out
+test/cdk-lib/bedrock/integ-tests/kb.integ.snapshot/manifest.json
+test/cdk-lib/bedrock/integ-tests/kb.integ.snapshot/**/manifest.json
+test/cdk-lib/bedrock/integ-tests/kb.integ.snapshot/tree.json
+test/cdk-lib/bedrock/integ-tests/kb.integ.snapshot/**/tree.json
 test/cdk-lib/bedrock/integ-tests/.tmp
 test/cdk-lib/bedrock/integ-tests/prompts.integ.snapshot/asset.*
 test/cdk-lib/bedrock/integ-tests/prompts.integ.snapshot/**/asset.*
