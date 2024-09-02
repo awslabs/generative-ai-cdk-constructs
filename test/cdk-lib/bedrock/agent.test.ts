@@ -851,6 +851,26 @@ describe('Agent without guardrails', () => {
     );
     expect(errors).toHaveLength(0);
   });
+});
 
+describe('Imports', () => {
+  let app: cdk.App;
+  let stack: cdk.Stack;
 
+  beforeEach(() => {
+    app = new cdk.App();
+    stack = new cdk.Stack(app, 'TestStack');
+  });
+
+  test('Agent Alias Import', () => {
+    // GIVEN
+    const agentAlias = bedrock.AgentAlias.fromAliasArn(stack, 'alias',
+      'arn:aws:bedrock:us-east-1:123456789012:agent-alias/DNCJJYQKSU/TCLCITFZTN',
+    );
+
+    //THEN
+    expect(agentAlias.agentId).toEqual('DNCJJYQKSU');
+    expect(agentAlias.aliasId).toEqual('TCLCITFZTN');
+    expect(agentAlias.aliasArn).toEqual('arn:aws:bedrock:us-east-1:123456789012:agent-alias/DNCJJYQKSU/TCLCITFZTN');
+  });
 });

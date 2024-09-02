@@ -61,6 +61,7 @@
 - [ContextualGroundingPolicyConfigProps](interfaces/ContextualGroundingPolicyConfigProps.md)
 - [GuardrailConfiguration](interfaces/GuardrailConfiguration.md)
 - [GuardrailProps](interfaces/GuardrailProps.md)
+- [IAgentAlias](interfaces/IAgentAlias.md)
 - [IPrompt](interfaces/IPrompt.md)
 - [InferenceConfiguration](interfaces/InferenceConfiguration.md)
 - [KnowledgeBaseProps](interfaces/KnowledgeBaseProps.md)
