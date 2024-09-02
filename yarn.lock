@@ -857,11 +857,11 @@
     ajv "^8.17.1"
 
 "@mrgrain/jsii-struct-builder@^0.7.42":
-  version "0.7.42"
-  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.42.tgz#375ac2107a17695c6830cc48db23c7e0438d8a28"
-  integrity sha512-caANSIvdi+EZJoyAoAyB1WrCPZoLN/sbZAN8ql5jrhBOfEZMhtSTvZmrc2EfNA4B32JFaYVhFh8kJKpQVCM2mA==
+  version "0.7.43"
+  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.43.tgz#609cb97d3e3cd2a0334c5deda72f08ec8cab9d00"
+  integrity sha512-goJ5Ppbl5TjxgSS7Ox3RRxRsQn1a50Fs0gcuxqCn9Z6ddwAlIqzzfkOWP2jAjiGIjRzhg5sZn2vQy9ZA+NCDgg==
   dependencies:
-    "@jsii/spec" "^1.102.0"
+    "@jsii/spec" "^1.103.1"
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -1660,9 +1660,9 @@ case@1.6.3, case@^1.6.3:
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
 cdk-nag@^2.28.194:
-  version "2.28.194"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.194.tgz#c743be4e1db0ab21027d997495bd82941c8936e7"
-  integrity sha512-MC4FNdn6GA2FKVueV4xUOEDgErTogZ1H3bV1v7k/MJjl0oMMIts9dsa2hCVbPFe8GZMLOFDVFHcvEE93gZmR0A==
+  version "2.28.195"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.28.195.tgz#07b70ffc67768639c729d0b0a7885eee8141b99a"
+  integrity sha512-5kVN9pX14phyzY55xJAKZqkeGW6kd0WpV2o/hdGjwAFIeYwte3W2xhKsqZV/IF8HarhsvRrnoz3JI085LeqRGg==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -3887,9 +3887,9 @@ jsii-reflect@^1.103.1:
     yargs "^16.2.0"
 
 jsii-rosetta@~5.4.0:
-  version "5.4.34"
-  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.4.34.tgz#660caaf25cff0c550ef6609a02625e9c5a17a911"
-  integrity sha512-5pUVuDeGtD0FYArthBBoTmZmdlH8zu1qYDHXF3aYBuWfDm86PMQGTRvKZYH/r8C4A3/u6Y/OR36+6lzgDS2Ixg==
+  version "5.4.35"
+  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.4.35.tgz#16a477118acdf40dcd8b073e21b44a3f6188bd9f"
+  integrity sha512-uz3+nnFxdSvpqUwdSzpEjOfFZQ5gFdyTvfb+PylvrQnF8/y7bMmYa0sJV09sF8UHMij0iYnuS00WpepG92/R/g==
   dependencies:
     "@jsii/check-node" "1.103.0"
     "@jsii/spec" "^1.103.0"
