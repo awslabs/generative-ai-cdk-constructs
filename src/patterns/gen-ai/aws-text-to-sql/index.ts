@@ -119,7 +119,7 @@ export interface TextToSqlProps {
 
   /**
    *  Optional. db port number.
-   *  @default -3306
+   *  @default -1534
    */
   readonly dbPort?: number;
 
@@ -294,7 +294,7 @@ export class TextToSql extends BaseClass {
     );
     vpcHelper.AddAwsServiceEndpoint(this, this.vpc, ServiceEndpointTypeEnum.S3);
 
-    const dbPort = props.dbPort ? props.dbPort : 3306;
+    const dbPort = props.dbPort ? props.dbPort : 1534;
 
     // Security group
     if (props?.existingLambdaSecurityGroup) {
