@@ -760,7 +760,7 @@ export class TextToSql extends BaseClass {
     this.outputQueue = outputQueue;
 
 
-    const dbsecret =secretsmanager.Secret.fromSecretCompleteArn(this, 'dbsecret', props.databaseSecretARN);
+    const dbsecret = secretsmanager.Secret.fromSecretCompleteArn(this, 'dbsecret', props.databaseSecretARN);
     dbsecret.grantRead(queryGeneratorFunction);
     dbsecret.grantRead(queryExecutorFunction);
 

@@ -74,7 +74,7 @@ Optional. db port number.
 #### Default
 
 ```ts
--3306
+-1534
 ```
 
 ***
