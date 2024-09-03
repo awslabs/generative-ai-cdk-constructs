@@ -133,7 +133,12 @@ const project = new awscdk.AwsCdkConstructLibrary({
   stability: 'experimental',
   sampleCode: false,
   stale: true,
+  // To reduce the release frequency we only release features and fixes
+  // This is important because PyPI has limits on the total storage amount used, and extensions need to be manually requested
   releasableCommits: ReleasableCommits.featuresAndFixes(),
+  // If the release workflow fails for one of the package managers, we open a new GitHub issue
+  releaseFailureIssue: true,
+  releaseFailureIssueLabel: 'gh-workflow-failing',
 });
 
 // Add some useful github workflows
@@ -187,6 +192,7 @@ project.github?.actions.set('peter-evans/create-pull-request@v4', 'peter-evans/c
 project.github?.actions.set('peter-evans/create-pull-request@v5', 'peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38');
 project.github?.actions.set('peter-evans/create-pull-request@v6', 'peter-evans/create-pull-request@b1ddad2c994a25fbc81a28b3ec0e368bb2021c50');
 project.github?.actions.set('aws-actions/configure-aws-credentials@v4.0.2', 'aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502');
+project.github?.actions.set('imjohnbo/issue-bot@v3', 'imjohnbo/issue-bot@3daae12aa54d38685d7ff8459fc8a2aee8cea98b');
 
 // We don't want to package certain things
 project.npmignore?.addPatterns(
