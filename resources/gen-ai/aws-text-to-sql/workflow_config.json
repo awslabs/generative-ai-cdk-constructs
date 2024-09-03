@@ -26,7 +26,7 @@
         "temperature": 0
     },
     "sql_execution": {
-        "strategy": "auto"
+        "strategy": "disabled"
     },
     "sql_synth": {
         "strategy": "auto",

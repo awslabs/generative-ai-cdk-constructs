@@ -717,6 +717,20 @@ export class TextToSql extends BaseClass {
       queueName: feedbackQueueName,
       visibilityTimeout: Duration.seconds(3600),
     });
+
+    queue.addToResourcePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.DENY,
+        principals: [new iam.AnyPrincipal()],
+        actions: ['sqs:*'],
+        resources: [queue.queueArn],
+        conditions: {
+          Bool: {
+            'aws:SecureTransport': 'false',
+          },
+        },
+      }),
+    );
     this.feedbackQueue = queue;
 
     const outputQueueName = generatePhysicalNameV2(
@@ -729,16 +743,27 @@ export class TextToSql extends BaseClass {
       queueName: outputQueueName,
       visibilityTimeout: Duration.seconds(3600),
     });
+
+    outputQueue.addToResourcePolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.DENY,
+        principals: [new iam.AnyPrincipal()],
+        actions: ['sqs:*'],
+        resources: [outputQueue.queueArn],
+        conditions: {
+          Bool: {
+            'aws:SecureTransport': 'false',
+          },
+        },
+      }),
+    );
     this.outputQueue = outputQueue;
+
 
     const dbsecret =secretsmanager.Secret.fromSecretCompleteArn(this, 'dbsecret', props.databaseSecretARN);
     dbsecret.grantRead(queryGeneratorFunction);
     dbsecret.grantRead(queryExecutorFunction);
 
-    // STEP FUNCTION
-    //const completedState = new stepfunctions.Pass(this, 'Done');
-
-    //const endState = new stepfunctions.Pass(this, 'EndState');
 
     const reformulateQuestionState = new tasks.LambdaInvoke(
       this,
@@ -787,11 +812,17 @@ export class TextToSql extends BaseClass {
       },
     );
 
+    // SF loggroup
+    const sflogGroup = new logs.LogGroup(this, 'TextToSqlStepFunctionLogGroup', {
+      logGroupName: '/aws/vendedlogs/states/TextToSqlStepFunction',
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+    });
+
+
     const autocorrectChoiceState = new stepfunctions.Choice(
       this,
       'is_autocorrect_required?',
       {
-        //inputPath: '$.queryConfig.Payload',
       },
     );
 
@@ -1018,8 +1049,15 @@ export class TextToSql extends BaseClass {
             )
             .otherwise(queryGeneratorState),
         ),
+        logs: {
+          destination: sflogGroup,
+          level: stepfunctions.LogLevel.ALL,
+        },
+        tracingEnabled: true,
         timeout: Duration.days(90),
+
       },
+
     );
 
 
