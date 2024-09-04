@@ -6,6 +6,8 @@
 
 # Interface: AgentAliasProps
 
+Interface to create a new Agent Alias.
+
 ## Properties
 
 ### agentId
