@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 
-import { expect as cdkExpect, haveResourceLike } from '@aws-cdk/assert';
+import { ABSENT, expect as cdkExpect, haveResourceLike } from '@aws-cdk/assert';
 import * as cdk from 'aws-cdk-lib';
 import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 import { AwsSolutionsChecks } from 'cdk-nag';
@@ -212,6 +212,24 @@ describe('KnowledgeBase', () => {
     expect(errorData).toHaveLength(2); // AwsSolutions-IAM4 and AwsSolutions-IAM5
   });
 
+  test('Knowledge Base with Embedding Model NOT supporting Configurable Dimensions', () => {
+    //GIVEN
+    new KnowledgeBase(stack, 'AuroraDefaultKnowledgeBaseTitan1024', {
+      embeddingsModel: BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
+    });
+    //THEN
+    cdkExpect(stack).to(
+      haveResourceLike('AWS::Bedrock::KnowledgeBase', {
+        KnowledgeBaseConfiguration: {
+          Type: 'VECTOR',
+          VectorKnowledgeBaseConfiguration: {
+            EmbeddingModelConfiguration: ABSENT,
+          },
+        },
+      }),
+    );
+  });
+
   test('Knowledge Base with Embedding Model supporting Configurable Dimensions', () => {
     //GIVEN
     new KnowledgeBase(stack, 'AuroraDefaultKnowledgeBaseTitan512', {
@@ -232,6 +250,6 @@ describe('KnowledgeBase', () => {
         },
       }),
     );
-  },
-  );
+  });
+
 });
