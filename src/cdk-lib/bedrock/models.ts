@@ -57,6 +57,14 @@ export class BedrockFoundationModel {
     'amazon.titan-text-express-v1',
     { supportsAgents: true },
   );
+  public static readonly ANTHROPIC_CLAUDE_3_5_SONNET_V1_0 = new BedrockFoundationModel(
+    'anthropic.claude-3-5-sonnet-20240620-v1:0',
+    { supportsAgents: true },
+  );
+  public static readonly ANTHROPIC_CLAUDE_OPUS_V1_0 = new BedrockFoundationModel(
+    'anthropic.claude-3-opus-20240229-v1:0',
+    { supportsAgents: true },
+  );
   public static readonly ANTHROPIC_CLAUDE_SONNET_V1_0 = new BedrockFoundationModel(
     'anthropic.claude-3-sonnet-20240229-v1:0',
     { supportsAgents: true },
