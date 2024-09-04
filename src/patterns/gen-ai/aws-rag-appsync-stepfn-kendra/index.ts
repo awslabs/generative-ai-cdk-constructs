@@ -169,7 +169,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
   private readonly kendraIndexId: string;
   private readonly awsRegion: string;
   private readonly awsAccountId: string;
-  lambdaTracing: lambda.Tracing=lambda.Tracing.ACTIVE;
+  lambdaTracing: lambda.Tracing = lambda.Tracing.ACTIVE;
   kendraInputBucketArn: string;
   public readonly securityGroup: ec2.ISecurityGroup;
 
@@ -197,7 +197,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
   constructor(scope: Construct, id: string, props: RagAppsyncStepfnKendraProps) {
     super(scope, id);
 
-    const baseProps: BaseClassProps={
+    const baseProps: BaseClassProps = {
       stage: props.stage,
       constructName: ConstructName.AWSRAGAPPSYNCSTEPFNKENDRA,
       constructId: id,
@@ -431,7 +431,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
     );
     const constructStartDataSyncJobLambdaProps = {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/kendra_sync/src')),
-      functionName: 'kendra_start_sync_job_docker'+stage,
+      functionName: 'kendra_start_sync_job_docker' + stage,
       description: 'Lambda function for Kendra  sync job starting',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
@@ -454,7 +454,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
     );
     const constructCheckJobStatusLambdaProps: DockerImageFunctionProps = {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/kendra_sync_status/src')),
-      functionName: 'kendra_check_sync_job_status_docker'+stage,
+      functionName: 'kendra_check_sync_job_status_docker' + stage,
       description: 'Lambda function for getting kendra sync status',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
@@ -476,7 +476,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
     const updateKendraJobStatusLambdaRole = getUpdateKendraJobStatusLambdaRole(this, this.syncRunTable);
     const constructKendraJobStatusLambdaProps = {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-rag-appsync-stepfn-kendra/kendra_job_manager/src')),
-      functionName: 'kendra_job_manager_docker'+stage,
+      functionName: 'kendra_job_manager_docker' + stage,
       description: 'Lambda function for Kendra job status updates',
       vpc: this.vpc,
       tracing: this.lambdaTracing,

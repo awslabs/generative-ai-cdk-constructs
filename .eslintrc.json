@@ -227,6 +227,12 @@
     "header/header": [
       2,
       "header.js"
+    ],
+    "space-infix-ops": [
+      "error",
+      {
+        "int32Hint": false
+      }
     ]
   },
   "overrides": [

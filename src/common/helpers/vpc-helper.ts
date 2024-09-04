@@ -77,7 +77,7 @@ export function buildVpc(scope: Construct, props: BuildVpcProps): IVpc {
     return props?.existingVpc;
   }
 
-  let defaultVpcProps= DefaultVpcProps();
+  let defaultVpcProps = DefaultVpcProps();
 
   let cumulativeProps: VpcProps = defaultVpcProps;
 
@@ -103,7 +103,7 @@ export function getPrivateSubnetIDs (vpc: IVpc): string [] {
 
 // get lambda security group for passed VPC
 export function getlambdaSecuritygroup(scope: Construct, vpc: IVpc): SecurityGroup {
-  let lambdaSecurityGroup= new SecurityGroup(scope, 'lambdaSecurityGroup', {
+  let lambdaSecurityGroup = new SecurityGroup(scope, 'lambdaSecurityGroup', {
     vpc: vpc,
     allowAllOutbound: true,
     description: 'security group for lambda',

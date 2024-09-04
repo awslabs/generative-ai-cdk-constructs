@@ -242,7 +242,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
   constructor(scope: Construct, id: string, props: SummarizationAppsyncStepfnProps) {
     super(scope, id);
 
-    const baseProps: BaseClassProps={
+    const baseProps: BaseClassProps = {
       stage: props.stage,
       constructName: ConstructName.AWSSUMMARIZATIONAPPSYNCSTEPFN,
       constructId: id,
@@ -287,7 +287,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
 
     // bucket for storing server access logging
     const serverAccessLogBucket = new s3.Bucket(this,
-      'serverAccessLogBucket'+this.stage,
+      'serverAccessLogBucket' + this.stage,
       {
         blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
         encryption: s3.BucketEncryption.S3_MANAGED,
@@ -309,10 +309,10 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       this.inputAssetBucket = props.existingInputAssetsBucketObj;
     } else if (props?.bucketInputsAssetsProps) {
       this.inputAssetBucket = new s3.Bucket(this,
-        'inputAssetsSummaryBucket'+this.stage, props.bucketInputsAssetsProps);
+        'inputAssetsSummaryBucket' + this.stage, props.bucketInputsAssetsProps);
     } else {
-      const bucketName= generatePhysicalNameV2(this,
-        'input-assets-bucket'+this.stage,
+      const bucketName = generatePhysicalNameV2(this,
+        'input-assets-bucket' + this.stage,
         { maxLength: 63, lower: true });
       this.inputAssetBucket = new s3.Bucket(this, bucketName,
         {
@@ -338,10 +338,10 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       this.processedAssetBucket = props.existingProcessedAssetsBucketObj;
     } else if (props?.bucketProcessedAssetsProps) {
       this.processedAssetBucket = new s3.Bucket(this,
-        'processedAssetsSummaryBucket'+this.stage, props.bucketProcessedAssetsProps);
+        'processedAssetsSummaryBucket' + this.stage, props.bucketProcessedAssetsProps);
     } else {
-      const bucketName= generatePhysicalNameV2(this,
-        'processed-assets-bucket'+this.stage,
+      const bucketName = generatePhysicalNameV2(this,
+        'processed-assets-bucket' + this.stage,
         { maxLength: 63, lower: true });
 
       this.processedAssetBucket = new s3.Bucket(this, bucketName,
@@ -379,13 +379,13 @@ export class SummarizationAppsyncStepfn extends BaseClass {
     };
 
     const apiName = props.summaryApiName || generatePhysicalNameV2(this,
-      'summaryApi'+this.stage,
+      'summaryApi' + this.stage,
       { maxLength: 63, lower: true });
 
     // graphql api for summary. client invoke this api with given schema and cognito user pool auth.
     const summarizationGraphqlApi = new appsync.GraphqlApi(this, apiName,
       {
-        name: apiName+this.stage,
+        name: apiName + this.stage,
         logConfig: {
           fieldLogLevel: this.fieldLogLevel,
           retention: this.retention,
@@ -396,9 +396,9 @@ export class SummarizationAppsyncStepfn extends BaseClass {
         authorizationConfig: authorizationConfig,
         xrayEnabled: this.enablexray,
       });
-    this.graphqlApi= summarizationGraphqlApi;
+    this.graphqlApi = summarizationGraphqlApi;
     this.graphqlApiId = summarizationGraphqlApi.apiId;
-    this.graphqlUrl= summarizationGraphqlApi.graphqlUrl;
+    this.graphqlUrl = summarizationGraphqlApi.graphqlUrl;
 
     // If the user provides a mergedApi endpoint, the lambda
     // functions will use this endpoint to send their status updates
@@ -462,7 +462,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
 
         resources: ['arn:' + Aws.PARTITION + ':s3:::' + inputAssetBucketName + '/*',
           'arn:' + Aws.PARTITION + ':s3:::' + transformedAssetBucketName + '/*',
-          'arn:' + Aws.PARTITION + ':appsync:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':apis/'+updateGraphQlApiId + '/*'],
+          'arn:' + Aws.PARTITION + ':appsync:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':apis/' + updateGraphQlApiId + '/*'],
       }),
     );
 
@@ -480,7 +480,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
     const construct_input_validation_lambda_props = {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/input_validator')),
       functionName: generatePhysicalNameV2(this,
-        'summary_input_validator'+this.stage,
+        'summary_input_validator' + this.stage,
         { maxLength: 63, lower: true }),
       description: 'Lambda function to validate input for summary api',
       vpc: this.vpc,
@@ -579,7 +579,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
 
     const construct_document_reader_lambda_props = {
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/document_reader')),
-      functionName: 'summary_document_reader'+this.stage,
+      functionName: 'summary_document_reader' + this.stage,
       description: 'Lambda function to read the input transformed document',
       vpc: this.vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
@@ -658,10 +658,10 @@ export class SummarizationAppsyncStepfn extends BaseClass {
           'appsync:GraphQL',
           'bedrock:InvokeModel',
           'bedrock:InvokeModelWithResponseStream'],
-        resources: ['arn:' + Aws.PARTITION +':s3:::' + inputAssetBucketName + '/*',
+        resources: ['arn:' + Aws.PARTITION + ':s3:::' + inputAssetBucketName + '/*',
           'arn:' + Aws.PARTITION + ':s3:::' + transformedAssetBucketName + '/*',
-          'arn:' + Aws.PARTITION + ':appsync:'+ Aws.REGION +':' + Aws.ACCOUNT_ID + ':apis/' + updateGraphQlApiId + '/*',
-          'arn:' + Aws.PARTITION + ':bedrock:'+ Aws.REGION +'::foundation-model/*'],
+          'arn:' + Aws.PARTITION + ':appsync:' + Aws.REGION + ':' + Aws.ACCOUNT_ID + ':apis/' + updateGraphQlApiId + '/*',
+          'arn:' + Aws.PARTITION + ':bedrock:' + Aws.REGION + '::foundation-model/*'],
 
       }),
     );
@@ -678,7 +678,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
     );
 
     const functionName = generatePhysicalNameV2(this,
-      'summary_generator'+this.stage,
+      'summary_generator' + this.stage,
       { maxLength: 63, lower: true });
     const construct_generate_summary_lambda_props = {
       functionName: functionName,
@@ -711,19 +711,19 @@ export class SummarizationAppsyncStepfn extends BaseClass {
     this.processedAssetBucket?.grantReadWrite(documentReaderLambda);
 
 
-    const lambdaFunctions=[documentReaderLambda, generateSummarylambda, inputValidatorLambda];
+    const lambdaFunctions = [documentReaderLambda, generateSummarylambda, inputValidatorLambda];
     this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
 
 
     // create datasource at appsync
     const SummaryStatusDataSource = new appsync.NoneDataSource
-    (this, 'noneDataSource'+this.stage, {
+    (this, 'noneDataSource' + this.stage, {
       api: summarizationGraphqlApi,
       name: 'SummaryStatusDataSource',
     });
 
     SummaryStatusDataSource.createResolver
-    ('summaryResponseresolver'+this.stage, {
+    ('summaryResponseresolver' + this.stage, {
       typeName: 'Mutation',
       fieldName: 'updateSummaryJobStatus',
       requestMappingTemplate: appsync.MappingTemplate.fromString(
@@ -753,18 +753,18 @@ export class SummarizationAppsyncStepfn extends BaseClass {
 
     const dlq: sqs.Queue = new sqs.Queue(this, 'dlq', {
       queueName: generatePhysicalNameV2(this,
-        'summarydlq'+this.stage,
+        'summarydlq' + this.stage,
         { maxLength: 63, lower: true }),
       retentionPeriod: Duration.days(7),
       enforceSSL: true,
     });
 
 
-    const jobFailed= new sfn.Fail(this, 'Failed', {
+    const jobFailed = new sfn.Fail(this, 'Failed', {
       comment: 'AWS summary Job failed',
     });
 
-    const jobSuccess= new sfn.Succeed(this, 'succeeded', {
+    const jobSuccess = new sfn.Succeed(this, 'succeeded', {
       comment: 'AWS summary Job succeeded',
     });
 
@@ -824,7 +824,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       },
       tracingEnabled: this.enablexray,
     });
-    this.stateMachine=summarizationStepFunction;
+    this.stateMachine = summarizationStepFunction;
     // event bridge datasource for summarization api
     const eventBridgeDataSource = summarizationGraphqlApi.addEventBridgeDataSource(
       'eventBridgeDataSource',

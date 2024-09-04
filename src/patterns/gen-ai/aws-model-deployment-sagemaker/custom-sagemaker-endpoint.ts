@@ -66,13 +66,13 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
   constructor(scope: Construct, id: string, props: CustomSageMakerEndpointProps) {
     super(scope, id);
 
-    const baseProps: BaseClassProps={
+    const baseProps: BaseClassProps = {
       constructName: ConstructName.CUSTOMSAGEMAKERENDPOINT,
       constructId: id,
     };
 
     // No lambda function to use AWS SDK for service metric
-    const lambdaFunctions: cdk.aws_lambda.DockerImageFunction[]=[];
+    const lambdaFunctions: cdk.aws_lambda.DockerImageFunction[] = [];
     this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
 
     this.instanceType = props.instanceType;

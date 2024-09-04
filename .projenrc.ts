@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 import { ProjenStruct, Struct } from '@mrgrain/jsii-struct-builder';
-import { JsonPatch, awscdk } from 'projen';
+import { JsonPatch, awscdk, ReleasableCommits } from 'projen';
 import { DependabotScheduleInterval, VersioningStrategy } from 'projen/lib/github';
 import { NpmAccess } from 'projen/lib/javascript';
 import { buildUpgradeMainPRCustomJob } from './projenrc/github-jobs';
@@ -34,7 +34,7 @@ const CDK_VERSION: string = '2.154.1';
 
 function camelCaseIt(input: string): string {
   // Hypens and dashes to spaces and then CamelCase...
-  return input.replace(/-/g, ' ').replace(/_/g, ' ').replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, _) { if (+match === 0) return ''; return match.toUpperCase(); });
+  return input.replace(/-/g, ' ').replace(/_/g, ' ').replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, _) { if (+match === 0) return ''; return match.toUpperCase(); });
 }
 
 const project = new awscdk.AwsCdkConstructLibrary({
@@ -64,6 +64,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     'typedoc-plugin-markdown',
     'aws-sdk-mock',
     '@aws-cdk/assert',
+    `@aws-cdk/integ-tests-alpha@${CDK_VERSION}-alpha.0`,
   ],
   deps: [
     'cdk-nag',
@@ -80,21 +81,20 @@ const project = new awscdk.AwsCdkConstructLibrary({
   npmAccess: NpmAccess.PUBLIC,
 
   publishToPypi: {
-    distName: PUBLICATION_NAMESPACE+'.'+PROJECT_NAME,
-    module: (PUBLICATION_NAMESPACE.replace(/-/g, '_'))+'.'+(PROJECT_NAME.replace(/-/g, '_')), // PEP 8, convert hypens
+    distName: PUBLICATION_NAMESPACE + '.' + PROJECT_NAME,
+    module: (PUBLICATION_NAMESPACE.replace(/-/g, '_')) + '.' + (PROJECT_NAME.replace(/-/g, '_')), // PEP 8, convert hypens
     // twineRegistryUrl: '${{ secrets.TWINE_REGISTRY_URL }}',
   },
 
   publishToNuget: {
-    dotNetNamespace: camelCaseIt(PUBLICATION_NAMESPACE)+'.'+camelCaseIt(PROJECT_NAME),
-    packageId: camelCaseIt(PUBLICATION_NAMESPACE)+'.'+camelCaseIt(PROJECT_NAME),
+    dotNetNamespace: camelCaseIt(PUBLICATION_NAMESPACE) + '.' + camelCaseIt(PROJECT_NAME),
+    packageId: camelCaseIt(PUBLICATION_NAMESPACE) + '.' + camelCaseIt(PROJECT_NAME),
   },
 
   publishToGo: {
     moduleName: `github.com/${PUBLICATION_NAMESPACE}/${PROJECT_NAME}-go`,
     packageName: PROJECT_NAME,
   },
-
   codeCov: true,
   codeCovTokenSecret: 'CODECOV_TOKEN',
 
@@ -112,6 +112,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
       },
     },
   },
+  integrationTestAutoDiscover: true,
   docgen: false,
   licensed: true,
   license: 'Apache-2.0',
@@ -129,6 +130,12 @@ const project = new awscdk.AwsCdkConstructLibrary({
   stability: 'experimental',
   sampleCode: false,
   stale: true,
+  // To reduce the release frequency we only release features and fixes
+  // This is important because PyPI has limits on the total storage amount used, and extensions need to be manually requested
+  releasableCommits: ReleasableCommits.featuresAndFixes(),
+  // If the release workflow fails for one of the package managers, we open a new GitHub issue
+  releaseFailureIssue: true,
+  releaseFailureIssueLabel: 'gh-workflow-failing',
 });
 
 // Add some useful github workflows
@@ -146,6 +153,11 @@ if (workflowUpgradeMain) {
   // upgrade the PR job to use the custom one adding a label
   workflowUpgradeMain.updateJob('pr', buildUpgradeMainPRCustomJob());
 }
+
+// Update Snapshots
+project.upgradeWorkflow?.postUpgradeTask.spawn(
+  project.tasks.tryFind('integ:snapshot-all')!,
+);
 
 // Add specific overrides https://projen.io/docs/integrations/github/#actions-versions
 project.github?.actions.set('actions/checkout@v3', 'actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11'); // https://github.com/projen/projen/issues/3529
@@ -177,6 +189,7 @@ project.github?.actions.set('peter-evans/create-pull-request@v4', 'peter-evans/c
 project.github?.actions.set('peter-evans/create-pull-request@v5', 'peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38');
 project.github?.actions.set('peter-evans/create-pull-request@v6', 'peter-evans/create-pull-request@b1ddad2c994a25fbc81a28b3ec0e368bb2021c50');
 project.github?.actions.set('aws-actions/configure-aws-credentials@v4.0.2', 'aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502');
+project.github?.actions.set('imjohnbo/issue-bot@v3', 'imjohnbo/issue-bot@3daae12aa54d38685d7ff8459fc8a2aee8cea98b');
 
 // We don't want to package certain things
 project.npmignore?.addPatterns(
@@ -207,6 +220,7 @@ project.eslint?.addPlugins('header');
 project.eslint?.addRules({
   'header/header': [2, 'header.js'],
 });
+project.eslint?.addRules({ 'space-infix-ops': ['error', { int32Hint: false }] });
 
 project.eslint?.addIgnorePattern('LangchainProps.ts');
 project.eslint?.addIgnorePattern('AdapterProps.ts');
@@ -243,7 +257,7 @@ project.addTask('generate-models-containers', {
     },
     {
       say: 'Generate new list of models available from Jumpstart and DLC containers',
-      cwd: project.srcdir+'/patterns/gen-ai/aws-model-deployment-sagemaker/code-generation',
+      cwd: project.srcdir + '/patterns/gen-ai/aws-model-deployment-sagemaker/code-generation',
       exec: 'npm run generate',
     },
     {
