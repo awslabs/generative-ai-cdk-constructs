@@ -129,11 +129,26 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 > `readonly` `static` **TITAN\_EMBED\_TEXT\_V2\_1024**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
 
+***
+
+### TITAN\_EMBED\_TEXT\_V2\_256
+
+> `readonly` `static` **TITAN\_EMBED\_TEXT\_V2\_256**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### TITAN\_EMBED\_TEXT\_V2\_512
+
+> `readonly` `static` **TITAN\_EMBED\_TEXT\_V2\_512**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
 ## Methods
 
 ### asArn()
 
 > **asArn**(`construct`): `string`
+
+Returns the ARN of the foundation model in the following format:
+`arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}`
 
 #### Parameters
 
@@ -142,6 +157,20 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 #### Returns
 
 `string`
+
+***
+
+### asIModel()
+
+> **asIModel**(`construct`): `IModel`
+
+#### Parameters
+
+• **construct**: `IConstruct`
+
+#### Returns
+
+`IModel`
 
 ***
 
