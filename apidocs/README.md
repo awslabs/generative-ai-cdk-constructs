@@ -19,6 +19,7 @@
 
 ## Classes
 
+- [AossCwDashboard](classes/AossCwDashboard.md)
 - [BaseClass](classes/BaseClass.md)
 - [BedrockCwDashboard](classes/BedrockCwDashboard.md)
 - [ContainerImage](classes/ContainerImage.md)
@@ -38,9 +39,11 @@
 
 ## Interfaces
 
+- [AossCwDashboardProps](interfaces/AossCwDashboardProps.md)
 - [AsyncInferenceConfig](interfaces/AsyncInferenceConfig.md)
 - [BaseClassProps](interfaces/BaseClassProps.md)
 - [BedrockCwDashboardProps](interfaces/BedrockCwDashboardProps.md)
+- [CollectionMonitoringProps](interfaces/CollectionMonitoringProps.md)
 - [ContainerImageConfig](interfaces/ContainerImageConfig.md)
 - [ContentGenerationAppSyncLambdaProps](interfaces/ContentGenerationAppSyncLambdaProps.md)
 - [CrawlerTarget](interfaces/CrawlerTarget.md)
@@ -50,6 +53,7 @@
 - [IInstanceAliase](interfaces/IInstanceAliase.md)
 - [IInstanceValiant](interfaces/IInstanceValiant.md)
 - [IJumpStartModelSpec](interfaces/IJumpStartModelSpec.md)
+- [IndexMonitoringProps](interfaces/IndexMonitoringProps.md)
 - [JumpStartSageMakerEndpointProps](interfaces/JumpStartSageMakerEndpointProps.md)
 - [LangchainLayerProps](interfaces/LangchainLayerProps.md)
 - [LangchainProps](interfaces/LangchainProps.md)

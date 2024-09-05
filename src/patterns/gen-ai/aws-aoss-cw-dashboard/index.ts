@@ -33,6 +33,10 @@ export interface CollectionMonitoringProps {
     */
   readonly period?: Duration;
 
+  /*
+    * Optional - The client ID to use.
+    * @default - Account ID
+    */
   readonly clientId?: string;
 }
 
@@ -45,7 +49,10 @@ export interface IndexMonitoringProps {
     * @default - 1 hour
     */
   readonly period?: Duration;
-
+  /*
+    * Optional - The client ID to use.
+    * @default - Account ID
+    */
   readonly clientId?: string;
 }
 
@@ -98,10 +105,10 @@ export class AossCwDashboard extends Construct {
     });
   }
 
-  /* Provide metrics for a specific model id in Bedrock
-   * @param {string} collectionlName - Model name as it will appear in the dashboard row widget.
-   * @param {string} collectionId - Bedrock model id as defined in https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html
-   * @param {ModelMonitoringProps} props - user provided props for the monitoring.
+  /* Provide metrics for a specific aoss collection
+   * @param {string} collectionName - Name of the aoss collection to monitor.
+   * @param {string} collectionId - Id of the aoss collection to monitor.
+   * @param {CollectionMonitoringProps} props - user provided props for monitoring.
   */
   public addCollectionMonitoringbyAttributes(collectionName: string, collectionId: string, props: CollectionMonitoringProps) {
 
@@ -118,7 +125,6 @@ export class AossCwDashboard extends Construct {
       markdown: '# OpenSearch Vector Database (collection level)',
       width: 24,
     }));
-
 
     // Response codes
     this.dashboard.addWidgets(
@@ -244,12 +250,23 @@ export class AossCwDashboard extends Construct {
 
   }
 
+  /* Provide metrics for a specific aoss collection
+   * @param {string} collection - CfnCollection to monitor.
+   * @param {CollectionMonitoringProps} props - user provided props for monitoring.
+  */
   public addCollectionMonitoringByCollection(collection: CfnCollection, props: CollectionMonitoringProps) {
 
     this.addCollectionMonitoringbyAttributes(collection.name, collection.attrId, props);
 
   }
 
+  /* Provide metrics for a specific aoss index
+   * @param {string} collectionName - Name of the aoss collection to monitor.
+   * @param {string} collectionId - Id of the aoss collection to monitor.
+   * @param {string} IndexName - Name of the aoss index to monitor.
+   * @param {string} IndexId - Id of the aoss index to monitor.
+   * @param {IndexMonitoringProps} props - user provided props for monitoring.
+  */
   public addIndexMonitoringByAtributes(
     collectionName: string,
     collectionId: string,
