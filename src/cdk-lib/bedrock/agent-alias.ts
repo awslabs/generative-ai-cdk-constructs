@@ -12,10 +12,34 @@
  */
 
 
-import { aws_bedrock as bedrock } from 'aws-cdk-lib';
+import { Arn, ArnFormat, aws_bedrock as bedrock, Resource } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 
 
+/**
+ * Interface for both Imported and CDK-created Agent Aliases.
+ */
+export interface IAgentAlias {
+  /**
+   * The unique identifier of the agent alias.
+   * @example `TCLCITFZTN`
+   */
+  readonly aliasId: string;
+  /**
+   * The unique identifier of the agent.
+   * @example `DNCJJYQKSU`
+   */
+  readonly agentId: string;
+  /**
+   * The ARN of the agent alias.
+   * @example `arn:aws:bedrock:us-east-1:123456789012:agent-alias/DNCJJYQKSU/TCLCITFZTN`
+   */
+  readonly aliasArn: string;
+}
+
+/**
+ * Interface to create a new Agent Alias.
+ */
 export interface AgentAliasProps {
   /**
    * The unique identifier of the agent.
@@ -27,7 +51,6 @@ export interface AgentAliasProps {
    * @default - 'latest'
    */
   readonly aliasName?: string;
-
   /**
    * Description for the agent alias.
    *
@@ -52,13 +75,48 @@ export interface AgentAliasProps {
   readonly tags?: Record<string, string>;
 }
 
-export class AgentAlias extends Construct {
+export class AgentAlias extends Construct implements IAgentAlias {
+  // ------------------------------------------------------
+  // Imports
+  // ------------------------------------------------------
+  /**
+   * Brings an Agent Alias from an existing one created outside of CDK.
+   */
+  public static fromAliasArn(scope: Construct, id: string, aliasArn: string): IAgentAlias {
+    class Import extends Resource implements IAgentAlias {
+      public readonly aliasArn = aliasArn;
+      public readonly aliasId: string;
+      public readonly agentId: string;
+
+      constructor() {
+        super(scope, id);
+        [this.agentId, this.aliasId] = this.parseArnComponents(aliasArn);
+      }
+
+      private parseArnComponents(arn: string): [string, string] {
+        const resourceName = Arn.split(arn, ArnFormat.SLASH_RESOURCE_SLASH_RESOURCE_NAME).resourceName!;
+        const [agentId, aliasId] = resourceName.split('/');
+        return [agentId, aliasId];
+      }
+    }
+    return new Import();
+  }
+
+  // ------------------------------------------------------
+  // CDK-created Agent Alias
+  // ------------------------------------------------------
+  /**
+   * The unique identifier of the agent.
+   */
+  public readonly agentId: string;
   /**
    * The unique identifier of the agent alias.
+   * @example `TCLCITFZTN`
    */
   public readonly aliasId: string;
   /**
    * The ARN of the agent alias.
+   * @example `arn:aws:bedrock:us-east-1:123456789012:agent-alias/DNCJJYQKSU/TCLCITFZTN`
    */
   public readonly aliasArn: string;
   /**
@@ -84,6 +142,7 @@ export class AgentAlias extends Construct {
       }];
     }
 
+    this.agentId = props.agentId;
     this.aliasId = alias.attrAgentAliasId;
     this.aliasArn = alias.attrAgentAliasArn;
     this.aliasName = props.aliasName ?? 'latest';

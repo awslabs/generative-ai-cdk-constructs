@@ -923,10 +923,10 @@
   resolved "https://registry.yarnpkg.com/@rtsao/scc/-/scc-1.1.0.tgz#927dd2fae9bc3361403ac2c7a00c32ddce9ad7e8"
   integrity sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==
 
-"@shikijs/core@1.16.1":
-  version "1.16.1"
-  resolved "https://registry.yarnpkg.com/@shikijs/core/-/core-1.16.1.tgz#ecc370c55a6d0cc5c559f29f64489156ec6dfd59"
-  integrity sha512-aI0hBtw+a6KsJp2jcD4YuQqKpeCbURMZbhHVozDknJpm+KJqeMRkEnfBC8BaKE/5XC+uofPgCLsa/TkTk0Ba0w==
+"@shikijs/core@1.16.2":
+  version "1.16.2"
+  resolved "https://registry.yarnpkg.com/@shikijs/core/-/core-1.16.2.tgz#67182b0eb7e2c3aedcf47e24acb893bca352c869"
+  integrity sha512-XSVH5OZCvE4WLMgdoBqfPMYmGHGmCC3OgZhw0S7KcSi2XKZ+5oHGe71GFnTljgdOxvxx5WrRks6QoTLKrl1eAA==
   dependencies:
     "@shikijs/vscode-textmate" "^9.2.0"
     "@types/hast" "^3.0.4"
@@ -1088,16 +1088,16 @@
   integrity sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag==
 
 "@types/node@*":
-  version "22.5.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.5.2.tgz#e42344429702e69e28c839a7e16a8262a8086793"
-  integrity sha512-acJsPTEqYqulZS/Yp/S3GgeE6GZ0qYODUR8aVr/DkhHQ8l9nd4j5x1/ZJy9/gHrRlFMqkO6i0I3E27Alu4jjPg==
+  version "22.5.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.5.4.tgz#83f7d1f65bc2ed223bdbf57c7884f1d5a4fa84e8"
+  integrity sha512-FDuKUJQm/ju9fT/SeX/6+gBzoPzlVCzfzmGkwKvRHQVxi4BntVbyIwf6a4Xn62mrvndLiml6z/UBXIdEVjQLXg==
   dependencies:
     undici-types "~6.19.2"
 
 "@types/node@^18":
-  version "18.19.48"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.48.tgz#3a1696f4a7298d8831ed9ce47db62bf4c62c8880"
-  integrity sha512-7WevbG4ekUcRQSZzOwxWgi5dZmTak7FaxXDoW7xVxPBmKx1rTzfmRLkeCgJzcbBnOV2dkhAPc8cCeT6agocpjg==
+  version "18.19.50"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.50.tgz#8652b34ee7c0e7e2004b3f08192281808d41bf5a"
+  integrity sha512-xonK+NRrMBRtkL1hVCc3G+uXtjh1Al4opBLjqVmipe5ZAaBYWW6cNAiBVZ1BvmkBhep698rP3UM3aRAdSALuhg==
   dependencies:
     undici-types "~5.26.4"
 
@@ -1471,9 +1471,9 @@ aws-sdk-mock@^5.9.0:
     traverse "^0.6.6"
 
 aws-sdk@^2.1231.0:
-  version "2.1688.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1688.0.tgz#9deee720bd82f6a87bc00d0e3297e72ab002aafd"
-  integrity sha512-L7AWt2+09uDQQfNRUaxvKEM+qHJdwBOln7xiMZg1kE1iNSGSQlwDPGYSFXwdMJDKJkeitJvhFrDhxon3cQ3ppA==
+  version "2.1689.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1689.0.tgz#8827780f3b590e8ced418ea2cffe96eac0c3b5e0"
+  integrity sha512-+HjbDRzkMrqgQ78BplI7enfO84gSX0wXWnpalzrG7vjH6jFUjuWmRuki6GQhNzrSPQZu1zUi3gPud+3xUxXp3Q==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -5051,11 +5051,11 @@ shelljs@^0.8.3, shelljs@^0.8.5:
     rechoir "^0.6.2"
 
 shiki@^1.9.1:
-  version "1.16.1"
-  resolved "https://registry.yarnpkg.com/shiki/-/shiki-1.16.1.tgz#4d047d30f36ac11c8ae18041fbe02b6ddb346f62"
-  integrity sha512-tCJIMaxDVB1mEIJ5TvfZU7kCPB5eo9fli5+21Olc/bmyv+w8kye3JOp+LZRmGkAyT71hrkefQhTiY+o9mBikRQ==
+  version "1.16.2"
+  resolved "https://registry.yarnpkg.com/shiki/-/shiki-1.16.2.tgz#6cb6ec67bfd518d720840b9fafc714419253e0e0"
+  integrity sha512-gSym0hZf5a1U0iDPsdoOAZbvoi+e0c6c3NKAi03FoSLTm7oG20tum29+gk0wzzivOasn3loxfGUPT+jZXIUbWg==
   dependencies:
-    "@shikijs/core" "1.16.1"
+    "@shikijs/core" "1.16.2"
     "@shikijs/vscode-textmate" "^9.2.0"
     "@types/hast" "^3.0.4"
 
@@ -5627,9 +5627,9 @@ typescript@^5.5.4:
   integrity sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==
 
 typescript@next:
-  version "5.7.0-dev.20240903"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.0-dev.20240903.tgz#864c2460c823ab33328378124462be8b166d5437"
-  integrity sha512-XTUc5uVwBbLlT0v3FqTx9sDN1MLQnT5mwSC3JefCrcKT6Zv+rPcQE7HLKM9IsrNiM1tiaQvamJTgVH0S+UMH2A==
+  version "5.7.0-dev.20240904"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.0-dev.20240904.tgz#20e43f65f4ca7d1135d3d2636ab057f815ce317f"
+  integrity sha512-iGi6VWFGOuxPvDfwfK1/8C172NWzC5gtC4G2dxqCQehrr86WTfFkc9aWucynaxZdwQNMqG1Iu83bmXD7CNHCmg==
 
 typescript@~5.4:
   version "5.4.5"
