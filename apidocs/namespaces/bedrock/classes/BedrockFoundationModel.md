@@ -65,6 +65,12 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 ***
 
+### ANTHROPIC\_CLAUDE\_3\_5\_SONNET\_V1\_0
+
+> `readonly` `static` **ANTHROPIC\_CLAUDE\_3\_5\_SONNET\_V1\_0**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
 ### ANTHROPIC\_CLAUDE\_HAIKU\_V1\_0
 
 > `readonly` `static` **ANTHROPIC\_CLAUDE\_HAIKU\_V1\_0**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
@@ -74,6 +80,12 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 ### ANTHROPIC\_CLAUDE\_INSTANT\_V1\_2
 
 > `readonly` `static` **ANTHROPIC\_CLAUDE\_INSTANT\_V1\_2**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### ANTHROPIC\_CLAUDE\_OPUS\_V1\_0
+
+> `readonly` `static` **ANTHROPIC\_CLAUDE\_OPUS\_V1\_0**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
 
 ***
 
