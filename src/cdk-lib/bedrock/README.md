@@ -444,6 +444,105 @@ kb.addSharePointDataSource({
 
 #### Knowledge Base - Chunking Strategies
 
+- **Default Chunking**: Applies Fixed Chunking with the default chunk size of 300 tokens and 20% overlap.
+
+  ```ts
+  ChunkingStrategy.DEFAULT;
+  ```
+
+- **Fixed Size Chunking**: This method divides the data into fixed-size chunks, with each chunk
+  containing a predetermined number of tokens. This strategy is useful when the data is uniform
+  in size and structure.
+  Typescript
+
+  ```ts
+  // Fixed Size Chunking with sane defaults.
+  ChunkingStrategy.FIXED_SIZE;
+
+  // Fixed Size Chunking with custom values.
+  ChunkingStrategy.fixedSize({ maxTokens: 200, overlapPercentage: 25 });
+  ```
+
+- **Hierarchical Chunking**: This strategy organizes data into layers of chunks, with the first
+  layer containing large chunks and the second layer containing smaller chunks derived from the first.
+  It is ideal for data with inherent hierarchies or nested structures.
+
+  ```ts
+  // Hierarchical Chunking with the default for Cohere Models.
+  ChunkingStrategy.HIERARCHICAL_COHERE;
+
+  // Hierarchical Chunking with the default for Titan Models.
+  ChunkingStrategy.HIERARCHICAL_TITAN;
+
+  // Hierarchical Chunking with custom values. Tthe maximum chunk size depends on the model.
+  // Amazon Titan Text Embeddings: 8192. Cohere Embed models: 512
+  ChunkingStrategy.hierarchical({
+    overlapTokens: 60,
+    maxParentTokenSize: 1500,
+    maxChildTokenSize: 300,
+  });
+  ```
+
+- **Semantic Chunking**: This method splits data into smaller documents based on groups of similar
+  content derived from the text using natural language processing. It helps preserve contextual
+  relationships and ensures accurate and contextually appropriate results.
+
+  ```ts
+  // Semantic Chunking with sane defaults.
+  ChunkingStrategy.SEMANTIC;
+
+  // Semantic Chunking with custom values.
+  ChunkingStrategy.semantic({ bufferSize: 0, breakpointPercentileThreshold: 95, maxTokens: 300 });
+  ```
+
+- **No Chunking**: This strategy treats each file as one chunk. If you choose this option,
+  you may want to pre-process your documents by splitting them into separate files.
+
+  ```ts
+  ChunkingStrategy.NONE;
+  ```
+
+#### Knowledge Base - Parsing Strategy
+
+A parsing strategy in Amazon Bedrock is a configuration that determines how the service
+processes and interprets the contents of a document. It involves converting the document's
+contents into text and splitting it into smaller chunks for analysis. Amazon Bedrock offers
+two parsing strategies:
+
+- **Default Parsing Strategy**: This strategy converts the document's contents into text
+  and splits it into chunks using a predefined approach. It is suitable for most use cases
+  but may not be optimal for specific document types or requirements.
+
+- **Foundation Model Parsing Strategy**: This strategy uses a foundation model to describe
+  the contents of the document. It is particularly useful for improved processing of PDF files
+  with tables and images. To use this strategy, set the `parsingStrategy` in a data source as below.
+
+  ```ts
+  bedrock.ParsingStategy.foundationModel({
+    parsingModel: FoundationModel.fromFoundationModelId(
+      stack,
+      "model",
+      FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_SONNET_20240229_V1_0
+    ),
+  });
+  ```
+
+#### Knowledge Base - Custom Transformation
+
+Custom Transformation in Amazon Bedrock is a feature that allows you to create and apply
+custom processing steps to documents moving through a data source ingestion pipeline.
+
+Custom Transformation uses AWS Lambda functions to process documents, enabling you to
+perform custom operations such as data extraction, normalization, or enrichment. To
+create a custom transformation, set the `customTransformation` in a data source as below.
+
+```ts
+CustomTransformation.lambda({
+  lambdaFunction: lambdaFunction,
+  s3BucketUri: `s3://${bucket.bucketName}/chunk-processor/`,
+}),
+```
+
 ## Agents
 
 Enable generative AI applications to execute multistep tasks across company systems and data sources.
