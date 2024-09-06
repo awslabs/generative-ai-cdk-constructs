@@ -28,8 +28,8 @@ export enum SharepointDataSourceAuthType {
    * Your secret authentication credentials in AWS Secrets Manager should include:
    * - `username`: The admin username for SharePoint authentication
    * - `password`: The admin password associated with the username
-   * - `clientId`: The client ID (also known as application ID) 
-   * - `clientSecret`: The client secret 
+   * - `clientId`: The client ID (also known as application ID)
+   * - `clientSecret`: The client secret
    */
   OAUTH2_CLIENT_CREDENTIALS = 'OAUTH2_CLIENT_CREDENTIALS'
 }
@@ -55,9 +55,9 @@ export enum SharepointObjectType {
 }
 
 /**
- * Defines the crawling filters for SharePoint data ingestion. These filters allow 
+ * Defines the crawling filters for SharePoint data ingestion. These filters allow
  * you to specify which content should be included or excluded during the crawling process.
- * If you specify an inclusion and exclusion filter and both match a document, 
+ * If you specify an inclusion and exclusion filter and both match a document,
  * the exclusion filter takes precedence and the document isn’t crawled.
  */
 export interface SharepointCrawlingFilters {

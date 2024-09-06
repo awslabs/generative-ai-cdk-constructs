@@ -27,7 +27,7 @@ import { ParsingStategy } from './parsing';
  */
 export enum DataDeletionPolicy {
   /**
-   * Deletes all vector embeddings derived from the data source upon deletion 
+   * Deletes all vector embeddings derived from the data source upon deletion
    * of a data source resource.
    */
   DELETE = 'DELETE',
@@ -38,7 +38,6 @@ export enum DataDeletionPolicy {
    */
   RETAIN = 'RETAIN'
 }
-
 
 
 /**
@@ -199,7 +198,7 @@ export abstract class DataSourceNew extends DataSourceBase {
         customTransformationConfiguration: props.customTransformation?.configuration,
       } : undefined,
 
-    }
+    };
   }
 }
 

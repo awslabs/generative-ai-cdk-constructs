@@ -41,7 +41,7 @@ export enum ConfluenceDataSourceAuthType {
 }
 
 /**
- * Represents the different types of content objects in Confluence that can be 
+ * Represents the different types of content objects in Confluence that can be
  * crawled by the data source.
  */
 export enum ConfluenceObjectType {
@@ -55,7 +55,7 @@ export enum ConfluenceObjectType {
 /**
  * Defines filters for crawling Confluence content.
  * These filters allow you to include or exclude specific content based on object types and patterns.
- * 
+ *
  * - For Spaces: Use the unique space key
  * - For Pages: Use the main page title
  * - For Blogs: Use the main blog title
@@ -64,7 +64,7 @@ export enum ConfluenceObjectType {
  * @remarks
  * - You can specify inclusion and exclusion patterns using regular expressions.
  * - If both inclusion and exclusion patterns match a document, the exclusion takes precedence.
- * 
+ *
  * @example
  * To exclude PDF files with "private" in the filename:
  * ```ts
@@ -221,7 +221,7 @@ export class ConfluenceDataSource extends DataSourceNew {
               },
             }) : undefined,
         },
-      }
+      },
     });
 
     this.dataSourceId = this.__resource.attrDataSourceId;

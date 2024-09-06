@@ -37,7 +37,7 @@ export interface FoundationModelParsingStategyProps {
 
   /**
    * Custom prompt to instruct the parser on how to interpret the document.
-   * 
+   *
    * @default - Uses the default instruction prompt as provided in the AWS Console.
    */
   readonly parsingPrompt?: string;
@@ -54,7 +54,7 @@ export abstract class ParsingStategy {
   // FM Parsing Strategy
   // ------------------------------------------------------
   /**
-   * Creates a Foundation Model-based parsing strategy for extracting non-textual information 
+   * Creates a Foundation Model-based parsing strategy for extracting non-textual information
    * from documents such as tables and charts.
    * - Additional costs apply when using advanced parsing due to foundation model usage.
    * - There are limits on file types (PDF) and total data that can be parsed using advanced parsing.
