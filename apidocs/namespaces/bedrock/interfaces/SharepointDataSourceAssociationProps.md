@@ -2,9 +2,9 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / SharepointDataSourceAssociationProps
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / SharePointDataSourceAssociationProps
 
-# Interface: SharepointDataSourceAssociationProps
+# Interface: SharePointDataSourceAssociationProps
 
 Interface to add a new data source to an existing KB
 
@@ -14,7 +14,7 @@ Interface to add a new data source to an existing KB
 
 ## Extended by
 
-- [`SharepointDataSourceProps`](SharepointDataSourceProps.md)
+- [`SharePointDataSourceProps`](SharePointDataSourceProps.md)
 
 ## Properties
 
@@ -135,7 +135,7 @@ The domain of your SharePoint instance or site URL/URLs.
 
 ### filters?
 
-> `readonly` `optional` **filters**: [`SharepointCrawlingFilters`](SharepointCrawlingFilters.md)[]
+> `readonly` `optional` **filters**: [`SharePointCrawlingFilters`](SharePointCrawlingFilters.md)[]
 
 The filters (regular expression patterns) for the crawling.
 If there's a conflict, the exclude pattern takes precedence.

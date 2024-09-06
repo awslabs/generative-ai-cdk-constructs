@@ -11,7 +11,7 @@ Properties common for creating any of the different data source types.
 ## Extended by
 
 - [`WebCrawlerDataSourceAssociationProps`](WebCrawlerDataSourceAssociationProps.md)
-- [`SharepointDataSourceAssociationProps`](SharepointDataSourceAssociationProps.md)
+- [`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md)
 - [`ConfluenceDataSourceAssociationProps`](ConfluenceDataSourceAssociationProps.md)
 - [`SalesforceDataSourceAssociationProps`](SalesforceDataSourceAssociationProps.md)
 - [`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md)

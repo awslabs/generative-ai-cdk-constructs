@@ -165,15 +165,15 @@ The vector store for the knowledge base.
 
 ### addSharePointDataSource()
 
-> **addSharePointDataSource**(`props`): [`SharepointDataSource`](SharepointDataSource.md)
+> **addSharePointDataSource**(`props`): [`SharePointDataSource`](SharePointDataSource.md)
 
 #### Parameters
 
-• **props**: [`SharepointDataSourceAssociationProps`](../interfaces/SharepointDataSourceAssociationProps.md)
+• **props**: [`SharePointDataSourceAssociationProps`](../interfaces/SharePointDataSourceAssociationProps.md)
 
 #### Returns
 
-[`SharepointDataSource`](SharepointDataSource.md)
+[`SharePointDataSource`](SharePointDataSource.md)
 
 ***
 

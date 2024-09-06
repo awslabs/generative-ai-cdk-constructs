@@ -2,9 +2,9 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / SharepointDataSourceAuthType
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / SharePointDataSourceAuthType
 
-# Enumeration: SharepointDataSourceAuthType
+# Enumeration: SharePointDataSourceAuthType
 
 Represents the authentication types available for connecting to a SharePoint data source.
 

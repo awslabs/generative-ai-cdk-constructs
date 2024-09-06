@@ -682,6 +682,70 @@
     }
    }
   },
+  "MyKnowledgeBasespyourdomainsharepointcomDataSourceC6AE310B": {
+   "Type": "AWS::Bedrock::DataSource",
+   "Properties": {
+    "DataSourceConfiguration": {
+     "SharePointConfiguration": {
+      "CrawlerConfiguration": {
+       "FilterConfiguration": {
+        "PatternObjectFilter": {
+         "Filters": [
+          {
+           "ExclusionFilters": [
+            ".*private.*\\.pdf"
+           ],
+           "InclusionFilters": [
+            ".*\\.pdf"
+           ],
+           "ObjectType": "Page"
+          },
+          {
+           "ExclusionFilters": [
+            ".*confidential.*\\.pdf"
+           ],
+           "InclusionFilters": [
+            ".*public.*\\.pdf"
+           ],
+           "ObjectType": "File"
+          }
+         ]
+        },
+        "Type": "PATTERN"
+       }
+      },
+      "SourceConfiguration": {
+       "AuthType": "OAUTH2_CLIENT_CREDENTIALS",
+       "CredentialsSecretArn": {
+        "Ref": "SecretA720EF05"
+       },
+       "Domain": "yourdomain",
+       "HostType": "ONLINE",
+       "SiteUrls": [
+        "https://yourdomain.sharepoint.com/sites/mysite"
+       ],
+       "TenantId": "888d0b57-69f1-4fb8-957f-e1f0bedf64de"
+      }
+     },
+     "Type": "SHAREPOINT"
+    },
+    "KnowledgeBaseId": {
+     "Fn::GetAtt": [
+      "MyKnowledgeBaseMyCfnKnowledgeBaseD6CD84C2",
+      "KnowledgeBaseId"
+     ]
+    },
+    "Name": "SharepointDataSource",
+    "ServerSideEncryptionConfiguration": {
+     "KmsKeyArn": {
+      "Fn::GetAtt": [
+       "Key961B73FD",
+       "Arn"
+      ]
+     }
+    }
+   }
+  },
   "OpenSearchIndexCRProviderCRRole466FC04E": {
    "Type": "AWS::IAM::Role",
    "Properties": {

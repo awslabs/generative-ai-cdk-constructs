@@ -16,7 +16,7 @@ import { Key } from 'aws-cdk-lib/aws-kms';
 import { Function } from 'aws-cdk-lib/aws-lambda';
 import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
-import { BedrockFoundationModel, KnowledgeBase, ChunkingStrategy, ParsingStategy, CustomTransformation, ConfluenceObjectType, SalesforceObjectType } from '../../../../src/cdk-lib/bedrock';
+import { BedrockFoundationModel, KnowledgeBase, ChunkingStrategy, ParsingStategy, CustomTransformation, ConfluenceObjectType, SalesforceObjectType, SharePointObjectType } from '../../../../src/cdk-lib/bedrock';
 
 
 const app = new cdk.App();
@@ -85,6 +85,27 @@ kb.addSalesforceDataSource({
     },
     {
       objectType: SalesforceObjectType.CONTRACT,
+      includePatterns: ['.*public.*\\.pdf'],
+      excludePatterns: ['.*confidential.*\\.pdf'],
+    },
+  ],
+});
+
+kb.addSharePointDataSource({
+  dataSourceName: 'SharepointDataSource',
+  authSecret: secret,
+  kmsKey: key,
+  domain: 'yourdomain',
+  siteUrls: ['https://yourdomain.sharepoint.com/sites/mysite'],
+  tenantId: '888d0b57-69f1-4fb8-957f-e1f0bedf64de',
+  filters: [
+    {
+      objectType: SharePointObjectType.PAGE,
+      includePatterns: ['.*\\.pdf'],
+      excludePatterns: ['.*private.*\\.pdf'],
+    },
+    {
+      objectType: SharePointObjectType.FILE,
       includePatterns: ['.*public.*\\.pdf'],
       excludePatterns: ['.*confidential.*\\.pdf'],
     },

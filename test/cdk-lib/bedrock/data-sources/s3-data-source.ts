@@ -200,7 +200,6 @@ describe('S3 Data Source', () => {
   });
 
   test('FM parsing', () => {
-
     new bedrock.S3DataSource(stack, 'TestDataSource', {
       bucket,
       knowledgeBase: kb,

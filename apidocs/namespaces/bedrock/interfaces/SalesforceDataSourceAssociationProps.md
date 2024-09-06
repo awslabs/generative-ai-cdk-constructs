@@ -128,7 +128,7 @@ The Salesforce host URL or instance URL.
 #### Example
 
 ```ts
-https://your-instance.my.salesforce.com
+"https://company.salesforce.com/"
 ```
 
 ***

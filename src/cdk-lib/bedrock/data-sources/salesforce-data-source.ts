@@ -85,7 +85,7 @@ export interface SalesforceCrawlingFilters {
 export interface SalesforceDataSourceAssociationProps extends DataSourceAssociationProps {
   /**
    * The Salesforce host URL or instance URL.
-   * @example https://your-instance.my.salesforce.com
+   * @example "https://company.salesforce.com/"
    */
   readonly endpoint: string;
   /**

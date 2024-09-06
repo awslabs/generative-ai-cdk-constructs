@@ -20,7 +20,7 @@ import { Agent } from './../bedrock/agent';
 import { ConfluenceDataSource, ConfluenceDataSourceAssociationProps } from './data-sources/confluence-data-source';
 import { S3DataSource, S3DataSourceAssociationProps } from './data-sources/s3-data-source';
 import { SalesforceDataSource, SalesforceDataSourceAssociationProps } from './data-sources/salesforce-data-source';
-import { SharepointDataSource, SharepointDataSourceAssociationProps } from './data-sources/sharepoint-data-source';
+import { SharePointDataSource, SharePointDataSourceAssociationProps } from './data-sources/sharepoint-data-source';
 import { WebCrawlerDataSource, WebCrawlerDataSourceAssociationProps } from './data-sources/web-crawler-data-source';
 import { BedrockFoundationModel } from './models';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
@@ -664,9 +664,9 @@ export class KnowledgeBase extends Construct {
       knowledgeBase: this, ...props,
     });
   }
-  public addSharePointDataSource(props: SharepointDataSourceAssociationProps): SharepointDataSource {
-    const url = new URL(props.domain);
-    return new SharepointDataSource(this, `sp-${url.hostname.replace('.', '-')}`, {
+  public addSharePointDataSource(props: SharePointDataSourceAssociationProps): SharePointDataSource {
+    const url = new URL(props.siteUrls[0]);
+    return new SharePointDataSource(this, `sp-${url.hostname.replace('.', '-')}`, {
       knowledgeBase: this, ...props,
     });
   }

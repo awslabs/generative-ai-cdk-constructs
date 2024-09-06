@@ -2,9 +2,9 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / SharepointDataSource
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / SharePointDataSource
 
-# Class: SharepointDataSource
+# Class: SharePointDataSource
 
 Sets up an data source to be added to a knowledge base.
 
@@ -14,9 +14,9 @@ Sets up an data source to be added to a knowledge base.
 
 ## Constructors
 
-### new SharepointDataSource()
+### new SharePointDataSource()
 
-> **new SharepointDataSource**(`scope`, `id`, `props`): [`SharepointDataSource`](SharepointDataSource.md)
+> **new SharePointDataSource**(`scope`, `id`, `props`): [`SharePointDataSource`](SharePointDataSource.md)
 
 #### Parameters
 
@@ -24,11 +24,11 @@ Sets up an data source to be added to a knowledge base.
 
 • **id**: `string`
 
-• **props**: [`SharepointDataSourceProps`](../interfaces/SharepointDataSourceProps.md)
+• **props**: [`SharePointDataSourceProps`](../interfaces/SharePointDataSourceProps.md)
 
 #### Returns
 
-[`SharepointDataSource`](SharepointDataSource.md)
+[`SharePointDataSource`](SharePointDataSource.md)
 
 #### Overrides
 

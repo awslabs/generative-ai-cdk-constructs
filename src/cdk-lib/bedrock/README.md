@@ -326,6 +326,124 @@ bedrock.S3DataSource(self, 'DataSource',
 )
 ```
 
+#### Knowledge Base - Data Sources
+
+Data sources are the various repositories or systems from which information is extracted and ingested into the
+knowledge base. These sources provide the raw content that will be processed, indexed, and made available for
+querying within the knowledge base system. Data sources can include various types of systems such as document
+management systems, databases, file storage systems, and content management platforms. Suuported Data Sources
+include Amazon S3 buckets, Web Crawlers, SharePoint sites, Salesforce instances, and Confluence spaces.
+
+- **Amazon S3**. You can either create a new data source using the `bedrock.S3DataSource(..)` class, or using the
+  `kb.addS3DataSource(..)`.
+- **Web Crawler**. You can either create a new data source using the `bedrock.WebCrawlerDataSource(..)` class, or using the
+  `kb.addWebCrawlerDataSource(..)`.
+- **Confluence**. You can either create a new data source using the `bedrock.ConfluenceDataSource(..)` class, or using the
+  `kb.addConfluenceDataSource(..)`.
+- **SharePoint**. You can either create a new data source using the `bedrock.SharePointDataSource(..)` class, or using the
+  `kb.addSharePointDataSource(..)`.
+- **Salesforce**. You can either create a new data source using the `bedrock.SalesforceDataSource(..)` class, or using the
+  `kb.addSalesforceDataSource(..)`.
+
+Typescript
+
+```ts
+const app = new cdk.App();
+const stack = new cdk.Stack(app, "aws-cdk-bedrock-data-sources-integ-test");
+
+const kb = new KnowledgeBase(stack, "MyKnowledgeBase", {
+  name: "MyKnowledgeBase",
+  embeddingsModel: BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
+});
+
+const bucket = new Bucket(stack, "Bucket", {});
+const lambdaFunction = new Function(stack, "MyFunction", {
+  runtime: cdk.aws_lambda.Runtime.PYTHON_3_9,
+  handler: "index.handler",
+  code: cdk.aws_lambda.Code.fromInline('print("Hello, World!")'),
+});
+
+const secret = new Secret(stack, "Secret");
+const key = new Key(stack, "Key");
+
+kb.addWebCrawlerDataSource({
+  sourceUrls: ["https://docs.aws.amazon.com/"],
+  chunkingStrategy: ChunkingStrategy.HIERARCHICAL_COHERE,
+  customTransformation: CustomTransformation.lambda({
+    lambdaFunction: lambdaFunction,
+    s3BucketUri: `s3://${bucket.bucketName}/chunk-processor/`,
+  }),
+});
+
+kb.addS3DataSource({
+  bucket,
+  chunkingStrategy: ChunkingStrategy.SEMANTIC,
+  parsingStrategy: ParsingStategy.foundationModel({
+    parsingModel: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asIModel(stack),
+  }),
+});
+
+kb.addConfluenceDataSource({
+  dataSourceName: "TestDataSource",
+  authSecret: secret,
+  kmsKey: key,
+  confluenceUrl: "https://example.atlassian.net",
+  filters: [
+    {
+      objectType: ConfluenceObjectType.ATTACHMENT,
+      includePatterns: [".*\\.pdf"],
+      excludePatterns: [".*private.*\\.pdf"],
+    },
+    {
+      objectType: ConfluenceObjectType.PAGE,
+      includePatterns: [".*public.*\\.pdf"],
+      excludePatterns: [".*confidential.*\\.pdf"],
+    },
+  ],
+});
+
+kb.addSalesforceDataSource({
+  authSecret: secret,
+  endpoint: "https://your-instance.my.salesforce.com",
+  kmsKey: key,
+  filters: [
+    {
+      objectType: SalesforceObjectType.ATTACHMENT,
+      includePatterns: [".*\\.pdf"],
+      excludePatterns: [".*private.*\\.pdf"],
+    },
+    {
+      objectType: SalesforceObjectType.CONTRACT,
+      includePatterns: [".*public.*\\.pdf"],
+      excludePatterns: [".*confidential.*\\.pdf"],
+    },
+  ],
+});
+
+kb.addSharePointDataSource({
+  dataSourceName: "SharepointDataSource",
+  authSecret: secret,
+  kmsKey: key,
+  domain: "yourdomain",
+  siteUrls: ["https://yourdomain.sharepoint.com/sites/mysite"],
+  tenantId: "888d0b57-69f1-4fb8-957f-e1f0bedf64de",
+  filters: [
+    {
+      objectType: SharePointObjectType.PAGE,
+      includePatterns: [".*\\.pdf"],
+      excludePatterns: [".*private.*\\.pdf"],
+    },
+    {
+      objectType: SharePointObjectType.FILE,
+      includePatterns: [".*public.*\\.pdf"],
+      excludePatterns: [".*confidential.*\\.pdf"],
+    },
+  ],
+});
+```
+
+#### Knowledge Base - Chunking Strategies
+
 ## Agents
 
 Enable generative AI applications to execute multistep tasks across company systems and data sources.

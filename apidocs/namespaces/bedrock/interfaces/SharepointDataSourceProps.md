@@ -2,15 +2,15 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / SharepointDataSourceProps
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / SharePointDataSourceProps
 
-# Interface: SharepointDataSourceProps
+# Interface: SharePointDataSourceProps
 
 Interface to create a new standalone data source object
 
 ## Extends
 
-- [`SharepointDataSourceAssociationProps`](SharepointDataSourceAssociationProps.md)
+- [`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md)
 
 ## Properties
 
@@ -23,7 +23,7 @@ for your Sharepoint instance URL. Secret must start with "AmazonBedrock-".
 
 #### Inherited from
 
-[`SharepointDataSourceAssociationProps`](SharepointDataSourceAssociationProps.md).[`authSecret`](SharepointDataSourceAssociationProps.md#authsecret)
+[`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md).[`authSecret`](SharePointDataSourceAssociationProps.md#authsecret)
 
 ***
 
@@ -43,7 +43,7 @@ ChunkingStrategy.DEFAULT
 
 #### Inherited from
 
-[`SharepointDataSourceAssociationProps`](SharepointDataSourceAssociationProps.md).[`chunkingStrategy`](SharepointDataSourceAssociationProps.md#chunkingstrategy)
+[`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md).[`chunkingStrategy`](SharePointDataSourceAssociationProps.md#chunkingstrategy)
 
 ***
 
@@ -61,7 +61,7 @@ The custom transformation strategy to use.
 
 #### Inherited from
 
-[`SharepointDataSourceAssociationProps`](SharepointDataSourceAssociationProps.md).[`customTransformation`](SharepointDataSourceAssociationProps.md#customtransformation)
+[`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md).[`customTransformation`](SharePointDataSourceAssociationProps.md#customtransformation)
 
 ***
 
@@ -79,7 +79,7 @@ The data deletion policy to apply to the data source.
 
 #### Inherited from
 
-[`SharepointDataSourceAssociationProps`](SharepointDataSourceAssociationProps.md).[`dataDeletionPolicy`](SharepointDataSourceAssociationProps.md#datadeletionpolicy)
+[`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md).[`dataDeletionPolicy`](SharePointDataSourceAssociationProps.md#datadeletionpolicy)
 
 ***
 
@@ -97,7 +97,7 @@ The name of the data source.
 
 #### Inherited from
 
-[`SharepointDataSourceAssociationProps`](SharepointDataSourceAssociationProps.md).[`dataSourceName`](SharepointDataSourceAssociationProps.md#datasourcename)
+[`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md).[`dataSourceName`](SharePointDataSourceAssociationProps.md#datasourcename)
 
 ***
 
@@ -115,7 +115,7 @@ A description of the data source.
 
 #### Inherited from
 
-[`SharepointDataSourceAssociationProps`](SharepointDataSourceAssociationProps.md).[`description`](SharepointDataSourceAssociationProps.md#description)
+[`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md).[`description`](SharePointDataSourceAssociationProps.md#description)
 
 ***
 
@@ -133,13 +133,13 @@ The domain of your SharePoint instance or site URL/URLs.
 
 #### Inherited from
 
-[`SharepointDataSourceAssociationProps`](SharepointDataSourceAssociationProps.md).[`domain`](SharepointDataSourceAssociationProps.md#domain)
+[`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md).[`domain`](SharePointDataSourceAssociationProps.md#domain)
 
 ***
 
 ### filters?
 
-> `readonly` `optional` **filters**: [`SharepointCrawlingFilters`](SharepointCrawlingFilters.md)[]
+> `readonly` `optional` **filters**: [`SharePointCrawlingFilters`](SharePointCrawlingFilters.md)[]
 
 The filters (regular expression patterns) for the crawling.
 If there's a conflict, the exclude pattern takes precedence.
@@ -152,7 +152,7 @@ None - all your content is crawled.
 
 #### Inherited from
 
-[`SharepointDataSourceAssociationProps`](SharepointDataSourceAssociationProps.md).[`filters`](SharepointDataSourceAssociationProps.md#filters)
+[`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md).[`filters`](SharePointDataSourceAssociationProps.md#filters)
 
 ***
 
@@ -170,7 +170,7 @@ The KMS key to use to encrypt the data source.
 
 #### Inherited from
 
-[`SharepointDataSourceAssociationProps`](SharepointDataSourceAssociationProps.md).[`kmsKey`](SharepointDataSourceAssociationProps.md#kmskey)
+[`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md).[`kmsKey`](SharePointDataSourceAssociationProps.md#kmskey)
 
 ***
 
@@ -196,7 +196,7 @@ The parsing strategy to use.
 
 #### Inherited from
 
-[`SharepointDataSourceAssociationProps`](SharepointDataSourceAssociationProps.md).[`parsingStrategy`](SharepointDataSourceAssociationProps.md#parsingstrategy)
+[`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md).[`parsingStrategy`](SharePointDataSourceAssociationProps.md#parsingstrategy)
 
 ***
 
@@ -215,7 +215,7 @@ Must start with “https”. All URLs must start with same protocol.
 
 #### Inherited from
 
-[`SharepointDataSourceAssociationProps`](SharepointDataSourceAssociationProps.md).[`siteUrls`](SharepointDataSourceAssociationProps.md#siteurls)
+[`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md).[`siteUrls`](SharePointDataSourceAssociationProps.md#siteurls)
 
 ***
 
@@ -233,4 +233,4 @@ The identifier of your Microsoft 365 tenant.
 
 #### Inherited from
 
-[`SharepointDataSourceAssociationProps`](SharepointDataSourceAssociationProps.md).[`tenantId`](SharepointDataSourceAssociationProps.md#tenantid)
+[`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md).[`tenantId`](SharePointDataSourceAssociationProps.md#tenantid)
