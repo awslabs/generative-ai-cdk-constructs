@@ -13,7 +13,6 @@
 
 export * from './models';
 export * from './knowledge-base';
-export * from './s3-data-source';
 export * from './agent';
 export * from './agent-alias';
 export * from './agent-action-group';
@@ -25,3 +24,12 @@ export * from './pii-list';
 export * from './content-policy';
 export * from './prompt';
 export * from './prompt-version';
+export * from './data-sources/base-data-source';
+export * from './data-sources/chunking';
+export * from './data-sources/parsing';
+export * from './data-sources/custom-transformation';
+export * from './data-sources/web-crawler-data-source';
+export * from './data-sources/sharepoint-data-source';
+export * from './data-sources/confluence-data-source';
+export * from './data-sources/salesforce-data-source';
+export * from './data-sources/s3-data-source';
