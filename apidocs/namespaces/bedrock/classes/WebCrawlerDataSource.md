@@ -2,11 +2,11 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / S3DataSource
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / WebCrawlerDataSource
 
-# Class: S3DataSource
+# Class: WebCrawlerDataSource
 
-Sets up an S3 Data Source to be added to a knowledge base.
+Sets up a web crawler data source to be added to a knowledge base.
 
 ## Extends
 
@@ -14,9 +14,9 @@ Sets up an S3 Data Source to be added to a knowledge base.
 
 ## Constructors
 
-### new S3DataSource()
+### new WebCrawlerDataSource()
 
-> **new S3DataSource**(`scope`, `id`, `props`): [`S3DataSource`](S3DataSource.md)
+> **new WebCrawlerDataSource**(`scope`, `id`, `props`): [`WebCrawlerDataSource`](WebCrawlerDataSource.md)
 
 #### Parameters
 
@@ -24,11 +24,11 @@ Sets up an S3 Data Source to be added to a knowledge base.
 
 • **id**: `string`
 
-• **props**: [`S3DataSourceProps`](../interfaces/S3DataSourceProps.md)
+• **props**: [`WebCrawlerDataSourceProps`](../interfaces/WebCrawlerDataSourceProps.md)
 
 #### Returns
 
-[`S3DataSource`](S3DataSource.md)
+[`WebCrawlerDataSource`](WebCrawlerDataSource.md)
 
 #### Overrides
 
@@ -36,11 +36,11 @@ Sets up an S3 Data Source to be added to a knowledge base.
 
 ## Properties
 
-### bucket
+### crawlingRate
 
-> `readonly` **bucket**: `IBucket`
+> `readonly` **crawlingRate**: `number`
 
-The bucket associated with the data source.
+The max rate at which pages are crawled.
 
 ***
 
@@ -156,6 +156,14 @@ This value will resolve to one of the following:
 #### Inherited from
 
 [`DataSourceNew`](DataSourceNew.md).[`physicalName`](DataSourceNew.md#physicalname)
+
+***
+
+### siteUrls
+
+> `readonly` **siteUrls**: `string`[]
+
+The max rate at which pages are crawled.
 
 ***
 

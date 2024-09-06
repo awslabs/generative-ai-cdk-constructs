@@ -2,15 +2,19 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / S3DataSourceProps
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / S3DataSourceAssociationProps
 
-# Interface: S3DataSourceProps
+# Interface: S3DataSourceAssociationProps
 
-Interface to create a new S3 Data Source object.
+Interface to add a new S3DataSource to an existing KB
 
 ## Extends
 
-- [`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md)
+- [`DataSourceAssociationProps`](DataSourceAssociationProps.md)
+
+## Extended by
+
+- [`S3DataSourceProps`](S3DataSourceProps.md)
 
 ## Properties
 
@@ -19,10 +23,6 @@ Interface to create a new S3 Data Source object.
 > `readonly` **bucket**: `IBucket`
 
 The bucket that contains the data source.
-
-#### Inherited from
-
-[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md).[`bucket`](S3DataSourceAssociationProps.md#bucket)
 
 ***
 
@@ -42,7 +42,7 @@ ChunkingStrategy.DEFAULT
 
 #### Inherited from
 
-[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md).[`chunkingStrategy`](S3DataSourceAssociationProps.md#chunkingstrategy)
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`chunkingStrategy`](DataSourceAssociationProps.md#chunkingstrategy)
 
 ***
 
@@ -60,7 +60,7 @@ The custom transformation strategy to use.
 
 #### Inherited from
 
-[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md).[`customTransformation`](S3DataSourceAssociationProps.md#customtransformation)
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`customTransformation`](DataSourceAssociationProps.md#customtransformation)
 
 ***
 
@@ -78,7 +78,7 @@ The data deletion policy to apply to the data source.
 
 #### Inherited from
 
-[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md).[`dataDeletionPolicy`](S3DataSourceAssociationProps.md#datadeletionpolicy)
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`dataDeletionPolicy`](DataSourceAssociationProps.md#datadeletionpolicy)
 
 ***
 
@@ -96,7 +96,7 @@ The name of the data source.
 
 #### Inherited from
 
-[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md).[`dataSourceName`](S3DataSourceAssociationProps.md#datasourcename)
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`dataSourceName`](DataSourceAssociationProps.md#datasourcename)
 
 ***
 
@@ -114,7 +114,7 @@ A description of the data source.
 
 #### Inherited from
 
-[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md).[`description`](S3DataSourceAssociationProps.md#description)
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`description`](DataSourceAssociationProps.md#description)
 
 ***
 
@@ -129,10 +129,6 @@ The prefixes of the objects in the bucket that should be included in the data so
 ```ts
 - All objects in the bucket.
 ```
-
-#### Inherited from
-
-[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md).[`inclusionPrefixes`](S3DataSourceAssociationProps.md#inclusionprefixes)
 
 ***
 
@@ -150,15 +146,7 @@ The KMS key to use to encrypt the data source.
 
 #### Inherited from
 
-[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md).[`kmsKey`](S3DataSourceAssociationProps.md#kmskey)
-
-***
-
-### knowledgeBase
-
-> `readonly` **knowledgeBase**: [`KnowledgeBase`](../classes/KnowledgeBase.md)
-
-The knowledge base to associate with the data source.
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`kmsKey`](DataSourceAssociationProps.md#kmskey)
 
 ***
 
@@ -176,4 +164,4 @@ The parsing strategy to use.
 
 #### Inherited from
 
-[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md).[`parsingStrategy`](S3DataSourceAssociationProps.md#parsingstrategy)
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`parsingStrategy`](DataSourceAssociationProps.md#parsingstrategy)

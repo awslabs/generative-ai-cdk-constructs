@@ -117,15 +117,16 @@ export class S3DataSource extends DataSourceNew {
     // L1 Instantiation
     // ------------------------------------------------------
     this.__resource = new CfnDataSource(this, 'DataSource', {
-      ...this.formatCfnCommonProps(props),
-      knowledgeBaseId: this.knowledgeBase.knowledgeBaseId,
-      dataSourceConfiguration: {
-        type: this.dataSourceType,
-        s3Configuration: {
-          bucketArn: props.bucket.bucketArn,
-          inclusionPrefixes: props.inclusionPrefixes,
+      ...this.formatAsCfnProps(
+        props,
+        {
+          type: this.dataSourceType,
+          s3Configuration: {
+            bucketArn: props.bucket.bucketArn,
+            inclusionPrefixes: props.inclusionPrefixes,
+          },
         },
-      },
+      ),
     });
 
     this.dataSourceId = this.__resource.attrDataSourceId;

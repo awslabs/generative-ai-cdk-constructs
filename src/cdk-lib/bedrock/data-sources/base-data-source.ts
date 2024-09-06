@@ -12,6 +12,7 @@
  */
 
 import { IResource, Resource } from 'aws-cdk-lib';
+import { CfnDataSource, CfnDataSourceProps } from 'aws-cdk-lib/aws-bedrock';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 
@@ -153,7 +154,6 @@ export interface DataSourceAssociationProps {
   readonly customTransformation?: CustomTransformation;
 }
 
-
 /**
  * Specifies the base class for all NEW data source resources of ANY type.
  */
@@ -183,9 +183,13 @@ export abstract class DataSourceNew extends DataSourceBase {
   // ------------------------------------------------------
   // Common methods for ALL NEW data sources
   // ------------------------------------------------------
-  public formatCfnCommonProps(props: DataSourceAssociationProps) {
+  public formatAsCfnProps(
+    props: DataSourceAssociationProps,
+    dataSourceConfiguration: CfnDataSource.DataSourceConfigurationProperty,
+  ): CfnDataSourceProps {
     return {
       dataDeletionPolicy: props.dataDeletionPolicy,
+      dataSourceConfiguration: dataSourceConfiguration,
       description: props.description,
       knowledgeBaseId: this.knowledgeBase.knowledgeBaseId,
       name: this.dataSourceName,

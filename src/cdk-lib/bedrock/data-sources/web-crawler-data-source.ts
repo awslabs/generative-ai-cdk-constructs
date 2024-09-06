@@ -146,27 +146,28 @@ export class WebCrawlerDataSource extends DataSourceNew {
     // L1 Instantiation
     // ------------------------------------------------------
     this.__resource = new CfnDataSource(this, 'DataSource', {
-      ...this.formatCfnCommonProps(props),
-      dataSourceConfiguration: {
-        type: this.dataSourceType,
-        webConfiguration: {
-          crawlerConfiguration: {
-            crawlerLimits: {
-              rateLimit: this.crawlingRate,
-            },
-            scope: props.crawlingScope ?? CrawlingScope.HOST_ONLY,
-            inclusionFilters: props.filters?.includePatterns,
-            exclusionFilters: props.filters?.excludePatterns,
+      ...this.formatAsCfnProps(
+        props,
+        {
+          type: this.dataSourceType,
+          webConfiguration: {
+            crawlerConfiguration: {
+              crawlerLimits: {
+                rateLimit: this.crawlingRate,
+              },
+              scope: props.crawlingScope ?? CrawlingScope.HOST_ONLY,
+              inclusionFilters: props.filters?.includePatterns,
+              exclusionFilters: props.filters?.excludePatterns,
 
-          },
-          sourceConfiguration: {
-            urlConfiguration: {
-              seedUrls: props.sourceUrls.map(item => ({ url: item })),
+            },
+            sourceConfiguration: {
+              urlConfiguration: {
+                seedUrls: props.sourceUrls.map(item => ({ url: item })),
+              },
             },
           },
         },
-      },
-
+      ),
     });
 
     this.dataSourceId = this.__resource.attrDataSourceId;

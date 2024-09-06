@@ -171,34 +171,42 @@ export class SalesforceDataSource extends DataSourceNew {
     this.kmsKey = props.kmsKey;
 
     // ------------------------------------------------------
+    // Manage permissions for the data source
+    // ------------------------------------------------------
+    this.authSecret.grantRead(this.knowledgeBase.role);
+
+    // ------------------------------------------------------
+
+    // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
     this.__resource = new CfnDataSource(this, 'DataSource', {
-      ...this.formatCfnCommonProps(props),
-      dataSourceConfiguration: {
-        type: this.dataSourceType,
-        salesforceConfiguration: {
-          sourceConfiguration: {
-            authType: SalesforceDataSourceAuthType.OAUTH2_CLIENT_CREDENTIALS,
-            credentialsSecretArn: this.authSecret.secretArn,
-            hostUrl: this.endpoint,
-          },
-          crawlerConfiguration:
-            (props.filters) ? ({
-              filterConfiguration: {
-                type: 'PATTERN',
-                patternObjectFilter: {
-                  filters: props.filters?.map(item => ({
-                    objectType: item.objectType,
-                    inclusionFilters: item.includePatterns,
-                    exclusionFilters: item.excludePatterns,
-                  })),
+      ...this.formatAsCfnProps(
+        props,
+        {
+          type: this.dataSourceType,
+          salesforceConfiguration: {
+            sourceConfiguration: {
+              authType: SalesforceDataSourceAuthType.OAUTH2_CLIENT_CREDENTIALS,
+              credentialsSecretArn: this.authSecret.secretArn,
+              hostUrl: this.endpoint,
+            },
+            crawlerConfiguration:
+              (props.filters) ? ({
+                filterConfiguration: {
+                  type: 'PATTERN',
+                  patternObjectFilter: {
+                    filters: props.filters?.map(item => ({
+                      objectType: item.objectType,
+                      inclusionFilters: item.includePatterns,
+                      exclusionFilters: item.excludePatterns,
+                    })),
+                  },
                 },
-              },
-            }) : undefined,
+              }) : undefined,
+          },
         },
-      },
-
+      ),
     });
 
     this.dataSourceId = this.__resource.attrDataSourceId;

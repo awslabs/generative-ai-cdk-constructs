@@ -121,6 +121,76 @@ The vector store for the knowledge base.
 
 ## Methods
 
+### addConfluenceDataSource()
+
+> **addConfluenceDataSource**(`props`): [`ConfluenceDataSource`](ConfluenceDataSource.md)
+
+#### Parameters
+
+• **props**: [`ConfluenceDataSourceAssociationProps`](../interfaces/ConfluenceDataSourceAssociationProps.md)
+
+#### Returns
+
+[`ConfluenceDataSource`](ConfluenceDataSource.md)
+
+***
+
+### addS3DataSource()
+
+> **addS3DataSource**(`props`): [`S3DataSource`](S3DataSource.md)
+
+#### Parameters
+
+• **props**: [`S3DataSourceAssociationProps`](../interfaces/S3DataSourceAssociationProps.md)
+
+#### Returns
+
+[`S3DataSource`](S3DataSource.md)
+
+***
+
+### addSalesforceDataSource()
+
+> **addSalesforceDataSource**(`props`): [`SalesforceDataSource`](SalesforceDataSource.md)
+
+#### Parameters
+
+• **props**: [`SalesforceDataSourceAssociationProps`](../interfaces/SalesforceDataSourceAssociationProps.md)
+
+#### Returns
+
+[`SalesforceDataSource`](SalesforceDataSource.md)
+
+***
+
+### addSharePointDataSource()
+
+> **addSharePointDataSource**(`props`): [`SharepointDataSource`](SharepointDataSource.md)
+
+#### Parameters
+
+• **props**: [`SharepointDataSourceAssociationProps`](../interfaces/SharepointDataSourceAssociationProps.md)
+
+#### Returns
+
+[`SharepointDataSource`](SharepointDataSource.md)
+
+***
+
+### addWebCrawlerDataSource()
+
+> **addWebCrawlerDataSource**(`props`): [`WebCrawlerDataSource`](WebCrawlerDataSource.md)
+
+#### Parameters
+
+• **props**: [`WebCrawlerDataSourceAssociationProps`](../interfaces/WebCrawlerDataSourceAssociationProps.md)
+
+#### Returns
+
+[`WebCrawlerDataSource`](WebCrawlerDataSource.md)
+
+***
+
 ### associateToAgent()
 
 > **associateToAgent**(`agent`): `void`

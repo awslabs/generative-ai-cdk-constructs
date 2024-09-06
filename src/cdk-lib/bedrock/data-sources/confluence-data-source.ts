@@ -66,13 +66,10 @@ export enum ConfluenceObjectType {
  * - If both inclusion and exclusion patterns match a document, the exclusion takes precedence.
  *
  * @example
- * To exclude PDF files with "private" in the filename:
- * ```ts
  * {
  *   objectType: ConfluenceObjectType.ATTACHMENT,
  *   excludePatterns: [".*private.*\\.pdf"]
  * }
- * ```
  */
 export interface ConfluenceCrawlingFilters {
   /**
@@ -194,34 +191,46 @@ export class ConfluenceDataSource extends DataSourceNew {
     this.authSecret = props.authSecret;
 
     // ------------------------------------------------------
+    // Manage permissions for the data source
+    // ------------------------------------------------------
+    this.authSecret.grantRead(this.knowledgeBase.role);
+
+    // Grant write permissions to the knowledge base role for updating the secret.
+    // This is necessary when using OAuth 2.0 authentication with a refresh token.
+    if (props.authType === ConfluenceDataSourceAuthType.OAUTH2_CLIENT_CREDENTIALS) {
+      this.authSecret.grantWrite(this.knowledgeBase.role);
+    }
+    // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
     this.__resource = new CfnDataSource(this, 'DataSource', {
-      ...this.formatCfnCommonProps(props),
-      dataSourceConfiguration: {
-        type: this.dataSourceType,
-        confluenceConfiguration: {
-          sourceConfiguration: {
-            authType: props.authType ?? ConfluenceDataSourceAuthType.OAUTH2_CLIENT_CREDENTIALS,
-            credentialsSecretArn: this.authSecret.secretArn,
-            hostUrl: this.confluenceUrl,
-            hostType: 'SAAS',
-          },
-          crawlerConfiguration:
-            (props.filters) ? ({
-              filterConfiguration: {
-                type: 'PATTERN',
-                patternObjectFilter: {
-                  filters: props.filters?.map(item => ({
-                    objectType: item.objectType,
-                    inclusionFilters: item.includePatterns,
-                    exclusionFilters: item.excludePatterns,
-                  })),
+      ...this.formatAsCfnProps(
+        props,
+        {
+          type: this.dataSourceType,
+          confluenceConfiguration: {
+            sourceConfiguration: {
+              authType: props.authType ?? ConfluenceDataSourceAuthType.OAUTH2_CLIENT_CREDENTIALS,
+              credentialsSecretArn: this.authSecret.secretArn,
+              hostUrl: this.confluenceUrl,
+              hostType: 'SAAS',
+            },
+            crawlerConfiguration:
+              (props.filters) ? ({
+                filterConfiguration: {
+                  type: 'PATTERN',
+                  patternObjectFilter: {
+                    filters: props.filters?.map(item => ({
+                      objectType: item.objectType,
+                      inclusionFilters: item.includePatterns,
+                      exclusionFilters: item.excludePatterns,
+                    })),
+                  },
                 },
-              },
-            }) : undefined,
+              }) : undefined,
+          },
         },
-      },
+      ),
     });
 
     this.dataSourceId = this.__resource.attrDataSourceId;

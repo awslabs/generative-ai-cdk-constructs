@@ -90,9 +90,235 @@ describe('Confluence Data Source', () => {
     secret = Secret.fromSecretCompleteArn(stack, 'TestSecret', sampleSecretArn);
   });
 
-  test('Basic Confluence Setup', () => {
+  test('Basic Confluence Setup - Class', () => {
     new bedrock.ConfluenceDataSource(stack, 'TestDataSource', {
       knowledgeBase: kb,
+      dataSourceName: 'TestDataSource',
+      authSecret: secret,
+      kmsKey: key,
+      confluenceUrl: 'https://example.atlassian.net',
+      filters: [
+        {
+          objectType: bedrock.ConfluenceObjectType.ATTACHMENT,
+          includePatterns: ['.*\\.pdf'],
+          excludePatterns: ['.*private.*\\.pdf'],
+        },
+        {
+          objectType: bedrock.ConfluenceObjectType.PAGE,
+          includePatterns: ['.*public.*\\.pdf'],
+          excludePatterns: ['.*confidential.*\\.pdf'],
+        },
+      ],
+    });
+
+    console.log(Template.fromStack(stack));
+    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
+      Name: 'TestDataSource',
+      ServerSideEncryptionConfiguration: {
+        KmsKeyArn: 'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418',
+      },
+      DataSourceConfiguration: {
+        Type: 'CONFLUENCE',
+        ConfluenceConfiguration: {
+          SourceConfiguration: {
+            HostUrl: 'https://example.atlassian.net',
+            HostType: 'SAAS',
+            AuthType: 'OAUTH2_CLIENT_CREDENTIALS',
+            CredentialsSecretArn: 'arn:aws:secretsmanager:eu-central-1:123456789012:secret:AmazonBedrock-auth-tW8BY1',
+          },
+          CrawlerConfiguration: {
+            FilterConfiguration: {
+              Type: 'PATTERN',
+              PatternObjectFilter: {
+                Filters: [
+                  {
+                    ObjectType: 'Attachment',
+                    InclusionFilters: [
+                      '.*\\.pdf',
+                    ],
+                    ExclusionFilters: [
+                      '.*private.*\\.pdf',
+                    ],
+                  },
+                  {
+                    ObjectType: 'Page',
+                    InclusionFilters: [
+                      '.*public.*\\.pdf',
+                    ],
+                    ExclusionFilters: [
+                      '.*confidential.*\\.pdf',
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+    });
+
+  });
+
+  test('Basic Confluence Setup - Method', () => {
+    kb.addConfluenceDataSource({
+      dataSourceName: 'TestDataSource',
+      authSecret: secret,
+      kmsKey: key,
+      confluenceUrl: 'https://example.atlassian.net',
+      filters: [
+        {
+          objectType: bedrock.ConfluenceObjectType.ATTACHMENT,
+          includePatterns: ['.*\\.pdf'],
+          excludePatterns: ['.*private.*\\.pdf'],
+        },
+        {
+          objectType: bedrock.ConfluenceObjectType.PAGE,
+          includePatterns: ['.*public.*\\.pdf'],
+          excludePatterns: ['.*confidential.*\\.pdf'],
+        },
+      ],
+    });
+
+    console.log(Template.fromStack(stack));
+    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
+      Name: 'TestDataSource',
+      ServerSideEncryptionConfiguration: {
+        KmsKeyArn: 'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418',
+      },
+      DataSourceConfiguration: {
+        Type: 'CONFLUENCE',
+        ConfluenceConfiguration: {
+          SourceConfiguration: {
+            HostUrl: 'https://example.atlassian.net',
+            HostType: 'SAAS',
+            AuthType: 'OAUTH2_CLIENT_CREDENTIALS',
+            CredentialsSecretArn: 'arn:aws:secretsmanager:eu-central-1:123456789012:secret:AmazonBedrock-auth-tW8BY1',
+          },
+          CrawlerConfiguration: {
+            FilterConfiguration: {
+              Type: 'PATTERN',
+              PatternObjectFilter: {
+                Filters: [
+                  {
+                    ObjectType: 'Attachment',
+                    InclusionFilters: [
+                      '.*\\.pdf',
+                    ],
+                    ExclusionFilters: [
+                      '.*private.*\\.pdf',
+                    ],
+                  },
+                  {
+                    ObjectType: 'Page',
+                    InclusionFilters: [
+                      '.*public.*\\.pdf',
+                    ],
+                    ExclusionFilters: [
+                      '.*confidential.*\\.pdf',
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+    });
+
+  });
+});
+
+describe('Sharepoint Data Source', () => {
+  let stack: Stack;
+  let kb: bedrock.KnowledgeBase;
+  let key: IKey;
+  let secret: ISecret;
+
+  beforeEach(() => {
+    const app = new App();
+    stack = new Stack(app, 'TestStack');
+    kb = new bedrock.KnowledgeBase(stack, 'KB', {
+      embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+    });
+    const sampleKeyArn = 'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418';
+    const sampleSecretArn = 'arn:aws:secretsmanager:eu-central-1:123456789012:secret:AmazonBedrock-auth-tW8BY1';
+    key = Key.fromKeyArn(stack, 'TestKey', sampleKeyArn);
+    secret = Secret.fromSecretCompleteArn(stack, 'TestSecret', sampleSecretArn);
+  });
+
+  test('Basic Sharepoint Setup - Class', () => {
+    new bedrock.SharepointDataSource(stack, 'TestDataSource', {
+      knowledgeBase: kb,
+      dataSourceName: 'TestDataSource',
+      authSecret: secret,
+      kmsKey: key,
+      domain: 'https://example.atlassian.net',
+      siteUrls: [],
+      tenantId: @
+        filters: [
+          {
+            objectType: bedrock.SharepointObjectType.PAGE,
+            includePatterns: ['.*\\.pdf'],
+            excludePatterns: ['.*private.*\\.pdf'],
+          },
+          {
+            objectType: bedrock.SharepointObjectType.FILE,
+            includePatterns: ['.*public.*\\.pdf'],
+            excludePatterns: ['.*confidential.*\\.pdf'],
+          },
+      ],
+    });
+
+    console.log(Template.fromStack(stack));
+    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
+      Name: 'TestDataSource',
+      ServerSideEncryptionConfiguration: {
+        KmsKeyArn: 'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418',
+      },
+      SharepointConfiguration: {
+        Type: 'CONFLUENCE',
+        SharepointConfiguration: {
+          SourceConfiguration: {
+            HostUrl: 'https://your-instance.my.salesforce.com',
+            HostType: 'SAAS',
+            AuthType: 'OAUTH2_CLIENT_CREDENTIALS',
+            CredentialsSecretArn: 'arn:aws:secretsmanager:eu-central-1:123456789012:secret:AmazonBedrock-auth-tW8BY1',
+          },
+          CrawlerConfiguration: {
+            FilterConfiguration: {
+              Type: 'PATTERN',
+              PatternObjectFilter: {
+                Filters: [
+                  {
+                    ObjectType: 'Attachment',
+                    InclusionFilters: [
+                      '.*\\.pdf',
+                    ],
+                    ExclusionFilters: [
+                      '.*private.*\\.pdf',
+                    ],
+                  },
+                  {
+                    ObjectType: 'Page',
+                    InclusionFilters: [
+                      '.*public.*\\.pdf',
+                    ],
+                    ExclusionFilters: [
+                      '.*confidential.*\\.pdf',
+                    ],
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+    });
+
+  });
+
+  test('Basic Confluence Setup - Method', () => {
+    kb.addConfluenceDataSource({
       dataSourceName: 'TestDataSource',
       authSecret: secret,
       kmsKey: key,

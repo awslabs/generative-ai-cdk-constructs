@@ -164,6 +164,69 @@
         }
       ]
     },
+    "integ:data-sources:assert": {
+      "name": "integ:data-sources:assert",
+      "description": "assert the snapshot of integration test 'data-sources'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/cdk-lib/bedrock/integ-tests/data-sources.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'data-sources'. Run 'projen integ:data-sources:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/data-sources.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/cdk-lib/bedrock/integ-tests/.tmp/data-sources.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/cdk-lib/bedrock/integ-tests/data-sources.integ.snapshot/ test/cdk-lib/bedrock/integ-tests/.tmp/data-sources.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:data-sources:deploy": {
+      "name": "integ:data-sources:deploy",
+      "description": "deploy integration test 'data-sources' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/cdk-lib/bedrock/integ-tests/.tmp/data-sources.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/data-sources.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/cdk-lib/bedrock/integ-tests/.tmp/data-sources.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/cdk-lib/bedrock/integ-tests/data-sources.integ.snapshot"
+        },
+        {
+          "exec": "mv test/cdk-lib/bedrock/integ-tests/.tmp/data-sources.integ/deploy.cdk.out test/cdk-lib/bedrock/integ-tests/data-sources.integ.snapshot"
+        },
+        {
+          "spawn": "integ:data-sources:destroy"
+        }
+      ]
+    },
+    "integ:data-sources:destroy": {
+      "name": "integ:data-sources:destroy",
+      "description": "destroy integration test 'data-sources'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/cdk-lib/bedrock/integ-tests/data-sources.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:data-sources:snapshot": {
+      "name": "integ:data-sources:snapshot",
+      "description": "update snapshot for integration test \"data-sources\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/data-sources.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/cdk-lib/bedrock/integ-tests/data-sources.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:data-sources:watch": {
+      "name": "integ:data-sources:watch",
+      "description": "watch integration test 'data-sources' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/data-sources.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/cdk-lib/bedrock/integ-tests/.tmp/data-sources.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:prompts:assert": {
       "name": "integ:prompts:assert",
       "description": "assert the snapshot of integration test 'prompts'",
@@ -231,6 +294,9 @@
       "name": "integ:snapshot-all",
       "description": "update snapshot for all integration tests",
       "steps": [
+        {
+          "spawn": "integ:data-sources:snapshot"
+        },
         {
           "spawn": "integ:prompts:snapshot"
         }
@@ -360,6 +426,9 @@
         },
         {
           "spawn": "eslint"
+        },
+        {
+          "spawn": "integ:data-sources:assert"
         },
         {
           "spawn": "integ:prompts:assert"

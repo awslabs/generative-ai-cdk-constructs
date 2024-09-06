@@ -2,11 +2,11 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / S3DataSource
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / SharepointDataSource
 
-# Class: S3DataSource
+# Class: SharepointDataSource
 
-Sets up an S3 Data Source to be added to a knowledge base.
+Sets up an data source to be added to a knowledge base.
 
 ## Extends
 
@@ -14,9 +14,9 @@ Sets up an S3 Data Source to be added to a knowledge base.
 
 ## Constructors
 
-### new S3DataSource()
+### new SharepointDataSource()
 
-> **new S3DataSource**(`scope`, `id`, `props`): [`S3DataSource`](S3DataSource.md)
+> **new SharepointDataSource**(`scope`, `id`, `props`): [`SharepointDataSource`](SharepointDataSource.md)
 
 #### Parameters
 
@@ -24,11 +24,11 @@ Sets up an S3 Data Source to be added to a knowledge base.
 
 • **id**: `string`
 
-• **props**: [`S3DataSourceProps`](../interfaces/S3DataSourceProps.md)
+• **props**: [`SharepointDataSourceProps`](../interfaces/SharepointDataSourceProps.md)
 
 #### Returns
 
-[`S3DataSource`](S3DataSource.md)
+[`SharepointDataSource`](SharepointDataSource.md)
 
 #### Overrides
 
@@ -36,11 +36,11 @@ Sets up an S3 Data Source to be added to a knowledge base.
 
 ## Properties
 
-### bucket
+### authSecret
 
-> `readonly` **bucket**: `IBucket`
+> `readonly` **authSecret**: `ISecret`
 
-The bucket associated with the data source.
+The AWS Secrets Manager secret that stores your authentication credentials.
 
 ***
 
@@ -83,6 +83,14 @@ The type of data source.
 #### Overrides
 
 [`DataSourceNew`](DataSourceNew.md).[`dataSourceType`](DataSourceNew.md#datasourcetype)
+
+***
+
+### domain
+
+> `readonly` **domain**: `string`
+
+The domain name of your SharePoint instance.
 
 ***
 
@@ -156,6 +164,14 @@ This value will resolve to one of the following:
 #### Inherited from
 
 [`DataSourceNew`](DataSourceNew.md).[`physicalName`](DataSourceNew.md#physicalname)
+
+***
+
+### siteUrls
+
+> `readonly` **siteUrls**: `string`[]
+
+The SharePoint site URL/URLs.
 
 ***
 
