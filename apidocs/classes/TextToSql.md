@@ -2,51 +2,75 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../README.md) / BaseClass
+[@cdklabs/generative-ai-cdk-constructs](../README.md) / TextToSql
 
-# Class: BaseClass
+# Class: TextToSql
 
 ## Extends
 
-- `Construct`
-
-## Extended by
-
-- [`RagAppsyncStepfnOpensearch`](RagAppsyncStepfnOpensearch.md)
-- [`SummarizationAppsyncStepfn`](SummarizationAppsyncStepfn.md)
-- [`QaAppsyncOpensearch`](QaAppsyncOpensearch.md)
-- [`SageMakerEndpointBase`](SageMakerEndpointBase.md)
-- [`ContentGenerationAppSyncLambda`](ContentGenerationAppSyncLambda.md)
-- [`WebCrawler`](WebCrawler.md)
-- [`TextToSql`](TextToSql.md)
+- [`BaseClass`](BaseClass.md)
 
 ## Constructors
 
-### new BaseClass()
+### new TextToSql()
 
-> **new BaseClass**(`scope`, `id`): [`BaseClass`](BaseClass.md)
+> **new TextToSql**(`scope`, `id`, `props`): [`TextToSql`](TextToSql.md)
+
+Constructs a new instance of the TextToSql class.
 
 #### Parameters
 
 • **scope**: `Construct`
 
+represents the scope for all the resources.
+
 • **id**: `string`
+
+this is a a scope-unique id.
+
+• **props**: [`TextToSqlProps`](../interfaces/TextToSqlProps.md)
+
+user provided props for the construct.
 
 #### Returns
 
-[`BaseClass`](BaseClass.md)
+[`TextToSql`](TextToSql.md)
+
+#### Since
+
+0.0.0
 
 #### Overrides
 
-`Construct.constructor`
+[`BaseClass`](BaseClass.md).[`constructor`](BaseClass.md#constructors)
 
 ## Properties
+
+### configAssetBucket
+
+> `readonly` **configAssetBucket**: `IBucket`
+
+Returns the instance of s3.IBucket used by the construct
+
+***
 
 ### constructUsageMetric
 
 > `readonly` **constructUsageMetric**: `"uksb-1tupboc45"` = `'uksb-1tupboc45'`
 
 construct usage metric , added in template description
+
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`constructUsageMetric`](BaseClass.md#constructusagemetric)
+
+***
+
+### dbSecurityGroup
+
+> `readonly` **dbSecurityGroup**: `SecurityGroup`
+
+Returns the instance of ec2.ISecurityGroup used by the construct
 
 ***
 
@@ -62,6 +86,34 @@ enable disable xray tracing
 - True
 ```
 
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`enablexray`](BaseClass.md#enablexray)
+
+***
+
+### eventBus?
+
+> `readonly` `optional` **eventBus**: `IEventBus`
+
+Returns the instance of EventBus used by the construct
+
+***
+
+### eventsRule?
+
+> `readonly` `optional` **eventsRule**: `Rule`
+
+Returns the instance of EventBus used by the construct
+
+***
+
+### feedbackQueue
+
+> `readonly` **feedbackQueue**: `Queue`
+
+Returns the instance of feedback Queue  used by the construct
+
 ***
 
 ### fieldLogLevel
@@ -69,6 +121,18 @@ enable disable xray tracing
 > **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
 
 Default  log config for all constructs
+
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`fieldLogLevel`](BaseClass.md#fieldloglevel)
+
+***
+
+### lambdaSecurityGroup
+
+> `readonly` **lambdaSecurityGroup**: `SecurityGroup`
+
+Returns the instance of ec2.ISecurityGroup used by the construct
 
 ***
 
@@ -84,6 +148,10 @@ enable disable lambda tracing
 - Active
 ```
 
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`lambdaTracing`](BaseClass.md#lambdatracing)
+
 ***
 
 ### node
@@ -94,7 +162,15 @@ The tree node.
 
 #### Inherited from
 
-`Construct.node`
+[`BaseClass`](BaseClass.md).[`node`](BaseClass.md#node)
+
+***
+
+### outputQueue
+
+> `readonly` **outputQueue**: `Queue`
+
+Returns the instance of output Queue used by the construct
 
 ***
 
@@ -103,6 +179,10 @@ The tree node.
 > **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
 
 Default  log retention config for all constructs
+
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`retention`](BaseClass.md#retention)
 
 ***
 
@@ -118,6 +198,34 @@ Value will be appended to resources name.
 - _dev
 ```
 
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`stage`](BaseClass.md#stage)
+
+***
+
+### stepFunction?
+
+> `readonly` `optional` **stepFunction**: `StateMachine`
+
+Returns the Instance of stepfunction created by the construct
+
+***
+
+### subnetGroup
+
+> `readonly` **subnetGroup**: `SubnetGroup`
+
+Returns the instance of subnet group used by the construct
+
+***
+
+### vpc
+
+> `readonly` **vpc**: `IVpc`
+
+Returns the instance of ec2.IVpc used by the construct
+
 ***
 
 ### usageMetricMap
@@ -125,6 +233,10 @@ Value will be appended to resources name.
 > `protected` `static` **usageMetricMap**: `Record`\<`string`, `number`\>
 
 Record<string, number> , maps construct name with number of deployments
+
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`usageMetricMap`](BaseClass.md#usagemetricmap)
 
 ## Methods
 
@@ -140,6 +252,10 @@ Record<string, number> , maps construct name with number of deployments
 
 `void`
 
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`addObservabilityToConstruct`](BaseClass.md#addobservabilitytoconstruct)
+
 ***
 
 ### toString()
@@ -154,7 +270,7 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-`Construct.toString`
+[`BaseClass`](BaseClass.md).[`toString`](BaseClass.md#tostring)
 
 ***
 
@@ -174,6 +290,10 @@ Returns a string representation of this construct.
 
 `void`
 
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`updateConstructUsageMetricCode`](BaseClass.md#updateconstructusagemetriccode)
+
 ***
 
 ### updateEnvSuffix()
@@ -187,6 +307,10 @@ Returns a string representation of this construct.
 #### Returns
 
 `void`
+
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`updateEnvSuffix`](BaseClass.md#updateenvsuffix)
 
 ***
 
@@ -224,4 +348,4 @@ true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-`Construct.isConstruct`
+[`BaseClass`](BaseClass.md).[`isConstruct`](BaseClass.md#isconstruct)
