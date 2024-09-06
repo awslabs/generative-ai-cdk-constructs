@@ -68,6 +68,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   ],
   deps: [
     'cdk-nag',
+
+
   ],
   bundledDeps: [
     'deepmerge',
@@ -90,6 +92,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     dotNetNamespace: camelCaseIt(PUBLICATION_NAMESPACE) + '.' + camelCaseIt(PROJECT_NAME),
     packageId: camelCaseIt(PUBLICATION_NAMESPACE) + '.' + camelCaseIt(PROJECT_NAME),
   },
+
 
   publishToGo: {
     moduleName: `github.com/${PUBLICATION_NAMESPACE}/${PROJECT_NAME}-go`,

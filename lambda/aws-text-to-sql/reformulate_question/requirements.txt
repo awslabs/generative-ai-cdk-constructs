@@ -1,0 +1,7 @@
+aws-lambda-powertools>=2.41.0
+aws-xray-sdk>=2.14.0
+boto3>=1.28.61
+botocore>=1.34.147
+langchain_aws>=0.1.12
+langchain-core>=0.2.22
+langchain>=0.2.10
