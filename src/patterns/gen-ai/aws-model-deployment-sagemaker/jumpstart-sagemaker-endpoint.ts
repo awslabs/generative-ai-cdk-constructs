@@ -195,7 +195,8 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
     vpcConfig: sagemaker.CfnModel.VpcConfigProperty | undefined,
   ) {
     const key = this.spec.prepackedArtifactKey ?? this.spec.artifactKey;
-    const bucket = JumpStartConstants.JUMPSTART_LAUNCHED_REGIONS[this.region]?.contentBucket;
+    const bucket = this.spec.gatedBucket ? JumpStartConstants.JUMPSTART_LAUNCHED_REGIONS[this.region]?.gatedContentBucket :
+      JumpStartConstants.JUMPSTART_LAUNCHED_REGIONS[this.region]?.contentBucket;
     if (!bucket) {
       throw new Error(`JumpStart is not available in the region ${this.region}.`);
     }
