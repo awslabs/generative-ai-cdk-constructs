@@ -83,7 +83,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
 
     if (!this.acceptEula && this.spec.requiresEula) {
       throw new Error(
-        'The AcceptEula value must be explicitly defined as True in order to accept the EULA for the model ' + this.spec.modelId + '. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.',
+          'The AcceptEula value must be explicitly defined as True in order to accept the EULA for the model ' + this.spec.modelId + '. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.',
       );
     }
 
@@ -91,7 +91,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
 
     if (Token.isUnresolved(this.region)) {
       throw new Error(
-        'Region is unresolved. You should explicitly specify the region in the environment.',
+          'Region is unresolved. You should explicitly specify the region in the environment.',
       );
     }
 
@@ -163,9 +163,9 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
     const supportedInstanceTypes = this.spec.instanceTypes;
     if (!supportedInstanceTypes.includes(instanceType)) {
       throw new Error(
-        `The instance type ${instanceType} is not supported. Default instance type: ${
-          this.spec.defaultInstanceType
-        }. Supported instance types: ${supportedInstanceTypes.join(', ')}.`,
+          `The instance type ${instanceType} is not supported. Default instance type: ${
+              this.spec.defaultInstanceType
+          }. Supported instance types: ${supportedInstanceTypes.join(', ')}.`,
       );
     }
 
@@ -174,7 +174,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
 
   private buildEnvironment(instanceType: string) {
     const configEnvironment = this.spec.instanceVariants?.find(
-      (v) => v.instanceType === instanceType,
+        (v) => v.instanceType === instanceType,
     )?.environment;
 
     const environment = {
@@ -183,20 +183,24 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
       ...this.environment,
     };
 
+    if (environment.SAGEMAKER_SUBMIT_DIRECTORY) {
+      delete environment.SAGEMAKER_SUBMIT_DIRECTORY;
+    }
+
     return environment;
   }
 
   private getModelFromArtifact(
-    scope: Construct,
-    id: string,
-    instanceType: string,
-    instanceBaseType: string,
-    environment: { [key: string]: string | number | boolean },
-    vpcConfig: sagemaker.CfnModel.VpcConfigProperty | undefined,
+      scope: Construct,
+      id: string,
+      instanceType: string,
+      instanceBaseType: string,
+      environment: { [key: string]: string | number | boolean },
+      vpcConfig: sagemaker.CfnModel.VpcConfigProperty | undefined,
   ) {
     const key = this.spec.prepackedArtifactKey ?? this.spec.artifactKey;
     const bucket = this.spec.gatedBucket ? JumpStartConstants.JUMPSTART_LAUNCHED_REGIONS[this.region]?.gatedContentBucket :
-      JumpStartConstants.JUMPSTART_LAUNCHED_REGIONS[this.region]?.contentBucket;
+        JumpStartConstants.JUMPSTART_LAUNCHED_REGIONS[this.region]?.contentBucket;
     if (!bucket) {
       throw new Error(`JumpStart is not available in the region ${this.region}.`);
     }
@@ -205,19 +209,19 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
     const isArtifactCompressed = modelArtifactUrl.endsWith('.tar.gz');
 
     const imageUriKey = this.spec.instanceVariants
-      ?.find((v) => v.instanceType === instanceBaseType)
-      ?.imageUri?.replace('$', '');
+        ?.find((v) => v.instanceType === instanceBaseType)
+        ?.imageUri?.replace('$', '');
 
     if (!imageUriKey) {
       throw new Error(`The image uri is not available for instance type ${instanceType}.`);
     }
 
     const image = this.spec.instanceAliases?.find((v) => v.region === this.region)?.aliases[
-      imageUriKey
-    ];
+        imageUriKey
+        ];
     if (!image) {
       throw new Error(
-        `The image uri is not available for instance type ${instanceType} in region ${this.region}.`,
+          `The image uri is not available for instance type ${instanceType} in region ${this.region}.`,
       );
     }
 
@@ -225,7 +229,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
       executionRoleArn: this.role.roleArn,
       enableNetworkIsolation: true,
       primaryContainer: isArtifactCompressed ? {
-      // True: Artifact is a tarball
+        // True: Artifact is a tarball
         image,
         modelDataUrl: modelArtifactUrl,
         environment,
@@ -253,6 +257,18 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
           key: 'modelVersion',
           value: this.spec.version,
         },
+        {
+          key: 'sagemaker-studio:jumpstart-model-id',
+          value: this.spec.modelId,
+        },
+        {
+          key: 'sagemaker-studio:jumpstart-model-version',
+          value: this.spec.version,
+        },
+        {
+          key: 'sagemaker-studio:jumpstart-hub-name',
+          value: 'SageMakerPublicHub',
+        },
       ],
       vpcConfig: vpcConfig,
     });
@@ -265,9 +281,9 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
     const supportedRegions = Object.keys(modelPackageArns);
     if (!supportedRegions.includes(this.region)) {
       throw new Error(
-        `The model package is not available in the region ${
-          this.region
-        }. Supported regions: ${supportedRegions.join(', ')}.`,
+          `The model package is not available in the region ${
+              this.region
+          }. Supported regions: ${supportedRegions.join(', ')}.`,
       );
     }
 
