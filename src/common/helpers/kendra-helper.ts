@@ -24,7 +24,7 @@ import { Stack } from 'aws-cdk-lib/core';
 import { Construct } from 'constructs';
 import { addRolePolicies, createIAMRoleWithBasicExecutionPolicy } from './iam-roles-helper';
 import { consolidateProps, getStepFnLambdaInvoke, overrideProps } from './kendra-utils';
-import { addCfnSuppressRules, generatePhysicalName } from './utils';
+import { addCfnSuppressRules, generatePhysicalName, generatePhysicalNameV2 } from './utils';
 import { SecurityGroupRuleDefinition } from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
 
 export function createS3DataSource(
@@ -115,8 +115,10 @@ export function createKendraWorkflowStepFunction(
   kendraSyncLambda: cdk.aws_lambda.IFunction,
   createCheckJobsStatusLambda: cdk.aws_lambda.IFunction,
 ): StateMachine {
+  const logGroupName = generatePhysicalNameV2(cdkStack, '/aws/vendedlogs/states/constructs/DocProcessing', {maxLength: 255});
   const docProcessingLogGroup = new cdk.aws_logs.LogGroup(cdkStack, 'DocProcessingStateMachineLog', {
     removalPolicy: RemovalPolicy.DESTROY,
+    logGroupName: logGroupName,
   });
   // TODO(miketran): Eventually make this event driven
   const waitFor30Secs = new cdk.aws_stepfunctions.Wait(cdkStack, 'Wait 30 Seconds', {
