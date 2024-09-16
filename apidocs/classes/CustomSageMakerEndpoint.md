@@ -200,6 +200,12 @@ Default  log retention config for all constructs
 
 ***
 
+### scalingPolicy
+
+> `readonly` **scalingPolicy**: `StepScalingPolicy`
+
+***
+
 ### stage
 
 > **stage**: `string`
