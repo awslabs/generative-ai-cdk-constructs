@@ -50,6 +50,8 @@ describe('CustomSageMakerEndpoint construct no async', () => {
       endpointName: 'testbgebase',
       instanceCount: 1,
       volumeSizeInGb: 100,
+      minCapacity: 1,
+      maxCapacity: 2,
     });
     CstTestTemplate = Template.fromStack(CstTestStack);
 
