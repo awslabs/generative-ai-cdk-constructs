@@ -41,6 +41,7 @@ describe('Data Source', () => {
       dataSourceName: 'TestDataSource',
       sourceUrls: ['https://example.com'],
       crawlingScope: bedrock.CrawlingScope.SUBDOMAINS,
+      crawlingRate: 250,
       kmsKey: key,
     });
 
@@ -54,7 +55,7 @@ describe('Data Source', () => {
         WebConfiguration: {
           CrawlerConfiguration: {
             CrawlerLimits: {
-              RateLimit: 300,
+              RateLimit: 250,
             },
             Scope: 'SUBDOMAINS',
             ExclusionFilters: Match.absent(),

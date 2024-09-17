@@ -11,9 +11,8 @@
  *  and limitations under the License.
  */
 
-import * as fs from 'fs';
-import * as path from 'path';
 import { CfnDataSource, IModel } from 'aws-cdk-lib/aws-bedrock';
+import { DEFAULT_PARSING_PROMPT } from './default-parsing-prompt';
 
 /**
  * Enum representing the types of parsing strategies available for Amazon Bedrock Knowledge Bases.
@@ -66,8 +65,7 @@ export abstract class ParsingStategy {
         bedrockFoundationModelConfiguration: {
           modelArn: props.parsingModel.modelArn,
           parsingPrompt: {
-            parsingPromptText: props.parsingPrompt
-              ?? fs.readFileSync(path.join(__dirname, 'default-parsing-prompt.txt'), 'utf8'),
+            parsingPromptText: props.parsingPrompt ?? DEFAULT_PARSING_PROMPT,
           },
         },
         parsingStrategy: ParsingStategyType.FOUNDATION_MODEL,

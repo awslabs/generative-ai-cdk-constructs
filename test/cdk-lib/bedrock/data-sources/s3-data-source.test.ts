@@ -12,7 +12,7 @@
  */
 
 import * as cdk from 'aws-cdk-lib';
-import { Template } from 'aws-cdk-lib/assertions';
+import { Template, Match } from 'aws-cdk-lib/assertions';
 import { FoundationModel, FoundationModelIdentifier } from 'aws-cdk-lib/aws-bedrock';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { AwsSolutionsChecks } from 'cdk-nag';
@@ -215,6 +215,10 @@ describe('S3 Data Source', () => {
       VectorIngestionConfiguration: {
         ParsingConfiguration: {
           ParsingStrategy: 'BEDROCK_FOUNDATION_MODEL',
+          BedrockFoundationModelConfiguration: {
+            ModelArn: Match.anyValue(),
+          },
+          ParsingPrompt: Match.stringLikeRegexp('Transcribe the text content.*'),
         },
       },
     });
