@@ -127,17 +127,7 @@
       ]
      ]
     },
-    "DashboardName": {
-     "Fn::Join": [
-      "",
-      [
-       "AossMetricsDashboard",
-       {
-        "Ref": "AWS::StackId"
-       }
-      ]
-     ]
-    }
+    "DashboardName": "AossMetricsDashboard"
    }
   }
  },

@@ -91,17 +91,7 @@ describe('CloudWatch Aoss Dashboard with one collection monitored', () => {
 
   test('Dashboard Properties', () => {
     cwDsTestTemplate.hasResourceProperties('AWS::CloudWatch::Dashboard', {
-      DashboardName: {
-        'Fn::Join': [
-          '',
-          [
-            defaultDashboardName,
-            {
-              Ref: 'AWS::StackId',
-            },
-          ],
-        ],
-      },
+      DashboardName: defaultDashboardName,
     });
   });
 });
@@ -123,7 +113,7 @@ describe('CloudWatch Aoss Dashboard with existing dashboard', () => {
       env: { account: cdk.Aws.ACCOUNT_ID, region: cdk.Aws.REGION },
     });
 
-    dashboardName = 'mydashboardname' + aossDshTestStack.stackId;
+    dashboardName = 'mydashboardname';
 
     const existingDashboard = new Dashboard(aossDshTestStack, 'mydashboard', {
       dashboardName: dashboardName,
@@ -141,5 +131,11 @@ describe('CloudWatch Aoss Dashboard with existing dashboard', () => {
 
   test('Dashboard count', () => {
     cwDsTestTemplate.resourceCountIs('AWS::CloudWatch::Dashboard', 1);
+  });
+
+  test('Dashboard Properties', () => {
+    cwDsTestTemplate.hasResourceProperties('AWS::CloudWatch::Dashboard', {
+      DashboardName: dashboardName,
+    });
   });
 });

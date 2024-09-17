@@ -101,7 +101,7 @@ export class AossCwDashboard extends Construct {
     super(scope, id);
 
     this.dashboard = props.existingDashboard ?? new Dashboard(this, 'AossMetricsDashboard', {
-      dashboardName: props.dashboardName ?? 'AossMetricsDashboard' + Aws.STACK_ID,
+      dashboardName: props.dashboardName ?? 'AossMetricsDashboard',
     });
   }
 

@@ -98,7 +98,7 @@ Parameters
 | **Name**                               | **Type**                                                                                                                                               | **Required**                                              | **Description**                                                                                                                                                                                                                                                                                                                                                                                               |
 | :--------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | existingDashboard               | [aws_cloudwatch.Dashboard](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cloudwatch.Dashboard.html)                                | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing dashboard to be used by the construct. **Mutually exclusive** with ```dashboardName``` - only one should be specified.                                                                                                                                                                                                                                                           |
-| dashboardName | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | A name for the dashboard which will be created. If not provided, the construct will create a new dashboard named 'AossMetricsDashboard'+ stack id. **Mutually exclusive** with ```existingDashboard``` - only one should be specified.                                                                                                                                                                                                                                                            |
+| dashboardName | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | A name for the dashboard which will be created. If not provided, the construct will create a new dashboard named 'AossMetricsDashboard'. **Mutually exclusive** with ```existingDashboard``` - only one should be specified.                                                                                                                                                                                                                                                            |
 
 ## Pattern Properties
 
@@ -147,7 +147,7 @@ Out-of-the-box implementation of the construct without any override will set the
 
 ### Dashboard
 
-- Dashboard name is ```AossMetricsDashboard``` + stack id
+- Dashboard name is ```AossMetricsDashboard```
 
 ### addCollectionMonitoringbyAttributes, addCollectionMonitoringByCollection
 
