@@ -940,11 +940,7 @@ Example of `Prompt`:
 
 ```ts
 const cmk = new kms.Key(this, "cmk", {});
-const claudeModel = cdk_bedrock.FoundationModel.fromFoundationModelId(
-  this,
-  "model1",
-  cdk_bedrock.FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_SONNET_20240229_V1_0
-);
+const claudeModel = BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asIModel(this);
 
 const variant1 = PromptVariant.text({
   variantName: "variant1",
