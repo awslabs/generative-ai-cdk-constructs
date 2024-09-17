@@ -1,0 +1,19 @@
+{
+  "version": "36.0.24",
+  "files": {
+    "5ff6b2017eff395ed4255669070761f9bebfc00e4e97b9dd31377132e0f7016b": {
+      "source": {
+        "path": "aws-cdk-aoss-dashboard-integ-test.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "5ff6b2017eff395ed4255669070761f9bebfc00e4e97b9dd31377132e0f7016b.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

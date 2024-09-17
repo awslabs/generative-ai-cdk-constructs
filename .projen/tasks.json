@@ -164,6 +164,69 @@
         }
       ]
     },
+    "integ:aws-aoss-cw-dashboard:assert": {
+      "name": "integ:aws-aoss-cw-dashboard:assert",
+      "description": "assert the snapshot of integration test 'aws-aoss-cw-dashboard'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'aws-aoss-cw-dashboard'. Run 'projen integ:aws-aoss-cw-dashboard:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp/aws-aoss-cw-dashboard.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/ test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp/aws-aoss-cw-dashboard.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:aws-aoss-cw-dashboard:deploy": {
+      "name": "integ:aws-aoss-cw-dashboard:deploy",
+      "description": "deploy integration test 'aws-aoss-cw-dashboard' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp/aws-aoss-cw-dashboard.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp/aws-aoss-cw-dashboard.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot"
+        },
+        {
+          "exec": "mv test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp/aws-aoss-cw-dashboard.integ/deploy.cdk.out test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot"
+        },
+        {
+          "spawn": "integ:aws-aoss-cw-dashboard:destroy"
+        }
+      ]
+    },
+    "integ:aws-aoss-cw-dashboard:destroy": {
+      "name": "integ:aws-aoss-cw-dashboard:destroy",
+      "description": "destroy integration test 'aws-aoss-cw-dashboard'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:aws-aoss-cw-dashboard:snapshot": {
+      "name": "integ:aws-aoss-cw-dashboard:snapshot",
+      "description": "update snapshot for integration test \"aws-aoss-cw-dashboard\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:aws-aoss-cw-dashboard:watch": {
+      "name": "integ:aws-aoss-cw-dashboard:watch",
+      "description": "watch integration test 'aws-aoss-cw-dashboard' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp/aws-aoss-cw-dashboard.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:prompts:assert": {
       "name": "integ:prompts:assert",
       "description": "assert the snapshot of integration test 'prompts'",
@@ -233,6 +296,9 @@
       "steps": [
         {
           "spawn": "integ:prompts:snapshot"
+        },
+        {
+          "spawn": "integ:aws-aoss-cw-dashboard:snapshot"
         }
       ]
     },
@@ -363,6 +429,9 @@
         },
         {
           "spawn": "integ:prompts:assert"
+        },
+        {
+          "spawn": "integ:aws-aoss-cw-dashboard:assert"
         }
       ]
     },

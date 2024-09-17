@@ -1,0 +1,178 @@
+{
+ "Resources": {
+  "testAossMetricsDashboard04771158": {
+   "Type": "AWS::CloudWatch::Dashboard",
+   "Properties": {
+    "DashboardBody": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"widgets\":[{\"type\":\"text\",\"width\":24,\"height\":2,\"x\":0,\"y\":0,\"properties\":{\"markdown\":\"# OpenSearch Vector Database (collection level)\"}},{\"type\":\"metric\",\"width\":12,\"height\":6,\"x\":0,\"y\":2,\"properties\":{\"view\":\"timeSeries\",\"title\":\"OpenSearch response codes\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/AOSS\",\"2xx\",\"ClientId\",\"",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "\",\"CollectionId\",\"mycollectionid\",\"CollectionName\",\"mycollection\",{\"period\":3600,\"stat\":\"Sum\"}],[\"AWS/AOSS\",\"3xx\",\"ClientId\",\"",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "\",\"CollectionId\",\"mycollectionid\",\"CollectionName\",\"mycollection\",{\"period\":3600,\"stat\":\"Sum\"}],[\"AWS/AOSS\",\"4xx\",\"ClientId\",\"",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "\",\"CollectionId\",\"mycollectionid\",\"CollectionName\",\"mycollection\",{\"period\":3600,\"stat\":\"Sum\"}],[\"AWS/AOSS\",\"5xx\",\"ClientId\",\"",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "\",\"CollectionId\",\"mycollectionid\",\"CollectionName\",\"mycollection\",{\"period\":3600,\"stat\":\"Sum\"}]],\"yAxis\":{}}},{\"type\":\"metric\",\"width\":12,\"height\":6,\"x\":0,\"y\":8,\"properties\":{\"view\":\"timeSeries\",\"title\":\"Search Request Latency\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/AOSS\",\"SearchRequestLatency\",\"ClientId\",\"",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "\",\"CollectionId\",\"mycollectionid\",\"CollectionName\",\"mycollection\",{\"period\":3600}]],\"yAxis\":{}}},{\"type\":\"metric\",\"width\":12,\"height\":6,\"x\":12,\"y\":8,\"properties\":{\"view\":\"timeSeries\",\"title\":\"Search Request Errors\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/AOSS\",\"SearchRequestErrors\",\"ClientId\",\"",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "\",\"CollectionId\",\"mycollectionid\",\"CollectionName\",\"mycollection\",{\"period\":3600,\"stat\":\"Sum\"}]],\"yAxis\":{}}},{\"type\":\"metric\",\"width\":12,\"height\":6,\"x\":0,\"y\":14,\"properties\":{\"view\":\"timeSeries\",\"title\":\"Ingestion Request Successes\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/AOSS\",\"IngestionRequestSuccess\",\"ClientId\",\"",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "\",\"CollectionId\",\"mycollectionid\",\"CollectionName\",\"mycollection\",{\"period\":3600,\"stat\":\"Sum\"}]],\"yAxis\":{}}},{\"type\":\"metric\",\"width\":12,\"height\":6,\"x\":12,\"y\":14,\"properties\":{\"view\":\"timeSeries\",\"title\":\"Ingestion Request Rate\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/AOSS\",\"IngestionRequestRate\",\"ClientId\",\"",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "\",\"CollectionId\",\"mycollectionid\",\"CollectionName\",\"mycollection\",{\"period\":3600}]],\"yAxis\":{}}},{\"type\":\"metric\",\"width\":12,\"height\":6,\"x\":0,\"y\":20,\"properties\":{\"view\":\"timeSeries\",\"title\":\"Ingestion Request Latency\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/AOSS\",\"IngestionRequestLatency\",\"ClientId\",\"",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "\",\"CollectionId\",\"mycollectionid\",\"CollectionName\",\"mycollection\",{\"period\":3600}]],\"yAxis\":{}}},{\"type\":\"metric\",\"width\":12,\"height\":6,\"x\":12,\"y\":20,\"properties\":{\"view\":\"timeSeries\",\"title\":\"Ingestion Request Errors\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/AOSS\",\"IngestionRequestErrors\",\"ClientId\",\"",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "\",\"CollectionId\",\"mycollectionid\",\"CollectionName\",\"mycollection\",{\"period\":3600,\"stat\":\"Sum\"}]],\"yAxis\":{}}},{\"type\":\"text\",\"width\":24,\"height\":2,\"x\":0,\"y\":26,\"properties\":{\"markdown\":\"# OpenSearch Vector Database (index level)\"}},{\"type\":\"metric\",\"width\":12,\"height\":6,\"x\":0,\"y\":28,\"properties\":{\"view\":\"timeSeries\",\"title\":\"Deleted documents\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/AOSS\",\"DeletedDocuments\",\"ClientId\",\"",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "\",\"CollectionId\",\"mycollectionid\",\"CollectionName\",\"mycollection\",\"IndexId\",\"mydatasourceid\",\"IndexName\",\"myindexid\",{\"period\":3600,\"stat\":\"Sum\"}]],\"yAxis\":{}}},{\"type\":\"metric\",\"width\":12,\"height\":6,\"x\":12,\"y\":28,\"properties\":{\"view\":\"timeSeries\",\"title\":\"Searchable documents\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/AOSS\",\"SearchableDocuments\",\"ClientId\",\"",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "\",\"CollectionId\",\"mycollectionid\",\"CollectionName\",\"mycollection\",\"IndexId\",\"mydatasourceid\",\"IndexName\",\"myindexid\",{\"period\":3600,\"stat\":\"Sum\"}]],\"yAxis\":{}}},{\"type\":\"metric\",\"width\":12,\"height\":6,\"x\":0,\"y\":34,\"properties\":{\"view\":\"timeSeries\",\"title\":\"S3 storage consumption\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/AOSS\",\"StorageUsedInS3\",\"ClientId\",\"",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "\",\"CollectionId\",\"mycollectionid\",\"CollectionName\",\"mycollection\",\"IndexId\",\"mydatasourceid\",\"IndexName\",\"myindexid\",{\"period\":3600,\"stat\":\"Sum\"}]],\"yAxis\":{}}},{\"type\":\"metric\",\"width\":12,\"height\":6,\"x\":12,\"y\":34,\"properties\":{\"view\":\"timeSeries\",\"title\":\"Document ingestion rate\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/AOSS\",\"IngestionDocumentRate\",\"ClientId\",\"",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "\",\"CollectionId\",\"mycollectionid\",\"CollectionName\",\"mycollection\",\"IndexId\",\"mydatasourceid\",\"IndexName\",\"myindexid\",{\"period\":3600,\"stat\":\"Sum\"}]],\"yAxis\":{}}},{\"type\":\"metric\",\"width\":12,\"height\":6,\"x\":0,\"y\":40,\"properties\":{\"view\":\"timeSeries\",\"title\":\"Ingestion errors\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/AOSS\",\"IngestionDocumentErrors\",\"ClientId\",\"",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "\",\"CollectionId\",\"mycollectionid\",\"CollectionName\",\"mycollection\",\"IndexId\",\"mydatasourceid\",\"IndexName\",\"myindexid\",{\"period\":3600,\"stat\":\"Sum\"}]],\"yAxis\":{}}},{\"type\":\"metric\",\"width\":12,\"height\":6,\"x\":12,\"y\":40,\"properties\":{\"view\":\"timeSeries\",\"title\":\"Document data rate\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/AOSS\",\"IngestionDataRate\",\"ClientId\",\"",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "\",\"CollectionId\",\"mycollectionid\",\"CollectionName\",\"mycollection\",\"IndexId\",\"mydatasourceid\",\"IndexName\",\"myindexid\",{\"period\":3600,\"stat\":\"Sum\"}]],\"yAxis\":{}}}]}"
+      ]
+     ]
+    },
+    "DashboardName": {
+     "Fn::Join": [
+      "",
+      [
+       "AossMetricsDashboard",
+       {
+        "Ref": "AWS::StackId"
+       }
+      ]
+     ]
+    }
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
