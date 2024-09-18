@@ -128,6 +128,16 @@ The tree node.
 
 ***
 
+### topicConfigPropertyList()
+
+> **topicConfigPropertyList**(): `TopicConfigProperty`[]
+
+#### Returns
+
+`TopicConfigProperty`[]
+
+***
+
 ### toString()
 
 > **toString**(): `string`
@@ -141,16 +151,6 @@ Returns a string representation of this construct.
 #### Inherited from
 
 `Construct.toString`
-
-***
-
-### topicConfigPropertyList()
-
-> **topicConfigPropertyList**(): `TopicConfigProperty`[]
-
-#### Returns
-
-`TopicConfigProperty`[]
 
 ***
 
