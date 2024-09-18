@@ -35,7 +35,6 @@ def get_db_connection(db_name):
                 db_name = credentials['dbname']
                 db_uri = f"mysql+pymysql://{db_user}:{db_password}@{db_host}/{db_name}"
                 
-                print(f"db_uri :: {db_uri}")
                 return SQLDatabase.from_uri(db_uri, sample_rows_in_table_info=3)
 
 
@@ -56,13 +55,10 @@ def get_secret():
     get_secret_value_response = client.get_secret_value(
         SecretId=secret_arn
     )
-    
-    print(f"get_secret_value_response :: {get_secret_value_response}")
 
     if 'SecretString' in get_secret_value_response:
         secret = get_secret_value_response['SecretString']
     else:
         logger.error("Error: Unable to retrieve texttosqldbsecret value")
-    
-    logger.info(f'secret :: {secret}')  
+      
     return json.loads(secret)
