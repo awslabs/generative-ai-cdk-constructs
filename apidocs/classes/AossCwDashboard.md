@@ -68,22 +68,6 @@ The tree node.
 
 ## Methods
 
-### addCollectionMonitoringByCollection()
-
-> **addCollectionMonitoringByCollection**(`collection`, `props`): `void`
-
-#### Parameters
-
-• **collection**: `CfnCollection`
-
-• **props**: [`CollectionMonitoringProps`](../interfaces/CollectionMonitoringProps.md)
-
-#### Returns
-
-`void`
-
-***
-
 ### addCollectionMonitoringbyAttributes()
 
 > **addCollectionMonitoringbyAttributes**(`collectionName`, `collectionId`, `props`): `void`
@@ -93,6 +77,22 @@ The tree node.
 • **collectionName**: `string`
 
 • **collectionId**: `string`
+
+• **props**: [`CollectionMonitoringProps`](../interfaces/CollectionMonitoringProps.md)
+
+#### Returns
+
+`void`
+
+***
+
+### addCollectionMonitoringByCollection()
+
+> **addCollectionMonitoringByCollection**(`collection`, `props`): `void`
+
+#### Parameters
+
+• **collection**: `CfnCollection`
 
 • **props**: [`CollectionMonitoringProps`](../interfaces/CollectionMonitoringProps.md)
 

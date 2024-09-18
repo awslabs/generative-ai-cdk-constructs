@@ -51,7 +51,6 @@ def get_secret():
         region_name=session.region_name
     )
 
-    print(f"secret_arn :: {secret_arn}")
     get_secret_value_response = client.get_secret_value(
         SecretId=secret_arn
     )
