@@ -1,4 +1,4 @@
-# aws-bedrock-cw-dashboard
+# aws-aoss-cw-dashboard
 
 <!--BEGIN STABILITY BANNER-->
 
@@ -22,7 +22,7 @@
 
 ## Table of contents
 
-- [aws-bedrock-cw-dashboard](#aws-bedrock-cw-dashboard)
+- [aws-aoss-cw-dashboard](#aws-aoss-cw-dashboard)
   - [Table of contents](#table-of-contents)
   - [Credits](#credits)
   - [Overview](#overview)
@@ -38,13 +38,11 @@
 
 ## Credits
 
-Thanks to @jimini55, @scoropeza, @PaulVincent707, @Ishanrpatel, @lowelljehu and @rddefauw for the initial version of this construct.
+Thanks to @rddefauw for the initial version of this construct.
 
 ## Overview
 
-This construct provides an Amazon CloudWatch dashboard to monitor metrics on Amazon Bedrock models usage. The specific list of metrics created by this construct is available [here](#default-properties).
-
-> **Note:** Native metrics for Amazon Bedrock don't support dimensions beyond model ID. If a single account is hosting multiple workloads in the same region, the Bedrock metrics would be aggregated across all workloads.
+This construct provides an Amazon CloudWatch dashboard to monitor metrics on Amazon OpenSearch Serverless usage. The specific list of metrics created by this construct is available [here](#default-properties). More information about the metrics displayed can be found [here](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/monitoring-cloudwatch.html).
 
 Here is a minimal deployable pattern definition:
 
@@ -53,33 +51,16 @@ TypeScript
 ```typescript
 import { Construct } from 'constructs';
 import { Stack, StackProps, Aws } from 'aws-cdk-lib';
-import { BedrockCwDashboard } from '@cdklabs/generative-ai-cdk-constructs';
+import { AossCwDashboard } from '@cdklabs/generative-ai-cdk-constructs';
 
-const bddashboard = new BedrockCwDashboard(this, 'BedrockDashboardConstruct', {});
+const bddashboard = new AossCwDashboard(this, 'AossDashboardConstruct', {});
 
-// provides monitoring for a specific model
-bddashboard.addModelMonitoring('claude3haiku', 'anthropic.claude-3-haiku-20240307-v1:0', {});
-
-// provides monitoring of all models
-bddashboard.addAllModelsMonitoring({});
-```
-
-Optionally, you can also use the [Bedrock models](../../../cdk-lib/bedrock/models.ts) to access the modelId:
-
-```typescript
-
-import { bedrock, BedrockCwDashboard } from '@cdklabs/generative-ai-cdk-constructs';
-
-...
-
-// provides monitoring for a specific model
-bddashboard.addModelMonitoring(
-    'claude3haiku', 
-    bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0.modelId, 
-    {}
-);
-
-...
+// provides monitoring for a specific collection
+bddashboard.addCollectionMonitoringbyAttributes(
+        "mycollection",
+        "mycollectionid",
+        {},
+    );
 
 ```
 
@@ -87,31 +68,29 @@ Python
 
 ```python
 from constructs import Construct
-from cdklabs.generative_ai_cdk_constructs import BedrockCwDashboard
+from cdklabs.generative_ai_cdk_constructs import AossCwDashboard
 
-bddashboard = BedrockCwDashboard(self, 'BedrockDashboardConstruct')
+aossdashboard = AossCwDashboard(self, 'AossDashboardConstruct')
 
 # provides monitoring for a specific model
-bddashboard.add_model_monitoring(
-    model_name: 'claude3haiku',
-    model_id: 'anthropic.claude-3-haiku-20240307-v1:0'
+aossdashboard.add_collection_monitoringby_attributes(
+    collection_name: 'mycollection',
+    collection_id: 'mycollectionid'
 )
 
-# provides monitoring of all models
-bddashboard.add_all_models_monitoring()
 ```
 
 ## Initializer
 
 ```
-new BedrockCwDashboard(scope: Construct, id: string, props: BedrockCwDashboardProps)
+new AossCwDashboard(scope: Construct, id: string, props: AossCwDashboardProps)
 ```
 
 Parameters
 
 - scope [Construct](https://docs.aws.amazon.com/cdk/api/v2/docs/constructs.Construct.html)
 - id string
-- props BedrockCwDashboardProps
+- props AossCwDashboardProps
 
 ## Pattern Construct Props
 
@@ -119,7 +98,7 @@ Parameters
 | **Name**                               | **Type**                                                                                                                                               | **Required**                                              | **Description**                                                                                                                                                                                                                                                                                                                                                                                               |
 | :--------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | existingDashboard               | [aws_cloudwatch.Dashboard](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cloudwatch.Dashboard.html)                                | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing dashboard to be used by the construct. **Mutually exclusive** with ```dashboardName``` - only one should be specified.                                                                                                                                                                                                                                                           |
-| dashboardName | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | A name for the dashboard which will be created. If not provided, the construct will create a new dashboard named 'BedrockMetricsDashboard'. **Mutually exclusive** with ```existingDashboard``` - only one should be specified.                                                                                                                                                                                                                                                            |
+| dashboardName | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | A name for the dashboard which will be created. If not provided, the construct will create a new dashboard named 'AossMetricsDashboard'. **Mutually exclusive** with ```existingDashboard``` - only one should be specified.                                                                                                                                                                                                                                                            |
 
 ## Pattern Properties
 
@@ -130,21 +109,37 @@ Parameters
 
 ## Methods
 
-### addModelMonitoring()
+### addCollectionMonitoringbyAttributes()
 
-Provide metrics for a specific model id in Bedrock
+Provide metrics for a specific Amazon OpenSearch Serverless collection
 
-@param {string} modelName - Model name as it will appear in the dashboard row widget.
+@param {string} collectionName - Name of the aoss collection to monitor.
 
-@param {string} modelId - Bedrock model id as defined in https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html
+@param {string} collectionId - Id of the aoss collection to monitor.
 
-@param {ModelMonitoringProps} props - user provided props for the monitoring.
+@param {CollectionMonitoringProps} props - user provided props for monitoring.
 
-### addAllModelsMonitoring()
+### addCollectionMonitoringByCollection()
 
-Add a new row to the dashboard providing metrics across all model ids in Bedrock 
+Provide metrics for a specific Amazon OpenSearch Serverless collection
 
-@param {ModelMonitoringProps} props - user provided props for the monitoring.
+@param {string} collection - CfnCollection to monitor.
+
+@param {CollectionMonitoringProps} props - user provided props for monitoring.
+
+### addIndexMonitoringByAtributes()
+
+Add a new row to the dashboard providing metrics for a specific Amazon OpenSearch Serverless index
+
+@param {string} collectionName - Name of the aoss collection to monitor.
+
+@param {string} collectionId - Id of the aoss collection to monitor.
+
+@param {string} IndexName - Name of the aoss index to monitor.
+
+@param {string} IndexId - Id of the aoss index to monitor.
+
+@param {IndexMonitoringProps} props - user provided props for monitoring.
 
 ## Default properties
 
@@ -152,27 +147,30 @@ Out-of-the-box implementation of the construct without any override will set the
 
 ### Dashboard
 
-- Dashboard name is ```BedrockMetricsDashboard```
+- Dashboard name is ```AossMetricsDashboard```
 
-### addModelMonitoring
+### addCollectionMonitoringbyAttributes, addCollectionMonitoringByCollection
 
 - Period (the period over which the specified statistic is applied) is set to one hour
+- ClientId
 - The following metrics are displayed for the model specified:
-    - InputTokenCount
-    - OutputTokenCount
-    - InvocationLatency (min, max, average)
-    - Invocations (sample count)
-    - InvocationClientErrors
+    - OpenSearch response codes
+    - Search Request Latency
+    - SearchRequestErrors
+    - Ingestion Request Successes
+    - Ingestion Request Rate
+    - Ingestion Request Latency
+    - Ingestion Request Errors
 
 ### addAllModelsMonitoring
 
 - Period (the period over which the specified statistic is applied) is set to one hour
+- ClientId
 - The following metrics are displayed for all models:
-    - InputTokenCount
-    - OutputTokenCount
-    - InvocationLatency (min, max, average)
-    - Invocations (sample count)
-    - InvocationClientErrors
+    - Deleted documents
+    - Searchable documents
+    - S3 storage consumption
+    - Document ingestion rate
 
 ## Cost
 
@@ -196,10 +194,7 @@ AWS CloudTrail provides a number of security features to consider as you develop
 
 ## Supported AWS Regions
 
-This solution depends uses the Amazon Bedrock and Amazon CloudWatch services, which are not currently available in all AWS Regions. You must launch this construct in an AWS Region where these services are available. For the most current availability of AWS services by Region, see the [AWS Regional Services List](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/).
-
-> **Note**
-> You need to explicity enable access to models before they are available for use in Amazon Bedrock. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
+This solution depends uses the Amazon OpenSearch Serverless and Amazon CloudWatch services, which are not currently available in all AWS Regions. You must launch this construct in an AWS Region where these services are available. For the most current availability of AWS services by Region, see the [AWS Regional Services List](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/).
 
 ## Quotas
 
