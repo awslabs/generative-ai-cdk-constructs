@@ -65,6 +65,15 @@ test/cdk-lib/bedrock/integ-tests/prompts.integ.snapshot/manifest.json
 test/cdk-lib/bedrock/integ-tests/prompts.integ.snapshot/**/manifest.json
 test/cdk-lib/bedrock/integ-tests/prompts.integ.snapshot/tree.json
 test/cdk-lib/bedrock/integ-tests/prompts.integ.snapshot/**/tree.json
+test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp
+test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/asset.*
+test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/**/asset.*
+test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/cdk.out
+test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/**/cdk.out
+test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/manifest.json
+test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/**/manifest.json
+test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/tree.json
+test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/**/tree.json
 !/.github/workflows/github-merit-badger.yml
 !/.github/workflows/monthly-repo-metrics.yml
 !/.github/workflows/auto-approve.yml

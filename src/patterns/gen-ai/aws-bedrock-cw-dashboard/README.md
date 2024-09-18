@@ -22,7 +22,7 @@
 
 ## Table of contents
 
-- [aws-bedrock-cw-dashboard](#aws-qa-appsync-opensearch)
+- [aws-bedrock-cw-dashboard](#aws-bedrock-cw-dashboard)
   - [Table of contents](#table-of-contents)
   - [Credits](#credits)
   - [Overview](#overview)

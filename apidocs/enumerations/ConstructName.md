@@ -55,6 +55,12 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 
 ***
 
+### AWSTEXTTOSQL
+
+> **AWSTEXTTOSQL**: `"C11"`
+
+***
+
 ### AWSWEBCRAWLER
 
 > **AWSWEBCRAWLER**: `"C10"`
