@@ -62,7 +62,7 @@ The scope of the crawling.
 #### Default
 
 ```ts
-CrawlingScope.HOST_ONLY
+- CrawlingScope.DEFAULT
 ```
 
 #### Inherited from

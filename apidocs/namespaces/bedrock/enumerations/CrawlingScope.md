@@ -6,7 +6,18 @@
 
 # Enumeration: CrawlingScope
 
+The scope of the crawling.
+
 ## Enumeration Members
+
+### DEFAULT
+
+> **DEFAULT**: `"DEFAULT"`
+
+Limit crawling to web pages that belong to the same host and with the
+same initial URL path.
+
+***
 
 ### HOST\_ONLY
 

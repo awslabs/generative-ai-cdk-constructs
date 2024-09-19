@@ -1,6 +1,6 @@
 [**@cdklabs/generative-ai-cdk-constructs**](../../README.md) • **Docs**
 
----
+***
 
 [@cdklabs/generative-ai-cdk-constructs](../../README.md) / bedrock
 

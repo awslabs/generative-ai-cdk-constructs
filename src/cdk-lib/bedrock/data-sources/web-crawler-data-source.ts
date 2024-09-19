@@ -18,6 +18,9 @@ import { DataSourceNew, DataSourceAssociationProps, DataSourceType } from './bas
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
 import { KnowledgeBase } from '../knowledge-base';
 
+/**
+ * The scope of the crawling.
+ */
 export enum CrawlingScope {
   /**
    * Crawls only web pages that belong to the same host or primary domain.
@@ -32,10 +35,14 @@ export enum CrawlingScope {
   /**
    * Limit crawling to web pages that belong to the same host and with the
    * same initial URL path.
-   * @warning bug in resource handler - not specifying crawling scope makes it fail but resource creation succeeds.
    */
-  //DEFAULT = ""
+  DEFAULT = "DEFAULT"
 }
+
+/**
+ * The filters (regular expression patterns) to include or exclude in the crawling 
+ * in accordance with your scope. 
+ */
 export interface CrawlingFilters {
   /**
    * Include patterns.
@@ -58,7 +65,7 @@ export interface WebCrawlerDataSourceAssociationProps extends DataSourceAssociat
   readonly sourceUrls: string[];
   /**
    * The scope of the crawling.
-   * @default CrawlingScope.HOST_ONLY
+   * @default - CrawlingScope.DEFAULT
    */
   readonly crawlingScope?: CrawlingScope;
   /**
@@ -155,7 +162,7 @@ export class WebCrawlerDataSource extends DataSourceNew {
               crawlerLimits: {
                 rateLimit: this.crawlingRate,
               },
-              scope: props.crawlingScope ?? CrawlingScope.HOST_ONLY,
+              scope: (props.crawlingScope !== CrawlingScope.DEFAULT) ? props.crawlingScope : undefined, //?? CrawlingScope.HOST_ONLY,
               inclusionFilters: props.filters?.includePatterns,
               exclusionFilters: props.filters?.excludePatterns,
 

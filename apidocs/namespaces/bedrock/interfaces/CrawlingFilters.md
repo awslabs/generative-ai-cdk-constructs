@@ -6,6 +6,9 @@
 
 # Interface: CrawlingFilters
 
+The filters (regular expression patterns) to include or exclude in the crawling 
+in accordance with your scope.
+
 ## Properties
 
 ### excludePatterns?
