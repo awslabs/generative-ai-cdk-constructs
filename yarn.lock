@@ -41,9 +41,9 @@
     md5 "^2.3.0"
 
 "@aws-cdk/cloud-assembly-schema@^36.0.5":
-  version "36.1.1"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/cloud-assembly-schema/-/cloud-assembly-schema-36.1.1.tgz#3fd870d4f422a34a50054df1c41e74a27e9f7b14"
-  integrity sha512-yCF4uTJ3jMtS3e/KKWYVgK2Y6YgdFE6LBQ/7RAAUBufdu+f0oJWFvTjPJPCms78dE71vmeYPuKprLpIsOOL1HQ==
+  version "36.3.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/cloud-assembly-schema/-/cloud-assembly-schema-36.3.0.tgz#17aeb389cbbff72f2b8d5b3b25d8d21d6ec3f0ef"
+  integrity sha512-mLSYgcMFTNCXrGAD7xob95p9s47/7WwEWUJiexxM46H2GxiijhlhLQJs31AS5uRRP6Cx1DLEu4qayKAUOOVGrw==
   dependencies:
     jsonschema "^1.4.1"
     semver "^7.6.3"
@@ -2314,9 +2314,9 @@ ejs@^3.1.10:
     jake "^10.8.5"
 
 electron-to-chromium@^1.5.4:
-  version "1.5.24"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.24.tgz#b3cd2f71b7a84bac340d862e3b7b0aadf48478de"
-  integrity sha512-0x0wLCmpdKFCi9ulhvYZebgcPmHTkFVUfU2wzDykadkslKwT4oAmDTHEKLnlrDsMGZe4B+ksn8quZfZjYsBetA==
+  version "1.5.25"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.25.tgz#492ade1cde401332b9b75aa0c55fd5e1550ca66c"
+  integrity sha512-kMb204zvK3PsSlgvvwzI3wBIcAw15tRkYk+NQdsjdDtcQWTp2RABbMQ9rUBy8KNEOM+/E6ep+XC3AykiWZld4g==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -5775,15 +5775,15 @@ typedoc@^0.26.7:
     shiki "^1.16.2"
     yaml "^2.5.1"
 
-typescript@^5.5.4:
+typescript@^5.6.2:
   version "5.6.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.6.2.tgz#d1de67b6bef77c41823f822df8f0b3bcff60a5a0"
   integrity sha512-NW8ByodCSNCwZeghjN3o+JX5OFH0Ojg6sadjEKY4huZ52TqbJTJnDo5+Tw98lSy63NZvi4n+ez5m2u5d4PkZyw==
 
 typescript@next:
-  version "5.7.0-dev.20240917"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.0-dev.20240917.tgz#bee5cc2615b28aaf54f9e267a07aeac5ad49b3bc"
-  integrity sha512-LoeyRa9RbB6lMasZvBmepDPrI6KNHURSleqbQ4BL4lxvXbCAQkMgmRzqyjA2DJE0ytuj5OEPFU5k/g3f9GaQKA==
+  version "5.7.0-dev.20240918"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.0-dev.20240918.tgz#f94e82cc8c8d35c5c258fc11bd54f973a463c996"
+  integrity sha512-+6MNe6JoSuFM5x/Rn79X8ZOUqjCUiElv6y7ZWjekE79nQU7I0UzIlPpkvw/m83Q62tTHGg3tqRIKhj0lCblZIw==
 
 typescript@~5.4:
   version "5.4.5"
