@@ -183,6 +183,10 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
       ...this.environment,
     };
 
+    if (environment.SAGEMAKER_SUBMIT_DIRECTORY) {
+      delete environment.SAGEMAKER_SUBMIT_DIRECTORY;
+    }
+
     return environment;
   }
 
@@ -195,7 +199,8 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
     vpcConfig: sagemaker.CfnModel.VpcConfigProperty | undefined,
   ) {
     const key = this.spec.prepackedArtifactKey ?? this.spec.artifactKey;
-    const bucket = JumpStartConstants.JUMPSTART_LAUNCHED_REGIONS[this.region]?.contentBucket;
+    const bucket = this.spec.gatedBucket ? JumpStartConstants.JUMPSTART_LAUNCHED_REGIONS[this.region]?.gatedContentBucket :
+      JumpStartConstants.JUMPSTART_LAUNCHED_REGIONS[this.region]?.contentBucket;
     if (!bucket) {
       throw new Error(`JumpStart is not available in the region ${this.region}.`);
     }
@@ -224,7 +229,7 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
       executionRoleArn: this.role.roleArn,
       enableNetworkIsolation: true,
       primaryContainer: isArtifactCompressed ? {
-      // True: Artifact is a tarball
+        // True: Artifact is a tarball
         image,
         modelDataUrl: modelArtifactUrl,
         environment,
@@ -251,6 +256,18 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
         {
           key: 'modelVersion',
           value: this.spec.version,
+        },
+        {
+          key: 'sagemaker-studio:jumpstart-model-id',
+          value: this.spec.modelId,
+        },
+        {
+          key: 'sagemaker-studio:jumpstart-model-version',
+          value: this.spec.version,
+        },
+        {
+          key: 'sagemaker-studio:jumpstart-hub-name',
+          value: 'SageMakerPublicHub',
         },
       ],
       vpcConfig: vpcConfig,
