@@ -217,7 +217,9 @@ describe('S3 Data Source', () => {
           ParsingStrategy: 'BEDROCK_FOUNDATION_MODEL',
           BedrockFoundationModelConfiguration: {
             ModelArn: Match.anyValue(),
-            ParsingPrompt: Match.stringLikeRegexp('Transcribe the text content.*'),
+            ParsingPrompt: {
+              ParsingPromptText: Match.stringLikeRegexp('Transcribe the text content.*'),
+            },
           },
         },
       },
