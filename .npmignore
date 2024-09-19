@@ -25,6 +25,8 @@ tsconfig.tsbuildinfo
 test/cdk-lib/bedrock/integ-tests/data-sources.integ.snapshot
 test/cdk-lib/bedrock/integ-tests/.tmp
 test/cdk-lib/bedrock/integ-tests/prompts.integ.snapshot
+test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp
+test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot
 /docs/
 header.js
 .eslintrc.json

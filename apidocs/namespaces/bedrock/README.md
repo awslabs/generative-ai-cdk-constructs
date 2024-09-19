@@ -1,6 +1,6 @@
 [**@cdklabs/generative-ai-cdk-constructs**](../../README.md) • **Docs**
 
-***
+---
 
 [@cdklabs/generative-ai-cdk-constructs](../../README.md) / bedrock
 
@@ -89,8 +89,8 @@
 - [HierarchicalChunkingProps](interfaces/HierarchicalChunkingProps.md)
 - [IAgentAlias](interfaces/IAgentAlias.md)
 - [IDataSource](interfaces/IDataSource.md)
-- [IPrompt](interfaces/IPrompt.md)
 - [InferenceConfiguration](interfaces/InferenceConfiguration.md)
+- [IPrompt](interfaces/IPrompt.md)
 - [KnowledgeBaseProps](interfaces/KnowledgeBaseProps.md)
 - [LambdaCustomTransformationProps](interfaces/LambdaCustomTransformationProps.md)
 - [PromptConfiguration](interfaces/PromptConfiguration.md)
