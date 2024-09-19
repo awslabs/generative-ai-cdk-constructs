@@ -164,6 +164,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      issues: write
     if: needs.release.outputs.tag_exists != 'true' && needs.release.outputs.latest_commit == github.sha
     steps:
       - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
@@ -198,6 +199,19 @@ jobs:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_STAGING_PROFILE_ID: ${{ secrets.MAVEN_STAGING_PROFILE_ID }}
         run: npx -p publib@latest publib-maven
+      - name: Extract Version
+        id: extract-version
+        if: ${{ failure() }}
+        run: echo "VERSION=$(cat dist/version.txt)" >> $GITHUB_OUTPUT
+      - name: Create Issue
+        if: ${{ failure() }}
+        uses: imjohnbo/issue-bot@3daae12aa54d38685d7ff8459fc8a2aee8cea98b
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          labels: gh-workflow-failing
+          title: Publishing v${{ steps.extract-version.outputs.VERSION }} to Maven Central failed
+          body: See https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
   release_pypi:
     name: Publish to PyPI
     needs: release
