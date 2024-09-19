@@ -64,54 +64,6 @@ ml.c4.xlarge
 
 ***
 
-### ML\_C5D\_18XLARGE
-
-> `readonly` `static` **ML\_C5D\_18XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
-
-ml.c5d.18xlarge
-
-***
-
-### ML\_C5D\_2XLARGE
-
-> `readonly` `static` **ML\_C5D\_2XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
-
-ml.c5d.2xlarge
-
-***
-
-### ML\_C5D\_4XLARGE
-
-> `readonly` `static` **ML\_C5D\_4XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
-
-ml.c5d.4xlarge
-
-***
-
-### ML\_C5D\_9XLARGE
-
-> `readonly` `static` **ML\_C5D\_9XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
-
-ml.c5d.9xlarge
-
-***
-
-### ML\_C5D\_LARGE
-
-> `readonly` `static` **ML\_C5D\_LARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
-
-ml.c5d.large
-
-***
-
-### ML\_C5D\_XLARGE
-
-> `readonly` `static` **ML\_C5D\_XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
-
-ml.c5d.xlarge
-
-***
-
 ### ML\_C5\_18XLARGE
 
 > `readonly` `static` **ML\_C5\_18XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
@@ -157,6 +109,54 @@ ml.c5.large
 > `readonly` `static` **ML\_C5\_XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.c5.xlarge
+
+***
+
+### ML\_C5D\_18XLARGE
+
+> `readonly` `static` **ML\_C5D\_18XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+ml.c5d.18xlarge
+
+***
+
+### ML\_C5D\_2XLARGE
+
+> `readonly` `static` **ML\_C5D\_2XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+ml.c5d.2xlarge
+
+***
+
+### ML\_C5D\_4XLARGE
+
+> `readonly` `static` **ML\_C5D\_4XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+ml.c5d.4xlarge
+
+***
+
+### ML\_C5D\_9XLARGE
+
+> `readonly` `static` **ML\_C5D\_9XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+ml.c5d.9xlarge
+
+***
+
+### ML\_C5D\_LARGE
+
+> `readonly` `static` **ML\_C5D\_LARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+ml.c5d.large
+
+***
+
+### ML\_C5D\_XLARGE
+
+> `readonly` `static` **ML\_C5D\_XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+ml.c5d.xlarge
 
 ***
 
@@ -448,54 +448,6 @@ ml.m4.xlarge
 
 ***
 
-### ML\_M5D\_12XLARGE
-
-> `readonly` `static` **ML\_M5D\_12XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
-
-ml.m5d.12xlarge
-
-***
-
-### ML\_M5D\_24XLARGE
-
-> `readonly` `static` **ML\_M5D\_24XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
-
-ml.m5d.24xlarge
-
-***
-
-### ML\_M5D\_2XLARGE
-
-> `readonly` `static` **ML\_M5D\_2XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
-
-ml.m5d.2xlarge
-
-***
-
-### ML\_M5D\_4XLARGE
-
-> `readonly` `static` **ML\_M5D\_4XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
-
-ml.m5d.4xlarge
-
-***
-
-### ML\_M5D\_LARGE
-
-> `readonly` `static` **ML\_M5D\_LARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
-
-ml.m5d.large
-
-***
-
-### ML\_M5D\_XLARGE
-
-> `readonly` `static` **ML\_M5D\_XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
-
-ml.m5d.xlarge
-
-***
-
 ### ML\_M5\_12XLARGE
 
 > `readonly` `static` **ML\_M5\_12XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
@@ -541,6 +493,54 @@ ml.m5.large
 > `readonly` `static` **ML\_M5\_XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.m5.xlarge
+
+***
+
+### ML\_M5D\_12XLARGE
+
+> `readonly` `static` **ML\_M5D\_12XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+ml.m5d.12xlarge
+
+***
+
+### ML\_M5D\_24XLARGE
+
+> `readonly` `static` **ML\_M5D\_24XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+ml.m5d.24xlarge
+
+***
+
+### ML\_M5D\_2XLARGE
+
+> `readonly` `static` **ML\_M5D\_2XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+ml.m5d.2xlarge
+
+***
+
+### ML\_M5D\_4XLARGE
+
+> `readonly` `static` **ML\_M5D\_4XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+ml.m5d.4xlarge
+
+***
+
+### ML\_M5D\_LARGE
+
+> `readonly` `static` **ML\_M5D\_LARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+ml.m5d.large
+
+***
+
+### ML\_M5D\_XLARGE
+
+> `readonly` `static` **ML\_M5D\_XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+ml.m5d.xlarge
 
 ***
 
@@ -600,54 +600,6 @@ ml.p4d.24xlarge
 
 ***
 
-### ML\_R5D\_12XLARGE
-
-> `readonly` `static` **ML\_R5D\_12XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
-
-ml.r5d.12xlarge
-
-***
-
-### ML\_R5D\_24XLARGE
-
-> `readonly` `static` **ML\_R5D\_24XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
-
-ml.r5d.24xlarge
-
-***
-
-### ML\_R5D\_2XLARGE
-
-> `readonly` `static` **ML\_R5D\_2XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
-
-ml.r5d.2xlarge
-
-***
-
-### ML\_R5D\_4XLARGE
-
-> `readonly` `static` **ML\_R5D\_4XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
-
-ml.r5d.4xlarge
-
-***
-
-### ML\_R5D\_LARGE
-
-> `readonly` `static` **ML\_R5D\_LARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
-
-ml.r5d.large
-
-***
-
-### ML\_R5D\_XLARGE
-
-> `readonly` `static` **ML\_R5D\_XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
-
-ml.r5d.xlarge
-
-***
-
 ### ML\_R5\_12XLARGE
 
 > `readonly` `static` **ML\_R5\_12XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
@@ -693,6 +645,54 @@ ml.r5.large
 > `readonly` `static` **ML\_R5\_XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ml.r5.xlarge
+
+***
+
+### ML\_R5D\_12XLARGE
+
+> `readonly` `static` **ML\_R5D\_12XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+ml.r5d.12xlarge
+
+***
+
+### ML\_R5D\_24XLARGE
+
+> `readonly` `static` **ML\_R5D\_24XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+ml.r5d.24xlarge
+
+***
+
+### ML\_R5D\_2XLARGE
+
+> `readonly` `static` **ML\_R5D\_2XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+ml.r5d.2xlarge
+
+***
+
+### ML\_R5D\_4XLARGE
+
+> `readonly` `static` **ML\_R5D\_4XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+ml.r5d.4xlarge
+
+***
+
+### ML\_R5D\_LARGE
+
+> `readonly` `static` **ML\_R5D\_LARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+ml.r5d.large
+
+***
+
+### ML\_R5D\_XLARGE
+
+> `readonly` `static` **ML\_R5D\_XLARGE**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+
+ml.r5d.xlarge
 
 ***
 

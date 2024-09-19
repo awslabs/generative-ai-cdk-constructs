@@ -17,7 +17,7 @@ import { CfnTag, aws_bedrock as bedrock } from 'aws-cdk-lib';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 
-import { ContentPolicyConfig, ContentPolicyConfigProps } from './content-policy';
+import { ContentPolicyConfig, ContentPolicyConfigProps, ContextualGroundingPolicyConfigProps } from './content-policy';
 import { GuardrailVersion } from './guardrail-version';
 import { SensitiveInformationPolicyConfig, SensitiveInformationPolicyConfigProps } from './pii-list';
 import { Topic } from './topic-list';
@@ -45,6 +45,11 @@ export interface GuardrailProps {
     * List of content filter configs in content policy.
     */
   readonly filtersConfig?: ContentPolicyConfigProps[];
+
+  /**
+    * Contextual grounding policy config for a guardrail.
+    */
+  readonly contextualGroundingfiltersConfig?: ContextualGroundingPolicyConfigProps[];
 
   /**
     * PII fields which needs to be masked.
@@ -118,7 +123,7 @@ export class Guardrail extends Construct {
       enableKeyRotation: true,
     }).keyArn;
 
-    const defaultBlockedInputMessaging ='Sorry, your query voilates our usage policy.';
+    const defaultBlockedInputMessaging = 'Sorry, your query voilates our usage policy.';
     const defaultBlockedOutputsMessaging = 'Sorry, I am unable to answer your question because of our usage policy.';
 
     this.guardrailInstance = new bedrock.CfnGuardrail(this, 'MyGuardrail', {
@@ -132,6 +137,16 @@ export class Guardrail extends Construct {
       },
     });
 
+    if (props.contextualGroundingfiltersConfig) {
+      this.guardrailInstance.contextualGroundingPolicyConfig = {
+        filtersConfig:
+          props.contextualGroundingfiltersConfig.map((prop) => ({
+            type: prop.filtersConfigType,
+            threshold: prop.threshold,
+          })),
+      };
+    }
+
     this.guardrailVersion = this.guardrailInstance.attrVersion;
     this.guardrailId = this.guardrailInstance.attrGuardrailId;
 
@@ -142,7 +157,7 @@ export class Guardrail extends Construct {
     guardrailRegexesConfig : bedrock.CfnGuardrail.RegexConfigProperty) {
 
     if (props) {
-      this.guardrailInstance.sensitiveInformationPolicyConfig=
+      this.guardrailInstance.sensitiveInformationPolicyConfig =
     {
       piiEntitiesConfig: new SensitiveInformationPolicyConfig(this, 'PII', props).piiConfigList,
       regexesConfig: [guardrailRegexesConfig],
@@ -150,6 +165,20 @@ export class Guardrail extends Construct {
     } else {
       throw new Error('No guardrailPiiEntityConfig or guardrailRegexesConfig is set in GuardrailProps.');
 
+    }
+  }
+
+  public addContextualGroundingPolicyConfig( props: ContextualGroundingPolicyConfigProps[]) {
+    if (props) {
+      this.guardrailInstance.contextualGroundingPolicyConfig = {
+        filtersConfig:
+          props.map((prop) => ({
+            type: prop.filtersConfigType,
+            threshold: prop.threshold,
+          })),
+      };
+    } else {
+      throw new Error('No ContextualGroundingPolicyConfig is set in GuardrailProps.');
     }
   }
 
@@ -179,8 +208,8 @@ export class Guardrail extends Construct {
 
 
   public addWordPolicyConfig(wordsFilter?: bedrock.CfnGuardrail.WordConfigProperty[]) {
-    if (wordsFilter && wordsFilter .length >0 ) {
-      this.guardrailInstance.wordPolicyConfig=
+    if (wordsFilter && wordsFilter .length > 0 ) {
+      this.guardrailInstance.wordPolicyConfig =
     {
       managedWordListsConfig: [{
         type: 'PROFANITY',
@@ -195,7 +224,7 @@ export class Guardrail extends Construct {
 
   public addTopicPolicyConfig(topic: Topic) {
     if (topic ) {
-      this.guardrailInstance.topicPolicyConfig=
+      this.guardrailInstance.topicPolicyConfig =
     {
       topicsConfig: topic.topicConfigPropertyList(),
 
@@ -207,7 +236,7 @@ export class Guardrail extends Construct {
   }
   public addTags(props: GuardrailProps) {
     if (props && props.tags) {
-      this.guardrailInstance.tags =props.tags;
+      this.guardrailInstance.tags = props.tags;
     }
   }
 

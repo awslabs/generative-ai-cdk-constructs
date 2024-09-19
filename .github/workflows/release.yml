@@ -72,6 +72,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      issues: write
     if: needs.release.outputs.tag_exists != 'true' && needs.release.outputs.latest_commit == github.sha
     steps:
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
@@ -95,6 +96,19 @@ jobs:
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_REF: ${{ github.sha }}
         run: errout=$(mktemp); gh release create $(cat dist/releasetag.txt) -R $GITHUB_REPOSITORY -F dist/changelog.md -t $(cat dist/releasetag.txt) --target $GITHUB_REF 2> $errout && true; exitcode=$?; if [ $exitcode -ne 0 ] && ! grep -q "Release.tag_name already exists" $errout; then cat $errout; exit $exitcode; fi
+      - name: Extract Version
+        id: extract-version
+        if: ${{ failure() }}
+        run: echo "VERSION=$(cat dist/version.txt)" >> $GITHUB_OUTPUT
+      - name: Create Issue
+        if: ${{ failure() }}
+        uses: imjohnbo/issue-bot@3daae12aa54d38685d7ff8459fc8a2aee8cea98b
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          labels: gh-workflow-failing
+          title: Publishing v${{ steps.extract-version.outputs.VERSION }} to GitHub Releases failed
+          body: See https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
   release_npm:
     name: Publish to npm
     needs: release
@@ -102,6 +116,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+      issues: write
     if: needs.release.outputs.tag_exists != 'true' && needs.release.outputs.latest_commit == github.sha
     steps:
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
@@ -130,6 +145,19 @@ jobs:
           NPM_CONFIG_PROVENANCE: "true"
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx -p publib@latest publib-npm
+      - name: Extract Version
+        id: extract-version
+        if: ${{ failure() }}
+        run: echo "VERSION=$(cat dist/version.txt)" >> $GITHUB_OUTPUT
+      - name: Create Issue
+        if: ${{ failure() }}
+        uses: imjohnbo/issue-bot@3daae12aa54d38685d7ff8459fc8a2aee8cea98b
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          labels: gh-workflow-failing
+          title: Publishing v${{ steps.extract-version.outputs.VERSION }} to npm failed
+          body: See https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
   release_maven:
     name: Publish to Maven Central
     needs: release
@@ -176,6 +204,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      issues: write
     if: needs.release.outputs.tag_exists != 'true' && needs.release.outputs.latest_commit == github.sha
     steps:
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
@@ -205,12 +234,26 @@ jobs:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
         run: npx -p publib@latest publib-pypi
+      - name: Extract Version
+        id: extract-version
+        if: ${{ failure() }}
+        run: echo "VERSION=$(cat dist/version.txt)" >> $GITHUB_OUTPUT
+      - name: Create Issue
+        if: ${{ failure() }}
+        uses: imjohnbo/issue-bot@3daae12aa54d38685d7ff8459fc8a2aee8cea98b
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          labels: gh-workflow-failing
+          title: Publishing v${{ steps.extract-version.outputs.VERSION }} to PyPI failed
+          body: See https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
   release_nuget:
     name: Publish to NuGet Gallery
     needs: release
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      issues: write
     if: needs.release.outputs.tag_exists != 'true' && needs.release.outputs.latest_commit == github.sha
     steps:
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
@@ -239,12 +282,26 @@ jobs:
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
         run: npx -p publib@latest publib-nuget
+      - name: Extract Version
+        id: extract-version
+        if: ${{ failure() }}
+        run: echo "VERSION=$(cat dist/version.txt)" >> $GITHUB_OUTPUT
+      - name: Create Issue
+        if: ${{ failure() }}
+        uses: imjohnbo/issue-bot@3daae12aa54d38685d7ff8459fc8a2aee8cea98b
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          labels: gh-workflow-failing
+          title: Publishing v${{ steps.extract-version.outputs.VERSION }} to NuGet Gallery failed
+          body: See https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
   release_golang:
     name: Publish to GitHub Go Module Repository
     needs: release
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      issues: write
     if: needs.release.outputs.tag_exists != 'true' && needs.release.outputs.latest_commit == github.sha
     steps:
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
@@ -275,3 +332,16 @@ jobs:
           GIT_USER_EMAIL: github-actions@github.com
           GITHUB_TOKEN: ${{ secrets.GO_GITHUB_TOKEN }}
         run: npx -p publib@latest publib-golang
+      - name: Extract Version
+        id: extract-version
+        if: ${{ failure() }}
+        run: echo "VERSION=$(cat dist/version.txt)" >> $GITHUB_OUTPUT
+      - name: Create Issue
+        if: ${{ failure() }}
+        uses: imjohnbo/issue-bot@3daae12aa54d38685d7ff8459fc8a2aee8cea98b
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          labels: gh-workflow-failing
+          title: Publishing v${{ steps.extract-version.outputs.VERSION }} to GitHub Go Module Repository failed
+          body: See https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}

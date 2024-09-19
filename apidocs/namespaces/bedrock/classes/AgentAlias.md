@@ -6,9 +6,15 @@
 
 # Class: AgentAlias
 
+Interface for both Imported and CDK-created Agent Aliases.
+
 ## Extends
 
 - `Construct`
+
+## Implements
+
+- [`IAgentAlias`](../interfaces/IAgentAlias.md)
 
 ## Constructors
 
@@ -34,11 +40,33 @@
 
 ## Properties
 
+### agentId
+
+> `readonly` **agentId**: `string`
+
+The unique identifier of the agent.
+
+#### Implementation of
+
+[`IAgentAlias`](../interfaces/IAgentAlias.md).[`agentId`](../interfaces/IAgentAlias.md#agentid)
+
+***
+
 ### aliasArn
 
 > `readonly` **aliasArn**: `string`
 
 The ARN of the agent alias.
+
+#### Example
+
+```ts
+`arn:aws:bedrock:us-east-1:123456789012:agent-alias/DNCJJYQKSU/TCLCITFZTN`
+```
+
+#### Implementation of
+
+[`IAgentAlias`](../interfaces/IAgentAlias.md).[`aliasArn`](../interfaces/IAgentAlias.md#aliasarn)
 
 ***
 
@@ -47,6 +75,16 @@ The ARN of the agent alias.
 > `readonly` **aliasId**: `string`
 
 The unique identifier of the agent alias.
+
+#### Example
+
+```ts
+`TCLCITFZTN`
+```
+
+#### Implementation of
+
+[`IAgentAlias`](../interfaces/IAgentAlias.md).[`aliasId`](../interfaces/IAgentAlias.md#aliasid)
 
 ***
 
@@ -83,6 +121,26 @@ Returns a string representation of this construct.
 #### Inherited from
 
 `Construct.toString`
+
+***
+
+### fromAliasArn()
+
+> `static` **fromAliasArn**(`scope`, `id`, `aliasArn`): [`IAgentAlias`](../interfaces/IAgentAlias.md)
+
+Brings an Agent Alias from an existing one created outside of CDK.
+
+#### Parameters
+
+• **scope**: `Construct`
+
+• **id**: `string`
+
+• **aliasArn**: `string`
+
+#### Returns
+
+[`IAgentAlias`](../interfaces/IAgentAlias.md)
 
 ***
 

@@ -5,6 +5,11 @@
       "type": "build"
     },
     {
+      "name": "@aws-cdk/integ-tests-alpha",
+      "version": "2.154.1-alpha.0",
+      "type": "build"
+    },
+    {
       "name": "@commitlint/config-conventional",
       "type": "build"
     },
@@ -29,6 +34,11 @@
     {
       "name": "@typescript-eslint/parser",
       "version": "^7",
+      "type": "build"
+    },
+    {
+      "name": "aws-cdk",
+      "version": "^2",
       "type": "build"
     },
     {
@@ -127,7 +137,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.149.0",
+      "version": "^2.154.1",
       "type": "peer"
     },
     {

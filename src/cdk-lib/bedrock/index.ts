@@ -23,3 +23,5 @@ export * from './guardrail-version';
 export * from './topic-list';
 export * from './pii-list';
 export * from './content-policy';
+export * from './prompt';
+export * from './prompt-version';

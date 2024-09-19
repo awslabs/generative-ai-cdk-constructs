@@ -11,7 +11,9 @@
  *  and limitations under the License.
  */
 
-import * as cdk from 'aws-cdk-lib';
+
+import { Stack } from 'aws-cdk-lib';
+import { IModel } from 'aws-cdk-lib/aws-bedrock';
 import { IConstruct } from 'constructs';
 
 export interface BedrockFoundationModelProps {
@@ -57,6 +59,14 @@ export class BedrockFoundationModel {
     'amazon.titan-text-express-v1',
     { supportsAgents: true },
   );
+  public static readonly ANTHROPIC_CLAUDE_3_5_SONNET_V1_0 = new BedrockFoundationModel(
+    'anthropic.claude-3-5-sonnet-20240620-v1:0',
+    { supportsAgents: true },
+  );
+  public static readonly ANTHROPIC_CLAUDE_OPUS_V1_0 = new BedrockFoundationModel(
+    'anthropic.claude-3-opus-20240229-v1:0',
+    { supportsAgents: true },
+  );
   public static readonly ANTHROPIC_CLAUDE_SONNET_V1_0 = new BedrockFoundationModel(
     'anthropic.claude-3-sonnet-20240229-v1:0',
     { supportsAgents: true },
@@ -76,6 +86,14 @@ export class BedrockFoundationModel {
   public static readonly TITAN_EMBED_TEXT_V2_1024 = new BedrockFoundationModel(
     'amazon.titan-embed-text-v2:0',
     { supportsKnowledgeBase: true, vectorDimensions: 1024 },
+  );
+  public static readonly TITAN_EMBED_TEXT_V2_512 = new BedrockFoundationModel(
+    'amazon.titan-embed-text-v2:0',
+    { supportsKnowledgeBase: true, vectorDimensions: 512 },
+  );
+  public static readonly TITAN_EMBED_TEXT_V2_256 = new BedrockFoundationModel(
+    'amazon.titan-embed-text-v2:0',
+    { supportsKnowledgeBase: true, vectorDimensions: 256 },
   );
   public static readonly COHERE_EMBED_ENGLISH_V3 = new BedrockFoundationModel(
     'cohere.embed-english-v3',
@@ -101,8 +119,16 @@ export class BedrockFoundationModel {
     return this.modelId;
   }
 
+  /**
+   * Returns the ARN of the foundation model in the following format:
+   * `arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}`
+   */
   asArn(construct: IConstruct): string {
-    const region = cdk.Stack.of(construct).region;
+    const region = Stack.of(construct).region;
     return `arn:aws:bedrock:${region}::foundation-model/${this.modelId}`;
+  }
+
+  asIModel(construct: IConstruct): IModel {
+    return { modelArn: this.asArn(construct) };
   }
 }

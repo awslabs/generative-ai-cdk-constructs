@@ -14,7 +14,7 @@
 import { expect as cdkExpect, haveResource } from '@aws-cdk/assert';
 import * as cdk from 'aws-cdk-lib';
 import { AwsSolutionsChecks } from 'cdk-nag';
-import { FiltersConfigStrength, FiltersConfigType } from '../../../src/cdk-lib/bedrock/content-policy';
+import { FiltersConfigStrength, FiltersConfigType, ContextualGroundingFilterConfigType } from '../../../src/cdk-lib/bedrock/content-policy';
 import { Guardrail, GuardrailProps } from '../../../src/cdk-lib/bedrock/guardrails';
 import { General, PiiEntitiesConfigAction } from '../../../src/cdk-lib/bedrock/pii-list';
 import { Topic } from '../../../src/cdk-lib/bedrock/topic-list';
@@ -73,6 +73,17 @@ describe('Guardrail', () => {
       action: 'BLOCK',
     });
 
+    guardrail.addContextualGroundingPolicyConfig([
+      {
+        threshold: 0.5,
+        filtersConfigType: ContextualGroundingFilterConfigType.GROUNDING,
+      },
+      {
+        threshold: 0.9,
+        filtersConfigType: ContextualGroundingFilterConfigType.RELEVANCE,
+      },
+    ]);
+
     const topic = new Topic(stack, 'my-topic');
     topic.financialAdviceTopic();
 
@@ -114,6 +125,18 @@ describe('Guardrail', () => {
               Description: 'customer id',
               Name: 'CUSTOMER_ID',
               Pattern: '/^[A-Z]{2}d{6}$/',
+            },
+          ],
+        },
+        ContextualGroundingPolicyConfig: {
+          FiltersConfig: [
+            {
+              Threshold: 0.5,
+              Type: 'GROUNDING',
+            },
+            {
+              Threshold: 0.9,
+              Type: 'RELEVANCE',
             },
           ],
         },
