@@ -8,12 +8,12 @@
 
 ## Enumeration Members
 
-### BLOCK
-
-> **BLOCK**: `"BLOCK"`
-
-***
-
 ### ANONYMIZE
 
 > **ANONYMIZE**: `"ANONYMIZE"`
+
+***
+
+### BLOCK
+
+> **BLOCK**: `"BLOCK"`
