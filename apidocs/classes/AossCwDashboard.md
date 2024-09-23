@@ -1,10 +1,12 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / Topic
+[@cdklabs/generative-ai-cdk-constructs](../README.md) / AossCwDashboard
 
-# Class: Topic
+# Class: AossCwDashboard
+
+The BedrockCwDashboard class.
 
 ## Extends
 
@@ -12,25 +14,47 @@
 
 ## Constructors
 
-### new Topic()
+### new AossCwDashboard()
 
-> **new Topic**(`scope`, `id`): [`Topic`](Topic.md)
+> **new AossCwDashboard**(`scope`, `id`, `props`): [`AossCwDashboard`](AossCwDashboard.md)
+
+Constructs a new instance of the AossCwDashboard class.
 
 #### Parameters
 
 • **scope**: `Construct`
 
+represents the scope for all the resources.
+
 • **id**: `string`
+
+this is a a scope-unique id.
+
+• **props**: [`AossCwDashboardProps`](../interfaces/AossCwDashboardProps.md)
+
+user provided props for the construct.
 
 #### Returns
 
-[`Topic`](Topic.md)
+[`AossCwDashboard`](AossCwDashboard.md)
+
+#### Since
+
+0.0.0
 
 #### Overrides
 
 `Construct.constructor`
 
 ## Properties
+
+### dashboard
+
+> `readonly` **dashboard**: `Dashboard`
+
+Returns the instance of CloudWatch dashboard used by the construct
+
+***
 
 ### node
 
@@ -44,13 +68,17 @@ The tree node.
 
 ## Methods
 
-### createTopic()
+### addCollectionMonitoringbyAttributes()
 
-> **createTopic**(`props`): `void`
+> **addCollectionMonitoringbyAttributes**(`collectionName`, `collectionId`, `props`): `void`
 
 #### Parameters
 
-• **props**: [`TopicProps`](../interfaces/TopicProps.md)
+• **collectionName**: `string`
+
+• **collectionId**: `string`
+
+• **props**: [`CollectionMonitoringProps`](../interfaces/CollectionMonitoringProps.md)
 
 #### Returns
 
@@ -58,13 +86,15 @@ The tree node.
 
 ***
 
-### financialAdviceTopic()
+### addCollectionMonitoringByCollection()
 
-> **financialAdviceTopic**(`props`?): `void`
+> **addCollectionMonitoringByCollection**(`collection`, `props`): `void`
 
 #### Parameters
 
-• **props?**: [`TopicProps`](../interfaces/TopicProps.md)
+• **collection**: `CfnCollection`
+
+• **props**: [`CollectionMonitoringProps`](../interfaces/CollectionMonitoringProps.md)
 
 #### Returns
 
@@ -72,69 +102,25 @@ The tree node.
 
 ***
 
-### inappropriateContent()
+### addIndexMonitoringByAtributes()
 
-> **inappropriateContent**(`props`?): `void`
+> **addIndexMonitoringByAtributes**(`collectionName`, `collectionId`, `IndexName`, `IndexId`, `props`): `void`
 
 #### Parameters
 
-• **props?**: [`TopicProps`](../interfaces/TopicProps.md)
+• **collectionName**: `string`
+
+• **collectionId**: `string`
+
+• **IndexName**: `string`
+
+• **IndexId**: `string`
+
+• **props**: [`IndexMonitoringProps`](../interfaces/IndexMonitoringProps.md)
 
 #### Returns
 
 `void`
-
-***
-
-### legalAdvice()
-
-> **legalAdvice**(`props`?): `void`
-
-#### Parameters
-
-• **props?**: [`TopicProps`](../interfaces/TopicProps.md)
-
-#### Returns
-
-`void`
-
-***
-
-### medicalAdvice()
-
-> **medicalAdvice**(`props`?): `void`
-
-#### Parameters
-
-• **props?**: [`TopicProps`](../interfaces/TopicProps.md)
-
-#### Returns
-
-`void`
-
-***
-
-### politicalAdviceTopic()
-
-> **politicalAdviceTopic**(`props`?): `void`
-
-#### Parameters
-
-• **props?**: [`TopicProps`](../interfaces/TopicProps.md)
-
-#### Returns
-
-`void`
-
-***
-
-### topicConfigPropertyList()
-
-> **topicConfigPropertyList**(): `TopicConfigProperty`[]
-
-#### Returns
-
-`TopicConfigProperty`[]
 
 ***
 

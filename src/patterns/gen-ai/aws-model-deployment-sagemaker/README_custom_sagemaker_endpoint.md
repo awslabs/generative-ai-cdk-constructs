@@ -62,7 +62,9 @@ new CustomSageMakerEndpoint(this, 'customModel', {
     modelDataUrl: 's3://{Bucket}/{Key}/model.tar.gz',
     endpointName: 'testbgebase',
     instanceCount: 1,
-    volumeSizeInGb: 100
+    volumeSizeInGb: 100,
+    minCapacity: 1,
+    maxCapacity: 2,
   });
 ```
 
@@ -92,6 +94,8 @@ CustomSageMakerEndpoint(
     endpoint_name='testbgebase',
     instance_count=1,
     volume_size_in_gb=100,
+    min_capacity=1,
+    max_capacity=2,
 )
 ```
 
@@ -132,6 +136,8 @@ Parameters
 | modelDataDownloadTimeoutInSeconds | Integer | ![Optional](https://img.shields.io/badge/optional-4169E1) | The timeout value, in seconds, to download and extract the model that you want to host from Amazon S3 to the individual inference instance associated with this production variant. |
 | volumeSizeInGb | Integer | ![Optional](https://img.shields.io/badge/optional-4169E1) | The size, in GB, of the ML storage volume attached to individual inference instance associated with the production variant. Currently only Amazon EBS gp2 storage volumes are supported. |
 | asyncInference | AsyncInferenceConfig | ![Optional](https://img.shields.io/badge/optional-4169E1) | Specifies configuration for how an endpoint performs asynchronous inference. Refer to [AsyncInferenceConfig](#asyncinferenceconfig) for details. If not defined, the endpoint will be configured as real-time.|
+| minCapacity | Integer | ![Optional](https://img.shields.io/badge/optional-4169E1) | Specifies the minimum value that Application Auto Scaling can use to scale a target during a scaling activity. |
+| maxCapacity | Integer | ![Optional](https://img.shields.io/badge/optional-4169E1) | Specifies the maximum value that Application Auto Scaling can use to scale a target during a scaling activity. |
 
 ### AsyncInferenceConfig
 
@@ -167,6 +173,8 @@ If defined, the SageMaker endpoint will perform asynchronous inference.
 - startupHealthCheckTimeoutInSeconds: 600 if not provided
 - modelDataDownloadTimeoutInSeconds: 600 if not provided
 - instanceCount: 1 if not provided
+- minCapacity: 1 if not provided
+- maxCapacity: 2 if not provided
 
 If async configuration is enabled:
 - Enable server-side encryption for SNS Topics using AWS managed KMS Key

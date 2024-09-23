@@ -318,6 +318,24 @@ stable
 
 ***
 
+### loggingFormat?
+
+> `readonly` `optional` **loggingFormat**: `LoggingFormat`
+
+Sets the loggingFormat for the function.
+
+#### Default
+
+```ts
+LoggingFormat.TEXT
+```
+
+#### Stability
+
+stable
+
+***
+
 ### logGroup?
 
 > `readonly` `optional` **logGroup**: `ILogGroup`
@@ -410,24 +428,6 @@ This is a legacy API and we strongly recommend you migrate to `logGroup` if you 
 
 ```ts
 - A new role is created.
-```
-
-#### Stability
-
-stable
-
-***
-
-### loggingFormat?
-
-> `readonly` `optional` **loggingFormat**: `LoggingFormat`
-
-Sets the loggingFormat for the function.
-
-#### Default
-
-```ts
-LoggingFormat.TEXT
 ```
 
 #### Stability
