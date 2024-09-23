@@ -14,6 +14,6 @@
 
 ***
 
-### MASK
+### ANONYMIZE
 
-> **MASK**: `"MASK"`
+> **ANONYMIZE**: `"ANONYMIZE"`

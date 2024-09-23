@@ -52,7 +52,7 @@ export interface GuardrailProps {
   readonly contextualGroundingfiltersConfig?: ContextualGroundingPolicyConfigProps[];
 
   /**
-    * PII fields which needs to be masked.
+    * PII fields which needs to be anonymized.
     */
   readonly piiConfig?: SensitiveInformationPolicyConfigProps[];
 
