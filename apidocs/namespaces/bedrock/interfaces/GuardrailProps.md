@@ -70,7 +70,7 @@ The name of the guardrail.
 
 > `readonly` `optional` **piiConfig**: [`SensitiveInformationPolicyConfigProps`](SensitiveInformationPolicyConfigProps.md)[]
 
-PII fields which needs to be masked.
+PII fields which needs to be anonymized.
 
 ***
 
