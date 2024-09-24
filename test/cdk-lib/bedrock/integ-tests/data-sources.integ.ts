@@ -15,7 +15,8 @@ import * as cdk from 'aws-cdk-lib';
 import { Key } from 'aws-cdk-lib/aws-kms';
 import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
-import { BedrockFoundationModel, KnowledgeBase, ChunkingStrategy, ParsingStategy, ConfluenceObjectType, SalesforceObjectType, SharePointObjectType, CrawlingScope } from '../../../../src/cdk-lib/bedrock';
+import { BedrockFoundationModel, KnowledgeBase, ChunkingStrategy, ParsingStategy, ConfluenceObjectType, SalesforceObjectType, SharePointObjectType, CrawlingScope, CustomTransformation } from '../../../../src/cdk-lib/bedrock';
+import { Code, Runtime, Function } from 'aws-cdk-lib/aws-lambda';
 
 
 const app = new cdk.App();
@@ -26,9 +27,21 @@ const kb = new KnowledgeBase(stack, 'MyKnowledgeBase', {
   embeddingsModel: BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
 });
 
-const bucket = new Bucket(stack, 'Bucket', {});
+const bucket = new Bucket(stack, 'Bucket', {
+  removalPolicy: cdk.RemovalPolicy.DESTROY,
+  autoDeleteObjects: true,
+});
+const bucket2 = new Bucket(stack, 'Bucket2', {
+  removalPolicy: cdk.RemovalPolicy.DESTROY,
+  autoDeleteObjects: true,
+});
 const secret = new Secret(stack, 'Secret');
 const key = new Key(stack, 'Key');
+const lambdaFunction = new Function(stack, 'LambdaFunction', {
+  runtime: Runtime.NODEJS_18_X,
+  code: Code.fromInline('exports.handler = function(event, context, callback) { callback(null, "Success"); }'),
+  handler: 'index.handler',
+});
 
 
 kb.addS3DataSource({
@@ -38,6 +51,10 @@ kb.addS3DataSource({
   parsingStrategy: ParsingStategy.foundationModel({
     parsingModel: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asIModel(stack),
   }),
+  customTransformation: CustomTransformation.lambda({
+    lambdaFunction,
+    s3BucketUri: `s3://${bucket2.bucketName}/chunk-processor/`
+  })
 });
 
 kb.addConfluenceDataSource({

@@ -40,6 +40,13 @@ export interface LambdaCustomTransformationProps {
    * @example "s3://my-bucket/chunk-processor/"
    */
   readonly s3BucketUri: string;
+
+  // Commented as only one supported at the time this code is written.
+  // /**
+  //  * When in the ingestion process to apply the transformation step. 
+  //  * @default TransformationStep.POST_CHUNKING
+  //  */
+  // readonly stepToApply?: TransformationStep;
 }
 
 /**
@@ -67,6 +74,8 @@ export abstract class CustomTransformation {
         transformations: [
           {
             stepToApply: TransformationStep.POST_CHUNKING,
+            // To uncomment when more steps are available
+            // stepToApply: props.stepToApply ?? TransformationStep.POST_CHUNKING, 
             transformationFunction: {
               transformationLambdaConfiguration: {
                 lambdaArn: props.lambdaFunction.functionArn,
