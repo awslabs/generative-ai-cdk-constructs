@@ -120,17 +120,51 @@ describe('KnowledgeBase', () => {
   test('Should correctly initialize role with necessary permissions', () => {
     const vectorStore = new VectorCollection(stack, 'VectorCollection2');
     const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
-    const knowledgeBase = new KnowledgeBase(stack, 'VectorKnowledgeBase2', {
+    new KnowledgeBase(stack, 'VectorKnowledgeBase2', {
       embeddingsModel: model,
       vectorStore: vectorStore,
     });
 
-    const policyDocument = knowledgeBase.role.assumeRolePolicy?.toJSON();
-    expect(policyDocument).toBeDefined();
-    expect(policyDocument.Statement).toHaveLength(2);
-    expect(policyDocument.Statement[0].Action).toContain('sts:AssumeRole');
-    expect(policyDocument.Statement[0].Principal).toHaveProperty('Service');
-    expect(policyDocument.Statement[0].Principal.Service).toContain('bedrock.amazonaws.com');
+    cdkExpect(stack).to(
+      haveResourceLike('AWS::IAM::Role', {
+        AssumeRolePolicyDocument: {
+          Statement: [
+            {
+              Effect: "Allow",
+              Principal: {
+                Service: "bedrock.amazonaws.com"
+              },
+              Action: "sts:AssumeRole",
+              Condition: {
+                StringEquals: {
+                  'aws:SourceAccount': "123456789012"
+                },
+                ArnLike: {
+                  "aws:SourceArn": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":bedrock:us-east-1:123456789012:knowledge-base/*"
+                      ]
+                    ]
+                  }
+                }
+              }
+            },
+          ]
+        }
+      })
+    )
+    // const policyDocument = knowledgeBase.role.?.toJSON();
+    // expect(policyDocument).toBeDefined();
+    // expect(policyDocument.Statement).toHaveLength(2);
+    // expect(policyDocument.Statement[0].Action).toContain('sts:AssumeRole');
+    // expect(policyDocument.Statement[0].Principal).toHaveProperty('Service');
+    // expect(policyDocument.Statement[0].Principal.Service).toContain('bedrock.amazonaws.com');
   });
 
   test('Should throw error when vectorStore is not VectorCollection and indexName is provided', () => {

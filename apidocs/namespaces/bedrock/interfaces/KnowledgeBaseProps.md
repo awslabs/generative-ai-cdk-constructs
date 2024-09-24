@@ -34,7 +34,7 @@ The embeddings model for the knowledge base
 
 ### existingRole?
 
-> `readonly` `optional` **existingRole**: `Role`
+> `readonly` `optional` **existingRole**: `IRole`
 
 Existing IAM role with a policy statement
 granting permission to invoke the specific embeddings model.

@@ -212,7 +212,7 @@ export interface KnowledgeBaseProps {
    * this role will be able to invoke or use the
    * specified embeddings model within the Bedrock service.
    */
-  readonly existingRole?: iam.Role;
+  readonly existingRole?: iam.IRole;
 
   /**
    * A narrative description of the knowledge base.
@@ -335,7 +335,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
   /**
    * The role the Knowledge Base uses to access the vector store and data source.
    */
-  public readonly role: iam.Role;
+  public readonly role: iam.IRole;
 
   /**
    * The vector store for the knowledge base.
@@ -420,16 +420,9 @@ export class KnowledgeBase extends KnowledgeBaseBase {
       );
       this.role = new iam.Role(this, 'Role', {
         roleName: roleName,
-        assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com'),
-      });
-      this.role.assumeRolePolicy!.addStatements(
-        new iam.PolicyStatement({
-          actions: ['sts:AssumeRole'],
-          principals: [new iam.ServicePrincipal('bedrock.amazonaws.com')],
+        assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com', {
           conditions: {
-            StringEquals: {
-              'aws:SourceAccount': Stack.of(this).account,
-            },
+            StringEquals: { 'aws:SourceAccount': Stack.of(this).account },
             ArnLike: {
               'aws:SourceArn': Stack.of(this).formatArn({
                 service: 'bedrock',
@@ -440,9 +433,9 @@ export class KnowledgeBase extends KnowledgeBaseBase {
             },
           },
         }),
-      );
+      });
 
-      this.role.addToPolicy(
+      this.role.addToPrincipalPolicy(
         new iam.PolicyStatement({
           actions: ['bedrock:InvokeModel'],
           resources: [embeddingsModel.asArn(this)],
@@ -487,7 +480,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
      * other than OpenSearch Serverless.
      */
     if (!(this.vectorStore instanceof VectorCollection)) {
-      this.role.addToPolicy(
+      this.role.addToPrincipalPolicy(
         new iam.PolicyStatement({
           actions: ['secretsmanager:GetSecretValue'],
           resources: [this.vectorStore.credentialsSecretArn],
@@ -506,7 +499,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
       this.vectorStore instanceof AmazonAuroraDefaultVectorStore ||
       this.vectorStore instanceof AmazonAuroraVectorStore
     ) {
-      this.role.addToPolicy(
+      this.role.addToPrincipalPolicy(
         new iam.PolicyStatement({
           actions: [
             'rds-data:ExecuteStatement',

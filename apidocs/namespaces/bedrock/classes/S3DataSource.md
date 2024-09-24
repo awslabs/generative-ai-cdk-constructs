@@ -118,7 +118,7 @@ The KMS key to use to encrypt the data source.
 
 ### knowledgeBase
 
-> `readonly` **knowledgeBase**: [`KnowledgeBase`](KnowledgeBase.md)
+> `readonly` **knowledgeBase**: [`IKnowledgeBase`](../interfaces/IKnowledgeBase.md)
 
 The knowledge base associated with the data source.
 
