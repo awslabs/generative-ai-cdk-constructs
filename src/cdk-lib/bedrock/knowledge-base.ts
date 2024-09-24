@@ -287,12 +287,12 @@ export interface KnowledgeBaseAttributes {
    * The ID of the knowledge base.
    * @example "KB12345678"
    */
-  knowledgeBaseId: string;
+  readonly knowledgeBaseId: string;
   /**
    * The Service Execution Role associated with the knowledge base.
    * @example "arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseKB12345678"
    */
-  executionRoleArn: string;
+  readonly executionRoleArn: string;
 }
 
 /**
