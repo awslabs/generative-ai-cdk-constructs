@@ -16,7 +16,7 @@ import { Construct } from 'constructs';
 
 import { DataSourceNew, DataSourceAssociationProps, DataSourceType } from './base-data-source';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
-import { KnowledgeBase } from '../knowledge-base';
+import { IKnowledgeBase } from '../knowledge-base';
 
 /**
  * The scope of the crawling.
@@ -36,12 +36,12 @@ export enum CrawlingScope {
    * Limit crawling to web pages that belong to the same host and with the
    * same initial URL path.
    */
-  DEFAULT = "DEFAULT"
+  DEFAULT = 'DEFAULT'
 }
 
 /**
- * The filters (regular expression patterns) to include or exclude in the crawling 
- * in accordance with your scope. 
+ * The filters (regular expression patterns) to include or exclude in the crawling
+ * in accordance with your scope.
  */
 export interface CrawlingFilters {
   /**
@@ -89,7 +89,7 @@ export interface WebCrawlerDataSourceProps extends WebCrawlerDataSourceAssociati
   /**
    * The knowledge base to associate with the data source.
    */
-  readonly knowledgeBase: KnowledgeBase;
+  readonly knowledgeBase: IKnowledgeBase;
 }
 
 /**
@@ -115,7 +115,7 @@ export class WebCrawlerDataSource extends DataSourceNew {
   /**
    * The knowledge base associated with the data source.
    */
-  public readonly knowledgeBase: KnowledgeBase;
+  public readonly knowledgeBase: IKnowledgeBase;
   /**
    * The KMS key to use to encrypt the data source.
    */

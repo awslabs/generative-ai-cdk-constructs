@@ -56,6 +56,14 @@ junit.xml
 !/.eslintrc.json
 .jsii
 tsconfig.json
+test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.snapshot/asset.*
+test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.snapshot/**/asset.*
+test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.snapshot/cdk.out
+test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.snapshot/**/cdk.out
+test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.snapshot/manifest.json
+test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.snapshot/**/manifest.json
+test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.snapshot/tree.json
+test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.snapshot/**/tree.json
 test/cdk-lib/bedrock/integ-tests/data-sources.integ.snapshot/asset.*
 test/cdk-lib/bedrock/integ-tests/data-sources.integ.snapshot/**/asset.*
 test/cdk-lib/bedrock/integ-tests/data-sources.integ.snapshot/cdk.out

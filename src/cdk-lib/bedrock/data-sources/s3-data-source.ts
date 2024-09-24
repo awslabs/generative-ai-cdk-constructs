@@ -16,7 +16,7 @@ import { IBucket } from 'aws-cdk-lib/aws-s3';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 
-import { KnowledgeBase } from './../knowledge-base';
+import { IKnowledgeBase } from './../knowledge-base';
 import { DataSourceAssociationProps, DataSourceNew, DataSourceType } from './base-data-source';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
 
@@ -46,7 +46,7 @@ export interface S3DataSourceProps extends S3DataSourceAssociationProps {
   /**
    * The knowledge base to associate with the data source.
    */
-  readonly knowledgeBase: KnowledgeBase;
+  readonly knowledgeBase: IKnowledgeBase;
 }
 
 
@@ -73,7 +73,7 @@ export class S3DataSource extends DataSourceNew {
   /**
    * The knowledge base associated with the data source.
    */
-  public readonly knowledgeBase: KnowledgeBase;
+  public readonly knowledgeBase: IKnowledgeBase;
   /**
    * The KMS key to use to encrypt the data source.
    */

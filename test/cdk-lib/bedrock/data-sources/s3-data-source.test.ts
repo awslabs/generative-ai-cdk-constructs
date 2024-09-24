@@ -34,6 +34,28 @@ describe('S3 Data Source', () => {
     });
   });
 
+  test('Method', () => {
+    kb.addS3DataSource({
+      bucket,
+      dataSourceName: 'TestDataSource',
+    });
+
+
+    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
+      KnowledgeBaseId: {
+        'Fn::GetAtt': [Match.anyValue(), 'KnowledgeBaseId'],
+      },
+      Name: 'TestDataSource',
+      DataSourceConfiguration: {
+        S3Configuration: {
+          BucketArn: {
+            'Fn::GetAtt': [Match.anyValue(), 'Arn'],
+          },
+        },
+      },
+    });
+  });
+
   test('Default chunking', () => {
     new bedrock.S3DataSource(stack, 'TestDataSource', {
       bucket,

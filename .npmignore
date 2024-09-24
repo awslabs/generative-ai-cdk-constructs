@@ -22,6 +22,7 @@ dist
 tsconfig.tsbuildinfo
 /.eslintrc.json
 !.jsii
+test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.snapshot
 test/cdk-lib/bedrock/integ-tests/data-sources.integ.snapshot
 test/cdk-lib/bedrock/integ-tests/.tmp
 test/cdk-lib/bedrock/integ-tests/prompts.integ.snapshot

@@ -16,7 +16,7 @@ import { IKey } from 'aws-cdk-lib/aws-kms';
 import { ISecret } from 'aws-cdk-lib/aws-secretsmanager';
 import { Construct } from 'constructs';
 
-import { KnowledgeBase } from './../knowledge-base';
+import { IKnowledgeBase } from './../knowledge-base';
 import { DataSourceNew, DataSourceAssociationProps, DataSourceType } from './base-data-source';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
 
@@ -109,7 +109,7 @@ export interface SalesforceDataSourceProps extends SalesforceDataSourceAssociati
   /**
    * The knowledge base to associate with the data source.
    */
-  readonly knowledgeBase: KnowledgeBase;
+  readonly knowledgeBase: IKnowledgeBase;
 }
 
 /**
@@ -135,7 +135,7 @@ export class SalesforceDataSource extends DataSourceNew {
   /**
    * The knowledge base associated with the data source.
    */
-  public readonly knowledgeBase: KnowledgeBase;
+  public readonly knowledgeBase: IKnowledgeBase;
   /**
    * The KMS key to use to encrypt the data source.
    */

@@ -227,6 +227,69 @@
         }
       ]
     },
+    "integ:data-sources-import:assert": {
+      "name": "integ:data-sources-import:assert",
+      "description": "assert the snapshot of integration test 'data-sources-import'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'data-sources-import'. Run 'projen integ:data-sources-import:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/cdk-lib/bedrock/integ-tests/.tmp/data-sources-import.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.snapshot/ test/cdk-lib/bedrock/integ-tests/.tmp/data-sources-import.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:data-sources-import:deploy": {
+      "name": "integ:data-sources-import:deploy",
+      "description": "deploy integration test 'data-sources-import' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/cdk-lib/bedrock/integ-tests/.tmp/data-sources-import.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/cdk-lib/bedrock/integ-tests/.tmp/data-sources-import.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.snapshot"
+        },
+        {
+          "exec": "mv test/cdk-lib/bedrock/integ-tests/.tmp/data-sources-import.integ/deploy.cdk.out test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.snapshot"
+        },
+        {
+          "spawn": "integ:data-sources-import:destroy"
+        }
+      ]
+    },
+    "integ:data-sources-import:destroy": {
+      "name": "integ:data-sources-import:destroy",
+      "description": "destroy integration test 'data-sources-import'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:data-sources-import:snapshot": {
+      "name": "integ:data-sources-import:snapshot",
+      "description": "update snapshot for integration test \"data-sources-import\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:data-sources-import:watch": {
+      "name": "integ:data-sources-import:watch",
+      "description": "watch integration test 'data-sources-import' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/data-sources-import.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/cdk-lib/bedrock/integ-tests/.tmp/data-sources-import.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:data-sources:assert": {
       "name": "integ:data-sources:assert",
       "description": "assert the snapshot of integration test 'data-sources'",
@@ -357,6 +420,9 @@
       "name": "integ:snapshot-all",
       "description": "update snapshot for all integration tests",
       "steps": [
+        {
+          "spawn": "integ:data-sources-import:snapshot"
+        },
         {
           "spawn": "integ:data-sources:snapshot"
         },
@@ -504,6 +570,9 @@
         },
         {
           "spawn": "eslint"
+        },
+        {
+          "spawn": "integ:data-sources-import:assert"
         },
         {
           "spawn": "integ:data-sources:assert"

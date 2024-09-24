@@ -13,10 +13,9 @@
 import * as integ from '@aws-cdk/integ-tests-alpha';
 import * as cdk from 'aws-cdk-lib';
 import { Key } from 'aws-cdk-lib/aws-kms';
-import { Function } from 'aws-cdk-lib/aws-lambda';
 import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
-import { BedrockFoundationModel, KnowledgeBase, ChunkingStrategy, ParsingStategy, CustomTransformation, ConfluenceObjectType, SalesforceObjectType, SharePointObjectType } from '../../../../src/cdk-lib/bedrock';
+import { BedrockFoundationModel, KnowledgeBase, ChunkingStrategy, ParsingStategy, ConfluenceObjectType, SalesforceObjectType, SharePointObjectType, CrawlingScope } from '../../../../src/cdk-lib/bedrock';
 
 
 const app = new cdk.App();
@@ -28,26 +27,13 @@ const kb = new KnowledgeBase(stack, 'MyKnowledgeBase', {
 });
 
 const bucket = new Bucket(stack, 'Bucket', {});
-const lambdaFunction = new Function(stack, 'MyFunction', {
-  runtime: cdk.aws_lambda.Runtime.PYTHON_3_9,
-  handler: 'index.handler',
-  code: cdk.aws_lambda.Code.fromInline('print("Hello, World!")'),
-});
-
 const secret = new Secret(stack, 'Secret');
 const key = new Key(stack, 'Key');
 
-kb.addWebCrawlerDataSource({
-  sourceUrls: ['https://docs.aws.amazon.com/'],
-  chunkingStrategy: ChunkingStrategy.HIERARCHICAL_COHERE,
-  customTransformation: CustomTransformation.lambda({
-    lambdaFunction: lambdaFunction,
-    s3BucketUri: `s3://${bucket.bucketName}/chunk-processor/`,
-  }),
-});
 
 kb.addS3DataSource({
   bucket,
+  kmsKey: key,
   chunkingStrategy: ChunkingStrategy.SEMANTIC,
   parsingStrategy: ParsingStategy.foundationModel({
     parsingModel: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asIModel(stack),
@@ -71,6 +57,12 @@ kb.addConfluenceDataSource({
       excludePatterns: ['.*confidential.*\\.pdf'],
     },
   ],
+});
+
+kb.addWebCrawlerDataSource({
+  sourceUrls: ['https://docs.aws.amazon.com/'],
+  chunkingStrategy: ChunkingStrategy.HIERARCHICAL_COHERE,
+  crawlingScope: CrawlingScope.DEFAULT,
 });
 
 kb.addSalesforceDataSource({
