@@ -66,9 +66,10 @@ new bedrock.S3DataSource(this, "DataSource", {
   bucket: docBucket,
   knowledgeBase: kb,
   dataSourceName: "books",
-  chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
-  maxTokens: 500,
-  overlapPercentage: 20,
+  chunkingStrategy: bedrock.ChunkingStrategy.fixedSize({
+    maxTokens: 500,
+    overlapPercentage: 20,
+  }),
 });
 ```
 
@@ -136,8 +137,6 @@ new bedrock.S3DataSource(this, "DataSource", {
   knowledgeBase: kb,
   dataSourceName: "books",
   chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
-  maxTokens: 500,
-  overlapPercentage: 20,
 });
 ```
 
@@ -178,8 +177,6 @@ bedrock.S3DataSource(self, 'DataSource',
     knowledge_base=kb,
     data_source_name='books',
     chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
-    max_tokens=500,
-    overlap_percentage=20
 )
 
 ```
@@ -211,8 +208,6 @@ new bedrock.S3DataSource(this, "DataSource", {
   knowledgeBase: kb,
   dataSourceName: "books",
   chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
-  maxTokens: 500,
-  overlapPercentage: 20,
 });
 ```
 
@@ -248,8 +243,6 @@ bedrock.S3DataSource(self, 'DataSource',
     knowledge_base=kb,
     data_source_name='books',
     chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
-    max_tokens=500,
-    overlap_percentage=20
 )
 ```
 
@@ -283,8 +276,6 @@ new bedrock.S3DataSource(this, "DataSource", {
   knowledgeBase: kb,
   dataSourceName: "books",
   chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
-  maxTokens: 500,
-  overlapPercentage: 20,
 });
 ```
 
@@ -321,8 +312,6 @@ bedrock.S3DataSource(self, 'DataSource',
     knowledge_base=kb,
     data_source_name='books',
     chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
-    max_tokens=500,
-    overlap_percentage=20
 )
 ```
 
@@ -379,7 +368,7 @@ kb.addS3DataSource({
   bucket,
   chunkingStrategy: ChunkingStrategy.SEMANTIC,
   parsingStrategy: ParsingStategy.foundationModel({
-    parsingModel: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asIModel(stack),
+    model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asIModel(stack),
   }),
 });
 
@@ -519,11 +508,7 @@ two parsing strategies:
 
   ```ts
   bedrock.ParsingStategy.foundationModel({
-    parsingModel: FoundationModel.fromFoundationModelId(
-      stack,
-      "model",
-      FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_SONNET_20240229_V1_0
-    ),
+    model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asIModel(stack),
   });
   ```
 
