@@ -14,6 +14,7 @@
 import * as cdk from 'aws-cdk-lib';
 import { Template, Match } from 'aws-cdk-lib/assertions';
 import { FoundationModel, FoundationModelIdentifier } from 'aws-cdk-lib/aws-bedrock';
+import { Code, Function, Runtime } from 'aws-cdk-lib/aws-lambda';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { AwsSolutionsChecks } from 'cdk-nag';
 import * as bedrock from '../../../../src/cdk-lib/bedrock';
@@ -246,6 +247,51 @@ describe('S3 Data Source', () => {
         },
       },
     });
+  });
+
+  test('Lambda Transformation', () => {
+    // WHEN
+    const bucket2 = new s3.Bucket(stack, 'mybucket', {
+      bucketName: 'mybucketname',
+    });
+    const lambdaFunction = new Function(stack, 'myFunction', {
+      code: Code.fromInline('exports.handler = function(event, ctx, cb) { return cb(null, "hello"); }'),
+      handler: 'index.handler',
+      runtime: Runtime.PYTHON_3_11,
+    });
+    new bedrock.S3DataSource(stack, 'TestDataSource', {
+      bucket,
+      knowledgeBase: kb,
+      dataSourceName: 'TestDataSource',
+      customTransformation: bedrock.CustomTransformation.lambda({
+        lambdaFunction,
+        s3BucketUri: `s3://${bucket2.bucketName}/chunkprocessor`,
+      }),
+    });
+
+    // THEN
+    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
+      VectorIngestionConfiguration: {
+        CustomTransformationConfiguration: {
+          Transformations: [{
+            StepToApply: 'POST_CHUNKING',
+            TransformationFunction: {
+              TransformationLambdaConfiguration: {
+                LambdaArn: {
+                  'Fn::GetAtt': [Match.anyValue(), 'Arn'],
+                },
+              },
+            },
+          }],
+          IntermediateStorage: {
+            S3Location: {
+              URI: Match.anyValue(),
+            },
+          },
+        },
+      },
+    });
+
   });
 
 

@@ -341,10 +341,10 @@ export class KnowledgeBase extends KnowledgeBaseBase {
    * The vector store for the knowledge base.
    */
   public readonly vectorStore:
-    | VectorCollection
-    | PineconeVectorStore
-    | AmazonAuroraVectorStore
-    | AmazonAuroraDefaultVectorStore;
+  | VectorCollection
+  | PineconeVectorStore
+  | AmazonAuroraVectorStore
+  | AmazonAuroraDefaultVectorStore;
 
   /**
    * A narrative instruction of the knowledge base.

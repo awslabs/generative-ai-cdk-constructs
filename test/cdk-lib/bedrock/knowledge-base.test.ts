@@ -81,13 +81,13 @@ describe('KnowledgeBase', () => {
     const condition = Object.keys(conditions)[0];
     template.hasResource(
       'AWS::OpenSearchServerless::AccessPolicy', {
-      Condition: condition,
-      Properties: {
-        Name: Match.stringLikeRegexp('^dataaccesspolicy[a-z0-9]+'),
-        Policy: '[]',
-        Type: 'data',
-      },
-    });
+        Condition: condition,
+        Properties: {
+          Name: Match.stringLikeRegexp('^dataaccesspolicy[a-z0-9]+'),
+          Policy: '[]',
+          Type: 'data',
+        },
+      });
   });
 
   test('Should have correct properties', () => {
@@ -130,35 +130,35 @@ describe('KnowledgeBase', () => {
         AssumeRolePolicyDocument: {
           Statement: [
             {
-              Effect: "Allow",
+              Effect: 'Allow',
               Principal: {
-                Service: "bedrock.amazonaws.com"
+                Service: 'bedrock.amazonaws.com',
               },
-              Action: "sts:AssumeRole",
+              Action: 'sts:AssumeRole',
               Condition: {
                 StringEquals: {
-                  'aws:SourceAccount': "123456789012"
+                  'aws:SourceAccount': '123456789012',
                 },
                 ArnLike: {
-                  "aws:SourceArn": {
-                    "Fn::Join": [
-                      "",
+                  'aws:SourceArn': {
+                    'Fn::Join': [
+                      '',
                       [
-                        "arn:",
+                        'arn:',
                         {
-                          "Ref": "AWS::Partition"
+                          Ref: 'AWS::Partition',
                         },
-                        ":bedrock:us-east-1:123456789012:knowledge-base/*"
-                      ]
-                    ]
-                  }
-                }
-              }
+                        ':bedrock:us-east-1:123456789012:knowledge-base/*',
+                      ],
+                    ],
+                  },
+                },
+              },
             },
-          ]
-        }
-      })
-    )
+          ],
+        },
+      }),
+    );
     // const policyDocument = knowledgeBase.role.?.toJSON();
     // expect(policyDocument).toBeDefined();
     // expect(policyDocument.Statement).toHaveLength(2);

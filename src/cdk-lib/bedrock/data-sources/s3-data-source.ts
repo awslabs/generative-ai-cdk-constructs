@@ -103,8 +103,12 @@ export class S3DataSource extends DataSourceNew {
     this.bucket = props.bucket;
     this.kmsKey = props.kmsKey;
 
-
+    // ------------------------------------------------------
+    // Manage permissions for the data source
+    // ------------------------------------------------------
+    this.handleCommonPermissions(props);
     this.bucket.grantRead(this.knowledgeBase.role);
+
     NagSuppressions.addResourceSuppressions(
       this.knowledgeBase.role,
       [{
@@ -113,6 +117,7 @@ export class S3DataSource extends DataSourceNew {
       }],
       true,
     );
+
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------

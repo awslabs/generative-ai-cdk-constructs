@@ -12,6 +12,7 @@
  */
 
 import { CfnDataSource, IModel } from 'aws-cdk-lib/aws-bedrock';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { DEFAULT_PARSING_PROMPT } from './default-parsing-prompt';
 
 /**
@@ -60,8 +61,9 @@ export abstract class ParsingStategy {
    * @see https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-ds.html#kb-ds-supported-doc-formats-limits
    */
   public static foundationModel(props: FoundationModelParsingStategyProps): ParsingStategy {
-    return {
-      configuration: {
+    class FoundationModelTransformation extends ParsingStategy {
+      /** The CloudFormation property representation of this configuration */
+      public readonly configuration = {
         bedrockFoundationModelConfiguration: {
           modelArn: props.parsingModel.modelArn,
           parsingPrompt: {
@@ -69,13 +71,26 @@ export abstract class ParsingStategy {
           },
         },
         parsingStrategy: ParsingStategyType.FOUNDATION_MODEL,
-      },
+      };
+
+      public generatePolicyStatements(): PolicyStatement[] {
+        return [new PolicyStatement({
+          actions: ['bedrock:InvokeModel'],
+          resources: [props.parsingModel.modelArn],
+        })];
+      }
     };
+
+    return new FoundationModelTransformation();
   }
   // ------------------------------------------------------
   // Properties
   // ------------------------------------------------------
   /** The CloudFormation property representation of this configuration */
   public abstract configuration: CfnDataSource.ParsingConfigurationProperty;
+
+  public abstract generatePolicyStatements(): PolicyStatement[];
+
+
 }
 

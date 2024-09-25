@@ -193,6 +193,7 @@ export class ConfluenceDataSource extends DataSourceNew {
     // ------------------------------------------------------
     // Manage permissions for the data source
     // ------------------------------------------------------
+    this.handleCommonPermissions(props);
     this.authSecret.grantRead(this.knowledgeBase.role);
 
     // Grant write permissions to the knowledge base role for updating the secret.

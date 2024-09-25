@@ -13,6 +13,7 @@
 
 import { IResource, Resource } from 'aws-cdk-lib';
 import { CfnDataSource, CfnDataSourceProps } from 'aws-cdk-lib/aws-bedrock';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 
@@ -20,6 +21,7 @@ import { IKnowledgeBase } from './../knowledge-base';
 import { ChunkingStrategy } from './chunking';
 import { CustomTransformation } from './custom-transformation';
 import { ParsingStategy } from './parsing';
+// import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 
 
 /**
@@ -183,6 +185,29 @@ export abstract class DataSourceNew extends DataSourceBase {
   // ------------------------------------------------------
   // Common methods for ALL NEW data sources
   // ------------------------------------------------------
+
+  /**
+   * Adds appropriate permissions to the KB execution role needed by the data source.
+   */
+  public handleCommonPermissions(props: DataSourceAssociationProps) {
+    let statementsToAdd: PolicyStatement[] = [];
+    // Parsing strategy requires access to the parsing FM, so be sure to add permissions
+    if (props.parsingStrategy) {
+      statementsToAdd.push(...props.parsingStrategy.generatePolicyStatements());
+    }
+    // Custom transformation requires invoke permissions for the Lambda
+    if (props.customTransformation) {
+      statementsToAdd.push(...props.customTransformation.generatePolicyStatements(this));
+    }
+    // Add the permission statements to the KB execution role
+    statementsToAdd.forEach((statement) => {
+      this.knowledgeBase.role.addToPrincipalPolicy(statement);
+    });
+  }
+
+  /**
+   * Formats the data source configuration properties for CloudFormation.
+   */
   public formatAsCfnProps(
     props: DataSourceAssociationProps,
     dataSourceConfiguration: CfnDataSource.DataSourceConfigurationProperty,
@@ -204,6 +229,7 @@ export abstract class DataSourceNew extends DataSourceBase {
 
     };
   }
+
 }
 
 

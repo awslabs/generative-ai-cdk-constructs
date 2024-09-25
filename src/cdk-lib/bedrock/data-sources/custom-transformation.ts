@@ -11,8 +11,11 @@
  *  and limitations under the License.
  */
 
+import { Stack } from 'aws-cdk-lib';
 import { CfnDataSource } from 'aws-cdk-lib/aws-bedrock';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { IFunction } from 'aws-cdk-lib/aws-lambda';
+import { Construct } from 'constructs';
 
 /**
  * Defines the step in the ingestion process where the custom transformation is applied.
@@ -43,7 +46,7 @@ export interface LambdaCustomTransformationProps {
 
   // Commented as only one supported at the time this code is written.
   // /**
-  //  * When in the ingestion process to apply the transformation step. 
+  //  * When in the ingestion process to apply the transformation step.
   //  * @default TransformationStep.POST_CHUNKING
   //  */
   // readonly stepToApply?: TransformationStep;
@@ -64,8 +67,9 @@ export abstract class CustomTransformation {
    * @see https://github.com/aws-samples/amazon-bedrock-samples/blob/main/knowledge-bases/features-examples/02-optimizing-accuracy-retrieved-results/advanced_chunking_options.ipynb
    */
   public static lambda(props: LambdaCustomTransformationProps): CustomTransformation {
-    return {
-      configuration: {
+
+    class LambdaCustomTransformation extends CustomTransformation {
+      public readonly configuration = {
         intermediateStorage: {
           s3Location: {
             uri: props.s3BucketUri,
@@ -75,7 +79,7 @@ export abstract class CustomTransformation {
           {
             stepToApply: TransformationStep.POST_CHUNKING,
             // To uncomment when more steps are available
-            // stepToApply: props.stepToApply ?? TransformationStep.POST_CHUNKING, 
+            // stepToApply: props.stepToApply ?? TransformationStep.POST_CHUNKING,
             transformationFunction: {
               transformationLambdaConfiguration: {
                 lambdaArn: props.lambdaFunction.functionArn,
@@ -83,8 +87,22 @@ export abstract class CustomTransformation {
             },
           },
         ],
-      },
-    };
+      };
+      public generatePolicyStatements(scope: Construct): PolicyStatement[] {
+        return [
+          new PolicyStatement({
+            actions: ['lambda:InvokeFunction'],
+            resources: [`${props.lambdaFunction.functionArn}:*`],
+            conditions: {
+              StringEquals: {
+                'aws:ResourceAccount': Stack.of(scope).account,
+              },
+            },
+          }),
+        ];
+      }
+    }
+    return new LambdaCustomTransformation();
   }
   // ------------------------------------------------------
   // Properties
@@ -93,4 +111,7 @@ export abstract class CustomTransformation {
    * The CloudFormation property representation of this custom transformation configuration.
    */
   public abstract configuration: CfnDataSource.CustomTransformationConfigurationProperty;
+
+  public abstract generatePolicyStatements(scope: Construct): PolicyStatement[];
+
 }

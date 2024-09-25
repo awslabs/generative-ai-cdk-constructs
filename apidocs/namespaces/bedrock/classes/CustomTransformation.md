@@ -32,6 +32,20 @@ The CloudFormation property representation of this custom transformation configu
 
 ## Methods
 
+### generatePolicyStatements()
+
+> `abstract` **generatePolicyStatements**(`scope`): `PolicyStatement`[]
+
+#### Parameters
+
+• **scope**: `Construct`
+
+#### Returns
+
+`PolicyStatement`[]
+
+***
+
 ### lambda()
 
 > `static` **lambda**(`props`): [`CustomTransformation`](CustomTransformation.md)

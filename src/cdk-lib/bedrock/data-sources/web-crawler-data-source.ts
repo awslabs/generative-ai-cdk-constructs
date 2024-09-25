@@ -150,8 +150,14 @@ export class WebCrawlerDataSource extends DataSourceNew {
     this.siteUrls = props.sourceUrls;
 
     // ------------------------------------------------------
+    // Manage permissions for the data source
+    // ------------------------------------------------------
+    this.handleCommonPermissions(props);
+
+    // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
+
     this.__resource = new CfnDataSource(this, 'DataSource', {
       ...this.formatAsCfnProps(
         props,

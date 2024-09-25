@@ -1,10 +1,129 @@
 {
  "Resources": {
-  "ImportedKnowledgeBase2kbJ9DVDSYY5YrolePolicy317E89C7": {
+  "MyKnowledgeBaseRole4DDDF8A1": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Condition": {
+        "StringEquals": {
+         "aws:SourceAccount": {
+          "Ref": "AWS::AccountId"
+         }
+        },
+        "ArnLike": {
+         "aws:SourceArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":bedrock:",
+            {
+             "Ref": "AWS::Region"
+            },
+            ":",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":knowledge-base/*"
+           ]
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "bedrock.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Ref": "MyKnowledgeBaseKBVectorsAOSSApiAccessAll56266418"
+     }
+    ],
+    "RoleName": "AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseE9B1DDDC"
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "The KB role needs read only access to all objects in the data source bucket.",
+       "id": "AwsSolutions-IAM5"
+      }
+     ]
+    }
+   }
+  },
+  "MyKnowledgeBaseRoleDefaultPolicyDFB26BAB": {
    "Type": "AWS::IAM::Policy",
    "Properties": {
     "PolicyDocument": {
      "Statement": [
+      {
+       "Action": "bedrock:InvokeModel",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:bedrock:",
+          {
+           "Ref": "AWS::Region"
+          },
+          "::foundation-model/cohere.embed-multilingual-v3"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "bedrock:InvokeModel",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:bedrock:",
+          {
+           "Ref": "AWS::Region"
+          },
+          "::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "lambda:InvokeFunction",
+       "Condition": {
+        "StringEquals": {
+         "aws:ResourceAccount": {
+          "Ref": "AWS::AccountId"
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "LambdaFunctionBF21E41F",
+            "Arn"
+           ]
+          },
+          ":*"
+         ]
+        ]
+       }
+      },
       {
        "Action": [
         "s3:GetObject*",
@@ -13,16 +132,46 @@
        ],
        "Effect": "Allow",
        "Resource": [
-        "arn:aws:s3:::rafams-frankfurt-bucket",
-        "arn:aws:s3:::rafams-frankfurt-bucket/*"
+        {
+         "Fn::GetAtt": [
+          "Bucket83908E77",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "Bucket83908E77",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
        ]
+      },
+      {
+       "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "SecretA720EF05"
+       }
       }
      ],
      "Version": "2012-10-17"
     },
-    "PolicyName": "ImportedKnowledgeBase2kbJ9DVDSYY5YrolePolicy317E89C7",
+    "PolicyName": "MyKnowledgeBaseRoleDefaultPolicyDFB26BAB",
     "Roles": [
-     "AmazonBedrockExecutionRoleForKnowledgeBase_9ivh2"
+     {
+      "Ref": "MyKnowledgeBaseRole4DDDF8A1"
+     }
     ]
    },
    "Metadata": {
@@ -36,17 +185,1431 @@
     }
    }
   },
-  "ImportedKnowledgeBase2s3c8e747cd99820b8c119c0913a162c529ef76d397cbDataSource95B6B2FB": {
+  "MyKnowledgeBaseKBVectorsEncryptionPolicyCCC8F2B4": {
+   "Type": "AWS::OpenSearchServerless::SecurityPolicy",
+   "Properties": {
+    "Name": "encryptionpolicyawsctors74608449",
+    "Policy": "{\"Rules\":[{\"ResourceType\":\"collection\",\"Resource\":[\"collection/vectorstoreawscdkectors74608449\"]}],\"AWSOwnedKey\":true}",
+    "Type": "encryption"
+   }
+  },
+  "MyKnowledgeBaseKBVectorsNetworkPolicy01941965": {
+   "Type": "AWS::OpenSearchServerless::SecurityPolicy",
+   "Properties": {
+    "Name": "networkpolicyawscdctors74608449",
+    "Policy": "[{\"Rules\":[{\"ResourceType\":\"collection\",\"Resource\":[\"collection/vectorstoreawscdkectors74608449\"]},{\"ResourceType\":\"dashboard\",\"Resource\":[\"collection/vectorstoreawscdkectors74608449\"]}],\"AllowFromPublic\":true}]",
+    "Type": "network"
+   }
+  },
+  "MyKnowledgeBaseKBVectorsVectorCollection64B1F159": {
+   "Type": "AWS::OpenSearchServerless::Collection",
+   "Properties": {
+    "Name": "vectorstoreawscdkectors74608449",
+    "StandbyReplicas": "ENABLED",
+    "Type": "VECTORSEARCH"
+   },
+   "DependsOn": [
+    "MyKnowledgeBaseKBVectorsEncryptionPolicyCCC8F2B4",
+    "MyKnowledgeBaseKBVectorsNetworkPolicy01941965"
+   ]
+  },
+  "MyKnowledgeBaseKBVectorsAOSSApiAccessAll56266418": {
+   "Type": "AWS::IAM::ManagedPolicy",
+   "Properties": {
+    "Description": "",
+    "Path": "/",
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "aoss:APIAccessAll",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "MyKnowledgeBaseKBVectorsVectorCollection64B1F159",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   }
+  },
+  "MyKnowledgeBaseKBVectorsDataAccessPolicy29FAC484": {
+   "Type": "AWS::OpenSearchServerless::AccessPolicy",
+   "Properties": {
+    "Name": "dataaccesspolicyawsctors74608449",
+    "Policy": {
+     "Fn::Join": [
+      "",
+      [
+       "[{\"Rules\":[{\"Resource\":[\"collection/vectorstoreawscdkectors74608449\"],\"Permission\":[\"aoss:DescribeCollectionItems\",\"aoss:CreateCollectionItems\",\"aoss:UpdateCollectionItems\"],\"ResourceType\":\"collection\"},{\"Resource\":[\"index/vectorstoreawscdkectors74608449/*\"],\"Permission\":[\"aoss:UpdateIndex\",\"aoss:DescribeIndex\",\"aoss:ReadDocument\",\"aoss:WriteDocument\",\"aoss:CreateIndex\"],\"ResourceType\":\"index\"}],\"Principal\":[\"",
+       {
+        "Fn::GetAtt": [
+         "MyKnowledgeBaseRole4DDDF8A1",
+         "Arn"
+        ]
+       },
+       "\"],\"Description\":\"\"}]"
+      ]
+     ]
+    },
+    "Type": "data"
+   },
+   "Condition": "MyKnowledgeBaseKBVectorsIsDataAccessPolicyNotEmptyA6B77A5D"
+  },
+  "MyKnowledgeBaseKBIndexManageIndexPolicyE3A2084D": {
+   "Type": "AWS::OpenSearchServerless::AccessPolicy",
+   "Properties": {
+    "Name": "manageindexpolicyawsdex47c6646a",
+    "Policy": {
+     "Fn::Join": [
+      "",
+      [
+       "[{\"Rules\":[{\"Resource\":[\"index/vectorstoreawscdkectors74608449/*\"],\"Permission\":[\"aoss:DescribeIndex\",\"aoss:CreateIndex\",\"aoss:DeleteIndex\",\"aoss:UpdateIndex\"],\"ResourceType\":\"index\"},{\"Resource\":[\"collection/vectorstoreawscdkectors74608449\"],\"Permission\":[\"aoss:DescribeCollectionItems\"],\"ResourceType\":\"collection\"}],\"Principal\":[\"",
+       {
+        "Fn::GetAtt": [
+         "OpenSearchIndexCRProviderCRRole466FC04E",
+         "Arn"
+        ]
+       },
+       "\"],\"Description\":\"\"}]"
+      ]
+     ]
+    },
+    "Type": "data"
+   },
+   "DependsOn": [
+    "MyKnowledgeBaseKBVectorsAOSSApiAccessAll56266418",
+    "MyKnowledgeBaseKBVectorsDataAccessPolicy29FAC484",
+    "MyKnowledgeBaseKBVectorsEncryptionPolicyCCC8F2B4",
+    "MyKnowledgeBaseKBVectorsNetworkPolicy01941965",
+    "MyKnowledgeBaseKBVectorsVectorCollection64B1F159"
+   ]
+  },
+  "MyKnowledgeBaseKBIndexVectorIndex11498EB3": {
+   "Type": "Custom::OpenSearchIndex",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "OpenSearchIndexCRProviderframeworkonEvent6CAE4696",
+      "Arn"
+     ]
+    },
+    "Endpoint": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Fn::GetAtt": [
+         "MyKnowledgeBaseKBVectorsVectorCollection64B1F159",
+         "Id"
+        ]
+       },
+       ".",
+       {
+        "Ref": "AWS::Region"
+       },
+       ".aoss.amazonaws.com"
+      ]
+     ]
+    },
+    "IndexName": "bedrock-knowledge-base-default-index",
+    "VectorField": "bedrock-knowledge-base-default-vector",
+    "Dimensions": 1024,
+    "MetadataManagement": [
+     {
+      "MappingField": "AMAZON_BEDROCK_TEXT_CHUNK",
+      "DataType": "text",
+      "Filterable": true
+     },
+     {
+      "MappingField": "AMAZON_BEDROCK_METADATA",
+      "DataType": "text",
+      "Filterable": false
+     }
+    ]
+   },
+   "DependsOn": [
+    "MyKnowledgeBaseKBIndexManageIndexPolicyE3A2084D",
+    "MyKnowledgeBaseKBVectorsAOSSApiAccessAll56266418",
+    "MyKnowledgeBaseKBVectorsDataAccessPolicy29FAC484",
+    "MyKnowledgeBaseKBVectorsEncryptionPolicyCCC8F2B4",
+    "MyKnowledgeBaseKBVectorsNetworkPolicy01941965",
+    "MyKnowledgeBaseKBVectorsVectorCollection64B1F159"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "MyKnowledgeBaseMyCfnKnowledgeBaseD6CD84C2": {
+   "Type": "AWS::Bedrock::KnowledgeBase",
+   "Properties": {
+    "KnowledgeBaseConfiguration": {
+     "Type": "VECTOR",
+     "VectorKnowledgeBaseConfiguration": {
+      "EmbeddingModelArn": {
+       "Fn::Join": [
+        "",
+        [
+         "arn:aws:bedrock:",
+         {
+          "Ref": "AWS::Region"
+         },
+         "::foundation-model/cohere.embed-multilingual-v3"
+        ]
+       ]
+      }
+     }
+    },
+    "Name": "MyKnowledgeBase",
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "MyKnowledgeBaseRole4DDDF8A1",
+      "Arn"
+     ]
+    },
+    "StorageConfiguration": {
+     "OpensearchServerlessConfiguration": {
+      "CollectionArn": {
+       "Fn::GetAtt": [
+        "MyKnowledgeBaseKBVectorsVectorCollection64B1F159",
+        "Arn"
+       ]
+      },
+      "FieldMapping": {
+       "MetadataField": "AMAZON_BEDROCK_METADATA",
+       "TextField": "AMAZON_BEDROCK_TEXT_CHUNK",
+       "VectorField": "bedrock-knowledge-base-default-vector"
+      },
+      "VectorIndexName": "bedrock-knowledge-base-default-index"
+     },
+     "Type": "OPENSEARCH_SERVERLESS"
+    }
+   },
+   "DependsOn": [
+    "MyKnowledgeBaseKBCRPolicy866EC9F5",
+    "MyKnowledgeBaseKBIndexManageIndexPolicyE3A2084D",
+    "MyKnowledgeBaseKBIndexVectorIndex11498EB3",
+    "MyKnowledgeBaseRoleDefaultPolicyDFB26BAB",
+    "MyKnowledgeBaseRole4DDDF8A1"
+   ]
+  },
+  "MyKnowledgeBaseKBCRPolicy866EC9F5": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "bedrock:CreateKnowledgeBase",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "bedrock:UpdateKnowledgeBase",
+        "bedrock:DeleteKnowledgeBase",
+        "bedrock:TagResource"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":bedrock:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":knowledge-base/*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "iam:PassRole",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "MyKnowledgeBaseRole4DDDF8A1",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "MyKnowledgeBaseKBCRPolicy866EC9F5",
+    "Roles": [
+     {
+      "Ref": "MyKnowledgeBaseRole4DDDF8A1"
+     }
+    ]
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Bedrock CreateKnowledgeBase can't be restricted by resource.",
+       "id": "AwsSolutions-IAM5"
+      }
+     ]
+    }
+   }
+  },
+  "MyKnowledgeBases3c8d2b2131ea47a1d14803dbe72ff80c0c02e5106c6DataSourceBC9B5F57": {
    "Type": "AWS::Bedrock::DataSource",
    "Properties": {
     "DataSourceConfiguration": {
      "S3Configuration": {
-      "BucketArn": "arn:aws:s3:::rafams-frankfurt-bucket"
+      "BucketArn": {
+       "Fn::GetAtt": [
+        "Bucket83908E77",
+        "Arn"
+       ]
+      }
      },
      "Type": "S3"
     },
-    "KnowledgeBaseId": "J9DVDSYY5Y",
-    "Name": "TestDataSourceS3"
+    "KnowledgeBaseId": {
+     "Fn::GetAtt": [
+      "MyKnowledgeBaseMyCfnKnowledgeBaseD6CD84C2",
+      "KnowledgeBaseId"
+     ]
+    },
+    "Name": "s3-ds-awscdkbedrockc0c02e5106c6-efb3d575",
+    "ServerSideEncryptionConfiguration": {
+     "KmsKeyArn": {
+      "Fn::GetAtt": [
+       "Key961B73FD",
+       "Arn"
+      ]
+     }
+    },
+    "VectorIngestionConfiguration": {
+     "ChunkingConfiguration": {
+      "ChunkingStrategy": "SEMANTIC",
+      "SemanticChunkingConfiguration": {
+       "BreakpointPercentileThreshold": 95,
+       "BufferSize": 0,
+       "MaxTokens": 300
+      }
+     },
+     "CustomTransformationConfiguration": {
+      "IntermediateStorage": {
+       "S3Location": {
+        "URI": {
+         "Fn::Join": [
+          "",
+          [
+           "s3://",
+           {
+            "Ref": "Bucket25524B414"
+           },
+           "/chunk-processor/"
+          ]
+         ]
+        }
+       }
+      },
+      "Transformations": [
+       {
+        "StepToApply": "POST_CHUNKING",
+        "TransformationFunction": {
+         "TransformationLambdaConfiguration": {
+          "LambdaArn": {
+           "Fn::GetAtt": [
+            "LambdaFunctionBF21E41F",
+            "Arn"
+           ]
+          }
+         }
+        }
+       }
+      ]
+     },
+     "ParsingConfiguration": {
+      "BedrockFoundationModelConfiguration": {
+       "ModelArn": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:bedrock:",
+          {
+           "Ref": "AWS::Region"
+          },
+          "::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0"
+         ]
+        ]
+       },
+       "ParsingPrompt": {
+        "ParsingPromptText": "Transcribe the text content from an image page and output in Markdown syntax (not code blocks). Follow these steps:\n\n1. Examine the provided page carefully.\n\n2. Identify all elements present in the page, including headers, body text, footnotes, tables, visulizations, captions, and page numbers, etc.\n\n3. Use markdown syntax to format your output:\n    - Headings: # for main, ## for sections, ### for subsections, etc.\n    - Lists: * or - for bulleted, 1. 2. 3. for numbered\n    - Do not repeat yourself\n\n4. If the element is a visulization\n    - Provide a detailed description in natural language\n    - Do not transcribe text in the visualization after providing the description\n\n5. If the element is a table\n    - Create a markdown table, ensuring every row has the same number of columns\n    - Maintain cell alignment as closely as possible\n    - Do not split a table into multiple tables\n    - If a merged cell spans multiple rows or columns, place the text in the top-left cell and output ' ' for other\n    - Use | for column separators, |-|-| for header row separators\n    - If a cell has multiple items, list them in separate rows\n    - If the table contains sub-headers, separate the sub-headers from the headers in another row\n\n6. If the element is a paragraph\n    - Transcribe each text element precisely as it appears\n\n7. If the element is a header, footer, footnote, page number\n    - Transcribe each text element precisely as it appears\n\nOutput Example:\n\nA bar chart showing annual sales figures, with the y-axis labeled \"Sales ($Million)\" and the x-axis labeled \"Year\". The chart has bars for 2018 ($12M), 2019 ($18M), 2020 ($8M), and 2021 ($22M).\nFigure 3: This chart shows annual sales in millions. The year 2020 was significantly down due to the COVID-19 pandemic.\n\n# Annual Report\n\n## Financial Highlights\n\n* Revenue: $40M\n* Profit: $12M\n* EPS: $1.25\n\n\n| | Year Ended December 31, | |\n| | 2021 | 2022 |\n|-|-|-|\n| Cash provided by (used in): | | |\n| Operating activities | $ 46,327 | $ 46,752 |\n| Investing activities | (58,154) | (37,601) |\n| Financing activities | 6,291 | 9,718 |\n\nHere is the image.\n"
+       }
+      },
+      "ParsingStrategy": "BEDROCK_FOUNDATION_MODEL"
+     }
+    }
+   }
+  },
+  "MyKnowledgeBasecfexampleatlassiannetDataSourceDBA1C020": {
+   "Type": "AWS::Bedrock::DataSource",
+   "Properties": {
+    "DataSourceConfiguration": {
+     "ConfluenceConfiguration": {
+      "CrawlerConfiguration": {
+       "FilterConfiguration": {
+        "PatternObjectFilter": {
+         "Filters": [
+          {
+           "ExclusionFilters": [
+            ".*private.*\\.pdf"
+           ],
+           "InclusionFilters": [
+            ".*\\.pdf"
+           ],
+           "ObjectType": "Attachment"
+          },
+          {
+           "ExclusionFilters": [
+            ".*confidential.*\\.pdf"
+           ],
+           "InclusionFilters": [
+            ".*public.*\\.pdf"
+           ],
+           "ObjectType": "Page"
+          }
+         ]
+        },
+        "Type": "PATTERN"
+       }
+      },
+      "SourceConfiguration": {
+       "AuthType": "OAUTH2_CLIENT_CREDENTIALS",
+       "CredentialsSecretArn": {
+        "Ref": "SecretA720EF05"
+       },
+       "HostType": "SAAS",
+       "HostUrl": "https://example.atlassian.net"
+      }
+     },
+     "Type": "CONFLUENCE"
+    },
+    "KnowledgeBaseId": {
+     "Fn::GetAtt": [
+      "MyKnowledgeBaseMyCfnKnowledgeBaseD6CD84C2",
+      "KnowledgeBaseId"
+     ]
+    },
+    "Name": "TestDataSource",
+    "ServerSideEncryptionConfiguration": {
+     "KmsKeyArn": {
+      "Fn::GetAtt": [
+       "Key961B73FD",
+       "Arn"
+      ]
+     }
+    }
+   }
+  },
+  "MyKnowledgeBasewebdocsawsamazoncomDataSource553F3E23": {
+   "Type": "AWS::Bedrock::DataSource",
+   "Properties": {
+    "DataSourceConfiguration": {
+     "Type": "WEB",
+     "WebConfiguration": {
+      "CrawlerConfiguration": {
+       "CrawlerLimits": {
+        "RateLimit": 300
+       }
+      },
+      "SourceConfiguration": {
+       "UrlConfiguration": {
+        "SeedUrls": [
+         {
+          "Url": "https://docs.aws.amazon.com/"
+         }
+        ]
+       }
+      }
+     }
+    },
+    "KnowledgeBaseId": {
+     "Fn::GetAtt": [
+      "MyKnowledgeBaseMyCfnKnowledgeBaseD6CD84C2",
+      "KnowledgeBaseId"
+     ]
+    },
+    "Name": "crawler-ds-awscdkbedramazoncom-1607ee2c",
+    "VectorIngestionConfiguration": {
+     "ChunkingConfiguration": {
+      "ChunkingStrategy": "HIERARCHICAL",
+      "HierarchicalChunkingConfiguration": {
+       "LevelConfigurations": [
+        {
+         "MaxTokens": 500
+        },
+        {
+         "MaxTokens": 300
+        }
+       ],
+       "OverlapTokens": 60
+      }
+     }
+    }
+   }
+  },
+  "MyKnowledgeBasesfyourinstancemysalesforcecomDataSource55A23DEF": {
+   "Type": "AWS::Bedrock::DataSource",
+   "Properties": {
+    "DataSourceConfiguration": {
+     "SalesforceConfiguration": {
+      "CrawlerConfiguration": {
+       "FilterConfiguration": {
+        "PatternObjectFilter": {
+         "Filters": [
+          {
+           "ExclusionFilters": [
+            ".*private.*\\.pdf"
+           ],
+           "InclusionFilters": [
+            ".*\\.pdf"
+           ],
+           "ObjectType": "Attachment"
+          },
+          {
+           "ExclusionFilters": [
+            ".*confidential.*\\.pdf"
+           ],
+           "InclusionFilters": [
+            ".*public.*\\.pdf"
+           ],
+           "ObjectType": "Contract"
+          }
+         ]
+        },
+        "Type": "PATTERN"
+       }
+      },
+      "SourceConfiguration": {
+       "AuthType": "OAUTH2_CLIENT_CREDENTIALS",
+       "CredentialsSecretArn": {
+        "Ref": "SecretA720EF05"
+       },
+       "HostUrl": "https://your-instance.my.salesforce.com"
+      }
+     },
+     "Type": "SALESFORCE"
+    },
+    "KnowledgeBaseId": {
+     "Fn::GetAtt": [
+      "MyKnowledgeBaseMyCfnKnowledgeBaseD6CD84C2",
+      "KnowledgeBaseId"
+     ]
+    },
+    "Name": "sfdc-ds-awscdkbedroclesforcecom-0efb3b07",
+    "ServerSideEncryptionConfiguration": {
+     "KmsKeyArn": {
+      "Fn::GetAtt": [
+       "Key961B73FD",
+       "Arn"
+      ]
+     }
+    }
+   }
+  },
+  "MyKnowledgeBasespyourdomainsharepointcomDataSourceC6AE310B": {
+   "Type": "AWS::Bedrock::DataSource",
+   "Properties": {
+    "DataSourceConfiguration": {
+     "SharePointConfiguration": {
+      "CrawlerConfiguration": {
+       "FilterConfiguration": {
+        "PatternObjectFilter": {
+         "Filters": [
+          {
+           "ExclusionFilters": [
+            ".*private.*\\.pdf"
+           ],
+           "InclusionFilters": [
+            ".*\\.pdf"
+           ],
+           "ObjectType": "Page"
+          },
+          {
+           "ExclusionFilters": [
+            ".*confidential.*\\.pdf"
+           ],
+           "InclusionFilters": [
+            ".*public.*\\.pdf"
+           ],
+           "ObjectType": "File"
+          }
+         ]
+        },
+        "Type": "PATTERN"
+       }
+      },
+      "SourceConfiguration": {
+       "AuthType": "OAUTH2_CLIENT_CREDENTIALS",
+       "CredentialsSecretArn": {
+        "Ref": "SecretA720EF05"
+       },
+       "Domain": "yourdomain",
+       "HostType": "ONLINE",
+       "SiteUrls": [
+        "https://yourdomain.sharepoint.com/sites/mysite"
+       ],
+       "TenantId": "888d0b57-69f1-4fb8-957f-e1f0bedf64de"
+      }
+     },
+     "Type": "SHAREPOINT"
+    },
+    "KnowledgeBaseId": {
+     "Fn::GetAtt": [
+      "MyKnowledgeBaseMyCfnKnowledgeBaseD6CD84C2",
+      "KnowledgeBaseId"
+     ]
+    },
+    "Name": "SharepointDataSource",
+    "ServerSideEncryptionConfiguration": {
+     "KmsKeyArn": {
+      "Fn::GetAtt": [
+       "Key961B73FD",
+       "Arn"
+      ]
+     }
+    }
+   }
+  },
+  "OpenSearchIndexCRProviderCRRole466FC04E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     },
+     {
+      "Ref": "MyKnowledgeBaseKBVectorsAOSSApiAccessAll56266418"
+     }
+    ]
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "CDK CustomResource Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.",
+       "id": "AwsSolutions-IAM4"
+      }
+     ]
+    }
+   }
+  },
+  "OpenSearchIndexCRProviderCustomResourcesFunction4F9ADEA2": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "da73789e3f1f94081065f0272de520a9890a3c9a1fd3a48ba994e4618e268c0d.zip"
+    },
+    "Description": "Custom Resource Provider",
+    "Handler": "custom_resources.on_event",
+    "MemorySize": 128,
+    "Role": {
+     "Fn::GetAtt": [
+      "OpenSearchIndexCRProviderCRRole466FC04E",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.12",
+    "Timeout": 900
+   },
+   "DependsOn": [
+    "OpenSearchIndexCRProviderCRRole466FC04E"
+   ]
+  },
+  "OpenSearchIndexCRProviderCustomResourcesFunctionLogRetentionC32546EF": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "OpenSearchIndexCRProviderCustomResourcesFunction4F9ADEA2"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 7
+   }
+  },
+  "OpenSearchIndexCRProviderProviderRole87B4E831": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "CDK CustomResource Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.",
+       "id": "AwsSolutions-IAM4"
+      },
+      {
+       "reason": "CDK CustomResource Provider has a wildcard to invoke any version of the specific Custom Resource function.",
+       "id": "AwsSolutions-IAM5",
+       "applies_to": [
+        {
+         "regex": "/^Resource::<OpenSearchIndexCRProviderCustomResourcesFunction[A-Z0-9]+\\.Arn>:\\*$/g"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "OpenSearchIndexCRProviderProviderRoleDefaultPolicy9810CB1F": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "OpenSearchIndexCRProviderCustomResourcesFunction4F9ADEA2",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "OpenSearchIndexCRProviderCustomResourcesFunction4F9ADEA2",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "OpenSearchIndexCRProviderProviderRoleDefaultPolicy9810CB1F",
+    "Roles": [
+     {
+      "Ref": "OpenSearchIndexCRProviderProviderRole87B4E831"
+     }
+    ]
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "CDK CustomResource Provider has a wildcard to invoke any version of the specific Custom Resource function.",
+       "id": "AwsSolutions-IAM5",
+       "applies_to": [
+        {
+         "regex": "/^Resource::<OpenSearchIndexCRProviderCustomResourcesFunction[A-Z0-9]+\\.Arn>:\\*$/g"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "OpenSearchIndexCRProviderframeworkonEvent6CAE4696": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "d9861ea7a45affd23e47a614acb2fddc6e45c20a891284c958187dafbf9ee36b.zip"
+    },
+    "Description": "AWS CDK resource provider framework - onEvent (aws-cdk-bedrock-data-sources-integ-test/OpenSearchIndexCRProvider/Provider)",
+    "Environment": {
+     "Variables": {
+      "USER_ON_EVENT_FUNCTION_ARN": {
+       "Fn::GetAtt": [
+        "OpenSearchIndexCRProviderCustomResourcesFunction4F9ADEA2",
+        "Arn"
+       ]
+      }
+     }
+    },
+    "Handler": "framework.onEvent",
+    "Role": {
+     "Fn::GetAtt": [
+      "OpenSearchIndexCRProviderProviderRole87B4E831",
+      "Arn"
+     ]
+    },
+    "Runtime": {
+     "Fn::FindInMap": [
+      "LatestNodeRuntimeMap",
+      {
+       "Ref": "AWS::Region"
+      },
+      "value"
+     ]
+    },
+    "Timeout": 900
+   },
+   "DependsOn": [
+    "OpenSearchIndexCRProviderProviderRoleDefaultPolicy9810CB1F",
+    "OpenSearchIndexCRProviderProviderRole87B4E831"
+   ],
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Lambda runtime version is managed upstream by CDK.",
+       "id": "AwsSolutions-L1"
+      }
+     ]
+    }
+   }
+  },
+  "OpenSearchIndexCRProviderframeworkonEventLogRetention64E7FA2B": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "OpenSearchIndexCRProviderframeworkonEvent6CAE4696"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 7
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:PutRetentionPolicy",
+        "logs:DeleteRetentionPolicy"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+    "Roles": [
+     {
+      "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+     }
+    ]
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Handler": "index.handler",
+    "Runtime": {
+     "Fn::FindInMap": [
+      "LatestNodeRuntimeMap",
+      {
+       "Ref": "AWS::Region"
+      },
+      "value"
+     ]
+    },
+    "Timeout": 900,
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "4e26bf2d0a26f2097fb2b261f22bb51e3f6b4b52635777b1e54edbd8e2d58c35.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+   ]
+  },
+  "Bucket83908E77": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "BucketPolicyE9A3008A": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "Bucket83908E77"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:PutBucketPolicy",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "Bucket83908E77",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "Bucket83908E77",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   }
+  },
+  "BucketAutoDeleteObjectsCustomResourceBAFD23C2": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "Bucket83908E77"
+    }
+   },
+   "DependsOn": [
+    "BucketPolicyE9A3008A"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ]
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      "Arn"
+     ]
+    },
+    "Runtime": {
+     "Fn::FindInMap": [
+      "LatestNodeRuntimeMap",
+      {
+       "Ref": "AWS::Region"
+      },
+      "value"
+     ]
+    },
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function for auto-deleting objects in ",
+       {
+        "Ref": "Bucket83908E77"
+       },
+       " S3 bucket."
+      ]
+     ]
+    }
+   },
+   "DependsOn": [
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+   ]
+  },
+  "Bucket25524B414": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "Bucket2Policy945B22E3": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "Bucket25524B414"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:PutBucketPolicy",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "Bucket25524B414",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "Bucket25524B414",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   }
+  },
+  "Bucket2AutoDeleteObjectsCustomResourceF4462BA8": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "Bucket25524B414"
+    }
+   },
+   "DependsOn": [
+    "Bucket2Policy945B22E3"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "SecretA720EF05": {
+   "Type": "AWS::SecretsManager::Secret",
+   "Properties": {
+    "GenerateSecretString": {}
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "Key961B73FD": {
+   "Type": "AWS::KMS::Key",
+   "Properties": {
+    "KeyPolicy": {
+     "Statement": [
+      {
+       "Action": "kms:*",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":root"
+          ]
+         ]
+        }
+       },
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "LambdaFunctionServiceRoleC555A460": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "LambdaFunctionBF21E41F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "ZipFile": "exports.handler = function(event, context, callback) { callback(null, \"Success\"); }"
+    },
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "LambdaFunctionServiceRoleC555A460",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x"
+   },
+   "DependsOn": [
+    "LambdaFunctionServiceRoleC555A460"
+   ]
+  }
+ },
+ "Conditions": {
+  "MyKnowledgeBaseKBVectorsIsDataAccessPolicyNotEmptyA6B77A5D": {
+   "Fn::Not": [
+    {
+     "Fn::Equals": [
+      0,
+      1
+     ]
+    }
+   ]
+  }
+ },
+ "Mappings": {
+  "LatestNodeRuntimeMap": {
+   "af-south-1": {
+    "value": "nodejs20.x"
+   },
+   "ap-east-1": {
+    "value": "nodejs20.x"
+   },
+   "ap-northeast-1": {
+    "value": "nodejs20.x"
+   },
+   "ap-northeast-2": {
+    "value": "nodejs20.x"
+   },
+   "ap-northeast-3": {
+    "value": "nodejs20.x"
+   },
+   "ap-south-1": {
+    "value": "nodejs20.x"
+   },
+   "ap-south-2": {
+    "value": "nodejs20.x"
+   },
+   "ap-southeast-1": {
+    "value": "nodejs20.x"
+   },
+   "ap-southeast-2": {
+    "value": "nodejs20.x"
+   },
+   "ap-southeast-3": {
+    "value": "nodejs20.x"
+   },
+   "ap-southeast-4": {
+    "value": "nodejs20.x"
+   },
+   "ap-southeast-5": {
+    "value": "nodejs20.x"
+   },
+   "ap-southeast-7": {
+    "value": "nodejs20.x"
+   },
+   "ca-central-1": {
+    "value": "nodejs20.x"
+   },
+   "ca-west-1": {
+    "value": "nodejs20.x"
+   },
+   "cn-north-1": {
+    "value": "nodejs18.x"
+   },
+   "cn-northwest-1": {
+    "value": "nodejs18.x"
+   },
+   "eu-central-1": {
+    "value": "nodejs20.x"
+   },
+   "eu-central-2": {
+    "value": "nodejs20.x"
+   },
+   "eu-isoe-west-1": {
+    "value": "nodejs18.x"
+   },
+   "eu-north-1": {
+    "value": "nodejs20.x"
+   },
+   "eu-south-1": {
+    "value": "nodejs20.x"
+   },
+   "eu-south-2": {
+    "value": "nodejs20.x"
+   },
+   "eu-west-1": {
+    "value": "nodejs20.x"
+   },
+   "eu-west-2": {
+    "value": "nodejs20.x"
+   },
+   "eu-west-3": {
+    "value": "nodejs20.x"
+   },
+   "il-central-1": {
+    "value": "nodejs20.x"
+   },
+   "me-central-1": {
+    "value": "nodejs20.x"
+   },
+   "me-south-1": {
+    "value": "nodejs20.x"
+   },
+   "mx-central-1": {
+    "value": "nodejs20.x"
+   },
+   "sa-east-1": {
+    "value": "nodejs20.x"
+   },
+   "us-east-1": {
+    "value": "nodejs20.x"
+   },
+   "us-east-2": {
+    "value": "nodejs20.x"
+   },
+   "us-gov-east-1": {
+    "value": "nodejs18.x"
+   },
+   "us-gov-west-1": {
+    "value": "nodejs18.x"
+   },
+   "us-iso-east-1": {
+    "value": "nodejs18.x"
+   },
+   "us-iso-west-1": {
+    "value": "nodejs18.x"
+   },
+   "us-isob-east-1": {
+    "value": "nodejs18.x"
+   },
+   "us-west-1": {
+    "value": "nodejs20.x"
+   },
+   "us-west-2": {
+    "value": "nodejs20.x"
    }
   }
  },

@@ -13,10 +13,10 @@
 import * as integ from '@aws-cdk/integ-tests-alpha';
 import * as cdk from 'aws-cdk-lib';
 import { Key } from 'aws-cdk-lib/aws-kms';
+import { Code, Runtime, Function } from 'aws-cdk-lib/aws-lambda';
 import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import { BedrockFoundationModel, KnowledgeBase, ChunkingStrategy, ParsingStategy, ConfluenceObjectType, SalesforceObjectType, SharePointObjectType, CrawlingScope, CustomTransformation } from '../../../../src/cdk-lib/bedrock';
-import { Code, Runtime, Function } from 'aws-cdk-lib/aws-lambda';
 
 
 const app = new cdk.App();
@@ -37,6 +37,7 @@ const bucket2 = new Bucket(stack, 'Bucket2', {
 });
 const secret = new Secret(stack, 'Secret');
 const key = new Key(stack, 'Key');
+
 const lambdaFunction = new Function(stack, 'LambdaFunction', {
   runtime: Runtime.NODEJS_18_X,
   code: Code.fromInline('exports.handler = function(event, context, callback) { callback(null, "Success"); }'),
@@ -53,8 +54,8 @@ kb.addS3DataSource({
   }),
   customTransformation: CustomTransformation.lambda({
     lambdaFunction,
-    s3BucketUri: `s3://${bucket2.bucketName}/chunk-processor/`
-  })
+    s3BucketUri: `s3://${bucket2.bucketName}/chunk-processor/`,
+  }),
 });
 
 kb.addConfluenceDataSource({

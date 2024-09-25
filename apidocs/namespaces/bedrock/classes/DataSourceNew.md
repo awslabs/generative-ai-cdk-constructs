@@ -208,6 +208,8 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 > **formatAsCfnProps**(`props`, `dataSourceConfiguration`): `CfnDataSourceProps`
 
+Formats the data source configuration properties for CloudFormation.
+
 #### Parameters
 
 • **props**: [`DataSourceAssociationProps`](../interfaces/DataSourceAssociationProps.md)
@@ -295,6 +297,22 @@ Commonly this is the resource's `ref`.
 #### Inherited from
 
 [`DataSourceBase`](DataSourceBase.md).[`getResourceNameAttribute`](DataSourceBase.md#getresourcenameattribute)
+
+***
+
+### handleCommonPermissions()
+
+> **handleCommonPermissions**(`props`): `void`
+
+Adds appropriate permissions to the KB execution role needed by the data source.
+
+#### Parameters
+
+• **props**: [`DataSourceAssociationProps`](../interfaces/DataSourceAssociationProps.md)
+
+#### Returns
+
+`void`
 
 ***
 

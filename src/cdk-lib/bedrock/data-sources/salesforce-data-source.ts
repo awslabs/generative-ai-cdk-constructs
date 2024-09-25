@@ -173,6 +173,7 @@ export class SalesforceDataSource extends DataSourceNew {
     // ------------------------------------------------------
     // Manage permissions for the data source
     // ------------------------------------------------------
+    this.handleCommonPermissions(props);
     this.authSecret.grantRead(this.knowledgeBase.role);
 
     // ------------------------------------------------------

@@ -32,6 +32,16 @@ The CloudFormation property representation of this configuration
 
 ## Methods
 
+### generatePolicyStatements()
+
+> `abstract` **generatePolicyStatements**(): `PolicyStatement`[]
+
+#### Returns
+
+`PolicyStatement`[]
+
+***
+
 ### foundationModel()
 
 > `static` **foundationModel**(`props`): [`ParsingStategy`](ParsingStategy.md)
