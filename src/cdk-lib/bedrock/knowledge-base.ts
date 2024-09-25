@@ -11,19 +11,19 @@
  *  and limitations under the License.
  */
 
-import * as cdk from 'aws-cdk-lib';
-import { aws_bedrock as bedrock } from 'aws-cdk-lib';
+import { ArnFormat, aws_bedrock as bedrock, IResource, Resource, Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { NagSuppressions } from 'cdk-nag/lib/nag-suppressions';
 import { Construct } from 'constructs';
 import { Agent } from './../bedrock/agent';
+import { ConfluenceDataSource, ConfluenceDataSourceAssociationProps } from './data-sources/confluence-data-source';
+import { S3DataSource, S3DataSourceAssociationProps } from './data-sources/s3-data-source';
+import { SalesforceDataSource, SalesforceDataSourceAssociationProps } from './data-sources/salesforce-data-source';
+import { SharePointDataSource, SharePointDataSourceAssociationProps } from './data-sources/sharepoint-data-source';
+import { WebCrawlerDataSource, WebCrawlerDataSourceAssociationProps } from './data-sources/web-crawler-data-source';
 import { BedrockFoundationModel } from './models';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
-import {
-  AmazonAuroraDefaultVectorStore,
-  AmazonAuroraVectorStore,
-} from '../amazonaurora';
-
+import { AmazonAuroraDefaultVectorStore, AmazonAuroraVectorStore } from '../amazonaurora';
 import { VectorIndex } from '../opensearch-vectorindex';
 import { VectorCollection } from '../opensearchserverless';
 import { PineconeVectorStore } from '../pinecone';
@@ -94,6 +94,97 @@ interface StorageConfiguration {
 }
 
 /**
+ * Represents a Knowledge Base, either created with CDK or imported.
+ */
+export interface IKnowledgeBase extends IResource {
+  /**
+   * The ARN of the knowledge base.
+   * @example "arn:aws:bedrock:us-east-1:123456789012:knowledge-base/KB12345678"
+   */
+  readonly knowledgeBaseArn: string;
+
+  /**
+   * The ID of the knowledge base.
+   * @example "KB12345678"
+   */
+  readonly knowledgeBaseId: string;
+
+  /**
+   * The role associated with the knowledge base.
+   */
+  readonly role: iam.IRole;
+
+  /**
+   * Add an S3 data source to the knowledge base.
+   */
+  addS3DataSource(props: S3DataSourceAssociationProps): S3DataSource;
+
+  /**
+   * Add a web crawler data source to the knowledge base.
+   */
+  addWebCrawlerDataSource(props: WebCrawlerDataSourceAssociationProps): WebCrawlerDataSource;
+
+  /**
+   * Add a SharePoint data source to the knowledge base.
+   */
+  addSharePointDataSource(props: SharePointDataSourceAssociationProps): SharePointDataSource;
+
+  /**
+   * Add a Confluence data source to the knowledge base.
+   */
+  addConfluenceDataSource(props: ConfluenceDataSourceAssociationProps): ConfluenceDataSource;
+
+  /**
+   * Add a Salesforce data source to the knowledge base.
+   */
+  addSalesforceDataSource(props: SalesforceDataSourceAssociationProps): SalesforceDataSource;
+}
+
+/**
+ * Abstract base class for Knowledge Base.
+ * Contains methods valid for KBs either created with CDK or imported.
+ */
+abstract class KnowledgeBaseBase extends Resource implements IKnowledgeBase {
+  public abstract readonly knowledgeBaseArn: string;
+  public abstract readonly knowledgeBaseId: string;
+  public abstract readonly role: iam.IRole;
+
+  constructor(scope: Construct, id: string) { super(scope, id); }
+  // ------------------------------------------------------
+  // Helper methods to add Data Sources
+  // ------------------------------------------------------
+  public addS3DataSource(props: S3DataSourceAssociationProps): S3DataSource {
+    return new S3DataSource(this, `s3-${props.bucket.node.addr}`, {
+      knowledgeBase: this, ...props,
+    });
+  }
+  public addWebCrawlerDataSource(props: WebCrawlerDataSourceAssociationProps): WebCrawlerDataSource {
+    const url = new URL(props.sourceUrls[0]);
+    return new WebCrawlerDataSource(this, `web-${url.hostname.replace('.', '-')}`, {
+      knowledgeBase: this, ...props,
+    });
+  }
+  public addSharePointDataSource(props: SharePointDataSourceAssociationProps): SharePointDataSource {
+    const url = new URL(props.siteUrls[0]);
+    return new SharePointDataSource(this, `sp-${url.hostname.replace('.', '-')}`, {
+      knowledgeBase: this, ...props,
+    });
+  }
+  public addConfluenceDataSource(props: ConfluenceDataSourceAssociationProps): ConfluenceDataSource {
+    const url = new URL(props.confluenceUrl);
+    return new ConfluenceDataSource(this, `cf-${url.hostname.replace('.', '-')}`, {
+      knowledgeBase: this, ...props,
+    });
+  }
+  public addSalesforceDataSource(props: SalesforceDataSourceAssociationProps): SalesforceDataSource {
+    const url = new URL(props.endpoint);
+    return new SalesforceDataSource(this, `sf-${url.hostname.replace('.', '-')}`, {
+      knowledgeBase: this, ...props,
+    });
+  }
+}
+
+/**
  * Properties for a knowledge base
  */
 export interface KnowledgeBaseProps {
@@ -121,7 +212,7 @@ export interface KnowledgeBaseProps {
    * this role will be able to invoke or use the
    * specified embeddings model within the Bedrock service.
    */
-  readonly existingRole?: iam.Role;
+  readonly existingRole?: iam.IRole;
 
   /**
    * A narrative description of the knowledge base.
@@ -189,11 +280,48 @@ export interface KnowledgeBaseProps {
 }
 
 /**
+ * Properties for importing a knowledge base outside of this stack
+ */
+export interface KnowledgeBaseAttributes {
+  /**
+   * The ID of the knowledge base.
+   * @example "KB12345678"
+   */
+  readonly knowledgeBaseId: string;
+  /**
+   * The Service Execution Role associated with the knowledge base.
+   * @example "arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseKB12345678"
+   */
+  readonly executionRoleArn: string;
+}
+
+/**
  * Deploys a Bedrock Knowledge Base and configures a backend by OpenSearch Serverless,
  * Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
  *
  */
-export class KnowledgeBase extends Construct {
+export class KnowledgeBase extends KnowledgeBaseBase {
+  // ------------------------------------------------------
+  // Import Methods
+  // ------------------------------------------------------
+  public static fromKnowledgeBaseAttributes(scope: Construct, id: string, attrs: KnowledgeBaseAttributes): IKnowledgeBase {
+    const stack = Stack.of(scope);
+    class Import extends KnowledgeBaseBase {
+      public readonly knowledgeBaseArn = stack.formatArn({
+        service: 'bedrock',
+        resource: 'knowledge-base',
+        resourceName: attrs.knowledgeBaseId,
+        arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
+      });
+      public readonly role = iam.Role.fromRoleArn(this, `kb-${attrs.knowledgeBaseId}-role`, attrs.executionRoleArn);
+      public readonly knowledgeBaseId = attrs.knowledgeBaseId;
+    }
+    return new Import(scope, id);
+
+  }
+  // ------------------------------------------------------
+  // Attributes
+  // ------------------------------------------------------
   /**
    * The name of the knowledge base.
    */
@@ -207,7 +335,7 @@ export class KnowledgeBase extends Construct {
   /**
    * The role the Knowledge Base uses to access the vector store and data source.
    */
-  public readonly role: iam.Role;
+  public readonly role: iam.IRole;
 
   /**
    * The vector store for the knowledge base.
@@ -232,6 +360,7 @@ export class KnowledgeBase extends Construct {
    * The ID of the knowledge base.
    */
   public readonly knowledgeBaseId: string;
+
   /**
    * The OpenSearch vector index for the knowledge base.
    * @private
@@ -291,29 +420,22 @@ export class KnowledgeBase extends Construct {
       );
       this.role = new iam.Role(this, 'Role', {
         roleName: roleName,
-        assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com'),
-      });
-      this.role.assumeRolePolicy!.addStatements(
-        new iam.PolicyStatement({
-          actions: ['sts:AssumeRole'],
-          principals: [new iam.ServicePrincipal('bedrock.amazonaws.com')],
+        assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com', {
           conditions: {
-            StringEquals: {
-              'aws:SourceAccount': cdk.Stack.of(this).account,
-            },
+            StringEquals: { 'aws:SourceAccount': Stack.of(this).account },
             ArnLike: {
-              'aws:SourceArn': cdk.Stack.of(this).formatArn({
+              'aws:SourceArn': Stack.of(this).formatArn({
                 service: 'bedrock',
                 resource: 'knowledge-base',
                 resourceName: '*',
-                arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
+                arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
               }),
             },
           },
         }),
-      );
+      });
 
-      this.role.addToPolicy(
+      this.role.addToPrincipalPolicy(
         new iam.PolicyStatement({
           actions: ['bedrock:InvokeModel'],
           resources: [embeddingsModel.asArn(this)],
@@ -358,7 +480,7 @@ export class KnowledgeBase extends Construct {
      * other than OpenSearch Serverless.
      */
     if (!(this.vectorStore instanceof VectorCollection)) {
-      this.role.addToPolicy(
+      this.role.addToPrincipalPolicy(
         new iam.PolicyStatement({
           actions: ['secretsmanager:GetSecretValue'],
           resources: [this.vectorStore.credentialsSecretArn],
@@ -377,7 +499,7 @@ export class KnowledgeBase extends Construct {
       this.vectorStore instanceof AmazonAuroraDefaultVectorStore ||
       this.vectorStore instanceof AmazonAuroraVectorStore
     ) {
-      this.role.addToPolicy(
+      this.role.addToPrincipalPolicy(
         new iam.PolicyStatement({
           actions: [
             'rds-data:ExecuteStatement',
@@ -495,11 +617,11 @@ export class KnowledgeBase extends Construct {
             'bedrock:TagResource',
           ],
           resources: [
-            cdk.Stack.of(this).formatArn({
+            Stack.of(this).formatArn({
               service: 'bedrock',
               resource: 'knowledge-base',
               resourceName: '*',
-              arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
+              arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
             }),
           ],
         }),

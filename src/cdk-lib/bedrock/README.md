@@ -66,9 +66,10 @@ new bedrock.S3DataSource(this, "DataSource", {
   bucket: docBucket,
   knowledgeBase: kb,
   dataSourceName: "books",
-  chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
-  maxTokens: 500,
-  overlapPercentage: 20,
+  chunkingStrategy: bedrock.ChunkingStrategy.fixedSize({
+    maxTokens: 500,
+    overlapPercentage: 20,
+  }),
 });
 ```
 
@@ -136,8 +137,6 @@ new bedrock.S3DataSource(this, "DataSource", {
   knowledgeBase: kb,
   dataSourceName: "books",
   chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
-  maxTokens: 500,
-  overlapPercentage: 20,
 });
 ```
 
@@ -178,8 +177,6 @@ bedrock.S3DataSource(self, 'DataSource',
     knowledge_base=kb,
     data_source_name='books',
     chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
-    max_tokens=500,
-    overlap_percentage=20
 )
 
 ```
@@ -211,8 +208,6 @@ new bedrock.S3DataSource(this, "DataSource", {
   knowledgeBase: kb,
   dataSourceName: "books",
   chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
-  maxTokens: 500,
-  overlapPercentage: 20,
 });
 ```
 
@@ -248,8 +243,6 @@ bedrock.S3DataSource(self, 'DataSource',
     knowledge_base=kb,
     data_source_name='books',
     chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
-    max_tokens=500,
-    overlap_percentage=20
 )
 ```
 
@@ -283,8 +276,6 @@ new bedrock.S3DataSource(this, "DataSource", {
   knowledgeBase: kb,
   dataSourceName: "books",
   chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
-  maxTokens: 500,
-  overlapPercentage: 20,
 });
 ```
 
@@ -321,9 +312,220 @@ bedrock.S3DataSource(self, 'DataSource',
     knowledge_base=kb,
     data_source_name='books',
     chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
-    max_tokens=500,
-    overlap_percentage=20
 )
+```
+
+#### Knowledge Base - Data Sources
+
+Data sources are the various repositories or systems from which information is extracted and ingested into the
+knowledge base. These sources provide the raw content that will be processed, indexed, and made available for
+querying within the knowledge base system. Data sources can include various types of systems such as document
+management systems, databases, file storage systems, and content management platforms. Suuported Data Sources
+include Amazon S3 buckets, Web Crawlers, SharePoint sites, Salesforce instances, and Confluence spaces.
+
+- **Amazon S3**. You can either create a new data source using the `bedrock.S3DataSource(..)` class, or using the
+  `kb.addS3DataSource(..)`.
+- **Web Crawler**. You can either create a new data source using the `bedrock.WebCrawlerDataSource(..)` class, or using the
+  `kb.addWebCrawlerDataSource(..)`.
+- **Confluence**. You can either create a new data source using the `bedrock.ConfluenceDataSource(..)` class, or using the
+  `kb.addConfluenceDataSource(..)`.
+- **SharePoint**. You can either create a new data source using the `bedrock.SharePointDataSource(..)` class, or using the
+  `kb.addSharePointDataSource(..)`.
+- **Salesforce**. You can either create a new data source using the `bedrock.SalesforceDataSource(..)` class, or using the
+  `kb.addSalesforceDataSource(..)`.
+
+Typescript
+
+```ts
+const app = new cdk.App();
+const stack = new cdk.Stack(app, "aws-cdk-bedrock-data-sources-integ-test");
+
+const kb = new KnowledgeBase(stack, "MyKnowledgeBase", {
+  name: "MyKnowledgeBase",
+  embeddingsModel: BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
+});
+
+const bucket = new Bucket(stack, "Bucket", {});
+const lambdaFunction = new Function(stack, "MyFunction", {
+  runtime: cdk.aws_lambda.Runtime.PYTHON_3_9,
+  handler: "index.handler",
+  code: cdk.aws_lambda.Code.fromInline('print("Hello, World!")'),
+});
+
+const secret = new Secret(stack, "Secret");
+const key = new Key(stack, "Key");
+
+kb.addWebCrawlerDataSource({
+  sourceUrls: ["https://docs.aws.amazon.com/"],
+  chunkingStrategy: ChunkingStrategy.HIERARCHICAL_COHERE,
+  customTransformation: CustomTransformation.lambda({
+    lambdaFunction: lambdaFunction,
+    s3BucketUri: `s3://${bucket.bucketName}/chunk-processor/`,
+  }),
+});
+
+kb.addS3DataSource({
+  bucket,
+  chunkingStrategy: ChunkingStrategy.SEMANTIC,
+  parsingStrategy: ParsingStategy.foundationModel({
+    model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asIModel(stack),
+  }),
+});
+
+kb.addConfluenceDataSource({
+  dataSourceName: "TestDataSource",
+  authSecret: secret,
+  kmsKey: key,
+  confluenceUrl: "https://example.atlassian.net",
+  filters: [
+    {
+      objectType: ConfluenceObjectType.ATTACHMENT,
+      includePatterns: [".*\\.pdf"],
+      excludePatterns: [".*private.*\\.pdf"],
+    },
+    {
+      objectType: ConfluenceObjectType.PAGE,
+      includePatterns: [".*public.*\\.pdf"],
+      excludePatterns: [".*confidential.*\\.pdf"],
+    },
+  ],
+});
+
+kb.addSalesforceDataSource({
+  authSecret: secret,
+  endpoint: "https://your-instance.my.salesforce.com",
+  kmsKey: key,
+  filters: [
+    {
+      objectType: SalesforceObjectType.ATTACHMENT,
+      includePatterns: [".*\\.pdf"],
+      excludePatterns: [".*private.*\\.pdf"],
+    },
+    {
+      objectType: SalesforceObjectType.CONTRACT,
+      includePatterns: [".*public.*\\.pdf"],
+      excludePatterns: [".*confidential.*\\.pdf"],
+    },
+  ],
+});
+
+kb.addSharePointDataSource({
+  dataSourceName: "SharepointDataSource",
+  authSecret: secret,
+  kmsKey: key,
+  domain: "yourdomain",
+  siteUrls: ["https://yourdomain.sharepoint.com/sites/mysite"],
+  tenantId: "888d0b57-69f1-4fb8-957f-e1f0bedf64de",
+  filters: [
+    {
+      objectType: SharePointObjectType.PAGE,
+      includePatterns: [".*\\.pdf"],
+      excludePatterns: [".*private.*\\.pdf"],
+    },
+    {
+      objectType: SharePointObjectType.FILE,
+      includePatterns: [".*public.*\\.pdf"],
+      excludePatterns: [".*confidential.*\\.pdf"],
+    },
+  ],
+});
+```
+
+#### Knowledge Base - Chunking Strategies
+
+- **Default Chunking**: Applies Fixed Chunking with the default chunk size of 300 tokens and 20% overlap.
+
+  ```ts
+  ChunkingStrategy.DEFAULT;
+  ```
+
+- **Fixed Size Chunking**: This method divides the data into fixed-size chunks, with each chunk
+  containing a predetermined number of tokens. This strategy is useful when the data is uniform
+  in size and structure.
+  Typescript
+
+  ```ts
+  // Fixed Size Chunking with sane defaults.
+  ChunkingStrategy.FIXED_SIZE;
+
+  // Fixed Size Chunking with custom values.
+  ChunkingStrategy.fixedSize({ maxTokens: 200, overlapPercentage: 25 });
+  ```
+
+- **Hierarchical Chunking**: This strategy organizes data into layers of chunks, with the first
+  layer containing large chunks and the second layer containing smaller chunks derived from the first.
+  It is ideal for data with inherent hierarchies or nested structures.
+
+  ```ts
+  // Hierarchical Chunking with the default for Cohere Models.
+  ChunkingStrategy.HIERARCHICAL_COHERE;
+
+  // Hierarchical Chunking with the default for Titan Models.
+  ChunkingStrategy.HIERARCHICAL_TITAN;
+
+  // Hierarchical Chunking with custom values. Tthe maximum chunk size depends on the model.
+  // Amazon Titan Text Embeddings: 8192. Cohere Embed models: 512
+  ChunkingStrategy.hierarchical({
+    overlapTokens: 60,
+    maxParentTokenSize: 1500,
+    maxChildTokenSize: 300,
+  });
+  ```
+
+- **Semantic Chunking**: This method splits data into smaller documents based on groups of similar
+  content derived from the text using natural language processing. It helps preserve contextual
+  relationships and ensures accurate and contextually appropriate results.
+
+  ```ts
+  // Semantic Chunking with sane defaults.
+  ChunkingStrategy.SEMANTIC;
+
+  // Semantic Chunking with custom values.
+  ChunkingStrategy.semantic({ bufferSize: 0, breakpointPercentileThreshold: 95, maxTokens: 300 });
+  ```
+
+- **No Chunking**: This strategy treats each file as one chunk. If you choose this option,
+  you may want to pre-process your documents by splitting them into separate files.
+
+  ```ts
+  ChunkingStrategy.NONE;
+  ```
+
+#### Knowledge Base - Parsing Strategy
+
+A parsing strategy in Amazon Bedrock is a configuration that determines how the service
+processes and interprets the contents of a document. It involves converting the document's
+contents into text and splitting it into smaller chunks for analysis. Amazon Bedrock offers
+two parsing strategies:
+
+- **Default Parsing Strategy**: This strategy converts the document's contents into text
+  and splits it into chunks using a predefined approach. It is suitable for most use cases
+  but may not be optimal for specific document types or requirements.
+
+- **Foundation Model Parsing Strategy**: This strategy uses a foundation model to describe
+  the contents of the document. It is particularly useful for improved processing of PDF files
+  with tables and images. To use this strategy, set the `parsingStrategy` in a data source as below.
+
+  ```ts
+  bedrock.ParsingStategy.foundationModel({
+    model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asIModel(stack),
+  });
+  ```
+
+#### Knowledge Base - Custom Transformation
+
+Custom Transformation in Amazon Bedrock is a feature that allows you to create and apply
+custom processing steps to documents moving through a data source ingestion pipeline.
+
+Custom Transformation uses AWS Lambda functions to process documents, enabling you to
+perform custom operations such as data extraction, normalization, or enrichment. To
+create a custom transformation, set the `customTransformation` in a data source as below.
+
+```ts
+CustomTransformation.lambda({
+  lambdaFunction: lambdaFunction,
+  s3BucketUri: `s3://${bucket.bucketName}/chunk-processor/`,
+}),
 ```
 
 ## Agents
@@ -723,11 +925,7 @@ Example of `Prompt`:
 
 ```ts
 const cmk = new kms.Key(this, "cmk", {});
-const claudeModel = cdk_bedrock.FoundationModel.fromFoundationModelId(
-  this,
-  "model1",
-  cdk_bedrock.FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_SONNET_20240229_V1_0
-);
+const claudeModel = BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asIModel(this);
 
 const variant1 = PromptVariant.text({
   variantName: "variant1",

@@ -22,8 +22,6 @@ dist
 tsconfig.tsbuildinfo
 /.eslintrc.json
 !.jsii
-test/cdk-lib/bedrock/integ-tests/.tmp
-test/cdk-lib/bedrock/integ-tests/prompts.integ.snapshot
 test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp
 test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot
 /docs/

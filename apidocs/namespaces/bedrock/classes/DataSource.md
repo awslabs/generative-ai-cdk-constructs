@@ -2,46 +2,33 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / KnowledgeBase
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / DataSource
 
-# Class: KnowledgeBase
+# Class: DataSource
 
-Deploys a Bedrock Knowledge Base and configures a backend by OpenSearch Serverless,
-Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
+Specifies the base class for all data source resources (imported and new).
 
 ## Extends
 
-- `KnowledgeBaseBase`
-
-## Constructors
-
-### new KnowledgeBase()
-
-> **new KnowledgeBase**(`scope`, `id`, `props`): [`KnowledgeBase`](KnowledgeBase.md)
-
-#### Parameters
-
-• **scope**: `Construct`
-
-• **id**: `string`
-
-• **props**: [`KnowledgeBaseProps`](../interfaces/KnowledgeBaseProps.md)
-
-#### Returns
-
-[`KnowledgeBase`](KnowledgeBase.md)
-
-#### Overrides
-
-`KnowledgeBaseBase.constructor`
+- [`DataSourceBase`](DataSourceBase.md)
 
 ## Properties
 
-### description
+### dataSourceId
 
-> `readonly` **description**: `string`
+> `readonly` **dataSourceId**: `string`
 
-The description knowledge base.
+The unique identifier of the data source.
+
+#### Example
+
+```ts
+'JHUEVXUZMU'
+```
+
+#### Overrides
+
+[`DataSourceBase`](DataSourceBase.md).[`dataSourceId`](DataSourceBase.md#datasourceid)
 
 ***
 
@@ -59,63 +46,7 @@ that might be different than the stack they were imported into.
 
 #### Inherited from
 
-`KnowledgeBaseBase.env`
-
-***
-
-### instruction?
-
-> `readonly` `optional` **instruction**: `string`
-
-A narrative instruction of the knowledge base.
-
-***
-
-### knowledgeBaseArn
-
-> `readonly` **knowledgeBaseArn**: `string`
-
-The ARN of the knowledge base.
-
-#### Overrides
-
-`KnowledgeBaseBase.knowledgeBaseArn`
-
-***
-
-### knowledgeBaseId
-
-> `readonly` **knowledgeBaseId**: `string`
-
-The ID of the knowledge base.
-
-#### Overrides
-
-`KnowledgeBaseBase.knowledgeBaseId`
-
-***
-
-### knowledgeBaseInstance
-
-> `readonly` **knowledgeBaseInstance**: `CfnKnowledgeBase`
-
-Instance of knowledge base.
-
-***
-
-### knowledgeBaseState
-
-> `readonly` **knowledgeBaseState**: `string`
-
-Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
-
-***
-
-### name
-
-> `readonly` **name**: `string`
-
-The name of the knowledge base.
+[`DataSourceBase`](DataSourceBase.md).[`env`](DataSourceBase.md#env)
 
 ***
 
@@ -127,7 +58,7 @@ The tree node.
 
 #### Inherited from
 
-`KnowledgeBaseBase.node`
+[`DataSourceBase`](DataSourceBase.md).[`node`](DataSourceBase.md#node)
 
 ***
 
@@ -146,19 +77,7 @@ This value will resolve to one of the following:
 
 #### Inherited from
 
-`KnowledgeBaseBase.physicalName`
-
-***
-
-### role
-
-> `readonly` **role**: `IRole`
-
-The role the Knowledge Base uses to access the vector store and data source.
-
-#### Overrides
-
-`KnowledgeBaseBase.role`
+[`DataSourceBase`](DataSourceBase.md).[`physicalName`](DataSourceBase.md#physicalname)
 
 ***
 
@@ -170,15 +89,7 @@ The stack in which this resource is defined.
 
 #### Inherited from
 
-`KnowledgeBaseBase.stack`
-
-***
-
-### vectorStore
-
-> `readonly` **vectorStore**: [`AmazonAuroraDefaultVectorStore`](../../amazonaurora/classes/AmazonAuroraDefaultVectorStore.md) \| [`AmazonAuroraVectorStore`](../../amazonaurora/classes/AmazonAuroraVectorStore.md) \| [`VectorCollection`](../../opensearchserverless/classes/VectorCollection.md) \| [`PineconeVectorStore`](../../pinecone/classes/PineconeVectorStore.md)
-
-The vector store for the knowledge base.
+[`DataSourceBase`](DataSourceBase.md).[`stack`](DataSourceBase.md#stack)
 
 ## Methods
 
@@ -199,107 +110,7 @@ through its absolute name/arn.
 
 #### Inherited from
 
-`KnowledgeBaseBase._enableCrossEnvironment`
-
-***
-
-### addConfluenceDataSource()
-
-> **addConfluenceDataSource**(`props`): [`ConfluenceDataSource`](ConfluenceDataSource.md)
-
-Add a Confluence data source to the knowledge base.
-
-#### Parameters
-
-• **props**: [`ConfluenceDataSourceAssociationProps`](../interfaces/ConfluenceDataSourceAssociationProps.md)
-
-#### Returns
-
-[`ConfluenceDataSource`](ConfluenceDataSource.md)
-
-#### Inherited from
-
-`KnowledgeBaseBase.addConfluenceDataSource`
-
-***
-
-### addS3DataSource()
-
-> **addS3DataSource**(`props`): [`S3DataSource`](S3DataSource.md)
-
-Add an S3 data source to the knowledge base.
-
-#### Parameters
-
-• **props**: [`S3DataSourceAssociationProps`](../interfaces/S3DataSourceAssociationProps.md)
-
-#### Returns
-
-[`S3DataSource`](S3DataSource.md)
-
-#### Inherited from
-
-`KnowledgeBaseBase.addS3DataSource`
-
-***
-
-### addSalesforceDataSource()
-
-> **addSalesforceDataSource**(`props`): [`SalesforceDataSource`](SalesforceDataSource.md)
-
-Add a Salesforce data source to the knowledge base.
-
-#### Parameters
-
-• **props**: [`SalesforceDataSourceAssociationProps`](../interfaces/SalesforceDataSourceAssociationProps.md)
-
-#### Returns
-
-[`SalesforceDataSource`](SalesforceDataSource.md)
-
-#### Inherited from
-
-`KnowledgeBaseBase.addSalesforceDataSource`
-
-***
-
-### addSharePointDataSource()
-
-> **addSharePointDataSource**(`props`): [`SharePointDataSource`](SharePointDataSource.md)
-
-Add a SharePoint data source to the knowledge base.
-
-#### Parameters
-
-• **props**: [`SharePointDataSourceAssociationProps`](../interfaces/SharePointDataSourceAssociationProps.md)
-
-#### Returns
-
-[`SharePointDataSource`](SharePointDataSource.md)
-
-#### Inherited from
-
-`KnowledgeBaseBase.addSharePointDataSource`
-
-***
-
-### addWebCrawlerDataSource()
-
-> **addWebCrawlerDataSource**(`props`): [`WebCrawlerDataSource`](WebCrawlerDataSource.md)
-
-Add a web crawler data source to the knowledge base.
-
-#### Parameters
-
-• **props**: [`WebCrawlerDataSourceAssociationProps`](../interfaces/WebCrawlerDataSourceAssociationProps.md)
-
-#### Returns
-
-[`WebCrawlerDataSource`](WebCrawlerDataSource.md)
-
-#### Inherited from
-
-`KnowledgeBaseBase.addWebCrawlerDataSource`
+[`DataSourceBase`](DataSourceBase.md).[`_enableCrossEnvironment`](DataSourceBase.md#_enablecrossenvironment)
 
 ***
 
@@ -327,23 +138,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Inherited from
 
-`KnowledgeBaseBase.applyRemovalPolicy`
-
-***
-
-### associateToAgent()
-
-> **associateToAgent**(`agent`): `void`
-
-Associate knowledge base with an agent
-
-#### Parameters
-
-• **agent**: [`Agent`](Agent.md)
-
-#### Returns
-
-`void`
+[`DataSourceBase`](DataSourceBase.md).[`applyRemovalPolicy`](DataSourceBase.md#applyremovalpolicy)
 
 ***
 
@@ -357,7 +152,7 @@ Associate knowledge base with an agent
 
 #### Inherited from
 
-`KnowledgeBaseBase.generatePhysicalName`
+[`DataSourceBase`](DataSourceBase.md).[`generatePhysicalName`](DataSourceBase.md#generatephysicalname)
 
 ***
 
@@ -393,7 +188,7 @@ cross-environment references to work.
 
 #### Inherited from
 
-`KnowledgeBaseBase.getResourceArnAttribute`
+[`DataSourceBase`](DataSourceBase.md).[`getResourceArnAttribute`](DataSourceBase.md#getresourcearnattribute)
 
 ***
 
@@ -421,7 +216,7 @@ Commonly this is the resource's `ref`.
 
 #### Inherited from
 
-`KnowledgeBaseBase.getResourceNameAttribute`
+[`DataSourceBase`](DataSourceBase.md).[`getResourceNameAttribute`](DataSourceBase.md#getresourcenameattribute)
 
 ***
 
@@ -437,13 +232,13 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-`KnowledgeBaseBase.toString`
+[`DataSourceBase`](DataSourceBase.md).[`toString`](DataSourceBase.md#tostring)
 
 ***
 
-### fromKnowledgeBaseAttributes()
+### fromDataSourceId()
 
-> `static` **fromKnowledgeBaseAttributes**(`scope`, `id`, `attrs`): [`IKnowledgeBase`](../interfaces/IKnowledgeBase.md)
+> `static` **fromDataSourceId**(`scope`, `id`, `dataSourceId`): [`IDataSource`](../interfaces/IDataSource.md)
 
 #### Parameters
 
@@ -451,11 +246,11 @@ Returns a string representation of this construct.
 
 • **id**: `string`
 
-• **attrs**: [`KnowledgeBaseAttributes`](../interfaces/KnowledgeBaseAttributes.md)
+• **dataSourceId**: `string`
 
 #### Returns
 
-[`IKnowledgeBase`](../interfaces/IKnowledgeBase.md)
+[`IDataSource`](../interfaces/IDataSource.md)
 
 ***
 
@@ -493,7 +288,7 @@ true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-`KnowledgeBaseBase.isConstruct`
+[`DataSourceBase`](DataSourceBase.md).[`isConstruct`](DataSourceBase.md#isconstruct)
 
 ***
 
@@ -513,7 +308,7 @@ Returns true if the construct was created by CDK, and false otherwise
 
 #### Inherited from
 
-`KnowledgeBaseBase.isOwnedResource`
+[`DataSourceBase`](DataSourceBase.md).[`isOwnedResource`](DataSourceBase.md#isownedresource)
 
 ***
 
@@ -533,4 +328,4 @@ Check whether the given construct is a Resource
 
 #### Inherited from
 
-`KnowledgeBaseBase.isResource`
+[`DataSourceBase`](DataSourceBase.md).[`isResource`](DataSourceBase.md#isresource)
