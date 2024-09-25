@@ -31,6 +31,7 @@ export interface IJumpStartModelSpec {
   instanceTypes: string[];
   modelPackageArns?: { [region: string]: string };
   prepackedArtifactKey?: string;
+  gatedBucket: boolean;
   artifactKey?: string;
   environment: { [key: string]: string | number | boolean };
   instanceAliases?: IInstanceAliase[];

@@ -6,7 +6,11 @@
 
 # Interface: S3DataSourceProps
 
-Properties for an S3 Data Source.
+Interface to create a new S3 Data Source object.
+
+## Extends
+
+- [`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md)
 
 ## Properties
 
@@ -16,13 +20,19 @@ Properties for an S3 Data Source.
 
 The bucket that contains the data source.
 
+#### Inherited from
+
+[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md).[`bucket`](S3DataSourceAssociationProps.md#bucket)
+
 ***
 
 ### chunkingStrategy?
 
-> `readonly` `optional` **chunkingStrategy**: [`ChunkingStrategy`](../enumerations/ChunkingStrategy.md)
+> `readonly` `optional` **chunkingStrategy**: [`ChunkingStrategy`](../classes/ChunkingStrategy.md)
 
-The chunking strategy to use.
+The chunking stategy to use for splitting your documents or content.
+The chunks are then converted to embeddings and written to the vector
+index allowing for similarity search and retrieval of the content.
 
 #### Default
 
@@ -30,13 +40,81 @@ The chunking strategy to use.
 ChunkingStrategy.DEFAULT
 ```
 
+#### Inherited from
+
+[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md).[`chunkingStrategy`](S3DataSourceAssociationProps.md#chunkingstrategy)
+
 ***
 
-### dataSourceName
+### customTransformation?
 
-> `readonly` **dataSourceName**: `string`
+> `readonly` `optional` **customTransformation**: [`CustomTransformation`](../classes/CustomTransformation.md)
+
+The custom transformation strategy to use.
+
+#### Default
+
+```ts
+- No custom transformation is used.
+```
+
+#### Inherited from
+
+[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md).[`customTransformation`](S3DataSourceAssociationProps.md#customtransformation)
+
+***
+
+### dataDeletionPolicy?
+
+> `readonly` `optional` **dataDeletionPolicy**: [`DataDeletionPolicy`](../enumerations/DataDeletionPolicy.md)
+
+The data deletion policy to apply to the data source.
+
+#### Default
+
+```ts
+- Sets the data deletion policy to the default of the data source type.
+```
+
+#### Inherited from
+
+[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md).[`dataDeletionPolicy`](S3DataSourceAssociationProps.md#datadeletionpolicy)
+
+***
+
+### dataSourceName?
+
+> `readonly` `optional` **dataSourceName**: `string`
 
 The name of the data source.
+
+#### Default
+
+```ts
+- A new name will be generated.
+```
+
+#### Inherited from
+
+[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md).[`dataSourceName`](S3DataSourceAssociationProps.md#datasourcename)
+
+***
+
+### description?
+
+> `readonly` `optional` **description**: `string`
+
+A description of the data source.
+
+#### Default
+
+```ts
+- No description is provided.
+```
+
+#### Inherited from
+
+[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md).[`description`](S3DataSourceAssociationProps.md#description)
 
 ***
 
@@ -52,6 +130,10 @@ The prefixes of the objects in the bucket that should be included in the data so
 - All objects in the bucket.
 ```
 
+#### Inherited from
+
+[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md).[`inclusionPrefixes`](S3DataSourceAssociationProps.md#inclusionprefixes)
+
 ***
 
 ### kmsKey?
@@ -63,41 +145,35 @@ The KMS key to use to encrypt the data source.
 #### Default
 
 ```ts
-Amazon Bedrock encrypts your data with a key that AWS owns and manages
+- Service owned and managed key.
 ```
+
+#### Inherited from
+
+[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md).[`kmsKey`](S3DataSourceAssociationProps.md#kmskey)
 
 ***
 
 ### knowledgeBase
 
-> `readonly` **knowledgeBase**: [`KnowledgeBase`](../classes/KnowledgeBase.md)
+> `readonly` **knowledgeBase**: [`IKnowledgeBase`](IKnowledgeBase.md)
 
-The knowledge base that this data source belongs to.
+The knowledge base to associate with the data source.
 
 ***
 
-### maxTokens?
+### parsingStrategy?
 
-> `readonly` `optional` **maxTokens**: `number`
+> `readonly` `optional` **parsingStrategy**: [`ParsingStategy`](../classes/ParsingStategy.md)
 
-The maximum number of tokens to use in a chunk.
+The parsing strategy to use.
 
 #### Default
 
 ```ts
-300
+- No Parsing Stategy is used.
 ```
 
-***
+#### Inherited from
 
-### overlapPercentage?
-
-> `readonly` `optional` **overlapPercentage**: `number`
-
-The percentage of overlap to use in a chunk.
-
-#### Default
-
-```ts
-20
-```
+[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md).[`parsingStrategy`](S3DataSourceAssociationProps.md#parsingstrategy)

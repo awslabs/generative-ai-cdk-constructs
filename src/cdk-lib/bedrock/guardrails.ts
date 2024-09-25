@@ -52,7 +52,7 @@ export interface GuardrailProps {
   readonly contextualGroundingfiltersConfig?: ContextualGroundingPolicyConfigProps[];
 
   /**
-    * PII fields which needs to be masked.
+    * PII fields which needs to be anonymized.
     */
   readonly piiConfig?: SensitiveInformationPolicyConfigProps[];
 
@@ -123,7 +123,7 @@ export class Guardrail extends Construct {
       enableKeyRotation: true,
     }).keyArn;
 
-    const defaultBlockedInputMessaging = 'Sorry, your query voilates our usage policy.';
+    const defaultBlockedInputMessaging = 'Sorry, your query violates our usage policy.';
     const defaultBlockedOutputsMessaging = 'Sorry, I am unable to answer your question because of our usage policy.';
 
     this.guardrailInstance = new bedrock.CfnGuardrail(this, 'MyGuardrail', {
