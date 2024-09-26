@@ -2,9 +2,9 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / SharePntCrawlingFilters
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / SharePointCrawlingFilters
 
-# Interface: SharePntCrawlingFilters
+# Interface: SharePointCrawlingFilters
 
 Defines the crawling filters for SharePoint data ingestion. These filters allow
 you to specify which content should be included or excluded during the crawling process.
@@ -45,6 +45,6 @@ Only content matching these patterns will be crawled.
 
 ### objectType
 
-> `readonly` **objectType**: [`SharePntObjectType`](../enumerations/SharePntObjectType.md)
+> `readonly` **objectType**: [`SharePointObjectType`](../enumerations/SharePointObjectType.md)
 
 The SharePoint object type this filter applies to.

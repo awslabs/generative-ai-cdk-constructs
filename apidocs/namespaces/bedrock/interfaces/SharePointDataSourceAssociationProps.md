@@ -2,15 +2,19 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / SharePntDataSourceProps
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / SharePointDataSourceAssociationProps
 
-# Interface: SharePntDataSourceProps
+# Interface: SharePointDataSourceAssociationProps
 
-Interface to create a new standalone data source object
+Interface to add a new data source to an existing KB
 
 ## Extends
 
-- [`SharePntDataSourceAssociationProps`](SharePntDataSourceAssociationProps.md)
+- [`DataSourceAssociationProps`](DataSourceAssociationProps.md)
+
+## Extended by
+
+- [`SharePointDataSourceProps`](SharePointDataSourceProps.md)
 
 ## Properties
 
@@ -20,10 +24,6 @@ Interface to create a new standalone data source object
 
 The AWS Secrets Manager secret that stores your authentication credentials
 for your Sharepoint instance URL. Secret must start with "AmazonBedrock-".
-
-#### Inherited from
-
-[`SharePntDataSourceAssociationProps`](SharePntDataSourceAssociationProps.md).[`authSecret`](SharePntDataSourceAssociationProps.md#authsecret)
 
 ***
 
@@ -43,7 +43,7 @@ ChunkingStrategy.DEFAULT
 
 #### Inherited from
 
-[`SharePntDataSourceAssociationProps`](SharePntDataSourceAssociationProps.md).[`chunkingStrategy`](SharePntDataSourceAssociationProps.md#chunkingstrategy)
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`chunkingStrategy`](DataSourceAssociationProps.md#chunkingstrategy)
 
 ***
 
@@ -61,7 +61,7 @@ The custom transformation strategy to use.
 
 #### Inherited from
 
-[`SharePntDataSourceAssociationProps`](SharePntDataSourceAssociationProps.md).[`customTransformation`](SharePntDataSourceAssociationProps.md#customtransformation)
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`customTransformation`](DataSourceAssociationProps.md#customtransformation)
 
 ***
 
@@ -79,7 +79,7 @@ The data deletion policy to apply to the data source.
 
 #### Inherited from
 
-[`SharePntDataSourceAssociationProps`](SharePntDataSourceAssociationProps.md).[`dataDeletionPolicy`](SharePntDataSourceAssociationProps.md#datadeletionpolicy)
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`dataDeletionPolicy`](DataSourceAssociationProps.md#datadeletionpolicy)
 
 ***
 
@@ -97,7 +97,7 @@ The name of the data source.
 
 #### Inherited from
 
-[`SharePntDataSourceAssociationProps`](SharePntDataSourceAssociationProps.md).[`dataSourceName`](SharePntDataSourceAssociationProps.md#datasourcename)
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`dataSourceName`](DataSourceAssociationProps.md#datasourcename)
 
 ***
 
@@ -115,7 +115,7 @@ A description of the data source.
 
 #### Inherited from
 
-[`SharePntDataSourceAssociationProps`](SharePntDataSourceAssociationProps.md).[`description`](SharePntDataSourceAssociationProps.md#description)
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`description`](DataSourceAssociationProps.md#description)
 
 ***
 
@@ -131,15 +131,11 @@ The domain of your SharePoint instance or site URL/URLs.
 "yourdomain"
 ```
 
-#### Inherited from
-
-[`SharePntDataSourceAssociationProps`](SharePntDataSourceAssociationProps.md).[`domain`](SharePntDataSourceAssociationProps.md#domain)
-
 ***
 
 ### filters?
 
-> `readonly` `optional` **filters**: [`SharePntCrawlingFilters`](SharePntCrawlingFilters.md)[]
+> `readonly` `optional` **filters**: [`SharePointCrawlingFilters`](SharePointCrawlingFilters.md)[]
 
 The filters (regular expression patterns) for the crawling.
 If there's a conflict, the exclude pattern takes precedence.
@@ -149,10 +145,6 @@ If there's a conflict, the exclude pattern takes precedence.
 ```ts
 None - all your content is crawled.
 ```
-
-#### Inherited from
-
-[`SharePntDataSourceAssociationProps`](SharePntDataSourceAssociationProps.md).[`filters`](SharePntDataSourceAssociationProps.md#filters)
 
 ***
 
@@ -170,15 +162,7 @@ The KMS key to use to encrypt the data source.
 
 #### Inherited from
 
-[`SharePntDataSourceAssociationProps`](SharePntDataSourceAssociationProps.md).[`kmsKey`](SharePntDataSourceAssociationProps.md#kmskey)
-
-***
-
-### knowledgeBase
-
-> `readonly` **knowledgeBase**: [`IKnowledgeBase`](IKnowledgeBase.md)
-
-The knowledge base to associate with the data source.
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`kmsKey`](DataSourceAssociationProps.md#kmskey)
 
 ***
 
@@ -196,7 +180,7 @@ The parsing strategy to use.
 
 #### Inherited from
 
-[`SharePntDataSourceAssociationProps`](SharePntDataSourceAssociationProps.md).[`parsingStrategy`](SharePntDataSourceAssociationProps.md#parsingstrategy)
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`parsingStrategy`](DataSourceAssociationProps.md#parsingstrategy)
 
 ***
 
@@ -213,10 +197,6 @@ Must start with “https”. All URLs must start with same protocol.
 ["https://yourdomain.sharepoint.com/sites/mysite"]
 ```
 
-#### Inherited from
-
-[`SharePntDataSourceAssociationProps`](SharePntDataSourceAssociationProps.md).[`siteUrls`](SharePntDataSourceAssociationProps.md#siteurls)
-
 ***
 
 ### tenantId
@@ -230,7 +210,3 @@ The identifier of your Microsoft 365 tenant.
 ```ts
 "d1c035a6-1dcf-457d-97e3"
 ```
-
-#### Inherited from
-
-[`SharePntDataSourceAssociationProps`](SharePntDataSourceAssociationProps.md).[`tenantId`](SharePntDataSourceAssociationProps.md#tenantid)
