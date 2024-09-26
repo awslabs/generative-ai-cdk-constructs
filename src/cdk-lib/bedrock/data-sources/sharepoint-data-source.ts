@@ -22,7 +22,7 @@ import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
 /**
  * Represents the authentication types available for connecting to a SharePoint data source.
  */
-export enum SharePointDataSourceAuthType {
+export enum SharePntDataSourceAuthType {
   /**
    * OAuth 2.0 Client Credentials flow for authentication with SharePoint.
    * Your secret authentication credentials in AWS Secrets Manager should include:
@@ -37,7 +37,7 @@ export enum SharePointDataSourceAuthType {
 /**
  * Represents the SharePoint object types that can be accessed by the data source connector.
  */
-export enum SharePointObjectType {
+export enum SharePntObjectType {
   /**
    * Represents a SharePoint page, which typically contains web parts and content.
    */
@@ -60,11 +60,11 @@ export enum SharePointObjectType {
  * If you specify an inclusion and exclusion filter and both match a document,
  * the exclusion filter takes precedence and the document isn’t crawled.
  */
-export interface SharePointCrawlingFilters {
+export interface SharePntCrawlingFilters {
   /**
    * The SharePoint object type this filter applies to.
    */
-  readonly objectType: SharePointObjectType;
+  readonly objectType: SharePntObjectType;
   /**
    * Optional array of regular expression patterns to include specific content.
    * Only content matching these patterns will be crawled.
@@ -82,7 +82,7 @@ export interface SharePointCrawlingFilters {
 /**
  * Interface to add a new data source to an existing KB
  */
-export interface SharePointDataSourceAssociationProps extends DataSourceAssociationProps {
+export interface SharePntDataSourceAssociationProps extends DataSourceAssociationProps {
   /**
    * The domain of your SharePoint instance or site URL/URLs.
    * @example "yourdomain"
@@ -109,14 +109,14 @@ export interface SharePointDataSourceAssociationProps extends DataSourceAssociat
    * If there's a conflict, the exclude pattern takes precedence.
    * @default None - all your content is crawled.
    */
-  readonly filters?: SharePointCrawlingFilters[];
+  readonly filters?: SharePntCrawlingFilters[];
 
 }
 
 /**
  * Interface to create a new standalone data source object
  */
-export interface SharePointDataSourceProps extends SharePointDataSourceAssociationProps {
+export interface SharePntDataSourceProps extends SharePntDataSourceAssociationProps {
   /**
    * The knowledge base to associate with the data source.
    */
@@ -175,7 +175,7 @@ export class SharePointDataSource extends DataSourceNew {
   private readonly __resource: CfnDataSource;
 
 
-  constructor(scope: Construct, id: string, props: SharePointDataSourceProps) {
+  constructor(scope: Construct, id: string, props: SharePntDataSourceProps) {
     super(scope, id);
     // Assign attributes
     this.knowledgeBase = props.knowledgeBase;
@@ -202,7 +202,7 @@ export class SharePointDataSource extends DataSourceNew {
           type: this.dataSourceType,
           sharePointConfiguration: {
             sourceConfiguration: {
-              authType: SharePointDataSourceAuthType.OAUTH2_CLIENT_CREDENTIALS,
+              authType: SharePntDataSourceAuthType.OAUTH2_CLIENT_CREDENTIALS,
               credentialsSecretArn: this.authSecret.secretArn,
               hostType: 'ONLINE',
               domain: props.domain,

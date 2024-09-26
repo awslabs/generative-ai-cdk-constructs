@@ -148,7 +148,7 @@ Add a SharePoint data source to the knowledge base.
 
 #### Parameters
 
-• **props**: [`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md)
+• **props**: [`SharePntDataSourceAssociationProps`](SharePntDataSourceAssociationProps.md)
 
 #### Returns
 

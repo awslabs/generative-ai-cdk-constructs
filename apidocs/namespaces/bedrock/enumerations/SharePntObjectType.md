@@ -2,9 +2,9 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / SharePointObjectType
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / SharePntObjectType
 
-# Enumeration: SharePointObjectType
+# Enumeration: SharePntObjectType
 
 Represents the SharePoint object types that can be accessed by the data source connector.
 

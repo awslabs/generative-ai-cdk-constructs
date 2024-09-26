@@ -24,7 +24,7 @@ Sets up an data source to be added to a knowledge base.
 
 • **id**: `string`
 
-• **props**: [`SharePointDataSourceProps`](../interfaces/SharePointDataSourceProps.md)
+• **props**: [`SharePntDataSourceProps`](../interfaces/SharePntDataSourceProps.md)
 
 #### Returns
 
