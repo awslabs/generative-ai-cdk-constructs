@@ -126,7 +126,7 @@ export interface SharePointDataSourceProps extends SharePointDataSourceAssociati
 /**
  * Sets up an data source to be added to a knowledge base.
  */
-export class SharePointDataSource extends DataSourceNew {
+export class SharePontDataSource extends DataSourceNew {
   // ------------------------------------------------------
   // Common attributes for all new data sources
   // ------------------------------------------------------

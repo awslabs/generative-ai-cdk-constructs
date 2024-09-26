@@ -19,7 +19,7 @@ import { Agent } from './../bedrock/agent';
 import { ConfluenceDataSource, ConfluenceDataSourceAssociationProps } from './data-sources/confluence-data-source';
 import { S3DataSource, S3DataSourceAssociationProps } from './data-sources/s3-data-source';
 import { SalesforceDataSource, SalesforceDataSourceAssociationProps } from './data-sources/salesforce-data-source';
-import { SharePointDataSource, SharePointDataSourceAssociationProps } from './data-sources/sharepoint-data-source';
+import { SharePontDataSource, SharePointDataSourceAssociationProps } from './data-sources/sharepoint-data-source';
 import { WebCrawlerDataSource, WebCrawlerDataSourceAssociationProps } from './data-sources/web-crawler-data-source';
 import { BedrockFoundationModel } from './models';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
@@ -127,7 +127,7 @@ export interface IKnowledgeBase extends IResource {
   /**
    * Add a SharePoint data source to the knowledge base.
    */
-  addSharePointDataSource(props: SharePointDataSourceAssociationProps): SharePointDataSource;
+  addSharePointDataSource(props: SharePointDataSourceAssociationProps): SharePontDataSource;
 
   /**
    * Add a Confluence data source to the knowledge base.
@@ -164,9 +164,9 @@ abstract class KnowledgeBaseBase extends Resource implements IKnowledgeBase {
       knowledgeBase: this, ...props,
     });
   }
-  public addSharePointDataSource(props: SharePointDataSourceAssociationProps): SharePointDataSource {
+  public addSharePointDataSource(props: SharePointDataSourceAssociationProps): SharePontDataSource {
     const url = new URL(props.siteUrls[0]);
-    return new SharePointDataSource(this, `sp-${url.hostname.replace('.', '-')}`, {
+    return new SharePontDataSource(this, `sp-${url.hostname.replace('.', '-')}`, {
       knowledgeBase: this, ...props,
     });
   }

@@ -15,7 +15,7 @@ Specifies the base class for all NEW data source resources of ANY type.
 ## Extended by
 
 - [`WebCrawlerDataSource`](WebCrawlerDataSource.md)
-- [`SharePointDataSource`](SharePointDataSource.md)
+- [`SharePontDataSource`](SharePontDataSource.md)
 - [`ConfluenceDataSource`](ConfluenceDataSource.md)
 - [`SalesforceDataSource`](SalesforceDataSource.md)
 - [`S3DataSource`](S3DataSource.md)
