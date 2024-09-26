@@ -142,7 +142,7 @@ Add a Salesforce data source to the knowledge base.
 
 ### addSharePointDataSource()
 
-> **addSharePointDataSource**(`props`): [`SharePontDataSource`](../classes/SharePontDataSource.md)
+> **addSharePointDataSource**(`props`): [`SharePointDataSource`](../classes/SharePointDataSource.md)
 
 Add a SharePoint data source to the knowledge base.
 
@@ -152,7 +152,7 @@ Add a SharePoint data source to the knowledge base.
 
 #### Returns
 
-[`SharePontDataSource`](../classes/SharePontDataSource.md)
+[`SharePointDataSource`](../classes/SharePointDataSource.md)
 
 ***
 

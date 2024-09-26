@@ -62,7 +62,7 @@
 - [S3DataSource](classes/S3DataSource.md)
 - [SalesforceDataSource](classes/SalesforceDataSource.md)
 - [SensitiveInformationPolicyConfig](classes/SensitiveInformationPolicyConfig.md)
-- [SharePontDataSource](classes/SharePontDataSource.md)
+- [SharePointDataSource](classes/SharePointDataSource.md)
 - [Topic](classes/Topic.md)
 - [WebCrawlerDataSource](classes/WebCrawlerDataSource.md)
 
