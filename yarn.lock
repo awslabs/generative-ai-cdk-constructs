@@ -907,39 +907,39 @@
   resolved "https://registry.yarnpkg.com/@rtsao/scc/-/scc-1.1.0.tgz#927dd2fae9bc3361403ac2c7a00c32ddce9ad7e8"
   integrity sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==
 
-"@shikijs/core@1.18.0":
-  version "1.18.0"
-  resolved "https://registry.yarnpkg.com/@shikijs/core/-/core-1.18.0.tgz#30dde8e53026dada606c4cf7f32d80a3f33d437c"
-  integrity sha512-VK4BNVCd2leY62Nm2JjyxtRLkyrZT/tv104O81eyaCjHq4Adceq2uJVFJJAIof6lT1mBwZrEo2qT/T+grv3MQQ==
+"@shikijs/core@1.20.0":
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/@shikijs/core/-/core-1.20.0.tgz#e431b69bebf1c1a0dd53fd3fb16eae7e7823d9ba"
+  integrity sha512-KlO3iE0THzSdYkzDFugt8SHe6FR3qNYTkmpbdW1d6xo8juQkMjybxAw/cBi2npL2eb2F4PbbnSs5Z9tDusfvyg==
   dependencies:
-    "@shikijs/engine-javascript" "1.18.0"
-    "@shikijs/engine-oniguruma" "1.18.0"
-    "@shikijs/types" "1.18.0"
+    "@shikijs/engine-javascript" "1.20.0"
+    "@shikijs/engine-oniguruma" "1.20.0"
+    "@shikijs/types" "1.20.0"
     "@shikijs/vscode-textmate" "^9.2.2"
     "@types/hast" "^3.0.4"
     hast-util-to-html "^9.0.3"
 
-"@shikijs/engine-javascript@1.18.0":
-  version "1.18.0"
-  resolved "https://registry.yarnpkg.com/@shikijs/engine-javascript/-/engine-javascript-1.18.0.tgz#9888011c5d869a687b42e3e56c7243f15a73524b"
-  integrity sha512-qoP/aO/ATNwYAUw1YMdaip/YVEstMZEgrwhePm83Ll9OeQPuxDZd48szZR8oSQNQBT8m8UlWxZv8EA3lFuyI5A==
+"@shikijs/engine-javascript@1.20.0":
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/@shikijs/engine-javascript/-/engine-javascript-1.20.0.tgz#ffb18986aa4d989b0320136202b29739a659778a"
+  integrity sha512-ZUMo758uduM0Tfgzi/kd+0IKMbNdumCxxWjY36uf1DIs2Qyg9HIq3vA1Wfa/vc6HE7tHWFpANRi3mv7UzJ68MQ==
   dependencies:
-    "@shikijs/types" "1.18.0"
+    "@shikijs/types" "1.20.0"
     "@shikijs/vscode-textmate" "^9.2.2"
     oniguruma-to-js "0.4.3"
 
-"@shikijs/engine-oniguruma@1.18.0":
-  version "1.18.0"
-  resolved "https://registry.yarnpkg.com/@shikijs/engine-oniguruma/-/engine-oniguruma-1.18.0.tgz#7e57fd19b62b18cf2de382da684d042ee934f65d"
-  integrity sha512-B9u0ZKI/cud+TcmF8Chyh+R4V5qQVvyDOqXC2l2a4x73PBSBc6sZ0JRAX3eqyJswqir6ktwApUUGBYePdKnMJg==
+"@shikijs/engine-oniguruma@1.20.0":
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/@shikijs/engine-oniguruma/-/engine-oniguruma-1.20.0.tgz#21091c82349109710050169332eec1ec3ff3095b"
+  integrity sha512-MQ40WkVTZk7by33ces4PGK6XNFSo6PYvKTSAr2kTWdRNhFmOcnaX+1XzvFwB26eySXR7U74t91czZ1qJkEgxTA==
   dependencies:
-    "@shikijs/types" "1.18.0"
+    "@shikijs/types" "1.20.0"
     "@shikijs/vscode-textmate" "^9.2.2"
 
-"@shikijs/types@1.18.0":
-  version "1.18.0"
-  resolved "https://registry.yarnpkg.com/@shikijs/types/-/types-1.18.0.tgz#4c2d62d17f78cbfc051a15480ab4dfb0f06196c9"
-  integrity sha512-O9N36UEaGGrxv1yUrN2nye7gDLG5Uq0/c1LyfmxsvzNPqlHzWo9DI0A4+fhW2y3bGKuQu/fwS7EPdKJJCowcVA==
+"@shikijs/types@1.20.0":
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/@shikijs/types/-/types-1.20.0.tgz#6ae758cc48cf7e776a538437dc8d17d8f49bdc4e"
+  integrity sha512-y+EaDvU2K6/GaXOKXxJaGnr1XtmZMF7MfS0pSEDdxEq66gCtKsLwQvVwoQFdp7R7dLlNAro3ijEE19sMZ0pzqg==
   dependencies:
     "@shikijs/vscode-textmate" "^9.2.2"
     "@types/hast" "^3.0.4"
@@ -1101,9 +1101,9 @@
   integrity sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag==
 
 "@types/node@*":
-  version "22.7.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.7.2.tgz#80ed66c0a5025ffa037587fd69a816f29b54e4c7"
-  integrity sha512-866lXSrpGpgyHBZUa2m9YNWqHDjjM0aBTJlNtYaGEw4rqY/dcD7deRVTbBBAJelfA7oaGDbNftXF/TL/A6RgoA==
+  version "22.7.3"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.7.3.tgz#7ddf1ddf13078692b4cfadb835852b2a718ee1ef"
+  integrity sha512-qXKfhXXqGTyBskvWEzJZPUxSslAiLaB6JGP1ic/XTH9ctGgzdgYguuLP1C601aRTSDNlLb0jbKqXjZ48GNraSA==
   dependencies:
     undici-types "~6.19.2"
 
@@ -1668,9 +1668,9 @@ camelcase@^6.2.0, camelcase@^6.3.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001663:
-  version "1.0.30001663"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001663.tgz#1529a723505e429fdfd49532e9fc42273ba7fed7"
-  integrity sha512-o9C3X27GLKbLeTYZ6HBOLU1tsAcBZsLis28wrVzddShCS16RujjHp9GDHKZqrB3meE0YjhawvMFsGb/igqiPzA==
+  version "1.0.30001664"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001664.tgz#d588d75c9682d3301956b05a3749652a80677df4"
+  integrity sha512-AmE7k4dXiNKQipgn7a2xg558IRqPN3jMQY/rOsbxDhrd0tyChwbITBfiwtnqz8bi2M5mIWbxAYBvk7W7QBUS2g==
 
 case@1.6.3, case@^1.6.3:
   version "1.6.3"
@@ -2314,9 +2314,9 @@ ejs@^3.1.10:
     jake "^10.8.5"
 
 electron-to-chromium@^1.5.28:
-  version "1.5.28"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.28.tgz#aee074e202c6ee8a0030a9c2ef0b3fe9f967d576"
-  integrity sha512-VufdJl+rzaKZoYVUijN13QcXVF5dWPZANeFTLNy+OSpHdDL5ynXTF35+60RSBbaQYB1ae723lQXHCrf4pyLsMw==
+  version "1.5.29"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.29.tgz#aa592a3caa95d07cc26a66563accf99fa573a1ee"
+  integrity sha512-PF8n2AlIhCKXQ+gTpiJi0VhcHDb69kYX4MtCiivctc2QD3XuNZ/XIOlbGzt7WAjjEev0TtaH6Cu3arZExm5DOw==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -2493,9 +2493,9 @@ eslint-import-resolver-typescript@^3.6.3:
     is-glob "^4.0.3"
 
 eslint-module-utils@^2.8.1, eslint-module-utils@^2.9.0:
-  version "2.11.1"
-  resolved "https://registry.yarnpkg.com/eslint-module-utils/-/eslint-module-utils-2.11.1.tgz#6d5a05f09af98f4d238a819ae4c23626a75fa65b"
-  integrity sha512-EwcbfLOhwVMAfatfqLecR2yv3dE5+kQ8kx+Rrt0DvDXEVwW86KQ/xbMDQhtp5l42VXukD5SOF8mQQHbaNtO0CQ==
+  version "2.12.0"
+  resolved "https://registry.yarnpkg.com/eslint-module-utils/-/eslint-module-utils-2.12.0.tgz#fe4cfb948d61f49203d7b08871982b65b9af0b0b"
+  integrity sha512-wALZ0HFoytlyh/1+4wuZ9FJCD/leWHQzzrxJ8+rebyReSLk7LApMyd3WJaLVoN+D5+WIdJyDK1c6JnE65V4Zyg==
   dependencies:
     debug "^3.2.7"
 
@@ -2691,9 +2691,9 @@ fast-levenshtein@^2.0.6:
   integrity sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==
 
 fast-uri@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/fast-uri/-/fast-uri-3.0.1.tgz#cddd2eecfc83a71c1be2cc2ef2061331be8a7134"
-  integrity sha512-MWipKbbYiYI0UC7cl8m/i/IWTqfC8YXsqjzybjddLsFjStroQzsHXkc73JutMvBiXmOvapk+axIl79ig5t55Bw==
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/fast-uri/-/fast-uri-3.0.2.tgz#d78b298cf70fd3b752fd951175a3da6a7b48f024"
+  integrity sha512-GR6f0hD7XXyNJa25Tb9BuIdN0tdr+0BMi6/CJPH3wJO1JjNG3n/VsSw38AwRdKZABm8lGbPfakLRkYzx2V9row==
 
 fastq@^1.6.0:
   version "1.17.1"
@@ -5184,14 +5184,14 @@ shelljs@^0.8.3, shelljs@^0.8.5:
     rechoir "^0.6.2"
 
 shiki@^1.16.2:
-  version "1.18.0"
-  resolved "https://registry.yarnpkg.com/shiki/-/shiki-1.18.0.tgz#4f9ca2f442b3612849017ab1dcac47c35ee52276"
-  integrity sha512-8jo7tOXr96h9PBQmOHVrltnETn1honZZY76YA79MHheGQg55jBvbm9dtU+MI5pjC5NJCFuA6rvVTLVeSW5cE4A==
+  version "1.20.0"
+  resolved "https://registry.yarnpkg.com/shiki/-/shiki-1.20.0.tgz#ea04cf622234c5cf8f8b6c993f8b7b05009a085e"
+  integrity sha512-MZJJ1PCFsQB1Piq+25wiz0a75yUv8Q3/fzy7SzRx5ONdjdtGdyiKwYn8vb/FnK5kjS0voWGnPpjG16POauUR+g==
   dependencies:
-    "@shikijs/core" "1.18.0"
-    "@shikijs/engine-javascript" "1.18.0"
-    "@shikijs/engine-oniguruma" "1.18.0"
-    "@shikijs/types" "1.18.0"
+    "@shikijs/core" "1.20.0"
+    "@shikijs/engine-javascript" "1.20.0"
+    "@shikijs/engine-oniguruma" "1.20.0"
+    "@shikijs/types" "1.20.0"
     "@shikijs/vscode-textmate" "^9.2.2"
     "@types/hast" "^3.0.4"
 
@@ -5781,9 +5781,9 @@ typescript@^5.6.2:
   integrity sha512-NW8ByodCSNCwZeghjN3o+JX5OFH0Ojg6sadjEKY4huZ52TqbJTJnDo5+Tw98lSy63NZvi4n+ez5m2u5d4PkZyw==
 
 typescript@next:
-  version "5.7.0-dev.20240925"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.0-dev.20240925.tgz#72554a8ed9f97fa8a9c19e251cf0e29cd5ccd444"
-  integrity sha512-k43Yzt0H2VwIvVJzSKaMUKSnAOWkAitSB+Zioc340LCsh4kSwCbyHCJSAJmAdFH0QuNIL3AuSybTfwOys8tqZw==
+  version "5.7.0-dev.20240926"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.0-dev.20240926.tgz#83995caf95836b5886bba6d38f420385dd5256ab"
+  integrity sha512-urjGXo3L23oEcK2thBaZ71DdA6My+NeeTuNIUJfYszrplyk//HIgV1yl40S+eQcya4vwmH14dhDDDH4vl4dlng==
 
 typescript@~5.4:
   version "5.4.5"
