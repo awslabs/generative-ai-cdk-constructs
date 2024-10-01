@@ -27,8 +27,7 @@ index of appropriate dimensions in the Aurora database.
 
 The VPC where the Aurora Vector Store will be deployed in.
 The provided VPC must have at least one subnet of type
-`ec2.SubnetType.PUBLIC` and at least one subnet of type
-`ec2.SubnetType.PRIVATE_WITH_EGRESS`. If no subnets of these
+`ec2.SubnetType.PRIVATE_ISOLATED`. If no subnets of these
 types are available, the deployment will fail.
 If not provided, a new VPC with the required subnet
 configuration will be created automatically.
