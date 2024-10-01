@@ -11,9 +11,11 @@
  *  and limitations under the License.
  */
 
-import { ABSENT, expect as cdkExpect, haveResourceLike } from '@aws-cdk/assert';
+import { ABSENT, expect as cdkExpect, haveResource, haveResourceLike } from '@aws-cdk/assert';
 import * as cdk from 'aws-cdk-lib';
+import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
+
 import { AwsSolutionsChecks } from 'cdk-nag';
 import {
   AmazonAuroraDefaultVectorStore,
@@ -118,17 +120,51 @@ describe('KnowledgeBase', () => {
   test('Should correctly initialize role with necessary permissions', () => {
     const vectorStore = new VectorCollection(stack, 'VectorCollection2');
     const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
-    const knowledgeBase = new KnowledgeBase(stack, 'VectorKnowledgeBase2', {
+    new KnowledgeBase(stack, 'VectorKnowledgeBase2', {
       embeddingsModel: model,
       vectorStore: vectorStore,
     });
 
-    const policyDocument = knowledgeBase.role.assumeRolePolicy?.toJSON();
-    expect(policyDocument).toBeDefined();
-    expect(policyDocument.Statement).toHaveLength(2);
-    expect(policyDocument.Statement[0].Action).toContain('sts:AssumeRole');
-    expect(policyDocument.Statement[0].Principal).toHaveProperty('Service');
-    expect(policyDocument.Statement[0].Principal.Service).toContain('bedrock.amazonaws.com');
+    cdkExpect(stack).to(
+      haveResourceLike('AWS::IAM::Role', {
+        AssumeRolePolicyDocument: {
+          Statement: [
+            {
+              Effect: 'Allow',
+              Principal: {
+                Service: 'bedrock.amazonaws.com',
+              },
+              Action: 'sts:AssumeRole',
+              Condition: {
+                StringEquals: {
+                  'aws:SourceAccount': '123456789012',
+                },
+                ArnLike: {
+                  'aws:SourceArn': {
+                    'Fn::Join': [
+                      '',
+                      [
+                        'arn:',
+                        {
+                          Ref: 'AWS::Partition',
+                        },
+                        ':bedrock:us-east-1:123456789012:knowledge-base/*',
+                      ],
+                    ],
+                  },
+                },
+              },
+            },
+          ],
+        },
+      }),
+    );
+    // const policyDocument = knowledgeBase.role.?.toJSON();
+    // expect(policyDocument).toBeDefined();
+    // expect(policyDocument.Statement).toHaveLength(2);
+    // expect(policyDocument.Statement[0].Action).toContain('sts:AssumeRole');
+    // expect(policyDocument.Statement[0].Principal).toHaveProperty('Service');
+    // expect(policyDocument.Statement[0].Principal.Service).toContain('bedrock.amazonaws.com');
   });
 
   test('Should throw error when vectorStore is not VectorCollection and indexName is provided', () => {
@@ -250,6 +286,50 @@ describe('KnowledgeBase', () => {
         },
       }),
     );
+  });
+
+  test('Imported Knowledge Base', () => {
+    const kb = KnowledgeBase.fromKnowledgeBaseAttributes(stack, 'ImportedKnowledgeBase', {
+      knowledgeBaseId: 'OVGH4TEBDH',
+      executionRoleArn: 'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseE9B1DDDC',
+    });
+
+    expect(kb.knowledgeBaseId).toEqual('OVGH4TEBDH');
+    expect(kb.role.roleArn).toEqual('arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseE9B1DDDC');
+    expect(kb.role.roleName).toEqual('AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseE9B1DDDC');
+    expect(kb.knowledgeBaseArn).toMatch(new RegExp('arn:.*:bedrock:us-east-1:123456789012:knowledge-base\/OVGH4TEBDH$'));
+
+  });
+
+  test('Imported Knowledge Base - Data Source Method', () => {
+    const kb2 = KnowledgeBase.fromKnowledgeBaseAttributes(stack, 'ImportedKnowledgeBase2', {
+      knowledgeBaseId: 'OVGH4TEBDH',
+      executionRoleArn: 'arn:aws:iam::123456789012:role/service-role/AmazonBedrockExecutionRoleForKnowledgeBase_9ivh2',
+    });
+    const bucket = s3.Bucket.fromBucketArn(stack, 's3-imported',
+      'arn:aws:s3:::aws-cdk-bedrock-test-bucket-83908e77-cdxrc7lilg6v',
+    );
+
+    const s3datasource = kb2.addS3DataSource({
+      bucket,
+      dataSourceName: 'TestDataSourceS3',
+    });
+
+    expect(s3datasource.dataSourceType).toEqual('S3');
+    expect(s3datasource.knowledgeBase.knowledgeBaseId).toEqual('OVGH4TEBDH');
+    cdkExpect(stack).to(haveResource('AWS::Bedrock::DataSource'));
+
+    // console.log(Template.fromStack(stack).toJSON)
+
+    // Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
+    //   KnowledgeBaseId: 'OVGH4TEBDH',
+    //   Name: 'TestDataSourceS3',
+    //   DataSourceConfiguration: {
+    //     S3Configuration: {
+    //       BucketArn: 'arn:aws:s3:::aws-cdk-bedrock-test-bucket-83908e77-cdxrc7lilg6v'
+    //     },
+    //   },
+    // });
   });
 
 });

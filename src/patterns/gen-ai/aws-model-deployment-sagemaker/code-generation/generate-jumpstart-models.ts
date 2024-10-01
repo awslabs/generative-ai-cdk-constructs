@@ -34,6 +34,7 @@ interface JumpStartModelSpec {
   hosting_artifact_key?: string;
   hosting_script_key?: string;
   hosting_prepacked_artifact_key?: string;
+  gated_bucket: boolean;
   hosting_eula_key?: string;
   inference_environment_variables: {
     name: string;
@@ -113,6 +114,7 @@ export async function download_data() {
         hosting_script_key,
         hosting_artifact_key,
         hosting_prepacked_artifact_key,
+        gated_bucket,
         inference_environment_variables,
         hosting_instance_type_variants,
         hosting_eula_key,
@@ -149,6 +151,7 @@ export async function download_data() {
         hosting_artifact_key,
         hosting_script_key,
         hosting_prepacked_artifact_key,
+        gated_bucket,
         inference_environment_variables,
         hosting_instance_type_variants,
         hosting_eula_key,
@@ -220,6 +223,7 @@ function generateCode() {
         instanceTypes: specSource.supported_inference_instance_types,
         modelPackageArns: specSource.hosting_model_package_arns,
         prepackedArtifactKey: specSource.hosting_prepacked_artifact_key,
+        gatedBucket: specSource.gated_bucket,
         artifactKey: specSource.hosting_artifact_key,
         environment,
         instanceAliases: instanceAliasesArr,
@@ -270,6 +274,7 @@ export interface IJumpStartModelSpec {
   instanceTypes: string[];
   modelPackageArns?: { [region: string]: string };
   prepackedArtifactKey?: string;
+  gatedBucket: boolean;
   artifactKey?: string;
   environment: { [key: string]: string | number | boolean };
   instanceAliases?: IInstanceAliase[];

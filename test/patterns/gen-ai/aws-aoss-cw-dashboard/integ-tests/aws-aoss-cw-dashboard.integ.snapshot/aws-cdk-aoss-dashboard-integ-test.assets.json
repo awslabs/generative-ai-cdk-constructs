@@ -1,15 +1,15 @@
 {
-  "version": "36.0.24",
+  "version": "36.3.0",
   "files": {
-    "21fbb51d7b23f6a6c262b46a9caee79d744a3ac019fd45422d988b96d44b2a22": {
+    "181da6986985d46e23b14751019080abbf03bbc0a08672bc1215ed7b0913386c": {
       "source": {
-        "path": "ServiceTestDefaultTestDeployAssertE49B1ECE.template.json",
+        "path": "aws-cdk-aoss-dashboard-integ-test.template.json",
         "packaging": "file"
       },
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "21fbb51d7b23f6a6c262b46a9caee79d744a3ac019fd45422d988b96d44b2a22.json",
+          "objectKey": "181da6986985d46e23b14751019080abbf03bbc0a08672bc1215ed7b0913386c.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }

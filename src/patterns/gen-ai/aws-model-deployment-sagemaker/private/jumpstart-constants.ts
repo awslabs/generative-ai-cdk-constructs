@@ -44,6 +44,10 @@ export abstract class JumpStartConstants {
       contentBucket: 'jumpstart-cache-prod-eu-north-1',
       gatedContentBucket: 'jumpstart-private-cache-prod-eu-north-1',
     },
+    'me-central-1': {
+      contentBucket: 'jumpstart-cache-prod-me-central-1',
+      gatedContentBucket: 'jumpstart-private-cache-prod-me-central-1',
+    },
     'me-south-1': {
       contentBucket: 'jumpstart-cache-prod-me-south-1',
       gatedContentBucket: 'jumpstart-private-cache-prod-me-south-1',
@@ -72,6 +76,10 @@ export abstract class JumpStartConstants {
       contentBucket: 'jumpstart-cache-prod-ap-northeast-2',
       gatedContentBucket: 'jumpstart-private-cache-prod-ap-northeast-2',
     },
+    'ap-northeast-3': {
+      contentBucket: 'jumpstart-cache-prod-ap-northeast-3',
+      gatedContentBucket: 'jumpstart-private-cache-prod-ap-northeast-3',
+    },
     'eu-west-2': {
       contentBucket: 'jumpstart-cache-prod-eu-west-2',
       gatedContentBucket: 'jumpstart-private-cache-prod-eu-west-2',
@@ -96,12 +104,28 @@ export abstract class JumpStartConstants {
       contentBucket: 'jumpstart-cache-prod-ap-southeast-2',
       gatedContentBucket: 'jumpstart-private-cache-prod-ap-southeast-2',
     },
+    'ap-southeast-3': {
+      contentBucket: 'jumpstart-cache-prod-ap-southeast-3',
+      gatedContentBucket: 'jumpstart-private-cache-prod-ap-southeast-3',
+    },
     'ca-central-1': {
       contentBucket: 'jumpstart-cache-prod-ca-central-1',
       gatedContentBucket: 'jumpstart-private-cache-prod-ca-central-1',
     },
     'cn-north-1': {
       contentBucket: 'jumpstart-cache-prod-cn-north-1',
+    },
+    'il-central-1': {
+      contentBucket: 'jumpstart-cache-prod-il-central-1',
+      gatedContentBucket: 'jumpstart-private-cache-prod-il-central-1',
+    },
+    'us-gov-east-1': {
+      contentBucket: 'jumpstart-cache-prod-us-gov-east-1',
+      gatedContentBucket: 'jumpstart-private-cache-prod-us-gov-east-1',
+    },
+    'us-gov-west-1': {
+      contentBucket: 'jumpstart-cache-prod-us-gov-west-1',
+      gatedContentBucket: 'jumpstart-private-cache-prod-us-gov-west-1',
     },
   };
 

@@ -164,66 +164,66 @@
         }
       ]
     },
-    "integ:prompts:assert": {
-      "name": "integ:prompts:assert",
-      "description": "assert the snapshot of integration test 'prompts'",
+    "integ:aws-aoss-cw-dashboard:assert": {
+      "name": "integ:aws-aoss-cw-dashboard:assert",
+      "description": "assert the snapshot of integration test 'aws-aoss-cw-dashboard'",
       "steps": [
         {
-          "exec": "[ -d \"test/cdk-lib/bedrock/integ-tests/prompts.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'prompts'. Run 'projen integ:prompts:deploy' to capture.\" && exit 1)"
+          "exec": "[ -d \"test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'aws-aoss-cw-dashboard'. Run 'projen integ:aws-aoss-cw-dashboard:deploy' to capture.\" && exit 1)"
         },
         {
-          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/prompts.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/cdk-lib/bedrock/integ-tests/.tmp/prompts.integ/assert.cdk.out > /dev/null"
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp/aws-aoss-cw-dashboard.integ/assert.cdk.out > /dev/null"
         },
         {
-          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/cdk-lib/bedrock/integ-tests/prompts.integ.snapshot/ test/cdk-lib/bedrock/integ-tests/.tmp/prompts.integ/assert.cdk.out/"
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/ test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp/aws-aoss-cw-dashboard.integ/assert.cdk.out/"
         }
       ]
     },
-    "integ:prompts:deploy": {
-      "name": "integ:prompts:deploy",
-      "description": "deploy integration test 'prompts' and capture snapshot",
+    "integ:aws-aoss-cw-dashboard:deploy": {
+      "name": "integ:aws-aoss-cw-dashboard:deploy",
+      "description": "deploy integration test 'aws-aoss-cw-dashboard' and capture snapshot",
       "steps": [
         {
-          "exec": "rm -fr test/cdk-lib/bedrock/integ-tests/.tmp/prompts.integ/deploy.cdk.out"
+          "exec": "rm -fr test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp/aws-aoss-cw-dashboard.integ/deploy.cdk.out"
         },
         {
-          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/prompts.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/cdk-lib/bedrock/integ-tests/.tmp/prompts.integ/deploy.cdk.out"
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp/aws-aoss-cw-dashboard.integ/deploy.cdk.out"
         },
         {
-          "exec": "rm -fr test/cdk-lib/bedrock/integ-tests/prompts.integ.snapshot"
+          "exec": "rm -fr test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot"
         },
         {
-          "exec": "mv test/cdk-lib/bedrock/integ-tests/.tmp/prompts.integ/deploy.cdk.out test/cdk-lib/bedrock/integ-tests/prompts.integ.snapshot"
+          "exec": "mv test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp/aws-aoss-cw-dashboard.integ/deploy.cdk.out test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot"
         },
         {
-          "spawn": "integ:prompts:destroy"
+          "spawn": "integ:aws-aoss-cw-dashboard:destroy"
         }
       ]
     },
-    "integ:prompts:destroy": {
-      "name": "integ:prompts:destroy",
-      "description": "destroy integration test 'prompts'",
+    "integ:aws-aoss-cw-dashboard:destroy": {
+      "name": "integ:aws-aoss-cw-dashboard:destroy",
+      "description": "destroy integration test 'aws-aoss-cw-dashboard'",
       "steps": [
         {
-          "exec": "cdk destroy --app test/cdk-lib/bedrock/integ-tests/prompts.integ.snapshot '**' --no-version-reporting"
+          "exec": "cdk destroy --app test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot '**' --no-version-reporting"
         }
       ]
     },
-    "integ:prompts:snapshot": {
-      "name": "integ:prompts:snapshot",
-      "description": "update snapshot for integration test \"prompts\"",
+    "integ:aws-aoss-cw-dashboard:snapshot": {
+      "name": "integ:aws-aoss-cw-dashboard:snapshot",
+      "description": "update snapshot for integration test \"aws-aoss-cw-dashboard\"",
       "steps": [
         {
-          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/prompts.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/cdk-lib/bedrock/integ-tests/prompts.integ.snapshot > /dev/null"
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot > /dev/null"
         }
       ]
     },
-    "integ:prompts:watch": {
-      "name": "integ:prompts:watch",
-      "description": "watch integration test 'prompts' (without updating snapshots)",
+    "integ:aws-aoss-cw-dashboard:watch": {
+      "name": "integ:aws-aoss-cw-dashboard:watch",
+      "description": "watch integration test 'aws-aoss-cw-dashboard' (without updating snapshots)",
       "steps": [
         {
-          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/prompts.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/cdk-lib/bedrock/integ-tests/.tmp/prompts.integ/deploy.cdk.out"
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp/aws-aoss-cw-dashboard.integ/deploy.cdk.out"
         }
       ]
     },
@@ -232,7 +232,7 @@
       "description": "update snapshot for all integration tests",
       "steps": [
         {
-          "spawn": "integ:prompts:snapshot"
+          "spawn": "integ:aws-aoss-cw-dashboard:snapshot"
         }
       ]
     },
@@ -256,6 +256,9 @@
       "steps": [
         {
           "spawn": "package:js"
+        },
+        {
+          "spawn": "package:java"
         },
         {
           "spawn": "package:python"
@@ -283,6 +286,15 @@
       "steps": [
         {
           "exec": "jsii-pacmak -v --target go"
+        }
+      ]
+    },
+    "package:java": {
+      "name": "package:java",
+      "description": "Create java language bindings",
+      "steps": [
+        {
+          "exec": "jsii-pacmak -v --target java"
         }
       ]
     },
@@ -362,7 +374,7 @@
           "spawn": "eslint"
         },
         {
-          "spawn": "integ:prompts:assert"
+          "spawn": "integ:aws-aoss-cw-dashboard:assert"
         }
       ]
     },

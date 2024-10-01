@@ -32,7 +32,7 @@ describe('Guardrail', () => {
     cdkExpect(stack).to(
       haveResource('AWS::Bedrock::Guardrail', {
         Name: 'my-guardrail',
-        BlockedInputMessaging: 'Sorry, your query voilates our usage policy.',
+        BlockedInputMessaging: 'Sorry, your query violates our usage policy.',
         BlockedOutputsMessaging: 'Sorry, I am unable to answer your question because of our usage policy.',
       }),
     );

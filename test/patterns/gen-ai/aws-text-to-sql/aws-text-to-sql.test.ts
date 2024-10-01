@@ -54,6 +54,11 @@ describe('Text to SQL Construct', () => {
           subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
           cidrMask: 24,
         },
+        {
+          name: 'isolated',
+          subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
+          cidrMask: 24,
+        },
       ],
     });
     const props: TextToSqlProps = {

@@ -57,7 +57,7 @@ describe('Summarization Appsync Stepfn construct', () => {
           },
           {
             name: 'private',
-            subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+            subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
             cidrMask: 24,
           },
         ],
