@@ -15,6 +15,8 @@ import boto3,os,base64,json
 from datetime import datetime
 from requests_aws4auth import AWS4Auth
 from aws_lambda_powertools import Logger, Tracer, Metrics
+from util  import MODEL_NAME
+
 
 logger = Logger(service="CONTENT_GENERATION")
 tracer = Tracer(service="CONTENT_GENERATION")
@@ -200,9 +202,9 @@ class image_generator():
         logger.info('res :: {}',responseJobstatus)
 
 def get_model_payload(modelid,params,input_text,negative_prompts):
-      
+     
      body=''
-     if modelid=='stability.stable-diffusion-xl' :
+     if modelid==MODEL_NAME.STABILITY_DIFFUSION :
         body = json.dumps({
                 "text_prompts": (
                         [{"text": input_text, "weight": 1.0}]
@@ -218,7 +220,7 @@ def get_model_payload(modelid,params,input_text,negative_prompts):
                 "height": params['height']
                 })
         return body
-     if modelid=='amazon.titan-image-generator-v1' :
+     if modelid==MODEL_NAME.TITAN_IMAGE :
 
         body = json.dumps({
                        "taskType": "TEXT_IMAGE",
