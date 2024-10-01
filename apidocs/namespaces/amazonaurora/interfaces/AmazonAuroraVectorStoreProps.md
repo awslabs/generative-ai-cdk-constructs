@@ -6,119 +6,68 @@
 
 # Interface: AmazonAuroraVectorStoreProps
 
-Properties for configuring an Amazon Aurora Vector Store.
-
-## Extends
-
-- [`BaseAuroraVectorStoreProps`](BaseAuroraVectorStoreProps.md)
+Properties for a AmazonAuroraVectorStore.
 
 ## Properties
 
-### databaseName?
+### credentialsSecretArn
 
-> `readonly` `optional` **databaseName**: `string`
+> `readonly` **credentialsSecretArn**: `string`
 
-The name of the database for the Aurora Vector Store.
-
-***
-
-### embeddingsModel
-
-> `readonly` **embeddingsModel**: [`BedrockFoundationModel`](../../foundation_models/classes/BedrockFoundationModel.md)
-
-The embeddings model used for the Aurora Vector Store.
-The vector dimensions of the model must match the dimensions
-used in the KnowledgeBase construct.
-
-#### Inherited from
-
-[`BaseAuroraVectorStoreProps`](BaseAuroraVectorStoreProps.md).[`embeddingsModel`](BaseAuroraVectorStoreProps.md#embeddingsmodel)
+The Secret ARN of your Amazon Aurora DB cluster.
 
 ***
 
-### metadataField?
+### databaseName
 
-> `readonly` `optional` **metadataField**: `string`
+> `readonly` **databaseName**: `string`
 
-The field name for the metadata column in the Aurora Vector Store.
-
-#### Inherited from
-
-[`BaseAuroraVectorStoreProps`](BaseAuroraVectorStoreProps.md).[`metadataField`](BaseAuroraVectorStoreProps.md#metadatafield)
+The name of your Database.
 
 ***
 
-### postgreSQLVersion?
+### metadataField
 
-> `readonly` `optional` **postgreSQLVersion**: `AuroraPostgresEngineVersion`
+> `readonly` **metadataField**: `string`
 
-The version of PostgreSQL to use for the Aurora Vector Store.
-By default, the latest supported version will be used.
-
-***
-
-### primaryKeyField?
-
-> `readonly` `optional` **primaryKeyField**: `string`
-
-The primary key field for the Aurora Vector Store table.
-
-#### Inherited from
-
-[`BaseAuroraVectorStoreProps`](BaseAuroraVectorStoreProps.md).[`primaryKeyField`](BaseAuroraVectorStoreProps.md#primarykeyfield)
+Provide the metadata field that you configured in Amazon Aurora.
 
 ***
 
-### schemaName?
+### primaryKeyField
 
-> `readonly` `optional` **schemaName**: `string`
+> `readonly` **primaryKeyField**: `string`
 
-The schema name for the Aurora Vector Store.
-
-#### Inherited from
-
-[`BaseAuroraVectorStoreProps`](BaseAuroraVectorStoreProps.md).[`schemaName`](BaseAuroraVectorStoreProps.md#schemaname)
+Provide the primary key that you configured in Amazon Aurora.
 
 ***
 
-### tableName?
+### resourceArn
 
-> `readonly` `optional` **tableName**: `string`
+> `readonly` **resourceArn**: `string`
 
-The name of the table for the Aurora Vector Store.
-
-#### Inherited from
-
-[`BaseAuroraVectorStoreProps`](BaseAuroraVectorStoreProps.md).[`tableName`](BaseAuroraVectorStoreProps.md#tablename)
+The ARN of your Amazon Aurora DB cluster.
 
 ***
 
-### textField?
+### tableName
 
-> `readonly` `optional` **textField**: `string`
+> `readonly` **tableName**: `string`
 
-The field name for the text column in the Aurora Vector Store.
-
-#### Inherited from
-
-[`BaseAuroraVectorStoreProps`](BaseAuroraVectorStoreProps.md).[`textField`](BaseAuroraVectorStoreProps.md#textfield)
+The Table Name of your Amazon Aurora DB cluster.
 
 ***
 
-### vectorField?
+### textField
 
-> `readonly` `optional` **vectorField**: `string`
+> `readonly` **textField**: `string`
 
-The field name for the vector column in the Aurora Vector Store.
-
-#### Inherited from
-
-[`BaseAuroraVectorStoreProps`](BaseAuroraVectorStoreProps.md).[`vectorField`](BaseAuroraVectorStoreProps.md#vectorfield)
+Provide the text field that you configured in Amazon Aurora.
 
 ***
 
-### vpc?
+### vectorField
 
-> `readonly` `optional` **vpc**: `IVpc`
+> `readonly` **vectorField**: `string`
 
-User's VPC in which they want to deploy Aurora Database.
+Provide the vector field that you configured in Amazon Aurora.

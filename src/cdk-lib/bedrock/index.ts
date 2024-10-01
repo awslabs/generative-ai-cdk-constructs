@@ -11,6 +11,7 @@
  *  and limitations under the License.
  */
 
+export * from './models';
 export * from './knowledge-base';
 export * from './agent';
 export * from './agent-alias';

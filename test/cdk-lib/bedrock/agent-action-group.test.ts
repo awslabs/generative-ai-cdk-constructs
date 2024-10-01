@@ -17,6 +17,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { NagSuppressions } from 'cdk-nag';
 import * as bedrock from '../../../src/cdk-lib/bedrock';
 
+
 // mock lambda.Code.fromDockerBuild()
 jest.mock('aws-cdk-lib/aws-lambda', () => {
   const actualLambda = jest.requireActual('aws-cdk-lib/aws-lambda');

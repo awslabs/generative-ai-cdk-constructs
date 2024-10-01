@@ -12,83 +12,52 @@
  */
 import * as cdk from 'aws-cdk-lib';
 import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
-import { SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
-import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag';
-import { AmazonAuroraVectorStore, ExistingAmazonAuroraVectorStore } from '../../../src/cdk-lib/amazonaurora';
-import { BedrockFoundationModel } from '../../../src/cdk-lib/foundationmodels';
+import { AwsSolutionsChecks } from 'cdk-nag';
+import { AmazonAuroraVectorStore } from '../../../src/cdk-lib/amazonaurora';
 
 describe('Amazon Aurora Vector Store', () => {
   let app: cdk.App;
   let stack: cdk.Stack;
-  let template: Template;
-  let model: BedrockFoundationModel;
-  let existingVpc: Vpc;
 
   beforeAll(() => {
     app = new cdk.App();
     cdk.Aspects.of(app).add(new AwsSolutionsChecks());
-    stack = new cdk.Stack(app, 'test-stack', {
+    stack = new cdk.Stack(app, 'TestStack', {
       env: {
         account: '123456789012',
         region: 'us-east-1',
       },
     });
-    model = BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3;
-    existingVpc = new Vpc(stack, 'Vpc', {
-      maxAzs: 2,
-      subnetConfiguration: [
-        {
-          cidrMask: 18,
-          name: 'isolated',
-          subnetType: SubnetType.PRIVATE_ISOLATED,
-        },
-      ],
-    });
   });
 
-  describe('Amazon Aurora Default Vector Store', () => {
+  describe('Default Amazon Aurora Vector Store', () => {
     let auroraVectorStore: AmazonAuroraVectorStore;
 
     beforeAll(() => {
-      auroraVectorStore = new AmazonAuroraVectorStore(stack, 'AuroraVectorStore', {
-        embeddingsModel: model,
-        vpc: existingVpc,
+      auroraVectorStore = new AmazonAuroraVectorStore({
+        resourceArn: 'test-resource-arn',
+        databaseName: 'test-database',
+        tableName: 'test-table',
+        credentialsSecretArn: 'test-secret-arn',
+        primaryKeyField: 'id',
+        vectorField: 'vector_field',
+        textField: 'text_field',
+        metadataField: 'metadata_field',
       });
 
-      NagSuppressions.addResourceSuppressionsByPath(
-        stack,
-        '/test-stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole',
-        [
-          {
-            id: 'AwsSolutions-IAM4',
-            reason: 'CDK CustomResource LogRetention Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy. Managed by CDK.',
-          },
-          {
-            id: 'AwsSolutions-IAM5',
-            reason: 'CDK CustomResource LogRetention Lambda uses a wildcard to manage log streams created at runtime. Managed by CDK.',
-          },
-        ],
-        true,
-      );
-
       app.synth();
-      template = Template.fromStack(stack);
-    });
-
-    test('Should create AmazonAuroraDefaultVectorStore resources', () => {
-      template.resourceCountIs('AWS::RDS::DBCluster', 1);
-      template.resourceCountIs('Custom::AmazonAuroraPgVector', 1);
-    });
-
-    test('Should use existing VPC', () => {
-      expect(auroraVectorStore.vpc).toEqual(existingVpc);
+      Template.fromStack(stack);
     });
 
     test('Should have correct properties', () => {
-      expect(auroraVectorStore.databaseName).toEqual('bedrock_vector_db');
-      expect(auroraVectorStore.tableName).toEqual('bedrock_kb');
+      expect(auroraVectorStore.resourceArn).toEqual('test-resource-arn');
+      expect(auroraVectorStore.databaseName).toEqual('test-database');
+      expect(auroraVectorStore.tableName).toEqual('test-table');
+      expect(auroraVectorStore.credentialsSecretArn).toEqual('test-secret-arn');
       expect(auroraVectorStore.primaryKeyField).toEqual('id');
-      expect(auroraVectorStore.embeddingsModel).toEqual(model);
+      expect(auroraVectorStore.vectorField).toEqual('vector_field');
+      expect(auroraVectorStore.textField).toEqual('text_field');
+      expect(auroraVectorStore.metadataField).toEqual('metadata_field');
     });
 
     test('No unsuppressed Errors', () => {
@@ -97,75 +66,6 @@ describe('Amazon Aurora Vector Store', () => {
         Match.stringLikeRegexp('AwsSolutions-.*'),
       );
       expect(errors).toHaveLength(0);
-    });
-  });
-
-  describe('fromExistingAuroraVectorStore', () => {
-    let existingAuroraVectorStore: ExistingAmazonAuroraVectorStore;
-    let vpc: cdk.aws_ec2.Vpc;
-    let secret: cdk.aws_secretsmanager.Secret;
-
-    beforeAll(() => {
-
-      vpc = new cdk.aws_ec2.Vpc(stack, 'TestVpc', {
-        maxAzs: 2,
-        subnetConfiguration: [
-          {
-            cidrMask: 24,
-            name: 'Public',
-            subnetType: cdk.aws_ec2.SubnetType.PUBLIC,
-          },
-          {
-            cidrMask: 24,
-            name: 'Private with Egress',
-            subnetType: cdk.aws_ec2.SubnetType.PRIVATE_WITH_EGRESS,
-          },
-          {
-            cidrMask: 24,
-            name: 'Isolated',
-            subnetType: cdk.aws_ec2.SubnetType.PRIVATE_ISOLATED,
-          },
-        ],
-      });
-
-      secret = new cdk.aws_secretsmanager.Secret(stack, 'TestSecret', {
-        secretObjectValue: {
-          username: cdk.SecretValue.unsafePlainText('foo'),
-          password: cdk.SecretValue.unsafePlainText('bar'),
-        },
-      });
-
-      existingAuroraVectorStore = AmazonAuroraVectorStore.fromExistingAuroraVectorStore(stack, 'ExistingAuroraVectorStore',
-        {
-          clusterIdentifier: 'test-cluster-identifier',
-          databaseName: 'test-database-name',
-          tableName: 'test-table-name',
-          primaryKeyField: 'test-primary-key-id',
-          embeddingsModel: model,
-          vpc: vpc,
-          secret: secret,
-          auroraSecurityGroupId: 'sg-12345678',
-        });
-    });
-
-    test('Should create an instance of AmazonAuroraVectorStore', () => {
-      expect(existingAuroraVectorStore).toBeInstanceOf(ExistingAmazonAuroraVectorStore);
-    });
-
-    test('Should have the correct databaseName', () => {
-      expect(existingAuroraVectorStore.databaseName).toEqual('test-database-name');
-    });
-
-    test('Should have the correct tableName', () => {
-      expect(existingAuroraVectorStore.tableName).toEqual('test-table-name');
-    });
-
-    test('Should have the correct primaryKeyField', () => {
-      expect(existingAuroraVectorStore.primaryKeyField).toEqual('test-primary-key-id');
-    });
-
-    test('Should have the correct embeddingsModel', () => {
-      expect(existingAuroraVectorStore.embeddingsModel).toEqual(model);
     });
   });
 });

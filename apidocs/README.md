@@ -8,7 +8,6 @@
 
 - [amazonaurora](namespaces/amazonaurora/README.md)
 - [bedrock](namespaces/bedrock/README.md)
-- [foundation\_models](namespaces/foundation_models/README.md)
 - [opensearch\_vectorindex](namespaces/opensearch_vectorindex/README.md)
 - [opensearchserverless](namespaces/opensearchserverless/README.md)
 - [pinecone](namespaces/pinecone/README.md)

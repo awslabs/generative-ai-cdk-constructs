@@ -17,7 +17,6 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { NagSuppressions } from 'cdk-nag';
 import * as bedrock from '../../../src/cdk-lib/bedrock';
-import * as foundationModels from '../../../src/cdk-lib/foundationmodels';
 
 // mock lambda.Code.fromDockerBuild()
 jest.mock('aws-cdk-lib/aws-lambda', () => {
@@ -49,7 +48,7 @@ describe('Agent with guardrails through addGuardrail', () => {
     });
     const bucket = new s3.Bucket(stack, 'DocBucket');
     kb = new bedrock.KnowledgeBase(stack, 'KB', {
-      embeddingsModel: foundationModels.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+      embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
       description: 'Documentation about CDK constructs.',
       instruction: 'Documentation about CDK constructs.',
     });
@@ -116,7 +115,7 @@ describe('Agent with guardrails through addGuardrail', () => {
     });
 
     agent = new bedrock.Agent(stack, 'Agent', {
-      foundationModel: foundationModels.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+      foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
       instruction: 'You provide support for developers working with CDK constructs.',
       knowledgeBases: [kb],
       idleSessionTTL: cdk.Duration.minutes(30),
@@ -351,7 +350,7 @@ describe('Agent with guardrails through constructor', () => {
     });
     const bucket = new s3.Bucket(stack, 'DocBucket');
     kb = new bedrock.KnowledgeBase(stack, 'KB', {
-      embeddingsModel: foundationModels.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+      embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
       description: 'Documentation about CDK constructs.',
       instruction: 'Documentation about CDK constructs.',
     });
@@ -418,7 +417,7 @@ describe('Agent with guardrails through constructor', () => {
     });
 
     agent = new bedrock.Agent(stack, 'Agent', {
-      foundationModel: foundationModels.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+      foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
       instruction: 'You provide support for developers working with CDK constructs.',
       knowledgeBases: [kb],
       idleSessionTTL: cdk.Duration.minutes(30),
@@ -618,7 +617,7 @@ describe('Agent without guardrails', () => {
     });
     const bucket = new s3.Bucket(stack, 'DocBucket');
     kb = new bedrock.KnowledgeBase(stack, 'KB', {
-      embeddingsModel: foundationModels.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+      embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
       description: 'Documentation about CDK constructs.',
       instruction: 'Documentation about CDK constructs.',
     });
@@ -685,7 +684,7 @@ describe('Agent without guardrails', () => {
     });
 
     agent = new bedrock.Agent(stack, 'Agent', {
-      foundationModel: foundationModels.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+      foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
       instruction: 'You provide support for developers working with CDK constructs.',
       knowledgeBases: [kb],
       idleSessionTTL: cdk.Duration.minutes(30),

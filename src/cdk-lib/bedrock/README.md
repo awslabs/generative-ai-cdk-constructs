@@ -51,10 +51,10 @@ TypeScript
 
 ```ts
 import * as s3 from "aws-cdk-lib/aws-s3";
-import { bedrock, foundation_models } from "@cdklabs/generative-ai-cdk-constructs";
+import { bedrock } from "@cdklabs/generative-ai-cdk-constructs";
 
 const kb = new bedrock.KnowledgeBase(this, "KnowledgeBase", {
-  embeddingsModel: foundation_models.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
   instruction:
     "Use this knowledge base to answer questions about books. " +
     "It contains the full text of novels.",
@@ -81,12 +81,11 @@ from aws_cdk import (
     aws_s3 as s3,
 )
 from cdklabs.generative_ai_cdk_constructs import (
-    bedrock,
-    foundation_models
+    bedrock
 )
 
 kb = bedrock.KnowledgeBase(self, 'KnowledgeBase',
-            embeddings_model= foundation_models.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+            embeddings_model= bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
             instruction=  'Use this knowledge base to answer questions about books. ' +
     'It contains the full text of novels.'
         )
@@ -104,116 +103,28 @@ bedrock.S3DataSource(self, 'DataSource',
 
 ```
 
-Example of `Amazon RDS Aurora PostgreSQL`:
+Example of `Amazon RDS Aurora PostgreSQL` (manual, you must have Amazon RDS Aurora PostgreSQL already created):
 
 TypeScript
 
 ```ts
 import * as s3 from "aws-cdk-lib/aws-s3";
-import { amazonaurora, bedrock, foundation_models } from '@cdklabs/generative-ai-cdk-constructs';
+import { amazonaurora, bedrock } from "@cdklabs/generative-ai-cdk-constructs";
 
-const auroraDb = new amazonaurora.AmazonAuroraVectorStore(stack, 'AuroraDefaultVectorStore', {
-  embeddingsModel: foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+const auroraDbManual = new amazonaurora.AmazonAuroraVectorStore({
+  resourceArn: "arn:aws:rds:your-region:123456789876:cluster:aurora-cluster-manual",
+  databaseName: "bedrock_vector_db",
+  tableName: "bedrock_integration.bedrock_kb",
+  credentialsSecretArn: "arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name",
+  primaryKeyField: "id",
+  vectorField: "embedding",
+  textField: "chunks",
+  metadataField: "metadata",
 });
 
 const kb = new bedrock.KnowledgeBase(this, "KnowledgeBase", {
-  vectorStore: auroraDb,
-  embeddingsModel: foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
-  instruction: 'Use this knowledge base to answer questions about books. ' +
-    'It contains the full text of novels.',
-});
-
-const docBucket = new s3.Bucket(this, "DocBucket");
-
-new bedrock.S3DataSource(this, "DataSource", {
-  bucket: docBucket,
-  knowledgeBase: kb,
-  dataSourceName: "books",
-  chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
-});
-```
-
-Python
-
-```python
-
-from aws_cdk import (
-    aws_s3 as s3,
-    aws_rds as rds,
-    aws_ec2 as ec2,
-    Stack,
-    ArnFormat
-)
-from cdklabs.generative_ai_cdk_constructs import (
-    bedrock,
-    amazonaurora,
-    foundation_models
-)
-
-
-model = foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3
-aurora_db = amazonaurora.AmazonAuroraVectorStore(self, 'AuroraDefaultVectorStore',
-  embeddings_model=model
-)
-
-kb = bedrock.KnowledgeBase(self, 'KnowledgeBase',
-            vector_store= aurora_db,
-            embeddings_model= foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
-            instruction=  'Use this knowledge base to answer questions about books. ' +
-    'It contains the full text of novels.'
-        )
-
-docBucket = s3.Bucket(self, 'DockBucket')
-
-bedrock.S3DataSource(self, 'DataSource',
-    bucket= docBucket,
-    knowledge_base=kb,
-    data_source_name='books',
-    chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
-)
-
-```
-
-Example of importing existing ``Amazon RDS Aurora PostgreSQL`` using ``fromExistingAuroraVectorStore()`` method.
-**Note** - you need to provide `clusterIdentifier`, `databaseName`, `vpc`, `secret` and `auroraSecurityGroupId` used in deployment of your existing RDS Amazon Aurora DB, as well as `embeddingsModel` that you want to be used by a Knowledge Base for chunking:
-
-TypeScript
-
-```ts
-import * as s3 from "aws-cdk-lib/aws-s3";
-import { amazonaurora, bedrock, foundation_models } from '@cdklabs/generative-ai-cdk-constructs';
-
-const auroraDb = aurora.AmazonAuroraVectorStore.fromExistingAuroraVectorStore(stack, 'ExistingAuroraVectorStore', {
-  clusterIdentifier: 'aurora-serverless-vector-cluster',
-  databaseName: 'bedrock_vector_db',
-  schemaName: 'bedrock_integration',
-  tableName: 'bedrock_kb',
-  vectorField: 'embedding',
-  textField: 'chunks',
-  metadataField: 'metadata',
-  primaryKeyField: 'id',
-  embeddingsModel: foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
-  vpc: cdk.aws_ec2.Vpc.fromLookup(stack, 'VPC', {
-    vpcId: 'vpc-0c1a234567ee8bc90',
-  }),
-  auroraSecurityGroupId: 'sg-012ef345678c98a76',,
-  secret: cdk.aws_rds.DatabaseSecret.fromSecretCompleteArn(
-    stack,
-    'Secret',
-    cdk.Stack.of(stack).formatArn({
-      service: 'secretsmanager',
-      resource: 'secret',
-      resourceName: 'rds-db-credentials/cluster-1234567890',
-      region: cdk.Stack.of(stack).region,
-      account: cdk.Stack.of(stack).account,
-      arnFormat: cdk.ArnFormat.COLON_RESOURCE_NAME,
-    }),
-  ),
-});
-
-const kb = new bedrock.KnowledgeBase(this, "KnowledgeBase", {
-  vectorStore: auroraDb,
-  embeddingsModel: foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+  vectorStore: auroraDbManual,
+  embeddingsModel: bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
   instruction:
     "Use this knowledge base to answer questions about books. " +
     "It contains the full text of novels.",
@@ -226,8 +137,6 @@ new bedrock.S3DataSource(this, "DataSource", {
   knowledgeBase: kb,
   dataSourceName: "books",
   chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
-  maxTokens: 500,
-  overlapPercentage: 20,
 });
 ```
 
@@ -237,47 +146,26 @@ Python
 
 from aws_cdk import (
     aws_s3 as s3,
-    aws_rds as rds,
-    aws_ec2 as ec2,
-    Stack,
-    ArnFormat
 )
 from cdklabs.generative_ai_cdk_constructs import (
     bedrock,
-    amazonaurora,
-    foundation_models
+    amazonaurora
 )
 
-aurora_db = amazonaurora.AmazonAuroraVectorStore.from_existing_aurora_vector_store(
-    self, 'ExistingAuroraVectorStore',
-    cluster_identifier='aurora-serverless-vector-cluster',
+aurora = amazonaurora.AmazonAuroraVectorStore(
+    credentials_secret_arn='arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name',
     database_name='bedrock_vector_db',
-    schema_name='bedrock_integration',
-    table_name='bedrock_kb',
-    vector_field='embedding',
-    text_field='chunks',
     metadata_field='metadata',
     primary_key_field='id',
-    embeddings_model=foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
-    vpc=ec2.Vpc.from_lookup(self, 'VPC', vpc_id='vpc-0c1a234567ee8bc90'),
-    aurora_security_group_id='sg-012ef345678c98a76',,
-    secret=rds.DatabaseSecret.from_secret_complete_arn(
-        self,
-        'Secret',
-        Stack.of(self).format_arn(
-            service= 'secretsmanager',
-            resource= 'secret',
-            resource_name= 'rds-db-credentials/cluster-1234567890',
-            region= Stack.of(self).region,
-            account= Stack.of(self).account,
-            arn_format= ArnFormat.COLON_RESOURCE_NAME
-        )
-    )
+    resource_arn='arn:aws:rds:your-region:123456789876:cluster:aurora-cluster-manual',
+    table_name='bedrock_integration.bedrock_kb',
+    text_field='chunks',
+    vector_field='embedding',
 )
 
 kb = bedrock.KnowledgeBase(self, 'KnowledgeBase',
-            vector_store= aurora_db,
-            embeddings_model= foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+            vector_store= aurora,
+            embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
             instruction=  'Use this knowledge base to answer questions about books. ' +
     'It contains the full text of novels.'
         )
@@ -289,8 +177,72 @@ bedrock.S3DataSource(self, 'DataSource',
     knowledge_base=kb,
     data_source_name='books',
     chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
-    max_tokens=500,
-    overlap_percentage=20   
+)
+
+```
+
+Example of `Amazon RDS Aurora PostgreSQL` (default):
+
+TypeScript
+
+```ts
+import * as s3 from "aws-cdk-lib/aws-s3";
+import { amazonaurora, bedrock } from "@cdklabs/generative-ai-cdk-constructs";
+
+const auroraDb = new amazonaurora.AmazonAuroraDefaultVectorStore(this, "AuroraDefaultVectorStore", {
+  embeddingsModelVectorDimension: BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3.vectorDimensions!,
+});
+
+const kb = new bedrock.KnowledgeBase(this, "KnowledgeBase", {
+  vectorStore: auroraDb,
+  embeddingsModel: bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+  instruction:
+    "Use this knowledge base to answer questions about books. " +
+    "It contains the full text of novels.",
+});
+
+const docBucket = new s3.Bucket(this, "DocBucket");
+
+new bedrock.S3DataSource(this, "DataSource", {
+  bucket: docBucket,
+  knowledgeBase: kb,
+  dataSourceName: "books",
+  chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
+});
+```
+
+Python
+
+```python
+
+from aws_cdk import (
+    aws_s3 as s3,
+)
+from cdklabs.generative_ai_cdk_constructs import (
+    bedrock,
+    amazonaurora
+)
+
+dimension = bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3.vector_dimensions
+
+aurora = amazonaurora.AmazonAuroraDefaultVectorStore(self, 'AuroraDefaultVectorStore',
+    embeddings_model_vector_dimension=dimension
+)
+
+kb = bedrock.KnowledgeBase(self, 'KnowledgeBase',
+            vector_store= aurora,
+            embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+            instruction=  'Use this knowledge base to answer questions about books. ' +
+    'It contains the full text of novels.'
+        )
+
+docBucket = s3.Bucket(self, 'DockBucket')
+
+bedrock.S3DataSource(self, 'DataSource',
+    bucket= docBucket,
+    knowledge_base=kb,
+    data_source_name='books',
+    chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
 )
 ```
 
@@ -300,7 +252,7 @@ TypeScript
 
 ```ts
 import * as s3 from "aws-cdk-lib/aws-s3";
-import { pinecone, bedrock, foundation_models } from '@cdklabs/generative-ai-cdk-constructs';
+import { pinecone, bedrock } from "@cdklabs/generative-ai-cdk-constructs";
 
 const pineconeds = new pinecone.PineconeVectorStore({
   connectionString: "https://your-index-1234567.svc.gcp-starter.pinecone.io",
@@ -311,7 +263,7 @@ const pineconeds = new pinecone.PineconeVectorStore({
 
 const kb = new bedrock.KnowledgeBase(this, "KnowledgeBase", {
   vectorStore: pineconeds,
-  embeddingsModel: foundation_models.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
   instruction:
     "Use this knowledge base to answer questions about books. " +
     "It contains the full text of novels.",
@@ -324,8 +276,6 @@ new bedrock.S3DataSource(this, "DataSource", {
   knowledgeBase: kb,
   dataSourceName: "books",
   chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
-  maxTokens: 500,
-  overlapPercentage: 20,
 });
 ```
 
@@ -338,8 +288,7 @@ from aws_cdk import (
 )
 from cdklabs.generative_ai_cdk_constructs import (
     bedrock,
-    pinecone,
-    foundation_models
+    pinecone
 )
 
 pineconevs = pinecone.PineconeVectorStore(
@@ -351,7 +300,7 @@ pineconevs = pinecone.PineconeVectorStore(
 
 kb = bedrock.KnowledgeBase(self, 'KnowledgeBase',
             vector_store= pineconevs,
-            embeddings_model= foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+            embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
             instruction=  'Use this knowledge base to answer questions about books. ' +
     'It contains the full text of novels.'
         )
@@ -363,8 +312,6 @@ bedrock.S3DataSource(self, 'DataSource',
     knowledge_base=kb,
     data_source_name='books',
     chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
-    max_tokens=500,
-    overlap_percentage=20   
 )
 ```
 
@@ -593,7 +540,7 @@ TypeScript
 
 ```ts
 const agent = new bedrock.Agent(this, "Agent", {
-  foundationModel: foundation_models.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+  foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
   instruction: "You are a helpful and friendly agent that answers questions about literature.",
 });
 
@@ -606,7 +553,7 @@ Python
 agent = bedrock.Agent(
     self,
     "Agent",
-    foundation_model=foundation_models.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+    foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
     instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
 )
   agent.add_knowledge_base(kb);
@@ -678,7 +625,7 @@ import { readFileSync } from "fs";
 
 const orchestration = readFileSync("prompts/orchestration.txt", "utf-8");
 const agent = new bedrock.Agent(this, "Agent", {
-  foundationModel: foundation_models.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+  foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
   instruction: "You are a helpful and friendly agent that answers questions about literature.",
   promptOverrideConfiguration: {
     promptConfigurations: [
@@ -718,7 +665,7 @@ Python
 ```python
 orchestration = open('prompts/orchestration.txt', encoding="utf-8").read()
 agent = bedrock.Agent(self, "Agent",
-            foundation_model=foundation_models.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+            foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
             instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
             prompt_override_configuration= bedrock.PromptOverrideConfiguration(
                 prompt_configurations=[
@@ -769,7 +716,7 @@ TypeScript
 
 ```ts
 const agent = new bedrock.Agent(this, "Agent", {
-  foundationModel: foundation_models.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+  foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
   instruction: "You are a helpful and friendly agent that answers questions about literature.",
   knowledgeBases: [kb],
   aliasName: "latest",
@@ -782,7 +729,7 @@ Python
 agent = bedrock.Agent(
     self,
     "Agent",
-    foundation_model=foundation_models.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+    foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
     instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
     knowledge_bases= [kb],
     alias_name='latest'
