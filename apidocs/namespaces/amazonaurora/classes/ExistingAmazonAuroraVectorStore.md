@@ -2,9 +2,9 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [amazonaurora](../README.md) / AmazonAuroraVectorStore
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [amazonaurora](../README.md) / ExistingAmazonAuroraVectorStore
 
-# Class: AmazonAuroraVectorStore
+# Class: ExistingAmazonAuroraVectorStore
 
 ## Extends
 
@@ -12,9 +12,9 @@
 
 ## Constructors
 
-### new AmazonAuroraVectorStore()
+### new ExistingAmazonAuroraVectorStore()
 
-> **new AmazonAuroraVectorStore**(`scope`, `id`, `props`): [`AmazonAuroraVectorStore`](AmazonAuroraVectorStore.md)
+> **new ExistingAmazonAuroraVectorStore**(`scope`, `id`, `props`): [`ExistingAmazonAuroraVectorStore`](ExistingAmazonAuroraVectorStore.md)
 
 #### Parameters
 
@@ -22,11 +22,11 @@
 
 • **id**: `string`
 
-• **props**: [`AmazonAuroraVectorStoreProps`](../interfaces/AmazonAuroraVectorStoreProps.md)
+• **props**: [`ExistingAmazonAuroraVectorStoreProps`](../interfaces/ExistingAmazonAuroraVectorStoreProps.md)
 
 #### Returns
 
-[`AmazonAuroraVectorStore`](AmazonAuroraVectorStore.md)
+[`ExistingAmazonAuroraVectorStore`](ExistingAmazonAuroraVectorStore.md)
 
 #### Overrides
 
@@ -301,39 +301,6 @@ Returns a string representation of this construct.
 #### Inherited from
 
 `BaseAmazonAuroraVectorStore.toString`
-
-***
-
-### fromExistingAuroraVectorStore()
-
-> `static` **fromExistingAuroraVectorStore**(`scope`, `id`, `props`): [`ExistingAmazonAuroraVectorStore`](ExistingAmazonAuroraVectorStore.md)
-
-Creates an instance of AmazonAuroraVectorStore using existing Aurora Vector Store properties.
-You need to provide your existing Aurora Vector Store properties
-such as `databaseName`, `clusterIdentifier`, `vpc` where database is deployed,
-`secret` containing username and password for authentication to database,
-and `auroraSecurityGroupId` with the value of a security group id that was
-used for the database.
-
-#### Parameters
-
-• **scope**: `Construct`
-
-The scope in which to define the construct.
-
-• **id**: `string`
-
-The ID of the construct.
-
-• **props**: [`ExistingAmazonAuroraVectorStoreProps`](../interfaces/ExistingAmazonAuroraVectorStoreProps.md)
-
-The properties of the existing Aurora Vector Store.
-
-#### Returns
-
-[`ExistingAmazonAuroraVectorStore`](ExistingAmazonAuroraVectorStore.md)
-
-An instance of AmazonAuroraVectorStore.
 
 ***
 

@@ -21,9 +21,9 @@ import { S3DataSource, S3DataSourceAssociationProps } from './data-sources/s3-da
 import { SalesforceDataSource, SalesforceDataSourceAssociationProps } from './data-sources/salesforce-data-source';
 import { SharePointDataSource, SharePointDataSourceAssociationProps } from './data-sources/sharepoint-data-source';
 import { WebCrawlerDataSource, WebCrawlerDataSourceAssociationProps } from './data-sources/web-crawler-data-source';
-import { BedrockFoundationModel } from './models';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
-import { AmazonAuroraDefaultVectorStore, AmazonAuroraVectorStore } from '../amazonaurora';
+import { ExistingAmazonAuroraVectorStore, AmazonAuroraVectorStore } from '../amazonaurora';
+import { BedrockFoundationModel } from '../foundationmodels';
 import { VectorIndex } from '../opensearch-vectorindex';
 import { VectorCollection } from '../opensearchserverless';
 import { PineconeVectorStore } from '../pinecone';
@@ -57,15 +57,14 @@ enum VectorStoreType {
  */
 interface StorageConfiguration {
   /**
-   * The vector store, which can be of `VectorCollection`, `PineconeVectorStore`,
-   * `AmazonAuroraVectorStore` or `AmazonAuroraDefaultVectorStore`
-   * types.
+   * The vector store, which can be of `VectorCollection`, `PineconeVectorStore` or
+   * `AmazonAuroraVectorStore` types.
    */
   vectorStore:
   | VectorCollection
   | PineconeVectorStore
-  | AmazonAuroraDefaultVectorStore
-  | AmazonAuroraVectorStore;
+  | AmazonAuroraVectorStore
+  | ExistingAmazonAuroraVectorStore;
 
   /**
    * The type of the vector store.
@@ -245,8 +244,7 @@ export interface KnowledgeBaseProps {
   /**
    * The vector store for the knowledge base. Must be either of
    * type `VectorCollection`, `RedisEnterpriseVectorStore`,
-   * `PineconeVectorStore`, `AmazonAuroraVectorStore` or
-   * `AmazonAuroraDefaultVectorStore`.
+   * `PineconeVectorStore` or `AmazonAuroraVectorStore`.
    *
    * @default - A new OpenSearch Serverless vector collection is created.
    */
@@ -254,7 +252,7 @@ export interface KnowledgeBaseProps {
   | VectorCollection
   | PineconeVectorStore
   | AmazonAuroraVectorStore
-  | AmazonAuroraDefaultVectorStore;
+  | ExistingAmazonAuroraVectorStore;
 
   /**
    * The vector index for the OpenSearch Serverless backed knowledge base.
@@ -344,7 +342,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
   | VectorCollection
   | PineconeVectorStore
   | AmazonAuroraVectorStore
-  | AmazonAuroraDefaultVectorStore;
+  | ExistingAmazonAuroraVectorStore;
 
   /**
    * A narrative instruction of the knowledge base.
@@ -457,16 +455,14 @@ export class KnowledgeBase extends KnowledgeBaseBase {
         vectorStore: this.vectorStore,
         vectorStoreType: this.vectorStoreType,
       } = this.handlePineconeVectorStore(props));
-    } else if (props.vectorStore instanceof AmazonAuroraVectorStore) {
+    } else if (
+      props.vectorStore instanceof AmazonAuroraVectorStore ||
+      props.vectorStore instanceof ExistingAmazonAuroraVectorStore
+    ) {
       ({
         vectorStore: this.vectorStore,
         vectorStoreType: this.vectorStoreType,
       } = this.handleAmazonAuroraVectorStore(props));
-    } else if (props.vectorStore instanceof AmazonAuroraDefaultVectorStore) {
-      ({
-        vectorStore: this.vectorStore,
-        vectorStoreType: this.vectorStoreType,
-      } = this.handleAmazonAuroraDefaultVectorStore(props));
     } else {
       ({
         vectorStore: this.vectorStore,
@@ -496,8 +492,8 @@ export class KnowledgeBase extends KnowledgeBaseBase {
      * a data source.
      */
     if (
-      this.vectorStore instanceof AmazonAuroraDefaultVectorStore ||
-      this.vectorStore instanceof AmazonAuroraVectorStore
+      this.vectorStore instanceof AmazonAuroraVectorStore ||
+      this.vectorStore instanceof ExistingAmazonAuroraVectorStore
     ) {
       this.role.addToPrincipalPolicy(
         new iam.PolicyStatement({
@@ -544,25 +540,29 @@ export class KnowledgeBase extends KnowledgeBaseBase {
 
     /**
      * Create storage configuraion. If it is of type of
-     * `AmazonAuroraVectorStore` get textField, metadataField,
-     * vectorField from the arguments. Otherwise use default values.
+     * `AmazonAuroraVectorStore` or `ExistingAmazonAuroraVectorStore`,
+     * then get textField, metadataField and vectorField from
+     * the arguments. Otherwise use default values.
      */
     const storageConfiguration: StorageConfiguration = {
       indexName: indexName,
       vectorStore: this.vectorStore,
       vectorStoreType: this.vectorStoreType,
       vectorField:
-        this.vectorStore instanceof AmazonAuroraVectorStore
+        this.vectorStore instanceof AmazonAuroraVectorStore ||
+          this.vectorStore instanceof ExistingAmazonAuroraVectorStore
           ? this.vectorStore.vectorField
           : vectorField,
       textField:
         this.vectorStore instanceof AmazonAuroraVectorStore ||
-          this.vectorStore instanceof PineconeVectorStore
+          this.vectorStore instanceof ExistingAmazonAuroraVectorStore ||
+            this.vectorStore instanceof PineconeVectorStore
           ? this.vectorStore.textField
           : textField,
       metadataField:
         this.vectorStore instanceof AmazonAuroraVectorStore ||
-          this.vectorStore instanceof PineconeVectorStore
+          this.vectorStore instanceof ExistingAmazonAuroraVectorStore ||
+            this.vectorStore instanceof PineconeVectorStore
           ? this.vectorStore.metadataField
           : metadataField,
     };
@@ -641,8 +641,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
       knowledgeBase.node.addDependency(this.vectorIndex);
     }
     if (
-      this.vectorStoreType === VectorStoreType.AMAZON_AURORA &&
-      this.vectorStore instanceof AmazonAuroraDefaultVectorStore
+      this.vectorStoreType === VectorStoreType.AMAZON_AURORA
     ) {
       knowledgeBase.node.addDependency(this.vectorStore);
     }
@@ -708,28 +707,12 @@ export class KnowledgeBase extends KnowledgeBaseBase {
    * @internal This is an internal core function and should not be called directly.
    */
   private handleAmazonAuroraVectorStore(props: KnowledgeBaseProps): {
-    vectorStore: AmazonAuroraVectorStore;
+    vectorStore: AmazonAuroraVectorStore | ExistingAmazonAuroraVectorStore;
     vectorStoreType: VectorStoreType;
   } {
-    const vectorStore = props.vectorStore as AmazonAuroraVectorStore;
-    return {
-      vectorStore: vectorStore,
-      vectorStoreType: VectorStoreType.AMAZON_AURORA,
-    };
-  }
-
-  /**
-   * Handle AmazonAuroraDefaultVectorStore type of VectorStore.
-   *
-   * @param props - The properties of the KnowledgeBase.
-   * @returns The instance of AmazonAuroraDefaultVectorStore, VectorStoreType.
-   * @internal This is an internal core function and should not be called directly.
-   */
-  private handleAmazonAuroraDefaultVectorStore(props: KnowledgeBaseProps): {
-    vectorStore: AmazonAuroraDefaultVectorStore;
-    vectorStoreType: VectorStoreType;
-  } {
-    const vectorStore = props.vectorStore as AmazonAuroraDefaultVectorStore;
+    const vectorStore =
+      props.vectorStore instanceof ExistingAmazonAuroraVectorStore ?
+        props.vectorStore : props.vectorStore as AmazonAuroraVectorStore;
     return {
       vectorStore: vectorStore,
       vectorStoreType: VectorStoreType.AMAZON_AURORA,
@@ -890,16 +873,15 @@ function getStorageConfiguration(params: StorageConfiguration): any {
       };
     case VectorStoreType.AMAZON_AURORA:
       params.vectorStore =
-        params.vectorStore instanceof AmazonAuroraVectorStore
-          ? (params.vectorStore as AmazonAuroraVectorStore)
-          : (params.vectorStore as AmazonAuroraDefaultVectorStore);
+        params.vectorStore instanceof ExistingAmazonAuroraVectorStore ?
+          params.vectorStore : params.vectorStore as AmazonAuroraVectorStore;
       return {
         type: VectorStoreType.AMAZON_AURORA,
         rdsConfiguration: {
           credentialsSecretArn: params.vectorStore.credentialsSecretArn,
           databaseName: params.vectorStore.databaseName,
           resourceArn: params.vectorStore.resourceArn,
-          tableName: params.vectorStore.tableName,
+          tableName: `${params.vectorStore.schemaName}.${params.vectorStore.tableName}`,
           fieldMapping: {
             vectorField: params.vectorField.replace(/-/g, '_'),
             primaryKeyField: params.vectorStore.primaryKeyField,

@@ -2,7 +2,7 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / BedrockFoundationModel
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [foundation\_models](../README.md) / BedrockFoundationModel
 
 # Class: BedrockFoundationModel
 

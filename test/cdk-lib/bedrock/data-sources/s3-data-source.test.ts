@@ -18,7 +18,7 @@ import { Code, Function, Runtime } from 'aws-cdk-lib/aws-lambda';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { AwsSolutionsChecks } from 'cdk-nag';
 import * as bedrock from '../../../../src/cdk-lib/bedrock';
-
+import * as foundationModels from '../../../../src/cdk-lib/foundationmodels';
 
 describe('S3 Data Source', () => {
   let stack: cdk.Stack;
@@ -31,7 +31,7 @@ describe('S3 Data Source', () => {
     stack = new cdk.Stack(app, 'TestStack');
     bucket = new s3.Bucket(stack, 'TestBucket');
     kb = new bedrock.KnowledgeBase(stack, 'KB', {
-      embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
+      embeddingsModel: foundationModels.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
     });
   });
 
