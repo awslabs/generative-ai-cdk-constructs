@@ -93,6 +93,20 @@ Optional user provided event bus props
 
 ***
 
+### existingconfigAssetsBucketObj?
+
+> `readonly` `optional` **existingconfigAssetsBucketObj**: `IBucket`
+
+Optional. Existing s3 Bucket to store the config files.
+
+#### Default
+
+```ts
+- None
+```
+
+***
+
 ### existingDBSecurityGroup?
 
 > `readonly` `optional` **existingDBSecurityGroup**: `SecurityGroup`
@@ -162,20 +176,6 @@ Providing both this and vpcProps is an error.
 
 ```ts
 - none
-```
-
-***
-
-### existingconfigAssetsBucketObj?
-
-> `readonly` `optional` **existingconfigAssetsBucketObj**: `IBucket`
-
-Optional. Existing s3 Bucket to store the config files.
-
-#### Default
-
-```ts
-- None
 ```
 
 ***

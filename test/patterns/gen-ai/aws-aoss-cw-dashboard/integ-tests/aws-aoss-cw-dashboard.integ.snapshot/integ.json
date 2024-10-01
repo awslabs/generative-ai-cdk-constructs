@@ -1,9 +1,9 @@
 {
-  "version": "36.0.24",
+  "version": "36.3.0",
   "testCases": {
     "ServiceTest/DefaultTest": {
       "stacks": [
-        "aws-cdk-bedrock-prompts-integ-test"
+        "aws-cdk-aoss-dashboard-integ-test"
       ],
       "cdkCommandOptions": {
         "destroy": {

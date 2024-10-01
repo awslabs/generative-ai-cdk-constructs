@@ -69,7 +69,7 @@ export enum UKSpecific{
 
 export enum PiiEntitiesConfigAction{
   BLOCK ='BLOCK',
-  MASK= 'MASK'
+  ANONYMIZE= 'ANONYMIZE'
 }
 
 export interface SensitiveInformationPolicyConfigProps{

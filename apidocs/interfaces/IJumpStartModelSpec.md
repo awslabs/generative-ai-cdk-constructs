@@ -30,6 +30,12 @@
 
 ***
 
+### gatedBucket
+
+> **gatedBucket**: `boolean`
+
+***
+
 ### instanceAliases?
 
 > `optional` **instanceAliases**: [`IInstanceAliase`](IInstanceAliase.md)[]

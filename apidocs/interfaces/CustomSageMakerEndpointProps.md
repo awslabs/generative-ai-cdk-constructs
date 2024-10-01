@@ -48,6 +48,18 @@
 
 ***
 
+### maxCapacity?
+
+> `readonly` `optional` **maxCapacity**: `number`
+
+***
+
+### minCapacity?
+
+> `readonly` `optional` **minCapacity**: `number`
+
+***
+
 ### modelDataDownloadTimeoutInSeconds?
 
 > `readonly` `optional` **modelDataDownloadTimeoutInSeconds**: `number`

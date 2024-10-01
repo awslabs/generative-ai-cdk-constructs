@@ -11,6 +11,7 @@
  *  and limitations under the License.
  */
 import * as cdk from 'aws-cdk-lib';
+import * as applicationautoscaling from 'aws-cdk-lib/aws-applicationautoscaling';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import * as sagemaker from 'aws-cdk-lib/aws-sagemaker';
@@ -32,6 +33,8 @@ export interface CustomSageMakerEndpointProps {
   readonly modelId: string;
   readonly endpointName: string;
   readonly instanceType: SageMakerInstanceType;
+  readonly minCapacity?:number;
+  readonly maxCapacity?:number;
   readonly container: ContainerImage;
   readonly instanceCount?: number;
   readonly role?: iam.Role;
@@ -51,6 +54,7 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
   public readonly cfnModel: sagemaker.CfnModel;
   public readonly cfnEndpoint: sagemaker.CfnEndpoint;
   public readonly cfnEndpointConfig: sagemaker.CfnEndpointConfig;
+  public readonly scalingPolicy: applicationautoscaling.StepScalingPolicy;
   public readonly successTopic?: sns.Topic;
   public readonly errorTopic?: sns.Topic;
 
@@ -123,20 +127,23 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
       vpcConfig: props.vpcConfig,
     });
 
+    const productionVariant: sagemaker.CfnEndpointConfig.ProductionVariantProperty =
+      {
+        instanceType: this.instanceType.toString(),
+        initialVariantWeight: 1,
+        initialInstanceCount: this.instanceCount,
+        variantName: 'AllTraffic',
+        volumeSizeInGb: props.volumeSizeInGb,
+        modelName: model.getAtt('ModelName').toString(),
+        containerStartupHealthCheckTimeoutInSeconds: this.startupHealthCheckTimeoutInSeconds,
+        modelDataDownloadTimeoutInSeconds: this.modelDataDownloadTimeoutInSeconds,
+      };
+
+
     const endpointConfig = new sagemaker.CfnEndpointConfig(scope, `EndpointConfig-${id}`, {
-      productionVariants: [
-        {
-          instanceType: this.instanceType.toString(),
-          initialVariantWeight: 1,
-          initialInstanceCount: this.instanceCount,
-          variantName: 'AllTraffic',
-          volumeSizeInGb: props.volumeSizeInGb,
-          modelName: model.getAtt('ModelName').toString(),
-          containerStartupHealthCheckTimeoutInSeconds: this.startupHealthCheckTimeoutInSeconds,
-          modelDataDownloadTimeoutInSeconds: this.modelDataDownloadTimeoutInSeconds,
-        },
-      ],
+      productionVariants: [productionVariant],
     });
+
 
     if (props.asyncInference) {
 
@@ -180,10 +187,12 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
 
     endpoint.addDependency(endpointConfig);
 
+
     this.cfnModel = model;
     this.cfnEndpoint = endpoint;
     this.cfnEndpointConfig = endpointConfig;
     this.endpointArn = endpoint.ref;
+    this.scalingPolicy = this.buildScalingPolicy(endpoint, productionVariant, props );
   }
 
   public addToRolePolicy(statement: iam.PolicyStatement) {
@@ -200,6 +209,56 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
       actions: ['sagemaker:InvokeEndpoint'],
       resourceArns: [this.endpointArn],
     });
+  }
+
+  private buildScalingPolicy(
+    endpoint: sagemaker.CfnEndpoint,
+    productionVariants: sagemaker.CfnEndpointConfig.ProductionVariantProperty,
+    props: CustomSageMakerEndpointProps): applicationautoscaling.StepScalingPolicy {
+    const resourceId = `endpoint/${endpoint.attrEndpointName}/variant/${productionVariants.variantName}`;
+
+    const scalableTarget = new applicationautoscaling.ScalableTarget(
+      this,
+      'ScalableTarget',
+      {
+        serviceNamespace: applicationautoscaling.ServiceNamespace.SAGEMAKER,
+        resourceId: resourceId,
+        scalableDimension: 'sagemaker:variant:DesiredInstanceCount',
+        minCapacity: props.minCapacity ?? 1,
+        maxCapacity: props.maxCapacity ?? 2,
+      },
+    );
+    scalableTarget.node.addDependency(endpoint);
+
+    const approximateBacklogMetric = new cdk.aws_cloudwatch.Metric({
+      namespace: 'AWS/SageMaker',
+      metricName: 'ApproximateBacklogSizePerInstance',
+      dimensionsMap: {
+        Endpoint: endpoint.attrEndpointName,
+        Variant: productionVariants.variantName,
+      },
+      statistic: 'Average',
+      period: cdk.Duration.minutes(5),
+    });
+
+    const scalingPolicy = new applicationautoscaling.StepScalingPolicy(
+      this,
+      'ScalingPolicy',
+      {
+        scalingTarget: scalableTarget,
+        adjustmentType: applicationautoscaling.AdjustmentType.CHANGE_IN_CAPACITY,
+        metric: approximateBacklogMetric,
+        scalingSteps: [
+          { upper: 0, change: -1, lower: 0 },
+          { change: 1, lower: 0.5 },
+        ],
+        cooldown: cdk.Duration.minutes(5),
+        datapointsToAlarm: 1,
+        evaluationPeriods: 1,
+      },
+    );
+
+    return scalingPolicy;
   }
 
   private buildSnsTopic(topicName: string, displayName: string): sns.Topic {
