@@ -18,12 +18,6 @@ export enum EndpointTypes {
   INTERFACE = 'Interface',
 }
 
-export interface EndpointDefinition {
-  endpointName: ServiceEndpointTypeEnum;
-  endpointType: EndpointTypes;
-  endpointGatewayService?: ec2.GatewayVpcEndpointAwsService;
-  endpointInterfaceService?: ec2.InterfaceVpcEndpointAwsService;
-}
 
 export interface BuildKendraIndexProps {
   readonly kendraIndexProps?: kendra.CfnIndexProps | any;
@@ -71,37 +65,3 @@ export interface CfnNagSuppressRule {
   readonly id: string;
   readonly reason: string;
 }
-
-export enum ServiceEndpointTypeEnum {
-  DYNAMODB = 'DDB',
-  ECR_API = 'ECR_API',
-  ECR_DKR = 'ECR_DKR',
-  EVENTS = 'CLOUDWATCH_EVENTS',
-  KENDRA = 'KENDRA',
-  KINESIS_FIREHOSE = 'KINESIS_FIREHOSE',
-  KINESIS_STREAMS = 'KINESIS_STREAMS',
-  S3 = 'S3',
-  SAGEMAKER_RUNTIME = 'SAGEMAKER_RUNTIME',
-  SECRETS_MANAGER = 'SECRETS_MANAGER',
-  SNS = 'SNS',
-  SQS = 'SQS',
-  SSM = 'SSM',
-  STEP_FUNCTIONS = 'STEP_FUNCTIONS',
-}
-
-// interface ServiceEndpointTypeEnum {
-//   DYNAMODB: 'DDB';
-//   ECR_API: 'ECR_API';
-//   ECR_DKR: 'ECR_DKR';
-//   EVENTS: 'CLOUDWATCH_EVENTS';
-//   KENDRA: 'KENDRA';
-//   KINESIS_FIREHOSE: 'KINESIS_FIREHOSE';
-//   KINESIS_STREAMS: 'KINESIS_STREAMS';
-//   S3: 'S3';
-//   SAGEMAKER_RUNTIME: 'SAGEMAKER_RUNTIME';
-//   SECRETS_MANAGER: 'SECRETS_MANAGER';
-//   SNS: 'SNS';
-//   SQS: 'SQS';
-//   SSM: 'SSM';
-//   STEP_FUNCTIONS: 'STEP_FUNCTIONS';
-// }
