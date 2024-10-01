@@ -16,7 +16,7 @@ import { Match, Template } from 'aws-cdk-lib/assertions';
 import { IKey, Key } from 'aws-cdk-lib/aws-kms';
 import { ISecret, Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import * as bedrock from '../../../../src/cdk-lib/bedrock';
-
+import * as foundationModels from '../../../../src/cdk-lib/foundationmodels';
 
 describe('Data Source', () => {
   let stack: Stack;
@@ -27,7 +27,7 @@ describe('Data Source', () => {
     const app = new App();
     stack = new Stack(app, 'TestStack');
     kb = new bedrock.KnowledgeBase(stack, 'KB', {
-      embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+      embeddingsModel: foundationModels.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
     });
     const sampleKeyArn = 'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418';
     key = Key.fromKeyArn(stack, 'TestKey', sampleKeyArn);
@@ -84,7 +84,7 @@ describe('Third Party Data Source', () => {
     const app = new App();
     stack = new Stack(app, 'TestStack');
     kb = new bedrock.KnowledgeBase(stack, 'KB', {
-      embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+      embeddingsModel: foundationModels.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
     });
     const sampleKeyArn = 'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418';
     const sampleSecretArn = 'arn:aws:secretsmanager:eu-central-1:123456789012:secret:AmazonBedrock-auth-tW8BY1';

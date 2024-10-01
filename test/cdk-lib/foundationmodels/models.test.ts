@@ -12,9 +12,8 @@
  */
 
 import * as cdk from 'aws-cdk-lib';
-import { AwsSolutionsChecks } from 'cdk-nag';
 import { Construct } from 'constructs';
-import { BedrockFoundationModel } from '../../../src/cdk-lib/bedrock/models';
+import { BedrockFoundationModel } from '../../../src/cdk-lib/foundationmodels';
 
 describe('BedrockFoundationModel', () => {
   test('returns string', () => {
@@ -24,7 +23,6 @@ describe('BedrockFoundationModel', () => {
 
   test('returns ARN', () => {
     const app = new cdk.App();
-    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
     const stack = new cdk.Stack(app, 'test-stack', {
       env: {
         account: '123456789012',
@@ -36,6 +34,4 @@ describe('BedrockFoundationModel', () => {
       .toBe('arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v1');
 
   });
-
-
 });
