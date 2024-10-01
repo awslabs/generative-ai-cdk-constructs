@@ -272,19 +272,22 @@ export class TextToSql extends BaseClass {
       this.vpc = props.existingVpc;
       this.subnetGroup = props.existingSubnetGroup;
     } else {
-      this.vpc = new ec2.Vpc(this, 'Vpc', props.vpcProps);
+      this.vpc = vpcHelper.buildVpc(scope, {
+        defaultVpcProps: props?.vpcProps,
+        vpcName: 'awsTextToSqlVpc',
+      });
       this.subnetGroup = new rds.SubnetGroup(this, 'SubnetGroup', {
         vpc: this.vpc,
-        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+        vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
         description: 'Subnet group for Aurora Serverless',
       });
     }
 
     // add VPC endpoints for the compute environment
-    vpcHelper.AddAwsServiceEndpoint(this, this.vpc, 
-      [vpcHelper.ServiceEndpointTypeEnum.S3, 
-      vpcHelper.ServiceEndpointTypeEnum.STEP_FUNCTIONS, 
-      vpcHelper.ServiceEndpointTypeEnum.EVENTS]);
+    vpcHelper.AddAwsServiceEndpoint(this, this.vpc,
+      [vpcHelper.ServiceEndpointTypeEnum.S3,
+        vpcHelper.ServiceEndpointTypeEnum.STEP_FUNCTIONS,
+        vpcHelper.ServiceEndpointTypeEnum.EVENTS]);
 
 
     const dbPort = props.dbPort ? props.dbPort : 1534;
@@ -569,7 +572,7 @@ export class TextToSql extends BaseClass {
         ),
       ),
       vpc: this.vpc,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
       securityGroups: [this.lambdaSecurityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(10),
@@ -607,7 +610,7 @@ export class TextToSql extends BaseClass {
         ),
       ),
       vpc: this.vpc,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
       securityGroups: [this.lambdaSecurityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(10),
@@ -646,7 +649,7 @@ export class TextToSql extends BaseClass {
         ),
       ),
       vpc: this.vpc,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
       securityGroups: [this.lambdaSecurityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(10),
@@ -685,7 +688,7 @@ export class TextToSql extends BaseClass {
         ),
       ),
       vpc: this.vpc,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
       securityGroups: [this.lambdaSecurityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(10),
