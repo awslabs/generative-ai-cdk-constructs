@@ -42,7 +42,6 @@ import {
 } from '../../../common/helpers/utils';
 import * as vpcHelper from '../../../common/helpers/vpc-helper';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
-import { ServiceEndpointTypeEnum } from '../../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
 
 
 export enum DbName {
@@ -282,17 +281,11 @@ export class TextToSql extends BaseClass {
     }
 
     // add VPC endpoints for the compute environment
-    vpcHelper.AddAwsServiceEndpoint(
-      this,
-      this.vpc,
-      ServiceEndpointTypeEnum.EVENTS,
-    );
-    vpcHelper.AddAwsServiceEndpoint(
-      this,
-      this.vpc,
-      ServiceEndpointTypeEnum.STEP_FUNCTIONS,
-    );
-    vpcHelper.AddAwsServiceEndpoint(this, this.vpc, ServiceEndpointTypeEnum.S3);
+    vpcHelper.AddAwsServiceEndpoint(this, this.vpc, 
+      [vpcHelper.ServiceEndpointTypeEnum.S3, 
+      vpcHelper.ServiceEndpointTypeEnum.STEP_FUNCTIONS, 
+      vpcHelper.ServiceEndpointTypeEnum.EVENTS]);
+
 
     const dbPort = props.dbPort ? props.dbPort : 1534;
 
