@@ -13,7 +13,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/cdklabs.generative-ai-cdk-constructs)](https://pypi.org/project/cdklabs.generative-ai-cdk-constructs/)
 [![npm version](https://img.shields.io/npm/v/@cdklabs/generative-ai-cdk-constructs)](https://www.npmjs.com/package/@cdklabs/generative-ai-cdk-constructs)
 [![NuGet Version](https://img.shields.io/nuget/v/Cdklabs.GenerativeAiCdkConstructs)](https://nuget.info/packages/Cdklabs.GenerativeAiCdkConstructs)
-[![Maven Central Version](https://img.shields.io/maven-central/v/io.github.cdklabs/generative-ai-cdk-constructs)(https://central.sonatype.com/artifact/io.github.cdklabs/generative-ai-cdk-constructs)]
+[![Maven Central Version](https://img.shields.io/maven-central/v/io.github.cdklabs/generative-ai-cdk-constructs)](https://central.sonatype.com/artifact/io.github.cdklabs/generative-ai-cdk-constructs)
 [![Go Version](https://img.shields.io/github/v/tag/awslabs/generative-ai-cdk-constructs?label=go&color=orange)](https://pkg.go.dev/github.com/cdklabs/generative-ai-cdk-constructs-go/generative-ai-cdk-constructs)
 
 ## Table of contents
@@ -52,7 +52,8 @@ If you want to add a new construct to the library, check out our [design guideli
 
 ## Getting Started
 
-### For TypeScript
+<details>
+<summary><i><h2  style="display:inline-block">TypeScript</h2></i></summary>
 
 - Create or use an existing CDK application in TypeScript.
   - `cdk init app --language typescript`
@@ -61,7 +62,10 @@ If you want to add a new construct to the library, check out our [design guideli
 - Import the library:
   - `import * as genai from '@cdklabs/generative-ai-cdk-constructs';`
 
-### For Python
+</details>
+
+<details>
+<summary><i><h2  style="display:inline-block">Python</h2></i></summary>
 
 - Create or use an existing CDK application in Python
   - `cdk init app --language python`
@@ -70,7 +74,10 @@ If you want to add a new construct to the library, check out our [design guideli
 - Import the library:
   - `import cdklabs.generative_ai_cdk_constructs`
 
-### For NuGet
+</details>
+
+<details>
+<summary><i><h2  style="display:inline-block">NuGet</h2></i></summary>
 
 - Create or use an existing CDK application in Python
   - `cdk init app --language csharp`
@@ -79,7 +86,11 @@ If you want to add a new construct to the library, check out our [design guideli
 - Use the namespace:
   - `using Cdklabs.GenerativeAiCdkConstructs;`
 
-### For Go
+</details>
+
+<details>
+<summary><i><h2  style="display:inline-block">Go</h2></i></summary>
+
 - Create or use an existing CDK application in Python
   - `cdk init app --language go`
 - Get the module:
@@ -87,7 +98,26 @@ If you want to add a new construct to the library, check out our [design guideli
 - Import the library:
   - `import "github.com/cdklabs/generative-ai-cdk-constructs-go/generative-ai-cdk-constructs"`
 
+
 _NOTE: The [Go distribution repository](https://github.com/cdklabs/generative-ai-cdk-constructs-go), distributes the JSII tar gzipped versioned source from the [source repository](https://github.awslabs/generative-ai-cdk-constructs)_
+
+</details>
+
+<details>
+<summary><i><h2  style="display:inline-block">Java</h2></i></summary>
+
+- Create or use an existing CDK application in Java
+  - cdk init app --language java
+- Add the dependency into the `pom.xml`
+```
+<dependency>
+    <groupId>io.github.cdklabs</groupId>
+    <artifactId>generative-ai-cdk-constructs</artifactId>
+    <version>Get the latest version and insert it here</version>
+</dependency>
+```
+
+</details>
 
 Refer to the documentation for additional guidance on a particular construct: [Catalog](#catalog)
 
