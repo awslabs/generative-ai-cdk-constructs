@@ -22,7 +22,7 @@ import {
   AmazonAuroraVectorStore,
 } from '../../../src/cdk-lib/amazonaurora';
 import { KnowledgeBase } from '../../../src/cdk-lib/bedrock/knowledge-base';
-import { BedrockFoundationModel } from '../../../src/cdk-lib/foundationmodels';
+import { BedrockFoundationModel } from '../../../src/cdk-lib/bedrock/models';
 import { VectorCollection } from '../../../src/cdk-lib/opensearchserverless';
 import { PineconeVectorStore } from '../../../src/cdk-lib/pinecone';
 
@@ -31,6 +31,7 @@ describe('KnowledgeBase', () => {
   let stack: cdk.Stack;
   let vectorCollection: VectorCollection;
   let template: Template;
+  let modelVectorDimension: number;
 
   beforeAll(() => {
     app = new cdk.App();
@@ -49,6 +50,7 @@ describe('KnowledgeBase', () => {
   test('Should correctly initialize with default props', () => {
     const vectorStore = new VectorCollection(stack, 'VectorCollection');
     const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
+    modelVectorDimension = 1024;
     const knowledgeBase = new KnowledgeBase(stack, 'VectorKnowledgeBase', {
       embeddingsModel: model,
       vectorStore: vectorStore,
@@ -102,7 +104,7 @@ describe('KnowledgeBase', () => {
   test('Should correctly initialize with custom props', () => {
     const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
     const vectorStore = new AmazonAuroraVectorStore(stack, 'AuroraVectorStore6', {
-      embeddingsModel: model,
+      embeddingsModelVectorDimension: modelVectorDimension,
     });
     const knowledgeBase = new KnowledgeBase(stack, 'AuroraDefaultKnowledgeBase', {
       embeddingsModel: model,
@@ -171,7 +173,7 @@ describe('KnowledgeBase', () => {
   test('Should throw error when vectorStore is not VectorCollection and indexName is provided', () => {
     const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
     const vectorStore = new AmazonAuroraVectorStore(stack, 'AmazonAuroraVectorStore6', {
-      embeddingsModel: BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+      embeddingsModelVectorDimension: modelVectorDimension,
     });
 
     expect(() => {
@@ -186,7 +188,7 @@ describe('KnowledgeBase', () => {
   test('Should throw error when vectorStore is not VectorCollection and vectorField is provided', () => {
     const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
     const vectorStore = new AmazonAuroraVectorStore(stack, 'AmazonAuroraVectorStore5', {
-      embeddingsModel: BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+      embeddingsModelVectorDimension: modelVectorDimension,
     });
 
     expect(() => {
@@ -202,7 +204,7 @@ describe('KnowledgeBase', () => {
     const vectorStores = [
       new VectorCollection(stack, 'VectorCollection3'),
       new AmazonAuroraVectorStore(stack, 'AmazonAuroraVectorStore', {
-        embeddingsModel: BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+        embeddingsModelVectorDimension: modelVectorDimension,
       }),
       new PineconeVectorStore({
         connectionString: 'test-connection-string',
@@ -229,7 +231,7 @@ describe('KnowledgeBase', () => {
   test('Should correctly initialize with AmazonAuroraVectorStore and custom embeddingsModel', () => {
     const model = BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3;
     const vectorStore = new AmazonAuroraVectorStore(stack, 'AuroraVectorStore2', {
-      embeddingsModel: BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+      embeddingsModelVectorDimension: modelVectorDimension,
     });
 
     const knowledgeBase = new KnowledgeBase(stack, 'AuroraKnowledgeBase2', {

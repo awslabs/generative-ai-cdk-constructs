@@ -22,7 +22,6 @@ import { Construct } from 'constructs';
 import { buildCustomResourceProvider } from '../../common/helpers/custom-resource-provider-helper';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 import { AddAwsServiceEndpoint, buildVpc, ServiceEndpointTypeEnum } from '../../common/helpers/vpc-helper';
-import { BedrockFoundationModel } from '../foundationmodels';
 
 /**
  * List of supported versions of PostgreSQL for Aurora cluster.
@@ -74,11 +73,11 @@ export interface BaseAuroraVectorStoreProps {
   readonly primaryKeyField?: string;
 
   /**
-   * The embeddings model used for the Aurora Vector Store.
+   * The embeddings model dimension used for the Aurora Vector Store.
    * The vector dimensions of the model must match the dimensions
    * used in the KnowledgeBase construct.
    */
-  readonly embeddingsModel: BedrockFoundationModel;
+  readonly embeddingsModelVectorDimension: number;
 }
 
 /**
@@ -217,11 +216,11 @@ abstract class BaseAmazonAuroraVectorStore extends Construct {
   public readonly primaryKeyField: string;
 
   /**
-   * The embeddings model used for the Aurora Vector Store.
+   * The embeddings model dimension used for the Aurora Vector Store.
    * The vector dimensions of the model must match the dimensions
    * used in the KnowledgeBase construct.
    */
-  public readonly embeddingsModel: BedrockFoundationModel;
+  readonly embeddingsModelVectorDimension: number;
 
   constructor(
     scope: Construct,
@@ -243,7 +242,7 @@ abstract class BaseAmazonAuroraVectorStore extends Construct {
     this.metadataField = props.metadataField ?? 'metadata';
     this.tableName = props.tableName ?? 'bedrock_kb';
     this.primaryKeyField = props.primaryKeyField ?? 'id';
-    this.embeddingsModel = props.embeddingsModel;
+    this.embeddingsModelVectorDimension = props.embeddingsModelVectorDimension;
   }
 
   protected createAuroraPgCRPolicy(clusterIdentifier: string): iam.ManagedPolicy {
@@ -379,7 +378,7 @@ abstract class BaseAmazonAuroraVectorStore extends Construct {
         ClusterIdentifier: databaseClusterResources.clusterIdentifier,
         DatabaseName: this.databaseName,
         TableName: this.tableName,
-        VectorDimensions: this.embeddingsModel.vectorDimensions!,
+        VectorDimensions: this.embeddingsModelVectorDimension,
         PrimaryKeyField: this.primaryKeyField,
         SchemaName: this.schemaName,
         VectorField: this.vectorField,

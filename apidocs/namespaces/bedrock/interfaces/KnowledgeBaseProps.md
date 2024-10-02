@@ -26,7 +26,7 @@ The description of the knowledge base.
 
 ### embeddingsModel
 
-> `readonly` **embeddingsModel**: [`BedrockFoundationModel`](../../foundation_models/classes/BedrockFoundationModel.md)
+> `readonly` **embeddingsModel**: [`BedrockFoundationModel`](../classes/BedrockFoundationModel.md)
 
 The embeddings model for the knowledge base
 

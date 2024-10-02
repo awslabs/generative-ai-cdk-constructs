@@ -22,17 +22,17 @@ The name of the database for the Aurora Vector Store.
 
 ***
 
-### embeddingsModel
+### embeddingsModelVectorDimension
 
-> `readonly` **embeddingsModel**: [`BedrockFoundationModel`](../../foundation_models/classes/BedrockFoundationModel.md)
+> `readonly` **embeddingsModelVectorDimension**: `number`
 
-The embeddings model used for the Aurora Vector Store.
+The embeddings model dimension used for the Aurora Vector Store.
 The vector dimensions of the model must match the dimensions
 used in the KnowledgeBase construct.
 
 #### Inherited from
 
-[`BaseAuroraVectorStoreProps`](BaseAuroraVectorStoreProps.md).[`embeddingsModel`](BaseAuroraVectorStoreProps.md#embeddingsmodel)
+[`BaseAuroraVectorStoreProps`](BaseAuroraVectorStoreProps.md).[`embeddingsModelVectorDimension`](BaseAuroraVectorStoreProps.md#embeddingsmodelvectordimension)
 
 ***
 

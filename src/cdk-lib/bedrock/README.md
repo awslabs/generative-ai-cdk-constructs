@@ -51,10 +51,10 @@ TypeScript
 
 ```ts
 import * as s3 from "aws-cdk-lib/aws-s3";
-import { bedrock, foundation_models } from "@cdklabs/generative-ai-cdk-constructs";
+import { bedrock } from "@cdklabs/generative-ai-cdk-constructs";
 
 const kb = new bedrock.KnowledgeBase(this, "KnowledgeBase", {
-  embeddingsModel: foundation_models.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
   instruction:
     "Use this knowledge base to answer questions about books. " +
     "It contains the full text of novels.",
@@ -81,12 +81,11 @@ from aws_cdk import (
     aws_s3 as s3,
 )
 from cdklabs.generative_ai_cdk_constructs import (
-    bedrock,
-    foundation_models
+    bedrock
 )
 
 kb = bedrock.KnowledgeBase(self, 'KnowledgeBase',
-            embeddings_model= foundation_models.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+            embeddings_model= bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
             instruction=  'Use this knowledge base to answer questions about books. ' +
     'It contains the full text of novels.'
         )
@@ -110,15 +109,17 @@ TypeScript
 
 ```ts
 import * as s3 from "aws-cdk-lib/aws-s3";
-import { amazonaurora, bedrock, foundation_models } from '@cdklabs/generative-ai-cdk-constructs';
+import { amazonaurora, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
 
+// Dimension of your vector embedding
+embeddingsModelVectorDimension = 1024
 const auroraDb = new amazonaurora.AmazonAuroraVectorStore(stack, 'AuroraDefaultVectorStore', {
-  embeddingsModel: foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+  embeddingsModelVectorDimension: embeddingsModelVectorDimension,
 });
 
 const kb = new bedrock.KnowledgeBase(this, "KnowledgeBase", {
   vectorStore: auroraDb,
-  embeddingsModel: foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+  embeddingsModelVectorDimension: embeddingsModelVectorDimension,
   instruction: 'Use this knowledge base to answer questions about books. ' +
     'It contains the full text of novels.',
 });
@@ -147,18 +148,17 @@ from aws_cdk import (
 from cdklabs.generative_ai_cdk_constructs import (
     bedrock,
     amazonaurora,
-    foundation_models
 )
 
-
-model = foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3
+# Dimension of your vector embedding
+embeddings_model_vector_dimension = 1024
 aurora_db = amazonaurora.AmazonAuroraVectorStore(self, 'AuroraDefaultVectorStore',
-  embeddings_model=model
+  embeddings_model_vector_dimension=embeddings_model_vector_dimension
 )
 
 kb = bedrock.KnowledgeBase(self, 'KnowledgeBase',
             vector_store= aurora_db,
-            embeddings_model= foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+            embeddings_model_vector_dimension=embeddings_model_vector_dimension,
             instruction=  'Use this knowledge base to answer questions about books. ' +
     'It contains the full text of novels.'
         )
@@ -181,7 +181,7 @@ TypeScript
 
 ```ts
 import * as s3 from "aws-cdk-lib/aws-s3";
-import { amazonaurora, bedrock, foundation_models } from '@cdklabs/generative-ai-cdk-constructs';
+import { amazonaurora, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
 
 const auroraDb = aurora.AmazonAuroraVectorStore.fromExistingAuroraVectorStore(stack, 'ExistingAuroraVectorStore', {
   clusterIdentifier: 'aurora-serverless-vector-cluster',
@@ -192,7 +192,7 @@ const auroraDb = aurora.AmazonAuroraVectorStore.fromExistingAuroraVectorStore(st
   textField: 'chunks',
   metadataField: 'metadata',
   primaryKeyField: 'id',
-  embeddingsModel: foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+  embeddingsModel: bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
   vpc: cdk.aws_ec2.Vpc.fromLookup(stack, 'VPC', {
     vpcId: 'vpc-0c1a234567ee8bc90',
   }),
@@ -213,7 +213,7 @@ const auroraDb = aurora.AmazonAuroraVectorStore.fromExistingAuroraVectorStore(st
 
 const kb = new bedrock.KnowledgeBase(this, "KnowledgeBase", {
   vectorStore: auroraDb,
-  embeddingsModel: foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+  embeddingsModel: bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
   instruction:
     "Use this knowledge base to answer questions about books. " +
     "It contains the full text of novels.",
@@ -245,7 +245,6 @@ from aws_cdk import (
 from cdklabs.generative_ai_cdk_constructs import (
     bedrock,
     amazonaurora,
-    foundation_models
 )
 
 aurora_db = amazonaurora.AmazonAuroraVectorStore.from_existing_aurora_vector_store(
@@ -258,7 +257,7 @@ aurora_db = amazonaurora.AmazonAuroraVectorStore.from_existing_aurora_vector_sto
     text_field='chunks',
     metadata_field='metadata',
     primary_key_field='id',
-    embeddings_model=foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+    embeddings_model=bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
     vpc=ec2.Vpc.from_lookup(self, 'VPC', vpc_id='vpc-0c1a234567ee8bc90'),
     aurora_security_group_id='sg-012ef345678c98a76',,
     secret=rds.DatabaseSecret.from_secret_complete_arn(
@@ -277,7 +276,7 @@ aurora_db = amazonaurora.AmazonAuroraVectorStore.from_existing_aurora_vector_sto
 
 kb = bedrock.KnowledgeBase(self, 'KnowledgeBase',
             vector_store= aurora_db,
-            embeddings_model= foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+            embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
             instruction=  'Use this knowledge base to answer questions about books. ' +
     'It contains the full text of novels.'
         )
@@ -300,7 +299,7 @@ TypeScript
 
 ```ts
 import * as s3 from "aws-cdk-lib/aws-s3";
-import { pinecone, bedrock, foundation_models } from '@cdklabs/generative-ai-cdk-constructs';
+import { pinecone, bedrock,  } from '@cdklabs/generative-ai-cdk-constructs';
 
 const pineconeds = new pinecone.PineconeVectorStore({
   connectionString: "https://your-index-1234567.svc.gcp-starter.pinecone.io",
@@ -311,7 +310,7 @@ const pineconeds = new pinecone.PineconeVectorStore({
 
 const kb = new bedrock.KnowledgeBase(this, "KnowledgeBase", {
   vectorStore: pineconeds,
-  embeddingsModel: foundation_models.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
   instruction:
     "Use this knowledge base to answer questions about books. " +
     "It contains the full text of novels.",
@@ -339,7 +338,6 @@ from aws_cdk import (
 from cdklabs.generative_ai_cdk_constructs import (
     bedrock,
     pinecone,
-    foundation_models
 )
 
 pineconevs = pinecone.PineconeVectorStore(
@@ -351,7 +349,7 @@ pineconevs = pinecone.PineconeVectorStore(
 
 kb = bedrock.KnowledgeBase(self, 'KnowledgeBase',
             vector_store= pineconevs,
-            embeddings_model= foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+            embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
             instruction=  'Use this knowledge base to answer questions about books. ' +
     'It contains the full text of novels.'
         )
@@ -593,7 +591,7 @@ TypeScript
 
 ```ts
 const agent = new bedrock.Agent(this, "Agent", {
-  foundationModel: foundation_models.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+  foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
   instruction: "You are a helpful and friendly agent that answers questions about literature.",
 });
 
@@ -606,7 +604,7 @@ Python
 agent = bedrock.Agent(
     self,
     "Agent",
-    foundation_model=foundation_models.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+    foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
     instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
 )
   agent.add_knowledge_base(kb);
@@ -678,7 +676,7 @@ import { readFileSync } from "fs";
 
 const orchestration = readFileSync("prompts/orchestration.txt", "utf-8");
 const agent = new bedrock.Agent(this, "Agent", {
-  foundationModel: foundation_models.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+  foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
   instruction: "You are a helpful and friendly agent that answers questions about literature.",
   promptOverrideConfiguration: {
     promptConfigurations: [
@@ -718,7 +716,7 @@ Python
 ```python
 orchestration = open('prompts/orchestration.txt', encoding="utf-8").read()
 agent = bedrock.Agent(self, "Agent",
-            foundation_model=foundation_models.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+            foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
             instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
             prompt_override_configuration= bedrock.PromptOverrideConfiguration(
                 prompt_configurations=[
@@ -769,7 +767,7 @@ TypeScript
 
 ```ts
 const agent = new bedrock.Agent(this, "Agent", {
-  foundationModel: foundation_models.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+  foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
   instruction: "You are a helpful and friendly agent that answers questions about literature.",
   knowledgeBases: [kb],
   aliasName: "latest",
@@ -782,7 +780,7 @@ Python
 agent = bedrock.Agent(
     self,
     "Agent",
-    foundation_model=foundation_models.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+    foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
     instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
     knowledge_bases= [kb],
     alias_name='latest'

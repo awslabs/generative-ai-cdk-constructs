@@ -93,7 +93,7 @@ allows the Bedrock service to assume the role.
 
 ### foundationModel
 
-> `readonly` **foundationModel**: [`BedrockFoundationModel`](../../foundation_models/classes/BedrockFoundationModel.md)
+> `readonly` **foundationModel**: [`BedrockFoundationModel`](../classes/BedrockFoundationModel.md)
 
 The Bedrock text foundation model for the agent to use.
 

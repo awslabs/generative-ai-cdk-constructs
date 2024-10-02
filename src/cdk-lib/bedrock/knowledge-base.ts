@@ -23,7 +23,7 @@ import { SharePointDataSource, SharePointDataSourceAssociationProps } from './da
 import { WebCrawlerDataSource, WebCrawlerDataSourceAssociationProps } from './data-sources/web-crawler-data-source';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 import { ExistingAmazonAuroraVectorStore, AmazonAuroraVectorStore } from '../amazonaurora';
-import { BedrockFoundationModel } from '../foundationmodels';
+import { BedrockFoundationModel } from './models';
 import { VectorIndex } from '../opensearch-vectorindex';
 import { VectorCollection } from '../opensearchserverless';
 import { PineconeVectorStore } from '../pinecone';

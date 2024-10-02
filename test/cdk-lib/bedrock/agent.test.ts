@@ -17,7 +17,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { NagSuppressions } from 'cdk-nag';
 import * as bedrock from '../../../src/cdk-lib/bedrock';
-import * as foundationModels from '../../../src/cdk-lib/foundationmodels';
+import * as foundationModels from '../../../src/cdk-lib/bedrock/models';
 
 // mock lambda.Code.fromDockerBuild()
 jest.mock('aws-cdk-lib/aws-lambda', () => {

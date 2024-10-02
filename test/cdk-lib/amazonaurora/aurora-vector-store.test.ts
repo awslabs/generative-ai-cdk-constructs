@@ -15,13 +15,12 @@ import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 import { SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
 import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag';
 import { AmazonAuroraVectorStore, ExistingAmazonAuroraVectorStore } from '../../../src/cdk-lib/amazonaurora';
-import { BedrockFoundationModel } from '../../../src/cdk-lib/foundationmodels';
 
 describe('Amazon Aurora Vector Store', () => {
   let app: cdk.App;
   let stack: cdk.Stack;
   let template: Template;
-  let model: BedrockFoundationModel;
+  let modelVectorDimension: number;
   let existingVpc: Vpc;
 
   beforeAll(() => {
@@ -33,7 +32,7 @@ describe('Amazon Aurora Vector Store', () => {
         region: 'us-east-1',
       },
     });
-    model = BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3;
+    modelVectorDimension = 1024;
     existingVpc = new Vpc(stack, 'Vpc', {
       maxAzs: 2,
       subnetConfiguration: [
@@ -51,7 +50,7 @@ describe('Amazon Aurora Vector Store', () => {
 
     beforeAll(() => {
       auroraVectorStore = new AmazonAuroraVectorStore(stack, 'AuroraVectorStore', {
-        embeddingsModel: model,
+        embeddingsModelVectorDimension: modelVectorDimension,
         vpc: existingVpc,
       });
 
@@ -88,7 +87,7 @@ describe('Amazon Aurora Vector Store', () => {
       expect(auroraVectorStore.databaseName).toEqual('bedrock_vector_db');
       expect(auroraVectorStore.tableName).toEqual('bedrock_kb');
       expect(auroraVectorStore.primaryKeyField).toEqual('id');
-      expect(auroraVectorStore.embeddingsModel).toEqual(model);
+      expect(auroraVectorStore.embeddingsModelVectorDimension).toEqual(modelVectorDimension);
     });
 
     test('No unsuppressed Errors', () => {
@@ -141,7 +140,7 @@ describe('Amazon Aurora Vector Store', () => {
           databaseName: 'test-database-name',
           tableName: 'test-table-name',
           primaryKeyField: 'test-primary-key-id',
-          embeddingsModel: model,
+          embeddingsModelVectorDimension: modelVectorDimension,
           vpc: vpc,
           secret: secret,
           auroraSecurityGroupId: 'sg-12345678',
@@ -165,7 +164,7 @@ describe('Amazon Aurora Vector Store', () => {
     });
 
     test('Should have the correct embeddingsModel', () => {
-      expect(existingAuroraVectorStore.embeddingsModel).toEqual(model);
+      expect(existingAuroraVectorStore.embeddingsModelVectorDimension).toEqual(modelVectorDimension);
     });
   });
 });

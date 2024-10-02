@@ -16,7 +16,7 @@ import { Match, Template } from 'aws-cdk-lib/assertions';
 import { IKey, Key } from 'aws-cdk-lib/aws-kms';
 import { ISecret, Secret } from 'aws-cdk-lib/aws-secretsmanager';
 import * as bedrock from '../../../../src/cdk-lib/bedrock';
-import * as foundationModels from '../../../../src/cdk-lib/foundationmodels';
+import * as foundationModels from '../../../../src/cdk-lib/bedrock/models';
 
 describe('Data Source', () => {
   let stack: Stack;

@@ -18,7 +18,7 @@ import { Code, Function, Runtime } from 'aws-cdk-lib/aws-lambda';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { AwsSolutionsChecks } from 'cdk-nag';
 import * as bedrock from '../../../../src/cdk-lib/bedrock';
-import * as foundationModels from '../../../../src/cdk-lib/foundationmodels';
+import * as foundationModels from '../../../../src/cdk-lib/bedrock/models';
 
 describe('S3 Data Source', () => {
   let stack: cdk.Stack;
