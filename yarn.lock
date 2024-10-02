@@ -5759,10 +5759,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
-typedoc-plugin-markdown@^4.2.8:
-  version "4.2.8"
-  resolved "https://registry.yarnpkg.com/typedoc-plugin-markdown/-/typedoc-plugin-markdown-4.2.8.tgz#02a83a31c2fc1107cf0de98d58fc0e2fceb21d73"
-  integrity sha512-1EDsc66jaCjZtxdYy+Rl0KDU1WY/iyuCOOPaeFzcYFZ81FNXV8CmgUDOHri20WGmYnkEM5nQ+ooxj1vyuQo0Lg==
+typedoc-plugin-markdown@^4.2.9:
+  version "4.2.9"
+  resolved "https://registry.yarnpkg.com/typedoc-plugin-markdown/-/typedoc-plugin-markdown-4.2.9.tgz#c94c227d2adefb9b2d3725b3e2df7bf8032a0ac2"
+  integrity sha512-Wqmx+7ezKFgtTklEq/iUhQ5uFeBDhAT6wiS2na9cFLidIpl9jpDHJy/COYh8jUZXgIRIZVQ/bPNjyrnPFoDwzg==
 
 typedoc@^0.26.7:
   version "0.26.7"
@@ -5781,9 +5781,9 @@ typescript@^5.6.2:
   integrity sha512-NW8ByodCSNCwZeghjN3o+JX5OFH0Ojg6sadjEKY4huZ52TqbJTJnDo5+Tw98lSy63NZvi4n+ez5m2u5d4PkZyw==
 
 typescript@next:
-  version "5.7.0-dev.20240930"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.0-dev.20240930.tgz#faf207c3376e4503b3f3fb6ccafc30f9647f0389"
-  integrity sha512-mGW96cpbwcYuc264UPqGpKBLNebFFtVEXRLPwSwxVEub9tSyMI+XGFGxsznop7pU8E1ntx4OC4cN1n5MnzO0+Q==
+  version "5.7.0-dev.20241001"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.0-dev.20241001.tgz#5c21aed7957be71d240b6b9dc2684d0aa6842689"
+  integrity sha512-E+sQ0WmFXNyLddzyWmBBVwyn4NpBRgVJoiq8lLy25nQBLTKFMPnHmrKq+09uOv35ey3XhMA6y3lVzayuukJRpQ==
 
 typescript@~5.4:
   version "5.4.5"
