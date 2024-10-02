@@ -11,29 +11,28 @@
  *  and limitations under the License.
  */
 
-import * as cdk from 'aws-cdk-lib';
-import { aws_bedrock as bedrock } from 'aws-cdk-lib';
-import * as iam from 'aws-cdk-lib/aws-iam';
-import * as kms from 'aws-cdk-lib/aws-kms';
-import { Construct } from 'constructs';
+import * as cdk from "aws-cdk-lib";
+import { aws_bedrock as bedrock } from "aws-cdk-lib";
+import * as iam from "aws-cdk-lib/aws-iam";
+import * as kms from "aws-cdk-lib/aws-kms";
+import { Construct } from "constructs";
 
-import { AgentActionGroup } from './agent-action-group';
-import { AgentAlias } from './agent-alias';
-import { Guardrail } from './guardrails';
-import { KnowledgeBase } from './knowledge-base';
-import { BedrockFoundationModel } from './models';
+import { AgentActionGroup } from "./agent-action-group";
+import { AgentAlias } from "./agent-alias";
+import { Guardrail } from "./guardrails";
+import { KnowledgeBase } from "./knowledge-base";
+import { BedrockInvokableModelType, IInvokableModel } from "./models";
 
-import { generatePhysicalNameV2 } from '../../common/helpers/utils';
-
+import { generatePhysicalNameV2 } from "../../common/helpers/utils";
 
 /**
  * The step in the agent sequence that this prompt configuration applies to.
  */
 export enum PromptType {
-  PRE_PROCESSING = 'PRE_PROCESSING',
-  ORCHESTRATION = 'ORCHESTRATION',
-  POST_PROCESSING = 'POST_PROCESSING',
-  KNOWLEDGE_BASE_RESPONSE_GENERATION = 'KNOWLEDGE_BASE_RESPONSE_GENERATION'
+  PRE_PROCESSING = "PRE_PROCESSING",
+  ORCHESTRATION = "ORCHESTRATION",
+  POST_PROCESSING = "POST_PROCESSING",
+  KNOWLEDGE_BASE_RESPONSE_GENERATION = "KNOWLEDGE_BASE_RESPONSE_GENERATION",
 }
 
 /**
@@ -44,8 +43,8 @@ export enum PromptType {
  * with the ARN of a Lambda function.
  */
 export enum ParserMode {
-  DEFAULT = 'DEFAULT',
-  OVERRIDDEN = 'OVERRIDDEN'
+  DEFAULT = "DEFAULT",
+  OVERRIDDEN = "OVERRIDDEN",
 }
 
 /**
@@ -55,8 +54,8 @@ export enum ParserMode {
  * uses a default prompt template.
  */
 export enum PromptCreationMode {
-  DEFAULT = 'DEFAULT',
-  OVERRIDDEN = 'OVERRIDDEN'
+  DEFAULT = "DEFAULT",
+  OVERRIDDEN = "OVERRIDDEN",
 }
 
 /**
@@ -70,8 +69,8 @@ export enum PromptCreationMode {
  *     POST_PROCESSING – DISABLED
  */
 export enum PromptState {
-  ENABLED = 'ENABLED',
-  DISABLED = 'DISABLED'
+  ENABLED = "ENABLED",
+  DISABLED = "DISABLED",
 }
 
 /** Details about the guardrail associated with the agent. */
@@ -214,7 +213,7 @@ export interface AgentProps {
   /**
    * The Bedrock text foundation model for the agent to use.
    */
-  readonly foundationModel: BedrockFoundationModel;
+  readonly model: IInvokableModel;
   /**
    * The name of the agent.
    *
@@ -258,7 +257,7 @@ export interface AgentProps {
    * the guardrails. If you want the permissions to be configured on your behalf,
    * use the addGuardrail method.
    * @default - No guardrails associated to the agent.
-  */
+   */
   readonly guardrailConfiguration?: GuardrailConfiguration;
   /**
    * Select whether the agent can prompt additional
@@ -388,65 +387,53 @@ export class Agent extends Construct {
    */
   public knowledgeBases: bedrock.CfnAgent.AgentKnowledgeBaseProperty[] = [];
 
-
   constructor(scope: Construct, id: string, props: AgentProps) {
     super(scope, id);
     validatePromptOverrideConfiguration(props.promptOverrideConfiguration);
 
-    validateModel(props.foundationModel);
+    validateModel(props.model);
 
-    this.name = props.name ?? generatePhysicalNameV2(
-      this,
-      'bedrock-agent',
-      { maxLength: 32, lower: true, separator: '-' });
+    this.name =
+      props.name ??
+      generatePhysicalNameV2(this, "bedrock-agent", {
+        maxLength: 32,
+        lower: true,
+        separator: "-",
+      });
 
     if (props.existingRole) {
       this.role = props.existingRole;
     } else {
-      this.role = new iam.Role(this, 'Role', {
-        assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com'),
-        roleName: generatePhysicalNameV2(
-          this,
-          'AmazonBedrockExecutionRoleForAgents_',
-          { maxLength: 64, lower: false }),
-      });
-
-      this.role.assumeRolePolicy!.addStatements(
-        new iam.PolicyStatement({
-          actions: ['sts:AssumeRole'],
-          principals: [new iam.ServicePrincipal('bedrock.amazonaws.com')],
-          conditions: {
-            StringEquals: {
-              'aws:SourceAccount': cdk.Stack.of(this).account,
-            },
-            ArnLike: {
-              'aws:SourceArn': cdk.Stack.of(this).formatArn({
-                service: 'bedrock',
-                resource: 'agent',
-                resourceName: '*',
-                arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-              }),
-            },
+      this.role = new iam.Role(this, "Role", {
+        assumedBy: new iam.ServicePrincipal("bedrock.amazonaws.com").withConditions({
+          StringEquals: {
+            "aws:SourceAccount": cdk.Stack.of(this).account,
+          },
+          ArnLike: {
+            "aws:SourceArn": cdk.Stack.of(this).formatArn({
+              service: "bedrock",
+              resource: "agent",
+              resourceName: "*",
+              arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
+            }),
           },
         }),
-      );
+        roleName: generatePhysicalNameV2(this, "AmazonBedrockExecutionRoleForAgents_", {
+          maxLength: 64,
+          lower: false,
+        }),
+      });
 
-      new iam.Policy(this, 'AgentFMPolicy', {
+      new iam.Policy(this, "AgentInvokeModelPolicy", {
         roles: [this.role],
-        statements: [
-          new iam.PolicyStatement({
-            actions: ['bedrock:InvokeModel'],
-            resources: [props.foundationModel.asArn(this)],
-          }),
-        ],
+        statements: this.generateInvokeModelPolicyStatements(props.model),
       });
     }
 
-    const agent = new bedrock.CfnAgent(this, 'Agent', {
-
+    const agent = new bedrock.CfnAgent(this, "Agent", {
       agentName: this.name,
 
-      foundationModel: String(props.foundationModel),
+      foundationModel: props.model.modelId,
       instruction: props.instruction,
       description: props.description,
       idleSessionTtlInSeconds: props.idleSessionTTL?.toSeconds(),
@@ -489,13 +476,14 @@ export class Agent extends Construct {
     }
     // To allow your agent to request the user for additional information
     // when trying to complete a task, add this action group
-    this.addActionGroup(new AgentActionGroup(this, 'userInputEnabledActionGroup', {
-      actionGroupName: 'UserInputAction',
-      parentActionGroupSignature: 'AMAZON.UserInput',
-      actionGroupState: props.enableUserInput ? 'ENABLED' : 'DISABLED',
-    }));
+    this.addActionGroup(
+      new AgentActionGroup(this, "userInputEnabledActionGroup", {
+        actionGroupName: "UserInputAction",
+        parentActionGroupSignature: "AMAZON.UserInput",
+        actionGroupState: props.enableUserInput ? "ENABLED" : "DISABLED",
+      })
+    );
   }
-
 
   /**
    * Add an alias to the agent.
@@ -525,16 +513,13 @@ export class Agent extends Construct {
    */
   public addKnowledgeBase(knowledgeBase: KnowledgeBase) {
     if (!knowledgeBase.instruction) {
-      throw new Error('Agent Knowledge Bases require instructions.');
+      throw new Error("Agent Knowledge Bases require instructions.");
     }
     new iam.Policy(this, `AgentKBPolicy-${knowledgeBase.name}`, {
       roles: [this.role],
       statements: [
         new iam.PolicyStatement({
-          actions: [
-            'bedrock:UpdateKnowledgeBase',
-            'bedrock:Retrieve',
-          ],
+          actions: ["bedrock:UpdateKnowledgeBase", "bedrock:Retrieve"],
           resources: [knowledgeBase.knowledgeBaseArn],
         }),
       ],
@@ -545,25 +530,33 @@ export class Agent extends Construct {
       knowledgeBaseState: knowledgeBase.knowledgeBaseState,
     };
 
-    if (!this.agentInstance.knowledgeBases || !Array.isArray(this.agentInstance.knowledgeBases)) {
+    if (
+      !this.agentInstance.knowledgeBases ||
+      !Array.isArray(this.agentInstance.knowledgeBases)
+    ) {
       this.agentInstance.knowledgeBases = [agentKnowledgeBaseProperty];
     } else {
       (this.agentInstance.knowledgeBases as any).push(agentKnowledgeBaseProperty);
     }
   }
 
-
   /**
    * Add action group to the agent.
    */
   public addActionGroup(actionGroup: AgentActionGroup) {
-    actionGroup.actionGroupExecutor?.lambda?.addPermission('AgentLambdaInvocationPolicy', {
-      principal: new iam.ServicePrincipal('bedrock.amazonaws.com'),
-      sourceArn: this.agentArn,
-      sourceAccount: cdk.Stack.of(this).account,
-    });
+    actionGroup.actionGroupExecutor?.lambda?.addPermission(
+      "AgentLambdaInvocationPolicy",
+      {
+        principal: new iam.ServicePrincipal("bedrock.amazonaws.com"),
+        sourceArn: this.agentArn,
+        sourceAccount: cdk.Stack.of(this).account,
+      }
+    );
 
-    if (!this.agentInstance.actionGroups || !Array.isArray(this.agentInstance.actionGroups)) {
+    if (
+      !this.agentInstance.actionGroups ||
+      !Array.isArray(this.agentInstance.actionGroups)
+    ) {
       this.agentInstance.actionGroups = [actionGroup.actionGroupProperty];
     } else {
       (this.agentInstance.actionGroups as any).push(actionGroup.actionGroupProperty);
@@ -587,19 +580,17 @@ export class Agent extends Construct {
       roles: [this.role],
       statements: [
         new iam.PolicyStatement({
-          actions: [
-            'bedrock:ApplyGuardrail',
+          actions: ["bedrock:ApplyGuardrail"],
+          resources: [
+            `arn:${cdk.Aws.PARTITION}:bedrock:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:guardrail/${guardrail.guardrailId}`,
           ],
-          resources: [`arn:${cdk.Aws.PARTITION}:bedrock:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:guardrail/${guardrail.guardrailId}`],
         }),
         new iam.PolicyStatement({
-          actions: [
-            'kms:Decrypt',
-          ],
+          actions: ["kms:Decrypt"],
           resources: [guardrail.kmsKeyArn],
           conditions: {
             StringEquals: {
-              'aws:ResourceAccount': cdk.Aws.ACCOUNT_ID,
+              "aws:ResourceAccount": cdk.Aws.ACCOUNT_ID,
             },
           },
         }),
@@ -624,6 +615,37 @@ export class Agent extends Construct {
       this.resourceUpdates.push(updatedAt);
     }
   }
+
+  /**
+   * Generates the policy statements needed to invoke the model
+   */
+  public generateInvokeModelPolicyStatements(
+    model: IInvokableModel
+  ): iam.PolicyStatement[] {
+    let statements: iam.PolicyStatement[] = [];
+
+    // Ability to get Inference Profile
+    if (model.modelType == BedrockInvokableModelType.INFERENCE_PROFILE) {
+      statements.push(
+        new iam.PolicyStatement({
+          actions: ["bedrock:GetInferenceProfile"],
+          resources: [model.asArn(this)],
+        }),
+        new iam.PolicyStatement({
+          actions: ["bedrock:ListInferenceProfiles"],
+          resources: ["*"],
+        })
+      );
+    }
+    // Ability to invoke model
+    statements.push(
+      new iam.PolicyStatement({
+        actions: ["bedrock:InvokeModel"],
+        resources: [model.asArn(this)],
+      })
+    );
+    return statements;
+  }
 }
 
 /**
@@ -631,9 +653,9 @@ export class Agent extends Construct {
  *
  * @internal This is an internal core function and should not be called directly.
  */
-function validateModel(foundationModel: BedrockFoundationModel) {
-  if (!foundationModel.supportsAgents) {
-    throw new Error(`The model ${foundationModel} is not supported by Bedrock Agents.`);
+function validateModel(model: IInvokableModel) {
+  if (!model.supportsAgents) {
+    throw new Error(`The model ${model} is not supported by Bedrock Agents.`);
   }
 }
 
@@ -642,33 +664,38 @@ function validateModel(foundationModel: BedrockFoundationModel) {
  *
  * @internal This is an internal core function and should not be called directly.
  */
-export function validateInferenceConfiguration(inferenceConfiguration: InferenceConfiguration) {
+export function validateInferenceConfiguration(
+  inferenceConfiguration: InferenceConfiguration
+) {
   if (inferenceConfiguration.topK < 0 || inferenceConfiguration.topK > 500) {
-    throw new Error('topK must be between 0 and 500');
+    throw new Error("topK must be between 0 and 500");
   }
 
   if (!Number.isInteger(inferenceConfiguration.topK)) {
-    throw new Error('topK must be an integer');
+    throw new Error("topK must be an integer");
   }
 
   if (inferenceConfiguration.stopSequences.length > 4) {
-    throw new Error('stopSequences cannot contain more than 4 elements');
+    throw new Error("stopSequences cannot contain more than 4 elements");
   }
 
-  if (inferenceConfiguration.maximumLength < 0 || inferenceConfiguration.maximumLength > 4096) {
-    throw new Error('maximumLength must be between 0 and 4096');
+  if (
+    inferenceConfiguration.maximumLength < 0 ||
+    inferenceConfiguration.maximumLength > 4096
+  ) {
+    throw new Error("maximumLength must be between 0 and 4096");
   }
 
   if (!Number.isInteger(inferenceConfiguration.maximumLength)) {
-    throw new Error('maximumLength must be an integer');
+    throw new Error("maximumLength must be an integer");
   }
 
   if (inferenceConfiguration.topP < 0 || inferenceConfiguration.topP > 1) {
-    throw new Error('topP must be between 0 and 1');
+    throw new Error("topP must be between 0 and 1");
   }
 
   if (inferenceConfiguration.temperature < 0 || inferenceConfiguration.temperature > 1) {
-    throw new Error('temperature must be between 0 and 1');
+    throw new Error("temperature must be between 0 and 1");
   }
 }
 
@@ -677,7 +704,9 @@ export function validateInferenceConfiguration(inferenceConfiguration: Inference
  *
  * @internal This is an internal core function and should not be called directly.
  */
-export function validatePromptOverrideConfiguration(promptOverrideConfiguration: PromptOverrideConfiguration | undefined) {
+export function validatePromptOverrideConfiguration(
+  promptOverrideConfiguration: PromptOverrideConfiguration | undefined
+) {
   if (!promptOverrideConfiguration) {
     return;
   }
@@ -685,24 +714,29 @@ export function validatePromptOverrideConfiguration(promptOverrideConfiguration:
   if (
     promptOverrideConfiguration.overrideLambda &&
     promptOverrideConfiguration.promptConfigurations.some(
-      pc => pc.parserMode !== ParserMode.OVERRIDDEN,
-    )) {
-    throw new Error('overrideLambda can only be used if all promptConfigurations have a parserMode value of OVERRIDDEN');
+      (pc) => pc.parserMode !== ParserMode.OVERRIDDEN
+    )
+  ) {
+    throw new Error(
+      "overrideLambda can only be used if all promptConfigurations have a parserMode value of OVERRIDDEN"
+    );
   }
 
   if (
     !promptOverrideConfiguration.overrideLambda &&
     promptOverrideConfiguration.promptConfigurations.some(
-      pc => pc.parserMode === ParserMode.OVERRIDDEN,
-    )) {
-    throw new Error('At least one promptConfiguration has a parserMode value of OVERRIDDEN, but no overrideLambda is specified');
+      (pc) => pc.parserMode === ParserMode.OVERRIDDEN
+    )
+  ) {
+    throw new Error(
+      "At least one promptConfiguration has a parserMode value of OVERRIDDEN, but no overrideLambda is specified"
+    );
   }
 
   // check inferenceConfiguration number types
-  Object.values(promptOverrideConfiguration.promptConfigurations).forEach(pc => {
+  Object.values(promptOverrideConfiguration.promptConfigurations).forEach((pc) => {
     validateInferenceConfiguration(pc.inferenceConfiguration);
   });
 
   return;
 }
-

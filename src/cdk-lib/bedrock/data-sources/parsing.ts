@@ -11,9 +11,9 @@
  *  and limitations under the License.
  */
 
-import { CfnDataSource, IModel } from 'aws-cdk-lib/aws-bedrock';
-import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { DEFAULT_PARSING_PROMPT } from './default-parsing-prompt';
+import { CfnDataSource, IModel } from "aws-cdk-lib/aws-bedrock";
+import { PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { DEFAULT_PARSING_PROMPT } from "./default-parsing-prompt";
 
 /**
  * Enum representing the types of parsing strategies available for Amazon Bedrock Knowledge Bases.
@@ -22,7 +22,7 @@ enum ParsingStategyType {
   /**
    * Uses a Bedrock Foundation Model for advanced parsing of non-textual information from documents.
    */
-  FOUNDATION_MODEL = 'BEDROCK_FOUNDATION_MODEL'
+  FOUNDATION_MODEL = "BEDROCK_FOUNDATION_MODEL",
 }
 
 /**
@@ -41,7 +41,6 @@ export interface FoundationModelParsingStategyProps {
    * @default - Uses the default instruction prompt as provided in the AWS Console.
    */
   readonly parsingPrompt?: string;
-
 }
 
 /**
@@ -49,7 +48,6 @@ export interface FoundationModelParsingStategyProps {
  * @see https://docs.aws.amazon.com/bedrock/latest/userguide/kb-chunking-parsing.html#kb-advanced-parsing
  */
 export abstract class ParsingStategy {
-
   // ------------------------------------------------------
   // FM Parsing Strategy
   // ------------------------------------------------------
@@ -60,7 +58,9 @@ export abstract class ParsingStategy {
    * - There are limits on file types (PDF) and total data that can be parsed using advanced parsing.
    * @see https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-ds.html#kb-ds-supported-doc-formats-limits
    */
-  public static foundationModel(props: FoundationModelParsingStategyProps): ParsingStategy {
+  public static foundationModel(
+    props: FoundationModelParsingStategyProps
+  ): ParsingStategy {
     class FoundationModelTransformation extends ParsingStategy {
       /** The CloudFormation property representation of this configuration */
       public readonly configuration = {
@@ -74,12 +74,14 @@ export abstract class ParsingStategy {
       };
 
       public generatePolicyStatements(): PolicyStatement[] {
-        return [new PolicyStatement({
-          actions: ['bedrock:InvokeModel'],
-          resources: [props.parsingModel.modelArn],
-        })];
+        return [
+          new PolicyStatement({
+            actions: ["bedrock:InvokeModel"],
+            resources: [props.parsingModel.modelArn],
+          }),
+        ];
       }
-    };
+    }
 
     return new FoundationModelTransformation();
   }
@@ -90,7 +92,4 @@ export abstract class ParsingStategy {
   public abstract configuration: CfnDataSource.ParsingConfigurationProperty;
 
   public abstract generatePolicyStatements(): PolicyStatement[];
-
-
 }
-

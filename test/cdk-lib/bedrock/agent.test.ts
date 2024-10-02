@@ -11,27 +11,27 @@
  *  and limitations under the License.
  */
 
-import * as cdk from 'aws-cdk-lib';
-import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
-import * as s3 from 'aws-cdk-lib/aws-s3';
-import { NagSuppressions } from 'cdk-nag';
-import * as bedrock from '../../../src/cdk-lib/bedrock';
+import * as cdk from "aws-cdk-lib";
+import { Annotations, Match, Template } from "aws-cdk-lib/assertions";
+import * as lambda from "aws-cdk-lib/aws-lambda";
+import * as s3 from "aws-cdk-lib/aws-s3";
+import { NagSuppressions } from "cdk-nag";
+import * as bedrock from "../../../src/cdk-lib/bedrock";
 
 // mock lambda.Code.fromDockerBuild()
-jest.mock('aws-cdk-lib/aws-lambda', () => {
-  const actualLambda = jest.requireActual('aws-cdk-lib/aws-lambda');
+jest.mock("aws-cdk-lib/aws-lambda", () => {
+  const actualLambda = jest.requireActual("aws-cdk-lib/aws-lambda");
   return {
     ...actualLambda,
     Code: {
       ...actualLambda.Code,
-      fromDockerBuild: jest.fn(() => actualLambda.Code.fromInline('mockCode')),
-      fromAsset: jest.fn(() => actualLambda.Code.fromInline('mockCode')),
+      fromDockerBuild: jest.fn(() => actualLambda.Code.fromInline("mockCode")),
+      fromAsset: jest.fn(() => actualLambda.Code.fromInline("mockCode")),
     },
   };
 });
 
-describe('Agent with guardrails through addGuardrail', () => {
+describe("Agent with guardrails through addGuardrail", () => {
   let app: cdk.App;
   let stack: cdk.Stack;
   let kb: bedrock.KnowledgeBase;
@@ -40,29 +40,29 @@ describe('Agent with guardrails through addGuardrail', () => {
 
   beforeAll(() => {
     app = new cdk.App();
-    stack = new cdk.Stack(app, 'test-stack', {
+    stack = new cdk.Stack(app, "test-stack", {
       env: {
-        account: '123456789012',
-        region: 'us-east-1',
+        account: "123456789012",
+        region: "us-east-1",
       },
     });
-    const bucket = new s3.Bucket(stack, 'DocBucket');
-    kb = new bedrock.KnowledgeBase(stack, 'KB', {
+    const bucket = new s3.Bucket(stack, "DocBucket");
+    kb = new bedrock.KnowledgeBase(stack, "KB", {
       embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
-      description: 'Documentation about CDK constructs.',
-      instruction: 'Documentation about CDK constructs.',
+      description: "Documentation about CDK constructs.",
+      instruction: "Documentation about CDK constructs.",
     });
-    new bedrock.S3DataSource(stack, 'DataSource', {
+    new bedrock.S3DataSource(stack, "DataSource", {
       bucket,
       knowledgeBase: kb,
-      dataSourceName: 'test-docs',
+      dataSourceName: "test-docs",
     });
 
     const preprocessingPrompt: bedrock.PromptConfiguration = {
       promptType: bedrock.PromptType.PRE_PROCESSING,
       promptState: bedrock.PromptState.DISABLED,
       promptCreationMode: bedrock.PromptCreationMode.OVERRIDDEN,
-      basePromptTemplate: 'This prompt is disabled.',
+      basePromptTemplate: "This prompt is disabled.",
       inferenceConfiguration: {
         temperature: 0,
         topP: 1.0,
@@ -76,62 +76,64 @@ describe('Agent with guardrails through addGuardrail', () => {
       promptType: bedrock.PromptType.ORCHESTRATION,
       promptState: bedrock.PromptState.ENABLED,
       promptCreationMode: bedrock.PromptCreationMode.OVERRIDDEN,
-      basePromptTemplate: 'This prompt is enabled.',
+      basePromptTemplate: "This prompt is enabled.",
       inferenceConfiguration: {
         temperature: 0,
         topP: 1.0,
         topK: 250,
         maximumLength: 2048,
-        stopSequences: ['</function_call>', '</answer>', '</error>'],
+        stopSequences: ["</function_call>", "</answer>", "</error>"],
       },
     };
 
-    actionGroupFunction = new lambda.Function(stack, 'ActionGroupFunction', {
-      code: lambda.Code.fromAsset('test/path'),
+    actionGroupFunction = new lambda.Function(stack, "ActionGroupFunction", {
+      code: lambda.Code.fromAsset("test/path"),
       runtime: lambda.Runtime.NODEJS_LATEST,
-      handler: 'index.handler',
+      handler: "index.handler",
     });
 
     NagSuppressions.addResourceSuppressions(
       actionGroupFunction,
       [
         {
-          id: 'AwsSolutions-IAM4',
-          reason: 'ActionGroup Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.',
+          id: "AwsSolutions-IAM4",
+          reason:
+            "ActionGroup Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.",
         },
       ],
-      true,
+      true
     );
 
-    const apiSchemaBucket = new s3.Bucket(stack, 'TestBucket');
-    const actiongroup = new bedrock.AgentActionGroup(stack, 'actionGroups', {
-      actionGroupName: 'test-action-group',
-      description: 'Use these functions to get information about the books in the Project Gutenburg library.',
-      actionGroupState: 'ENABLED',
+    const apiSchemaBucket = new s3.Bucket(stack, "TestBucket");
+    const actiongroup = new bedrock.AgentActionGroup(stack, "actionGroups", {
+      actionGroupName: "test-action-group",
+      description:
+        "Use these functions to get information about the books in the Project Gutenburg library.",
+      actionGroupState: "ENABLED",
       actionGroupExecutor: {
         lambda: actionGroupFunction,
       },
-      apiSchema: bedrock.ApiSchema.fromBucket(apiSchemaBucket, 'test/api.yaml'),
+      apiSchema: bedrock.ApiSchema.fromBucket(apiSchemaBucket, "test/api.yaml"),
     });
 
-    agent = new bedrock.Agent(stack, 'Agent', {
-      foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
-      instruction: 'You provide support for developers working with CDK constructs.',
+    agent = new bedrock.Agent(stack, "Agent", {
+      model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+      instruction: "You provide support for developers working with CDK constructs.",
       knowledgeBases: [kb],
       idleSessionTTL: cdk.Duration.minutes(30),
       promptOverrideConfiguration: {
         promptConfigurations: [preprocessingPrompt, orchestrationPrompt],
       },
-      aliasName: 'prod',
+      aliasName: "prod",
       enableUserInput: true,
     });
 
     agent.addActionGroups([actiongroup]);
 
-    const guardrail = new bedrock.Guardrail(stack, 'MyGuardrail', {
-      name: 'my-custom-guardrail',
-      blockedInputMessaging: 'Blocked input message',
-      blockedOutputsMessaging: 'Blocked output message',
+    const guardrail = new bedrock.Guardrail(stack, "MyGuardrail", {
+      name: "my-custom-guardrail",
+      blockedInputMessaging: "Blocked input message",
+      blockedOutputsMessaging: "Blocked output message",
       filtersConfig: [
         {
           filtersConfigType: bedrock.FiltersConfigType.HATE,
@@ -139,63 +141,55 @@ describe('Agent with guardrails through addGuardrail', () => {
           outputStrength: bedrock.FiltersConfigStrength.HIGH,
         },
       ],
-      kmsKeyArn: 'arn:aws:kms:region:XXXXX:key/12345678-1234-1234-1234-123456789012',
+      kmsKeyArn: "arn:aws:kms:region:XXXXX:key/12345678-1234-1234-1234-123456789012",
     });
 
     agent.addGuardrail(guardrail);
-
-
   });
 
-  test('Knowledge Base is created', () => {
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::KnowledgeBase', {
-      Description: 'Documentation about CDK constructs.',
-      Name: Match.stringLikeRegexp('^KB'),
+  test("Knowledge Base is created", () => {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::KnowledgeBase", {
+      Description: "Documentation about CDK constructs.",
+      Name: Match.stringLikeRegexp("^KB"),
       KnowledgeBaseConfiguration: {
-        Type: 'VECTOR',
+        Type: "VECTOR",
         VectorKnowledgeBaseConfiguration: {
-          EmbeddingModelArn: 'arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v1',
+          EmbeddingModelArn:
+            "arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v1",
         },
       },
     });
   });
 
-  test('Data Source is created', () => {
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
-      Name: 'test-docs',
+  test("Data Source is created", () => {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::DataSource", {
+      Name: "test-docs",
       KnowledgeBaseId: {
-        'Fn::GetAtt': [
-          Match.stringLikeRegexp('^KB'),
-          'KnowledgeBaseId',
-        ],
+        "Fn::GetAtt": [Match.stringLikeRegexp("^KB"), "KnowledgeBaseId"],
       },
       DataSourceConfiguration: {
-        Type: 'S3',
+        Type: "S3",
         S3Configuration: {
           BucketArn: {
-            'Fn::GetAtt': [
-              Match.stringLikeRegexp('^DocBucket'),
-              'Arn',
-            ],
+            "Fn::GetAtt": [Match.stringLikeRegexp("^DocBucket"), "Arn"],
           },
         },
       },
-
     });
   });
 
-  test('Agent is created', () => {
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
-      FoundationModel: 'anthropic.claude-v2:1',
-      Instruction: 'You provide support for developers working with CDK constructs.',
+  test("Agent is created", () => {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::Agent", {
+      FoundationModel: "anthropic.claude-v2:1",
+      Instruction: "You provide support for developers working with CDK constructs.",
       IdleSessionTTLInSeconds: 1800,
       PromptOverrideConfiguration: {
         PromptConfigurations: [
           {
-            PromptType: 'PRE_PROCESSING',
-            PromptState: 'DISABLED',
-            PromptCreationMode: 'OVERRIDDEN',
-            BasePromptTemplate: 'This prompt is disabled.',
+            PromptType: "PRE_PROCESSING",
+            PromptState: "DISABLED",
+            PromptCreationMode: "OVERRIDDEN",
+            BasePromptTemplate: "This prompt is disabled.",
             InferenceConfiguration: {
               Temperature: 0,
               TopP: 1.0,
@@ -205,135 +199,117 @@ describe('Agent with guardrails through addGuardrail', () => {
             },
           },
           {
-            PromptType: 'ORCHESTRATION',
-            PromptState: 'ENABLED',
-            PromptCreationMode: 'OVERRIDDEN',
-            BasePromptTemplate: 'This prompt is enabled.',
+            PromptType: "ORCHESTRATION",
+            PromptState: "ENABLED",
+            PromptCreationMode: "OVERRIDDEN",
+            BasePromptTemplate: "This prompt is enabled.",
             InferenceConfiguration: {
               Temperature: 0,
               TopP: 1.0,
               TopK: 250,
               MaximumLength: 2048,
-              StopSequences: ['</function_call>', '</answer>', '</error>'],
+              StopSequences: ["</function_call>", "</answer>", "</error>"],
             },
           },
         ],
       },
       GuardrailConfiguration: {
         GuardrailIdentifier: {
-          'Fn::GetAtt': [
-            Match.stringLikeRegexp('MyGuardrail'), 'GuardrailId',
-          ],
+          "Fn::GetAtt": [Match.stringLikeRegexp("MyGuardrail"), "GuardrailId"],
         },
         GuardrailVersion: {
-          'Fn::GetAtt': [
-            Match.stringLikeRegexp('MyGuardrail'), 'Version',
-          ],
+          "Fn::GetAtt": [Match.stringLikeRegexp("MyGuardrail"), "Version"],
         },
       },
     });
   });
 
-  test('Agent is created with one knowledge base', () => {
+  test("Agent is created with one knowledge base", () => {
     const template = Template.fromStack(stack);
-    template.resourceCountIs('AWS::Bedrock::KnowledgeBase', 1);
-    template.hasResourceProperties('AWS::Bedrock::KnowledgeBase', {
+    template.resourceCountIs("AWS::Bedrock::KnowledgeBase", 1);
+    template.hasResourceProperties("AWS::Bedrock::KnowledgeBase", {
       KnowledgeBaseConfiguration: {
-        Type: Match.stringLikeRegexp('VECTOR'),
+        Type: Match.stringLikeRegexp("VECTOR"),
       },
-      Name: Match.stringLikeRegexp('KBteststack'),
+      Name: Match.stringLikeRegexp("KBteststack"),
       RoleArn: {
-        'Fn::GetAtt':
-          [Match.stringLikeRegexp('KBRole'), 'Arn'],
-
+        "Fn::GetAtt": [Match.stringLikeRegexp("KBRole"), "Arn"],
       },
 
-      Description: 'Documentation about CDK constructs.',
+      Description: "Documentation about CDK constructs.",
     });
   });
 
-  test('Agent action group and ApiSchema from S3', () => {
+  test("Agent action group and ApiSchema from S3", () => {
     const template = Template.fromStack(stack);
-    template.hasResourceProperties('AWS::Bedrock::Agent', {
-
+    template.hasResourceProperties("AWS::Bedrock::Agent", {
       ActionGroups: [
         {
-          ActionGroupName: 'UserInputAction',
-          ActionGroupState: 'ENABLED',
-          ParentActionGroupSignature: 'AMAZON.UserInput',
+          ActionGroupName: "UserInputAction",
+          ActionGroupState: "ENABLED",
+          ParentActionGroupSignature: "AMAZON.UserInput",
           SkipResourceInUseCheckOnDelete: false,
         },
         {
           ActionGroupExecutor: {
             Lambda: {
-              'Fn::GetAtt': [
-                Match.stringLikeRegexp('ActionGroupFunction'), 'Arn',
-              ],
+              "Fn::GetAtt": [Match.stringLikeRegexp("ActionGroupFunction"), "Arn"],
             },
           },
-          ActionGroupName: 'test-action-group',
-          ActionGroupState: 'ENABLED',
+          ActionGroupName: "test-action-group",
+          ActionGroupState: "ENABLED",
           ApiSchema: {
             S3: {
               S3BucketName: {
-                Ref: Match.stringLikeRegexp('^TestBucket'),
+                Ref: Match.stringLikeRegexp("^TestBucket"),
               },
-              S3ObjectKey: 'test/api.yaml',
+              S3ObjectKey: "test/api.yaml",
             },
           },
         },
       ],
     });
-
   });
 
-  test('Guardrail is associated', () => {
+  test("Guardrail is associated", () => {
     const template = Template.fromStack(stack);
     console.log(template.toJSON());
-    template.hasResourceProperties('AWS::Bedrock::Guardrail', {
-      BlockedInputMessaging: 'Blocked input message',
-      BlockedOutputsMessaging: 'Blocked output message',
+    template.hasResourceProperties("AWS::Bedrock::Guardrail", {
+      BlockedInputMessaging: "Blocked input message",
+      BlockedOutputsMessaging: "Blocked output message",
       ContentPolicyConfig: {
         FiltersConfig: [
           {
-            Type: 'HATE',
-            InputStrength: 'HIGH',
-            OutputStrength: 'HIGH',
+            Type: "HATE",
+            InputStrength: "HIGH",
+            OutputStrength: "HIGH",
           },
         ],
       },
-      KmsKeyArn: 'arn:aws:kms:region:XXXXX:key/12345678-1234-1234-1234-123456789012',
-      Name: 'my-custom-guardrail',
-    },
-    );
-
-  });
-
-  test('Agent Alias is created', () => {
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::AgentAlias', {
-      AgentId: {
-        'Fn::GetAtt': [
-          Match.stringLikeRegexp('^Agent'),
-          'AgentId',
-        ],
-      },
-      AgentAliasName: 'prod',
+      KmsKeyArn: "arn:aws:kms:region:XXXXX:key/12345678-1234-1234-1234-123456789012",
+      Name: "my-custom-guardrail",
     });
   });
 
+  test("Agent Alias is created", () => {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::AgentAlias", {
+      AgentId: {
+        "Fn::GetAtt": [Match.stringLikeRegexp("^Agent"), "AgentId"],
+      },
+      AgentAliasName: "prod",
+    });
+  });
 
-  test('No unsuppressed Errors', () => {
+  test("No unsuppressed Errors", () => {
     const errors = Annotations.fromStack(stack).findError(
-      '*',
-      Match.stringLikeRegexp('AwsSolutions-.*'),
+      "*",
+      Match.stringLikeRegexp("AwsSolutions-.*")
     );
     expect(errors).toHaveLength(0);
   });
-
-
 });
 
-describe('Agent with guardrails through constructor', () => {
+describe("Agent with guardrails through constructor", () => {
   let app: cdk.App;
   let stack: cdk.Stack;
   let kb: bedrock.KnowledgeBase;
@@ -342,29 +318,29 @@ describe('Agent with guardrails through constructor', () => {
 
   beforeAll(() => {
     app = new cdk.App();
-    stack = new cdk.Stack(app, 'test-stack', {
+    stack = new cdk.Stack(app, "test-stack", {
       env: {
-        account: '123456789012',
-        region: 'us-east-1',
+        account: "123456789012",
+        region: "us-east-1",
       },
     });
-    const bucket = new s3.Bucket(stack, 'DocBucket');
-    kb = new bedrock.KnowledgeBase(stack, 'KB', {
+    const bucket = new s3.Bucket(stack, "DocBucket");
+    kb = new bedrock.KnowledgeBase(stack, "KB", {
       embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
-      description: 'Documentation about CDK constructs.',
-      instruction: 'Documentation about CDK constructs.',
+      description: "Documentation about CDK constructs.",
+      instruction: "Documentation about CDK constructs.",
     });
-    new bedrock.S3DataSource(stack, 'DataSource', {
+    new bedrock.S3DataSource(stack, "DataSource", {
       bucket,
       knowledgeBase: kb,
-      dataSourceName: 'test-docs',
+      dataSourceName: "test-docs",
     });
 
     const preprocessingPrompt: bedrock.PromptConfiguration = {
       promptType: bedrock.PromptType.PRE_PROCESSING,
       promptState: bedrock.PromptState.DISABLED,
       promptCreationMode: bedrock.PromptCreationMode.OVERRIDDEN,
-      basePromptTemplate: 'This prompt is disabled.',
+      basePromptTemplate: "This prompt is disabled.",
       inferenceConfiguration: {
         temperature: 0,
         topP: 1.0,
@@ -378,112 +354,107 @@ describe('Agent with guardrails through constructor', () => {
       promptType: bedrock.PromptType.ORCHESTRATION,
       promptState: bedrock.PromptState.ENABLED,
       promptCreationMode: bedrock.PromptCreationMode.OVERRIDDEN,
-      basePromptTemplate: 'This prompt is enabled.',
+      basePromptTemplate: "This prompt is enabled.",
       inferenceConfiguration: {
         temperature: 0,
         topP: 1.0,
         topK: 250,
         maximumLength: 2048,
-        stopSequences: ['</function_call>', '</answer>', '</error>'],
+        stopSequences: ["</function_call>", "</answer>", "</error>"],
       },
     };
 
-    actionGroupFunction = new lambda.Function(stack, 'ActionGroupFunction', {
-      code: lambda.Code.fromAsset('test/path'),
+    actionGroupFunction = new lambda.Function(stack, "ActionGroupFunction", {
+      code: lambda.Code.fromAsset("test/path"),
       runtime: lambda.Runtime.NODEJS_LATEST,
-      handler: 'index.handler',
+      handler: "index.handler",
     });
 
     NagSuppressions.addResourceSuppressions(
       actionGroupFunction,
       [
         {
-          id: 'AwsSolutions-IAM4',
-          reason: 'ActionGroup Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.',
+          id: "AwsSolutions-IAM4",
+          reason:
+            "ActionGroup Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.",
         },
       ],
-      true,
+      true
     );
 
-    const apiSchemaBucket = new s3.Bucket(stack, 'TestBucket');
-    const actiongroup = new bedrock.AgentActionGroup(stack, 'actionGroups', {
-      actionGroupName: 'test-action-group',
-      description: 'Use these functions to get information about the books in the Project Gutenburg library.',
-      actionGroupState: 'ENABLED',
+    const apiSchemaBucket = new s3.Bucket(stack, "TestBucket");
+    const actiongroup = new bedrock.AgentActionGroup(stack, "actionGroups", {
+      actionGroupName: "test-action-group",
+      description:
+        "Use these functions to get information about the books in the Project Gutenburg library.",
+      actionGroupState: "ENABLED",
       actionGroupExecutor: {
         lambda: actionGroupFunction,
       },
-      apiSchema: bedrock.ApiSchema.fromBucket(apiSchemaBucket, 'test/api.yaml'),
+      apiSchema: bedrock.ApiSchema.fromBucket(apiSchemaBucket, "test/api.yaml"),
     });
 
-    agent = new bedrock.Agent(stack, 'Agent', {
-      foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
-      instruction: 'You provide support for developers working with CDK constructs.',
+    agent = new bedrock.Agent(stack, "Agent", {
+      model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+      instruction: "You provide support for developers working with CDK constructs.",
       knowledgeBases: [kb],
       idleSessionTTL: cdk.Duration.minutes(30),
       promptOverrideConfiguration: {
         promptConfigurations: [preprocessingPrompt, orchestrationPrompt],
       },
       guardrailConfiguration: {
-        guardrailId: 'testId',
-        guardrailVersion: 'version1',
+        guardrailId: "testId",
+        guardrailVersion: "version1",
       },
-      aliasName: 'prod',
+      aliasName: "prod",
     });
 
     agent.addActionGroups([actiongroup]);
-
   });
 
-  test('Knowledge Base is created', () => {
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::KnowledgeBase', {
-      Description: 'Documentation about CDK constructs.',
-      Name: Match.stringLikeRegexp('^KB'),
+  test("Knowledge Base is created", () => {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::KnowledgeBase", {
+      Description: "Documentation about CDK constructs.",
+      Name: Match.stringLikeRegexp("^KB"),
       KnowledgeBaseConfiguration: {
-        Type: 'VECTOR',
+        Type: "VECTOR",
         VectorKnowledgeBaseConfiguration: {
-          EmbeddingModelArn: 'arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v1',
+          EmbeddingModelArn:
+            "arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v1",
         },
       },
     });
   });
 
-  test('Data Source is created', () => {
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
-      Name: 'test-docs',
+  test("Data Source is created", () => {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::DataSource", {
+      Name: "test-docs",
       KnowledgeBaseId: {
-        'Fn::GetAtt': [
-          Match.stringLikeRegexp('^KB'),
-          'KnowledgeBaseId',
-        ],
+        "Fn::GetAtt": [Match.stringLikeRegexp("^KB"), "KnowledgeBaseId"],
       },
       DataSourceConfiguration: {
-        Type: 'S3',
+        Type: "S3",
         S3Configuration: {
           BucketArn: {
-            'Fn::GetAtt': [
-              Match.stringLikeRegexp('^DocBucket'),
-              'Arn',
-            ],
+            "Fn::GetAtt": [Match.stringLikeRegexp("^DocBucket"), "Arn"],
           },
         },
       },
-
     });
   });
 
-  test('Agent is created', () => {
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
-      FoundationModel: 'anthropic.claude-v2:1',
-      Instruction: 'You provide support for developers working with CDK constructs.',
+  test("Agent is created", () => {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::Agent", {
+      FoundationModel: "anthropic.claude-v2:1",
+      Instruction: "You provide support for developers working with CDK constructs.",
       IdleSessionTTLInSeconds: 1800,
       PromptOverrideConfiguration: {
         PromptConfigurations: [
           {
-            PromptType: 'PRE_PROCESSING',
-            PromptState: 'DISABLED',
-            PromptCreationMode: 'OVERRIDDEN',
-            BasePromptTemplate: 'This prompt is disabled.',
+            PromptType: "PRE_PROCESSING",
+            PromptState: "DISABLED",
+            PromptCreationMode: "OVERRIDDEN",
+            BasePromptTemplate: "This prompt is disabled.",
             InferenceConfiguration: {
               Temperature: 0,
               TopP: 1.0,
@@ -493,16 +464,16 @@ describe('Agent with guardrails through constructor', () => {
             },
           },
           {
-            PromptType: 'ORCHESTRATION',
-            PromptState: 'ENABLED',
-            PromptCreationMode: 'OVERRIDDEN',
-            BasePromptTemplate: 'This prompt is enabled.',
+            PromptType: "ORCHESTRATION",
+            PromptState: "ENABLED",
+            PromptCreationMode: "OVERRIDDEN",
+            BasePromptTemplate: "This prompt is enabled.",
             InferenceConfiguration: {
               Temperature: 0,
               TopP: 1.0,
               TopK: 250,
               MaximumLength: 2048,
-              StopSequences: ['</function_call>', '</answer>', '</error>'],
+              StopSequences: ["</function_call>", "</answer>", "</error>"],
             },
           },
         ],
@@ -510,97 +481,83 @@ describe('Agent with guardrails through constructor', () => {
     });
   });
 
-  test('Agent is created with one knowledge base', () => {
+  test("Agent is created with one knowledge base", () => {
     const template = Template.fromStack(stack);
-    template.resourceCountIs('AWS::Bedrock::KnowledgeBase', 1);
-    template.hasResourceProperties('AWS::Bedrock::KnowledgeBase', {
+    template.resourceCountIs("AWS::Bedrock::KnowledgeBase", 1);
+    template.hasResourceProperties("AWS::Bedrock::KnowledgeBase", {
       KnowledgeBaseConfiguration: {
-        Type: Match.stringLikeRegexp('VECTOR'),
+        Type: Match.stringLikeRegexp("VECTOR"),
       },
-      Name: Match.stringLikeRegexp('KBteststack'),
+      Name: Match.stringLikeRegexp("KBteststack"),
       RoleArn: {
-        'Fn::GetAtt':
-          [Match.stringLikeRegexp('KBRole'), 'Arn'],
-
+        "Fn::GetAtt": [Match.stringLikeRegexp("KBRole"), "Arn"],
       },
 
-      Description: 'Documentation about CDK constructs.',
+      Description: "Documentation about CDK constructs.",
     });
   });
 
-  test('Agent action group and ApiSchema from S3', () => {
+  test("Agent action group and ApiSchema from S3", () => {
     const template = Template.fromStack(stack);
-    template.hasResourceProperties('AWS::Bedrock::Agent', {
-
+    template.hasResourceProperties("AWS::Bedrock::Agent", {
       ActionGroups: [
         {
-          ActionGroupName: 'UserInputAction',
-          ActionGroupState: 'DISABLED',
-          ParentActionGroupSignature: 'AMAZON.UserInput',
+          ActionGroupName: "UserInputAction",
+          ActionGroupState: "DISABLED",
+          ParentActionGroupSignature: "AMAZON.UserInput",
           SkipResourceInUseCheckOnDelete: false,
         },
         {
           ActionGroupExecutor: {
             Lambda: {
-              'Fn::GetAtt': [
-                Match.stringLikeRegexp('ActionGroupFunction'), 'Arn',
-              ],
+              "Fn::GetAtt": [Match.stringLikeRegexp("ActionGroupFunction"), "Arn"],
             },
           },
-          ActionGroupName: 'test-action-group',
-          ActionGroupState: 'ENABLED',
+          ActionGroupName: "test-action-group",
+          ActionGroupState: "ENABLED",
           ApiSchema: {
             S3: {
               S3BucketName: {
-                Ref: Match.stringLikeRegexp('^TestBucket'),
+                Ref: Match.stringLikeRegexp("^TestBucket"),
               },
-              S3ObjectKey: 'test/api.yaml',
+              S3ObjectKey: "test/api.yaml",
             },
           },
         },
       ],
     });
-
   });
 
-  test('Guardrail is associated', () => {
+  test("Guardrail is associated", () => {
     const template = Template.fromStack(stack);
     console.log(template.toJSON());
-    template.hasResourceProperties('AWS::Bedrock::Agent', {
+    template.hasResourceProperties("AWS::Bedrock::Agent", {
       GuardrailConfiguration: {
-        GuardrailIdentifier: 'testId',
-        GuardrailVersion: 'version1',
+        GuardrailIdentifier: "testId",
+        GuardrailVersion: "version1",
       },
-    },
-    );
-
-  });
-
-  test('Agent Alias is created', () => {
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::AgentAlias', {
-      AgentId: {
-        'Fn::GetAtt': [
-          Match.stringLikeRegexp('^Agent'),
-          'AgentId',
-        ],
-      },
-      AgentAliasName: 'prod',
     });
   });
 
+  test("Agent Alias is created", () => {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::AgentAlias", {
+      AgentId: {
+        "Fn::GetAtt": [Match.stringLikeRegexp("^Agent"), "AgentId"],
+      },
+      AgentAliasName: "prod",
+    });
+  });
 
-  test('No unsuppressed Errors', () => {
+  test("No unsuppressed Errors", () => {
     const errors = Annotations.fromStack(stack).findError(
-      '*',
-      Match.stringLikeRegexp('AwsSolutions-.*'),
+      "*",
+      Match.stringLikeRegexp("AwsSolutions-.*")
     );
     expect(errors).toHaveLength(0);
   });
-
-
 });
 
-describe('Agent without guardrails', () => {
+describe("Agent without guardrails", () => {
   let app: cdk.App;
   let stack: cdk.Stack;
   let kb: bedrock.KnowledgeBase;
@@ -609,29 +566,29 @@ describe('Agent without guardrails', () => {
 
   beforeAll(() => {
     app = new cdk.App();
-    stack = new cdk.Stack(app, 'test-stack', {
+    stack = new cdk.Stack(app, "test-stack", {
       env: {
-        account: '123456789012',
-        region: 'us-east-1',
+        account: "123456789012",
+        region: "us-east-1",
       },
     });
-    const bucket = new s3.Bucket(stack, 'DocBucket');
-    kb = new bedrock.KnowledgeBase(stack, 'KB', {
+    const bucket = new s3.Bucket(stack, "DocBucket");
+    kb = new bedrock.KnowledgeBase(stack, "KB", {
       embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
-      description: 'Documentation about CDK constructs.',
-      instruction: 'Documentation about CDK constructs.',
+      description: "Documentation about CDK constructs.",
+      instruction: "Documentation about CDK constructs.",
     });
-    new bedrock.S3DataSource(stack, 'DataSource', {
+    new bedrock.S3DataSource(stack, "DataSource", {
       bucket,
       knowledgeBase: kb,
-      dataSourceName: 'test-docs',
+      dataSourceName: "test-docs",
     });
 
     const preprocessingPrompt: bedrock.PromptConfiguration = {
       promptType: bedrock.PromptType.PRE_PROCESSING,
       promptState: bedrock.PromptState.DISABLED,
       promptCreationMode: bedrock.PromptCreationMode.OVERRIDDEN,
-      basePromptTemplate: 'This prompt is disabled.',
+      basePromptTemplate: "This prompt is disabled.",
       inferenceConfiguration: {
         temperature: 0,
         topP: 1.0,
@@ -645,108 +602,103 @@ describe('Agent without guardrails', () => {
       promptType: bedrock.PromptType.ORCHESTRATION,
       promptState: bedrock.PromptState.ENABLED,
       promptCreationMode: bedrock.PromptCreationMode.OVERRIDDEN,
-      basePromptTemplate: 'This prompt is enabled.',
+      basePromptTemplate: "This prompt is enabled.",
       inferenceConfiguration: {
         temperature: 0,
         topP: 1.0,
         topK: 250,
         maximumLength: 2048,
-        stopSequences: ['</function_call>', '</answer>', '</error>'],
+        stopSequences: ["</function_call>", "</answer>", "</error>"],
       },
     };
 
-    actionGroupFunction = new lambda.Function(stack, 'ActionGroupFunction', {
-      code: lambda.Code.fromAsset('test/path'),
+    actionGroupFunction = new lambda.Function(stack, "ActionGroupFunction", {
+      code: lambda.Code.fromAsset("test/path"),
       runtime: lambda.Runtime.NODEJS_LATEST,
-      handler: 'index.handler',
+      handler: "index.handler",
     });
 
     NagSuppressions.addResourceSuppressions(
       actionGroupFunction,
       [
         {
-          id: 'AwsSolutions-IAM4',
-          reason: 'ActionGroup Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.',
+          id: "AwsSolutions-IAM4",
+          reason:
+            "ActionGroup Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.",
         },
       ],
-      true,
+      true
     );
 
-    const apiSchemaBucket = new s3.Bucket(stack, 'TestBucket');
-    const actiongroup = new bedrock.AgentActionGroup(stack, 'actionGroups', {
-      actionGroupName: 'test-action-group',
-      description: 'Use these functions to get information about the books in the Project Gutenburg library.',
-      actionGroupState: 'ENABLED',
+    const apiSchemaBucket = new s3.Bucket(stack, "TestBucket");
+    const actiongroup = new bedrock.AgentActionGroup(stack, "actionGroups", {
+      actionGroupName: "test-action-group",
+      description:
+        "Use these functions to get information about the books in the Project Gutenburg library.",
+      actionGroupState: "ENABLED",
       actionGroupExecutor: {
         lambda: actionGroupFunction,
       },
-      apiSchema: bedrock.ApiSchema.fromBucket(apiSchemaBucket, 'test/api.yaml'),
+      apiSchema: bedrock.ApiSchema.fromBucket(apiSchemaBucket, "test/api.yaml"),
     });
 
-    agent = new bedrock.Agent(stack, 'Agent', {
-      foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
-      instruction: 'You provide support for developers working with CDK constructs.',
+    agent = new bedrock.Agent(stack, "Agent", {
+      model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+      instruction: "You provide support for developers working with CDK constructs.",
       knowledgeBases: [kb],
       idleSessionTTL: cdk.Duration.minutes(30),
       promptOverrideConfiguration: {
         promptConfigurations: [preprocessingPrompt, orchestrationPrompt],
       },
-      aliasName: 'prod',
+      aliasName: "prod",
     });
 
     agent.addActionGroups([actiongroup]);
-
   });
 
-  test('Knowledge Base is created', () => {
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::KnowledgeBase', {
-      Description: 'Documentation about CDK constructs.',
-      Name: Match.stringLikeRegexp('^KB'),
+  test("Knowledge Base is created", () => {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::KnowledgeBase", {
+      Description: "Documentation about CDK constructs.",
+      Name: Match.stringLikeRegexp("^KB"),
       KnowledgeBaseConfiguration: {
-        Type: 'VECTOR',
+        Type: "VECTOR",
         VectorKnowledgeBaseConfiguration: {
-          EmbeddingModelArn: 'arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v1',
+          EmbeddingModelArn:
+            "arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v1",
         },
       },
     });
   });
 
-  test('Data Source is created', () => {
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
-      Name: 'test-docs',
+  test("Data Source is created", () => {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::DataSource", {
+      Name: "test-docs",
       KnowledgeBaseId: {
-        'Fn::GetAtt': [
-          Match.stringLikeRegexp('^KB'),
-          'KnowledgeBaseId',
-        ],
+        "Fn::GetAtt": [Match.stringLikeRegexp("^KB"), "KnowledgeBaseId"],
       },
       DataSourceConfiguration: {
-        Type: 'S3',
+        Type: "S3",
         S3Configuration: {
           BucketArn: {
-            'Fn::GetAtt': [
-              Match.stringLikeRegexp('^DocBucket'),
-              'Arn',
-            ],
+            "Fn::GetAtt": [Match.stringLikeRegexp("^DocBucket"), "Arn"],
           },
         },
       },
-
     });
   });
 
-  test('Agent is created', () => {
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
-      FoundationModel: 'anthropic.claude-v2:1',
-      Instruction: 'You provide support for developers working with CDK constructs.',
+  test("Agent is created", () => {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::Agent", {
+      FoundationModel: "anthropic.claude-v2:1",
+      Instruction: "You provide support for developers working with CDK constructs.",
       IdleSessionTTLInSeconds: 1800,
       PromptOverrideConfiguration: {
         PromptConfigurations: [
           {
-            PromptType: 'PRE_PROCESSING',
-            PromptState: 'DISABLED',
-            PromptCreationMode: 'OVERRIDDEN',
-            BasePromptTemplate: 'This prompt is disabled.',
+            PromptType: "PRE_PROCESSING",
+            PromptState: "DISABLED",
+            PromptCreationMode: "OVERRIDDEN",
+            BasePromptTemplate: "This prompt is disabled.",
             InferenceConfiguration: {
               Temperature: 0,
               TopP: 1.0,
@@ -756,16 +708,16 @@ describe('Agent without guardrails', () => {
             },
           },
           {
-            PromptType: 'ORCHESTRATION',
-            PromptState: 'ENABLED',
-            PromptCreationMode: 'OVERRIDDEN',
-            BasePromptTemplate: 'This prompt is enabled.',
+            PromptType: "ORCHESTRATION",
+            PromptState: "ENABLED",
+            PromptCreationMode: "OVERRIDDEN",
+            BasePromptTemplate: "This prompt is enabled.",
             InferenceConfiguration: {
               Temperature: 0,
               TopP: 1.0,
               TopK: 250,
               MaximumLength: 2048,
-              StopSequences: ['</function_call>', '</answer>', '</error>'],
+              StopSequences: ["</function_call>", "</answer>", "</error>"],
             },
           },
         ],
@@ -773,104 +725,98 @@ describe('Agent without guardrails', () => {
     });
   });
 
-  test('Agent is created with one knowledge base', () => {
+  test("Agent is created with one knowledge base", () => {
     const template = Template.fromStack(stack);
-    template.resourceCountIs('AWS::Bedrock::KnowledgeBase', 1);
-    template.hasResourceProperties('AWS::Bedrock::KnowledgeBase', {
+    template.resourceCountIs("AWS::Bedrock::KnowledgeBase", 1);
+    template.hasResourceProperties("AWS::Bedrock::KnowledgeBase", {
       KnowledgeBaseConfiguration: {
-        Type: Match.stringLikeRegexp('VECTOR'),
+        Type: Match.stringLikeRegexp("VECTOR"),
       },
-      Name: Match.stringLikeRegexp('KBteststack'),
+      Name: Match.stringLikeRegexp("KBteststack"),
       RoleArn: {
-        'Fn::GetAtt':
-          [Match.stringLikeRegexp('KBRole'), 'Arn'],
-
+        "Fn::GetAtt": [Match.stringLikeRegexp("KBRole"), "Arn"],
       },
 
-      Description: 'Documentation about CDK constructs.',
+      Description: "Documentation about CDK constructs.",
     });
   });
 
-  test('Agent action group and ApiSchema from S3', () => {
+  test("Agent action group and ApiSchema from S3", () => {
     const template = Template.fromStack(stack);
-    template.hasResourceProperties('AWS::Bedrock::Agent', {
-
+    template.hasResourceProperties("AWS::Bedrock::Agent", {
       ActionGroups: [
         {
-          ActionGroupName: 'UserInputAction',
-          ActionGroupState: 'DISABLED',
-          ParentActionGroupSignature: 'AMAZON.UserInput',
+          ActionGroupName: "UserInputAction",
+          ActionGroupState: "DISABLED",
+          ParentActionGroupSignature: "AMAZON.UserInput",
           SkipResourceInUseCheckOnDelete: false,
         },
         {
           ActionGroupExecutor: {
             Lambda: {
-              'Fn::GetAtt': [
-                Match.stringLikeRegexp('ActionGroupFunction'), 'Arn',
-              ],
+              "Fn::GetAtt": [Match.stringLikeRegexp("ActionGroupFunction"), "Arn"],
             },
           },
-          ActionGroupName: 'test-action-group',
-          ActionGroupState: 'ENABLED',
+          ActionGroupName: "test-action-group",
+          ActionGroupState: "ENABLED",
           ApiSchema: {
             S3: {
               S3BucketName: {
-                Ref: Match.stringLikeRegexp('^TestBucket'),
+                Ref: Match.stringLikeRegexp("^TestBucket"),
               },
-              S3ObjectKey: 'test/api.yaml',
+              S3ObjectKey: "test/api.yaml",
             },
           },
         },
       ],
     });
-
   });
 
-  test('Guardrail should not be associated', () => {
+  test("Guardrail should not be associated", () => {
     const template = Template.fromStack(stack);
-    expect(template.toJSON()).not.toHaveProperty('AWS::Bedrock::Guardrail');
+    expect(template.toJSON()).not.toHaveProperty("AWS::Bedrock::Guardrail");
   });
 
-  test('Agent Alias is created', () => {
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::AgentAlias', {
+  test("Agent Alias is created", () => {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::AgentAlias", {
       AgentId: {
-        'Fn::GetAtt': [
-          Match.stringLikeRegexp('^Agent'),
-          'AgentId',
-        ],
+        "Fn::GetAtt": [Match.stringLikeRegexp("^Agent"), "AgentId"],
       },
-      AgentAliasName: 'prod',
+      AgentAliasName: "prod",
     });
   });
 
-
-  test('No unsuppressed Errors', () => {
+  test("No unsuppressed Errors", () => {
     const errors = Annotations.fromStack(stack).findError(
-      '*',
-      Match.stringLikeRegexp('AwsSolutions-.*'),
+      "*",
+      Match.stringLikeRegexp("AwsSolutions-.*")
     );
     expect(errors).toHaveLength(0);
   });
 });
 
-describe('Imports', () => {
+describe("Imports", () => {
   let app: cdk.App;
   let stack: cdk.Stack;
 
   beforeEach(() => {
     app = new cdk.App();
-    stack = new cdk.Stack(app, 'TestStack');
+    stack = new cdk.Stack(app, "TestStack");
   });
 
-  test('Agent Alias Import', () => {
+  test("Agent Alias Import", () => {
     // GIVEN
-    const agentAlias = bedrock.AgentAlias.fromAliasArn(stack, 'alias',
-      'arn:aws:bedrock:us-east-1:123456789012:agent-alias/DNCJJYQKSU/TCLCITFZTN',
+    const agentAlias = bedrock.AgentAlias.fromAliasArn(
+      stack,
+      "alias",
+      "arn:aws:bedrock:us-east-1:123456789012:agent-alias/DNCJJYQKSU/TCLCITFZTN"
     );
 
     //THEN
-    expect(agentAlias.agentId).toEqual('DNCJJYQKSU');
-    expect(agentAlias.aliasId).toEqual('TCLCITFZTN');
-    expect(agentAlias.aliasArn).toEqual('arn:aws:bedrock:us-east-1:123456789012:agent-alias/DNCJJYQKSU/TCLCITFZTN');
+    expect(agentAlias.agentId).toEqual("DNCJJYQKSU");
+    expect(agentAlias.aliasId).toEqual("TCLCITFZTN");
+    expect(agentAlias.aliasArn).toEqual(
+      "arn:aws:bedrock:us-east-1:123456789012:agent-alias/DNCJJYQKSU/TCLCITFZTN"
+    );
   });
 });
