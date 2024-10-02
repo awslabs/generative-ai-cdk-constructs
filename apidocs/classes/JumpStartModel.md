@@ -616,18 +616,6 @@
 
 ***
 
-### HUGGINGFACE\_LLM\_BAICHUAN2\_7B\_BASE\_FP16\_1\_0\_0
-
-> `readonly` `static` **HUGGINGFACE\_LLM\_BAICHUAN2\_7B\_BASE\_FP16\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
-
-***
-
-### HUGGINGFACE\_LLM\_BAICHUAN2\_7B\_BASE\_FP16\_1\_0\_1
-
-> `readonly` `static` **HUGGINGFACE\_LLM\_BAICHUAN2\_7B\_BASE\_FP16\_1\_0\_1**: [`JumpStartModel`](JumpStartModel.md)
-
-***
-
 ### HUGGINGFACE\_LLM\_BERKELEY\_NEST\_STARLING\_LM\_7B\_ALPHA\_1\_0\_0
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_BERKELEY\_NEST\_STARLING\_LM\_7B\_ALPHA\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
