@@ -22,7 +22,6 @@ import { AgentAlias } from './agent-alias';
 import { Guardrail } from './guardrails';
 import { KnowledgeBase } from './knowledge-base';
 import { BedrockFoundationModel } from './models';
-
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 
 

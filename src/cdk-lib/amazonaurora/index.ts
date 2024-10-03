@@ -10,5 +10,4 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-export * from './aurora-default-vector-store';
 export * from './aurora-vector-store';

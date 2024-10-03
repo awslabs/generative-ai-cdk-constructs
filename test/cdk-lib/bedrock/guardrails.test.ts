@@ -11,6 +11,7 @@
  *  and limitations under the License.
  */
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { expect as cdkExpect, haveResource } from '@aws-cdk/assert';
 import * as cdk from 'aws-cdk-lib';
 import { AwsSolutionsChecks } from 'cdk-nag';
