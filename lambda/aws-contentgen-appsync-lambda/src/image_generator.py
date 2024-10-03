@@ -51,7 +51,6 @@ class image_generator():
     
     
 
-    @tracer.capture_method
     def upload_file_to_s3(self,imgbase64encoded,file_name):
         
         """Upload generated file to S3 bucket"""
@@ -70,7 +69,6 @@ class image_generator():
             "bucket_name":self.bucket,
         }
 
-    @tracer.capture_method
     def text_moderation(self):
         
         """Check input text has any toxicity or not. The comprehend is trained 
@@ -98,7 +96,6 @@ class image_generator():
             
         return response
 
-    @tracer.capture_method
     def image_moderation(self,file_name):
         
         """Detect image moderation on the generated image to avoid any toxicity/nudity"""
@@ -199,7 +196,7 @@ class image_generator():
             auth=aws_auth_appsync,
             timeout=10
         )
-        logger.info('res :: {}',responseJobstatus)
+        logger.info(f"sending response :: {responseJobstatus}")
 
 def get_model_payload(modelid,params,input_text,negative_prompts):
      
