@@ -36,6 +36,4 @@ describe('BedrockFoundationModel', () => {
       .toBe('arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v1');
 
   });
-
-
 });
