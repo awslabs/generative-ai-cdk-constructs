@@ -140,12 +140,11 @@ if vector store is of `VectorCollection` type.
 
 ### vectorStore?
 
-> `readonly` `optional` **vectorStore**: [`AmazonAuroraDefaultVectorStore`](../../amazonaurora/classes/AmazonAuroraDefaultVectorStore.md) \| [`AmazonAuroraVectorStore`](../../amazonaurora/classes/AmazonAuroraVectorStore.md) \| [`VectorCollection`](../../opensearchserverless/classes/VectorCollection.md) \| [`PineconeVectorStore`](../../pinecone/classes/PineconeVectorStore.md)
+> `readonly` `optional` **vectorStore**: [`ExistingAmazonAuroraVectorStore`](../../amazonaurora/classes/ExistingAmazonAuroraVectorStore.md) \| [`AmazonAuroraVectorStore`](../../amazonaurora/classes/AmazonAuroraVectorStore.md) \| [`VectorCollection`](../../opensearchserverless/classes/VectorCollection.md) \| [`PineconeVectorStore`](../../pinecone/classes/PineconeVectorStore.md)
 
 The vector store for the knowledge base. Must be either of
 type `VectorCollection`, `RedisEnterpriseVectorStore`,
-`PineconeVectorStore`, `AmazonAuroraVectorStore` or
-`AmazonAuroraDefaultVectorStore`.
+`PineconeVectorStore` or `AmazonAuroraVectorStore`.
 
 #### Default
 
