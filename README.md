@@ -53,7 +53,7 @@ If you want to add a new construct to the library, check out our [design guideli
 ## Getting Started
 
 <details>
-<summary><i><h2  style="display:inline-block">TypeScript</h2></i></summary>
+<summary><i>TypeScript</i></summary>
 
 - Create or use an existing CDK application in TypeScript.
   - `cdk init app --language typescript`
@@ -65,7 +65,7 @@ If you want to add a new construct to the library, check out our [design guideli
 </details>
 
 <details>
-<summary><i><h2  style="display:inline-block">Python</h2></i></summary>
+<summary><i>Python</i></summary>
 
 - Create or use an existing CDK application in Python
   - `cdk init app --language python`
@@ -77,7 +77,7 @@ If you want to add a new construct to the library, check out our [design guideli
 </details>
 
 <details>
-<summary><i><h2  style="display:inline-block">NuGet</h2></i></summary>
+<summary><i>NuGet</i></summary>
 
 - Create or use an existing CDK application in Python
   - `cdk init app --language csharp`
@@ -89,7 +89,7 @@ If you want to add a new construct to the library, check out our [design guideli
 </details>
 
 <details>
-<summary><i><h2  style="display:inline-block">Go</h2></i></summary>
+<summary><i>Go</i></summary>
 
 - Create or use an existing CDK application in Python
   - `cdk init app --language go`
@@ -104,7 +104,7 @@ _NOTE: The [Go distribution repository](https://github.com/cdklabs/generative-ai
 </details>
 
 <details>
-<summary><i><h2  style="display:inline-block">Java</h2></i></summary>
+<summary><i>Java</i></summary>
 
 - Create or use an existing CDK application in Java
   - cdk init app --language java
