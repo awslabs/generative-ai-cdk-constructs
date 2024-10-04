@@ -177,11 +177,11 @@ export class ContentGenerationAppSyncLambda extends BaseClass {
     if (props?.existingVpc) {
       this.vpc = props.existingVpc;
     } else {
-    this.vpc = new ec2.Vpc(this, 'Vpc', props.vpcProps);
+      this.vpc = new ec2.Vpc(this, 'Vpc', props.vpcProps);
       // vpc endpoints
       vpc_helper.AddAwsServiceEndpoint(scope, this.vpc, [vpc_helper.ServiceEndpointTypeEnum.S3,
         vpc_helper.ServiceEndpointTypeEnum.BEDROCK_RUNTIME, vpc_helper.ServiceEndpointTypeEnum.REKOGNITION,
-        vpc_helper.ServiceEndpointTypeEnum.COMPREHEND ]);
+        vpc_helper.ServiceEndpointTypeEnum.COMPREHEND]);
     }
 
     // Security group
