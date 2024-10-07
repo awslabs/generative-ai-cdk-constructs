@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 import * as path from 'path';
-import { Duration, Aws } from 'aws-cdk-lib';
+import { Duration, Aws, RemovalPolicy } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
@@ -258,15 +258,10 @@ export class SummarizationAppsyncStepfn extends BaseClass {
     if (props?.existingVpc) {
       this.vpc = props.existingVpc;
     } else {
-      this.vpc = vpc_helper.buildVpc(scope, {
-        defaultVpcProps: props?.vpcProps,
-        vpcName: 'sumAppSyncStepFnVpc',
-      });
-
+      this.vpc = new ec2.Vpc(this, 'Vpc', props.vpcProps);
       // vpc endpoints
       vpc_helper.AddAwsServiceEndpoint(scope, this.vpc, [vpc_helper.ServiceEndpointTypeEnum.S3,
-        vpc_helper.ServiceEndpointTypeEnum.BEDROCK_RUNTIME, vpc_helper.ServiceEndpointTypeEnum.REKOGNITION,
-        vpc_helper.ServiceEndpointTypeEnum.APP_SYNC]);
+        vpc_helper.ServiceEndpointTypeEnum.BEDROCK_RUNTIME, vpc_helper.ServiceEndpointTypeEnum.REKOGNITION]);
     }
 
     // Security group
@@ -303,6 +298,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
         encryption: s3.BucketEncryption.S3_MANAGED,
         enforceSSL: true,
         versioned: true,
+        removalPolicy: RemovalPolicy.DESTROY,
         lifecycleRules: [{
           expiration: Duration.days(90),
         }],
@@ -321,17 +317,15 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       this.inputAssetBucket = new s3.Bucket(this,
         'inputAssetsSummaryBucket' + this.stage, props.bucketInputsAssetsProps);
     } else {
-      const bucketName = generatePhysicalNameV2(this,
-        'input-assets-bucket' + this.stage,
-        { maxLength: 63, lower: true });
-      this.inputAssetBucket = new s3.Bucket(this, bucketName,
+
+      this.inputAssetBucket = new s3.Bucket(this, 'inputAssetsSummaryBucket' + this.stage,
         {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
-          bucketName: bucketName,
           serverAccessLogsBucket: serverAccessLogBucket,
           enforceSSL: true,
           versioned: true,
+          removalPolicy: RemovalPolicy.DESTROY,
           lifecycleRules: [{
             expiration: Duration.days(90),
           }],
@@ -350,18 +344,14 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       this.processedAssetBucket = new s3.Bucket(this,
         'processedAssetsSummaryBucket' + this.stage, props.bucketProcessedAssetsProps);
     } else {
-      const bucketName = generatePhysicalNameV2(this,
-        'processed-assets-bucket' + this.stage,
-        { maxLength: 63, lower: true });
-
-      this.processedAssetBucket = new s3.Bucket(this, bucketName,
+      this.processedAssetBucket = new s3.Bucket(this, 'processedAssetsSummaryBucket' + this.stage,
         {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
-          bucketName: bucketName,
           serverAccessLogsBucket: serverAccessLogBucket,
           enforceSSL: true,
           versioned: true,
+          removalPolicy: RemovalPolicy.DESTROY,
           lifecycleRules: [{
             expiration: Duration.days(90),
           }],
@@ -495,7 +485,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       description: 'Lambda function to validate input for summary api',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 1),
       timeout: Duration.minutes(5),
@@ -592,7 +582,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       functionName: 'summary_document_reader' + this.stage,
       description: 'Lambda function to read the input transformed document',
       vpc: this.vpc,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 1),
       tracing: this.lambdaTracing,
@@ -695,7 +685,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       description: 'Lambda function to generate the summary',
       code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-summarization-appsync-stepfn/summary_generator')),
       vpc: this.vpc,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(10),
@@ -809,9 +799,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
 
     const logGroupName = generatePhysicalNameV2(this, logGroupPrefix,
       { maxLength: maxGeneratedNameLength, lower: true });
-    const summarizationLogGroup = new logs.LogGroup(this, 'summarizationLogGroup', {
-      logGroupName: logGroupName,
-    });
+
 
     // step function definition
     const definition = inputValidationTask.next(
@@ -824,12 +812,11 @@ export class SummarizationAppsyncStepfn extends BaseClass {
     );
 
     // step function
-
     const summarizationStepFunction = new sfn.StateMachine(this, 'summarizationStepFunction', {
       definitionBody: sfn.DefinitionBody.fromChainable(definition),
       timeout: Duration.minutes(15),
       logs: {
-        destination: summarizationLogGroup,
+        destination: getLoggroup(this, logGroupName),
         level: sfn.LogLevel.ALL,
       },
       tracingEnabled: this.enablexray,
@@ -888,3 +875,17 @@ export class SummarizationAppsyncStepfn extends BaseClass {
   }
 }
 
+function getLoggroup(stack: Construct, logGroupName: string) {
+  const existingLogGroup = logs.LogGroup.fromLogGroupName(
+    stack, 'ExistingSummarizationLogGroup', logGroupName);
+
+  if (existingLogGroup.logGroupName) {
+    return existingLogGroup;
+  } else {
+    return new logs.LogGroup(stack, 'SummarizationLogGroup', {
+      logGroupName: logGroupName,
+      retention: logs.RetentionDays.ONE_MONTH,
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
+  }
+}

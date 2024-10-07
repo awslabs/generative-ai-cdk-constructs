@@ -13,7 +13,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/cdklabs.generative-ai-cdk-constructs)](https://pypi.org/project/cdklabs.generative-ai-cdk-constructs/)
 [![npm version](https://img.shields.io/npm/v/@cdklabs/generative-ai-cdk-constructs)](https://www.npmjs.com/package/@cdklabs/generative-ai-cdk-constructs)
 [![NuGet Version](https://img.shields.io/nuget/v/Cdklabs.GenerativeAiCdkConstructs)](https://nuget.info/packages/Cdklabs.GenerativeAiCdkConstructs)
-[![Maven Central Version](https://img.shields.io/maven-central/v/io.github.cdklabs/generative-ai-cdk-constructs)(https://central.sonatype.com/artifact/io.github.cdklabs/generative-ai-cdk-constructs)]
+[![Maven Central Version](https://img.shields.io/maven-central/v/io.github.cdklabs/generative-ai-cdk-constructs)](https://central.sonatype.com/artifact/io.github.cdklabs/generative-ai-cdk-constructs)
 [![Go Version](https://img.shields.io/github/v/tag/awslabs/generative-ai-cdk-constructs?label=go&color=orange)](https://pkg.go.dev/github.com/cdklabs/generative-ai-cdk-constructs-go/generative-ai-cdk-constructs)
 
 ## Table of contents
@@ -52,7 +52,8 @@ If you want to add a new construct to the library, check out our [design guideli
 
 ## Getting Started
 
-### For TypeScript
+<details>
+<summary><i>TypeScript</i></summary>
 
 - Create or use an existing CDK application in TypeScript.
   - `cdk init app --language typescript`
@@ -61,7 +62,10 @@ If you want to add a new construct to the library, check out our [design guideli
 - Import the library:
   - `import * as genai from '@cdklabs/generative-ai-cdk-constructs';`
 
-### For Python
+</details>
+
+<details>
+<summary><i>Python</i></summary>
 
 - Create or use an existing CDK application in Python
   - `cdk init app --language python`
@@ -70,7 +74,10 @@ If you want to add a new construct to the library, check out our [design guideli
 - Import the library:
   - `import cdklabs.generative_ai_cdk_constructs`
 
-### For NuGet
+</details>
+
+<details>
+<summary><i>NuGet</i></summary>
 
 - Create or use an existing CDK application in Python
   - `cdk init app --language csharp`
@@ -79,7 +86,11 @@ If you want to add a new construct to the library, check out our [design guideli
 - Use the namespace:
   - `using Cdklabs.GenerativeAiCdkConstructs;`
 
-### For Go
+</details>
+
+<details>
+<summary><i>Go</i></summary>
+
 - Create or use an existing CDK application in Python
   - `cdk init app --language go`
 - Get the module:
@@ -87,7 +98,26 @@ If you want to add a new construct to the library, check out our [design guideli
 - Import the library:
   - `import "github.com/cdklabs/generative-ai-cdk-constructs-go/generative-ai-cdk-constructs"`
 
+
 _NOTE: The [Go distribution repository](https://github.com/cdklabs/generative-ai-cdk-constructs-go), distributes the JSII tar gzipped versioned source from the [source repository](https://github.awslabs/generative-ai-cdk-constructs)_
+
+</details>
+
+<details>
+<summary><i>Java</i></summary>
+
+- Create or use an existing CDK application in Java
+  - cdk init app --language java
+- Add the dependency into the `pom.xml`
+```
+<dependency>
+    <groupId>io.github.cdklabs</groupId>
+    <artifactId>generative-ai-cdk-constructs</artifactId>
+    <version>Get the latest version and insert it here</version>
+</dependency>
+```
+
+</details>
 
 Refer to the documentation for additional guidance on a particular construct: [Catalog](#catalog)
 
@@ -106,7 +136,7 @@ The following constructs are available in the library:
 | [SageMaker model deployment (JumpStart)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_jumpstart.md) | Deploy a foundation model from Amazon SageMaker JumpStart to an Amazon SageMaker endpoint. | Amazon SageMaker |
 | [SageMaker model deployment (Hugging Face)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_hugging_face.md) | Deploy a foundation model from Hugging Face to an Amazon SageMaker endpoint. | Amazon SageMaker |
 | [SageMaker model deployment (Custom)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_custom_sagemaker_endpoint.md) | Deploy a foundation model from an S3 location to an Amazon SageMaker endpoint. | Amazon SageMaker |
-| [Content Generation](./src/patterns/gen-ai/aws-contentgen-appsync-lambda/README.md) | Generate images from text using Amazon titan-image-generator-v1 or stability.stable-diffusion-xl model.  | AWS Lambda, Amazon Bedrock, AWS AppSync |
+| [Content Generation](./src/patterns/gen-ai/aws-contentgen-appsync-lambda/README.md) | Generate images from text using Amazon titan-image-generator-v1 or stability.stable-diffusion-xl-v1 model.  | AWS Lambda, Amazon Bedrock, AWS AppSync |
 | [Web crawler](./src/patterns/gen-ai/aws-web-crawler/README.md) | Crawl websites and RSS feeds on a schedule and store changeset data in an Amazon Simple Storage Service bucket.  | AWS Lambda, AWS Batch, AWS Fargate, Amazon DynamoDB  |
 | [Amazon Bedrock Monitoring (Amazon CloudWatch Dashboard)](./src/patterns/gen-ai/aws-bedrock-cw-dashboard/README.md) | Amazon CloudWatch dashboard to monitor model usage from Amazon Bedrock. | Amazon CloudWatch |
 

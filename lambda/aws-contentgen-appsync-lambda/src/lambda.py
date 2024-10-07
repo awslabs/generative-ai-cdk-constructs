@@ -20,7 +20,7 @@ from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_lambda_powertools.metrics import MetricUnit
 from aws_lambda_powertools.utilities.validation import validate, SchemaValidationError
-
+from util  import MODEL_NAME
 
 
 logger = Logger(service="CONTENT_GENERATION")
@@ -88,9 +88,9 @@ def handler(event,  context: LambdaContext) -> dict:
             num_of_images=0 #if multiple image geneated iterate through all
             for image in parsed_reponse['image_generated']:
                 logger.info(f'num_of_images {num_of_images}')
-                if model_id=='stability.stable-diffusion-xl' :
+                if model_id==MODEL_NAME.STABILITY_DIFFUSION :
                     imgbase64encoded= parsed_reponse['image_generated'][num_of_images]["base64"]
-                if model_id=='amazon.titan-image-generator-v1' :
+                if model_id==MODEL_NAME.TITAN_IMAGE :
                     imgbase64encoded= parsed_reponse['image_generated'][num_of_images]
                 imageGenerated=img.upload_file_to_s3(imgbase64encoded,file_name)
                 num_of_images=+1
@@ -127,14 +127,14 @@ def parse_response(query_response,model_id):
     else:
         response_dict = json.loads(query_response["body"].read())
 
-        if model_id=='stability.stable-diffusion-xl' :
+        if model_id==MODEL_NAME.STABILITY_DIFFUSION :
 
             if(response_dict['artifacts'] is None):
                 parsed_reponse['image_generated_status']='Failed'
             else:
                  parsed_reponse['image_generated']=response_dict['artifacts']
 
-        if model_id=='amazon.titan-image-generator-v1' :
+        if model_id==MODEL_NAME.TITAN_IMAGE :
             if(response_dict['images'] is None):
                 parsed_reponse['image_generated_status']='Failed'
             else:
@@ -142,5 +142,4 @@ def parse_response(query_response,model_id):
                 parsed_reponse['image_generated']=response_dict['images']
 
         return parsed_reponse
-
 

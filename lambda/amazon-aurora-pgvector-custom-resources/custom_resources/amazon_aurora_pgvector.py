@@ -1,24 +1,27 @@
+#
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+# with the License. A copy of the License is located at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+# OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+# and limitations under the License.
+#
+
 import logging
 import os
-import sys
 import json
 import boto3
-import psycopg2
+import pg8000
 
 from botocore.exceptions import ClientError
 
 from custom_resources.cr_types import CustomResourceRequest, CustomResourceResponse
 
 from typing import TypedDict
-
-# Set the LD_LIBRARY_PATH to include the /opt/lib directory
-# if os.environ.get('AWS_EXECUTION_ENV'):
-#     os.environ['LD_LIBRARY_PATH'] = '/opt/lib'
-#     try:
-#         import psycopg2
-#         # Your code that uses psycopg2
-#     except ImportError:
-#         sys.exit('Unable to import module: %s' % 'psycopg2')
 
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
@@ -30,7 +33,13 @@ logger.setLevel(LOG_LEVEL)
 class DatabaseProperties(TypedDict):
     Host: str
     DatabaseName: str
-    Port: int
+    TableName: str
+    VectorDimensions: int
+    PrimaryKeyField: str
+    SchemaName: str
+    VectorField: str
+    TextField: str
+    MetadataField: str
     SecretName: str
 
 
@@ -51,49 +60,53 @@ def get_secret(secret_name: str) -> dict:
 
 def connect_to_database(secret: dict):
     try:
-        conn = psycopg2.connect(
+        conn = pg8000.connect(
             host=secret['host'],
             port=secret['port'],
-            dbname=secret['dbname'],
+            database=secret['dbname'],
             user=secret['username'],
             password=secret['password']
         )
         return conn
-    except psycopg2.OperationalError as e:
+    except pg8000.OperationalError as e:
         raise Exception("Couldn't connect to the database.") from e
 
 
 def execute_sql_commands(
-    conn: psycopg2.extensions.connection,
+    conn: pg8000.Connection,
     password: str,
-    vector_dimensions: int
+    vector_dimensions: int,
+    table_name: str,
+    pk_field: str,
+    schema_name: str,
+    vector_field: str,
+    text_field: str,
+    metadata_field: str,
 ):
     try:
         with conn.cursor() as cur:
-            cur.execute("CREATE EXTENSION IF NOT EXISTS vector;")
-            cur.execute("CREATE SCHEMA bedrock_integration;")
-            cur.execute(
-                f"CREATE ROLE bedrock_user "
-                "WITH PASSWORD '{password}' LOGIN;"
-            )
-            cur.execute(
-                "GRANT ALL ON SCHEMA "
-                "bedrock_integration to bedrock_user;"
-            )
-            cur.execute(
-                "CREATE TABLE bedrock_integration.bedrock_kb ("
-                "id uuid PRIMARY KEY, "
-                f"bedrock_knowledge_base_default_vector vector({vector_dimensions}), "
-                "amazon_bedrock_text_chunk text, "
-                "amazon_bedrock_metadata json);"
-            )
-            cur.execute(
-                "CREATE INDEX on bedrock_integration.bedrock_kb "
-                "USING hnsw (bedrock_knowledge_base_default_vector vector_cosine_ops);"
-            )
+
+            sql_commands = [
+                "CREATE EXTENSION IF NOT EXISTS vector;",
+                f"CREATE SCHEMA {schema_name};",
+                f"CREATE ROLE bedrock_user WITH PASSWORD '{password}' LOGIN;",
+                f"GRANT ALL ON SCHEMA {schema_name} to bedrock_user;",
+                f"CREATE TABLE {schema_name}.{table_name} ("
+                f"{pk_field} uuid PRIMARY KEY, "
+                f"{vector_field} vector({vector_dimensions}), "
+                f"{text_field} text, "
+                f"{metadata_field} json);",
+                f"CREATE INDEX on {schema_name}.{table_name} "
+                f"USING hnsw ({vector_field} vector_cosine_ops);"
+            ]
+
+            for command in sql_commands:
+                logger.info(f"Executing SQL command: {command}")
+                cur.execute(command)
         conn.commit()
-    except psycopg2.Error as e:
-        raise Exception("Couldn't execute SQL commands.") from e
+    except pg8000.ProgrammingError as e:
+        error_message = f"Error executing SQL commands: {e}"
+        raise Exception(f"{error_message}") from e
     finally:
         conn.close()
 
@@ -104,15 +117,31 @@ def on_create(
     secret_name = event["ResourceProperties"]["SecretName"]
     db_name = event["ResourceProperties"]["DatabaseName"]
     vector_dimensions = event["ResourceProperties"]["VectorDimensions"]
+    table_name = event["ResourceProperties"]["TableName"]
+    primary_key_field = event["ResourceProperties"]["PrimaryKeyField"]
+    schema_name = event["ResourceProperties"]["SchemaName"]
+    vector_field = event["ResourceProperties"]["VectorField"]
+    text_field = event["ResourceProperties"]["TextField"]
+    metadata_field = event["ResourceProperties"]["MetadataField"]
 
     secret = get_secret(secret_name)
     conn = connect_to_database(secret)
-    execute_sql_commands(conn, secret['password'], vector_dimensions)
+    execute_sql_commands(
+        conn=conn, 
+        password=secret['password'], 
+        vector_dimensions=vector_dimensions,
+        table_name=table_name,
+        pk_field=primary_key_field,
+        schema_name=schema_name,
+        vector_field=vector_field,
+        text_field=text_field,
+        metadata_field=metadata_field,
+    )
 
     return {
         "PhysicalResourceId": f"{secret_name}-{db_name}",
         "Data": {
-            "Message": "Database setup completed successfully"
+            "Message": "Database setup completed successfully."
         }
     }
 
@@ -120,7 +149,7 @@ def on_create(
 def on_update(
     _event: CustomResourceRequest[DatabaseProperties],
 ) -> CustomResourceResponse:
-    raise ValueError("Update not supported")
+    raise ValueError("Update is not supported.")
 
 
 def on_delete(
@@ -129,7 +158,7 @@ def on_delete(
     return {
         "PhysicalResourceId": _event["PhysicalResourceId"],
         "Data": {
-            "Message": "Deletion is not needed. Ignoring."
+            "Message": "Deletion is completed."
         }
     }
 

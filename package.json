@@ -65,7 +65,7 @@
     "eslint": "^8",
     "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-plugin-header": "^3.1.1",
-    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-import": "^2.31.0",
     "husky": "^8.0.3",
     "jest": "^29.7.0",
     "jest-junit": "^15",
@@ -78,7 +78,7 @@
     "standard-version": "^9",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
-    "typedoc": "^0.26.7",
+    "typedoc": "^0.26.8",
     "typedoc-plugin-markdown": "^4.2.9",
     "typescript": "^5.6.2"
   },
@@ -87,7 +87,7 @@
     "constructs": "^10.3.0"
   },
   "dependencies": {
-    "cdk-nag": "^2.28.195",
+    "cdk-nag": "^2.28.196",
     "deepmerge": "^4.3.1"
   },
   "bundledDependencies": [

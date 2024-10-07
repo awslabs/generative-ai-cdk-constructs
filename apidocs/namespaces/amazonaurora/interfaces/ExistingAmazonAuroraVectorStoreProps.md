@@ -2,11 +2,14 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [amazonaurora](../README.md) / AmazonAuroraVectorStoreProps
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [amazonaurora](../README.md) / ExistingAmazonAuroraVectorStoreProps
 
-# Interface: AmazonAuroraVectorStoreProps
+# Interface: ExistingAmazonAuroraVectorStoreProps
 
-Properties for configuring an Amazon Aurora Vector Store.
+Properties for an existing Aurora Vector Store.
+You database must have TCP/IP port that the
+database will use for application connections
+set up for `5432`.
 
 ## Extends
 
@@ -14,9 +17,27 @@ Properties for configuring an Amazon Aurora Vector Store.
 
 ## Properties
 
-### databaseName?
+### auroraSecurityGroupId
 
-> `readonly` `optional` **databaseName**: `string`
+> `readonly` **auroraSecurityGroupId**: `string`
+
+The id of the security group associated with the RDS Aurora instance.
+This security group allows access to the Aurora Vector Store from Lambda's
+custom resource running pgVector SQL commands.
+
+***
+
+### clusterIdentifier
+
+> `readonly` **clusterIdentifier**: `string`
+
+The unique cluster identifier of your Aurora RDS cluster.
+
+***
+
+### databaseName
+
+> `readonly` **databaseName**: `string`
 
 The name of the database for the Aurora Vector Store.
 
@@ -48,15 +69,6 @@ The field name for the metadata column in the Aurora Vector Store.
 
 ***
 
-### postgreSQLVersion?
-
-> `readonly` `optional` **postgreSQLVersion**: `AuroraPostgresEngineVersion`
-
-The version of PostgreSQL to use for the Aurora Vector Store.
-By default, the latest supported version will be used.
-
-***
-
 ### primaryKeyField?
 
 > `readonly` `optional` **primaryKeyField**: `string`
@@ -78,6 +90,16 @@ The schema name for the Aurora Vector Store.
 #### Inherited from
 
 [`BaseAuroraVectorStoreProps`](BaseAuroraVectorStoreProps.md).[`schemaName`](BaseAuroraVectorStoreProps.md#schemaname)
+
+***
+
+### secret
+
+> `readonly` **secret**: `ISecret`
+
+The secret containing the database credentials.
+The secret must contain `host`, `port`, `username`,
+`password` and `dbname` values.
 
 ***
 
@@ -117,8 +139,8 @@ The field name for the vector column in the Aurora Vector Store.
 
 ***
 
-### vpc?
+### vpc
 
-> `readonly` `optional` **vpc**: `IVpc`
+> `readonly` **vpc**: `IVpc`
 
-User's VPC in which they want to deploy Aurora Database.
+The VPC in which the existing Aurora Vector Store is located.
