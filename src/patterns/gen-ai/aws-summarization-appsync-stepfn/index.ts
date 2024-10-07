@@ -799,11 +799,12 @@ export class SummarizationAppsyncStepfn extends BaseClass {
 
     const logGroupName = generatePhysicalNameV2(this, logGroupPrefix,
       { maxLength: maxGeneratedNameLength, lower: true });
-
+    
     const summarizationLogGroup = new logs.LogGroup(this, 'summarizationLogGroup', {
       logGroupName: logGroupName,
       removalPolicy: RemovalPolicy.DESTROY,
       retention: logs.RetentionDays.ONE_WEEK,
+
     });
 
     // step function definition
@@ -879,4 +880,3 @@ export class SummarizationAppsyncStepfn extends BaseClass {
 
   }
 }
-
