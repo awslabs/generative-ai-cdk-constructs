@@ -43,7 +43,7 @@ The workflow is as follows:
 
 3. Lambda function first implement text moderation using Amazon Comprehend to check for inappropriate content.
 
-4. The functions then generate an image from the text using Amazon Bedrock with the stability.stable-diffusion-xl/amazon.titan-image-generator-v1 model.
+4. The functions then generate an image from the text using Amazon Bedrock with the stability.stable-diffusion-xl-v1/amazon.titan-image-generator-v1 model.
 
 5. Next, image moderation is performed using Amazon Rekognition to further ensure appropriateness.
 
@@ -52,7 +52,7 @@ The workflow is as follows:
 
 This construct builds a Lambda function from a Docker image, thus you need [Docker desktop](https://www.docker.com/products/docker-desktop/) running on your machine.
 
-Make sure the model (stability.stable-diffusion-xl/amazon.titan-image-generator-v1) is enabled in your account. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
+Make sure the model (stability.stable-diffusion-xl-v1/amazon.titan-image-generator-v1) is enabled in your account. Please follow the [Amazon Bedrock User Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/model-access.html) for steps related to enabling model access.
 
 AWS Lambda functions provisioned in this construct use [Powertools for AWS Lambda (Python)](https://github.com/aws-powertools/powertools-lambda-python) for tracing, structured logging and custom metrics creation.
 
@@ -214,7 +214,7 @@ Expected response: It invoke an asynchronous summarization process thus the resp
 Where:
 - job_id: id which can be used to filter subscriptions on client side.
 - status: this field will be used by the subscription to update the status of the image generation process.
-- model_config: configure model id amazon.titan-image-generator-v1/stability.stable-diffusion-xl.
+- model_config: configure model id amazon.titan-image-generator-v1/stability.stable-diffusion-xl-v1.
 - model_kwargs: Image generation model driver for Stable Diffusion models and Amazon Titan generator on Amazon Bedrock.
 
 

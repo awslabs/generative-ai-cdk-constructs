@@ -56,11 +56,17 @@ describe('Summarization Appsync Stepfn construct', () => {
             cidrMask: 24,
           },
           {
-            name: 'private',
+            name: 'isolated',
             subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
             cidrMask: 24,
           },
+          {
+            name: 'private',
+            subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+            cidrMask: 24,
+          },
         ],
+        natGateways: 1,
       },
     );
     const mergedapiRole = new iam.Role(
@@ -129,9 +135,9 @@ describe('Summarization Appsync Stepfn construct', () => {
               'GraphQLUrl',
             ],
           },
-          INPUT_ASSET_BUCKET: { Ref: Match.stringLikeRegexp('testinputassetsbucket') },
+          INPUT_ASSET_BUCKET: { Ref: Match.stringLikeRegexp('testinputAssetsSummaryBucket') },
           IS_FILE_TRANSFORMED: 'false',
-          TRANSFORMED_ASSET_BUCKET: { Ref: Match.stringLikeRegexp('testprocessedassetsbucket') },
+          TRANSFORMED_ASSET_BUCKET: { Ref: Match.stringLikeRegexp('testprocessedAssetsSummaryBucket') },
         },
       },
     });
@@ -142,7 +148,7 @@ describe('Summarization Appsync Stepfn construct', () => {
         Variables: {
           ASSET_BUCKET_NAME: {
             Ref: Match.stringLikeRegexp
-            ('testprocessedassetsbucket'),
+            ('testprocessedAssetsSummaryBucket'),
           },
           GRAPHQL_URL: {
             'Fn::GetAtt': [
