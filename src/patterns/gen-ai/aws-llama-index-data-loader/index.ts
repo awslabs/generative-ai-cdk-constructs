@@ -91,18 +91,9 @@ export class LlamaIndexDataLoader extends BaseClass {
     this.addObservabilityToConstruct(baseProps);
 
     // Update the optional properties to their defaults
-    this.dockerImageAssetDirectory = props.dockerImageAssetDirectory ??
-      join(
-        __dirname,
-        '..',
-        '..',
-        '..',
-        '..',
-        'resources',
-        'gen-ai',
-        'aws-llama-index-data-loader',
-        'docker',
-      );
+    this.dockerImageAssetDirectory = props.dockerImageAssetDirectory ?? join(
+      __dirname, '..', '..', '..', '..', 'resources', 'gen-ai', 'aws-llama-index-data-loader', 'docker',
+    );
     this.memoryLimitMiB = props.memoryLimitMiB ?? 2048;
     this.containerLoggingLevel = props.containerLoggingLevel ?? 'WARNING';
 
