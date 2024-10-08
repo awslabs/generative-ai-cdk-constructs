@@ -24,15 +24,21 @@ the container's logging level
 
 ***
 
-### dockerImageAssetDirectory
+### dockerImageAssetDirectory?
 
-> `readonly` **dockerImageAssetDirectory**: `string`
+> `readonly` `optional` **dockerImageAssetDirectory**: `string`
 
 The directory to build the Docker image
 
 #### Description
 
 The directory to build the Docker image.
+
+#### Default
+
+```ts
+__dirname + '/docker'
+```
 
 ***
 

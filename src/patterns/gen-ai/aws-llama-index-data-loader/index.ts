@@ -10,7 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import{ join } from 'node:path';
+import { join } from 'node:path';
 import { Duration, RemovalPolicy, Stack } from 'aws-cdk-lib';
 import { FlowLogDestination } from 'aws-cdk-lib/aws-ec2';
 import { DockerImageAsset } from 'aws-cdk-lib/aws-ecr-assets';
