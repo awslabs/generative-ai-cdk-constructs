@@ -10,6 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+import{ join } from 'node:path';
 import { Duration, RemovalPolicy, Stack } from 'aws-cdk-lib';
 import { FlowLogDestination } from 'aws-cdk-lib/aws-ec2';
 import { DockerImageAsset } from 'aws-cdk-lib/aws-ecr-assets';
@@ -31,21 +32,22 @@ export interface LlamaIndexDataLoaderProps {
   /**
    * The directory to build the Docker image
    * @description The directory to build the Docker image.
+   * @default __dirname + '/docker'
    */
-  readonly dockerImageAssetDirectory: string;
+  readonly dockerImageAssetDirectory?: string;
 
   /**
    * The default memory
    * @description The default memory.
    * @default 2048
    */
-  readonly memoryLimitMiB: number;
+  readonly memoryLimitMiB?: number | undefined;
 
   /**
    * @description the container's logging level
    * @default 'WARNING'
    */
-  readonly containerLoggingLevel: string;
+  readonly containerLoggingLevel?: string;
 
   /**
    * Value will be appended to resources name.
@@ -71,6 +73,10 @@ export class LlamaIndexDataLoader extends BaseClass {
   public readonly ssmParameter: StringParameter;
   public readonly outputBucket: Bucket;
 
+  private readonly dockerImageAssetDirectory: string;
+  private readonly memoryLimitMiB: number;
+  private readonly containerLoggingLevel: string;
+
   constructor(scope: Construct, id: string, props: LlamaIndexDataLoaderProps) {
     super(scope, id);
 
@@ -84,6 +90,21 @@ export class LlamaIndexDataLoader extends BaseClass {
     this.updateEnvSuffix(baseProps);
     this.addObservabilityToConstruct(baseProps);
 
+    // Update the optional properties to their defaults
+    this.dockerImageAssetDirectory = props.dockerImageAssetDirectory ??
+      join(
+        __dirname,
+        '..',
+        '..',
+        '..',
+        '..',
+        'resources',
+        'gen-ai',
+        'aws-llama-index-data-loader',
+        'docker',
+      );
+    this.memoryLimitMiB = props.memoryLimitMiB ?? 2048;
+    this.containerLoggingLevel = props.containerLoggingLevel ?? 'WARNING';
 
     const bucketKey = new Key(this, 'LogBucketKey', {
       enableKeyRotation: true,
@@ -199,7 +220,10 @@ export class LlamaIndexDataLoader extends BaseClass {
     this.outputBucket = outputBucket;
 
     const asset = new DockerImageAsset(this, 'Image', {
-      directory: props.dockerImageAssetDirectory,
+      directory: this.dockerImageAssetDirectory,
+      buildArgs: {
+        PYTHON_TAG: '3.12-nonexistant',
+      },
     });
 
     const cluster = new Cluster(this, 'Cluster', {
@@ -207,7 +231,7 @@ export class LlamaIndexDataLoader extends BaseClass {
     });
     const queueProcessingFargateService = new QueueProcessingFargateService(this, 'Service', {
       cluster: cluster,
-      memoryLimitMiB: props.memoryLimitMiB,
+      memoryLimitMiB: this.memoryLimitMiB,
       queue: queue,
       image: ContainerImage.fromDockerImageAsset(asset),
       healthCheck: {
@@ -220,7 +244,7 @@ export class LlamaIndexDataLoader extends BaseClass {
       enableLogging: true,
       environment: {
         CIRCUIT_BREAKER_SSM_PARAMETER_NAME: circuitBreakerParameter.parameterName,
-        LOGGING_LEVEL: props.containerLoggingLevel,
+        LOGGING_LEVEL: this.containerLoggingLevel,
         BUCKET_NAME: outputBucket.bucketName,
       },
       minScalingCapacity: 0,
