@@ -13,7 +13,7 @@
 import { join } from 'node:path';
 import { Duration, RemovalPolicy, Stack } from 'aws-cdk-lib';
 import { FlowLogDestination } from 'aws-cdk-lib/aws-ec2';
-import { DockerImageAsset } from 'aws-cdk-lib/aws-ecr-assets';
+import { DockerImageAsset, Platform } from 'aws-cdk-lib/aws-ecr-assets';
 import { Cluster, ContainerImage } from 'aws-cdk-lib/aws-ecs';
 import { QueueProcessingFargateService } from 'aws-cdk-lib/aws-ecs-patterns';
 import { Effect, PolicyStatement, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
@@ -222,8 +222,9 @@ export class LlamaIndexDataLoader extends BaseClass {
     const asset = new DockerImageAsset(this, 'Image', {
       directory: this.dockerImageAssetDirectory,
       buildArgs: {
-        PYTHON_TAG: '3.12-nonexistant',
+        // PYTHON_TAG: 'latest',
       },
+      platform: Platform.LINUX_AMD64,
     });
 
     const cluster = new Cluster(this, 'Cluster', {
