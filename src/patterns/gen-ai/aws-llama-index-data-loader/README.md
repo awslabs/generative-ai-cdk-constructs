@@ -25,6 +25,7 @@
   - [Pattern Properties](#pattern-properties)
   - [Methods](#methods)
   - [Default properties](#default-properties)
+  - [Architecture](#architecture)
   - [Cost](#cost)
   - [Security](#security)
   - [Supported AWS Regions](#supported-aws-regions)
@@ -96,6 +97,10 @@ Out-of-the-box implementation of the construct without any override will set the
 ### Memory
 
 TBD
+
+## Architecture
+
+![Architecture Diagram](architecture.png)
 
 ## Cost
 
