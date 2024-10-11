@@ -97,8 +97,6 @@ bedrock.S3DataSource(self, 'DataSource',
     knowledge_base=kb,
     data_source_name='books',
     chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
-    max_tokens=500,
-    overlap_percentage=20
 )
 
 ```
@@ -226,8 +224,6 @@ new bedrock.S3DataSource(this, "DataSource", {
   knowledgeBase: kb,
   dataSourceName: "books",
   chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
-  maxTokens: 500,
-  overlapPercentage: 20,
 });
 ```
 
@@ -287,9 +283,7 @@ bedrock.S3DataSource(self, 'DataSource',
     bucket= docBucket,
     knowledge_base=kb,
     data_source_name='books',
-    chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
-    max_tokens=500,
-    overlap_percentage=20   
+    chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,   
 )
 ```
 
@@ -323,8 +317,6 @@ new bedrock.S3DataSource(this, "DataSource", {
   knowledgeBase: kb,
   dataSourceName: "books",
   chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
-  maxTokens: 500,
-  overlapPercentage: 20,
 });
 ```
 
@@ -361,8 +353,6 @@ bedrock.S3DataSource(self, 'DataSource',
     knowledge_base=kb,
     data_source_name='books',
     chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
-    max_tokens=500,
-    overlap_percentage=20   
 )
 ```
 
@@ -482,11 +472,130 @@ kb.addSharePointDataSource({
 });
 ```
 
+Python
+
+```python
+from aws_cdk import (
+    Stack,
+    aws_s3 as s3,
+    aws_lambda as _lambda,
+    aws_secretsmanager as secretsmanager,
+    aws_kms as kms
+)
+from constructs import Construct
+from cdklabs.generative_ai_cdk_constructs import (
+    bedrock
+)
+
+class PythonTestStack(Stack):
+
+    def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
+        super().__init__(scope, construct_id, **kwargs)
+
+        kb = bedrock.KnowledgeBase(self, 'MyKnowledgeBase',
+                    embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,                 
+                )
+
+        docBucket = s3.Bucket(self, 'Bucket')
+
+        function = _lambda.Function(self, 'MyFunction',
+            runtime=_lambda.Runtime.PYTHON_3_12,
+            handler='index.handler',
+            code=_lambda.Code.from_inline('print("Hello, World!")'),
+        )
+
+        kb.add_web_crawler_data_source(
+            source_urls= ['https://docs.aws.amazon.com/'],
+            chunking_strategy= bedrock.ChunkingStrategy.HIERARCHICAL_COHERE,
+            custom_transformation= bedrock.CustomTransformation.lambda_(
+                lambda_function= function,
+                s3_bucket_uri= f's3://{docBucket.bucket_name}/chunk-processor/'
+            )
+        )
+
+        kb.add_s3_data_source(
+            bucket= docBucket,
+            chunking_strategy= bedrock.ChunkingStrategy.SEMANTIC,
+            parsing_strategy= bedrock.ParsingStategy.foundation_model(
+                parsing_model= bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0.as_i_model(self)
+            )
+        )
+
+        secret = secretsmanager.Secret(self, 'Secret')
+        key = kms.Key(self, 'Key')
+
+        kb.add_confluence_data_source(
+            data_source_name='TestDataSource',
+            auth_secret=secret,
+            kms_key=key,
+            confluence_url='https://example.atlassian.net',
+            filters=[
+                bedrock.ConfluenceCrawlingFilters(
+                    object_type=bedrock.ConfluenceObjectType.ATTACHMENT,
+                    include_patterns= [".*\\.pdf"],
+                    exclude_patterns= [".*private.*\\.pdf"],
+                ),
+                bedrock.ConfluenceCrawlingFilters(
+                    object_type=bedrock.ConfluenceObjectType.PAGE,
+                    include_patterns= [".*public.*\\.pdf"],
+                    exclude_patterns= [".*confidential.*\\.pdf"],
+                ),
+            ]
+        )
+
+        kb.add_salesforce_data_source(
+            auth_secret=secret,
+            endpoint='https://your-instance.my.salesforce.com',
+            kms_key=key,
+            filters=[
+                bedrock.SalesforceCrawlingFilters(
+                    object_type=bedrock.SalesforceObjectType.ATTACHMENT,
+                    include_patterns= [".*\\.pdf"],
+                    exclude_patterns= [".*private.*\\.pdf"],
+                ),
+                bedrock.SalesforceCrawlingFilters(
+                    object_type=bedrock.SalesforceObjectType.CONTRACT,
+                    include_patterns= [".*public.*\\.pdf"],
+                    exclude_patterns= [".*confidential.*\\.pdf"],
+                ),
+            ]
+        )
+
+        kb.add_share_point_data_source(
+            data_source_name='SharepointDataSource',
+            auth_secret=secret,
+            kms_key=key,
+            domain='yourDomain',
+            site_urls= ['https://yourdomain.sharepoint.com/sites/mysite'],
+            tenant_id='888d0b57-69f1-4fb8-957f-e1f0bedf64de',
+            filters=[
+                bedrock.SharePointCrawlingFilters(
+                    object_type=bedrock.SharePointObjectType.PAGE,
+                    include_patterns= [".*\\.pdf"],
+                    exclude_patterns= [".*private.*\\.pdf"],
+                ),
+                bedrock.SharePointCrawlingFilters(
+                    object_type=bedrock.SharePointObjectType.FILE,
+                    include_patterns= [".*public.*\\.pdf"],
+                    exclude_patterns= [".*confidential.*\\.pdf"],
+                ),
+            ]
+        )
+
+```
+
 #### Knowledge Base - Chunking Strategies
 
 - **Default Chunking**: Applies Fixed Chunking with the default chunk size of 300 tokens and 20% overlap.
 
+  TypeScript
   ```ts
+  ChunkingStrategy.DEFAULT;
+  ```
+
+  Python
+
+  ```python
   ChunkingStrategy.DEFAULT;
   ```
 
@@ -495,6 +604,7 @@ kb.addSharePointDataSource({
   in size and structure.
   Typescript
 
+  TypeScript
   ```ts
   // Fixed Size Chunking with sane defaults.
   ChunkingStrategy.FIXED_SIZE;
@@ -503,10 +613,24 @@ kb.addSharePointDataSource({
   ChunkingStrategy.fixedSize({ maxTokens: 200, overlapPercentage: 25 });
   ```
 
+  Python
+
+  ```python
+  # Fixed Size Chunking with sane defaults.
+  ChunkingStrategy.FIXED_SIZE;
+
+  # Fixed Size Chunking with custom values.
+  ChunkingStrategy.fixed_size(
+    max_tokens= 200,
+    overlap_percentage= 25
+  )
+  ```
+
 - **Hierarchical Chunking**: This strategy organizes data into layers of chunks, with the first
   layer containing large chunks and the second layer containing smaller chunks derived from the first.
   It is ideal for data with inherent hierarchies or nested structures.
 
+  TypeScript
   ```ts
   // Hierarchical Chunking with the default for Cohere Models.
   ChunkingStrategy.HIERARCHICAL_COHERE;
@@ -523,10 +647,29 @@ kb.addSharePointDataSource({
   });
   ```
 
+    Python
+
+  ```python
+  # Hierarchical Chunking with the default for Cohere Models.
+  ChunkingStrategy.HIERARCHICAL_COHERE
+
+  # Hierarchical Chunking with the default for Titan Models.
+  ChunkingStrategy.HIERARCHICAL_TITAN
+
+  # Hierarchical Chunking with custom values. Tthe maximum chunk size depends on the model.
+  # Amazon Titan Text Embeddings: 8192. Cohere Embed models: 512
+  chunking_strategy= ChunkingStrategy.hierarchical(
+      overlap_tokens=60,
+      max_parent_token_size=1500,
+      max_child_token_size=300
+  )
+  ```
+
 - **Semantic Chunking**: This method splits data into smaller documents based on groups of similar
   content derived from the text using natural language processing. It helps preserve contextual
   relationships and ensures accurate and contextually appropriate results.
 
+  TypeScript
   ```ts
   // Semantic Chunking with sane defaults.
   ChunkingStrategy.SEMANTIC;
@@ -535,10 +678,31 @@ kb.addSharePointDataSource({
   ChunkingStrategy.semantic({ bufferSize: 0, breakpointPercentileThreshold: 95, maxTokens: 300 });
   ```
 
+  Python
+
+  ```python
+  # Semantic Chunking with sane defaults.
+  ChunkingStrategy.SEMANTIC
+
+  # Semantic Chunking with custom values.
+  ChunkingStrategy.semantic(
+    buffer_size=0,
+    breakpoint_percentile_threshold=95,
+    max_tokens=300
+  )
+  ```
+
 - **No Chunking**: This strategy treats each file as one chunk. If you choose this option,
   you may want to pre-process your documents by splitting them into separate files.
 
+  TypeScript
   ```ts
+  ChunkingStrategy.NONE;
+  ```
+
+  Python
+
+  ```python
   ChunkingStrategy.NONE;
   ```
 
@@ -557,10 +721,19 @@ two parsing strategies:
   the contents of the document. It is particularly useful for improved processing of PDF files
   with tables and images. To use this strategy, set the `parsingStrategy` in a data source as below.
 
+  TypeScript
   ```ts
   bedrock.ParsingStategy.foundationModel({
     model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asIModel(stack),
   });
+  ```
+
+  Python
+
+  ```python
+  bedrock.ParsingStategy.foundation_model(
+      parsing_model=BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.as_i_model(self)
+  )
   ```
 
 #### Knowledge Base - Custom Transformation
@@ -572,11 +745,20 @@ Custom Transformation uses AWS Lambda functions to process documents, enabling y
 perform custom operations such as data extraction, normalization, or enrichment. To
 create a custom transformation, set the `customTransformation` in a data source as below.
 
-```ts
+TypeScript
+  ```ts
 CustomTransformation.lambda({
   lambdaFunction: lambdaFunction,
   s3BucketUri: `s3://${bucket.bucketName}/chunk-processor/`,
 }),
+```
+
+Python
+  ```python
+  CustomTransformation.lambda_(
+    lambda_function= function,
+    s3_bucket_uri= f's3://{docBucket.bucket_name}/chunk-processor/'
+  )
 ```
 
 ## Agents
