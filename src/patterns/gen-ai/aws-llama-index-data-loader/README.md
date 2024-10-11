@@ -62,7 +62,7 @@ data_loader = LlamaIndexDataLoader(self, 'LlamaIndexDataLoader', )
 
 ## Initializer
 
-```
+```typescript
 new LlamaIndexDataLoader(scope: Construct, id: string, props: LlamaIndexDataLoaderProps)
 ```
 
@@ -74,18 +74,20 @@ Parameters
 
 ## Pattern Construct Props
 
-
 | **Name**                               | **Type**                                                                                                                                               | **Required**                                              | **Description**                                                                                                                                                                                                                                                                                                                                                                                               |
 | :--------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| existingDashboard               | [aws_cloudwatch.Dashboard](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cloudwatch.Dashboard.html)                                | ![Optional](https://img.shields.io/badge/optional-4169E1) | Existing dashboard to be used by the construct. **Mutually exclusive** with ```dashboardName``` - only one should be specified.                                                                                                                                                                                                                                                           |
-| dashboardName | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | A name for the dashboard which will be created. If not provided, the construct will create a new dashboard named 'AossMetricsDashboard'. **Mutually exclusive** with ```existingDashboard``` - only one should be specified.                                                                                                                                                                                                                                                            |
+| dockerImageAssetDirectory               | string                                | ![Optional](https://img.shields.io/badge/optional-4169E1) | A path to a directory to build a [DockerImageAsset](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ecr_assets.DockerImageAsset.html). |
+| memoryLimitMiB | number | ![Optional](https://img.shields.io/badge/optional-4169E1) | The memory configuration for the container, should be a valid `Memory` defined [AWS::ECS::TaskDefinition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-ecs-taskdefinition.html#cfn-ecs-taskdefinition-memory) |
+| containerLoggingLevel | string | ![Optional](https://img.shields.io/badge/optional-4169E1) | The [python logging level](https://docs.python.org/3/library/logging.html#levels) for the ECS tasks |
+| outputBucket | [Bucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | The output bucket. _If not passed in one will be created automatically_ |
+| vpc | [IVpc](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ec2.IVpc.html) | ![Optional](https://img.shields.io/badge/optional-4169E1) | The VPC to use. _If not passed in, the [QueueProcessingFargateService](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ecs_patterns.QueueProcessingFargateService.html) automatically created one will be used_ |
 
 ## Pattern Properties
 
 | **Name**                     | **Type**                                                                                                                  | **Description**                                                                                                                                                                |
 | :----------------------------- | :-------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| dashboard                          | [aws_cloudwatch.Dashboard](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cloudwatch.Dashboard.html)                                     | The CloudWatch Dashboard used by the construct (whether created by the construct or provided by the client)                                                                                     |
-
+| outputBucket                          | [Bucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html)                                      | The S3 Bucket for the output.  |
+| queueProcessingFargateService | [QueueProcessingFargateService](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ecs_patterns.QueueProcessingFargateService.html) | The ECS Fargate and components assocated with the ECS pattern.
 ## Methods
 
 N/A
@@ -94,9 +96,17 @@ N/A
 
 Out-of-the-box implementation of the construct without any override will set the following defaults:
 
-### Memory
+### DockerImageAssetDirectory
 
-TBD
+This repositories source [default path](https://github.com/awslabs/generative-ai-cdk-constructs/tree/main/resources/gen-ai/aws-llama-index-data-loader/docker)
+
+### MemoryLimitMiB
+
+2048
+
+### ContainerLoggingLevel
+
+'WARNING'
 
 ## Architecture
 
@@ -114,8 +124,7 @@ When you build systems on AWS infrastructure, security responsibilities are shar
 
 Optionnaly, you can provide existing resources to the constructs (marked optional in the construct pattern props). If you chose to do so, please refer to the official documentation on best practices to secure each service:
 
-- TBD
-
+- Amazon S3
 
 ## Supported AWS Regions
 
