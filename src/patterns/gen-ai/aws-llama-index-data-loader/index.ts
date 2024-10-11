@@ -115,6 +115,32 @@ export class LlamaIndexDataLoader extends BaseClass {
       },
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
     });
+    const outputBucket = new Bucket(this, 'Output', {
+      enforceSSL: true,
+      versioned: true,
+      serverAccessLogsBucket: logBucket,
+      serverAccessLogsPrefix: 'output-bucket-access-logs',
+      encryption: BucketEncryption.KMS,
+      encryptionKey: bucketKey,
+      bucketKeyEnabled: true,
+      blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
+      removalPolicy: RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+      objectLockEnabled: true,
+      objectLockDefaultRetention: {
+        mode: ObjectLockMode.GOVERNANCE,
+        duration: Duration.days(1),
+      },
+      lifecycleRules: [
+        {
+          id: 'AbortIncompleteMultipartUpload',
+          enabled: true,
+          abortIncompleteMultipartUploadAfter: Duration.days(1),
+        },
+      ],
+    });
+    this.outputBucket = outputBucket;
+
     const rawBucket = new Bucket(this, 'Raw', {
       enforceSSL: true,
       versioned: true,
@@ -184,31 +210,6 @@ export class LlamaIndexDataLoader extends BaseClass {
     });
     this.ssmParameter = circuitBreakerParameter;
 
-    const outputBucket = new Bucket(this, 'Output', {
-      enforceSSL: true,
-      versioned: true,
-      serverAccessLogsBucket: logBucket,
-      serverAccessLogsPrefix: 'output-bucket-access-logs',
-      encryption: BucketEncryption.KMS,
-      encryptionKey: bucketKey,
-      bucketKeyEnabled: true,
-      blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
-      objectLockEnabled: true,
-      objectLockDefaultRetention: {
-        mode: ObjectLockMode.GOVERNANCE,
-        duration: Duration.days(1),
-      },
-      lifecycleRules: [
-        {
-          id: 'AbortIncompleteMultipartUpload',
-          enabled: true,
-          abortIncompleteMultipartUploadAfter: Duration.days(1),
-        },
-      ],
-    });
-    this.outputBucket = outputBucket;
 
     const asset = new DockerImageAsset(this, 'Image', {
       directory: this.dockerImageAssetDirectory,
