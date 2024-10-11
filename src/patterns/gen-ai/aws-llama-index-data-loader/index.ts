@@ -12,7 +12,7 @@
  */
 import { join } from 'node:path';
 import { Duration, RemovalPolicy, Stack } from 'aws-cdk-lib';
-import { FlowLogDestination } from 'aws-cdk-lib/aws-ec2';
+import { FlowLogDestination, IVpc } from 'aws-cdk-lib/aws-ec2';
 import { DockerImageAsset, Platform } from 'aws-cdk-lib/aws-ecr-assets';
 import { Cluster, ContainerImage } from 'aws-cdk-lib/aws-ecs';
 import { QueueProcessingFargateService } from 'aws-cdk-lib/aws-ecs-patterns';
@@ -48,6 +48,12 @@ export interface LlamaIndexDataLoaderProps {
    * @default 'WARNING'
    */
   readonly containerLoggingLevel?: string;
+
+  /**
+   * @description the VPC to use
+   * @default undefined
+   */
+  readonly vpc?: IVpc;
 
   /**
    * Value will be appended to resources name.
@@ -162,6 +168,7 @@ export class LlamaIndexDataLoader extends BaseClass {
       cluster: new Cluster(this, 'Cluster', {
         containerInsights: true,
       }),
+      vpc: props.vpc,
       memoryLimitMiB: this.memoryLimitMiB,
       queue: queue,
       image: ContainerImage.fromDockerImageAsset(asset),

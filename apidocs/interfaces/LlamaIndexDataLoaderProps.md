@@ -86,3 +86,19 @@ Value will be appended to resources name.
 ```ts
 - _dev
 ```
+
+***
+
+### vpc?
+
+> `readonly` `optional` **vpc**: `IVpc`
+
+#### Description
+
+the VPC to use
+
+#### Default
+
+```ts
+undefined
+```
