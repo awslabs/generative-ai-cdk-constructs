@@ -75,6 +75,22 @@ used. Best practive to enable by default.
 
 ***
 
+### outputBucket?
+
+> `readonly` `optional` **outputBucket**: `Bucket`
+
+#### Description
+
+the S3 output to use
+
+#### Default
+
+```ts
+undefined
+```
+
+***
+
 ### stage?
 
 > `readonly` `optional` **stage**: `string`

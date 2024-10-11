@@ -19,6 +19,7 @@ import {
   Template,
 //  Match,
 } from 'aws-cdk-lib/assertions';
+import { Bucket } from 'aws-cdk-lib/aws-s3';
 import { AwsSolutionsChecks } from 'cdk-nag';
 import {
   LlamaIndexDataLoader,
@@ -37,6 +38,7 @@ describe('LlamaIndex Data Loader Construct Default', () => {
 
   beforeAll(() => {
     app = new cdk.App();
+    Bucket.toString(); // because typescript errors if not used...
     cdk.Aspects.of(app).add(new AwsSolutionsChecks());
     const llamaIndexDataLoaderTestStack = new cdk.Stack(app, 'llamaIndexDataLoaderTestStack', {
       env: { account: cdk.Aws.ACCOUNT_ID, region: cdk.Aws.REGION },
@@ -115,6 +117,7 @@ describe('LlamaIndex Data Loader Construct Properties', () => {
       ),
       containerLoggingLevel: 'INFO',
       memoryLimitMiB: 1024,
+      outputBucket: new Bucket(llamaIndexDataLoaderTestStack, 'OutputBucket', {}),
       observability: false,
       stage: 'test',
     };

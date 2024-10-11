@@ -50,6 +50,12 @@ export interface LlamaIndexDataLoaderProps {
   readonly containerLoggingLevel?: string;
 
   /**
+   * @description the S3 output to use
+   * @default undefined
+   */
+  readonly outputBucket?: Bucket;
+
+  /**
    * @description the VPC to use
    * @default undefined
    */
@@ -76,6 +82,8 @@ export class LlamaIndexDataLoader extends BaseClass {
   public readonly outputBucket: Bucket;
   public readonly queueProcessingFargateService: QueueProcessingFargateService;
 
+  private readonly logBucket?: Bucket;
+  private readonly bucketKey?: Key;
   private readonly dockerImageAssetDirectory: string;
   private readonly memoryLimitMiB: number;
   private readonly containerLoggingLevel: string;
@@ -99,53 +107,55 @@ export class LlamaIndexDataLoader extends BaseClass {
     );
     this.memoryLimitMiB = props.memoryLimitMiB ?? 2048;
     this.containerLoggingLevel = props.containerLoggingLevel ?? 'WARNING';
-
-    const bucketKey = new Key(this, 'LogBucketKey', {
-      enableKeyRotation: true,
-    });
     let bucketsInvolved = [];
-    const logBucket = new Bucket(this, 'LogBucket', {
-      enforceSSL: true,
-      versioned: true,
-      encryption: BucketEncryption.KMS,
-      encryptionKey: bucketKey,
-      bucketKeyEnabled: true,
-      removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
-      objectLockEnabled: true,
-      objectLockDefaultRetention: {
-        mode: ObjectLockMode.GOVERNANCE,
-        duration: Duration.days(1),
-      },
-      blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
-    });
-    bucketsInvolved.push(logBucket);
-    const outputBucket = new Bucket(this, 'Output', {
-      enforceSSL: true,
-      versioned: true,
-      serverAccessLogsBucket: logBucket,
-      serverAccessLogsPrefix: 'output-bucket-access-logs',
-      encryption: BucketEncryption.KMS,
-      encryptionKey: bucketKey,
-      bucketKeyEnabled: true,
-      blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
-      objectLockEnabled: true,
-      objectLockDefaultRetention: {
-        mode: ObjectLockMode.GOVERNANCE,
-        duration: Duration.days(1),
-      },
-      lifecycleRules: [
-        {
-          id: 'AbortIncompleteMultipartUpload',
-          enabled: true,
-          abortIncompleteMultipartUploadAfter: Duration.days(1),
+    if (props.outputBucket) {
+      this.outputBucket = props.outputBucket;
+    } else {
+      this.bucketKey = new Key(this, 'LogBucketKey', {
+        enableKeyRotation: true,
+      });
+      this.logBucket = new Bucket(this, 'LogBucket', {
+        enforceSSL: true,
+        versioned: true,
+        encryption: BucketEncryption.KMS,
+        encryptionKey: this.bucketKey,
+        bucketKeyEnabled: true,
+        removalPolicy: RemovalPolicy.DESTROY,
+        autoDeleteObjects: true,
+        objectLockEnabled: true,
+        objectLockDefaultRetention: {
+          mode: ObjectLockMode.GOVERNANCE,
+          duration: Duration.days(1),
         },
-      ],
-    });
-    this.outputBucket = outputBucket;
-    bucketsInvolved.push(outputBucket);
+        blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
+      });
+      bucketsInvolved.push(this.logBucket);
+      this.outputBucket = new Bucket(this, 'Output', {
+        enforceSSL: true,
+        versioned: true,
+        serverAccessLogsBucket: this.logBucket,
+        serverAccessLogsPrefix: 'output-bucket-access-logs',
+        encryption: BucketEncryption.KMS,
+        encryptionKey: this.bucketKey,
+        bucketKeyEnabled: true,
+        blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
+        removalPolicy: RemovalPolicy.DESTROY,
+        autoDeleteObjects: true,
+        objectLockEnabled: true,
+        objectLockDefaultRetention: {
+          mode: ObjectLockMode.GOVERNANCE,
+          duration: Duration.days(1),
+        },
+        lifecycleRules: [
+          {
+            id: 'AbortIncompleteMultipartUpload',
+            enabled: true,
+            abortIncompleteMultipartUploadAfter: Duration.days(1),
+          },
+        ],
+      });
+    }
+    bucketsInvolved.push(this.outputBucket);
     // Create a new SSM Parameter holding a String
     const circuitBreakerParameter = new StringParameter(this, 'CircuitBreaker', {
       stringValue: 'False',
@@ -183,7 +193,7 @@ export class LlamaIndexDataLoader extends BaseClass {
       environment: {
         CIRCUIT_BREAKER_SSM_PARAMETER_NAME: circuitBreakerParameter.parameterName,
         LOGGING_LEVEL: this.containerLoggingLevel,
-        BUCKET_NAME: outputBucket.bucketName,
+        BUCKET_NAME: this.outputBucket.bucketName,
       },
       minScalingCapacity: 0,
       maxScalingCapacity: 10,
@@ -202,9 +212,9 @@ export class LlamaIndexDataLoader extends BaseClass {
       const rawBucket = new Bucket(this, 'Raw', {
         enforceSSL: true,
         versioned: true,
-        serverAccessLogsBucket: logBucket,
+        serverAccessLogsBucket: this.logBucket,
         encryption: BucketEncryption.KMS,
-        encryptionKey: bucketKey,
+        encryptionKey: this.bucketKey,
         bucketKeyEnabled: true,
         serverAccessLogsPrefix: 'raw-bucket-access-logs',
         blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
@@ -253,39 +263,53 @@ export class LlamaIndexDataLoader extends BaseClass {
           resources: [rawBucket.bucketArn, rawBucket.bucketArn + '/*'],
         }),
       );
+      if (rawBucket.encryptionKey) {
+        rawBucket.encryptionKey.grantDecrypt(this.queueProcessingFargateService.taskDefinition.taskRole);
+        this.queueProcessingFargateService.taskDefinition.taskRole.addToPrincipalPolicy(
+          new PolicyStatement({
+            effect: Effect.ALLOW,
+            actions: ['kms:GenerateDataKey'],
+            resources: [rawBucket.encryptionKey.keyArn],
+          }),
+        );
+      }
     }
     this.queueProcessingFargateService.cluster.vpc.addFlowLog('FlowLog', {
-      destination: FlowLogDestination.toS3(logBucket, 'vpc-flow-logs'),
+      destination: FlowLogDestination.toS3(this.logBucket, 'vpc-flow-logs'),
     });
     circuitBreakerParameter.grantRead(this.queueProcessingFargateService.taskDefinition.taskRole);
     this.queueProcessingFargateService.taskDefinition.addToTaskRolePolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
         actions: ['s3:PutObject'],
-        resources: [outputBucket.bucketArn, outputBucket.bucketArn + '/*'],
+        resources: [this.outputBucket.bucketArn, this.outputBucket.bucketArn + '/*'],
       }),
     );
-    bucketKey.grantDecrypt(this.queueProcessingFargateService.taskDefinition.taskRole);
-    this.queueProcessingFargateService.taskDefinition.taskRole.addToPrincipalPolicy(
-      new PolicyStatement({
-        effect: Effect.ALLOW,
-        actions: ['kms:GenerateDataKey'],
-        resources: [bucketKey.keyArn],
-      }),
-    );
+    if (this.outputBucket.encryptionKey) {
+      this.outputBucket.encryptionKey.grantDecrypt(this.queueProcessingFargateService.taskDefinition.taskRole);
+      this.queueProcessingFargateService.taskDefinition.taskRole.addToPrincipalPolicy(
+        new PolicyStatement({
+          effect: Effect.ALLOW,
+          actions: ['kms:GenerateDataKey'],
+          resources: [this.outputBucket.encryptionKey.keyArn],
+        }),
+      );
+    }
 
     ////////////////////////////////////////////////////////////////////////
     // NagSuppressions
     ////////////////////////////////////////////////////////////////////////
-    NagSuppressions.addResourceSuppressions(logBucket,
-      [
-        {
-          id: 'AwsSolutions-S1',
-          reason: 'There is no need to enable access logging for the AccessLogs bucket.',
-        },
-      ],
-      true,
-    );
+    if (this.logBucket) {
+      NagSuppressions.addResourceSuppressions(this.logBucket,
+        [
+          {
+            id: 'AwsSolutions-S1',
+            reason: 'There is no need to enable access logging for the AccessLogs bucket.',
+          },
+        ],
+        true,
+      );
+    }
     NagSuppressions.addResourceSuppressions(bucketsInvolved,
       [
         {
