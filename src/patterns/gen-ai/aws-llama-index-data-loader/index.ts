@@ -140,54 +140,14 @@ export class LlamaIndexDataLoader extends BaseClass {
     });
     this.outputBucket = outputBucket;
     bucketsInvolved.push(outputBucket);
-
-    // if (!props.dockerImageAssetDirectory) {
-    const rawBucket = new Bucket(this, 'Raw', {
-      enforceSSL: true,
-      versioned: true,
-      serverAccessLogsBucket: logBucket,
-      encryption: BucketEncryption.KMS,
-      encryptionKey: bucketKey,
-      bucketKeyEnabled: true,
-      serverAccessLogsPrefix: 'raw-bucket-access-logs',
-      blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
-      removalPolicy: RemovalPolicy.DESTROY,
-      autoDeleteObjects: true,
-      objectLockEnabled: true,
-      objectLockDefaultRetention: {
-        mode: ObjectLockMode.GOVERNANCE,
-        duration: Duration.days(1),
-      },
-      lifecycleRules: [
-        {
-          id: 'AbortIncompleteMultipartUpload',
-          enabled: true,
-          abortIncompleteMultipartUploadAfter: Duration.days(1),
-        },
-      ],
+    // Create a new SSM Parameter holding a String
+    const circuitBreakerParameter = new StringParameter(this, 'CircuitBreaker', {
+      stringValue: 'False',
     });
-    bucketsInvolved.push(rawBucket);
-
-    const topicKey = new Key(this, 'TopicKey', {
-      enableKeyRotation: true,
+    const asset = new DockerImageAsset(this, 'Image', {
+      directory: this.dockerImageAssetDirectory,
+      platform: Platform.LINUX_AMD64,
     });
-    const topic = new Topic(this, 'Topic', {
-      enforceSSL: true,
-      masterKey: topicKey,
-    });
-    topicKey.addToResourcePolicy(
-      new PolicyStatement({
-        actions: ['kms:Decrypt', 'kms:GenerateDataKey*'],
-        resources: ['*'],
-        principals: [new ServicePrincipal('s3.amazonaws.com')],
-      }),
-    );
-    topic.grantPublish(new ServicePrincipal('s3.amazonaws.com'));
-    rawBucket.addEventNotification(
-      EventType.OBJECT_CREATED,
-      new SnsDestination(topic),
-    );
-
     const queue = new Queue(this, 'Queue', {
       visibilityTimeout: Duration.seconds(300),
       enforceSSL: true,
@@ -198,26 +158,10 @@ export class LlamaIndexDataLoader extends BaseClass {
         }),
       },
     });
-
-    topic.addSubscription(
-      new SqsSubscription(queue),
-    );
-
-    // Create a new SSM Parameter holding a String
-    const circuitBreakerParameter = new StringParameter(this, 'CircuitBreaker', {
-      stringValue: 'False',
-    });
-
-    const asset = new DockerImageAsset(this, 'Image', {
-      directory: this.dockerImageAssetDirectory,
-      platform: Platform.LINUX_AMD64,
-    });
-
-    const cluster = new Cluster(this, 'Cluster', {
-      containerInsights: true,
-    });
     const queueProcessingFargateService = new QueueProcessingFargateService(this, 'Service', {
-      cluster: cluster,
+      cluster: new Cluster(this, 'Cluster', {
+        containerInsights: true,
+      }),
       memoryLimitMiB: this.memoryLimitMiB,
       queue: queue,
       image: ContainerImage.fromDockerImageAsset(asset),
@@ -246,16 +190,67 @@ export class LlamaIndexDataLoader extends BaseClass {
     });
     this.queueProcessingFargateService = queueProcessingFargateService;
 
+    // Setup Default S3 Example if Docker asset directory is missing
+    if (!props.dockerImageAssetDirectory) {
+      const rawBucket = new Bucket(this, 'Raw', {
+        enforceSSL: true,
+        versioned: true,
+        serverAccessLogsBucket: logBucket,
+        encryption: BucketEncryption.KMS,
+        encryptionKey: bucketKey,
+        bucketKeyEnabled: true,
+        serverAccessLogsPrefix: 'raw-bucket-access-logs',
+        blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
+        removalPolicy: RemovalPolicy.DESTROY,
+        autoDeleteObjects: true,
+        objectLockEnabled: true,
+        objectLockDefaultRetention: {
+          mode: ObjectLockMode.GOVERNANCE,
+          duration: Duration.days(1),
+        },
+        lifecycleRules: [
+          {
+            id: 'AbortIncompleteMultipartUpload',
+            enabled: true,
+            abortIncompleteMultipartUploadAfter: Duration.days(1),
+          },
+        ],
+      });
+      bucketsInvolved.push(rawBucket);
+      const topicKey = new Key(this, 'TopicKey', {
+        enableKeyRotation: true,
+      });
+      const topic = new Topic(this, 'Topic', {
+        enforceSSL: true,
+        masterKey: topicKey,
+      });
+      topicKey.addToResourcePolicy(
+        new PolicyStatement({
+          actions: ['kms:Decrypt', 'kms:GenerateDataKey*'],
+          resources: ['*'],
+          principals: [new ServicePrincipal('s3.amazonaws.com')],
+        }),
+      );
+      topic.grantPublish(new ServicePrincipal('s3.amazonaws.com'));
+      rawBucket.addEventNotification(
+        EventType.OBJECT_CREATED,
+        new SnsDestination(topic),
+      );
+      topic.addSubscription(
+        new SqsSubscription(queue),
+      );
+      this.queueProcessingFargateService.taskDefinition.addToTaskRolePolicy(
+        new PolicyStatement({
+          effect: Effect.ALLOW,
+          actions: ['s3:GetObject'],
+          resources: [rawBucket.bucketArn, rawBucket.bucketArn + '/*'],
+        }),
+      );
+    }
     this.queueProcessingFargateService.cluster.vpc.addFlowLog('FlowLog', {
       destination: FlowLogDestination.toS3(logBucket, 'vpc-flow-logs'),
     });
-    this.queueProcessingFargateService.taskDefinition.addToTaskRolePolicy(
-      new PolicyStatement({
-        effect: Effect.ALLOW,
-        actions: ['s3:GetObject'],
-        resources: [rawBucket.bucketArn, rawBucket.bucketArn + '/*'],
-      }),
-    );
+    circuitBreakerParameter.grantRead(this.queueProcessingFargateService.taskDefinition.taskRole);
     this.queueProcessingFargateService.taskDefinition.addToTaskRolePolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
@@ -271,7 +266,6 @@ export class LlamaIndexDataLoader extends BaseClass {
         resources: [bucketKey.keyArn],
       }),
     );
-    circuitBreakerParameter.grantRead(this.queueProcessingFargateService.taskDefinition.taskRole);
 
     ////////////////////////////////////////////////////////////////////////
     // NagSuppressions
@@ -464,6 +458,5 @@ export class LlamaIndexDataLoader extends BaseClass {
       ],
       true,
     );
-    // }
   }
 }
