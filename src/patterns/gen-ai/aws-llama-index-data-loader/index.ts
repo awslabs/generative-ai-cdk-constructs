@@ -67,10 +67,6 @@ export interface LlamaIndexDataLoaderProps {
 
 export class LlamaIndexDataLoader extends BaseClass {
 
-  public readonly s3Bucket?: Bucket;
-  public readonly snsTopic: Topic;
-  public readonly sqsQueue: Queue;
-  public readonly ssmParameter: StringParameter;
   public readonly outputBucket: Bucket;
   public readonly queueProcessingFargateService: QueueProcessingFargateService;
 
@@ -171,7 +167,6 @@ export class LlamaIndexDataLoader extends BaseClass {
       ],
     });
     bucketsInvolved.push(rawBucket);
-    this.s3Bucket = rawBucket;
 
     const topicKey = new Key(this, 'TopicKey', {
       enableKeyRotation: true,
@@ -180,7 +175,6 @@ export class LlamaIndexDataLoader extends BaseClass {
       enforceSSL: true,
       masterKey: topicKey,
     });
-    this.snsTopic = topic;
     topicKey.addToResourcePolicy(
       new PolicyStatement({
         actions: ['kms:Decrypt', 'kms:GenerateDataKey*'],
@@ -204,7 +198,6 @@ export class LlamaIndexDataLoader extends BaseClass {
         }),
       },
     });
-    this.sqsQueue = queue;
 
     topic.addSubscription(
       new SqsSubscription(queue),
@@ -214,14 +207,9 @@ export class LlamaIndexDataLoader extends BaseClass {
     const circuitBreakerParameter = new StringParameter(this, 'CircuitBreaker', {
       stringValue: 'False',
     });
-    this.ssmParameter = circuitBreakerParameter;
-
 
     const asset = new DockerImageAsset(this, 'Image', {
       directory: this.dockerImageAssetDirectory,
-      buildArgs: {
-        // PYTHON_TAG: 'latest',
-      },
       platform: Platform.LINUX_AMD64,
     });
 
@@ -257,7 +245,6 @@ export class LlamaIndexDataLoader extends BaseClass {
             ],
     });
     this.queueProcessingFargateService = queueProcessingFargateService;
-
 
     this.queueProcessingFargateService.cluster.vpc.addFlowLog('FlowLog', {
       destination: FlowLogDestination.toS3(logBucket, 'vpc-flow-logs'),

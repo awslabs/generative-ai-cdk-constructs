@@ -130,30 +130,6 @@ Default  log retention config for all constructs
 
 ***
 
-### s3Bucket?
-
-> `readonly` `optional` **s3Bucket**: `Bucket`
-
-***
-
-### snsTopic
-
-> `readonly` **snsTopic**: `Topic`
-
-***
-
-### sqsQueue
-
-> `readonly` **sqsQueue**: `Queue`
-
-***
-
-### ssmParameter
-
-> `readonly` **ssmParameter**: `StringParameter`
-
-***
-
 ### stage
 
 > **stage**: `string`

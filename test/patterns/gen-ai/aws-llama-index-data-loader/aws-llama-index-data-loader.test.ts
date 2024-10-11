@@ -59,7 +59,6 @@ describe('LlamaIndex Data Loader Construct Default', () => {
 
   test('SNS count', () => {
     llamaIndexDataLoaderTemplate.resourceCountIs('AWS::SNS::Topic', 1);
-    expect(llamaIndexDataLoaderTestConstruct.snsTopic).not.toBeNull;
   });
 
   test('Subscription count', () => {
@@ -89,7 +88,7 @@ describe('LlamaIndex Data Loader Construct Default', () => {
 
   test('SQS count', () => {
     llamaIndexDataLoaderTemplate.resourceCountIs('AWS::SQS::Queue', 2);
-    expect(llamaIndexDataLoaderTestConstruct.sqsQueue).not.toBeNull;
+    expect(llamaIndexDataLoaderTestConstruct.queueProcessingFargateService.sqsQueue).not.toBeNull;
   });
 
 });
@@ -128,8 +127,17 @@ describe('LlamaIndex Data Loader Construct Properties', () => {
     llamaIndexDataLoaderTemplate = Template.fromStack(llamaIndexDataLoaderTestStack);
   });
 
-  test('Memory', () => {
+  test('Cluster count', () => {
+    llamaIndexDataLoaderTemplate.resourceCountIs('AWS::ECS::Cluster', 1);
+  });
+  test('Service count', () => {
+    llamaIndexDataLoaderTemplate.resourceCountIs('AWS::ECS::Service', 1);
+  });
+  test('Task count', () => {
+    llamaIndexDataLoaderTemplate.resourceCountIs('AWS::ECS::TaskDefinition', 1);
+  });
+  test('Queue', () => {
     llamaIndexDataLoaderTemplate.resourceCountIs('AWS::SQS::Queue', 2);
-    expect(llamaIndexDataLoaderTestConstruct.sqsQueue).not.toBeNull;
+    expect(llamaIndexDataLoaderTestConstruct.queueProcessingFargateService.sqsQueue).not.toBeNull;
   });
 });
