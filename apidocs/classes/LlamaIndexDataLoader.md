@@ -112,6 +112,12 @@ The tree node.
 
 ***
 
+### queueProcessingFargateService
+
+> `readonly` **queueProcessingFargateService**: `QueueProcessingFargateService`
+
+***
+
 ### retention
 
 > **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`

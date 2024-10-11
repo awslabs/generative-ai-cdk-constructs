@@ -72,6 +72,7 @@ export class LlamaIndexDataLoader extends BaseClass {
   public readonly sqsQueue: Queue;
   public readonly ssmParameter: StringParameter;
   public readonly outputBucket: Bucket;
+  public readonly queueProcessingFargateService: QueueProcessingFargateService;
 
   private readonly dockerImageAssetDirectory: string;
   private readonly memoryLimitMiB: number;
@@ -100,6 +101,7 @@ export class LlamaIndexDataLoader extends BaseClass {
     const bucketKey = new Key(this, 'LogBucketKey', {
       enableKeyRotation: true,
     });
+    let bucketsInvolved = [];
     const logBucket = new Bucket(this, 'LogBucket', {
       enforceSSL: true,
       versioned: true,
@@ -115,6 +117,7 @@ export class LlamaIndexDataLoader extends BaseClass {
       },
       blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
     });
+    bucketsInvolved.push(logBucket);
     const outputBucket = new Bucket(this, 'Output', {
       enforceSSL: true,
       versioned: true,
@@ -140,7 +143,9 @@ export class LlamaIndexDataLoader extends BaseClass {
       ],
     });
     this.outputBucket = outputBucket;
+    bucketsInvolved.push(outputBucket);
 
+    // if (!props.dockerImageAssetDirectory) {
     const rawBucket = new Bucket(this, 'Raw', {
       enforceSSL: true,
       versioned: true,
@@ -165,6 +170,7 @@ export class LlamaIndexDataLoader extends BaseClass {
         },
       ],
     });
+    bucketsInvolved.push(rawBucket);
     this.s3Bucket = rawBucket;
 
     const topicKey = new Key(this, 'TopicKey', {
@@ -250,33 +256,35 @@ export class LlamaIndexDataLoader extends BaseClass {
               { lower: 500, change: +5 },
             ],
     });
+    this.queueProcessingFargateService = queueProcessingFargateService;
 
-    queueProcessingFargateService.cluster.vpc.addFlowLog('FlowLog', {
+
+    this.queueProcessingFargateService.cluster.vpc.addFlowLog('FlowLog', {
       destination: FlowLogDestination.toS3(logBucket, 'vpc-flow-logs'),
     });
-    queueProcessingFargateService.taskDefinition.addToTaskRolePolicy(
+    this.queueProcessingFargateService.taskDefinition.addToTaskRolePolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
         actions: ['s3:GetObject'],
         resources: [rawBucket.bucketArn, rawBucket.bucketArn + '/*'],
       }),
     );
-    queueProcessingFargateService.taskDefinition.addToTaskRolePolicy(
+    this.queueProcessingFargateService.taskDefinition.addToTaskRolePolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
         actions: ['s3:PutObject'],
         resources: [outputBucket.bucketArn, outputBucket.bucketArn + '/*'],
       }),
     );
-    bucketKey.grantDecrypt(queueProcessingFargateService.taskDefinition.taskRole);
-    queueProcessingFargateService.taskDefinition.taskRole.addToPrincipalPolicy(
+    bucketKey.grantDecrypt(this.queueProcessingFargateService.taskDefinition.taskRole);
+    this.queueProcessingFargateService.taskDefinition.taskRole.addToPrincipalPolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
         actions: ['kms:GenerateDataKey'],
         resources: [bucketKey.keyArn],
       }),
     );
-    circuitBreakerParameter.grantRead(queueProcessingFargateService.taskDefinition.taskRole);
+    circuitBreakerParameter.grantRead(this.queueProcessingFargateService.taskDefinition.taskRole);
 
     ////////////////////////////////////////////////////////////////////////
     // NagSuppressions
@@ -290,7 +298,7 @@ export class LlamaIndexDataLoader extends BaseClass {
       ],
       true,
     );
-    NagSuppressions.addResourceSuppressions([logBucket, rawBucket, outputBucket],
+    NagSuppressions.addResourceSuppressions(bucketsInvolved,
       [
         {
           id: 'HIPAA.Security-S3BucketReplicationEnabled',
@@ -312,7 +320,7 @@ export class LlamaIndexDataLoader extends BaseClass {
       ],
       true,
     );
-    NagSuppressions.addResourceSuppressions([cluster.vpc],
+    NagSuppressions.addResourceSuppressions([this.queueProcessingFargateService.cluster.vpc],
       [
         {
           id: 'HIPAA.Security-VPCSubnetAutoAssignPublicIpDisabled',
@@ -378,7 +386,7 @@ export class LlamaIndexDataLoader extends BaseClass {
         true,
       );
     }
-    NagSuppressions.addResourceSuppressions(queueProcessingFargateService,
+    NagSuppressions.addResourceSuppressions(this.queueProcessingFargateService,
       [
         {
           id: 'AwsSolutions-ECS2',
@@ -387,7 +395,7 @@ export class LlamaIndexDataLoader extends BaseClass {
       ],
       true,
     );
-    NagSuppressions.addResourceSuppressions(queueProcessingFargateService.taskDefinition,
+    NagSuppressions.addResourceSuppressions(this.queueProcessingFargateService.taskDefinition,
       [
         {
           id: 'AwsSolutions-IAM5',
@@ -404,10 +412,10 @@ export class LlamaIndexDataLoader extends BaseClass {
 
     // Inline policies
     let taskDefinitionRoles = [
-      queueProcessingFargateService.taskDefinition.taskRole,
+      this.queueProcessingFargateService.taskDefinition.taskRole,
     ];
-    if (queueProcessingFargateService.taskDefinition.executionRole) {
-      taskDefinitionRoles.push(queueProcessingFargateService.taskDefinition.executionRole);
+    if (this.queueProcessingFargateService.taskDefinition.executionRole) {
+      taskDefinitionRoles.push(this.queueProcessingFargateService.taskDefinition.executionRole);
     }
     NagSuppressions.addResourceSuppressions(taskDefinitionRoles,
       [
@@ -432,7 +440,7 @@ export class LlamaIndexDataLoader extends BaseClass {
     );
 
     // Unencrypted CloudWatch logging
-    NagSuppressions.addResourceSuppressions(queueProcessingFargateService.taskDefinition,
+    NagSuppressions.addResourceSuppressions(this.queueProcessingFargateService.taskDefinition,
       [
         {
           id: 'HIPAA.Security-CloudWatchLogGroupEncrypted',
@@ -469,5 +477,6 @@ export class LlamaIndexDataLoader extends BaseClass {
       ],
       true,
     );
+    // }
   }
 }
