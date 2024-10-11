@@ -32,6 +32,7 @@ describe('LlamaIndex Data Loader Construct Default', () => {
 
   afterAll(() => {
     console.log('Test completed');
+    join();
   });
 
   beforeAll(() => {
