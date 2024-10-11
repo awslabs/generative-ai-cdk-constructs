@@ -87,7 +87,8 @@ Parameters
 | **Name**                     | **Type**                                                                                                                  | **Description**                                                                                                                                                                |
 | :----------------------------- | :-------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | outputBucket                          | [Bucket](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_s3.Bucket.html)                                      | The S3 Bucket for the output.  |
-| queueProcessingFargateService | [QueueProcessingFargateService](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ecs_patterns.QueueProcessingFargateService.html) | The ECS Fargate and components assocated with the ECS pattern.
+| queueProcessingFargateService | [QueueProcessingFargateService](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_ecs_patterns.QueueProcessingFargateService.html) | The ECS Fargate and components assocated with the ECS pattern. |
+
 ## Methods
 
 N/A
