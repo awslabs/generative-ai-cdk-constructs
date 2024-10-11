@@ -2008,6 +2008,12 @@
 
 ***
 
+### HUGGINGFACE\_LLM\_HUGGINGFACEH4\_MISTRAL\_7B\_SFT\_BETA\_1\_2\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_HUGGINGFACEH4\_MISTRAL\_7B\_SFT\_BETA\_1\_2\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
 ### HUGGINGFACE\_LLM\_HUGGINGFACEH4\_STARCHAT\_ALPHA\_1\_0\_0
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_HUGGINGFACEH4\_STARCHAT\_ALPHA\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -14719,6 +14725,12 @@
 ### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_7B\_PYTHON\_3\_8\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_7B\_PYTHON\_3\_8\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### META\_TEXTGENERATION\_LLAMA\_GUARD\_3\_1B\_1\_0\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_GUARD\_3\_1B\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ***
 
