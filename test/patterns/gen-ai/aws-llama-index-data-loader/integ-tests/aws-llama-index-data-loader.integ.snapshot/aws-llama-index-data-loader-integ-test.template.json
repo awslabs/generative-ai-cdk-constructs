@@ -2175,6 +2175,10 @@
     "RequiresCompatibilities": [
      "FARGATE"
     ],
+    "RuntimePlatform": {
+     "CpuArchitecture": "X86_64",
+     "OperatingSystemFamily": "LINUX"
+    },
     "TaskRoleArn": {
      "Fn::GetAtt": [
       "testServiceQueueProcessingTaskDefTaskRoleBB1E3493",

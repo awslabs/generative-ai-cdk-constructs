@@ -14,7 +14,7 @@ import { join } from 'node:path';
 import { Duration, RemovalPolicy, Stack } from 'aws-cdk-lib';
 import { FlowLogDestination, IVpc } from 'aws-cdk-lib/aws-ec2';
 import { DockerImageAsset, Platform } from 'aws-cdk-lib/aws-ecr-assets';
-import { Cluster, ContainerImage } from 'aws-cdk-lib/aws-ecs';
+import { Cluster, ContainerImage, CpuArchitecture, OperatingSystemFamily } from 'aws-cdk-lib/aws-ecs';
 import { QueueProcessingFargateService } from 'aws-cdk-lib/aws-ecs-patterns';
 import { Effect, PolicyStatement, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { Key } from 'aws-cdk-lib/aws-kms';
@@ -175,11 +175,15 @@ export class LlamaIndexDataLoader extends BaseClass {
       },
     });
     const queueProcessingFargateService = new QueueProcessingFargateService(this, 'Service', {
-      cluster: new Cluster(this, 'Cluster', {
+      cluster: props.vpc === undefined ? new Cluster(this, 'Cluster', {
         containerInsights: true,
-      }),
+      }) : undefined,
       vpc: props.vpc,
       memoryLimitMiB: this.memoryLimitMiB,
+      runtimePlatform: {
+        cpuArchitecture: CpuArchitecture.X86_64,
+        operatingSystemFamily: OperatingSystemFamily.LINUX,
+      },
       queue: queue,
       image: ContainerImage.fromDockerImageAsset(asset),
       healthCheck: {
