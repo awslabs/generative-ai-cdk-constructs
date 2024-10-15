@@ -2,30 +2,19 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../README.md) / BaseClass
+[@cdklabs/generative-ai-cdk-constructs](../README.md) / LlamaIndexDataLoader
 
-# Class: BaseClass
+# Class: LlamaIndexDataLoader
 
 ## Extends
 
-- `Construct`
-
-## Extended by
-
-- [`RagAppsyncStepfnOpensearch`](RagAppsyncStepfnOpensearch.md)
-- [`SummarizationAppsyncStepfn`](SummarizationAppsyncStepfn.md)
-- [`QaAppsyncOpensearch`](QaAppsyncOpensearch.md)
-- [`SageMakerEndpointBase`](SageMakerEndpointBase.md)
-- [`ContentGenerationAppSyncLambda`](ContentGenerationAppSyncLambda.md)
-- [`WebCrawler`](WebCrawler.md)
-- [`TextToSql`](TextToSql.md)
-- [`LlamaIndexDataLoader`](LlamaIndexDataLoader.md)
+- [`BaseClass`](BaseClass.md)
 
 ## Constructors
 
-### new BaseClass()
+### new LlamaIndexDataLoader()
 
-> **new BaseClass**(`scope`, `id`): [`BaseClass`](BaseClass.md)
+> **new LlamaIndexDataLoader**(`scope`, `id`, `props`): [`LlamaIndexDataLoader`](LlamaIndexDataLoader.md)
 
 #### Parameters
 
@@ -33,13 +22,15 @@
 
 • **id**: `string`
 
+• **props**: [`LlamaIndexDataLoaderProps`](../interfaces/LlamaIndexDataLoaderProps.md)
+
 #### Returns
 
-[`BaseClass`](BaseClass.md)
+[`LlamaIndexDataLoader`](LlamaIndexDataLoader.md)
 
 #### Overrides
 
-`Construct.constructor`
+[`BaseClass`](BaseClass.md).[`constructor`](BaseClass.md#constructors)
 
 ## Properties
 
@@ -48,6 +39,10 @@
 > `readonly` **constructUsageMetric**: `"uksb-1tupboc45"` = `'uksb-1tupboc45'`
 
 construct usage metric , added in template description
+
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`constructUsageMetric`](BaseClass.md#constructusagemetric)
 
 ***
 
@@ -63,6 +58,10 @@ enable disable xray tracing
 - True
 ```
 
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`enablexray`](BaseClass.md#enablexray)
+
 ***
 
 ### fieldLogLevel
@@ -70,6 +69,10 @@ enable disable xray tracing
 > **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
 
 Default  log config for all constructs
+
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`fieldLogLevel`](BaseClass.md#fieldloglevel)
 
 ***
 
@@ -85,6 +88,10 @@ enable disable lambda tracing
 - Active
 ```
 
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`lambdaTracing`](BaseClass.md#lambdatracing)
+
 ***
 
 ### node
@@ -95,7 +102,19 @@ The tree node.
 
 #### Inherited from
 
-`Construct.node`
+[`BaseClass`](BaseClass.md).[`node`](BaseClass.md#node)
+
+***
+
+### outputBucket
+
+> `readonly` **outputBucket**: `Bucket`
+
+***
+
+### queueProcessingFargateService
+
+> `readonly` **queueProcessingFargateService**: `QueueProcessingFargateService`
 
 ***
 
@@ -104,6 +123,10 @@ The tree node.
 > **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
 
 Default  log retention config for all constructs
+
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`retention`](BaseClass.md#retention)
 
 ***
 
@@ -119,6 +142,10 @@ Value will be appended to resources name.
 - _dev
 ```
 
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`stage`](BaseClass.md#stage)
+
 ***
 
 ### usageMetricMap
@@ -126,6 +153,10 @@ Value will be appended to resources name.
 > `protected` `static` **usageMetricMap**: `Record`\<`string`, `number`\>
 
 Record<string, number> , maps construct name with number of deployments
+
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`usageMetricMap`](BaseClass.md#usagemetricmap)
 
 ## Methods
 
@@ -141,6 +172,10 @@ Record<string, number> , maps construct name with number of deployments
 
 `void`
 
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`addObservabilityToConstruct`](BaseClass.md#addobservabilitytoconstruct)
+
 ***
 
 ### toString()
@@ -155,7 +190,7 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-`Construct.toString`
+[`BaseClass`](BaseClass.md).[`toString`](BaseClass.md#tostring)
 
 ***
 
@@ -175,6 +210,10 @@ Returns a string representation of this construct.
 
 `void`
 
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`updateConstructUsageMetricCode`](BaseClass.md#updateconstructusagemetriccode)
+
 ***
 
 ### updateEnvSuffix()
@@ -188,6 +227,10 @@ Returns a string representation of this construct.
 #### Returns
 
 `void`
+
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`updateEnvSuffix`](BaseClass.md#updateenvsuffix)
 
 ***
 
@@ -225,4 +268,4 @@ true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-`Construct.isConstruct`
+[`BaseClass`](BaseClass.md).[`isConstruct`](BaseClass.md#isconstruct)

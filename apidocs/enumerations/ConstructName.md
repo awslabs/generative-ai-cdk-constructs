@@ -25,6 +25,12 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 
 ***
 
+### AWSLLAMAINDEXDATALOADER
+
+> **AWSLLAMAINDEXDATALOADER**: `"C12"`
+
+***
+
 ### AWSMODELDEPLOYMENTSAGEMAKER
 
 > **AWSMODELDEPLOYMENTSAGEMAKER**: `"C4"`

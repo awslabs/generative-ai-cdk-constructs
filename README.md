@@ -139,6 +139,8 @@ The following constructs are available in the library:
 | [Content Generation](./src/patterns/gen-ai/aws-contentgen-appsync-lambda/README.md) | Generate images from text using Amazon titan-image-generator-v1 or stability.stable-diffusion-xl-v1 model.  | AWS Lambda, Amazon Bedrock, AWS AppSync |
 | [Web crawler](./src/patterns/gen-ai/aws-web-crawler/README.md) | Crawl websites and RSS feeds on a schedule and store changeset data in an Amazon Simple Storage Service bucket.  | AWS Lambda, AWS Batch, AWS Fargate, Amazon DynamoDB  |
 | [Amazon Bedrock Monitoring (Amazon CloudWatch Dashboard)](./src/patterns/gen-ai/aws-bedrock-cw-dashboard/README.md) | Amazon CloudWatch dashboard to monitor model usage from Amazon Bedrock. | Amazon CloudWatch |
+| [TXT to SQL](./src/patterns/gen-ai/aws-text-to-sql/README.md) |  Leverages generative AI capabilities to facilitate natural language-based SQL query generation.  | Amazon Event Bridge, Amazon Bedrock, AWS Lambda, Amazon SQS, AWS Secrets, and database of choice |
+| [LlamaIndex Data Loading](./src/patterns/gen-ai/aws-llama-index-data-loader/README.md) | Use LlamaIndex to load data in preparation for generative AI workloads | Amazon ECS Fargate, Amazon SQS, and AWS Systems Manager Parameters |
 
 ### L2 Constructs
 

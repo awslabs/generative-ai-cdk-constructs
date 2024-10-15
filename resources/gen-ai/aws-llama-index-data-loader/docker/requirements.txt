@@ -1,0 +1,4 @@
+boto3==1.35.36
+cachetools==5.5.0
+jsonpickle==3.3.0
+llama-index-readers-s3==0.2.0

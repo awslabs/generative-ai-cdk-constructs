@@ -24,6 +24,8 @@ tsconfig.tsbuildinfo
 !.jsii
 test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp
 test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot
+test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/.tmp
+test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot
 /docs/
 header.js
 .eslintrc.json
