@@ -2145,7 +2145,7 @@
        "Timeout": 30
       },
       "Image": {
-       "Fn::Sub": "${AWS::AccountId}.dkr.ecr.${AWS::Region}.${AWS::URLSuffix}/cdk-hnb659fds-container-assets-${AWS::AccountId}-${AWS::Region}:a999c8fbb93b8afc8e7e1979625c00f051bb46032ebc1f0077bef8c9dccd2596"
+       "Fn::Sub": "${AWS::AccountId}.dkr.ecr.${AWS::Region}.${AWS::URLSuffix}/cdk-hnb659fds-container-assets-${AWS::AccountId}-${AWS::Region}:dbdfbc71da28e53c4e106883b62a14fd19bbe4d7e6dfa907f9454b8f3e2360f1"
       },
       "LogConfiguration": {
        "LogDriver": "awslogs",

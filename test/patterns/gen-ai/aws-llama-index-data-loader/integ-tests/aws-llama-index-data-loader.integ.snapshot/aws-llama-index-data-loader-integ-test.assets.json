@@ -14,7 +14,7 @@
         }
       }
     },
-    "af11868e29e6f9a4330b2c323a00eb24b7858f13cbdc477ab9de72d2299d2765": {
+    "79337835d1f5ddbb3597a3da6c9e54d5baf38f2fa48490699e7725f5d8a4462f": {
       "source": {
         "path": "aws-llama-index-data-loader-integ-test.template.json",
         "packaging": "file"
@@ -22,22 +22,22 @@
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "af11868e29e6f9a4330b2c323a00eb24b7858f13cbdc477ab9de72d2299d2765.json",
+          "objectKey": "79337835d1f5ddbb3597a3da6c9e54d5baf38f2fa48490699e7725f5d8a4462f.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
     }
   },
   "dockerImages": {
-    "a999c8fbb93b8afc8e7e1979625c00f051bb46032ebc1f0077bef8c9dccd2596": {
+    "dbdfbc71da28e53c4e106883b62a14fd19bbe4d7e6dfa907f9454b8f3e2360f1": {
       "source": {
-        "directory": "asset.a999c8fbb93b8afc8e7e1979625c00f051bb46032ebc1f0077bef8c9dccd2596",
+        "directory": "asset.dbdfbc71da28e53c4e106883b62a14fd19bbe4d7e6dfa907f9454b8f3e2360f1",
         "platform": "linux/amd64"
       },
       "destinations": {
         "current_account-current_region": {
           "repositoryName": "cdk-hnb659fds-container-assets-${AWS::AccountId}-${AWS::Region}",
-          "imageTag": "a999c8fbb93b8afc8e7e1979625c00f051bb46032ebc1f0077bef8c9dccd2596",
+          "imageTag": "dbdfbc71da28e53c4e106883b62a14fd19bbe4d7e6dfa907f9454b8f3e2360f1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-image-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }
