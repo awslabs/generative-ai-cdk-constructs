@@ -28,6 +28,30 @@ stable
 
 ***
 
+### allowAllIpv6Outbound?
+
+> `readonly` `optional` **allowAllIpv6Outbound**: `boolean`
+
+Whether to allow the Lambda to send all ipv6 network traffic.
+If set to true, there will only be a single egress rule which allows all
+outbound ipv6 traffic. If set to false, you must individually add traffic rules to allow the
+Lambda to connect to network targets using ipv6.
+
+Do not specify this property if the `securityGroups` or `securityGroup` property is set.
+Instead, configure `allowAllIpv6Outbound` directly on the security group.
+
+#### Default
+
+```ts
+false
+```
+
+#### Stability
+
+stable
+
+***
+
 ### applicationLogLevelV2?
 
 > `readonly` `optional` **applicationLogLevelV2**: `ApplicationLogLevel`
