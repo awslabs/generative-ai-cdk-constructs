@@ -65,6 +65,15 @@ test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.int
 test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/**/manifest.json
 test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/tree.json
 test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/**/tree.json
+test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/.tmp
+test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot/asset.*
+test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot/**/asset.*
+test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot/cdk.out
+test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot/**/cdk.out
+test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot/manifest.json
+test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot/**/manifest.json
+test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot/tree.json
+test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot/**/tree.json
 !/.github/workflows/github-merit-badger.yml
 !/.github/workflows/monthly-repo-metrics.yml
 !/.github/workflows/auto-approve.yml

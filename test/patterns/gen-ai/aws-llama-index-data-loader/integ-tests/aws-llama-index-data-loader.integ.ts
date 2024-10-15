@@ -10,17 +10,26 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-export enum ConstructName {
-  AWSRAGAPPSYNCSTEPFNOPENSEARCH = 'C1',
-  AWSQAAPPSYNCOPENSEARCH = 'C2',
-  AWSSUMMARIZATIONAPPSYNCSTEPFN = 'C3',
-  AWSMODELDEPLOYMENTSAGEMAKER = 'C4',
-  CUSTOMSAGEMAKERENDPOINT = 'C5',
-  HUGGINGFACESAGEMAKERENDPOINT = 'C6',
-  JUMPSTARTSAGEMAKERENDPOINT = 'C7',
-  AWSCONTENTGENAPPSYNCLAMBDA = 'C8',
-  AWSRAGAPPSYNCSTEPFNKENDRA = 'C9',
-  AWSWEBCRAWLER = 'C10',
-  AWSTEXTTOSQL= 'C11',
-  AWSLLAMAINDEXDATALOADER = 'C12',
-}
+import * as integ from '@aws-cdk/integ-tests-alpha';
+import * as cdk from 'aws-cdk-lib';
+import {
+  LlamaIndexDataLoader,
+} from '../../../../../src/patterns/gen-ai/aws-llama-index-data-loader';
+
+const app = new cdk.App();
+const stack = new cdk.Stack(app, 'aws-llama-index-data-loader-integ-test');
+new LlamaIndexDataLoader(stack, 'test', {});
+
+// const integ_case =
+new integ.IntegTest(app, 'ServiceTest', {
+  testCases: [stack],
+  cdkCommandOptions: {
+    destroy: {
+      args: {
+        force: true,
+      },
+    },
+  },
+});
+
+app.synth();
