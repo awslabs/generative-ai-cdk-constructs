@@ -513,6 +513,26 @@ Commonly this is the resource's `ref`.
 
 ***
 
+### grantApply()
+
+> **grantApply**(`grantee`): `Grant`
+
+Grant the given identity permissions to apply the guardrail.
+
+#### Parameters
+
+• **grantee**: `IGrantable`
+
+#### Returns
+
+`Grant`
+
+#### Inherited from
+
+[`GuardrailBase`](GuardrailBase.md).[`grantApply`](GuardrailBase.md#grantapply)
+
+***
+
 ### toString()
 
 > **toString**(): `string`

@@ -109,3 +109,19 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 #### Inherited from
 
 `IResource.applyRemovalPolicy`
+
+***
+
+### grantApply()
+
+> **grantApply**(`grantee`): `Grant`
+
+Grant the given identity permissions to apply the guardrail.
+
+#### Parameters
+
+• **grantee**: `IGrantable`
+
+#### Returns
+
+`Grant`

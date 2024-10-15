@@ -14,6 +14,7 @@
 import * as fs from 'fs';
 import { Arn, ArnFormat, IResolvable, IResource, Lazy, Resource, Stack } from 'aws-cdk-lib';
 import * as bedrock from 'aws-cdk-lib/aws-bedrock';
+import * as iam from 'aws-cdk-lib/aws-iam';
 import { IKey } from 'aws-cdk-lib/aws-kms';
 import { md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
 import { Construct } from 'constructs';
@@ -36,6 +37,10 @@ export interface IGuardrail extends IResource {
    * @example "yympzo398ipq"
    */
   readonly guardrailId: string;
+  /**
+   * Grant the given identity permissions to apply the guardrail.
+   */
+  grantApply(grantee: iam.IGrantable): iam.Grant;
 }
 
 /**
@@ -51,6 +56,17 @@ export abstract class GuardrailBase extends Resource implements IGuardrail {
    * The ID of the guardrail.
    */
   public abstract readonly guardrailId: string;
+  /**
+   * Grant the given identity permissions to apply the guardrail.
+   */
+  public grantApply(grantee: iam.IGrantable): iam.Grant {
+    return iam.Grant.addToPrincipal({
+      grantee,
+      resourceArns: [this.guardrailArn],
+      actions: ['bedrock:ApplyGuardrail'],
+      scope: this,
+    });
+  }
 }
 
 /******************************************************************************
