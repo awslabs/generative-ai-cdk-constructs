@@ -11,27 +11,27 @@
  *  and limitations under the License.
  */
 
-import * as cdk from "aws-cdk-lib";
-import { aws_bedrock as bedrock } from "aws-cdk-lib";
-import * as iam from "aws-cdk-lib/aws-iam";
-import * as kms from "aws-cdk-lib/aws-kms";
-import { Construct } from "constructs";
+import * as cdk from 'aws-cdk-lib';
+import { aws_bedrock as bedrock } from 'aws-cdk-lib';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as kms from 'aws-cdk-lib/aws-kms';
+import { Construct } from 'constructs';
 
-import { AgentActionGroup } from "./agent-action-group";
-import { AgentAlias } from "./agent-alias";
-import { Guardrail } from "./guardrails/guardrails";
-import { KnowledgeBase } from "./knowledge-base";
-import { BedrockFoundationModel } from "./models";
-import { generatePhysicalNameV2 } from "../../common/helpers/utils";
+import { AgentActionGroup } from './agent-action-group';
+import { AgentAlias } from './agent-alias';
+import { Guardrail } from './guardrails/guardrails';
+import { KnowledgeBase } from './knowledge-base';
+import { BedrockFoundationModel } from './models';
+import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 
 /**
  * The step in the agent sequence that this prompt configuration applies to.
  */
 export enum PromptType {
-  PRE_PROCESSING = "PRE_PROCESSING",
-  ORCHESTRATION = "ORCHESTRATION",
-  POST_PROCESSING = "POST_PROCESSING",
-  KNOWLEDGE_BASE_RESPONSE_GENERATION = "KNOWLEDGE_BASE_RESPONSE_GENERATION",
+  PRE_PROCESSING = 'PRE_PROCESSING',
+  ORCHESTRATION = 'ORCHESTRATION',
+  POST_PROCESSING = 'POST_PROCESSING',
+  KNOWLEDGE_BASE_RESPONSE_GENERATION = 'KNOWLEDGE_BASE_RESPONSE_GENERATION',
 }
 
 /**
@@ -42,8 +42,8 @@ export enum PromptType {
  * with the ARN of a Lambda function.
  */
 export enum ParserMode {
-  DEFAULT = "DEFAULT",
-  OVERRIDDEN = "OVERRIDDEN",
+  DEFAULT = 'DEFAULT',
+  OVERRIDDEN = 'OVERRIDDEN',
 }
 
 /**
@@ -53,8 +53,8 @@ export enum ParserMode {
  * uses a default prompt template.
  */
 export enum PromptCreationMode {
-  DEFAULT = "DEFAULT",
-  OVERRIDDEN = "OVERRIDDEN",
+  DEFAULT = 'DEFAULT',
+  OVERRIDDEN = 'OVERRIDDEN',
 }
 
 /**
@@ -68,8 +68,8 @@ export enum PromptCreationMode {
  *     POST_PROCESSING – DISABLED
  */
 export enum PromptState {
-  ENABLED = "ENABLED",
-  DISABLED = "DISABLED",
+  ENABLED = 'ENABLED',
+  DISABLED = 'DISABLED',
 }
 
 /** Details about the guardrail associated with the agent. */
@@ -393,48 +393,48 @@ export class Agent extends Construct {
     validateModel(props.foundationModel);
 
     this.name =
-      props.name ?? generatePhysicalNameV2(this, "bedrock-agent", { maxLength: 32, lower: true, separator: "-" });
+      props.name ?? generatePhysicalNameV2(this, 'bedrock-agent', { maxLength: 32, lower: true, separator: '-' });
 
     if (props.existingRole) {
       this.role = props.existingRole;
     } else {
-      this.role = new iam.Role(this, "Role", {
-        assumedBy: new iam.ServicePrincipal("bedrock.amazonaws.com"),
-        roleName: generatePhysicalNameV2(this, "AmazonBedrockExecutionRoleForAgents_", { maxLength: 64, lower: false }),
+      this.role = new iam.Role(this, 'Role', {
+        assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com'),
+        roleName: generatePhysicalNameV2(this, 'AmazonBedrockExecutionRoleForAgents_', { maxLength: 64, lower: false }),
       });
 
       this.role.assumeRolePolicy!.addStatements(
         new iam.PolicyStatement({
-          actions: ["sts:AssumeRole"],
-          principals: [new iam.ServicePrincipal("bedrock.amazonaws.com")],
+          actions: ['sts:AssumeRole'],
+          principals: [new iam.ServicePrincipal('bedrock.amazonaws.com')],
           conditions: {
             StringEquals: {
-              "aws:SourceAccount": cdk.Stack.of(this).account,
+              'aws:SourceAccount': cdk.Stack.of(this).account,
             },
             ArnLike: {
-              "aws:SourceArn": cdk.Stack.of(this).formatArn({
-                service: "bedrock",
-                resource: "agent",
-                resourceName: "*",
+              'aws:SourceArn': cdk.Stack.of(this).formatArn({
+                service: 'bedrock',
+                resource: 'agent',
+                resourceName: '*',
                 arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
               }),
             },
           },
-        })
+        }),
       );
 
-      new iam.Policy(this, "AgentFMPolicy", {
+      new iam.Policy(this, 'AgentFMPolicy', {
         roles: [this.role],
         statements: [
           new iam.PolicyStatement({
-            actions: ["bedrock:InvokeModel"],
+            actions: ['bedrock:InvokeModel'],
             resources: [props.foundationModel.asArn(this)],
           }),
         ],
       });
     }
 
-    const agent = new bedrock.CfnAgent(this, "Agent", {
+    const agent = new bedrock.CfnAgent(this, 'Agent', {
       agentName: this.name,
 
       foundationModel: String(props.foundationModel),
@@ -481,11 +481,11 @@ export class Agent extends Construct {
     // To allow your agent to request the user for additional information
     // when trying to complete a task, add this action group
     this.addActionGroup(
-      new AgentActionGroup(this, "userInputEnabledActionGroup", {
-        actionGroupName: "UserInputAction",
-        parentActionGroupSignature: "AMAZON.UserInput",
-        actionGroupState: props.enableUserInput ? "ENABLED" : "DISABLED",
-      })
+      new AgentActionGroup(this, 'userInputEnabledActionGroup', {
+        actionGroupName: 'UserInputAction',
+        parentActionGroupSignature: 'AMAZON.UserInput',
+        actionGroupState: props.enableUserInput ? 'ENABLED' : 'DISABLED',
+      }),
     );
   }
 
@@ -517,13 +517,13 @@ export class Agent extends Construct {
    */
   public addKnowledgeBase(knowledgeBase: KnowledgeBase) {
     if (!knowledgeBase.instruction) {
-      throw new Error("Agent Knowledge Bases require instructions.");
+      throw new Error('Agent Knowledge Bases require instructions.');
     }
     new iam.Policy(this, `AgentKBPolicy-${knowledgeBase.name}`, {
       roles: [this.role],
       statements: [
         new iam.PolicyStatement({
-          actions: ["bedrock:UpdateKnowledgeBase", "bedrock:Retrieve"],
+          actions: ['bedrock:UpdateKnowledgeBase', 'bedrock:Retrieve'],
           resources: [knowledgeBase.knowledgeBaseArn],
         }),
       ],
@@ -545,8 +545,8 @@ export class Agent extends Construct {
    * Add action group to the agent.
    */
   public addActionGroup(actionGroup: AgentActionGroup) {
-    actionGroup.actionGroupExecutor?.lambda?.addPermission("AgentLambdaInvocationPolicy", {
-      principal: new iam.ServicePrincipal("bedrock.amazonaws.com"),
+    actionGroup.actionGroupExecutor?.lambda?.addPermission('AgentLambdaInvocationPolicy', {
+      principal: new iam.ServicePrincipal('bedrock.amazonaws.com'),
       sourceArn: this.agentArn,
       sourceAccount: cdk.Stack.of(this).account,
     });
@@ -575,7 +575,7 @@ export class Agent extends Construct {
       roles: [this.role],
       statements: [
         new iam.PolicyStatement({
-          actions: ["bedrock:ApplyGuardrail"],
+          actions: ['bedrock:ApplyGuardrail'],
           resources: [guardrail.guardrailArn],
         }),
       ],
@@ -623,31 +623,31 @@ function validateModel(foundationModel: BedrockFoundationModel) {
  */
 export function validateInferenceConfiguration(inferenceConfiguration: InferenceConfiguration) {
   if (inferenceConfiguration.topK < 0 || inferenceConfiguration.topK > 500) {
-    throw new Error("topK must be between 0 and 500");
+    throw new Error('topK must be between 0 and 500');
   }
 
   if (!Number.isInteger(inferenceConfiguration.topK)) {
-    throw new Error("topK must be an integer");
+    throw new Error('topK must be an integer');
   }
 
   if (inferenceConfiguration.stopSequences.length > 4) {
-    throw new Error("stopSequences cannot contain more than 4 elements");
+    throw new Error('stopSequences cannot contain more than 4 elements');
   }
 
   if (inferenceConfiguration.maximumLength < 0 || inferenceConfiguration.maximumLength > 4096) {
-    throw new Error("maximumLength must be between 0 and 4096");
+    throw new Error('maximumLength must be between 0 and 4096');
   }
 
   if (!Number.isInteger(inferenceConfiguration.maximumLength)) {
-    throw new Error("maximumLength must be an integer");
+    throw new Error('maximumLength must be an integer');
   }
 
   if (inferenceConfiguration.topP < 0 || inferenceConfiguration.topP > 1) {
-    throw new Error("topP must be between 0 and 1");
+    throw new Error('topP must be between 0 and 1');
   }
 
   if (inferenceConfiguration.temperature < 0 || inferenceConfiguration.temperature > 1) {
-    throw new Error("temperature must be between 0 and 1");
+    throw new Error('temperature must be between 0 and 1');
   }
 }
 
@@ -657,7 +657,7 @@ export function validateInferenceConfiguration(inferenceConfiguration: Inference
  * @internal This is an internal core function and should not be called directly.
  */
 export function validatePromptOverrideConfiguration(
-  promptOverrideConfiguration: PromptOverrideConfiguration | undefined
+  promptOverrideConfiguration: PromptOverrideConfiguration | undefined,
 ) {
   if (!promptOverrideConfiguration) {
     return;
@@ -668,7 +668,7 @@ export function validatePromptOverrideConfiguration(
     promptOverrideConfiguration.promptConfigurations.some((pc) => pc.parserMode !== ParserMode.OVERRIDDEN)
   ) {
     throw new Error(
-      "overrideLambda can only be used if all promptConfigurations have a parserMode value of OVERRIDDEN"
+      'overrideLambda can only be used if all promptConfigurations have a parserMode value of OVERRIDDEN',
     );
   }
 
@@ -677,7 +677,7 @@ export function validatePromptOverrideConfiguration(
     promptOverrideConfiguration.promptConfigurations.some((pc) => pc.parserMode === ParserMode.OVERRIDDEN)
   ) {
     throw new Error(
-      "At least one promptConfiguration has a parserMode value of OVERRIDDEN, but no overrideLambda is specified"
+      'At least one promptConfiguration has a parserMode value of OVERRIDDEN, but no overrideLambda is specified',
     );
   }
 

@@ -11,13 +11,13 @@
  *  and limitations under the License.
  */
 
-import { Arn, ArnFormat, IResolvable, IResource, Lazy, Resource, Stack } from "aws-cdk-lib";
-import { IKey } from "aws-cdk-lib/aws-kms";
-import { Construct } from "constructs";
-import { md5hash } from "aws-cdk-lib/core/lib/helpers-internal";
-import * as bedrock from "aws-cdk-lib/aws-bedrock";
-import * as filters from "./guardrail-filters";
-import * as fs from "fs";
+import * as fs from 'fs';
+import { Arn, ArnFormat, IResolvable, IResource, Lazy, Resource, Stack } from 'aws-cdk-lib';
+import * as bedrock from 'aws-cdk-lib/aws-bedrock';
+import { IKey } from 'aws-cdk-lib/aws-kms';
+import { md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
+import { Construct } from 'constructs';
+import * as filters from './guardrail-filters';
 
 /******************************************************************************
  *                              COMMON
@@ -141,8 +141,8 @@ export class Guardrail extends GuardrailBase {
     class Import extends GuardrailBase {
       public readonly guardrailId = guardrailId;
       public readonly guardrailArn = Stack.of(scope).formatArn({
-        service: "bedrock",
-        resource: "guardrail",
+        service: 'bedrock',
+        resource: 'guardrail',
         resourceName: guardrailId,
       });
     }
@@ -229,8 +229,8 @@ export class Guardrail extends GuardrailBase {
     this.wordFilters = props.wordFilters ?? [];
     this.managedWordListFilters = props.managedWordListFilters ?? [];
 
-    const defaultBlockedInputMessaging = "Sorry, your query violates our usage policy.";
-    const defaultBlockedOutputsMessaging = "Sorry, I am unable to answer your question because of our usage policy.";
+    const defaultBlockedInputMessaging = 'Sorry, your query violates our usage policy.';
+    const defaultBlockedOutputsMessaging = 'Sorry, I am unable to answer your question because of our usage policy.';
 
     // ------------------------------------------------------
     // CFN Props - With Lazy support
@@ -255,7 +255,7 @@ export class Guardrail extends GuardrailBase {
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
-    this.__resource = new bedrock.CfnGuardrail(this, "MyGuardrail", cfnProps);
+    this.__resource = new bedrock.CfnGuardrail(this, 'MyGuardrail', cfnProps);
 
     this.guardrailId = this.__resource.attrGuardrailId;
     this.guardrailArn = this.__resource.attrGuardrailArn;
@@ -318,8 +318,8 @@ export class Guardrail extends GuardrailBase {
    * @param filePath The location of the word filter file.
    */
   public addWordFilterFromFile(filePath: string): void {
-    const fileContents = fs.readFileSync(filePath, "utf8");
-    const words = fileContents.trim().split(",");
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const words = fileContents.trim().split(',');
     for (const word of words) this.addWordFilter(word);
   }
 
@@ -379,7 +379,7 @@ export class Guardrail extends GuardrailBase {
                 definition: topic.definition,
                 name: topic.name,
                 examples: topic.examples,
-                type: "DENY",
+                type: 'DENY',
               } as bedrock.CfnGuardrail.TopicConfigProperty;
             }),
           };
@@ -447,7 +447,7 @@ export class Guardrail extends GuardrailBase {
           });
         },
       },
-      { omitEmptyArray: true }
+      { omitEmptyArray: true },
     );
   }
 
@@ -466,7 +466,7 @@ export class Guardrail extends GuardrailBase {
           });
         },
       },
-      { omitEmptyArray: true }
+      { omitEmptyArray: true },
     );
   }
 
@@ -488,7 +488,7 @@ export class Guardrail extends GuardrailBase {
           }
         },
       },
-      { omitEmptyArray: true }
+      { omitEmptyArray: true },
     );
   }
 
@@ -510,7 +510,7 @@ export class Guardrail extends GuardrailBase {
           });
         },
       },
-      { omitEmptyArray: true }
+      { omitEmptyArray: true },
     );
   }
 
@@ -530,7 +530,7 @@ export class Guardrail extends GuardrailBase {
           });
         },
       },
-      { omitEmptyArray: true }
+      { omitEmptyArray: true },
     );
   }
 }
