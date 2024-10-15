@@ -22,7 +22,7 @@ const regexFilter: RegexFilter = {
 
 ### action
 
-> `readonly` **action**: [`SensitiveInfoGuardrailAction`](../enumerations/SensitiveInfoGuardrailAction.md)
+> `readonly` **action**: [`GuardrailAction`](../enumerations/GuardrailAction.md)
 
 The action to take when a regex match is detected.
 

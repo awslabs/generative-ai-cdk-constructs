@@ -2,7 +2,7 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../../../README.md) / [bedrock](../../../README.md) / [SampleDenyTopics](../README.md) / FINANCIAL\_ADVICE
+[@cdklabs/generative-ai-cdk-constructs](../../../../../README.md) / [bedrock](../../../README.md) / [GuardrailSampleTopics](../README.md) / FINANCIAL\_ADVICE
 
 # Variable: FINANCIAL\_ADVICE
 

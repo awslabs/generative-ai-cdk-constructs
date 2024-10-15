@@ -2,9 +2,9 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / SensitiveInfoGuardrailAction
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / GuardrailAction
 
-# Enumeration: SensitiveInfoGuardrailAction
+# Enumeration: GuardrailAction
 
 Guardrail action when a sensitive entity is detected.
 

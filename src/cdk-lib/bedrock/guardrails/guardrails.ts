@@ -206,7 +206,7 @@ export class Guardrail extends GuardrailBase {
   /**
    * The computed hash of the guardrail properties.
    */
-  public readonly hash: string;
+  private readonly hash: string;
   /**
    * The L1 representation of the guardrail
    */

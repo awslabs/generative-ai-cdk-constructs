@@ -92,9 +92,9 @@ The managed word filters to apply to the guardrail.
 
 ***
 
-### name?
+### name
 
-> `readonly` `optional` **name**: `string`
+> `readonly` **name**: `string`
 
 The name of the guardrail.
 

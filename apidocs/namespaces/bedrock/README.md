@@ -10,8 +10,8 @@
 
 ### Namespaces
 
+- [GuardrailSampleTopics](namespaces/GuardrailSampleTopics/README.md)
 - [PIIType](namespaces/PIIType/README.md)
-- [SampleDenyTopics](namespaces/SampleDenyTopics/README.md)
 
 ### Enumerations
 
@@ -23,6 +23,7 @@
 - [CrawlingScope](enumerations/CrawlingScope.md)
 - [DataDeletionPolicy](enumerations/DataDeletionPolicy.md)
 - [DataSourceType](enumerations/DataSourceType.md)
+- [GuardrailAction](enumerations/GuardrailAction.md)
 - [ManagedWordFilterType](enumerations/ManagedWordFilterType.md)
 - [ParserMode](enumerations/ParserMode.md)
 - [PromptCreationMode](enumerations/PromptCreationMode.md)
@@ -31,7 +32,6 @@
 - [PromptType](enumerations/PromptType.md)
 - [SalesforceDataSourceAuthType](enumerations/SalesforceDataSourceAuthType.md)
 - [SalesforceObjectType](enumerations/SalesforceObjectType.md)
-- [SensitiveInfoGuardrailAction](enumerations/SensitiveInfoGuardrailAction.md)
 - [SharePointDataSourceAuthType](enumerations/SharePointDataSourceAuthType.md)
 - [SharePointObjectType](enumerations/SharePointObjectType.md)
 - [TransformationStep](enumerations/TransformationStep.md)

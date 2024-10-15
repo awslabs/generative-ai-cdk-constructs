@@ -12,7 +12,7 @@ Interface to define a PII Filter.
 
 ### action
 
-> `readonly` **action**: [`SensitiveInfoGuardrailAction`](../enumerations/SensitiveInfoGuardrailAction.md)
+> `readonly` **action**: [`GuardrailAction`](../enumerations/GuardrailAction.md)
 
 The action to take when PII is detected.
 
