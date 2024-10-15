@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 
-import { Arn, ArnFormat, IResource, Lazy, Resource, Stack } from "aws-cdk-lib";
+import { Arn, ArnFormat, IResolvable, IResource, Lazy, Resource, Stack } from "aws-cdk-lib";
 import { IKey } from "aws-cdk-lib/aws-kms";
 import { Construct } from "constructs";
 import { md5hash } from "aws-cdk-lib/core/lib/helpers-internal";
@@ -231,7 +231,6 @@ export class Guardrail extends GuardrailBase {
     this.wordFilters = props.wordFilters ?? [];
     this.managedWordListFilters = props.managedWordListFilters ?? [];
 
-    console.log(props.managedWordListFilters);
     const defaultBlockedInputMessaging = "Sorry, your query violates our usage policy.";
     const defaultBlockedOutputsMessaging = "Sorry, I am unable to answer your question because of our usage policy.";
 
@@ -239,85 +238,17 @@ export class Guardrail extends GuardrailBase {
     // CFN Props - With Lazy support
     // ------------------------------------------------------
     let cfnProps: bedrock.CfnGuardrailProps = {
-      blockedInputMessaging: props.blockedInputMessaging ?? defaultBlockedInputMessaging,
-      blockedOutputsMessaging: props.blockedOutputsMessaging ?? defaultBlockedOutputsMessaging,
       name: this.name,
       description: props.description,
       kmsKeyArn: props.kmsKey?.keyArn,
-      contentPolicyConfig: Lazy.any({
-        produce: () => {
-          if (this.contentFilters.length > 0) {
-            filtersConfig: {
-              this.contentFilters;
-            }
-          } else {
-            undefined;
-          }
-        },
-      }),
-      sensitiveInformationPolicyConfig: Lazy.any({
-        produce: () => {
-          if (this.piiFilters.length > 0 || this.regexFilters.length > 0) {
-            return {
-              filtersConfig: {
-                piiEntitiesConfig: this.piiFilters.length > 0 ? this.piiFilters : undefined,
-                regexesConfig: this.regexFilters.length > 0 ? this.regexFilters : undefined,
-              },
-            };
-          } else {
-            return undefined;
-          }
-        },
-      }),
-      topicPolicyConfig: Lazy.any({
-        produce: () => {
-          if (this.deniedTopics.length > 0) {
-            return {
-              topicsConfig: this.deniedTopics.map((topic) => {
-                name: topic.name;
-                definition: topic.definition;
-                examples: topic.examples;
-                type: "DENY";
-              }),
-            };
-          } else {
-            return undefined;
-          }
-        },
-      }),
-      contextualGroundingPolicyConfig: Lazy.any({
-        produce: () => {
-          if (this.contextualGroundingFilters.length > 0) {
-            return {
-              filtersConfig: this.contextualGroundingFilters,
-            };
-          } else {
-            return undefined;
-          }
-        },
-      }),
-      wordPolicyConfig: Lazy.any({
-        produce: () => {
-          if (this.wordFilters.length > 0 || this.managedWordListFilters.length > 0) {
-            return {
-              wordsConfig:
-                this.wordFilters.length > 0
-                  ? this.wordFilters.map((elem) => {
-                      text: elem;
-                    })
-                  : undefined,
-              managedWordListsConfig:
-                this.managedWordListFilters.length > 0
-                  ? this.managedWordListFilters.map((elem) => {
-                      type: elem;
-                    })
-                  : undefined,
-            };
-          } else {
-            return undefined;
-          }
-        },
-      }),
+      blockedInputMessaging: props.blockedInputMessaging ?? defaultBlockedInputMessaging,
+      blockedOutputsMessaging: props.blockedOutputsMessaging ?? defaultBlockedOutputsMessaging,
+      // Lazy props
+      contentPolicyConfig: this.generateCfnContentPolicyConfig(),
+      contextualGroundingPolicyConfig: this.generateCfnContextualPolicyConfig(),
+      topicPolicyConfig: this.generateCfnTopicPolicy(),
+      wordPolicyConfig: this.generateCfnWordPolicyConfig(),
+      sensitiveInformationPolicyConfig: this.generateCfnSensitiveInformationPolicyConfig(),
     };
 
     // Hash calculation useful for versioning of the guardrail
@@ -415,5 +346,190 @@ export class Guardrail extends GuardrailBase {
 
     this.guardrailVersion = cfnVersion.attrVersion;
     return this.guardrailVersion;
+  }
+
+  // ------------------------------------------------------
+  // CFN Generators
+  // ------------------------------------------------------
+  /**
+   * Returns the content filters applied to the guardrail. This method defers the computation
+   * to synth time.
+   */
+  private generateCfnContentPolicyConfig(): IResolvable {
+    return Lazy.any(
+      {
+        produce: () => {
+          return { filtersConfig: this.contentFilters } as bedrock.CfnGuardrail.ContentPolicyConfigProperty;
+        },
+      },
+      { omitEmptyArray: true }
+    );
+  }
+
+  /**
+   * Returns the topic filters applied to the guardrail. This method defers the computation
+   * to synth time.
+   */
+  private generateCfnTopicPolicy(): IResolvable {
+    return Lazy.any(
+      {
+        produce: () => {
+          return {
+            topicsConfig: this.deniedTopics.flatMap((topic: filters.DeniedTopic) => {
+              return {
+                definition: topic.definition,
+                name: topic.name,
+                examples: topic.examples,
+                type: "DENY",
+              } as bedrock.CfnGuardrail.TopicConfigProperty;
+            }),
+          };
+        },
+      },
+      { omitEmptyArray: true }
+    );
+  }
+
+  /**
+   * Returns the contectual filters applied to the guardrail. This method defers the computation
+   * to synth time.
+   */
+  private generateCfnContextualPolicyConfig(): IResolvable {
+    return Lazy.any(
+      {
+        produce: () => {
+          return {
+            filtersConfig: this.contextualGroundingFilters.flatMap((filter: filters.ContextualGroundingFilter) => {
+              return {
+                type: filter.type,
+                threshold: filter.threshold,
+              } as bedrock.CfnGuardrail.ContextualGroundingFilterConfigProperty;
+            }),
+          };
+        },
+      },
+      { omitEmptyArray: true }
+    );
+  }
+
+  /**
+   * Returns the word config applied to the guardrail. This method defers the computation
+   * to synth time.
+   */
+  private generateCfnWordPolicyConfig(): IResolvable {
+    return Lazy.any({
+      produce: () => {
+        if (this.wordFilters.length > 0 || this.managedWordListFilters.length > 0) {
+          return {
+            wordsConfig: this.generateCfnWordConfig(),
+            managedWordListsConfig: this.generateCfnManagedWordListsConfig(),
+          } as bedrock.CfnGuardrail.WordPolicyConfigProperty;
+        } else {
+          return undefined;
+        }
+      },
+    });
+  }
+
+  /**
+   * Returns the word filters applied to the guardrail. This method defers the computation
+   * to synth time.
+   */
+  private generateCfnWordConfig(): IResolvable {
+    return Lazy.any(
+      {
+        produce: () => {
+          return this.wordFilters.flatMap((word: string) => {
+            return {
+              text: word,
+            } as bedrock.CfnGuardrail.WordConfigProperty;
+          });
+        },
+      },
+      { omitEmptyArray: true }
+    );
+  }
+
+  /**
+   * Returns the word filters applied to the guardrail. This method defers the computation
+   * to synth time.
+   */
+  private generateCfnManagedWordListsConfig(): IResolvable {
+    return Lazy.any(
+      {
+        produce: () => {
+          return this.managedWordListFilters.flatMap((filter: filters.ManagedWordFilterType) => {
+            return {
+              type: filter.toString(),
+            } as bedrock.CfnGuardrail.ManagedWordsConfigProperty;
+          });
+        },
+      },
+      { omitEmptyArray: true }
+    );
+  }
+
+  /**
+   * Returns the sensitive information config applied to the guardrail. This method defers the computation
+   * to synth time.
+   */
+  private generateCfnSensitiveInformationPolicyConfig(): IResolvable {
+    return Lazy.any(
+      {
+        produce: () => {
+          if (this.regexFilters.length > 0 || this.piiFilters.length > 0) {
+            return {
+              regexesConfig: this.generateCfnRegexesConfig(),
+              piiEntitiesConfig: this.generateCfnPiiEntitiesConfig(),
+            };
+          } else {
+            return undefined;
+          }
+        },
+      },
+      { omitEmptyArray: true }
+    );
+  }
+
+  /**
+   * Returns the regex filters applied to the guardrail. This method defers the computation
+   * to synth time.
+   */
+  private generateCfnRegexesConfig(): IResolvable {
+    return Lazy.any(
+      {
+        produce: () => {
+          return this.regexFilters.flatMap((regex: filters.RegexFilter) => {
+            return {
+              name: regex.name,
+              description: regex.description,
+              pattern: regex.pattern,
+              action: regex.action,
+            } as bedrock.CfnGuardrail.RegexConfigProperty;
+          });
+        },
+      },
+      { omitEmptyArray: true }
+    );
+  }
+
+  /**
+   * Returns the Pii filters applied to the guardrail. This method defers the computation
+   * to synth time.
+   */
+  private generateCfnPiiEntitiesConfig(): IResolvable {
+    return Lazy.any(
+      {
+        produce: () => {
+          return this.piiFilters.flatMap((filter: filters.PIIFilter) => {
+            return {
+              type: filter.type,
+              action: filter.action,
+            } as bedrock.CfnGuardrail.PiiEntityConfigProperty;
+          });
+        },
+      },
+      { omitEmptyArray: true }
+    );
   }
 }

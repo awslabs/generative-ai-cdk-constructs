@@ -113,24 +113,6 @@ export interface DeniedTopic {
 }
 
 /******************************************************************************
- *                              SAMPLE TOPICS
- *****************************************************************************/
-export namespace SampleDenyTopics {
-  export const FINANCIAL_ADVICE: DeniedTopic = {
-    name: "Financial_Advice",
-    definition:
-      "'Discussions that involve providing guidance, recommendations, or suggestions related to managing, investing, or handling finances, investments, or assets.",
-    examples: [
-      "Can you suggest some good stocks to invest in right now?",
-      "What's the best way to save for retirement?",
-      "Should I put my money in a high-risk investment?",
-      "How can I maximize my returns on investments?",
-      "Is it a good time to buy real estate?",
-    ],
-  };
-}
-
-/******************************************************************************
  *                               WORD FILTERS
  *****************************************************************************/
 /**
@@ -141,36 +123,6 @@ export enum ManagedWordFilterType {
 }
 
 export type WordFilter = string[] | ManagedWordFilterType[];
-// export class WordFilter {
-//   /**
-//    * Populates the word filter with words and phrases from a .txt or .csv file
-//    * that resides in your computer.
-//    * @param filePath the local path where the file can be found.
-//    */
-//   public static fromFile(filePath: string): string[] {
-//     let wordsFilter: string[] = [];
-
-//     // Read the file line by line and extract the words
-//     const fileContents = fs.readFile(filePath
-
-//     const lines = fileContents.trim().split(",");
-
-//     for (const line of lines) {
-//       const word = line.trim();
-//       if (word) {
-//         wordsFilter.push(word);
-//       }
-//     }
-//     return wordsFilter;
-//   }
-
-//   /**
-//    * Manually add words and phrases.
-//    */
-//   public static fromList(items: string[]) {
-//     return items;
-//   }
-// }
 
 /******************************************************************************
  *                   SENSITIVE INFORMATION FILTERS - PII
