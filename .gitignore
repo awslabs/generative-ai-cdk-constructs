@@ -56,6 +56,15 @@ junit.xml
 !/.eslintrc.json
 .jsii
 tsconfig.json
+test/cdk-lib/bedrock/integ-tests/.tmp
+test/cdk-lib/bedrock/integ-tests/guardrails.integ.snapshot/asset.*
+test/cdk-lib/bedrock/integ-tests/guardrails.integ.snapshot/**/asset.*
+test/cdk-lib/bedrock/integ-tests/guardrails.integ.snapshot/cdk.out
+test/cdk-lib/bedrock/integ-tests/guardrails.integ.snapshot/**/cdk.out
+test/cdk-lib/bedrock/integ-tests/guardrails.integ.snapshot/manifest.json
+test/cdk-lib/bedrock/integ-tests/guardrails.integ.snapshot/**/manifest.json
+test/cdk-lib/bedrock/integ-tests/guardrails.integ.snapshot/tree.json
+test/cdk-lib/bedrock/integ-tests/guardrails.integ.snapshot/**/tree.json
 test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp
 test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/asset.*
 test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/**/asset.*

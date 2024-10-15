@@ -227,10 +227,76 @@
         }
       ]
     },
+    "integ:guardrails:assert": {
+      "name": "integ:guardrails:assert",
+      "description": "assert the snapshot of integration test 'guardrails'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/cdk-lib/bedrock/integ-tests/guardrails.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'guardrails'. Run 'projen integ:guardrails:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/guardrails.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/cdk-lib/bedrock/integ-tests/.tmp/guardrails.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/cdk-lib/bedrock/integ-tests/guardrails.integ.snapshot/ test/cdk-lib/bedrock/integ-tests/.tmp/guardrails.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:guardrails:deploy": {
+      "name": "integ:guardrails:deploy",
+      "description": "deploy integration test 'guardrails' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/cdk-lib/bedrock/integ-tests/.tmp/guardrails.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/guardrails.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/cdk-lib/bedrock/integ-tests/.tmp/guardrails.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/cdk-lib/bedrock/integ-tests/guardrails.integ.snapshot"
+        },
+        {
+          "exec": "mv test/cdk-lib/bedrock/integ-tests/.tmp/guardrails.integ/deploy.cdk.out test/cdk-lib/bedrock/integ-tests/guardrails.integ.snapshot"
+        },
+        {
+          "spawn": "integ:guardrails:destroy"
+        }
+      ]
+    },
+    "integ:guardrails:destroy": {
+      "name": "integ:guardrails:destroy",
+      "description": "destroy integration test 'guardrails'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/cdk-lib/bedrock/integ-tests/guardrails.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:guardrails:snapshot": {
+      "name": "integ:guardrails:snapshot",
+      "description": "update snapshot for integration test \"guardrails\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/guardrails.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/cdk-lib/bedrock/integ-tests/guardrails.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:guardrails:watch": {
+      "name": "integ:guardrails:watch",
+      "description": "watch integration test 'guardrails' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/cdk-lib/bedrock/integ-tests/guardrails.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/cdk-lib/bedrock/integ-tests/.tmp/guardrails.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:snapshot-all": {
       "name": "integ:snapshot-all",
       "description": "update snapshot for all integration tests",
       "steps": [
+        {
+          "spawn": "integ:guardrails:snapshot"
+        },
         {
           "spawn": "integ:aws-aoss-cw-dashboard:snapshot"
         }
@@ -372,6 +438,9 @@
         },
         {
           "spawn": "eslint"
+        },
+        {
+          "spawn": "integ:guardrails:assert"
         },
         {
           "spawn": "integ:aws-aoss-cw-dashboard:assert"

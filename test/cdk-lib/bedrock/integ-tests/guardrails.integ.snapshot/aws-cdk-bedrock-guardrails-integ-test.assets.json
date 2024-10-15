@@ -1,0 +1,19 @@
+{
+  "version": "36.3.0",
+  "files": {
+    "504a8fb80b0e9cd12288594bb701900fc846967501d62ba8da0555ee74dc524e": {
+      "source": {
+        "path": "aws-cdk-bedrock-guardrails-integ-test.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "504a8fb80b0e9cd12288594bb701900fc846967501d62ba8da0555ee74dc524e.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

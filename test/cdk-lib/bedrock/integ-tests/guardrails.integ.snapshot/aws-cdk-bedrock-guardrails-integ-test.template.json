@@ -1,0 +1,175 @@
+{
+ "Resources": {
+  "guardrailskey474FF257": {
+   "Type": "AWS::KMS::Key",
+   "Properties": {
+    "EnableKeyRotation": true,
+    "KeyPolicy": {
+     "Statement": [
+      {
+       "Action": "kms:*",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":root"
+          ]
+         ]
+        }
+       },
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "guardrailsMyGuardrailCBC221C6": {
+   "Type": "AWS::Bedrock::Guardrail",
+   "Properties": {
+    "BlockedInputMessaging": "Sorry, your query violates our usage policy.",
+    "BlockedOutputsMessaging": "Sorry, I am unable to answer your question because of our usage policy.",
+    "ContentPolicyConfig": {
+     "FiltersConfig": [
+      {
+       "InputStrength": "LOW",
+       "OutputStrength": "LOW",
+       "Type": "MISCONDUCT"
+      }
+     ]
+    },
+    "ContextualGroundingPolicyConfig": {
+     "FiltersConfig": [
+      {
+       "Threshold": 0.95,
+       "Type": "GROUNDING"
+      }
+     ]
+    },
+    "Description": "This is a test guardrail",
+    "KmsKeyArn": {
+     "Fn::GetAtt": [
+      "guardrailskey474FF257",
+      "Arn"
+     ]
+    },
+    "Name": "test-guardrail",
+    "SensitiveInformationPolicyConfig": {
+     "PiiEntitiesConfig": [
+      {
+       "Action": "ANONYMIZE",
+       "Type": "ADDRESS"
+      }
+     ],
+     "RegexesConfig": [
+      {
+       "Action": "ANONYMIZE",
+       "Name": "regex",
+       "Pattern": "234242.*"
+      }
+     ]
+    },
+    "TopicPolicyConfig": {
+     "TopicsConfig": [
+      {
+       "Definition": "'Discussions that involve providing guidance, recommendations, or suggestions related to managing, investing, or handling finances, investments, or assets.",
+       "Examples": [
+        "Can you suggest some good stocks to invest in right now?",
+        "What's the best way to save for retirement?",
+        "Should I put my money in a high-risk investment?",
+        "How can I maximize my returns on investments?",
+        "Is it a good time to buy real estate?"
+       ],
+       "Name": "Financial_Advice",
+       "Type": "DENY"
+      },
+      {
+       "Definition": "Offering guidance or suggestions on legal matters, legal actions, interpretation of laws, or legal rights and responsibilities.",
+       "Examples": [
+        "Can I sue someone for this?",
+        "What are my legal rights in this situation?",
+        "Is this action against the law?",
+        "What should I do to file a legal complaint?",
+        "Can you explain this law to me?"
+       ],
+       "Name": "Legal_Advice",
+       "Type": "DENY"
+      }
+     ]
+    },
+    "WordPolicyConfig": {
+     "ManagedWordListsConfig": [
+      {
+       "Type": "PROFANITY"
+      }
+     ],
+     "WordsConfig": [
+      {
+       "Text": "sex"
+      },
+      {
+       "Text": "drugs"
+      }
+     ]
+    }
+   }
+  },
+  "guardrailsGuardrailVersion16295de504adefe7BEA4BA9D": {
+   "Type": "AWS::Bedrock::GuardrailVersion",
+   "Properties": {
+    "GuardrailIdentifier": {
+     "Fn::GetAtt": [
+      "guardrailsMyGuardrailCBC221C6",
+      "GuardrailId"
+     ]
+    }
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
