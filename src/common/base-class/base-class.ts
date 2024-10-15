@@ -62,6 +62,7 @@ export class BaseClass extends Construct {
     [ConstructName.HUGGINGFACESAGEMAKERENDPOINT]: 0,
     [ConstructName.JUMPSTARTSAGEMAKERENDPOINT]: 0,
     [ConstructName.AWSCONTENTGENAPPSYNCLAMBDA]: 0,
+    [ConstructName.AWSLLAMAINDEXDATALOADER]: 0,
   };
 
 
