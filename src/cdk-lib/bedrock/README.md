@@ -1089,7 +1089,7 @@ guardrail.addManagedWordListFilter(ManagedWordFilterType.PROFANITY);
 guardrails.addWordFilterFromFile("./scripts/wordsPolicy.csv");
 
 // versioning - if you change any guardrail configuration, a new version will be created
-guardrails.addVersion("testversion");
+guardrails.createVersion("testversion");
 
 // Importing existing guardrail
 guardrail = bedrock.Guardrail.fromGuardrailId(this, "TestGuardrail", "oygh3o8g7rtl");
