@@ -212,6 +212,11 @@ export class WebCrawler extends BaseClass {
             name: 'isolated',
             subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
           },
+          {
+            name: 'private',
+            subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
+            cidrMask: 24,
+          },
         ],
       });
 
@@ -363,7 +368,7 @@ export class WebCrawler extends BaseClass {
       replaceComputeEnvironment: true,
       updateTimeout: cdk.Duration.minutes(30),
       updateToLatestImageVersion: true,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
     });
 
     const jobQueue = new batch.JobQueue(this, 'webCrawlerJobQueue', {

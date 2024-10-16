@@ -212,16 +212,15 @@ export class QaAppsyncOpensearch extends BaseClass {
     if (props?.existingVpc) {
       this.vpc = props.existingVpc;
     } else {
+      //this.vpc = new ec2.Vpc(this, 'Vpc', props.vpcProps);
       this.vpc = vpc_helper.buildVpc(scope, {
         defaultVpcProps: props?.vpcProps,
         vpcName: 'qaAppSyncOsVpc',
       });
-
       //vpc endpoints
       vpc_helper.AddAwsServiceEndpoint(scope, this.vpc, [
         vpc_helper.ServiceEndpointTypeEnum.S3,
         vpc_helper.ServiceEndpointTypeEnum.BEDROCK_RUNTIME,
-        vpc_helper.ServiceEndpointTypeEnum.APP_SYNC,
       ]);
     }
 
@@ -541,7 +540,7 @@ export class QaAppsyncOpensearch extends BaseClass {
       description: 'Lambda function for question answering',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(15),

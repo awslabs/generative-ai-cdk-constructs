@@ -800,6 +800,11 @@ export class SummarizationAppsyncStepfn extends BaseClass {
     const logGroupName = generatePhysicalNameV2(this, logGroupPrefix,
       { maxLength: maxGeneratedNameLength, lower: true });
 
+    const summarizationLogGroup = new logs.LogGroup(this, 'summarizationLogGroup', {
+      logGroupName: logGroupName,
+      removalPolicy: RemovalPolicy.DESTROY,
+      retention: logs.RetentionDays.ONE_WEEK,
+    });
 
     // step function definition
     const definition = inputValidationTask.next(
@@ -816,7 +821,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       definitionBody: sfn.DefinitionBody.fromChainable(definition),
       timeout: Duration.minutes(15),
       logs: {
-        destination: getLoggroup(this, logGroupName),
+        destination: summarizationLogGroup,
         level: sfn.LogLevel.ALL,
       },
       tracingEnabled: this.enablexray,
@@ -875,17 +880,3 @@ export class SummarizationAppsyncStepfn extends BaseClass {
   }
 }
 
-function getLoggroup(stack: Construct, logGroupName: string) {
-  const existingLogGroup = logs.LogGroup.fromLogGroupName(
-    stack, 'ExistingSummarizationLogGroup', logGroupName);
-
-  if (existingLogGroup.logGroupName) {
-    return existingLogGroup;
-  } else {
-    return new logs.LogGroup(stack, 'SummarizationLogGroup', {
-      logGroupName: logGroupName,
-      retention: logs.RetentionDays.ONE_MONTH,
-      removalPolicy: RemovalPolicy.DESTROY,
-    });
-  }
-}

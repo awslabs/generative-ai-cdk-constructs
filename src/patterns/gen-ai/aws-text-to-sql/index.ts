@@ -272,6 +272,8 @@ export class TextToSql extends BaseClass {
       this.vpc = props.existingVpc;
       this.subnetGroup = props.existingSubnetGroup;
     } else {
+      //this.vpc = new ec2.Vpc(this, 'Vpc', props.vpcProps);
+
       this.vpc = vpcHelper.buildVpc(scope, {
         defaultVpcProps: props?.vpcProps,
         vpcName: 'awsTextToSqlVpc',
@@ -572,7 +574,7 @@ export class TextToSql extends BaseClass {
         ),
       ),
       vpc: this.vpc,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.lambdaSecurityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(10),
@@ -610,7 +612,7 @@ export class TextToSql extends BaseClass {
         ),
       ),
       vpc: this.vpc,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.lambdaSecurityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(10),
@@ -649,7 +651,7 @@ export class TextToSql extends BaseClass {
         ),
       ),
       vpc: this.vpc,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.lambdaSecurityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(10),
@@ -688,7 +690,7 @@ export class TextToSql extends BaseClass {
         ),
       ),
       vpc: this.vpc,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.lambdaSecurityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769 * 4),
       timeout: Duration.minutes(10),
