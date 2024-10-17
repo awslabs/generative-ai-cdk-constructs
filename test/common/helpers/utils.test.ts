@@ -286,12 +286,12 @@ describe('generatePhysicalNameV2', () => {
       testResourceB,
       'test',
       {
-        destroyCreate: { "one": "XXX", "two": true, "three": undefined }
+        destroyCreate: { one: 'XXX', two: true, three: undefined },
       });
 
-      expect(hashedName).not.toMatch(new RegExp('^test' + testResourceB.stack.stackName));
-      expect(hashedName).toMatch(new RegExp('^test' + '[0-9a-f]{7}' + testResourceB.stack.stackName));
-      expect(hashedName).toEqual('test0221ffeTestStackAB27595CD3')
+    expect(hashedName).not.toMatch(new RegExp('^test' + testResourceB.stack.stackName));
+    expect(hashedName).toMatch(new RegExp('^test' + '[0-9a-f]{7}' + testResourceB.stack.stackName));
+    expect(hashedName).toEqual('test0221ffeTestStackAB27595CD3');
   });
 
   describe('kendra general utils', () => {
