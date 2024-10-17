@@ -83,7 +83,7 @@
     "standard-version": "^9",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
-    "typedoc": "^0.26.9",
+    "typedoc": "^0.26.10",
     "typedoc-plugin-markdown": "^4.2.9",
     "typescript": "^5.6.3"
   },
@@ -92,7 +92,7 @@
     "constructs": "^10.3.0"
   },
   "dependencies": {
-    "cdk-nag": "^2.29.7",
+    "cdk-nag": "^2.29.8",
     "deepmerge": "^4.3.1"
   },
   "bundledDependencies": [
