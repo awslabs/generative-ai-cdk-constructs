@@ -748,6 +748,12 @@
 
 ***
 
+### HUGGINGFACE\_LLM\_AMAZON\_FALCONLITE\_1\_2\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_AMAZON\_FALCONLITE\_1\_2\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
 ### HUGGINGFACE\_LLM\_AMAZON\_FALCONLITE2\_1\_0\_0
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_AMAZON\_FALCONLITE2\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -1735,6 +1741,18 @@
 ### HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_4\_1\_1
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_4\_1\_1**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_4\_2\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_4\_2\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_4\_3\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_FALCON\_7B\_INSTRUCT\_BF16\_4\_3\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ***
 
@@ -14767,6 +14785,12 @@
 ### META\_TEXTGENERATION\_LLAMA\_GUARD\_3\_8B\_1\_0\_2
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_GUARD\_3\_8B\_1\_0\_2**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### META\_TEXTGENERATION\_LLAMA\_GUARD\_3\_8B\_1\_0\_3
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_GUARD\_3\_8B\_1\_0\_3**: [`JumpStartModel`](JumpStartModel.md)
 
 ***
 
