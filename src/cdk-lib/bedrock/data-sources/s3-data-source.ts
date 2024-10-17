@@ -99,7 +99,12 @@ export class S3DataSource extends DataSourceNew {
     // Assign attributes
     this.knowledgeBase = props.knowledgeBase;
     this.dataSourceType = DataSourceType.S3;
-    this.dataSourceName = props.dataSourceName ?? generatePhysicalNameV2(this, 's3-ds', { maxLength: 40, lower: true, separator: '-' });;
+
+    // Turns out chunking and parsing are not replace so pass
+    const chunkingStrategy = props.chunkingStrategy;
+    const parsingStrategy = props.parsingStrategy;
+    const theseAreNotReplacable = { chunkingStrategy, parsingStrategy };
+    this.dataSourceName = props.dataSourceName ?? generatePhysicalNameV2(this, 's3-ds', { maxLength: 40, lower: true, separator: '-', destroyCreate: theseAreNotReplacable });;
     this.bucket = props.bucket;
     this.kmsKey = props.kmsKey;
 
