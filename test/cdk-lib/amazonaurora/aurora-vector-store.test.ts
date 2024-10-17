@@ -38,7 +38,7 @@ describe('Amazon Aurora Vector Store', () => {
       subnetConfiguration: [
         {
           cidrMask: 18,
-          name: 'isolated',
+          name: 'Private',
           subnetType: SubnetType.PRIVATE_ISOLATED,
         },
       ],
@@ -121,7 +121,7 @@ describe('Amazon Aurora Vector Store', () => {
           },
           {
             cidrMask: 24,
-            name: 'Isolated',
+            name: 'Private',
             subnetType: cdk.aws_ec2.SubnetType.PRIVATE_ISOLATED,
           },
         ],

@@ -41,7 +41,7 @@ import {
 } from '../../../common/helpers/kendra-helper';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import { lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
-import { AddAwsServiceEndpoint, buildVpc, createDefaultIsolatedVpcProps, ServiceEndpointTypeEnum } from '../../../common/helpers/vpc-helper';
+import { AddAwsServiceEndpoint, buildVpc, createDefaultVpcProps, ServiceEndpointTypeEnum } from '../../../common/helpers/vpc-helper';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
 /**
@@ -243,7 +243,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
 
     if (props.deployVpc || props.existingVpc) {
       this.vpc = buildVpc(scope, {
-        defaultVpcProps: createDefaultIsolatedVpcProps(),
+        defaultVpcProps: createDefaultVpcProps(),
         existingVpc: props.existingVpc,
         userVpcProps: props.vpcProps,
         constructVpcProps: {

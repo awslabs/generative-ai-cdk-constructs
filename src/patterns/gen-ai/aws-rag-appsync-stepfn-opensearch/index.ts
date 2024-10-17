@@ -257,11 +257,9 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
     if (props?.existingVpc) {
       this.vpc = props.existingVpc;
     } else {
-      //this.vpc = new ec2.Vpc(this, 'Vpc', props.vpcProps);
-
       this.vpc = vpc_helper.buildVpc(scope, {
         defaultVpcProps: props?.vpcProps,
-        vpcName: 'ragAppSyncStepfnOsVpc',
+        vpcName: 'ragAppSyncOsVpc',
       });
       //vpc endpoints
       vpc_helper.AddAwsServiceEndpoint(scope, this.vpc, [
