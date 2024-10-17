@@ -258,7 +258,10 @@ export class SummarizationAppsyncStepfn extends BaseClass {
     if (props?.existingVpc) {
       this.vpc = props.existingVpc;
     } else {
-      this.vpc = new ec2.Vpc(this, 'Vpc', props.vpcProps);
+      this.vpc = vpc_helper.buildVpc(scope, {
+        defaultVpcProps: props?.vpcProps,
+        vpcName: 'sumAppSyncStepFnVpc',
+      });
       // vpc endpoints
       vpc_helper.AddAwsServiceEndpoint(scope, this.vpc, [vpc_helper.ServiceEndpointTypeEnum.S3,
         vpc_helper.ServiceEndpointTypeEnum.BEDROCK_RUNTIME, vpc_helper.ServiceEndpointTypeEnum.REKOGNITION]);
@@ -800,6 +803,11 @@ export class SummarizationAppsyncStepfn extends BaseClass {
     const logGroupName = generatePhysicalNameV2(this, logGroupPrefix,
       { maxLength: maxGeneratedNameLength, lower: true });
 
+    const summarizationLogGroup = new logs.LogGroup(this, 'summarizationLogGroup', {
+      logGroupName: logGroupName,
+      retention: logs.RetentionDays.ONE_WEEK,
+      removalPolicy: RemovalPolicy.DESTROY,
+    });
 
     // step function definition
     const definition = inputValidationTask.next(
@@ -816,7 +824,7 @@ export class SummarizationAppsyncStepfn extends BaseClass {
       definitionBody: sfn.DefinitionBody.fromChainable(definition),
       timeout: Duration.minutes(15),
       logs: {
-        destination: getLoggroup(this, logGroupName),
+        destination: summarizationLogGroup,
         level: sfn.LogLevel.ALL,
       },
       tracingEnabled: this.enablexray,
@@ -875,17 +883,3 @@ export class SummarizationAppsyncStepfn extends BaseClass {
   }
 }
 
-function getLoggroup(stack: Construct, logGroupName: string) {
-  const existingLogGroup = logs.LogGroup.fromLogGroupName(
-    stack, 'ExistingSummarizationLogGroup', logGroupName);
-
-  if (existingLogGroup.logGroupName) {
-    return existingLogGroup;
-  } else {
-    return new logs.LogGroup(stack, 'SummarizationLogGroup', {
-      logGroupName: logGroupName,
-      retention: logs.RetentionDays.ONE_MONTH,
-      removalPolicy: RemovalPolicy.DESTROY,
-    });
-  }
-}
