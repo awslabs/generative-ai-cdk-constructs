@@ -50,8 +50,13 @@ describe('RAG Appsync Stepfn Open search construct', () => {
             cidrMask: 24,
           },
           {
-            name: 'private',
+            name: 'isolated',
             subnetType: ec2.SubnetType.PRIVATE_ISOLATED,
+            cidrMask: 24,
+          },
+          {
+            name: 'private',
+            subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS,
             cidrMask: 24,
           },
         ],
