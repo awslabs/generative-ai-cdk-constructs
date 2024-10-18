@@ -1083,7 +1083,6 @@ guardrail.addDeniedTopicFilter({
 });
 
 // Optional - Add Word filters. You can upload words from a file with addWordFilterFromFile function.
-guardrail.addWordFilter("sex");
 guardrail.addWordFilter("drugs");
 guardrail.addManagedWordListFilter(ManagedWordFilterType.PROFANITY);
 guardrails.addWordFilterFromFile("./scripts/wordsPolicy.csv");
@@ -1092,7 +1091,11 @@ guardrails.addWordFilterFromFile("./scripts/wordsPolicy.csv");
 guardrails.createVersion("testversion");
 
 // Importing existing guardrail
-guardrail = bedrock.Guardrail.fromGuardrailId(this, "TestGuardrail", "oygh3o8g7rtl");
+const importedGuardrail = bedrock.Guardrail.fromGuardrailAttributes(stack, "TestGuardrail", {
+  guardrailArn: "arn:aws:bedrock:us-east-1:123456789012:guardrail/oygh3o8g7rtl",
+  guardrailVersion: "1", //optional
+  kmsKey: kmsKey, //optional
+});
 ```
 
 Python
@@ -1144,7 +1147,6 @@ Python
     )
 
     # Optional - Add Word filters. You can upload words from a file with addWordFilterFromFile function.
-    guardrail.add_word_filter("sex");
     guardrail.add_word_filter("drugs");
     guardrail.add_managed_word_list_filter(bedrock.ManagedWordFilterType.PROFANITY);
     guardrail.add_word_filter_from_file("./scripts/wordsPolicy.csv");
@@ -1153,7 +1155,11 @@ Python
     guardrail.create_version("testversion");
 
     # Importing existing guardrail
-    guardrail = bedrock.Guardrail.from_guardrail_id(self, "TestGuardrail", "oygh3o8g7rtl");
+    imported_guardrail = bedrock.Guardrail.from_guardrail_attributes(self, "TestGuardrail",
+      guardrail_arn="arn:aws:bedrock:us-east-1:123456789012:guardrail/oygh3o8g7rtl",
+      guardrail_version="1",
+      kms_key=kms_key
+    );
 
 ```
 
