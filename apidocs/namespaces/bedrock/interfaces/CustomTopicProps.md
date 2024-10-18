@@ -2,11 +2,11 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / DeniedTopic
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / CustomTopicProps
 
-# Interface: DeniedTopic
+# Interface: CustomTopicProps
 
-Defines a topic to deny.
+Interface for creating a custom Topic
 
 ## Properties
 
@@ -27,9 +27,9 @@ generating returns or achieving specific financial objectives.`
 
 ***
 
-### examples?
+### examples
 
-> `readonly` `optional` **examples**: `string`[]
+> `readonly` **examples**: `string`[]
 
 Representative phrases that refer to the topic. These phrases can represent
 a user input or a model response. Add up to 5 phrases, up to 100 characters

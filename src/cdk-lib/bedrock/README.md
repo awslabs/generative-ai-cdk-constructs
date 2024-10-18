@@ -1066,21 +1066,23 @@ guardrail.addContextualGroundingFilter({
   threshold: 0.95,
 });
 
-// Optional - Add Denied topics . You can use default Topic or create your custom Topic with createTopic function. The default Topics can also be overwritten.
+// Optional - Add Denied topics . You can use a Topic or create your custom Topic
 
-guardrail.addDeniedTopicFilter(POLITICAL_ADVICE_TOPIC);
-guardrail.addDeniedTopicFilter({
-  name: "Legal_Advice",
-  definition:
-    "Offering guidance or suggestions on legal matters, legal actions, interpretation of laws, or legal rights and responsibilities.",
-  examples: [
-    "Can I sue someone for this?",
-    "What are my legal rights in this situation?",
-    "Is this action against the law?",
-    "What should I do to file a legal complaint?",
-    "Can you explain this law to me?",
-  ],
-});
+guardrail.addDeniedTopicFilter(Topic.FINANCIAL_ADVICE);
+guardrail.addDeniedTopicFilter(
+  Topic.custom({
+    name: "Legal_Advice",
+    definition:
+      "Offering guidance or suggestions on legal matters, legal actions, interpretation of laws, or legal rights and responsibilities.",
+    examples: [
+      "Can I sue someone for this?",
+      "What are my legal rights in this situation?",
+      "Is this action against the law?",
+      "What should I do to file a legal complaint?",
+      "Can you explain this law to me?",
+    ],
+  })
+);
 
 // Optional - Add Word filters. You can upload words from a file with addWordFilterFromFile function.
 guardrail.addWordFilter("drugs");
@@ -1134,6 +1136,7 @@ Python
     )
 
     guardrail.add_denied_topic_filter(
+      bedrock.Topic.custom(
         name= "Legal_Advice",
         definition=
             "Offering guidance or suggestions on legal matters, legal actions, interpretation of laws, or legal rights and responsibilities.",
@@ -1143,7 +1146,8 @@ Python
             "Is this action against the law?",
             "What should I do to file a legal complaint?",
             "Can you explain this law to me?",
-        ],
+        ]
+      )
     )
 
     # Optional - Add Word filters. You can upload words from a file with addWordFilterFromFile function.

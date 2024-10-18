@@ -57,7 +57,7 @@ The contextual grounding filters to apply to the guardrail.
 
 ### deniedTopics?
 
-> `readonly` `optional` **deniedTopics**: [`DeniedTopic`](DeniedTopic.md)[]
+> `readonly` `optional` **deniedTopics**: [`Topic`](../classes/Topic.md)[]
 
 Up to 30 denied topics to block user inputs or model responses associated with the topic.
 

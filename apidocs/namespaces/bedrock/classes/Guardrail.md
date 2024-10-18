@@ -54,7 +54,7 @@ The contextual grounding filters applied by the guardrail.
 
 ### deniedTopics
 
-> `readonly` **deniedTopics**: [`DeniedTopic`](../interfaces/DeniedTopic.md)[]
+> `readonly` **deniedTopics**: [`Topic`](Topic.md)[]
 
 The denied topic filters applied by the guardrail.
 
@@ -302,7 +302,7 @@ Adds a denied topic filter to the guardrail.
 
 #### Parameters
 
-• **filter**: [`DeniedTopic`](../interfaces/DeniedTopic.md)
+• **filter**: [`Topic`](Topic.md)
 
 The denied topic filter to add.
 
@@ -561,6 +561,22 @@ Returns a string representation of this construct.
 #### Inherited from
 
 [`GuardrailBase`](GuardrailBase.md).[`toString`](GuardrailBase.md#tostring)
+
+***
+
+### fromCfnGuardrail()
+
+> `static` **fromCfnGuardrail**(`cfnGuardrail`): [`IGuardrail`](../interfaces/IGuardrail.md)
+
+Import a low-level L1 Cfn Guardrail
+
+#### Parameters
+
+• **cfnGuardrail**: `CfnGuardrail`
+
+#### Returns
+
+[`IGuardrail`](../interfaces/IGuardrail.md)
 
 ***
 

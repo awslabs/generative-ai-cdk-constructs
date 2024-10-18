@@ -69,7 +69,7 @@ describe('CDK-Created-Guardrail', () => {
     new bedrock.Guardrail(stack, 'TestGuardrail', {
       name: 'TestGuardrail',
       description: 'This is a test guardrail',
-      deniedTopics: [bedrock.FINANCIAL_ADVICE_TOPIC],
+      deniedTopics: [bedrock.Topic.FINANCIAL_ADVICE],
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Guardrail', {
@@ -101,7 +101,7 @@ describe('CDK-Created-Guardrail', () => {
       description: 'This is a test guardrail',
     });
 
-    guardrail.addDeniedTopicFilter(bedrock.FINANCIAL_ADVICE_TOPIC);
+    guardrail.addDeniedTopicFilter(bedrock.Topic.FINANCIAL_ADVICE);
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Guardrail', {
       Name: 'TestGuardrail',
@@ -435,7 +435,7 @@ describe('CDK-Created-Guardrail', () => {
     new bedrock.Guardrail(stack, 'TestGuardrail', {
       name: 'TestGuardrail',
       description: 'This is a test guardrail',
-      deniedTopics: [bedrock.FINANCIAL_ADVICE_TOPIC],
+      deniedTopics: [bedrock.Topic.FINANCIAL_ADVICE],
       contentFilters: [
         {
           type: bedrock.ContentFilterType.MISCONDUCT,
@@ -544,7 +544,7 @@ describe('CDK-Created-Guardrail', () => {
       description: 'This is a test guardrail',
     });
 
-    guardrail.addDeniedTopicFilter(bedrock.FINANCIAL_ADVICE_TOPIC);
+    guardrail.addDeniedTopicFilter(bedrock.Topic.FINANCIAL_ADVICE);
 
     guardrail.addContentFilter({
       type: bedrock.ContentFilterType.MISCONDUCT,
@@ -650,7 +650,7 @@ describe('CDK-Created-Guardrail', () => {
       description: 'This is a test guardrail',
     });
 
-    guardrail.addDeniedTopicFilter(bedrock.FINANCIAL_ADVICE_TOPIC);
+    guardrail.addDeniedTopicFilter(bedrock.Topic.FINANCIAL_ADVICE);
 
     guardrail.createVersion();
 

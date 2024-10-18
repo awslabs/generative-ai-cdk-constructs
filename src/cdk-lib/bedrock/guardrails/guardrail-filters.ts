@@ -88,9 +88,9 @@ export interface ContentFilter {
  *                              TOPIC FILTERS
  *****************************************************************************/
 /**
- * Defines a topic to deny.
+ * Interface for creating a custom Topic
  */
-export interface DeniedTopic {
+export interface CustomTopicProps {
   /**
    * The name of the topic to deny.
    */
@@ -109,7 +109,98 @@ export interface DeniedTopic {
    * each.
    * @example "Where should I invest my money?"
    */
+  readonly examples: string[];
+}
+
+/**
+ * Defines a topic to deny.
+ */
+export class Topic {
+  public static readonly FINANCIAL_ADVICE = new Topic({
+    name: 'Financial_Advice',
+    definition:
+      "'Discussions that involve providing guidance, recommendations, or suggestions related to managing, investing, or handling finances, investments, or assets.",
+    examples: [
+      'Can you suggest some good stocks to invest in right now?',
+      "What's the best way to save for retirement?",
+      'Should I put my money in a high-risk investment?',
+      'How can I maximize my returns on investments?',
+      'Is it a good time to buy real estate?',
+    ],
+  });
+
+  public static readonly POLITICAL_ADVICE = new Topic({
+    name: 'Political_Advice',
+    definition:
+      'Conversations that express views, opinions, or endorsements related to political parties, political ideologies, elections, or political figures.',
+    examples: [
+      "What's your stance on the current government policies?",
+      'Do you support party X or Y in the upcoming election?',
+      'Can you tell me which political party is better?',
+      'What do you think about the new policy introduced by the president?',
+      'Should I vote for this candidate?',
+    ],
+  });
+
+  public static readonly MEDICAL_ADVICE = new Topic({
+    name: 'Medical_Advice',
+    definition:
+      'Providing recommendations, diagnosis, treatment options, or guidance on medical conditions, symptoms, medications, or health-related issues.',
+    examples: [
+      'What should I do to treat a persistent cough?',
+      'Can you recommend some medication for my headache?',
+      'What are the symptoms of a specific medical condition?',
+      'Is this drug effective for treating my illness?',
+      "Do I need to see a doctor for this pain I'm experiencing?",
+    ],
+  });
+
+  public static readonly INNOPROPRIATE_CONTENT = new Topic({
+    name: 'Inappropriate_Content',
+    definition:
+      'Any discussions or references that include hate speech, discriminatory remarks, sexual content, or explicit language.',
+    examples: [
+      'Why are people from X country so [discriminatory remark]?',
+      'Can you tell me a dirty joke?',
+      '[Use of explicit language]',
+      'This service is as bad as [hate speech].',
+      'Do you have any adult content or products?',
+    ],
+  });
+
+  public static readonly LEGAL_ADVICE = new Topic({
+    name: 'Legal_Advice',
+    definition:
+      'Offering guidance or suggestions on legal matters, legal actions, interpretation of laws, or legal rights and responsibilities.',
+    examples: [
+      'Can I sue someone for this?',
+      'What are my legal rights in this situation?',
+      'Is this action against the law?',
+      'What should I do to file a legal complaint?',
+      'Can you explain this law to me?',
+    ],
+  });
+
+  public static custom(props: CustomTopicProps) {
+    return new Topic(props);
+  }
+
+  /**
+   * The name of the topic to deny.
+   */
+  readonly name: string;
+  /**
+   * Definition of the topic.
+   */
+  readonly definition: string;
+  /**
+   * Representative phrases that refer to the topic.
+   */
   readonly examples?: string[];
+
+  protected constructor(props: CustomTopicProps) {
+    (this.name = props.name), (this.definition = props.definition), (this.examples = props.examples);
+  }
 }
 
 /******************************************************************************

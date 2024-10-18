@@ -64,6 +64,7 @@
 - [S3DataSource](classes/S3DataSource.md)
 - [SalesforceDataSource](classes/SalesforceDataSource.md)
 - [SharePointDataSource](classes/SharePointDataSource.md)
+- [Topic](classes/Topic.md)
 - [WebCrawlerDataSource](classes/WebCrawlerDataSource.md)
 
 ### Interfaces
@@ -84,8 +85,8 @@
 - [ContextualGroundingFilter](interfaces/ContextualGroundingFilter.md)
 - [ContextualGroundingPolicyConfigProps](interfaces/ContextualGroundingPolicyConfigProps.md)
 - [CrawlingFilters](interfaces/CrawlingFilters.md)
+- [CustomTopicProps](interfaces/CustomTopicProps.md)
 - [DataSourceAssociationProps](interfaces/DataSourceAssociationProps.md)
-- [DeniedTopic](interfaces/DeniedTopic.md)
 - [FoundationModelParsingStategyProps](interfaces/FoundationModelParsingStategyProps.md)
 - [GuardrailAttributes](interfaces/GuardrailAttributes.md)
 - [GuardrailConfiguration](interfaces/GuardrailConfiguration.md)
@@ -118,14 +119,6 @@
 - [TextPromptVariantProps](interfaces/TextPromptVariantProps.md)
 - [WebCrawlerDataSourceAssociationProps](interfaces/WebCrawlerDataSourceAssociationProps.md)
 - [WebCrawlerDataSourceProps](interfaces/WebCrawlerDataSourceProps.md)
-
-### Variables
-
-- [FINANCIAL\_ADVICE\_TOPIC](variables/FINANCIAL_ADVICE_TOPIC.md)
-- [INNOPROPRIATE\_CONTENT\_TOPIC](variables/INNOPROPRIATE_CONTENT_TOPIC.md)
-- [LEGAL\_ADVICE\_TOPIC](variables/LEGAL_ADVICE_TOPIC.md)
-- [MEDICAL\_ADVICE\_TOPIC](variables/MEDICAL_ADVICE_TOPIC.md)
-- [POLITICAL\_ADVICE\_TOPIC](variables/POLITICAL_ADVICE_TOPIC.md)
 
 ### Functions
 

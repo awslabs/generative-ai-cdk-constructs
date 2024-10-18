@@ -15,7 +15,7 @@ import * as fs from 'fs';
 import { Arn, ArnFormat, IResolvable, IResource, Lazy, Resource } from 'aws-cdk-lib';
 import * as bedrock from 'aws-cdk-lib/aws-bedrock';
 import * as iam from 'aws-cdk-lib/aws-iam';
-import { IKey } from 'aws-cdk-lib/aws-kms';
+import { IKey, Key } from 'aws-cdk-lib/aws-kms';
 import { md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
 import { Construct } from 'constructs';
 import * as filters from './guardrail-filters';
@@ -129,7 +129,7 @@ export interface GuardrailProps {
   /**
    * Up to 30 denied topics to block user inputs or model responses associated with the topic.
    */
-  readonly deniedTopics?: filters.DeniedTopic[];
+  readonly deniedTopics?: filters.Topic[];
   /**
    * The word filters to apply to the guardrail.
    */
@@ -197,6 +197,20 @@ export class Guardrail extends GuardrailBase {
   }
 
   /**
+   * Import a low-level L1 Cfn Guardrail
+   */
+  public static fromCfnGuardrail(cfnGuardrail: bedrock.CfnGuardrail): IGuardrail {
+    return new (class extends GuardrailBase {
+      public readonly guardrailArn = cfnGuardrail.attrGuardrailArn;
+      public readonly guardrailId = cfnGuardrail.attrGuardrailId;
+      public readonly guardrailVersion = cfnGuardrail.attrVersion;
+      public readonly kmsKey = cfnGuardrail.kmsKeyArn
+        ? Key.fromKeyArn(this, '@FromCfnGuardrailKey', cfnGuardrail.kmsKeyArn)
+        : undefined;
+    })(cfnGuardrail, '@FromCfnGuardrail');
+  }
+
+  /**
    * The ARN of the guardrail.
    */
   public readonly guardrailArn: string;
@@ -238,7 +252,7 @@ export class Guardrail extends GuardrailBase {
   /**
    * The denied topic filters applied by the guardrail.
    */
-  public readonly deniedTopics: filters.DeniedTopic[];
+  public readonly deniedTopics: filters.Topic[];
   /**
    * The contextual grounding filters applied by the guardrail.
    */
@@ -341,7 +355,7 @@ export class Guardrail extends GuardrailBase {
    * Adds a denied topic filter to the guardrail.
    * @param filter The denied topic filter to add.
    */
-  public addDeniedTopicFilter(filter: filters.DeniedTopic): void {
+  public addDeniedTopicFilter(filter: filters.Topic): void {
     this.deniedTopics.push(filter);
   }
 
@@ -422,7 +436,7 @@ export class Guardrail extends GuardrailBase {
       produce: () => {
         if (this.deniedTopics.length > 0) {
           return {
-            topicsConfig: this.deniedTopics.flatMap((topic: filters.DeniedTopic) => {
+            topicsConfig: this.deniedTopics.flatMap((topic: filters.Topic) => {
               return {
                 definition: topic.definition,
                 name: topic.name,
