@@ -10,6 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+import { createHash } from 'crypto';
 import * as cdk from 'aws-cdk-lib';
 import { IConstruct } from 'constructs';
 import { CfnNagSuppressRule } from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
@@ -76,6 +77,12 @@ export interface GeneratePhysicalNameV2Options extends cdk.UniqueResourceNameOpt
    * @default false
    */
   lower?: boolean;
+
+  /**
+   * This object is hashed for uniqueness and can force a destroy instead of a replace.
+   * @default: undefined
+   */
+  destroyCreate?: any;
 }
 /**
  * @internal This is an internal core function and should not be called directly by Solutions Constructs clients.
@@ -102,20 +109,36 @@ export function generatePhysicalNameV2(
    */
   options?: GeneratePhysicalNameV2Options,
 ): string {
+  function objectToHash(obj: any): string {
+    // Nothing to hash if undefined
+    if (obj === undefined) { return ''; }
+
+    // Convert the object to a JSON string
+    const jsonString = JSON.stringify(obj);
+
+    // Create a SHA-256 hash
+    const hash = createHash('sha256');
+
+    // Update the hash with the JSON string and get the digest in hexadecimal format
+    // Shorten it (modeled after seven characters like git commit hash shortening)
+    return hash.update(jsonString).digest('hex').slice(0, 7);
+  }
   const {
     maxLength = 256,
     lower = false,
     separator = '',
     allowedSpecialCharacters = undefined,
+    destroyCreate = undefined,
   } = options ?? {};
-  if (maxLength < (prefix + separator).length) {
+  const hash = objectToHash(destroyCreate);
+  if (maxLength < (prefix + hash + separator).length) {
     throw new Error('The prefix is longer than the maximum length.');
   }
   const uniqueName = cdk.Names.uniqueResourceName(
     scope,
-    { maxLength: maxLength - (prefix + separator).length, separator, allowedSpecialCharacters },
+    { maxLength: maxLength - (prefix + hash + separator).length, separator, allowedSpecialCharacters },
   );
-  const name = `${prefix}${separator}${uniqueName}`;
+  const name = `${prefix}${hash}${separator}${uniqueName}`;
   if (name.length > maxLength) {
     throw new Error(`The generated name is longer than the maximum length of ${maxLength}`);
   }
