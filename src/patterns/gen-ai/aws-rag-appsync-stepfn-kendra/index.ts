@@ -41,7 +41,7 @@ import {
 } from '../../../common/helpers/kendra-helper';
 import { buildDockerLambdaFunction } from '../../../common/helpers/lambda-builder-helper';
 import { lambdaMemorySizeLimiter } from '../../../common/helpers/utils';
-import { AddAwsServiceEndpoint, buildVpc, createDefaultIsolatedVpcProps, ServiceEndpointTypeEnum } from '../../../common/helpers/vpc-helper';
+import { AddAwsServiceEndpoint, buildVpc, createDefaultVpcProps, ServiceEndpointTypeEnum } from '../../../common/helpers/vpc-helper';
 import { DockerLambdaCustomProps } from '../../../common/props/DockerLambdaCustomProps';
 
 /**
@@ -243,7 +243,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
 
     if (props.deployVpc || props.existingVpc) {
       this.vpc = buildVpc(scope, {
-        defaultVpcProps: createDefaultIsolatedVpcProps(),
+        defaultVpcProps: createDefaultVpcProps(),
         existingVpc: props.existingVpc,
         userVpcProps: props.vpcProps,
         constructVpcProps: {
@@ -396,7 +396,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
       description: 'Lambda function for pre-signed links generation',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769),
       timeout: Duration.minutes(15),
@@ -419,7 +419,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
       description: 'Lambda function for Kendra  sync job starting',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769),
       timeout: Duration.minutes(15),
@@ -442,7 +442,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
       description: 'Lambda function for getting kendra sync status',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769),
       timeout: Duration.minutes(15),
@@ -464,7 +464,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
       description: 'Lambda function for Kendra job status updates',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769),
       timeout: Duration.minutes(15),
@@ -497,7 +497,7 @@ export class RagAppsyncStepfnKendra extends BaseClass {
       description: 'Lambda for starting execution',
       vpc: this.vpc,
       tracing: this.lambdaTracing,
-      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
+      vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
       securityGroups: [this.securityGroup],
       memorySize: lambdaMemorySizeLimiter(this, 1_769),
       timeout: Duration.minutes(15),
