@@ -1068,7 +1068,7 @@ guardrail.addContextualGroundingFilter({
 
 // Optional - Add Denied topics . You can use default Topic or create your custom Topic with createTopic function. The default Topics can also be overwritten.
 
-guardrail.addDeniedTopicFilter(GuardrailSampleTopics.POLITICAL_ADVICE);
+guardrail.addDeniedTopicFilter(POLITICAL_ADVICE_TOPIC);
 guardrail.addDeniedTopicFilter({
   name: "Legal_Advice",
   definition:
@@ -1098,12 +1098,12 @@ guardrail = bedrock.Guardrail.fromGuardrailId(this, "TestGuardrail", "oygh3o8g7r
 Python
 
 ```python
-    guardrail = bedrock.Guardrail(self, 'myGuardrails', 
+    guardrail = bedrock.Guardrail(self, 'myGuardrails',
         name='my-BedrockGuardrails',
         description= "Legal ethical guardrails.")
 
     # Optional - Add Sensitive information filters
-    
+
     guardrail.add_pii_filter(
         type= bedrock.pii_type.General.ADDRESS,
         action= bedrock.GuardrailAction.ANONYMIZE,
