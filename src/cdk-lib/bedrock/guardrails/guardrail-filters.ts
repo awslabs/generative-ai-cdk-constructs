@@ -122,8 +122,6 @@ export enum ManagedWordFilterType {
   PROFANITY = 'PROFANITY',
 }
 
-export type WordFilter = string[] | ManagedWordFilterType[];
-
 /******************************************************************************
  *                   SENSITIVE INFORMATION FILTERS - PII
  *****************************************************************************/

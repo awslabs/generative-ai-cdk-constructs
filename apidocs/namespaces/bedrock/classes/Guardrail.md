@@ -108,12 +108,23 @@ The ID of the guardrail.
 
 The version of the guardrail.
 By default, this value will always be `DRAFT` unless an explicit version is created.
+For an explicit version created, this will usually be a number (e.g. for Version 1 just enter "1")
+
+#### Example
+
+```ts
+"1"
+```
 
 #### Default
 
 ```ts
 - "DRAFT"
 ```
+
+#### Overrides
+
+[`GuardrailBase`](GuardrailBase.md).[`guardrailVersion`](GuardrailBase.md#guardrailversion)
 
 ***
 
@@ -136,6 +147,10 @@ The KMS key used to encrypt data.
 ```ts
 undefined - "Data is encrypted by default with a key that AWS owns and manages for you"
 ```
+
+#### Overrides
+
+[`GuardrailBase`](GuardrailBase.md).[`kmsKey`](GuardrailBase.md#kmskey)
 
 ***
 
@@ -549,31 +564,11 @@ Returns a string representation of this construct.
 
 ***
 
-### fromGuardrailArn()
+### fromGuardrailAttributes()
 
-> `static` **fromGuardrailArn**(`scope`, `id`, `guardrailArn`): [`IGuardrail`](../interfaces/IGuardrail.md)
+> `static` **fromGuardrailAttributes**(`scope`, `id`, `attrs`): [`IGuardrail`](../interfaces/IGuardrail.md)
 
-Import a guardrail given an ARN.
-
-#### Parameters
-
-• **scope**: `Construct`
-
-• **id**: `string`
-
-• **guardrailArn**: `string`
-
-#### Returns
-
-[`IGuardrail`](../interfaces/IGuardrail.md)
-
-***
-
-### fromGuardrailId()
-
-> `static` **fromGuardrailId**(`scope`, `id`, `guardrailId`): [`IGuardrail`](../interfaces/IGuardrail.md)
-
-Import a guardrail given an ID.
+Import a guardrail given its attributes
 
 #### Parameters
 
@@ -581,7 +576,7 @@ Import a guardrail given an ID.
 
 • **id**: `string`
 
-• **guardrailId**: `string`
+• **attrs**: [`GuardrailAttributes`](../interfaces/GuardrailAttributes.md)
 
 #### Returns
 

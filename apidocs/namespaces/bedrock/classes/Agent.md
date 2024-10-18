@@ -212,7 +212,7 @@ Add guardrail to the agent.
 
 #### Parameters
 
-• **guardrail**: [`Guardrail`](Guardrail.md)
+• **guardrail**: [`IGuardrail`](../interfaces/IGuardrail.md)
 
 #### Returns
 

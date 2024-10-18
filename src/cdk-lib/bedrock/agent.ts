@@ -19,7 +19,7 @@ import { Construct } from 'constructs';
 
 import { AgentActionGroup } from './agent-action-group';
 import { AgentAlias } from './agent-alias';
-import { Guardrail } from './guardrails/guardrails';
+import { IGuardrail } from './guardrails/guardrails';
 import { KnowledgeBase } from './knowledge-base';
 import { BedrockFoundationModel } from './models';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
@@ -570,21 +570,12 @@ export class Agent extends Construct {
   /**
    * Add guardrail to the agent.
    */
-  public addGuardrail(guardrail: Guardrail) {
-    new iam.Policy(this, `AgentGuardrailPolicy-${guardrail.name}`, {
-      roles: [this.role],
-      statements: [
-        new iam.PolicyStatement({
-          actions: ['bedrock:ApplyGuardrail'],
-          resources: [guardrail.guardrailArn],
-        }),
-      ],
-    });
+  public addGuardrail(guardrail: IGuardrail) {
+    // Handle permissions
+    guardrail.grantApply(this.role);
+    guardrail.kmsKey?.grantDecrypt(this.role);
 
-    if (guardrail.kmsKey) {
-      guardrail.kmsKey.grantDecrypt(this.role);
-    }
-
+    // Handle CFN agent configuration
     this.agentInstance.guardrailConfiguration = {
       guardrailIdentifier: guardrail.guardrailId,
       guardrailVersion: guardrail.guardrailVersion,

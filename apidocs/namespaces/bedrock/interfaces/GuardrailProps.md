@@ -43,6 +43,7 @@ The message to return when the guardrail blocks a model response.
 > `readonly` `optional` **contentFilters**: [`ContentFilter`](ContentFilter.md)[]
 
 The content filters to apply to the guardrail.
+Note, if one of
 
 ***
 

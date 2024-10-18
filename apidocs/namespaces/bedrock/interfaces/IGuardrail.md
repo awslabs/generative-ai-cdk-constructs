@@ -44,6 +44,8 @@ The ARN of the guardrail.
 "arn:aws:bedrock:us-east-1:123456789012:guardrail/yympzo398ipq"
 ```
 
+#### Attribute
+
 ***
 
 ### guardrailId
@@ -57,6 +59,25 @@ The ID of the guardrail.
 ```ts
 "yympzo398ipq"
 ```
+
+#### Attribute
+
+***
+
+### guardrailVersion
+
+> **guardrailVersion**: `string`
+
+The version of the guardrail. If no explicit version is created,
+this will default to "DRAFT"
+
+***
+
+### kmsKey?
+
+> `readonly` `optional` **kmsKey**: `IKey`
+
+Optional KMS encryption key associated with this guardrail
 
 ***
 

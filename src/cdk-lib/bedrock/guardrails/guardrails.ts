@@ -12,7 +12,7 @@
  */
 
 import * as fs from 'fs';
-import { Arn, ArnFormat, IResolvable, IResource, Lazy, Resource, Stack } from 'aws-cdk-lib';
+import { Arn, ArnFormat, IResolvable, IResource, Lazy, Resource } from 'aws-cdk-lib';
 import * as bedrock from 'aws-cdk-lib/aws-bedrock';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { IKey } from 'aws-cdk-lib/aws-kms';
@@ -30,13 +30,24 @@ export interface IGuardrail extends IResource {
   /**
    * The ARN of the guardrail.
    * @example "arn:aws:bedrock:us-east-1:123456789012:guardrail/yympzo398ipq"
+   * @attribute
    */
   readonly guardrailArn: string;
   /**
    * The ID of the guardrail.
    * @example "yympzo398ipq"
+   * @attribute
    */
   readonly guardrailId: string;
+  /**
+   * The version of the guardrail. If no explicit version is created,
+   * this will default to "DRAFT"
+   */
+  guardrailVersion: string;
+  /**
+   * Optional KMS encryption key associated with this guardrail
+   */
+  readonly kmsKey?: IKey;
   /**
    * Grant the given identity permissions to apply the guardrail.
    */
@@ -56,6 +67,14 @@ export abstract class GuardrailBase extends Resource implements IGuardrail {
    * The ID of the guardrail.
    */
   public abstract readonly guardrailId: string;
+  /**
+   * The ID of the guardrail.
+   */
+  public abstract guardrailVersion: string;
+  /**
+   * The KMS key of the guardrail if custom encryption is configured.
+   */
+  public abstract readonly kmsKey?: IKey;
   /**
    * Grant the given identity permissions to apply the guardrail.
    */
@@ -104,6 +123,7 @@ export interface GuardrailProps {
   readonly kmsKey?: IKey;
   /**
    * The content filters to apply to the guardrail.
+   * Note, if one of
    */
   readonly contentFilters?: filters.ContentFilter[];
   /**
@@ -133,6 +153,29 @@ export interface GuardrailProps {
 }
 
 /******************************************************************************
+ *                      ATTRS FOR IMPORTED CONSTRUCT
+ *****************************************************************************/
+export interface GuardrailAttributes {
+  /**
+   * The ARN of the guardrail. At least one of guardrailArn or guardrailId must be
+   * defined in order to initialize a guardrail ref.
+   */
+  readonly guardrailArn: string;
+  /**
+   * The KMS key of the guardrail if custom encryption is configured.
+   *
+   * @default undefined - Means data is encrypted by default with a AWS-managed key
+   */
+  readonly kmsKey?: IKey;
+  /**
+   * The version of the guardrail.
+   *
+   * @default "DRAFT"
+   */
+  readonly guardrailVersion?: string;
+}
+
+/******************************************************************************
  *                        NEW CONSTRUCT DEFINITION
  *****************************************************************************/
 /**
@@ -140,27 +183,14 @@ export interface GuardrailProps {
  */
 export class Guardrail extends GuardrailBase {
   /**
-   * Import a guardrail given an ARN.
+   * Import a guardrail given its attributes
    */
-  public static fromGuardrailArn(scope: Construct, id: string, guardrailArn: string): IGuardrail {
+  public static fromGuardrailAttributes(scope: Construct, id: string, attrs: GuardrailAttributes): IGuardrail {
     class Import extends GuardrailBase {
-      public readonly guardrailArn = guardrailArn;
-      public readonly guardrailId = Arn.split(guardrailArn, ArnFormat.SLASH_RESOURCE_NAME).resourceName!;
-    }
-
-    return new Import(scope, id);
-  }
-  /**
-   * Import a guardrail given an ID.
-   */
-  public static fromGuardrailId(scope: Construct, id: string, guardrailId: string): IGuardrail {
-    class Import extends GuardrailBase {
-      public readonly guardrailId = guardrailId;
-      public readonly guardrailArn = Stack.of(scope).formatArn({
-        service: 'bedrock',
-        resource: 'guardrail',
-        resourceName: guardrailId,
-      });
+      public readonly guardrailArn = attrs.guardrailArn;
+      public readonly guardrailId = Arn.split(attrs.guardrailArn, ArnFormat.SLASH_RESOURCE_NAME).resourceName!;
+      public readonly guardrailVersion = attrs.guardrailVersion ?? 'DRAFT';
+      public readonly kmsKey = attrs.kmsKey;
     }
 
     return new Import(scope, id);
@@ -181,7 +211,9 @@ export class Guardrail extends GuardrailBase {
   /**
    * The version of the guardrail.
    * By default, this value will always be `DRAFT` unless an explicit version is created.
+   * For an explicit version created, this will usually be a number (e.g. for Version 1 just enter "1")
    *
+   * @example "1"
    * @default - "DRAFT"
    */
   public guardrailVersion: string;

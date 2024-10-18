@@ -91,6 +91,30 @@ The ID of the guardrail.
 
 ***
 
+### guardrailVersion
+
+> `abstract` **guardrailVersion**: `string`
+
+The ID of the guardrail.
+
+#### Implementation of
+
+[`IGuardrail`](../interfaces/IGuardrail.md).[`guardrailVersion`](../interfaces/IGuardrail.md#guardrailversion)
+
+***
+
+### kmsKey?
+
+> `abstract` `readonly` `optional` **kmsKey**: `IKey`
+
+The KMS key of the guardrail if custom encryption is configured.
+
+#### Implementation of
+
+[`IGuardrail`](../interfaces/IGuardrail.md).[`kmsKey`](../interfaces/IGuardrail.md#kmskey)
+
+***
+
 ### node
 
 > `readonly` **node**: `Node`

@@ -69,7 +69,7 @@ describe('CDK-Created-Guardrail', () => {
     new bedrock.Guardrail(stack, 'TestGuardrail', {
       name: 'TestGuardrail',
       description: 'This is a test guardrail',
-      deniedTopics: [bedrock.GuardrailSampleTopics.FINANCIAL_ADVICE],
+      deniedTopics: [bedrock.FINANCIAL_ADVICE_TOPIC],
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Guardrail', {
@@ -101,7 +101,7 @@ describe('CDK-Created-Guardrail', () => {
       description: 'This is a test guardrail',
     });
 
-    guardrail.addDeniedTopicFilter(bedrock.GuardrailSampleTopics.FINANCIAL_ADVICE);
+    guardrail.addDeniedTopicFilter(bedrock.FINANCIAL_ADVICE_TOPIC);
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Guardrail', {
       Name: 'TestGuardrail',
@@ -435,7 +435,7 @@ describe('CDK-Created-Guardrail', () => {
     new bedrock.Guardrail(stack, 'TestGuardrail', {
       name: 'TestGuardrail',
       description: 'This is a test guardrail',
-      deniedTopics: [bedrock.GuardrailSampleTopics.FINANCIAL_ADVICE],
+      deniedTopics: [bedrock.FINANCIAL_ADVICE_TOPIC],
       contentFilters: [
         {
           type: bedrock.ContentFilterType.MISCONDUCT,
@@ -544,7 +544,7 @@ describe('CDK-Created-Guardrail', () => {
       description: 'This is a test guardrail',
     });
 
-    guardrail.addDeniedTopicFilter(bedrock.GuardrailSampleTopics.FINANCIAL_ADVICE);
+    guardrail.addDeniedTopicFilter(bedrock.FINANCIAL_ADVICE_TOPIC);
 
     guardrail.addContentFilter({
       type: bedrock.ContentFilterType.MISCONDUCT,
@@ -650,7 +650,7 @@ describe('CDK-Created-Guardrail', () => {
       description: 'This is a test guardrail',
     });
 
-    guardrail.addDeniedTopicFilter(bedrock.GuardrailSampleTopics.FINANCIAL_ADVICE);
+    guardrail.addDeniedTopicFilter(bedrock.FINANCIAL_ADVICE_TOPIC);
 
     guardrail.createVersion();
 
@@ -676,19 +676,33 @@ describe('Imported-Guardrail', () => {
   });
 
   test('Basic Import - ARN', () => {
-    const guardrail = bedrock.Guardrail.fromGuardrailArn(
-      stack,
-      'TestGuardrail',
-      'arn:aws:bedrock:us-east-1:123456789012:guardrail/oygh3o8g7rtl',
-    );
+    const guardrail = bedrock.Guardrail.fromGuardrailAttributes(stack, 'TestGuardrail', {
+      guardrailArn: 'arn:aws:bedrock:us-east-1:123456789012:guardrail/oygh3o8g7rtl',
+    });
 
     expect(guardrail.guardrailArn).toBe('arn:aws:bedrock:us-east-1:123456789012:guardrail/oygh3o8g7rtl');
     expect(guardrail.guardrailId).toBe('oygh3o8g7rtl');
+    expect(guardrail.guardrailVersion).toBe('DRAFT');
+    expect(guardrail.kmsKey).toBeUndefined();
   });
 
-  test('Basic Import - ID', () => {
-    const guardrail = bedrock.Guardrail.fromGuardrailId(stack, 'TestGuardrail', 'oygh3o8g7rtl');
+  test('Basic Import - ARN + KMS + Version', () => {
+    const kmsKey = Key.fromKeyArn(
+      stack,
+      'importedKey',
+      'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418',
+    );
+    const guardrail = bedrock.Guardrail.fromGuardrailAttributes(stack, 'TestGuardrail', {
+      guardrailArn: 'arn:aws:bedrock:us-east-1:123456789012:guardrail/oygh3o8g7rtl',
+      guardrailVersion: '1',
+      kmsKey: kmsKey,
+    });
 
+    expect(guardrail.guardrailArn).toBe('arn:aws:bedrock:us-east-1:123456789012:guardrail/oygh3o8g7rtl');
     expect(guardrail.guardrailId).toBe('oygh3o8g7rtl');
+    expect(guardrail.guardrailVersion).toBe('1');
+    expect(guardrail.kmsKey!.keyArn).toBe(
+      'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418',
+    );
   });
 });

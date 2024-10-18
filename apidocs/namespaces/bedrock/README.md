@@ -10,7 +10,6 @@
 
 ### Namespaces
 
-- [GuardrailSampleTopics](namespaces/GuardrailSampleTopics/README.md)
 - [PIIType](namespaces/PIIType/README.md)
 
 ### Enumerations
@@ -88,6 +87,7 @@
 - [DataSourceAssociationProps](interfaces/DataSourceAssociationProps.md)
 - [DeniedTopic](interfaces/DeniedTopic.md)
 - [FoundationModelParsingStategyProps](interfaces/FoundationModelParsingStategyProps.md)
+- [GuardrailAttributes](interfaces/GuardrailAttributes.md)
 - [GuardrailConfiguration](interfaces/GuardrailConfiguration.md)
 - [GuardrailProps](interfaces/GuardrailProps.md)
 - [HierarchicalChunkingProps](interfaces/HierarchicalChunkingProps.md)
@@ -119,9 +119,13 @@
 - [WebCrawlerDataSourceAssociationProps](interfaces/WebCrawlerDataSourceAssociationProps.md)
 - [WebCrawlerDataSourceProps](interfaces/WebCrawlerDataSourceProps.md)
 
-### Type Aliases
+### Variables
 
-- [WordFilter](type-aliases/WordFilter.md)
+- [FINANCIAL\_ADVICE\_TOPIC](variables/FINANCIAL_ADVICE_TOPIC.md)
+- [INNOPROPRIATE\_CONTENT\_TOPIC](variables/INNOPROPRIATE_CONTENT_TOPIC.md)
+- [LEGAL\_ADVICE\_TOPIC](variables/LEGAL_ADVICE_TOPIC.md)
+- [MEDICAL\_ADVICE\_TOPIC](variables/MEDICAL_ADVICE_TOPIC.md)
+- [POLITICAL\_ADVICE\_TOPIC](variables/POLITICAL_ADVICE_TOPIC.md)
 
 ### Functions
 
