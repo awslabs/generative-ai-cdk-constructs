@@ -6,7 +6,7 @@
 
 # Interface: GuardrailProps
 
-Bedrock guardrail props
+Properties for creating a Guardrail.
 
 ## Properties
 
@@ -16,6 +16,12 @@ Bedrock guardrail props
 
 The message to return when the guardrail blocks a prompt.
 
+#### Default
+
+```ts
+"Sorry, your query violates our usage policy."
+```
+
 ***
 
 ### blockedOutputsMessaging?
@@ -24,13 +30,36 @@ The message to return when the guardrail blocks a prompt.
 
 The message to return when the guardrail blocks a model response.
 
+#### Default
+
+```ts
+"Sorry, I am unable to answer your question because of our usage policy."
+```
+
 ***
 
-### contextualGroundingfiltersConfig?
+### contentFilters?
 
-> `readonly` `optional` **contextualGroundingfiltersConfig**: [`ContextualGroundingPolicyConfigProps`](ContextualGroundingPolicyConfigProps.md)[]
+> `readonly` `optional` **contentFilters**: [`ContentFilter`](ContentFilter.md)[]
 
-Contextual grounding policy config for a guardrail.
+The content filters to apply to the guardrail.
+Note, if one of
+
+***
+
+### contextualGroundingFilters?
+
+> `readonly` `optional` **contextualGroundingFilters**: [`ContextualGroundingFilter`](ContextualGroundingFilter.md)[]
+
+The contextual grounding filters to apply to the guardrail.
+
+***
+
+### deniedTopics?
+
+> `readonly` `optional` **deniedTopics**: [`Topic`](../classes/Topic.md)[]
+
+Up to 30 denied topics to block user inputs or model responses associated with the topic.
 
 ***
 
@@ -42,40 +71,54 @@ The description of the guardrail.
 
 ***
 
-### filtersConfig?
+### kmsKey?
 
-> `readonly` `optional` **filtersConfig**: [`ContentPolicyConfigProps`](ContentPolicyConfigProps.md)[]
+> `readonly` `optional` **kmsKey**: `IKey`
 
-List of content filter configs in content policy.
+A custom KMS key to use for encrypting data.
 
-***
+#### Default
 
-### kmsKeyArn?
-
-> `readonly` `optional` **kmsKeyArn**: `string`
-
-The ARN of the AWS KMS key used to encrypt the guardrail.
+```ts
+"Your data is encrypted by default with a key that AWS owns and manages for you."
+```
 
 ***
 
-### name?
+### managedWordListFilters?
 
-> `readonly` `optional` **name**: `string`
+> `readonly` `optional` **managedWordListFilters**: [`PROFANITY`](../enumerations/ManagedWordFilterType.md#profanity)[]
+
+The managed word filters to apply to the guardrail.
+
+***
+
+### name
+
+> `readonly` **name**: `string`
 
 The name of the guardrail.
 
 ***
 
-### piiConfig?
+### piiFilters?
 
-> `readonly` `optional` **piiConfig**: [`SensitiveInformationPolicyConfigProps`](SensitiveInformationPolicyConfigProps.md)[]
+> `readonly` `optional` **piiFilters**: [`PIIFilter`](PIIFilter.md)[]
 
-PII fields which needs to be anonymized.
+The PII filters to apply to the guardrail.
 
 ***
 
-### tags?
+### regexFilters?
 
-> `readonly` `optional` **tags**: `CfnTag`[]
+> `readonly` `optional` **regexFilters**: [`RegexFilter`](RegexFilter.md)[]
 
-Metadata that you can assign to a guardrail as key-value pairs
+The regular expression (regex) filters to apply to the guardrail.
+
+***
+
+### wordFilters?
+
+> `readonly` `optional` **wordFilters**: `string`[]
+
+The word filters to apply to the guardrail.
