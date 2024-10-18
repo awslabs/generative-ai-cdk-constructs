@@ -112,7 +112,7 @@ export function buildVpc(scope: Construct, props: BuildVpcProps): IVpc {
     return props?.existingVpc;
   }
 
-  let defaultVpcProps = createDefaultIsolatedVpcProps();
+  let defaultVpcProps = createDefaultVpcProps();
 
   let cumulativeProps: VpcProps = defaultVpcProps;
 
@@ -229,16 +229,27 @@ function AddInterfaceEndpoint(scope: Construct, vpc: IVpc, service: EndpointDefi
   });
 }
 
-export function createDefaultIsolatedVpcProps(): VpcProps {
+export function createDefaultVpcProps(): VpcProps {
   return {
-    natGateways: 0,
     subnetConfiguration: [
       {
-        cidrMask: 18,
-        name: 'isolated',
+        cidrMask: 24,
+        name: 'public',
+        subnetType: SubnetType.PUBLIC,
+      },
+      {
+        cidrMask: 24,
+        name: 'private_isolated',
         subnetType: SubnetType.PRIVATE_ISOLATED,
       },
+      {
+        cidrMask: 24,
+        name: 'private_egress',
+        subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+      },
     ],
+    ipAddresses: ec2.IpAddresses.cidr('10.0.0.0/16'),
+
   } as VpcProps;
 }
 
