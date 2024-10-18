@@ -14,7 +14,7 @@ import { App, Stack, Aspects } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import { Vpc } from 'aws-cdk-lib/aws-ec2';
 import { AwsSolutionsChecks } from 'cdk-nag';
-import { buildVpc, AddAwsServiceEndpoint, createDefaultIsolatedVpcProps, ServiceEndpointTypeEnum } from '../../../../src/common/helpers/vpc-helper';
+import { buildVpc, AddAwsServiceEndpoint, createDefaultVpcProps, ServiceEndpointTypeEnum } from '../../../../src/common/helpers/vpc-helper';
 
 describe('VPC Utilities', () => {
   let app: App;
@@ -28,7 +28,7 @@ describe('VPC Utilities', () => {
 
   describe('buildVpc', () => {
     it('creates a VPC with default isolated configuration', () => {
-      buildVpc(stack, { defaultVpcProps: createDefaultIsolatedVpcProps(), vpcName: 'testVpc' });
+      buildVpc(stack, { defaultVpcProps: createDefaultVpcProps(), vpcName: 'testVpc' });
 
       // Assert VPC is created with expected properties
       const template = Template.fromStack(stack);
@@ -39,13 +39,29 @@ describe('VPC Utilities', () => {
 
       // Assert subnets are created as expected
       template.hasResourceProperties('AWS::EC2::Subnet', {
-        CidrBlock: Match.stringLikeRegexp('^(10\.0\.0\.0|10\.0\.64\.0)\/18$'),
-        MapPublicIpOnLaunch: false,
-        VpcId: Match.anyValue(), // Use anyValue if you're not asserting the exact VPC ID
-        // If you need to assert on Tags, ensure they match the expected structure
+        CidrBlock: Match.stringLikeRegexp('^10\.0\.[0-5]\.0\/24$'),
+        VpcId: Match.anyValue(),
         Tags: Match.arrayWith([
-          Match.objectLike({ Key: 'aws-cdk:subnet-name', Value: 'isolated' }),
+          Match.objectLike({
+            Key: 'aws-cdk:subnet-name',
+            Value: Match.stringLikeRegexp('^(private_isolated|private_egress|public)$'),
+          }),
         ]),
+      });
+
+      // Assert that we have the expected number of subnets
+      template.resourceCountIs('AWS::EC2::Subnet', 6);
+
+      // Assert that we have subnets with each expected type
+      ['private_isolated', 'private_egress', 'public'].forEach(subnetType => {
+        template.hasResourceProperties('AWS::EC2::Subnet', {
+          Tags: Match.arrayWith([
+            Match.objectLike({
+              Key: 'aws-cdk:subnet-name',
+              Value: subnetType,
+            }),
+          ]),
+        });
       });
     });
 
