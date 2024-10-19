@@ -1098,6 +1098,20 @@ const importedGuardrail = bedrock.Guardrail.fromGuardrailAttributes(stack, "Test
   guardrailVersion: "1", //optional
   kmsKey: kmsKey, //optional
 });
+
+// Importing Guardrails created through the L1 CDK CfnGuardrail construct
+const cfnGuardrail = new CfnGuardrail(this, 'MyCfnGuardrail', {
+  blockedInputMessaging: 'blockedInputMessaging',
+  blockedOutputsMessaging: 'blockedOutputsMessaging',
+  name: 'namemycfnguardrails',
+  wordPolicyConfig: {
+    wordsConfig: [{
+      text: 'drugs',
+    }],
+  },
+});
+
+const importedGuardrail = bedrock.Guardrail.fromCfnGuardrail(cfnGuardrail);
 ```
 
 Python
@@ -1135,6 +1149,8 @@ Python
         threshold= 0.95,
     )
 
+    guardrail.add_denied_topic_filter(bedrock.Topic.FINANCIAL_ADVICE)
+
     guardrail.add_denied_topic_filter(
       bedrock.Topic.custom(
         name= "Legal_Advice",
@@ -1151,19 +1167,37 @@ Python
     )
 
     # Optional - Add Word filters. You can upload words from a file with addWordFilterFromFile function.
-    guardrail.add_word_filter("drugs");
-    guardrail.add_managed_word_list_filter(bedrock.ManagedWordFilterType.PROFANITY);
-    guardrail.add_word_filter_from_file("./scripts/wordsPolicy.csv");
+    guardrail.add_word_filter("drugs")
+    guardrail.add_managed_word_list_filter(bedrock.ManagedWordFilterType.PROFANITY)
+    guardrail.add_word_filter_from_file("./scripts/wordsPolicy.csv")
 
     # versioning - if you change any guardrail configuration, a new version will be created
-    guardrail.create_version("testversion");
+    guardrail.create_version("testversion")
 
     # Importing existing guardrail
     imported_guardrail = bedrock.Guardrail.from_guardrail_attributes(self, "TestGuardrail",
       guardrail_arn="arn:aws:bedrock:us-east-1:123456789012:guardrail/oygh3o8g7rtl",
       guardrail_version="1",
       kms_key=kms_key
-    );
+    )
+
+    # Importing Guardrails created through the L1 CDK CfnGuardrail construct
+    cfn_guardrail = cfnbedrock.CfnGuardrail(self, "MyCfnGuardrail",
+        blocked_input_messaging="blockedInputMessaging",
+        blocked_outputs_messaging="blockedOutputsMessaging",
+        name="name",
+
+        # the properties below are optional
+        word_policy_config=cfnbedrock.CfnGuardrail.WordPolicyConfigProperty(
+            words_config=[cfnbedrock.CfnGuardrail.WordConfigProperty(
+                text="drugs"
+            )]
+        )
+    )
+
+    imported_guardrail = bedrock.Guardrail.from_cfn_guardrail(cfn_guardrail)
+
+
 
 ```
 
