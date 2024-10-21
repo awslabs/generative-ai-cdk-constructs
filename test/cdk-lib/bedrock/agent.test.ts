@@ -13,6 +13,7 @@
 
 import * as cdk from 'aws-cdk-lib';
 import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
+import { Key } from 'aws-cdk-lib/aws-kms';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { NagSuppressions } from 'cdk-nag';
@@ -133,19 +134,21 @@ describe('Agent with guardrails through addGuardrail', () => {
       name: 'my-custom-guardrail',
       blockedInputMessaging: 'Blocked input message',
       blockedOutputsMessaging: 'Blocked output message',
-      filtersConfig: [
+      contentFilters: [
         {
-          filtersConfigType: bedrock.FiltersConfigType.HATE,
-          inputStrength: bedrock.FiltersConfigStrength.HIGH,
-          outputStrength: bedrock.FiltersConfigStrength.HIGH,
+          type: bedrock.ContentFilterType.HATE,
+          inputStrength: bedrock.ContentFilterStrength.HIGH,
+          outputStrength: bedrock.ContentFilterStrength.HIGH,
         },
       ],
-      kmsKeyArn: 'arn:aws:kms:region:XXXXX:key/12345678-1234-1234-1234-123456789012',
+      kmsKey: Key.fromKeyArn(
+        stack,
+        'imported-key',
+        'arn:aws:kms:region:XXXXX:key/12345678-1234-1234-1234-123456789012',
+      ),
     });
 
     agent.addGuardrail(guardrail);
-
-
   });
 
   test('Knowledge Base is created', () => {
@@ -165,23 +168,16 @@ describe('Agent with guardrails through addGuardrail', () => {
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
       Name: 'test-docs',
       KnowledgeBaseId: {
-        'Fn::GetAtt': [
-          Match.stringLikeRegexp('^KB'),
-          'KnowledgeBaseId',
-        ],
+        'Fn::GetAtt': [Match.stringLikeRegexp('^KB'), 'KnowledgeBaseId'],
       },
       DataSourceConfiguration: {
         Type: 'S3',
         S3Configuration: {
           BucketArn: {
-            'Fn::GetAtt': [
-              Match.stringLikeRegexp('^DocBucket'),
-              'Arn',
-            ],
+            'Fn::GetAtt': [Match.stringLikeRegexp('^DocBucket'), 'Arn'],
           },
         },
       },
-
     });
   });
 
@@ -222,14 +218,10 @@ describe('Agent with guardrails through addGuardrail', () => {
       },
       GuardrailConfiguration: {
         GuardrailIdentifier: {
-          'Fn::GetAtt': [
-            Match.stringLikeRegexp('MyGuardrail'), 'GuardrailId',
-          ],
+          'Fn::GetAtt': [Match.stringLikeRegexp('MyGuardrail'), 'GuardrailId'],
         },
         GuardrailVersion: {
-          'Fn::GetAtt': [
-            Match.stringLikeRegexp('MyGuardrail'), 'Version',
-          ],
+          'Fn::GetAtt': [Match.stringLikeRegexp('MyGuardrail'), 'Version'],
         },
       },
     });
@@ -244,9 +236,7 @@ describe('Agent with guardrails through addGuardrail', () => {
       },
       Name: Match.stringLikeRegexp('KBteststack'),
       RoleArn: {
-        'Fn::GetAtt':
-          [Match.stringLikeRegexp('KBRole'), 'Arn'],
-
+        'Fn::GetAtt': [Match.stringLikeRegexp('KBRole'), 'Arn'],
       },
 
       Description: 'Documentation about CDK constructs.',
@@ -256,7 +246,6 @@ describe('Agent with guardrails through addGuardrail', () => {
   test('Agent action group and ApiSchema from S3', () => {
     const template = Template.fromStack(stack);
     template.hasResourceProperties('AWS::Bedrock::Agent', {
-
       ActionGroups: [
         {
           ActionGroupName: 'UserInputAction',
@@ -267,9 +256,7 @@ describe('Agent with guardrails through addGuardrail', () => {
         {
           ActionGroupExecutor: {
             Lambda: {
-              'Fn::GetAtt': [
-                Match.stringLikeRegexp('ActionGroupFunction'), 'Arn',
-              ],
+              'Fn::GetAtt': [Match.stringLikeRegexp('ActionGroupFunction'), 'Arn'],
             },
           },
           ActionGroupName: 'test-action-group',
@@ -285,7 +272,6 @@ describe('Agent with guardrails through addGuardrail', () => {
         },
       ],
     });
-
   });
 
   test('Guardrail is associated', () => {
@@ -305,33 +291,22 @@ describe('Agent with guardrails through addGuardrail', () => {
       },
       KmsKeyArn: 'arn:aws:kms:region:XXXXX:key/12345678-1234-1234-1234-123456789012',
       Name: 'my-custom-guardrail',
-    },
-    );
-
+    });
   });
 
   test('Agent Alias is created', () => {
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::AgentAlias', {
       AgentId: {
-        'Fn::GetAtt': [
-          Match.stringLikeRegexp('^Agent'),
-          'AgentId',
-        ],
+        'Fn::GetAtt': [Match.stringLikeRegexp('^Agent'), 'AgentId'],
       },
       AgentAliasName: 'prod',
     });
   });
 
-
   test('No unsuppressed Errors', () => {
-    const errors = Annotations.fromStack(stack).findError(
-      '*',
-      Match.stringLikeRegexp('AwsSolutions-.*'),
-    );
+    const errors = Annotations.fromStack(stack).findError('*', Match.stringLikeRegexp('AwsSolutions-.*'));
     expect(errors).toHaveLength(0);
   });
-
-
 });
 
 describe('Agent with guardrails through constructor', () => {
@@ -433,7 +408,6 @@ describe('Agent with guardrails through constructor', () => {
     });
 
     agent.addActionGroups([actiongroup]);
-
   });
 
   test('Knowledge Base is created', () => {
@@ -453,23 +427,16 @@ describe('Agent with guardrails through constructor', () => {
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
       Name: 'test-docs',
       KnowledgeBaseId: {
-        'Fn::GetAtt': [
-          Match.stringLikeRegexp('^KB'),
-          'KnowledgeBaseId',
-        ],
+        'Fn::GetAtt': [Match.stringLikeRegexp('^KB'), 'KnowledgeBaseId'],
       },
       DataSourceConfiguration: {
         Type: 'S3',
         S3Configuration: {
           BucketArn: {
-            'Fn::GetAtt': [
-              Match.stringLikeRegexp('^DocBucket'),
-              'Arn',
-            ],
+            'Fn::GetAtt': [Match.stringLikeRegexp('^DocBucket'), 'Arn'],
           },
         },
       },
-
     });
   });
 
@@ -520,9 +487,7 @@ describe('Agent with guardrails through constructor', () => {
       },
       Name: Match.stringLikeRegexp('KBteststack'),
       RoleArn: {
-        'Fn::GetAtt':
-          [Match.stringLikeRegexp('KBRole'), 'Arn'],
-
+        'Fn::GetAtt': [Match.stringLikeRegexp('KBRole'), 'Arn'],
       },
 
       Description: 'Documentation about CDK constructs.',
@@ -532,7 +497,6 @@ describe('Agent with guardrails through constructor', () => {
   test('Agent action group and ApiSchema from S3', () => {
     const template = Template.fromStack(stack);
     template.hasResourceProperties('AWS::Bedrock::Agent', {
-
       ActionGroups: [
         {
           ActionGroupName: 'UserInputAction',
@@ -543,9 +507,7 @@ describe('Agent with guardrails through constructor', () => {
         {
           ActionGroupExecutor: {
             Lambda: {
-              'Fn::GetAtt': [
-                Match.stringLikeRegexp('ActionGroupFunction'), 'Arn',
-              ],
+              'Fn::GetAtt': [Match.stringLikeRegexp('ActionGroupFunction'), 'Arn'],
             },
           },
           ActionGroupName: 'test-action-group',
@@ -561,7 +523,6 @@ describe('Agent with guardrails through constructor', () => {
         },
       ],
     });
-
   });
 
   test('Guardrail is associated', () => {
@@ -572,33 +533,22 @@ describe('Agent with guardrails through constructor', () => {
         GuardrailIdentifier: 'testId',
         GuardrailVersion: 'version1',
       },
-    },
-    );
-
+    });
   });
 
   test('Agent Alias is created', () => {
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::AgentAlias', {
       AgentId: {
-        'Fn::GetAtt': [
-          Match.stringLikeRegexp('^Agent'),
-          'AgentId',
-        ],
+        'Fn::GetAtt': [Match.stringLikeRegexp('^Agent'), 'AgentId'],
       },
       AgentAliasName: 'prod',
     });
   });
 
-
   test('No unsuppressed Errors', () => {
-    const errors = Annotations.fromStack(stack).findError(
-      '*',
-      Match.stringLikeRegexp('AwsSolutions-.*'),
-    );
+    const errors = Annotations.fromStack(stack).findError('*', Match.stringLikeRegexp('AwsSolutions-.*'));
     expect(errors).toHaveLength(0);
   });
-
-
 });
 
 describe('Agent without guardrails', () => {
@@ -696,7 +646,6 @@ describe('Agent without guardrails', () => {
     });
 
     agent.addActionGroups([actiongroup]);
-
   });
 
   test('Knowledge Base is created', () => {
@@ -716,23 +665,16 @@ describe('Agent without guardrails', () => {
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
       Name: 'test-docs',
       KnowledgeBaseId: {
-        'Fn::GetAtt': [
-          Match.stringLikeRegexp('^KB'),
-          'KnowledgeBaseId',
-        ],
+        'Fn::GetAtt': [Match.stringLikeRegexp('^KB'), 'KnowledgeBaseId'],
       },
       DataSourceConfiguration: {
         Type: 'S3',
         S3Configuration: {
           BucketArn: {
-            'Fn::GetAtt': [
-              Match.stringLikeRegexp('^DocBucket'),
-              'Arn',
-            ],
+            'Fn::GetAtt': [Match.stringLikeRegexp('^DocBucket'), 'Arn'],
           },
         },
       },
-
     });
   });
 
@@ -783,9 +725,7 @@ describe('Agent without guardrails', () => {
       },
       Name: Match.stringLikeRegexp('KBteststack'),
       RoleArn: {
-        'Fn::GetAtt':
-          [Match.stringLikeRegexp('KBRole'), 'Arn'],
-
+        'Fn::GetAtt': [Match.stringLikeRegexp('KBRole'), 'Arn'],
       },
 
       Description: 'Documentation about CDK constructs.',
@@ -795,7 +735,6 @@ describe('Agent without guardrails', () => {
   test('Agent action group and ApiSchema from S3', () => {
     const template = Template.fromStack(stack);
     template.hasResourceProperties('AWS::Bedrock::Agent', {
-
       ActionGroups: [
         {
           ActionGroupName: 'UserInputAction',
@@ -806,9 +745,7 @@ describe('Agent without guardrails', () => {
         {
           ActionGroupExecutor: {
             Lambda: {
-              'Fn::GetAtt': [
-                Match.stringLikeRegexp('ActionGroupFunction'), 'Arn',
-              ],
+              'Fn::GetAtt': [Match.stringLikeRegexp('ActionGroupFunction'), 'Arn'],
             },
           },
           ActionGroupName: 'test-action-group',
@@ -824,7 +761,6 @@ describe('Agent without guardrails', () => {
         },
       ],
     });
-
   });
 
   test('Guardrail should not be associated', () => {
@@ -835,21 +771,14 @@ describe('Agent without guardrails', () => {
   test('Agent Alias is created', () => {
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::AgentAlias', {
       AgentId: {
-        'Fn::GetAtt': [
-          Match.stringLikeRegexp('^Agent'),
-          'AgentId',
-        ],
+        'Fn::GetAtt': [Match.stringLikeRegexp('^Agent'), 'AgentId'],
       },
       AgentAliasName: 'prod',
     });
   });
 
-
   test('No unsuppressed Errors', () => {
-    const errors = Annotations.fromStack(stack).findError(
-      '*',
-      Match.stringLikeRegexp('AwsSolutions-.*'),
-    );
+    const errors = Annotations.fromStack(stack).findError('*', Match.stringLikeRegexp('AwsSolutions-.*'));
     expect(errors).toHaveLength(0);
   });
 });
@@ -865,7 +794,9 @@ describe('Imports', () => {
 
   test('Agent Alias Import', () => {
     // GIVEN
-    const agentAlias = bedrock.AgentAlias.fromAliasArn(stack, 'alias',
+    const agentAlias = bedrock.AgentAlias.fromAliasArn(
+      stack,
+      'alias',
       'arn:aws:bedrock:us-east-1:123456789012:agent-alias/DNCJJYQKSU/TCLCITFZTN',
     );
 
