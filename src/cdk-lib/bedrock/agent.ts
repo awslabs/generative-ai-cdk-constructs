@@ -19,11 +19,10 @@ import { Construct } from 'constructs';
 
 import { AgentActionGroup } from './agent-action-group';
 import { AgentAlias } from './agent-alias';
-import { Guardrail } from './guardrails';
+import { IGuardrail } from './guardrails/guardrails';
 import { KnowledgeBase } from './knowledge-base';
 import { BedrockFoundationModel } from './models';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
-
 
 /**
  * The step in the agent sequence that this prompt configuration applies to.
@@ -32,7 +31,7 @@ export enum PromptType {
   PRE_PROCESSING = 'PRE_PROCESSING',
   ORCHESTRATION = 'ORCHESTRATION',
   POST_PROCESSING = 'POST_PROCESSING',
-  KNOWLEDGE_BASE_RESPONSE_GENERATION = 'KNOWLEDGE_BASE_RESPONSE_GENERATION'
+  KNOWLEDGE_BASE_RESPONSE_GENERATION = 'KNOWLEDGE_BASE_RESPONSE_GENERATION',
 }
 
 /**
@@ -44,7 +43,7 @@ export enum PromptType {
  */
 export enum ParserMode {
   DEFAULT = 'DEFAULT',
-  OVERRIDDEN = 'OVERRIDDEN'
+  OVERRIDDEN = 'OVERRIDDEN',
 }
 
 /**
@@ -55,7 +54,7 @@ export enum ParserMode {
  */
 export enum PromptCreationMode {
   DEFAULT = 'DEFAULT',
-  OVERRIDDEN = 'OVERRIDDEN'
+  OVERRIDDEN = 'OVERRIDDEN',
 }
 
 /**
@@ -70,7 +69,7 @@ export enum PromptCreationMode {
  */
 export enum PromptState {
   ENABLED = 'ENABLED',
-  DISABLED = 'DISABLED'
+  DISABLED = 'DISABLED',
 }
 
 /** Details about the guardrail associated with the agent. */
@@ -257,7 +256,7 @@ export interface AgentProps {
    * the guardrails. If you want the permissions to be configured on your behalf,
    * use the addGuardrail method.
    * @default - No guardrails associated to the agent.
-  */
+   */
   readonly guardrailConfiguration?: GuardrailConfiguration;
   /**
    * Select whether the agent can prompt additional
@@ -387,27 +386,21 @@ export class Agent extends Construct {
    */
   public knowledgeBases: bedrock.CfnAgent.AgentKnowledgeBaseProperty[] = [];
 
-
   constructor(scope: Construct, id: string, props: AgentProps) {
     super(scope, id);
     validatePromptOverrideConfiguration(props.promptOverrideConfiguration);
 
     validateModel(props.foundationModel);
 
-    this.name = props.name ?? generatePhysicalNameV2(
-      this,
-      'bedrock-agent',
-      { maxLength: 32, lower: true, separator: '-' });
+    this.name =
+      props.name ?? generatePhysicalNameV2(this, 'bedrock-agent', { maxLength: 32, lower: true, separator: '-' });
 
     if (props.existingRole) {
       this.role = props.existingRole;
     } else {
       this.role = new iam.Role(this, 'Role', {
         assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com'),
-        roleName: generatePhysicalNameV2(
-          this,
-          'AmazonBedrockExecutionRoleForAgents_',
-          { maxLength: 64, lower: false }),
+        roleName: generatePhysicalNameV2(this, 'AmazonBedrockExecutionRoleForAgents_', { maxLength: 64, lower: false }),
       });
 
       this.role.assumeRolePolicy!.addStatements(
@@ -442,7 +435,6 @@ export class Agent extends Construct {
     }
 
     const agent = new bedrock.CfnAgent(this, 'Agent', {
-
       agentName: this.name,
 
       foundationModel: String(props.foundationModel),
@@ -488,13 +480,14 @@ export class Agent extends Construct {
     }
     // To allow your agent to request the user for additional information
     // when trying to complete a task, add this action group
-    this.addActionGroup(new AgentActionGroup(this, 'userInputEnabledActionGroup', {
-      actionGroupName: 'UserInputAction',
-      parentActionGroupSignature: 'AMAZON.UserInput',
-      actionGroupState: props.enableUserInput ? 'ENABLED' : 'DISABLED',
-    }));
+    this.addActionGroup(
+      new AgentActionGroup(this, 'userInputEnabledActionGroup', {
+        actionGroupName: 'UserInputAction',
+        parentActionGroupSignature: 'AMAZON.UserInput',
+        actionGroupState: props.enableUserInput ? 'ENABLED' : 'DISABLED',
+      }),
+    );
   }
-
 
   /**
    * Add an alias to the agent.
@@ -530,10 +523,7 @@ export class Agent extends Construct {
       roles: [this.role],
       statements: [
         new iam.PolicyStatement({
-          actions: [
-            'bedrock:UpdateKnowledgeBase',
-            'bedrock:Retrieve',
-          ],
+          actions: ['bedrock:UpdateKnowledgeBase', 'bedrock:Retrieve'],
           resources: [knowledgeBase.knowledgeBaseArn],
         }),
       ],
@@ -550,7 +540,6 @@ export class Agent extends Construct {
       (this.agentInstance.knowledgeBases as any).push(agentKnowledgeBaseProperty);
     }
   }
-
 
   /**
    * Add action group to the agent.
@@ -581,30 +570,12 @@ export class Agent extends Construct {
   /**
    * Add guardrail to the agent.
    */
-  public addGuardrail(guardrail: Guardrail) {
-    new iam.Policy(this, `AgentGuardrailPolicy-${guardrail.name}`, {
-      roles: [this.role],
-      statements: [
-        new iam.PolicyStatement({
-          actions: [
-            'bedrock:ApplyGuardrail',
-          ],
-          resources: [`arn:${cdk.Aws.PARTITION}:bedrock:${cdk.Aws.REGION}:${cdk.Aws.ACCOUNT_ID}:guardrail/${guardrail.guardrailId}`],
-        }),
-        new iam.PolicyStatement({
-          actions: [
-            'kms:Decrypt',
-          ],
-          resources: [guardrail.kmsKeyArn],
-          conditions: {
-            StringEquals: {
-              'aws:ResourceAccount': cdk.Aws.ACCOUNT_ID,
-            },
-          },
-        }),
-      ],
-    });
+  public addGuardrail(guardrail: IGuardrail) {
+    // Handle permissions
+    guardrail.grantApply(this.role);
+    guardrail.kmsKey?.grantDecrypt(this.role);
 
+    // Handle CFN agent configuration
     this.agentInstance.guardrailConfiguration = {
       guardrailIdentifier: guardrail.guardrailId,
       guardrailVersion: guardrail.guardrailVersion,
@@ -676,32 +647,35 @@ export function validateInferenceConfiguration(inferenceConfiguration: Inference
  *
  * @internal This is an internal core function and should not be called directly.
  */
-export function validatePromptOverrideConfiguration(promptOverrideConfiguration: PromptOverrideConfiguration | undefined) {
+export function validatePromptOverrideConfiguration(
+  promptOverrideConfiguration: PromptOverrideConfiguration | undefined,
+) {
   if (!promptOverrideConfiguration) {
     return;
   }
 
   if (
     promptOverrideConfiguration.overrideLambda &&
-    promptOverrideConfiguration.promptConfigurations.some(
-      pc => pc.parserMode !== ParserMode.OVERRIDDEN,
-    )) {
-    throw new Error('overrideLambda can only be used if all promptConfigurations have a parserMode value of OVERRIDDEN');
+    promptOverrideConfiguration.promptConfigurations.some((pc) => pc.parserMode !== ParserMode.OVERRIDDEN)
+  ) {
+    throw new Error(
+      'overrideLambda can only be used if all promptConfigurations have a parserMode value of OVERRIDDEN',
+    );
   }
 
   if (
     !promptOverrideConfiguration.overrideLambda &&
-    promptOverrideConfiguration.promptConfigurations.some(
-      pc => pc.parserMode === ParserMode.OVERRIDDEN,
-    )) {
-    throw new Error('At least one promptConfiguration has a parserMode value of OVERRIDDEN, but no overrideLambda is specified');
+    promptOverrideConfiguration.promptConfigurations.some((pc) => pc.parserMode === ParserMode.OVERRIDDEN)
+  ) {
+    throw new Error(
+      'At least one promptConfiguration has a parserMode value of OVERRIDDEN, but no overrideLambda is specified',
+    );
   }
 
   // check inferenceConfiguration number types
-  Object.values(promptOverrideConfiguration.promptConfigurations).forEach(pc => {
+  Object.values(promptOverrideConfiguration.promptConfigurations).forEach((pc) => {
     validateInferenceConfiguration(pc.inferenceConfiguration);
   });
 
   return;
 }
-

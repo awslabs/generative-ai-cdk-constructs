@@ -55,9 +55,7 @@ import { bedrock } from "@cdklabs/generative-ai-cdk-constructs";
 
 const kb = new bedrock.KnowledgeBase(this, "KnowledgeBase", {
   embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
-  instruction:
-    "Use this knowledge base to answer questions about books. " +
-    "It contains the full text of novels.",
+  instruction: "Use this knowledge base to answer questions about books. " + "It contains the full text of novels.",
 });
 
 const docBucket = new s3.Bucket(this, "DocBucket");
@@ -107,19 +105,18 @@ TypeScript
 
 ```ts
 import * as s3 from "aws-cdk-lib/aws-s3";
-import { amazonaurora, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
+import { amazonaurora, bedrock } from "@cdklabs/generative-ai-cdk-constructs";
 
 // Dimension of your vector embedding
-embeddingsModelVectorDimension = 1024
-const auroraDb = new amazonaurora.AmazonAuroraVectorStore(stack, 'AuroraDefaultVectorStore', {
+embeddingsModelVectorDimension = 1024;
+const auroraDb = new amazonaurora.AmazonAuroraVectorStore(stack, "AuroraDefaultVectorStore", {
   embeddingsModelVectorDimension: embeddingsModelVectorDimension,
 });
 
 const kb = new bedrock.KnowledgeBase(this, "KnowledgeBase", {
   vectorStore: auroraDb,
   embeddingsModelVectorDimension: embeddingsModelVectorDimension,
-  instruction: 'Use this knowledge base to answer questions about books. ' +
-    'It contains the full text of novels.',
+  instruction: "Use this knowledge base to answer questions about books. " + "It contains the full text of novels.",
 });
 
 const docBucket = new s3.Bucket(this, "DocBucket");
@@ -172,7 +169,7 @@ bedrock.S3DataSource(self, 'DataSource',
 
 ```
 
-Example of importing existing ``Amazon RDS Aurora PostgreSQL`` using ``fromExistingAuroraVectorStore()`` method.
+Example of importing existing `Amazon RDS Aurora PostgreSQL` using `fromExistingAuroraVectorStore()` method.
 **Note** - you need to provide `clusterIdentifier`, `databaseName`, `vpc`, `secret` and `auroraSecurityGroupId` used in deployment of your existing RDS Amazon Aurora DB, as well as `embeddingsModel` that you want to be used by a Knowledge Base for chunking:
 
 TypeScript
@@ -283,7 +280,7 @@ bedrock.S3DataSource(self, 'DataSource',
     bucket= docBucket,
     knowledge_base=kb,
     data_source_name='books',
-    chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,   
+    chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
 )
 ```
 
@@ -293,7 +290,7 @@ TypeScript
 
 ```ts
 import * as s3 from "aws-cdk-lib/aws-s3";
-import { pinecone, bedrock,  } from '@cdklabs/generative-ai-cdk-constructs';
+import { pinecone, bedrock } from "@cdklabs/generative-ai-cdk-constructs";
 
 const pineconeds = new pinecone.PineconeVectorStore({
   connectionString: "https://your-index-1234567.svc.gcp-starter.pinecone.io",
@@ -305,9 +302,7 @@ const pineconeds = new pinecone.PineconeVectorStore({
 const kb = new bedrock.KnowledgeBase(this, "KnowledgeBase", {
   vectorStore: pineconeds,
   embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
-  instruction:
-    "Use this knowledge base to answer questions about books. " +
-    "It contains the full text of novels.",
+  instruction: "Use this knowledge base to answer questions about books. " + "It contains the full text of novels.",
 });
 
 const docBucket = new s3.Bucket(this, "DocBucket");
@@ -493,7 +488,7 @@ class PythonTestStack(Stack):
         super().__init__(scope, construct_id, **kwargs)
 
         kb = bedrock.KnowledgeBase(self, 'MyKnowledgeBase',
-                    embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,                 
+                    embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
                 )
 
         docBucket = s3.Bucket(self, 'Bucket')
@@ -589,6 +584,7 @@ class PythonTestStack(Stack):
 - **Default Chunking**: Applies Fixed Chunking with the default chunk size of 300 tokens and 20% overlap.
 
   TypeScript
+
   ```ts
   ChunkingStrategy.DEFAULT;
   ```
@@ -605,6 +601,7 @@ class PythonTestStack(Stack):
   Typescript
 
   TypeScript
+
   ```ts
   // Fixed Size Chunking with sane defaults.
   ChunkingStrategy.FIXED_SIZE;
@@ -631,6 +628,7 @@ class PythonTestStack(Stack):
   It is ideal for data with inherent hierarchies or nested structures.
 
   TypeScript
+
   ```ts
   // Hierarchical Chunking with the default for Cohere Models.
   ChunkingStrategy.HIERARCHICAL_COHERE;
@@ -647,7 +645,7 @@ class PythonTestStack(Stack):
   });
   ```
 
-    Python
+  Python
 
   ```python
   # Hierarchical Chunking with the default for Cohere Models.
@@ -670,6 +668,7 @@ class PythonTestStack(Stack):
   relationships and ensures accurate and contextually appropriate results.
 
   TypeScript
+
   ```ts
   // Semantic Chunking with sane defaults.
   ChunkingStrategy.SEMANTIC;
@@ -696,6 +695,7 @@ class PythonTestStack(Stack):
   you may want to pre-process your documents by splitting them into separate files.
 
   TypeScript
+
   ```ts
   ChunkingStrategy.NONE;
   ```
@@ -722,6 +722,7 @@ two parsing strategies:
   with tables and images. To use this strategy, set the `parsingStrategy` in a data source as below.
 
   TypeScript
+
   ```ts
   bedrock.ParsingStategy.foundationModel({
     model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asIModel(stack),
@@ -746,19 +747,21 @@ perform custom operations such as data extraction, normalization, or enrichment.
 create a custom transformation, set the `customTransformation` in a data source as below.
 
 TypeScript
-  ```ts
+
+```ts
 CustomTransformation.lambda({
-  lambdaFunction: lambdaFunction,
-  s3BucketUri: `s3://${bucket.bucketName}/chunk-processor/`,
+lambdaFunction: lambdaFunction,
+s3BucketUri: `s3://${bucket.bucketName}/chunk-processor/`,
 }),
 ```
 
 Python
-  ```python
-  CustomTransformation.lambda_(
-    lambda_function= function,
-    s3_bucket_uri= f's3://{docBucket.bucket_name}/chunk-processor/'
-  )
+
+```python
+CustomTransformation.lambda_(
+  lambda_function= function,
+  s3_bucket_uri= f's3://{docBucket.bucket_name}/chunk-processor/'
+)
 ```
 
 ## Agents
@@ -1039,110 +1042,163 @@ const guardrails = new bedrock.Guardrail(this, "bedrockGuardrails", {
 
 // Optional - Add Sensitive information filters
 
-guardrails.addSensitiveInformationPolicyConfig(
-  [
-    {
-      type: bedrock.General.EMAIL,
-      action: bedrock.PiiEntitiesConfigAction.BLOCK,
-    },
-    {
-      type: bedrock.General.USERNAME,
-      action: bedrock.PiiEntitiesConfigAction.BLOCK,
-    },
-  ],
-  {
-    name: "CUSTOMER_ID",
-    description: "customer id",
-    pattern: "/^[A-Z]{2}d{6}$/",
-    action: "BLOCK",
-  }
-);
+guardrail.addPIIFilter({
+  type: PIIType.General.ADDRESS,
+  action: GuardrailAction.ANONYMIZE,
+});
+
+guardrail.addRegexFilter({
+  name: "TestRegexFilter",
+  description: "This is a test regex filter",
+  pattern: "/^[A-Z]{2}d{6}$/",
+  action: bedrock.GuardrailAction.ANONYMIZE,
+});
 
 // Optional - Add contextual grounding
 
-guardrails.addContextualGroundingPolicyConfig([
-  {
-    threshold: 0.5,
-    filtersConfigType: bedrock.ContextualGroundingFilterConfigType.GROUNDING,
+guardrail.addContextualGroundingFilter({
+  type: ContextualGroundingFilterType.GROUNDING,
+  threshold: 0.95,
+});
+
+guardrail.addContextualGroundingFilter({
+  type: ContextualGroundingFilterType.RELEVANCE,
+  threshold: 0.95,
+});
+
+// Optional - Add Denied topics . You can use a Topic or create your custom Topic
+
+guardrail.addDeniedTopicFilter(Topic.FINANCIAL_ADVICE);
+guardrail.addDeniedTopicFilter(
+  Topic.custom({
+    name: "Legal_Advice",
+    definition:
+      "Offering guidance or suggestions on legal matters, legal actions, interpretation of laws, or legal rights and responsibilities.",
+    examples: [
+      "Can I sue someone for this?",
+      "What are my legal rights in this situation?",
+      "Is this action against the law?",
+      "What should I do to file a legal complaint?",
+      "Can you explain this law to me?",
+    ],
+  })
+);
+
+// Optional - Add Word filters. You can upload words from a file with addWordFilterFromFile function.
+guardrail.addWordFilter("drugs");
+guardrail.addManagedWordListFilter(ManagedWordFilterType.PROFANITY);
+guardrails.addWordFilterFromFile("./scripts/wordsPolicy.csv");
+
+// versioning - if you change any guardrail configuration, a new version will be created
+guardrails.createVersion("testversion");
+
+// Importing existing guardrail
+const importedGuardrail = bedrock.Guardrail.fromGuardrailAttributes(stack, "TestGuardrail", {
+  guardrailArn: "arn:aws:bedrock:us-east-1:123456789012:guardrail/oygh3o8g7rtl",
+  guardrailVersion: "1", //optional
+  kmsKey: kmsKey, //optional
+});
+
+// Importing Guardrails created through the L1 CDK CfnGuardrail construct
+const cfnGuardrail = new CfnGuardrail(this, 'MyCfnGuardrail', {
+  blockedInputMessaging: 'blockedInputMessaging',
+  blockedOutputsMessaging: 'blockedOutputsMessaging',
+  name: 'namemycfnguardrails',
+  wordPolicyConfig: {
+    wordsConfig: [{
+      text: 'drugs',
+    }],
   },
-  {
-    threshold: 0.9,
-    filtersConfigType: bedrock.ContextualGroundingFilterConfigType.RELEVANCE,
-  },
-]);
+});
 
-// Optional - Add Denied topics . You can use default Topic or create your custom Topic with createTopic function. The default Topics can also be overwritten.
-
-const topic = new Topic(this, "topic");
-topic.financialAdviceTopic();
-topic.politicalAdviceTopic();
-
-guardrails.addTopicPolicyConfig(topic);
-
-// Optional - Add Word filters. You can upload words from a file with uploadWordPolicyFromFile function.
-
-guardrails.uploadWordPolicyFromFile("./scripts/wordsPolicy.csv");
-
-guardrails.addVersion("id1", "testversion");
+const importedGuardrail = bedrock.Guardrail.fromCfnGuardrail(cfnGuardrail);
 ```
 
 Python
 
 ```python
+    guardrail = bedrock.Guardrail(self, 'myGuardrails',
+        name='my-BedrockGuardrails',
+        description= "Legal ethical guardrails.")
 
-    guardrails = bedrock.Guardrail(
-        self,
-        'bedrockGuardrails',
-        name= "my-BedrockGuardrails",
-        description= "Legal ethical guardrails.",
+    # Optional - Add Sensitive information filters
+
+    guardrail.add_pii_filter(
+        type= bedrock.pii_type.General.ADDRESS,
+        action= bedrock.GuardrailAction.ANONYMIZE,
     )
-    #Optional - Add Sensitive information filters
 
-    guardrails.add_sensitive_information_policy_config(
-        props= [
-            bedrock.SensitiveInformationPolicyConfigProps(
-                type= bedrock.General.EMAIL,
-                action= bedrock.PiiEntitiesConfigAction.BLOCK
-            ),
-            bedrock.SensitiveInformationPolicyConfigProps(
-                type= bedrock.General.USERNAME,
-                action= bedrock.PiiEntitiesConfigAction.BLOCK
-            ),
-        ],
-        name= "CUSTOMER_ID",
-        description= "customer id",
-        pattern= "/^[A-Z]{2}\d{6}$/",
-        action= "BLOCK"
+    guardrail.add_regex_filter(
+        name= "TestRegexFilter",
+        description= "This is a test regex filter",
+        pattern= "/^[A-Z]{2}d{6}$/",
+        action= bedrock.GuardrailAction.ANONYMIZE,
     )
 
     # Optional - Add contextual grounding
 
-    guardrails.add_contextual_grounding_policy_config(
-      props= [
-        bedrock.ContextualGroundingPolicyConfigProps(
-            threshold= 0.5,
-            filters_config_type= bedrock.ContextualGroundingFilterConfigType.GROUNDING
-        ),
-        bedrock.ContextualGroundingPolicyConfigProps(
-            threshold= 0.5,
-            filters_config_type= bedrock.ContextualGroundingFilterConfigType.RELEVANCE
-        ),
-      ],
+    guardrail.add_contextual_grounding_filter(
+        type= bedrock.ContextualGroundingFilterType.GROUNDING,
+        threshold= 0.95,
     )
 
-    #Optional - Add Denied topics . You can use default Topic or create your custom Topic with createTopic function. The default Topics can also be overwritten.
+    # Optional - Add Denied topics . You can use default Topic or create your custom Topic with createTopic function. The default Topics can also be overwritten.
 
-    topic = bedrock.Topic(self,'topic')
-    topic.financial_advice_topic()
-    topic.political_advice_topic()
+    guardrail.add_contextual_grounding_filter(
+        type= bedrock.ContextualGroundingFilterType.RELEVANCE,
+        threshold= 0.95,
+    )
 
-    guardrails.add_topic_policy_config(topic)
+    guardrail.add_denied_topic_filter(bedrock.Topic.FINANCIAL_ADVICE)
 
-    #Optional - Add Word filters. You can upload words from a file with uploadWordPolicyFromFile function.
+    guardrail.add_denied_topic_filter(
+      bedrock.Topic.custom(
+        name= "Legal_Advice",
+        definition=
+            "Offering guidance or suggestions on legal matters, legal actions, interpretation of laws, or legal rights and responsibilities.",
+        examples= [
+            "Can I sue someone for this?",
+            "What are my legal rights in this situation?",
+            "Is this action against the law?",
+            "What should I do to file a legal complaint?",
+            "Can you explain this law to me?",
+        ]
+      )
+    )
 
-    guardrails.upload_word_policy_from_file('./scripts/wordsPolicy.csv')
+    # Optional - Add Word filters. You can upload words from a file with addWordFilterFromFile function.
+    guardrail.add_word_filter("drugs")
+    guardrail.add_managed_word_list_filter(bedrock.ManagedWordFilterType.PROFANITY)
+    guardrail.add_word_filter_from_file("./scripts/wordsPolicy.csv")
 
-    guardrails.add_version('id1', 'testversion');
+    # versioning - if you change any guardrail configuration, a new version will be created
+    guardrail.create_version("testversion")
+
+    # Importing existing guardrail
+    imported_guardrail = bedrock.Guardrail.from_guardrail_attributes(self, "TestGuardrail",
+      guardrail_arn="arn:aws:bedrock:us-east-1:123456789012:guardrail/oygh3o8g7rtl",
+      guardrail_version="1",
+      kms_key=kms_key
+    )
+
+    # Importing Guardrails created through the L1 CDK CfnGuardrail construct
+    cfn_guardrail = cfnbedrock.CfnGuardrail(self, "MyCfnGuardrail",
+        blocked_input_messaging="blockedInputMessaging",
+        blocked_outputs_messaging="blockedOutputsMessaging",
+        name="name",
+
+        # the properties below are optional
+        word_policy_config=cfnbedrock.CfnGuardrail.WordPolicyConfigProperty(
+            words_config=[cfnbedrock.CfnGuardrail.WordConfigProperty(
+                text="drugs"
+            )]
+        )
+    )
+
+    imported_guardrail = bedrock.Guardrail.from_cfn_guardrail(cfn_guardrail)
+
+
+
 ```
 
 ## Prompt management
