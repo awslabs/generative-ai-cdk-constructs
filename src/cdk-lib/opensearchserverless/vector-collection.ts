@@ -11,64 +11,317 @@
  *  and limitations under the License.
  */
 import * as cdk from 'aws-cdk-lib';
+import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as oss from 'aws-cdk-lib/aws-opensearchserverless';
 import { Construct } from 'constructs';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 
+/**
+ * Configuration for standby replicas in a vector collection.
+ */
 export enum VectorCollectionStandbyReplicas {
+  /**
+   * Enable standby replicas for high availability
+   */
   ENABLED = 'ENABLED',
+
+  /**
+   * Disable standby replicas to reduce costs
+   */
   DISABLED = 'DISABLED',
 }
 
+/**
+ * Attributes for importing an existing vector collection.
+ */
+export interface VectorCollectionAttributes {
+  /**
+   * The name of the collection
+   */
+  readonly collectionName: string;
+
+  /**
+   * The ID of the collection
+   */
+  readonly collectionId: string;
+
+  /**
+   * The ARN of the collection
+   */
+  readonly collectionArn: string;
+
+  /**
+   * The standby replicas configuration
+   */
+  readonly standbyReplicas: VectorCollectionStandbyReplicas;
+}
+
+/**
+ * Properties for configuring the vector collection.
+ */
 export interface VectorCollectionProps {
+  /**
+   * The name of the collection. Must be between 3-32 characters long and contain only
+   * lowercase letters, numbers, and hyphens.
+   *
+   * @default - A CDK generated name will be used
+   */
+  readonly collectionName?: string;
+
+  /**
+   * Indicates whether to use standby replicas for the collection.
+   *
+   * @default VectorCollectionStandbyReplicas.ENABLED
+   */
+  readonly standbyReplicas?: VectorCollectionStandbyReplicas;
+}
+
+/**
+ * Interface representing a vector collection
+ */
+export interface IVectorCollection extends cdk.IResource {
   /**
    * The name of the collection.
    */
   readonly collectionName: string;
 
   /**
-   * Indicates whether to use standby replicas for the collection.
-   *
-   * @default ENABLED
-   */
-  readonly standbyReplicas?: VectorCollectionStandbyReplicas;
-}
-
-/**
- * Deploys an OpenSearch Serverless Collection to be used as a vector store.
- *
- * It includes all policies.
- */
-export class VectorCollection extends Construct {
-  /**
-   * The name of the collection.
-   */
-  public collectionName: string;
-
-  /**
-   * Indicates whether to use standby replicas for the collection.
-   */
-  public standbyReplicas: VectorCollectionStandbyReplicas;
-
-  /**
    * The ID of the collection.
    */
-  public collectionId: string;
+  readonly collectionId: string;
+
   /**
    * The ARN of the collection.
    */
-  public collectionArn: string;
+  readonly collectionArn: string;
+
+  /**
+   * Indicates whether standby replicas are enabled.
+   */
+  readonly standbyReplicas: VectorCollectionStandbyReplicas;
 
   /**
    * An IAM policy that allows API access to the collection.
    */
-  public aossPolicy: iam.ManagedPolicy;
+  readonly aossPolicy: iam.ManagedPolicy;
 
   /**
    * An OpenSearch Access Policy that allows access to the index.
    */
-  public dataAccessPolicy: oss.CfnAccessPolicy;
+  readonly dataAccessPolicy: oss.CfnAccessPolicy;
+
+  /**
+   * Return the given named metric for this VectorCollection.
+   *
+   * @param metricName The name of the metric
+   * @param props Properties for the metric
+   */
+  metric(metricName: string, props?: cloudwatch.MetricOptions): cloudwatch.Metric;
+
+  /**
+   * Metric for the number of search requests.
+   *
+   * @param props Properties for the metric
+   */
+  metricSearchRequestCount(props?: cloudwatch.MetricOptions): cloudwatch.Metric;
+
+  /**
+   * Metric for the number of index requests.
+   *
+   * @param props Properties for the metric
+   */
+  metricIndexRequestCount(props?: cloudwatch.MetricOptions): cloudwatch.Metric;
+
+  /**
+   * Metric for the search latency.
+   *
+   * @param props Properties for the metric
+   */
+  metricSearchLatency(props?: cloudwatch.MetricOptions): cloudwatch.Metric;
+
+  /**
+   * Metric for the 90th percentile search latency.
+   *
+   * @param props Properties for the metric
+   */
+  metricSearchLatencyP90(props?: cloudwatch.MetricOptions): cloudwatch.Metric;
+}
+
+/**
+ * A new or imported vector collection.
+ */
+abstract class VectorCollectionBase extends cdk.Resource implements IVectorCollection {
+  public abstract readonly collectionName: string;
+  public abstract readonly collectionId: string;
+  public abstract readonly collectionArn: string;
+  public abstract readonly standbyReplicas: VectorCollectionStandbyReplicas;
+  public abstract readonly aossPolicy: iam.ManagedPolicy;
+  public abstract readonly dataAccessPolicy: oss.CfnAccessPolicy;
+
+  public metric(metricName: string, props?: cloudwatch.MetricOptions): cloudwatch.Metric {
+    return new cloudwatch.Metric({
+      namespace: 'AWS/AOSS',
+      metricName,
+      dimensionsMap: {
+        CollectionId: this.collectionId,
+      },
+      ...props,
+    });
+  }
+
+  public metricSearchRequestCount(props?: cloudwatch.MetricOptions): cloudwatch.Metric {
+    return this.metric('SearchRequestCount', props);
+  }
+
+  public metricIndexRequestCount(props?: cloudwatch.MetricOptions): cloudwatch.Metric {
+    return this.metric('IndexRequestCount', props);
+  }
+
+  public metricSearchLatency(props?: cloudwatch.MetricOptions): cloudwatch.Metric {
+    return this.metric('SearchLatency', { statistic: 'Average', ...props });
+  }
+
+  public metricSearchLatencyP90(props?: cloudwatch.MetricOptions): cloudwatch.Metric {
+    return this.metric('SearchLatency', { statistic: 'p90', ...props });
+  }
+}
+
+/**
+ * Provides a vector search collection in Amazon OpenSearch Serverless.
+ */
+export class VectorCollection extends VectorCollectionBase {
+  /**
+   * Return metrics for all vector collections.
+   */
+  public static metricAll(metricName: string, props?: cloudwatch.MetricOptions): cloudwatch.Metric {
+    return new cloudwatch.Metric({
+      namespace: 'AWS/AOSS',
+      metricName,
+      statistic: 'Sum',
+      ...props,
+    });
+  }
+
+  /**
+   * Metric for the total number of search requests across all collections.
+   */
+  public static metricAllSearchRequestCount(props?: cloudwatch.MetricOptions): cloudwatch.Metric {
+    return this.metricAll('SearchRequestCount', props);
+  }
+
+  /**
+   * Metric for the total number of index requests across all collections.
+   */
+  public static metricAllIndexRequestCount(props?: cloudwatch.MetricOptions): cloudwatch.Metric {
+    return this.metricAll('IndexRequestCount', props);
+  }
+
+  /**
+   * Metric for average search latency across all collections.
+   */
+  public static metricAllSearchLatency(props?: cloudwatch.MetricOptions): cloudwatch.Metric {
+    return this.metricAll('SearchLatency', {
+      statistic: 'Average',
+      ...props,
+    });
+  }
+
+  /**
+   * Import an existing collection using its name.
+   * @param constructScope The parent creating construct (usually `this`).
+   * @param constructId The construct's name.
+   * @param collectionName The name of the collection to import.
+   */
+  public static fromCollectionName(constructScope: Construct, constructId: string, collectionName: string): IVectorCollection {
+    class Import extends VectorCollectionBase {
+      public readonly collectionArn: string;
+      public readonly collectionId: string;
+      public readonly collectionName: string;
+      public readonly standbyReplicas: VectorCollectionStandbyReplicas;
+      public readonly aossPolicy: iam.ManagedPolicy;
+      public readonly dataAccessPolicy: oss.CfnAccessPolicy;
+
+      constructor(scope: Construct, id: string) {
+        super(scope, id);
+
+        this.collectionId = collectionName;
+        this.collectionName = collectionName;
+        this.collectionArn = cdk.Stack.of(scope).formatArn({
+          service: 'aoss',
+          resource: 'collection',
+          resourceName: collectionName,
+        });
+        this.standbyReplicas = VectorCollectionStandbyReplicas.ENABLED;
+
+        this.aossPolicy = new iam.ManagedPolicy(this, 'ImportedAOSSPolicy', {
+          statements: [
+            new iam.PolicyStatement({
+              effect: iam.Effect.ALLOW,
+              actions: ['aoss:APIAccessAll'],
+              resources: [this.collectionArn],
+            }),
+          ],
+        });
+
+        this.dataAccessPolicy = new oss.CfnAccessPolicy(this, 'ImportedDataAccessPolicy', {
+          name: generatePhysicalNameV2(this, 'DataAccessPolicy', { maxLength: 32, lower: true }),
+          type: 'data',
+          policy: '[]',
+        });
+      }
+    }
+    return new Import(constructScope, constructId);
+  }
+
+  /**
+   * Import an existing collection using its attributes.
+   * @param constructScope The parent creating construct.
+   * @param constructId The construct's name.
+   * @param attrs The collection attributes to use.
+   */
+  public static fromCollectionAttributes(
+    constructScope: Construct,
+    constructId: string,
+    attrs: VectorCollectionAttributes,
+  ): IVectorCollection {
+    class Import extends VectorCollectionBase {
+      public readonly collectionArn = attrs.collectionArn;
+      public readonly collectionId = attrs.collectionId;
+      public readonly collectionName = attrs.collectionName;
+      public readonly standbyReplicas = attrs.standbyReplicas;
+      public readonly aossPolicy: iam.ManagedPolicy;
+      public readonly dataAccessPolicy: oss.CfnAccessPolicy;
+
+      constructor(scope: Construct, id: string) {
+        super(scope, id);
+
+        this.aossPolicy = new iam.ManagedPolicy(this, 'ImportedAOSSPolicy', {
+          statements: [
+            new iam.PolicyStatement({
+              effect: iam.Effect.ALLOW,
+              actions: ['aoss:APIAccessAll'],
+              resources: [this.collectionArn],
+            }),
+          ],
+        });
+
+        this.dataAccessPolicy = new oss.CfnAccessPolicy(this, 'ImportedDataAccessPolicy', {
+          name: generatePhysicalNameV2(this, 'DataAccessPolicy', { maxLength: 32, lower: true }),
+          type: 'data',
+          policy: '[]',
+        });
+      }
+    }
+    return new Import(constructScope, constructId);
+  }
+
+  public readonly collectionName: string;
+  public readonly standbyReplicas: VectorCollectionStandbyReplicas;
+  public readonly collectionId: string;
+  public readonly collectionArn: string;
+  public readonly aossPolicy: iam.ManagedPolicy;
+  public readonly dataAccessPolicy: oss.CfnAccessPolicy;
 
   /**
    * An OpenSearch Access Policy document that will become `dataAccessPolicy`.
@@ -82,7 +335,8 @@ export class VectorCollection extends Construct {
     this.collectionName = props?.collectionName ?? generatePhysicalNameV2(
       this,
       'VectorStore',
-      { maxLength: 32, lower: true });
+      { maxLength: 32, lower: true },
+    );
 
     this.standbyReplicas = props?.standbyReplicas ?? VectorCollectionStandbyReplicas.ENABLED;
 
@@ -150,9 +404,8 @@ export class VectorCollection extends Construct {
       },
     );
 
-    collection.addDependency(encryptionPolicy);
-    collection.addDependency(networkPolicy);
-
+    collection.node.addDependency(encryptionPolicy);
+    collection.node.addDependency(networkPolicy);
 
     const isDataAccessPolicyNotEmpty = new cdk.CfnCondition(this, 'IsDataAccessPolicyNotEmpty', {
       expression: cdk.Fn.conditionNot(cdk.Fn.conditionEquals(0, cdk.Lazy.number({
@@ -163,6 +416,7 @@ export class VectorCollection extends Construct {
     const dataAccessPolicyName = generatePhysicalNameV2(this,
       'DataAccessPolicy',
       { maxLength: 32, lower: true });
+
     this.dataAccessPolicy = new oss.CfnAccessPolicy(this, 'DataAccessPolicy', {
       name: dataAccessPolicyName,
       type: 'data',
@@ -170,13 +424,33 @@ export class VectorCollection extends Construct {
         produce: () => JSON.stringify(this.dataAccessPolicyDocument),
       }),
     });
-    this.dataAccessPolicy.cfnOptions.condition = isDataAccessPolicyNotEmpty;
-  }
 
+    this.dataAccessPolicy.cfnOptions.condition = isDataAccessPolicyNotEmpty;
+
+    this.node.addValidation({
+      validate: () => {
+        const errors: string[] = [];
+
+        if (this.collectionName) {
+          if (!/^[a-z0-9-]+$/.test(this.collectionName)) {
+            errors.push('Collection name must contain only lowercase letters, numbers, and hyphens');
+          }
+          if (this.collectionName.length < 3 || this.collectionName.length > 32) {
+            errors.push('Collection name must be between 3 and 32 characters');
+          }
+        }
+
+        return errors;
+      },
+    });
+
+    cdk.Tags.of(this).add('Name', this.collectionName);
+    cdk.Tags.of(this).add('Type', 'VectorCollection');
+  }
   /**
-   * Grants the specified role access to data in the collection.
-   * @param grantee The role to grant access to.
-   */
+     * Grants the specified role access to data in the collection.
+     * @param grantee The role to grant access to.
+     */
   grantDataAccess(grantee: iam.IRole) {
     this.dataAccessPolicyDocument.push({
       Rules: [
@@ -209,4 +483,3 @@ export class VectorCollection extends Construct {
     grantee.addManagedPolicy(this.aossPolicy);
   }
 }
-

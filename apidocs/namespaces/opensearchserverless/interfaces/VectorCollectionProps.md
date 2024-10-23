@@ -6,13 +6,22 @@
 
 # Interface: VectorCollectionProps
 
+Properties for configuring the vector collection.
+
 ## Properties
 
-### collectionName
+### collectionName?
 
-> `readonly` **collectionName**: `string`
+> `readonly` `optional` **collectionName**: `string`
 
-The name of the collection.
+The name of the collection. Must be between 3-32 characters long and contain only
+lowercase letters, numbers, and hyphens.
+
+#### Default
+
+```ts
+- A CDK generated name will be used
+```
 
 ***
 
@@ -25,5 +34,5 @@ Indicates whether to use standby replicas for the collection.
 #### Default
 
 ```ts
-ENABLED
+VectorCollectionStandbyReplicas.ENABLED
 ```

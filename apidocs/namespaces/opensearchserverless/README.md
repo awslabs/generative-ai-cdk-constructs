@@ -21,4 +21,6 @@
 
 ### Interfaces
 
+- [IVectorCollection](interfaces/IVectorCollection.md)
+- [VectorCollectionAttributes](interfaces/VectorCollectionAttributes.md)
 - [VectorCollectionProps](interfaces/VectorCollectionProps.md)
