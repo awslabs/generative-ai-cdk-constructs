@@ -18,7 +18,6 @@ export * from './agent-action-group';
 export * from './api-schema';
 export * from './guardrails/guardrail-filters';
 export * from './guardrails/guardrails';
-export * from './content-policy';
 export * from './models';
 export * from './prompt';
 export * from './prompt-version';
