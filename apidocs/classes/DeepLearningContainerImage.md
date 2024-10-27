@@ -330,6 +330,12 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 ***
 
+### HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_2\_1\_2\_TRANSFORMERS4\_43\_2\_NEURONX\_PY310\_SDK2\_20\_0\_UBUNTU20\_04
+
+> `readonly` `static` **HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_2\_1\_2\_TRANSFORMERS4\_43\_2\_NEURONX\_PY310\_SDK2\_20\_0\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
+
+***
+
 ### HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_0\_0\_TGI0\_6\_0\_GPU\_PY39\_CU118\_UBUNTU20\_04
 
 > `readonly` `static` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_0\_0\_TGI0\_6\_0\_GPU\_PY39\_CU118\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
