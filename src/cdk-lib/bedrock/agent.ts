@@ -135,12 +135,12 @@ export interface IAgent extends IResource {
   /**
    * A list of action groups associated with the agent.
    */
-  readonly actionGroups: bedrock.CfnAgent.AgentActionGroupProperty[];
+  actionGroups: bedrock.CfnAgent.AgentActionGroupProperty[];
 
   /**
    * A list of KnowledgeBases associated with the agent.
    */
-  readonly knowledgeBases: bedrock.CfnAgent.AgentKnowledgeBaseProperty[];
+  knowledgeBases: bedrock.CfnAgent.AgentKnowledgeBaseProperty[];
 
   /**
    * Add an alias to the agent.
