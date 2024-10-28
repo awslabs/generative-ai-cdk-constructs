@@ -12,7 +12,12 @@
  */
 
 import * as cdk from 'aws-cdk-lib';
-import { aws_bedrock as bedrock } from 'aws-cdk-lib';
+import {
+  aws_bedrock as bedrock,
+  Resource,
+  IResource,
+  ResourceProps,
+} from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
@@ -78,6 +83,109 @@ export interface GuardrailConfiguration {
   readonly guardrailVersion?: string;
   /*The identified of the guardrail.*/
   readonly guardrailId?: string;
+}
+
+export interface IAgent extends IResource {
+
+  /**
+   * The name of the agent.
+   */
+  readonly name: string;
+
+  /**
+   * The IAM role for the agent.
+   */
+  readonly role: iam.Role;
+
+  /**
+   * The unique identifier of the agent.
+   */
+  readonly agentId: string;
+
+  /**
+   * The ARN of the agent.
+   */
+  readonly agentArn: string;
+
+  /**
+   * Instance of Agent
+   */
+  readonly agentInstance: bedrock.CfnAgent;
+
+  /**
+   * The unique identifier of the agent alias.
+   */
+  readonly aliasId?: string;
+
+  /**
+   * The ARN of the agent alias.
+   */
+  readonly aliasArn?: string;
+
+  /**
+   * The name for the agent alias.
+   */
+  readonly aliasName?: string;
+
+  /**
+   * The version for the agent.
+   */
+  readonly agentVersion: string;
+
+  /**
+   * A list of action groups associated with the agent.
+   */
+  readonly actionGroups: bedrock.CfnAgent.AgentActionGroupProperty[];
+
+  /**
+   * A list of KnowledgeBases associated with the agent.
+   */
+  readonly knowledgeBases: bedrock.CfnAgent.AgentKnowledgeBaseProperty[];
+
+  /**
+   * Add an alias to the agent.
+   */
+  addAlias(props: AddAgentAliasProps): AgentAlias;
+
+  /**
+   * Add knowledge bases to the agent.
+   */
+  addKnowledgeBases(knowledgeBases: KnowledgeBase[]): void;
+
+  /**
+   * Add knowledge base to the agent.
+   */
+  addKnowledgeBase(knowledgeBase: KnowledgeBase): void;
+
+  /**
+   * Add action group to the agent.
+   */
+  addActionGroup(actionGroup: AgentActionGroup): void;
+
+  /**
+   * Add action groups to the agent.
+   */
+  addActionGroups(actionGroups: AgentActionGroup[]): void;
+
+  /**
+   * Add guardrail to the agent.
+   */
+  addGuardrail(guardrail: IGuardrail): void;
+
+  /**
+   *
+   * Grant the given identity permission to invoke the agent.
+   */
+  grantInvoke(grantee: iam.IGrantable): iam.Grant;
+
+  /**
+   * Register a dependency for aliases.
+   *
+   * @param updatedAt - The updatedAt of the resource that will be registered as a dependency.
+   *
+   * @internal This is an internal core function and should not be called directly.
+   */
+  _addAliasDependency(updatedAt: string): void;
 }
 
 /**
@@ -328,51 +436,48 @@ export interface AddAgentAliasProps {
   readonly description?: string;
 }
 
-/**
- * Deploy a Bedrock Agent.
- */
-export class Agent extends Construct {
+export abstract class AgentBase extends Resource implements IAgent {
   /**
    * The name of the agent.
    */
-  public readonly name: string;
+  public abstract readonly name: string;
   /**
    * The IAM role for the agent.
    */
-  public readonly role: iam.Role;
+  public abstract readonly role: iam.Role;
   /**
    * The unique identifier of the agent.
    */
-  public readonly agentId: string;
+  public abstract readonly agentId: string;
   /**
    * Instance of Agent
    */
-  public readonly agentInstance: bedrock.CfnAgent;
+  public abstract readonly agentInstance: bedrock.CfnAgent;
   /**
    * The ARN of the agent.
    */
-  public readonly agentArn: string;
+  public abstract readonly agentArn: string;
   /**
    * The unique identifier of the agent alias.
    */
-  public readonly aliasId?: string;
+  public abstract readonly aliasId?: string;
   /**
    * The ARN of the agent alias.
    */
-  public readonly aliasArn?: string;
+  public abstract readonly aliasArn?: string;
   /**
    * The name for the agent alias.
    */
-  public readonly aliasName?: string;
+  public abstract readonly aliasName?: string;
   /**
    * The version for the agent
    */
-  public readonly agentversion: string;
+  public abstract readonly agentVersion: string;
   /**
    * A list of values to indicate if PrepareAgent or an Alias needs to be updated.
    * @private
    */
-  private resourceUpdates: string[] = [];
+  protected resourceUpdates: string[] = [];
 
   /**
    * A list of action groups associated with the agent
@@ -386,107 +491,8 @@ export class Agent extends Construct {
    */
   public knowledgeBases: bedrock.CfnAgent.AgentKnowledgeBaseProperty[] = [];
 
-  constructor(scope: Construct, id: string, props: AgentProps) {
-    super(scope, id);
-    validatePromptOverrideConfiguration(props.promptOverrideConfiguration);
-
-    validateModel(props.foundationModel);
-
-    this.name =
-      props.name ?? generatePhysicalNameV2(this, 'bedrock-agent', { maxLength: 32, lower: true, separator: '-' });
-
-    if (props.existingRole) {
-      this.role = props.existingRole;
-    } else {
-      this.role = new iam.Role(this, 'Role', {
-        assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com'),
-        roleName: generatePhysicalNameV2(this, 'AmazonBedrockExecutionRoleForAgents_', { maxLength: 64, lower: false }),
-      });
-
-      this.role.assumeRolePolicy!.addStatements(
-        new iam.PolicyStatement({
-          actions: ['sts:AssumeRole'],
-          principals: [new iam.ServicePrincipal('bedrock.amazonaws.com')],
-          conditions: {
-            StringEquals: {
-              'aws:SourceAccount': cdk.Stack.of(this).account,
-            },
-            ArnLike: {
-              'aws:SourceArn': cdk.Stack.of(this).formatArn({
-                service: 'bedrock',
-                resource: 'agent',
-                resourceName: '*',
-                arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
-              }),
-            },
-          },
-        }),
-      );
-
-      new iam.Policy(this, 'AgentFMPolicy', {
-        roles: [this.role],
-        statements: [
-          new iam.PolicyStatement({
-            actions: ['bedrock:InvokeModel'],
-            resources: [props.foundationModel.asArn(this)],
-          }),
-        ],
-      });
-    }
-
-    const agent = new bedrock.CfnAgent(this, 'Agent', {
-      agentName: this.name,
-
-      foundationModel: String(props.foundationModel),
-      instruction: props.instruction,
-      description: props.description,
-      idleSessionTtlInSeconds: props.idleSessionTTL?.toSeconds(),
-      agentResourceRoleArn: this.role.roleArn,
-      customerEncryptionKeyArn: props.encryptionKey?.keyArn,
-      tags: props.tags,
-      promptOverrideConfiguration: props.promptOverrideConfiguration,
-      autoPrepare: props.shouldPrepareAgent,
-    });
-
-    this.agentInstance = agent;
-    this.agentId = agent.attrAgentId;
-    this.agentArn = agent.attrAgentArn;
-    this.agentversion = agent.attrAgentVersion;
-
-    if (props.guardrailConfiguration) {
-      this.agentInstance.guardrailConfiguration = {
-        guardrailIdentifier: props.guardrailConfiguration?.guardrailId,
-        guardrailVersion: props.guardrailConfiguration?.guardrailVersion,
-      };
-    }
-
-    this._addAliasDependency(agent.attrUpdatedAt);
-
-    if (props.aliasName) {
-      const alias = this.addAlias({
-        aliasName: props.aliasName,
-      });
-      this.aliasId = alias.aliasId;
-      this.aliasArn = alias.aliasArn;
-      this.aliasName = alias.aliasName;
-    }
-
-    if (props.knowledgeBases) {
-      this.addKnowledgeBases(props.knowledgeBases);
-    }
-
-    if (props.actionGroups) {
-      this.addActionGroups(props.actionGroups);
-    }
-    // To allow your agent to request the user for additional information
-    // when trying to complete a task, add this action group
-    this.addActionGroup(
-      new AgentActionGroup(this, 'userInputEnabledActionGroup', {
-        actionGroupName: 'UserInputAction',
-        parentActionGroupSignature: 'AMAZON.UserInput',
-        actionGroupState: props.enableUserInput ? 'ENABLED' : 'DISABLED',
-      }),
-    );
+  constructor(scope: Construct, id: string, props: ResourceProps = {}) {
+    super(scope, id, props);
   }
 
   /**
@@ -545,7 +551,7 @@ export class Agent extends Construct {
    * Add action group to the agent.
    */
   public addActionGroup(actionGroup: AgentActionGroup) {
-    actionGroup.actionGroupExecutor?.lambda?.addPermission('AgentLambdaInvocationPolicy', {
+    actionGroup.actionGroupExecutor?.lambda?.addPermission(`AgentLambdaInvocationPolicy-${this.agentId}`, {
       principal: new iam.ServicePrincipal('bedrock.amazonaws.com'),
       sourceArn: this.agentArn,
       sourceAccount: cdk.Stack.of(this).account,
@@ -583,6 +589,18 @@ export class Agent extends Construct {
   }
 
   /**
+   * Grant the given identity permissions to apply the guardrail.
+   */
+  public grantInvoke(grantee: iam.IGrantable): iam.Grant {
+    return iam.Grant.addToPrincipal({
+      grantee,
+      resourceArns: [this.agentArn],
+      actions: ['bedrock:InvokeAgent'],
+      scope: this,
+    });
+  }
+
+  /**
    * Register a dependency for aliases.
    *
    * @param updatedAt - The updatedAt of the resource that will be registered as a dependency.
@@ -593,6 +611,130 @@ export class Agent extends Construct {
     if (updatedAt) {
       this.resourceUpdates.push(updatedAt);
     }
+  }
+}
+
+/**
+ * Deploy a Bedrock Agent.
+ */
+export class Agent extends AgentBase {
+  public readonly name: string;
+  public readonly role: iam.Role;
+  public readonly agentId: string;
+  public readonly agentInstance: bedrock.CfnAgent;
+  public readonly agentArn: string;
+  public readonly aliasId?: string;
+  public readonly aliasArn?: string;
+  public readonly aliasName?: string;
+  public readonly agentVersion: string;
+  public actionGroups: bedrock.CfnAgent.AgentActionGroupProperty[] = [];
+  public knowledgeBases: bedrock.CfnAgent.AgentKnowledgeBaseProperty[] = [];
+
+  constructor(scope: Construct, id: string, props: AgentProps) {
+    super(scope, id);
+    validatePromptOverrideConfiguration(props.promptOverrideConfiguration);
+
+    validateModel(props.foundationModel);
+
+    this.name = props.name ?? generatePhysicalNameV2(
+      this,
+      'bedrock-agent',
+      { maxLength: 32, lower: true, separator: '-' });
+
+    if (props.existingRole) {
+      this.role = props.existingRole;
+    } else {
+      this.role = new iam.Role(this, 'Role', {
+        assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com'),
+        roleName: generatePhysicalNameV2(
+          this,
+          'AmazonBedrockExecutionRoleForAgents_',
+          { maxLength: 64, lower: false }),
+      });
+
+      this.role.assumeRolePolicy!.addStatements(
+        new iam.PolicyStatement({
+          actions: ['sts:AssumeRole'],
+          principals: [new iam.ServicePrincipal('bedrock.amazonaws.com')],
+          conditions: {
+            StringEquals: {
+              'aws:SourceAccount': cdk.Stack.of(this).account,
+            },
+            ArnLike: {
+              'aws:SourceArn': cdk.Stack.of(this).formatArn({
+                service: 'bedrock',
+                resource: 'agent',
+                resourceName: '*',
+                arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
+              }),
+            },
+          },
+        }),
+      );
+
+      new iam.Policy(this, 'AgentFMPolicy', {
+        roles: [this.role],
+        statements: [
+          new iam.PolicyStatement({
+            actions: ['bedrock:InvokeModel'],
+            resources: [props.foundationModel.asArn(this)],
+          }),
+        ],
+      });
+    }
+
+    const agent = new bedrock.CfnAgent(this, 'Agent', {
+
+      agentName: this.name,
+
+      foundationModel: String(props.foundationModel),
+      instruction: props.instruction,
+      description: props.description,
+      idleSessionTtlInSeconds: props.idleSessionTTL?.toSeconds(),
+      agentResourceRoleArn: this.role.roleArn,
+      customerEncryptionKeyArn: props.encryptionKey?.keyArn,
+      tags: props.tags,
+      promptOverrideConfiguration: props.promptOverrideConfiguration,
+      autoPrepare: props.shouldPrepareAgent,
+    });
+
+    this.agentInstance = agent;
+    this.agentId = agent.attrAgentId;
+    this.agentArn = agent.attrAgentArn;
+    this.agentVersion = agent.attrAgentVersion;
+
+    if (props.guardrailConfiguration) {
+      this.agentInstance.guardrailConfiguration = {
+        guardrailIdentifier: props.guardrailConfiguration?.guardrailId,
+        guardrailVersion: props.guardrailConfiguration?.guardrailVersion,
+      };
+    }
+
+    this._addAliasDependency(agent.attrUpdatedAt);
+
+    if (props.aliasName) {
+      const alias = this.addAlias({
+        aliasName: props.aliasName,
+      });
+      this.aliasId = alias.aliasId;
+      this.aliasArn = alias.aliasArn;
+      this.aliasName = alias.aliasName;
+    }
+
+    if (props.knowledgeBases) {
+      this.addKnowledgeBases(props.knowledgeBases);
+    }
+
+    if (props.actionGroups) {
+      this.addActionGroups(props.actionGroups);
+    }
+    // To allow your agent to request the user for additional information
+    // when trying to complete a task, add this action group
+    this.addActionGroup(new AgentActionGroup(this, 'userInputEnabledActionGroup', {
+      actionGroupName: 'UserInputAction',
+      parentActionGroupSignature: 'AMAZON.UserInput',
+      actionGroupState: props.enableUserInput ? 'ENABLED' : 'DISABLED',
+    }));
   }
 }
 
