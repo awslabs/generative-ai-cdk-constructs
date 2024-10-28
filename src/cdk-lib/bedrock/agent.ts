@@ -551,7 +551,7 @@ export abstract class AgentBase extends Resource implements IAgent {
    * Add action group to the agent.
    */
   public addActionGroup(actionGroup: AgentActionGroup) {
-    actionGroup.actionGroupExecutor?.lambda?.addPermission(`AgentLambdaInvocationPolicy-${this.agentId}`, {
+    actionGroup.actionGroupExecutor?.lambda?.addPermission(`AgentLambdaInvocationPolicy-${actionGroup.actionGroupName}`, {
       principal: new iam.ServicePrincipal('bedrock.amazonaws.com'),
       sourceArn: this.agentArn,
       sourceAccount: cdk.Stack.of(this).account,
