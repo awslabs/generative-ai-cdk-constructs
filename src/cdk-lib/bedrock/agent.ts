@@ -95,7 +95,7 @@ export interface IAgent extends IResource {
   /**
    * The IAM role for the agent.
    */
-  readonly role: iam.Role;
+  readonly role: iam.IRole;
 
   /**
    * The unique identifier of the agent.
@@ -140,7 +140,7 @@ export interface IAgent extends IResource {
   /**
    * A list of KnowledgeBases associated with the agent.
    */
-  knowledgeBases: bedrock.CfnAgent.AgentKnowledgeBaseProperty[];
+  knowledgeBases: IKnowledgeBase[];
 
   /**
    * Add an alias to the agent.
@@ -489,7 +489,7 @@ export abstract class AgentBase extends Resource implements IAgent {
    *
    * @default - No knowledge base is used.
    */
-  public knowledgeBases: bedrock.CfnAgent.AgentKnowledgeBaseProperty[] = [];
+  public knowledgeBases: IKnowledgeBase[] = [];
 
   constructor(scope: Construct, id: string, props: ResourceProps = {}) {
     super(scope, id, props);
@@ -628,7 +628,7 @@ export class Agent extends AgentBase {
   public readonly aliasName?: string;
   public readonly agentVersion: string;
   public actionGroups: bedrock.CfnAgent.AgentActionGroupProperty[] = [];
-  public knowledgeBases: bedrock.CfnAgent.AgentKnowledgeBaseProperty[] = [];
+  public knowledgeBases: IKnowledgeBase[] = [];
 
   constructor(scope: Construct, id: string, props: AgentProps) {
     super(scope, id);
