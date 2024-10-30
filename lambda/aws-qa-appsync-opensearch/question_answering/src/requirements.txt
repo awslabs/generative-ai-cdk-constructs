@@ -10,4 +10,4 @@ requests-aws4auth==1.2.3
 opensearch-py==2.4.2
 numpy
 langchain==0.2.11
-langchain-community==0.2.9
+langchain-community==0.3.0
