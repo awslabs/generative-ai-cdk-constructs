@@ -1100,14 +1100,16 @@ const importedGuardrail = bedrock.Guardrail.fromGuardrailAttributes(stack, "Test
 });
 
 // Importing Guardrails created through the L1 CDK CfnGuardrail construct
-const cfnGuardrail = new CfnGuardrail(this, 'MyCfnGuardrail', {
-  blockedInputMessaging: 'blockedInputMessaging',
-  blockedOutputsMessaging: 'blockedOutputsMessaging',
-  name: 'namemycfnguardrails',
+const cfnGuardrail = new CfnGuardrail(this, "MyCfnGuardrail", {
+  blockedInputMessaging: "blockedInputMessaging",
+  blockedOutputsMessaging: "blockedOutputsMessaging",
+  name: "namemycfnguardrails",
   wordPolicyConfig: {
-    wordsConfig: [{
-      text: 'drugs',
-    }],
+    wordsConfig: [
+      {
+        text: "drugs",
+      },
+    ],
   },
 });
 
@@ -1219,10 +1221,8 @@ const claudeModel = BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asIModel
 const variant1 = PromptVariant.text({
   variantName: "variant1",
   model: claudeModel,
-  templateConfiguration: {
-    inputVariables: [{ name: "topic" }],
-    text: "This is my first text prompt. Please summarize our conversation on: {{topic}}.",
-  },
+  promptVariables: ["topic"],
+  promptText: "This is my first text prompt. Please summarize our conversation on: {{topic}}.",
   inferenceConfiguration: {
     temperature: 1.0,
     topP: 0.999,
@@ -1258,10 +1258,8 @@ Example of `PromptVariant`:
 const variant2 = PromptVariant.text({
   variantName: "variant2",
   model: claudeModel,
-  templateConfiguration: {
-    inputVariables: [{ name: "topic" }],
-    text: "This is my second text prompt. Please summarize our conversation on: {{topic}}.",
-  },
+  promptVariables: [ "topic" ],
+  promptText: "This is my second text prompt. Please summarize our conversation on: {{topic}}.",
   inferenceConfiguration: {
     temperature: 0.5,
     topP: 0.999,
@@ -1282,7 +1280,8 @@ prompt and update your application with the most appropriate version for your
 use-case.
 
 You can create a Prompt version by using the `PromptVersion` class or by using the `.createVersion(..)`
-on a `Prompt` object.
+on a `Prompt` object. It is recommended to use the `.createVersion(..)` method. It uses a hash based mechanism
+to update the version whenever a certain configuration property changes.
 
 **TypeScript**
 

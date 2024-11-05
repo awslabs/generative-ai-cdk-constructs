@@ -6,6 +6,10 @@
 
 # Interface: PromptProps
 
+***************************************************************************
+                       PROPS FOR NEW CONSTRUCT
+***************************************************************************
+
 ## Properties
 
 ### defaultVariant?
@@ -36,9 +40,9 @@ A description of what the prompt does.
 
 ***
 
-### encryptionKey?
+### kmsKey?
 
-> `readonly` `optional` **encryptionKey**: `IKey`
+> `readonly` `optional` **kmsKey**: `IKey`
 
 The KMS key that the prompt is encrypted with.
 
