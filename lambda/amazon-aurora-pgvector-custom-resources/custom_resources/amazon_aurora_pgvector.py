@@ -101,7 +101,6 @@ def execute_sql_commands(
             ]
 
             for command in sql_commands:
-                logger.info(f"Executing SQL command: {command}")
                 cur.execute(command)
         conn.commit()
     except pg8000.ProgrammingError as e:
