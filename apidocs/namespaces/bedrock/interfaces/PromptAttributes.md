@@ -2,11 +2,13 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / IPrompt
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / PromptAttributes
 
-# Interface: IPrompt
+# Interface: PromptAttributes
 
-Represents a Prompt, either created with CDK or imported.
+***************************************************************************
+                     ATTRS FOR IMPORTED CONSTRUCT
+***************************************************************************
 
 ## Properties
 
@@ -32,23 +34,9 @@ The ARN of the prompt.
 
 ***
 
-### promptId
+### promptVersion?
 
-> `readonly` **promptId**: `string`
-
-The ID of the prompt.
-
-#### Example
-
-```ts
-"PROMPT12345"
-```
-
-***
-
-### promptVersion
-
-> **promptVersion**: `string`
+> `readonly` `optional` **promptVersion**: `string`
 
 The version of the prompt.
 

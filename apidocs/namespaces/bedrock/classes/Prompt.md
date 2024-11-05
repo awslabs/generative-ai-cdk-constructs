@@ -50,11 +50,25 @@ https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management.html
 
 ## Properties
 
-### encryptionKey?
+### \_hash
 
-> `readonly` `optional` **encryptionKey**: `IKey`
+> `protected` `readonly` **\_hash**: `string`
+
+**`Internal`**
+
+The computed hash of the prompt properties.
+
+***
+
+### kmsKey?
+
+> `readonly` `optional` **kmsKey**: `IKey`
 
 The KMS key that the prompt is encrypted with.
+
+#### Implementation of
+
+[`IPrompt`](../interfaces/IPrompt.md).[`kmsKey`](../interfaces/IPrompt.md#kmskey)
 
 ***
 
@@ -114,6 +128,18 @@ The name of the prompt.
 
 ***
 
+### promptVersion
+
+> **promptVersion**: `string`
+
+The version of the prompt.
+
+#### Implementation of
+
+[`IPrompt`](../interfaces/IPrompt.md).[`promptVersion`](../interfaces/IPrompt.md#promptversion)
+
+***
+
 ### variants
 
 > `readonly` **variants**: [`PromptVariant`](PromptVariant.md)[]
@@ -140,7 +166,7 @@ Adds a prompt variant.
 
 ### createVersion()
 
-> **createVersion**(`description`?): `void`
+> **createVersion**(`description`?): `string`
 
 Creates a prompt version, a static snapshot of your prompt that can be
 deployed to production.
@@ -151,7 +177,7 @@ deployed to production.
 
 #### Returns
 
-`void`
+`string`
 
 ***
 
@@ -171,13 +197,17 @@ Returns a string representation of this construct.
 
 ***
 
-### fromPromptArn()
+### fromPromptAttributes()
 
-> `static` **fromPromptArn**(`promptArn`): [`IPrompt`](../interfaces/IPrompt.md)
+> `static` **fromPromptAttributes**(`scope`, `id`, `attrs`): [`IPrompt`](../interfaces/IPrompt.md)
 
 #### Parameters
 
-• **promptArn**: `string`
+• **scope**: `Construct`
+
+• **id**: `string`
+
+• **attrs**: [`PromptAttributes`](../interfaces/PromptAttributes.md)
 
 #### Returns
 
