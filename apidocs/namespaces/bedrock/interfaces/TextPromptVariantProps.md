@@ -33,11 +33,20 @@ model, a custom model, or a provisioned model.
 
 ***
 
-### templateConfiguration?
+### promptText
 
-> `readonly` `optional` **templateConfiguration**: `TextPromptTemplateConfigurationProperty`
+> `readonly` **promptText**: `string`
 
-Template Configuration for the text prompt
+The text prompt. Variables are used by encolsing its name with double curly braces
+as in `{{variable_name}}`.
+
+***
+
+### promptVariables
+
+> `readonly` **promptVariables**: `string`[]
+
+The variables in the prompt template that can be filled in at runtime.
 
 ***
 
