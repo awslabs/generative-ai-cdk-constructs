@@ -1474,9 +1474,9 @@ aws-sdk-mock@^5.9.0:
     traverse "^0.6.6"
 
 aws-sdk@^2.1231.0:
-  version "2.1691.0"
-  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1691.0.tgz#9d6ccdcbae03c806fc62667b76eb3e33e5294dcc"
-  integrity sha512-/F2YC+DlsY3UBM2Bdnh5RLHOPNibS/+IcjUuhP8XuctyrN+MlL+fWDAiela32LTDk7hMy4rx8MTgvbJ+0blO5g==
+  version "2.1692.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.1692.0.tgz#9dac5f7bfcc5ab45825cc8591b12753aa7d2902c"
+  integrity sha512-x511uiJ/57FIsbgUe5csJ13k3uzu25uWQE+XqfBis/sB0SFoiElJWXRkgEAUh0U6n40eT3ay5Ue4oPkRMu1LYw==
   dependencies:
     buffer "4.9.2"
     events "1.1.1"
@@ -1672,10 +1672,10 @@ ccount@^2.0.0:
   resolved "https://registry.yarnpkg.com/ccount/-/ccount-2.0.1.tgz#17a3bf82302e0870d6da43a01311a8bc02a3ecf5"
   integrity sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==
 
-cdk-nag@^2.31.3:
-  version "2.31.3"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.31.3.tgz#bd64fca5244ea0cbca6ff1c48dea8a3815d80345"
-  integrity sha512-+VpyG9NywG90oSBfrlRY4As3dvnqbkRLVgBD7wyI/O7aYv2RSTBivXAmX5WjLppz5H/X850x9gUawzwQbBwMIA==
+cdk-nag@^2.31.4:
+  version "2.31.4"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.31.4.tgz#6543d08aaa70f52b1667fb65bfc114a43b9e7a6a"
+  integrity sha512-b8s/xexqvI3zx/6L6ulKacw9pURoiNo5AseAhKdDFPnO7ZdwxcHrLTEArZIlLPjYhyp96MYYLbaYZ5AOFZjcrg==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -5772,9 +5772,9 @@ typescript@^5.6.3:
   integrity sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==
 
 typescript@next:
-  version "5.7.0-dev.20241105"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.0-dev.20241105.tgz#bfa0d39dc37133e467d8bd4bb56b05b0e4e00691"
-  integrity sha512-vA2PUOj2bV0HJSD6/y+Zs6cJvGpvrAtgfHB4UtK6ABFA5s3rCcs2d+zK5WZfzt0hxgI15RI8UzUFj6A4FE/0YQ==
+  version "5.8.0-dev.20241106"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.8.0-dev.20241106.tgz#70bc34b21855d71be0382e1e7e610bf9d7a166b1"
+  integrity sha512-oFqIoJnR/s4hq5I2MBDdeJThRVyyhRV5eo2EmxllNkSe76ycucq2h4QgWnq0g4Opf4KQjpi1m/jhgMoiwDc8CQ==
 
 typescript@~5.4:
   version "5.4.5"
