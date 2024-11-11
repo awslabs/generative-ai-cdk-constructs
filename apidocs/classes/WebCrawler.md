@@ -40,6 +40,11 @@ user provided props for the construct.
 
 0.0.0
 
+#### Deprecated
+
+This construct is deprecated and will be removed in a future major version.
+It will not receive security updates.
+
 #### Overrides
 
 [`BaseClass`](BaseClass.md).[`constructor`](BaseClass.md#constructors)
