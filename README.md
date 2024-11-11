@@ -107,7 +107,7 @@ _NOTE: The [Go distribution repository](https://github.com/cdklabs/generative-ai
 <summary><i>Java</i></summary>
 
 - Create or use an existing CDK application in Java
-  - cdk init app --language java
+  - `cdk init app --language java`
 - Add the dependency into the `pom.xml`
 ```
 <dependency>
@@ -161,6 +161,7 @@ The official samples repository https://github.com/aws-samples/generative-ai-cdk
 |:-------------|:-------------|:-------------|
 | [AWS re:Invent 2023 - Keynote with Dr. Werner Vogels](https://youtu.be/UTRBVPvzt9w?t=6252) | Keynote | Dr. Werner Vogels, Amazon.com's VP and CTO, announces the AWS Generative AI CDK Constructs during his AWS re:Invent 2023 keynote. |
 | [Workshop - Building Generative AI Apps on AWS with CDK](https://catalog.workshops.aws/building-genai-apps) | Workshop | In this workshop, you will explore how to build a sample generative AI app on AWS using CDK and Generative AI CDK Constructs. |
+| [Workshop - Hands on AWS CDK Generative AI Constructs](https://catalog.us-east-1.prod.workshops.aws/workshops/84c00416-19b6-44c3-8d18-cc172361af41/en-US) | Workshop | In this workshop you will deploy projects that use CDK constructs from this library. Projects are from the [amazon-bedrock-samples](https://github.com/aws-samples/amazon-bedrock-samples/tree/main) Github Repository. |
 | [Build generative AI applications with Amazon Titan Text Premier, Amazon Bedrock, and AWS CDK](https://aws.amazon.com/blogs/machine-learning/build-generative-ai-applications-with-amazon-titan-text-premier-amazon-bedrock-and-aws-cdk/) | Blog post + Code sample | Blog post exploring building and deploying two sample applications powered by Amazon Titan Text Premier using the Generative AI CDK constructs. |
 | [aws-cdk-stack-builder-tool](https://github.com/aws-samples/aws-cdk-stack-builder-tool) | Code sample | AWS CDK Builder is a browser-based tool designed to streamline bootstrapping of Infrastructure as Code (IaC) projects using the AWS Cloud Development Kit (CDK). |
 | [CDK Live! Building generative AI applications and architectures leveraging AWS CDK Constructs!](https://www.youtube.com/watch?v=NI1F4Xxqyr8) | Video | CDK Live! episode focused on building and deploying generative AI applications and architectures on AWS using the AWS Cloud Development Kit (CDK) and the AWS Generative AI CDK Constructs. |
