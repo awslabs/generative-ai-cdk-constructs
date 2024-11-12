@@ -10,83 +10,83 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import { Construct } from 'constructs';
 import * as bedrock from 'aws-cdk-lib/aws-bedrock';
+import { Construct } from 'constructs';
 
 export interface ApplicationInferenceProfileProps {
-    /**
+  /**
      * Description of the inference profile.
      * @see http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-bedrock-applicationinferenceprofile.html#cfn-bedrock-applicationinferenceprofile-description
      */
-    readonly description?: string;
-    /**
+  readonly description?: string;
+  /**
      * The name of the inference profile.
      * @see http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-bedrock-applicationinferenceprofile.html#cfn-bedrock-applicationinferenceprofile-inferenceprofilename
      */
-    readonly inferenceProfileName: string;
-    /**
-     * To create an application inference profile for one Region, specify a foundation model. 
+  readonly inferenceProfileName: string;
+  /**
+     * To create an application inference profile for one Region, specify a foundation model.
      * Usage and costs for requests made to that Region with that model will be tracked.
-     * 
-     * To create an application inference profile for multiple Regions, 
-     * specify a cross region (system-defined) inference profile. 
-     * The inference profile will route requests to the Regions defined in 
-     * the cross region (system-defined) inference profile that you choose. 
+     *
+     * To create an application inference profile for multiple Regions,
+     * specify a cross region (system-defined) inference profile.
+     * The inference profile will route requests to the Regions defined in
+     * the cross region (system-defined) inference profile that you choose.
      * Usage and costs for requests made to the Regions in the inference profile will be tracked.
      */
-    readonly modelSource: string;
+  readonly modelSource: string;
 }
 
 /**
  * Creates an application inference profile.
  *
- * These are inference profiles created by users (user defined). 
+ * These are inference profiles created by users (user defined).
  * This helps to track costs and model usage.
  * @resource AWS::Bedrock::ApplicationInferenceProfile
  * @see https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles-create.html
  */
 export class ApplicationInferenceProfile extends Construct {
-    /**
+  /**
      * The ARN of the application inference profile.
      */
-    public readonly inferenceProfileArn: string;
+  public readonly inferenceProfileArn: string;
 
-    /**
+  /**
      * The ARN of the application inference profile.
      */
-    public readonly inferenceProfileId: string;
+  public readonly inferenceProfileId: string;
 
-    /**
+  /**
      * The unique identifier of the inference profile.
      */
-    public readonly inferenceProfileIdentifier: string;
+  public readonly inferenceProfileIdentifier: string;
 
-     /**
+  /**
      * The status of the inference profile. ACTIVE means that the inference profile is ready to be used.
      */
-    public readonly status: string;
+  public readonly status: string;
 
-    /**
+  /**
      * Instance of CfnApplicationInferenceProfile.
      */
-    private readonly _resource: bedrock.CfnApplicationInferenceProfile;
-  
-    constructor(scope: Construct, id: string, props: ApplicationInferenceProfileProps) {
-      super(scope, id);
-  
-      // L1 instantiation
-      this._resource = new bedrock.CfnApplicationInferenceProfile(this, id, {
-        description: props.description,
-        inferenceProfileName: props.inferenceProfileName,
-        modelSource: {
-          copyFrom: props.modelSource,
-        },
-      });
+  private readonly _resource: bedrock.CfnApplicationInferenceProfile;
 
-      this.inferenceProfileArn = this._resource.attrInferenceProfileArn;
-      this.inferenceProfileId = this._resource.attrInferenceProfileId;
-      this.inferenceProfileIdentifier = this._resource.attrInferenceProfileIdentifier;
-      this.status = this._resource.attrStatus;
-    }
-  
+  constructor(scope: Construct, id: string, props: ApplicationInferenceProfileProps) {
+    super(scope, id);
+
+    // L1 instantiation
+    this._resource = new bedrock.CfnApplicationInferenceProfile(this, id, {
+      description: props.description,
+      inferenceProfileName: props.inferenceProfileName,
+      modelSource: {
+        copyFrom: props.modelSource,
+      },
+    });
+
+    this.inferenceProfileArn = this._resource.attrInferenceProfileArn;
+    this.inferenceProfileId = this._resource.attrInferenceProfileId;
+    this.inferenceProfileIdentifier = this._resource.attrInferenceProfileIdentifier;
+    this.status = this._resource.attrStatus;
+  }
+
 }

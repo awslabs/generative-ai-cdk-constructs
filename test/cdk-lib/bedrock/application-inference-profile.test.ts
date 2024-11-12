@@ -12,8 +12,8 @@
  */
 import * as cdk from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
-import * as bedrock from '../../../src/cdk-lib/bedrock';
 import { AwsSolutionsChecks } from 'cdk-nag';
+import * as bedrock from '../../../src/cdk-lib/bedrock';
 
 describe('CDK-Created-Application-Inference-Profile', () => {
   let stack: cdk.Stack;
@@ -26,9 +26,9 @@ describe('CDK-Created-Application-Inference-Profile', () => {
 
   test('Basic Creation with a foundation model', () => {
     new bedrock.ApplicationInferenceProfile(stack, 'TestAIP', {
-        inferenceProfileName: 'TestAIP',
-        description: 'This is a test application inf profile',
-        modelSource: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asArn(stack)
+      inferenceProfileName: 'TestAIP',
+      description: 'This is a test application inf profile',
+      modelSource: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asArn(stack),
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::ApplicationInferenceProfile', {
@@ -37,32 +37,32 @@ describe('CDK-Created-Application-Inference-Profile', () => {
       ModelSource: {
         CopyFrom: {
           'Fn::Join': [
-                '',
-                [
-                'arn:aws:bedrock:',
-                {
-                    Ref: 'AWS::Region',
-                },
-                '::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0',
-                ],
+            '',
+            [
+              'arn:aws:bedrock:',
+              {
+                Ref: 'AWS::Region',
+              },
+              '::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0',
             ],
-        }
-      }
+          ],
+        },
+      },
     });
   });
 
   test('Basic Creation with a system defined inference profile', () => {
     new bedrock.ApplicationInferenceProfile(stack, 'TestAIPSystem', {
-        inferenceProfileName: 'TestAIPSystem',
-        modelSource: 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0'
+      inferenceProfileName: 'TestAIPSystem',
+      modelSource: 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0',
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::ApplicationInferenceProfile', {
       InferenceProfileName: 'TestAIPSystem',
       Description: Match.absent(),
       ModelSource: {
-        CopyFrom: 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0'
-      }
+        CopyFrom: 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0',
+      },
     });
   });
 });
