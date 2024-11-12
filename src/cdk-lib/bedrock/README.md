@@ -30,6 +30,7 @@ This construct library includes CloudFormation L1 resources to deploy Bedrock fe
 - [Agents](#agents)
 - [Guardrails](#bedrock-guardrails)
 - [Prompt management](#prompt-management)
+- [Application inference profile](#application-inference-profile)
 
 ## API
 
@@ -1293,4 +1294,73 @@ or alternatively:
 
 ```ts
 prompt1.createVersion("my first version");
+```
+
+## Application inference profile
+
+You can create an application inference profile with one or more Regions to track usage and costs when invoking a model.
+
+To create an application inference profile for one Region, specify a foundation model. Usage and costs for requests made to that Region with that model will be tracked.
+
+To create an application inference profile for multiple Regions, specify a cross region (system-defined) inference profile. The inference profile will route requests to the Regions defined in the cross region (system-defined) inference profile that you choose. Usage and costs for requests made to the Regions in the inference profile will be tracked. You can find the system defined inference profiles by navigating to your console (Amazon Bedrock -> Cross-region inference) or programmatically, for instance using [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/bedrock/client/list_inference_profiles.html):
+```
+bedrock = session.client("bedrock", region_name="us-east-1")
+bedrock.list_inference_profiles(typeEquals='SYSTEM_DEFINED')
+```
+
+Before using application inference profiles, ensure that:
+- You have appropriate IAM permissions
+- You have access to the models and regions defined in the inference profiles
+- Ensure proper configuration of the required API permissions for inference profile-related actions
+
+Specifically the role you are assuming needs to have permissions for following actions in the IAM policy
+```
+"Action": [
+      "bedrock:GetInferenceProfile",
+      "bedrock:ListInferenceProfiles",
+      "bedrock:DeleteInferenceProfile"
+      "bedrock:TagResource",
+      "bedrock:UntagResource",
+      "bedrock:ListTagsForResource"
+  ]
+```
+You can restrict to specific resources by applying "Resources" tag in the IAM policy.
+```
+"Resource": ["arn:aws:bedrock:*:*:application-inference-profile/*"]
+```
+
+TypeScript
+
+```ts
+// Create an application inference profile for one Region
+// You can use the 'bedrock.BedrockFoundationModel' or pass the arn as a string
+const appInfProfile1 = new ApplicationInferenceProfile(this, 'myapplicationprofile', {
+  inferenceProfileName: 'claude 3 sonnet v1',
+  modelSource: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asArn(stack)
+});
+
+// To create an application inference profile across regions, specify the cross region inference profile's ARN
+const appInfProfile2 = new ApplicationInferenceProfile(this, 'myapplicationprofile2', {
+  inferenceProfileName: 'claude 3 sonnet v1',
+  modelSource: 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0'
+});
+
+```
+
+Python
+
+```python
+
+# Create an application inference profile for one Region
+# You can use the 'bedrock.BedrockFoundationModel' or pass the arn as a string
+appInfProfile1 = ApplicationInferenceProfile(self, 'myapplicationprofile',
+  inference_profile_name: 'claude 3 sonnet v1',
+  model_source: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asArn(stack)
+)
+
+# To create an application inference profile across regions, specify the cross region inference profile's ARN
+appInfProfile2 = new ApplicationInferenceProfile(self, 'myapplicationprofile2',
+  inference_profile_name: 'claude 35 sonnet v2',
+  model_source: 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0'
+)
 ```
