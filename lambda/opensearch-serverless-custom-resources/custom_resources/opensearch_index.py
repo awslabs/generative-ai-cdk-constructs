@@ -146,9 +146,10 @@ def create_mapping(
         },
     }
     for field in metadata_management:
+        is_filterable = field["Filterable"].lower() == "true"
         mapping["properties"][field["MappingField"]] = {
             "type": field["DataType"],
-            "index": "true" if field["Filterable"] else "false",
+            "index": "true" if is_filterable else "false",
         }
     return mapping
 
