@@ -36,11 +36,11 @@ http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-bedro
 
 > `readonly` **modelSource**: `string`
 
-To create an application inference profile for one Region, specify a foundation model. 
+To create an application inference profile for one Region, specify a foundation model.
 Usage and costs for requests made to that Region with that model will be tracked.
 
-To create an application inference profile for multiple Regions, 
-specify a cross region (system-defined) inference profile. 
-The inference profile will route requests to the Regions defined in 
-the cross region (system-defined) inference profile that you choose. 
+To create an application inference profile for multiple Regions,
+specify a cross region (system-defined) inference profile.
+The inference profile will route requests to the Regions defined in
+the cross region (system-defined) inference profile that you choose.
 Usage and costs for requests made to the Regions in the inference profile will be tracked.

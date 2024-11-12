@@ -67,6 +67,16 @@ export class ApplicationInferenceProfile extends Construct {
   public readonly status: string;
 
   /**
+     * The type of the inference profile. The following types are possible:
+     * SYSTEM_DEFINED – The inference profile is defined by Amazon Bedrock.
+     * You can route inference requests across regions with these inference profiles.
+     * APPLICATION – The inference profile was created by a user.
+     * This type of inference profile can track metrics and costs when invoking the model in it.
+     * The inference profile may route requests to one or multiple regions.
+     */
+  public readonly type: string;
+
+  /**
      * Instance of CfnApplicationInferenceProfile.
      */
   private readonly _resource: bedrock.CfnApplicationInferenceProfile;
@@ -87,6 +97,7 @@ export class ApplicationInferenceProfile extends Construct {
     this.inferenceProfileId = this._resource.attrInferenceProfileId;
     this.inferenceProfileIdentifier = this._resource.attrInferenceProfileIdentifier;
     this.status = this._resource.attrStatus;
+    this.type = this._resource.attrType;
   }
 
 }

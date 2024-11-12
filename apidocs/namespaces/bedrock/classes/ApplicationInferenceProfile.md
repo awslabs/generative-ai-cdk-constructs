@@ -8,7 +8,7 @@
 
 Creates an application inference profile.
 
-These are inference profiles created by users (user defined). 
+These are inference profiles created by users (user defined).
 This helps to track costs and model usage.
 
 ## Resource
@@ -88,6 +88,19 @@ The tree node.
 > `readonly` **status**: `string`
 
 The status of the inference profile. ACTIVE means that the inference profile is ready to be used.
+
+***
+
+### type
+
+> `readonly` **type**: `string`
+
+The type of the inference profile. The following types are possible:
+SYSTEM_DEFINED – The inference profile is defined by Amazon Bedrock.
+You can route inference requests across regions with these inference profiles.
+APPLICATION – The inference profile was created by a user.
+This type of inference profile can track metrics and costs when invoking the model in it.
+The inference profile may route requests to one or multiple regions.
 
 ## Methods
 
