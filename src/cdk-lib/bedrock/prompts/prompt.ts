@@ -11,9 +11,11 @@
  *  and limitations under the License.
  */
 
-import { Arn, ArnFormat, aws_kms as kms, Lazy, aws_bedrock as bedrock } from 'aws-cdk-lib';
+import { Arn, ArnFormat, aws_kms as kms, Lazy, aws_bedrock as bedrock, Resource } from 'aws-cdk-lib';
 import { IModel } from 'aws-cdk-lib/aws-bedrock';
+import { Grant, IGrantable } from 'aws-cdk-lib/aws-iam';
 import { IKey } from 'aws-cdk-lib/aws-kms';
+import { md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
 import { Construct } from 'constructs';
 
 export enum PromptTemplateType {
@@ -37,13 +39,16 @@ export interface TextPromptVariantProps extends CommonPromptVariantProps {
    * Inference configuration for the Text Prompt
    */
   readonly inferenceConfiguration?: bedrock.CfnPrompt.PromptModelInferenceConfigurationProperty;
-
   /**
-   * Template Configuration for the text prompt
+   * The variables in the prompt template that can be filled in at runtime.
    */
-  readonly templateConfiguration?: bedrock.CfnPrompt.TextPromptTemplateConfigurationProperty;
+  readonly promptVariables: string[];
+  /**
+   * The text prompt. Variables are used by encolsing its name with double curly braces
+   * as in `{{variable_name}}`.
+   */
+  readonly promptText: string;
 }
-
 
 /**
  * Variants are specific sets of inputs that guide FMs on Amazon Bedrock to
@@ -66,7 +71,12 @@ export abstract class PromptVariant {
         text: { ...props.inferenceConfiguration },
       },
       templateConfiguration: {
-        text: { ...props.templateConfiguration },
+        text: {
+          inputVariables: props.promptVariables.flatMap((variable: string) => {
+            return { name: variable };
+          }),
+          text: props.promptText,
+        },
       },
     };
   }
@@ -97,10 +107,12 @@ export abstract class PromptVariant {
   // ------------------------------------------------------
   // Constructor
   // ------------------------------------------------------
-  protected constructor() { }
-
+  protected constructor() {}
 }
 
+/******************************************************************************
+ *                              COMMON
+ *****************************************************************************/
 /**
  * Represents a Prompt, either created with CDK or imported.
  */
@@ -115,8 +127,43 @@ export interface IPrompt {
    * @example "PROMPT12345"
    */
   readonly promptId: string;
+  /**
+   * Optional KMS encryption key associated with this prompt.
+   */
+  readonly kmsKey?: IKey;
+  /**
+   * The version of the prompt.
+   * @default - "DRAFT"
+   */
+  promptVersion: string;
 }
 
+/**
+ * Abstract base class for a Prompt.
+ * Contains methods and attributes valid for Promtps either created with CDK or imported.
+ */
+export abstract class PromptBase extends Resource implements IPrompt {
+  public abstract readonly promptArn: string;
+  public abstract readonly promptId: string;
+  public abstract readonly kmsKey?: IKey;
+  public abstract promptVersion: string;
+
+  /**
+   * Grant the given identity permissions to get the prompt.
+   */
+  public grantGet(grantee: IGrantable): Grant {
+    return Grant.addToPrincipal({
+      grantee,
+      resourceArns: [this.promptArn],
+      actions: ['bedrock:GetPrompt'],
+      scope: this,
+    });
+  }
+}
+
+/******************************************************************************
+ *                        PROPS FOR NEW CONSTRUCT
+ *****************************************************************************/
 
 export interface PromptProps {
   /**
@@ -132,7 +179,7 @@ export interface PromptProps {
    * The KMS key that the prompt is encrypted with.
    * @default - AWS owned and managed key.
    */
-  readonly encryptionKey?: kms.IKey;
+  readonly kmsKey?: kms.IKey;
   /**
    * The Prompt Variant that will be used by default.
    * @default - No default variant provided.
@@ -144,9 +191,31 @@ export interface PromptProps {
    * variant for your use case. Maximum of 3 variants.
    */
   readonly variants?: PromptVariant[];
-
 }
 
+/******************************************************************************
+ *                      ATTRS FOR IMPORTED CONSTRUCT
+ *****************************************************************************/
+export interface PromptAttributes {
+  /**
+   * The ARN of the prompt.
+   * @example "arn:aws:bedrock:us-east-1:123456789012:prompt/PROMPT12345"
+   */
+  readonly promptArn: string;
+  /**
+   * Optional KMS encryption key associated with this prompt.
+   */
+  readonly kmsKey?: IKey;
+  /**
+   * The version of the prompt.
+   * @default - "DRAFT"
+   */
+  readonly promptVersion?: string;
+}
+
+/******************************************************************************
+ *                        NEW CONSTRUCT DEFINITION
+ *****************************************************************************/
 /**
  * Prompts are a specific set of inputs that guide FMs on Amazon Bedrock to
  * generate an appropriate response or output for a given task or instruction.
@@ -158,12 +227,16 @@ export class Prompt extends Construct implements IPrompt {
   // ------------------------------------------------------
   // Import Methods
   // ------------------------------------------------------
-  public static fromPromptArn(promptArn: string): IPrompt {
-    const formattedArn = Arn.split(promptArn, ArnFormat.SLASH_RESOURCE_NAME);
-    return {
-      promptArn: promptArn,
-      promptId: formattedArn.resourceName!,
-    };
+  public static fromPromptAttributes(scope: Construct, id: string, attrs: PromptAttributes): IPrompt {
+    const formattedArn = Arn.split(attrs.promptArn, ArnFormat.SLASH_RESOURCE_NAME);
+    class Import extends PromptBase {
+      public readonly promptArn = attrs.promptArn;
+      public readonly promptId = formattedArn.resourceName!;
+      public readonly promptVersion = attrs.promptVersion ?? 'DRAFT';
+      public readonly kmsKey = attrs.kmsKey;
+    }
+
+    return new Import(scope, id);
   }
   // ------------------------------------------------------
   // Attributes
@@ -175,7 +248,7 @@ export class Prompt extends Construct implements IPrompt {
   /**
    * The KMS key that the prompt is encrypted with.
    */
-  public readonly encryptionKey?: IKey;
+  public readonly kmsKey?: IKey;
   /**
    * The ARN of the prompt.
    * @example "arn:aws:bedrock:us-east-1:123456789012:prompt/PROMPT12345"
@@ -187,9 +260,18 @@ export class Prompt extends Construct implements IPrompt {
    */
   public readonly promptId: string;
   /**
+   * The version of the prompt.
+   */
+  public promptVersion: string;
+  /**
    * The variants of the prompt.
    */
   readonly variants: PromptVariant[];
+  /**
+   * The computed hash of the prompt properties.
+   * @internal
+   */
+  protected readonly _hash: string;
   /**
    * L1 resource
    */
@@ -204,7 +286,7 @@ export class Prompt extends Construct implements IPrompt {
     // Set properties or defaults
     // ------------------------------------------------------
     this.promptName = props.promptName;
-    this.encryptionKey = props.encryptionKey;
+    this.kmsKey = props.kmsKey;
     this.variants = props.variants ?? [];
 
     // ------------------------------------------------------
@@ -214,20 +296,29 @@ export class Prompt extends Construct implements IPrompt {
     this.node.addValidation({ validate: () => this.validatePromptVariants() });
 
     // ------------------------------------------------------
-    // L1 Instantiation
+    // CFN Props - With Lazy support
     // ------------------------------------------------------
-    this._resource = new bedrock.CfnPrompt(this, 'Prompt', {
-      customerEncryptionKeyArn: this.encryptionKey?.keyArn,
+    let cfnProps: bedrock.CfnPromptProps = {
+      customerEncryptionKeyArn: this.kmsKey?.keyArn,
       defaultVariant: props.defaultVariant?.name,
       description: props.description,
       name: props.promptName,
       variants: Lazy.any({
-        produce: () => (this.variants),
+        produce: () => this.variants,
       }),
-    });
+    };
+
+    // Hash calculation useful for versioning of the guardrail
+    this._hash = md5hash(JSON.stringify(cfnProps));
+
+    // ------------------------------------------------------
+    // L1 Instantiation
+    // ------------------------------------------------------
+    this._resource = new bedrock.CfnPrompt(this, 'Prompt', cfnProps);
 
     this.promptArn = this._resource.attrArn;
     this.promptId = this._resource.attrId;
+    this.promptVersion = this._resource.attrVersion;
   }
 
   // ------------------------------------------------------
@@ -242,7 +333,9 @@ export class Prompt extends Construct implements IPrompt {
 
     const matchesPattern = /^([0-9a-zA-Z][_-]?){1,100}$/.test(this.promptName);
     if (!matchesPattern) {
-      errors.push('Valid characters are a-z, A-Z, 0-9, _ (underscore) and - (hyphen). And must not begin with a hyphen');
+      errors.push(
+        'Valid characters are a-z, A-Z, 0-9, _ (underscore) and - (hyphen). And must not begin with a hyphen',
+      );
     }
     if (errors.length > 0) {
       errors.unshift(`Invalid prompt name (value: ${this.promptName})`);
@@ -256,7 +349,9 @@ export class Prompt extends Construct implements IPrompt {
   private validatePromptVariants() {
     const errors: string[] = [];
     if (this.variants.length > 3) {
-      errors.push(`Error: Too many variants specified. The maximum allowed is 3, but you have provided ${this.variants.length} variants.`);
+      errors.push(
+        `Error: Too many variants specified. The maximum allowed is 3, but you have provided ${this.variants.length} variants.`,
+      );
     }
     return errors;
   }
@@ -268,11 +363,13 @@ export class Prompt extends Construct implements IPrompt {
    * Creates a prompt version, a static snapshot of your prompt that can be
    * deployed to production.
    */
-  public createVersion(description?: string) {
-    new bedrock.CfnPromptVersion(this, `PromptVersion-${description}`, {
+  public createVersion(description?: string): string {
+    const version = new bedrock.CfnPromptVersion(this, `PromptVersion-${this._hash}`, {
       promptArn: this.promptArn,
       description,
     });
+    this.promptVersion = version.attrVersion;
+    return this.promptVersion;
   }
 
   /**
