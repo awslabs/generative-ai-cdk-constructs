@@ -54,7 +54,7 @@ describe('CDK-Created-Application-Inference-Profile', () => {
   test('Basic Creation with a system defined inference profile', () => {
     new bedrock.ApplicationInferenceProfile(stack, 'TestAIPSystem', {
         inferenceProfileName: 'TestAIPSystem',
-        modelSource: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asArn(stack)
+        modelSource: 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0'
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::ApplicationInferenceProfile', {

@@ -12,7 +12,7 @@
  */
 import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
-import { Duration, RemovalPolicy } from 'aws-cdk-lib';
+import { Duration, RemovalPolicy, Annotations } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import { Table } from 'aws-cdk-lib/aws-dynamodb';
@@ -176,9 +176,14 @@ export class RagAppsyncStepfnKendra extends BaseClass {
      * @param {RagAppsyncStepfnKendraProps} props - user provided props for the construct.
      * @since 0.0.0
      * @access public
+     * @deprecated This construct is deprecated and will be removed in a future major version.
+   * It will not receive security updates.
    */
   constructor(scope: Construct, id: string, props: RagAppsyncStepfnKendraProps) {
     super(scope, id);
+
+    Annotations.of(scope).addWarningV2('@cdklabs/generative-ai-cdk-constructs:RagAppsyncStepfnKendra.deprecation',
+      'This construct is deprecated and will not receive further support. It will be removed in the next release of the library.');
 
     const baseProps: BaseClassProps = {
       stage: props.stage,
