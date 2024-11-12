@@ -64,7 +64,6 @@ describe('Prompt', () => {
         temperature: 1.0,
         topP: 0.999,
         maxTokens: 2000,
-        topK: 250,
       },
     });
 
@@ -87,7 +86,6 @@ describe('Prompt', () => {
               Text: {
                 MaxTokens: 2000,
                 Temperature: 1,
-                TopK: 250,
                 TopP: 0.999,
               },
             },
@@ -157,7 +155,6 @@ describe('Prompt', () => {
           temperature: 1.0,
           topP: 0.999,
           maxTokens: 2000,
-          topK: 250,
         },
       }),
     );

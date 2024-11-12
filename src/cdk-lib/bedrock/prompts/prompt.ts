@@ -102,7 +102,7 @@ export abstract class PromptVariant {
   /**
    * The template configuration.
    */
-  public abstract templateConfiguration?: bedrock.CfnPrompt.PromptTemplateConfigurationProperty;
+  public abstract templateConfiguration: bedrock.CfnPrompt.PromptTemplateConfigurationProperty;
 
   // ------------------------------------------------------
   // Constructor

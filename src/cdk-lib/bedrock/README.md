@@ -28,6 +28,8 @@ This construct library includes CloudFormation L1 resources to deploy Bedrock fe
 - [API](#api)
 - [Knowledge Bases](#knowledge-bases)
 - [Agents](#agents)
+- [Guardrails](#bedrock-guardrails)
+- [Prompt management](#prompt-management)
 
 ## API
 
@@ -1016,7 +1018,7 @@ alias = bedrock.AgentAlias(self, 'ProdAlias',
 )
 ```
 
-### Bedrock Guardrails
+## Bedrock Guardrails
 
 Amazon Bedrock's Guardrails feature enables you to implement robust governance and control mechanisms for your generative AI applications, ensuring alignment with your specific use cases and responsible AI policies. Guardrails empowers you to create multiple tailored policy configurations, each designed to address the unique requirements and constraints of different use cases. These policy configurations can then be seamlessly applied across multiple foundation models (FMs) and Agents, ensuring a consistent user experience and standardizing safety, security, and privacy controls throughout your generative AI ecosystem.
 
@@ -1227,7 +1229,6 @@ const variant1 = PromptVariant.text({
     temperature: 1.0,
     topP: 0.999,
     maxTokens: 2000,
-    topK: 250,
   },
 });
 
@@ -1264,7 +1265,6 @@ const variant2 = PromptVariant.text({
     temperature: 0.5,
     topP: 0.999,
     maxTokens: 2000,
-    topK: 250,
   },
 });
 
