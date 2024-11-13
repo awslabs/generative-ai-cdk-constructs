@@ -28,7 +28,7 @@ from tenacity import (
 from typing import List, TypedDict
 
 from custom_resources.cr_types import CustomResourceRequest, CustomResourceResponse
-from opensearch_index import connect_opensearch
+from custom_resources.opensearch_index import connect_opensearch
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
