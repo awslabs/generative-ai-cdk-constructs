@@ -6,6 +6,8 @@
 
 # Interface: ApplicationInferenceProfileProps
 
+Properties for creating a ApplicationInferenceProfile.
+
 ## Properties
 
 ### description?
@@ -44,3 +46,11 @@ specify a cross region (system-defined) inference profile.
 The inference profile will route requests to the Regions defined in
 the cross region (system-defined) inference profile that you choose.
 Usage and costs for requests made to the Regions in the inference profile will be tracked.
+
+***
+
+### tags?
+
+> `readonly` `optional` **tags**: `CfnTag`[]
+
+A list of tags associated with the inference profile.

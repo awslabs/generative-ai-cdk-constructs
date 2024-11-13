@@ -2,31 +2,30 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / ApplicationInferenceProfile
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / ApplicationInferenceProfileBase
 
-# Class: ApplicationInferenceProfile
+# Class: `abstract` ApplicationInferenceProfileBase
 
-Class to create a ApplicationInferenceProfile with CDK.
-These are inference profiles created by users (user defined).
-This helps to track costs and model usage.
-
-## Resource
-
-AWS::Bedrock::ApplicationInferenceProfile
-
-## See
-
-https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles-create.html
+Abstract base class for a ApplicationInferenceProfile.
+Contains methods and attributes valid for ApplicationInferenceProfiles either created with CDK or imported.
 
 ## Extends
 
-- [`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md)
+- `Resource`
+
+## Extended by
+
+- [`ApplicationInferenceProfile`](ApplicationInferenceProfile.md)
+
+## Implements
+
+- [`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md)
 
 ## Constructors
 
-### new ApplicationInferenceProfile()
+### new ApplicationInferenceProfileBase()
 
-> **new ApplicationInferenceProfile**(`scope`, `id`, `props`): [`ApplicationInferenceProfile`](ApplicationInferenceProfile.md)
+> **new ApplicationInferenceProfileBase**(`scope`, `id`, `props`?): [`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md)
 
 #### Parameters
 
@@ -34,25 +33,17 @@ https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles-create.h
 
 • **id**: `string`
 
-• **props**: [`ApplicationInferenceProfileProps`](../interfaces/ApplicationInferenceProfileProps.md)
+• **props?**: `ResourceProps`
 
 #### Returns
 
-[`ApplicationInferenceProfile`](ApplicationInferenceProfile.md)
+[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md)
 
-#### Overrides
+#### Inherited from
 
-[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md).[`constructor`](ApplicationInferenceProfileBase.md#constructors)
+`Resource.constructor`
 
 ## Properties
-
-### createdAt
-
-> `readonly` **createdAt**: `string`
-
-Time Stamp for ApplicationInferenceProfile creation.
-
-***
 
 ### env
 
@@ -66,45 +57,49 @@ however, for imported resources
 (those obtained from static methods like fromRoleArn, fromBucketName, etc.),
 that might be different than the stack they were imported into.
 
+#### Implementation of
+
+[`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md).[`env`](../interfaces/IApplicationInferenceProfile.md#env)
+
 #### Inherited from
 
-[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md).[`env`](ApplicationInferenceProfileBase.md#env)
+`Resource.env`
 
 ***
 
 ### inferenceProfileArn
 
-> `readonly` **inferenceProfileArn**: `string`
+> `abstract` `readonly` **inferenceProfileArn**: `string`
 
 The ARN of the application inference profile.
 
-#### Overrides
+#### Implementation of
 
-[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md).[`inferenceProfileArn`](ApplicationInferenceProfileBase.md#inferenceprofilearn)
+[`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md).[`inferenceProfileArn`](../interfaces/IApplicationInferenceProfile.md#inferenceprofilearn)
 
 ***
 
 ### inferenceProfileId
 
-> `readonly` **inferenceProfileId**: `string`
+> `abstract` `readonly` **inferenceProfileId**: `string`
 
 The unique identifier of the inference profile.
 
-#### Overrides
+#### Implementation of
 
-[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md).[`inferenceProfileId`](ApplicationInferenceProfileBase.md#inferenceprofileid)
+[`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md).[`inferenceProfileId`](../interfaces/IApplicationInferenceProfile.md#inferenceprofileid)
 
 ***
 
 ### inferenceProfileIdentifier
 
-> `readonly` **inferenceProfileIdentifier**: `string`
+> `abstract` `readonly` **inferenceProfileIdentifier**: `string`
 
 The ID or Amazon Resource Name (ARN) of the inference profile.
 
-#### Overrides
+#### Implementation of
 
-[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md).[`inferenceProfileIdentifier`](ApplicationInferenceProfileBase.md#inferenceprofileidentifier)
+[`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md).[`inferenceProfileIdentifier`](../interfaces/IApplicationInferenceProfile.md#inferenceprofileidentifier)
 
 ***
 
@@ -114,9 +109,13 @@ The ID or Amazon Resource Name (ARN) of the inference profile.
 
 The tree node.
 
+#### Implementation of
+
+[`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md).[`node`](../interfaces/IApplicationInferenceProfile.md#node)
+
 #### Inherited from
 
-[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md).[`node`](ApplicationInferenceProfileBase.md#node)
+`Resource.node`
 
 ***
 
@@ -135,7 +134,7 @@ This value will resolve to one of the following:
 
 #### Inherited from
 
-[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md).[`physicalName`](ApplicationInferenceProfileBase.md#physicalname)
+`Resource.physicalName`
 
 ***
 
@@ -145,38 +144,13 @@ This value will resolve to one of the following:
 
 The stack in which this resource is defined.
 
+#### Implementation of
+
+[`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md).[`stack`](../interfaces/IApplicationInferenceProfile.md#stack)
+
 #### Inherited from
 
-[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md).[`stack`](ApplicationInferenceProfileBase.md#stack)
-
-***
-
-### status
-
-> `readonly` **status**: `string`
-
-The status of the inference profile. ACTIVE means that the inference profile is ready to be used.
-
-***
-
-### type
-
-> `readonly` **type**: `string`
-
-The type of the inference profile. The following types are possible:
-SYSTEM_DEFINED – The inference profile is defined by Amazon Bedrock.
-You can route inference requests across regions with these inference profiles.
-APPLICATION – The inference profile was created by a user.
-This type of inference profile can track metrics and costs when invoking the model in it.
-The inference profile may route requests to one or multiple regions.
-
-***
-
-### updatedAt
-
-> `readonly` **updatedAt**: `string`
-
-Time Stamp for ApplicationInferenceProfile update.
+`Resource.stack`
 
 ## Methods
 
@@ -197,7 +171,7 @@ through its absolute name/arn.
 
 #### Inherited from
 
-[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md).[`_enableCrossEnvironment`](ApplicationInferenceProfileBase.md#_enablecrossenvironment)
+`Resource._enableCrossEnvironment`
 
 ***
 
@@ -223,9 +197,13 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 `void`
 
+#### Implementation of
+
+[`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md).[`applyRemovalPolicy`](../interfaces/IApplicationInferenceProfile.md#applyremovalpolicy)
+
 #### Inherited from
 
-[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md).[`applyRemovalPolicy`](ApplicationInferenceProfileBase.md#applyremovalpolicy)
+`Resource.applyRemovalPolicy`
 
 ***
 
@@ -239,7 +217,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Inherited from
 
-[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md).[`generatePhysicalName`](ApplicationInferenceProfileBase.md#generatephysicalname)
+`Resource.generatePhysicalName`
 
 ***
 
@@ -275,7 +253,7 @@ cross-environment references to work.
 
 #### Inherited from
 
-[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md).[`getResourceArnAttribute`](ApplicationInferenceProfileBase.md#getresourcearnattribute)
+`Resource.getResourceArnAttribute`
 
 ***
 
@@ -303,7 +281,7 @@ Commonly this is the resource's `ref`.
 
 #### Inherited from
 
-[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md).[`getResourceNameAttribute`](ApplicationInferenceProfileBase.md#getresourcenameattribute)
+`Resource.getResourceNameAttribute`
 
 ***
 
@@ -319,43 +297,7 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md).[`toString`](ApplicationInferenceProfileBase.md#tostring)
-
-***
-
-### fromApplicationInferenceProfileAttributes()
-
-> `static` **fromApplicationInferenceProfileAttributes**(`scope`, `id`, `attrs`): [`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md)
-
-Import a ApplicationInferenceProfile given its attributes
-
-#### Parameters
-
-• **scope**: `Construct`
-
-• **id**: `string`
-
-• **attrs**: [`ApplicationInferenceApplicationAttributes`](../interfaces/ApplicationInferenceApplicationAttributes.md)
-
-#### Returns
-
-[`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md)
-
-***
-
-### fromCfnApplicationInferenceProfile()
-
-> `static` **fromCfnApplicationInferenceProfile**(`CfnApplicationInferenceProfile`): [`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md)
-
-Import a low-level L1 Cfn ApplicationInferenceProfile
-
-#### Parameters
-
-• **CfnApplicationInferenceProfile**: `CfnApplicationInferenceProfile`
-
-#### Returns
-
-[`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md)
+`Resource.toString`
 
 ***
 
@@ -393,7 +335,7 @@ true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md).[`isConstruct`](ApplicationInferenceProfileBase.md#isconstruct)
+`Resource.isConstruct`
 
 ***
 
@@ -413,7 +355,7 @@ Returns true if the construct was created by CDK, and false otherwise
 
 #### Inherited from
 
-[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md).[`isOwnedResource`](ApplicationInferenceProfileBase.md#isownedresource)
+`Resource.isOwnedResource`
 
 ***
 
@@ -433,4 +375,4 @@ Check whether the given construct is a Resource
 
 #### Inherited from
 
-[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md).[`isResource`](ApplicationInferenceProfileBase.md#isresource)
+`Resource.isResource`

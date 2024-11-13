@@ -1336,13 +1336,31 @@ TypeScript
 // You can use the 'bedrock.BedrockFoundationModel' or pass the arn as a string
 const appInfProfile1 = new ApplicationInferenceProfile(this, 'myapplicationprofile', {
   inferenceProfileName: 'claude 3 sonnet v1',
-  modelSource: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asArn(stack)
+  modelSource: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asArn(stack),
+  tags: [{key: 'test', value: 'test'}]
 });
 
 // To create an application inference profile across regions, specify the cross region inference profile's ARN
 const appInfProfile2 = new ApplicationInferenceProfile(this, 'myapplicationprofile2', {
   inferenceProfileName: 'claude 3 sonnet v1',
   modelSource: 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0'
+});
+
+// Import a Cfn L1 construct created application inference profile
+const cfnapp = new CfnApplicationInferenceProfile(this, 'mytestaip3', {
+  inferenceProfileName: 'mytest',
+  modelSource: {
+    copyFrom: 'arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0',
+  },
+});
+
+const appInfProfile3 = bedrock.ApplicationInferenceProfile.fromCfnApplicationInferenceProfile(cfnapp);
+
+// Import an inference profile through attributes
+const appInfProfile4 = bedrock.ApplicationInferenceProfile.fromApplicationInferenceProfileAttributes(this, 'TestAIP', {
+  inferenceProfileArn: 'arn:aws:bedrock:us-east-1:XXXXX:application-inference-profile/ID',
+  inferenceProfileId: 'ID',
+  inferenceProfileIdentifier: 'arn:aws:bedrock:us-east-1:XXXXXXX:application-inference-profile/ID',
 });
 
 ```
@@ -1353,14 +1371,35 @@ Python
 
 # Create an application inference profile for one Region
 # You can use the 'bedrock.BedrockFoundationModel' or pass the arn as a string
-appInfProfile1 = ApplicationInferenceProfile(self, 'myapplicationprofile',
-  inference_profile_name: 'claude 3 sonnet v1',
-  model_source: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asArn(stack)
+appInfProfile1 = bedrock.ApplicationInferenceProfile(self, 'myapplicationprofile',
+  inference_profile_name='claude 3 sonnet v1',
+  model_source=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asArn(stack),
+  tags=[CfnTag(
+    key="key",
+    value="value"
+  )] 
 )
 
 # To create an application inference profile across regions, specify the cross region inference profile's ARN
-appInfProfile2 = new ApplicationInferenceProfile(self, 'myapplicationprofile2',
-  inference_profile_name: 'claude 35 sonnet v2',
-  model_source: 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0'
+appInfProfile2 = bedrock.ApplicationInferenceProfile(self, 'myapplicationprofile2',
+  inference_profile_name='claude 35 sonnet v2',
+  model_source='arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0'
 )
+
+# Import an inference profile through attributes
+appInfProfile3 = bedrock.ApplicationInferenceProfile.from_application_inference_profile_attributes(self, 'TestAIP',
+  inference_profile_arn='arn:aws:bedrock:us-east-1:XXXXX:application-inference-profile/ID',
+  inference_profile_id='ID',
+  inference_profile_identifier='arn:aws:bedrock:us-east-1:XXXXXXX:application-inference-profile/ID',
+)
+
+# Import a Cfn L1 construct created application inference profile
+cfnaip = CfnApplicationInferenceProfile(this, 'mytestaip4',
+  inference_profile_name='mytest',
+  model_source= CfnApplicationInferenceProfile.InferenceProfileModelSourceProperty(
+    copy_from='arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0'
+  ),
+)
+
+appInfProfile4 = bedrock.ApplicationInferenceProfile.from_cfn_application_inference_profile(cfnaip);
 ```

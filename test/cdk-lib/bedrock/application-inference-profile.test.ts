@@ -12,6 +12,7 @@
  */
 import * as cdk from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
+import { CfnApplicationInferenceProfile } from 'aws-cdk-lib/aws-bedrock';
 import { AwsSolutionsChecks } from 'cdk-nag';
 import * as bedrock from '../../../src/cdk-lib/bedrock';
 
@@ -29,6 +30,12 @@ describe('CDK-Created-Application-Inference-Profile', () => {
       inferenceProfileName: 'TestAIP',
       description: 'This is a test application inf profile',
       modelSource: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asArn(stack),
+      tags: [
+        {
+          key: 'test-key',
+          value: 'test-value',
+        },
+      ],
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::ApplicationInferenceProfile', {
@@ -48,6 +55,12 @@ describe('CDK-Created-Application-Inference-Profile', () => {
           ],
         },
       },
+      Tags: [
+        {
+          Key: 'test-key',
+          Value: 'test-value',
+        },
+      ],
     });
   });
 
@@ -64,5 +77,48 @@ describe('CDK-Created-Application-Inference-Profile', () => {
         CopyFrom: 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0',
       },
     });
+  });
+});
+
+describe('Imported-ApplicationInferenceProfile', () => {
+  let stack: cdk.Stack;
+
+  beforeEach(() => {
+    const app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    stack = new cdk.Stack(app, 'TestStack2', {
+      env: {
+        account: '123456789012',
+        region: 'us-east-1',
+      },
+    });
+  });
+
+  test('Basic Import - from attributes', () => {
+    const aip = bedrock.ApplicationInferenceProfile.fromApplicationInferenceProfileAttributes(stack, 'TestAIP', {
+      inferenceProfileArn: 'arn:aws:bedrock:us-east-1:123456789012:application-inference-profile/cew2pa5r8hog',
+      inferenceProfileId: 'cew2pa5r8hog',
+      inferenceProfileIdentifier: 'arn:aws:bedrock:us-east-1:123456789012:application-inference-profile/cew2pa5r8hog',
+    });
+
+    expect(aip.inferenceProfileArn).toBe('arn:aws:bedrock:us-east-1:123456789012:application-inference-profile/cew2pa5r8hog');
+    expect(aip.inferenceProfileId).toBe('cew2pa5r8hog');
+    expect(aip.inferenceProfileIdentifier).toBe('arn:aws:bedrock:us-east-1:123456789012:application-inference-profile/cew2pa5r8hog');
+  });
+
+  test('Basic Import - from cfn', () => {
+
+    const cfnapp = new CfnApplicationInferenceProfile(stack, 'mytest', {
+      inferenceProfileName: 'mytest',
+      modelSource: {
+        copyFrom: 'arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0',
+      },
+    });
+
+    const aip2 = bedrock.ApplicationInferenceProfile.fromCfnApplicationInferenceProfile(cfnapp);
+
+    expect(aip2.inferenceProfileArn).toBe(cfnapp.attrInferenceProfileArn);
+    expect(aip2.inferenceProfileId).toBe(cfnapp.attrInferenceProfileId);
+    expect(aip2.inferenceProfileIdentifier).toBe(cfnapp.attrInferenceProfileIdentifier);
   });
 });
