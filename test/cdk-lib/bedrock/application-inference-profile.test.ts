@@ -97,7 +97,6 @@ describe('Imported-ApplicationInferenceProfile', () => {
   test('Basic Import - from attributes', () => {
     const aip = bedrock.ApplicationInferenceProfile.fromApplicationInferenceProfileAttributes(stack, 'TestAIP', {
       inferenceProfileArn: 'arn:aws:bedrock:us-east-1:123456789012:application-inference-profile/cew2pa5r8hog',
-      inferenceProfileId: 'cew2pa5r8hog',
       inferenceProfileIdentifier: 'arn:aws:bedrock:us-east-1:123456789012:application-inference-profile/cew2pa5r8hog',
     });
 

@@ -10,7 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import { IResource, Resource, CfnTag } from 'aws-cdk-lib';
+import { IResource, Resource, CfnTag, Arn, ArnFormat } from 'aws-cdk-lib';
 import * as bedrock from 'aws-cdk-lib/aws-bedrock';
 import { Construct } from 'constructs';
 
@@ -97,10 +97,6 @@ export interface ApplicationInferenceApplicationAttributes {
    */
   readonly inferenceProfileArn: string;
   /**
-     * The unique identifier of the inference profile.
-     */
-  readonly inferenceProfileId: string;
-  /**
      * The ID or Amazon Resource Name (ARN) of the inference profile.
      */
   readonly inferenceProfileIdentifier: string;
@@ -127,7 +123,7 @@ export class ApplicationInferenceProfile extends ApplicationInferenceProfileBase
   ): IApplicationInferenceProfile {
     class Import extends ApplicationInferenceProfileBase {
       public readonly inferenceProfileArn = attrs.inferenceProfileArn;
-      public readonly inferenceProfileId = attrs.inferenceProfileId;
+      public readonly inferenceProfileId = Arn.split(attrs.inferenceProfileArn, ArnFormat.SLASH_RESOURCE_NAME).resourceName!;;
       public readonly inferenceProfileIdentifier = attrs.inferenceProfileIdentifier;
     }
 
@@ -145,6 +141,10 @@ export class ApplicationInferenceProfile extends ApplicationInferenceProfileBase
       public readonly inferenceProfileIdentifier = CfnApplicationInferenceProfile.attrInferenceProfileIdentifier;
     })(CfnApplicationInferenceProfile, '@FromCfnApplicationInferenceProfile');
   }
+  /**
+     * The name of the application inference profile.
+     */
+  public readonly inferenceProfileName: string;
   /**
      * The ARN of the application inference profile.
      */
@@ -185,6 +185,8 @@ export class ApplicationInferenceProfile extends ApplicationInferenceProfileBase
 
   constructor(scope: Construct, id: string, props: ApplicationInferenceProfileProps) {
     super(scope, id);
+
+    this.inferenceProfileName = props.inferenceProfileName;
 
     // L1 instantiation
     this._resource = new bedrock.CfnApplicationInferenceProfile(this, id, {

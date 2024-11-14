@@ -1359,7 +1359,6 @@ const appInfProfile3 = bedrock.ApplicationInferenceProfile.fromCfnApplicationInf
 // Import an inference profile through attributes
 const appInfProfile4 = bedrock.ApplicationInferenceProfile.fromApplicationInferenceProfileAttributes(this, 'TestAIP', {
   inferenceProfileArn: 'arn:aws:bedrock:us-east-1:XXXXX:application-inference-profile/ID',
-  inferenceProfileId: 'ID',
   inferenceProfileIdentifier: 'arn:aws:bedrock:us-east-1:XXXXXXX:application-inference-profile/ID',
 });
 
@@ -1389,7 +1388,6 @@ appInfProfile2 = bedrock.ApplicationInferenceProfile(self, 'myapplicationprofile
 # Import an inference profile through attributes
 appInfProfile3 = bedrock.ApplicationInferenceProfile.from_application_inference_profile_attributes(self, 'TestAIP',
   inference_profile_arn='arn:aws:bedrock:us-east-1:XXXXX:application-inference-profile/ID',
-  inference_profile_id='ID',
   inference_profile_identifier='arn:aws:bedrock:us-east-1:XXXXXXX:application-inference-profile/ID',
 )
 

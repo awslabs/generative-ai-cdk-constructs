@@ -108,6 +108,14 @@ The ID or Amazon Resource Name (ARN) of the inference profile.
 
 ***
 
+### inferenceProfileName
+
+> `readonly` **inferenceProfileName**: `string`
+
+The name of the application inference profile.
+
+***
+
 ### node
 
 > `readonly` **node**: `Node`

@@ -20,14 +20,6 @@ The ARN of the application inference profile.
 
 ***
 
-### inferenceProfileId
-
-> `readonly` **inferenceProfileId**: `string`
-
-The unique identifier of the inference profile.
-
-***
-
 ### inferenceProfileIdentifier
 
 > `readonly` **inferenceProfileIdentifier**: `string`
