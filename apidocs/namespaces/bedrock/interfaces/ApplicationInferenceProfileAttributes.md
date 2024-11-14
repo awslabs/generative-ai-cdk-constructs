@@ -2,9 +2,9 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / ApplicationInferenceApplicationAttributes
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / ApplicationInferenceProfileAttributes
 
-# Interface: ApplicationInferenceApplicationAttributes
+# Interface: ApplicationInferenceProfileAttributes
 
 ***************************************************************************
                      ATTRS FOR IMPORTED CONSTRUCT

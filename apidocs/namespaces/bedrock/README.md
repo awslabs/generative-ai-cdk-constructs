@@ -74,7 +74,7 @@
 - [AgentAliasProps](interfaces/AgentAliasProps.md)
 - [AgentProps](interfaces/AgentProps.md)
 - [ApiSchemaConfig](interfaces/ApiSchemaConfig.md)
-- [ApplicationInferenceApplicationAttributes](interfaces/ApplicationInferenceApplicationAttributes.md)
+- [ApplicationInferenceProfileAttributes](interfaces/ApplicationInferenceProfileAttributes.md)
 - [ApplicationInferenceProfileProps](interfaces/ApplicationInferenceProfileProps.md)
 - [BedrockFoundationModelProps](interfaces/BedrockFoundationModelProps.md)
 - [CommonPromptVariantProps](interfaces/CommonPromptVariantProps.md)

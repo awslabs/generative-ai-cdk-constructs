@@ -343,7 +343,7 @@ Import a ApplicationInferenceProfile given its attributes
 
 • **id**: `string`
 
-• **attrs**: [`ApplicationInferenceApplicationAttributes`](../interfaces/ApplicationInferenceApplicationAttributes.md)
+• **attrs**: [`ApplicationInferenceProfileAttributes`](../interfaces/ApplicationInferenceProfileAttributes.md)
 
 #### Returns
 

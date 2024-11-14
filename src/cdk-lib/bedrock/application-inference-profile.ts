@@ -91,7 +91,7 @@ export interface ApplicationInferenceProfileProps {
 /******************************************************************************
  *                      ATTRS FOR IMPORTED CONSTRUCT
  *****************************************************************************/
-export interface ApplicationInferenceApplicationAttributes {
+export interface ApplicationInferenceProfileAttributes {
   /**
    * The ARN of the application inference profile.
    */
@@ -119,7 +119,7 @@ export class ApplicationInferenceProfile extends ApplicationInferenceProfileBase
   public static fromApplicationInferenceProfileAttributes(
     scope: Construct,
     id: string,
-    attrs: ApplicationInferenceApplicationAttributes,
+    attrs: ApplicationInferenceProfileAttributes,
   ): IApplicationInferenceProfile {
     class Import extends ApplicationInferenceProfileBase {
       public readonly inferenceProfileArn = attrs.inferenceProfileArn;
