@@ -46,10 +46,10 @@ const myProjectApi = new ApplicationInferenceProfile(stack, "TestAppProfile", {
   }),
 });
 
-// new Agent(stack, "TestAgent-2", {
-//   instruction: "You are a test bot that needs to be very gentle and useful to the user",
+// new Agent(stack, "TestAgent-23", {
+//   instruction: "You are a new test bot that needs to be very gentle and useful to the user",
 //   model: myProjectApi,
-//   name: "test-agent-2",
+//   name: "test-agent-23",
 //   description: "test-description",
 // });
 

@@ -82,7 +82,7 @@
       {
        "Action": [
         "bedrock:GetInferenceProfile",
-        "bedrock:ListInferenceProfiles"
+        "bedrock:InvokeModel"
        ],
        "Effect": "Allow",
        "Resource": {
@@ -157,6 +157,40 @@
      ]
     },
     "Instruction": "You are a test bot that needs to be very gentle and useful to the user"
+   }
+  },
+  "TestAppProfile97C615D8": {
+   "Type": "AWS::Bedrock::ApplicationInferenceProfile",
+   "Properties": {
+    "InferenceProfileName": "my-app-inf-profile",
+    "ModelSource": {
+     "CopyFrom": {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":bedrock:",
+        {
+         "Ref": "AWS::Region"
+        },
+        ":",
+        {
+         "Ref": "AWS::AccountId"
+        },
+        ":inference-profile/us.anthropic.claude-3-sonnet-20240229-v1:0"
+       ]
+      ]
+     }
+    },
+    "Tags": [
+     {
+      "Key": "projectId",
+      "Value": "supplyUSXRC28"
+     }
+    ]
    }
   }
  },
