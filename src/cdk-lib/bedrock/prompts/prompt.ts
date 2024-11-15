@@ -11,15 +11,15 @@
  *  and limitations under the License.
  */
 
-import { Arn, ArnFormat, aws_kms as kms, Lazy, aws_bedrock as bedrock, Resource } from 'aws-cdk-lib';
-import { IModel } from 'aws-cdk-lib/aws-bedrock';
-import { Grant, IGrantable } from 'aws-cdk-lib/aws-iam';
-import { IKey } from 'aws-cdk-lib/aws-kms';
-import { md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
-import { Construct } from 'constructs';
+import { Arn, ArnFormat, aws_kms as kms, Lazy, aws_bedrock as bedrock, Resource } from "aws-cdk-lib";
+import { Grant, IGrantable } from "aws-cdk-lib/aws-iam";
+import { IKey } from "aws-cdk-lib/aws-kms";
+import { md5hash } from "aws-cdk-lib/core/lib/helpers-internal";
+import { Construct } from "constructs";
+import { IInvokable } from "../models";
 
 export enum PromptTemplateType {
-  TEXT = 'TEXT',
+  TEXT = "TEXT",
 }
 
 export interface CommonPromptVariantProps {
@@ -31,7 +31,7 @@ export interface CommonPromptVariantProps {
    * The model which is used to run the prompt. The model could be a foundation
    * model, a custom model, or a provisioned model.
    */
-  readonly model: IModel;
+  readonly model: IInvokable;
 }
 
 export interface TextPromptVariantProps extends CommonPromptVariantProps {
@@ -66,7 +66,7 @@ export abstract class PromptVariant {
     return {
       name: props.variantName,
       templateType: PromptTemplateType.TEXT,
-      modelId: props.model.modelArn,
+      modelId: props.model.invokableArn,
       inferenceConfiguration: {
         text: { ...props.inferenceConfiguration },
       },
@@ -155,7 +155,7 @@ export abstract class PromptBase extends Resource implements IPrompt {
     return Grant.addToPrincipal({
       grantee,
       resourceArns: [this.promptArn],
-      actions: ['bedrock:GetPrompt'],
+      actions: ["bedrock:GetPrompt"],
       scope: this,
     });
   }
@@ -232,7 +232,7 @@ export class Prompt extends Construct implements IPrompt {
     class Import extends PromptBase {
       public readonly promptArn = attrs.promptArn;
       public readonly promptId = formattedArn.resourceName!;
-      public readonly promptVersion = attrs.promptVersion ?? 'DRAFT';
+      public readonly promptVersion = attrs.promptVersion ?? "DRAFT";
       public readonly kmsKey = attrs.kmsKey;
     }
 
@@ -314,7 +314,7 @@ export class Prompt extends Construct implements IPrompt {
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
-    this._resource = new bedrock.CfnPrompt(this, 'Prompt', cfnProps);
+    this._resource = new bedrock.CfnPrompt(this, "Prompt", cfnProps);
 
     this.promptArn = this._resource.attrArn;
     this.promptId = this._resource.attrId;
@@ -334,7 +334,7 @@ export class Prompt extends Construct implements IPrompt {
     const matchesPattern = /^([0-9a-zA-Z][_-]?){1,100}$/.test(this.promptName);
     if (!matchesPattern) {
       errors.push(
-        'Valid characters are a-z, A-Z, 0-9, _ (underscore) and - (hyphen). And must not begin with a hyphen',
+        "Valid characters are a-z, A-Z, 0-9, _ (underscore) and - (hyphen). And must not begin with a hyphen"
       );
     }
     if (errors.length > 0) {
@@ -350,7 +350,7 @@ export class Prompt extends Construct implements IPrompt {
     const errors: string[] = [];
     if (this.variants.length > 3) {
       errors.push(
-        `Error: Too many variants specified. The maximum allowed is 3, but you have provided ${this.variants.length} variants.`,
+        `Error: Too many variants specified. The maximum allowed is 3, but you have provided ${this.variants.length} variants.`
       );
     }
     return errors;

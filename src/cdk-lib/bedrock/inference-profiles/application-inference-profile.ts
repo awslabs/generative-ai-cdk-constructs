@@ -10,10 +10,11 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import { CfnTag, Arn, ArnFormat, Tag } from "aws-cdk-lib";
+import { CfnTag, Arn, ArnFormat } from "aws-cdk-lib";
 import * as bedrock from "aws-cdk-lib/aws-bedrock";
 import { Construct } from "constructs";
 import { IInferenceProfile, InferenceProfileBase, InferenceProfileType } from "./common";
+import { IInvokable } from "../models";
 
 /******************************************************************************
  *                        PROPS FOR NEW CONSTRUCT
@@ -73,7 +74,7 @@ export interface ApplicationInferenceProfileAttributes {
  * @resource AWS::Bedrock::ApplicationInferenceProfile
  * @see https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles-create.html
  */
-export class ApplicationInferenceProfile extends InferenceProfileBase {
+export class ApplicationInferenceProfile extends InferenceProfileBase implements IInvokable {
   /**
    * Import a ApplicationInferenceProfile given its attributes
    */
@@ -137,6 +138,10 @@ export class ApplicationInferenceProfile extends InferenceProfileBase {
    */
   public readonly updatedAt: string;
   /**
+   * This equals to the inferenceProfileArn property, useful just to implement IInvokable interface.
+   */
+  public readonly invokableArn: string;
+  /**
    * Instance of CfnApplicationInferenceProfile.
    */
   private readonly _resource: bedrock.CfnApplicationInferenceProfile;
@@ -164,5 +169,8 @@ export class ApplicationInferenceProfile extends InferenceProfileBase {
     this.type = this._resource.attrType as InferenceProfileType;
     this.createdAt = this._resource.attrCreatedAt;
     this.updatedAt = this._resource.attrUpdatedAt;
+
+    // Needed to Implement IInvokable
+    this.invokableArn = this.inferenceProfileArn;
   }
 }

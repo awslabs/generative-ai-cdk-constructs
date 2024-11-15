@@ -16,6 +16,82 @@ import { CfnApplicationInferenceProfile } from "aws-cdk-lib/aws-bedrock";
 import { AwsSolutionsChecks } from "cdk-nag";
 import * as bedrock from "../../../src/cdk-lib/bedrock";
 
+describe("CDK-Created-Cross-Region-Inference-Profile", () => {
+  let stack: cdk.Stack;
+
+  beforeEach(() => {
+    const app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    stack = new cdk.Stack(app, "TestStack");
+  });
+
+  test("Basic Creation", () => {
+    new bedrock.CrossRegionInferenceProfile(stack, "TestAIP", {
+      geoRegion: bedrock.CrossRegionInferenceProfileRegion.EU,
+      model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
+    });
+
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::ApplicationInferenceProfile", {
+      InferenceProfileName: "TestAIP",
+      Description: "This is a test application inf profile",
+      ModelSource: {
+        CopyFrom: {
+          "Fn::Join": [
+            "",
+            [
+              "arn:aws:bedrock:",
+              {
+                Ref: "AWS::Region",
+              },
+              "::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0",
+            ],
+          ],
+        },
+      },
+      Tags: [
+        {
+          Key: "test-key",
+          Value: "test-value",
+        },
+      ],
+    });
+  });
+
+  test("Basic Creation with a system defined inference profile", () => {
+    new bedrock.ApplicationInferenceProfile(stack, "TestAIPSystem", {
+      inferenceProfileName: "TestAIPSystem",
+      modelSource: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0,
+    });
+
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::ApplicationInferenceProfile", {
+      InferenceProfileName: "TestAIPSystem",
+      Description: Match.absent(),
+      ModelSource: {
+        CopyFrom: "arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0",
+      },
+    });
+  });
+
+  test("Basic Creation", () => {
+    new bedrock.ApplicationInferenceProfile(stack, "TestAIPSystem", {
+      inferenceProfileName: "TestAIPSystem",
+      modelSource: new bedrock.CrossRegionInferenceProfile(stack, "CrossRegion", {
+        model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0,
+        geoRegion: bedrock.CrossRegionInferenceProfileRegion.EU,
+      }),
+      tags: [{ key: "project", value: "test" }],
+    });
+
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::ApplicationInferenceProfile", {
+      InferenceProfileName: "TestAIPSystem",
+      Description: Match.absent(),
+      ModelSource: {
+        CopyFrom: "arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0",
+      },
+    });
+  });
+});
+
 describe("CDK-Created-Application-Inference-Profile", () => {
   let stack: cdk.Stack;
 
@@ -63,6 +139,25 @@ describe("CDK-Created-Application-Inference-Profile", () => {
     new bedrock.ApplicationInferenceProfile(stack, "TestAIPSystem", {
       inferenceProfileName: "TestAIPSystem",
       modelSource: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0,
+    });
+
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::ApplicationInferenceProfile", {
+      InferenceProfileName: "TestAIPSystem",
+      Description: Match.absent(),
+      ModelSource: {
+        CopyFrom: "arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0",
+      },
+    });
+  });
+
+  test("Basic Creation", () => {
+    new bedrock.ApplicationInferenceProfile(stack, "TestAIPSystem", {
+      inferenceProfileName: "TestAIPSystem",
+      modelSource: new bedrock.CrossRegionInferenceProfile(stack, "CrossRegion", {
+        model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0,
+        geoRegion: bedrock.CrossRegionInferenceProfileRegion.EU,
+      }),
+      tags: [{ key: "project", value: "test" }],
     });
 
     Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::ApplicationInferenceProfile", {

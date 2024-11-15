@@ -11,16 +11,15 @@
  *  and limitations under the License.
  */
 
-import * as cdk from 'aws-cdk-lib';
-import { Template, Match } from 'aws-cdk-lib/assertions';
-import { FoundationModel, FoundationModelIdentifier } from 'aws-cdk-lib/aws-bedrock';
-import { Code, Function, Runtime } from 'aws-cdk-lib/aws-lambda';
-import * as s3 from 'aws-cdk-lib/aws-s3';
-import { AwsSolutionsChecks } from 'cdk-nag';
-import * as bedrock from '../../../../src/cdk-lib/bedrock';
-import * as foundationModels from '../../../../src/cdk-lib/bedrock/models';
+import * as cdk from "aws-cdk-lib";
+import { Template, Match } from "aws-cdk-lib/assertions";
+import { Code, Function, Runtime } from "aws-cdk-lib/aws-lambda";
+import * as s3 from "aws-cdk-lib/aws-s3";
+import { AwsSolutionsChecks } from "cdk-nag";
+import * as bedrock from "../../../../src/cdk-lib/bedrock";
+import * as foundationModels from "../../../../src/cdk-lib/bedrock/models";
 
-describe('S3 Data Source', () => {
+describe("S3 Data Source", () => {
   let stack: cdk.Stack;
   let bucket: s3.Bucket;
   let kb: bedrock.KnowledgeBase;
@@ -28,48 +27,46 @@ describe('S3 Data Source', () => {
   beforeEach(() => {
     const app = new cdk.App();
     cdk.Aspects.of(app).add(new AwsSolutionsChecks());
-    stack = new cdk.Stack(app, 'TestStack');
-    bucket = new s3.Bucket(stack, 'TestBucket');
-    kb = new bedrock.KnowledgeBase(stack, 'KB', {
+    stack = new cdk.Stack(app, "TestStack");
+    bucket = new s3.Bucket(stack, "TestBucket");
+    kb = new bedrock.KnowledgeBase(stack, "KB", {
       embeddingsModel: foundationModels.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
     });
   });
 
-  test('Method', () => {
+  test("Method", () => {
     kb.addS3DataSource({
       bucket,
-      dataSourceName: 'TestDataSource',
+      dataSourceName: "TestDataSource",
     });
 
-
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::DataSource", {
       KnowledgeBaseId: {
-        'Fn::GetAtt': [Match.anyValue(), 'KnowledgeBaseId'],
+        "Fn::GetAtt": [Match.anyValue(), "KnowledgeBaseId"],
       },
-      Name: 'TestDataSource',
+      Name: "TestDataSource",
       DataSourceConfiguration: {
         S3Configuration: {
           BucketArn: {
-            'Fn::GetAtt': [Match.anyValue(), 'Arn'],
+            "Fn::GetAtt": [Match.anyValue(), "Arn"],
           },
         },
       },
     });
   });
 
-  test('Default chunking', () => {
-    new bedrock.S3DataSource(stack, 'TestDataSource', {
+  test("Default chunking", () => {
+    new bedrock.S3DataSource(stack, "TestDataSource", {
       bucket,
       knowledgeBase: kb,
-      dataSourceName: 'TestDataSource',
+      dataSourceName: "TestDataSource",
       chunkingStrategy: bedrock.ChunkingStrategy.DEFAULT,
     });
 
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
-      VectorIngestionConfiguration:
-      {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::DataSource", {
+      VectorIngestionConfiguration: {
         ChunkingConfiguration: {
-          ChunkingStrategy: 'FIXED_SIZE',
+          ChunkingStrategy: "FIXED_SIZE",
           FixedSizeChunkingConfiguration: {
             MaxTokens: 300,
             OverlapPercentage: 20,
@@ -79,23 +76,21 @@ describe('S3 Data Source', () => {
     });
   });
 
-  test('Fixed size chunking', () => {
-    new bedrock.S3DataSource(stack, 'TestDataSource', {
+  test("Fixed size chunking", () => {
+    new bedrock.S3DataSource(stack, "TestDataSource", {
       bucket,
       knowledgeBase: kb,
-      dataSourceName: 'TestDataSource',
+      dataSourceName: "TestDataSource",
       chunkingStrategy: bedrock.ChunkingStrategy.fixedSize({
         maxTokens: 1024,
         overlapPercentage: 20,
       }),
     });
 
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
-
-      VectorIngestionConfiguration:
-      {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::DataSource", {
+      VectorIngestionConfiguration: {
         ChunkingConfiguration: {
-          ChunkingStrategy: 'FIXED_SIZE',
+          ChunkingStrategy: "FIXED_SIZE",
           FixedSizeChunkingConfiguration: {
             MaxTokens: 1024,
             OverlapPercentage: 20,
@@ -105,35 +100,33 @@ describe('S3 Data Source', () => {
     });
   });
 
-  test('No chunking', () => {
-    new bedrock.S3DataSource(stack, 'TestDataSource', {
+  test("No chunking", () => {
+    new bedrock.S3DataSource(stack, "TestDataSource", {
       bucket,
       knowledgeBase: kb,
-      dataSourceName: 'TestDataSource',
+      dataSourceName: "TestDataSource",
       chunkingStrategy: bedrock.ChunkingStrategy.NONE,
     });
 
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
-      VectorIngestionConfiguration:
-      {
-        ChunkingConfiguration:
-          { ChunkingStrategy: 'NONE' },
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::DataSource", {
+      VectorIngestionConfiguration: {
+        ChunkingConfiguration: { ChunkingStrategy: "NONE" },
       },
     });
   });
 
-  test('Semantic chunking - default', () => {
-    new bedrock.S3DataSource(stack, 'TestDataSource', {
+  test("Semantic chunking - default", () => {
+    new bedrock.S3DataSource(stack, "TestDataSource", {
       bucket,
       knowledgeBase: kb,
-      dataSourceName: 'TestDataSource',
+      dataSourceName: "TestDataSource",
       chunkingStrategy: bedrock.ChunkingStrategy.SEMANTIC,
     });
 
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::DataSource", {
       VectorIngestionConfiguration: {
         ChunkingConfiguration: {
-          ChunkingStrategy: 'SEMANTIC',
+          ChunkingStrategy: "SEMANTIC",
           SemanticChunkingConfiguration: {
             MaxTokens: 300,
             BufferSize: 0,
@@ -144,11 +137,11 @@ describe('S3 Data Source', () => {
     });
   });
 
-  test('Semantic chunking', () => {
-    new bedrock.S3DataSource(stack, 'TestDataSource', {
+  test("Semantic chunking", () => {
+    new bedrock.S3DataSource(stack, "TestDataSource", {
       bucket,
       knowledgeBase: kb,
-      dataSourceName: 'TestDataSource',
+      dataSourceName: "TestDataSource",
       chunkingStrategy: bedrock.ChunkingStrategy.semantic({
         maxTokens: 1024,
         bufferSize: 1,
@@ -156,10 +149,10 @@ describe('S3 Data Source', () => {
       }),
     });
 
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::DataSource", {
       VectorIngestionConfiguration: {
         ChunkingConfiguration: {
-          ChunkingStrategy: 'SEMANTIC',
+          ChunkingStrategy: "SEMANTIC",
           SemanticChunkingConfiguration: {
             MaxTokens: 1024,
             BufferSize: 1,
@@ -170,18 +163,18 @@ describe('S3 Data Source', () => {
     });
   });
 
-  test('Hierarchical chunking - default', () => {
-    new bedrock.S3DataSource(stack, 'TestDataSource', {
+  test("Hierarchical chunking - default", () => {
+    new bedrock.S3DataSource(stack, "TestDataSource", {
       bucket,
       knowledgeBase: kb,
-      dataSourceName: 'TestDataSource',
+      dataSourceName: "TestDataSource",
       chunkingStrategy: bedrock.ChunkingStrategy.HIERARCHICAL_TITAN,
     });
 
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::DataSource", {
       VectorIngestionConfiguration: {
         ChunkingConfiguration: {
-          ChunkingStrategy: 'HIERARCHICAL',
+          ChunkingStrategy: "HIERARCHICAL",
           HierarchicalChunkingConfiguration: {
             LevelConfigurations: [
               { MaxTokens: 1500 }, // Parent max tokens
@@ -194,11 +187,11 @@ describe('S3 Data Source', () => {
     });
   });
 
-  test('Hierarchical chunking - custom', () => {
-    new bedrock.S3DataSource(stack, 'TestDataSource', {
+  test("Hierarchical chunking - custom", () => {
+    new bedrock.S3DataSource(stack, "TestDataSource", {
       bucket,
       knowledgeBase: kb,
-      dataSourceName: 'TestDataSource',
+      dataSourceName: "TestDataSource",
       chunkingStrategy: bedrock.ChunkingStrategy.hierarchical({
         maxParentTokenSize: 1024,
         maxChildTokenSize: 256,
@@ -206,10 +199,10 @@ describe('S3 Data Source', () => {
       }),
     });
 
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::DataSource", {
       VectorIngestionConfiguration: {
         ChunkingConfiguration: {
-          ChunkingStrategy: 'HIERARCHICAL',
+          ChunkingStrategy: "HIERARCHICAL",
           HierarchicalChunkingConfiguration: {
             LevelConfigurations: [
               { MaxTokens: 1024 }, // Parent max tokens
@@ -222,26 +215,24 @@ describe('S3 Data Source', () => {
     });
   });
 
-  test('FM parsing', () => {
-    new bedrock.S3DataSource(stack, 'TestDataSource', {
+  test("FM parsing", () => {
+    new bedrock.S3DataSource(stack, "TestDataSource", {
       bucket,
       knowledgeBase: kb,
-      dataSourceName: 'TestDataSource',
+      dataSourceName: "TestDataSource",
       parsingStrategy: bedrock.ParsingStategy.foundationModel({
-        parsingModel: FoundationModel.fromFoundationModelId(stack, 'model',
-          FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_SONNET_20240229_V1_0,
-        ),
+        parsingModel: foundationModels.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
       }),
     });
 
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::DataSource", {
       VectorIngestionConfiguration: {
         ParsingConfiguration: {
-          ParsingStrategy: 'BEDROCK_FOUNDATION_MODEL',
+          ParsingStrategy: "BEDROCK_FOUNDATION_MODEL",
           BedrockFoundationModelConfiguration: {
             ModelArn: Match.anyValue(),
             ParsingPrompt: {
-              ParsingPromptText: Match.stringLikeRegexp('Transcribe the text content.*'),
+              ParsingPromptText: Match.stringLikeRegexp("Transcribe the text content.*"),
             },
           },
         },
@@ -249,20 +240,20 @@ describe('S3 Data Source', () => {
     });
   });
 
-  test('Lambda Transformation', () => {
+  test("Lambda Transformation", () => {
     // WHEN
-    const bucket2 = new s3.Bucket(stack, 'mybucket', {
-      bucketName: 'mybucketname',
+    const bucket2 = new s3.Bucket(stack, "mybucket", {
+      bucketName: "mybucketname",
     });
-    const lambdaFunction = new Function(stack, 'myFunction', {
+    const lambdaFunction = new Function(stack, "myFunction", {
       code: Code.fromInline('exports.handler = function(event, ctx, cb) { return cb(null, "hello"); }'),
-      handler: 'index.handler',
+      handler: "index.handler",
       runtime: Runtime.PYTHON_3_11,
     });
-    new bedrock.S3DataSource(stack, 'TestDataSource', {
+    new bedrock.S3DataSource(stack, "TestDataSource", {
       bucket,
       knowledgeBase: kb,
-      dataSourceName: 'TestDataSource',
+      dataSourceName: "TestDataSource",
       customTransformation: bedrock.CustomTransformation.lambda({
         lambdaFunction,
         s3BucketUri: `s3://${bucket2.bucketName}/chunkprocessor`,
@@ -270,19 +261,21 @@ describe('S3 Data Source', () => {
     });
 
     // THEN
-    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
+    Template.fromStack(stack).hasResourceProperties("AWS::Bedrock::DataSource", {
       VectorIngestionConfiguration: {
         CustomTransformationConfiguration: {
-          Transformations: [{
-            StepToApply: 'POST_CHUNKING',
-            TransformationFunction: {
-              TransformationLambdaConfiguration: {
-                LambdaArn: {
-                  'Fn::GetAtt': [Match.anyValue(), 'Arn'],
+          Transformations: [
+            {
+              StepToApply: "POST_CHUNKING",
+              TransformationFunction: {
+                TransformationLambdaConfiguration: {
+                  LambdaArn: {
+                    "Fn::GetAtt": [Match.anyValue(), "Arn"],
+                  },
                 },
               },
             },
-          }],
+          ],
           IntermediateStorage: {
             S3Location: {
               URI: Match.anyValue(),
@@ -291,8 +284,5 @@ describe('S3 Data Source', () => {
         },
       },
     });
-
   });
-
-
 });

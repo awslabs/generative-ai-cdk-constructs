@@ -11,9 +11,10 @@
  *  and limitations under the License.
  */
 
-import { CfnDataSource, IModel } from 'aws-cdk-lib/aws-bedrock';
-import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { DEFAULT_PARSING_PROMPT } from './default-parsing-prompt';
+import { CfnDataSource, IModel } from "aws-cdk-lib/aws-bedrock";
+import { PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { DEFAULT_PARSING_PROMPT } from "./default-parsing-prompt";
+import { IInvokable } from "../models";
 
 /**
  * Enum representing the types of parsing strategies available for Amazon Bedrock Knowledge Bases.
@@ -22,7 +23,7 @@ enum ParsingStategyType {
   /**
    * Uses a Bedrock Foundation Model for advanced parsing of non-textual information from documents.
    */
-  FOUNDATION_MODEL = 'BEDROCK_FOUNDATION_MODEL'
+  FOUNDATION_MODEL = "BEDROCK_FOUNDATION_MODEL",
 }
 
 /**
@@ -33,7 +34,7 @@ export interface FoundationModelParsingStategyProps {
    * The Foundation Model to use for parsing non-textual information.
    * Currently supported models are Claude 3 Sonnet and Claude 3 Haiku.
    */
-  readonly parsingModel: IModel;
+  readonly parsingModel: IInvokable;
 
   /**
    * Custom prompt to instruct the parser on how to interpret the document.
@@ -41,7 +42,6 @@ export interface FoundationModelParsingStategyProps {
    * @default - Uses the default instruction prompt as provided in the AWS Console.
    */
   readonly parsingPrompt?: string;
-
 }
 
 /**
@@ -49,7 +49,6 @@ export interface FoundationModelParsingStategyProps {
  * @see https://docs.aws.amazon.com/bedrock/latest/userguide/kb-chunking-parsing.html#kb-advanced-parsing
  */
 export abstract class ParsingStategy {
-
   // ------------------------------------------------------
   // FM Parsing Strategy
   // ------------------------------------------------------
@@ -65,7 +64,7 @@ export abstract class ParsingStategy {
       /** The CloudFormation property representation of this configuration */
       public readonly configuration = {
         bedrockFoundationModelConfiguration: {
-          modelArn: props.parsingModel.modelArn,
+          modelArn: props.parsingModel.invokableArn,
           parsingPrompt: {
             parsingPromptText: props.parsingPrompt ?? DEFAULT_PARSING_PROMPT,
           },
@@ -74,12 +73,14 @@ export abstract class ParsingStategy {
       };
 
       public generatePolicyStatements(): PolicyStatement[] {
-        return [new PolicyStatement({
-          actions: ['bedrock:InvokeModel'],
-          resources: [props.parsingModel.modelArn],
-        })];
+        return [
+          new PolicyStatement({
+            actions: ["bedrock:InvokeModel"],
+            resources: [props.parsingModel.invokableArn],
+          }),
+        ];
       }
-    };
+    }
 
     return new FoundationModelTransformation();
   }
@@ -90,7 +91,4 @@ export abstract class ParsingStategy {
   public abstract configuration: CfnDataSource.ParsingConfigurationProperty;
 
   public abstract generatePolicyStatements(): PolicyStatement[];
-
-
 }
-

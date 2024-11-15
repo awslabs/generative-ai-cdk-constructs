@@ -1,9 +1,7 @@
-import { Arn, ArnFormat, Aws, Resource } from "aws-cdk-lib";
-import { BedrockFoundationModel } from "../models";
+import { Arn, ArnFormat, Aws } from "aws-cdk-lib";
+import { BedrockFoundationModel, IInvokable } from "../models";
 import { IConstruct } from "constructs";
-import { IInferenceProfile, InferenceProfileBase, InferenceProfileType } from "./common";
-import { IModel } from "aws-cdk-lib/aws-bedrock";
-import { IGrantable, Grant } from "aws-cdk-lib/aws-iam";
+import { InferenceProfileBase, InferenceProfileType } from "./common";
 
 export enum CrossRegionInferenceProfileRegion {
   /**
@@ -46,7 +44,7 @@ export interface CrossRegionInferenceProfileProps {
  * higher throughput and enhanced resilience during periods of peak demands.
  * @see https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html
  */
-export class CrossRegionInferenceProfile extends InferenceProfileBase implements IModel {
+export class CrossRegionInferenceProfile extends InferenceProfileBase implements IInvokable {
   /**
    * @example 'us.anthropic.claude-3-5-sonnet-20240620-v1:0'
    */
@@ -56,9 +54,9 @@ export class CrossRegionInferenceProfile extends InferenceProfileBase implements
    */
   public readonly inferenceProfileArn: string;
   public readonly type: InferenceProfileType;
-  public readonly inferenceProfileModel: IModel;
-  /** This equals to the inferenceProfileArn property, useful just to implement IModel interface*/
-  public readonly modelArn: string;
+  public readonly inferenceProfileModel: IInvokable;
+  /** This equals to the inferenceProfileArn property, useful just to implement IInvokable interface*/
+  public readonly invokableArn: string;
 
   constructor(scope: IConstruct, id: string, props: CrossRegionInferenceProfileProps) {
     super(scope, id);
@@ -75,5 +73,7 @@ export class CrossRegionInferenceProfile extends InferenceProfileBase implements
       resourceName: this.inferenceProfileId,
       arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
     });
+    // Needed to Implement IInvokable
+    this.invokableArn = this.inferenceProfileArn;
   }
 }

@@ -15,6 +15,13 @@ import { Arn, ArnFormat, Aws, Stack } from "aws-cdk-lib";
 import { IModel } from "aws-cdk-lib/aws-bedrock";
 import { IConstruct } from "constructs";
 
+export interface IInvokable {
+  /**
+   * The ARN of the Bedrock invokable object.
+   */
+  readonly invokableArn: string;
+}
+
 export interface BedrockFoundationModelProps {
   /**
    * Bedrock Agents can use this model.
@@ -46,7 +53,7 @@ export interface BedrockFoundationModelProps {
  * If you need to use a model name that doesn't exist as a static member, you
  * can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationModel('my-model')`.
  */
-export class BedrockFoundationModel implements IModel {
+export class BedrockFoundationModel implements IInvokable {
   /****************************************************************************
    *                            AMAZON
    ***************************************************************************/
@@ -158,6 +165,7 @@ export class BedrockFoundationModel implements IModel {
    ***************************************************************************/
   public readonly modelId: string;
   public readonly modelArn: string;
+  public readonly invokableArn: string;
   public readonly supportsAgents: boolean;
   public readonly supportsCrossRegion: boolean;
   public readonly vectorDimensions?: number;
@@ -173,6 +181,7 @@ export class BedrockFoundationModel implements IModel {
       resourceName: this.modelId,
       arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
     });
+    this.invokableArn = this.modelArn;
     this.supportsCrossRegion = props.supportsCrossRegion ?? false;
     this.supportsAgents = props.supportsAgents ?? false;
     this.vectorDimensions = props.vectorDimensions;
