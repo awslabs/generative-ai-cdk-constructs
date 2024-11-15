@@ -43,7 +43,7 @@ export interface ApplicationInferenceProfileProps {
    * the cross region (system-defined) inference profile that you choose.
    * Usage and costs for requests made to the Regions in the inference profile will be tracked.
    */
-  readonly modelSource: bedrock.IModel;
+  readonly modelSource: IInvokable;
   /**
    * A list of tags associated with the inference profile.
    * */
@@ -157,7 +157,7 @@ export class ApplicationInferenceProfile extends InferenceProfileBase implements
       description: props.description,
       inferenceProfileName: props.inferenceProfileName,
       modelSource: {
-        copyFrom: props.modelSource.modelArn,
+        copyFrom: props.modelSource.invokableArn,
       },
       tags: props.tags,
     });

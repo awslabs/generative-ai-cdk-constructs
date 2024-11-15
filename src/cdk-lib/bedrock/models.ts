@@ -15,9 +15,14 @@ import { Arn, ArnFormat, Aws, Stack } from "aws-cdk-lib";
 import { IModel } from "aws-cdk-lib/aws-bedrock";
 import { IConstruct } from "constructs";
 
+/**
+ * Represents an Amazon Bedrock abstraction on which you can
+ * run the `Invoke` API. This can be a Foundational Model,
+ * a Custom Model, or an Inference Profile.
+ */
 export interface IInvokable {
   /**
-   * The ARN of the Bedrock invokable object.
+   * The ARN of the Bedrock invokable abstraction.
    */
   readonly invokableArn: string;
 }
