@@ -60,10 +60,10 @@
     string-width "^4.2.3"
     table "^6.8.1"
 
-"@aws-cdk/integ-tests-alpha@2.167.0-alpha.0":
-  version "2.167.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/integ-tests-alpha/-/integ-tests-alpha-2.167.0-alpha.0.tgz#a8d3dc8d2bdb5900fd713d13c49a28d3d8e2556b"
-  integrity sha512-3C3T/ZeJouGZYIAxhMI1DIx6aQlbb6Vid+nYouyEtFjHl0dQnsmZU7XLAsUdtUZxl2+HuDjkuG9Akf3o1iDC0Q==
+"@aws-cdk/integ-tests-alpha@2.166.0-alpha.0":
+  version "2.166.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/integ-tests-alpha/-/integ-tests-alpha-2.166.0-alpha.0.tgz#fc82a90c422cd0ff90ee4b3f72026b6eb900cd1b"
+  integrity sha512-ksM64XQP0FzzGxmVFQQDF8JIJKJpcfUoFWTvRghDMDNq8IBi/KsP4/gXpHDyl4jtS58EPOMBpsy0SRCFyOCVvw==
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.25.9", "@babel/code-frame@^7.26.0":
   version "7.26.2"
@@ -1436,10 +1436,10 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-aws-cdk-lib@2.167.0:
-  version "2.167.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.167.0.tgz#7f2a8534a5054155e3a03f9d695ef5b8a60c14a8"
-  integrity sha512-q8bHxUUnMGfHe4TWQHYUu4eqdy9qkEWuml3vOnZINF3l9XdKOo/S5grsyVzFAjjBjwCH8zAxKicNT0uhwBjqLg==
+aws-cdk-lib@2.166.0:
+  version "2.166.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.166.0.tgz#279343451cc9391d52d77121e2a3feb2c756e3be"
+  integrity sha512-FAsIz/CpczbMrcShgvTWNp3kcGN6IDojJWNLqHioTRsTekcyN3OPmKvQJXUNWL0fnhTd8biFXC2esg6kM19xZw==
   dependencies:
     "@aws-cdk/asset-awscli-v1" "^2.2.208"
     "@aws-cdk/asset-kubectl-v20" "^2.1.3"
