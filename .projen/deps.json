@@ -6,7 +6,7 @@
     },
     {
       "name": "@aws-cdk/integ-tests-alpha",
-      "version": "2.166.0-alpha.0",
+      "version": "2.167.0-alpha.0",
       "type": "build"
     },
     {
@@ -137,7 +137,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.166.0",
+      "version": "^2.167.0",
       "type": "peer"
     },
     {
