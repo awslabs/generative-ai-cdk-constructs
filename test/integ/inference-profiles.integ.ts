@@ -12,9 +12,29 @@
  */
 import * as integ from "@aws-cdk/integ-tests-alpha";
 import * as cdk from "aws-cdk-lib";
+import {
+  Agent,
+  BedrockFoundationModel,
+  CrossRegionInferenceProfile,
+  CrossRegionInferenceProfileRegion,
+} from "../../src/cdk-lib/bedrock";
 
 const app = new cdk.App();
-const stack = new cdk.Stack(app, "aws-cdk-bedrock-guardrails-integ-test");
+const stack = new cdk.Stack(app, "aws-cdk-bedrock-guardrails-integ-test", {
+  env: {
+    region: "us-west-2",
+  },
+});
+
+new Agent(stack, "TestAgent", {
+  instruction: "You are a test bot that needs to be very gentle and useful to the user",
+  model: CrossRegionInferenceProfile.fromConfig({
+    geoRegion: CrossRegionInferenceProfileRegion.US,
+    model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
+  }),
+  name: "test-agent",
+  description: "test-description",
+});
 
 new integ.IntegTest(app, "ServiceTest", {
   testCases: [stack],

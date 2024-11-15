@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 
-import { CfnDataSource, IModel } from "aws-cdk-lib/aws-bedrock";
+import { CfnDataSource } from "aws-cdk-lib/aws-bedrock";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { DEFAULT_PARSING_PROMPT } from "./default-parsing-prompt";
 import { IInvokable } from "../models";

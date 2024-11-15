@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 
-import { Arn, ArnFormat, Aws, Stack } from "aws-cdk-lib";
+import { Arn, ArnFormat, Aws } from "aws-cdk-lib";
 import { IModel } from "aws-cdk-lib/aws-bedrock";
 import { IConstruct } from "constructs";
 
@@ -202,10 +202,14 @@ export class BedrockFoundationModel implements IInvokable {
    * `arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}`
    */
   asArn(construct: IConstruct): string {
+    if (construct) {
+    }
     return this.modelArn;
   }
 
   asIModel(construct: IConstruct): IModel {
+    if (construct) {
+    }
     return this;
   }
 }

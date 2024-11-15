@@ -1,7 +1,7 @@
 import { Arn, ArnFormat, Aws } from "aws-cdk-lib";
 import { BedrockFoundationModel, IInvokable } from "../models";
-import { IConstruct } from "constructs";
-import { InferenceProfileBase, InferenceProfileType } from "./common";
+import { IInferenceProfile, InferenceProfileType } from "./common";
+import { Grant, IGrantable } from "aws-cdk-lib/aws-iam";
 
 export enum CrossRegionInferenceProfileRegion {
   /**
@@ -44,7 +44,10 @@ export interface CrossRegionInferenceProfileProps {
  * higher throughput and enhanced resilience during periods of peak demands.
  * @see https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html
  */
-export class CrossRegionInferenceProfile extends InferenceProfileBase implements IInvokable {
+export class CrossRegionInferenceProfile implements IInvokable, IInferenceProfile {
+  public static fromConfig(config: CrossRegionInferenceProfileProps): CrossRegionInferenceProfile {
+    return new CrossRegionInferenceProfile(config);
+  }
   /**
    * @example 'us.anthropic.claude-3-5-sonnet-20240620-v1:0'
    */
@@ -54,15 +57,16 @@ export class CrossRegionInferenceProfile extends InferenceProfileBase implements
    */
   public readonly inferenceProfileArn: string;
   public readonly type: InferenceProfileType;
-  public readonly inferenceProfileModel: IInvokable;
+  public readonly inferenceProfileModel: BedrockFoundationModel;
   /** This equals to the inferenceProfileArn property, useful just to implement IInvokable interface*/
   public readonly invokableArn: string;
 
-  constructor(scope: IConstruct, id: string, props: CrossRegionInferenceProfileProps) {
-    super(scope, id);
+  private constructor(props: CrossRegionInferenceProfileProps) {
     if (!props.model.supportsCrossRegion) {
       throw new Error(`Model ${props.model.modelId} does not support cross-region inference`);
     }
+    this.type = InferenceProfileType.SYSTEM_DEFINED;
+    this.inferenceProfileModel = props.model;
     this.inferenceProfileId = `${props.geoRegion}.${props.model.modelId}`;
     this.inferenceProfileArn = Arn.format({
       partition: Aws.PARTITION,
@@ -75,5 +79,17 @@ export class CrossRegionInferenceProfile extends InferenceProfileBase implements
     });
     // Needed to Implement IInvokable
     this.invokableArn = this.inferenceProfileArn;
+  }
+  /**
+   * Grants appropriate permissions to use the cross-region inference profile.
+   * Does not grant permissions to use the model in the profile.
+   */
+  grantProfileUsage(grantee: IGrantable): Grant {
+    const grant = Grant.addToPrincipal({
+      grantee: grantee,
+      actions: ["bedrock:GetInferenceProfile", "bedrock:ListInferenceProfiles"],
+      resourceArns: [this.inferenceProfileArn],
+    });
+    return grant;
   }
 }

@@ -33,7 +33,7 @@ export enum InferenceProfileType {
 /**
  * Represents a ApplicationInferenceProfile, either created with CDK or imported.
  */
-export interface IInferenceProfile extends IResource {
+export interface IInferenceProfile {
   /**
    * The ARN of the application inference profile.
    */
@@ -57,7 +57,7 @@ export interface IInferenceProfile extends IResource {
  * Abstract base class for a ApplicationInferenceProfile.
  * Contains methods and attributes valid for ApplicationInferenceProfiles either created with CDK or imported.
  */
-export abstract class InferenceProfileBase extends Resource implements IInferenceProfile {
+export abstract class InferenceProfileBase extends Resource implements IInferenceProfile, IResource {
   /**
    * The ARN of the application inference profile.
    */
