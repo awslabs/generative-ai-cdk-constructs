@@ -80,6 +80,15 @@ export class CrossRegionInferenceProfile implements IInvokable, IInferenceProfil
     // Needed to Implement IInvokable
     this.invokableArn = this.inferenceProfileArn;
   }
+
+  /**
+   * Gives the appropriate policies to invoke and use the Foundation Model.
+   */
+  public grantInvoke(grantee: IGrantable): Grant {
+    this.inferenceProfileModel.grantInvoke(grantee);
+    return this.grantProfileUsage(grantee);
+  }
+
   /**
    * Grants appropriate permissions to use the cross-region inference profile.
    * Does not grant permissions to use the model in the profile.
@@ -87,7 +96,7 @@ export class CrossRegionInferenceProfile implements IInvokable, IInferenceProfil
   grantProfileUsage(grantee: IGrantable): Grant {
     const grant = Grant.addToPrincipal({
       grantee: grantee,
-      actions: ["bedrock:GetInferenceProfile", "bedrock:ListInferenceProfiles"],
+      actions: ["bedrock:GetInferenceProfile", "bedrock:InvokeModel"],
       resourceArns: [this.inferenceProfileArn],
     });
     return grant;

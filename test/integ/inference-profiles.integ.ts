@@ -14,6 +14,7 @@ import * as integ from "@aws-cdk/integ-tests-alpha";
 import * as cdk from "aws-cdk-lib";
 import {
   Agent,
+  ApplicationInferenceProfile,
   BedrockFoundationModel,
   CrossRegionInferenceProfile,
   CrossRegionInferenceProfileRegion,
@@ -35,6 +36,22 @@ new Agent(stack, "TestAgent", {
   name: "test-agent",
   description: "test-description",
 });
+
+const myProjectApi = new ApplicationInferenceProfile(stack, "TestAppProfile", {
+  inferenceProfileName: "my-app-inf-profile",
+  tags: [{ key: "projectId", value: "supplyUSXRC28" }],
+  modelSource: CrossRegionInferenceProfile.fromConfig({
+    geoRegion: CrossRegionInferenceProfileRegion.US,
+    model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
+  }),
+});
+
+// new Agent(stack, "TestAgent-2", {
+//   instruction: "You are a test bot that needs to be very gentle and useful to the user",
+//   model: myProjectApi,
+//   name: "test-agent-2",
+//   description: "test-description",
+// });
 
 new integ.IntegTest(app, "ServiceTest", {
   testCases: [stack],

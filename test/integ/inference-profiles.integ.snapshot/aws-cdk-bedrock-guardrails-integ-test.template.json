@@ -50,13 +50,40 @@
     "RoleName": "AmazonBedrockExecutionRoleForAgents_awscdkbedrtTestAgent6A742A85"
    }
   },
-  "TestAgentAgentFMPolicy7D053074": {
+  "TestAgentRoleDefaultPolicy0A38CDBA": {
    "Type": "AWS::IAM::Policy",
    "Properties": {
     "PolicyDocument": {
      "Statement": [
       {
        "Action": "bedrock:InvokeModel",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":bedrock:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":foundation-model/anthropic.claude-3-sonnet-20240229-v1:0"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "bedrock:GetInferenceProfile",
+        "bedrock:ListInferenceProfiles"
+       ],
        "Effect": "Allow",
        "Resource": {
         "Fn::Join": [
@@ -82,7 +109,7 @@
      ],
      "Version": "2012-10-17"
     },
-    "PolicyName": "TestAgentAgentFMPolicy7D053074",
+    "PolicyName": "TestAgentRoleDefaultPolicy0A38CDBA",
     "Roles": [
      {
       "Ref": "TestAgentRole522C6259"
@@ -129,7 +156,7 @@
       ]
      ]
     },
-    "Instruction": "You are a test resource that needs to be very gentle and useful to the user"
+    "Instruction": "You are a test bot that needs to be very gentle and useful to the user"
    }
   }
  },

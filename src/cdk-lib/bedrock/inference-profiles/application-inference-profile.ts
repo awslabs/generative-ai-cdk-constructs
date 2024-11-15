@@ -15,6 +15,7 @@ import * as bedrock from "aws-cdk-lib/aws-bedrock";
 import { Construct } from "constructs";
 import { IInferenceProfile, InferenceProfileBase, InferenceProfileType } from "./common";
 import { IInvokable } from "../models";
+import { Grant, IGrantable } from "aws-cdk-lib/aws-iam";
 
 /******************************************************************************
  *                        PROPS FOR NEW CONSTRUCT
@@ -117,6 +118,10 @@ export class ApplicationInferenceProfile extends InferenceProfileBase implements
    */
   public readonly inferenceProfileId: string;
   /**
+   * The unique identifier of the inference profile.
+   */
+  public readonly inferenceProfileModel: IInvokable;
+  /**
    * The status of the inference profile. ACTIVE means that the inference profile is ready to be used.
    */
   public readonly status: string;
@@ -149,6 +154,7 @@ export class ApplicationInferenceProfile extends InferenceProfileBase implements
   constructor(scope: Construct, id: string, props: ApplicationInferenceProfileProps) {
     super(scope, id);
 
+    this.inferenceProfileModel = props.modelSource;
     this.inferenceProfileName = props.inferenceProfileName;
     this.type = InferenceProfileType.APPLICATION;
 
@@ -172,5 +178,26 @@ export class ApplicationInferenceProfile extends InferenceProfileBase implements
 
     // Needed to Implement IInvokable
     this.invokableArn = this.inferenceProfileArn;
+  }
+
+  /**
+   * Gives the appropriate policies to invoke and use the Foundation Model.
+   */
+  public grantInvoke(grantee: IGrantable): Grant {
+    this.inferenceProfileModel.grantInvoke(grantee);
+    return this.grantProfileUsage(grantee);
+  }
+
+  /**
+   * Grants appropriate permissions to use the cross-region inference profile.
+   * Does not grant permissions to use the model in the profile.
+   */
+  grantProfileUsage(grantee: IGrantable): Grant {
+    const grant = Grant.addToPrincipal({
+      grantee: grantee,
+      actions: ["bedrock:GetInferenceProfile", "bedrock:InvokeModel"],
+      resourceArns: [this.inferenceProfileArn],
+    });
+    return grant;
   }
 }

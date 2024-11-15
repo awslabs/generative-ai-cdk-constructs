@@ -13,6 +13,7 @@
 
 import { Arn, ArnFormat, Aws } from "aws-cdk-lib";
 import { IModel } from "aws-cdk-lib/aws-bedrock";
+import { Grant, IGrantable } from "aws-cdk-lib/aws-iam";
 import { IConstruct } from "constructs";
 
 /**
@@ -25,6 +26,11 @@ export interface IInvokable {
    * The ARN of the Bedrock invokable abstraction.
    */
   readonly invokableArn: string;
+
+  /**
+   * Gives the appropriate policies to invoke and use the invokable abstraction.
+   */
+  grantInvoke(grantee: IGrantable): Grant;
 }
 
 export interface BedrockFoundationModelProps {
@@ -211,5 +217,17 @@ export class BedrockFoundationModel implements IInvokable {
     if (construct) {
     }
     return this;
+  }
+
+  /**
+   * Gives the appropriate policies to invoke and use the Foundation Model.
+   */
+  public grantInvoke(grantee: IGrantable): Grant {
+    const grant = Grant.addToPrincipal({
+      grantee: grantee,
+      actions: ["bedrock:InvokeModel"],
+      resourceArns: [this.invokableArn],
+    });
+    return grant;
   }
 }

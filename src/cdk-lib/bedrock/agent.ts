@@ -341,6 +341,10 @@ export class Agent extends Construct {
    */
   public readonly role: iam.Role;
   /**
+   * The model used by the agent.
+   */
+  public readonly model: IInvokable;
+  /**
    * The unique identifier of the agent.
    */
   public readonly agentId: string;
@@ -392,6 +396,7 @@ export class Agent extends Construct {
 
     //validateModel(props.foundationModel);
 
+    this.model = props.model;
     this.name =
       props.name ?? generatePhysicalNameV2(this, "bedrock-agent", { maxLength: 32, lower: true, separator: "-" });
 
@@ -422,17 +427,9 @@ export class Agent extends Construct {
           },
         })
       );
-
-      new iam.Policy(this, "AgentFMPolicy", {
-        roles: [this.role],
-        statements: [
-          new iam.PolicyStatement({
-            actions: ["bedrock:InvokeModel"],
-            resources: [props.model.invokableArn],
-          }),
-        ],
-      });
     }
+
+    this.model.grantInvoke(this.role);
 
     const agent = new bedrock.CfnAgent(this, "Agent", {
       agentName: this.name,
