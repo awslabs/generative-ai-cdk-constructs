@@ -1672,10 +1672,10 @@ ccount@^2.0.0:
   resolved "https://registry.yarnpkg.com/ccount/-/ccount-2.0.1.tgz#17a3bf82302e0870d6da43a01311a8bc02a3ecf5"
   integrity sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==
 
-cdk-nag@^2.34.1:
-  version "2.34.1"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.34.1.tgz#744a77ed858297280cd5ac67eaf5f790284a5d9f"
-  integrity sha512-Oo7NxLLjX4UB0qKecUqBJKp7AGsSypfTsYSfyv7+tLge24B/ugqNrSlnWsSVJS0xvTz0oMkssDkcCIIX3NxHmQ==
+cdk-nag@^2.34.2:
+  version "2.34.2"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.34.2.tgz#e5195b7c008dd8ab576e5c8a491ace625bf66582"
+  integrity sha512-A46DCvM/G1WjXZn5Dl/0H9ckjpqN/D6RLxDaK9tveImRfZ11pWN2aK7nG7sMyy8lI8oigJNenQBlZtxQmQNw/g==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -5791,9 +5791,9 @@ typescript@^5.6.3:
   integrity sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==
 
 typescript@next:
-  version "5.8.0-dev.20241115"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.8.0-dev.20241115.tgz#b60fb97a8c1c53717394e55d8175bdc76fdd5680"
-  integrity sha512-2gG4vlFoRzqih4P6nbz0ko5cdHMlSxZxTPJPw/YFQOnTHMRI+yP7MXaQZ8zqNHu0Ql/Y55zORybuYS9lehL6kA==
+  version "5.8.0-dev.20241116"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.8.0-dev.20241116.tgz#42a9776844187add6eac4312c517dcde598ea9f1"
+  integrity sha512-JLN5vNtl3rgeYYsQjLSXda0/Y4NXhntNDWpUTsavNhhT5YTOvJ6mg9bp3dBnY8vON4jVoR+xlf3Im+6FXGnu3Q==
 
 typescript@~5.4:
   version "5.4.5"
