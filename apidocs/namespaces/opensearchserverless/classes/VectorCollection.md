@@ -178,24 +178,6 @@ through its absolute name/arn.
 
 ***
 
-### allowAccessFrom()
-
-> **allowAccessFrom**(...`ipRanges`): `void`
-
-Updates the network policy to allow access from specific IP ranges.
-
-#### Parameters
-
-• ...**ipRanges**: `string`[]
-
-The IP ranges to allow access from
-
-#### Returns
-
-`void`
-
-***
-
 ### applyRemovalPolicy()
 
 > **applyRemovalPolicy**(`policy`): `void`
@@ -221,46 +203,6 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 #### Inherited from
 
 `VectorCollectionBase.applyRemovalPolicy`
-
-***
-
-### createErrorRateAlarm()
-
-> **createErrorRateAlarm**(`props`?): `Alarm`
-
-Creates an alarm for high error rates.
-
-#### Parameters
-
-• **props?**: `CreateAlarmOptions`
-
-Properties for the alarm
-
-#### Returns
-
-`Alarm`
-
-The created alarm
-
-***
-
-### createHighLatencyAlarm()
-
-> **createHighLatencyAlarm**(`props`?): `Alarm`
-
-Creates an alarm for high search latency.
-
-#### Parameters
-
-• **props?**: `CreateAlarmOptions`
-
-Properties for the alarm
-
-#### Returns
-
-`Alarm`
-
-The created alarm
 
 ***
 
@@ -487,24 +429,6 @@ Returns a string representation of this construct.
 #### Inherited from
 
 `VectorCollectionBase.toString`
-
-***
-
-### useCustomerManagedKey()
-
-> **useCustomerManagedKey**(`kmsKeyArn`): `void`
-
-Updates the encryption policy to use a customer managed KMS key.
-
-#### Parameters
-
-• **kmsKeyArn**: `string`
-
-The ARN of the KMS key to use
-
-#### Returns
-
-`void`
 
 ***
 
