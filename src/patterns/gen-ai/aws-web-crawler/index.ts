@@ -14,6 +14,7 @@ import * as crypto from 'crypto';
 import * as path from 'path';
 import * as url from 'url';
 import * as cdk from 'aws-cdk-lib';
+import { Annotations } from 'aws-cdk-lib';
 import * as batch from 'aws-cdk-lib/aws-batch';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
@@ -183,9 +184,14 @@ export class WebCrawler extends BaseClass {
    * @param {WebCrawlerProps} props - user provided props for the construct.
    * @since 0.0.0
    * @public
+   * @deprecated This construct is deprecated and will be removed in a future major version.
+   * It will not receive security updates.
    */
   constructor(scope: Construct, id: string, props: WebCrawlerProps) {
     super(scope, id);
+
+    Annotations.of(scope).addWarningV2('@cdklabs/generative-ai-cdk-constructs:WebCrawler.deprecation',
+      'This construct is deprecated and will not receive further support. It will be removed in the next release of the library.');
 
     vpc_helper.CheckVpcProps(props);
     s3_bucket_helper.CheckS3Props({
