@@ -36,7 +36,7 @@ http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-bedro
 
 ### modelSource
 
-> `readonly` **modelSource**: `string`
+> `readonly` **modelSource**: [`IInvokable`](IInvokable.md)
 
 To create an application inference profile for one Region, specify a foundation model.
 Usage and costs for requests made to that Region with that model will be tracked.

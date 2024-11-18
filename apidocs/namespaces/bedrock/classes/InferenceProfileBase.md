@@ -2,9 +2,9 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / ApplicationInferenceProfileBase
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / InferenceProfileBase
 
-# Class: `abstract` ApplicationInferenceProfileBase
+# Class: `abstract` InferenceProfileBase
 
 Abstract base class for a ApplicationInferenceProfile.
 Contains methods and attributes valid for ApplicationInferenceProfiles either created with CDK or imported.
@@ -19,13 +19,14 @@ Contains methods and attributes valid for ApplicationInferenceProfiles either cr
 
 ## Implements
 
-- [`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md)
+- [`IInferenceProfile`](../interfaces/IInferenceProfile.md)
+- `IResource`
 
 ## Constructors
 
-### new ApplicationInferenceProfileBase()
+### new InferenceProfileBase()
 
-> **new ApplicationInferenceProfileBase**(`scope`, `id`, `props`?): [`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md)
+> **new InferenceProfileBase**(`scope`, `id`, `props`?): [`InferenceProfileBase`](InferenceProfileBase.md)
 
 #### Parameters
 
@@ -37,7 +38,7 @@ Contains methods and attributes valid for ApplicationInferenceProfiles either cr
 
 #### Returns
 
-[`ApplicationInferenceProfileBase`](ApplicationInferenceProfileBase.md)
+[`InferenceProfileBase`](InferenceProfileBase.md)
 
 #### Inherited from
 
@@ -59,7 +60,7 @@ that might be different than the stack they were imported into.
 
 #### Implementation of
 
-[`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md).[`env`](../interfaces/IApplicationInferenceProfile.md#env)
+`IResource.env`
 
 #### Inherited from
 
@@ -75,7 +76,7 @@ The ARN of the application inference profile.
 
 #### Implementation of
 
-[`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md).[`inferenceProfileArn`](../interfaces/IApplicationInferenceProfile.md#inferenceprofilearn)
+[`IInferenceProfile`](../interfaces/IInferenceProfile.md).[`inferenceProfileArn`](../interfaces/IInferenceProfile.md#inferenceprofilearn)
 
 ***
 
@@ -87,19 +88,7 @@ The unique identifier of the inference profile.
 
 #### Implementation of
 
-[`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md).[`inferenceProfileId`](../interfaces/IApplicationInferenceProfile.md#inferenceprofileid)
-
-***
-
-### inferenceProfileIdentifier
-
-> `abstract` `readonly` **inferenceProfileIdentifier**: `string`
-
-The ID or Amazon Resource Name (ARN) of the inference profile.
-
-#### Implementation of
-
-[`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md).[`inferenceProfileIdentifier`](../interfaces/IApplicationInferenceProfile.md#inferenceprofileidentifier)
+[`IInferenceProfile`](../interfaces/IInferenceProfile.md).[`inferenceProfileId`](../interfaces/IInferenceProfile.md#inferenceprofileid)
 
 ***
 
@@ -111,7 +100,7 @@ The tree node.
 
 #### Implementation of
 
-[`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md).[`node`](../interfaces/IApplicationInferenceProfile.md#node)
+`IResource.node`
 
 #### Inherited from
 
@@ -146,11 +135,23 @@ The stack in which this resource is defined.
 
 #### Implementation of
 
-[`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md).[`stack`](../interfaces/IApplicationInferenceProfile.md#stack)
+`IResource.stack`
 
 #### Inherited from
 
 `Resource.stack`
+
+***
+
+### type
+
+> `abstract` `readonly` **type**: [`InferenceProfileType`](../enumerations/InferenceProfileType.md)
+
+The ID or Amazon Resource Name (ARN) of the inference profile.
+
+#### Implementation of
+
+[`IInferenceProfile`](../interfaces/IInferenceProfile.md).[`type`](../interfaces/IInferenceProfile.md#type)
 
 ## Methods
 
@@ -199,7 +200,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Implementation of
 
-[`IApplicationInferenceProfile`](../interfaces/IApplicationInferenceProfile.md).[`applyRemovalPolicy`](../interfaces/IApplicationInferenceProfile.md#applyremovalpolicy)
+`IResource.applyRemovalPolicy`
 
 #### Inherited from
 
@@ -282,6 +283,27 @@ Commonly this is the resource's `ref`.
 #### Inherited from
 
 `Resource.getResourceNameAttribute`
+
+***
+
+### grantProfileUsage()
+
+> **grantProfileUsage**(`grantee`): `Grant`
+
+Grants appropriate permissions to use the cross-region inference profile.
+Does not grant permissions to use the model in the profile.
+
+#### Parameters
+
+• **grantee**: `IGrantable`
+
+#### Returns
+
+`Grant`
+
+#### Implementation of
+
+[`IInferenceProfile`](../interfaces/IInferenceProfile.md).[`grantProfileUsage`](../interfaces/IInferenceProfile.md#grantprofileusage)
 
 ***
 

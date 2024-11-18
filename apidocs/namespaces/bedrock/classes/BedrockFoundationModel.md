@@ -11,6 +11,10 @@ Bedrock models.
 If you need to use a model name that doesn't exist as a static member, you
 can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationModel('my-model')`.
 
+## Implements
+
+- [`IInvokable`](../interfaces/IInvokable.md)
+
 ## Constructors
 
 ### new BedrockFoundationModel()
@@ -29,15 +33,43 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 ## Properties
 
+### invokableArn
+
+> `readonly` **invokableArn**: `string`
+
+The ARN of the Bedrock invokable abstraction.
+
+#### Implementation of
+
+[`IInvokable`](../interfaces/IInvokable.md).[`invokableArn`](../interfaces/IInvokable.md#invokablearn)
+
+***
+
+### modelArn
+
+> `readonly` **modelArn**: `string`
+
+***
+
 ### modelId
 
 > `readonly` **modelId**: `string`
+
+*************************************************************************
+                           Constructor
+*************************************************************************
 
 ***
 
 ### supportsAgents
 
 > `readonly` **supportsAgents**: `boolean`
+
+***
+
+### supportsCrossRegion
+
+> `readonly` **supportsCrossRegion**: `boolean`
 
 ***
 
@@ -63,6 +95,10 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 > `readonly` `static` **AMAZON\_TITAN\_TEXT\_EXPRESS\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
 
+*************************************************************************
+                           AMAZON
+*************************************************************************
+
 ***
 
 ### ANTHROPIC\_CLAUDE\_3\_5\_HAIKU\_V1\_0
@@ -80,6 +116,10 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 ### ANTHROPIC\_CLAUDE\_3\_5\_SONNET\_V2\_0
 
 > `readonly` `static` **ANTHROPIC\_CLAUDE\_3\_5\_SONNET\_V2\_0**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+*************************************************************************
+                           ANTHROPIC
+*************************************************************************
 
 ***
 
@@ -123,11 +163,37 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 > `readonly` `static` **COHERE\_EMBED\_ENGLISH\_V3**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
 
+*************************************************************************
+                           COHERE
+*************************************************************************
+
 ***
 
 ### COHERE\_EMBED\_MULTILINGUAL\_V3
 
 > `readonly` `static` **COHERE\_EMBED\_MULTILINGUAL\_V3**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### META\_LLAMA\_3\_2\_11B\_INSTRUCT\_V1
+
+> `readonly` `static` **META\_LLAMA\_3\_2\_11B\_INSTRUCT\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+*************************************************************************
+                           META
+*************************************************************************
+
+***
+
+### META\_LLAMA\_3\_2\_1B\_INSTRUCT\_V1
+
+> `readonly` `static` **META\_LLAMA\_3\_2\_1B\_INSTRUCT\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### META\_LLAMA\_3\_2\_3B\_INSTRUCT\_V1
+
+> `readonly` `static` **META\_LLAMA\_3\_2\_3B\_INSTRUCT\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
 
 ***
 
@@ -186,9 +252,31 @@ Returns the ARN of the foundation model in the following format:
 
 ***
 
+### grantInvoke()
+
+> **grantInvoke**(`grantee`): `Grant`
+
+Gives the appropriate policies to invoke and use the Foundation Model.
+
+#### Parameters
+
+• **grantee**: `IGrantable`
+
+#### Returns
+
+`Grant`
+
+#### Implementation of
+
+[`IInvokable`](../interfaces/IInvokable.md).[`grantInvoke`](../interfaces/IInvokable.md#grantinvoke)
+
+***
+
 ### toString()
 
 > **toString**(): `string`
+
+Returns a string representation of an object.
 
 #### Returns
 

@@ -106,6 +106,14 @@ A list of KnowledgeBases associated with the agent.
 
 ***
 
+### model
+
+> `readonly` **model**: [`IInvokable`](../interfaces/IInvokable.md)
+
+The model used by the agent.
+
+***
+
 ### name
 
 > `readonly` **name**: `string`
