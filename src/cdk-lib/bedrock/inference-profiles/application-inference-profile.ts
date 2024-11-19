@@ -10,12 +10,12 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import { CfnTag, Arn, ArnFormat } from "aws-cdk-lib";
-import * as bedrock from "aws-cdk-lib/aws-bedrock";
-import { Construct } from "constructs";
-import { IInferenceProfile, InferenceProfileBase, InferenceProfileType } from "./common";
-import { IInvokable } from "../models";
-import { Grant, IGrantable } from "aws-cdk-lib/aws-iam";
+import { CfnTag, Arn, ArnFormat } from 'aws-cdk-lib';
+import * as bedrock from 'aws-cdk-lib/aws-bedrock';
+import { Grant, IGrantable } from 'aws-cdk-lib/aws-iam';
+import { Construct } from 'constructs';
+import { IInferenceProfile, InferenceProfileBase, InferenceProfileType } from './common';
+import { IInvokable } from '../models';
 
 /******************************************************************************
  *                        PROPS FOR NEW CONSTRUCT
@@ -82,7 +82,7 @@ export class ApplicationInferenceProfile extends InferenceProfileBase implements
   public static fromApplicationInferenceProfileAttributes(
     scope: Construct,
     id: string,
-    attrs: ApplicationInferenceProfileAttributes
+    attrs: ApplicationInferenceProfileAttributes,
   ): IInferenceProfile {
     class Import extends InferenceProfileBase {
       public readonly inferenceProfileArn = attrs.inferenceProfileArn;
@@ -97,13 +97,13 @@ export class ApplicationInferenceProfile extends InferenceProfileBase implements
    * Import a low-level L1 Cfn ApplicationInferenceProfile
    */
   public static fromCfnApplicationInferenceProfile(
-    CfnApplicationInferenceProfile: bedrock.CfnApplicationInferenceProfile
+    CfnApplicationInferenceProfile: bedrock.CfnApplicationInferenceProfile,
   ): IInferenceProfile {
     return new (class extends InferenceProfileBase {
       public readonly inferenceProfileArn = CfnApplicationInferenceProfile.attrInferenceProfileArn;
       public readonly inferenceProfileId = CfnApplicationInferenceProfile.attrInferenceProfileId;
       public readonly type = InferenceProfileType.APPLICATION;
-    })(CfnApplicationInferenceProfile, "@FromCfnApplicationInferenceProfile");
+    })(CfnApplicationInferenceProfile, '@FromCfnApplicationInferenceProfile');
   }
   /**
    * The name of the application inference profile.
@@ -184,7 +184,31 @@ export class ApplicationInferenceProfile extends InferenceProfileBase implements
    * Gives the appropriate policies to invoke and use the Foundation Model.
    */
   public grantInvoke(grantee: IGrantable): Grant {
-    this.inferenceProfileModel.grantInvoke(grantee);
+
+    // for CRIS, we need to provide permissions to invoke
+    // the model in all regions where the inference profile
+    // can route requests. Since we manipulate a inferenceProfileModel
+    // which is a IInvokable, we don't have the model Id available.
+    // To get this information back, we split the existing Arn, and update
+    // the regions
+    const splitted = Arn.split(this.inferenceProfileModel.invokableArn, ArnFormat.SLASH_RESOURCE_NAME);
+
+    const invokableArn = Arn.format({
+      partition: splitted.partition,
+      service: splitted.service,
+      region: '*',
+      account: '',
+      resource: splitted.resource,
+      resourceName: splitted.resourceName,
+      arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
+    });
+
+    Grant.addToPrincipal({
+      grantee: grantee,
+      actions: ['bedrock:InvokeModel'],
+      resourceArns: [invokableArn],
+    });
+
     return this.grantProfileUsage(grantee);
   }
 
@@ -195,7 +219,7 @@ export class ApplicationInferenceProfile extends InferenceProfileBase implements
   grantProfileUsage(grantee: IGrantable): Grant {
     const grant = Grant.addToPrincipal({
       grantee: grantee,
-      actions: ["bedrock:GetInferenceProfile", "bedrock:InvokeModel"],
+      actions: ['bedrock:GetInferenceProfile', 'bedrock:InvokeModel'],
       resourceArns: [this.inferenceProfileArn],
     });
     return grant;

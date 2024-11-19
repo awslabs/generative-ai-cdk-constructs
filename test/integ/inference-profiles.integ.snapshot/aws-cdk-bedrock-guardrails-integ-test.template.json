@@ -66,15 +66,27 @@
           {
            "Ref": "AWS::Partition"
           },
+          ":bedrock:*::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "bedrock:InvokeModel",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
           ":bedrock:",
           {
            "Ref": "AWS::Region"
           },
-          ":",
-          {
-           "Ref": "AWS::AccountId"
-          },
-          ":foundation-model/anthropic.claude-3-sonnet-20240229-v1:0"
+          "::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0"
          ]
         ]
        }

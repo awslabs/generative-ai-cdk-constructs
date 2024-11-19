@@ -11,10 +11,10 @@
  *  and limitations under the License.
  */
 
-import { CfnDataSource } from "aws-cdk-lib/aws-bedrock";
-import { PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { DEFAULT_PARSING_PROMPT } from "./default-parsing-prompt";
-import { IInvokable } from "../models";
+import { CfnDataSource } from 'aws-cdk-lib/aws-bedrock';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { DEFAULT_PARSING_PROMPT } from './default-parsing-prompt';
+import { IInvokable } from '../models';
 
 /**
  * Enum representing the types of parsing strategies available for Amazon Bedrock Knowledge Bases.
@@ -23,7 +23,7 @@ enum ParsingStategyType {
   /**
    * Uses a Bedrock Foundation Model for advanced parsing of non-textual information from documents.
    */
-  FOUNDATION_MODEL = "BEDROCK_FOUNDATION_MODEL",
+  FOUNDATION_MODEL = 'BEDROCK_FOUNDATION_MODEL',
 }
 
 /**
@@ -75,7 +75,7 @@ export abstract class ParsingStategy {
       public generatePolicyStatements(): PolicyStatement[] {
         return [
           new PolicyStatement({
-            actions: ["bedrock:InvokeModel"],
+            actions: ['bedrock:InvokeModel'],
             resources: [props.parsingModel.invokableArn],
           }),
         ];

@@ -281,3 +281,35 @@ Returns a string representation of an object.
 #### Returns
 
 `string`
+
+***
+
+### fromCdkFoundationModel()
+
+> `static` **fromCdkFoundationModel**(`modelId`, `props`): [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+#### Parameters
+
+• **modelId**: `FoundationModel`
+
+• **props**: [`BedrockFoundationModelProps`](../interfaces/BedrockFoundationModelProps.md) = `{}`
+
+#### Returns
+
+[`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### fromCdkFoundationModelId()
+
+> `static` **fromCdkFoundationModelId**(`modelId`, `props`): [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+#### Parameters
+
+• **modelId**: `FoundationModelIdentifier`
+
+• **props**: [`BedrockFoundationModelProps`](../interfaces/BedrockFoundationModelProps.md) = `{}`
+
+#### Returns
+
+[`BedrockFoundationModel`](BedrockFoundationModel.md)

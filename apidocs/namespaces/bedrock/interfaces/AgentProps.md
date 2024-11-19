@@ -91,6 +91,14 @@ allows the Bedrock service to assume the role.
 
 ***
 
+### foundationModel
+
+> `readonly` **foundationModel**: [`IInvokable`](IInvokable.md)
+
+The Bedrock text foundation model for the agent to use.
+
+***
+
 ### guardrailConfiguration?
 
 > `readonly` `optional` **guardrailConfiguration**: [`GuardrailConfiguration`](GuardrailConfiguration.md)
@@ -143,14 +151,6 @@ Knowledge Bases to make available to the agent.
 ```ts
 - No knowledge base is used.
 ```
-
-***
-
-### model
-
-> `readonly` **model**: [`IInvokable`](IInvokable.md)
-
-The Bedrock text foundation model for the agent to use.
 
 ***
 

@@ -1,21 +1,33 @@
-import { Arn, ArnFormat, Aws } from "aws-cdk-lib";
-import { BedrockFoundationModel, IInvokable } from "../models";
-import { IInferenceProfile, InferenceProfileType } from "./common";
-import { Grant, IGrantable } from "aws-cdk-lib/aws-iam";
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
+import { Arn, ArnFormat, Aws } from 'aws-cdk-lib';
+import { Grant, IGrantable } from 'aws-cdk-lib/aws-iam';
+import { BedrockFoundationModel, IInvokable } from '../models';
+import { IInferenceProfile, InferenceProfileType } from './common';
 
 export enum CrossRegionInferenceProfileRegion {
   /**
    * EU: Frankfurt (eu-central-1), Ireland (eu-west-1), Paris (eu-west-3)
    */
-  EU = "eu",
+  EU = 'eu',
   /**
    * US: N. Virginia (us-east-1), Oregon (us-west-2)
    */
-  US = "us",
+  US = 'us',
   /**
    * This might include: ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, and ap-southeast-2
    */
-  APAC = "apac",
+  APAC = 'apac',
 }
 
 /******************************************************************************
@@ -70,10 +82,10 @@ export class CrossRegionInferenceProfile implements IInvokable, IInferenceProfil
     this.inferenceProfileId = `${props.geoRegion}.${props.model.modelId}`;
     this.inferenceProfileArn = Arn.format({
       partition: Aws.PARTITION,
-      service: "bedrock",
+      service: 'bedrock',
       account: Aws.ACCOUNT_ID,
       region: Aws.REGION,
-      resource: "inference-profile",
+      resource: 'inference-profile',
       resourceName: this.inferenceProfileId,
       arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
     });
@@ -85,6 +97,26 @@ export class CrossRegionInferenceProfile implements IInvokable, IInferenceProfil
    * Gives the appropriate policies to invoke and use the Foundation Model.
    */
   public grantInvoke(grantee: IGrantable): Grant {
+
+    // for CRIS, we need to provide permissions to invoke
+    // the model in all regions where the inference profile
+    // can route requests
+    const invokableArn = Arn.format({
+      partition: Aws.PARTITION,
+      service: 'bedrock',
+      region: '*',
+      account: '',
+      resource: 'foundation-model',
+      resourceName: this.inferenceProfileModel.modelId,
+      arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
+    });
+
+    Grant.addToPrincipal({
+      grantee: grantee,
+      actions: ['bedrock:InvokeModel'],
+      resourceArns: [invokableArn],
+    });
+
     this.inferenceProfileModel.grantInvoke(grantee);
     return this.grantProfileUsage(grantee);
   }
@@ -96,7 +128,7 @@ export class CrossRegionInferenceProfile implements IInvokable, IInferenceProfil
   grantProfileUsage(grantee: IGrantable): Grant {
     const grant = Grant.addToPrincipal({
       grantee: grantee,
-      actions: ["bedrock:GetInferenceProfile", "bedrock:InvokeModel"],
+      actions: ['bedrock:GetInferenceProfile', 'bedrock:InvokeModel'],
       resourceArns: [this.inferenceProfileArn],
     });
     return grant;

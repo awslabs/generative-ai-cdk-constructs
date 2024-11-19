@@ -16,6 +16,7 @@ import { expect as cdkExpect, haveResource, haveResourceLike } from '@aws-cdk/as
 import * as cdk from 'aws-cdk-lib';
 import { aws_bedrock as cdk_bedrock } from 'aws-cdk-lib';
 import * as kms from 'aws-cdk-lib/aws-kms';
+import { BedrockFoundationModel, CrossRegionInferenceProfile, CrossRegionInferenceProfileRegion } from '../../../src/cdk-lib/bedrock';
 import { Prompt, PromptVariant } from '../../../src/cdk-lib/bedrock/prompts/prompt';
 
 describe('Prompt', () => {
@@ -49,15 +50,118 @@ describe('Prompt', () => {
   });
 
   // --------------------------------------------------------------------------
-  test('creates a Prompt with one variant', () => {
+  test('creates a Prompt with one variant - fromCdkFoundationModelId', () => {
     // GIVEN
     const variant1 = PromptVariant.text({
       variantName: 'variant1',
-      model: cdk_bedrock.FoundationModel.fromFoundationModelId(
-        stack,
-        'model1',
+      model: BedrockFoundationModel.fromCdkFoundationModelId(
         cdk_bedrock.FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_SONNET_20240229_V1_0,
       ),
+      promptVariables: ['topic'],
+      promptText: 'This is my first text prompt. Please summarize our conversation on {{topic}}.',
+      inferenceConfiguration: {
+        temperature: 1.0,
+        topP: 0.999,
+        maxTokens: 2000,
+      },
+    });
+
+    new Prompt(stack, 'prompt1', {
+      promptName: 'prompt1',
+      description: 'my prompt',
+      defaultVariant: variant1,
+      variants: [variant1],
+    });
+    // WHEN & THEN
+
+    cdkExpect(stack).to(
+      haveResourceLike('AWS::Bedrock::Prompt', {
+        Name: 'prompt1',
+        Description: 'my prompt',
+        DefaultVariant: 'variant1',
+        Variants: [
+          {
+            InferenceConfiguration: {
+              Text: {
+                MaxTokens: 2000,
+                Temperature: 1,
+                TopP: 0.999,
+              },
+            },
+            Name: 'variant1',
+            TemplateConfiguration: {
+              Text: {
+                InputVariables: [{ Name: 'topic' }],
+                Text: 'This is my first text prompt. Please summarize our conversation on {{topic}}.',
+              },
+            },
+            TemplateType: 'TEXT',
+          },
+        ],
+      }),
+    );
+  });
+
+  test('creates a Prompt with one variant - BedrockFoundationModel', () => {
+    // GIVEN
+    const variant1 = PromptVariant.text({
+      variantName: 'variant1',
+      model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
+      promptVariables: ['topic'],
+      promptText: 'This is my first text prompt. Please summarize our conversation on {{topic}}.',
+      inferenceConfiguration: {
+        temperature: 1.0,
+        topP: 0.999,
+        maxTokens: 2000,
+      },
+    });
+
+    new Prompt(stack, 'prompt1', {
+      promptName: 'prompt1',
+      description: 'my prompt',
+      defaultVariant: variant1,
+      variants: [variant1],
+    });
+    // WHEN & THEN
+
+    cdkExpect(stack).to(
+      haveResourceLike('AWS::Bedrock::Prompt', {
+        Name: 'prompt1',
+        Description: 'my prompt',
+        DefaultVariant: 'variant1',
+        Variants: [
+          {
+            InferenceConfiguration: {
+              Text: {
+                MaxTokens: 2000,
+                Temperature: 1,
+                TopP: 0.999,
+              },
+            },
+            Name: 'variant1',
+            TemplateConfiguration: {
+              Text: {
+                InputVariables: [{ Name: 'topic' }],
+                Text: 'This is my first text prompt. Please summarize our conversation on {{topic}}.',
+              },
+            },
+            TemplateType: 'TEXT',
+          },
+        ],
+      }),
+    );
+  });
+
+  test('creates a Prompt with one variant - CRIS', () => {
+    // GIVEN
+    const cris = CrossRegionInferenceProfile.fromConfig({
+      geoRegion: CrossRegionInferenceProfileRegion.US,
+      model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
+    });
+
+    const variant1 = PromptVariant.text({
+      variantName: 'variant1',
+      model: cris,
       promptVariables: ['topic'],
       promptText: 'This is my first text prompt. Please summarize our conversation on {{topic}}.',
       inferenceConfiguration: {
@@ -144,9 +248,7 @@ describe('Prompt', () => {
     const variants = [1, 2, 3, 4].map((id) =>
       PromptVariant.text({
         variantName: `variant${id}`,
-        model: cdk_bedrock.FoundationModel.fromFoundationModelId(
-          stack,
-          `model${id}`,
+        model: BedrockFoundationModel.fromCdkFoundationModelId(
           cdk_bedrock.FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_SONNET_20240229_V1_0,
         ),
         promptVariables: ['topic'],

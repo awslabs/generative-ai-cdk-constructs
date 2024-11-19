@@ -10,50 +10,43 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import * as integ from "@aws-cdk/integ-tests-alpha";
-import * as cdk from "aws-cdk-lib";
+import * as integ from '@aws-cdk/integ-tests-alpha';
+import * as cdk from 'aws-cdk-lib';
 import {
   Agent,
   ApplicationInferenceProfile,
   BedrockFoundationModel,
   CrossRegionInferenceProfile,
   CrossRegionInferenceProfileRegion,
-} from "../../src/cdk-lib/bedrock";
+} from '../../src/cdk-lib/bedrock';
 
 const app = new cdk.App();
-const stack = new cdk.Stack(app, "aws-cdk-bedrock-guardrails-integ-test", {
+const stack = new cdk.Stack(app, 'aws-cdk-bedrock-guardrails-integ-test', {
   env: {
-    region: "us-west-2",
+    region: 'us-west-2',
   },
 });
 
-new Agent(stack, "TestAgent", {
-  instruction: "You are a test bot that needs to be very gentle and useful to the user",
-  model: CrossRegionInferenceProfile.fromConfig({
+new Agent(stack, 'TestAgent', {
+  instruction: 'You are a test bot that needs to be very gentle and useful to the user',
+  foundationModel: CrossRegionInferenceProfile.fromConfig({
     geoRegion: CrossRegionInferenceProfileRegion.US,
     model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
   }),
-  name: "test-agent",
-  description: "test-description",
+  name: 'test-agent',
+  description: 'test-description',
 });
 
-const myProjectApi = new ApplicationInferenceProfile(stack, "TestAppProfile", {
-  inferenceProfileName: "my-app-inf-profile",
-  tags: [{ key: "projectId", value: "supplyUSXRC28" }],
+new ApplicationInferenceProfile(stack, 'TestAppProfile', {
+  inferenceProfileName: 'my-app-inf-profile',
+  tags: [{ key: 'projectId', value: 'supplyUSXRC28' }],
   modelSource: CrossRegionInferenceProfile.fromConfig({
     geoRegion: CrossRegionInferenceProfileRegion.US,
     model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
   }),
 });
 
-// new Agent(stack, "TestAgent-23", {
-//   instruction: "You are a new test bot that needs to be very gentle and useful to the user",
-//   model: myProjectApi,
-//   name: "test-agent-23",
-//   description: "test-description",
-// });
-
-new integ.IntegTest(app, "ServiceTest", {
+new integ.IntegTest(app, 'ServiceTest', {
   testCases: [stack],
   cdkCommandOptions: {
     destroy: {

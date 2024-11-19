@@ -10,8 +10,8 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import { IResource, Resource } from "aws-cdk-lib";
-import { Grant, IGrantable } from "aws-cdk-lib/aws-iam";
+import { IResource, Resource } from 'aws-cdk-lib';
+import { Grant, IGrantable } from 'aws-cdk-lib/aws-iam';
 
 /** These are the values used by the API when using aws bedrock get-inference-profile --inference-profile-identifier XXXXXXX */
 export enum InferenceProfileType {
@@ -19,12 +19,12 @@ export enum InferenceProfileType {
    * An inference profile that is created by AWS. These are profiles such as cross-region
    * which help you distributed traffic across a geographic region.
    */
-  SYSTEM_DEFINED = "SYSTEM_DEFINED",
+  SYSTEM_DEFINED = 'SYSTEM_DEFINED',
   /**
    * An inference profile that is user-created. These are profiles that help
    * you track costs or metrics.
    */
-  APPLICATION = "APPLICATION",
+  APPLICATION = 'APPLICATION',
 }
 
 /******************************************************************************
@@ -78,7 +78,7 @@ export abstract class InferenceProfileBase extends Resource implements IInferenc
   grantProfileUsage(grantee: IGrantable): Grant {
     const grant = Grant.addToPrincipal({
       grantee: grantee,
-      actions: ["bedrock:GetInferenceProfile", "bedrock:ListInferenceProfiles"],
+      actions: ['bedrock:GetInferenceProfile', 'bedrock:ListInferenceProfiles'],
       resourceArns: [this.inferenceProfileArn],
       scope: this,
     });
