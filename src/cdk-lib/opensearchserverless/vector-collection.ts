@@ -33,6 +33,11 @@ export interface VectorCollectionProps {
    * @default ENABLED
    */
   readonly standbyReplicas?: VectorCollectionStandbyReplicas;
+
+  /**
+   * A user defined IAM policy that allows API access to the collection.
+   */
+  readonly customAossPolicy?: iam.ManagedPolicy;
 }
 
 /**
@@ -135,20 +140,24 @@ export class VectorCollection extends Construct {
     this.collectionArn = collection.attrArn;
     this.collectionId = collection.attrId;
 
-    this.aossPolicy = new iam.ManagedPolicy(
-      this,
-      'AOSSApiAccessAll', {
-        statements: [
-          new iam.PolicyStatement({
-            effect: iam.Effect.ALLOW,
-            actions: [
-              'aoss:APIAccessAll',
-            ],
-            resources: [collection.attrArn],
-          }),
-        ],
-      },
-    );
+    if (props?.customAossPolicy) {
+      this.aossPolicy = props.customAossPolicy;
+    } else {
+      this.aossPolicy = new iam.ManagedPolicy(
+        this,
+        'AOSSApiAccessAll', {
+          statements: [
+            new iam.PolicyStatement({
+              effect: iam.Effect.ALLOW,
+              actions: [
+                'aoss:APIAccessAll',
+              ],
+              resources: [collection.attrArn],
+            }),
+          ],
+        },
+      );
+    }
 
     collection.addDependency(encryptionPolicy);
     collection.addDependency(networkPolicy);
