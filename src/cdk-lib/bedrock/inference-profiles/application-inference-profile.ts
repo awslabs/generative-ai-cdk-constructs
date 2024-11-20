@@ -181,39 +181,21 @@ export class ApplicationInferenceProfile extends InferenceProfileBase implements
   }
 
   /**
-   * Gives the appropriate policies to invoke and use the Foundation Model.
+   * Gives the appropriate policies to invoke and use the application inference profile.
    */
   public grantInvoke(grantee: IGrantable): Grant {
-    // for CRIS, we need to provide permissions to invoke
-    // the model in all regions where the inference profile
-    // can route requests. Since we manipulate a inferenceProfileModel
-    // which is a IInvokable, we don't have the model Id available.
-    // To get this information back, we split the existing Arn, and update
-    // the regions
-    const splitted = Arn.split(this.inferenceProfileModel.invokableArn, ArnFormat.SLASH_RESOURCE_NAME);
+    // This method ensures the appropriate permissions are given
+    // to use either the inference profile or the vanilla FM
+    this.inferenceProfileModel.grantInvoke(grantee);
 
-    const invokableArn = Arn.format({
-      partition: splitted.partition,
-      service: splitted.service,
-      region: "*",
-      account: "",
-      resource: splitted.resource,
-      resourceName: splitted.resourceName,
-      arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
-    });
-
-    Grant.addToPrincipal({
-      grantee: grantee,
-      actions: ["bedrock:InvokeModel"],
-      resourceArns: [invokableArn],
-    });
+    // plus we add permissions to now invoke the application inference profile itself.
 
     return this.grantProfileUsage(grantee);
   }
 
   /**
-   * Grants appropriate permissions to use the cross-region inference profile.
-   * Does not grant permissions to use the model in the profile.
+   * Grants appropriate permissions to use the application inference profile (AIP).
+   * Does not grant permissions to use the model/cross-region profile in the AIP.
    */
   grantProfileUsage(grantee: IGrantable): Grant {
     const grant = Grant.addToPrincipal({

@@ -117,26 +117,10 @@ export class CrossRegionInferenceProfile implements IInvokable, IInferenceProfil
    * Gives the appropriate policies to invoke and use the Foundation Model.
    */
   public grantInvoke(grantee: IGrantable): Grant {
-    // for CRIS, we need to provide permissions to invoke
-    // the model in all regions where the inference profile
-    // can route requests
-    const invokableArn = Arn.format({
-      partition: Aws.PARTITION,
-      service: "bedrock",
-      region: "*",
-      account: "",
-      resource: "foundation-model",
-      resourceName: this.inferenceProfileModel.modelId,
-      arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
-    });
-
-    Grant.addToPrincipal({
-      grantee: grantee,
-      actions: ["bedrock:InvokeModel"],
-      resourceArns: [invokableArn],
-    });
-
-    this.inferenceProfileModel.grantInvoke(grantee);
+    // for CRIS, we need to provide permissions to invoke the model in all regions
+    // where the inference profile can route requests
+    this.inferenceProfileModel.grantInvokeAllRegions(grantee);
+    // and we need to provide permissions to invoke the inference profile itself
     return this.grantProfileUsage(grantee);
   }
 
