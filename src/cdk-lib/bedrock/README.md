@@ -783,7 +783,7 @@ const agent = new bedrock.Agent(this, "Agent", {
   instruction: "You are a helpful and friendly agent that answers questions about literature.",
 });
 
-agent.addKnowledgeBase([kb]);
+agent.addKnowledgeBase(kb);
 ```
 
 Python
@@ -797,6 +797,39 @@ agent = bedrock.Agent(
 )
   agent.add_knowledge_base(kb);
 ```
+
+You can also use system defined inference profiles to enable cross region inference requests for supported models. For instance:
+
+TypeScript
+
+```ts
+const cris = bedrock.CrossRegionInferenceProfile.fromConfig({
+  geoRegion: bedrock.CrossRegionInferenceProfileRegion.US,
+  model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+});
+
+const agent = new bedrock.Agent(this, 'Agent', {
+  foundationModel: cris,
+  instruction: 'You are a helpful and friendly agent that answers questions about agriculture.'
+});
+
+```
+Python
+```python
+cris = bedrock.CrossRegionInferenceProfile.from_config(
+  geo_region= bedrock.CrossRegionInferenceProfileRegion.US,
+  model= bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0
+)
+
+agent = bedrock.Agent(
+    self,
+    "Agent",
+    foundation_model=cris,
+    instruction="You are a helpful and friendly agent that answers questions about agriculture.",
+)
+```
+
+For more information on cross region inference, please refer to [System defined inference profiles](#system-defined-inference-profiles)
 
 ### Action Groups
 
