@@ -46,9 +46,9 @@ The name of the prompt variant.
 
 ***
 
-### templateConfiguration?
+### templateConfiguration
 
-> `abstract` `optional` **templateConfiguration**: `PromptTemplateConfigurationProperty`
+> `abstract` **templateConfiguration**: `PromptTemplateConfigurationProperty`
 
 The template configuration.
 

@@ -22,7 +22,7 @@ Inference configuration for the Text Prompt
 
 ### model
 
-> `readonly` **model**: `IModel`
+> `readonly` **model**: [`IInvokable`](IInvokable.md)
 
 The model which is used to run the prompt. The model could be a foundation
 model, a custom model, or a provisioned model.
