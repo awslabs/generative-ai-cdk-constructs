@@ -16,7 +16,7 @@ import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 import { Key } from 'aws-cdk-lib/aws-kms';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as s3 from 'aws-cdk-lib/aws-s3';
-import { NagSuppressions } from 'cdk-nag';
+import { NagSuppressions, AwsSolutionsChecks } from 'cdk-nag';
 import * as bedrock from '../../../src/cdk-lib/bedrock';
 import * as foundationModels from '../../../src/cdk-lib/bedrock/models';
 
@@ -158,7 +158,18 @@ describe('Agent with guardrails through addGuardrail', () => {
       KnowledgeBaseConfiguration: {
         Type: 'VECTOR',
         VectorKnowledgeBaseConfiguration: {
-          EmbeddingModelArn: 'arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v1',
+          EmbeddingModelArn: {
+            'Fn::Join': [
+              '',
+              [
+                'arn:',
+                { Ref: 'AWS::Partition' },
+                ':bedrock:',
+                { Ref: 'AWS::Region' },
+                '::foundation-model/amazon.titan-embed-text-v1',
+              ],
+            ],
+          },
         },
       },
     });
@@ -183,7 +194,18 @@ describe('Agent with guardrails through addGuardrail', () => {
 
   test('Agent is created', () => {
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
-      FoundationModel: 'anthropic.claude-v2:1',
+      FoundationModel: {
+        'Fn::Join': [
+          '',
+          [
+            'arn:',
+            { Ref: 'AWS::Partition' },
+            ':bedrock:',
+            { Ref: 'AWS::Region' },
+            '::foundation-model/anthropic.claude-v2:1',
+          ],
+        ],
+      },
       Instruction: 'You provide support for developers working with CDK constructs.',
       IdleSessionTTLInSeconds: 1800,
       PromptOverrideConfiguration: {
@@ -417,7 +439,18 @@ describe('Agent with guardrails through constructor', () => {
       KnowledgeBaseConfiguration: {
         Type: 'VECTOR',
         VectorKnowledgeBaseConfiguration: {
-          EmbeddingModelArn: 'arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v1',
+          EmbeddingModelArn: {
+            'Fn::Join': [
+              '',
+              [
+                'arn:',
+                { Ref: 'AWS::Partition' },
+                ':bedrock:',
+                { Ref: 'AWS::Region' },
+                '::foundation-model/amazon.titan-embed-text-v1',
+              ],
+            ],
+          },
         },
       },
     });
@@ -442,7 +475,18 @@ describe('Agent with guardrails through constructor', () => {
 
   test('Agent is created', () => {
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
-      FoundationModel: 'anthropic.claude-v2:1',
+      FoundationModel: {
+        'Fn::Join': [
+          '',
+          [
+            'arn:',
+            { Ref: 'AWS::Partition' },
+            ':bedrock:',
+            { Ref: 'AWS::Region' },
+            '::foundation-model/anthropic.claude-v2:1',
+          ],
+        ],
+      },
       Instruction: 'You provide support for developers working with CDK constructs.',
       IdleSessionTTLInSeconds: 1800,
       PromptOverrideConfiguration: {
@@ -655,7 +699,22 @@ describe('Agent without guardrails', () => {
       KnowledgeBaseConfiguration: {
         Type: 'VECTOR',
         VectorKnowledgeBaseConfiguration: {
-          EmbeddingModelArn: 'arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v1',
+          EmbeddingModelArn: {
+            'Fn::Join': [
+              '',
+              [
+                'arn:',
+                {
+                  Ref: 'AWS::Partition',
+                },
+                ':bedrock:',
+                {
+                  Ref: 'AWS::Region',
+                },
+                '::foundation-model/amazon.titan-embed-text-v1',
+              ],
+            ],
+          },
         },
       },
     });
@@ -680,7 +739,18 @@ describe('Agent without guardrails', () => {
 
   test('Agent is created', () => {
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
-      FoundationModel: 'anthropic.claude-v2:1',
+      FoundationModel: {
+        'Fn::Join': [
+          '',
+          [
+            'arn:',
+            { Ref: 'AWS::Partition' },
+            ':bedrock:',
+            { Ref: 'AWS::Region' },
+            '::foundation-model/anthropic.claude-v2:1',
+          ],
+        ],
+      },
       Instruction: 'You provide support for developers working with CDK constructs.',
       IdleSessionTTLInSeconds: 1800,
       PromptOverrideConfiguration: {
@@ -804,5 +874,54 @@ describe('Imports', () => {
     expect(agentAlias.agentId).toEqual('DNCJJYQKSU');
     expect(agentAlias.aliasId).toEqual('TCLCITFZTN');
     expect(agentAlias.aliasArn).toEqual('arn:aws:bedrock:us-east-1:123456789012:agent-alias/DNCJJYQKSU/TCLCITFZTN');
+  });
+});
+
+describe('Agent with CRIS', () => {
+  let app: cdk.App;
+  let stack: cdk.Stack;
+
+  beforeEach(() => {
+    app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    stack = new cdk.Stack(app, 'TestStack');
+
+    const cris = bedrock.CrossRegionInferenceProfile.fromConfig({
+      geoRegion: bedrock.CrossRegionInferenceProfileRegion.US,
+      model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_HAIKU_V1_0,
+    });
+
+    new bedrock.Agent(stack, 'Agent', {
+      foundationModel: cris,
+      instruction: 'You provide support for developers working with CDK constructs.',
+      enableUserInput: true,
+    });
+  });
+
+  test('Foundation model', () => {
+    // GIVEN
+    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
+      FoundationModel: {
+        'Fn::Join': [
+          '',
+          [
+            'arn:',
+            {
+              Ref: 'AWS::Partition',
+            },
+            ':bedrock:',
+            {
+              Ref: 'AWS::Region',
+            },
+            ':',
+            {
+              Ref: 'AWS::AccountId',
+            },
+            ':inference-profile/us.anthropic.claude-3-5-haiku-20241022-v1:0',
+          ],
+        ],
+      },
+      Instruction: 'You provide support for developers working with CDK constructs.',
+    });
   });
 });

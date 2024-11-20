@@ -290,10 +290,76 @@
         }
       ]
     },
+    "integ:inference-profiles:assert": {
+      "name": "integ:inference-profiles:assert",
+      "description": "assert the snapshot of integration test 'inference-profiles'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/inference-profiles.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'inference-profiles'. Run 'projen integ:inference-profiles:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/inference-profiles.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/inference-profiles.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/inference-profiles.integ.snapshot/ test/integ/.tmp/inference-profiles.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:inference-profiles:deploy": {
+      "name": "integ:inference-profiles:deploy",
+      "description": "deploy integration test 'inference-profiles' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/inference-profiles.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/inference-profiles.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/inference-profiles.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/inference-profiles.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/inference-profiles.integ/deploy.cdk.out test/integ/inference-profiles.integ.snapshot"
+        },
+        {
+          "spawn": "integ:inference-profiles:destroy"
+        }
+      ]
+    },
+    "integ:inference-profiles:destroy": {
+      "name": "integ:inference-profiles:destroy",
+      "description": "destroy integration test 'inference-profiles'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/inference-profiles.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:inference-profiles:snapshot": {
+      "name": "integ:inference-profiles:snapshot",
+      "description": "update snapshot for integration test \"inference-profiles\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/inference-profiles.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/inference-profiles.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:inference-profiles:watch": {
+      "name": "integ:inference-profiles:watch",
+      "description": "watch integration test 'inference-profiles' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/inference-profiles.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/inference-profiles.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:snapshot-all": {
       "name": "integ:snapshot-all",
       "description": "update snapshot for all integration tests",
       "steps": [
+        {
+          "spawn": "integ:inference-profiles:snapshot"
+        },
         {
           "spawn": "integ:aws-aoss-cw-dashboard:snapshot"
         },
@@ -324,9 +390,6 @@
           "spawn": "package:js"
         },
         {
-          "spawn": "package:java"
-        },
-        {
           "spawn": "package:python"
         },
         {
@@ -352,15 +415,6 @@
       "steps": [
         {
           "exec": "jsii-pacmak -v --target go"
-        }
-      ]
-    },
-    "package:java": {
-      "name": "package:java",
-      "description": "Create java language bindings",
-      "steps": [
-        {
-          "exec": "jsii-pacmak -v --target java"
         }
       ]
     },
@@ -438,6 +492,9 @@
         },
         {
           "spawn": "eslint"
+        },
+        {
+          "spawn": "integ:inference-profiles:assert"
         },
         {
           "spawn": "integ:aws-aoss-cw-dashboard:assert"
