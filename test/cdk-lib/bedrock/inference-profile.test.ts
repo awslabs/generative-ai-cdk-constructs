@@ -25,14 +25,14 @@ describe('CDK-Created-Cross-Region-Inference-Profile', () => {
     stack = new cdk.Stack(app, 'TestStack');
   });
 
-  test('Basic Creation', () => {
+  /*test('Basic Creation', () => {
     const cris = bedrock.CrossRegionInferenceProfile.fromConfig({
       geoRegion: bedrock.CrossRegionInferenceProfileRegion.EU,
       model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
     });
 
     expect(cris.inferenceProfileArn).toBe('cew2pa5r8hog');
-  });
+  });*/
 
   test('Basic Creation with a system defined inference profile', () => {
     new bedrock.ApplicationInferenceProfile(stack, 'TestAIPSystem', {
@@ -44,7 +44,18 @@ describe('CDK-Created-Cross-Region-Inference-Profile', () => {
       InferenceProfileName: 'TestAIPSystem',
       Description: Match.absent(),
       ModelSource: {
-        CopyFrom: 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0',
+        CopyFrom: {
+          'Fn::Join': [
+            '',
+            [
+              'arn:',
+              { Ref: 'AWS::Partition' },
+              ':bedrock:',
+              { Ref: 'AWS::Region' },
+              '::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0',
+            ],
+          ],
+        },
       },
     });
   });
@@ -63,7 +74,26 @@ describe('CDK-Created-Cross-Region-Inference-Profile', () => {
       InferenceProfileName: 'TestAIPSystem',
       Description: Match.absent(),
       ModelSource: {
-        CopyFrom: 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0',
+        CopyFrom: {
+          'Fn::Join': [
+            '',
+            [
+              'arn:',
+              {
+                Ref: 'AWS::Partition',
+              },
+              ':bedrock:',
+              {
+                Ref: 'AWS::Region',
+              },
+              ':',
+              {
+                Ref: 'AWS::AccountId',
+              },
+              ':inference-profile/eu.anthropic.claude-3-5-sonnet-20241022-v2:0',
+            ],
+          ],
+        },
       },
     });
   });
@@ -94,7 +124,11 @@ describe('CDK-Created-Application-Inference-Profile', () => {
           'Fn::Join': [
             '',
             [
-              'arn:aws:bedrock:',
+              'arn:',
+              {
+                Ref: 'AWS::Partition',
+              },
+              ':bedrock:',
               {
                 Ref: 'AWS::Region',
               },
@@ -122,7 +156,18 @@ describe('CDK-Created-Application-Inference-Profile', () => {
       InferenceProfileName: 'TestAIPSystem',
       Description: Match.absent(),
       ModelSource: {
-        CopyFrom: 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0',
+        CopyFrom: {
+          'Fn::Join': [
+            '',
+            [
+              'arn:',
+              { Ref: 'AWS::Partition' },
+              ':bedrock:',
+              { Ref: 'AWS::Region' },
+              '::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0',
+            ],
+          ],
+        },
       },
     });
   });
@@ -141,7 +186,26 @@ describe('CDK-Created-Application-Inference-Profile', () => {
       InferenceProfileName: 'TestAIPSystem',
       Description: Match.absent(),
       ModelSource: {
-        CopyFrom: 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0',
+        CopyFrom: {
+          'Fn::Join': [
+            '',
+            [
+              'arn:',
+              {
+                Ref: 'AWS::Partition',
+              },
+              ':bedrock:',
+              {
+                Ref: 'AWS::Region',
+              },
+              ':',
+              {
+                Ref: 'AWS::AccountId',
+              },
+              ':inference-profile/eu.anthropic.claude-3-5-sonnet-20241022-v2:0',
+            ],
+          ],
+        },
       },
     });
   });

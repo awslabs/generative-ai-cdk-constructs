@@ -407,7 +407,7 @@ kb.addS3DataSource({
   bucket,
   chunkingStrategy: ChunkingStrategy.SEMANTIC,
   parsingStrategy: ParsingStategy.foundationModel({
-    model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asIModel(stack),
+    model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
   }),
 });
 
@@ -728,7 +728,7 @@ two parsing strategies:
 
   ```ts
   bedrock.ParsingStategy.foundationModel({
-    model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asIModel(stack),
+    model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
   });
   ```
 
@@ -736,7 +736,7 @@ two parsing strategies:
 
   ```python
   bedrock.ParsingStategy.foundation_model(
-      parsing_model=BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.as_i_model(self)
+      parsing_model=BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0
   )
   ```
 
@@ -1219,7 +1219,7 @@ Example of `Prompt`:
 
 ```ts
 const cmk = new kms.Key(this, "cmk", {});
-const claudeModel = BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asIModel(this);
+const claudeModel = BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0;
 
 const variant1 = PromptVariant.text({
   variantName: "variant1",
@@ -1296,6 +1296,30 @@ or alternatively:
 prompt1.createVersion("my first version");
 ```
 
+## System defined inference profiles
+
+You can build a CrossRegionInferenceProfile using a system defined inference profile. The inference profile will route requests to the Regions defined in the cross region (system-defined) inference profile that you choose. You can find the system defined inference profiles by navigating to your console (Amazon Bedrock -> Cross-region inference) or programmatically, for instance using [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/bedrock/client/list_inference_profiles.html).
+
+Before using creating a CrossRegionInferenceProfile, ensure that you have access to the models and regions defined in the inference profiles. For instance, if you see the system defined inference profile "us.anthropic.claude-3-5-sonnet-20241022-v2:0" defined in your region, the table mentions that inference requests will be routed to US East (Virginia) us-east-1, US East (Ohio) us-east-2 and US West (Oregon) us-west-2. Thus, you need to have model access enabled in those regions for the model ```anthropic.claude-3-5-sonnet-20241022-v2:0```. You can then create the CrossRegionInferenceProfile as follows:
+
+TypeScript
+
+```ts
+const cris = bedrock.CrossRegionInferenceProfile.fromConfig({
+  geoRegion: bedrock.CrossRegionInferenceProfileRegion.US,
+  model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0
+});
+```
+
+Python
+
+```python
+cris = bedrock.CrossRegionInferenceProfile.from_config(
+  geo_region= bedrock.CrossRegionInferenceProfileRegion.US,
+  model= bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0
+)
+```
+
 ## Application inference profile
 
 You can create an application inference profile with one or more Regions to track usage and costs when invoking a model.
@@ -1336,14 +1360,19 @@ TypeScript
 // You can use the 'bedrock.BedrockFoundationModel' or pass the arn as a string
 const appInfProfile1 = new ApplicationInferenceProfile(this, 'myapplicationprofile', {
   inferenceProfileName: 'claude 3 sonnet v1',
-  modelSource: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asArn(stack),
+  modelSource: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
   tags: [{key: 'test', value: 'test'}]
 });
 
-// To create an application inference profile across regions, specify the cross region inference profile's ARN
+// To create an application inference profile across regions, specify the cross region inference profile
+const cris = bedrock.CrossRegionInferenceProfile.fromConfig({
+  geoRegion: bedrock.CrossRegionInferenceProfileRegion.US,
+  model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0
+});
+
 const appInfProfile2 = new ApplicationInferenceProfile(this, 'myapplicationprofile2', {
   inferenceProfileName: 'claude 3 sonnet v1',
-  modelSource: 'arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0'
+  modelSource: cris
 });
 
 // Import a Cfn L1 construct created application inference profile
@@ -1372,17 +1401,22 @@ Python
 # You can use the 'bedrock.BedrockFoundationModel' or pass the arn as a string
 appInfProfile1 = bedrock.ApplicationInferenceProfile(self, 'myapplicationprofile',
   inference_profile_name='claude 3 sonnet v1',
-  model_source=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.asArn(stack),
+  model_source=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
   tags=[CfnTag(
     key="key",
     value="value"
   )] 
 )
 
-# To create an application inference profile across regions, specify the cross region inference profile's ARN
+# To create an application inference profile across regions, specify the cross region inference profile
+cris = bedrock.CrossRegionInferenceProfile.from_config(
+  geo_region= bedrock.CrossRegionInferenceProfileRegion.US,
+  model= bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0
+)
+
 appInfProfile2 = bedrock.ApplicationInferenceProfile(self, 'myapplicationprofile2',
   inference_profile_name='claude 35 sonnet v2',
-  model_source='arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-3-5-sonnet-20241022-v2:0'
+  model_source=cris
 )
 
 # Import an inference profile through attributes
