@@ -12,11 +12,11 @@
  */
 
 import { Arn, ArnFormat, aws_kms as kms, Lazy, aws_bedrock as bedrock, Resource } from 'aws-cdk-lib';
-import { IModel } from 'aws-cdk-lib/aws-bedrock';
 import { Grant, IGrantable } from 'aws-cdk-lib/aws-iam';
 import { IKey } from 'aws-cdk-lib/aws-kms';
 import { md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
 import { Construct } from 'constructs';
+import { IInvokable } from '../models';
 
 export enum PromptTemplateType {
   TEXT = 'TEXT',
@@ -31,7 +31,7 @@ export interface CommonPromptVariantProps {
    * The model which is used to run the prompt. The model could be a foundation
    * model, a custom model, or a provisioned model.
    */
-  readonly model: IModel;
+  readonly model: IInvokable;
 }
 
 export interface TextPromptVariantProps extends CommonPromptVariantProps {
@@ -66,7 +66,7 @@ export abstract class PromptVariant {
     return {
       name: props.variantName,
       templateType: PromptTemplateType.TEXT,
-      modelId: props.model.modelArn,
+      modelId: props.model.invokableArn,
       inferenceConfiguration: {
         text: { ...props.inferenceConfiguration },
       },
@@ -102,7 +102,7 @@ export abstract class PromptVariant {
   /**
    * The template configuration.
    */
-  public abstract templateConfiguration?: bedrock.CfnPrompt.PromptTemplateConfigurationProperty;
+  public abstract templateConfiguration: bedrock.CfnPrompt.PromptTemplateConfigurationProperty;
 
   // ------------------------------------------------------
   // Constructor

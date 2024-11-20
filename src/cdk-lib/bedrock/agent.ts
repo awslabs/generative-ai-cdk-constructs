@@ -21,7 +21,7 @@ import { AgentActionGroup } from './agent-action-group';
 import { AgentAlias } from './agent-alias';
 import { IGuardrail } from './guardrails/guardrails';
 import { KnowledgeBase } from './knowledge-base';
-import { BedrockFoundationModel } from './models';
+import { IInvokable } from './models';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 
 /**
@@ -212,7 +212,7 @@ export interface AgentProps {
   /**
    * The Bedrock text foundation model for the agent to use.
    */
-  readonly foundationModel: BedrockFoundationModel;
+  readonly foundationModel: IInvokable;
   /**
    * The name of the agent.
    *
@@ -341,6 +341,10 @@ export class Agent extends Construct {
    */
   public readonly role: iam.Role;
   /**
+   * The model used by the agent.
+   */
+  public readonly foundationModel: IInvokable;
+  /**
    * The unique identifier of the agent.
    */
   public readonly agentId: string;
@@ -390,8 +394,7 @@ export class Agent extends Construct {
     super(scope, id);
     validatePromptOverrideConfiguration(props.promptOverrideConfiguration);
 
-    validateModel(props.foundationModel);
-
+    this.foundationModel = props.foundationModel;
     this.name =
       props.name ?? generatePhysicalNameV2(this, 'bedrock-agent', { maxLength: 32, lower: true, separator: '-' });
 
@@ -422,22 +425,14 @@ export class Agent extends Construct {
           },
         }),
       );
-
-      new iam.Policy(this, 'AgentFMPolicy', {
-        roles: [this.role],
-        statements: [
-          new iam.PolicyStatement({
-            actions: ['bedrock:InvokeModel'],
-            resources: [props.foundationModel.asArn(this)],
-          }),
-        ],
-      });
     }
+
+    this.foundationModel.grantInvoke(this.role);
 
     const agent = new bedrock.CfnAgent(this, 'Agent', {
       agentName: this.name,
 
-      foundationModel: String(props.foundationModel),
+      foundationModel: props.foundationModel.invokableArn,
       instruction: props.instruction,
       description: props.description,
       idleSessionTtlInSeconds: props.idleSessionTTL?.toSeconds(),
@@ -593,17 +588,6 @@ export class Agent extends Construct {
     if (updatedAt) {
       this.resourceUpdates.push(updatedAt);
     }
-  }
-}
-
-/**
- * Validate that Bedrock Agents can use the selected model.
- *
- * @internal This is an internal core function and should not be called directly.
- */
-function validateModel(foundationModel: BedrockFoundationModel) {
-  if (!foundationModel.supportsAgents) {
-    throw new Error(`The model ${foundationModel} is not supported by Bedrock Agents.`);
   }
 }
 

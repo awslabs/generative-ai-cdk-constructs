@@ -13,7 +13,6 @@
 
 import * as cdk from 'aws-cdk-lib';
 import { Template, Match } from 'aws-cdk-lib/assertions';
-import { FoundationModel, FoundationModelIdentifier } from 'aws-cdk-lib/aws-bedrock';
 import { Code, Function, Runtime } from 'aws-cdk-lib/aws-lambda';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { AwsSolutionsChecks } from 'cdk-nag';
@@ -41,7 +40,6 @@ describe('S3 Data Source', () => {
       dataSourceName: 'TestDataSource',
     });
 
-
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
       KnowledgeBaseId: {
         'Fn::GetAtt': [Match.anyValue(), 'KnowledgeBaseId'],
@@ -66,8 +64,7 @@ describe('S3 Data Source', () => {
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
-      VectorIngestionConfiguration:
-      {
+      VectorIngestionConfiguration: {
         ChunkingConfiguration: {
           ChunkingStrategy: 'FIXED_SIZE',
           FixedSizeChunkingConfiguration: {
@@ -91,9 +88,7 @@ describe('S3 Data Source', () => {
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
-
-      VectorIngestionConfiguration:
-      {
+      VectorIngestionConfiguration: {
         ChunkingConfiguration: {
           ChunkingStrategy: 'FIXED_SIZE',
           FixedSizeChunkingConfiguration: {
@@ -114,10 +109,8 @@ describe('S3 Data Source', () => {
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
-      VectorIngestionConfiguration:
-      {
-        ChunkingConfiguration:
-          { ChunkingStrategy: 'NONE' },
+      VectorIngestionConfiguration: {
+        ChunkingConfiguration: { ChunkingStrategy: 'NONE' },
       },
     });
   });
@@ -228,9 +221,7 @@ describe('S3 Data Source', () => {
       knowledgeBase: kb,
       dataSourceName: 'TestDataSource',
       parsingStrategy: bedrock.ParsingStategy.foundationModel({
-        parsingModel: FoundationModel.fromFoundationModelId(stack, 'model',
-          FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_SONNET_20240229_V1_0,
-        ),
+        parsingModel: foundationModels.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
       }),
     });
 
@@ -273,16 +264,18 @@ describe('S3 Data Source', () => {
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
       VectorIngestionConfiguration: {
         CustomTransformationConfiguration: {
-          Transformations: [{
-            StepToApply: 'POST_CHUNKING',
-            TransformationFunction: {
-              TransformationLambdaConfiguration: {
-                LambdaArn: {
-                  'Fn::GetAtt': [Match.anyValue(), 'Arn'],
+          Transformations: [
+            {
+              StepToApply: 'POST_CHUNKING',
+              TransformationFunction: {
+                TransformationLambdaConfiguration: {
+                  LambdaArn: {
+                    'Fn::GetAtt': [Match.anyValue(), 'Arn'],
+                  },
                 },
               },
             },
-          }],
+          ],
           IntermediateStorage: {
             S3Location: {
               URI: Match.anyValue(),
@@ -291,8 +284,5 @@ describe('S3 Data Source', () => {
         },
       },
     });
-
   });
-
-
 });

@@ -30,3 +30,6 @@ export * from './data-sources/sharepoint-data-source';
 export * from './data-sources/confluence-data-source';
 export * from './data-sources/salesforce-data-source';
 export * from './data-sources/s3-data-source';
+export * from './inference-profiles/application-inference-profile';
+export * from './inference-profiles/common';
+export * from './inference-profiles/cross-region-inference-profile';

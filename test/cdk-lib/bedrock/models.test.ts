@@ -22,7 +22,7 @@ describe('BedrockFoundationModel', () => {
       .toBe('amazon.titan-embed-text-v1');
   });
 
-  test('returns ARN', () => {
+  test('returns ARN from BedrockFoundationModel', () => {
     const app = new cdk.App();
     cdk.Aspects.of(app).add(new AwsSolutionsChecks());
     const stack = new cdk.Stack(app, 'test-stack', {
@@ -31,9 +31,52 @@ describe('BedrockFoundationModel', () => {
         region: 'us-east-1',
       },
     });
-    const construct = new Construct(stack, 'test-construct');
-    expect(BedrockFoundationModel.TITAN_EMBED_TEXT_V1.asArn(construct))
-      .toBe('arn:aws:bedrock:us-east-1::foundation-model/amazon.titan-embed-text-v1');
+    new Construct(stack, 'test-construct');
+
+    expect(BedrockFoundationModel.TITAN_EMBED_TEXT_V1.invokableArn).toMatch(
+      /^arn:\${Token\[AWS\.Partition\.\d+\]}:bedrock:\${Token\[AWS\.Region\.\d+\]}::foundation-model\/amazon\.titan-embed-text-v1$/,
+    );
+
+  });
+
+  test('returns ARN fromCdkFoundationModelId', () => {
+    const app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    const stack = new cdk.Stack(app, 'test-stack', {
+      env: {
+        account: '123456789012',
+        region: 'us-east-1',
+      },
+    });
+    new Construct(stack, 'test-construct');
+
+    expect(BedrockFoundationModel.fromCdkFoundationModelId(
+      cdk.aws_bedrock.FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20241022_V2_0,
+    ).invokableArn).toMatch(
+      /^arn:\${Token\[AWS\.Partition\.\d+\]}:bedrock:\${Token\[AWS\.Region\.\d+\]}::foundation-model\/anthropic\.claude-3-5-sonnet-20241022-v2:0$/,
+    );
+
+  });
+
+  test('returns ARN fromCdkFoundationModel', () => {
+    const app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    const stack = new cdk.Stack(app, 'test-stack', {
+      env: {
+        account: '123456789012',
+        region: 'us-east-1',
+      },
+    });
+    new Construct(stack, 'test-construct');
+
+    expect(BedrockFoundationModel.fromCdkFoundationModelId(
+      cdk.aws_bedrock.FoundationModel.fromFoundationModelId(
+        stack,
+        'mymodel',
+        cdk.aws_bedrock.FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_5_SONNET_20241022_V2_0,
+      )).invokableArn).toMatch(
+      /^arn:\${Token\[AWS\.Partition\.\d+\]}:bedrock:\${Token\[AWS\.Region\.\d+\]}::foundation-model\/anthropic\.claude-3-5-sonnet-20241022-v2:0$/,
+    );
 
   });
 });
