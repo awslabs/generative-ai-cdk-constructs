@@ -92,6 +92,14 @@ The name for the agent alias.
 
 ***
 
+### foundationModel
+
+> `readonly` **foundationModel**: [`IInvokable`](../interfaces/IInvokable.md)
+
+The model used by the agent.
+
+***
+
 ### knowledgeBases
 
 > **knowledgeBases**: `AgentKnowledgeBaseProperty`[] = `[]`
