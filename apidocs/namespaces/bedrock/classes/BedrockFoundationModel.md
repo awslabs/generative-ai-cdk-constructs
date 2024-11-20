@@ -256,7 +256,7 @@ Returns the ARN of the foundation model in the following format:
 
 > **grantInvoke**(`grantee`): `Grant`
 
-Gives the appropriate policies to invoke and use the Foundation Model.
+Gives the appropriate policies to invoke and use the Foundation Model in the stack region.
 
 #### Parameters
 
@@ -269,6 +269,22 @@ Gives the appropriate policies to invoke and use the Foundation Model.
 #### Implementation of
 
 [`IInvokable`](../interfaces/IInvokable.md).[`grantInvoke`](../interfaces/IInvokable.md#grantinvoke)
+
+***
+
+### grantInvokeAllRegions()
+
+> **grantInvokeAllRegions**(`grantee`): `Grant`
+
+Gives the appropriate policies to invoke and use the Foundation Model in all regions.
+
+#### Parameters
+
+• **grantee**: `IGrantable`
+
+#### Returns
+
+`Grant`
 
 ***
 

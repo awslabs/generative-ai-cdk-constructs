@@ -58,6 +58,8 @@ https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html
 
 > `readonly` **inferenceProfileModel**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
 
+The underlying model supporting cross-region inference.
+
 ***
 
 ### invokableArn
@@ -76,7 +78,11 @@ This equals to the inferenceProfileArn property, useful just to implement IInvok
 
 > `readonly` **type**: [`InferenceProfileType`](../enumerations/InferenceProfileType.md)
 
-The type of inference profile.
+#### Example
+
+```ts
+InferenceProfileType.SYSTEM_DEFINED
+```
 
 #### Implementation of
 

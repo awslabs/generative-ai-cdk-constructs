@@ -80,7 +80,7 @@ that might be different than the stack they were imported into.
 
 > `readonly` **inferenceProfileArn**: `string`
 
-The ARN of the application inference profile.
+The ARN of the application application inference profile.
 
 #### Overrides
 
@@ -92,7 +92,7 @@ The ARN of the application inference profile.
 
 > `readonly` **inferenceProfileId**: `string`
 
-The unique identifier of the inference profile.
+The unique identifier of the application inference profile.
 
 #### Overrides
 
@@ -104,7 +104,7 @@ The unique identifier of the inference profile.
 
 > `readonly` **inferenceProfileModel**: [`IInvokable`](../interfaces/IInvokable.md)
 
-The unique identifier of the inference profile.
+The underlying model/cross-region model used by the application inference profile.
 
 ***
 
@@ -175,7 +175,7 @@ The stack in which this resource is defined.
 
 > `readonly` **status**: `string`
 
-The status of the inference profile. ACTIVE means that the inference profile is ready to be used.
+The status of the application inference profile. ACTIVE means that the inference profile is ready to be used.
 
 ***
 
@@ -335,7 +335,7 @@ Commonly this is the resource's `ref`.
 
 > **grantInvoke**(`grantee`): `Grant`
 
-Gives the appropriate policies to invoke and use the Foundation Model.
+Gives the appropriate policies to invoke and use the application inference profile.
 
 #### Parameters
 
@@ -355,8 +355,8 @@ Gives the appropriate policies to invoke and use the Foundation Model.
 
 > **grantProfileUsage**(`grantee`): `Grant`
 
-Grants appropriate permissions to use the cross-region inference profile.
-Does not grant permissions to use the model in the profile.
+Grants appropriate permissions to use the application inference profile (AIP).
+Does not grant permissions to use the model/cross-region profile in the AIP.
 
 #### Parameters
 
