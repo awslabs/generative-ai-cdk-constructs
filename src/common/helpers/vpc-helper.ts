@@ -26,12 +26,20 @@ import {
 import { CfnLogGroup } from 'aws-cdk-lib/aws-logs';
 import { CfnVpcEndpoint } from 'aws-cdk-lib/aws-opensearchserverless';
 import { Construct } from 'constructs';
-import { buildSecurityGroup } from './kendra-helper';
 import { OpenSearchProps } from './opensearch-helper';
 import { addCfnSuppressRules } from './utils';
-import {
-  EndpointTypes,
-} from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
+
+export enum EndpointTypes {
+  GATEWAY = 'Gateway',
+  INTERFACE = 'Interface',
+}
+
+export interface SecurityGroupRuleDefinition {
+  readonly peer: ec2.IPeer; // example: ec2.Peer.ipV4(vpc.vpcCiderBlock)
+  readonly connection: ec2.Port;
+  readonly description?: string;
+  readonly remoteRule?: boolean;
+}
 
 export interface VpcPropsSet {
   readonly existingVpc?: IVpc;
@@ -209,6 +217,37 @@ export function suppressEncryptedLogWarnings(flowLog: FlowLog) {
       reason: 'By default CloudWatchLogs LogGroups data is encrypted using the CloudWatch server-side encryption keys (AWS Managed Keys)',
     },
   ]);
+}
+
+export function buildSecurityGroup(
+  scope: Construct,
+  name: string,
+  props: ec2.SecurityGroupProps,
+  ingressRules: SecurityGroupRuleDefinition[],
+  egressRules: SecurityGroupRuleDefinition[],
+): SecurityGroup {
+  const newSecurityGroup = new SecurityGroup(scope, `${name}-security-group`, props);
+
+  ingressRules.forEach(rule => {
+    newSecurityGroup.addIngressRule(rule.peer, rule.connection, rule.description, rule.remoteRule);
+  });
+
+  egressRules.forEach(rule => {
+    newSecurityGroup.addEgressRule(rule.peer, rule.connection, rule.description, rule.remoteRule);
+  });
+
+  addCfnSuppressRules(newSecurityGroup, [
+    {
+      id: 'W5',
+      reason: 'Egress of 0.0.0.0/0 is default and generally considered OK',
+    },
+    {
+      id: 'W40',
+      reason: 'Egress IPProtocol of -1 is default and generally considered OK',
+    },
+  ]);
+
+  return newSecurityGroup;
 }
 
 function AddInterfaceEndpoint(scope: Construct, vpc: IVpc, service: EndpointDefinition, interfaceTag: ServiceEndpointTypeEnum) {
