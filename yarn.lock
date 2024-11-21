@@ -18,9 +18,9 @@
     "@aws-cdk/cloudformation-diff" "2.68.0"
 
 "@aws-cdk/asset-awscli-v1@^2.2.208":
-  version "2.2.211"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/asset-awscli-v1/-/asset-awscli-v1-2.2.211.tgz#e33c1bab8e45ea3e4100fff1a0f4430a3ba2164d"
-  integrity sha512-56G1FYTiKyec3bEfEI/5UcU0XPnaGUlaDDH7OYClyvqss0HlnmoSulHK2gwai2PGAD1Nk+scPrdfH/MVAkSKuw==
+  version "2.2.212"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/asset-awscli-v1/-/asset-awscli-v1-2.2.212.tgz#dd93cdd383d9b97a8dfeac32c08d9d68488cda38"
+  integrity sha512-7WqbnWUkBBcAzEdfRrpz6sCOheUPf4JEUdGvzJ4EEufXeT7v7nRbRmTvUBbQ+OQlCv9UrVj9XuFxKPjkvneGMQ==
 
 "@aws-cdk/asset-kubectl-v20@^2.1.3":
   version "2.1.3"
@@ -1450,9 +1450,9 @@ aws-cdk-lib@2.166.0:
     yaml "1.10.2"
 
 aws-cdk@^2:
-  version "2.167.2"
-  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.167.2.tgz#bbaf8657f57c0f081f0d5256f3278b8dc3f31e5b"
-  integrity sha512-Ot4Wn+e6PBwMdxJPDbWoP1PngrtltflGSR3clCopA26ai33/Qr0AmvayiODrO8RzcM2hDSMVKhw68vv0ebGhgA==
+  version "2.168.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.168.0.tgz#faeee4a745d4030e5adf4ce36771b2326e91ee61"
+  integrity sha512-jYsHcXBknuocRsdDUMZbcDN4E9EQE2F8oxNb7DtD38bn4/7TJehexxYg9yeAOH1pA120bGwLDX8STcAmf0kGIg==
   optionalDependencies:
     fsevents "2.3.2"
 
@@ -5785,9 +5785,9 @@ typescript@^5.6.3:
   integrity sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==
 
 typescript@next:
-  version "5.8.0-dev.20241119"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.8.0-dev.20241119.tgz#106f2c7ac2b7ddd6ef23cca3e254224e874337f2"
-  integrity sha512-qj+yMCPvzsR5XXQ2Xq5k5O1tfzhHx94vxSdGWAuagZQJ2tS8CTuQSXGoCsvaKg2rpSnxtCjPECFifCqFB9t5Dw==
+  version "5.8.0-dev.20241120"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.8.0-dev.20241120.tgz#0ec83f7cfbfb93950bbe5f7b30cda4f58b1e8b10"
+  integrity sha512-S2DqqiwzLm6VZiVYDYKevuShxepDUv9HalPh3B7FdRWP192KziwxaPJUtGafpJUeh32YVcvsFLoT8L737bek4w==
 
 typescript@~5.4:
   version "5.4.5"
