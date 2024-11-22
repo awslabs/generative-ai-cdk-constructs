@@ -13,7 +13,15 @@
 import { createHash } from 'crypto';
 import * as cdk from 'aws-cdk-lib';
 import { IConstruct } from 'constructs';
-import { CfnNagSuppressRule } from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
+
+/**
+ * The CFN NAG suppress rule interface
+ * @interface CfnNagSuppressRule
+ */
+export interface CfnNagSuppressRule {
+  readonly id: string;
+  readonly reason: string;
+}
 
 /**
  * The version of this package
