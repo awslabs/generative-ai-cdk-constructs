@@ -86,22 +86,25 @@ def execute_sql_commands(
     try:
         with conn.cursor() as cur:
 
-            sql_commands = [
-                "CREATE EXTENSION IF NOT EXISTS vector;",
-                f"CREATE SCHEMA {schema_name};",
-                f"CREATE ROLE bedrock_user WITH PASSWORD '{password}' LOGIN;",
-                f"GRANT ALL ON SCHEMA {schema_name} to bedrock_user;",
+            cur.execute("CREATE EXTENSION IF NOT EXISTS vector;")
+            cur.execute("CREATE SCHEMA IF NOT EXISTS %s;", (schema_name,))
+
+            cur.execute("CREATE ROLE bedrock_user WITH PASSWORD %s LOGIN;", (password,))
+            cur.execute("GRANT ALL ON SCHEMA %s TO bedrock_user;", (schema_name,))
+
+            cur.execute(
                 f"CREATE TABLE {schema_name}.{table_name} ("
                 f"{pk_field} uuid PRIMARY KEY, "
-                f"{vector_field} vector({vector_dimensions}), "
+                f"{vector_field} vector(%s), "
                 f"{text_field} text, "
                 f"{metadata_field} json);",
-                f"CREATE INDEX on {schema_name}.{table_name} "
-                f"USING hnsw ({vector_field} vector_cosine_ops);"
-            ]
+                (vector_dimensions,),
+            )
 
-            for command in sql_commands:
-                cur.execute(command)
+            cur.execute(
+                f"CREATE INDEX ON {schema_name}.{table_name} "
+                f"USING hnsw ({vector_field} vector_cosine_ops);"
+            )
         conn.commit()
     except pg8000.ProgrammingError as e:
         error_message = f"Error executing SQL commands: {e}"
