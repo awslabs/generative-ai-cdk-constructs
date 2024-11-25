@@ -17,7 +17,6 @@
 - [`QaAppsyncOpensearch`](QaAppsyncOpensearch.md)
 - [`SageMakerEndpointBase`](SageMakerEndpointBase.md)
 - [`ContentGenerationAppSyncLambda`](ContentGenerationAppSyncLambda.md)
-- [`WebCrawler`](WebCrawler.md)
 - [`TextToSql`](TextToSql.md)
 - [`LlamaIndexDataLoader`](LlamaIndexDataLoader.md)
 

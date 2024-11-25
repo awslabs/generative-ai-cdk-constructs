@@ -15,7 +15,6 @@
 ## Enumerations
 
 - [ConstructName](enumerations/ConstructName.md)
-- [CrawlerTargetType](enumerations/CrawlerTargetType.md)
 - [DbName](enumerations/DbName.md)
 - [MetatdataSource](enumerations/MetatdataSource.md)
 
@@ -39,7 +38,6 @@
 - [SageMakerInstanceType](classes/SageMakerInstanceType.md)
 - [SummarizationAppsyncStepfn](classes/SummarizationAppsyncStepfn.md)
 - [TextToSql](classes/TextToSql.md)
-- [WebCrawler](classes/WebCrawler.md)
 
 ## Interfaces
 
@@ -50,7 +48,6 @@
 - [CollectionMonitoringProps](interfaces/CollectionMonitoringProps.md)
 - [ContainerImageConfig](interfaces/ContainerImageConfig.md)
 - [ContentGenerationAppSyncLambdaProps](interfaces/ContentGenerationAppSyncLambdaProps.md)
-- [CrawlerTarget](interfaces/CrawlerTarget.md)
 - [CustomSageMakerEndpointProps](interfaces/CustomSageMakerEndpointProps.md)
 - [DockerLambdaCustomProps](interfaces/DockerLambdaCustomProps.md)
 - [HuggingFaceSageMakerEndpointProps](interfaces/HuggingFaceSageMakerEndpointProps.md)
@@ -67,7 +64,6 @@
 - [RagAppsyncStepfnOpensearchProps](interfaces/RagAppsyncStepfnOpensearchProps.md)
 - [SummarizationAppsyncStepfnProps](interfaces/SummarizationAppsyncStepfnProps.md)
 - [TextToSqlProps](interfaces/TextToSqlProps.md)
-- [WebCrawlerProps](interfaces/WebCrawlerProps.md)
 
 ## Variables
 
