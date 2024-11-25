@@ -130,14 +130,12 @@ The following constructs are available in the library:
 | **Construct** |Description| AWS Services used |
 |:-------------|:-------------|:-------------|
 | [Data ingestion pipeline - OpenSearch](./src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/README.md) | Ingestion pipeline providing a RAG (retrieval augmented generation) source for storing documents in a knowledge base. | Amazon OpenSearch, AWS Step Functions, Amazon Bedrock, AWS AppSync, AWS Lambda |
-| [Data ingestion pipeline - Kendra](./src/patterns/gen-ai/aws-rag-appsync-stepfn-kendra/README.md) | Ingestion pipeline providing a RAG (retrieval augmented generation) source for storing documents in a knowledge base. | Amazon Kendra, AWS Step Functions, AWS AppSync, AWS Lambda |
 | [Question answering](./src/patterns/gen-ai/aws-qa-appsync-opensearch/README.md) | Utilizing Large Language Models (Anthropic Claude V2.1.) for Question Answering on PDF documents with  RAG (retrieval augmented generation) source and/or long context. Additionally, leveraging Anthropic Claude 3 for visual question answering on images.| Amazon OpenSearch, AWS Lambda, Amazon Bedrock, AWS AppSync |
 | [Summarization](./src/patterns/gen-ai/aws-summarization-appsync-stepfn/README.md) | Document summarization with a large language model (Anthropic Claude V2.1). | AWS Lambda, Amazon Bedrock, AWS AppSync and Amazon ElastiCache for Redis.  |
 | [SageMaker model deployment (JumpStart)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_jumpstart.md) | Deploy a foundation model from Amazon SageMaker JumpStart to an Amazon SageMaker endpoint. | Amazon SageMaker |
 | [SageMaker model deployment (Hugging Face)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_hugging_face.md) | Deploy a foundation model from Hugging Face to an Amazon SageMaker endpoint. | Amazon SageMaker |
 | [SageMaker model deployment (Custom)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_custom_sagemaker_endpoint.md) | Deploy a foundation model from an S3 location to an Amazon SageMaker endpoint. | Amazon SageMaker |
 | [Content Generation](./src/patterns/gen-ai/aws-contentgen-appsync-lambda/README.md) | Generate images from text using Amazon titan-image-generator-v1 or stability.stable-diffusion-xl-v1 model.  | AWS Lambda, Amazon Bedrock, AWS AppSync |
-| [Web crawler](./src/patterns/gen-ai/aws-web-crawler/README.md) | Crawl websites and RSS feeds on a schedule and store changeset data in an Amazon Simple Storage Service bucket.  | AWS Lambda, AWS Batch, AWS Fargate, Amazon DynamoDB  |
 | [Amazon Bedrock Monitoring (Amazon CloudWatch Dashboard)](./src/patterns/gen-ai/aws-bedrock-cw-dashboard/README.md) | Amazon CloudWatch dashboard to monitor model usage from Amazon Bedrock. | Amazon CloudWatch |
 | [TXT to SQL](./src/patterns/gen-ai/aws-text-to-sql/README.md) |  Leverages generative AI capabilities to facilitate natural language-based SQL query generation.  | Amazon Event Bridge, Amazon Bedrock, AWS Lambda, Amazon SQS, AWS Secrets, and database of choice |
 | [LlamaIndex Data Loading](./src/patterns/gen-ai/aws-llama-index-data-loader/README.md) | Use LlamaIndex to load data in preparation for generative AI workloads | Amazon ECS Fargate, Amazon SQS, and AWS Systems Manager Parameters |
@@ -153,7 +151,7 @@ The following constructs are available in the library:
 
 ## Sample Use Cases
 
-The official samples repository https://github.com/aws-samples/generative-ai-cdk-constructs-samples includes a collection of functional use case implementations to demonstrate the usage of AWS Generative AI CDK Constructs. These can be used in the same way as architectural patterns, and can be conceptualized as an additional "higher-level" abstraction of those patterns. Those patterns (constructs) are composed together into [stacks](https://docs.aws.amazon.com/cdk/latest/guide/stacks.html), forming a "CDK app".
+The official [samples repository](https://github.com/aws-samples/generative-ai-cdk-constructs-samples) includes a collection of functional use case implementations to demonstrate the usage of AWS Generative AI CDK Constructs. These can be used in the same way as architectural patterns, and can be conceptualized as an additional "higher-level" abstraction of those patterns. Those patterns (constructs) are composed together into [stacks](https://docs.aws.amazon.com/cdk/latest/guide/stacks.html), forming a "CDK app".
 
 ## Additional Resources
 

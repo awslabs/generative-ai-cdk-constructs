@@ -22,6 +22,20 @@ Bedrock Agents can use this model.
 
 ***
 
+### supportsCrossRegion?
+
+> `readonly` `optional` **supportsCrossRegion**: `boolean`
+
+Can be used with a Cross-Region Inference Profile
+
+#### Default
+
+```ts
+- false
+```
+
+***
+
 ### supportsKnowledgeBase?
 
 > `readonly` `optional` **supportsKnowledgeBase**: `boolean`

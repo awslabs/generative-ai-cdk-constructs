@@ -30,7 +30,7 @@ import {
 const GITHUB_USER = 'awslabs';
 const PUBLICATION_NAMESPACE = 'cdklabs';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
-const CDK_VERSION: string = '2.162.1';
+const CDK_VERSION: string = '2.166.0';
 
 function camelCaseIt(input: string): string {
   // Hypens and dashes to spaces and then CamelCase...
@@ -93,12 +93,13 @@ const project = new awscdk.AwsCdkConstructLibrary({
     packageId: camelCaseIt(PUBLICATION_NAMESPACE) + '.' + camelCaseIt(PROJECT_NAME),
   },
 
-  publishToMaven: {
-    javaPackage: `io.github.${PUBLICATION_NAMESPACE.replace(/-/g, '_')}.${PROJECT_NAME.replace(/-/g, '_')}`,
-    mavenGroupId: `io.github.${PUBLICATION_NAMESPACE}`,
-    mavenArtifactId: PROJECT_NAME,
-    mavenEndpoint: 'https://s01.oss.sonatype.org',
-  },
+  //TODO: JumpStartModel.java is over 64K skipping building Java distribution until resolved.
+  // publishToMaven: {
+  //   javaPackage: `io.github.${PUBLICATION_NAMESPACE.replace(/-/g, '_')}.${PROJECT_NAME.replace(/-/g, '_')}`,
+  //   mavenGroupId: `io.github.${PUBLICATION_NAMESPACE}`,
+  //   mavenArtifactId: PROJECT_NAME,
+  //   mavenEndpoint: 'https://s01.oss.sonatype.org',
+  // },
 
   publishToGo: {
     moduleName: `github.com/${PUBLICATION_NAMESPACE}/${PROJECT_NAME}-go`,

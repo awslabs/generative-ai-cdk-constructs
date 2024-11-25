@@ -43,12 +43,6 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 
 ***
 
-### AWSRAGAPPSYNCSTEPFNKENDRA
-
-> **AWSRAGAPPSYNCSTEPFNKENDRA**: `"C9"`
-
-***
-
 ### AWSRAGAPPSYNCSTEPFNOPENSEARCH
 
 > **AWSRAGAPPSYNCSTEPFNOPENSEARCH**: `"C1"`
@@ -64,12 +58,6 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 ### AWSTEXTTOSQL
 
 > **AWSTEXTTOSQL**: `"C11"`
-
-***
-
-### AWSWEBCRAWLER
-
-> **AWSWEBCRAWLER**: `"C10"`
 
 ***
 

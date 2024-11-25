@@ -25,6 +25,14 @@ lowercase letters, numbers, and hyphens.
 
 ***
 
+### customAossPolicy?
+
+> `readonly` `optional` **customAossPolicy**: `ManagedPolicy`
+
+A user defined IAM policy that allows API access to the collection.
+
+***
+
 ### standbyReplicas?
 
 > `readonly` `optional` **standbyReplicas**: [`VectorCollectionStandbyReplicas`](../enumerations/VectorCollectionStandbyReplicas.md)

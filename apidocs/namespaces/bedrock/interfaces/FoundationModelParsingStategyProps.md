@@ -12,7 +12,7 @@ Properties for configuring a Foundation Model parsing strategy.
 
 ### parsingModel
 
-> `readonly` **parsingModel**: `IModel`
+> `readonly` **parsingModel**: [`IInvokable`](IInvokable.md)
 
 The Foundation Model to use for parsing non-textual information.
 Currently supported models are Claude 3 Sonnet and Claude 3 Haiku.
