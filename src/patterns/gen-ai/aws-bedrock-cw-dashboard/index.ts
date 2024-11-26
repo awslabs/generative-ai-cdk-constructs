@@ -32,6 +32,20 @@ export interface ModelMonitoringProps {
     * @default - 1 hour
     */
   readonly period?: Duration;
+  /*
+    * Optional - Only applicable for image generation models.
+    * Used for the OutputImageCount metric as follows:
+    * "ModelId + ImageSize + BucketedStepSize"
+    * @default - empty
+    */
+  readonly imageSize?: string;
+  /*
+    * Optional - Only applicable for image generation models.
+    * Used for the OutputImageCount metric as follows:
+    * "ModelId + ImageSize + BucketedStepSize"
+    * @default - empty
+    */
+  readonly bucketedStepSize?: string;
 }
 
 /**
@@ -88,9 +102,10 @@ export class BedrockCwDashboard extends Construct {
    * @param {string} modelId - Bedrock model id as defined in https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html
    * @param {ModelMonitoringProps} props - user provided props for the monitoring.
   */
-  public addModelMonitoring(modelName: string, modelId: string, props: ModelMonitoringProps) {
+  public addModelMonitoring(modelName: string, modelId: string, props: ModelMonitoringProps = {}) {
 
     const period = props.period ?? Duration.hours(1);
+    const outputImageCountDimension = modelId + props.imageSize + props.bucketedStepSize;
 
     const modelInputTokensMetric = new Metric({
       namespace: 'AWS/Bedrock',
@@ -107,6 +122,16 @@ export class BedrockCwDashboard extends Construct {
       metricName: 'OutputTokenCount',
       dimensionsMap: {
         ModelId: modelId,
+      },
+      statistic: Stats.SUM,
+      period: period,
+    });
+
+    const modelOutputImageMetric = new Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'OutputImageCount',
+      dimensionsMap: {
+        ModelId: outputImageCountDimension,
       },
       statistic: Stats.SUM,
       period: period,
@@ -162,6 +187,36 @@ export class BedrockCwDashboard extends Construct {
       period: period,
     });
 
+    const modelInvocationsServerErrorsMetric = new Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'InvocationServerErrors',
+      dimensionsMap: {
+        ModelId: modelId,
+      },
+      statistic: Stats.SAMPLE_COUNT,
+      period: period,
+    });
+
+    const modelInvocationsThrottlesErrorsMetric = new Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'InvocationThrottles',
+      dimensionsMap: {
+        ModelId: modelId,
+      },
+      statistic: Stats.SAMPLE_COUNT,
+      period: period,
+    });
+
+    const modelInvocationsLegacysMetric = new Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'LegacyModelInvocations',
+      dimensionsMap: {
+        ModelId: modelId,
+      },
+      statistic: Stats.SAMPLE_COUNT,
+      period: period,
+    });
+
     this.dashboard.addWidgets(
       new Row(
         new TextWidget({
@@ -207,6 +262,16 @@ export class BedrockCwDashboard extends Construct {
     this.dashboard.addWidgets(
       new Row(
         new SingleValueWidget({
+          title: 'OutputImageCount',
+          metrics: [modelOutputImageMetric],
+          width: 12,
+        }),
+      ),
+    );
+
+    this.dashboard.addWidgets(
+      new Row(
+        new SingleValueWidget({
           title: 'Invocations',
           metrics: [modelInvocationsCountMetric],
           width: 12,
@@ -216,6 +281,21 @@ export class BedrockCwDashboard extends Construct {
           metrics: [modelInvocationsClientErrorsMetric],
           width: 12,
         }),
+        new SingleValueWidget({
+          title: 'Server Errors',
+          metrics: [modelInvocationsServerErrorsMetric],
+          width: 12,
+        }),
+        new SingleValueWidget({
+          title: 'Throttled invocations',
+          metrics: [modelInvocationsThrottlesErrorsMetric],
+          width: 12,
+        }),
+        new SingleValueWidget({
+          title: 'Legacy invocations',
+          metrics: [modelInvocationsLegacysMetric],
+          width: 12,
+        }),
       ),
     );
   }
@@ -223,7 +303,7 @@ export class BedrockCwDashboard extends Construct {
   /* Add a new row to the dashboard providing metrics across all model ids in Bedrock
   * @param {ModelMonitoringProps} props - user provided props for the monitoring.
   */
-  public addAllModelsMonitoring(props: ModelMonitoringProps) {
+  public addAllModelsMonitoring(props: ModelMonitoringProps = {}) {
 
     const period = props.period ?? Duration.hours(1);
 
@@ -238,6 +318,13 @@ export class BedrockCwDashboard extends Construct {
     const outputTokensAllModelsMetric = new Metric({
       namespace: 'AWS/Bedrock',
       metricName: 'OutputTokenCount',
+      statistic: Stats.SUM,
+      period: period,
+    });
+
+    const outputImageMetric = new Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'OutputImageCount',
       statistic: Stats.SUM,
       period: period,
     });
@@ -277,6 +364,27 @@ export class BedrockCwDashboard extends Construct {
       period: period,
     });
 
+    const invocationsServerErrorsAllModelsMetric = new Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'InvocationServerErrors',
+      statistic: Stats.SAMPLE_COUNT,
+      period: period,
+    });
+
+    const invocationsThrottlesErrorsMetric = new Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'InvocationThrottles',
+      statistic: Stats.SAMPLE_COUNT,
+      period: period,
+    });
+
+    const invocationsLegacyModelMetric = new Metric({
+      namespace: 'AWS/Bedrock',
+      metricName: 'LegacyModelInvocations',
+      statistic: Stats.SAMPLE_COUNT,
+      period: period,
+    });
+
     this.dashboard.addWidgets(
       new Row(
         new TextWidget({
@@ -307,13 +415,20 @@ export class BedrockCwDashboard extends Construct {
     this.dashboard.addWidgets(
       new Row(
         new Column(
-          new GraphWidget({
-            title: 'Input and Output Tokens (All Models)',
-            left: [inputTokensAllModelsMetric],
-            right: [outputTokensAllModelsMetric],
-            period: period,
-            width: 12,
-          }),
+          new Row(
+            new GraphWidget({
+              title: 'Input and Output Tokens (All Models)',
+              left: [inputTokensAllModelsMetric],
+              right: [outputTokensAllModelsMetric],
+              period: period,
+              width: 12,
+            }),
+            new SingleValueWidget({
+              title: 'Output Image Count (All Models)',
+              metrics: [outputImageMetric],
+              width: 12,
+            }),
+          ),
         ),
         new Column(
           new Row(
@@ -327,6 +442,27 @@ export class BedrockCwDashboard extends Construct {
             new SingleValueWidget({
               title: 'Client Errors (All Models)',
               metrics: [invocationsClientErrorsAllModelsMetric],
+              width: 12,
+            }),
+          ),
+          new Row(
+            new SingleValueWidget({
+              title: 'Server Errors (All Models)',
+              metrics: [invocationsServerErrorsAllModelsMetric],
+              width: 12,
+            }),
+          ),
+          new Row(
+            new SingleValueWidget({
+              title: 'Throttling Errors (All Models)',
+              metrics: [invocationsThrottlesErrorsMetric],
+              width: 12,
+            }),
+          ),
+          new Row(
+            new SingleValueWidget({
+              title: 'Legacy invocations (All Models)',
+              metrics: [invocationsLegacyModelMetric],
               width: 12,
             }),
           ),

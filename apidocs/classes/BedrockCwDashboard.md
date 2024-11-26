@@ -74,7 +74,7 @@ The tree node.
 
 #### Parameters
 
-• **props**: [`ModelMonitoringProps`](../interfaces/ModelMonitoringProps.md)
+• **props**: [`ModelMonitoringProps`](../interfaces/ModelMonitoringProps.md) = `{}`
 
 #### Returns
 
@@ -92,7 +92,7 @@ The tree node.
 
 • **modelId**: `string`
 
-• **props**: [`ModelMonitoringProps`](../interfaces/ModelMonitoringProps.md)
+• **props**: [`ModelMonitoringProps`](../interfaces/ModelMonitoringProps.md) = `{}`
 
 #### Returns
 

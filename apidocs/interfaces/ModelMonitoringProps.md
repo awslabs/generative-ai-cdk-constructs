@@ -10,6 +10,18 @@ The properties for the ModelMonitoringProps class.
 
 ## Properties
 
+### bucketedStepSize?
+
+> `readonly` `optional` **bucketedStepSize**: `string`
+
+***
+
+### imageSize?
+
+> `readonly` `optional` **imageSize**: `string`
+
+***
+
 ### period?
 
 > `readonly` `optional` **period**: `Duration`
