@@ -311,6 +311,7 @@ export class BedrockCwDashboard extends Construct {
               showUnits: false,
             },
             width: 12,
+            height: 10,
           });
     }
 
