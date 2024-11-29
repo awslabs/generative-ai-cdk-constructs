@@ -19,7 +19,6 @@ import {
   Row,
   Stats,
   TextWidget,
-  Column,
 } from 'aws-cdk-lib/aws-cloudwatch';
 import { Construct } from 'constructs';
 
@@ -256,45 +255,35 @@ export class BedrockCwDashboard extends Construct {
           width: 12,
           height: 10,
         }),
-      ),
-    );
-
-    this.dashboard.addWidgets(
-      new Row(
-        new SingleValueWidget({
-          title: 'OutputImageCount',
-          metrics: [modelOutputImageMetric],
-          width: 12,
-        }),
-      ),
-    );
-
-    this.dashboard.addWidgets(
-      new Row(
         new SingleValueWidget({
           title: 'Invocations',
           metrics: [modelInvocationsCountMetric],
-          width: 12,
+          width: 4,
         }),
         new SingleValueWidget({
           title: 'Client Errors',
           metrics: [modelInvocationsClientErrorsMetric],
-          width: 12,
+          width: 4,
         }),
         new SingleValueWidget({
           title: 'Server Errors',
           metrics: [modelInvocationsServerErrorsMetric],
-          width: 12,
+          width: 4,
         }),
         new SingleValueWidget({
           title: 'Throttled invocations',
           metrics: [modelInvocationsThrottlesErrorsMetric],
-          width: 12,
+          width: 4,
         }),
         new SingleValueWidget({
           title: 'Legacy invocations',
           metrics: [modelInvocationsLegacysMetric],
-          width: 12,
+          width: 4,
+        }),
+        new SingleValueWidget({
+          title: 'OutputImageCount',
+          metrics: [modelOutputImageMetric],
+          width: 4,
         }),
       ),
     );
@@ -414,59 +403,43 @@ export class BedrockCwDashboard extends Construct {
     );
     this.dashboard.addWidgets(
       new Row(
-        new Column(
-          new Row(
-            new GraphWidget({
-              title: 'Input and Output Tokens (All Models)',
-              left: [inputTokensAllModelsMetric],
-              right: [outputTokensAllModelsMetric],
-              period: period,
-              width: 12,
-            }),
-            new SingleValueWidget({
-              title: 'Output Image Count (All Models)',
-              metrics: [outputImageMetric],
-              width: 12,
-            }),
-          ),
-        ),
-        new Column(
-          new Row(
-            new SingleValueWidget({
-              title: 'Invocations (All Models)',
-              metrics: [invocationsCountAllModelsMetric],
-              width: 12,
-            }),
-          ),
-          new Row(
-            new SingleValueWidget({
-              title: 'Client Errors (All Models)',
-              metrics: [invocationsClientErrorsAllModelsMetric],
-              width: 12,
-            }),
-          ),
-          new Row(
-            new SingleValueWidget({
-              title: 'Server Errors (All Models)',
-              metrics: [invocationsServerErrorsAllModelsMetric],
-              width: 12,
-            }),
-          ),
-          new Row(
-            new SingleValueWidget({
-              title: 'Throttling Errors (All Models)',
-              metrics: [invocationsThrottlesErrorsMetric],
-              width: 12,
-            }),
-          ),
-          new Row(
-            new SingleValueWidget({
-              title: 'Legacy invocations (All Models)',
-              metrics: [invocationsLegacyModelMetric],
-              width: 12,
-            }),
-          ),
-        ),
+        new GraphWidget({
+          title: 'Input and Output Tokens (All Models)',
+          left: [inputTokensAllModelsMetric],
+          right: [outputTokensAllModelsMetric],
+          period: period,
+          width: 12,
+        }),
+        new SingleValueWidget({
+          title: 'Invocations (All Models)',
+          metrics: [invocationsCountAllModelsMetric],
+          width: 4,
+        }),
+        new SingleValueWidget({
+          title: 'Output Image Count (All Models)',
+          metrics: [outputImageMetric],
+          width: 4,
+        }),
+        new SingleValueWidget({
+          title: 'Client Errors (All Models)',
+          metrics: [invocationsClientErrorsAllModelsMetric],
+          width: 4,
+        }),
+        new SingleValueWidget({
+          title: 'Server Errors (All Models)',
+          metrics: [invocationsServerErrorsAllModelsMetric],
+          width: 4,
+        }),
+        new SingleValueWidget({
+          title: 'Throttling Errors (All Models)',
+          metrics: [invocationsThrottlesErrorsMetric],
+          width: 4,
+        }),
+        new SingleValueWidget({
+          title: 'Legacy invocations (All Models)',
+          metrics: [invocationsLegacyModelMetric],
+          width: 4,
+        }),
       ),
     );
   }

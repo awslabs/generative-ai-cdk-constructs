@@ -44,7 +44,13 @@ Thanks to @jimini55, @scoropeza, @PaulVincent707, @Ishanrpatel, @lowelljehu and 
 
 This construct provides an Amazon CloudWatch dashboard to monitor metrics on Amazon Bedrock models usage. The specific list of metrics created by this construct is available [here](#default-properties).
 
-> **Note:** Native metrics for Amazon Bedrock don't support dimensions beyond model ID. If a single account is hosting multiple workloads in the same region, the Bedrock metrics would be aggregated across all workloads.
+These metrics can be used for a variety of use cases including:
+
+- Comparing latency between different models using the InvocationLatency metric with ModelId dimension
+- Measuring token count (input & output) to assist in purchasing provisioned throughput by analyzing the InputTokenCount and OutputTokenCount
+- Detecting and alerting on throttling with an CloudWatch Alarm with the InvocationThrottles metric
+
+> **Note:** Native runtime metrics for Amazon Bedrock don't support dimensions beyond model ID. If a single account is hosting multiple workloads in the same region, the Bedrock metrics would be aggregated across all workloads.
 
 Here is a minimal deployable pattern definition:
 
@@ -55,13 +61,13 @@ import { Construct } from 'constructs';
 import { Stack, StackProps, Aws } from 'aws-cdk-lib';
 import { BedrockCwDashboard } from '@cdklabs/generative-ai-cdk-constructs';
 
-const bddashboard = new BedrockCwDashboard(this, 'BedrockDashboardConstruct', {});
+const bddashboard = new BedrockCwDashboard(this, 'BedrockDashboardConstruct');
 
 // provides monitoring for a specific model
-bddashboard.addModelMonitoring('claude3haiku', 'anthropic.claude-3-haiku-20240307-v1:0', {});
+bddashboard.addModelMonitoring('claude3haiku', 'anthropic.claude-3-haiku-20240307-v1:0');
 
 // provides monitoring of all models
-bddashboard.addAllModelsMonitoring({});
+bddashboard.addAllModelsMonitoring();
 ```
 
 Optionally, you can also use the [Bedrock models](../../../cdk-lib/bedrock/models.ts) to access the modelId:
@@ -75,8 +81,7 @@ import { bedrock, BedrockCwDashboard } from '@cdklabs/generative-ai-cdk-construc
 // provides monitoring for a specific model
 bddashboard.addModelMonitoring(
     'claude3haiku', 
-    bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0.modelId, 
-    {}
+    bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0.modelId
 );
 
 ...
@@ -132,7 +137,7 @@ Parameters
 
 ### addModelMonitoring()
 
-Provide metrics for a specific model id in Bedrock
+Provide runtime metrics for a specific model id in Bedrock.
 
 @param {string} modelName - Model name as it will appear in the dashboard row widget.
 
@@ -142,7 +147,7 @@ Provide metrics for a specific model id in Bedrock
 
 ### addAllModelsMonitoring()
 
-Add a new row to the dashboard providing metrics across all model ids in Bedrock 
+Add a new row to the dashboard providing runtime metrics across all model ids in Bedrock. 
 
 @param {ModelMonitoringProps} props - user provided props for the monitoring.
 
@@ -160,9 +165,15 @@ Out-of-the-box implementation of the construct without any override will set the
 - The following metrics are displayed for the model specified:
     - InputTokenCount
     - OutputTokenCount
+    - OutputImageCount
     - InvocationLatency (min, max, average)
     - Invocations (sample count)
     - InvocationClientErrors
+    - InvocationServerErrors
+    - InvocationThrottles
+    - LegacyModelInvocations
+
+More details for each one of the metrics can be found in the [documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/monitoring.html#runtime-cloudwatch-metrics)
 
 ### addAllModelsMonitoring
 
@@ -173,6 +184,11 @@ Out-of-the-box implementation of the construct without any override will set the
     - InvocationLatency (min, max, average)
     - Invocations (sample count)
     - InvocationClientErrors
+    - InvocationServerErrors
+    - InvocationThrottles
+    - LegacyModelInvocations
+
+More details for each one of the metrics can be found in the [documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/monitoring.html#runtime-cloudwatch-metrics)
 
 ## Cost
 
