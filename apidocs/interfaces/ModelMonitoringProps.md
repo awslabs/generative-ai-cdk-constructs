@@ -22,6 +22,18 @@ The properties for the ModelMonitoringProps class.
 
 ***
 
+### inputTokenPrice?
+
+> `readonly` `optional` **inputTokenPrice**: `number`
+
+***
+
+### outputTokenPrice?
+
+> `readonly` `optional` **outputTokenPrice**: `number`
+
+***
+
 ### period?
 
 > `readonly` `optional` **period**: `Duration`

@@ -10,7 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import { Duration } from 'aws-cdk-lib';
+import { Duration, Aws, CfnOutput } from 'aws-cdk-lib';
 import {
   Metric,
   Dashboard,
@@ -19,6 +19,7 @@ import {
   Row,
   Stats,
   TextWidget,
+  MathExpression,
 } from 'aws-cdk-lib/aws-cloudwatch';
 import { Construct } from 'constructs';
 
@@ -45,6 +46,24 @@ export interface ModelMonitoringProps {
     * @default - empty
     */
   readonly bucketedStepSize?: string;
+  /*
+  * Optional - Cost per 1K input tokens
+  * Used Only for single model monitoring
+  * Used to compute on-demand input and total tokens cost
+  * for a specific model. Please refer to https://aws.amazon.com/bedrock/pricing/
+  * for pricing details.
+  * @default - empty
+  */
+  readonly inputTokenPrice?: number;
+  /*
+  * Optional - Cost per 1K output tokens
+  * Used Only for single model monitoring
+  * Used to compute on-demand input and total tokens cost
+  * for a specific model. Please refer to https://aws.amazon.com/bedrock/pricing/
+  * for pricing details.
+  * @default - empty
+  */
+  readonly outputTokenPrice?: number;
 }
 
 /**
@@ -88,11 +107,17 @@ export class BedrockCwDashboard extends Construct {
    * @since 0.0.0
    * @public
    */
-  constructor(scope: Construct, id: string, props: BedrockCwDashboardProps) {
+  constructor(scope: Construct, id: string, props: BedrockCwDashboardProps = {}) {
     super(scope, id);
 
-    this.dashboard = props.existingDashboard ?? new Dashboard(this, 'BedrockMetricsDashboard', {
+    this.dashboard = props.existingDashboard ?? new Dashboard(this, `BedrockMetricsDashboard${id}`, {
       dashboardName: props.dashboardName ?? 'BedrockMetricsDashboard',
+    });
+
+    const cloudwatchDashboardURL = 'https://' + Aws.REGION + '.console.aws.amazon.com/cloudwatch/home?region=' + Aws.REGION + '#dashboards:name=' + this.dashboard.dashboardName;
+
+    new CfnOutput(this, `BedrockMetricsDashboardOutput${id}`, {
+      value: cloudwatchDashboardURL,
     });
   }
 
@@ -245,6 +270,50 @@ export class BedrockCwDashboard extends Construct {
       ),
     );
 
+    let pricingWidget;
+
+    if (props.inputTokenPrice && props.outputTokenPrice) {
+      pricingWidget =
+          new GraphWidget({
+            title: 'Token Cost (USD)',
+            left: [
+              new MathExpression({
+                expression: `inputTokens / 1000 * ${props.inputTokenPrice}`,
+                usingMetrics: {
+                  inputTokens: modelInputTokensMetric,
+                },
+                label: 'Input Token Cost',
+              }),
+              new MathExpression({
+                expression: `outputTokens / 1000 * ${props.outputTokenPrice}`,
+                usingMetrics: {
+                  outputTokens: modelOutputTokensMetric,
+                },
+                label: 'Output Token Cost',
+              }),
+            ],
+            leftYAxis: {
+              label: 'Input and Output',
+              showUnits: false,
+            },
+            right: [
+              new MathExpression({
+                expression: `inputTokens / 1000 * ${props.inputTokenPrice} + outputTokens / 1000 * ${props.outputTokenPrice}`,
+                usingMetrics: {
+                  inputTokens: modelInputTokensMetric,
+                  outputTokens: modelOutputTokensMetric,
+                },
+                label: 'Total Cost',
+              }),
+            ],
+            rightYAxis: {
+              label: 'Total',
+              showUnits: false,
+            },
+            width: 12,
+          });
+    }
+
     this.dashboard.addWidgets(
       new Row(
         new GraphWidget({
@@ -255,37 +324,40 @@ export class BedrockCwDashboard extends Construct {
           width: 12,
           height: 10,
         }),
-        new SingleValueWidget({
-          title: 'Invocations',
-          metrics: [modelInvocationsCountMetric],
-          width: 4,
-        }),
-        new SingleValueWidget({
-          title: 'Client Errors',
-          metrics: [modelInvocationsClientErrorsMetric],
-          width: 4,
-        }),
-        new SingleValueWidget({
-          title: 'Server Errors',
-          metrics: [modelInvocationsServerErrorsMetric],
-          width: 4,
-        }),
-        new SingleValueWidget({
-          title: 'Throttled invocations',
-          metrics: [modelInvocationsThrottlesErrorsMetric],
-          width: 4,
-        }),
-        new SingleValueWidget({
-          title: 'Legacy invocations',
-          metrics: [modelInvocationsLegacysMetric],
-          width: 4,
-        }),
-        new SingleValueWidget({
-          title: 'OutputImageCount',
-          metrics: [modelOutputImageMetric],
-          width: 4,
-        }),
-      ),
+        ...(pricingWidget ? [pricingWidget] : []),
+      ));
+
+    this.dashboard.addWidgets(
+      new SingleValueWidget({
+        title: 'Invocations',
+        metrics: [modelInvocationsCountMetric],
+        width: 4,
+      }),
+      new SingleValueWidget({
+        title: 'Client Errors',
+        metrics: [modelInvocationsClientErrorsMetric],
+        width: 4,
+      }),
+      new SingleValueWidget({
+        title: 'Server Errors',
+        metrics: [modelInvocationsServerErrorsMetric],
+        width: 4,
+      }),
+      new SingleValueWidget({
+        title: 'Throttled invocations',
+        metrics: [modelInvocationsThrottlesErrorsMetric],
+        width: 4,
+      }),
+      new SingleValueWidget({
+        title: 'Legacy invocations',
+        metrics: [modelInvocationsLegacysMetric],
+        width: 4,
+      }),
+      new SingleValueWidget({
+        title: 'OutputImageCount',
+        metrics: [modelOutputImageMetric],
+        width: 4,
+      }),
     );
   }
 

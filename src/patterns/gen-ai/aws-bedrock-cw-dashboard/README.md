@@ -50,6 +50,8 @@ These metrics can be used for a variety of use cases including:
 - Measuring token count (input & output) to assist in purchasing provisioned throughput by analyzing the InputTokenCount and OutputTokenCount
 - Detecting and alerting on throttling with an CloudWatch Alarm with the InvocationThrottles metric
 
+For a specific model, if input/output tokens cost is specified, a widget with on-demand input and total tokens cost will be added. Please refer to the [Amazon Bedrock Pricing page](https://aws.amazon.com/bedrock/pricing/) for details about pricing.
+
 > **Note:** Native runtime metrics for Amazon Bedrock don't support dimensions beyond model ID. If a single account is hosting multiple workloads in the same region, the Bedrock metrics would be aggregated across all workloads.
 
 Here is a minimal deployable pattern definition:
@@ -65,6 +67,13 @@ const bddashboard = new BedrockCwDashboard(this, 'BedrockDashboardConstruct');
 
 // provides monitoring for a specific model
 bddashboard.addModelMonitoring('claude3haiku', 'anthropic.claude-3-haiku-20240307-v1:0');
+
+// provides monitoring for a specific model with on-demand pricing calculation
+// pricing details are available here: https://aws.amazon.com/bedrock/pricing/
+bddashboard.addModelMonitoring('claude3haiku', 'anthropic.claude-3-haiku-20240307-v1:0', {
+    inputTokenPrice: 0.00025,
+    outputTokenPrice: 0.00125
+});
 
 // provides monitoring of all models
 bddashboard.addAllModelsMonitoring();
@@ -102,6 +111,15 @@ bddashboard.add_model_monitoring(
     model_id: 'anthropic.claude-3-haiku-20240307-v1:0'
 )
 
+# provides monitoring for a specific model with on-demand pricing calculation
+# pricing details are available here: https://aws.amazon.com/bedrock/pricing/
+bddashboard.add_model_monitoring(
+    model_name: 'claude3haiku',
+    model_id: 'anthropic.claude-3-haiku-20240307-v1:0',
+    input_token_price: 0.00025,
+    output_token_price: 0.00125
+)
+
 # provides monitoring of all models
 bddashboard.add_all_models_monitoring()
 ```
@@ -137,7 +155,7 @@ Parameters
 
 ### addModelMonitoring()
 
-Provide runtime metrics for a specific model id in Bedrock.
+Provide runtime metrics for a specific model id in Bedrock. If input/output tokens cost is specified, a widget with on-demand input and total tokens cost will be added.
 
 @param {string} modelName - Model name as it will appear in the dashboard row widget.
 
@@ -158,6 +176,7 @@ Out-of-the-box implementation of the construct without any override will set the
 ### Dashboard
 
 - Dashboard name is ```BedrockMetricsDashboard```
+- CfnOutput containing the created CloudWatch dashboard URL
 
 ### addModelMonitoring
 
@@ -172,6 +191,10 @@ Out-of-the-box implementation of the construct without any override will set the
     - InvocationServerErrors
     - InvocationThrottles
     - LegacyModelInvocations
+If pricing is specified, a new widget will be added with the following metrics:
+    - Input Token Cost
+    - Output Token Cost
+    - Total Token Cost
 
 More details for each one of the metrics can be found in the [documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/monitoring.html#runtime-cloudwatch-metrics)
 
@@ -197,6 +220,7 @@ You are responsible for the cost of the AWS services used while running this con
 We recommend creating a budget through [AWS Cost Explorer](http://aws.amazon.com/aws-cost-management/aws-cost-explorer/) to help manage costs. Prices are subject to change. For full details, refer to the pricing webpage for each AWS service used in this solution:
 
 - [Amazon CloudWatch pricing](https://aws.amazon.com/cloudwatch/pricing/)
+- [Amazon Bedrock pricing](https://aws.amazon.com/bedrock/pricing/)
 
 ## Security
 

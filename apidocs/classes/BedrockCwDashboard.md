@@ -30,7 +30,7 @@ represents the scope for all the resources.
 
 this is a a scope-unique id.
 
-• **props**: [`BedrockCwDashboardProps`](../interfaces/BedrockCwDashboardProps.md)
+• **props**: [`BedrockCwDashboardProps`](../interfaces/BedrockCwDashboardProps.md) = `{}`
 
 user provided props for the construct.
 
