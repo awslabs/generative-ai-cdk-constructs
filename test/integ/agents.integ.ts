@@ -1,0 +1,55 @@
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
+import * as integ from "@aws-cdk/integ-tests-alpha";
+import * as cdk from "aws-cdk-lib";
+import { Agent } from "../../src/cdk-lib/bedrock/agents/agent";
+import * as bedrock from "../../src/cdk-lib/bedrock";
+
+const app = new cdk.App();
+const stack = new cdk.Stack(app, "aws-cdk-bedrock-guardrails-integ-test", {
+  env: {
+    region: "eu-central-1",
+  },
+});
+
+// ----------------------------------------------------
+// Create Managed RAG Architecture
+// ----------------------------------------------------
+const kb = new bedrock.KnowledgeBase(stack, "KnowledgeBase", {
+  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
+  instruction:
+    "Contains a curated list of FAQs, the Selling Guide. It establishes and communicates the rules of the road for eligible borrowers, loans, and processes to uphold loan quality.",
+});
+
+const agent = new Agent(stack, "Agent", {
+  name: "mortgage-processing-agent",
+  description: "An agent to process mortgage applications",
+  foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
+  instruction:
+    "You are a customer service agent who has access to knowledge about mortgage products and services. You can help customers apply for a mortgage and answer questions about loan terms, interest rates, and mortgage eligibility. You can guide customers through the steps to submit documents or get appraisals completed. You can explain refinance and modification options to customers and provide resources on mortgage assistance programs. You can also answer internal questions about loan underwriting process, credit requirements, and guidelines for mortgage servicers and lenders. Your goal is to provide excellent service to customers and help them through the homebuying and mortgage financing process. Always ask follow-up question to get general information required before giving the user an answer.",
+});
+
+agent.addKnowledgeBase(kb);
+
+new integ.IntegTest(app, "ServiceTest", {
+  testCases: [stack],
+  cdkCommandOptions: {
+    destroy: {
+      args: {
+        force: true,
+      },
+    },
+  },
+});
+
+app.synth();

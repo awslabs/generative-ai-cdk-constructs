@@ -11,14 +11,14 @@
  *  and limitations under the License.
  */
 
-import * as fs from 'fs';
-import { Arn, ArnFormat, IResolvable, IResource, Lazy, Resource } from 'aws-cdk-lib';
-import * as bedrock from 'aws-cdk-lib/aws-bedrock';
-import * as iam from 'aws-cdk-lib/aws-iam';
-import { IKey, Key } from 'aws-cdk-lib/aws-kms';
-import { md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
-import { Construct } from 'constructs';
-import * as filters from './guardrail-filters';
+import * as fs from "fs";
+import { Arn, ArnFormat, IResolvable, IResource, Lazy, Resource } from "aws-cdk-lib";
+import * as bedrock from "aws-cdk-lib/aws-bedrock";
+import * as iam from "aws-cdk-lib/aws-iam";
+import { IKey, Key } from "aws-cdk-lib/aws-kms";
+import { md5hash } from "aws-cdk-lib/core/lib/helpers-internal";
+import { Construct } from "constructs";
+import * as filters from "./guardrail-filters";
 
 /******************************************************************************
  *                              COMMON
@@ -49,6 +49,11 @@ export interface IGuardrail extends IResource {
    */
   readonly kmsKey?: IKey;
   /**
+   * Grant the given principal identity permissions to perform actions on this guardrail.
+   */
+  grant(grantee: iam.IGrantable, ...actions: string[]): iam.Grant;
+
+  /**
    * Grant the given identity permissions to apply the guardrail.
    */
   grantApply(grantee: iam.IGrantable): iam.Grant;
@@ -76,15 +81,30 @@ export abstract class GuardrailBase extends Resource implements IGuardrail {
    */
   public abstract readonly kmsKey?: IKey;
   /**
+   * Grant the given principal identity permissions to perform actions on this agent alias.
+   */
+  public grant(grantee: iam.IGrantable, ...actions: string[]) {
+    return iam.Grant.addToPrincipal({
+      grantee,
+      actions,
+      resourceArns: [this.guardrailArn],
+      scope: this,
+    });
+  }
+  /**
    * Grant the given identity permissions to apply the guardrail.
    */
   public grantApply(grantee: iam.IGrantable): iam.Grant {
-    return iam.Grant.addToPrincipal({
-      grantee,
-      resourceArns: [this.guardrailArn],
-      actions: ['bedrock:ApplyGuardrail'],
-      scope: this,
-    });
+    const baseGrant = this.grant(grantee, "bedrock:ApplyGuardrail");
+
+    if (this.kmsKey) {
+      // If KMS key exists, create encryption grant and combine with base grant
+      const kmsGrant = this.kmsKey.grantEncryptDecrypt(grantee);
+      return kmsGrant.combine(baseGrant);
+    } else {
+      // If no KMS key exists, return only the base grant
+      return baseGrant;
+    }
   }
 }
 
@@ -189,7 +209,7 @@ export class Guardrail extends GuardrailBase {
     class Import extends GuardrailBase {
       public readonly guardrailArn = attrs.guardrailArn;
       public readonly guardrailId = Arn.split(attrs.guardrailArn, ArnFormat.SLASH_RESOURCE_NAME).resourceName!;
-      public readonly guardrailVersion = attrs.guardrailVersion ?? 'DRAFT';
+      public readonly guardrailVersion = attrs.guardrailVersion ?? "DRAFT";
       public readonly kmsKey = attrs.kmsKey;
     }
 
@@ -205,9 +225,9 @@ export class Guardrail extends GuardrailBase {
       public readonly guardrailId = cfnGuardrail.attrGuardrailId;
       public readonly guardrailVersion = cfnGuardrail.attrVersion;
       public readonly kmsKey = cfnGuardrail.kmsKeyArn
-        ? Key.fromKeyArn(this, '@FromCfnGuardrailKey', cfnGuardrail.kmsKeyArn)
+        ? Key.fromKeyArn(this, "@FromCfnGuardrailKey", cfnGuardrail.kmsKeyArn)
         : undefined;
-    })(cfnGuardrail, '@FromCfnGuardrail');
+    })(cfnGuardrail, "@FromCfnGuardrail");
   }
 
   /**
@@ -291,8 +311,8 @@ export class Guardrail extends GuardrailBase {
     this.wordFilters = props.wordFilters ?? [];
     this.managedWordListFilters = props.managedWordListFilters ?? [];
 
-    const defaultBlockedInputMessaging = 'Sorry, your query violates our usage policy.';
-    const defaultBlockedOutputsMessaging = 'Sorry, I am unable to answer your question because of our usage policy.';
+    const defaultBlockedInputMessaging = "Sorry, your query violates our usage policy.";
+    const defaultBlockedOutputsMessaging = "Sorry, I am unable to answer your question because of our usage policy.";
 
     // ------------------------------------------------------
     // CFN Props - With Lazy support
@@ -317,7 +337,7 @@ export class Guardrail extends GuardrailBase {
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
-    this.__resource = new bedrock.CfnGuardrail(this, 'MyGuardrail', cfnProps);
+    this.__resource = new bedrock.CfnGuardrail(this, "MyGuardrail", cfnProps);
 
     this.guardrailId = this.__resource.attrGuardrailId;
     this.guardrailArn = this.__resource.attrGuardrailArn;
@@ -380,8 +400,8 @@ export class Guardrail extends GuardrailBase {
    * @param filePath The location of the word filter file.
    */
   public addWordFilterFromFile(filePath: string): void {
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const words = fileContents.trim().split(',');
+    const fileContents = fs.readFileSync(filePath, "utf8");
+    const words = fileContents.trim().split(",");
     for (const word of words) this.addWordFilter(word);
   }
 
@@ -441,7 +461,7 @@ export class Guardrail extends GuardrailBase {
                 definition: topic.definition,
                 name: topic.name,
                 examples: topic.examples,
-                type: 'DENY',
+                type: "DENY",
               } as bedrock.CfnGuardrail.TopicConfigProperty;
             }),
           };
@@ -509,7 +529,7 @@ export class Guardrail extends GuardrailBase {
           });
         },
       },
-      { omitEmptyArray: true },
+      { omitEmptyArray: true }
     );
   }
 
@@ -528,7 +548,7 @@ export class Guardrail extends GuardrailBase {
           });
         },
       },
-      { omitEmptyArray: true },
+      { omitEmptyArray: true }
     );
   }
 
@@ -550,7 +570,7 @@ export class Guardrail extends GuardrailBase {
           }
         },
       },
-      { omitEmptyArray: true },
+      { omitEmptyArray: true }
     );
   }
 
@@ -572,7 +592,7 @@ export class Guardrail extends GuardrailBase {
           });
         },
       },
-      { omitEmptyArray: true },
+      { omitEmptyArray: true }
     );
   }
 
@@ -592,7 +612,7 @@ export class Guardrail extends GuardrailBase {
           });
         },
       },
-      { omitEmptyArray: true },
+      { omitEmptyArray: true }
     );
   }
 }
