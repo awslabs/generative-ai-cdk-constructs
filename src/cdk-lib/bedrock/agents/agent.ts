@@ -21,6 +21,7 @@ import { IGuardrail } from "../guardrails/guardrails";
 import { generatePhysicalNameV2 } from "../../../common/helpers/utils";
 import { validateStringFieldLength } from "../../../common/helpers/validation-helpers";
 import { AgentAlias, IAgentAlias } from "./agent-alias";
+import { AgentActionGroup } from "./agent-action-group";
 
 /******************************************************************************
  *                              COMMON
@@ -131,6 +132,10 @@ export interface AgentProps {
    */
   readonly knowledgeBases?: KnowledgeBaseAgentAssociation[];
   /**
+   * The Action Groups associated with the agent.
+   */
+  readonly actionGroups?: AgentActionGroup[];
+  /**
    * The guardrail associated with the agent.
    */
   readonly guardrail?: IGuardrail;
@@ -140,6 +145,19 @@ export interface AgentProps {
    * @default - No overrides are provided.
    */
   // readonly promptOverrideConfiguration?: ;
+  /**
+   * Select whether the agent can prompt additional information from the user when it does not have
+   * enough information to respond to an utterance
+   *
+   * @default - false
+   */
+  readonly userInputEnabled?: boolean;
+  /**
+   * Select whether the agent can generate, run, and troubleshoot code when trying to complete a task
+   *
+   * @default - false
+   */
+  readonly codeInterpreterEnabled?: boolean;
 }
 /******************************************************************************
  *                      ATTRS FOR IMPORTED CONSTRUCT
@@ -211,9 +229,21 @@ export class Agent extends AgentBase {
    */
   public readonly defaultAlias: IAgentAlias;
   /**
+   * Whether the agent can prompt additional information from the user when it does not have
+   * enough information to respond to an utterance
+   */
+  public readonly userInputEnabled: boolean;
+  /**
+   * Whether the agent can generate, run, and troubleshoot code when trying to complete a task.
+   */
+  public readonly codeInterpreterEnabled: boolean;
+  // ------------------------------------------------------
+  // Lazy Attributes
+  // ------------------------------------------------------
+  /**
    * The action groups associated with the agent.
    */
-  //public actionGroups?: ActionGroups[];
+  public actionGroups?: AgentActionGroup[];
   /**
    * The KnowledgeBases associated with the agent.
    */
@@ -222,6 +252,9 @@ export class Agent extends AgentBase {
    * The guardrail associated with the agent.
    */
   public guardrail?: IGuardrail;
+  // ------------------------------------------------------
+  // Internal Only
+  // ------------------------------------------------------
   /**
    * The L1 representation of the agent
    */
@@ -240,7 +273,10 @@ export class Agent extends AgentBase {
       props.name ?? generatePhysicalNameV2(this, "bedrock-agent", { maxLength: 32, lower: true, separator: "-" });
     this.idleSessionTTL = props.idleSessionTTL ?? Duration.hours(1);
     this.shouldPrepareAgent = props.shouldPrepareAgent ?? false;
+    this.userInputEnabled = props.userInputEnabled ?? false;
+    this.codeInterpreterEnabled = props.codeInterpreterEnabled ?? false;
     this.knowledgeBaseAssociations = props.knowledgeBases ?? [];
+    this.actionGroups = props.actionGroups ?? [];
     this.foundationModel = props.foundationModel;
     this.guardrail = props.guardrail;
 
@@ -275,9 +311,23 @@ export class Agent extends AgentBase {
     }
 
     // ------------------------------------------------------
+    // Add Default Action Groups
+    // ------------------------------------------------------
+    this.addActionGroup(AgentActionGroup.userInput(this.userInputEnabled));
+    this.addActionGroup(AgentActionGroup.codeInterpreter(this.codeInterpreterEnabled));
+
+    // ------------------------------------------------------
+    // Set Lazy Validations
+    // ------------------------------------------------------
+    this.node.addValidation({
+      validate: () => this.validateKnowledgeBaseAssocations(),
+    });
+
+    // ------------------------------------------------------
     // CFN Props - With Lazy support
     // ------------------------------------------------------
     const cfnProps: bedrock.CfnAgentProps = {
+      actionGroups: Lazy.any({ produce: () => this.actionGroups }, { omitEmptyArray: true }),
       agentName: this.name,
       agentResourceRoleArn: this.role.roleArn,
       autoPrepare: this.shouldPrepareAgent,
@@ -307,6 +357,9 @@ export class Agent extends AgentBase {
     });
   }
 
+  // ------------------------------------------------------
+  // HELPER METHODS
+  // ------------------------------------------------------
   /**
    * Add knowledge base to the agent.
    */
@@ -336,7 +389,19 @@ export class Agent extends AgentBase {
     }
     // Handle permissions
     guardrail.grantApply(this.role);
-    guardrail.kmsKey?.grantDecrypt(this.role);
+  }
+
+  /**
+   * Add an action group to the agent.
+   */
+  public addActionGroup(actionGroup: AgentActionGroup) {
+    // If it has not been added yet
+    if (!this.actionGroups?.find((ag) => ag.name === actionGroup.name)) {
+      this.actionGroups?.push(actionGroup);
+    }
+
+    // Handle permissions to invoke the lambda function
+    actionGroup.executor?.lambdaFunction?.grantInvoke(this.role);
   }
 
   // ------------------------------------------------------
@@ -399,6 +464,22 @@ export class Agent extends AgentBase {
           `${association.knowledgeBase.knowledgeBaseId} must be provided.`
       );
     }
+  }
+  /**
+   * Checks if the KB Associations are valid
+   *
+   * @internal This is an internal core function and should not be called directly.
+   */
+  private validateKnowledgeBaseAssocations(): string[] {
+    const MAX_KB_ASSOCIATIONS = 10;
+    const errors: string[] = [];
+    if (this.knowledgeBaseAssociations.length > MAX_KB_ASSOCIATIONS) {
+      errors.push(`The maximum number of knowledge bases associations is ${MAX_KB_ASSOCIATIONS}.`);
+    }
+    for (const association of this.knowledgeBaseAssociations) {
+      this.validateKnowledgeBaseAssocation(association);
+    }
+    return errors;
   }
 }
 /******************************************************************************

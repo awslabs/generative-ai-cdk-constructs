@@ -14,6 +14,9 @@ import * as integ from "@aws-cdk/integ-tests-alpha";
 import * as cdk from "aws-cdk-lib";
 import { Agent } from "../../src/cdk-lib/bedrock/agents/agent";
 import * as bedrock from "../../src/cdk-lib/bedrock";
+import { AgentActionGroup } from "../../src/cdk-lib/bedrock/agents/agent-action-group";
+import { ActionGroupExecutor } from "../../src/cdk-lib/bedrock/agents/api-executor";
+import { Code, Function } from "aws-cdk-lib/aws-lambda";
 
 const app = new cdk.App();
 const stack = new cdk.Stack(app, "aws-cdk-bedrock-guardrails-integ-test", {
@@ -39,7 +42,24 @@ const agent = new Agent(stack, "Agent", {
     "You are a customer service agent who has access to knowledge about mortgage products and services. You can help customers apply for a mortgage and answer questions about loan terms, interest rates, and mortgage eligibility. You can guide customers through the steps to submit documents or get appraisals completed. You can explain refinance and modification options to customers and provide resources on mortgage assistance programs. You can also answer internal questions about loan underwriting process, credit requirements, and guidelines for mortgage servicers and lenders. Your goal is to provide excellent service to customers and help them through the homebuying and mortgage financing process. Always ask follow-up question to get general information required before giving the user an answer.",
 });
 
+const myLambdaFunction = new Function(stack, "LambdaFunction", {
+  //define inline
+  code: Code.fromInline('exports.handler = function(event, context, callback) { callback(null, "hello world"); }'),
+  handler: "index.handler",
+  runtime: cdk.aws_lambda.Runtime.NODEJS_18_X,
+  environment: {
+    KNOWLEDGE_BASE_ID: kb.knowledgeBaseId,
+  },
+});
+
+const ag = new AgentActionGroup({
+  name: "mortgage-processing-agent-action-group",
+  description: "An action group to process mortgage applications",
+  executor: ActionGroupExecutor.lambdaFunction(myLambdaFunction),
+});
+
 agent.addKnowledgeBase(kb);
+agent.addActionGroup(ag);
 
 new integ.IntegTest(app, "ServiceTest", {
   testCases: [stack],
