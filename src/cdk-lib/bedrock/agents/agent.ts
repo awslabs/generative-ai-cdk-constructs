@@ -24,7 +24,7 @@ import {
   validateStringFieldLength,
 } from '../../../common/helpers/validation-helpers';
 import { AgentAlias, IAgentAlias } from './agent-alias';
-import { AgentActionGroup } from './agent-action-group';
+import { AgentActionGroup } from './action-group';
 import { IGuardrailVersion } from '../guardrails/guardrail-version';
 
 /******************************************************************************
@@ -162,6 +162,12 @@ export interface AgentProps {
    * @default - false
    */
   readonly codeInterpreterEnabled?: boolean;
+  /**
+   * Whether to delete the resource even if it's in use.
+   *
+   * @default - false
+   */
+  readonly forceDelete?: boolean;
 }
 /******************************************************************************
  *                      ATTRS FOR IMPORTED CONSTRUCT
@@ -217,7 +223,8 @@ export class Agent extends AgentBase {
    */
   public readonly instruction?: string;
   /**
-   * Whether the model
+   * Whether the agent will automatically update the DRAFT version of the agent after
+   * making changes to the agent.
    */
   public readonly shouldPrepareAgent: boolean;
   /**
@@ -242,6 +249,10 @@ export class Agent extends AgentBase {
    * Whether the agent can generate, run, and troubleshoot code when trying to complete a task.
    */
   public readonly codeInterpreterEnabled: boolean;
+  /**
+   * Whether the resource will be deleted even if it's in use.
+   */
+  public readonly forceDelete: boolean;
   // ------------------------------------------------------
   // Lazy Attributes
   // ------------------------------------------------------
@@ -281,7 +292,7 @@ export class Agent extends AgentBase {
     this.userInputEnabled = props.userInputEnabled ?? false;
     this.codeInterpreterEnabled = props.codeInterpreterEnabled ?? false;
     this.foundationModel = props.foundationModel;
-
+    this.forceDelete = props.forceDelete ?? false;
     // ------------------------------------------------------
     // Set Lazy Props initial values
     // ------------------------------------------------------
@@ -352,10 +363,12 @@ export class Agent extends AgentBase {
       customerEncryptionKeyArn: props.kmsKey?.keyArn,
       description: props.description,
       foundationModel: this.foundationModel.invokableArn,
+      guardrailConfiguration: Lazy.any({ produce: () => this.renderGuardrail() }),
       idleSessionTtlInSeconds: this.idleSessionTTL.toSeconds(),
       instruction: props.instruction,
       knowledgeBases: Lazy.any({ produce: () => this.renderKnowledgeBases() }, { omitEmptyArray: true }),
-      guardrailConfiguration: Lazy.any({ produce: () => this.renderGuardrail() }),
+      //promptOverrideConfiguration: props.p
+      skipResourceInUseCheckOnDelete: this.forceDelete,
     };
 
     // ------------------------------------------------------
