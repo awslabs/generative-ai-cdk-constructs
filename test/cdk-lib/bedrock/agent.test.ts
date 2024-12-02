@@ -102,7 +102,7 @@ describe('Agent with guardrails through addGuardrail', () => {
           reason: 'ActionGroup Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.',
         },
       ],
-      true,
+      true
     );
 
     const apiSchemaBucket = new s3.Bucket(stack, 'TestBucket');
@@ -144,7 +144,7 @@ describe('Agent with guardrails through addGuardrail', () => {
       kmsKey: Key.fromKeyArn(
         stack,
         'imported-key',
-        'arn:aws:kms:region:XXXXX:key/12345678-1234-1234-1234-123456789012',
+        'arn:aws:kms:region:XXXXX:key/12345678-1234-1234-1234-123456789012'
       ),
     });
 
@@ -400,7 +400,7 @@ describe('Agent with guardrails through constructor', () => {
           reason: 'ActionGroup Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.',
         },
       ],
-      true,
+      true
     );
 
     const apiSchemaBucket = new s3.Bucket(stack, 'TestBucket');
@@ -664,7 +664,7 @@ describe('Agent without guardrails', () => {
           reason: 'ActionGroup Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.',
         },
       ],
-      true,
+      true
     );
 
     const apiSchemaBucket = new s3.Bucket(stack, 'TestBucket');
@@ -867,7 +867,7 @@ describe('Imports', () => {
     const agentAlias = bedrock.AgentAlias.fromAliasArn(
       stack,
       'alias',
-      'arn:aws:bedrock:us-east-1:123456789012:agent-alias/DNCJJYQKSU/TCLCITFZTN',
+      'arn:aws:bedrock:us-east-1:123456789012:agent-alias/DNCJJYQKSU/TCLCITFZTN'
     );
 
     //THEN

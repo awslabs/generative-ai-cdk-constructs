@@ -1,6 +1,5 @@
 import * as bedrock from "aws-cdk-lib/aws-bedrock";
 import { IFunction } from "aws-cdk-lib/aws-lambda";
-import { Construct } from "constructs";
 
 /******************************************************************************
  *                         Action Group Executor
@@ -39,7 +38,12 @@ export class ActionGroupExecutor {
     this.customControl = customControl;
   }
 
-  public bind(_scope: Construct): bedrock.CfnAgent.ActionGroupExecutorProperty {
+  /**
+   * Format as CFN properties
+   *
+   * @internal This is an internal core function and should not be called directly.
+   */
+  public _render(): bedrock.CfnAgent.ActionGroupExecutorProperty {
     return {
       customControl: this.customControl,
       lambda: this.lambdaFunction?.functionArn,

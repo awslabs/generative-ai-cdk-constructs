@@ -1,10 +1,9 @@
-import { CfnAgent } from "aws-cdk-lib/aws-bedrock";
-import { ApiSchemaConfig } from "./api-schema";
-import { ActionGroupExecutor } from "./api-executor";
-import { Construct } from "constructs";
+import { CfnAgent } from 'aws-cdk-lib/aws-bedrock';
+import { ActionGroupExecutor } from './api-executor';
+import { ApiSchema } from './api-schema';
 
 /******************************************************************************
- *                           SIgnatures
+ *                           Signatures
  *****************************************************************************/
 /**
  * AWS Defined signatures for enabling certain capabilities in your agent.
@@ -13,11 +12,11 @@ export class ParentActionGroupSignature {
   /**
    * Signature that allows your agent to request the user for additional information when trying to complete a task.
    */
-  public static readonly USER_INPUT = new ParentActionGroupSignature("AMAZON.UserInput");
+  public static readonly USER_INPUT = new ParentActionGroupSignature('AMAZON.UserInput');
   /**
    * Signature that allows your agent to generate, run, and troubleshoot code when trying to complete a task.
    */
-  public static readonly CODE_INTERPRETER = new ParentActionGroupSignature("AMAZON.CodeInterpreter");
+  public static readonly CODE_INTERPRETER = new ParentActionGroupSignature('AMAZON.CodeInterpreter');
   /**
    * Constructor should be used as a temporary solution when a new signature is supported
    * but its implementation in CDK hasn't been added yet.
@@ -48,7 +47,7 @@ export interface AgentActionGroupProps {
    *
    * @default - No API Schema
    */
-  readonly apiSchema?: ApiSchemaConfig;
+  readonly apiSchema?: ApiSchema;
 
   /**
    * The action group executor.
@@ -101,7 +100,7 @@ export class AgentActionGroup {
    */
   public static userInput(enabled: boolean): AgentActionGroup {
     return new AgentActionGroup({
-      name: "UserInput",
+      name: 'AMAZONUserInput',
       enabled: enabled,
       parentActionGroupSignature: ParentActionGroupSignature.USER_INPUT,
     });
@@ -114,7 +113,7 @@ export class AgentActionGroup {
    */
   public static codeInterpreter(enabled: boolean): AgentActionGroup {
     return new AgentActionGroup({
-      name: "CodeInterpreter",
+      name: 'AMAZONCodeInterpreter',
       enabled: enabled,
       parentActionGroupSignature: ParentActionGroupSignature.CODE_INTERPRETER,
     });
@@ -138,7 +137,7 @@ export class AgentActionGroup {
   /**
    * The api schema for this action group (if defined).
    */
-  public readonly apiSchema?: ApiSchemaConfig;
+  public readonly apiSchema?: ApiSchema;
   /**
    * The action group executor for this action group (if defined).
    */
@@ -176,18 +175,23 @@ export class AgentActionGroup {
   private validateProps(props: AgentActionGroupProps) {
     if (props.parentActionGroupSignature && (props.description || props.apiSchema || props.executor)) {
       throw new Error(
-        "When parentActionGroupSignature is specified, you must leave the description, " +
-          "apiSchema, and actionGroupExecutor fields blank for this action group"
+        'When parentActionGroupSignature is specified, you must leave the description, ' +
+          'apiSchema, and actionGroupExecutor fields blank for this action group'
       );
     }
   }
 
-  public bind(_scope: Construct): CfnAgent.AgentActionGroupProperty {
+  /**
+   * Format as CFN properties
+   *
+   * @internal This is an internal core function and should not be called directly.
+   */
+  public _render(): CfnAgent.AgentActionGroupProperty {
     return {
-      actionGroupExecutor: this.executor,
+      actionGroupExecutor: this.executor?._render(),
       actionGroupName: this.name,
-      actionGroupState: this.enabled ? "ENABLED" : "DISABLED",
-      apiSchema: this.apiSchema,
+      actionGroupState: this.enabled ? 'ENABLED' : 'DISABLED',
+      apiSchema: this.apiSchema?._render(),
       description: this.description,
       functionSchema: this.functionSchema,
       parentActionGroupSignature: this.parentActionGroupSignature?.toString(),

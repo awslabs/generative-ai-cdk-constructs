@@ -1,23 +1,6 @@
 import { CfnAgent } from "aws-cdk-lib/aws-bedrock";
 import { Location } from "aws-cdk-lib/aws-s3";
-import { Construct } from "constructs";
 import * as fs from "fs";
-
-/**
- * Result of binding `ApiSchema` into an `ActionGroup`.
- */
-export interface ApiSchemaConfig {
-  /**
-   * The JSON or YAML-formatted payload defining the OpenAPI schema for the action group.
-   * (mutually exclusive with `s3`)
-   */
-  readonly payload?: string;
-  /**
-   * Contains details about the S3 object containing the OpenAPI schema for the action group.
-   * (mutually exclusive with `payload`)
-   */
-  readonly s3?: CfnAgent.S3IdentifierProperty;
-}
 
 /******************************************************************************
  *                       API SCHEMA CLASS
@@ -41,21 +24,31 @@ export abstract class ApiSchema {
   public static fromInline(schema: string): InlineApiSchema {
     return new InlineApiSchema(schema);
   }
+
+  public readonly s3File?: Location;
+  public readonly inlineSchema?: string;
   /**
-   * Called when the api schema object is initialized on an action group
+   * Format as CFN properties
+   *
+   * @internal This is an internal core function and should not be called directly.
    */
-  public abstract bind(scope: Construct): ApiSchemaConfig;
+  public abstract _render(): CfnAgent.APISchemaProperty;
+
+  public constructor(s3File?: Location, inlineSchema?: string) {
+    this.s3File = s3File;
+    this.inlineSchema = inlineSchema;
+  }
 }
 
 // ------------------------------------------------------
 // Inline Definition
 // ------------------------------------------------------
 export class InlineApiSchema extends ApiSchema {
-  constructor(private schema: string) {
-    super();
+  constructor(private readonly schema: string) {
+    super(undefined, schema);
   }
 
-  bind(_scope: Construct): ApiSchemaConfig {
+  public _render(): CfnAgent.APISchemaProperty {
     return {
       payload: this.schema,
     };
@@ -70,9 +63,9 @@ export class InlineApiSchema extends ApiSchema {
  */
 export class S3ApiSchema extends ApiSchema {
   constructor(private readonly location: Location) {
-    super();
+    super(location, undefined);
   }
-  public bind(_scope: Construct): ApiSchemaConfig {
+  public _render(): CfnAgent.APISchemaProperty {
     return {
       s3: {
         s3BucketName: this.location.bucketName,

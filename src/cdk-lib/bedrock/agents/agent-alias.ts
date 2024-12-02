@@ -10,12 +10,12 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import { ArnFormat, aws_bedrock as bedrock, IResource, Resource, Stack } from "aws-cdk-lib";
-import { Construct } from "constructs";
-import { IAgent } from "./agent";
-import { md5hash } from "aws-cdk-lib/core/lib/helpers-internal";
-import * as iam from "aws-cdk-lib/aws-iam";
-import * as events from "aws-cdk-lib/aws-events";
+import { ArnFormat, aws_bedrock as bedrock, IResource, Resource, Stack } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { IAgent } from './agent';
+import { md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as events from 'aws-cdk-lib/aws-events';
 
 /******************************************************************************
  *                              COMMON
@@ -89,7 +89,7 @@ export abstract class AgentAliasBase extends Resource implements IAgentAlias {
    * Grant the given identity permissions to invoke the agent alias.
    */
   public grantInvoke(grantee: iam.IGrantable): iam.Grant {
-    return this.grant(grantee, "bedrock:InvokeAgent");
+    return this.grant(grantee, 'bedrock:InvokeAgent');
   }
 
   /**
@@ -105,8 +105,8 @@ export abstract class AgentAliasBase extends Resource implements IAgentAlias {
     const rule = new events.Rule(this, id, options);
     rule.addTarget(options.target);
     rule.addEventPattern({
-      source: ["aws.bedrock"],
-      detailType: ["AWS API Call via CloudTrail"],
+      source: ['aws.bedrock'],
+      detailType: ['AWS API Call via CloudTrail'],
       detail: {
         requestParameters: {
           agentAliasId: [this.aliasId],
@@ -176,6 +176,7 @@ export interface AgentAliasAttributes {
  *****************************************************************************/
 /**
  * Class to create an Agent Alias with CDK.
+ * @cloudformationResource AWS::Bedrock::AgentAlias
  */
 export class AgentAlias extends AgentAliasBase {
   // ------------------------------------------------------
@@ -190,8 +191,8 @@ export class AgentAlias extends AgentAliasBase {
       public readonly aliasId = attrs.aliasId;
       public readonly aliasName = attrs.aliasName;
       public readonly aliasArn = Stack.of(scope).formatArn({
-        resource: "agent-alias",
-        service: "bedrock",
+        resource: 'agent-alias',
+        service: 'bedrock',
         resourceName: `${attrs.agent.agentId}/${attrs.aliasId}`,
         arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
       });
@@ -216,7 +217,7 @@ export class AgentAlias extends AgentAliasBase {
     // ------------------------------------------------------
     // Set properties or defaults
     // ------------------------------------------------------
-    this.aliasName = props.aliasName ?? "latest";
+    this.aliasName = props.aliasName ?? 'latest';
     this.agent = props.agent;
 
     // Compute hash from agent, to recreate the resource when agent has changed
@@ -229,15 +230,14 @@ export class AgentAlias extends AgentAliasBase {
       agentAliasName: this.aliasName,
       agentId: this.agent.agentId,
       description: props.description,
+      routingConfiguration: props.agentVersion
+        ? [
+            {
+              agentVersion: props.agentVersion,
+            },
+          ]
+        : undefined,
     });
-
-    if (props.agentVersion) {
-      alias.routingConfiguration = [
-        {
-          agentVersion: props.agentVersion,
-        },
-      ];
-    }
 
     this.aliasId = alias.attrAgentAliasId;
     this.aliasArn = alias.attrAgentAliasArn;

@@ -25,22 +25,23 @@ interface StringLengthValidation extends IntervalValidation {
  * @returns true if validation passes
  * @throws Error if validation fails with current length information
  */
-export function validateStringFieldLength(params: StringLengthValidation): boolean {
+export function validateStringFieldLength(params: StringLengthValidation): string[] {
   const currentLength = params.value.length;
+  const errors: string[] = [];
 
   if (params.value.length > params.maxLength) {
-    throw new Error(
+    errors.push(
       `The field ${params.fieldName} is ${currentLength} characters long but must be less than or equal to ${params.maxLength} characters`
     );
   }
 
   if (params.value.length < params.minLength) {
-    throw new Error(
+    errors.push(
       `The field ${params.fieldName} is ${currentLength} characters long but must be at least ${params.minLength} characters`
     );
   }
 
-  return true;
+  return errors;
 }
 
 /**
@@ -57,21 +58,32 @@ export function validateFieldPattern(
   fieldName: string,
   pattern: RegExp,
   customMessage?: string
-): boolean {
+): string[] {
+  const errors: string[] = [];
   // Input validation
   if (typeof value !== "string") {
-    throw new TypeError(`Expected string for ${fieldName}, got ${typeof value}`);
+    errors.push(`Expected string for ${fieldName}, got ${typeof value}`);
   }
 
   if (!(pattern instanceof RegExp)) {
-    throw new TypeError("Pattern must be a valid regular expression");
+    errors.push("Pattern must be a valid regular expression");
   }
 
   // Pattern validation
   if (!pattern.test(value)) {
     const defaultMessage = `The field ${fieldName} with value "${value}" does not match the required pattern ${pattern}`;
-    throw new Error(customMessage || defaultMessage);
+    errors.push(customMessage || defaultMessage);
   }
 
-  return true;
+  return errors;
+}
+
+export type ValidationFn<T> = (param: T) => string[];
+
+export function throwIfInvalid<T>(validationFn: ValidationFn<T>, param: T): T {
+  const errors = validationFn(param);
+  if (errors.length > 0) {
+    throw new Error(errors.join("\n"));
+  }
+  return param;
 }

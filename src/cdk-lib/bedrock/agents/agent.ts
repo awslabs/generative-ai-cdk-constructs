@@ -10,18 +10,22 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import { Construct } from "constructs";
-import * as iam from "aws-cdk-lib/aws-iam";
-import * as kms from "aws-cdk-lib/aws-kms";
-import * as bedrock from "aws-cdk-lib/aws-bedrock";
-import { ArnFormat, Duration, IResource, Lazy, Resource, Stack } from "aws-cdk-lib";
-import { IInvokable } from "../models";
-import { IKnowledgeBase } from "../knowledge-base";
-import { IGuardrail } from "../guardrails/guardrails";
-import { generatePhysicalNameV2 } from "../../../common/helpers/utils";
-import { validateStringFieldLength } from "../../../common/helpers/validation-helpers";
-import { AgentAlias, IAgentAlias } from "./agent-alias";
-import { AgentActionGroup } from "./agent-action-group";
+import { Construct } from 'constructs';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as kms from 'aws-cdk-lib/aws-kms';
+import * as bedrock from 'aws-cdk-lib/aws-bedrock';
+import { ArnFormat, Duration, IResource, Lazy, Resource, Stack } from 'aws-cdk-lib';
+import { IInvokable } from '../models';
+import { IKnowledgeBase } from '../knowledge-base';
+import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
+import {
+  throwIfInvalid,
+  validateFieldPattern,
+  validateStringFieldLength,
+} from '../../../common/helpers/validation-helpers';
+import { AgentAlias, IAgentAlias } from './agent-alias';
+import { AgentActionGroup } from './agent-action-group';
+import { IGuardrailVersion } from '../guardrails/guardrail-version';
 
 /******************************************************************************
  *                              COMMON
@@ -138,7 +142,7 @@ export interface AgentProps {
   /**
    * The guardrail associated with the agent.
    */
-  readonly guardrail?: IGuardrail;
+  readonly guardrail?: IGuardrailVersion;
   /**
    * Overrides some prompt templates in different parts of an agent sequence configuration.
    *
@@ -171,6 +175,7 @@ export interface AgentProps {
  *****************************************************************************/
 /**
  * Class to create (or import) an Agent with CDK.
+ * @cloudformationResource AWS::Bedrock::Agent
  */
 export class Agent extends AgentBase {
   // ------------------------------------------------------
@@ -224,10 +229,10 @@ export class Agent extends AgentBase {
    */
   public readonly foundationModel: IInvokable;
   /**
-   * The default alias for this agent. This corresponds to the test alias
+   * The default test alias for this agent. This corresponds to the test alias
    * (`TSTALIASID`) that points to the working (`DRAFT`) version.
    */
-  public readonly defaultAlias: IAgentAlias;
+  public readonly testAlias: IAgentAlias;
   /**
    * Whether the agent can prompt additional information from the user when it does not have
    * enough information to respond to an utterance
@@ -243,7 +248,7 @@ export class Agent extends AgentBase {
   /**
    * The action groups associated with the agent.
    */
-  public actionGroups?: AgentActionGroup[];
+  public actionGroups: AgentActionGroup[];
   /**
    * The KnowledgeBases associated with the agent.
    */
@@ -251,7 +256,7 @@ export class Agent extends AgentBase {
   /**
    * The guardrail associated with the agent.
    */
-  public guardrail?: IGuardrail;
+  public guardrail?: IGuardrailVersion;
   // ------------------------------------------------------
   // Internal Only
   // ------------------------------------------------------
@@ -267,47 +272,30 @@ export class Agent extends AgentBase {
     super(scope, id);
 
     // ------------------------------------------------------
-    // Set properties or defaults
+    // Set properties and defaults
     // ------------------------------------------------------
     this.name =
-      props.name ?? generatePhysicalNameV2(this, "bedrock-agent", { maxLength: 32, lower: true, separator: "-" });
+      props.name ?? generatePhysicalNameV2(this, 'bedrock-agent', { maxLength: 64, lower: true, separator: '-' });
     this.idleSessionTTL = props.idleSessionTTL ?? Duration.hours(1);
     this.shouldPrepareAgent = props.shouldPrepareAgent ?? false;
     this.userInputEnabled = props.userInputEnabled ?? false;
     this.codeInterpreterEnabled = props.codeInterpreterEnabled ?? false;
-    this.knowledgeBaseAssociations = props.knowledgeBases ?? [];
-    this.actionGroups = props.actionGroups ?? [];
     this.foundationModel = props.foundationModel;
-    this.guardrail = props.guardrail;
 
     // ------------------------------------------------------
-    // Role
+    // Set Lazy Props initial values
     // ------------------------------------------------------
-    // If existing role is provided, use it.
-    if (props.existingRole) {
-      this.role = props.existingRole;
-      // Otherwise, create a new one
-    } else {
-      this.role = new iam.Role(this, "Role", {
-        // generate a role name
-        roleName: generatePhysicalNameV2(this, "AmazonBedrockExecutionRoleForAgents_", { maxLength: 64, lower: false }),
-        // ensure the role has a trust policy that allows the Bedrock service to assume the role
-        assumedBy: new iam.ServicePrincipal("bedrock.amazonaws.com").withConditions({
-          StringEquals: {
-            "aws:SourceAccount": Stack.of(this).account,
-          },
-          ArnLike: {
-            "aws:SourceArn": Stack.of(this).formatArn({
-              service: "bedrock",
-              resource: "agent",
-              resourceName: "*",
-              arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
-            }),
-          },
-        }),
-      });
-      // add the appropriate permissions to use the FM
-      this.foundationModel.grantInvoke(this.role);
+    this.knowledgeBaseAssociations = [];
+    this.actionGroups = [];
+    // Add specified elems through methods to handle permissions
+    props.knowledgeBases?.forEach(kb => {
+      this.addKnowledgeBase(kb);
+    });
+    props.actionGroups?.forEach(ag => {
+      this.addActionGroup(ag);
+    });
+    if (props.guardrail) {
+      this.addGuardrail(props.guardrail);
     }
 
     // ------------------------------------------------------
@@ -324,10 +312,40 @@ export class Agent extends AgentBase {
     });
 
     // ------------------------------------------------------
+    // Role
+    // ------------------------------------------------------
+    // If existing role is provided, use it.
+    if (props.existingRole) {
+      this.role = props.existingRole;
+      // Otherwise, create a new one
+    } else {
+      this.role = new iam.Role(this, 'Role', {
+        // generate a role name
+        roleName: generatePhysicalNameV2(this, 'AmazonBedrockExecutionRoleForAgents_', { maxLength: 64, lower: false }),
+        // ensure the role has a trust policy that allows the Bedrock service to assume the role
+        assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com').withConditions({
+          StringEquals: {
+            'aws:SourceAccount': Stack.of(this).account,
+          },
+          ArnLike: {
+            'aws:SourceArn': Stack.of(this).formatArn({
+              service: 'bedrock',
+              resource: 'agent',
+              resourceName: '*',
+              arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
+            }),
+          },
+        }),
+      });
+      // add the appropriate permissions to use the FM
+      this.foundationModel.grantInvoke(this.role);
+    }
+
+    // ------------------------------------------------------
     // CFN Props - With Lazy support
     // ------------------------------------------------------
     const cfnProps: bedrock.CfnAgentProps = {
-      actionGroups: Lazy.any({ produce: () => this.actionGroups }, { omitEmptyArray: true }),
+      actionGroups: Lazy.any({ produce: () => this.renderActionGroups() }, { omitEmptyArray: true }),
       agentName: this.name,
       agentResourceRoleArn: this.role.roleArn,
       autoPrepare: this.shouldPrepareAgent,
@@ -343,65 +361,62 @@ export class Agent extends AgentBase {
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
-    this.__resource = new bedrock.CfnAgent(this, "AgentResource", cfnProps);
+    this.__resource = new bedrock.CfnAgent(this, 'AgentResource', cfnProps);
 
     this.agentId = this.__resource.attrAgentArn;
     this.agentArn = this.__resource.attrAgentId;
     this.agentVersion = this.__resource.attrAgentVersion;
     this.lastUpdated = this.__resource.attrUpdatedAt;
-    this.defaultAlias = AgentAlias.fromAttibutes(this, "DefaultAlias", {
-      aliasId: "TSTALIASID",
-      aliasName: "AgentTestAlias",
-      agentVersion: "DRAFT",
+    this.testAlias = AgentAlias.fromAttibutes(this, 'DefaultAlias', {
+      aliasId: 'TSTALIASID',
+      aliasName: 'AgentTestAlias',
+      agentVersion: 'DRAFT',
       agent: this,
     });
   }
 
   // ------------------------------------------------------
-  // HELPER METHODS
+  // HELPER METHODS - addX()
   // ------------------------------------------------------
   /**
    * Add knowledge base to the agent.
    */
-  public addKnowledgeBase(kb: IKnowledgeBase, config?: KnowledgeBaseAgentAssociationConfig) {
-    const association: KnowledgeBaseAgentAssociation = {
-      knowledgeBase: kb,
-      instructionForAgent: config?.instructionForAgent,
-      enabled: config?.enabled,
-    };
+  public addKnowledgeBase(kbAssociation: KnowledgeBaseAgentAssociation) {
     // Do some checks
-    this.validateKnowledgeBaseAssocation(association);
+    throwIfInvalid(this.validateKnowledgeBaseAssocation, kbAssociation);
     // Add it to the array
-    this.knowledgeBaseAssociations.push(association);
+    this.knowledgeBaseAssociations.push(kbAssociation);
     // Add the appropriate Permissions to query the Knowledge Base
-    kb.grantQuery(this.role);
+    kbAssociation.knowledgeBase.grantQuery(this.role);
   }
 
   /**
    * Add guardrail to the agent.
    */
-  public addGuardrail(guardrail: IGuardrail) {
-    // If has been defined in the constructor
-    if (this.guardrail) {
-      new Error("Guardrail has already been defined for this agent.");
-    } else {
-      this.guardrail = guardrail;
-    }
+  public addGuardrail(guardrailVersion: IGuardrailVersion) {
+    // Do some checks
+    throwIfInvalid(this.validateGuardrail, guardrailVersion);
+    // Add it to the construct
+    this.guardrail = guardrailVersion;
     // Handle permissions
-    guardrail.grantApply(this.role);
+    guardrailVersion.guardrail.grantApply(this.role);
   }
 
   /**
    * Add an action group to the agent.
    */
   public addActionGroup(actionGroup: AgentActionGroup) {
-    // If it has not been added yet
-    if (!this.actionGroups?.find((ag) => ag.name === actionGroup.name)) {
-      this.actionGroups?.push(actionGroup);
-    }
-
+    // Do some checks
+    throwIfInvalid(this.validateActionGroup, actionGroup);
+    // Add it to the array
+    this.actionGroups.push(actionGroup);
     // Handle permissions to invoke the lambda function
     actionGroup.executor?.lambdaFunction?.grantInvoke(this.role);
+    actionGroup.executor?.lambdaFunction?.addPermission(`BedrockAgentLambdaInvocationPolicy-${this.node.addr}`, {
+      principal: new iam.ServicePrincipal('bedrock.amazonaws.com'),
+      sourceArn: this.agentArn,
+      sourceAccount: Stack.of(this).account,
+    });
   }
 
   // ------------------------------------------------------
@@ -415,8 +430,8 @@ export class Agent extends AgentBase {
   private renderGuardrail(): bedrock.CfnAgent.GuardrailConfigurationProperty | undefined {
     return this.guardrail
       ? {
-          guardrailIdentifier: this.guardrail?.guardrailId,
-          guardrailVersion: this.guardrail?.guardrailVersion,
+          guardrailIdentifier: this.guardrail.guardrail.guardrailId,
+          guardrailVersion: this.guardrail.guardrailVersion,
         }
       : undefined;
   }
@@ -429,14 +444,28 @@ export class Agent extends AgentBase {
   private renderKnowledgeBases(): bedrock.CfnAgent.AgentKnowledgeBaseProperty[] {
     const knowledgeBaseAssociationsCfn: bedrock.CfnAgent.AgentKnowledgeBaseProperty[] = [];
     // Build the associations in the CFN format
-    this.knowledgeBaseAssociations.forEach((kb) => {
+    this.knowledgeBaseAssociations.forEach(kb => {
       knowledgeBaseAssociationsCfn.push({
         knowledgeBaseId: kb.knowledgeBase.knowledgeBaseId,
-        knowledgeBaseState: kb.enabled ?? true ? "ENABLED" : "DISABLED",
-        description: kb.instructionForAgent ?? kb.knowledgeBase.description!,
+        knowledgeBaseState: kb.config?.enabled ?? true ? 'ENABLED' : 'DISABLED',
+        description: kb.config?.instructionForAgent ?? kb.knowledgeBase.description!,
       });
     });
     return knowledgeBaseAssociationsCfn;
+  }
+
+  /**
+   * Render the action groups
+   *
+   * @internal This is an internal core function and should not be called directly.
+   */
+  private renderActionGroups(): bedrock.CfnAgent.AgentActionGroupProperty[] {
+    const actionGroupsCfn: bedrock.CfnAgent.AgentActionGroupProperty[] = [];
+    // Build the associations in the CFN format
+    this.actionGroups.forEach(ag => {
+      actionGroupsCfn.push(ag._render());
+    });
+    return actionGroupsCfn;
   }
 
   // ------------------------------------------------------
@@ -447,30 +476,34 @@ export class Agent extends AgentBase {
    *
    * @internal This is an internal core function and should not be called directly.
    */
-  private validateKnowledgeBaseAssocation(association: KnowledgeBaseAgentAssociation) {
+  private validateKnowledgeBaseAssocation = (association: KnowledgeBaseAgentAssociation): string[] => {
     const MAX_LENGTH = 200;
-    const description = association.instructionForAgent ?? association.knowledgeBase.description;
+    const description = association.config?.instructionForAgent ?? association.knowledgeBase.description;
+    const errors: string[] = [];
     // If at least one of the previous has been defined
     if (description) {
-      validateStringFieldLength({
-        value: description,
-        fieldName: "description",
-        minLength: 0,
-        maxLength: MAX_LENGTH,
-      });
+      errors.push(
+        ...validateStringFieldLength({
+          value: description,
+          fieldName: 'description',
+          minLength: 0,
+          maxLength: MAX_LENGTH,
+        })
+      );
     } else {
-      throw new Error(
+      errors.push(
         `If instructionForAgent is not provided, the description property of the KnowledgeBase ` +
           `${association.knowledgeBase.knowledgeBaseId} must be provided.`
       );
     }
-  }
+    return errors;
+  };
   /**
    * Checks if the KB Associations are valid
    *
    * @internal This is an internal core function and should not be called directly.
    */
-  private validateKnowledgeBaseAssocations(): string[] {
+  private validateKnowledgeBaseAssocations = (): string[] => {
     const MAX_KB_ASSOCIATIONS = 10;
     const errors: string[] = [];
     if (this.knowledgeBaseAssociations.length > MAX_KB_ASSOCIATIONS) {
@@ -480,7 +513,32 @@ export class Agent extends AgentBase {
       this.validateKnowledgeBaseAssocation(association);
     }
     return errors;
-  }
+  };
+  /**
+   * Checks if the Guardrail is valid
+   *
+   * @internal This is an internal core function and should not be called directly.
+   */
+  private validateGuardrail = (guardrail: IGuardrailVersion): string[] => {
+    const errors: string[] = [];
+    if (this.guardrail) {
+      errors.push('A guardrail has already been defined for this agent.');
+    }
+    errors.push(...validateFieldPattern(guardrail.guardrailVersion, 'version', /^(([0-9]{1,8})|(DRAFT))$/));
+    return errors;
+  };
+  /**
+   * Check if the action group is valid
+   */
+  private validateActionGroup = (actionGroup: AgentActionGroup) => {
+    console.log('Validating action group: ', actionGroup.name);
+    let errors: string[] = [];
+    // Find if there is a conflicting action group name
+    if (this.actionGroups?.find(ag => ag.name === actionGroup.name)) {
+      errors.push(`An action group with name: ${actionGroup.name} has already been defined`);
+    }
+    return errors;
+  };
 }
 /******************************************************************************
  *                              COMMON
@@ -503,9 +561,13 @@ export interface KnowledgeBaseAgentAssociationConfig {
   readonly enabled?: boolean;
 }
 
-export interface KnowledgeBaseAgentAssociation extends KnowledgeBaseAgentAssociationConfig {
+export interface KnowledgeBaseAgentAssociation {
   /**
    * The Knowledge Base to associate with the agent.
    */
   readonly knowledgeBase: IKnowledgeBase;
+  /**
+   * The Knowledge Base configuration.
+   */
+  readonly config?: KnowledgeBaseAgentAssociationConfig;
 }
