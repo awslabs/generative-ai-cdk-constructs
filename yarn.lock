@@ -1090,9 +1090,9 @@
     undici-types "~6.20.0"
 
 "@types/node@^18":
-  version "18.19.66"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.66.tgz#0937a47904ceba5994eedf5cf4b6d503d8d6136c"
-  integrity sha512-14HmtUdGxFUalGRfLLn9Gc1oNWvWh5zNbsyOLo5JV6WARSeN1QcEBKRnZm9QqNfrutgsl/hY4eJW63aZ44aBCg==
+  version "18.19.67"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.67.tgz#77c4b01641a1e3e1509aff7e10d39e4afd5ae06d"
+  integrity sha512-wI8uHusga+0ZugNp0Ol/3BqQfEcCCNfojtO6Oou9iVNGPTL6QNSdnUdqq85fRgIorLhLMuPIKpsN98QE9Nh+KQ==
   dependencies:
     undici-types "~5.26.4"
 
@@ -1450,9 +1450,9 @@ aws-cdk-lib@2.166.0:
     yaml "1.10.2"
 
 aws-cdk@^2:
-  version "2.171.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.171.0.tgz#b848919ad58a189071c522dd8334fc3a74536945"
-  integrity sha512-tVo4hYS0iAbiCFxUh2/7KoDL6EHEIUAurCJaBs2BOUAB9DfBuUAPp8DGUK4iVF8XzrQQ4f3a5ivN7DteQrGBEQ==
+  version "2.171.1"
+  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.171.1.tgz#b3599bfcccfd64275f943d93cde7acaf17f2560d"
+  integrity sha512-IWENyT4F5UcLr1szLsbipUdjIHn8FD3d/RvaIvhs2+qCamkfEV5mqv/ChMvRJ8H2jebhIZ2iz74or9O5Ismp+Q==
   optionalDependencies:
     fsevents "2.3.2"
 
@@ -1665,9 +1665,9 @@ ccount@^2.0.0:
   integrity sha512-eyrF0jiFpY+3drT6383f1qhkbGsLSifNAjA61IUjZjmLCWjItY6LB9ft9YhoDgwfmclB2zhu51Lc7+95b8NRAg==
 
 cdk-nag@^2.34.7:
-  version "2.34.7"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.34.7.tgz#93e2cf25361785b6e96ea0280333064c459d73c8"
-  integrity sha512-d+EbjX885ES0nAdWGTtmWMAajZujqAjLMmy1viGwkwKgFwQPIC+EHf1OtcoU7sl87yU2sTDzrsuZrVVE20WOmQ==
+  version "2.34.13"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.34.13.tgz#a0a5912db122be7af95d12c69ab64f4b4b76d244"
+  integrity sha512-V48tlMikhpRrSyBeQ0mpBQ/4McydelkTcp0lJHPmb9YNw0b/qqR8CL4EazF8Bxbi2kDvFbXCvOVQXYzMzKMwiA==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -3997,9 +3997,9 @@ jsii-reflect@^1.105.0:
     yargs "^16.2.0"
 
 jsii-rosetta@~5.4.0:
-  version "5.4.46"
-  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.4.46.tgz#2ce3c26c98a408e82cff8d3f1aebec1fa53ddaf9"
-  integrity sha512-hWFYMooDLOh3d3om0i0NmAGZSAxXeSBIYM2V6TSRszaS9OLz0s1GSR1D3REzFJkH31tsN6voRmLHkgTGpM46Tg==
+  version "5.4.47"
+  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.4.47.tgz#3fb2061467db3582c2b28166083b09065dff89ea"
+  integrity sha512-39pwV9K3Ha9jtX7vAwy9cSEVou8AR1kT/68Bz/Ak+BwHU45x2ccGQ5tYpPiDsTrMaDHXxrLjOmTVEkMzMQmdUg==
   dependencies:
     "@jsii/check-node" "1.105.0"
     "@jsii/spec" "^1.105.0"
@@ -4016,9 +4016,9 @@ jsii-rosetta@~5.4.0:
     yargs "^17.7.2"
 
 jsii@~5.4.0:
-  version "5.4.43"
-  resolved "https://registry.yarnpkg.com/jsii/-/jsii-5.4.43.tgz#96cfc5e4595c01304928d0b066c201fd9d08e340"
-  integrity sha512-F6YqKnwp411Ay83ylAWhqWIxOQcPWFWifWH+YrEb7eUPAplqPxGyY4ox2p47N+KOF2+OR1FF4eiOll3brXxr8w==
+  version "5.4.44"
+  resolved "https://registry.yarnpkg.com/jsii/-/jsii-5.4.44.tgz#35ea64f4ba71ca11407f9a8ae419fbd56e90786a"
+  integrity sha512-AXUJs07aB9iKSt2PVP3H7JNaTJyXofoOVWogqEAHB9Ycb+5Wpf9v8bvMWz1Yi2yJsdyCLiroNM9tj5fiwai1NQ==
   dependencies:
     "@jsii/check-node" "1.105.0"
     "@jsii/spec" "^1.105.0"
