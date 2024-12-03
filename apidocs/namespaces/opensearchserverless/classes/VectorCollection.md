@@ -200,7 +200,9 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Parameters
 
-• **policy**: `RemovalPolicy`
+##### policy
+
+`RemovalPolicy`
 
 #### Returns
 
@@ -240,13 +242,17 @@ a concrete ARN with the resource's physical name. Make sure to reference
 
 #### Parameters
 
-• **arnAttr**: `string`
+##### arnAttr
+
+`string`
 
 The CFN attribute which resolves to the ARN of the resource.
 Commonly it will be called "Arn" (e.g. `resource.attrArn`), but sometimes
 it's the CFN resource's `ref`.
 
-• **arnComponents**: `ArnComponents`
+##### arnComponents
+
+`ArnComponents`
 
 The format of the ARN of this resource. You must
 reference `this.physicalName` somewhere within the ARN in order for
@@ -275,7 +281,9 @@ which will be a concrete name.
 
 #### Parameters
 
-• **nameAttr**: `string`
+##### nameAttr
+
+`string`
 
 The CFN attribute which resolves to the resource's name.
 Commonly this is the resource's `ref`.
@@ -318,11 +326,15 @@ Return the given named metric for this VectorCollection.
 
 #### Parameters
 
-• **metricName**: `string`
+##### metricName
+
+`string`
 
 The name of the metric
 
-• **props?**: `MetricOptions`
+##### props?
+
+`MetricOptions`
 
 Properties for the metric
 
@@ -344,7 +356,9 @@ Metric for the number of index requests.
 
 #### Parameters
 
-• **props?**: `MetricOptions`
+##### props?
+
+`MetricOptions`
 
 Properties for the metric
 
@@ -366,7 +380,9 @@ Metric for the search latency.
 
 #### Parameters
 
-• **props?**: `MetricOptions`
+##### props?
+
+`MetricOptions`
 
 Properties for the metric
 
@@ -388,7 +404,9 @@ Metric for the 90th percentile search latency.
 
 #### Parameters
 
-• **props?**: `MetricOptions`
+##### props?
+
+`MetricOptions`
 
 Properties for the metric
 
@@ -410,7 +428,9 @@ Metric for the number of search requests.
 
 #### Parameters
 
-• **props?**: `MetricOptions`
+##### props?
+
+`MetricOptions`
 
 Properties for the metric
 
@@ -448,15 +468,21 @@ Import an existing collection using its attributes.
 
 #### Parameters
 
-• **constructScope**: `Construct`
+##### constructScope
+
+`Construct`
 
 The parent creating construct.
 
-• **constructId**: `string`
+##### constructId
+
+`string`
 
 The construct's name.
 
-• **attrs**: [`VectorCollectionAttributes`](../interfaces/VectorCollectionAttributes.md)
+##### attrs
+
+[`VectorCollectionAttributes`](../interfaces/VectorCollectionAttributes.md)
 
 The collection attributes to use.
 
@@ -474,15 +500,21 @@ Import an existing collection using its name.
 
 #### Parameters
 
-• **constructScope**: `Construct`
+##### constructScope
+
+`Construct`
 
 The parent creating construct (usually `this`).
 
-• **constructId**: `string`
+##### constructId
+
+`string`
 
 The construct's name.
 
-• **collectionName**: `string`
+##### collectionName
+
+`string`
 
 The name of the collection to import.
 
@@ -540,7 +572,9 @@ Returns true if the construct was created by CDK, and false otherwise
 
 #### Parameters
 
-• **construct**: `IConstruct`
+##### construct
+
+`IConstruct`
 
 #### Returns
 
@@ -560,7 +594,9 @@ Check whether the given construct is a Resource
 
 #### Parameters
 
-• **construct**: `IConstruct`
+##### construct
+
+`IConstruct`
 
 #### Returns
 
@@ -580,9 +616,13 @@ Return metrics for all vector collections.
 
 #### Parameters
 
-• **metricName**: `string`
+##### metricName
 
-• **props?**: `MetricOptions`
+`string`
+
+##### props?
+
+`MetricOptions`
 
 #### Returns
 
@@ -598,7 +638,9 @@ Metric for the total number of index requests across all collections.
 
 #### Parameters
 
-• **props?**: `MetricOptions`
+##### props?
+
+`MetricOptions`
 
 #### Returns
 
@@ -614,7 +656,9 @@ Metric for average search latency across all collections.
 
 #### Parameters
 
-• **props?**: `MetricOptions`
+##### props?
+
+`MetricOptions`
 
 #### Returns
 
@@ -630,7 +674,9 @@ Metric for the total number of search requests across all collections.
 
 #### Parameters
 
-• **props?**: `MetricOptions`
+##### props?
+
+`MetricOptions`
 
 #### Returns
 
