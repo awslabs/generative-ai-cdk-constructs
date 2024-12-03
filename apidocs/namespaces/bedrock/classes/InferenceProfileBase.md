@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -30,11 +30,17 @@ Contains methods and attributes valid for ApplicationInferenceProfiles either cr
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **id**: `string`
+`Construct`
 
-• **props?**: `ResourceProps`
+##### id
+
+`string`
+
+##### props?
+
+`ResourceProps`
 
 #### Returns
 
@@ -192,7 +198,9 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Parameters
 
-• **policy**: `RemovalPolicy`
+##### policy
+
+`RemovalPolicy`
 
 #### Returns
 
@@ -236,13 +244,17 @@ a concrete ARN with the resource's physical name. Make sure to reference
 
 #### Parameters
 
-• **arnAttr**: `string`
+##### arnAttr
+
+`string`
 
 The CFN attribute which resolves to the ARN of the resource.
 Commonly it will be called "Arn" (e.g. `resource.attrArn`), but sometimes
 it's the CFN resource's `ref`.
 
-• **arnComponents**: `ArnComponents`
+##### arnComponents
+
+`ArnComponents`
 
 The format of the ARN of this resource. You must
 reference `this.physicalName` somewhere within the ARN in order for
@@ -271,7 +283,9 @@ which will be a concrete name.
 
 #### Parameters
 
-• **nameAttr**: `string`
+##### nameAttr
+
+`string`
 
 The CFN attribute which resolves to the resource's name.
 Commonly this is the resource's `ref`.
@@ -295,7 +309,9 @@ Does not grant permissions to use the model in the profile.
 
 #### Parameters
 
-• **grantee**: `IGrantable`
+##### grantee
+
+`IGrantable`
 
 #### Returns
 
@@ -345,7 +361,9 @@ this type-testing method instead.
 
 #### Parameters
 
-• **x**: `any`
+##### x
+
+`any`
 
 Any object
 
@@ -369,7 +387,9 @@ Returns true if the construct was created by CDK, and false otherwise
 
 #### Parameters
 
-• **construct**: `IConstruct`
+##### construct
+
+`IConstruct`
 
 #### Returns
 
@@ -389,7 +409,9 @@ Check whether the given construct is a Resource
 
 #### Parameters
 
-• **construct**: `IConstruct`
+##### construct
+
+`IConstruct`
 
 #### Returns
 

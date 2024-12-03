@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -18,11 +18,17 @@
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **id**: `string`
+`Construct`
 
-• **props**: [`AmazonAuroraVectorStoreProps`](../interfaces/AmazonAuroraVectorStoreProps.md)
+##### id
+
+`string`
+
+##### props
+
+[`AmazonAuroraVectorStoreProps`](../interfaces/AmazonAuroraVectorStoreProps.md)
 
 #### Returns
 
@@ -174,9 +180,13 @@ The VPC of your Amazon Aurora DB cluster.
 
 #### Parameters
 
-• **lambdaSecurityGroup**: `SecurityGroup`
+##### lambdaSecurityGroup
 
-• **auroraSecurityGroup**: `SecurityGroup`
+`SecurityGroup`
+
+##### auroraSecurityGroup
+
+`SecurityGroup`
 
 #### Returns
 
@@ -194,7 +204,9 @@ The VPC of your Amazon Aurora DB cluster.
 
 #### Parameters
 
-• **clusterIdentifier**: `string`
+##### clusterIdentifier
+
+`string`
 
 #### Returns
 
@@ -212,7 +224,9 @@ The VPC of your Amazon Aurora DB cluster.
 
 #### Parameters
 
-• **vpc**: `IVpc`
+##### vpc
+
+`IVpc`
 
 #### Returns
 
@@ -230,7 +244,9 @@ The VPC of your Amazon Aurora DB cluster.
 
 #### Parameters
 
-• **clusterIdentifier**: `string`
+##### clusterIdentifier
+
+`string`
 
 #### Returns
 
@@ -248,11 +264,17 @@ The VPC of your Amazon Aurora DB cluster.
 
 #### Parameters
 
-• **databaseClusterResources**: [`DatabaseClusterResources`](../interfaces/DatabaseClusterResources.md)
+##### databaseClusterResources
 
-• **lambdaSecurityGroup**: `SecurityGroup`
+[`DatabaseClusterResources`](../interfaces/DatabaseClusterResources.md)
 
-• **auroraPgCRPolicy**: `ManagedPolicy`
+##### lambdaSecurityGroup
+
+`SecurityGroup`
+
+##### auroraPgCRPolicy
+
+`ManagedPolicy`
 
 #### Returns
 
@@ -270,13 +292,21 @@ The VPC of your Amazon Aurora DB cluster.
 
 #### Parameters
 
-• **vpc**: `IVpc`
+##### vpc
 
-• **secret**: `ISecret`
+`IVpc`
 
-• **clusterIdentifier**: `string`
+##### secret
 
-• **auroraSecurityGroupId**: `string`
+`ISecret`
+
+##### clusterIdentifier
+
+`string`
+
+##### auroraSecurityGroupId
+
+`string`
 
 #### Returns
 
@@ -317,15 +347,21 @@ used for the database.
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
+
+`Construct`
 
 The scope in which to define the construct.
 
-• **id**: `string`
+##### id
+
+`string`
 
 The ID of the construct.
 
-• **props**: [`ExistingAmazonAuroraVectorStoreProps`](../interfaces/ExistingAmazonAuroraVectorStoreProps.md)
+##### props
+
+[`ExistingAmazonAuroraVectorStoreProps`](../interfaces/ExistingAmazonAuroraVectorStoreProps.md)
 
 The properties of the existing Aurora Vector Store.
 
@@ -359,7 +395,9 @@ this type-testing method instead.
 
 #### Parameters
 
-• **x**: `any`
+##### x
+
+`any`
 
 Any object
 

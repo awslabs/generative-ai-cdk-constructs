@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -16,7 +16,9 @@ Class to define a PineconeVectorStore.
 
 #### Parameters
 
-• **props**: [`PineconeVectorStoreProps`](../interfaces/PineconeVectorStoreProps.md)
+##### props
+
+[`PineconeVectorStoreProps`](../interfaces/PineconeVectorStoreProps.md)
 
 #### Returns
 
