@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -100,7 +100,9 @@ Add a Confluence data source to the knowledge base.
 
 #### Parameters
 
-• **props**: [`ConfluenceDataSourceAssociationProps`](ConfluenceDataSourceAssociationProps.md)
+##### props
+
+[`ConfluenceDataSourceAssociationProps`](ConfluenceDataSourceAssociationProps.md)
 
 #### Returns
 
@@ -116,7 +118,9 @@ Add an S3 data source to the knowledge base.
 
 #### Parameters
 
-• **props**: [`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md)
+##### props
+
+[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md)
 
 #### Returns
 
@@ -132,7 +136,9 @@ Add a Salesforce data source to the knowledge base.
 
 #### Parameters
 
-• **props**: [`SalesforceDataSourceAssociationProps`](SalesforceDataSourceAssociationProps.md)
+##### props
+
+[`SalesforceDataSourceAssociationProps`](SalesforceDataSourceAssociationProps.md)
 
 #### Returns
 
@@ -148,7 +154,9 @@ Add a SharePoint data source to the knowledge base.
 
 #### Parameters
 
-• **props**: [`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md)
+##### props
+
+[`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md)
 
 #### Returns
 
@@ -164,7 +172,9 @@ Add a web crawler data source to the knowledge base.
 
 #### Parameters
 
-• **props**: [`WebCrawlerDataSourceAssociationProps`](WebCrawlerDataSourceAssociationProps.md)
+##### props
+
+[`WebCrawlerDataSourceAssociationProps`](WebCrawlerDataSourceAssociationProps.md)
 
 #### Returns
 
@@ -188,7 +198,9 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Parameters
 
-• **policy**: `RemovalPolicy`
+##### policy
+
+`RemovalPolicy`
 
 #### Returns
 

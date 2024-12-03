@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -33,11 +33,17 @@ https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management-deploy.ht
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **id**: `string`
+`Construct`
 
-• **props**: [`PromptVersionProps`](../interfaces/PromptVersionProps.md)
+##### id
+
+`string`
+
+##### props
+
+[`PromptVersionProps`](../interfaces/PromptVersionProps.md)
 
 #### Returns
 
@@ -129,7 +135,9 @@ this type-testing method instead.
 
 #### Parameters
 
-• **x**: `any`
+##### x
+
+`any`
 
 Any object
 

@@ -11,6 +11,7 @@
  *  and limitations under the License.
  */
 import * as path from 'path';
+import { Annotations } from 'aws-cdk-lib';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs';
 import { Layer } from '../../../common/helpers/python-lambda-layer-helper';
@@ -69,6 +70,9 @@ export class LangchainCommonDepsLayer extends Construct {
      */
   constructor(scope: Construct, id: string, props: LangchainLayerProps) {
     super(scope, id);
+
+    Annotations.of(scope).addWarningV2('@cdklabs/generative-ai-cdk-constructs:LangchainCommonDepsLayer.deprecation',
+      'This construct is deprecated and will not receive further support. It will be removed in the next release of the library.');
 
     const layer = new Layer(this, 'Langchain Layer', {
       path: path.join(__dirname, '../../../../layers/langchain-common-deps'),
