@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md)
 
 ***
 
@@ -22,15 +22,21 @@ This construct creates a lambda layer loaded with relevant libraries to run gena
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
+
+`Construct`
 
 represents the scope for all the resources.
 
-• **id**: `string`
+##### id
+
+`string`
 
 this is a a scope-unique id.
 
-• **props**: [`LangchainLayerProps`](../interfaces/LangchainLayerProps.md)
+##### props
+
+[`LangchainLayerProps`](../interfaces/LangchainLayerProps.md)
 
 user provided props for the construct.
 
@@ -106,7 +112,9 @@ this type-testing method instead.
 
 #### Parameters
 
-• **x**: `any`
+##### x
+
+`any`
 
 Any object
 

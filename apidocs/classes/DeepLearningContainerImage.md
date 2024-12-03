@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md)
 
 ***
 
@@ -20,11 +20,17 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 #### Parameters
 
-• **repositoryName**: `string`
+##### repositoryName
 
-• **tag**: `string`
+`string`
 
-• **accountId?**: `string`
+##### tag
+
+`string`
+
+##### accountId?
+
+`string`
 
 #### Returns
 
@@ -564,9 +570,13 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **grantable**: `IGrantable`
+`Construct`
+
+##### grantable
+
+`IGrantable`
 
 #### Returns
 
@@ -584,9 +594,13 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 #### Parameters
 
-• **directory**: `string`
+##### directory
 
-• **options**: `DockerImageAssetOptions` = `{}`
+`string`
+
+##### options
+
+`DockerImageAssetOptions` = `{}`
 
 #### Returns
 
@@ -604,11 +618,17 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 #### Parameters
 
-• **repositoryName**: `string`
+##### repositoryName
 
-• **tag**: `string`
+`string`
 
-• **accountId?**: `string`
+##### tag
+
+`string`
+
+##### accountId?
+
+`string`
 
 #### Returns
 
@@ -622,9 +642,13 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 #### Parameters
 
-• **repository**: `IRepository`
+##### repository
 
-• **tag**: `string` = `'latest'`
+`IRepository`
+
+##### tag
+
+`string` = `'latest'`
 
 #### Returns
 
