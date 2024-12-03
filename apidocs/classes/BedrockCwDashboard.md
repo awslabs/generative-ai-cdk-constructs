@@ -30,7 +30,7 @@ represents the scope for all the resources.
 
 this is a a scope-unique id.
 
-• **props**: [`BedrockCwDashboardProps`](../interfaces/BedrockCwDashboardProps.md)
+• **props**: [`BedrockCwDashboardProps`](../interfaces/BedrockCwDashboardProps.md) = `{}`
 
 user provided props for the construct.
 
@@ -74,7 +74,7 @@ The tree node.
 
 #### Parameters
 
-• **props**: [`ModelMonitoringProps`](../interfaces/ModelMonitoringProps.md)
+• **props**: [`ModelMonitoringProps`](../interfaces/ModelMonitoringProps.md) = `{}`
 
 #### Returns
 
@@ -92,7 +92,7 @@ The tree node.
 
 • **modelId**: `string`
 
-• **props**: [`ModelMonitoringProps`](../interfaces/ModelMonitoringProps.md)
+• **props**: [`ModelMonitoringProps`](../interfaces/ModelMonitoringProps.md) = `{}`
 
 #### Returns
 
