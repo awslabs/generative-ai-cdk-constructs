@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -34,11 +34,17 @@ https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-management.html
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **id**: `string`
+`Construct`
 
-• **props**: [`PromptProps`](../interfaces/PromptProps.md)
+##### id
+
+`string`
+
+##### props
+
+[`PromptProps`](../interfaces/PromptProps.md)
 
 #### Returns
 
@@ -156,7 +162,9 @@ Adds a prompt variant.
 
 #### Parameters
 
-• **variant**: [`PromptVariant`](PromptVariant.md)
+##### variant
+
+[`PromptVariant`](PromptVariant.md)
 
 #### Returns
 
@@ -173,7 +181,9 @@ deployed to production.
 
 #### Parameters
 
-• **description?**: `string`
+##### description?
+
+`string`
 
 #### Returns
 
@@ -203,11 +213,17 @@ Returns a string representation of this construct.
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **id**: `string`
+`Construct`
 
-• **attrs**: [`PromptAttributes`](../interfaces/PromptAttributes.md)
+##### id
+
+`string`
+
+##### attrs
+
+[`PromptAttributes`](../interfaces/PromptAttributes.md)
 
 #### Returns
 
@@ -237,7 +253,9 @@ this type-testing method instead.
 
 #### Parameters
 
-• **x**: `any`
+##### x
+
+`any`
 
 Any object
 

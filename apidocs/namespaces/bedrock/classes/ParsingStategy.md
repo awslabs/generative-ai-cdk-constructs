@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -53,7 +53,9 @@ from documents such as tables and charts.
 
 #### Parameters
 
-• **props**: [`FoundationModelParsingStategyProps`](../interfaces/FoundationModelParsingStategyProps.md)
+##### props
+
+[`FoundationModelParsingStategyProps`](../interfaces/FoundationModelParsingStategyProps.md)
 
 #### Returns
 

@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -22,11 +22,17 @@ It includes all policies.
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **id**: `string`
+`Construct`
 
-• **props?**: [`VectorCollectionProps`](../interfaces/VectorCollectionProps.md)
+##### id
+
+`string`
+
+##### props?
+
+[`VectorCollectionProps`](../interfaces/VectorCollectionProps.md)
 
 #### Returns
 
@@ -106,7 +112,9 @@ Grants the specified role access to data in the collection.
 
 #### Parameters
 
-• **grantee**: `IRole`
+##### grantee
+
+`IRole`
 
 The role to grant access to.
 
@@ -154,7 +162,9 @@ this type-testing method instead.
 
 #### Parameters
 
-• **x**: `any`
+##### x
+
+`any`
 
 Any object
 

@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md)
 
 ***
 
@@ -22,15 +22,21 @@ Constructs a new instance of the AossCwDashboard class.
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
+
+`Construct`
 
 represents the scope for all the resources.
 
-• **id**: `string`
+##### id
+
+`string`
 
 this is a a scope-unique id.
 
-• **props**: [`AossCwDashboardProps`](../interfaces/AossCwDashboardProps.md)
+##### props
+
+[`AossCwDashboardProps`](../interfaces/AossCwDashboardProps.md)
 
 user provided props for the construct.
 
@@ -74,11 +80,17 @@ The tree node.
 
 #### Parameters
 
-• **collectionName**: `string`
+##### collectionName
 
-• **collectionId**: `string`
+`string`
 
-• **props**: [`CollectionMonitoringProps`](../interfaces/CollectionMonitoringProps.md)
+##### collectionId
+
+`string`
+
+##### props
+
+[`CollectionMonitoringProps`](../interfaces/CollectionMonitoringProps.md)
 
 #### Returns
 
@@ -92,9 +104,13 @@ The tree node.
 
 #### Parameters
 
-• **collection**: `CfnCollection`
+##### collection
 
-• **props**: [`CollectionMonitoringProps`](../interfaces/CollectionMonitoringProps.md)
+`CfnCollection`
+
+##### props
+
+[`CollectionMonitoringProps`](../interfaces/CollectionMonitoringProps.md)
 
 #### Returns
 
@@ -108,15 +124,25 @@ The tree node.
 
 #### Parameters
 
-• **collectionName**: `string`
+##### collectionName
 
-• **collectionId**: `string`
+`string`
 
-• **IndexName**: `string`
+##### collectionId
 
-• **IndexId**: `string`
+`string`
 
-• **props**: [`IndexMonitoringProps`](../interfaces/IndexMonitoringProps.md)
+##### IndexName
+
+`string`
+
+##### IndexId
+
+`string`
+
+##### props
+
+[`IndexMonitoringProps`](../interfaces/IndexMonitoringProps.md)
 
 #### Returns
 
@@ -162,7 +188,9 @@ this type-testing method instead.
 
 #### Parameters
 
-• **x**: `any`
+##### x
+
+`any`
 
 Any object
 

@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -24,11 +24,17 @@ Interface for both Imported and CDK-created Agent Aliases.
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **id**: `string`
+`Construct`
 
-• **props**: [`AgentAliasProps`](../interfaces/AgentAliasProps.md)
+##### id
+
+`string`
+
+##### props
+
+[`AgentAliasProps`](../interfaces/AgentAliasProps.md)
 
 #### Returns
 
@@ -132,11 +138,17 @@ Brings an Agent Alias from an existing one created outside of CDK.
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **id**: `string`
+`Construct`
 
-• **aliasArn**: `string`
+##### id
+
+`string`
+
+##### aliasArn
+
+`string`
 
 #### Returns
 
@@ -166,7 +178,9 @@ this type-testing method instead.
 
 #### Parameters
 
-• **x**: `any`
+##### x
+
+`any`
 
 Any object
 

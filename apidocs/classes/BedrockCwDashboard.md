@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md)
 
 ***
 
@@ -22,15 +22,21 @@ Constructs a new instance of the BedrockCwDashboard class.
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
+
+`Construct`
 
 represents the scope for all the resources.
 
-• **id**: `string`
+##### id
+
+`string`
 
 this is a a scope-unique id.
 
-• **props**: [`BedrockCwDashboardProps`](../interfaces/BedrockCwDashboardProps.md) = `{}`
+##### props
+
+[`BedrockCwDashboardProps`](../interfaces/BedrockCwDashboardProps.md) = `{}`
 
 user provided props for the construct.
 
@@ -74,7 +80,9 @@ The tree node.
 
 #### Parameters
 
-• **props**: [`ModelMonitoringProps`](../interfaces/ModelMonitoringProps.md) = `{}`
+##### props
+
+[`ModelMonitoringProps`](../interfaces/ModelMonitoringProps.md) = `{}`
 
 #### Returns
 
@@ -88,11 +96,17 @@ The tree node.
 
 #### Parameters
 
-• **modelName**: `string`
+##### modelName
 
-• **modelId**: `string`
+`string`
 
-• **props**: [`ModelMonitoringProps`](../interfaces/ModelMonitoringProps.md) = `{}`
+##### modelId
+
+`string`
+
+##### props
+
+[`ModelMonitoringProps`](../interfaces/ModelMonitoringProps.md) = `{}`
 
 #### Returns
 
@@ -138,7 +152,9 @@ this type-testing method instead.
 
 #### Parameters
 
-• **x**: `any`
+##### x
+
+`any`
 
 Any object
 

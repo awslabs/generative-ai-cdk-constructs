@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -28,7 +28,9 @@ Gives the appropriate policies to invoke and use the invokable abstraction.
 
 #### Parameters
 
-• **grantee**: `IGrantable`
+##### grantee
+
+`IGrantable`
 
 #### Returns
 

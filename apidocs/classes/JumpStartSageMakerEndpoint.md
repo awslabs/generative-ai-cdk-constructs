@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md)
 
 ***
 
@@ -20,11 +20,17 @@ The JumpStartSageMakerEndpoint class.
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **id**: `string`
+`Construct`
 
-• **props**: [`JumpStartSageMakerEndpointProps`](../interfaces/JumpStartSageMakerEndpointProps.md)
+##### id
+
+`string`
+
+##### props
+
+[`JumpStartSageMakerEndpointProps`](../interfaces/JumpStartSageMakerEndpointProps.md)
 
 #### Returns
 
@@ -210,7 +216,9 @@ Record<string, number> , maps construct name with number of deployments
 
 #### Parameters
 
-• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
+##### props
+
+[`BaseClassProps`](../interfaces/BaseClassProps.md)
 
 #### Returns
 
@@ -228,7 +236,9 @@ Record<string, number> , maps construct name with number of deployments
 
 #### Parameters
 
-• **statement**: `PolicyStatement`
+##### statement
+
+`PolicyStatement`
 
 #### Returns
 
@@ -256,7 +266,9 @@ Record<string, number> , maps construct name with number of deployments
 
 #### Parameters
 
-• **grantee**: `IGrantable`
+##### grantee
+
+`IGrantable`
 
 #### Returns
 
@@ -286,11 +298,17 @@ Returns a string representation of this construct.
 
 #### Parameters
 
-• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
+##### props
 
-• **scope**: `Construct`
+[`BaseClassProps`](../interfaces/BaseClassProps.md)
 
-• **lambdaFunctions**: `DockerImageFunction`[]
+##### scope
+
+`Construct`
+
+##### lambdaFunctions
+
+`DockerImageFunction`[]
 
 #### Returns
 
@@ -308,7 +326,9 @@ Returns a string representation of this construct.
 
 #### Parameters
 
-• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
+##### props
+
+[`BaseClassProps`](../interfaces/BaseClassProps.md)
 
 #### Returns
 
@@ -342,7 +362,9 @@ this type-testing method instead.
 
 #### Parameters
 
-• **x**: `any`
+##### x
+
+`any`
 
 Any object
 

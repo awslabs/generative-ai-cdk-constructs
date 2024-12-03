@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -16,7 +16,9 @@ Defines a topic to deny.
 
 #### Parameters
 
-• **props**: [`CustomTopicProps`](../interfaces/CustomTopicProps.md)
+##### props
+
+[`CustomTopicProps`](../interfaces/CustomTopicProps.md)
 
 #### Returns
 
@@ -84,7 +86,9 @@ The name of the topic to deny.
 
 #### Parameters
 
-• **props**: [`CustomTopicProps`](../interfaces/CustomTopicProps.md)
+##### props
+
+[`CustomTopicProps`](../interfaces/CustomTopicProps.md)
 
 #### Returns
 
