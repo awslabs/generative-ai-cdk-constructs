@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md)
 
 ***
 
@@ -16,7 +16,9 @@ Supported instance types for SageMaker instance-based production variants.
 
 #### Parameters
 
-• **instanceType**: `string`
+##### instanceType
+
+`string`
 
 #### Returns
 
@@ -750,7 +752,9 @@ Builds an InstanceType from a given string or token (such as a CfnParameter).
 
 #### Parameters
 
-• **instanceType**: `string`
+##### instanceType
+
+`string`
 
 An instance type as string
 

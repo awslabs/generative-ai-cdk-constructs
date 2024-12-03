@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -21,11 +21,17 @@ Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **id**: `string`
+`Construct`
 
-• **props**: [`KnowledgeBaseProps`](../interfaces/KnowledgeBaseProps.md)
+##### id
+
+`string`
+
+##### props
+
+[`KnowledgeBaseProps`](../interfaces/KnowledgeBaseProps.md)
 
 #### Returns
 
@@ -211,7 +217,9 @@ Add a Confluence data source to the knowledge base.
 
 #### Parameters
 
-• **props**: [`ConfluenceDataSourceAssociationProps`](../interfaces/ConfluenceDataSourceAssociationProps.md)
+##### props
+
+[`ConfluenceDataSourceAssociationProps`](../interfaces/ConfluenceDataSourceAssociationProps.md)
 
 #### Returns
 
@@ -231,7 +239,9 @@ Add an S3 data source to the knowledge base.
 
 #### Parameters
 
-• **props**: [`S3DataSourceAssociationProps`](../interfaces/S3DataSourceAssociationProps.md)
+##### props
+
+[`S3DataSourceAssociationProps`](../interfaces/S3DataSourceAssociationProps.md)
 
 #### Returns
 
@@ -251,7 +261,9 @@ Add a Salesforce data source to the knowledge base.
 
 #### Parameters
 
-• **props**: [`SalesforceDataSourceAssociationProps`](../interfaces/SalesforceDataSourceAssociationProps.md)
+##### props
+
+[`SalesforceDataSourceAssociationProps`](../interfaces/SalesforceDataSourceAssociationProps.md)
 
 #### Returns
 
@@ -271,7 +283,9 @@ Add a SharePoint data source to the knowledge base.
 
 #### Parameters
 
-• **props**: [`SharePointDataSourceAssociationProps`](../interfaces/SharePointDataSourceAssociationProps.md)
+##### props
+
+[`SharePointDataSourceAssociationProps`](../interfaces/SharePointDataSourceAssociationProps.md)
 
 #### Returns
 
@@ -291,7 +305,9 @@ Add a web crawler data source to the knowledge base.
 
 #### Parameters
 
-• **props**: [`WebCrawlerDataSourceAssociationProps`](../interfaces/WebCrawlerDataSourceAssociationProps.md)
+##### props
+
+[`WebCrawlerDataSourceAssociationProps`](../interfaces/WebCrawlerDataSourceAssociationProps.md)
 
 #### Returns
 
@@ -319,7 +335,9 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Parameters
 
-• **policy**: `RemovalPolicy`
+##### policy
+
+`RemovalPolicy`
 
 #### Returns
 
@@ -339,7 +357,9 @@ Associate knowledge base with an agent
 
 #### Parameters
 
-• **agent**: [`Agent`](Agent.md)
+##### agent
+
+[`Agent`](Agent.md)
 
 #### Returns
 
@@ -375,13 +395,17 @@ a concrete ARN with the resource's physical name. Make sure to reference
 
 #### Parameters
 
-• **arnAttr**: `string`
+##### arnAttr
+
+`string`
 
 The CFN attribute which resolves to the ARN of the resource.
 Commonly it will be called "Arn" (e.g. `resource.attrArn`), but sometimes
 it's the CFN resource's `ref`.
 
-• **arnComponents**: `ArnComponents`
+##### arnComponents
+
+`ArnComponents`
 
 The format of the ARN of this resource. You must
 reference `this.physicalName` somewhere within the ARN in order for
@@ -410,7 +434,9 @@ which will be a concrete name.
 
 #### Parameters
 
-• **nameAttr**: `string`
+##### nameAttr
+
+`string`
 
 The CFN attribute which resolves to the resource's name.
 Commonly this is the resource's `ref`.
@@ -447,11 +473,17 @@ Returns a string representation of this construct.
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **id**: `string`
+`Construct`
 
-• **attrs**: [`KnowledgeBaseAttributes`](../interfaces/KnowledgeBaseAttributes.md)
+##### id
+
+`string`
+
+##### attrs
+
+[`KnowledgeBaseAttributes`](../interfaces/KnowledgeBaseAttributes.md)
 
 #### Returns
 
@@ -481,7 +513,9 @@ this type-testing method instead.
 
 #### Parameters
 
-• **x**: `any`
+##### x
+
+`any`
 
 Any object
 
@@ -505,7 +539,9 @@ Returns true if the construct was created by CDK, and false otherwise
 
 #### Parameters
 
-• **construct**: `IConstruct`
+##### construct
+
+`IConstruct`
 
 #### Returns
 
@@ -525,7 +561,9 @@ Check whether the given construct is a Resource
 
 #### Parameters
 
-• **construct**: `IConstruct`
+##### construct
+
+`IConstruct`
 
 #### Returns
 

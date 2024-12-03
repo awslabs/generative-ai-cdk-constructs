@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -34,11 +34,17 @@ https://docs.aws.amazon.com/bedrock/latest/userguide/inference-profiles-create.h
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **id**: `string`
+`Construct`
 
-• **props**: [`ApplicationInferenceProfileProps`](../interfaces/ApplicationInferenceProfileProps.md)
+##### id
+
+`string`
+
+##### props
+
+[`ApplicationInferenceProfileProps`](../interfaces/ApplicationInferenceProfileProps.md)
 
 #### Returns
 
@@ -241,7 +247,9 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Parameters
 
-• **policy**: `RemovalPolicy`
+##### policy
+
+`RemovalPolicy`
 
 #### Returns
 
@@ -281,13 +289,17 @@ a concrete ARN with the resource's physical name. Make sure to reference
 
 #### Parameters
 
-• **arnAttr**: `string`
+##### arnAttr
+
+`string`
 
 The CFN attribute which resolves to the ARN of the resource.
 Commonly it will be called "Arn" (e.g. `resource.attrArn`), but sometimes
 it's the CFN resource's `ref`.
 
-• **arnComponents**: `ArnComponents`
+##### arnComponents
+
+`ArnComponents`
 
 The format of the ARN of this resource. You must
 reference `this.physicalName` somewhere within the ARN in order for
@@ -316,7 +328,9 @@ which will be a concrete name.
 
 #### Parameters
 
-• **nameAttr**: `string`
+##### nameAttr
+
+`string`
 
 The CFN attribute which resolves to the resource's name.
 Commonly this is the resource's `ref`.
@@ -339,7 +353,9 @@ Gives the appropriate policies to invoke and use the application inference profi
 
 #### Parameters
 
-• **grantee**: `IGrantable`
+##### grantee
+
+`IGrantable`
 
 #### Returns
 
@@ -360,7 +376,9 @@ Does not grant permissions to use the model/cross-region profile in the AIP.
 
 #### Parameters
 
-• **grantee**: `IGrantable`
+##### grantee
+
+`IGrantable`
 
 #### Returns
 
@@ -396,11 +414,17 @@ Import a ApplicationInferenceProfile given its attributes
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **id**: `string`
+`Construct`
 
-• **attrs**: [`ApplicationInferenceProfileAttributes`](../interfaces/ApplicationInferenceProfileAttributes.md)
+##### id
+
+`string`
+
+##### attrs
+
+[`ApplicationInferenceProfileAttributes`](../interfaces/ApplicationInferenceProfileAttributes.md)
 
 #### Returns
 
@@ -416,7 +440,9 @@ Import a low-level L1 Cfn ApplicationInferenceProfile
 
 #### Parameters
 
-• **CfnApplicationInferenceProfile**: `CfnApplicationInferenceProfile`
+##### CfnApplicationInferenceProfile
+
+`CfnApplicationInferenceProfile`
 
 #### Returns
 
@@ -446,7 +472,9 @@ this type-testing method instead.
 
 #### Parameters
 
-• **x**: `any`
+##### x
+
+`any`
 
 Any object
 
@@ -470,7 +498,9 @@ Returns true if the construct was created by CDK, and false otherwise
 
 #### Parameters
 
-• **construct**: `IConstruct`
+##### construct
+
+`IConstruct`
 
 #### Returns
 
@@ -490,7 +520,9 @@ Check whether the given construct is a Resource
 
 #### Parameters
 
-• **construct**: `IConstruct`
+##### construct
+
+`IConstruct`
 
 #### Returns
 

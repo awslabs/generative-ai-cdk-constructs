@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -20,11 +20,17 @@ Class to create a Guardrail with CDK.
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **id**: `string`
+`Construct`
 
-• **props**: [`GuardrailProps`](../interfaces/GuardrailProps.md)
+##### id
+
+`string`
+
+##### props
+
+[`GuardrailProps`](../interfaces/GuardrailProps.md)
 
 #### Returns
 
@@ -266,7 +272,9 @@ Adds a content filter to the guardrail.
 
 #### Parameters
 
-• **filter**: [`ContentFilter`](../interfaces/ContentFilter.md)
+##### filter
+
+[`ContentFilter`](../interfaces/ContentFilter.md)
 
 The content filter to add.
 
@@ -284,7 +292,9 @@ Adds a contextual grounding filter to the guardrail.
 
 #### Parameters
 
-• **filter**: [`ContextualGroundingFilter`](../interfaces/ContextualGroundingFilter.md)
+##### filter
+
+[`ContextualGroundingFilter`](../interfaces/ContextualGroundingFilter.md)
 
 The contextual grounding filter to add.
 
@@ -302,7 +312,9 @@ Adds a denied topic filter to the guardrail.
 
 #### Parameters
 
-• **filter**: [`Topic`](Topic.md)
+##### filter
+
+[`Topic`](Topic.md)
 
 The denied topic filter to add.
 
@@ -320,7 +332,9 @@ Adds a managed word list filter to the guardrail.
 
 #### Parameters
 
-• **filter**: [`PROFANITY`](../enumerations/ManagedWordFilterType.md#profanity)
+##### filter
+
+[`PROFANITY`](../enumerations/ManagedWordFilterType.md#profanity)
 
 The managed word list filter to add.
 
@@ -338,7 +352,9 @@ Adds a PII filter to the guardrail.
 
 #### Parameters
 
-• **filter**: [`PIIFilter`](../interfaces/PIIFilter.md)
+##### filter
+
+[`PIIFilter`](../interfaces/PIIFilter.md)
 
 The PII filter to add.
 
@@ -356,7 +372,9 @@ Adds a regex filter to the guardrail.
 
 #### Parameters
 
-• **filter**: [`RegexFilter`](../interfaces/RegexFilter.md)
+##### filter
+
+[`RegexFilter`](../interfaces/RegexFilter.md)
 
 The regex filter to add.
 
@@ -374,7 +392,9 @@ Adds a word filter to the guardrail.
 
 #### Parameters
 
-• **filter**: `string`
+##### filter
+
+`string`
 
 The word filter to add.
 
@@ -392,7 +412,9 @@ Adds a word filter to the guardrail.
 
 #### Parameters
 
-• **filePath**: `string`
+##### filePath
+
+`string`
 
 The location of the word filter file.
 
@@ -418,7 +440,9 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Parameters
 
-• **policy**: `RemovalPolicy`
+##### policy
+
+`RemovalPolicy`
 
 #### Returns
 
@@ -438,7 +462,9 @@ Create a version for the guardrail.
 
 #### Parameters
 
-• **description?**: `string`
+##### description?
+
+`string`
 
 The description of the version.
 
@@ -478,13 +504,17 @@ a concrete ARN with the resource's physical name. Make sure to reference
 
 #### Parameters
 
-• **arnAttr**: `string`
+##### arnAttr
+
+`string`
 
 The CFN attribute which resolves to the ARN of the resource.
 Commonly it will be called "Arn" (e.g. `resource.attrArn`), but sometimes
 it's the CFN resource's `ref`.
 
-• **arnComponents**: `ArnComponents`
+##### arnComponents
+
+`ArnComponents`
 
 The format of the ARN of this resource. You must
 reference `this.physicalName` somewhere within the ARN in order for
@@ -513,7 +543,9 @@ which will be a concrete name.
 
 #### Parameters
 
-• **nameAttr**: `string`
+##### nameAttr
+
+`string`
 
 The CFN attribute which resolves to the resource's name.
 Commonly this is the resource's `ref`.
@@ -536,7 +568,9 @@ Grant the given identity permissions to apply the guardrail.
 
 #### Parameters
 
-• **grantee**: `IGrantable`
+##### grantee
+
+`IGrantable`
 
 #### Returns
 
@@ -572,7 +606,9 @@ Import a low-level L1 Cfn Guardrail
 
 #### Parameters
 
-• **cfnGuardrail**: `CfnGuardrail`
+##### cfnGuardrail
+
+`CfnGuardrail`
 
 #### Returns
 
@@ -588,11 +624,17 @@ Import a guardrail given its attributes
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **id**: `string`
+`Construct`
 
-• **attrs**: [`GuardrailAttributes`](../interfaces/GuardrailAttributes.md)
+##### id
+
+`string`
+
+##### attrs
+
+[`GuardrailAttributes`](../interfaces/GuardrailAttributes.md)
 
 #### Returns
 
@@ -622,7 +664,9 @@ this type-testing method instead.
 
 #### Parameters
 
-• **x**: `any`
+##### x
+
+`any`
 
 Any object
 
@@ -646,7 +690,9 @@ Returns true if the construct was created by CDK, and false otherwise
 
 #### Parameters
 
-• **construct**: `IConstruct`
+##### construct
+
+`IConstruct`
 
 #### Returns
 
@@ -666,7 +712,9 @@ Check whether the given construct is a Resource
 
 #### Parameters
 
-• **construct**: `IConstruct`
+##### construct
+
+`IConstruct`
 
 #### Returns
 

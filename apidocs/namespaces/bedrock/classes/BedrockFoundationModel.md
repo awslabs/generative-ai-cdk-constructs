@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -23,9 +23,13 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 #### Parameters
 
-• **value**: `string`
+##### value
 
-• **props**: [`BedrockFoundationModelProps`](../interfaces/BedrockFoundationModelProps.md) = `{}`
+`string`
+
+##### props
+
+[`BedrockFoundationModelProps`](../interfaces/BedrockFoundationModelProps.md) = `{}`
 
 #### Returns
 
@@ -230,7 +234,9 @@ Returns the ARN of the foundation model in the following format:
 
 #### Parameters
 
-• **construct**: `IConstruct`
+##### construct
+
+`IConstruct`
 
 #### Returns
 
@@ -244,7 +250,9 @@ Returns the ARN of the foundation model in the following format:
 
 #### Parameters
 
-• **construct**: `IConstruct`
+##### construct
+
+`IConstruct`
 
 #### Returns
 
@@ -260,7 +268,9 @@ Gives the appropriate policies to invoke and use the Foundation Model in the sta
 
 #### Parameters
 
-• **grantee**: `IGrantable`
+##### grantee
+
+`IGrantable`
 
 #### Returns
 
@@ -280,7 +290,9 @@ Gives the appropriate policies to invoke and use the Foundation Model in all reg
 
 #### Parameters
 
-• **grantee**: `IGrantable`
+##### grantee
+
+`IGrantable`
 
 #### Returns
 
@@ -306,9 +318,13 @@ Returns a string representation of an object.
 
 #### Parameters
 
-• **modelId**: `FoundationModel`
+##### modelId
 
-• **props**: [`BedrockFoundationModelProps`](../interfaces/BedrockFoundationModelProps.md) = `{}`
+`FoundationModel`
+
+##### props
+
+[`BedrockFoundationModelProps`](../interfaces/BedrockFoundationModelProps.md) = `{}`
 
 #### Returns
 
@@ -322,9 +338,13 @@ Returns a string representation of an object.
 
 #### Parameters
 
-• **modelId**: `FoundationModelIdentifier`
+##### modelId
 
-• **props**: [`BedrockFoundationModelProps`](../interfaces/BedrockFoundationModelProps.md) = `{}`
+`FoundationModelIdentifier`
+
+##### props
+
+[`BedrockFoundationModelProps`](../interfaces/BedrockFoundationModelProps.md) = `{}`
 
 #### Returns
 

@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -70,7 +70,9 @@ Static method to create a text template
 
 #### Parameters
 
-• **props**: [`TextPromptVariantProps`](../interfaces/TextPromptVariantProps.md)
+##### props
+
+[`TextPromptVariantProps`](../interfaces/TextPromptVariantProps.md)
 
 #### Returns
 
