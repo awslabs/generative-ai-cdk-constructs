@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -120,7 +120,9 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Parameters
 
-• **policy**: `RemovalPolicy`
+##### policy
+
+`RemovalPolicy`
 
 #### Returns
 
@@ -140,11 +142,15 @@ Return the given named metric for this VectorCollection.
 
 #### Parameters
 
-• **metricName**: `string`
+##### metricName
+
+`string`
 
 The name of the metric
 
-• **props?**: `MetricOptions`
+##### props?
+
+`MetricOptions`
 
 Properties for the metric
 
@@ -162,7 +168,9 @@ Metric for the number of index requests.
 
 #### Parameters
 
-• **props?**: `MetricOptions`
+##### props?
+
+`MetricOptions`
 
 Properties for the metric
 
@@ -180,7 +188,9 @@ Metric for the search latency.
 
 #### Parameters
 
-• **props?**: `MetricOptions`
+##### props?
+
+`MetricOptions`
 
 Properties for the metric
 
@@ -198,7 +208,9 @@ Metric for the 90th percentile search latency.
 
 #### Parameters
 
-• **props?**: `MetricOptions`
+##### props?
+
+`MetricOptions`
 
 Properties for the metric
 
@@ -216,7 +228,9 @@ Metric for the number of search requests.
 
 #### Parameters
 
-• **props?**: `MetricOptions`
+##### props?
+
+`MetricOptions`
 
 Properties for the metric
 
