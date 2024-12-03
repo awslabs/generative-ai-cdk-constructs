@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md)
 
 ***
 
@@ -22,15 +22,21 @@ Constructs a new instance of the RagAppsyncStepfnOpensearch class.
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
+
+`Construct`
 
 represents the scope for all the resources.
 
-• **id**: `string`
+##### id
+
+`string`
 
 this is a scope-unique id.
 
-• **props**: [`QaAppsyncOpensearchProps`](../interfaces/QaAppsyncOpensearchProps.md)
+##### props
+
+[`QaAppsyncOpensearchProps`](../interfaces/QaAppsyncOpensearchProps.md)
 
 user provided props for the construct.
 
@@ -226,7 +232,9 @@ Record<string, number> , maps construct name with number of deployments
 
 #### Parameters
 
-• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
+##### props
+
+[`BaseClassProps`](../interfaces/BaseClassProps.md)
 
 #### Returns
 
@@ -260,11 +268,17 @@ Returns a string representation of this construct.
 
 #### Parameters
 
-• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
+##### props
 
-• **scope**: `Construct`
+[`BaseClassProps`](../interfaces/BaseClassProps.md)
 
-• **lambdaFunctions**: `DockerImageFunction`[]
+##### scope
+
+`Construct`
+
+##### lambdaFunctions
+
+`DockerImageFunction`[]
 
 #### Returns
 
@@ -282,7 +296,9 @@ Returns a string representation of this construct.
 
 #### Parameters
 
-• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
+##### props
+
+[`BaseClassProps`](../interfaces/BaseClassProps.md)
 
 #### Returns
 
@@ -316,7 +332,9 @@ this type-testing method instead.
 
 #### Parameters
 
-• **x**: `any`
+##### x
+
+`any`
 
 Any object
 

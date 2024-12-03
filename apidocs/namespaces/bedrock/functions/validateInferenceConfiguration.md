@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -16,7 +16,9 @@ Validate the inferenceConfiguration of a prompt override.
 
 ## Parameters
 
-• **inferenceConfiguration**: [`InferenceConfiguration`](../interfaces/InferenceConfiguration.md)
+### inferenceConfiguration
+
+[`InferenceConfiguration`](../interfaces/InferenceConfiguration.md)
 
 ## Returns
 

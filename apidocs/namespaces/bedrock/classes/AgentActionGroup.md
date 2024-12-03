@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -18,11 +18,17 @@
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **id**: `string`
+`Construct`
 
-• **props**: [`AgentActionGroupProps`](../interfaces/AgentActionGroupProps.md)
+##### id
+
+`string`
+
+##### props
+
+[`AgentActionGroupProps`](../interfaces/AgentActionGroupProps.md)
 
 #### Returns
 
@@ -162,7 +168,9 @@ this type-testing method instead.
 
 #### Parameters
 
-• **x**: `any`
+##### x
+
+`any`
 
 Any object
 

@@ -87,16 +87,16 @@
     "standard-version": "^9",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
-    "typedoc": "^0.26.11",
-    "typedoc-plugin-markdown": "^4.2.10",
-    "typescript": "^5.6.3"
+    "typedoc": "^0.27.2",
+    "typedoc-plugin-markdown": "^4.3.1",
+    "typescript": "^5.7.2"
   },
   "peerDependencies": {
     "aws-cdk-lib": "^2.166.0",
     "constructs": "^10.3.0"
   },
   "dependencies": {
-    "cdk-nag": "^2.34.6",
+    "cdk-nag": "^2.34.13",
     "deepmerge": "^4.3.1"
   },
   "bundledDependencies": [

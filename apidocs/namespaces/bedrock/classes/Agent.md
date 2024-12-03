@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -20,11 +20,17 @@ Deploy a Bedrock Agent.
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **id**: `string`
+`Construct`
 
-• **props**: [`AgentProps`](../interfaces/AgentProps.md)
+##### id
+
+`string`
+
+##### props
+
+[`AgentProps`](../interfaces/AgentProps.md)
 
 #### Returns
 
@@ -152,7 +158,9 @@ Register a dependency for aliases.
 
 #### Parameters
 
-• **updatedAt**: `string`
+##### updatedAt
+
+`string`
 
 The updatedAt of the resource that will be registered as a dependency.
 
@@ -172,7 +180,9 @@ Add action group to the agent.
 
 #### Parameters
 
-• **actionGroup**: [`AgentActionGroup`](AgentActionGroup.md)
+##### actionGroup
+
+[`AgentActionGroup`](AgentActionGroup.md)
 
 #### Returns
 
@@ -188,7 +198,9 @@ Add action groups to the agent.
 
 #### Parameters
 
-• **actionGroups**: [`AgentActionGroup`](AgentActionGroup.md)[]
+##### actionGroups
+
+[`AgentActionGroup`](AgentActionGroup.md)[]
 
 #### Returns
 
@@ -204,7 +216,9 @@ Add an alias to the agent.
 
 #### Parameters
 
-• **props**: [`AddAgentAliasProps`](../interfaces/AddAgentAliasProps.md)
+##### props
+
+[`AddAgentAliasProps`](../interfaces/AddAgentAliasProps.md)
 
 #### Returns
 
@@ -220,7 +234,9 @@ Add guardrail to the agent.
 
 #### Parameters
 
-• **guardrail**: [`IGuardrail`](../interfaces/IGuardrail.md)
+##### guardrail
+
+[`IGuardrail`](../interfaces/IGuardrail.md)
 
 #### Returns
 
@@ -236,7 +252,9 @@ Add knowledge base to the agent.
 
 #### Parameters
 
-• **knowledgeBase**: [`KnowledgeBase`](KnowledgeBase.md)
+##### knowledgeBase
+
+[`KnowledgeBase`](KnowledgeBase.md)
 
 #### Returns
 
@@ -252,7 +270,9 @@ Add knowledge bases to the agent.
 
 #### Parameters
 
-• **knowledgeBases**: [`KnowledgeBase`](KnowledgeBase.md)[]
+##### knowledgeBases
+
+[`KnowledgeBase`](KnowledgeBase.md)[]
 
 #### Returns
 
@@ -298,7 +318,9 @@ this type-testing method instead.
 
 #### Parameters
 
-• **x**: `any`
+##### x
+
+`any`
 
 Any object
 

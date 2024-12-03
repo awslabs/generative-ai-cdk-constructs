@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -98,7 +98,9 @@ Gives the appropriate policies to invoke and use the Foundation Model.
 
 #### Parameters
 
-• **grantee**: `IGrantable`
+##### grantee
+
+`IGrantable`
 
 #### Returns
 
@@ -119,7 +121,9 @@ Does not grant permissions to use the model in the profile.
 
 #### Parameters
 
-• **grantee**: `IGrantable`
+##### grantee
+
+`IGrantable`
 
 #### Returns
 
@@ -137,7 +141,9 @@ Does not grant permissions to use the model in the profile.
 
 #### Parameters
 
-• **config**: [`CrossRegionInferenceProfileProps`](../interfaces/CrossRegionInferenceProfileProps.md)
+##### config
+
+[`CrossRegionInferenceProfileProps`](../interfaces/CrossRegionInferenceProfileProps.md)
 
 #### Returns
 

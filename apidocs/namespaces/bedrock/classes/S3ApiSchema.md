@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -20,9 +20,13 @@ API Schema in an S3 object.
 
 #### Parameters
 
-• **bucket**: `IBucket`
+##### bucket
 
-• **key**: `string`
+`IBucket`
+
+##### key
+
+`string`
 
 #### Returns
 
@@ -43,7 +47,9 @@ to the stack, add resources and have fun.
 
 #### Parameters
 
-• **\_scope**: `Construct`
+##### \_scope
+
+`Construct`
 
 #### Returns
 
@@ -63,7 +69,9 @@ Loads the API Schema from a local disk path.
 
 #### Parameters
 
-• **path**: `string`
+##### path
+
+`string`
 
 Path to the Open API schema file in yaml or JSON
 
@@ -87,11 +95,15 @@ API Schema as an S3 object.
 
 #### Parameters
 
-• **bucket**: `IBucket`
+##### bucket
+
+`IBucket`
 
 The S3 bucket
 
-• **key**: `string`
+##### key
+
+`string`
 
 The object key
 
@@ -115,7 +127,9 @@ Inline code for API Schema
 
 #### Parameters
 
-• **schema**: `string`
+##### schema
+
+`string`
 
 The actual Open API schema
 
