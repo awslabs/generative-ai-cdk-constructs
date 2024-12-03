@@ -11,14 +11,14 @@
  *  and limitations under the License.
  */
 
-import * as fs from "fs";
-import { Arn, ArnFormat, IResolvable, IResource, Lazy, Resource } from "aws-cdk-lib";
-import * as bedrock from "aws-cdk-lib/aws-bedrock";
-import * as iam from "aws-cdk-lib/aws-iam";
-import { IKey, Key } from "aws-cdk-lib/aws-kms";
-import { md5hash } from "aws-cdk-lib/core/lib/helpers-internal";
-import { Construct } from "constructs";
-import * as filters from "./guardrail-filters";
+import * as fs from 'fs';
+import { Arn, ArnFormat, IResolvable, IResource, Lazy, Resource } from 'aws-cdk-lib';
+import * as bedrock from 'aws-cdk-lib/aws-bedrock';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import { IKey, Key } from 'aws-cdk-lib/aws-kms';
+import { md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
+import { Construct } from 'constructs';
+import * as filters from './guardrail-filters';
 
 /******************************************************************************
  *                              COMMON
@@ -103,7 +103,7 @@ export abstract class GuardrailBase extends Resource implements IGuardrail {
    * Grant the given identity permissions to apply the guardrail.
    */
   public grantApply(grantee: iam.IGrantable): iam.Grant {
-    const baseGrant = this.grant(grantee, "bedrock:ApplyGuardrail");
+    const baseGrant = this.grant(grantee, 'bedrock:ApplyGuardrail');
 
     if (this.kmsKey) {
       // If KMS key exists, create encryption grant and combine with base grant
@@ -218,7 +218,7 @@ export class Guardrail extends GuardrailBase {
     class Import extends GuardrailBase {
       public readonly guardrailArn = attrs.guardrailArn;
       public readonly guardrailId = Arn.split(attrs.guardrailArn, ArnFormat.SLASH_RESOURCE_NAME).resourceName!;
-      public readonly guardrailVersion = attrs.guardrailVersion ?? "DRAFT";
+      public readonly guardrailVersion = attrs.guardrailVersion ?? 'DRAFT';
       public readonly kmsKey = attrs.kmsKey;
       public readonly lastUpdated = undefined;
     }
@@ -235,10 +235,10 @@ export class Guardrail extends GuardrailBase {
       public readonly guardrailId = cfnGuardrail.attrGuardrailId;
       public readonly guardrailVersion = cfnGuardrail.attrVersion;
       public readonly kmsKey = cfnGuardrail.kmsKeyArn
-        ? Key.fromKeyArn(this, "@FromCfnGuardrailKey", cfnGuardrail.kmsKeyArn)
+        ? Key.fromKeyArn(this, '@FromCfnGuardrailKey', cfnGuardrail.kmsKeyArn)
         : undefined;
       public readonly lastUpdated = cfnGuardrail.attrUpdatedAt;
-    })(cfnGuardrail, "@FromCfnGuardrail");
+    })(cfnGuardrail, '@FromCfnGuardrail');
   }
 
   /**
@@ -326,8 +326,8 @@ export class Guardrail extends GuardrailBase {
     this.wordFilters = props.wordFilters ?? [];
     this.managedWordListFilters = props.managedWordListFilters ?? [];
 
-    const defaultBlockedInputMessaging = "Sorry, your query violates our usage policy.";
-    const defaultBlockedOutputsMessaging = "Sorry, I am unable to answer your question because of our usage policy.";
+    const defaultBlockedInputMessaging = 'Sorry, your query violates our usage policy.';
+    const defaultBlockedOutputsMessaging = 'Sorry, I am unable to answer your question because of our usage policy.';
 
     // ------------------------------------------------------
     // CFN Props - With Lazy support
@@ -352,7 +352,7 @@ export class Guardrail extends GuardrailBase {
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
-    this.__resource = new bedrock.CfnGuardrail(this, "MyGuardrail", cfnProps);
+    this.__resource = new bedrock.CfnGuardrail(this, 'MyGuardrail', cfnProps);
 
     this.guardrailId = this.__resource.attrGuardrailId;
     this.guardrailArn = this.__resource.attrGuardrailArn;
@@ -416,8 +416,8 @@ export class Guardrail extends GuardrailBase {
    * @param filePath The location of the word filter file.
    */
   public addWordFilterFromFile(filePath: string): void {
-    const fileContents = fs.readFileSync(filePath, "utf8");
-    const words = fileContents.trim().split(",");
+    const fileContents = fs.readFileSync(filePath, 'utf8');
+    const words = fileContents.trim().split(',');
     for (const word of words) this.addWordFilter(word);
   }
 
@@ -477,7 +477,7 @@ export class Guardrail extends GuardrailBase {
                 definition: topic.definition,
                 name: topic.name,
                 examples: topic.examples,
-                type: "DENY",
+                type: 'DENY',
               } as bedrock.CfnGuardrail.TopicConfigProperty;
             }),
           };

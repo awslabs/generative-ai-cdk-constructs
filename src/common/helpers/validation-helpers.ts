@@ -1,3 +1,15 @@
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
 interface IntervalValidation {
   fieldName: string;
   minLength: number;
@@ -31,13 +43,13 @@ export function validateStringFieldLength(params: StringLengthValidation): strin
 
   if (params.value.length > params.maxLength) {
     errors.push(
-      `The field ${params.fieldName} is ${currentLength} characters long but must be less than or equal to ${params.maxLength} characters`
+      `The field ${params.fieldName} is ${currentLength} characters long but must be less than or equal to ${params.maxLength} characters`,
     );
   }
 
   if (params.value.length < params.minLength) {
     errors.push(
-      `The field ${params.fieldName} is ${currentLength} characters long but must be at least ${params.minLength} characters`
+      `The field ${params.fieldName} is ${currentLength} characters long but must be at least ${params.minLength} characters`,
     );
   }
 
@@ -57,16 +69,16 @@ export function validateFieldPattern(
   value: string,
   fieldName: string,
   pattern: RegExp,
-  customMessage?: string
+  customMessage?: string,
 ): string[] {
   const errors: string[] = [];
   // Input validation
-  if (typeof value !== "string") {
+  if (typeof value !== 'string') {
     errors.push(`Expected string for ${fieldName}, got ${typeof value}`);
   }
 
   if (!(pattern instanceof RegExp)) {
-    errors.push("Pattern must be a valid regular expression");
+    errors.push('Pattern must be a valid regular expression');
   }
 
   // Pattern validation
@@ -83,7 +95,7 @@ export type ValidationFn<T> = (param: T) => string[];
 export function throwIfInvalid<T>(validationFn: ValidationFn<T>, param: T): T {
   const errors = validationFn(param);
   if (errors.length > 0) {
-    throw new Error(errors.join("\n"));
+    throw new Error(errors.join('\n'));
   }
   return param;
 }

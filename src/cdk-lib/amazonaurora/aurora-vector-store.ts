@@ -11,17 +11,17 @@
  *  and limitations under the License.
  */
 
-import * as path from "path";
-import * as cdk from "aws-cdk-lib";
-import * as ec2 from "aws-cdk-lib/aws-ec2";
-import * as iam from "aws-cdk-lib/aws-iam";
-import * as rds from "aws-cdk-lib/aws-rds";
-import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
-import { NagSuppressions } from "cdk-nag";
-import { Construct } from "constructs";
-import { buildCustomResourceProvider } from "../../common/helpers/custom-resource-provider-helper";
-import { generatePhysicalNameV2 } from "../../common/helpers/utils";
-import { AddAwsServiceEndpoint, buildVpc, ServiceEndpointTypeEnum } from "../../common/helpers/vpc-helper";
+import * as path from 'path';
+import * as cdk from 'aws-cdk-lib';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as rds from 'aws-cdk-lib/aws-rds';
+import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
+import { NagSuppressions } from 'cdk-nag';
+import { Construct } from 'constructs';
+import { buildCustomResourceProvider } from '../../common/helpers/custom-resource-provider-helper';
+import { generatePhysicalNameV2 } from '../../common/helpers/utils';
+import { AddAwsServiceEndpoint, buildVpc, ServiceEndpointTypeEnum } from '../../common/helpers/vpc-helper';
 
 /**
  * List of supported versions of PostgreSQL for Aurora cluster.
@@ -229,7 +229,7 @@ abstract class BaseAmazonAuroraVectorStore extends Construct {
   constructor(
     scope: Construct,
     id: string,
-    props: AmazonAuroraVectorStoreProps | ExistingAmazonAuroraVectorStoreProps
+    props: AmazonAuroraVectorStoreProps | ExistingAmazonAuroraVectorStoreProps,
   ) {
     super(scope, id);
 
@@ -237,41 +237,41 @@ abstract class BaseAmazonAuroraVectorStore extends Construct {
      * Setup databaseName based on if it is provided in the props or not
      * and based on whether it is an existing Aurora Vector Store or not.
      */
-    this.databaseName = "clusterIdentifier" in props ? props.databaseName : props.databaseName ?? "bedrock_vector_db";
+    this.databaseName = 'clusterIdentifier' in props ? props.databaseName : props.databaseName ?? 'bedrock_vector_db';
 
-    this.schemaName = props.schemaName ?? "bedrock_integration";
-    this.vectorField = props.vectorField ?? "embedding";
-    this.textField = props.textField ?? "chunks";
-    this.metadataField = props.metadataField ?? "metadata";
-    this.tableName = props.tableName ?? "bedrock_kb";
-    this.primaryKeyField = props.primaryKeyField ?? "id";
+    this.schemaName = props.schemaName ?? 'bedrock_integration';
+    this.vectorField = props.vectorField ?? 'embedding';
+    this.textField = props.textField ?? 'chunks';
+    this.metadataField = props.metadataField ?? 'metadata';
+    this.tableName = props.tableName ?? 'bedrock_kb';
+    this.primaryKeyField = props.primaryKeyField ?? 'id';
     this.embeddingsModelVectorDimension = props.embeddingsModelVectorDimension;
   }
 
   protected createAuroraPgCRPolicy(clusterIdentifier: string): iam.ManagedPolicy {
-    const crPolicy = new iam.ManagedPolicy(this, "AuroraPgPolicy", {
-      managedPolicyName: generatePhysicalNameV2(this, "AuroraPgPolicy", {
+    const crPolicy = new iam.ManagedPolicy(this, 'AuroraPgPolicy', {
+      managedPolicyName: generatePhysicalNameV2(this, 'AuroraPgPolicy', {
         maxLength: 32,
         lower: true,
       }),
       statements: [
         new iam.PolicyStatement({
           actions: [
-            "ec2:DescribeInstances",
-            "ec2:CreateNetworkInterface",
-            "ec2:AttachNetworkInterface",
-            "ec2:DescribeNetworkInterfaces",
-            "autoscaling:CompleteLifecycleAction",
-            "ec2:DeleteNetworkInterface",
+            'ec2:DescribeInstances',
+            'ec2:CreateNetworkInterface',
+            'ec2:AttachNetworkInterface',
+            'ec2:DescribeNetworkInterfaces',
+            'autoscaling:CompleteLifecycleAction',
+            'ec2:DeleteNetworkInterface',
           ],
-          resources: ["*"],
+          resources: ['*'],
         }),
         new iam.PolicyStatement({
-          actions: ["rds:DescribeDBClusters"],
+          actions: ['rds:DescribeDBClusters'],
           resources: [
             cdk.Stack.of(this).formatArn({
-              service: "rds",
-              resource: "cluster",
+              service: 'rds',
+              resource: 'cluster',
               resourceName: clusterIdentifier,
               arnFormat: cdk.ArnFormat.COLON_RESOURCE_NAME,
               account: cdk.Stack.of(this).account,
@@ -286,19 +286,19 @@ abstract class BaseAmazonAuroraVectorStore extends Construct {
       crPolicy,
       [
         {
-          id: "AwsSolutions-IAM4",
+          id: 'AwsSolutions-IAM4',
           reason:
-            "The AWSLambdaBasicExecutionRole managed policy is required for " +
-            "the Lambda function to write logs to CloudWatch.",
+            'The AWSLambdaBasicExecutionRole managed policy is required for ' +
+            'the Lambda function to write logs to CloudWatch.',
         },
         {
-          id: "AwsSolutions-IAM5",
+          id: 'AwsSolutions-IAM5',
           reason:
-            "This policy is required to allow the custom resource to create a " +
-            "network interface for the Aurora cluster and it has to be wildcard.",
+            'This policy is required to allow the custom resource to create a ' +
+            'network interface for the Aurora cluster and it has to be wildcard.',
         },
       ],
-      true
+      true,
     );
 
     return crPolicy;
@@ -306,8 +306,8 @@ abstract class BaseAmazonAuroraVectorStore extends Construct {
 
   protected generateResourceArn(clusterIdentifier: string): string {
     return cdk.Stack.of(this).formatArn({
-      service: "rds",
-      resource: "cluster",
+      service: 'rds',
+      resource: 'cluster',
       resourceName: clusterIdentifier,
       region: cdk.Stack.of(this).region,
       account: cdk.Stack.of(this).account,
@@ -319,13 +319,13 @@ abstract class BaseAmazonAuroraVectorStore extends Construct {
     vpc: ec2.IVpc,
     secret: secretsmanager.ISecret,
     clusterIdentifier: string,
-    auroraSecurityGroupId: string
+    auroraSecurityGroupId: string,
   ): DatabaseClusterResources {
     const resourceArn = this.generateResourceArn(clusterIdentifier);
     const auroraSecurityGroup = ec2.SecurityGroup.fromLookupById(
       this,
-      "ExistingSG",
-      auroraSecurityGroupId
+      'ExistingSG',
+      auroraSecurityGroupId,
     ) as ec2.SecurityGroup;
 
     return {
@@ -338,35 +338,35 @@ abstract class BaseAmazonAuroraVectorStore extends Construct {
   }
 
   protected createLambdaSecurityGroup(vpc: ec2.IVpc): ec2.SecurityGroup {
-    return new ec2.SecurityGroup(this, "LambdaSecurityGroup", {
+    return new ec2.SecurityGroup(this, 'LambdaSecurityGroup', {
       vpc,
-      securityGroupName: "lambda-security-group",
-      description: "Security group for Lambda access to Aurora",
+      securityGroupName: 'lambda-security-group',
+      description: 'Security group for Lambda access to Aurora',
     });
   }
 
   protected addIngressRuleToAuroraSecurityGroup(
     lambdaSecurityGroup: ec2.SecurityGroup,
-    auroraSecurityGroup: ec2.SecurityGroup
+    auroraSecurityGroup: ec2.SecurityGroup,
   ) {
     auroraSecurityGroup.addIngressRule(
       lambdaSecurityGroup,
       ec2.Port.tcp(5432),
-      "Allow PostgreSQL access from Lambda security group"
+      'Allow PostgreSQL access from Lambda security group',
     );
   }
 
   protected setupCustomResource(
     databaseClusterResources: DatabaseClusterResources,
     lambdaSecurityGroup: ec2.SecurityGroup,
-    auroraPgCRPolicy: iam.ManagedPolicy
+    auroraPgCRPolicy: iam.ManagedPolicy,
   ): cdk.CustomResource {
     const customResource = buildCustomResourceProvider({
-      providerName: "AmazonAuroraPgVectorCRProvider",
+      providerName: 'AmazonAuroraPgVectorCRProvider',
       vpc: databaseClusterResources.vpc,
       securityGroup: lambdaSecurityGroup,
-      codePath: path.join(__dirname, "../../../lambda/amazon-aurora-pgvector-custom-resources"),
-      handler: "custom_resources.on_event",
+      codePath: path.join(__dirname, '../../../lambda/amazon-aurora-pgvector-custom-resources'),
+      handler: 'custom_resources.on_event',
       runtime: cdk.aws_lambda.Runtime.PYTHON_3_12,
     });
 
@@ -374,11 +374,11 @@ abstract class BaseAmazonAuroraVectorStore extends Construct {
     crProvider.role.addManagedPolicy(auroraPgCRPolicy);
     databaseClusterResources.secret.grantRead(crProvider.role);
 
-    const auroraPgVector = new cdk.CustomResource(this, "AuroraPgVector", {
-      resourceType: "Custom::AmazonAuroraPgVector",
+    const auroraPgVector = new cdk.CustomResource(this, 'AuroraPgVector', {
+      resourceType: 'Custom::AmazonAuroraPgVector',
       serviceToken: crProvider.serviceToken,
       properties: {
-        SecretName: databaseClusterResources.secret.secretName || "",
+        SecretName: databaseClusterResources.secret.secretName || '',
         ClusterIdentifier: databaseClusterResources.clusterIdentifier,
         DatabaseName: this.databaseName,
         TableName: this.tableName,
@@ -419,7 +419,7 @@ export class ExistingAmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore
       props.vpc,
       props.secret,
       props.clusterIdentifier,
-      props.auroraSecurityGroupId
+      props.auroraSecurityGroupId,
     );
 
     const auroraPgCRPolicy = this.createAuroraPgCRPolicy(databaseClusterResources.clusterIdentifier);
@@ -456,7 +456,7 @@ export class AmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore {
   public static fromExistingAuroraVectorStore(
     scope: Construct,
     id: string,
-    props: ExistingAmazonAuroraVectorStoreProps
+    props: ExistingAmazonAuroraVectorStoreProps,
   ): ExistingAmazonAuroraVectorStore {
     return new ExistingAmazonAuroraVectorStore(scope, id, props);
   }
@@ -481,7 +481,7 @@ export class AmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore {
 
     const databaseClusterResources = this.createDatabaseCluster(
       props.postgreSQLVersion ?? SupportedPostgreSQLVersions.AURORA_POSTGRESQL_V15_5,
-      props.vpc
+      props.vpc,
     );
     const auroraPgCRPolicy = this.createAuroraPgCRPolicy(databaseClusterResources.clusterIdentifier);
     const lambdaSecurityGroup = this.createLambdaSecurityGroup(databaseClusterResources.vpc);
@@ -503,27 +503,27 @@ export class AmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore {
 
   private createDatabaseCluster(
     postgreSQLVersion: SupportedPostgreSQLVersions,
-    existingVpc: ec2.IVpc | undefined
+    existingVpc: ec2.IVpc | undefined,
   ): DatabaseClusterResources {
     const vpc = buildVpc(this, {
       existingVpc: existingVpc,
       vpcName: `${this.node.id}-vpc`,
     });
-    vpc.addFlowLog("VpcFlowLog", {
+    vpc.addFlowLog('VpcFlowLog', {
       destination: ec2.FlowLogDestination.toCloudWatchLogs(),
     });
 
-    const auroraSecurityGroup = new ec2.SecurityGroup(this, "AuroraSecurityGroup", {
+    const auroraSecurityGroup = new ec2.SecurityGroup(this, 'AuroraSecurityGroup', {
       vpc,
-      securityGroupName: "aurora-security-group",
-      description: "Security group for access to Aurora from Lambda",
+      securityGroupName: 'aurora-security-group',
+      description: 'Security group for access to Aurora from Lambda',
     });
 
-    const auroraCluster = new rds.DatabaseCluster(this, "AuroraCluster", {
+    const auroraCluster = new rds.DatabaseCluster(this, 'AuroraCluster', {
       engine: rds.DatabaseClusterEngine.auroraPostgres({
         version: postgreSQLVersion,
       }),
-      credentials: rds.Credentials.fromGeneratedSecret("postgres"),
+      credentials: rds.Credentials.fromGeneratedSecret('postgres'),
       clusterIdentifier: `aurora-serverless-vector-cluster-${cdk.Stack.of(this).account}`,
       defaultDatabaseName: this.databaseName,
       vpc,
@@ -533,13 +533,13 @@ export class AmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore {
       storageEncrypted: true,
       serverlessV2MinCapacity: 0.5,
       serverlessV2MaxCapacity: 4,
-      writer: rds.ClusterInstance.serverlessV2("AuroraServerlessWriter"),
-      readers: [rds.ClusterInstance.serverlessV2("AuroraServerlessReader", { scaleWithWriter: true })],
+      writer: rds.ClusterInstance.serverlessV2('AuroraServerlessWriter'),
+      readers: [rds.ClusterInstance.serverlessV2('AuroraServerlessReader', { scaleWithWriter: true })],
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
     const resourceArn = cdk.Stack.of(this).formatArn({
-      service: "rds",
-      resource: "cluster",
+      service: 'rds',
+      resource: 'cluster',
       resourceName: auroraCluster.clusterIdentifier,
       arnFormat: cdk.ArnFormat.COLON_RESOURCE_NAME,
     });
@@ -547,19 +547,19 @@ export class AmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore {
     auroraCluster.addRotationSingleUser();
 
     const cfnDbCluster = auroraCluster.node.defaultChild as rds.CfnDBCluster;
-    cfnDbCluster.addOverride("Properties.EnableHttpEndpoint", true);
+    cfnDbCluster.addOverride('Properties.EnableHttpEndpoint', true);
 
     NagSuppressions.addResourceSuppressions(
       auroraCluster,
       [
         {
-          id: "AwsSolutions-RDS10",
+          id: 'AwsSolutions-RDS10',
           reason:
-            "Deletion protection is disabled to make sure a customer can stop " +
-            "incurring charges if they want to delete the construct.",
+            'Deletion protection is disabled to make sure a customer can stop ' +
+            'incurring charges if they want to delete the construct.',
         },
       ],
-      true
+      true,
     );
 
     return {

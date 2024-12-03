@@ -11,11 +11,11 @@
  *  and limitations under the License.
  */
 import { ArnFormat, aws_bedrock as bedrock, IResource, Resource, Stack } from 'aws-cdk-lib';
+import * as events from 'aws-cdk-lib/aws-events';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import { md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
 import { Construct } from 'constructs';
 import { IAgent } from './agent';
-import { md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
-import * as iam from 'aws-cdk-lib/aws-iam';
-import * as events from 'aws-cdk-lib/aws-events';
 
 /******************************************************************************
  *                              COMMON
@@ -232,10 +232,10 @@ export class AgentAlias extends AgentAliasBase {
       description: props.description,
       routingConfiguration: props.agentVersion
         ? [
-            {
-              agentVersion: props.agentVersion,
-            },
-          ]
+          {
+            agentVersion: props.agentVersion,
+          },
+        ]
         : undefined,
     });
 

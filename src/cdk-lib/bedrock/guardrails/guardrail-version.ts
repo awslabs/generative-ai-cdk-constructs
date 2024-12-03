@@ -1,8 +1,20 @@
-import { IResource, Resource } from "aws-cdk-lib";
-import { Construct } from "constructs";
-import { IGuardrail } from "./guardrails";
-import { CfnGuardrailVersion } from "aws-cdk-lib/aws-bedrock";
-import { md5hash } from "aws-cdk-lib/core/lib/helpers-internal";
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
+import { IResource, Resource } from 'aws-cdk-lib';
+import { CfnGuardrailVersion } from 'aws-cdk-lib/aws-bedrock';
+import { md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
+import { Construct } from 'constructs';
+import { Guardrail, IGuardrail } from './guardrails';
 
 /******************************************************************************
  *                              COMMON
@@ -90,9 +102,31 @@ export interface GuardrailVersionAttributes {
  * @cloudformationResource AWS::Bedrock::GuardrailVersion
  */
 export class GuardrailVersion extends GuardrailVersionBase {
+  /**
+   * Import a Guardrail Version from its attributes.
+   */
+  public static fromGuardrailVersionAttributes(
+    scope: Construct,
+    id: string,
+    attrs: GuardrailVersionAttributes
+  ): IGuardrailVersion {
+    class Import extends GuardrailVersionBase {
+      public readonly guardrail = Guardrail.fromGuardrailAttributes(scope, `Guardrail-${id}`, {
+        guardrailArn: attrs.guardrailArn,
+        guardrailVersion: attrs.guardrailVersion,
+      });
+      public readonly guardrailVersion = attrs.guardrailVersion;
+    }
+    return new Import(scope, id);
+  }
+
   public readonly guardrail: IGuardrail;
   public readonly guardrailVersion: string;
+  /**
+   * The underlying CfnGuardrailVersion resource.
+   */
   private readonly _resource: CfnGuardrailVersion;
+
   /**
    *
    */
@@ -101,7 +135,7 @@ export class GuardrailVersion extends GuardrailVersionBase {
     this.guardrail = props.guardrail;
 
     // Compute hash from guardrail, to recreate the resource when guardrail has changed
-    const hash = md5hash(props.guardrail.lastUpdated ?? "Default");
+    const hash = md5hash(props.guardrail.lastUpdated ?? 'Default');
 
     this._resource = new CfnGuardrailVersion(this, `GuardrailVersion-${hash.slice(0, 16)}`, {
       guardrailIdentifier: this.guardrail.guardrailId,

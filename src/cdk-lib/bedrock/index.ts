@@ -12,10 +12,11 @@
  */
 
 export * from './knowledge-base';
-export * from './agent';
-export * from './agent-alias';
-export * from './agent-action-group';
-export * from './api-schema';
+export * from './agents/action-group';
+export * from './agents/agent';
+export * from './agents/agent-alias';
+export * from './agents/api-executor';
+export * from './agents/api-schema';
 export * from './guardrails/guardrail-filters';
 export * from './guardrails/guardrails';
 export * from './models';

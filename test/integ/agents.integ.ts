@@ -12,11 +12,11 @@
  */
 import * as integ from '@aws-cdk/integ-tests-alpha';
 import * as cdk from 'aws-cdk-lib';
-import { Agent } from '../../src/cdk-lib/bedrock/agents/agent';
+import { Code, Function } from 'aws-cdk-lib/aws-lambda';
 import * as bedrock from '../../src/cdk-lib/bedrock';
 import { AgentActionGroup } from '../../src/cdk-lib/bedrock/agents/action-group';
+import { Agent } from '../../src/cdk-lib/bedrock/agents/agent';
 import { ActionGroupExecutor } from '../../src/cdk-lib/bedrock/agents/api-executor';
-import { Code, Function } from 'aws-cdk-lib/aws-lambda';
 import { ApiSchema } from '../../src/cdk-lib/bedrock/agents/api-schema';
 
 const app = new cdk.App();

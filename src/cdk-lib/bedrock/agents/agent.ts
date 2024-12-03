@@ -10,22 +10,22 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import { Construct } from 'constructs';
+import { ArnFormat, Duration, IResource, Lazy, Resource, Stack } from 'aws-cdk-lib';
+import * as bedrock from 'aws-cdk-lib/aws-bedrock';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
-import * as bedrock from 'aws-cdk-lib/aws-bedrock';
-import { ArnFormat, Duration, IResource, Lazy, Resource, Stack } from 'aws-cdk-lib';
-import { IInvokable } from '../models';
-import { IKnowledgeBase } from '../knowledge-base';
+import { Construct } from 'constructs';
+import { AgentActionGroup } from './action-group';
+import { AgentAlias, IAgentAlias } from './agent-alias';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
 import {
   throwIfInvalid,
   validateFieldPattern,
   validateStringFieldLength,
 } from '../../../common/helpers/validation-helpers';
-import { AgentAlias, IAgentAlias } from './agent-alias';
-import { AgentActionGroup } from './action-group';
-import { IGuardrailVersion } from '../guardrails/guardrail-version';
+import { IKnowledgeBase } from '../knowledge-base';
+import { IInvokable } from '../models';
+import { IGuardrail } from '../guardrails/guardrails';
 
 /******************************************************************************
  *                              COMMON
@@ -140,9 +140,11 @@ export interface AgentProps {
    */
   readonly actionGroups?: AgentActionGroup[];
   /**
-   * The guardrail associated with the agent.
+   * The guardrail that will be associated with the agent. This requires you to specify
+   * the guardrail and version that you want to use. If you do not want to manage the versions
+   * yourself, use the `yourGuardrail.defaultVersion` attribute.
    */
-  readonly guardrail?: IGuardrailVersion;
+  readonly guardrail?: IGuardrail;
   /**
    * Overrides some prompt templates in different parts of an agent sequence configuration.
    *
@@ -219,6 +221,10 @@ export class Agent extends AgentBase {
    */
   public readonly name: string;
   /**
+   * The description for the agent.
+   */
+  public readonly description?: string;
+  /**
    * The instruction used by the agent.
    */
   public readonly instruction?: string;
@@ -267,7 +273,7 @@ export class Agent extends AgentBase {
   /**
    * The guardrail associated with the agent.
    */
-  public guardrail?: IGuardrailVersion;
+  public guardrail?: IGuardrail;
   // ------------------------------------------------------
   // Internal Only
   // ------------------------------------------------------
@@ -293,34 +299,10 @@ export class Agent extends AgentBase {
     this.codeInterpreterEnabled = props.codeInterpreterEnabled ?? false;
     this.foundationModel = props.foundationModel;
     this.forceDelete = props.forceDelete ?? false;
-    // ------------------------------------------------------
-    // Set Lazy Props initial values
-    // ------------------------------------------------------
-    this.knowledgeBaseAssociations = [];
-    this.actionGroups = [];
-    // Add specified elems through methods to handle permissions
-    props.knowledgeBases?.forEach(kb => {
-      this.addKnowledgeBase(kb);
-    });
-    props.actionGroups?.forEach(ag => {
-      this.addActionGroup(ag);
-    });
-    if (props.guardrail) {
-      this.addGuardrail(props.guardrail);
-    }
-
-    // ------------------------------------------------------
-    // Add Default Action Groups
-    // ------------------------------------------------------
-    this.addActionGroup(AgentActionGroup.userInput(this.userInputEnabled));
-    this.addActionGroup(AgentActionGroup.codeInterpreter(this.codeInterpreterEnabled));
-
-    // ------------------------------------------------------
-    // Set Lazy Validations
-    // ------------------------------------------------------
-    this.node.addValidation({
-      validate: () => this.validateKnowledgeBaseAssocations(),
-    });
+    // Optional
+    this.description = props.description;
+    this.instruction = props.instruction;
+    this.kmsKey = props.kmsKey;
 
     // ------------------------------------------------------
     // Role
@@ -351,6 +333,34 @@ export class Agent extends AgentBase {
       // add the appropriate permissions to use the FM
       this.foundationModel.grantInvoke(this.role);
     }
+
+    // ------------------------------------------------------
+    // Set Lazy Props initial values
+    // ------------------------------------------------------
+    this.knowledgeBaseAssociations = [];
+    this.actionGroups = [];
+    // Add Default Action Groups
+    this.addActionGroup(AgentActionGroup.userInput(this.userInputEnabled));
+    this.addActionGroup(AgentActionGroup.codeInterpreter(this.codeInterpreterEnabled));
+
+    // Add specified elems through methods to handle permissions
+    // this needs to happen after role creation / assignment
+    props.knowledgeBases?.forEach(kb => {
+      this.addKnowledgeBase(kb);
+    });
+    props.actionGroups?.forEach(ag => {
+      this.addActionGroup(ag);
+    });
+    if (props.guardrail) {
+      this.addGuardrail(props.guardrail);
+    }
+
+    // ------------------------------------------------------
+    // Set Lazy Validations
+    // ------------------------------------------------------
+    this.node.addValidation({
+      validate: () => this.validateKnowledgeBaseAssocations(),
+    });
 
     // ------------------------------------------------------
     // CFN Props - With Lazy support
@@ -406,13 +416,13 @@ export class Agent extends AgentBase {
   /**
    * Add guardrail to the agent.
    */
-  public addGuardrail(guardrailVersion: IGuardrailVersion) {
+  public addGuardrail(guardrail: IGuardrail) {
     // Do some checks
-    throwIfInvalid(this.validateGuardrail, guardrailVersion);
+    throwIfInvalid(this.validateGuardrail, guardrail);
     // Add it to the construct
-    this.guardrail = guardrailVersion;
+    this.guardrail = guardrail;
     // Handle permissions
-    guardrailVersion.guardrail.grantApply(this.role);
+    guardrail.grantApply(this.role);
   }
 
   /**
@@ -443,7 +453,7 @@ export class Agent extends AgentBase {
   private renderGuardrail(): bedrock.CfnAgent.GuardrailConfigurationProperty | undefined {
     return this.guardrail
       ? {
-          guardrailIdentifier: this.guardrail.guardrail.guardrailId,
+          guardrailIdentifier: this.guardrail.guardrailId,
           guardrailVersion: this.guardrail.guardrailVersion,
         }
       : undefined;
@@ -505,7 +515,7 @@ export class Agent extends AgentBase {
       );
     } else {
       errors.push(
-        `If instructionForAgent is not provided, the description property of the KnowledgeBase ` +
+        'If instructionForAgent is not provided, the description property of the KnowledgeBase ' +
           `${association.knowledgeBase.knowledgeBaseId} must be provided.`
       );
     }
@@ -532,10 +542,13 @@ export class Agent extends AgentBase {
    *
    * @internal This is an internal core function and should not be called directly.
    */
-  private validateGuardrail = (guardrail: IGuardrailVersion): string[] => {
+  private validateGuardrail = (guardrail: IGuardrail): string[] => {
     const errors: string[] = [];
     if (this.guardrail) {
-      errors.push('A guardrail has already been defined for this agent.');
+      errors.push(
+        `Cannot add Guardrail ${guardrail.guardrailId}. ` +
+          `Guardrail ${this.guardrail.guardrailId} has already been specified for this agent.`
+      );
     }
     errors.push(...validateFieldPattern(guardrail.guardrailVersion, 'version', /^(([0-9]{1,8})|(DRAFT))$/));
     return errors;
