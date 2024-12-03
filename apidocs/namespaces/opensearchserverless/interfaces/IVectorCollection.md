@@ -46,6 +46,14 @@ The name of the collection.
 
 ***
 
+### collectionType
+
+> `readonly` **collectionType**: [`VectorCollectionType`](../enumerations/VectorCollectionType.md)
+
+Type of collection
+
+***
+
 ### dataAccessPolicy
 
 > `readonly` **dataAccessPolicy**: `CfnAccessPolicy`

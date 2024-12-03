@@ -25,11 +25,33 @@ lowercase letters, numbers, and hyphens.
 
 ***
 
+### collectionType?
+
+> `readonly` `optional` **collectionType**: [`VectorCollectionType`](../enumerations/VectorCollectionType.md)
+
+Type of vector collection
+
+#### Default
+
+```ts
+- VECTORSEARCH
+```
+
+***
+
 ### customAossPolicy?
 
 > `readonly` `optional` **customAossPolicy**: `ManagedPolicy`
 
 A user defined IAM policy that allows API access to the collection.
+
+***
+
+### description?
+
+> `readonly` `optional` **description**: `string`
+
+Description for the collection
 
 ***
 
@@ -44,3 +66,11 @@ Indicates whether to use standby replicas for the collection.
 ```ts
 VectorCollectionStandbyReplicas.ENABLED
 ```
+
+***
+
+### tags?
+
+> `readonly` `optional` **tags**: `CfnTag`[]
+
+A list of tags associated with the inference profile.

@@ -15,7 +15,7 @@ import * as cdk from 'aws-cdk-lib';
 import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { AwsSolutionsChecks } from 'cdk-nag';
-import { VectorCollection, VectorCollectionStandbyReplicas } from '../../../src/cdk-lib/opensearchserverless';
+import { VectorCollection, VectorCollectionStandbyReplicas, VectorCollectionType } from '../../../src/cdk-lib/opensearchserverless';
 
 
 function setupStack() {
@@ -196,12 +196,12 @@ describe('OpenSearch Serverless Vector Store', () => {
         },
       });
 
-      VectorCollection.fromCollectionName(stack, 'ImportedCollection', 'test-collection');
       VectorCollection.fromCollectionAttributes(stack, 'ImportedAttributes', {
         collectionName: 'test-collection-2',
         collectionId: 'test-id',
         collectionArn: 'arn:aws:aoss:us-east-1:123456789012:collection/test-collection-2',
         standbyReplicas: VectorCollectionStandbyReplicas.DISABLED,
+        collectionType: VectorCollectionType.VECTORSEARCH,
       });
 
       app.synth();
@@ -209,8 +209,8 @@ describe('OpenSearch Serverless Vector Store', () => {
     });
 
     test('Should have the correct resources for imported collections', () => {
-      template.resourceCountIs('AWS::IAM::ManagedPolicy', 2);
-      template.resourceCountIs('AWS::OpenSearchServerless::AccessPolicy', 2);
+      template.resourceCountIs('AWS::IAM::ManagedPolicy', 1);
+      template.resourceCountIs('AWS::OpenSearchServerless::AccessPolicy', 1);
     });
 
     test('No unsuppressed Errors', () => {
@@ -396,6 +396,85 @@ describe('OpenSearch Serverless Vector Store', () => {
         Match.stringLikeRegexp('AwsSolutions-.*'),
       );
       expect(errors).toHaveLength(0);
+    });
+  });
+});
+
+describe('OpenSearch Serverless optional props', () => {
+  let stack: cdk.Stack;
+
+  beforeEach(() => {
+    const app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    stack = new cdk.Stack(app, 'TestStack');
+  });
+
+  test('Basic Creation with type TIMESERIES', () => {
+
+    const collectionName = 'test-aoss-collection';
+    const standbyReplicas = VectorCollectionStandbyReplicas.DISABLED;
+    const collectionType = VectorCollectionType.TIMESERIES;
+
+    new VectorCollection(stack, 'test-aoss-vector', {
+      collectionName: collectionName,
+      standbyReplicas: standbyReplicas,
+      description: 'Test description',
+      collectionType: collectionType,
+      tags: [{ key: 'test-key', value: 'test-value' }],
+    });
+
+    Template.fromStack(stack).hasResourceProperties('AWS::OpenSearchServerless::Collection', {
+      StandbyReplicas: 'DISABLED',
+      Description: 'Test description',
+      Tags: [
+        {
+          Key: 'Name', // added by the construct
+          Value: collectionName,
+        },
+        {
+          Key: 'test-key', // custom added
+          Value: 'test-value',
+        },
+        {
+          Key: 'Type', // added by the construct
+          Value: 'VectorCollection',
+        },
+      ],
+      Type: 'TIMESERIES',
+    });
+  });
+
+  test('Basic Creation with type SEARCH', () => {
+
+    const collectionName = 'test-aoss-collection';
+    const standbyReplicas = VectorCollectionStandbyReplicas.ENABLED;
+    const collectionType = VectorCollectionType.SEARCH;
+
+    new VectorCollection(stack, 'test-aoss-vector', {
+      collectionName: collectionName,
+      standbyReplicas: standbyReplicas,
+      collectionType: collectionType,
+      tags: [{ key: 'test-key', value: 'test-value' }],
+    });
+
+    Template.fromStack(stack).hasResourceProperties('AWS::OpenSearchServerless::Collection', {
+      StandbyReplicas: 'ENABLED',
+      Description: Match.absent(),
+      Tags: [
+        {
+          Key: 'Name', // added by the construct
+          Value: collectionName,
+        },
+        {
+          Key: 'test-key', // custom added
+          Value: 'test-value',
+        },
+        {
+          Key: 'Type', // added by the construct
+          Value: 'VectorCollection',
+        },
+      ],
+      Type: 'SEARCH',
     });
   });
 });

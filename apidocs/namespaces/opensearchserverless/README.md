@@ -14,6 +14,7 @@
 - [TokenFilterType](enumerations/TokenFilterType.md)
 - [TokenizerType](enumerations/TokenizerType.md)
 - [VectorCollectionStandbyReplicas](enumerations/VectorCollectionStandbyReplicas.md)
+- [VectorCollectionType](enumerations/VectorCollectionType.md)
 
 ### Classes
 

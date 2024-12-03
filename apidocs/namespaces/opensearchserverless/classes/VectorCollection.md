@@ -62,6 +62,12 @@ Provides a vector search collection in Amazon OpenSearch Serverless.
 
 ***
 
+### collectionEndpoint
+
+> `readonly` **collectionEndpoint**: `string`
+
+***
+
 ### collectionId
 
 > `readonly` **collectionId**: `string`
@@ -79,6 +85,22 @@ Provides a vector search collection in Amazon OpenSearch Serverless.
 #### Overrides
 
 `VectorCollectionBase.collectionName`
+
+***
+
+### collectionType
+
+> `readonly` **collectionType**: [`VectorCollectionType`](../enumerations/VectorCollectionType.md)
+
+#### Overrides
+
+`VectorCollectionBase.collectionType`
+
+***
+
+### dashboardEndpoint
+
+> `readonly` **dashboardEndpoint**: `string`
 
 ***
 
@@ -485,38 +507,6 @@ The construct's name.
 [`VectorCollectionAttributes`](../interfaces/VectorCollectionAttributes.md)
 
 The collection attributes to use.
-
-#### Returns
-
-[`IVectorCollection`](../interfaces/IVectorCollection.md)
-
-***
-
-### fromCollectionName()
-
-> `static` **fromCollectionName**(`constructScope`, `constructId`, `collectionName`): [`IVectorCollection`](../interfaces/IVectorCollection.md)
-
-Import an existing collection using its name.
-
-#### Parameters
-
-##### constructScope
-
-`Construct`
-
-The parent creating construct (usually `this`).
-
-##### constructId
-
-`string`
-
-The construct's name.
-
-##### collectionName
-
-`string`
-
-The name of the collection to import.
 
 #### Returns
 

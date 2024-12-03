@@ -34,6 +34,14 @@ The name of the collection
 
 ***
 
+### collectionType
+
+> `readonly` **collectionType**: [`VectorCollectionType`](../enumerations/VectorCollectionType.md)
+
+The type of collection
+
+***
+
 ### standbyReplicas
 
 > `readonly` **standbyReplicas**: [`VectorCollectionStandbyReplicas`](../enumerations/VectorCollectionStandbyReplicas.md)

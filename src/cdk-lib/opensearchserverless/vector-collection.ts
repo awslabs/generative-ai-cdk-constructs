@@ -33,6 +33,29 @@ export enum VectorCollectionStandbyReplicas {
 }
 
 /**
+ * The type of collection.
+ */
+export enum VectorCollectionType {
+  /**
+   * Search – Full-text search that powers applications in your internal networks (content management systems, legal documents) and internet-facing applications,
+   * such as ecommerce website search and content search.
+   */
+  SEARCH = 'SEARCH',
+
+  /**
+   * Time series – The log analytics segment that focuses on analyzing large volumes of semi-structured,
+   * machine-generated data in real-time for operational, security, user behavior, and business insights.
+   */
+  TIMESERIES = 'TIMESERIES',
+
+  /**
+   * Vector search – Semantic search on vector embeddings that simplifies vector data management and powers machine learning (ML) augmented search experiences and generative AI applications,
+   * such as chatbots, personal assistants, and fraud detection.
+   */
+  VECTORSEARCH = 'VECTORSEARCH'
+}
+
+/**
  * Attributes for importing an existing vector collection.
  */
 export interface VectorCollectionAttributes {
@@ -55,6 +78,11 @@ export interface VectorCollectionAttributes {
    * The standby replicas configuration
    */
   readonly standbyReplicas: VectorCollectionStandbyReplicas;
+
+  /**
+   * The type of collection
+   */
+  readonly collectionType: VectorCollectionType;
 }
 
 /**
@@ -70,6 +98,11 @@ export interface VectorCollectionProps {
   readonly collectionName?: string;
 
   /**
+   * Description for the collection
+   */
+  readonly description?: string;
+
+  /**
    * Indicates whether to use standby replicas for the collection.
    *
    * @default VectorCollectionStandbyReplicas.ENABLED
@@ -80,6 +113,18 @@ export interface VectorCollectionProps {
    * A user defined IAM policy that allows API access to the collection.
    */
   readonly customAossPolicy?: iam.ManagedPolicy;
+
+  /**
+   * Type of vector collection
+   *
+   * @default - VECTORSEARCH
+   */
+  readonly collectionType?: VectorCollectionType;
+
+  /**
+   * A list of tags associated with the inference profile.
+   * */
+  readonly tags?: Array<cdk.CfnTag>;
 }
 
 /**
@@ -115,6 +160,11 @@ export interface IVectorCollection extends cdk.IResource {
    * An OpenSearch Access Policy that allows access to the index.
    */
   readonly dataAccessPolicy: oss.CfnAccessPolicy;
+
+  /**
+   * Type of collection
+   */
+  readonly collectionType: VectorCollectionType;
 
   /**
    * Return the given named metric for this VectorCollection.
@@ -163,6 +213,7 @@ abstract class VectorCollectionBase extends cdk.Resource implements IVectorColle
   public abstract readonly standbyReplicas: VectorCollectionStandbyReplicas;
   public abstract readonly aossPolicy: iam.ManagedPolicy;
   public abstract readonly dataAccessPolicy: oss.CfnAccessPolicy;
+  public abstract readonly collectionType: VectorCollectionType;
 
   public metric(metricName: string, props?: cloudwatch.MetricOptions): cloudwatch.Metric {
     return new cloudwatch.Metric({
@@ -233,53 +284,6 @@ export class VectorCollection extends VectorCollectionBase {
   }
 
   /**
-   * Import an existing collection using its name.
-   * @param constructScope The parent creating construct (usually `this`).
-   * @param constructId The construct's name.
-   * @param collectionName The name of the collection to import.
-   */
-  public static fromCollectionName(constructScope: Construct, constructId: string, collectionName: string): IVectorCollection {
-    class Import extends VectorCollectionBase {
-      public readonly collectionArn: string;
-      public readonly collectionId: string;
-      public readonly collectionName: string;
-      public readonly standbyReplicas: VectorCollectionStandbyReplicas;
-      public readonly aossPolicy: iam.ManagedPolicy;
-      public readonly dataAccessPolicy: oss.CfnAccessPolicy;
-
-      constructor(scope: Construct, id: string) {
-        super(scope, id);
-
-        this.collectionId = collectionName;
-        this.collectionName = collectionName;
-        this.collectionArn = cdk.Stack.of(scope).formatArn({
-          service: 'aoss',
-          resource: 'collection',
-          resourceName: collectionName,
-        });
-        this.standbyReplicas = VectorCollectionStandbyReplicas.ENABLED;
-
-        this.aossPolicy = new iam.ManagedPolicy(this, 'ImportedAOSSPolicy', {
-          statements: [
-            new iam.PolicyStatement({
-              effect: iam.Effect.ALLOW,
-              actions: ['aoss:APIAccessAll'],
-              resources: [this.collectionArn],
-            }),
-          ],
-        });
-
-        this.dataAccessPolicy = new oss.CfnAccessPolicy(this, 'ImportedDataAccessPolicy', {
-          name: generatePhysicalNameV2(this, 'DataAccessPolicy', { maxLength: 32, lower: true }),
-          type: 'data',
-          policy: '[]',
-        });
-      }
-    }
-    return new Import(constructScope, constructId);
-  }
-
-  /**
    * Import an existing collection using its attributes.
    * @param constructScope The parent creating construct.
    * @param constructId The construct's name.
@@ -295,6 +299,7 @@ export class VectorCollection extends VectorCollectionBase {
       public readonly collectionId = attrs.collectionId;
       public readonly collectionName = attrs.collectionName;
       public readonly standbyReplicas = attrs.standbyReplicas;
+      public readonly collectionType = attrs.collectionType;
       public readonly aossPolicy: iam.ManagedPolicy;
       public readonly dataAccessPolicy: oss.CfnAccessPolicy;
 
@@ -327,6 +332,14 @@ export class VectorCollection extends VectorCollectionBase {
   public readonly collectionArn: string;
   public readonly aossPolicy: iam.ManagedPolicy;
   public readonly dataAccessPolicy: oss.CfnAccessPolicy;
+  public readonly collectionType: VectorCollectionType;
+  public readonly collectionEndpoint: string;
+  public readonly dashboardEndpoint: string;
+
+  /**
+   * Instance of CfnCollection.
+   */
+  private readonly _resource: oss.CfnCollection;
 
   /**
    * An OpenSearch Access Policy document that will become `dataAccessPolicy`.
@@ -344,6 +357,7 @@ export class VectorCollection extends VectorCollectionBase {
     );
 
     this.standbyReplicas = props?.standbyReplicas ?? VectorCollectionStandbyReplicas.ENABLED;
+    this.collectionType = props?.collectionType ?? VectorCollectionType.VECTORSEARCH;
 
     const encryptionPolicyName = generatePhysicalNameV2(this,
       'EncryptionPolicy',
@@ -385,14 +399,18 @@ export class VectorCollection extends VectorCollectionBase {
       ]),
     });
 
-    const collection = new oss.CfnCollection(this, 'VectorCollection', {
+    this._resource = new oss.CfnCollection(this, 'VectorCollection', {
       name: this.collectionName,
-      type: 'VECTORSEARCH',
+      type: this.collectionType,
       standbyReplicas: this.standbyReplicas,
+      description: props?.description,
+      tags: props?.tags,
     });
 
-    this.collectionArn = collection.attrArn;
-    this.collectionId = collection.attrId;
+    this.collectionArn = this._resource.attrArn;
+    this.collectionId = this._resource.attrId;
+    this.collectionEndpoint = this._resource.attrCollectionEndpoint;
+    this.dashboardEndpoint = this._resource.attrDashboardEndpoint;
 
     if (props?.customAossPolicy) {
       this.aossPolicy = props.customAossPolicy;
@@ -406,15 +424,15 @@ export class VectorCollection extends VectorCollectionBase {
               actions: [
                 'aoss:APIAccessAll',
               ],
-              resources: [collection.attrArn],
+              resources: [this._resource.attrArn],
             }),
           ],
         },
       );
     }
 
-    collection.node.addDependency(encryptionPolicy);
-    collection.node.addDependency(networkPolicy);
+    this._resource.node.addDependency(encryptionPolicy);
+    this._resource.node.addDependency(networkPolicy);
 
     const isDataAccessPolicyNotEmpty = new cdk.CfnCondition(this, 'IsDataAccessPolicyNotEmpty', {
       expression: cdk.Fn.conditionNot(cdk.Fn.conditionEquals(0, cdk.Lazy.number({
