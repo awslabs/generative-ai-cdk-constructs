@@ -71,7 +71,7 @@ describe('CDK-Agent', () => {
       expect(agent.role).toBeDefined();
       // Other properties should be undefined or empty
       expect(agent.guardrail).toBeUndefined();
-      expect(agent.knowledgeBaseAssociations).toHaveLength(0);
+      expect(agent.knowledgeBases).toHaveLength(0);
       expect(agent.kmsKey).toBeUndefined();
     });
 
@@ -84,7 +84,7 @@ describe('CDK-Agent', () => {
         kmsKey: Key.fromKeyArn(
           stack,
           'importedKey',
-          'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418'
+          'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418',
         ),
       });
 
@@ -95,7 +95,7 @@ describe('CDK-Agent', () => {
       });
 
       expect(agent.kmsKey!.keyArn).toBe(
-        'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418'
+        'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418',
       );
     });
 
@@ -103,7 +103,7 @@ describe('CDK-Agent', () => {
       const myRole = Role.fromRoleArn(
         stack,
         'myRole',
-        'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForAgent_12345678'
+        'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForAgent_12345678',
       );
       const agent = new bedrock.Agent(stack, 'TestAgent', {
         name: 'TestAgent',
@@ -328,7 +328,7 @@ describe('CDK-Agent', () => {
 
       // THEN
       expect(() => agent.addGuardrail(anotherGuardrail)).toThrow(
-        'Cannot add Guardrail yib23y5g23b2wf. Guardrail oygh3o8g7rtl has already been specified for this agent.'
+        'Cannot add Guardrail yib23y5g23b2wf. Guardrail oygh3o8g7rtl has already been specified for this agent.',
       );
     });
   });
@@ -343,6 +343,7 @@ describe('CDK-Agent', () => {
       myKnowledgeBase = bedrock.KnowledgeBase.fromKnowledgeBaseAttributes(stack, 'myKnowledgeBase', {
         knowledgeBaseId: 'ABCDEFG1234',
         executionRoleArn: 'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase_12345678',
+        instructionForAgents: 'This is a sample KB with info about unicorns.',
       });
     });
 
@@ -351,39 +352,68 @@ describe('CDK-Agent', () => {
         name: 'TestAgent',
         foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
         instruction: 'This is a test instruction',
-        knowledgeBases: [
-          {
-            knowledgeBase: myKnowledgeBase,
-            config: {
-              instructionForAgent: 'This is a test instruction for the agent',
-            },
-          },
-        ],
+        knowledgeBases: [myKnowledgeBase],
       });
 
       Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
         AgentName: 'TestAgent',
         Instruction: 'This is a test instruction',
+        KnowledgeBases: [
+          {
+            Description: 'This is a sample KB with info about unicorns.',
+            KnowledgeBaseId: 'ABCDEFG1234',
+            KnowledgeBaseState: 'ENABLED',
+          },
+        ],
       });
 
-      expect(agent.knowledgeBaseAssociations).toHaveLength(1);
+      expect(agent.knowledgeBases).toHaveLength(1);
     });
 
-    //     test('Knowledge Bases - Method', () => {
-    //       const agent = new bedrock.Agent(stack, 'TestAgent', {
-    //         name: 'TestAgent',
-    //         foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
-    //         instruction: 'This is a test instruction',
-    //       });
+    test('Knowledge Bases - Method', () => {
+      //WHEN
+      const agent = new bedrock.Agent(stack, 'TestAgent', {
+        name: 'TestAgent',
+        foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+        instruction: 'This is a test instruction',
+      });
+      agent.addKnowledgeBase(myKnowledgeBase);
 
-    //       Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
-    //         AgentName: 'TestAgent',
-    //         Instruction: 'This is a test instruction',
-    //       });
+      //THEN
+      Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
+        AgentName: 'TestAgent',
+        Instruction: 'This is a test instruction',
+        KnowledgeBases: [
+          {
+            Description: 'This is a sample KB with info about unicorns.',
+            KnowledgeBaseId: 'ABCDEFG1234',
+            KnowledgeBaseState: 'ENABLED',
+          },
+        ],
+      });
 
-    //       expect(agent.knowledgeBaseAssociations).toHaveLength(1);
-    //     });
+      expect(agent.knowledgeBases).toHaveLength(1);
+    });
 
-    //     test('Knowledge Bases - Validation 1', () => {});
+    test('Knowledge Bases - Validation', () => {
+      const invalidKb = (myKnowledgeBase = bedrock.KnowledgeBase.fromKnowledgeBaseAttributes(
+        stack,
+        'otherKnowledgeBase',
+        {
+          knowledgeBaseId: 'ABCDEFG1234',
+          executionRoleArn: 'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase_12345678',
+        },
+      ));
+
+      const agent = new bedrock.Agent(stack, 'TestAgent', {
+        name: 'TestAgent',
+        foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+        instruction: 'This is a test instruction',
+      });
+
+      expect(() => agent.addKnowledgeBase(invalidKb)).toThrow(
+        'If instructionForAgents is not provided, the description property of the KnowledgeBase ABCDEFG1234 must be provided.',
+      );
+    });
   });
 });

@@ -23,9 +23,9 @@ import {
   validateFieldPattern,
   validateStringFieldLength,
 } from '../../../common/helpers/validation-helpers';
+import { IGuardrail } from '../guardrails/guardrails';
 import { IKnowledgeBase } from '../knowledge-base';
 import { IInvokable } from '../models';
-import { IGuardrail } from '../guardrails/guardrails';
 
 /******************************************************************************
  *                              COMMON
@@ -134,7 +134,7 @@ export interface AgentProps {
   /**
    * The KnowledgeBases associated with the agent.
    */
-  readonly knowledgeBases?: KnowledgeBaseAgentAssociation[];
+  readonly knowledgeBases?: IKnowledgeBase[];
   /**
    * The Action Groups associated with the agent.
    */
@@ -269,7 +269,7 @@ export class Agent extends AgentBase {
   /**
    * The KnowledgeBases associated with the agent.
    */
-  public knowledgeBaseAssociations: KnowledgeBaseAgentAssociation[];
+  public knowledgeBases: IKnowledgeBase[];
   /**
    * The guardrail associated with the agent.
    */
@@ -337,7 +337,7 @@ export class Agent extends AgentBase {
     // ------------------------------------------------------
     // Set Lazy Props initial values
     // ------------------------------------------------------
-    this.knowledgeBaseAssociations = [];
+    this.knowledgeBases = [];
     this.actionGroups = [];
     // Add Default Action Groups
     this.addActionGroup(AgentActionGroup.userInput(this.userInputEnabled));
@@ -404,13 +404,13 @@ export class Agent extends AgentBase {
   /**
    * Add knowledge base to the agent.
    */
-  public addKnowledgeBase(kbAssociation: KnowledgeBaseAgentAssociation) {
+  public addKnowledgeBase(knowledgeBase: IKnowledgeBase) {
     // Do some checks
-    throwIfInvalid(this.validateKnowledgeBaseAssocation, kbAssociation);
+    throwIfInvalid(this.validateKnowledgeBase, knowledgeBase);
     // Add it to the array
-    this.knowledgeBaseAssociations.push(kbAssociation);
+    this.knowledgeBases.push(knowledgeBase);
     // Add the appropriate Permissions to query the Knowledge Base
-    kbAssociation.knowledgeBase.grantQuery(this.role);
+    knowledgeBase.grantQuery(this.role);
   }
 
   /**
@@ -453,9 +453,9 @@ export class Agent extends AgentBase {
   private renderGuardrail(): bedrock.CfnAgent.GuardrailConfigurationProperty | undefined {
     return this.guardrail
       ? {
-          guardrailIdentifier: this.guardrail.guardrailId,
-          guardrailVersion: this.guardrail.guardrailVersion,
-        }
+        guardrailIdentifier: this.guardrail.guardrailId,
+        guardrailVersion: this.guardrail.guardrailVersion,
+      }
       : undefined;
   }
 
@@ -467,11 +467,12 @@ export class Agent extends AgentBase {
   private renderKnowledgeBases(): bedrock.CfnAgent.AgentKnowledgeBaseProperty[] {
     const knowledgeBaseAssociationsCfn: bedrock.CfnAgent.AgentKnowledgeBaseProperty[] = [];
     // Build the associations in the CFN format
-    this.knowledgeBaseAssociations.forEach(kb => {
+    this.knowledgeBases.forEach(kb => {
       knowledgeBaseAssociationsCfn.push({
-        knowledgeBaseId: kb.knowledgeBase.knowledgeBaseId,
-        knowledgeBaseState: kb.config?.enabled ?? true ? 'ENABLED' : 'DISABLED',
-        description: kb.config?.instructionForAgent ?? kb.knowledgeBase.description!,
+        knowledgeBaseId: kb.knowledgeBaseId,
+        knowledgeBaseState: 'ENABLED',
+        // at least one is defined as it has been validated when adding the kb
+        description: kb.instructionForAgents ?? kb.description!,
       });
     });
     return knowledgeBaseAssociationsCfn;
@@ -499,9 +500,9 @@ export class Agent extends AgentBase {
    *
    * @internal This is an internal core function and should not be called directly.
    */
-  private validateKnowledgeBaseAssocation = (association: KnowledgeBaseAgentAssociation): string[] => {
+  private validateKnowledgeBase = (knowledgeBase: IKnowledgeBase): string[] => {
     const MAX_LENGTH = 200;
-    const description = association.config?.instructionForAgent ?? association.knowledgeBase.description;
+    const description = knowledgeBase.instructionForAgents ?? knowledgeBase.description;
     const errors: string[] = [];
     // If at least one of the previous has been defined
     if (description) {
@@ -511,12 +512,12 @@ export class Agent extends AgentBase {
           fieldName: 'description',
           minLength: 0,
           maxLength: MAX_LENGTH,
-        })
+        }),
       );
     } else {
       errors.push(
-        'If instructionForAgent is not provided, the description property of the KnowledgeBase ' +
-          `${association.knowledgeBase.knowledgeBaseId} must be provided.`
+        'If instructionForAgents is not provided, the description property of the KnowledgeBase ' +
+          `${knowledgeBase.knowledgeBaseId} must be provided.`,
       );
     }
     return errors;
@@ -529,11 +530,11 @@ export class Agent extends AgentBase {
   private validateKnowledgeBaseAssocations = (): string[] => {
     const MAX_KB_ASSOCIATIONS = 10;
     const errors: string[] = [];
-    if (this.knowledgeBaseAssociations.length > MAX_KB_ASSOCIATIONS) {
+    if (this.knowledgeBases.length > MAX_KB_ASSOCIATIONS) {
       errors.push(`The maximum number of knowledge bases associations is ${MAX_KB_ASSOCIATIONS}.`);
     }
-    for (const association of this.knowledgeBaseAssociations) {
-      this.validateKnowledgeBaseAssocation(association);
+    for (const kb of this.knowledgeBases) {
+      this.validateKnowledgeBase(kb);
     }
     return errors;
   };
@@ -547,7 +548,7 @@ export class Agent extends AgentBase {
     if (this.guardrail) {
       errors.push(
         `Cannot add Guardrail ${guardrail.guardrailId}. ` +
-          `Guardrail ${this.guardrail.guardrailId} has already been specified for this agent.`
+          `Guardrail ${this.guardrail.guardrailId} has already been specified for this agent.`,
       );
     }
     errors.push(...validateFieldPattern(guardrail.guardrailVersion, 'version', /^(([0-9]{1,8})|(DRAFT))$/));
@@ -565,35 +566,4 @@ export class Agent extends AgentBase {
     }
     return errors;
   };
-}
-/******************************************************************************
- *                              COMMON
- *****************************************************************************/
-
-export interface KnowledgeBaseAgentAssociationConfig {
-  /**
-   * Use this property to specify instructions based on the design and type of
-   * information of the Knowledge Base. This will impact how the Knowledge Base
-   * interacts with the agent.
-   *
-   * @default - "If available, the description property of the KB will be used. Else an error is thrown."
-   */
-  readonly instructionForAgent?: string;
-  /**
-   * Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
-   *
-   * @default - true
-   */
-  readonly enabled?: boolean;
-}
-
-export interface KnowledgeBaseAgentAssociation {
-  /**
-   * The Knowledge Base to associate with the agent.
-   */
-  readonly knowledgeBase: IKnowledgeBase;
-  /**
-   * The Knowledge Base configuration.
-   */
-  readonly config?: KnowledgeBaseAgentAssociationConfig;
 }

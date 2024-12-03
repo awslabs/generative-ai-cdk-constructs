@@ -545,7 +545,7 @@ export class Guardrail extends GuardrailBase {
           });
         },
       },
-      { omitEmptyArray: true }
+      { omitEmptyArray: true },
     );
   }
 
@@ -564,7 +564,7 @@ export class Guardrail extends GuardrailBase {
           });
         },
       },
-      { omitEmptyArray: true }
+      { omitEmptyArray: true },
     );
   }
 
@@ -586,7 +586,7 @@ export class Guardrail extends GuardrailBase {
           }
         },
       },
-      { omitEmptyArray: true }
+      { omitEmptyArray: true },
     );
   }
 
@@ -608,7 +608,7 @@ export class Guardrail extends GuardrailBase {
           });
         },
       },
-      { omitEmptyArray: true }
+      { omitEmptyArray: true },
     );
   }
 
@@ -628,7 +628,7 @@ export class Guardrail extends GuardrailBase {
           });
         },
       },
-      { omitEmptyArray: true }
+      { omitEmptyArray: true },
     );
   }
 }

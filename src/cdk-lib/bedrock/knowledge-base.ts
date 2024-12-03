@@ -115,6 +115,12 @@ export interface IKnowledgeBase extends IResource {
   readonly description?: string;
 
   /**
+   * Instructions for agents based on the design and type of information of the
+   * Knowledge Base. This will impact how Agents interact with the Knowledge Base.
+   */
+  readonly instructionForAgents?: string;
+
+  /**
    * Add an S3 data source to the knowledge base.
    */
   addS3DataSource(props: S3DataSourceAssociationProps): S3DataSource;
@@ -273,6 +279,14 @@ export interface KnowledgeBaseProps {
   readonly description?: string;
 
   /**
+   * Instructions for agents based on the design and type of information of the
+   * Knowledge Base. This will impact how Agents interact with the Knowledge Base.
+   *
+   * @default - No description provided.
+   */
+  readonly instructionForAgents?: string;
+
+  /**
    * Existing IAM role with a policy statement
    * granting permission to invoke the specific embeddings model.
    * Any entity (e.g., an AWS service or application) that assumes
@@ -280,16 +294,6 @@ export interface KnowledgeBaseProps {
    * specified embeddings model within the Bedrock service.
    */
   readonly existingRole?: iam.IRole;
-
-  /**
-   * A narrative description of the knowledge base.
-   *
-   * A Bedrock Agent can use this instruction to determine if it should
-   * query this Knowledge Base.
-   *
-   * @default - No description provided.
-   */
-  readonly instruction?: string;
 
   /**
    * The name of the vector index.
@@ -359,6 +363,20 @@ export interface KnowledgeBaseAttributes {
    * @example "arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseKB12345678"
    */
   readonly executionRoleArn: string;
+  /**
+   * The description of the knowledge base.
+   *
+   * @default - No description provided.
+   */
+  readonly description?: string;
+
+  /**
+   * Instructions for agents based on the design and type of information of the
+   * Knowledge Base. This will impact how Agents interact with the Knowledge Base.
+   *
+   * @default - No description provided.
+   */
+  readonly instructionForAgents?: string;
 }
 
 /**
@@ -385,6 +403,8 @@ export class KnowledgeBase extends KnowledgeBaseBase {
       });
       public readonly role = iam.Role.fromRoleArn(this, `kb-${attrs.knowledgeBaseId}-role`, attrs.executionRoleArn);
       public readonly knowledgeBaseId = attrs.knowledgeBaseId;
+      public readonly description = attrs.description;
+      public readonly instructionForAgents = attrs.instructionForAgents;
     }
     return new Import(scope, id);
   }
@@ -416,9 +436,15 @@ export class KnowledgeBase extends KnowledgeBaseBase {
   | ExistingAmazonAuroraVectorStore;
 
   /**
-   * A narrative instruction of the knowledge base.
+   * A description of the knowledge base.
    */
-  public readonly instruction?: string;
+  readonly description?: string;
+
+  /**
+   * Instructions for agents based on the design and type of information of the
+   * Knowledge Base. This will impact how Agents interact with the Knowledge Base.
+   */
+  readonly instructionForAgents?: string;
 
   /**
    * The ARN of the knowledge base.
@@ -437,11 +463,6 @@ export class KnowledgeBase extends KnowledgeBaseBase {
   private vectorIndex?: VectorIndex;
 
   /**
-   * The description knowledge base.
-   */
-  public readonly description: string;
-
-  /**
    * Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
    */
   public readonly knowledgeBaseState: string;
@@ -454,7 +475,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
 
   constructor(scope: Construct, id: string, props: KnowledgeBaseProps) {
     super(scope, id);
-    this.instruction = props.instruction;
+
     const embeddingsModel = props.embeddingsModel;
     const indexName = props.indexName ?? 'bedrock-knowledge-base-default-index';
     const vectorField = props.vectorField ?? 'bedrock-knowledge-base-default-vector';
@@ -463,6 +484,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
 
     this.description = props.description ?? 'CDK deployed Knowledge base'; // even though this prop is optional, if no value is provided it will fail to deploy
     this.knowledgeBaseState = props.knowledgeBaseState ?? 'ENABLED';
+    this.instructionForAgents = props.instructionForAgents;
 
     validateModel(embeddingsModel);
     validateVectorIndex(props.vectorStore, props.vectorIndex, props.vectorField, props.indexName);
@@ -775,9 +797,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
    * Associate knowledge base with an agent
    */
   public associateToAgent(agent: Agent) {
-    agent.addKnowledgeBase({
-      knowledgeBase: this,
-    });
+    agent.addKnowledgeBase(this);
   }
 }
 

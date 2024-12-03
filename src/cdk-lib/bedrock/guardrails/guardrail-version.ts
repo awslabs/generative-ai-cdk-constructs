@@ -108,7 +108,7 @@ export class GuardrailVersion extends GuardrailVersionBase {
   public static fromGuardrailVersionAttributes(
     scope: Construct,
     id: string,
-    attrs: GuardrailVersionAttributes
+    attrs: GuardrailVersionAttributes,
   ): IGuardrailVersion {
     class Import extends GuardrailVersionBase {
       public readonly guardrail = Guardrail.fromGuardrailAttributes(scope, `Guardrail-${id}`, {
