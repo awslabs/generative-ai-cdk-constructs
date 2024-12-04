@@ -89,6 +89,24 @@ The ARN of the Bedrock invokable abstraction.
 
 ***
 
+### AMAZON\_NOVA\_LITE\_V1
+
+> `readonly` `static` **AMAZON\_NOVA\_LITE\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### AMAZON\_NOVA\_MICRO\_V1
+
+> `readonly` `static` **AMAZON\_NOVA\_MICRO\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### AMAZON\_NOVA\_PRO\_V1
+
+> `readonly` `static` **AMAZON\_NOVA\_PRO\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
 ### AMAZON\_TITAN\_PREMIER\_V1\_0
 
 > `readonly` `static` **AMAZON\_TITAN\_PREMIER\_V1\_0**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
