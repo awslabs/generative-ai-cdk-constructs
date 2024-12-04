@@ -26,20 +26,19 @@ import { IFunction } from 'aws-cdk-lib/aws-lambda';
  */
 export class ActionGroupExecutor {
   /**
+   * Returns the action group invocation results directly in the InvokeAgent response.
+   * The information and parameters can be sent to your own systems to yield results.
+   * @see https://docs.aws.amazon.com/bedrock/latest/userguide/agents-returncontrol.html
+   */
+  public static RETURN_CONTROL = new ActionGroupExecutor(undefined, 'RETURN_CONTROL');
+
+  /**
    * Defines an action group with a Lambda function containing the business logic.
    * @param lambdaFunction - Lambda function to be called by the action group.
    * @see https://docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html
    */
   public static lambdaFunction(lambdaFunction: IFunction): ActionGroupExecutor {
     return new ActionGroupExecutor(lambdaFunction, undefined);
-  }
-  /**
-   * Returns the action group invocation results directly in the InvokeAgent response.
-   * The information and parameters can be sent to your own systems to yield results.
-   * @see https://docs.aws.amazon.com/bedrock/latest/userguide/agents-returncontrol.html
-   */
-  public static returnControl(): ActionGroupExecutor {
-    return new ActionGroupExecutor(undefined, 'RETURN_CONTROL');
   }
 
   public readonly lambdaFunction?: IFunction;

@@ -16,6 +16,7 @@ import { Role } from 'aws-cdk-lib/aws-iam';
 import { Key } from 'aws-cdk-lib/aws-kms';
 import { Function, IFunction } from 'aws-cdk-lib/aws-lambda';
 import * as bedrock from '../../../../src/cdk-lib/bedrock';
+import { AgentStepType, PromptOverrideConfiguration } from '../../../../src/cdk-lib/bedrock/agents/prompt-override';
 
 describe('CDK-Agent', () => {
   let stack: cdk.Stack;
@@ -110,7 +111,7 @@ describe('CDK-Agent', () => {
         kmsKey: Key.fromKeyArn(
           stack,
           'importedKey',
-          'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418'
+          'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418',
         ),
       });
 
@@ -121,7 +122,7 @@ describe('CDK-Agent', () => {
       });
 
       expect(agent.kmsKey!.keyArn).toBe(
-        'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418'
+        'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418',
       );
     });
 
@@ -129,7 +130,7 @@ describe('CDK-Agent', () => {
       const myRole = Role.fromRoleArn(
         stack,
         'myRole',
-        'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForAgent_12345678'
+        'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForAgent_12345678',
       );
       const agent = new bedrock.Agent(stack, 'TestAgent', {
         name: 'TestAgent',
@@ -354,7 +355,7 @@ describe('CDK-Agent', () => {
 
       // THEN
       expect(() => agent.addGuardrail(anotherGuardrail)).toThrow(
-        'Cannot add Guardrail yib23y5g23b2wf. Guardrail oygh3o8g7rtl has already been specified for this agent.'
+        'Cannot add Guardrail yib23y5g23b2wf. Guardrail oygh3o8g7rtl has already been specified for this agent.',
       );
     });
   });
@@ -428,7 +429,7 @@ describe('CDK-Agent', () => {
         {
           knowledgeBaseId: 'ABCDEFG1234',
           executionRoleArn: 'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase_12345678',
-        }
+        },
       ));
 
       const agent = new bedrock.Agent(stack, 'TestAgent', {
@@ -438,7 +439,7 @@ describe('CDK-Agent', () => {
       });
 
       expect(() => agent.addKnowledgeBase(invalidKb)).toThrow(
-        'If instructionForAgents is not provided, the description property of the KnowledgeBase ABCDEFG1234 must be provided.'
+        'If instructionForAgents is not provided, the description property of the KnowledgeBase ABCDEFG1234 must be provided.',
       );
     });
   });
@@ -446,5 +447,75 @@ describe('CDK-Agent', () => {
   /*******************************************************
    *              PROMPT OVERRIDE in Agents				 *
    *******************************************************/
-  describe('Prompt Override', () => {});
+  describe('Prompt Override', () => {
+    test('Basic - Custom Parser', () => {
+      const lambdaFunction = Function.fromFunctionArn(
+        stack,
+        'LambdaFunction',
+        'arn:aws:lambda:us-east-1:123456789012:function:BedrockAgents-ActionGroup-zx7xWhBeRC0Z',
+      );
+      const agent = new bedrock.Agent(stack, 'TestAgent', {
+        name: 'TestAgent',
+        foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+        instruction: 'This is a test instruction',
+        promptOverrideConfiguration: PromptOverrideConfiguration.withCustomParser({
+          parser: lambdaFunction,
+          steps: [
+            {
+              stepType: AgentStepType.PRE_PROCESSING,
+              stepEnabled: true,
+              useCustomParser: true,
+              inferenceConfig: {
+                temperature: 0,
+                topP: 1.0,
+                topK: 250,
+                maximumLength: 2048,
+                stopSequences: ['</function_call>', '</answer>', '</error>'],
+              },
+            },
+            {
+              stepType: AgentStepType.ORCHESTRATION,
+              stepEnabled: false,
+              useCustomParser: false,
+            },
+          ],
+        }),
+      });
+
+      Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
+        AgentName: 'TestAgent',
+        Instruction: 'This is a test instruction',
+        PromptOverrideConfiguration: {
+          OverrideLambda: 'arn:aws:lambda:us-east-1:123456789012:function:BedrockAgents-ActionGroup-zx7xWhBeRC0Z',
+          PromptConfigurations: [
+            {
+              BasePromptTemplate: Match.absent(),
+              InferenceConfiguration: {
+                Temperature: 0,
+                TopP: 1.0,
+                TopK: 250,
+                MaximumLength: 2048,
+                StopSequences: ['</function_call>', '</answer>', '</error>'],
+              },
+              ParserMode: 'OVERRIDDEN',
+              PromptCreationMode: Match.absent(),
+              PromptState: 'ENABLED',
+              PromptType: 'PRE_PROCESSING',
+            },
+            {
+              BasePromptTemplate: Match.absent(),
+              InferenceConfiguration: Match.absent(),
+              ParserMode: 'DEFAULT',
+              PromptCreationMode: Match.absent(),
+              PromptState: 'DISABLED',
+              PromptType: 'ORCHESTRATION',
+            },
+          ],
+        },
+      });
+      expect(agent.promptOverrideConfiguration).toBeDefined();
+      expect(agent.promptOverrideConfiguration?.parser).toBe(lambdaFunction);
+      expect(agent.promptOverrideConfiguration?.steps).toHaveLength(2);
+    });
+  });
 });

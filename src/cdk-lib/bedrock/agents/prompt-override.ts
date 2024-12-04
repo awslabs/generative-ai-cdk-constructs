@@ -10,7 +10,9 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+import { CfnAgent } from 'aws-cdk-lib/aws-bedrock';
 import { IFunction } from 'aws-cdk-lib/aws-lambda';
+import * as validation from '../../../common/helpers/validation-helpers';
 
 /**
  * The step in the agent sequence where to set a specific prompt configuration.
@@ -102,27 +104,47 @@ export interface PromptStepConfiguration {
    */
   readonly stepEnabled?: boolean;
   /**
-   * Whether to use the custom Lambda parser defined for the sequence.
-   *
-   * @default - false
-   */
-  readonly useCustomParser?: boolean;
-  /**
    * The custom prompt template to be used.
    *
    * @default - The default prompt template will be used.
    * @see https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-placeholders.html
    */
-  readonly promptTemplate?: string;
+  readonly customPromptTemplate?: string;
   /**
    * The inference configuration parameters to use.
    */
   readonly inferenceConfig?: InferenceConfiguration;
 }
 
-export interface PromptConfiguration {
+export interface PromptStepConfigurationCustomParser extends PromptStepConfiguration {
+  /**
+   * Whether to use the custom Lambda parser defined for the sequence.
+   *
+   * @default - false
+   */
+  readonly useCustomParser?: boolean;
+}
+
+export class PromptOverrideConfiguration {
+  public static fromSteps(steps?: PromptStepConfiguration[]): PromptOverrideConfiguration {
+    // Create new object
+    return new PromptOverrideConfiguration({ steps });
+  }
+
+  public static withCustomParser(props: {
+    parser: IFunction;
+    steps?: PromptStepConfigurationCustomParser[];
+  }): PromptOverrideConfiguration {
+    // Create new object
+    return new PromptOverrideConfiguration(props);
+  }
+
   /**
    * The custom Lambda parser function to use.
+   * This Lambda function serves as a custom parser that processes and interprets
+   * the raw output from the foundation model.
+   * If this field is specified, at least one of the Steps must be configured
+   * with `useCustomParser` set to `true`.
    *
    * @default - The default lambda parser will be used.
    * @see https://docs.aws.amazon.com/bedrock/latest/userguide/lambda-parser.html
@@ -134,5 +156,107 @@ export interface PromptConfiguration {
    *
    * @default - No prompt configuration will be overridden.
    */
-  readonly steps?: PromptStepConfiguration[];
+  readonly steps?: PromptStepConfigurationCustomParser[];
+
+  /**
+   * Create a new PromptOverrideConfiguration.
+   *
+   * @internal - This is marked as private so end users leverage it only through static methods
+   */
+  private constructor(props: { parser?: IFunction; steps?: PromptStepConfigurationCustomParser[] }) {
+    // Validate props
+    validation.throwIfInvalid(this.validateSteps, props.steps);
+    if (props.parser) {
+      validation.throwIfInvalid(this.validateCustomParser, props.steps);
+    }
+    this.parser = props.parser;
+    this.steps = props.steps;
+  }
+
+  /**
+   * Format as CfnAgent.PromptOverrideConfigurationProperty
+   *
+   * @internal This is an internal core function and should not be called directly.
+   */
+  public _render(): CfnAgent.PromptOverrideConfigurationProperty {
+    return {
+      overrideLambda: this.parser?.functionArn,
+      promptConfigurations:
+        this.steps?.map(step => ({
+          // prettier-ignore
+          promptType: step.stepType,
+          /** Maps stepEnabled (true → 'ENABLED', false → 'DISABLED', undefined → undefined (uses CFN DEFAULT)) */
+          promptState: step?.stepEnabled === undefined ? undefined : step.stepEnabled ? 'ENABLED' : 'DISABLED',
+          /** Maps stepEnabled (true → 'OVERRIDDEN', false → 'DEFAULT', undefined → undefined (uses CFN DEFAULT)) */
+          // prettier-ignore
+          parserMode:
+            step?.useCustomParser === undefined
+              ? undefined
+              : step?.useCustomParser ? 'OVERRIDDEN' : 'DEFAULT',
+          // Use custom prompt template if provided, otherwise use default
+          // prettier-ignore
+          promptCreationMode: step?.customPromptTemplate === undefined
+            ? undefined
+            : step?.customPromptTemplate ? 'OVERRIDDEN' : 'DEFAULT',
+          basePromptTemplate: step.customPromptTemplate,
+          inferenceConfiguration: step.inferenceConfig,
+        })) || [],
+    };
+  }
+
+  // ------------------------------------------------------
+  // Validators
+  // ------------------------------------------------------
+  private validateInferenceConfig = (config?: InferenceConfiguration): string[] => {
+    const errors: string[] = [];
+
+    if (config) {
+      if (config.temperature < 0 || config.temperature > 1) {
+        errors.push('Temperature must be between 0 and 1');
+      }
+      if (config.topP < 0 || config.topP > 1) {
+        errors.push('TopP must be between 0 and 1');
+      }
+      if (config.topK < 0 || config.topK > 500) {
+        errors.push('TopK must be between 0 and 500');
+      }
+      if (config.stopSequences.length > 4) {
+        errors.push('Maximum 4 stop sequences allowed');
+      }
+      if (config.maximumLength < 0 || config.maximumLength > 4096) {
+        errors.push('MaximumLength must be between 0 and 4096');
+      }
+    }
+
+    return errors;
+  };
+
+  private validateSteps = (steps?: PromptStepConfiguration[]): string[] => {
+    const errors: string[] = [];
+
+    if (!steps || steps.length === 0) {
+      errors.push('Steps array cannot be empty');
+    }
+
+    // Validate each step's inference config
+    steps?.forEach(step => {
+      const inferenceErrors = this.validateInferenceConfig(step.inferenceConfig);
+      if (inferenceErrors.length > 0) {
+        errors.push(`Step ${step.stepType}: ${inferenceErrors.join(', ')}`);
+      }
+    });
+
+    return errors;
+  };
+
+  private validateCustomParser = (steps?: PromptStepConfigurationCustomParser[]): string[] => {
+    const errors: string[] = [];
+
+    const hasCustomParser = steps?.some(step => step.useCustomParser);
+    if (!hasCustomParser) {
+      errors.push('At least one step must use custom parser');
+    }
+
+    return errors;
+  };
 }

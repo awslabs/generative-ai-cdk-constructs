@@ -17,12 +17,9 @@ import * as kms from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 import { AgentActionGroup } from './action-group';
 import { AgentAlias, IAgentAlias } from './agent-alias';
+import { PromptOverrideConfiguration } from './prompt-override';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
-import {
-  throwIfInvalid,
-  validateFieldPattern,
-  validateStringFieldLength,
-} from '../../../common/helpers/validation-helpers';
+import * as validation from '../../../common/helpers/validation-helpers';
 import { IGuardrail } from '../guardrails/guardrails';
 import { IKnowledgeBase } from '../knowledge-base';
 import { IInvokable } from '../models';
@@ -150,7 +147,7 @@ export interface AgentProps {
    *
    * @default - No overrides are provided.
    */
-  // readonly promptOverrideConfiguration?: ;
+  readonly promptOverrideConfiguration?: PromptOverrideConfiguration;
   /**
    * Select whether the agent can prompt additional information from the user when it does not have
    * enough information to respond to an utterance
@@ -229,6 +226,12 @@ export class Agent extends AgentBase {
    */
   public readonly instruction?: string;
   /**
+   * Overrides some prompt templates in different parts of an agent sequence configuration.
+   *
+   * @default - No overrides are provided.
+   */
+  readonly promptOverrideConfiguration?: PromptOverrideConfiguration;
+  /**
    * Whether the agent will automatically update the DRAFT version of the agent after
    * making changes to the agent.
    */
@@ -302,6 +305,7 @@ export class Agent extends AgentBase {
     // Optional
     this.description = props.description;
     this.instruction = props.instruction;
+    this.promptOverrideConfiguration = props.promptOverrideConfiguration;
     this.kmsKey = props.kmsKey;
 
     // ------------------------------------------------------
@@ -377,7 +381,7 @@ export class Agent extends AgentBase {
       idleSessionTtlInSeconds: this.idleSessionTTL.toSeconds(),
       instruction: props.instruction,
       knowledgeBases: Lazy.any({ produce: () => this.renderKnowledgeBases() }, { omitEmptyArray: true }),
-      //promptOverrideConfiguration: props.p
+      promptOverrideConfiguration: this.promptOverrideConfiguration?._render(),
       skipResourceInUseCheckOnDelete: this.forceDelete,
     };
 
@@ -406,7 +410,7 @@ export class Agent extends AgentBase {
    */
   public addKnowledgeBase(knowledgeBase: IKnowledgeBase) {
     // Do some checks
-    throwIfInvalid(this.validateKnowledgeBase, knowledgeBase);
+    validation.throwIfInvalid(this.validateKnowledgeBase, knowledgeBase);
     // Add it to the array
     this.knowledgeBases.push(knowledgeBase);
     // Add the appropriate Permissions to query the Knowledge Base
@@ -418,7 +422,7 @@ export class Agent extends AgentBase {
    */
   public addGuardrail(guardrail: IGuardrail) {
     // Do some checks
-    throwIfInvalid(this.validateGuardrail, guardrail);
+    validation.throwIfInvalid(this.validateGuardrail, guardrail);
     // Add it to the construct
     this.guardrail = guardrail;
     // Handle permissions
@@ -430,7 +434,7 @@ export class Agent extends AgentBase {
    */
   public addActionGroup(actionGroup: AgentActionGroup) {
     // Do some checks
-    throwIfInvalid(this.validateActionGroup, actionGroup);
+    validation.throwIfInvalid(this.validateActionGroup, actionGroup);
     // Add it to the array
     this.actionGroups.push(actionGroup);
     // Handle permissions to invoke the lambda function
@@ -507,7 +511,7 @@ export class Agent extends AgentBase {
     // If at least one of the previous has been defined
     if (description) {
       errors.push(
-        ...validateStringFieldLength({
+        ...validation.validateStringFieldLength({
           value: description,
           fieldName: 'description',
           minLength: 0,
@@ -551,7 +555,7 @@ export class Agent extends AgentBase {
           `Guardrail ${this.guardrail.guardrailId} has already been specified for this agent.`,
       );
     }
-    errors.push(...validateFieldPattern(guardrail.guardrailVersion, 'version', /^(([0-9]{1,8})|(DRAFT))$/));
+    errors.push(...validation.validateFieldPattern(guardrail.guardrailVersion, 'version', /^(([0-9]{1,8})|(DRAFT))$/));
     return errors;
   };
   /**
