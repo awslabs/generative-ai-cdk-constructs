@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -16,7 +16,9 @@ Validate the promptOverrideConfiguration.
 
 ## Parameters
 
-• **promptOverrideConfiguration**: `undefined` \| [`PromptOverrideConfiguration`](../interfaces/PromptOverrideConfiguration.md)
+### promptOverrideConfiguration
+
+`undefined` | [`PromptOverrideConfiguration`](../interfaces/PromptOverrideConfiguration.md)
 
 ## Returns
 

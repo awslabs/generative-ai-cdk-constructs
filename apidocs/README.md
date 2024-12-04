@@ -1,4 +1,4 @@
-**@cdklabs/generative-ai-cdk-constructs** • **Docs**
+**@cdklabs/generative-ai-cdk-constructs**
 
 ***
 
