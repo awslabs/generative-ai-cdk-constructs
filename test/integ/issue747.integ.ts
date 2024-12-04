@@ -47,7 +47,7 @@ const actionGroupFunction = new Function(stack, 'ActionGroupFunction', {
 const actionGroup = new bedrock.ActionGroup({
   name: 'my-ag',
   description: 'my action group',
-  executor: bedrock.ActionGroupExecutor.lambdaFunction(actionGroupFunction),
+  executor: bedrock.ActionGroupExecutor.fromlambdaFunction(actionGroupFunction),
   apiSchema: bedrock.ApiSchema.fromLocalAsset(__dirname + '/api-schema.yaml'),
 });
 

@@ -185,7 +185,7 @@ export class AgentAlias extends AgentAliasBase {
   /**
    * Brings an Agent Alias from an existing one created outside of CDK.
    */
-  public static fromAttibutes(scope: Construct, id: string, attrs: AgentAliasAttributes): IAgentAlias {
+  public static fromAttributes(scope: Construct, id: string, attrs: AgentAliasAttributes): IAgentAlias {
     class Import extends AgentAliasBase {
       public readonly agent = attrs.agent;
       public readonly aliasId = attrs.aliasId;

@@ -37,7 +37,7 @@ export class ActionGroupExecutor {
    * @param lambdaFunction - Lambda function to be called by the action group.
    * @see https://docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html
    */
-  public static lambdaFunction(lambdaFunction: IFunction): ActionGroupExecutor {
+  public static fromlambdaFunction(lambdaFunction: IFunction): ActionGroupExecutor {
     return new ActionGroupExecutor(lambdaFunction, undefined);
   }
 

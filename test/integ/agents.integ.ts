@@ -56,7 +56,7 @@ const myLambdaFunction = new Function(stack, 'LambdaFunction', {
 const ag = new ActionGroup({
   name: 'mortgage-processing-agent-action-group',
   description: 'An action group to process mortgage applications',
-  executor: ActionGroupExecutor.lambdaFunction(myLambdaFunction),
+  executor: ActionGroupExecutor.fromlambdaFunction(myLambdaFunction),
   apiSchema: ApiSchema.fromInline('22r'),
 });
 

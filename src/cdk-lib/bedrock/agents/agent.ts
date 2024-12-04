@@ -436,7 +436,7 @@ export class Agent extends AgentBase {
     this.agentArn = this.__resource.attrAgentArn;
     this.agentVersion = this.__resource.attrAgentVersion;
     this.lastUpdated = this.__resource.attrUpdatedAt;
-    this.testAlias = AgentAlias.fromAttibutes(this, 'DefaultAlias', {
+    this.testAlias = AgentAlias.fromAttributes(this, 'DefaultAlias', {
       aliasId: 'TSTALIASID',
       aliasName: 'AgentTestAlias',
       agentVersion: 'DRAFT',

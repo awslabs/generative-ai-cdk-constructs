@@ -39,7 +39,8 @@ export abstract class ApiSchema {
 
   /**
    * Creates an API Schema from an S3 File
-   * @param path - the path to the local file containing the OpenAPI schema for the action group
+   * @param bucket - the bucket containing the local file containing the OpenAPI schema for the action group
+   * @param objectKey - object key in the bucket
    */
   public static fromS3File(bucket: IBucket, objectKey: string): S3ApiSchema {
     return new S3ApiSchema({

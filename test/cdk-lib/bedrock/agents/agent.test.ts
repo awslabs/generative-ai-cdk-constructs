@@ -165,9 +165,9 @@ describe('CDK-Agent', () => {
       validActionGroup = new bedrock.ActionGroup({
         name: 'TestActionGroup',
         description: 'This is a test action group',
-        executor: bedrock.ActionGroupExecutor.lambdaFunction(myLambda),
+        executor: bedrock.ActionGroupExecutor.fromlambdaFunction(myLambda),
         // Load from local file
-        apiSchema: bedrock.ApiSchema.fromAsset(__dirname + '/api-schema.yaml'),
+        apiSchema: bedrock.ApiSchema.fromLocalAsset(__dirname + '/api-schema.yaml'),
       });
     });
 
@@ -265,9 +265,9 @@ describe('CDK-Agent', () => {
       const invalidActionGroup = new bedrock.ActionGroup({
         name: 'AMAZONUserInput',
         description: 'This is a test action group with the same name for reserved Action Groups',
-        executor: bedrock.ActionGroupExecutor.lambdaFunction(myLambda),
+        executor: bedrock.ActionGroupExecutor.fromlambdaFunction(myLambda),
         // Load from local file
-        apiSchema: bedrock.ApiSchema.fromAsset(__dirname + '/api-schema.yaml'),
+        apiSchema: bedrock.ApiSchema.fromLocalAsset(__dirname + '/api-schema.yaml'),
       });
 
       const agent = new bedrock.Agent(stack, 'TestAgent', {

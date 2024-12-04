@@ -416,6 +416,69 @@
         }
       ]
     },
+    "integ:issue747:assert": {
+      "name": "integ:issue747:assert",
+      "description": "assert the snapshot of integration test 'issue747'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/issue747.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'issue747'. Run 'projen integ:issue747:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/issue747.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/issue747.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/issue747.integ.snapshot/ test/integ/.tmp/issue747.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:issue747:deploy": {
+      "name": "integ:issue747:deploy",
+      "description": "deploy integration test 'issue747' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/issue747.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/issue747.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/issue747.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/issue747.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/issue747.integ/deploy.cdk.out test/integ/issue747.integ.snapshot"
+        },
+        {
+          "spawn": "integ:issue747:destroy"
+        }
+      ]
+    },
+    "integ:issue747:destroy": {
+      "name": "integ:issue747:destroy",
+      "description": "destroy integration test 'issue747'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/issue747.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:issue747:snapshot": {
+      "name": "integ:issue747:snapshot",
+      "description": "update snapshot for integration test \"issue747\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/issue747.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/issue747.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:issue747:watch": {
+      "name": "integ:issue747:watch",
+      "description": "watch integration test 'issue747' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/issue747.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/issue747.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:snapshot-all": {
       "name": "integ:snapshot-all",
       "description": "update snapshot for all integration tests",
@@ -425,6 +488,9 @@
         },
         {
           "spawn": "integ:inference-profiles:snapshot"
+        },
+        {
+          "spawn": "integ:issue747:snapshot"
         },
         {
           "spawn": "integ:aws-aoss-cw-dashboard:snapshot"
@@ -564,6 +630,9 @@
         },
         {
           "spawn": "integ:inference-profiles:assert"
+        },
+        {
+          "spawn": "integ:issue747:assert"
         },
         {
           "spawn": "integ:aws-aoss-cw-dashboard:assert"
