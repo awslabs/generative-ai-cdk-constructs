@@ -17,6 +17,7 @@ export * from './agents/agent';
 export * from './agents/agent-alias';
 export * from './agents/api-executor';
 export * from './agents/api-schema';
+export * from './agents/prompt-override';
 export * from './guardrails/guardrail-filters';
 export * from './guardrails/guardrails';
 export * from './models';

@@ -76,6 +76,9 @@ export class InlineApiSchema extends ApiSchema {
     super(undefined, schema);
   }
 
+  /**
+   * @internal This is an internal core function and should not be called directly.
+   */
   public _render(): CfnAgent.APISchemaProperty {
     return {
       payload: this.schema,
@@ -93,6 +96,9 @@ export class S3ApiSchema extends ApiSchema {
   constructor(private readonly location: Location) {
     super(location, undefined);
   }
+  /**
+   * @internal This is an internal core function and should not be called directly.
+   */
   public _render(): CfnAgent.APISchemaProperty {
     return {
       s3: {
