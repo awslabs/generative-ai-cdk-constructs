@@ -14,6 +14,7 @@
 - [TokenFilterType](enumerations/TokenFilterType.md)
 - [TokenizerType](enumerations/TokenizerType.md)
 - [VectorCollectionStandbyReplicas](enumerations/VectorCollectionStandbyReplicas.md)
+- [VectorCollectionType](enumerations/VectorCollectionType.md)
 
 ### Classes
 
@@ -21,4 +22,6 @@
 
 ### Interfaces
 
+- [IVectorCollection](interfaces/IVectorCollection.md)
+- [VectorCollectionAttributes](interfaces/VectorCollectionAttributes.md)
 - [VectorCollectionProps](interfaces/VectorCollectionProps.md)
