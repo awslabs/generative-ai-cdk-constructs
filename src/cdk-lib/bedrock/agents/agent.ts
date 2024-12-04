@@ -164,7 +164,7 @@ export interface AgentProps {
   /**
    * Whether to delete the resource even if it's in use.
    *
-   * @default - false
+   * @default - true
    */
   readonly forceDelete?: boolean;
 }
@@ -344,7 +344,7 @@ export class Agent extends AgentBase {
     this.userInputEnabled = props.userInputEnabled ?? false;
     this.codeInterpreterEnabled = props.codeInterpreterEnabled ?? false;
     this.foundationModel = props.foundationModel;
-    this.forceDelete = props.forceDelete ?? false;
+    this.forceDelete = props.forceDelete ?? true;
     // Optional
     this.description = props.description;
     this.instruction = props.instruction;
@@ -380,7 +380,6 @@ export class Agent extends AgentBase {
       // add the appropriate permissions to use the FM
       this.foundationModel.grantInvoke(this.role);
     }
-
     // ------------------------------------------------------
     // Set Lazy Props initial values
     // ------------------------------------------------------
@@ -433,8 +432,8 @@ export class Agent extends AgentBase {
     // ------------------------------------------------------
     this.__resource = new bedrock.CfnAgent(this, 'AgentResource', cfnProps);
 
-    this.agentId = this.__resource.attrAgentArn;
-    this.agentArn = this.__resource.attrAgentId;
+    this.agentId = this.__resource.attrAgentId;
+    this.agentArn = this.__resource.attrAgentArn;
     this.agentVersion = this.__resource.attrAgentVersion;
     this.lastUpdated = this.__resource.attrUpdatedAt;
     this.testAlias = AgentAlias.fromAttibutes(this, 'DefaultAlias', {
@@ -482,7 +481,7 @@ export class Agent extends AgentBase {
     this.actionGroups.push(actionGroup);
     // Handle permissions to invoke the lambda function
     actionGroup.executor?.lambdaFunction?.grantInvoke(this.role);
-    actionGroup.executor?.lambdaFunction?.addPermission(`BedrockAgentLambdaInvocationPolicy-${this.node.addr}`, {
+    actionGroup.executor?.lambdaFunction?.addPermission(`LambdaInvocationPolicy-${this.node.addr.slice(0, 16)}`, {
       principal: new iam.ServicePrincipal('bedrock.amazonaws.com'),
       sourceArn: this.agentArn,
       sourceAccount: Stack.of(this).account,

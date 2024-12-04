@@ -25,7 +25,7 @@ export abstract class ApiSchema {
    * Creates an API Schema from a local file.
    * @param path - the path to the local file containing the OpenAPI schema for the action group
    */
-  public static fromAsset(path: string): InlineApiSchema {
+  public static fromLocalAsset(path: string): InlineApiSchema {
     return new InlineApiSchema(fs.readFileSync(path, 'utf8'));
   }
 
