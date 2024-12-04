@@ -130,7 +130,12 @@ export class PromptOverrideConfiguration {
     // Create new object
     return new PromptOverrideConfiguration({ steps });
   }
-
+  /**
+   * Creates a PromptOverrideConfiguration with a custom Lambda parser function.
+   * @param props Configuration including:
+   *   - `parser`: Lambda function to use as custom parser
+   *   - `steps`: prompt step configurations. At least one of the steps must make use of the custom parser.
+   */
   public static withCustomParser(props: {
     parser: IFunction;
     steps?: PromptStepConfigurationCustomParser[];
@@ -141,12 +146,15 @@ export class PromptOverrideConfiguration {
 
   /**
    * The custom Lambda parser function to use.
-   * This Lambda function serves as a custom parser that processes and interprets
-   * the raw output from the foundation model.
-   * If this field is specified, at least one of the Steps must be configured
-   * with `useCustomParser` set to `true`.
+   * The Lambda parser processes and interprets the raw foundation model output.
+   * It receives an input event with:
+   * - messageVersion: Version of message format (1.0)
+   * - agent: Info about the agent (name, id, alias, version)
+   * - invokeModelRawResponse: Raw model output to parse
+   * - promptType: Type of prompt being parsed
+   * - overrideType: Type of override (OUTPUT_PARSER)
    *
-   * @default - The default lambda parser will be used.
+   * The Lambda must return a response that the agent uses for next actions.
    * @see https://docs.aws.amazon.com/bedrock/latest/userguide/lambda-parser.html
    */
   readonly parser?: IFunction;
@@ -190,23 +198,20 @@ export class PromptOverrideConfiguration {
           /** Maps stepEnabled (true → 'OVERRIDDEN', false → 'DEFAULT', undefined → undefined (uses CFN DEFAULT)) */
           // prettier-ignore
           parserMode:
-            step?.useCustomParser === undefined
-              ? undefined
-              : step?.useCustomParser ? 'OVERRIDDEN' : 'DEFAULT',
+            step?.useCustomParser === undefined 
+            ? undefined 
+            : step?.useCustomParser ? 'OVERRIDDEN' : 'DEFAULT',
           // Use custom prompt template if provided, otherwise use default
           // prettier-ignore
           promptCreationMode: step?.customPromptTemplate === undefined
-            ? undefined
-            : step?.customPromptTemplate ? 'OVERRIDDEN' : 'DEFAULT',
+              ? undefined
+              : step?.customPromptTemplate ? 'OVERRIDDEN' : 'DEFAULT',
           basePromptTemplate: step.customPromptTemplate,
           inferenceConfiguration: step.inferenceConfig,
         })) || [],
     };
   }
 
-  // ------------------------------------------------------
-  // Validators
-  // ------------------------------------------------------
   private validateInferenceConfig = (config?: InferenceConfiguration): string[] => {
     const errors: string[] = [];
 

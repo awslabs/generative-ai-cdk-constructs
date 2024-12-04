@@ -12,7 +12,7 @@
  */
 import * as fs from 'fs';
 import { CfnAgent } from 'aws-cdk-lib/aws-bedrock';
-import { Location } from 'aws-cdk-lib/aws-s3';
+import { IBucket, Location } from 'aws-cdk-lib/aws-s3';
 
 /******************************************************************************
  *                       API SCHEMA CLASS
@@ -35,6 +35,17 @@ export abstract class ApiSchema {
    */
   public static fromInline(schema: string): InlineApiSchema {
     return new InlineApiSchema(schema);
+  }
+
+  /**
+   * Creates an API Schema from an S3 File
+   * @param path - the path to the local file containing the OpenAPI schema for the action group
+   */
+  public static fromS3File(bucket: IBucket, objectKey: string): S3ApiSchema {
+    return new S3ApiSchema({
+      bucketName: bucket.bucketName,
+      objectKey: objectKey,
+    });
   }
 
   public readonly s3File?: Location;

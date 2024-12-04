@@ -41,7 +41,7 @@ export class ParentActionGroupSignature {
 /******************************************************************************
  *                         PROPS - Action Group Class
  *****************************************************************************/
-export interface AgentActionGroupProps {
+export interface ActionGroupProps {
   /**
    * The name of the action group.
    */
@@ -85,7 +85,7 @@ export interface AgentActionGroupProps {
 
   /**
    * Defines functions that each define parameters that the agent needs to invoke from the user.
-   * NO L2 as this doesn't make much sense IMHO
+   * NO L2 yet as this doesn't make much sense IMHO
    */
   readonly functionSchema?: CfnAgent.FunctionSchemaProperty;
 
@@ -101,7 +101,7 @@ export interface AgentActionGroupProps {
  *                         DEF - Action Group Class
  *****************************************************************************/
 
-export class AgentActionGroup {
+export class ActionGroup {
   // ------------------------------------------------------
   // Static Constructors
   // ------------------------------------------------------
@@ -110,8 +110,8 @@ export class AgentActionGroup {
    * additional information when trying to complete a task.
    * @param enabled Specifies whether the action group is available for the agent
    */
-  public static userInput(enabled: boolean): AgentActionGroup {
-    return new AgentActionGroup({
+  public static userInput(enabled: boolean): ActionGroup {
+    return new ActionGroup({
       name: 'AMAZONUserInput',
       enabled: enabled,
       parentActionGroupSignature: ParentActionGroupSignature.USER_INPUT,
@@ -123,8 +123,8 @@ export class AgentActionGroup {
    * additional information when trying to complete a task.
    * @param enabled Specifies whether the action group is available for the agent
    */
-  public static codeInterpreter(enabled: boolean): AgentActionGroup {
-    return new AgentActionGroup({
+  public static codeInterpreter(enabled: boolean): ActionGroup {
+    return new ActionGroup({
       name: 'AMAZONCodeInterpreter',
       enabled: enabled,
       parentActionGroupSignature: ParentActionGroupSignature.CODE_INTERPRETER,
@@ -167,7 +167,7 @@ export class AgentActionGroup {
    */
   public readonly parentActionGroupSignature?: ParentActionGroupSignature;
 
-  public constructor(props: AgentActionGroupProps) {
+  public constructor(props: ActionGroupProps) {
     // Validate Props
     this.validateProps(props);
 
@@ -184,7 +184,7 @@ export class AgentActionGroup {
     this.parentActionGroupSignature = props.parentActionGroupSignature;
   }
 
-  private validateProps(props: AgentActionGroupProps) {
+  private validateProps(props: ActionGroupProps) {
     if (props.parentActionGroupSignature && (props.description || props.apiSchema || props.executor)) {
       throw new Error(
         'When parentActionGroupSignature is specified, you must leave the description, ' +

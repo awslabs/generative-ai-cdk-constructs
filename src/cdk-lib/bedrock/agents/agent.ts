@@ -10,16 +10,17 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-import { ArnFormat, Duration, IResource, Lazy, Resource, Stack } from 'aws-cdk-lib';
+import { Arn, ArnFormat, Duration, IResource, Lazy, Resource, Stack } from 'aws-cdk-lib';
+import { Construct } from 'constructs';
 import * as bedrock from 'aws-cdk-lib/aws-bedrock';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
-import { Construct } from 'constructs';
-import { AgentActionGroup } from './action-group';
+// Internal Libs
+import * as validation from '../../../common/helpers/validation-helpers';
+import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
+import { ActionGroup } from './action-group';
 import { AgentAlias, IAgentAlias } from './agent-alias';
 import { PromptOverrideConfiguration } from './prompt-override';
-import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
-import * as validation from '../../../common/helpers/validation-helpers';
 import { IGuardrail } from '../guardrails/guardrails';
 import { IKnowledgeBase } from '../knowledge-base';
 import { IInvokable } from '../models';
@@ -86,7 +87,8 @@ export interface AgentProps {
    */
   readonly name?: string;
   /**
-   * The instruction used by the agent.
+   * The instruction used by the agent. This determines how the agent will perform his task.
+   * This instruction must have a minimum of 40 characters.
    */
   readonly instruction: string;
   /**
@@ -135,11 +137,9 @@ export interface AgentProps {
   /**
    * The Action Groups associated with the agent.
    */
-  readonly actionGroups?: AgentActionGroup[];
+  readonly actionGroups?: ActionGroup[];
   /**
-   * The guardrail that will be associated with the agent. This requires you to specify
-   * the guardrail and version that you want to use. If you do not want to manage the versions
-   * yourself, use the `yourGuardrail.defaultVersion` attribute.
+   * The guardrail that will be associated with the agent.
    */
   readonly guardrail?: IGuardrail;
   /**
@@ -174,7 +174,34 @@ export interface AgentProps {
 /**
  * Attributes for specifying an imported Bedrock Agent.
  */
-
+export interface AgentAttributes {
+  /**
+   * The ARN of the agent.
+   * @example "arn:aws:bedrock:us-east-1:123456789012:agent/OKDSJOGKMO"
+   * @attribute
+   */
+  readonly agentArn: string;
+  /**
+   * The ARN of the IAM role associated to the agent.
+   * @example "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+   * @attribute
+   */
+  readonly roleArn: string;
+  /**
+   * Optional KMS encryption key associated with this agent
+   */
+  readonly kmsKeyArn?: string;
+  /**
+   * When this agent was last updated.
+   */
+  readonly lastUpdated?: string;
+  /**
+   * The agent version. If no explicit versions have been created,
+   * leave this  empty to use the DRAFT version. Otherwise, use the
+   * version number (e.g. 1).
+   */
+  readonly agentVersion?: string;
+}
 /******************************************************************************
  *                        NEW CONSTRUCT DEFINITION
  *****************************************************************************/
@@ -183,6 +210,22 @@ export interface AgentProps {
  * @cloudformationResource AWS::Bedrock::Agent
  */
 export class Agent extends AgentBase {
+  /**
+   * Static Method for importing an existing Bedrock Agent.
+   */
+  public static fromAgentAttrs(scope: Construct, id: string, attrs: AgentAttributes): IAgent {
+    class Import extends AgentBase {
+      public readonly agentArn = attrs.agentArn;
+      public readonly agentId = Arn.split(attrs.agentArn, ArnFormat.SLASH_RESOURCE_NAME).resourceName!;
+      public readonly role = iam.Role.fromRoleArn(scope, `${id}Role`, attrs.roleArn);
+      public readonly kmsKey = attrs.kmsKeyArn ? kms.Key.fromKeyArn(scope, `${id}Key`, attrs.kmsKeyArn) : undefined;
+      public readonly lastUpdated = attrs.lastUpdated;
+      public readonly agentVersion = attrs.agentVersion ?? 'DRAFT';
+    }
+
+    // Return new Agent
+    return new Import(scope, id);
+  }
   // ------------------------------------------------------
   // Base attributes
   // ------------------------------------------------------
@@ -222,7 +265,7 @@ export class Agent extends AgentBase {
    */
   public readonly description?: string;
   /**
-   * The instruction used by the agent.
+   * The instruction used by the agent. This determines how the agent will perform his task.
    */
   public readonly instruction?: string;
   /**
@@ -268,7 +311,7 @@ export class Agent extends AgentBase {
   /**
    * The action groups associated with the agent.
    */
-  public actionGroups: AgentActionGroup[];
+  public actionGroups: ActionGroup[];
   /**
    * The KnowledgeBases associated with the agent.
    */
@@ -344,8 +387,8 @@ export class Agent extends AgentBase {
     this.knowledgeBases = [];
     this.actionGroups = [];
     // Add Default Action Groups
-    this.addActionGroup(AgentActionGroup.userInput(this.userInputEnabled));
-    this.addActionGroup(AgentActionGroup.codeInterpreter(this.codeInterpreterEnabled));
+    this.addActionGroup(ActionGroup.userInput(this.userInputEnabled));
+    this.addActionGroup(ActionGroup.codeInterpreter(this.codeInterpreterEnabled));
 
     // Add specified elems through methods to handle permissions
     // this needs to happen after role creation / assignment
@@ -432,7 +475,7 @@ export class Agent extends AgentBase {
   /**
    * Add an action group to the agent.
    */
-  public addActionGroup(actionGroup: AgentActionGroup) {
+  public addActionGroup(actionGroup: ActionGroup) {
     // Do some checks
     validation.throwIfInvalid(this.validateActionGroup, actionGroup);
     // Add it to the array
@@ -457,9 +500,9 @@ export class Agent extends AgentBase {
   private renderGuardrail(): bedrock.CfnAgent.GuardrailConfigurationProperty | undefined {
     return this.guardrail
       ? {
-        guardrailIdentifier: this.guardrail.guardrailId,
-        guardrailVersion: this.guardrail.guardrailVersion,
-      }
+          guardrailIdentifier: this.guardrail.guardrailId,
+          guardrailVersion: this.guardrail.guardrailVersion,
+        }
       : undefined;
   }
 
@@ -516,12 +559,12 @@ export class Agent extends AgentBase {
           fieldName: 'description',
           minLength: 0,
           maxLength: MAX_LENGTH,
-        }),
+        })
       );
     } else {
       errors.push(
         'If instructionForAgents is not provided, the description property of the KnowledgeBase ' +
-          `${knowledgeBase.knowledgeBaseId} must be provided.`,
+          `${knowledgeBase.knowledgeBaseId} must be provided.`
       );
     }
     return errors;
@@ -552,7 +595,7 @@ export class Agent extends AgentBase {
     if (this.guardrail) {
       errors.push(
         `Cannot add Guardrail ${guardrail.guardrailId}. ` +
-          `Guardrail ${this.guardrail.guardrailId} has already been specified for this agent.`,
+          `Guardrail ${this.guardrail.guardrailId} has already been specified for this agent.`
       );
     }
     errors.push(...validation.validateFieldPattern(guardrail.guardrailVersion, 'version', /^(([0-9]{1,8})|(DRAFT))$/));
@@ -561,7 +604,7 @@ export class Agent extends AgentBase {
   /**
    * Check if the action group is valid
    */
-  private validateActionGroup = (actionGroup: AgentActionGroup) => {
+  private validateActionGroup = (actionGroup: ActionGroup) => {
     console.log('Validating action group: ', actionGroup.name);
     let errors: string[] = [];
     // Find if there is a conflicting action group name
