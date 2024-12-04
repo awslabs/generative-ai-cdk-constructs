@@ -125,6 +125,17 @@ export interface PromptStepConfigurationCustomParser extends PromptStepConfigura
   readonly useCustomParser?: boolean;
 }
 
+export interface CustomParserProps {
+  /*
+  * Lambda function to use as custom parser
+  */
+  readonly parser?: IFunction;
+  /*
+  * prompt step configurations. At least one of the steps must make use of the custom parser.
+  */
+  readonly steps?: PromptStepConfigurationCustomParser[];
+}
+
 export class PromptOverrideConfiguration {
   public static fromSteps(steps?: PromptStepConfiguration[]): PromptOverrideConfiguration {
     // Create new object
@@ -136,10 +147,7 @@ export class PromptOverrideConfiguration {
    *   - `parser`: Lambda function to use as custom parser
    *   - `steps`: prompt step configurations. At least one of the steps must make use of the custom parser.
    */
-  public static withCustomParser(props: {
-    parser: IFunction;
-    steps?: PromptStepConfigurationCustomParser[];
-  }): PromptOverrideConfiguration {
+  public static withCustomParser(props: CustomParserProps): PromptOverrideConfiguration {
     // Create new object
     return new PromptOverrideConfiguration(props);
   }
@@ -171,7 +179,7 @@ export class PromptOverrideConfiguration {
    *
    * @internal - This is marked as private so end users leverage it only through static methods
    */
-  private constructor(props: { parser?: IFunction; steps?: PromptStepConfigurationCustomParser[] }) {
+  private constructor(props: CustomParserProps) {
     // Validate props
     validation.throwIfInvalid(this.validateSteps, props.steps);
     if (props.parser) {
@@ -198,14 +206,14 @@ export class PromptOverrideConfiguration {
           /** Maps stepEnabled (true → 'OVERRIDDEN', false → 'DEFAULT', undefined → undefined (uses CFN DEFAULT)) */
           // prettier-ignore
           parserMode:
-            step?.useCustomParser === undefined 
-            ? undefined 
-            : step?.useCustomParser ? 'OVERRIDDEN' : 'DEFAULT',
+            step?.useCustomParser === undefined
+              ? undefined
+              : step?.useCustomParser ? 'OVERRIDDEN' : 'DEFAULT',
           // Use custom prompt template if provided, otherwise use default
           // prettier-ignore
           promptCreationMode: step?.customPromptTemplate === undefined
-              ? undefined
-              : step?.customPromptTemplate ? 'OVERRIDDEN' : 'DEFAULT',
+            ? undefined
+            : step?.customPromptTemplate ? 'OVERRIDDEN' : 'DEFAULT',
           basePromptTemplate: step.customPromptTemplate,
           inferenceConfiguration: step.inferenceConfig,
         })) || [],

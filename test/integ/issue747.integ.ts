@@ -12,8 +12,8 @@
  */
 import * as integ from '@aws-cdk/integ-tests-alpha';
 import * as cdk from 'aws-cdk-lib';
-import * as bedrock from '../../src/cdk-lib/bedrock';
 import { Code, Function, Runtime } from 'aws-cdk-lib/aws-lambda';
+import * as bedrock from '../../src/cdk-lib/bedrock';
 
 const app = new cdk.App();
 const stack = new cdk.Stack(app, 'aws-cdk-bedrock-agents-integ-test', {

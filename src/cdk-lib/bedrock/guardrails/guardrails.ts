@@ -299,7 +299,7 @@ export class Guardrail extends GuardrailBase {
   /**
    * When this guardrail was last updated
    */
-  public readonly lastUpdated: string;
+  public readonly lastUpdated?: string;
   /**
    * The computed hash of the guardrail properties.
    */

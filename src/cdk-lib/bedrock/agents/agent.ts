@@ -11,16 +11,16 @@
  *  and limitations under the License.
  */
 import { Arn, ArnFormat, Duration, IResource, Lazy, Resource, Stack } from 'aws-cdk-lib';
-import { Construct } from 'constructs';
 import * as bedrock from 'aws-cdk-lib/aws-bedrock';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
+import { Construct } from 'constructs';
 // Internal Libs
-import * as validation from '../../../common/helpers/validation-helpers';
-import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
 import { ActionGroup } from './action-group';
 import { AgentAlias, IAgentAlias } from './agent-alias';
 import { PromptOverrideConfiguration } from './prompt-override';
+import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
+import * as validation from '../../../common/helpers/validation-helpers';
 import { IGuardrail } from '../guardrails/guardrails';
 import { IKnowledgeBase } from '../knowledge-base';
 import { IInvokable } from '../models';
@@ -240,7 +240,7 @@ export class Agent extends AgentBase {
   /**
    * The version of the agent.
    */
-  public readonly agentVersion: string;
+  public agentVersion: string;
   /**
    * The IAM role associated to the agent.
    */
@@ -344,7 +344,7 @@ export class Agent extends AgentBase {
     this.userInputEnabled = props.userInputEnabled ?? false;
     this.codeInterpreterEnabled = props.codeInterpreterEnabled ?? false;
     this.foundationModel = props.foundationModel;
-    this.forceDelete = props.forceDelete ?? true;
+    this.forceDelete = props.forceDelete ?? false;
     // Optional
     this.description = props.description;
     this.instruction = props.instruction;
@@ -499,9 +499,9 @@ export class Agent extends AgentBase {
   private renderGuardrail(): bedrock.CfnAgent.GuardrailConfigurationProperty | undefined {
     return this.guardrail
       ? {
-          guardrailIdentifier: this.guardrail.guardrailId,
-          guardrailVersion: this.guardrail.guardrailVersion,
-        }
+        guardrailIdentifier: this.guardrail.guardrailId,
+        guardrailVersion: this.guardrail.guardrailVersion,
+      }
       : undefined;
   }
 
@@ -558,12 +558,12 @@ export class Agent extends AgentBase {
           fieldName: 'description',
           minLength: 0,
           maxLength: MAX_LENGTH,
-        })
+        }),
       );
     } else {
       errors.push(
         'If instructionForAgents is not provided, the description property of the KnowledgeBase ' +
-          `${knowledgeBase.knowledgeBaseId} must be provided.`
+          `${knowledgeBase.knowledgeBaseId} must be provided.`,
       );
     }
     return errors;
@@ -594,7 +594,7 @@ export class Agent extends AgentBase {
     if (this.guardrail) {
       errors.push(
         `Cannot add Guardrail ${guardrail.guardrailId}. ` +
-          `Guardrail ${this.guardrail.guardrailId} has already been specified for this agent.`
+          `Guardrail ${this.guardrail.guardrailId} has already been specified for this agent.`,
       );
     }
     errors.push(...validation.validateFieldPattern(guardrail.guardrailVersion, 'version', /^(([0-9]{1,8})|(DRAFT))$/));

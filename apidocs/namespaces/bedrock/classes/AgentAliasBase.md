@@ -2,25 +2,30 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / AgentAlias
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / AgentAliasBase
 
-# Class: AgentAlias
+# Class: `abstract` AgentAliasBase
 
-Class to create an Agent Alias with CDK.
-
-## Cloudformation Resource
-
-AWS::Bedrock::AgentAlias
+Abstract base class for an Agent.
+Contains methods and attributes valid for Agents either created with CDK or imported.
 
 ## Extends
 
-- [`AgentAliasBase`](AgentAliasBase.md)
+- `Resource`
+
+## Extended by
+
+- [`AgentAlias`](AgentAlias.md)
+
+## Implements
+
+- [`IAgentAlias`](../interfaces/IAgentAlias.md)
 
 ## Constructors
 
-### new AgentAlias()
+### new AgentAliasBase()
 
-> **new AgentAlias**(`scope`, `id`, `props`): [`AgentAlias`](AgentAlias.md)
+> **new AgentAliasBase**(`scope`, `id`, `props`?): [`AgentAliasBase`](AgentAliasBase.md)
 
 #### Parameters
 
@@ -32,35 +37,35 @@ AWS::Bedrock::AgentAlias
 
 `string`
 
-##### props
+##### props?
 
-[`AgentAliasProps`](../interfaces/AgentAliasProps.md)
+`ResourceProps`
 
 #### Returns
 
-[`AgentAlias`](AgentAlias.md)
+[`AgentAliasBase`](AgentAliasBase.md)
 
-#### Overrides
+#### Inherited from
 
-[`AgentAliasBase`](AgentAliasBase.md).[`constructor`](AgentAliasBase.md#constructors)
+`Resource.constructor`
 
 ## Properties
 
 ### agent
 
-> `readonly` **agent**: [`IAgent`](../interfaces/IAgent.md)
+> `abstract` `readonly` **agent**: [`IAgent`](../interfaces/IAgent.md)
 
 The underlying agent for this alias.
 
-#### Overrides
+#### Implementation of
 
-[`AgentAliasBase`](AgentAliasBase.md).[`agent`](AgentAliasBase.md#agent)
+[`IAgentAlias`](../interfaces/IAgentAlias.md).[`agent`](../interfaces/IAgentAlias.md#agent)
 
 ***
 
 ### aliasArn
 
-> `readonly` **aliasArn**: `string`
+> `abstract` `readonly` **aliasArn**: `string`
 
 The ARN of the agent alias.
 
@@ -70,15 +75,15 @@ The ARN of the agent alias.
 `arn:aws:bedrock:us-east-1:123456789012:agent-alias/DNCJJYQKSU/TCLCITFZTN`
 ```
 
-#### Overrides
+#### Implementation of
 
-[`AgentAliasBase`](AgentAliasBase.md).[`aliasArn`](AgentAliasBase.md#aliasarn)
+[`IAgentAlias`](../interfaces/IAgentAlias.md).[`aliasArn`](../interfaces/IAgentAlias.md#aliasarn)
 
 ***
 
 ### aliasId
 
-> `readonly` **aliasId**: `string`
+> `abstract` `readonly` **aliasId**: `string`
 
 The unique identifier of the agent alias.
 
@@ -88,15 +93,9 @@ The unique identifier of the agent alias.
 `TCLCITFZTN`
 ```
 
-#### Overrides
+#### Implementation of
 
-[`AgentAliasBase`](AgentAliasBase.md).[`aliasId`](AgentAliasBase.md#aliasid)
-
-***
-
-### aliasName
-
-> `readonly` **aliasName**: `string`
+[`IAgentAlias`](../interfaces/IAgentAlias.md).[`aliasId`](../interfaces/IAgentAlias.md#aliasid)
 
 ***
 
@@ -112,9 +111,13 @@ however, for imported resources
 (those obtained from static methods like fromRoleArn, fromBucketName, etc.),
 that might be different than the stack they were imported into.
 
+#### Implementation of
+
+[`IAgentAlias`](../interfaces/IAgentAlias.md).[`env`](../interfaces/IAgentAlias.md#env)
+
 #### Inherited from
 
-[`AgentAliasBase`](AgentAliasBase.md).[`env`](AgentAliasBase.md#env)
+`Resource.env`
 
 ***
 
@@ -124,9 +127,13 @@ that might be different than the stack they were imported into.
 
 The tree node.
 
+#### Implementation of
+
+[`IAgentAlias`](../interfaces/IAgentAlias.md).[`node`](../interfaces/IAgentAlias.md#node)
+
 #### Inherited from
 
-[`AgentAliasBase`](AgentAliasBase.md).[`node`](AgentAliasBase.md#node)
+`Resource.node`
 
 ***
 
@@ -145,7 +152,7 @@ This value will resolve to one of the following:
 
 #### Inherited from
 
-[`AgentAliasBase`](AgentAliasBase.md).[`physicalName`](AgentAliasBase.md#physicalname)
+`Resource.physicalName`
 
 ***
 
@@ -155,9 +162,13 @@ This value will resolve to one of the following:
 
 The stack in which this resource is defined.
 
+#### Implementation of
+
+[`IAgentAlias`](../interfaces/IAgentAlias.md).[`stack`](../interfaces/IAgentAlias.md#stack)
+
 #### Inherited from
 
-[`AgentAliasBase`](AgentAliasBase.md).[`stack`](AgentAliasBase.md#stack)
+`Resource.stack`
 
 ## Methods
 
@@ -178,7 +189,7 @@ through its absolute name/arn.
 
 #### Inherited from
 
-[`AgentAliasBase`](AgentAliasBase.md).[`_enableCrossEnvironment`](AgentAliasBase.md#_enablecrossenvironment)
+`Resource._enableCrossEnvironment`
 
 ***
 
@@ -206,9 +217,13 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 `void`
 
+#### Implementation of
+
+[`IAgentAlias`](../interfaces/IAgentAlias.md).[`applyRemovalPolicy`](../interfaces/IAgentAlias.md#applyremovalpolicy)
+
 #### Inherited from
 
-[`AgentAliasBase`](AgentAliasBase.md).[`applyRemovalPolicy`](AgentAliasBase.md#applyremovalpolicy)
+`Resource.applyRemovalPolicy`
 
 ***
 
@@ -222,7 +237,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Inherited from
 
-[`AgentAliasBase`](AgentAliasBase.md).[`generatePhysicalName`](AgentAliasBase.md#generatephysicalname)
+`Resource.generatePhysicalName`
 
 ***
 
@@ -262,7 +277,7 @@ cross-environment references to work.
 
 #### Inherited from
 
-[`AgentAliasBase`](AgentAliasBase.md).[`getResourceArnAttribute`](AgentAliasBase.md#getresourcearnattribute)
+`Resource.getResourceArnAttribute`
 
 ***
 
@@ -292,7 +307,7 @@ Commonly this is the resource's `ref`.
 
 #### Inherited from
 
-[`AgentAliasBase`](AgentAliasBase.md).[`getResourceNameAttribute`](AgentAliasBase.md#getresourcenameattribute)
+`Resource.getResourceNameAttribute`
 
 ***
 
@@ -316,9 +331,9 @@ Grant the given principal identity permissions to perform actions on this agent 
 
 `Grant`
 
-#### Inherited from
+#### Implementation of
 
-[`AgentAliasBase`](AgentAliasBase.md).[`grant`](AgentAliasBase.md#grant)
+[`IAgentAlias`](../interfaces/IAgentAlias.md).[`grant`](../interfaces/IAgentAlias.md#grant)
 
 ***
 
@@ -338,9 +353,9 @@ Grant the given identity permissions to invoke the agent alias.
 
 `Grant`
 
-#### Inherited from
+#### Implementation of
 
-[`AgentAliasBase`](AgentAliasBase.md).[`grantInvoke`](AgentAliasBase.md#grantinvoke)
+[`IAgentAlias`](../interfaces/IAgentAlias.md).[`grantInvoke`](../interfaces/IAgentAlias.md#grantinvoke)
 
 ***
 
@@ -371,9 +386,9 @@ Options for adding the rule
 
 `Rule`
 
-#### Inherited from
+#### Implementation of
 
-[`AgentAliasBase`](AgentAliasBase.md).[`onCloudTrailEvent`](AgentAliasBase.md#oncloudtrailevent)
+[`IAgentAlias`](../interfaces/IAgentAlias.md).[`onCloudTrailEvent`](../interfaces/IAgentAlias.md#oncloudtrailevent)
 
 ***
 
@@ -389,33 +404,7 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-[`AgentAliasBase`](AgentAliasBase.md).[`toString`](AgentAliasBase.md#tostring)
-
-***
-
-### fromAttributes()
-
-> `static` **fromAttributes**(`scope`, `id`, `attrs`): [`IAgentAlias`](../interfaces/IAgentAlias.md)
-
-Brings an Agent Alias from an existing one created outside of CDK.
-
-#### Parameters
-
-##### scope
-
-`Construct`
-
-##### id
-
-`string`
-
-##### attrs
-
-[`AgentAliasAttributes`](../interfaces/AgentAliasAttributes.md)
-
-#### Returns
-
-[`IAgentAlias`](../interfaces/IAgentAlias.md)
+`Resource.toString`
 
 ***
 
@@ -455,7 +444,7 @@ true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-[`AgentAliasBase`](AgentAliasBase.md).[`isConstruct`](AgentAliasBase.md#isconstruct)
+`Resource.isConstruct`
 
 ***
 
@@ -477,7 +466,7 @@ Returns true if the construct was created by CDK, and false otherwise
 
 #### Inherited from
 
-[`AgentAliasBase`](AgentAliasBase.md).[`isOwnedResource`](AgentAliasBase.md#isownedresource)
+`Resource.isOwnedResource`
 
 ***
 
@@ -499,4 +488,4 @@ Check whether the given construct is a Resource
 
 #### Inherited from
 
-[`AgentAliasBase`](AgentAliasBase.md).[`isResource`](AgentAliasBase.md#isresource)
+`Resource.isResource`

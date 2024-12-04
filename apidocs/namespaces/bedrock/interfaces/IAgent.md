@@ -2,11 +2,11 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / IAgentAlias
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / IAgent
 
-# Interface: IAgentAlias
+# Interface: IAgent
 
-Represents an Agent Alias, either created with CDK or imported.
+Represents an Agent, either created with CDK or imported.
 
 ## Extends
 
@@ -14,39 +14,35 @@ Represents an Agent Alias, either created with CDK or imported.
 
 ## Properties
 
-### agent
+### agentArn
 
-> `readonly` **agent**: [`IAgent`](IAgent.md)
+> `readonly` **agentArn**: `string`
 
-The underlying agent for this alias.
-
-***
-
-### aliasArn
-
-> `readonly` **aliasArn**: `string`
-
-The ARN of the agent alias.
+The ARN of the agent.
 
 #### Example
 
 ```ts
-`arn:aws:bedrock:us-east-1:123456789012:agent-alias/DNCJJYQKSU/TCLCITFZTN`
+"arn:aws:bedrock:us-east-1:123456789012:agent/OKDSJOGKMO"
 ```
+
+#### Attribute
 
 ***
 
-### aliasId
+### agentId
 
-> `readonly` **aliasId**: `string`
+> `readonly` **agentId**: `string`
 
-The unique identifier of the agent alias.
+The ID of the Agent.
 
 #### Example
 
 ```ts
-`TCLCITFZTN`
+"OKDSJOGKMO"
 ```
+
+#### Attribute
 
 ***
 
@@ -68,6 +64,22 @@ that might be different than the stack they were imported into.
 
 ***
 
+### kmsKey?
+
+> `readonly` `optional` **kmsKey**: `IKey`
+
+Optional KMS encryption key associated with this agent
+
+***
+
+### lastUpdated?
+
+> `readonly` `optional` **lastUpdated**: `string`
+
+When this agent was last updated.
+
+***
+
 ### node
 
 > `readonly` **node**: `Node`
@@ -77,6 +89,14 @@ The tree node.
 #### Inherited from
 
 `IResource.node`
+
+***
+
+### role
+
+> `readonly` **role**: `IRole`
+
+The IAM role associated to the agent.
 
 ***
 
@@ -119,72 +139,3 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 #### Inherited from
 
 `IResource.applyRemovalPolicy`
-
-***
-
-### grant()
-
-> **grant**(`grantee`, ...`actions`): `Grant`
-
-Grant the given principal identity permissions to perform actions on this agent alias.
-
-#### Parameters
-
-##### grantee
-
-`IGrantable`
-
-##### actions
-
-...`string`[]
-
-#### Returns
-
-`Grant`
-
-***
-
-### grantInvoke()
-
-> **grantInvoke**(`grantee`): `Grant`
-
-Grant the given identity permissions to invoke the agent alias.
-
-#### Parameters
-
-##### grantee
-
-`IGrantable`
-
-#### Returns
-
-`Grant`
-
-***
-
-### onCloudTrailEvent()
-
-> **onCloudTrailEvent**(`id`, `options`?): `Rule`
-
-Define an EventBridge rule that triggers when something happens to this agent alias
-
-Requires that there exists at least one CloudTrail Trail in your account
-that captures the event. This method will not create the Trail.
-
-#### Parameters
-
-##### id
-
-`string`
-
-The id of the rule
-
-##### options?
-
-`OnEventOptions`
-
-Options for adding the rule
-
-#### Returns
-
-`Rule`

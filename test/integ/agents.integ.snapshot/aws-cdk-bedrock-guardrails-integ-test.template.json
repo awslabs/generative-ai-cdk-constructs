@@ -414,7 +414,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-central-1"
      },
-     "S3Key": "580031502429c3d09e31d6baccfa2b177bb0c99150d54556fe589cbe46297e1f.zip"
+     "S3Key": "9545768ee036fecf4a0597aedab0a61fd67691b63a6f4897f1d18442d7593a97.zip"
     },
     "Description": "Custom Resource Provider",
     "Handler": "custom_resources.on_event",
@@ -890,7 +890,7 @@
     "Instruction": "You are a customer service agent who has access to knowledge about mortgage products and services. You can help customers apply for a mortgage and answer questions about loan terms, interest rates, and mortgage eligibility. You can guide customers through the steps to submit documents or get appraisals completed. You can explain refinance and modification options to customers and provide resources on mortgage assistance programs. You can also answer internal questions about loan underwriting process, credit requirements, and guidelines for mortgage servicers and lenders. Your goal is to provide excellent service to customers and help them through the homebuying and mortgage financing process. Always ask follow-up question to get general information required before giving the user an answer.",
     "KnowledgeBases": [
      {
-      "Description": "CDK deployed Knowledge base",
+      "Description": "Contains a curated list of FAQs, the Selling Guide. It establishes and communicates the rules of the road for eligible borrowers, loans, and processes to uphold loan quality.",
       "KnowledgeBaseId": {
        "Fn::GetAtt": [
         "KnowledgeBaseMyCfnKnowledgeBaseB201D483",
@@ -899,7 +899,8 @@
       },
       "KnowledgeBaseState": "ENABLED"
      }
-    ]
+    ],
+    "SkipResourceInUseCheckOnDelete": false
    }
   },
   "LambdaFunctionServiceRoleC555A460": {
@@ -962,7 +963,7 @@
     "LambdaFunctionServiceRoleC555A460"
    ]
   },
-  "LambdaFunctionBedrockAgentLambdaInvocationPolicyc8190fbe2078770d6bd426bbcef86b140bc2adc42105880046": {
+  "LambdaFunctionLambdaInvocationPolicyc8190fbe2078770d956637F2": {
    "Type": "AWS::Lambda::Permission",
    "Properties": {
     "Action": "lambda:InvokeFunction",
@@ -979,7 +980,7 @@
     "SourceArn": {
      "Fn::GetAtt": [
       "AgentAgentResourceD435B430",
-      "AgentId"
+      "AgentArn"
      ]
     }
    }

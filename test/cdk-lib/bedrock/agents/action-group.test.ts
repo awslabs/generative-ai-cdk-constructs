@@ -45,7 +45,7 @@ describe('Action Groups', () => {
       const myActionGroup = new bedrock.ActionGroup({
         name: 'TestActionGroup',
         description: 'This is a test action group',
-        executor: bedrock.ActionGroupExecutor.RETURN_CONTROL,
+        executor: bedrock.ActionGroupExecutor.returnControl,
       });
       agent.addActionGroup(myActionGroup);
 
@@ -74,7 +74,7 @@ describe('Action Groups', () => {
       const myActionGroup = new bedrock.ActionGroup({
         name: 'TestActionGroup',
         description: 'This is a test action group',
-        executor: bedrock.ActionGroupExecutor.lambdaFunction(sampleLambda),
+        executor: bedrock.ActionGroupExecutor.fromlambdaFunction(sampleLambda),
       });
       agent.addActionGroup(myActionGroup);
 
@@ -122,8 +122,8 @@ describe('Action Groups', () => {
       const myActionGroup = new bedrock.ActionGroup({
         name: 'TestActionGroup',
         description: 'This is a test action group',
-        executor: bedrock.ActionGroupExecutor.RETURN_CONTROL,
-        apiSchema: bedrock.ApiSchema.fromAsset(__dirname + '/api-schema.yaml'),
+        executor: bedrock.ActionGroupExecutor.returnControl,
+        apiSchema: bedrock.ApiSchema.fromLocalAsset(__dirname + '/api-schema.yaml'),
       });
       agent.addActionGroup(myActionGroup);
 
@@ -153,7 +153,7 @@ describe('Action Groups', () => {
       const myActionGroup = new bedrock.ActionGroup({
         name: 'TestActionGroup',
         description: 'This is a test action group',
-        executor: bedrock.ActionGroupExecutor.RETURN_CONTROL,
+        executor: bedrock.ActionGroupExecutor.returnControl,
         apiSchema: bedrock.ApiSchema.fromInline('some inline schema'),
       });
       agent.addActionGroup(myActionGroup);
@@ -185,7 +185,7 @@ describe('Action Groups', () => {
       const myActionGroup = new bedrock.ActionGroup({
         name: 'TestActionGroup',
         description: 'This is a test action group',
-        executor: bedrock.ActionGroupExecutor.RETURN_CONTROL,
+        executor: bedrock.ActionGroupExecutor.returnControl,
         apiSchema: bedrock.ApiSchema.fromS3File(myBucket, 'schema-file.yaml'),
       });
       agent.addActionGroup(myActionGroup);

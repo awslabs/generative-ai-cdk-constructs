@@ -31,7 +31,7 @@ describe('Prompt Override', () => {
       const lambdaFunction = Function.fromFunctionArn(
         stack,
         'LambdaFunction',
-        'arn:aws:lambda:us-east-1:123456789012:function:BedrockAgents-ActionGroup-zx7xWhBeRC0Z'
+        'arn:aws:lambda:us-east-1:123456789012:function:BedrockAgents-ActionGroup-zx7xWhBeRC0Z',
       );
       const agent = new bedrock.Agent(stack, 'TestAgent', {
         name: 'TestAgent',
@@ -165,7 +165,7 @@ describe('Prompt Override', () => {
       const lambdaFunction = Function.fromFunctionArn(
         stack,
         'LambdaFunction',
-        'arn:aws:lambda:us-east-1:123456789012:function:BedrockAgents-ActionGroup-zx7xWhBeRC0Z'
+        'arn:aws:lambda:us-east-1:123456789012:function:BedrockAgents-ActionGroup-zx7xWhBeRC0Z',
       );
       expect(() =>
         PromptOverrideConfiguration.withCustomParser({
@@ -184,10 +184,10 @@ describe('Prompt Override', () => {
               },
             },
           ],
-        })
+        }),
       ).toThrow(
         'Step PRE_PROCESSING: Temperature must be between 0 and 1, TopP must be between 0 and 1, ' +
-          'TopK must be between 0 and 500, Maximum 4 stop sequences allowed, MaximumLength must be between 0 and 4096'
+          'TopK must be between 0 and 500, Maximum 4 stop sequences allowed, MaximumLength must be between 0 and 4096',
       );
     });
 
@@ -195,7 +195,7 @@ describe('Prompt Override', () => {
       const lambdaFunction = Function.fromFunctionArn(
         stack,
         'LambdaFunction',
-        'arn:aws:lambda:us-east-1:123456789012:function:BedrockAgents-ActionGroup-zx7xWhBeRC0Z'
+        'arn:aws:lambda:us-east-1:123456789012:function:BedrockAgents-ActionGroup-zx7xWhBeRC0Z',
       );
       expect(() =>
         PromptOverrideConfiguration.withCustomParser({
@@ -207,8 +207,8 @@ describe('Prompt Override', () => {
               useCustomParser: false,
             },
           ],
-        })
-      ).toThrow('At least one step must use the custom parser');
+        }),
+      ).toThrow('At least one step must use custom parser');
     });
   });
 });

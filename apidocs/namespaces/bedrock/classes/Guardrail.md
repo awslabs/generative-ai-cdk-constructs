@@ -8,6 +8,10 @@
 
 Class to create a Guardrail with CDK.
 
+## Cloudformation Resource
+
+AWS::Bedrock::Guardrail
+
 ## Extends
 
 - [`GuardrailBase`](GuardrailBase.md)
@@ -157,6 +161,18 @@ undefined - "Data is encrypted by default with a key that AWS owns and manages f
 #### Overrides
 
 [`GuardrailBase`](GuardrailBase.md).[`kmsKey`](GuardrailBase.md#kmskey)
+
+***
+
+### lastUpdated?
+
+> `readonly` `optional` **lastUpdated**: `string`
+
+When this guardrail was last updated
+
+#### Overrides
+
+[`GuardrailBase`](GuardrailBase.md).[`lastUpdated`](GuardrailBase.md#lastupdated)
 
 ***
 
@@ -557,6 +573,32 @@ Commonly this is the resource's `ref`.
 #### Inherited from
 
 [`GuardrailBase`](GuardrailBase.md).[`getResourceNameAttribute`](GuardrailBase.md#getresourcenameattribute)
+
+***
+
+### grant()
+
+> **grant**(`grantee`, ...`actions`): `Grant`
+
+Grant the given principal identity permissions to perform actions on this agent alias.
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+##### actions
+
+...`string`[]
+
+#### Returns
+
+`Grant`
+
+#### Inherited from
+
+[`GuardrailBase`](GuardrailBase.md).[`grant`](GuardrailBase.md#grant)
 
 ***
 
