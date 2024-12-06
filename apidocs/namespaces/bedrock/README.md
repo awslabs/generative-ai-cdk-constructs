@@ -14,6 +14,7 @@
 
 ### Enumerations
 
+- [AgentStepType](enumerations/AgentStepType.md)
 - [ConfluenceDataSourceAuthType](enumerations/ConfluenceDataSourceAuthType.md)
 - [ConfluenceObjectType](enumerations/ConfluenceObjectType.md)
 - [ContentFilterStrength](enumerations/ContentFilterStrength.md)
@@ -26,11 +27,7 @@
 - [GuardrailAction](enumerations/GuardrailAction.md)
 - [InferenceProfileType](enumerations/InferenceProfileType.md)
 - [ManagedWordFilterType](enumerations/ManagedWordFilterType.md)
-- [ParserMode](enumerations/ParserMode.md)
-- [PromptCreationMode](enumerations/PromptCreationMode.md)
-- [PromptState](enumerations/PromptState.md)
 - [PromptTemplateType](enumerations/PromptTemplateType.md)
-- [PromptType](enumerations/PromptType.md)
 - [SalesforceDataSourceAuthType](enumerations/SalesforceDataSourceAuthType.md)
 - [SalesforceObjectType](enumerations/SalesforceObjectType.md)
 - [SharePointDataSourceAuthType](enumerations/SharePointDataSourceAuthType.md)
@@ -39,9 +36,12 @@
 
 ### Classes
 
+- [ActionGroup](classes/ActionGroup.md)
+- [ActionGroupExecutor](classes/ActionGroupExecutor.md)
 - [Agent](classes/Agent.md)
-- [AgentActionGroup](classes/AgentActionGroup.md)
 - [AgentAlias](classes/AgentAlias.md)
+- [AgentAliasBase](classes/AgentAliasBase.md)
+- [AgentBase](classes/AgentBase.md)
 - [ApiSchema](classes/ApiSchema.md)
 - [ApplicationInferenceProfile](classes/ApplicationInferenceProfile.md)
 - [BedrockFoundationModel](classes/BedrockFoundationModel.md)
@@ -57,9 +57,11 @@
 - [InferenceProfileBase](classes/InferenceProfileBase.md)
 - [InlineApiSchema](classes/InlineApiSchema.md)
 - [KnowledgeBase](classes/KnowledgeBase.md)
+- [ParentActionGroupSignature](classes/ParentActionGroupSignature.md)
 - [ParsingStategy](classes/ParsingStategy.md)
 - [Prompt](classes/Prompt.md)
 - [PromptBase](classes/PromptBase.md)
+- [PromptOverrideConfiguration](classes/PromptOverrideConfiguration.md)
 - [PromptVariant](classes/PromptVariant.md)
 - [PromptVersion](classes/PromptVersion.md)
 - [S3ApiSchema](classes/S3ApiSchema.md)
@@ -71,12 +73,11 @@
 
 ### Interfaces
 
-- [ActionGroupExecutor](interfaces/ActionGroupExecutor.md)
-- [AddAgentAliasProps](interfaces/AddAgentAliasProps.md)
-- [AgentActionGroupProps](interfaces/AgentActionGroupProps.md)
+- [ActionGroupProps](interfaces/ActionGroupProps.md)
+- [AgentAliasAttributes](interfaces/AgentAliasAttributes.md)
 - [AgentAliasProps](interfaces/AgentAliasProps.md)
+- [AgentAttributes](interfaces/AgentAttributes.md)
 - [AgentProps](interfaces/AgentProps.md)
-- [ApiSchemaConfig](interfaces/ApiSchemaConfig.md)
 - [ApplicationInferenceProfileAttributes](interfaces/ApplicationInferenceProfileAttributes.md)
 - [ApplicationInferenceProfileProps](interfaces/ApplicationInferenceProfileProps.md)
 - [BedrockFoundationModelProps](interfaces/BedrockFoundationModelProps.md)
@@ -88,13 +89,14 @@
 - [ContextualGroundingFilter](interfaces/ContextualGroundingFilter.md)
 - [CrawlingFilters](interfaces/CrawlingFilters.md)
 - [CrossRegionInferenceProfileProps](interfaces/CrossRegionInferenceProfileProps.md)
+- [CustomParserProps](interfaces/CustomParserProps.md)
 - [CustomTopicProps](interfaces/CustomTopicProps.md)
 - [DataSourceAssociationProps](interfaces/DataSourceAssociationProps.md)
 - [FoundationModelParsingStategyProps](interfaces/FoundationModelParsingStategyProps.md)
 - [GuardrailAttributes](interfaces/GuardrailAttributes.md)
-- [GuardrailConfiguration](interfaces/GuardrailConfiguration.md)
 - [GuardrailProps](interfaces/GuardrailProps.md)
 - [HierarchicalChunkingProps](interfaces/HierarchicalChunkingProps.md)
+- [IAgent](interfaces/IAgent.md)
 - [IAgentAlias](interfaces/IAgentAlias.md)
 - [IDataSource](interfaces/IDataSource.md)
 - [IGuardrail](interfaces/IGuardrail.md)
@@ -108,14 +110,13 @@
 - [LambdaCustomTransformationProps](interfaces/LambdaCustomTransformationProps.md)
 - [PIIFilter](interfaces/PIIFilter.md)
 - [PromptAttributes](interfaces/PromptAttributes.md)
-- [PromptConfiguration](interfaces/PromptConfiguration.md)
-- [PromptOverrideConfiguration](interfaces/PromptOverrideConfiguration.md)
 - [PromptProps](interfaces/PromptProps.md)
+- [PromptStepConfiguration](interfaces/PromptStepConfiguration.md)
+- [PromptStepConfigurationCustomParser](interfaces/PromptStepConfigurationCustomParser.md)
 - [PromptVersionProps](interfaces/PromptVersionProps.md)
 - [RegexFilter](interfaces/RegexFilter.md)
 - [S3DataSourceAssociationProps](interfaces/S3DataSourceAssociationProps.md)
 - [S3DataSourceProps](interfaces/S3DataSourceProps.md)
-- [S3Identifier](interfaces/S3Identifier.md)
 - [SalesforceCrawlingFilters](interfaces/SalesforceCrawlingFilters.md)
 - [SalesforceDataSourceAssociationProps](interfaces/SalesforceDataSourceAssociationProps.md)
 - [SalesforceDataSourceProps](interfaces/SalesforceDataSourceProps.md)
@@ -125,8 +126,3 @@
 - [TextPromptVariantProps](interfaces/TextPromptVariantProps.md)
 - [WebCrawlerDataSourceAssociationProps](interfaces/WebCrawlerDataSourceAssociationProps.md)
 - [WebCrawlerDataSourceProps](interfaces/WebCrawlerDataSourceProps.md)
-
-### Functions
-
-- [validateInferenceConfiguration](functions/validateInferenceConfiguration.md)
-- [validatePromptOverrideConfiguration](functions/validatePromptOverrideConfiguration.md)
