@@ -283,7 +283,7 @@ export class BedrockFoundationModel implements IInvokable {
 
     return Grant.addToPrincipal({
       grantee: grantee,
-      actions: ['bedrock:InvokeModel'],
+      actions: ['bedrock:GetFoundationModel', 'bedrock:InvokeModel'],
       resourceArns: [invokableArn],
     });
   }
