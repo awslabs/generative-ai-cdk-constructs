@@ -19,6 +19,7 @@ export * from './api-schema';
 export * from './guardrails/guardrail-filters';
 export * from './guardrails/guardrails';
 export * from './models';
+export * from './default-prompt-routers';
 export * from './prompts/prompt';
 export * from './prompts/prompt-version';
 export * from './data-sources/base-data-source';

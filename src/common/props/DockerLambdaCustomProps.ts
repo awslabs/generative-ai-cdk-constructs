@@ -48,7 +48,7 @@ export interface DockerLambdaCustomProps {
   readonly reservedConcurrentExecutions?: number;
   /**
    * Sets the Recursive Loop Protection for Lambda Function.
-   * It lets Lambda detect and terminate unintended recursive loops.
+   * It lets Lambda detect and terminate unintended recusrive loops.
    * @default RecursiveLoop.Terminate
    * @stability stable
    */
