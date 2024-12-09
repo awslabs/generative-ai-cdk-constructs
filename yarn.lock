@@ -1190,7 +1190,7 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.1.tgz#28fa185f67daaf7b7a1a8c1d445132c5d979f8bd"
   integrity sha512-fEzPV3hSkSMltkw152tJKNARhOupqbH96MZWyRjNaYZOMIzbrTeQDG+MTc6Mr2pgzFQzFxAfmhGDNP5QK++2ZA==
 
-"@xmldom/xmldom@^0.9.5":
+"@xmldom/xmldom@^0.9.6":
   version "0.9.6"
   resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.9.6.tgz#3eaefb585c1f920e06fb35e6dcb8d505445621c0"
   integrity sha512-Su4xcxR0CPGwlDHNmVP09fqET9YxbyDXHaSob6JlBH7L6reTYaeim6zbk9o08UarO0L5GTRo3uzl0D+9lSxmvw==
@@ -1648,9 +1648,9 @@ case@1.6.3, case@^1.6.3:
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
 cdk-nag@^2.34.19:
-  version "2.34.19"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.34.19.tgz#3cd7404b7451e7c54853936e2f593ea10973e263"
-  integrity sha512-UkcVcVWLpJGImyHK+R5CIUC7MPCNKVcXDhHlrRYYd9bHq3yj/XjK/y+NgmFKcFDpjXPxQ9GkEmJz/rLD67kivw==
+  version "2.34.20"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.34.20.tgz#128c0dc9177ec2374de5d0f0741ad09a6954d14a"
+  integrity sha512-yM8lWlYGFy/wQO5JHShvEhgaSTLkT7LXbuv0FkfOzxZ28+lPfCZ92wo5uFiJMY4VwXiNKqGVNWZz9t34Skjr6w==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -3935,13 +3935,13 @@ jsii-reflect@^1.105.0:
     yargs "^16.2.0"
 
 jsii-rosetta@~5.4.0:
-  version "5.4.47"
-  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.4.47.tgz#3fb2061467db3582c2b28166083b09065dff89ea"
-  integrity sha512-39pwV9K3Ha9jtX7vAwy9cSEVou8AR1kT/68Bz/Ak+BwHU45x2ccGQ5tYpPiDsTrMaDHXxrLjOmTVEkMzMQmdUg==
+  version "5.4.48"
+  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.4.48.tgz#4a0068369c2424b14a89bd074d39a6922db4e206"
+  integrity sha512-QI9XxQJKHF4u4SH2PHS9F0D9p3XApIPR8mwGoXeM9bSB3RQEUrNZsAsXMF0G/inBXfkTqjbUMR9hvAmtfAN3hQ==
   dependencies:
     "@jsii/check-node" "1.105.0"
     "@jsii/spec" "^1.105.0"
-    "@xmldom/xmldom" "^0.9.5"
+    "@xmldom/xmldom" "^0.9.6"
     chalk "^4"
     commonmark "^0.31.2"
     fast-glob "^3.3.2"
@@ -3954,9 +3954,9 @@ jsii-rosetta@~5.4.0:
     yargs "^17.7.2"
 
 jsii@~5.4.0:
-  version "5.4.44"
-  resolved "https://registry.yarnpkg.com/jsii/-/jsii-5.4.44.tgz#35ea64f4ba71ca11407f9a8ae419fbd56e90786a"
-  integrity sha512-AXUJs07aB9iKSt2PVP3H7JNaTJyXofoOVWogqEAHB9Ycb+5Wpf9v8bvMWz1Yi2yJsdyCLiroNM9tj5fiwai1NQ==
+  version "5.4.45"
+  resolved "https://registry.yarnpkg.com/jsii/-/jsii-5.4.45.tgz#79f2daeeb1370beb1e823e01bb16f25a19fda58c"
+  integrity sha512-5xrgtvi/Hy919cW/Jk3DMhz0EJGpugz8noTxx6rVvo1uMFcse2OfTbORxz2fCXiVkO51kbRQ6mqB26PjQpdzVw==
   dependencies:
     "@jsii/check-node" "1.105.0"
     "@jsii/spec" "^1.105.0"
