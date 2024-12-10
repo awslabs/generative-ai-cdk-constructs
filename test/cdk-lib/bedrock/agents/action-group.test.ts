@@ -97,7 +97,7 @@ describe('Action Groups', () => {
 
     test('Core Creation - RETURN CONTROL', () => {
       // WHEN
-      const myActionGroup = new bedrock.ActionGroup({
+      const myActionGroup = new bedrock.AgentActionGroup({
         name: 'TestActionGroup',
         description: 'This is a test action group',
         executor: bedrock.ActionGroupExecutor.returnControl,
@@ -126,7 +126,7 @@ describe('Action Groups', () => {
 
     test('Core Creation - LAMBDA', () => {
       // WHEN
-      const myActionGroup = new bedrock.ActionGroup({
+      const myActionGroup = new bedrock.AgentActionGroup({
         name: 'TestActionGroup',
         description: 'This is a test action group',
         executor: bedrock.ActionGroupExecutor.fromlambdaFunction(sampleLambda),
@@ -174,7 +174,7 @@ describe('Action Groups', () => {
 
     test('Local Asset', () => {
       // WHEN
-      const myActionGroup = new bedrock.ActionGroup({
+      const myActionGroup = new bedrock.AgentActionGroup({
         name: 'TestActionGroup',
         description: 'This is a test action group',
         executor: bedrock.ActionGroupExecutor.returnControl,
@@ -205,7 +205,7 @@ describe('Action Groups', () => {
 
     test('Inline', () => {
       // WHEN
-      const myActionGroup = new bedrock.ActionGroup({
+      const myActionGroup = new bedrock.AgentActionGroup({
         name: 'TestActionGroup',
         description: 'This is a test action group',
         executor: bedrock.ActionGroupExecutor.returnControl,
@@ -237,7 +237,7 @@ describe('Action Groups', () => {
     test('S3 File', () => {
       // WHEN
       const myBucket = Bucket.fromBucketArn(stack, 'MyBucket', 'arn:aws:s3:::my-bucket-name');
-      const myActionGroup = new bedrock.ActionGroup({
+      const myActionGroup = new bedrock.AgentActionGroup({
         name: 'TestActionGroup',
         description: 'This is a test action group',
         executor: bedrock.ActionGroupExecutor.returnControl,

@@ -321,10 +321,10 @@ export interface KnowledgeBaseProps {
    * @default - A new OpenSearch Serverless vector collection is created.
    */
   readonly vectorStore?:
-  | VectorCollection
-  | PineconeVectorStore
-  | AmazonAuroraVectorStore
-  | ExistingAmazonAuroraVectorStore;
+    | VectorCollection
+    | PineconeVectorStore
+    | AmazonAuroraVectorStore
+    | ExistingAmazonAuroraVectorStore;
 
   /**
    * The vector index for the OpenSearch Serverless backed knowledge base.
@@ -391,7 +391,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
   public static fromKnowledgeBaseAttributes(
     scope: Construct,
     id: string,
-    attrs: KnowledgeBaseAttributes,
+    attrs: KnowledgeBaseAttributes
   ): IKnowledgeBase {
     const stack = Stack.of(scope);
     class Import extends KnowledgeBaseBase {
@@ -430,10 +430,10 @@ export class KnowledgeBase extends KnowledgeBaseBase {
    * The vector store for the knowledge base.
    */
   public readonly vectorStore:
-  | VectorCollection
-  | PineconeVectorStore
-  | AmazonAuroraVectorStore
-  | ExistingAmazonAuroraVectorStore;
+    | VectorCollection
+    | PineconeVectorStore
+    | AmazonAuroraVectorStore
+    | ExistingAmazonAuroraVectorStore;
 
   /**
    * A description of the knowledge base.
@@ -444,7 +444,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
    * Instructions for agents based on the design and type of information of the
    * Knowledge Base. This will impact how Agents interact with the Knowledge Base.
    */
-  readonly instructionForAgents?: string;
+  readonly instruction?: string;
 
   /**
    * The ARN of the knowledge base.
@@ -484,7 +484,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
 
     this.description = props.description ?? 'CDK deployed Knowledge base'; // even though this prop is optional, if no value is provided it will fail to deploy
     this.knowledgeBaseState = props.knowledgeBaseState ?? 'ENABLED';
-    this.instructionForAgents = props.instructionForAgents;
+    this.instruction = props.instructionForAgents;
 
     validateModel(embeddingsModel);
     validateVectorIndex(props.vectorStore, props.vectorIndex, props.vectorField, props.indexName);
@@ -519,7 +519,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
         new iam.PolicyStatement({
           actions: ['bedrock:InvokeModel'],
           resources: [embeddingsModel.asArn(this)],
-        }),
+        })
       );
     }
     /**
@@ -554,7 +554,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
         new iam.PolicyStatement({
           actions: ['secretsmanager:GetSecretValue'],
           resources: [this.vectorStore.credentialsSecretArn],
-        }),
+        })
       );
     }
 
@@ -573,7 +573,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
         new iam.PolicyStatement({
           actions: ['rds-data:ExecuteStatement', 'rds-data:BatchExecuteStatement', 'rds:DescribeDBClusters'],
           resources: [this.vectorStore.resourceArn],
-        }),
+        })
       );
     }
 
@@ -710,7 +710,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
           reason: "Bedrock CreateKnowledgeBase can't be restricted by resource.",
         },
       ],
-      true,
+      true
     );
 
     this.knowledgeBaseArn = knowledgeBase.attrKnowledgeBaseArn;
@@ -822,19 +822,19 @@ function validateVectorIndex(vectorStore: any, vectorIndex: any, vectorField: an
   if (!(vectorStore instanceof VectorCollection) && vectorIndex) {
     throw new Error(
       'If vectorStore is not of type VectorCollection, vectorIndex should not be provided ' +
-        'in KnowledgeBase construct.',
+        'in KnowledgeBase construct.'
     );
   }
   if (!(vectorStore instanceof VectorCollection) && indexName) {
     throw new Error(
       'If vectorStore is not of type VectorCollection, indexName should not be provided ' +
-        'in KnowledgeBase construct.',
+        'in KnowledgeBase construct.'
     );
   }
   if (!(vectorStore instanceof VectorCollection) && vectorField) {
     throw new Error(
       'If vectorStore is not of type VectorCollection, vectorField should not be provided ' +
-        'in KnowledgeBase construct.',
+        'in KnowledgeBase construct.'
     );
   }
 }
@@ -858,7 +858,7 @@ function validateIndexParameters(vectorIndex: VectorIndex, indexName: string, ve
           ' If you create VectorIndex manually and assign vectorIndex to value other than' +
           ' `bedrock-knowledge-base-default-index` then you must provide the same value in KnowledgeBase construct.' +
           ' If you created VectorIndex manually and set it to `bedrock-knowledge-base-default-index`' +
-          ' then do not assign indexName in KnowledgeBase construct.',
+          ' then do not assign indexName in KnowledgeBase construct.'
       );
     }
   }
@@ -869,7 +869,7 @@ function validateIndexParameters(vectorIndex: VectorIndex, indexName: string, ve
           ' If you create VectorIndex manually and assign vectorField to value other than' +
           ' `bedrock-knowledge-base-default-field` then you must provide the same value in KnowledgeBase construct.' +
           ' If you created VectorIndex manually and set it to `bedrock-knowledge-base-default-vector`' +
-          ' then do not assign vectorField in KnowledgeBase construct.',
+          ' then do not assign vectorField in KnowledgeBase construct.'
       );
     }
   }

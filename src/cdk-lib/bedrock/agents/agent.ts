@@ -16,7 +16,7 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 // Internal Libs
-import { ActionGroup } from './action-group';
+import { AgentActionGroup } from './action-group';
 import { AgentAlias, IAgentAlias } from './agent-alias';
 import { PromptOverrideConfiguration } from './prompt-override';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
@@ -137,7 +137,7 @@ export interface AgentProps {
   /**
    * The Action Groups associated with the agent.
    */
-  readonly actionGroups?: ActionGroup[];
+  readonly actionGroups?: AgentActionGroup[];
   /**
    * The guardrail that will be associated with the agent.
    */
@@ -311,7 +311,7 @@ export class Agent extends AgentBase {
   /**
    * The action groups associated with the agent.
    */
-  public actionGroups: ActionGroup[];
+  public actionGroups: AgentActionGroup[];
   /**
    * The KnowledgeBases associated with the agent.
    */
@@ -386,8 +386,8 @@ export class Agent extends AgentBase {
     this.knowledgeBases = [];
     this.actionGroups = [];
     // Add Default Action Groups
-    this.addActionGroup(ActionGroup.userInput(this.userInputEnabled));
-    this.addActionGroup(ActionGroup.codeInterpreter(this.codeInterpreterEnabled));
+    this.addActionGroup(AgentActionGroup.userInput(this.userInputEnabled));
+    this.addActionGroup(AgentActionGroup.codeInterpreter(this.codeInterpreterEnabled));
 
     // Add specified elems through methods to handle permissions
     // this needs to happen after role creation / assignment
@@ -474,7 +474,7 @@ export class Agent extends AgentBase {
   /**
    * Add an action group to the agent.
    */
-  public addActionGroup(actionGroup: ActionGroup) {
+  public addActionGroup(actionGroup: AgentActionGroup) {
     // Do some checks
     validation.throwIfInvalid(this.validateActionGroup, actionGroup);
     // Add it to the array
@@ -486,6 +486,13 @@ export class Agent extends AgentBase {
       sourceArn: this.agentArn,
       sourceAccount: Stack.of(this).account,
     });
+  }
+
+  /**
+   * Add multiple action groups to the agent.
+   */
+  public addActionGroups(...actionGroups: AgentActionGroup[]) {
+    actionGroups.forEach(ag => this.addActionGroup(ag));
   }
 
   // ------------------------------------------------------
@@ -603,7 +610,7 @@ export class Agent extends AgentBase {
   /**
    * Check if the action group is valid
    */
-  private validateActionGroup = (actionGroup: ActionGroup) => {
+  private validateActionGroup = (actionGroup: AgentActionGroup) => {
     console.log('Validating action group: ', actionGroup.name);
     let errors: string[] = [];
     // Find if there is a conflicting action group name

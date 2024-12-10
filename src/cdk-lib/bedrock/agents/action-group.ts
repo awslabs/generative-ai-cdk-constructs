@@ -41,7 +41,7 @@ export class ParentActionGroupSignature {
 /******************************************************************************
  *                         PROPS - Action Group Class
  *****************************************************************************/
-export interface ActionGroupProps {
+export interface AgentActionGroupProps {
   /**
    * The name of the action group.
    */
@@ -101,7 +101,7 @@ export interface ActionGroupProps {
  *                         DEF - Action Group Class
  *****************************************************************************/
 
-export class ActionGroup {
+export class AgentActionGroup {
   // ------------------------------------------------------
   // Static Constructors
   // ------------------------------------------------------
@@ -110,8 +110,8 @@ export class ActionGroup {
    * additional information when trying to complete a task.
    * @param enabled Specifies whether the action group is available for the agent
    */
-  public static userInput(enabled: boolean): ActionGroup {
-    return new ActionGroup({
+  public static userInput(enabled: boolean): AgentActionGroup {
+    return new AgentActionGroup({
       name: 'UserInputAction',
       enabled: enabled,
       parentActionGroupSignature: ParentActionGroupSignature.USER_INPUT,
@@ -123,8 +123,8 @@ export class ActionGroup {
    * additional information when trying to complete a task.
    * @param enabled Specifies whether the action group is available for the agent
    */
-  public static codeInterpreter(enabled: boolean): ActionGroup {
-    return new ActionGroup({
+  public static codeInterpreter(enabled: boolean): AgentActionGroup {
+    return new AgentActionGroup({
       name: 'CodeInterpreterAction',
       enabled: enabled,
       parentActionGroupSignature: ParentActionGroupSignature.CODE_INTERPRETER,
@@ -167,7 +167,7 @@ export class ActionGroup {
    */
   public readonly parentActionGroupSignature?: ParentActionGroupSignature;
 
-  public constructor(props: ActionGroupProps) {
+  public constructor(props: AgentActionGroupProps) {
     // Validate Props
     this.validateProps(props);
 
@@ -184,11 +184,11 @@ export class ActionGroup {
     this.parentActionGroupSignature = props.parentActionGroupSignature;
   }
 
-  private validateProps(props: ActionGroupProps) {
+  private validateProps(props: AgentActionGroupProps) {
     if (props.parentActionGroupSignature && (props.description || props.apiSchema || props.executor)) {
       throw new Error(
         'When parentActionGroupSignature is specified, you must leave the description, ' +
-          'apiSchema, and actionGroupExecutor fields blank for this action group',
+          'apiSchema, and actionGroupExecutor fields blank for this action group'
       );
     }
   }

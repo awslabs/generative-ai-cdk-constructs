@@ -154,7 +154,7 @@ describe('CDK-Agent', () => {
    *******************************************************/
   describe('w/ Action Group', () => {
     let myLambda: IFunction;
-    let validActionGroup: bedrock.ActionGroup;
+    let validActionGroup: bedrock.AgentActionGroup;
 
     beforeEach(() => {
       myLambda = Function.fromFunctionAttributes(stack, 'myLambda', {
@@ -162,7 +162,7 @@ describe('CDK-Agent', () => {
         sameEnvironment: true,
       });
 
-      validActionGroup = new bedrock.ActionGroup({
+      validActionGroup = new bedrock.AgentActionGroup({
         name: 'TestActionGroup',
         description: 'This is a test action group',
         executor: bedrock.ActionGroupExecutor.fromlambdaFunction(myLambda),
@@ -262,7 +262,7 @@ describe('CDK-Agent', () => {
 
     test('Action Group - Validation 1', () => {
       // Build path relative to this file
-      const invalidActionGroup = new bedrock.ActionGroup({
+      const invalidActionGroup = new bedrock.AgentActionGroup({
         name: 'UserInputAction', // Same name as reserved
         description: 'This is a test action group with the same name for reserved Action Groups',
         executor: bedrock.ActionGroupExecutor.fromlambdaFunction(myLambda),
