@@ -55,7 +55,7 @@ describe('KnowledgeBase', () => {
       embeddingsModel: model,
       vectorStore: vectorStore,
     });
-    expect(knowledgeBase.instruction).toBeUndefined();
+    expect(knowledgeBase.instructionForAgents).toBeUndefined();
     expect(knowledgeBase.name).toBeDefined();
     expect(knowledgeBase.role).toBeDefined();
     expect(knowledgeBase.vectorStore).toBe(vectorStore);
@@ -109,11 +109,11 @@ describe('KnowledgeBase', () => {
     const knowledgeBase = new KnowledgeBase(stack, 'AuroraDefaultKnowledgeBase', {
       embeddingsModel: model,
       vectorStore: vectorStore,
-      instruction: 'Test instruction',
+      instructionForAgents: 'Test instruction',
       name: 'TestKnowledgeBase',
     });
 
-    expect(knowledgeBase.instruction).toBe('Test instruction');
+    expect(knowledgeBase.instructionForAgents).toBe('Test instruction');
     expect(knowledgeBase.name).toBeDefined();
     expect(knowledgeBase.role).toBeDefined();
     expect(knowledgeBase.vectorStore).toBe(vectorStore);
@@ -221,7 +221,7 @@ describe('KnowledgeBase', () => {
         vectorStore: vectorStore,
       });
 
-      expect(knowledgeBase.instruction).toBeUndefined();
+      expect(knowledgeBase.instructionForAgents).toBeUndefined();
       expect(knowledgeBase.name).toBeDefined();
       expect(knowledgeBase.role).toBeDefined();
       expect(knowledgeBase.vectorStore).toBe(vectorStore);

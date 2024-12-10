@@ -164,6 +164,69 @@
         }
       ]
     },
+    "integ:agents:assert": {
+      "name": "integ:agents:assert",
+      "description": "assert the snapshot of integration test 'agents'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/agents.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'agents'. Run 'projen integ:agents:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/agents.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/agents.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/agents.integ.snapshot/ test/integ/.tmp/agents.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:agents:deploy": {
+      "name": "integ:agents:deploy",
+      "description": "deploy integration test 'agents' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/agents.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/agents.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/agents.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/agents.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/agents.integ/deploy.cdk.out test/integ/agents.integ.snapshot"
+        },
+        {
+          "spawn": "integ:agents:destroy"
+        }
+      ]
+    },
+    "integ:agents:destroy": {
+      "name": "integ:agents:destroy",
+      "description": "destroy integration test 'agents'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/agents.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:agents:snapshot": {
+      "name": "integ:agents:snapshot",
+      "description": "update snapshot for integration test \"agents\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/agents.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/agents.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:agents:watch": {
+      "name": "integ:agents:watch",
+      "description": "watch integration test 'agents' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/agents.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/agents.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:aws-aoss-cw-dashboard:assert": {
       "name": "integ:aws-aoss-cw-dashboard:assert",
       "description": "assert the snapshot of integration test 'aws-aoss-cw-dashboard'",
@@ -353,12 +416,81 @@
         }
       ]
     },
+    "integ:issue747:assert": {
+      "name": "integ:issue747:assert",
+      "description": "assert the snapshot of integration test 'issue747'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/issue747.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'issue747'. Run 'projen integ:issue747:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/issue747.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/issue747.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/issue747.integ.snapshot/ test/integ/.tmp/issue747.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:issue747:deploy": {
+      "name": "integ:issue747:deploy",
+      "description": "deploy integration test 'issue747' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/issue747.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/issue747.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/issue747.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/issue747.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/issue747.integ/deploy.cdk.out test/integ/issue747.integ.snapshot"
+        },
+        {
+          "spawn": "integ:issue747:destroy"
+        }
+      ]
+    },
+    "integ:issue747:destroy": {
+      "name": "integ:issue747:destroy",
+      "description": "destroy integration test 'issue747'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/issue747.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:issue747:snapshot": {
+      "name": "integ:issue747:snapshot",
+      "description": "update snapshot for integration test \"issue747\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/issue747.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/issue747.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:issue747:watch": {
+      "name": "integ:issue747:watch",
+      "description": "watch integration test 'issue747' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/issue747.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/issue747.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:snapshot-all": {
       "name": "integ:snapshot-all",
       "description": "update snapshot for all integration tests",
       "steps": [
         {
+          "spawn": "integ:agents:snapshot"
+        },
+        {
           "spawn": "integ:inference-profiles:snapshot"
+        },
+        {
+          "spawn": "integ:issue747:snapshot"
         },
         {
           "spawn": "integ:aws-aoss-cw-dashboard:snapshot"
@@ -494,7 +626,13 @@
           "spawn": "eslint"
         },
         {
+          "spawn": "integ:agents:assert"
+        },
+        {
           "spawn": "integ:inference-profiles:assert"
+        },
+        {
+          "spawn": "integ:issue747:assert"
         },
         {
           "spawn": "integ:aws-aoss-cw-dashboard:assert"

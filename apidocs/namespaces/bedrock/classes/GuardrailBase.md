@@ -121,6 +121,18 @@ The KMS key of the guardrail if custom encryption is configured.
 
 ***
 
+### lastUpdated?
+
+> `abstract` `readonly` `optional` **lastUpdated**: `string`
+
+When this guardrail was last updated
+
+#### Implementation of
+
+[`IGuardrail`](../interfaces/IGuardrail.md).[`lastUpdated`](../interfaces/IGuardrail.md#lastupdated)
+
+***
+
 ### node
 
 > `readonly` **node**: `Node`
@@ -308,6 +320,32 @@ Commonly this is the resource's `ref`.
 #### Inherited from
 
 `Resource.getResourceNameAttribute`
+
+***
+
+### grant()
+
+> **grant**(`grantee`, ...`actions`): `Grant`
+
+Grant the given principal identity permissions to perform actions on this agent alias.
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+##### actions
+
+...`string`[]
+
+#### Returns
+
+`Grant`
+
+#### Implementation of
+
+[`IGuardrail`](../interfaces/IGuardrail.md).[`grant`](../interfaces/IGuardrail.md#grant)
 
 ***
 
