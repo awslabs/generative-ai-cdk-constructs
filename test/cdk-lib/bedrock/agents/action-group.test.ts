@@ -40,6 +40,61 @@ describe('Action Groups', () => {
       });
     });
 
+    test('Default Action Groups (Code, Input) - Disabled', () => {
+      // THEN
+      Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
+        AgentName: 'TestAgent',
+        Description: 'This is a test agent',
+        Instruction: 'This is a test instruction',
+        ActionGroups: Match.arrayWith([
+          {
+            ActionGroupName: 'UserInputAction',
+            ActionGroupState: 'DISABLED',
+            ParentActionGroupSignature: 'AMAZON.UserInput',
+            SkipResourceInUseCheckOnDelete: false,
+          },
+          {
+            ActionGroupName: 'CodeInterpreterAction',
+            ActionGroupState: 'DISABLED',
+            ParentActionGroupSignature: 'AMAZON.CodeInterpreter',
+            SkipResourceInUseCheckOnDelete: false,
+          },
+        ]),
+      });
+    });
+
+    test('Default Action Groups (Code, Input) - Enabled', () => {
+      // THEN
+      new bedrock.Agent(stack, 'TestAgent2', {
+        name: 'TestAgent2',
+        description: 'This is a test agent',
+        foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+        instruction: 'This is a test instruction',
+        userInputEnabled: true,
+        codeInterpreterEnabled: true,
+      });
+
+      Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
+        AgentName: 'TestAgent2',
+        Description: 'This is a test agent',
+        Instruction: 'This is a test instruction',
+        ActionGroups: Match.arrayWith([
+          {
+            ActionGroupName: 'UserInputAction',
+            ActionGroupState: 'ENABLED',
+            ParentActionGroupSignature: 'AMAZON.UserInput',
+            SkipResourceInUseCheckOnDelete: false,
+          },
+          {
+            ActionGroupName: 'CodeInterpreterAction',
+            ActionGroupState: 'ENABLED',
+            ParentActionGroupSignature: 'AMAZON.CodeInterpreter',
+            SkipResourceInUseCheckOnDelete: false,
+          },
+        ]),
+      });
+    });
+
     test('Core Creation - RETURN CONTROL', () => {
       // WHEN
       const myActionGroup = new bedrock.ActionGroup({

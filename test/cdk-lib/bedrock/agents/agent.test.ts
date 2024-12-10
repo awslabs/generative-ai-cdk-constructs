@@ -110,7 +110,7 @@ describe('CDK-Agent', () => {
         kmsKey: Key.fromKeyArn(
           stack,
           'importedKey',
-          'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418',
+          'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418'
         ),
       });
 
@@ -121,7 +121,7 @@ describe('CDK-Agent', () => {
       });
 
       expect(agent.kmsKey!.keyArn).toBe(
-        'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418',
+        'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418'
       );
     });
 
@@ -129,7 +129,7 @@ describe('CDK-Agent', () => {
       const myRole = Role.fromRoleArn(
         stack,
         'myRole',
-        'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForAgent_12345678',
+        'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForAgent_12345678'
       );
       const agent = new bedrock.Agent(stack, 'TestAgent', {
         name: 'TestAgent',
@@ -185,13 +185,13 @@ describe('CDK-Agent', () => {
         ActionGroups: Match.arrayEquals([
           // Default
           {
-            ActionGroupName: 'AMAZONUserInput',
+            ActionGroupName: 'UserInputAction',
             ActionGroupState: 'DISABLED',
             ParentActionGroupSignature: 'AMAZON.UserInput',
             SkipResourceInUseCheckOnDelete: false,
           },
           {
-            ActionGroupName: 'AMAZONCodeInterpreter',
+            ActionGroupName: 'CodeInterpreterAction',
             ActionGroupState: 'DISABLED',
             ParentActionGroupSignature: 'AMAZON.CodeInterpreter',
             SkipResourceInUseCheckOnDelete: false,
@@ -230,13 +230,13 @@ describe('CDK-Agent', () => {
         ActionGroups: Match.arrayEquals([
           // Default
           {
-            ActionGroupName: 'AMAZONUserInput',
+            ActionGroupName: 'UserInputAction',
             ActionGroupState: 'DISABLED',
             ParentActionGroupSignature: 'AMAZON.UserInput',
             SkipResourceInUseCheckOnDelete: false,
           },
           {
-            ActionGroupName: 'AMAZONCodeInterpreter',
+            ActionGroupName: 'CodeInterpreterAction',
             ActionGroupState: 'DISABLED',
             ParentActionGroupSignature: 'AMAZON.CodeInterpreter',
             SkipResourceInUseCheckOnDelete: false,
@@ -263,7 +263,7 @@ describe('CDK-Agent', () => {
     test('Action Group - Validation 1', () => {
       // Build path relative to this file
       const invalidActionGroup = new bedrock.ActionGroup({
-        name: 'AMAZONUserInput',
+        name: 'UserInputAction', // Same name as reserved
         description: 'This is a test action group with the same name for reserved Action Groups',
         executor: bedrock.ActionGroupExecutor.fromlambdaFunction(myLambda),
         // Load from local file
@@ -354,7 +354,7 @@ describe('CDK-Agent', () => {
 
       // THEN
       expect(() => agent.addGuardrail(anotherGuardrail)).toThrow(
-        'Cannot add Guardrail yib23y5g23b2wf. Guardrail oygh3o8g7rtl has already been specified for this agent.',
+        'Cannot add Guardrail yib23y5g23b2wf. Guardrail oygh3o8g7rtl has already been specified for this agent.'
       );
     });
   });
@@ -428,7 +428,7 @@ describe('CDK-Agent', () => {
         {
           knowledgeBaseId: 'ABCDEFG1234',
           executionRoleArn: 'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase_12345678',
-        },
+        }
       ));
 
       const agent = new bedrock.Agent(stack, 'TestAgent', {
@@ -438,7 +438,7 @@ describe('CDK-Agent', () => {
       });
 
       expect(() => agent.addKnowledgeBase(invalidKb)).toThrow(
-        'If instructionForAgents is not provided, the description property of the KnowledgeBase ABCDEFG1234 must be provided.',
+        'If instructionForAgents is not provided, the description property of the KnowledgeBase ABCDEFG1234 must be provided.'
       );
     });
   });

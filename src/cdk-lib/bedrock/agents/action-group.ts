@@ -112,7 +112,7 @@ export class ActionGroup {
    */
   public static userInput(enabled: boolean): ActionGroup {
     return new ActionGroup({
-      name: 'AMAZONUserInput',
+      name: 'UserInputAction',
       enabled: enabled,
       parentActionGroupSignature: ParentActionGroupSignature.USER_INPUT,
     });
@@ -125,7 +125,7 @@ export class ActionGroup {
    */
   public static codeInterpreter(enabled: boolean): ActionGroup {
     return new ActionGroup({
-      name: 'AMAZONCodeInterpreter',
+      name: 'CodeInterpreterAction',
       enabled: enabled,
       parentActionGroupSignature: ParentActionGroupSignature.CODE_INTERPRETER,
     });
