@@ -369,7 +369,7 @@ describe('CDK-Agent', () => {
       myKnowledgeBase = bedrock.KnowledgeBase.fromKnowledgeBaseAttributes(stack, 'myKnowledgeBase', {
         knowledgeBaseId: 'ABCDEFG1234',
         executionRoleArn: 'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase_12345678',
-        instructionForAgents: 'This is a sample KB with info about unicorns.',
+        instruction: 'This is a sample KB with info about unicorns.',
       });
     });
 

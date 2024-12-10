@@ -118,7 +118,7 @@ export interface IKnowledgeBase extends IResource {
    * Instructions for agents based on the design and type of information of the
    * Knowledge Base. This will impact how Agents interact with the Knowledge Base.
    */
-  readonly instructionForAgents?: string;
+  readonly instruction?: string;
 
   /**
    * Add an S3 data source to the knowledge base.
@@ -284,7 +284,7 @@ export interface KnowledgeBaseProps {
    *
    * @default - No description provided.
    */
-  readonly instructionForAgents?: string;
+  readonly instruction?: string;
 
   /**
    * Existing IAM role with a policy statement
@@ -376,7 +376,7 @@ export interface KnowledgeBaseAttributes {
    *
    * @default - No description provided.
    */
-  readonly instructionForAgents?: string;
+  readonly instruction?: string;
 }
 
 /**
@@ -404,7 +404,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
       public readonly role = iam.Role.fromRoleArn(this, `kb-${attrs.knowledgeBaseId}-role`, attrs.executionRoleArn);
       public readonly knowledgeBaseId = attrs.knowledgeBaseId;
       public readonly description = attrs.description;
-      public readonly instructionForAgents = attrs.instructionForAgents;
+      public readonly instruction = attrs.instruction;
     }
     return new Import(scope, id);
   }
@@ -484,7 +484,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
 
     this.description = props.description ?? 'CDK deployed Knowledge base'; // even though this prop is optional, if no value is provided it will fail to deploy
     this.knowledgeBaseState = props.knowledgeBaseState ?? 'ENABLED';
-    this.instruction = props.instructionForAgents;
+    this.instruction = props.instruction;
 
     validateModel(embeddingsModel);
     validateVectorIndex(props.vectorStore, props.vectorIndex, props.vectorField, props.indexName);

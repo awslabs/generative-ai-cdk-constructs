@@ -525,7 +525,7 @@ export class Agent extends AgentBase {
         knowledgeBaseId: kb.knowledgeBaseId,
         knowledgeBaseState: 'ENABLED',
         // at least one is defined as it has been validated when adding the kb
-        description: kb.instructionForAgents ?? kb.description!,
+        description: kb.instruction ?? kb.description!,
       });
     });
     return knowledgeBaseAssociationsCfn;
@@ -555,7 +555,7 @@ export class Agent extends AgentBase {
    */
   private validateKnowledgeBase = (knowledgeBase: IKnowledgeBase): string[] => {
     const MAX_LENGTH = 200;
-    const description = knowledgeBase.instructionForAgents ?? knowledgeBase.description;
+    const description = knowledgeBase.instruction ?? knowledgeBase.description;
     const errors: string[] = [];
     // If at least one of the previous has been defined
     if (description) {
