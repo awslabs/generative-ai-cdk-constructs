@@ -69,9 +69,9 @@ that might be different than the stack they were imported into.
 
 ***
 
-### instructionForAgents?
+### instruction?
 
-> `readonly` `optional` **instructionForAgents**: `string`
+> `readonly` `optional` **instruction**: `string`
 
 Instructions for agents based on the design and type of information of the
 Knowledge Base. This will impact how Agents interact with the Knowledge Base.

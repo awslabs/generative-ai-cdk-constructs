@@ -188,7 +188,7 @@ export class AgentActionGroup {
     if (props.parentActionGroupSignature && (props.description || props.apiSchema || props.executor)) {
       throw new Error(
         'When parentActionGroupSignature is specified, you must leave the description, ' +
-          'apiSchema, and actionGroupExecutor fields blank for this action group'
+          'apiSchema, and actionGroupExecutor fields blank for this action group',
       );
     }
   }

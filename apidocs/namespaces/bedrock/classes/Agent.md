@@ -48,7 +48,7 @@ AWS::Bedrock::Agent
 
 ### actionGroups
 
-> **actionGroups**: [`ActionGroup`](ActionGroup.md)[]
+> **actionGroups**: [`AgentActionGroup`](AgentActionGroup.md)[]
 
 The action groups associated with the agent.
 
@@ -331,7 +331,25 @@ Add an action group to the agent.
 
 ##### actionGroup
 
-[`ActionGroup`](ActionGroup.md)
+[`AgentActionGroup`](AgentActionGroup.md)
+
+#### Returns
+
+`void`
+
+***
+
+### addActionGroups()
+
+> **addActionGroups**(...`actionGroups`): `void`
+
+Add multiple action groups to the agent.
+
+#### Parameters
+
+##### actionGroups
+
+...[`AgentActionGroup`](AgentActionGroup.md)[]
 
 #### Returns
 

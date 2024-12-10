@@ -40,7 +40,7 @@ Represents the concept of an API Schema for a Bedrock Agent Action Group.
 
 #### Inherited from
 
-[`ApiSchema`](ApiSchema.md).[`inlineSchema`](ApiSchema.md#inlineschema)
+[`ApiSchema`](ApiSchema.md).[`inlineSchema`](ApiSchema.md#inlineschema-1)
 
 ***
 
@@ -50,7 +50,7 @@ Represents the concept of an API Schema for a Bedrock Agent Action Group.
 
 #### Inherited from
 
-[`ApiSchema`](ApiSchema.md).[`s3File`](ApiSchema.md#s3file)
+[`ApiSchema`](ApiSchema.md).[`s3File`](ApiSchema.md#s3file-1)
 
 ## Methods
 

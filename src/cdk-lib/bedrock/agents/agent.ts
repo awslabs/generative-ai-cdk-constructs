@@ -506,9 +506,9 @@ export class Agent extends AgentBase {
   private renderGuardrail(): bedrock.CfnAgent.GuardrailConfigurationProperty | undefined {
     return this.guardrail
       ? {
-          guardrailIdentifier: this.guardrail.guardrailId,
-          guardrailVersion: this.guardrail.guardrailVersion,
-        }
+        guardrailIdentifier: this.guardrail.guardrailId,
+        guardrailVersion: this.guardrail.guardrailVersion,
+      }
       : undefined;
   }
 
@@ -565,12 +565,12 @@ export class Agent extends AgentBase {
           fieldName: 'description',
           minLength: 0,
           maxLength: MAX_LENGTH,
-        })
+        }),
       );
     } else {
       errors.push(
         'If instructionForAgents is not provided, the description property of the KnowledgeBase ' +
-          `${knowledgeBase.knowledgeBaseId} must be provided.`
+          `${knowledgeBase.knowledgeBaseId} must be provided.`,
       );
     }
     return errors;
@@ -601,7 +601,7 @@ export class Agent extends AgentBase {
     if (this.guardrail) {
       errors.push(
         `Cannot add Guardrail ${guardrail.guardrailId}. ` +
-          `Guardrail ${this.guardrail.guardrailId} has already been specified for this agent.`
+          `Guardrail ${this.guardrail.guardrailId} has already been specified for this agent.`,
       );
     }
     errors.push(...validation.validateFieldPattern(guardrail.guardrailVersion, 'version', /^(([0-9]{1,8})|(DRAFT))$/));

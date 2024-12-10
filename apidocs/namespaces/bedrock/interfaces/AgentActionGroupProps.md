@@ -2,9 +2,9 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / ActionGroupProps
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / AgentActionGroupProps
 
-# Interface: ActionGroupProps
+# Interface: AgentActionGroupProps
 
 ***************************************************************************
                         PROPS - Action Group Class

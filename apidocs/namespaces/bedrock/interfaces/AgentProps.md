@@ -12,7 +12,7 @@ Properties for creating a CDK managed Bedrock Agent.
 
 ### actionGroups?
 
-> `readonly` `optional` **actionGroups**: [`ActionGroup`](../classes/ActionGroup.md)[]
+> `readonly` `optional` **actionGroups**: [`AgentActionGroup`](../classes/AgentActionGroup.md)[]
 
 The Action Groups associated with the agent.
 

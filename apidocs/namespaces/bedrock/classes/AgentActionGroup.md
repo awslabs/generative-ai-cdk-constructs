@@ -2,9 +2,9 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / ActionGroup
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / AgentActionGroup
 
-# Class: ActionGroup
+# Class: AgentActionGroup
 
 ***************************************************************************
                         DEF - Action Group Class
@@ -12,19 +12,19 @@
 
 ## Constructors
 
-### new ActionGroup()
+### new AgentActionGroup()
 
-> **new ActionGroup**(`props`): [`ActionGroup`](ActionGroup.md)
+> **new AgentActionGroup**(`props`): [`AgentActionGroup`](AgentActionGroup.md)
 
 #### Parameters
 
 ##### props
 
-[`ActionGroupProps`](../interfaces/ActionGroupProps.md)
+[`AgentActionGroupProps`](../interfaces/AgentActionGroupProps.md)
 
 #### Returns
 
-[`ActionGroup`](ActionGroup.md)
+[`AgentActionGroup`](AgentActionGroup.md)
 
 ## Properties
 
@@ -110,7 +110,7 @@ Format as CFN properties
 
 ### codeInterpreter()
 
-> `static` **codeInterpreter**(`enabled`): [`ActionGroup`](ActionGroup.md)
+> `static` **codeInterpreter**(`enabled`): [`AgentActionGroup`](AgentActionGroup.md)
 
 Defines an action group that allows your agent to request the user for
 additional information when trying to complete a task.
@@ -125,13 +125,13 @@ Specifies whether the action group is available for the agent
 
 #### Returns
 
-[`ActionGroup`](ActionGroup.md)
+[`AgentActionGroup`](AgentActionGroup.md)
 
 ***
 
 ### userInput()
 
-> `static` **userInput**(`enabled`): [`ActionGroup`](ActionGroup.md)
+> `static` **userInput**(`enabled`): [`AgentActionGroup`](AgentActionGroup.md)
 
 Defines an action group that allows your agent to request the user for
 additional information when trying to complete a task.
@@ -146,4 +146,4 @@ Specifies whether the action group is available for the agent
 
 #### Returns
 
-[`ActionGroup`](ActionGroup.md)
+[`AgentActionGroup`](AgentActionGroup.md)

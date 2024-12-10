@@ -36,9 +36,9 @@
 
 ### Classes
 
-- [ActionGroup](classes/ActionGroup.md)
 - [ActionGroupExecutor](classes/ActionGroupExecutor.md)
 - [Agent](classes/Agent.md)
+- [AgentActionGroup](classes/AgentActionGroup.md)
 - [AgentAlias](classes/AgentAlias.md)
 - [AgentAliasBase](classes/AgentAliasBase.md)
 - [AgentBase](classes/AgentBase.md)
@@ -73,7 +73,7 @@
 
 ### Interfaces
 
-- [ActionGroupProps](interfaces/ActionGroupProps.md)
+- [AgentActionGroupProps](interfaces/AgentActionGroupProps.md)
 - [AgentAliasAttributes](interfaces/AgentAliasAttributes.md)
 - [AgentAliasProps](interfaces/AgentAliasProps.md)
 - [AgentAttributes](interfaces/AgentAttributes.md)
