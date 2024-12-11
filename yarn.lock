@@ -531,12 +531,12 @@
   integrity sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==
 
 "@gerrit0/mini-shiki@^1.24.0":
-  version "1.24.1"
-  resolved "https://registry.yarnpkg.com/@gerrit0/mini-shiki/-/mini-shiki-1.24.1.tgz#60ef10f4e2cfac7a9223e10b88c128438aa44fd8"
-  integrity sha512-PNP/Gjv3VqU7z7DjRgO3F9Ok5frTKqtpV+LJW1RzMcr2zpRk0ulhEWnbcNGXzPC7BZyWMIHrkfQX2GZRfxrn6Q==
+  version "1.24.2"
+  resolved "https://registry.yarnpkg.com/@gerrit0/mini-shiki/-/mini-shiki-1.24.2.tgz#5b559a881954587ee4da6be7fc6d63e3d048db86"
+  integrity sha512-kw11jMCKwS5+GMMDy/o7W6C1KwsxgHnPO/RXzNBUw000BzRvUhUSi5zE8D2Qq7/A7bfJysFenEVBHUR7aMSxUQ==
   dependencies:
-    "@shikijs/engine-oniguruma" "^1.24.0"
-    "@shikijs/types" "^1.24.0"
+    "@shikijs/engine-oniguruma" "^1.24.1"
+    "@shikijs/types" "^1.24.1"
     "@shikijs/vscode-textmate" "^9.3.0"
 
 "@humanwhocodes/config-array@^0.13.0":
@@ -898,18 +898,18 @@
   resolved "https://registry.yarnpkg.com/@rtsao/scc/-/scc-1.1.0.tgz#927dd2fae9bc3361403ac2c7a00c32ddce9ad7e8"
   integrity sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==
 
-"@shikijs/engine-oniguruma@^1.24.0":
-  version "1.24.1"
-  resolved "https://registry.yarnpkg.com/@shikijs/engine-oniguruma/-/engine-oniguruma-1.24.1.tgz#cf9f74867987a786057dbf599f571800f7ec5b30"
-  integrity sha512-KdrTIBIONWd+Xs61eh8HdIpfigtrseat9dpARvaOe2x0g/FNTbwbkGr3y92VSOVD1XotzEskh3v/nCzyWjkf7g==
+"@shikijs/engine-oniguruma@^1.24.1":
+  version "1.24.2"
+  resolved "https://registry.yarnpkg.com/@shikijs/engine-oniguruma/-/engine-oniguruma-1.24.2.tgz#90924001a17a2551a2a9073aed4af3767ce68b1b"
+  integrity sha512-ZN6k//aDNWRJs1uKB12pturKHh7GejKugowOFGAuG7TxDRLod1Bd5JhpOikOiFqPmKjKEPtEA6mRCf7q3ulDyQ==
   dependencies:
-    "@shikijs/types" "1.24.1"
+    "@shikijs/types" "1.24.2"
     "@shikijs/vscode-textmate" "^9.3.0"
 
-"@shikijs/types@1.24.1", "@shikijs/types@^1.24.0":
-  version "1.24.1"
-  resolved "https://registry.yarnpkg.com/@shikijs/types/-/types-1.24.1.tgz#669c7165f9ee3caa475fadd61f7ed4ca0009e848"
-  integrity sha512-ZwZFbShFY/APfKNt3s9Gv8rhTm29GodSKsOW66X6N+HGsZuaHalE1VUEX4fv93UXHTZTLjb3uxn63F96RhGfXw==
+"@shikijs/types@1.24.2", "@shikijs/types@^1.24.1":
+  version "1.24.2"
+  resolved "https://registry.yarnpkg.com/@shikijs/types/-/types-1.24.2.tgz#770313a0072a7c14ab1a130a36d02df7e4d87375"
+  integrity sha512-bdeWZiDtajGLG9BudI0AHet0b6e7FbR0EsE4jpGaI0YwHm/XJunI9+3uZnzFtX65gsyJ6ngCIWUfA4NWRPnBkQ==
   dependencies:
     "@shikijs/vscode-textmate" "^9.3.0"
     "@types/hast" "^3.0.4"
@@ -1647,10 +1647,10 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-nag@^2.34.20:
-  version "2.34.20"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.34.20.tgz#128c0dc9177ec2374de5d0f0741ad09a6954d14a"
-  integrity sha512-yM8lWlYGFy/wQO5JHShvEhgaSTLkT7LXbuv0FkfOzxZ28+lPfCZ92wo5uFiJMY4VwXiNKqGVNWZz9t34Skjr6w==
+cdk-nag@^2.34.21:
+  version "2.34.21"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.34.21.tgz#b0e91f5a6b8cc07491b88470fda61997059f9807"
+  integrity sha512-TrLVXZZGvWJsi7BDvXZvsCqhgPoR+OoTE8EO5UybO+zskkxlz/WGA1CjdqHXZwY7soLDpS03O4qDdCAxe/1amw==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -4436,9 +4436,9 @@ node-int64@^0.4.0:
   integrity sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==
 
 node-releases@^2.0.18:
-  version "2.0.18"
-  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.18.tgz#f010e8d35e2fe8d6b2944f03f70213ecedc4ca3f"
-  integrity sha512-d9VeXT4SJ7ZeOqGX6R5EM022wpL+eWPooLI+5UpWn2jCT1aosUQEhQP214x33Wkwx3JQMvIm+tIoVOdodFS40g==
+  version "2.0.19"
+  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.19.tgz#9e445a52950951ec4d177d843af370b411caf314"
+  integrity sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==
 
 normalize-package-data@^2.3.2, normalize-package-data@^2.5.0:
   version "2.5.0"
@@ -5670,9 +5670,9 @@ typescript@^5.7.2:
   integrity sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==
 
 typescript@next:
-  version "5.8.0-dev.20241209"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.8.0-dev.20241209.tgz#3610a6251b04eae3cd4ac92454922a3ffe2db9d4"
-  integrity sha512-LouJoEV8bwgTD1pmLck1aKNa2s9pE1uTQUHB14EubuRv/G5EY5v3O0+WmeX3c65VIpC8xUoSoc3bPjIsHrjNJQ==
+  version "5.8.0-dev.20241210"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.8.0-dev.20241210.tgz#618bdda5c296f98579d7632f63ad9f6b23cba75f"
+  integrity sha512-KPdRJ6b3MyUfKo+rrJKWnT/n47kfa2B+MR1tyPV3h0FM2Bu5DPHBvto9bdpDXGFYF6kt3TEZdCgEv0Chk/MnCA==
 
 typescript@~5.4:
   version "5.4.5"
