@@ -100,7 +100,7 @@ describe('Action Groups', () => {
       const myActionGroup = new bedrock.AgentActionGroup({
         name: 'TestActionGroup',
         description: 'This is a test action group',
-        executor: bedrock.ActionGroupExecutor.returnControl,
+        executor: bedrock.ActionGroupExecutor.RETURN_CONTROL,
       });
       agent.addActionGroup(myActionGroup);
 
@@ -177,7 +177,7 @@ describe('Action Groups', () => {
       const myActionGroup = new bedrock.AgentActionGroup({
         name: 'TestActionGroup',
         description: 'This is a test action group',
-        executor: bedrock.ActionGroupExecutor.returnControl,
+        executor: bedrock.ActionGroupExecutor.RETURN_CONTROL,
         apiSchema: bedrock.ApiSchema.fromLocalAsset(__dirname + '/api-schema.yaml'),
       });
       agent.addActionGroup(myActionGroup);
@@ -208,7 +208,7 @@ describe('Action Groups', () => {
       const myActionGroup = new bedrock.AgentActionGroup({
         name: 'TestActionGroup',
         description: 'This is a test action group',
-        executor: bedrock.ActionGroupExecutor.returnControl,
+        executor: bedrock.ActionGroupExecutor.RETURN_CONTROL,
         apiSchema: bedrock.ApiSchema.fromInline('some inline schema'),
       });
       agent.addActionGroup(myActionGroup);
@@ -240,7 +240,7 @@ describe('Action Groups', () => {
       const myActionGroup = new bedrock.AgentActionGroup({
         name: 'TestActionGroup',
         description: 'This is a test action group',
-        executor: bedrock.ActionGroupExecutor.returnControl,
+        executor: bedrock.ActionGroupExecutor.RETURN_CONTROL,
         apiSchema: bedrock.ApiSchema.fromS3File(myBucket, 'schema-file.yaml'),
       });
       agent.addActionGroup(myActionGroup);

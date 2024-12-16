@@ -1,3 +1,5 @@
+import { Token } from 'aws-cdk-lib';
+
 /**
  *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
  *
@@ -41,16 +43,19 @@ export function validateStringFieldLength(params: StringLengthValidation): strin
   const currentLength = params.value.length;
   const errors: string[] = [];
 
-  if (params.value.length > params.maxLength) {
-    errors.push(
-      `The field ${params.fieldName} is ${currentLength} characters long but must be less than or equal to ${params.maxLength} characters`,
-    );
-  }
+  // Evaluate only if it is not an unresolved Token
+  if (!Token.isUnresolved(params.fieldName)) {
+    if (params.value.length > params.maxLength) {
+      errors.push(
+        `The field ${params.fieldName} is ${currentLength} characters long but must be less than or equal to ${params.maxLength} characters`
+      );
+    }
 
-  if (params.value.length < params.minLength) {
-    errors.push(
-      `The field ${params.fieldName} is ${currentLength} characters long but must be at least ${params.minLength} characters`,
-    );
+    if (params.value.length < params.minLength) {
+      errors.push(
+        `The field ${params.fieldName} is ${currentLength} characters long but must be at least ${params.minLength} characters`
+      );
+    }
   }
 
   return errors;
@@ -69,22 +74,25 @@ export function validateFieldPattern(
   value: string,
   fieldName: string,
   pattern: RegExp,
-  customMessage?: string,
+  customMessage?: string
 ): string[] {
   const errors: string[] = [];
-  // Input validation
-  if (typeof value !== 'string') {
-    errors.push(`Expected string for ${fieldName}, got ${typeof value}`);
-  }
+  // Evaluate only if it is not an unresolved Token
+  if (!Token.isUnresolved(value)) {
+    // Verify type
+    if (typeof value !== 'string') {
+      errors.push(`Expected string for ${fieldName}, got ${typeof value}`);
+    }
+    // Validate specified regex
+    if (!(pattern instanceof RegExp)) {
+      errors.push('Pattern must be a valid regular expression');
+    }
 
-  if (!(pattern instanceof RegExp)) {
-    errors.push('Pattern must be a valid regular expression');
-  }
-
-  // Pattern validation
-  if (!pattern.test(value)) {
-    const defaultMessage = `The field ${fieldName} with value "${value}" does not match the required pattern ${pattern}`;
-    errors.push(customMessage || defaultMessage);
+    // Pattern validation
+    if (!pattern.test(value)) {
+      const defaultMessage = `The field ${fieldName} with value "${value}" does not match the required pattern ${pattern}`;
+      errors.push(customMessage || defaultMessage);
+    }
   }
 
   return errors;

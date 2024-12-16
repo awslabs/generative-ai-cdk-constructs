@@ -30,7 +30,7 @@ export class ActionGroupExecutor {
    * The information and parameters can be sent to your own systems to yield results.
    * @see https://docs.aws.amazon.com/bedrock/latest/userguide/agents-returncontrol.html
    */
-  public static readonly returnControl = new ActionGroupExecutor(undefined, 'RETURN_CONTROL');
+  public static readonly RETURN_CONTROL = new ActionGroupExecutor(undefined, 'RETURN_CONTROL');
 
   /**
    * Defines an action group with a Lambda function containing the business logic.
