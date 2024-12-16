@@ -14,7 +14,7 @@ import * as integ from '@aws-cdk/integ-tests-alpha';
 import * as cdk from 'aws-cdk-lib';
 import { Code, Function } from 'aws-cdk-lib/aws-lambda';
 import * as bedrock from '../../src/cdk-lib/bedrock';
-import { ActionGroup } from '../../src/cdk-lib/bedrock/agents/action-group';
+import { AgentActionGroup } from '../../src/cdk-lib/bedrock/agents/action-group';
 import { Agent } from '../../src/cdk-lib/bedrock/agents/agent';
 import { ActionGroupExecutor } from '../../src/cdk-lib/bedrock/agents/api-executor';
 import { ApiSchema } from '../../src/cdk-lib/bedrock/agents/api-schema';
@@ -31,7 +31,7 @@ const stack = new cdk.Stack(app, 'aws-cdk-bedrock-guardrails-integ-test', {
 // ----------------------------------------------------
 const kb = new bedrock.KnowledgeBase(stack, 'KnowledgeBase', {
   embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
-  instructionForAgents:
+  instruction:
     'Contains a curated list of FAQs, the Selling Guide. It establishes and communicates the rules of the road for eligible borrowers, loans, and processes to uphold loan quality.',
 });
 
@@ -53,15 +53,26 @@ const myLambdaFunction = new Function(stack, 'LambdaFunction', {
   },
 });
 
-const ag = new ActionGroup({
+const ag = new AgentActionGroup({
   name: 'mortgage-processing-agent-action-group',
   description: 'An action group to process mortgage applications',
   executor: ActionGroupExecutor.fromlambdaFunction(myLambdaFunction),
-  apiSchema: ApiSchema.fromInline('22r'),
+  apiSchema: ApiSchema.fromLocalAsset(__dirname + '/api-schema.yaml'),
 });
 
 agent.addKnowledgeBase(kb);
 agent.addActionGroup(ag);
+
+// create your agent
+
+const guardrails = new bedrock.Guardrail(stack, 'bedrockGuardrails', {
+  name: 'my-BedrockGuardrails',
+  description: 'Legal ethical guardrails.',
+});
+
+guardrails.addDeniedTopicFilter(bedrock.Topic.FINANCIAL_ADVICE);
+
+agent.addGuardrail(guardrails);
 
 new integ.IntegTest(app, 'ServiceTest', {
   testCases: [stack],

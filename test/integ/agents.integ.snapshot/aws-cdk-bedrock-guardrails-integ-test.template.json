@@ -105,6 +105,16 @@
    "Properties": {
     "Name": "vectorstoreawscdkectors048fa710",
     "StandbyReplicas": "ENABLED",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "vectorstoreawscdkectors048fa710"
+     },
+     {
+      "Key": "Type",
+      "Value": "VectorCollection"
+     }
+    ],
     "Type": "VECTORSEARCH"
    },
    "DependsOn": [
@@ -414,7 +424,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-central-1"
      },
-     "S3Key": "9545768ee036fecf4a0597aedab0a61fd67691b63a6f4897f1d18442d7593a97.zip"
+     "S3Key": "f827b4ad2fa86f108639ac8bf9dacf5d8ae184b31d472891b133ead9e37e96e1.zip"
     },
     "Description": "Custom Resource Provider",
     "Handler": "custom_resources.on_event",
@@ -815,6 +825,16 @@
          ]
         }
        ]
+      },
+      {
+       "Action": "bedrock:ApplyGuardrail",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "bedrockGuardrailsMyGuardrail22A62F29",
+         "GuardrailArn"
+        ]
+       }
       }
      ],
      "Version": "2012-10-17"
@@ -832,13 +852,13 @@
    "Properties": {
     "ActionGroups": [
      {
-      "ActionGroupName": "AMAZONUserInput",
+      "ActionGroupName": "UserInputAction",
       "ActionGroupState": "DISABLED",
       "ParentActionGroupSignature": "AMAZON.UserInput",
       "SkipResourceInUseCheckOnDelete": false
      },
      {
-      "ActionGroupName": "AMAZONCodeInterpreter",
+      "ActionGroupName": "CodeInterpreterAction",
       "ActionGroupState": "DISABLED",
       "ParentActionGroupSignature": "AMAZON.CodeInterpreter",
       "SkipResourceInUseCheckOnDelete": false
@@ -855,7 +875,7 @@
       "ActionGroupName": "mortgage-processing-agent-action-group",
       "ActionGroupState": "ENABLED",
       "ApiSchema": {
-       "Payload": "22r"
+       "Payload": "openapi: 3.0.3\ninfo:\n  title: Simple API\n  version: 1.0.0\n  description: A minimal API example\nservers:\n  - url: https://api.example.com\npaths:\n  /hello:\n    get:\n      operationId: sayHello\n      description: Returns a hello message\n      responses:\n        '200':\n          description: Successful response\n          content:\n            application/json:\n              schema:\n                type: object\n                properties:\n                  message:\n                    type: string\n                    description: The greeting message\n"
       },
       "Description": "An action group to process mortgage applications",
       "SkipResourceInUseCheckOnDelete": false
@@ -885,6 +905,20 @@
        "::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0"
       ]
      ]
+    },
+    "GuardrailConfiguration": {
+     "GuardrailIdentifier": {
+      "Fn::GetAtt": [
+       "bedrockGuardrailsMyGuardrail22A62F29",
+       "GuardrailId"
+      ]
+     },
+     "GuardrailVersion": {
+      "Fn::GetAtt": [
+       "bedrockGuardrailsMyGuardrail22A62F29",
+       "Version"
+      ]
+     }
     },
     "IdleSessionTTLInSeconds": 3600,
     "Instruction": "You are a customer service agent who has access to knowledge about mortgage products and services. You can help customers apply for a mortgage and answer questions about loan terms, interest rates, and mortgage eligibility. You can guide customers through the steps to submit documents or get appraisals completed. You can explain refinance and modification options to customers and provide resources on mortgage assistance programs. You can also answer internal questions about loan underwriting process, credit requirements, and guidelines for mortgage servicers and lenders. Your goal is to provide excellent service to customers and help them through the homebuying and mortgage financing process. Always ask follow-up question to get general information required before giving the user an answer.",
@@ -981,6 +1015,31 @@
      "Fn::GetAtt": [
       "AgentAgentResourceD435B430",
       "AgentArn"
+     ]
+    }
+   }
+  },
+  "bedrockGuardrailsMyGuardrail22A62F29": {
+   "Type": "AWS::Bedrock::Guardrail",
+   "Properties": {
+    "BlockedInputMessaging": "Sorry, your query violates our usage policy.",
+    "BlockedOutputsMessaging": "Sorry, I am unable to answer your question because of our usage policy.",
+    "Description": "Legal ethical guardrails.",
+    "Name": "my-BedrockGuardrails",
+    "TopicPolicyConfig": {
+     "TopicsConfig": [
+      {
+       "Definition": "'Discussions that involve providing guidance, recommendations, or suggestions related to managing, investing, or handling finances, investments, or assets.",
+       "Examples": [
+        "Can you suggest some good stocks to invest in right now?",
+        "What's the best way to save for retirement?",
+        "Should I put my money in a high-risk investment?",
+        "How can I maximize my returns on investments?",
+        "Is it a good time to buy real estate?"
+       ],
+       "Name": "Financial_Advice",
+       "Type": "DENY"
+      }
      ]
     }
    }
