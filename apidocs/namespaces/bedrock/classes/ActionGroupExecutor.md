@@ -30,9 +30,9 @@ https://docs.aws.amazon.com/bedrock/latest/userguide/action-handle.html
 
 ***
 
-### returnControl
+### RETURN\_CONTROL
 
-> `readonly` `static` **returnControl**: [`ActionGroupExecutor`](ActionGroupExecutor.md)
+> `readonly` `static` **RETURN\_CONTROL**: [`ActionGroupExecutor`](ActionGroupExecutor.md)
 
 Returns the action group invocation results directly in the InvokeAgent response.
 The information and parameters can be sent to your own systems to yield results.

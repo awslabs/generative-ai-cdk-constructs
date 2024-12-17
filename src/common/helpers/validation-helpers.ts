@@ -1,3 +1,15 @@
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
 import { Token } from 'aws-cdk-lib';
 
 /**
@@ -47,13 +59,13 @@ export function validateStringFieldLength(params: StringLengthValidation): strin
   if (!Token.isUnresolved(params.fieldName)) {
     if (params.value.length > params.maxLength) {
       errors.push(
-        `The field ${params.fieldName} is ${currentLength} characters long but must be less than or equal to ${params.maxLength} characters`
+        `The field ${params.fieldName} is ${currentLength} characters long but must be less than or equal to ${params.maxLength} characters`,
       );
     }
 
     if (params.value.length < params.minLength) {
       errors.push(
-        `The field ${params.fieldName} is ${currentLength} characters long but must be at least ${params.minLength} characters`
+        `The field ${params.fieldName} is ${currentLength} characters long but must be at least ${params.minLength} characters`,
       );
     }
   }
@@ -74,7 +86,7 @@ export function validateFieldPattern(
   value: string,
   fieldName: string,
   pattern: RegExp,
-  customMessage?: string
+  customMessage?: string,
 ): string[] {
   const errors: string[] = [];
   // Evaluate only if it is not an unresolved Token
