@@ -43,11 +43,11 @@ Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
 
 ## Properties
 
-### description
+### description?
 
-> `readonly` **description**: `string`
+> `readonly` `optional` **description**: `string`
 
-The description knowledge base.
+A description of the knowledge base.
 
 ***
 
@@ -73,7 +73,8 @@ that might be different than the stack they were imported into.
 
 > `readonly` `optional` **instruction**: `string`
 
-A narrative instruction of the knowledge base.
+Instructions for agents based on the design and type of information of the
+Knowledge Base. This will impact how Agents interact with the Knowledge Base.
 
 ***
 
@@ -448,6 +449,101 @@ Commonly this is the resource's `ref`.
 #### Inherited from
 
 `KnowledgeBaseBase.getResourceNameAttribute`
+
+***
+
+### grant()
+
+> **grant**(`grantee`, ...`actions`): `Grant`
+
+Grant the given principal identity permissions to perform actions on this knowledge base.
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+##### actions
+
+...`string`[]
+
+#### Returns
+
+`Grant`
+
+#### Inherited from
+
+`KnowledgeBaseBase.grant`
+
+***
+
+### grantQuery()
+
+> **grantQuery**(`grantee`): `Grant`
+
+Grant the given identity permissions to query the knowledge base.
+This contains:
+- Retrieve
+- RetrieveAndGenerate
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+#### Returns
+
+`Grant`
+
+#### Inherited from
+
+`KnowledgeBaseBase.grantQuery`
+
+***
+
+### grantRetrieve()
+
+> **grantRetrieve**(`grantee`): `Grant`
+
+Grant the given identity permissions to retrieve content from the knowledge base.
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+#### Returns
+
+`Grant`
+
+#### Inherited from
+
+`KnowledgeBaseBase.grantRetrieve`
+
+***
+
+### grantRetrieveAndGenerate()
+
+> **grantRetrieveAndGenerate**(`grantee`): `Grant`
+
+Grant the given identity permissions to retrieve content from the knowledge base.
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+#### Returns
+
+`Grant`
+
+#### Inherited from
+
+`KnowledgeBaseBase.grantRetrieveAndGenerate`
 
 ***
 
