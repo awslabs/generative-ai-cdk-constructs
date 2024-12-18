@@ -46,7 +46,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   projenVersion: '~0.84.5',
   constructsVersion: '10.3.0',
   defaultReleaseBranch: 'main',
-  jsiiVersion: '~5.4.0',
+  jsiiVersion: '~5.4.46',
   name: '@' + PUBLICATION_NAMESPACE + '/' + PROJECT_NAME,
   projenrcTs: true,
   repositoryUrl: 'https://github.com/' + GITHUB_USER + '/' + PROJECT_NAME,
