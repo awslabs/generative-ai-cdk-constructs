@@ -40,7 +40,6 @@
     "node_modules/",
     "*.generated.ts",
     "coverage",
-    "LangchainProps.ts",
     "AdapterProps.ts",
     "DockerLambdaCustomProps.ts",
     "!.projenrc.ts",

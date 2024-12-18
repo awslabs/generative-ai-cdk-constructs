@@ -1,4 +1,4 @@
-<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.17 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.17" pages="11">
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.17 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.17" pages="10">
   <diagram id="yqzoU6PykweUqwamPqNK" name="aws-rag-appsync-stepfn-opensearch">
     <mxGraphModel dx="2726" dy="658" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -490,65 +490,6 @@
             </Array>
             <mxPoint x="-1159" y="866" as="sourcePoint" />
           </mxGeometry>
-        </mxCell>
-      </root>
-    </mxGraphModel>
-  </diagram>
-  <diagram id="RhHeRPy2IWVfX898XMI6" name="aws-langchain-common-layer">
-    <mxGraphModel dx="1026" dy="675" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
-      <root>
-        <mxCell id="0" />
-        <mxCell id="1" parent="0" />
-        <mxCell id="igxRs5G-zJLwPDVD-uiK-1" value="" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
-          <mxGeometry x="290" y="310" width="210" height="240" as="geometry" />
-        </mxCell>
-        <mxCell id="igxRs5G-zJLwPDVD-uiK-3" value="" style="shape=curlyBracket;whiteSpace=wrap;html=1;rounded=1;" parent="1" vertex="1">
-          <mxGeometry x="240" y="310" width="30" height="240" as="geometry" />
-        </mxCell>
-        <mxCell id="igxRs5G-zJLwPDVD-uiK-4" value="Function&lt;br&gt;code" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-          <mxGeometry x="360" y="320" width="70" height="40" as="geometry" />
-        </mxCell>
-        <mxCell id="igxRs5G-zJLwPDVD-uiK-5" value="Execution environment" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-          <mxGeometry x="320" y="560" width="150" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="igxRs5G-zJLwPDVD-uiK-6" value="" style="endArrow=none;html=1;rounded=0;" parent="1" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="290" y="377" as="sourcePoint" />
-            <mxPoint x="500" y="377" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="igxRs5G-zJLwPDVD-uiK-8" value="" style="endArrow=none;html=1;rounded=0;" parent="1" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="290" y="420" as="sourcePoint" />
-            <mxPoint x="500" y="420" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="igxRs5G-zJLwPDVD-uiK-9" value="" style="endArrow=none;html=1;rounded=0;" parent="1" edge="1">
-          <mxGeometry width="50" height="50" relative="1" as="geometry">
-            <mxPoint x="290" y="460" as="sourcePoint" />
-            <mxPoint x="500" y="460" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
-        <mxCell id="igxRs5G-zJLwPDVD-uiK-10" value="... additional layers" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-          <mxGeometry x="335" y="490" width="120" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="igxRs5G-zJLwPDVD-uiK-11" value="LangchainCommonDepsLayer" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#b85450;fillColor=#f8cecc;" parent="1" vertex="1">
-          <mxGeometry x="300" y="386" width="190" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="igxRs5G-zJLwPDVD-uiK-13" value="Lambda powertools" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-          <mxGeometry x="330" y="425" width="130" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="igxRs5G-zJLwPDVD-uiK-14" value="LangchainCommonDepsLayer" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=#b85450;fillColor=#f8cecc;" parent="1" vertex="1">
-          <mxGeometry x="60" y="160" width="190" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="igxRs5G-zJLwPDVD-uiK-15" value="Legend:" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-          <mxGeometry x="46" y="129" width="70" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="igxRs5G-zJLwPDVD-uiK-16" value="Provided by the construct" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
-          <mxGeometry x="260" y="160" width="160" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="h57T7em43tZf4HJiNUfo-1" value="AWS Lambda&amp;nbsp;&lt;div&gt;function&lt;/div&gt;" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#ED7100;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.lambda_function;" parent="1" vertex="1">
-          <mxGeometry x="180" y="377" width="48" height="48" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
