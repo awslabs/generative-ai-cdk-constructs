@@ -32,11 +32,16 @@ export const SupportedPostgreSQLVersions = {
   AURORA_POSTGRESQL_V14_9: rds.AuroraPostgresEngineVersion.VER_14_9,
   AURORA_POSTGRESQL_V15_4: rds.AuroraPostgresEngineVersion.VER_15_4,
   AURORA_POSTGRESQL_V15_5: rds.AuroraPostgresEngineVersion.VER_15_5,
+  AURORA_POSTGRESQL_V15_6: rds.AuroraPostgresEngineVersion.VER_15_6,
+  AURORA_POSTGRESQL_V15_7: rds.AuroraPostgresEngineVersion.VER_15_7,
+  AURORA_POSTGRESQL_V15_8: rds.AuroraPostgresEngineVersion.VER_15_8,
+  AURORA_POSTGRESQL_V16_1: rds.AuroraPostgresEngineVersion.VER_16_1,
+  AURORA_POSTGRESQL_V16_2: rds.AuroraPostgresEngineVersion.VER_16_2,
+  AURORA_POSTGRESQL_V16_3: rds.AuroraPostgresEngineVersion.VER_16_3,
 } as const;
 
-export type SupportedPostgreSQLVersions = typeof SupportedPostgreSQLVersions[
-  keyof typeof SupportedPostgreSQLVersions
-];
+export type SupportedPostgreSQLVersions =
+  (typeof SupportedPostgreSQLVersions)[keyof typeof SupportedPostgreSQLVersions];
 
 /**
  * Base properties for an Aurora Vector Store.
@@ -142,7 +147,6 @@ export interface ExistingAmazonAuroraVectorStoreProps extends BaseAuroraVectorSt
  * Interface representing the resources required for a database cluster.
  */
 export interface DatabaseClusterResources {
-
   /**
    * The Amazon Aurora RDS cluster.
    */
@@ -230,11 +234,10 @@ abstract class BaseAmazonAuroraVectorStore extends Construct {
     super(scope, id);
 
     /**
-    * Setup databaseName based on if it is provided in the props or not
-    * and based on whether it is an existing Aurora Vector Store or not.
-    */
-    this.databaseName = 'clusterIdentifier' in props ?
-      props.databaseName : props.databaseName ?? 'bedrock_vector_db';
+     * Setup databaseName based on if it is provided in the props or not
+     * and based on whether it is an existing Aurora Vector Store or not.
+     */
+    this.databaseName = 'clusterIdentifier' in props ? props.databaseName : props.databaseName ?? 'bedrock_vector_db';
 
     this.schemaName = props.schemaName ?? 'bedrock_integration';
     this.vectorField = props.vectorField ?? 'embedding';
@@ -284,13 +287,15 @@ abstract class BaseAmazonAuroraVectorStore extends Construct {
       [
         {
           id: 'AwsSolutions-IAM4',
-          reason: 'The AWSLambdaBasicExecutionRole managed policy is required for ' +
-                  'the Lambda function to write logs to CloudWatch.',
+          reason:
+            'The AWSLambdaBasicExecutionRole managed policy is required for ' +
+            'the Lambda function to write logs to CloudWatch.',
         },
         {
           id: 'AwsSolutions-IAM5',
-          reason: 'This policy is required to allow the custom resource to create a ' +
-                  'network interface for the Aurora cluster and it has to be wildcard.',
+          reason:
+            'This policy is required to allow the custom resource to create a ' +
+            'network interface for the Aurora cluster and it has to be wildcard.',
         },
       ],
       true,
@@ -355,13 +360,12 @@ abstract class BaseAmazonAuroraVectorStore extends Construct {
     databaseClusterResources: DatabaseClusterResources,
     lambdaSecurityGroup: ec2.SecurityGroup,
     auroraPgCRPolicy: iam.ManagedPolicy,
-  ) : cdk.CustomResource {
+  ): cdk.CustomResource {
     const customResource = buildCustomResourceProvider({
       providerName: 'AmazonAuroraPgVectorCRProvider',
       vpc: databaseClusterResources.vpc,
       securityGroup: lambdaSecurityGroup,
-      codePath: path.join(
-        __dirname, '../../../lambda/amazon-aurora-pgvector-custom-resources'),
+      codePath: path.join(__dirname, '../../../lambda/amazon-aurora-pgvector-custom-resources'),
       handler: 'custom_resources.on_event',
       runtime: cdk.aws_lambda.Runtime.PYTHON_3_12,
     });
@@ -408,11 +412,7 @@ export class ExistingAmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore
    */
   public readonly vpc: ec2.IVpc;
 
-  constructor(
-    scope: Construct,
-    id: string,
-    props: ExistingAmazonAuroraVectorStoreProps,
-  ) {
+  constructor(scope: Construct, id: string, props: ExistingAmazonAuroraVectorStoreProps) {
     super(scope, id, props);
 
     const databaseClusterResources = this.setupDatabaseClusterResources(
@@ -476,11 +476,7 @@ export class AmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore {
    */
   public readonly vpc: ec2.IVpc;
 
-  constructor(
-    scope: Construct,
-    id: string,
-    props: AmazonAuroraVectorStoreProps,
-  ) {
+  constructor(scope: Construct, id: string, props: AmazonAuroraVectorStoreProps) {
     super(scope, id, props);
 
     const databaseClusterResources = this.createDatabaseCluster(
@@ -538,8 +534,7 @@ export class AmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore {
       serverlessV2MinCapacity: 0.5,
       serverlessV2MaxCapacity: 4,
       writer: rds.ClusterInstance.serverlessV2('AuroraServerlessWriter'),
-      readers: [rds.ClusterInstance.serverlessV2('AuroraServerlessReader',
-        { scaleWithWriter: true })],
+      readers: [rds.ClusterInstance.serverlessV2('AuroraServerlessReader', { scaleWithWriter: true })],
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
     const resourceArn = cdk.Stack.of(this).formatArn({
@@ -559,8 +554,9 @@ export class AmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore {
       [
         {
           id: 'AwsSolutions-RDS10',
-          reason: 'Deletion protection is disabled to make sure a customer can stop ' +
-                  'incurring charges if they want to delete the construct.',
+          reason:
+            'Deletion protection is disabled to make sure a customer can stop ' +
+            'incurring charges if they want to delete the construct.',
         },
       ],
       true,
