@@ -76,17 +76,17 @@ export class BedrockFoundationModel implements IInvokable {
     supportsAgents: true,
   });
 
-  public static readonly AMAZON_NOVA_MICRO_V1 = new BedrockFoundationModel('amazon.nova-micro-v1:0', {
+  public static readonly AMAZON_NOVA_MICRO_V1 = new BedrockFoundationModel('amazon.nova-micro-v1:0', 
     { supportsAgents: true, supportsCrossRegion: true }
-  });
+  );
 
-  public static readonly AMAZON_NOVA_LITE_V1 = new BedrockFoundationModel('amazon.nova-lite-v1:0', {
+  public static readonly AMAZON_NOVA_LITE_V1 = new BedrockFoundationModel('amazon.nova-lite-v1:0',
     { supportsAgents: true, supportsCrossRegion: true }
-  });
+  );
 
-  public static readonly AMAZON_NOVA_PRO_V1 = new BedrockFoundationModel('amazon.nova-pro-v1:0', {
+  public static readonly AMAZON_NOVA_PRO_V1 = new BedrockFoundationModel('amazon.nova-pro-v1:0',
     { supportsAgents: true, supportsCrossRegion: true }
-  });
+  );
 
   public static readonly TITAN_EMBED_TEXT_V1 = new BedrockFoundationModel('amazon.titan-embed-text-v1', {
     supportsKnowledgeBase: true,
