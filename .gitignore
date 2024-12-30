@@ -109,5 +109,4 @@ test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-dat
 !/.github/workflows/code-generation.yml
 !/.github/dependabot.yml
 !/.projenrc.ts
-!/src/common/props/LangchainProps.ts
 !/src/common/props/DockerLambdaCustomProps.ts
