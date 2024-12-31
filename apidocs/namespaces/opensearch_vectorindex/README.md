@@ -6,18 +6,16 @@
 
 # opensearch\_vectorindex
 
-## Index
-
-### Classes
+## Classes
 
 - [VectorIndex](classes/VectorIndex.md)
 
-### Interfaces
+## Interfaces
 
 - [Analyzer](interfaces/Analyzer.md)
 - [MetadataManagementFieldProps](interfaces/MetadataManagementFieldProps.md)
 - [VectorIndexProps](interfaces/VectorIndexProps.md)
 
-### Variables
+## Variables
 
 - [OpenSearchIndexCRProvider](variables/OpenSearchIndexCRProvider.md)
