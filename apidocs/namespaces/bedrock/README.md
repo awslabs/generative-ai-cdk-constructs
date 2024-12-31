@@ -6,13 +6,11 @@
 
 # bedrock
 
-## Index
-
-### Namespaces
+## Namespaces
 
 - [PIIType](namespaces/PIIType/README.md)
 
-### Enumerations
+## Enumerations
 
 - [ConfluenceDataSourceAuthType](enumerations/ConfluenceDataSourceAuthType.md)
 - [ConfluenceObjectType](enumerations/ConfluenceObjectType.md)
@@ -37,7 +35,7 @@
 - [SharePointObjectType](enumerations/SharePointObjectType.md)
 - [TransformationStep](enumerations/TransformationStep.md)
 
-### Classes
+## Classes
 
 - [Agent](classes/Agent.md)
 - [AgentActionGroup](classes/AgentActionGroup.md)
@@ -69,7 +67,7 @@
 - [Topic](classes/Topic.md)
 - [WebCrawlerDataSource](classes/WebCrawlerDataSource.md)
 
-### Interfaces
+## Interfaces
 
 - [ActionGroupExecutor](interfaces/ActionGroupExecutor.md)
 - [AddAgentAliasProps](interfaces/AddAgentAliasProps.md)
@@ -126,7 +124,7 @@
 - [WebCrawlerDataSourceAssociationProps](interfaces/WebCrawlerDataSourceAssociationProps.md)
 - [WebCrawlerDataSourceProps](interfaces/WebCrawlerDataSourceProps.md)
 
-### Functions
+## Functions
 
 - [validateInferenceConfiguration](functions/validateInferenceConfiguration.md)
 - [validatePromptOverrideConfiguration](functions/validatePromptOverrideConfiguration.md)
