@@ -12,7 +12,6 @@
  */
 import { ProjenStruct, Struct } from '@mrgrain/jsii-struct-builder';
 import { JsonPatch, awscdk, ReleasableCommits } from 'projen';
-import { DependabotScheduleInterval, VersioningStrategy } from 'projen/lib/github';
 import { NpmAccess } from 'projen/lib/javascript';
 import { buildUpgradeMainPRCustomJob } from './projenrc/github-jobs';
 import {
@@ -277,17 +276,5 @@ const postCompile = project.tasks.tryFind('post-compile');
 if (postCompile) {
   postCompile.exec('npx typedoc --plugin typedoc-plugin-markdown --out apidocs --readme none --categoryOrder "Namespaces,Classes,Interfaces,*" --disableSources ./src/index.ts');
 }
-
-project.github?.addDependabot({
-  versioningStrategy: VersioningStrategy.LOCKFILE_ONLY,
-  ignoreProjen: false,
-  scheduleInterval: DependabotScheduleInterval.WEEKLY,
-  groups: {
-    ['dev-dependencies']: {
-      patterns: ['*'],
-    },
-  },
-  labels: ['auto-approve'],
-});
 
 project.synth();
