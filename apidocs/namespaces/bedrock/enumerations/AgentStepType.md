@@ -2,11 +2,11 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / PromptType
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / AgentStepType
 
-# Enumeration: PromptType
+# Enumeration: AgentStepType
 
-The step in the agent sequence that this prompt configuration applies to.
+The step in the agent sequence where to set a specific prompt configuration.
 
 ## Enumeration Members
 

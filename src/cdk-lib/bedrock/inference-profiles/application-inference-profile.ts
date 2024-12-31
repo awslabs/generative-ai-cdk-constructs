@@ -48,7 +48,7 @@ export interface ApplicationInferenceProfileProps {
   /**
    * A list of tags associated with the inference profile.
    * */
-  readonly tags?: Array<CfnTag>;
+  readonly tags?: CfnTag[];
 }
 
 /******************************************************************************

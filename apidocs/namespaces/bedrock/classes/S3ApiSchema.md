@@ -6,7 +6,7 @@
 
 # Class: S3ApiSchema
 
-API Schema in an S3 object.
+Class to define an API Schema from an S3 object.
 
 ## Extends
 
@@ -16,17 +16,13 @@ API Schema in an S3 object.
 
 ### new S3ApiSchema()
 
-> **new S3ApiSchema**(`bucket`, `key`): [`S3ApiSchema`](S3ApiSchema.md)
+> **new S3ApiSchema**(`location`): [`S3ApiSchema`](S3ApiSchema.md)
 
 #### Parameters
 
-##### bucket
+##### location
 
-`IBucket`
-
-##### key
-
-`string`
+`Location`
 
 #### Returns
 
@@ -36,86 +32,43 @@ API Schema in an S3 object.
 
 [`ApiSchema`](ApiSchema.md).[`constructor`](ApiSchema.md#constructors)
 
+## Properties
+
+### inlineSchema?
+
+> `readonly` `optional` **inlineSchema**: `string`
+
+#### Inherited from
+
+[`ApiSchema`](ApiSchema.md).[`inlineSchema`](ApiSchema.md#inlineschema-1)
+
+***
+
+### s3File?
+
+> `readonly` `optional` **s3File**: `Location`
+
+#### Inherited from
+
+[`ApiSchema`](ApiSchema.md).[`s3File`](ApiSchema.md#s3file-1)
+
 ## Methods
 
-### bind()
+### \_render()
 
-> **bind**(`_scope`): [`ApiSchemaConfig`](../interfaces/ApiSchemaConfig.md)
+> **\_render**(): `APISchemaProperty`
 
-Called when the action group is initialized to allow this object to bind
-to the stack, add resources and have fun.
+**`Internal`**
 
-#### Parameters
-
-##### \_scope
-
-`Construct`
+This is an internal core function and should not be called directly.
 
 #### Returns
 
-[`ApiSchemaConfig`](../interfaces/ApiSchemaConfig.md)
+`APISchemaProperty`
 
 #### Overrides
 
-[`ApiSchema`](ApiSchema.md).[`bind`](ApiSchema.md#bind)
-
-***
-
-### fromAsset()
-
-> `static` **fromAsset**(`path`): [`InlineApiSchema`](InlineApiSchema.md)
-
-Loads the API Schema from a local disk path.
-
-#### Parameters
-
-##### path
-
-`string`
-
-Path to the Open API schema file in yaml or JSON
-
-#### Returns
-
-[`InlineApiSchema`](InlineApiSchema.md)
-
-`InlineApiSchema` with the contents of `path`
-
-#### Inherited from
-
-[`ApiSchema`](ApiSchema.md).[`fromAsset`](ApiSchema.md#fromasset)
-
-***
-
-### fromBucket()
-
-> `static` **fromBucket**(`bucket`, `key`): [`S3ApiSchema`](S3ApiSchema.md)
-
-API Schema as an S3 object.
-
-#### Parameters
-
-##### bucket
-
-`IBucket`
-
-The S3 bucket
-
-##### key
-
-`string`
-
-The object key
-
-#### Returns
-
-[`S3ApiSchema`](S3ApiSchema.md)
-
-`S3ApiSchema` with the S3 bucket and key.
-
-#### Inherited from
-
-[`ApiSchema`](ApiSchema.md).[`fromBucket`](ApiSchema.md#frombucket)
+[`ApiSchema`](ApiSchema.md).[`_render`](ApiSchema.md#_render)
 
 ***
 
@@ -123,7 +76,7 @@ The object key
 
 > `static` **fromInline**(`schema`): [`InlineApiSchema`](InlineApiSchema.md)
 
-Inline code for API Schema
+Creates an API Schema from an inline string.
 
 #### Parameters
 
@@ -131,14 +84,66 @@ Inline code for API Schema
 
 `string`
 
-The actual Open API schema
+the JSON or YAML payload defining the OpenAPI schema for the action group
 
 #### Returns
 
 [`InlineApiSchema`](InlineApiSchema.md)
 
-`InlineApiSchema` with inline schema
-
 #### Inherited from
 
 [`ApiSchema`](ApiSchema.md).[`fromInline`](ApiSchema.md#frominline)
+
+***
+
+### fromLocalAsset()
+
+> `static` **fromLocalAsset**(`path`): [`InlineApiSchema`](InlineApiSchema.md)
+
+Creates an API Schema from a local file.
+
+#### Parameters
+
+##### path
+
+`string`
+
+the path to the local file containing the OpenAPI schema for the action group
+
+#### Returns
+
+[`InlineApiSchema`](InlineApiSchema.md)
+
+#### Inherited from
+
+[`ApiSchema`](ApiSchema.md).[`fromLocalAsset`](ApiSchema.md#fromlocalasset)
+
+***
+
+### fromS3File()
+
+> `static` **fromS3File**(`bucket`, `objectKey`): [`S3ApiSchema`](S3ApiSchema.md)
+
+Creates an API Schema from an S3 File
+
+#### Parameters
+
+##### bucket
+
+`IBucket`
+
+the bucket containing the local file containing the OpenAPI schema for the action group
+
+##### objectKey
+
+`string`
+
+object key in the bucket
+
+#### Returns
+
+[`S3ApiSchema`](S3ApiSchema.md)
+
+#### Inherited from
+
+[`ApiSchema`](ApiSchema.md).[`fromS3File`](ApiSchema.md#froms3file)
