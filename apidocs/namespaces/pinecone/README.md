@@ -6,12 +6,10 @@
 
 # pinecone
 
-## Index
-
-### Classes
+## Classes
 
 - [PineconeVectorStore](classes/PineconeVectorStore.md)
 
-### Interfaces
+## Interfaces
 
 - [PineconeVectorStoreProps](interfaces/PineconeVectorStoreProps.md)

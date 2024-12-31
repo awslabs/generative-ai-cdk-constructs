@@ -10,9 +10,7 @@
                   SENSITIVE INFORMATION FILTERS - PII
 ***************************************************************************
 
-## Index
-
-### Enumerations
+## Enumerations
 
 - [CanadaSpecific](enumerations/CanadaSpecific.md)
 - [Finance](enumerations/Finance.md)
