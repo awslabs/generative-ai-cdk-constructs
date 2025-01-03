@@ -22272,6 +22272,12 @@
 
 ***
 
+### META\_TEXTGENERATION\_LLAMA\_2\_13B\_4\_13\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_2\_13B\_4\_13\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
 ### META\_TEXTGENERATION\_LLAMA\_2\_13B\_4\_2\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_2\_13B\_4\_2\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -22449,6 +22455,12 @@
 ### META\_TEXTGENERATION\_LLAMA\_2\_13B\_F\_4\_11\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_2\_13B\_F\_4\_11\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### META\_TEXTGENERATION\_LLAMA\_2\_13B\_F\_4\_12\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_2\_13B\_F\_4\_12\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ***
 
@@ -22668,6 +22680,12 @@
 
 ***
 
+### META\_TEXTGENERATION\_LLAMA\_2\_70B\_4\_13\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_2\_70B\_4\_13\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
 ### META\_TEXTGENERATION\_LLAMA\_2\_70B\_4\_2\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_2\_70B\_4\_2\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -22845,6 +22863,12 @@
 ### META\_TEXTGENERATION\_LLAMA\_2\_70B\_F\_4\_11\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_2\_70B\_F\_4\_11\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### META\_TEXTGENERATION\_LLAMA\_2\_70B\_F\_4\_12\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_2\_70B\_F\_4\_12\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ***
 
@@ -23070,6 +23094,12 @@
 
 ***
 
+### META\_TEXTGENERATION\_LLAMA\_2\_7B\_4\_13\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_2\_7B\_4\_13\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
 ### META\_TEXTGENERATION\_LLAMA\_2\_7B\_4\_2\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_2\_7B\_4\_2\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -23247,6 +23277,12 @@
 ### META\_TEXTGENERATION\_LLAMA\_2\_7B\_F\_4\_11\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_2\_7B\_F\_4\_11\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### META\_TEXTGENERATION\_LLAMA\_2\_7B\_F\_4\_12\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_2\_7B\_F\_4\_12\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ***
 
@@ -24432,6 +24468,12 @@
 
 ***
 
+### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_13B\_3\_12\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_13B\_3\_12\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
 ### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_13B\_3\_2\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_13B\_3\_2\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -24531,6 +24573,12 @@
 ### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_13B\_INSTRUCT\_2\_10\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_13B\_INSTRUCT\_2\_10\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_13B\_INSTRUCT\_2\_11\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_13B\_INSTRUCT\_2\_11\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ***
 
@@ -24669,6 +24717,12 @@
 ### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_13B\_PYTHON\_3\_11\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_13B\_PYTHON\_3\_11\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_13B\_PYTHON\_3\_12\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_13B\_PYTHON\_3\_12\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ***
 
@@ -24816,6 +24870,12 @@
 
 ***
 
+### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_34B\_3\_12\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_34B\_3\_12\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
 ### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_34B\_3\_2\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_34B\_3\_2\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -24915,6 +24975,12 @@
 ### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_34B\_INSTRUCT\_2\_10\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_34B\_INSTRUCT\_2\_10\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_34B\_INSTRUCT\_2\_11\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_34B\_INSTRUCT\_2\_11\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ***
 
@@ -25056,6 +25122,12 @@
 
 ***
 
+### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_34B\_PYTHON\_3\_12\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_34B\_PYTHON\_3\_12\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
 ### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_34B\_PYTHON\_3\_2\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_34B\_PYTHON\_3\_2\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -25182,6 +25254,12 @@
 
 ***
 
+### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_70B\_2\_12\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_70B\_2\_12\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
 ### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_70B\_2\_2\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_70B\_2\_2\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -25263,6 +25341,12 @@
 ### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_70B\_INSTRUCT\_1\_10\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_70B\_INSTRUCT\_1\_10\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_70B\_INSTRUCT\_1\_11\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_70B\_INSTRUCT\_1\_11\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ***
 
@@ -25383,6 +25467,12 @@
 ### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_70B\_PYTHON\_2\_11\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_70B\_PYTHON\_2\_11\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_70B\_PYTHON\_2\_12\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_70B\_PYTHON\_2\_12\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ***
 
@@ -25530,6 +25620,12 @@
 
 ***
 
+### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_7B\_3\_12\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_7B\_3\_12\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
 ### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_7B\_3\_2\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_7B\_3\_2\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -25629,6 +25725,12 @@
 ### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_7B\_INSTRUCT\_2\_10\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_7B\_INSTRUCT\_2\_10\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_7B\_INSTRUCT\_2\_11\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_7B\_INSTRUCT\_2\_11\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ***
 
@@ -25767,6 +25869,12 @@
 ### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_7B\_PYTHON\_3\_11\_0
 
 > `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_7B\_PYTHON\_3\_11\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_7B\_PYTHON\_3\_12\_0
+
+> `readonly` `static` **META\_TEXTGENERATION\_LLAMA\_CODELLAMA\_7B\_PYTHON\_3\_12\_0**: [`JumpStartModel`](JumpStartModel.md)
 
 ***
 
