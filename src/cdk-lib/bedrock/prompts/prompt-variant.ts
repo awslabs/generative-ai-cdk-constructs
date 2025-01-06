@@ -226,9 +226,9 @@ export abstract class PromptVariant {
           system: props.system ? [{ text: props.system }] : undefined,
           toolConfiguration: props.toolConfiguration
             ? {
-                toolChoice: props.toolConfiguration.toolChoice.__render(),
-                tools: props.toolConfiguration.tools,
-              }
+              toolChoice: props.toolConfiguration.toolChoice.__render(),
+              tools: props.toolConfiguration.tools,
+            }
             : undefined,
         },
       },

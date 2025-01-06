@@ -55,9 +55,9 @@ Renders as Cfn Property
 
 ***
 
-### assistantMessage()
+### assistant()
 
-> `static` **assistantMessage**(`text`): [`ChatMessage`](ChatMessage.md)
+> `static` **assistant**(`text`): [`ChatMessage`](ChatMessage.md)
 
 #### Parameters
 
@@ -71,9 +71,9 @@ Renders as Cfn Property
 
 ***
 
-### userMessage()
+### user()
 
-> `static` **userMessage**(`text`): [`ChatMessage`](ChatMessage.md)
+> `static` **user**(`text`): [`ChatMessage`](ChatMessage.md)
 
 #### Parameters
 
