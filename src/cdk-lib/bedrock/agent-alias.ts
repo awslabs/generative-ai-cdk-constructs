@@ -11,7 +11,6 @@
  *  and limitations under the License.
  */
 
-
 import { Arn, ArnFormat, aws_bedrock as bedrock, Resource } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 

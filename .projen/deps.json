@@ -18,6 +18,11 @@
       "type": "build"
     },
     {
+      "name": "@stylistic/eslint-plugin",
+      "version": "^2",
+      "type": "build"
+    },
+    {
       "name": "@types/jest",
       "type": "build"
     },
@@ -28,12 +33,12 @@
     },
     {
       "name": "@typescript-eslint/eslint-plugin",
-      "version": "^7",
+      "version": "^8",
       "type": "build"
     },
     {
       "name": "@typescript-eslint/parser",
-      "version": "^7",
+      "version": "^8",
       "type": "build"
     },
     {
@@ -46,6 +51,11 @@
       "type": "build"
     },
     {
+      "name": "commit-and-tag-version",
+      "version": "^12",
+      "type": "build"
+    },
+    {
       "name": "commitlint",
       "type": "build"
     },
@@ -54,16 +64,16 @@
       "type": "build"
     },
     {
-      "name": "eslint-plugin-header",
-      "type": "build"
-    },
-    {
       "name": "eslint-plugin-import",
       "type": "build"
     },
     {
+      "name": "eslint-plugin-license-header",
+      "type": "build"
+    },
+    {
       "name": "eslint",
-      "version": "^8",
+      "version": "^9",
       "type": "build"
     },
     {
@@ -89,12 +99,12 @@
     },
     {
       "name": "jsii-rosetta",
-      "version": "~5.4.46",
+      "version": "~5.6.0",
       "type": "build"
     },
     {
       "name": "jsii",
-      "version": "~5.4.46",
+      "version": "~5.6.0",
       "type": "build"
     },
     {
@@ -103,12 +113,7 @@
     },
     {
       "name": "projen",
-      "version": "~0.84.5",
-      "type": "build"
-    },
-    {
-      "name": "standard-version",
-      "version": "^9",
+      "version": "~0.91.5",
       "type": "build"
     },
     {

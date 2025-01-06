@@ -10,6 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+
 import { Job, JobPermission } from 'projen/lib/github/workflows-model';
 
 /**
@@ -38,13 +39,13 @@ export function buildUpgradeMainPRCustomJob() {
         name: 'Download patch',
         uses: 'actions/download-artifact@v4',
         with: {
-          name: '.repo.patch',
+          name: 'repo.patch',
           path: '${{ runner.temp }}',
         },
       },
       {
         name: 'Apply patch',
-        run: '[ -s ${{ runner.temp }}/.repo.patch ] && git apply ${{ runner.temp }}/.repo.patch || echo "Empty patch. Skipping."',
+        run: '[ -s ${{ runner.temp }}/repo.patch ] && git apply ${{ runner.temp }}/repo.patch || echo "Empty patch. Skipping."',
       },
       {
         name: 'Set git identity',
