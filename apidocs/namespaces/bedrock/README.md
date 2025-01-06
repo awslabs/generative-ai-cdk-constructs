@@ -130,8 +130,3 @@
 - [ToolConfiguration](interfaces/ToolConfiguration.md)
 - [WebCrawlerDataSourceAssociationProps](interfaces/WebCrawlerDataSourceAssociationProps.md)
 - [WebCrawlerDataSourceProps](interfaces/WebCrawlerDataSourceProps.md)
-
-## Functions
-
-- [validateInferenceConfiguration](functions/validateInferenceConfiguration.md)
-- [validatePromptOverrideConfiguration](functions/validatePromptOverrideConfiguration.md)

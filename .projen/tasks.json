@@ -692,10 +692,10 @@
           "spawn": "eslint"
         },
         {
-          "spawn": "integ:agents:snapshot"
+          "spawn": "integ:agents:assert"
         },
         {
-          "spawn": "integ:chatprompt:snapshot"
+          "spawn": "integ:chatprompt:assert"
         },
         {
           "spawn": "integ:inference-profiles:assert"

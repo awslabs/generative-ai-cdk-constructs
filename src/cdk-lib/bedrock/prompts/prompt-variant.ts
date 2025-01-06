@@ -12,7 +12,7 @@
  */
 import { aws_bedrock as bedrock } from 'aws-cdk-lib';
 import { CfnPrompt } from 'aws-cdk-lib/aws-bedrock';
-import { IAgentAlias } from '../agent-alias';
+import { IAgentAlias } from '../agents/agent-alias';
 import { IInvokable } from '../models';
 
 // ------------------------------------------------------
