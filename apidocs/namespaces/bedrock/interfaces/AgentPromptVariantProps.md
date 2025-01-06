@@ -2,9 +2,9 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / TextPromptVariantProps
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / AgentPromptVariantProps
 
-# Interface: TextPromptVariantProps
+# Interface: AgentPromptVariantProps
 
 ## Extends
 
@@ -12,11 +12,11 @@
 
 ## Properties
 
-### inferenceConfiguration?
+### agentAlias
 
-> `readonly` `optional` **inferenceConfiguration**: `PromptModelInferenceConfigurationProperty`
+> `readonly` **agentAlias**: [`IAgentAlias`](IAgentAlias.md)
 
-Inference configuration for the Text Prompt
+An alias pointing to the agent version to be used.
 
 ***
 
