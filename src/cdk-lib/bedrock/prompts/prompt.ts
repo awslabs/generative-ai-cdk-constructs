@@ -242,7 +242,7 @@ export class Prompt extends Construct implements IPrompt {
     const matchesPattern = /^([0-9a-zA-Z][_-]?){1,100}$/.test(this.promptName);
     if (!matchesPattern) {
       errors.push(
-        'Valid characters are a-z, A-Z, 0-9, _ (underscore) and - (hyphen). And must not begin with a hyphen'
+        'Valid characters are a-z, A-Z, 0-9, _ (underscore) and - (hyphen). And must not begin with a hyphen',
       );
     }
     if (errors.length > 0) {
@@ -259,7 +259,7 @@ export class Prompt extends Construct implements IPrompt {
     const errors: string[] = [];
     if (this.variants.length > MAX_VARIANTS) {
       errors.push(
-        `Error: Too many variants specified. The maximum allowed is ${MAX_VARIANTS}, but you have provided ${this.variants.length} variants.`
+        `Error: Too many variants specified. The maximum allowed is ${MAX_VARIANTS}, but you have provided ${this.variants.length} variants.`,
       );
     }
     return errors;

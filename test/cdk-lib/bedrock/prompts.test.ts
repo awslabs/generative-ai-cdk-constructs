@@ -51,7 +51,7 @@ describe('Prompt', () => {
         Name: 'prompt1',
         Description: 'my cmk prompt',
         CustomerEncryptionKeyArn: cmk.keyArn,
-      })
+      }),
     );
     expect(prompt.promptName).toEqual('prompt1');
   });
@@ -62,7 +62,7 @@ describe('Prompt', () => {
     const variant1 = PromptVariant.text({
       variantName: 'variant1',
       model: BedrockFoundationModel.fromCdkFoundationModelId(
-        cdk_bedrock.FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_SONNET_20240229_V1_0
+        cdk_bedrock.FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_SONNET_20240229_V1_0,
       ),
       promptVariables: ['topic'],
       promptText: 'This is my first text prompt. Please summarize our conversation on {{topic}}.',
@@ -105,7 +105,7 @@ describe('Prompt', () => {
             TemplateType: 'TEXT',
           },
         ],
-      })
+      }),
     );
   });
 
@@ -155,7 +155,7 @@ describe('Prompt', () => {
             TemplateType: 'TEXT',
           },
         ],
-      })
+      }),
     );
   });
 
@@ -294,7 +294,7 @@ describe('Prompt', () => {
             TemplateType: 'CHAT',
           },
         ],
-      })
+      }),
     );
   });
 
@@ -349,7 +349,7 @@ describe('Prompt', () => {
             TemplateType: 'TEXT',
           },
         ],
-      })
+      }),
     );
   });
 
@@ -368,12 +368,12 @@ describe('Prompt', () => {
       haveResource('AWS::Bedrock::Prompt', {
         Name: 'prompt1',
         Description: 'my versioned prompt',
-      })
+      }),
     );
     cdkExpect(stack).to(
       haveResource('AWS::Bedrock::PromptVersion', {
         Description: 'first version',
-      })
+      }),
     );
   });
 
@@ -395,7 +395,7 @@ describe('Prompt', () => {
       PromptVariant.text({
         variantName: `variant${id}`,
         model: BedrockFoundationModel.fromCdkFoundationModelId(
-          cdk_bedrock.FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_SONNET_20240229_V1_0
+          cdk_bedrock.FoundationModelIdentifier.ANTHROPIC_CLAUDE_3_SONNET_20240229_V1_0,
         ),
         promptVariables: ['topic'],
         promptText: `This is my text prompt ${id}. Please summarize our conversation on {{topic}}.`,
@@ -404,7 +404,7 @@ describe('Prompt', () => {
           topP: 0.999,
           maxTokens: 2000,
         },
-      })
+      }),
     );
     new Prompt(stack, 'prompt1', {
       promptName: 'my-prompt',
@@ -413,7 +413,7 @@ describe('Prompt', () => {
     });
     // THEN
     expect(() => app.synth()).toThrow(
-      'Error: Too many variants specified. The maximum allowed is 3, but you have provided 4 variants.'
+      'Error: Too many variants specified. The maximum allowed is 3, but you have provided 4 variants.',
     );
   });
 });
