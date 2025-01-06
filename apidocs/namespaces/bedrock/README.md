@@ -12,6 +12,7 @@
 
 ## Enumerations
 
+- [ChatMessageRole](enumerations/ChatMessageRole.md)
 - [ConfluenceDataSourceAuthType](enumerations/ConfluenceDataSourceAuthType.md)
 - [ConfluenceObjectType](enumerations/ConfluenceObjectType.md)
 - [ContentFilterStrength](enumerations/ContentFilterStrength.md)
@@ -43,6 +44,7 @@
 - [ApiSchema](classes/ApiSchema.md)
 - [ApplicationInferenceProfile](classes/ApplicationInferenceProfile.md)
 - [BedrockFoundationModel](classes/BedrockFoundationModel.md)
+- [ChatMessage](classes/ChatMessage.md)
 - [ChunkingStrategy](classes/ChunkingStrategy.md)
 - [ConfluenceDataSource](classes/ConfluenceDataSource.md)
 - [CrossRegionInferenceProfile](classes/CrossRegionInferenceProfile.md)
@@ -64,6 +66,7 @@
 - [S3DataSource](classes/S3DataSource.md)
 - [SalesforceDataSource](classes/SalesforceDataSource.md)
 - [SharePointDataSource](classes/SharePointDataSource.md)
+- [ToolChoice](classes/ToolChoice.md)
 - [Topic](classes/Topic.md)
 - [WebCrawlerDataSource](classes/WebCrawlerDataSource.md)
 
@@ -73,11 +76,13 @@
 - [AddAgentAliasProps](interfaces/AddAgentAliasProps.md)
 - [AgentActionGroupProps](interfaces/AgentActionGroupProps.md)
 - [AgentAliasProps](interfaces/AgentAliasProps.md)
+- [AgentPromptVariantProps](interfaces/AgentPromptVariantProps.md)
 - [AgentProps](interfaces/AgentProps.md)
 - [ApiSchemaConfig](interfaces/ApiSchemaConfig.md)
 - [ApplicationInferenceProfileAttributes](interfaces/ApplicationInferenceProfileAttributes.md)
 - [ApplicationInferenceProfileProps](interfaces/ApplicationInferenceProfileProps.md)
 - [BedrockFoundationModelProps](interfaces/BedrockFoundationModelProps.md)
+- [ChatPromptVariantProps](interfaces/ChatPromptVariantProps.md)
 - [CommonPromptVariantProps](interfaces/CommonPromptVariantProps.md)
 - [ConfluenceCrawlingFilters](interfaces/ConfluenceCrawlingFilters.md)
 - [ConfluenceDataSourceAssociationProps](interfaces/ConfluenceDataSourceAssociationProps.md)
@@ -121,6 +126,7 @@
 - [SharePointDataSourceAssociationProps](interfaces/SharePointDataSourceAssociationProps.md)
 - [SharePointDataSourceProps](interfaces/SharePointDataSourceProps.md)
 - [TextPromptVariantProps](interfaces/TextPromptVariantProps.md)
+- [ToolConfiguration](interfaces/ToolConfiguration.md)
 - [WebCrawlerDataSourceAssociationProps](interfaces/WebCrawlerDataSourceAssociationProps.md)
 - [WebCrawlerDataSourceProps](interfaces/WebCrawlerDataSourceProps.md)
 

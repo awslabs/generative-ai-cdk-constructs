@@ -22,6 +22,14 @@ You can optimize the prompt for specific use cases and models.
 
 ## Properties
 
+### genAiResource?
+
+> `abstract` `optional` **genAiResource**: `PromptGenAiResourceProperty`
+
+The template configuration.
+
+***
+
 ### inferenceConfiguration?
 
 > `abstract` `optional` **inferenceConfiguration**: `PromptInferenceConfigurationProperty`
@@ -56,11 +64,50 @@ The template configuration.
 
 ### templateType
 
-> `abstract` **templateType**: [`TEXT`](../enumerations/PromptTemplateType.md#text)
+> `abstract` **templateType**: [`PromptTemplateType`](../enumerations/PromptTemplateType.md)
 
 The type of prompt template.
 
 ## Methods
+
+### agent()
+
+> `static` **agent**(`props`): [`PromptVariant`](PromptVariant.md)
+
+Static method to create an agent prompt template.
+
+#### Parameters
+
+##### props
+
+[`AgentPromptVariantProps`](../interfaces/AgentPromptVariantProps.md)
+
+#### Returns
+
+[`PromptVariant`](PromptVariant.md)
+
+***
+
+### chat()
+
+> `static` **chat**(`props`): [`PromptVariant`](PromptVariant.md)
+
+Static method to create a chat template. Use this template type when
+the model supports the Converse API or the AnthropicClaude Messages API.
+This allows you to include a System prompt and previous User messages
+and Assistant messages for context.
+
+#### Parameters
+
+##### props
+
+[`ChatPromptVariantProps`](../interfaces/ChatPromptVariantProps.md)
+
+#### Returns
+
+[`PromptVariant`](PromptVariant.md)
+
+***
 
 ### text()
 

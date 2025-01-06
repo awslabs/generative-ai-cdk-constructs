@@ -8,6 +8,12 @@
 
 ## Enumeration Members
 
+### CHAT
+
+> **CHAT**: `"CHAT"`
+
+***
+
 ### TEXT
 
 > **TEXT**: `"TEXT"`

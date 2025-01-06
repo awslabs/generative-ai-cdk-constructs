@@ -16,99 +16,7 @@ import { Grant, IGrantable } from 'aws-cdk-lib/aws-iam';
 import { IKey } from 'aws-cdk-lib/aws-kms';
 import { md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
 import { Construct } from 'constructs';
-import { IInvokable } from '../models';
-
-export enum PromptTemplateType {
-  TEXT = 'TEXT',
-}
-
-export interface CommonPromptVariantProps {
-  /**
-   * The name of the prompt variant.
-   */
-  readonly variantName: string;
-  /**
-   * The model which is used to run the prompt. The model could be a foundation
-   * model, a custom model, or a provisioned model.
-   */
-  readonly model: IInvokable;
-}
-
-export interface TextPromptVariantProps extends CommonPromptVariantProps {
-  /**
-   * Inference configuration for the Text Prompt
-   */
-  readonly inferenceConfiguration?: bedrock.CfnPrompt.PromptModelInferenceConfigurationProperty;
-  /**
-   * The variables in the prompt template that can be filled in at runtime.
-   */
-  readonly promptVariables: string[];
-  /**
-   * The text prompt. Variables are used by encolsing its name with double curly braces
-   * as in `{{variable_name}}`.
-   */
-  readonly promptText: string;
-}
-
-/**
- * Variants are specific sets of inputs that guide FMs on Amazon Bedrock to
- * generate an appropriate response or output for a given task or instruction.
- * You can optimize the prompt for specific use cases and models.
- */
-export abstract class PromptVariant {
-  // ------------------------------------------------------
-  // Static Methods
-  // ------------------------------------------------------
-  /**
-   * Static method to create a text template
-   */
-  public static text(props: TextPromptVariantProps): PromptVariant {
-    return {
-      name: props.variantName,
-      templateType: PromptTemplateType.TEXT,
-      modelId: props.model.invokableArn,
-      inferenceConfiguration: {
-        text: { ...props.inferenceConfiguration },
-      },
-      templateConfiguration: {
-        text: {
-          inputVariables: props.promptVariables.flatMap((variable: string) => {
-            return { name: variable };
-          }),
-          text: props.promptText,
-        },
-      },
-    };
-  }
-  // ------------------------------------------------------
-  // Properties
-  // ------------------------------------------------------
-  /**
-   * The name of the prompt variant.
-   */
-  public abstract name: string;
-  /**
-   * The type of prompt template.
-   */
-  public abstract templateType: PromptTemplateType;
-  /**
-   * The inference configuration.
-   */
-  public abstract inferenceConfiguration?: bedrock.CfnPrompt.PromptInferenceConfigurationProperty;
-  /**
-   * The unique identifier of the model with which to run inference on the prompt.
-   */
-  public abstract modelId?: string;
-  /**
-   * The template configuration.
-   */
-  public abstract templateConfiguration: bedrock.CfnPrompt.PromptTemplateConfigurationProperty;
-
-  // ------------------------------------------------------
-  // Constructor
-  // ------------------------------------------------------
-  protected constructor() {}
-}
+import { PromptVariant } from './prompt-variant';
 
 /******************************************************************************
  *                              COMMON
@@ -308,7 +216,7 @@ export class Prompt extends Construct implements IPrompt {
       }),
     };
 
-    // Hash calculation useful for versioning of the guardrail
+    // Hash calculation useful for versioning
     this._hash = md5hash(JSON.stringify(cfnProps));
 
     // ------------------------------------------------------
@@ -347,10 +255,11 @@ export class Prompt extends Construct implements IPrompt {
    * Validates whether the number of prompt variants is respected.
    */
   private validatePromptVariants() {
+    const MAX_VARIANTS = 3;
     const errors: string[] = [];
-    if (this.variants.length > 3) {
+    if (this.variants.length > MAX_VARIANTS) {
       errors.push(
-        `Error: Too many variants specified. The maximum allowed is 3, but you have provided ${this.variants.length} variants.`,
+        `Error: Too many variants specified. The maximum allowed is ${MAX_VARIANTS}, but you have provided ${this.variants.length} variants.`,
       );
     }
     return errors;
