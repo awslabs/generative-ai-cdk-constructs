@@ -216,7 +216,7 @@ export class Prompt extends Construct implements IPrompt {
       }),
     };
 
-    // Hash calculation useful for versioning of the guardrail
+    // Hash calculation useful for versioning
     this._hash = md5hash(JSON.stringify(cfnProps));
 
     // ------------------------------------------------------

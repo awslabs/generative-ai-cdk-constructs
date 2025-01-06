@@ -24,7 +24,7 @@ export interface CommonPromptVariantProps {
   /**
    * The variables in the prompt template that can be filled in at runtime.
    */
-  readonly promptVariables: string[];
+  readonly promptVariables?: string[];
 }
 
 // ------------------------------------------------------
@@ -47,17 +47,19 @@ export interface TextPromptVariantProps extends CommonPromptVariantProps {
 // ------------------------------------------------------
 export interface ChatPromptVariantProps extends CommonPromptVariantProps {
   /**
+   * Inference configuration for the Chat Prompt.
+   * Must include at least one User Message.
+   * The messages should alternate between User and Assistant.
+   */
+  readonly messages: ChatMessage[];
+  /**
    * Context or instructions for the model to consider before generating a response.
    */
   readonly system?: string;
   /**
-   * Inference configuration for the Chat Prompt
-   */
-  readonly messages?: ChatMessage[];
-  /**
    * The configuration with available tools to the model and how it must use them.
    */
-  readonly toolConfiguration: ToolConfiguration;
+  readonly toolConfiguration?: ToolConfiguration;
   /**
    * Inference configuration for the Text Prompt
    */
@@ -168,7 +170,7 @@ export abstract class PromptVariant {
       },
       templateConfiguration: {
         text: {
-          inputVariables: props.promptVariables.flatMap((variable: string) => {
+          inputVariables: props.promptVariables?.flatMap((variable: string) => {
             return { name: variable };
           }),
           text: props.promptText,
@@ -188,13 +190,16 @@ export abstract class PromptVariant {
       name: props.variantName,
       templateType: PromptTemplateType.CHAT,
       modelId: props.model.invokableArn,
+      inferenceConfiguration: {
+        text: { ...props.inferenceConfiguration },
+      },
       templateConfiguration: {
         chat: {
-          inputVariables: props.promptVariables.flatMap((variable: string) => {
+          inputVariables: props.promptVariables?.flatMap((variable: string) => {
             return { name: variable };
           }),
-          messages: props.messages,
-          system: [{ text: props.system }],
+          messages: props.messages?.flatMap(m => m.__render()),
+          system: props.system ? [{ text: props.system }] : undefined,
           toolConfiguration: props.toolConfiguration,
         },
       },
@@ -215,7 +220,7 @@ export abstract class PromptVariant {
       },
       templateConfiguration: {
         text: {
-          inputVariables: props.promptVariables.flatMap((variable: string) => {
+          inputVariables: props.promptVariables?.flatMap((variable: string) => {
             return { name: variable };
           }),
           text: props.promptText,
@@ -247,6 +252,10 @@ export abstract class PromptVariant {
    * The template configuration.
    */
   public abstract templateConfiguration: bedrock.CfnPrompt.PromptTemplateConfigurationProperty;
+  /**
+   * The template configuration.
+   */
+  public abstract genAiResource?: bedrock.CfnPrompt.PromptGenAiResourceProperty;
 
   // ------------------------------------------------------
   // Constructor
