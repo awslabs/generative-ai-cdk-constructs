@@ -127,17 +127,29 @@ export interface ToolConfiguration {
 
 export class ToolChoice {
   /** The model must request at least one tool (no text is generated) */
-  public static readonly ANY = {
-    any: {},
-  };
+  public static readonly ANY = new ToolChoice({}, undefined, undefined);
   /** (Default). The Model automatically decides if a tool should be called or whether to generate text instead.*/
-  public static readonly AUTO = {
-    auto: {},
-  };
+  public static readonly AUTO = new ToolChoice(undefined, {}, undefined);
   /** The Model must request the specified tool. Only supported by some models like Anthropic Claude 3 models. */
   public static specificTool(toolName: string) {
+    return new ToolChoice(undefined, undefined, toolName);
+  }
+  public readonly any?: any;
+  public readonly auto?: any;
+  public readonly tool?: string;
+
+  constructor(any: any, auto: any, tool?: string) {
+    (this.any = any), (this.auto = auto), (this.tool = tool);
+  }
+  /**
+   *
+   * @internal
+   */
+  public __render(): CfnPrompt.ToolChoiceProperty {
     return {
-      tool: { name: toolName },
+      any: this.any,
+      auto: this.auto,
+      tool: this.tool ? { name: this.tool } : undefined,
     };
   }
 }
@@ -212,7 +224,12 @@ export abstract class PromptVariant {
           }),
           messages: props.messages?.flatMap(m => m.__render()),
           system: props.system ? [{ text: props.system }] : undefined,
-          toolConfiguration: props.toolConfiguration,
+          toolConfiguration: props.toolConfiguration
+            ? {
+              toolChoice: props.toolConfiguration.toolChoice.__render(),
+              tools: props.toolConfiguration.tools,
+            }
+            : undefined,
         },
       },
     };
