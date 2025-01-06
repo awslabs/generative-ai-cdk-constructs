@@ -55,7 +55,7 @@ export interface ChatPromptVariantProps extends CommonPromptVariantProps {
    */
   readonly messages?: ChatMessage[];
   /**
-   *
+   * The configuration with available tools to the model and how it must use them.
    */
   readonly toolConfiguration: ToolConfiguration;
   /**
