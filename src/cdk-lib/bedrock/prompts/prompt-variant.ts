@@ -92,10 +92,10 @@ export enum ChatMessageRole {
 }
 
 export class ChatMessage {
-  public static userMessage(text: string) {
+  public static user(text: string) {
     return new ChatMessage(ChatMessageRole.USER, text);
   }
-  public static assistantMessage(text: string) {
+  public static assistant(text: string) {
     return new ChatMessage(ChatMessageRole.ASSISTANT, text);
   }
   public readonly role: ChatMessageRole;
@@ -226,9 +226,9 @@ export abstract class PromptVariant {
           system: props.system ? [{ text: props.system }] : undefined,
           toolConfiguration: props.toolConfiguration
             ? {
-              toolChoice: props.toolConfiguration.toolChoice.__render(),
-              tools: props.toolConfiguration.tools,
-            }
+                toolChoice: props.toolConfiguration.toolChoice.__render(),
+                tools: props.toolConfiguration.tools,
+              }
             : undefined,
         },
       },

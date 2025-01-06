@@ -24,9 +24,9 @@ const variantChat = PromptVariant.chat({
   variantName: 'variant1',
   model: BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
   messages: [
-    ChatMessage.userMessage('From now on, you speak Japanese!'),
-    ChatMessage.assistantMessage('Konnichiwa!'),
-    ChatMessage.userMessage('From now on, you speak {{language}}!'),
+    ChatMessage.user('From now on, you speak Japanese!'),
+    ChatMessage.assistant('Konnichiwa!'),
+    ChatMessage.user('From now on, you speak {{language}}!'),
   ],
   system: 'You are a helpful assistant that only speaks the language you`re told.',
   promptVariables: ['language'],
