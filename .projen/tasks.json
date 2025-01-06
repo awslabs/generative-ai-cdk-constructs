@@ -353,6 +353,69 @@
         }
       ]
     },
+    "integ:chatprompt:assert": {
+      "name": "integ:chatprompt:assert",
+      "description": "assert the snapshot of integration test 'chatprompt'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/chatprompt.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'chatprompt'. Run 'projen integ:chatprompt:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/chatprompt.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/chatprompt.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/chatprompt.integ.snapshot/ test/integ/.tmp/chatprompt.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:chatprompt:deploy": {
+      "name": "integ:chatprompt:deploy",
+      "description": "deploy integration test 'chatprompt' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/chatprompt.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/chatprompt.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/chatprompt.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/chatprompt.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/chatprompt.integ/deploy.cdk.out test/integ/chatprompt.integ.snapshot"
+        },
+        {
+          "spawn": "integ:chatprompt:destroy"
+        }
+      ]
+    },
+    "integ:chatprompt:destroy": {
+      "name": "integ:chatprompt:destroy",
+      "description": "destroy integration test 'chatprompt'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/chatprompt.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:chatprompt:snapshot": {
+      "name": "integ:chatprompt:snapshot",
+      "description": "update snapshot for integration test \"chatprompt\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/chatprompt.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/chatprompt.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:chatprompt:watch": {
+      "name": "integ:chatprompt:watch",
+      "description": "watch integration test 'chatprompt' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/chatprompt.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/chatprompt.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:inference-profiles:assert": {
       "name": "integ:inference-profiles:assert",
       "description": "assert the snapshot of integration test 'inference-profiles'",
@@ -485,6 +548,9 @@
       "steps": [
         {
           "spawn": "integ:agents:snapshot"
+        },
+        {
+          "spawn": "integ:chatprompt:snapshot"
         },
         {
           "spawn": "integ:inference-profiles:snapshot"
@@ -626,7 +692,10 @@
           "spawn": "eslint"
         },
         {
-          "spawn": "integ:agents:assert"
+          "spawn": "integ:agents:snapshot"
+        },
+        {
+          "spawn": "integ:chatprompt:snapshot"
         },
         {
           "spawn": "integ:inference-profiles:assert"

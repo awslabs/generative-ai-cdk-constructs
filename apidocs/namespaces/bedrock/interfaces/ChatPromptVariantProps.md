@@ -2,9 +2,9 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / TextPromptVariantProps
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / ChatPromptVariantProps
 
-# Interface: TextPromptVariantProps
+# Interface: ChatPromptVariantProps
 
 ## Extends
 
@@ -17,6 +17,16 @@
 > `readonly` `optional` **inferenceConfiguration**: `PromptModelInferenceConfigurationProperty`
 
 Inference configuration for the Text Prompt
+
+***
+
+### messages
+
+> `readonly` **messages**: [`ChatMessage`](../classes/ChatMessage.md)[]
+
+Inference configuration for the Chat Prompt.
+Must include at least one User Message.
+The messages should alternate between User and Assistant.
 
 ***
 
@@ -33,15 +43,6 @@ model, a custom model, or a provisioned model.
 
 ***
 
-### promptText
-
-> `readonly` **promptText**: `string`
-
-The text prompt. Variables are used by enclosing its name with double curly braces
-as in `{{variable_name}}`.
-
-***
-
 ### promptVariables?
 
 > `readonly` `optional` **promptVariables**: `string`[]
@@ -51,6 +52,22 @@ The variables in the prompt template that can be filled in at runtime.
 #### Inherited from
 
 [`CommonPromptVariantProps`](CommonPromptVariantProps.md).[`promptVariables`](CommonPromptVariantProps.md#promptvariables)
+
+***
+
+### system?
+
+> `readonly` `optional` **system**: `string`
+
+Context or instructions for the model to consider before generating a response.
+
+***
+
+### toolConfiguration?
+
+> `readonly` `optional` **toolConfiguration**: [`ToolConfiguration`](ToolConfiguration.md)
+
+The configuration with available tools to the model and how it must use them.
 
 ***
 

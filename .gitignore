@@ -64,6 +64,15 @@ test/integ/agents.integ.snapshot/manifest.json
 test/integ/agents.integ.snapshot/**/manifest.json
 test/integ/agents.integ.snapshot/tree.json
 test/integ/agents.integ.snapshot/**/tree.json
+test/integ/chatprompt.integ.snapshot/asset.*
+test/integ/chatprompt.integ.snapshot/**/asset.*
+test/integ/chatprompt.integ.snapshot/cdk.out
+test/integ/chatprompt.integ.snapshot/**/cdk.out
+test/integ/chatprompt.integ.snapshot/manifest.json
+test/integ/chatprompt.integ.snapshot/**/manifest.json
+test/integ/chatprompt.integ.snapshot/tree.json
+test/integ/chatprompt.integ.snapshot/**/tree.json
+test/integ/.tmp
 test/integ/inference-profiles.integ.snapshot/asset.*
 test/integ/inference-profiles.integ.snapshot/**/asset.*
 test/integ/inference-profiles.integ.snapshot/cdk.out
@@ -107,6 +116,5 @@ test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-dat
 !/.github/workflows/bandit.yml
 !/.github/workflows/commitlint.yml
 !/.github/workflows/code-generation.yml
-!/.github/dependabot.yml
 !/.projenrc.ts
 !/src/common/props/DockerLambdaCustomProps.ts

@@ -30,6 +30,11 @@
     "integ:aws-llama-index-data-loader:destroy": "npx projen integ:aws-llama-index-data-loader:destroy",
     "integ:aws-llama-index-data-loader:snapshot": "npx projen integ:aws-llama-index-data-loader:snapshot",
     "integ:aws-llama-index-data-loader:watch": "npx projen integ:aws-llama-index-data-loader:watch",
+    "integ:chatprompt:assert": "npx projen integ:chatprompt:assert",
+    "integ:chatprompt:deploy": "npx projen integ:chatprompt:deploy",
+    "integ:chatprompt:destroy": "npx projen integ:chatprompt:destroy",
+    "integ:chatprompt:snapshot": "npx projen integ:chatprompt:snapshot",
+    "integ:chatprompt:watch": "npx projen integ:chatprompt:watch",
     "integ:inference-profiles:assert": "npx projen integ:inference-profiles:assert",
     "integ:inference-profiles:deploy": "npx projen integ:inference-profiles:deploy",
     "integ:inference-profiles:destroy": "npx projen integ:inference-profiles:destroy",
@@ -69,7 +74,7 @@
   },
   "devDependencies": {
     "@aws-cdk/assert": "^2.68.0",
-    "@aws-cdk/integ-tests-alpha": "2.166.0-alpha.0",
+    "@aws-cdk/integ-tests-alpha": "2.174.0-alpha.0",
     "@commitlint/config-conventional": "^18.6.3",
     "@mrgrain/jsii-struct-builder": "^0.7.43",
     "@types/jest": "^29.5.14",
@@ -77,7 +82,7 @@
     "@typescript-eslint/eslint-plugin": "^7",
     "@typescript-eslint/parser": "^7",
     "aws-cdk": "^2",
-    "aws-cdk-lib": "2.166.0",
+    "aws-cdk-lib": "2.174.0",
     "aws-sdk-mock": "^5.9.0",
     "commitlint": "^18.6.1",
     "constructs": "10.3.0",
@@ -98,11 +103,11 @@
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typedoc": "^0.27.6",
-    "typedoc-plugin-markdown": "^4.3.3",
+    "typedoc-plugin-markdown": "^4.4.1",
     "typescript": "^5.7.2"
   },
   "peerDependencies": {
-    "aws-cdk-lib": "^2.166.0",
+    "aws-cdk-lib": "^2.174.0",
     "constructs": "^10.3.0"
   },
   "dependencies": {

@@ -143,6 +143,17 @@ export function buildCustomResourceProvider(props: CRProviderProps): ICRProvider
 
       this.serviceToken = this.provider.serviceToken;
 
+      NagSuppressions.addResourceSuppressions(
+        customResourceFunction,
+        [
+          {
+            id: 'AwsSolutions-L1',
+            reason: 'Lambda runtime version is managed upstream by CDK.',
+          },
+        ],
+        true,
+      );
+
       NagSuppressions.addResourceSuppressionsByPath(
         cdk.Stack.of(this),
         `${this.provider.node.path}/framework-onEvent/Resource`,

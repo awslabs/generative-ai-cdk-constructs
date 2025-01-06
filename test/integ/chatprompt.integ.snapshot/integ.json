@@ -3,7 +3,7 @@
   "testCases": {
     "ServiceTest/DefaultTest": {
       "stacks": [
-        "aws-cdk-aoss-dashboard-integ-test"
+        "aws-cdk-bedrock-chat-prompts-integ-test"
       ],
       "cdkCommandOptions": {
         "destroy": {

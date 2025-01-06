@@ -6,15 +6,14 @@
 
 # bedrock
 
-## Index
-
-### Namespaces
+## Namespaces
 
 - [PIIType](namespaces/PIIType/README.md)
 
-### Enumerations
+## Enumerations
 
 - [AgentStepType](enumerations/AgentStepType.md)
+- [ChatMessageRole](enumerations/ChatMessageRole.md)
 - [ConfluenceDataSourceAuthType](enumerations/ConfluenceDataSourceAuthType.md)
 - [ConfluenceObjectType](enumerations/ConfluenceObjectType.md)
 - [ContentFilterStrength](enumerations/ContentFilterStrength.md)
@@ -34,7 +33,7 @@
 - [SharePointObjectType](enumerations/SharePointObjectType.md)
 - [TransformationStep](enumerations/TransformationStep.md)
 
-### Classes
+## Classes
 
 - [ActionGroupExecutor](classes/ActionGroupExecutor.md)
 - [Agent](classes/Agent.md)
@@ -45,6 +44,7 @@
 - [ApiSchema](classes/ApiSchema.md)
 - [ApplicationInferenceProfile](classes/ApplicationInferenceProfile.md)
 - [BedrockFoundationModel](classes/BedrockFoundationModel.md)
+- [ChatMessage](classes/ChatMessage.md)
 - [ChunkingStrategy](classes/ChunkingStrategy.md)
 - [ConfluenceDataSource](classes/ConfluenceDataSource.md)
 - [CrossRegionInferenceProfile](classes/CrossRegionInferenceProfile.md)
@@ -68,19 +68,22 @@
 - [S3DataSource](classes/S3DataSource.md)
 - [SalesforceDataSource](classes/SalesforceDataSource.md)
 - [SharePointDataSource](classes/SharePointDataSource.md)
+- [ToolChoice](classes/ToolChoice.md)
 - [Topic](classes/Topic.md)
 - [WebCrawlerDataSource](classes/WebCrawlerDataSource.md)
 
-### Interfaces
+## Interfaces
 
 - [AgentActionGroupProps](interfaces/AgentActionGroupProps.md)
 - [AgentAliasAttributes](interfaces/AgentAliasAttributes.md)
 - [AgentAliasProps](interfaces/AgentAliasProps.md)
 - [AgentAttributes](interfaces/AgentAttributes.md)
+- [AgentPromptVariantProps](interfaces/AgentPromptVariantProps.md)
 - [AgentProps](interfaces/AgentProps.md)
 - [ApplicationInferenceProfileAttributes](interfaces/ApplicationInferenceProfileAttributes.md)
 - [ApplicationInferenceProfileProps](interfaces/ApplicationInferenceProfileProps.md)
 - [BedrockFoundationModelProps](interfaces/BedrockFoundationModelProps.md)
+- [ChatPromptVariantProps](interfaces/ChatPromptVariantProps.md)
 - [CommonPromptVariantProps](interfaces/CommonPromptVariantProps.md)
 - [ConfluenceCrawlingFilters](interfaces/ConfluenceCrawlingFilters.md)
 - [ConfluenceDataSourceAssociationProps](interfaces/ConfluenceDataSourceAssociationProps.md)
@@ -124,5 +127,11 @@
 - [SharePointDataSourceAssociationProps](interfaces/SharePointDataSourceAssociationProps.md)
 - [SharePointDataSourceProps](interfaces/SharePointDataSourceProps.md)
 - [TextPromptVariantProps](interfaces/TextPromptVariantProps.md)
+- [ToolConfiguration](interfaces/ToolConfiguration.md)
 - [WebCrawlerDataSourceAssociationProps](interfaces/WebCrawlerDataSourceAssociationProps.md)
 - [WebCrawlerDataSourceProps](interfaces/WebCrawlerDataSourceProps.md)
+
+## Functions
+
+- [validateInferenceConfiguration](functions/validateInferenceConfiguration.md)
+- [validatePromptOverrideConfiguration](functions/validatePromptOverrideConfiguration.md)

@@ -1,0 +1,223 @@
+{
+ "Resources": {
+  "cmk01DE03DA": {
+   "Type": "AWS::KMS::Key",
+   "Properties": {
+    "KeyPolicy": {
+     "Statement": [
+      {
+       "Action": "kms:*",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":root"
+          ]
+         ]
+        }
+       },
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "prompt1Prompt7E73129C": {
+   "Type": "AWS::Bedrock::Prompt",
+   "Properties": {
+    "CustomerEncryptionKeyArn": {
+     "Fn::GetAtt": [
+      "cmk01DE03DA",
+      "Arn"
+     ]
+    },
+    "DefaultVariant": "variant1",
+    "Description": "my first chat prompt",
+    "Name": "prompt-chat",
+    "Variants": [
+     {
+      "InferenceConfiguration": {
+       "Text": {}
+      },
+      "ModelId": {
+       "Fn::Join": [
+        "",
+        [
+         "arn:",
+         {
+          "Ref": "AWS::Partition"
+         },
+         ":bedrock:",
+         {
+          "Ref": "AWS::Region"
+         },
+         "::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+        ]
+       ]
+      },
+      "Name": "variant1",
+      "TemplateConfiguration": {
+       "Chat": {
+        "InputVariables": [
+         {
+          "Name": "language"
+         }
+        ],
+        "Messages": [
+         {
+          "Content": [
+           {
+            "Text": "From now on, you speak Japanese!"
+           }
+          ],
+          "Role": "user"
+         },
+         {
+          "Content": [
+           {
+            "Text": "Konnichiwa!"
+           }
+          ],
+          "Role": "assistant"
+         },
+         {
+          "Content": [
+           {
+            "Text": "From now on, you speak {{language}}!"
+           }
+          ],
+          "Role": "user"
+         }
+        ],
+        "System": [
+         {
+          "Text": "You are a helpful assistant that only speaks the language you`re told."
+         }
+        ],
+        "ToolConfiguration": {
+         "ToolChoice": {
+          "Auto": {}
+         },
+         "Tools": [
+          {
+           "ToolSpec": {
+            "Description": "Get the most popular song played on a radio station.",
+            "InputSchema": {
+             "Json": {
+              "type": "object",
+              "properties": {
+               "sign": {
+                "type": "string",
+                "description": "The call sign for the radio station for which you want the most popular song. Example calls signs are WZPZ and WKR."
+               }
+              },
+              "required": [
+               "sign"
+              ]
+             }
+            },
+            "Name": "top_song"
+           }
+          }
+         ]
+        }
+       }
+      },
+      "TemplateType": "CHAT"
+     }
+    ]
+   }
+  },
+  "prompt2PromptEEA87227": {
+   "Type": "AWS::Bedrock::Prompt",
+   "Properties": {
+    "CustomerEncryptionKeyArn": {
+     "Fn::GetAtt": [
+      "cmk01DE03DA",
+      "Arn"
+     ]
+    },
+    "DefaultVariant": "variant1",
+    "Description": "my first text prompt",
+    "Name": "prompt-text",
+    "Variants": [
+     {
+      "InferenceConfiguration": {
+       "Text": {}
+      },
+      "ModelId": {
+       "Fn::Join": [
+        "",
+        [
+         "arn:",
+         {
+          "Ref": "AWS::Partition"
+         },
+         ":bedrock:",
+         {
+          "Ref": "AWS::Region"
+         },
+         "::foundation-model/anthropic.claude-3-5-sonnet-20240620-v1:0"
+        ]
+       ]
+      },
+      "Name": "variant1",
+      "TemplateConfiguration": {
+       "Text": {
+        "Text": "Hey"
+       }
+      },
+      "TemplateType": "TEXT"
+     }
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
