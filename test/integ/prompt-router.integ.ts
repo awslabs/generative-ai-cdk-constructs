@@ -25,7 +25,7 @@ const stack = new cdk.Stack(app, 'aws-cdk-bedrock-prompt-router-integ-test', {
 const variant = PromptVariant.text({
   variantName: 'variant1',
   promptText: 'What is the capital of France?',
-  model: PromptRouter.fromDefault(DefaultPromptRouterIdentifier.ANTHROPIC_CLAUDE_V1, region),
+  model: PromptRouter.fromDefaultId(DefaultPromptRouterIdentifier.ANTHROPIC_CLAUDE_V1, region),
 });
 
 new Prompt(stack, 'Prompt', {

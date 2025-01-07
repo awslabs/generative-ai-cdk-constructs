@@ -78,7 +78,7 @@ export class DefaultPromptRouterIdentifier {
 }
 
 export class PromptRouter implements IInvokable, IPromptRouter {
-  public static fromDefault(defaultRouter: DefaultPromptRouterIdentifier, region: string) {
+  public static fromDefaultId(defaultRouter: DefaultPromptRouterIdentifier, region: string) {
     return new PromptRouter(defaultRouter, region);
   }
   public readonly promptRouterArn: string;
