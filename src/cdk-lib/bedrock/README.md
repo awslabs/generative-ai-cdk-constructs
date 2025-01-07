@@ -1359,6 +1359,44 @@ const variant2 = PromptVariant.text({
 prompt1.addVariant(variant2);
 ```
 
+### Prompt routing
+
+Amazon Bedrock intelligent prompt routing provides a single serverless endpoint for efficiently routing requests between different foundational models within the same model family.
+It can help you optimize for response quality and cost. They offer a comprehensive solution for managing multiple AI models through a single serverless endpoint, 
+simplifying the process for you. Intelligent prompt routing predicts the performance of each model for each request, and dynamically routes each request to the model 
+that it predicts is most likely to give the desired response at the lowest cost.
+More information about prompt routing in the [documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-routing.html)
+
+**TypeScript**
+
+```ts
+const variant = PromptVariant.text({
+  variantName: 'variant1',
+  promptText: 'What is the capital of France?',
+  model: PromptRouter.fromDefaultId(DefaultPromptRouterIdentifier.ANTHROPIC_CLAUDE_V1, region),
+});
+
+new Prompt(stack, 'Prompt', {
+  promptName: 'prompt-router-test',
+  variants: [variant],
+});
+```
+
+**Python**
+
+```py
+variant = bedrock.PromptVariant.text(
+    variant_name='variant1',
+    prompt_text='What is the capital of France?',
+    model=bedrock.PromptRouter.from_default_id(bedrock.DefaultPromptRouterIdentifier.ANTHROPIC_CLAUDE_V1, region),
+)
+
+bedrock.Prompt(self, 'Prompt',
+    prompt_name='prompt-router-test',
+    variants=[variant],
+)
+```
+
 ### Prompt Version
 
 A prompt version is a snapshot of a prompt at a specific point in time that you

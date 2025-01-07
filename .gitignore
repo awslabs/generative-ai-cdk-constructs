@@ -64,7 +64,6 @@ test/integ/chatprompt.integ.snapshot/manifest.json
 test/integ/chatprompt.integ.snapshot/**/manifest.json
 test/integ/chatprompt.integ.snapshot/tree.json
 test/integ/chatprompt.integ.snapshot/**/tree.json
-test/integ/.tmp
 test/integ/inference-profiles.integ.snapshot/asset.*
 test/integ/inference-profiles.integ.snapshot/**/asset.*
 test/integ/inference-profiles.integ.snapshot/cdk.out
@@ -73,6 +72,15 @@ test/integ/inference-profiles.integ.snapshot/manifest.json
 test/integ/inference-profiles.integ.snapshot/**/manifest.json
 test/integ/inference-profiles.integ.snapshot/tree.json
 test/integ/inference-profiles.integ.snapshot/**/tree.json
+test/integ/.tmp
+test/integ/prompt-router.integ.snapshot/asset.*
+test/integ/prompt-router.integ.snapshot/**/asset.*
+test/integ/prompt-router.integ.snapshot/cdk.out
+test/integ/prompt-router.integ.snapshot/**/cdk.out
+test/integ/prompt-router.integ.snapshot/manifest.json
+test/integ/prompt-router.integ.snapshot/**/manifest.json
+test/integ/prompt-router.integ.snapshot/tree.json
+test/integ/prompt-router.integ.snapshot/**/tree.json
 test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp
 test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/asset.*
 test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/**/asset.*
