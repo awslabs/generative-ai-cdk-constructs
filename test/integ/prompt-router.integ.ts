@@ -12,25 +12,25 @@
  */
 import * as integ from '@aws-cdk/integ-tests-alpha';
 import * as cdk from 'aws-cdk-lib';
-import { Agent, DefaultPromptRouterIdentifier, PromptRouter } from '../../src/cdk-lib/bedrock';
+import { Agent, PromptRouter } from '../../src/cdk-lib/bedrock';
 
 const app = new cdk.App();
 const stack = new cdk.Stack(app, 'aws-cdk-bedrock-prompt-router-integ-test', {
   env: {
-    region: 'us-east-1',
+    region: 'eu-central-1',
   },
 });
 
 new Agent(stack, 'TestAgent-simple', {
   instruction: 'You are a test bot that needs to be very gentle and useful to the user',
-  foundationModel: PromptRouter.fromDefault(DefaultPromptRouterIdentifier.ANTHROPIC_CLAUDE_V1, 'us-east-1'),
+  foundationModel: PromptRouter.ANTHROPIC_CLAUDE_V1,
   name: 'test-agent-simple-pr',
   description: 'test-description',
 });
 
 new Agent(stack, 'TestAgent-simple-2', {
   instruction: 'You are a test bot that needs to be very gentle and useful to the user',
-  foundationModel: PromptRouter.fromDefault(DefaultPromptRouterIdentifier.META_LLAMA_3_1, 'us-east-1'),
+  foundationModel: PromptRouter.ANTHROPIC_CLAUDE_V1,
   name: 'test-agent-simple-pr',
   description: 'test-description',
 });

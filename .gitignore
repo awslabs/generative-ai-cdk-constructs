@@ -57,7 +57,10 @@ junit.xml
 .jsii
 tsconfig.json
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> f02fb96 (chore(bedrock): merge branch)
 test/integ/chatprompt.integ.snapshot/asset.*
 test/integ/chatprompt.integ.snapshot/**/asset.*
 test/integ/chatprompt.integ.snapshot/cdk.out
@@ -67,7 +70,12 @@ test/integ/chatprompt.integ.snapshot/**/manifest.json
 test/integ/chatprompt.integ.snapshot/tree.json
 test/integ/chatprompt.integ.snapshot/**/tree.json
 test/integ/.tmp
+<<<<<<< HEAD
 >>>>>>> c529758 (feat(bedrock): add prompt chat templates (#876))
+=======
+=======
+>>>>>>> f8ec518 (feat(bedrock): add default-prompt router)
+>>>>>>> f02fb96 (chore(bedrock): merge branch)
 test/integ/inference-profiles.integ.snapshot/asset.*
 test/integ/inference-profiles.integ.snapshot/**/asset.*
 test/integ/inference-profiles.integ.snapshot/cdk.out
