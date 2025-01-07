@@ -44,6 +44,25 @@ export enum CrossRegionInferenceProfileRegion {
   APAC = 'apac',
 }
 
+export const REGION_TO_GEO_AREA: { [key: string]: CrossRegionInferenceProfileRegion } = {
+  // US Regions
+  'us-east-1': CrossRegionInferenceProfileRegion.US, // N. Virginia
+  'us-east-2': CrossRegionInferenceProfileRegion.US, // Ohio
+  'us-west-2': CrossRegionInferenceProfileRegion.US, // Oregon
+
+  // EU Regions
+  'eu-central-1': CrossRegionInferenceProfileRegion.EU, // Frankfurt
+  'eu-west-1': CrossRegionInferenceProfileRegion.EU, // Ireland
+  'eu-west-3': CrossRegionInferenceProfileRegion.EU, // Paris
+
+  // APAC Regions
+  'ap-northeast-1': CrossRegionInferenceProfileRegion.APAC, // Tokyo
+  'ap-northeast-2': CrossRegionInferenceProfileRegion.APAC, // Seoul
+  'ap-south-1': CrossRegionInferenceProfileRegion.APAC, // Mumbai
+  'ap-southeast-1': CrossRegionInferenceProfileRegion.APAC, // Singapore
+  'ap-southeast-2': CrossRegionInferenceProfileRegion.APAC, // Sydney
+};
+
 /******************************************************************************
  *                        PROPS FOR NEW CONSTRUCT
  *****************************************************************************/
