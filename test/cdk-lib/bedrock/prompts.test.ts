@@ -16,8 +16,15 @@ import { expect as cdkExpect, haveResource, haveResourceLike } from '@aws-cdk/as
 import * as cdk from 'aws-cdk-lib';
 import { aws_bedrock as cdk_bedrock } from 'aws-cdk-lib';
 import * as kms from 'aws-cdk-lib/aws-kms';
-import { BedrockFoundationModel, CrossRegionInferenceProfile, CrossRegionInferenceProfileRegion } from '../../../src/cdk-lib/bedrock';
-import { Prompt, PromptVariant } from '../../../src/cdk-lib/bedrock/prompts/prompt';
+import {
+  BedrockFoundationModel,
+  ChatMessage,
+  CrossRegionInferenceProfile,
+  CrossRegionInferenceProfileRegion,
+  PromptVariant,
+  Prompt,
+  ToolChoice,
+} from '../../../src/cdk-lib/bedrock';
 
 describe('Prompt', () => {
   let app: cdk.App;
@@ -102,7 +109,7 @@ describe('Prompt', () => {
     );
   });
 
-  test('creates a Prompt with one variant - BedrockFoundationModel', () => {
+  test('creates a Prompt with one TEXT variant - BedrockFoundationModel', () => {
     // GIVEN
     const variant1 = PromptVariant.text({
       variantName: 'variant1',
@@ -146,6 +153,145 @@ describe('Prompt', () => {
               },
             },
             TemplateType: 'TEXT',
+          },
+        ],
+      }),
+    );
+  });
+
+  test('creates a Prompt with one CHAT variant - BedrockFoundationModel', () => {
+    // GIVEN
+    const variant1 = PromptVariant.chat({
+      variantName: 'variantChat',
+      model: BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+      inferenceConfiguration: {
+        temperature: 1.0,
+        topP: 0.999,
+        maxTokens: 2000,
+      },
+      messages: [
+        ChatMessage.user('From now on, you speak Japanese!'),
+        ChatMessage.assistant('Konnichiwa!'),
+        ChatMessage.user('From now on, you speak {{language}}!'),
+      ],
+      system: 'You are a helpful assistant that only speaks the language you`re told.',
+      promptVariables: ['language'],
+      toolConfiguration: {
+        toolChoice: ToolChoice.AUTO,
+        tools: [
+          {
+            toolSpec: {
+              name: 'top_song',
+              description: 'Get the most popular song played on a radio station.',
+              inputSchema: {
+                json: {
+                  type: 'object',
+                  properties: {
+                    sign: {
+                      type: 'string',
+                      description:
+                        'The call sign for the radio station for which you want the most popular song. Example calls signs are WZPZ and WKR.',
+                    },
+                  },
+                  required: ['sign'],
+                },
+              },
+            },
+          },
+        ],
+      },
+    });
+
+    new Prompt(stack, 'prompt1', {
+      promptName: 'promptChat',
+      description: 'my chat prompt',
+      defaultVariant: variant1,
+      variants: [variant1],
+    });
+    // WHEN & THEN
+
+    cdkExpect(stack).to(
+      haveResourceLike('AWS::Bedrock::Prompt', {
+        Name: 'promptChat',
+        Description: 'my chat prompt',
+        DefaultVariant: 'variantChat',
+        Variants: [
+          {
+            InferenceConfiguration: {
+              Text: {
+                MaxTokens: 2000,
+                Temperature: 1,
+                TopP: 0.999,
+              },
+            },
+            Name: 'variantChat',
+            TemplateConfiguration: {
+              Chat: {
+                InputVariables: [
+                  {
+                    Name: 'language',
+                  },
+                ],
+                Messages: [
+                  {
+                    Content: [
+                      {
+                        Text: 'From now on, you speak Japanese!',
+                      },
+                    ],
+                    Role: 'user',
+                  },
+                  {
+                    Content: [
+                      {
+                        Text: 'Konnichiwa!',
+                      },
+                    ],
+                    Role: 'assistant',
+                  },
+                  {
+                    Content: [
+                      {
+                        Text: 'From now on, you speak {{language}}!',
+                      },
+                    ],
+                    Role: 'user',
+                  },
+                ],
+                System: [
+                  {
+                    Text: 'You are a helpful assistant that only speaks the language you`re told.',
+                  },
+                ],
+                ToolConfiguration: {
+                  ToolChoice: {
+                    Auto: {},
+                  },
+                  Tools: [
+                    {
+                      ToolSpec: {
+                        Description: 'Get the most popular song played on a radio station.',
+                        InputSchema: {
+                          Json: {
+                            type: 'object',
+                            properties: {
+                              sign: {
+                                type: 'string',
+                                description:
+                                  'The call sign for the radio station for which you want the most popular song. Example calls signs are WZPZ and WKR.',
+                              },
+                            },
+                            required: ['sign'],
+                          },
+                        },
+                        Name: 'top_song',
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+            TemplateType: 'CHAT',
           },
         ],
       }),
@@ -245,7 +391,7 @@ describe('Prompt', () => {
   // --------------------------------------------------------------------------
   test('throws on invalid prompt variant number', () => {
     //GIVEN
-    const variants = [1, 2, 3, 4].map((id) =>
+    const variants = [1, 2, 3, 4].map(id =>
       PromptVariant.text({
         variantName: `variant${id}`,
         model: BedrockFoundationModel.fromCdkFoundationModelId(

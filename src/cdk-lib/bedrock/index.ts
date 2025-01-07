@@ -22,6 +22,7 @@ export * from './models';
 export * from './default-prompt-routers';
 export * from './prompts/prompt';
 export * from './prompts/prompt-version';
+export * from './prompts/prompt-variant';
 export * from './data-sources/base-data-source';
 export * from './data-sources/chunking';
 export * from './data-sources/parsing';

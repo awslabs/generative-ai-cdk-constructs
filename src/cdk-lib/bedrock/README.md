@@ -53,20 +53,20 @@ Example of `OpenSearch Serverless`:
 TypeScript
 
 ```ts
-import * as s3 from "aws-cdk-lib/aws-s3";
-import { bedrock } from "@cdklabs/generative-ai-cdk-constructs";
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import { bedrock } from '@cdklabs/generative-ai-cdk-constructs';
 
-const kb = new bedrock.KnowledgeBase(this, "KnowledgeBase", {
+const kb = new bedrock.KnowledgeBase(this, 'KnowledgeBase', {
   embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
-  instruction: "Use this knowledge base to answer questions about books. " + "It contains the full text of novels.",
+  instruction: 'Use this knowledge base to answer questions about books. ' + 'It contains the full text of novels.',
 });
 
-const docBucket = new s3.Bucket(this, "DocBucket");
+const docBucket = new s3.Bucket(this, 'DocBucket');
 
-new bedrock.S3DataSource(this, "DataSource", {
+new bedrock.S3DataSource(this, 'DataSource', {
   bucket: docBucket,
   knowledgeBase: kb,
-  dataSourceName: "books",
+  dataSourceName: 'books',
   chunkingStrategy: bedrock.ChunkingStrategy.fixedSize({
     maxTokens: 500,
     overlapPercentage: 20,
@@ -107,27 +107,27 @@ Example of `Amazon RDS Aurora PostgreSQL`:
 TypeScript
 
 ```ts
-import * as s3 from "aws-cdk-lib/aws-s3";
-import { amazonaurora, bedrock } from "@cdklabs/generative-ai-cdk-constructs";
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import { amazonaurora, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
 
 // Dimension of your vector embedding
 embeddingsModelVectorDimension = 1024;
-const auroraDb = new amazonaurora.AmazonAuroraVectorStore(stack, "AuroraDefaultVectorStore", {
+const auroraDb = new amazonaurora.AmazonAuroraVectorStore(stack, 'AuroraDefaultVectorStore', {
   embeddingsModelVectorDimension: embeddingsModelVectorDimension,
 });
 
-const kb = new bedrock.KnowledgeBase(this, "KnowledgeBase", {
+const kb = new bedrock.KnowledgeBase(this, 'KnowledgeBase', {
   vectorStore: auroraDb,
   embeddingsModelVectorDimension: embeddingsModelVectorDimension,
-  instruction: "Use this knowledge base to answer questions about books. " + "It contains the full text of novels.",
+  instruction: 'Use this knowledge base to answer questions about books. ' + 'It contains the full text of novels.',
 });
 
-const docBucket = new s3.Bucket(this, "DocBucket");
+const docBucket = new s3.Bucket(this, 'DocBucket');
 
-new bedrock.S3DataSource(this, "DataSource", {
+new bedrock.S3DataSource(this, 'DataSource', {
   bucket: docBucket,
   knowledgeBase: kb,
-  dataSourceName: "books",
+  dataSourceName: 'books',
   chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
 });
 ```
@@ -292,28 +292,28 @@ Example of `Pinecone` (manual, you must have Pinecone vector store created):
 TypeScript
 
 ```ts
-import * as s3 from "aws-cdk-lib/aws-s3";
-import { pinecone, bedrock } from "@cdklabs/generative-ai-cdk-constructs";
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import { pinecone, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
 
 const pineconeds = new pinecone.PineconeVectorStore({
-  connectionString: "https://your-index-1234567.svc.gcp-starter.pinecone.io",
-  credentialsSecretArn: "arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name",
-  textField: "question",
-  metadataField: "metadata",
+  connectionString: 'https://your-index-1234567.svc.gcp-starter.pinecone.io',
+  credentialsSecretArn: 'arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name',
+  textField: 'question',
+  metadataField: 'metadata',
 });
 
-const kb = new bedrock.KnowledgeBase(this, "KnowledgeBase", {
+const kb = new bedrock.KnowledgeBase(this, 'KnowledgeBase', {
   vectorStore: pineconeds,
   embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
-  instruction: "Use this knowledge base to answer questions about books. " + "It contains the full text of novels.",
+  instruction: 'Use this knowledge base to answer questions about books. ' + 'It contains the full text of novels.',
 });
 
-const docBucket = new s3.Bucket(this, "DocBucket");
+const docBucket = new s3.Bucket(this, 'DocBucket');
 
-new bedrock.S3DataSource(this, "DataSource", {
+new bedrock.S3DataSource(this, 'DataSource', {
   bucket: docBucket,
   knowledgeBase: kb,
-  dataSourceName: "books",
+  dataSourceName: 'books',
   chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
 });
 ```
@@ -377,25 +377,25 @@ Typescript
 
 ```ts
 const app = new cdk.App();
-const stack = new cdk.Stack(app, "aws-cdk-bedrock-data-sources-integ-test");
+const stack = new cdk.Stack(app, 'aws-cdk-bedrock-data-sources-integ-test');
 
-const kb = new KnowledgeBase(stack, "MyKnowledgeBase", {
-  name: "MyKnowledgeBase",
+const kb = new KnowledgeBase(stack, 'MyKnowledgeBase', {
+  name: 'MyKnowledgeBase',
   embeddingsModel: BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
 });
 
-const bucket = new Bucket(stack, "Bucket", {});
-const lambdaFunction = new Function(stack, "MyFunction", {
+const bucket = new Bucket(stack, 'Bucket', {});
+const lambdaFunction = new Function(stack, 'MyFunction', {
   runtime: cdk.aws_lambda.Runtime.PYTHON_3_9,
-  handler: "index.handler",
+  handler: 'index.handler',
   code: cdk.aws_lambda.Code.fromInline('print("Hello, World!")'),
 });
 
-const secret = new Secret(stack, "Secret");
-const key = new Key(stack, "Key");
+const secret = new Secret(stack, 'Secret');
+const key = new Key(stack, 'Key');
 
 kb.addWebCrawlerDataSource({
-  sourceUrls: ["https://docs.aws.amazon.com/"],
+  sourceUrls: ['https://docs.aws.amazon.com/'],
   chunkingStrategy: ChunkingStrategy.HIERARCHICAL_COHERE,
   customTransformation: CustomTransformation.lambda({
     lambdaFunction: lambdaFunction,
@@ -412,59 +412,59 @@ kb.addS3DataSource({
 });
 
 kb.addConfluenceDataSource({
-  dataSourceName: "TestDataSource",
+  dataSourceName: 'TestDataSource',
   authSecret: secret,
   kmsKey: key,
-  confluenceUrl: "https://example.atlassian.net",
+  confluenceUrl: 'https://example.atlassian.net',
   filters: [
     {
       objectType: ConfluenceObjectType.ATTACHMENT,
-      includePatterns: [".*\\.pdf"],
-      excludePatterns: [".*private.*\\.pdf"],
+      includePatterns: ['.*\\.pdf'],
+      excludePatterns: ['.*private.*\\.pdf'],
     },
     {
       objectType: ConfluenceObjectType.PAGE,
-      includePatterns: [".*public.*\\.pdf"],
-      excludePatterns: [".*confidential.*\\.pdf"],
+      includePatterns: ['.*public.*\\.pdf'],
+      excludePatterns: ['.*confidential.*\\.pdf'],
     },
   ],
 });
 
 kb.addSalesforceDataSource({
   authSecret: secret,
-  endpoint: "https://your-instance.my.salesforce.com",
+  endpoint: 'https://your-instance.my.salesforce.com',
   kmsKey: key,
   filters: [
     {
       objectType: SalesforceObjectType.ATTACHMENT,
-      includePatterns: [".*\\.pdf"],
-      excludePatterns: [".*private.*\\.pdf"],
+      includePatterns: ['.*\\.pdf'],
+      excludePatterns: ['.*private.*\\.pdf'],
     },
     {
       objectType: SalesforceObjectType.CONTRACT,
-      includePatterns: [".*public.*\\.pdf"],
-      excludePatterns: [".*confidential.*\\.pdf"],
+      includePatterns: ['.*public.*\\.pdf'],
+      excludePatterns: ['.*confidential.*\\.pdf'],
     },
   ],
 });
 
 kb.addSharePointDataSource({
-  dataSourceName: "SharepointDataSource",
+  dataSourceName: 'SharepointDataSource',
   authSecret: secret,
   kmsKey: key,
-  domain: "yourdomain",
-  siteUrls: ["https://yourdomain.sharepoint.com/sites/mysite"],
-  tenantId: "888d0b57-69f1-4fb8-957f-e1f0bedf64de",
+  domain: 'yourdomain',
+  siteUrls: ['https://yourdomain.sharepoint.com/sites/mysite'],
+  tenantId: '888d0b57-69f1-4fb8-957f-e1f0bedf64de',
   filters: [
     {
       objectType: SharePointObjectType.PAGE,
-      includePatterns: [".*\\.pdf"],
-      excludePatterns: [".*private.*\\.pdf"],
+      includePatterns: ['.*\\.pdf'],
+      excludePatterns: ['.*private.*\\.pdf'],
     },
     {
       objectType: SharePointObjectType.FILE,
-      includePatterns: [".*public.*\\.pdf"],
-      excludePatterns: [".*confidential.*\\.pdf"],
+      includePatterns: ['.*public.*\\.pdf'],
+      excludePatterns: ['.*confidential.*\\.pdf'],
     },
   ],
 });
@@ -778,9 +778,9 @@ The following example creates an Agent with a simple instruction and default pro
 TypeScript
 
 ```ts
-const agent = new bedrock.Agent(this, "Agent", {
+const agent = new bedrock.Agent(this, 'Agent', {
   foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
-  instruction: "You are a helpful and friendly agent that answers questions about literature.",
+  instruction: 'You are a helpful and friendly agent that answers questions about literature.',
 });
 
 agent.addKnowledgeBase(kb);
@@ -810,11 +810,12 @@ const cris = bedrock.CrossRegionInferenceProfile.fromConfig({
 
 const agent = new bedrock.Agent(this, 'Agent', {
   foundationModel: cris,
-  instruction: 'You are a helpful and friendly agent that answers questions about agriculture.'
+  instruction: 'You are a helpful and friendly agent that answers questions about agriculture.',
 });
-
 ```
+
 Python
+
 ```python
 cris = bedrock.CrossRegionInferenceProfile.from_config(
   geo_region= bedrock.CrossRegionInferenceProfileRegion.US,
@@ -836,19 +837,19 @@ For more information on cross region inference, please refer to [System defined 
 An action group defines functions your agent can call. The functions are Lambda functions. The action group uses an OpenAPI schema to tell the agent what your functions do and how to call them.
 
 ```ts
-const actionGroupFunction = new lambda_python.PythonFunction(this, "ActionGroupFunction", {
+const actionGroupFunction = new lambda_python.PythonFunction(this, 'ActionGroupFunction', {
   runtime: lambda.Runtime.PYTHON_3_12,
-  entry: path.join(__dirname, "../lambda/action-group"),
+  entry: path.join(__dirname, '../lambda/action-group'),
 });
 
-const actionGroup = new bedrock.AgentActionGroup(this, "MyActionGroup", {
-  actionGroupName: "query-library",
-  description: "Use these functions to get information about the books in the library.",
+const actionGroup = new bedrock.AgentActionGroup(this, 'MyActionGroup', {
+  actionGroupName: 'query-library',
+  description: 'Use these functions to get information about the books in the library.',
   actionGroupExecutor: {
     lambda: actionGroupFunction,
   },
-  actionGroupState: "ENABLED",
-  apiSchema: bedrock.ApiSchema.fromAsset(path.join(__dirname, "action-group.yaml")),
+  actionGroupState: 'ENABLED',
+  apiSchema: bedrock.ApiSchema.fromAsset(path.join(__dirname, 'action-group.yaml')),
 });
 
 agent.addActionGroup(actionGroup);
@@ -893,25 +894,25 @@ Bedrock Agents allows you to customize the prompts and LLM configuration for its
 TypeScript
 
 ```ts
-import { readFileSync } from "fs";
+import { readFileSync } from 'fs';
 
-const orchestration = readFileSync("prompts/orchestration.txt", "utf-8");
-const agent = new bedrock.Agent(this, "Agent", {
+const orchestration = readFileSync('prompts/orchestration.txt', 'utf-8');
+const agent = new bedrock.Agent(this, 'Agent', {
   foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
-  instruction: "You are a helpful and friendly agent that answers questions about literature.",
+  instruction: 'You are a helpful and friendly agent that answers questions about literature.',
   promptOverrideConfiguration: {
     promptConfigurations: [
       {
         promptType: bedrock.PromptType.PRE_PROCESSING,
         promptState: bedrock.PromptState.DISABLED,
         promptCreationMode: bedrock.PromptCreationMode.OVERRIDDEN,
-        basePromptTemplate: "disabled",
+        basePromptTemplate: 'disabled',
         inferenceConfiguration: {
           temperature: 0.0,
           topP: 1,
           topK: 250,
           maximumLength: 1,
-          stopSequences: ["\n\nHuman:"],
+          stopSequences: ['\n\nHuman:'],
         },
       },
       {
@@ -924,7 +925,7 @@ const agent = new bedrock.Agent(this, "Agent", {
           topP: 1,
           topK: 250,
           maximumLength: 2048,
-          stopSequences: ["</invoke>", "</answer>", "</error>"],
+          stopSequences: ['</invoke>', '</answer>', '</error>'],
         },
       },
     ],
@@ -987,11 +988,11 @@ The `Agent` resource optionally takes an `aliasName` property that, if defined, 
 TypeScript
 
 ```ts
-const agent = new bedrock.Agent(this, "Agent", {
+const agent = new bedrock.Agent(this, 'Agent', {
   foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
-  instruction: "You are a helpful and friendly agent that answers questions about literature.",
+  instruction: 'You are a helpful and friendly agent that answers questions about literature.',
   knowledgeBases: [kb],
-  aliasName: "latest",
+  aliasName: 'latest',
 });
 ```
 
@@ -1016,8 +1017,8 @@ TypeScript
 
 ```ts
 agent.addAlias({
-  aliasName: "prod",
-  agentVersion: "12",
+  aliasName: 'prod',
+  agentVersion: '12',
 });
 ```
 
@@ -1035,10 +1036,10 @@ Alternatively, you can use the `AgentAlias` resource if you want to create an Al
 TypeScript
 
 ```ts
-const alias = new bedrock.AgentAlias(this, "ProdAlias", {
-  agentId: "ABCDE12345",
-  aliasName: "prod",
-  agentVersion: "12",
+const alias = new bedrock.AgentAlias(this, 'ProdAlias', {
+  agentId: 'ABCDE12345',
+  aliasName: 'prod',
+  agentVersion: '12',
 });
 ```
 
@@ -1071,9 +1072,9 @@ You can create a Guardrail with a minimum blockedInputMessaging ,blockedOutputsM
 TypeScript
 
 ```ts
-const guardrails = new bedrock.Guardrail(this, "bedrockGuardrails", {
-  name: "my-BedrockGuardrails",
-  description: "Legal ethical guardrails.",
+const guardrails = new bedrock.Guardrail(this, 'bedrockGuardrails', {
+  name: 'my-BedrockGuardrails',
+  description: 'Legal ethical guardrails.',
 });
 
 // Optional - Add Sensitive information filters
@@ -1084,9 +1085,9 @@ guardrail.addPIIFilter({
 });
 
 guardrail.addRegexFilter({
-  name: "TestRegexFilter",
-  description: "This is a test regex filter",
-  pattern: "/^[A-Z]{2}d{6}$/",
+  name: 'TestRegexFilter',
+  description: 'This is a test regex filter',
+  pattern: '/^[A-Z]{2}d{6}$/',
   action: bedrock.GuardrailAction.ANONYMIZE,
 });
 
@@ -1107,43 +1108,43 @@ guardrail.addContextualGroundingFilter({
 guardrail.addDeniedTopicFilter(Topic.FINANCIAL_ADVICE);
 guardrail.addDeniedTopicFilter(
   Topic.custom({
-    name: "Legal_Advice",
+    name: 'Legal_Advice',
     definition:
-      "Offering guidance or suggestions on legal matters, legal actions, interpretation of laws, or legal rights and responsibilities.",
+      'Offering guidance or suggestions on legal matters, legal actions, interpretation of laws, or legal rights and responsibilities.',
     examples: [
-      "Can I sue someone for this?",
-      "What are my legal rights in this situation?",
-      "Is this action against the law?",
-      "What should I do to file a legal complaint?",
-      "Can you explain this law to me?",
+      'Can I sue someone for this?',
+      'What are my legal rights in this situation?',
+      'Is this action against the law?',
+      'What should I do to file a legal complaint?',
+      'Can you explain this law to me?',
     ],
   })
 );
 
 // Optional - Add Word filters. You can upload words from a file with addWordFilterFromFile function.
-guardrail.addWordFilter("drugs");
+guardrail.addWordFilter('drugs');
 guardrail.addManagedWordListFilter(ManagedWordFilterType.PROFANITY);
-guardrails.addWordFilterFromFile("./scripts/wordsPolicy.csv");
+guardrails.addWordFilterFromFile('./scripts/wordsPolicy.csv');
 
 // versioning - if you change any guardrail configuration, a new version will be created
-guardrails.createVersion("testversion");
+guardrails.createVersion('testversion');
 
 // Importing existing guardrail
-const importedGuardrail = bedrock.Guardrail.fromGuardrailAttributes(stack, "TestGuardrail", {
-  guardrailArn: "arn:aws:bedrock:us-east-1:123456789012:guardrail/oygh3o8g7rtl",
-  guardrailVersion: "1", //optional
+const importedGuardrail = bedrock.Guardrail.fromGuardrailAttributes(stack, 'TestGuardrail', {
+  guardrailArn: 'arn:aws:bedrock:us-east-1:123456789012:guardrail/oygh3o8g7rtl',
+  guardrailVersion: '1', //optional
   kmsKey: kmsKey, //optional
 });
 
 // Importing Guardrails created through the L1 CDK CfnGuardrail construct
-const cfnGuardrail = new CfnGuardrail(this, "MyCfnGuardrail", {
-  blockedInputMessaging: "blockedInputMessaging",
-  blockedOutputsMessaging: "blockedOutputsMessaging",
-  name: "namemycfnguardrails",
+const cfnGuardrail = new CfnGuardrail(this, 'MyCfnGuardrail', {
+  blockedInputMessaging: 'blockedInputMessaging',
+  blockedOutputsMessaging: 'blockedOutputsMessaging',
+  name: 'namemycfnguardrails',
   wordPolicyConfig: {
     wordsConfig: [
       {
-        text: "drugs",
+        text: 'drugs',
       },
     ],
   },
@@ -1246,19 +1247,19 @@ time by applying the same prompt to different workflows. You can include variabl
 adjust the prompt for different use case.
 
 The `Prompt` resource allows you to create a new prompt.
-Example of `Prompt`:
+Example of a basic Text `Prompt`:
 
 **TypeScript**
 
 ```ts
-const cmk = new kms.Key(this, "cmk", {});
+const cmk = new kms.Key(this, 'cmk', {});
 const claudeModel = BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0;
 
 const variant1 = PromptVariant.text({
-  variantName: "variant1",
+  variantName: 'variant1',
   model: claudeModel,
-  promptVariables: ["topic"],
-  promptText: "This is my first text prompt. Please summarize our conversation on: {{topic}}.",
+  promptVariables: ['topic'],
+  promptText: 'This is my first text prompt. Please summarize our conversation on: {{topic}}.',
   inferenceConfiguration: {
     temperature: 1.0,
     topP: 0.999,
@@ -1266,12 +1267,65 @@ const variant1 = PromptVariant.text({
   },
 });
 
-const prompt1 = new Prompt(this, "prompt1", {
-  promptName: "prompt1",
-  description: "my first prompt",
+const prompt1 = new Prompt(this, 'prompt1', {
+  promptName: 'prompt1',
+  description: 'my first prompt',
   defaultVariant: variant1,
   variants: [variant1],
   encryptionKey: cmk,
+});
+```
+
+Example of a "Chat" `Prompt`. Use this template type when the model supports the Converse API or the Anthropic Claude Messages API.
+This allows you to include a System prompt and previous User messages and Assistant messages for context.
+
+**TypeScript**
+
+```ts
+const cmk = new kms.Key(this, 'cmk', {});
+
+const variantChat = PromptVariant.chat({
+  variantName: 'variant1',
+  model: BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+  messages: [
+    ChatMessage.userMessage('From now on, you speak Japanese!'),
+    ChatMessage.assistantMessage('Konnichiwa!'),
+    ChatMessage.userMessage('From now on, you speak {{language}}!'),
+  ],
+  system: 'You are a helpful assistant that only speaks the language you`re told.',
+  promptVariables: ['language'],
+  toolConfiguration: {
+    toolChoice: ToolChoice.AUTO,
+    tools: [
+      {
+        toolSpec: {
+          name: 'top_song',
+          description: 'Get the most popular song played on a radio station.',
+          inputSchema: {
+            json: {
+              type: 'object',
+              properties: {
+                sign: {
+                  type: 'string',
+                  description:
+                    'The call sign for the radio station for which you want the most popular song. Example calls signs are WZPZ and WKR.',
+                },
+              },
+              required: ['sign'],
+            },
+          },
+        },
+      },
+    ],
+  },
+});
+
+new Prompt(stack, 'prompt1', {
+  promptName: 'prompt-chat',
+  description: 'my first chat prompt',
+  defaultVariant: variantChat,
+  variants: [variantChat],
+  kmsKey: cmk,
 });
 ```
 
@@ -1320,27 +1374,27 @@ to update the version whenever a certain configuration property changes.
 **TypeScript**
 
 ```ts
-new PromptVersion(prompt1, "my first version");
+new PromptVersion(prompt1, 'my first version');
 ```
 
 or alternatively:
 
 ```ts
-prompt1.createVersion("my first version");
+prompt1.createVersion('my first version');
 ```
 
 ## System defined inference profiles
 
 You can build a CrossRegionInferenceProfile using a system defined inference profile. The inference profile will route requests to the Regions defined in the cross region (system-defined) inference profile that you choose. You can find the system defined inference profiles by navigating to your console (Amazon Bedrock -> Cross-region inference) or programmatically, for instance using [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/bedrock/client/list_inference_profiles.html).
 
-Before using creating a CrossRegionInferenceProfile, ensure that you have access to the models and regions defined in the inference profiles. For instance, if you see the system defined inference profile "us.anthropic.claude-3-5-sonnet-20241022-v2:0" defined in your region, the table mentions that inference requests will be routed to US East (Virginia) us-east-1, US East (Ohio) us-east-2 and US West (Oregon) us-west-2. Thus, you need to have model access enabled in those regions for the model ```anthropic.claude-3-5-sonnet-20241022-v2:0```. You can then create the CrossRegionInferenceProfile as follows:
+Before using creating a CrossRegionInferenceProfile, ensure that you have access to the models and regions defined in the inference profiles. For instance, if you see the system defined inference profile "us.anthropic.claude-3-5-sonnet-20241022-v2:0" defined in your region, the table mentions that inference requests will be routed to US East (Virginia) us-east-1, US East (Ohio) us-east-2 and US West (Oregon) us-west-2. Thus, you need to have model access enabled in those regions for the model `anthropic.claude-3-5-sonnet-20241022-v2:0`. You can then create the CrossRegionInferenceProfile as follows:
 
 TypeScript
 
 ```ts
 const cris = bedrock.CrossRegionInferenceProfile.fromConfig({
   geoRegion: bedrock.CrossRegionInferenceProfileRegion.US,
-  model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0
+  model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0,
 });
 ```
 
@@ -1360,17 +1414,20 @@ You can create an application inference profile with one or more Regions to trac
 To create an application inference profile for one Region, specify a foundation model. Usage and costs for requests made to that Region with that model will be tracked.
 
 To create an application inference profile for multiple Regions, specify a cross region (system-defined) inference profile. The inference profile will route requests to the Regions defined in the cross region (system-defined) inference profile that you choose. Usage and costs for requests made to the Regions in the inference profile will be tracked. You can find the system defined inference profiles by navigating to your console (Amazon Bedrock -> Cross-region inference) or programmatically, for instance using [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/bedrock/client/list_inference_profiles.html):
+
 ```
 bedrock = session.client("bedrock", region_name="us-east-1")
 bedrock.list_inference_profiles(typeEquals='SYSTEM_DEFINED')
 ```
 
 Before using application inference profiles, ensure that:
+
 - You have appropriate IAM permissions
 - You have access to the models and regions defined in the inference profiles
 - Ensure proper configuration of the required API permissions for inference profile-related actions
 
 Specifically the role you are assuming needs to have permissions for following actions in the IAM policy
+
 ```
 "Action": [
       "bedrock:GetInferenceProfile",
@@ -1381,7 +1438,9 @@ Specifically the role you are assuming needs to have permissions for following a
       "bedrock:ListTagsForResource"
   ]
 ```
+
 You can restrict to specific resources by applying "Resources" tag in the IAM policy.
+
 ```
 "Resource": ["arn:aws:bedrock:*:*:application-inference-profile/*"]
 ```
@@ -1394,18 +1453,18 @@ TypeScript
 const appInfProfile1 = new ApplicationInferenceProfile(this, 'myapplicationprofile', {
   inferenceProfileName: 'claude 3 sonnet v1',
   modelSource: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
-  tags: [{key: 'test', value: 'test'}]
+  tags: [{ key: 'test', value: 'test' }],
 });
 
 // To create an application inference profile across regions, specify the cross region inference profile
 const cris = bedrock.CrossRegionInferenceProfile.fromConfig({
   geoRegion: bedrock.CrossRegionInferenceProfileRegion.US,
-  model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0
+  model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0,
 });
 
 const appInfProfile2 = new ApplicationInferenceProfile(this, 'myapplicationprofile2', {
   inferenceProfileName: 'claude 3 sonnet v1',
-  modelSource: cris
+  modelSource: cris,
 });
 
 // Import a Cfn L1 construct created application inference profile
@@ -1423,7 +1482,6 @@ const appInfProfile4 = bedrock.ApplicationInferenceProfile.fromApplicationInfere
   inferenceProfileArn: 'arn:aws:bedrock:us-east-1:XXXXX:application-inference-profile/ID',
   inferenceProfileIdentifier: 'arn:aws:bedrock:us-east-1:XXXXXXX:application-inference-profile/ID',
 });
-
 ```
 
 Python
@@ -1438,7 +1496,7 @@ appInfProfile1 = bedrock.ApplicationInferenceProfile(self, 'myapplicationprofile
   tags=[CfnTag(
     key="key",
     value="value"
-  )] 
+  )]
 )
 
 # To create an application inference profile across regions, specify the cross region inference profile

@@ -9,6 +9,8 @@
 ## Extended by
 
 - [`TextPromptVariantProps`](TextPromptVariantProps.md)
+- [`ChatPromptVariantProps`](ChatPromptVariantProps.md)
+- [`AgentPromptVariantProps`](AgentPromptVariantProps.md)
 
 ## Properties
 
@@ -18,6 +20,14 @@
 
 The model which is used to run the prompt. The model could be a foundation
 model, a custom model, or a provisioned model.
+
+***
+
+### promptVariables?
+
+> `readonly` `optional` **promptVariables**: `string`[]
+
+The variables in the prompt template that can be filled in at runtime.
 
 ***
 

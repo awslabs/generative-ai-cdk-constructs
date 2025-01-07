@@ -29,11 +29,17 @@ import {
 const GITHUB_USER = 'awslabs';
 const PUBLICATION_NAMESPACE = 'cdklabs';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
-const CDK_VERSION: string = '2.166.0';
+const CDK_VERSION: string = '2.174.0';
 
 function camelCaseIt(input: string): string {
   // Hypens and dashes to spaces and then CamelCase...
-  return input.replace(/-/g, ' ').replace(/_/g, ' ').replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, _) { if (+match === 0) return ''; return match.toUpperCase(); });
+  return input
+    .replace(/-/g, ' ')
+    .replace(/_/g, ' ')
+    .replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, _) {
+      if (+match === 0) return '';
+      return match.toUpperCase();
+    });
 }
 
 const project = new awscdk.AwsCdkConstructLibrary({
@@ -65,14 +71,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
     '@aws-cdk/assert',
     `@aws-cdk/integ-tests-alpha@${CDK_VERSION}-alpha.0`,
   ],
-  deps: [
-    'cdk-nag',
-
-
-  ],
-  bundledDeps: [
-    'deepmerge',
-  ],
+  deps: ['cdk-nag'],
+  bundledDeps: ['deepmerge'],
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
   minNodeVersion: '18.12.0', // 'MAINTENANCE' (first LTS)
   maxNodeVersion: '20.x', // 'CURRENT'
@@ -83,7 +83,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
   publishToPypi: {
     distName: PUBLICATION_NAMESPACE + '.' + PROJECT_NAME,
-    module: (PUBLICATION_NAMESPACE.replace(/-/g, '_')) + '.' + (PROJECT_NAME.replace(/-/g, '_')), // PEP 8, convert hypens
+    module: PUBLICATION_NAMESPACE.replace(/-/g, '_') + '.' + PROJECT_NAME.replace(/-/g, '_'), // PEP 8, convert hypens
     // twineRegistryUrl: '${{ secrets.TWINE_REGISTRY_URL }}',
   },
 
@@ -109,7 +109,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
   githubOptions: {
     pullRequestLintOptions: {
-      contributorStatement: 'By submitting this pull request, I confirm that you can use, modify, copy, and redistribute this contribution, under the terms of the project license.',
+      contributorStatement:
+        'By submitting this pull request, I confirm that you can use, modify, copy, and redistribute this contribution, under the terms of the project license.',
       contributorStatementOptions: {
         exemptUsers: [
           'amazon-auto',
@@ -127,15 +128,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   license: 'Apache-2.0',
   copyrightPeriod: '2023-',
   copyrightOwner: 'Amazon.com, Inc. or its affiliates. All Rights Reserved.',
-  gitignore: [
-    '*.DS_STORE',
-    '!.node-version',
-    '*.pyc',
-    '__pycache__/',
-    '!.ort.yml',
-    '.idea',
-    '.vscode',
-  ],
+  gitignore: ['*.DS_STORE', '!.node-version', '*.pyc', '__pycache__/', '!.ort.yml', '.idea', '.vscode'],
   stability: 'experimental',
   sampleCode: false,
   stale: true,
@@ -164,16 +157,23 @@ if (workflowUpgradeMain) {
 }
 
 // Update Snapshots
-project.upgradeWorkflow?.postUpgradeTask.spawn(
-  project.tasks.tryFind('integ:snapshot-all')!,
-);
+project.upgradeWorkflow?.postUpgradeTask.spawn(project.tasks.tryFind('integ:snapshot-all')!);
 
 // Add specific overrides https://projen.io/docs/integrations/github/#actions-versions
 project.github?.actions.set('actions/checkout@v3', 'actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11'); // https://github.com/projen/projen/issues/3529
 project.github?.actions.set('actions/checkout@v4', 'actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11');
-project.github?.actions.set('actions/download-artifact@v3', 'actions/download-artifact@b4aefff88e83a2676a730654e1ce3dce61880379'); // https://github.com/projen/projen/issues/3529
-project.github?.actions.set('actions/download-artifact@v4', 'actions/download-artifact@b4aefff88e83a2676a730654e1ce3dce61880379');
-project.github?.actions.set('actions/github-script@v6', 'actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410');
+project.github?.actions.set(
+  'actions/download-artifact@v3',
+  'actions/download-artifact@b4aefff88e83a2676a730654e1ce3dce61880379',
+); // https://github.com/projen/projen/issues/3529
+project.github?.actions.set(
+  'actions/download-artifact@v4',
+  'actions/download-artifact@b4aefff88e83a2676a730654e1ce3dce61880379',
+);
+project.github?.actions.set(
+  'actions/github-script@v6',
+  'actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410',
+);
 project.github?.actions.set('actions/setup-dotnet@v3', 'actions/setup-dotnet@4d6c8fcf3c8f7a60068d26b594648e99df24cee3');
 project.github?.actions.set('actions/setup-dotnet@v4', 'actions/setup-dotnet@4d6c8fcf3c8f7a60068d26b594648e99df24cee3');
 project.github?.actions.set('actions/setup-go@v5', 'actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32');
@@ -184,22 +184,67 @@ project.github?.actions.set('actions/setup-python@v5', 'actions/setup-python@82c
 project.github?.actions.set('actions/setup-java@v3', 'actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9');
 project.github?.actions.set('actions/setup-java@v4', 'actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9');
 project.github?.actions.set('actions/stale@v4', 'actions/stale@a20b814fb01b71def3bd6f56e7494d667ddf28da');
-project.github?.actions.set('actions/upload-artifact@v3', 'actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34'); // https://github.com/projen/projen/issues/3529
-project.github?.actions.set('actions/upload-artifact@v4', 'actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34');
-project.github?.actions.set('amannn/action-semantic-pull-request@v5.0.2', 'amannn/action-semantic-pull-request@01d5fd8a8ebb9aafe902c40c53f0f4744f7381eb');
-project.github?.actions.set('amannn/action-semantic-pull-request@v5.4.0', 'amannn/action-semantic-pull-request@e9fabac35e210fea40ca5b14c0da95a099eff26f');
-project.github?.actions.set('aws-github-ops/github-merit-badger@main', 'aws-github-ops/github-merit-badger@70d1c47f7051d6e324d4ddc48d676ba61ef69a3e');
-project.github?.actions.set('codecov/codecov-action@v3', 'codecov/codecov-action@84508663e988701840491b86de86b666e8a86bed'); // https://github.com/projen/projen/issues/3529
-project.github?.actions.set('codecov/codecov-action@v4', 'codecov/codecov-action@84508663e988701840491b86de86b666e8a86bed');
+project.github?.actions.set(
+  'actions/upload-artifact@v3',
+  'actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34',
+); // https://github.com/projen/projen/issues/3529
+project.github?.actions.set(
+  'actions/upload-artifact@v4',
+  'actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34',
+);
+project.github?.actions.set(
+  'amannn/action-semantic-pull-request@v5.0.2',
+  'amannn/action-semantic-pull-request@01d5fd8a8ebb9aafe902c40c53f0f4744f7381eb',
+);
+project.github?.actions.set(
+  'amannn/action-semantic-pull-request@v5.4.0',
+  'amannn/action-semantic-pull-request@e9fabac35e210fea40ca5b14c0da95a099eff26f',
+);
+project.github?.actions.set(
+  'aws-github-ops/github-merit-badger@main',
+  'aws-github-ops/github-merit-badger@70d1c47f7051d6e324d4ddc48d676ba61ef69a3e',
+);
+project.github?.actions.set(
+  'codecov/codecov-action@v3',
+  'codecov/codecov-action@84508663e988701840491b86de86b666e8a86bed',
+); // https://github.com/projen/projen/issues/3529
+project.github?.actions.set(
+  'codecov/codecov-action@v4',
+  'codecov/codecov-action@84508663e988701840491b86de86b666e8a86bed',
+);
 project.github?.actions.set('github/issue-metrics@v2', 'github/issue-metrics@6bc5254e72971dbb7462db077779f1643f772afd');
-project.github?.actions.set('hmarr/auto-approve-action@v4.0.0', 'hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363');
-project.github?.actions.set('minicli/action-contributors@v3.3', 'minicli/action-contributors@20ec03af008cb51110a3137fbf77f59a4fd7ff5a');
-project.github?.actions.set('oss-review-toolkit/ort-ci-github-action@v1', 'oss-review-toolkit/ort-ci-github-action@7f23c1f8d169dad430e41df223d3b8409c7a156e');
-project.github?.actions.set('peter-evans/create-issue-from-file@v4', 'peter-evans/create-issue-from-file@433e51abf769039ee20ba1293a088ca19d573b7f');
-project.github?.actions.set('peter-evans/create-pull-request@v4', 'peter-evans/create-pull-request@38e0b6e68b4c852a5500a94740f0e535e0d7ba54');
-project.github?.actions.set('peter-evans/create-pull-request@v5', 'peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38');
-project.github?.actions.set('peter-evans/create-pull-request@v6', 'peter-evans/create-pull-request@b1ddad2c994a25fbc81a28b3ec0e368bb2021c50');
-project.github?.actions.set('aws-actions/configure-aws-credentials@v4.0.2', 'aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502');
+project.github?.actions.set(
+  'hmarr/auto-approve-action@v4.0.0',
+  'hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363',
+);
+project.github?.actions.set(
+  'minicli/action-contributors@v3.3',
+  'minicli/action-contributors@20ec03af008cb51110a3137fbf77f59a4fd7ff5a',
+);
+project.github?.actions.set(
+  'oss-review-toolkit/ort-ci-github-action@v1',
+  'oss-review-toolkit/ort-ci-github-action@7f23c1f8d169dad430e41df223d3b8409c7a156e',
+);
+project.github?.actions.set(
+  'peter-evans/create-issue-from-file@v4',
+  'peter-evans/create-issue-from-file@433e51abf769039ee20ba1293a088ca19d573b7f',
+);
+project.github?.actions.set(
+  'peter-evans/create-pull-request@v4',
+  'peter-evans/create-pull-request@38e0b6e68b4c852a5500a94740f0e535e0d7ba54',
+);
+project.github?.actions.set(
+  'peter-evans/create-pull-request@v5',
+  'peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38',
+);
+project.github?.actions.set(
+  'peter-evans/create-pull-request@v6',
+  'peter-evans/create-pull-request@b1ddad2c994a25fbc81a28b3ec0e368bb2021c50',
+);
+project.github?.actions.set(
+  'aws-actions/configure-aws-credentials@v4.0.2',
+  'aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502',
+);
 project.github?.actions.set('imjohnbo/issue-bot@v3', 'imjohnbo/issue-bot@3daae12aa54d38685d7ff8459fc8a2aee8cea98b');
 
 // We don't want to package certain things
@@ -240,7 +285,19 @@ project.eslint?.addIgnorePattern('DockerLambdaCustomProps.ts');
 new ProjenStruct(project, { name: 'DockerLambdaCustomProps', filePath: 'src/common/props/DockerLambdaCustomProps.ts' })
   .mixin(Struct.fromFqn('aws-cdk-lib.aws_lambda.DockerImageFunctionProps'))
   .withoutDeprecated()
-  .omit('tracing', 'functionName', 'description', 'role', 'vpc', 'vpcSubnets', 'securityGroups', 'role', 'layers', 'allowPublicSubnet', 'allowAllOutbound');
+  .omit(
+    'tracing',
+    'functionName',
+    'description',
+    'role',
+    'vpc',
+    'vpcSubnets',
+    'securityGroups',
+    'role',
+    'layers',
+    'allowPublicSubnet',
+    'allowAllOutbound',
+  );
 
 const packageJson = project.tryFindObjectFile('package.json');
 packageJson?.patch(JsonPatch.add('/scripts/prepare', 'husky install')); // yarn 1
@@ -274,7 +331,9 @@ project.addTask('generate-models-containers', {
 
 const postCompile = project.tasks.tryFind('post-compile');
 if (postCompile) {
-  postCompile.exec('npx typedoc --plugin typedoc-plugin-markdown --out apidocs --readme none --categoryOrder "Namespaces,Classes,Interfaces,*" --disableSources ./src/index.ts');
+  postCompile.exec(
+    'npx typedoc --plugin typedoc-plugin-markdown --out apidocs --readme none --categoryOrder "Namespaces,Classes,Interfaces,*" --disableSources ./src/index.ts',
+  );
 }
 
 project.synth();

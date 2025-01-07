@@ -22,6 +22,7 @@ dist
 tsconfig.tsbuildinfo
 /.eslintrc.json
 !.jsii
+test/integ/chatprompt.integ.snapshot
 test/integ/inference-profiles.integ.snapshot
 test/integ/.tmp
 test/integ/prompt-router.integ.snapshot
