@@ -1,0 +1,74 @@
+{
+ "Resources": {
+  "PromptAD8A4FD3": {
+   "Type": "AWS::Bedrock::Prompt",
+   "Properties": {
+    "Name": "prompt-router-test",
+    "Variants": [
+     {
+      "InferenceConfiguration": {
+       "Text": {}
+      },
+      "ModelId": {
+       "Fn::Join": [
+        "",
+        [
+         "arn:",
+         {
+          "Ref": "AWS::Partition"
+         },
+         ":bedrock:us-east-1:",
+         {
+          "Ref": "AWS::AccountId"
+         },
+         ":default-prompt-router/anthropic.claude:1"
+        ]
+       ]
+      },
+      "Name": "variant1",
+      "TemplateConfiguration": {
+       "Text": {
+        "Text": "What is the capital of France?"
+       }
+      },
+      "TemplateType": "TEXT"
+     }
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

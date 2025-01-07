@@ -416,6 +416,69 @@
         }
       ]
     },
+    "integ:prompt-router:assert": {
+      "name": "integ:prompt-router:assert",
+      "description": "assert the snapshot of integration test 'prompt-router'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/prompt-router.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'prompt-router'. Run 'projen integ:prompt-router:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/prompt-router.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/prompt-router.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/prompt-router.integ.snapshot/ test/integ/.tmp/prompt-router.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:prompt-router:deploy": {
+      "name": "integ:prompt-router:deploy",
+      "description": "deploy integration test 'prompt-router' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/prompt-router.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/prompt-router.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/prompt-router.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/prompt-router.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/prompt-router.integ/deploy.cdk.out test/integ/prompt-router.integ.snapshot"
+        },
+        {
+          "spawn": "integ:prompt-router:destroy"
+        }
+      ]
+    },
+    "integ:prompt-router:destroy": {
+      "name": "integ:prompt-router:destroy",
+      "description": "destroy integration test 'prompt-router'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/prompt-router.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:prompt-router:snapshot": {
+      "name": "integ:prompt-router:snapshot",
+      "description": "update snapshot for integration test \"prompt-router\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/prompt-router.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/prompt-router.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:prompt-router:watch": {
+      "name": "integ:prompt-router:watch",
+      "description": "watch integration test 'prompt-router' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/prompt-router.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/prompt-router.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:snapshot-all": {
       "name": "integ:snapshot-all",
       "description": "update snapshot for all integration tests",
@@ -425,6 +488,9 @@
         },
         {
           "spawn": "integ:inference-profiles:snapshot"
+        },
+        {
+          "spawn": "integ:prompt-router:snapshot"
         },
         {
           "spawn": "integ:aws-aoss-cw-dashboard:snapshot"
@@ -564,6 +630,9 @@
         },
         {
           "spawn": "integ:inference-profiles:assert"
+        },
+        {
+          "spawn": "integ:prompt-router:assert"
         },
         {
           "spawn": "integ:aws-aoss-cw-dashboard:assert"

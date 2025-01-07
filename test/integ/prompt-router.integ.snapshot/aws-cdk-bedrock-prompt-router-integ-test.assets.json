@@ -1,0 +1,20 @@
+{
+  "version": "39.0.0",
+  "files": {
+    "d234028c8a2b4e7ef7c530e7abc3de36d8f1325a26b3ef033f98d37f8b627ad9": {
+      "source": {
+        "path": "aws-cdk-bedrock-prompt-router-integ-test.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "d234028c8a2b4e7ef7c530e7abc3de36d8f1325a26b3ef033f98d37f8b627ad9.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
