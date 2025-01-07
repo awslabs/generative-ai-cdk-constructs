@@ -197,13 +197,25 @@ The ARN of the Bedrock invokable abstraction.
 
 ***
 
-### META\_LLAMA\_3\_2\_11B\_INSTRUCT\_V1
+### META\_LLAMA\_3\_1\_70B\_INSTRUCT\_V1
 
-> `readonly` `static` **META\_LLAMA\_3\_2\_11B\_INSTRUCT\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+> `readonly` `static` **META\_LLAMA\_3\_1\_70B\_INSTRUCT\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### META\_LLAMA\_3\_1\_8B\_INSTRUCT\_V1
+
+> `readonly` `static` **META\_LLAMA\_3\_1\_8B\_INSTRUCT\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
 
 *************************************************************************
                            META
 *************************************************************************
+
+***
+
+### META\_LLAMA\_3\_2\_11B\_INSTRUCT\_V1
+
+> `readonly` `static` **META\_LLAMA\_3\_2\_11B\_INSTRUCT\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
 
 ***
 

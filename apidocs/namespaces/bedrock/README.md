@@ -52,6 +52,7 @@
 - [DataSource](classes/DataSource.md)
 - [DataSourceBase](classes/DataSourceBase.md)
 - [DataSourceNew](classes/DataSourceNew.md)
+- [DefaultPromptRouterIdentifier](classes/DefaultPromptRouterIdentifier.md)
 - [Guardrail](classes/Guardrail.md)
 - [GuardrailBase](classes/GuardrailBase.md)
 - [InferenceProfileBase](classes/InferenceProfileBase.md)
@@ -60,6 +61,7 @@
 - [ParsingStategy](classes/ParsingStategy.md)
 - [Prompt](classes/Prompt.md)
 - [PromptBase](classes/PromptBase.md)
+- [PromptRouter](classes/PromptRouter.md)
 - [PromptVariant](classes/PromptVariant.md)
 - [PromptVersion](classes/PromptVersion.md)
 - [S3ApiSchema](classes/S3ApiSchema.md)
@@ -106,6 +108,7 @@
 - [IKnowledgeBase](interfaces/IKnowledgeBase.md)
 - [InferenceConfiguration](interfaces/InferenceConfiguration.md)
 - [IPrompt](interfaces/IPrompt.md)
+- [IPromptRouter](interfaces/IPromptRouter.md)
 - [KnowledgeBaseAttributes](interfaces/KnowledgeBaseAttributes.md)
 - [KnowledgeBaseProps](interfaces/KnowledgeBaseProps.md)
 - [LambdaCustomTransformationProps](interfaces/LambdaCustomTransformationProps.md)
@@ -114,6 +117,7 @@
 - [PromptConfiguration](interfaces/PromptConfiguration.md)
 - [PromptOverrideConfiguration](interfaces/PromptOverrideConfiguration.md)
 - [PromptProps](interfaces/PromptProps.md)
+- [PromptRouterProps](interfaces/PromptRouterProps.md)
 - [PromptVersionProps](interfaces/PromptVersionProps.md)
 - [RegexFilter](interfaces/RegexFilter.md)
 - [S3DataSourceAssociationProps](interfaces/S3DataSourceAssociationProps.md)
@@ -129,6 +133,10 @@
 - [ToolConfiguration](interfaces/ToolConfiguration.md)
 - [WebCrawlerDataSourceAssociationProps](interfaces/WebCrawlerDataSourceAssociationProps.md)
 - [WebCrawlerDataSourceProps](interfaces/WebCrawlerDataSourceProps.md)
+
+## Variables
+
+- [REGION\_TO\_GEO\_AREA](variables/REGION_TO_GEO_AREA.md)
 
 ## Functions
 
