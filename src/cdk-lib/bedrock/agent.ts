@@ -20,7 +20,7 @@ import { Construct } from 'constructs';
 import { AgentActionGroup } from './agent-action-group';
 import { AgentAlias } from './agent-alias';
 import { IGuardrail } from './guardrails/guardrails';
-import { KnowledgeBase } from './knowledge-base';
+import { IKnowledgeBase } from './knowledge-bases/knowledge-base';
 import { IInvokable } from './models';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 
@@ -241,7 +241,7 @@ export interface AgentProps {
    *
    * @default - No knowledge base is used.
    */
-  readonly knowledgeBases?: KnowledgeBase[];
+  readonly knowledgeBases?: IKnowledgeBase[];
   /**
    * AgentActionGroup to make available to the agent.
    *
@@ -423,7 +423,7 @@ export class Agent extends Construct {
               }),
             },
           },
-        }),
+        })
       );
     }
 
@@ -480,7 +480,7 @@ export class Agent extends Construct {
         actionGroupName: 'UserInputAction',
         parentActionGroupSignature: 'AMAZON.UserInput',
         actionGroupState: props.enableUserInput ? 'ENABLED' : 'DISABLED',
-      }),
+      })
     );
   }
 
@@ -501,7 +501,7 @@ export class Agent extends Construct {
   /**
    * Add knowledge bases to the agent.
    */
-  public addKnowledgeBases(knowledgeBases: KnowledgeBase[]) {
+  public addKnowledgeBases(knowledgeBases: IKnowledgeBase[]) {
     for (const kb of knowledgeBases) {
       this.addKnowledgeBase(kb);
     }
@@ -510,11 +510,11 @@ export class Agent extends Construct {
   /**
    * Add knowledge base to the agent.
    */
-  public addKnowledgeBase(knowledgeBase: KnowledgeBase) {
+  public addKnowledgeBase(knowledgeBase: IKnowledgeBase, enabled: boolean = true) {
     if (!knowledgeBase.instruction) {
       throw new Error('Agent Knowledge Bases require instructions.');
     }
-    new iam.Policy(this, `AgentKBPolicy-${knowledgeBase.name}`, {
+    new iam.Policy(this, `AgentKBPolicy-${knowledgeBase.knowledgeBaseId}`, {
       roles: [this.role],
       statements: [
         new iam.PolicyStatement({
@@ -526,7 +526,7 @@ export class Agent extends Construct {
     const agentKnowledgeBaseProperty: bedrock.CfnAgent.AgentKnowledgeBaseProperty = {
       description: knowledgeBase.instruction, // known issue: wrong parameter mapping in Cfn. Workaround: pass instruction through description
       knowledgeBaseId: knowledgeBase.knowledgeBaseId,
-      knowledgeBaseState: knowledgeBase.knowledgeBaseState,
+      knowledgeBaseState: enabled ? 'ENABLED' : 'DISABLED',
     };
 
     if (!this.agentInstance.knowledgeBases || !Array.isArray(this.agentInstance.knowledgeBases)) {
@@ -632,7 +632,7 @@ export function validateInferenceConfiguration(inferenceConfiguration: Inference
  * @internal This is an internal core function and should not be called directly.
  */
 export function validatePromptOverrideConfiguration(
-  promptOverrideConfiguration: PromptOverrideConfiguration | undefined,
+  promptOverrideConfiguration: PromptOverrideConfiguration | undefined
 ) {
   if (!promptOverrideConfiguration) {
     return;
@@ -640,24 +640,24 @@ export function validatePromptOverrideConfiguration(
 
   if (
     promptOverrideConfiguration.overrideLambda &&
-    promptOverrideConfiguration.promptConfigurations.some((pc) => pc.parserMode !== ParserMode.OVERRIDDEN)
+    promptOverrideConfiguration.promptConfigurations.some(pc => pc.parserMode !== ParserMode.OVERRIDDEN)
   ) {
     throw new Error(
-      'overrideLambda can only be used if all promptConfigurations have a parserMode value of OVERRIDDEN',
+      'overrideLambda can only be used if all promptConfigurations have a parserMode value of OVERRIDDEN'
     );
   }
 
   if (
     !promptOverrideConfiguration.overrideLambda &&
-    promptOverrideConfiguration.promptConfigurations.some((pc) => pc.parserMode === ParserMode.OVERRIDDEN)
+    promptOverrideConfiguration.promptConfigurations.some(pc => pc.parserMode === ParserMode.OVERRIDDEN)
   ) {
     throw new Error(
-      'At least one promptConfiguration has a parserMode value of OVERRIDDEN, but no overrideLambda is specified',
+      'At least one promptConfiguration has a parserMode value of OVERRIDDEN, but no overrideLambda is specified'
     );
   }
 
   // check inferenceConfiguration number types
-  Object.values(promptOverrideConfiguration.promptConfigurations).forEach((pc) => {
+  Object.values(promptOverrideConfiguration.promptConfigurations).forEach(pc => {
     validateInferenceConfiguration(pc.inferenceConfiguration);
   });
 

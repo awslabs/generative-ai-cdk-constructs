@@ -11,7 +11,8 @@
  *  and limitations under the License.
  */
 
-export * from './knowledge-base';
+export * from './knowledge-bases/knowledge-base';
+export * from './knowledge-bases/kendra-knowledge-base';
 export * from './agent';
 export * from './agent-alias';
 export * from './agent-action-group';

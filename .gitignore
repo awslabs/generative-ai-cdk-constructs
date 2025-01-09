@@ -72,6 +72,14 @@ test/integ/inference-profiles.integ.snapshot/manifest.json
 test/integ/inference-profiles.integ.snapshot/**/manifest.json
 test/integ/inference-profiles.integ.snapshot/tree.json
 test/integ/inference-profiles.integ.snapshot/**/tree.json
+test/integ/kendra.integ.snapshot/asset.*
+test/integ/kendra.integ.snapshot/**/asset.*
+test/integ/kendra.integ.snapshot/cdk.out
+test/integ/kendra.integ.snapshot/**/cdk.out
+test/integ/kendra.integ.snapshot/manifest.json
+test/integ/kendra.integ.snapshot/**/manifest.json
+test/integ/kendra.integ.snapshot/tree.json
+test/integ/kendra.integ.snapshot/**/tree.json
 test/integ/.tmp
 test/integ/prompt-router.integ.snapshot/asset.*
 test/integ/prompt-router.integ.snapshot/**/asset.*

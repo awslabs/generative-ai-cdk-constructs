@@ -416,6 +416,69 @@
         }
       ]
     },
+    "integ:kendra:assert": {
+      "name": "integ:kendra:assert",
+      "description": "assert the snapshot of integration test 'kendra'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/kendra.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'kendra'. Run 'projen integ:kendra:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/kendra.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/kendra.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/kendra.integ.snapshot/ test/integ/.tmp/kendra.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:kendra:deploy": {
+      "name": "integ:kendra:deploy",
+      "description": "deploy integration test 'kendra' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/kendra.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/kendra.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/kendra.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/kendra.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/kendra.integ/deploy.cdk.out test/integ/kendra.integ.snapshot"
+        },
+        {
+          "spawn": "integ:kendra:destroy"
+        }
+      ]
+    },
+    "integ:kendra:destroy": {
+      "name": "integ:kendra:destroy",
+      "description": "destroy integration test 'kendra'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/kendra.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:kendra:snapshot": {
+      "name": "integ:kendra:snapshot",
+      "description": "update snapshot for integration test \"kendra\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/kendra.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/kendra.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:kendra:watch": {
+      "name": "integ:kendra:watch",
+      "description": "watch integration test 'kendra' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/kendra.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/kendra.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:prompt-router:assert": {
       "name": "integ:prompt-router:assert",
       "description": "assert the snapshot of integration test 'prompt-router'",
@@ -488,6 +551,9 @@
         },
         {
           "spawn": "integ:inference-profiles:snapshot"
+        },
+        {
+          "spawn": "integ:kendra:snapshot"
         },
         {
           "spawn": "integ:prompt-router:snapshot"
@@ -630,6 +696,9 @@
         },
         {
           "spawn": "integ:inference-profiles:assert"
+        },
+        {
+          "spawn": "integ:kendra:assert"
         },
         {
           "spawn": "integ:prompt-router:assert"
