@@ -40,14 +40,23 @@ export interface IGuardrail extends IResource {
    */
   readonly guardrailId: string;
   /**
+   * Optional KMS encryption key associated with this guardrail
+   */
+  readonly kmsKey?: IKey;
+  /**
+   * When this guardrail was last updated.
+   */
+  readonly lastUpdated?: string;
+  /**
    * The version of the guardrail. If no explicit version is created,
    * this will default to "DRAFT"
    */
   guardrailVersion: string;
   /**
-   * Optional KMS encryption key associated with this guardrail
+   * Grant the given principal identity permissions to perform actions on this guardrail.
    */
-  readonly kmsKey?: IKey;
+  grant(grantee: iam.IGrantable, ...actions: string[]): iam.Grant;
+
   /**
    * Grant the given identity permissions to apply the guardrail.
    */
@@ -76,15 +85,34 @@ export abstract class GuardrailBase extends Resource implements IGuardrail {
    */
   public abstract readonly kmsKey?: IKey;
   /**
+   * When this guardrail was last updated
+   */
+  public abstract readonly lastUpdated?: string;
+  /**
+   * Grant the given principal identity permissions to perform actions on this agent alias.
+   */
+  public grant(grantee: iam.IGrantable, ...actions: string[]) {
+    return iam.Grant.addToPrincipal({
+      grantee,
+      actions,
+      resourceArns: [this.guardrailArn],
+      scope: this,
+    });
+  }
+  /**
    * Grant the given identity permissions to apply the guardrail.
    */
   public grantApply(grantee: iam.IGrantable): iam.Grant {
-    return iam.Grant.addToPrincipal({
-      grantee,
-      resourceArns: [this.guardrailArn],
-      actions: ['bedrock:ApplyGuardrail'],
-      scope: this,
-    });
+    const baseGrant = this.grant(grantee, 'bedrock:ApplyGuardrail');
+
+    if (this.kmsKey) {
+      // If KMS key exists, create encryption grant and combine with base grant
+      const kmsGrant = this.kmsKey.grantEncryptDecrypt(grantee);
+      return kmsGrant.combine(baseGrant);
+    } else {
+      // If no KMS key exists, return only the base grant
+      return baseGrant;
+    }
   }
 }
 
@@ -180,6 +208,7 @@ export interface GuardrailAttributes {
  *****************************************************************************/
 /**
  * Class to create a Guardrail with CDK.
+ * @cloudformationResource AWS::Bedrock::Guardrail
  */
 export class Guardrail extends GuardrailBase {
   /**
@@ -191,6 +220,7 @@ export class Guardrail extends GuardrailBase {
       public readonly guardrailId = Arn.split(attrs.guardrailArn, ArnFormat.SLASH_RESOURCE_NAME).resourceName!;
       public readonly guardrailVersion = attrs.guardrailVersion ?? 'DRAFT';
       public readonly kmsKey = attrs.kmsKey;
+      public readonly lastUpdated = undefined;
     }
 
     return new Import(scope, id);
@@ -207,6 +237,7 @@ export class Guardrail extends GuardrailBase {
       public readonly kmsKey = cfnGuardrail.kmsKeyArn
         ? Key.fromKeyArn(this, '@FromCfnGuardrailKey', cfnGuardrail.kmsKeyArn)
         : undefined;
+      public readonly lastUpdated = cfnGuardrail.attrUpdatedAt;
     })(cfnGuardrail, '@FromCfnGuardrail');
   }
 
@@ -266,6 +297,10 @@ export class Guardrail extends GuardrailBase {
    */
   public readonly managedWordListFilters: filters.ManagedWordFilterType[];
   /**
+   * When this guardrail was last updated
+   */
+  public readonly lastUpdated?: string;
+  /**
    * The computed hash of the guardrail properties.
    */
   public readonly hash: string;
@@ -322,6 +357,7 @@ export class Guardrail extends GuardrailBase {
     this.guardrailId = this.__resource.attrGuardrailId;
     this.guardrailArn = this.__resource.attrGuardrailArn;
     this.guardrailVersion = this.__resource.attrVersion;
+    this.lastUpdated = this.__resource.attrUpdatedAt;
   }
 
   // ------------------------------------------------------

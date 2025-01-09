@@ -35,6 +35,11 @@
     "integ:inference-profiles:destroy": "npx projen integ:inference-profiles:destroy",
     "integ:inference-profiles:snapshot": "npx projen integ:inference-profiles:snapshot",
     "integ:inference-profiles:watch": "npx projen integ:inference-profiles:watch",
+    "integ:issue747:assert": "npx projen integ:issue747:assert",
+    "integ:issue747:deploy": "npx projen integ:issue747:deploy",
+    "integ:issue747:destroy": "npx projen integ:issue747:destroy",
+    "integ:issue747:snapshot": "npx projen integ:issue747:snapshot",
+    "integ:issue747:watch": "npx projen integ:issue747:watch",
     "integ:prompt-router:assert": "npx projen integ:prompt-router:assert",
     "integ:prompt-router:deploy": "npx projen integ:prompt-router:deploy",
     "integ:prompt-router:destroy": "npx projen integ:prompt-router:destroy",
@@ -100,7 +105,7 @@
     "ts-node": "^10.9.2",
     "typedoc": "^0.27.6",
     "typedoc-plugin-markdown": "^4.4.1",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.3"
   },
   "peerDependencies": {
     "aws-cdk-lib": "^2.174.1",

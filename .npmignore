@@ -24,6 +24,7 @@ tsconfig.tsbuildinfo
 !.jsii
 test/integ/chatprompt.integ.snapshot
 test/integ/inference-profiles.integ.snapshot
+test/integ/issue747.integ.snapshot
 test/integ/.tmp
 test/integ/prompt-router.integ.snapshot
 test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp

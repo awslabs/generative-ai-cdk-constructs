@@ -14,6 +14,14 @@ Represents a Knowledge Base, either created with CDK or imported.
 
 ## Properties
 
+### description?
+
+> `readonly` `optional` **description**: `string`
+
+A description of the knowledge base.
+
+***
+
 ### env
 
 > `readonly` **env**: `ResourceEnvironment`
@@ -29,6 +37,15 @@ that might be different than the stack they were imported into.
 #### Inherited from
 
 `IResource.env`
+
+***
+
+### instruction?
+
+> `readonly` `optional` **instruction**: `string`
+
+Instructions for agents based on the design and type of information of the
+Knowledge Base. This will impact how Agents interact with the Knowledge Base.
 
 ***
 
@@ -209,3 +226,84 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 #### Inherited from
 
 `IResource.applyRemovalPolicy`
+
+***
+
+### grant()
+
+> **grant**(`grantee`, ...`actions`): `Grant`
+
+Grant the given principal identity permissions to perform actions on this knowledge base.
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+##### actions
+
+...`string`[]
+
+#### Returns
+
+`Grant`
+
+***
+
+### grantQuery()
+
+> **grantQuery**(`grantee`): `Grant`
+
+Grant the given identity permissions to query the knowledge base.
+This contains:
+- Retrieve
+- RetrieveAndGenerate
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+The principal to grant permissions to
+
+#### Returns
+
+`Grant`
+
+***
+
+### grantRetrieve()
+
+> **grantRetrieve**(`grantee`): `Grant`
+
+Grant the given identity permissions to retrieve content from the knowledge base.
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+#### Returns
+
+`Grant`
+
+***
+
+### grantRetrieveAndGenerate()
+
+> **grantRetrieveAndGenerate**(`grantee`): `Grant`
+
+Grant the given identity permissions to retrieve content from the knowledge base.
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+#### Returns
+
+`Grant`
