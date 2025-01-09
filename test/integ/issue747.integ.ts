@@ -44,7 +44,7 @@ const actionGroupFunction = new Function(stack, 'ActionGroupFunction', {
   `),
 });
 
-const actionGroup = new bedrock.ActionGroup({
+const actionGroup = new bedrock.AgentActionGroup({
   name: 'my-ag',
   description: 'my action group',
   executor: bedrock.ActionGroupExecutor.fromlambdaFunction(actionGroupFunction),

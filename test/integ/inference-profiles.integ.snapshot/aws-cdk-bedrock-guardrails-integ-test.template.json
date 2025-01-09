@@ -84,13 +84,13 @@
    "Properties": {
     "ActionGroups": [
      {
-      "ActionGroupName": "AMAZONUserInput",
+      "ActionGroupName": "UserInputAction",
       "ActionGroupState": "DISABLED",
       "ParentActionGroupSignature": "AMAZON.UserInput",
       "SkipResourceInUseCheckOnDelete": false
      },
      {
-      "ActionGroupName": "AMAZONCodeInterpreter",
+      "ActionGroupName": "CodeInterpreterAction",
       "ActionGroupState": "DISABLED",
       "ParentActionGroupSignature": "AMAZON.CodeInterpreter",
       "SkipResourceInUseCheckOnDelete": false
@@ -233,13 +233,13 @@
    "Properties": {
     "ActionGroups": [
      {
-      "ActionGroupName": "AMAZONUserInput",
+      "ActionGroupName": "UserInputAction",
       "ActionGroupState": "DISABLED",
       "ParentActionGroupSignature": "AMAZON.UserInput",
       "SkipResourceInUseCheckOnDelete": false
      },
      {
-      "ActionGroupName": "AMAZONCodeInterpreter",
+      "ActionGroupName": "CodeInterpreterAction",
       "ActionGroupState": "DISABLED",
       "ParentActionGroupSignature": "AMAZON.CodeInterpreter",
       "SkipResourceInUseCheckOnDelete": false
@@ -433,13 +433,13 @@
    "Properties": {
     "ActionGroups": [
      {
-      "ActionGroupName": "AMAZONUserInput",
+      "ActionGroupName": "UserInputAction",
       "ActionGroupState": "DISABLED",
       "ParentActionGroupSignature": "AMAZON.UserInput",
       "SkipResourceInUseCheckOnDelete": false
      },
      {
-      "ActionGroupName": "AMAZONCodeInterpreter",
+      "ActionGroupName": "CodeInterpreterAction",
       "ActionGroupState": "DISABLED",
       "ParentActionGroupSignature": "AMAZON.CodeInterpreter",
       "SkipResourceInUseCheckOnDelete": false

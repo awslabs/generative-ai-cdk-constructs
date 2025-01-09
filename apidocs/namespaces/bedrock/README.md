@@ -117,9 +117,9 @@
 - [PIIFilter](interfaces/PIIFilter.md)
 - [PromptAttributes](interfaces/PromptAttributes.md)
 - [PromptProps](interfaces/PromptProps.md)
+- [PromptRouterProps](interfaces/PromptRouterProps.md)
 - [PromptStepConfiguration](interfaces/PromptStepConfiguration.md)
 - [PromptStepConfigurationCustomParser](interfaces/PromptStepConfigurationCustomParser.md)
-- [PromptRouterProps](interfaces/PromptRouterProps.md)
 - [PromptVersionProps](interfaces/PromptVersionProps.md)
 - [RegexFilter](interfaces/RegexFilter.md)
 - [S3DataSourceAssociationProps](interfaces/S3DataSourceAssociationProps.md)
@@ -138,8 +138,3 @@
 ## Variables
 
 - [REGION\_TO\_GEO\_AREA](variables/REGION_TO_GEO_AREA.md)
-
-## Functions
-
-- [validateInferenceConfiguration](functions/validateInferenceConfiguration.md)
-- [validatePromptOverrideConfiguration](functions/validatePromptOverrideConfiguration.md)
