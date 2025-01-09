@@ -64,10 +64,8 @@ do not include this property as it will throw error.
 
 > `readonly` `optional` **instruction**: `string`
 
-A narrative description of the knowledge base.
-
-A Bedrock Agent can use this instruction to determine if it should
-query this Knowledge Base.
+Instructions for agents based on the design and type of information of the
+Knowledge Base. This will impact how Agents interact with the Knowledge Base.
 
 #### Default
 

@@ -7,13 +7,6 @@
      "Statement": [
       {
        "Action": "sts:AssumeRole",
-       "Effect": "Allow",
-       "Principal": {
-        "Service": "bedrock.amazonaws.com"
-       }
-      },
-      {
-       "Action": "sts:AssumeRole",
        "Condition": {
         "StringEquals": {
          "aws:SourceAccount": {
@@ -86,7 +79,7 @@
     ]
    }
   },
-  "TestAgentsimpleAgentAACF0DC1": {
+  "TestAgentsimpleAgentResource61EBCBFA": {
    "Type": "AWS::Bedrock::Agent",
    "Properties": {
     "ActionGroups": [
@@ -94,6 +87,12 @@
       "ActionGroupName": "UserInputAction",
       "ActionGroupState": "DISABLED",
       "ParentActionGroupSignature": "AMAZON.UserInput",
+      "SkipResourceInUseCheckOnDelete": false
+     },
+     {
+      "ActionGroupName": "CodeInterpreterAction",
+      "ActionGroupState": "DISABLED",
+      "ParentActionGroupSignature": "AMAZON.CodeInterpreter",
       "SkipResourceInUseCheckOnDelete": false
      }
     ],
@@ -104,6 +103,7 @@
       "Arn"
      ]
     },
+    "AutoPrepare": false,
     "Description": "test-description",
     "FoundationModel": {
      "Fn::Join": [
@@ -121,7 +121,9 @@
       ]
      ]
     },
-    "Instruction": "You are a test bot that needs to be very gentle and useful to the user"
+    "IdleSessionTTLInSeconds": 3600,
+    "Instruction": "You are a test bot that needs to be very gentle and useful to the user",
+    "SkipResourceInUseCheckOnDelete": false
    }
   },
   "TestAgentcrisRole15797E3B": {
@@ -129,13 +131,6 @@
    "Properties": {
     "AssumeRolePolicyDocument": {
      "Statement": [
-      {
-       "Action": "sts:AssumeRole",
-       "Effect": "Allow",
-       "Principal": {
-        "Service": "bedrock.amazonaws.com"
-       }
-      },
       {
        "Action": "sts:AssumeRole",
        "Condition": {
@@ -233,7 +228,7 @@
     ]
    }
   },
-  "TestAgentcrisAgent395215F9": {
+  "TestAgentcrisAgentResourceA54D4A24": {
    "Type": "AWS::Bedrock::Agent",
    "Properties": {
     "ActionGroups": [
@@ -241,6 +236,12 @@
       "ActionGroupName": "UserInputAction",
       "ActionGroupState": "DISABLED",
       "ParentActionGroupSignature": "AMAZON.UserInput",
+      "SkipResourceInUseCheckOnDelete": false
+     },
+     {
+      "ActionGroupName": "CodeInterpreterAction",
+      "ActionGroupState": "DISABLED",
+      "ParentActionGroupSignature": "AMAZON.CodeInterpreter",
       "SkipResourceInUseCheckOnDelete": false
      }
     ],
@@ -251,6 +252,7 @@
       "Arn"
      ]
     },
+    "AutoPrepare": false,
     "Description": "test-description",
     "FoundationModel": {
      "Fn::Join": [
@@ -272,7 +274,9 @@
       ]
      ]
     },
-    "Instruction": "You are a test bot that needs to be very gentle and useful to the user"
+    "IdleSessionTTLInSeconds": 3600,
+    "Instruction": "You are a test bot that needs to be very gentle and useful to the user",
+    "SkipResourceInUseCheckOnDelete": false
    }
   },
   "TestAppProfile97C615D8": {
@@ -314,13 +318,6 @@
    "Properties": {
     "AssumeRolePolicyDocument": {
      "Statement": [
-      {
-       "Action": "sts:AssumeRole",
-       "Effect": "Allow",
-       "Principal": {
-        "Service": "bedrock.amazonaws.com"
-       }
-      },
       {
        "Action": "sts:AssumeRole",
        "Condition": {
@@ -431,7 +428,7 @@
     ]
    }
   },
-  "TestAgentaipAgent6B2B1F92": {
+  "TestAgentaipAgentResource884A99CE": {
    "Type": "AWS::Bedrock::Agent",
    "Properties": {
     "ActionGroups": [
@@ -439,6 +436,12 @@
       "ActionGroupName": "UserInputAction",
       "ActionGroupState": "DISABLED",
       "ParentActionGroupSignature": "AMAZON.UserInput",
+      "SkipResourceInUseCheckOnDelete": false
+     },
+     {
+      "ActionGroupName": "CodeInterpreterAction",
+      "ActionGroupState": "DISABLED",
+      "ParentActionGroupSignature": "AMAZON.CodeInterpreter",
       "SkipResourceInUseCheckOnDelete": false
      }
     ],
@@ -449,6 +452,7 @@
       "Arn"
      ]
     },
+    "AutoPrepare": false,
     "Description": "test-description",
     "FoundationModel": {
      "Fn::GetAtt": [
@@ -456,7 +460,9 @@
       "InferenceProfileArn"
      ]
     },
-    "Instruction": "You are a test bot that needs to be very gentle and useful to the user"
+    "IdleSessionTTLInSeconds": 3600,
+    "Instruction": "You are a test bot that needs to be very gentle and useful to the user",
+    "SkipResourceInUseCheckOnDelete": false
    }
   }
  },

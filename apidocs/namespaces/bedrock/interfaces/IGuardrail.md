@@ -81,6 +81,14 @@ Optional KMS encryption key associated with this guardrail
 
 ***
 
+### lastUpdated?
+
+> `readonly` `optional` **lastUpdated**: `string`
+
+When this guardrail was last updated.
+
+***
+
 ### node
 
 > `readonly` **node**: `Node`
@@ -132,6 +140,28 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 #### Inherited from
 
 `IResource.applyRemovalPolicy`
+
+***
+
+### grant()
+
+> **grant**(`grantee`, ...`actions`): `Grant`
+
+Grant the given principal identity permissions to perform actions on this guardrail.
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+##### actions
+
+...`string`[]
+
+#### Returns
+
+`Grant`
 
 ***
 

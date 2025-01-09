@@ -72,6 +72,14 @@ test/integ/inference-profiles.integ.snapshot/manifest.json
 test/integ/inference-profiles.integ.snapshot/**/manifest.json
 test/integ/inference-profiles.integ.snapshot/tree.json
 test/integ/inference-profiles.integ.snapshot/**/tree.json
+test/integ/issue747.integ.snapshot/asset.*
+test/integ/issue747.integ.snapshot/**/asset.*
+test/integ/issue747.integ.snapshot/cdk.out
+test/integ/issue747.integ.snapshot/**/cdk.out
+test/integ/issue747.integ.snapshot/manifest.json
+test/integ/issue747.integ.snapshot/**/manifest.json
+test/integ/issue747.integ.snapshot/tree.json
+test/integ/issue747.integ.snapshot/**/tree.json
 test/integ/.tmp
 test/integ/prompt-router.integ.snapshot/asset.*
 test/integ/prompt-router.integ.snapshot/**/asset.*

@@ -1,0 +1,468 @@
+{
+ "Resources": {
+  "AgentRole9D587F56": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Condition": {
+        "StringEquals": {
+         "aws:SourceAccount": {
+          "Ref": "AWS::AccountId"
+         }
+        },
+        "ArnLike": {
+         "aws:SourceArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":bedrock:eu-central-1:",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":agent/*"
+           ]
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "bedrock.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "RoleName": "AmazonBedrockExecutionRoleForAgents_awscdkbedrgtestAgentCE42F3B2"
+   }
+  },
+  "AgentRoleDefaultPolicyA34CCA36": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "bedrock:InvokeModel",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":bedrock:",
+          {
+           "Ref": "AWS::Region"
+          },
+          "::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ActionGroupFunctionFE14D1CB",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ActionGroupFunctionFE14D1CB",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "AgentRoleDefaultPolicyA34CCA36",
+    "Roles": [
+     {
+      "Ref": "AgentRole9D587F56"
+     }
+    ]
+   }
+  },
+  "AgentAgentResourceD435B430": {
+   "Type": "AWS::Bedrock::Agent",
+   "Properties": {
+    "ActionGroups": [
+     {
+      "ActionGroupName": "UserInputAction",
+      "ActionGroupState": "DISABLED",
+      "ParentActionGroupSignature": "AMAZON.UserInput",
+      "SkipResourceInUseCheckOnDelete": false
+     },
+     {
+      "ActionGroupName": "CodeInterpreterAction",
+      "ActionGroupState": "DISABLED",
+      "ParentActionGroupSignature": "AMAZON.CodeInterpreter",
+      "SkipResourceInUseCheckOnDelete": false
+     },
+     {
+      "ActionGroupExecutor": {
+       "Lambda": {
+        "Fn::GetAtt": [
+         "ActionGroupFunctionFE14D1CB",
+         "Arn"
+        ]
+       }
+      },
+      "ActionGroupName": "my-ag",
+      "ActionGroupState": "ENABLED",
+      "ApiSchema": {
+       "Payload": "openapi: 3.0.3\ninfo:\n  title: Simple API\n  version: 1.0.0\n  description: A minimal API example\nservers:\n  - url: https://api.example.com\npaths:\n  /hello:\n    get:\n      operationId: sayHello\n      description: Returns a hello message\n      responses:\n        '200':\n          description: Successful response\n          content:\n            application/json:\n              schema:\n                type: object\n                properties:\n                  message:\n                    type: string\n                    description: The greeting message\n"
+      },
+      "Description": "my action group",
+      "SkipResourceInUseCheckOnDelete": false
+     }
+    ],
+    "AgentName": "bedrock-agent-awscdkbedrockagentsintegtest-agent-ce42f3b2",
+    "AgentResourceRoleArn": {
+     "Fn::GetAtt": [
+      "AgentRole9D587F56",
+      "Arn"
+     ]
+    },
+    "AutoPrepare": false,
+    "FoundationModel": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":bedrock:",
+       {
+        "Ref": "AWS::Region"
+       },
+       "::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0"
+      ]
+     ]
+    },
+    "IdleSessionTTLInSeconds": 3600,
+    "Instruction": "You are a helpful and friendly agent that answers questions about literature.",
+    "SkipResourceInUseCheckOnDelete": false
+   }
+  },
+  "Agent2Role38FC3F9C": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Condition": {
+        "StringEquals": {
+         "aws:SourceAccount": {
+          "Ref": "AWS::AccountId"
+         }
+        },
+        "ArnLike": {
+         "aws:SourceArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":bedrock:eu-central-1:",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":agent/*"
+           ]
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "bedrock.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "RoleName": "AmazonBedrockExecutionRoleForAgents_awscdkbedrtestAgent279AF7BEA"
+   }
+  },
+  "Agent2RoleDefaultPolicy55328F4A": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "bedrock:InvokeModel",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":bedrock:",
+          {
+           "Ref": "AWS::Region"
+          },
+          "::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ActionGroupFunctionFE14D1CB",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "ActionGroupFunctionFE14D1CB",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "Agent2RoleDefaultPolicy55328F4A",
+    "Roles": [
+     {
+      "Ref": "Agent2Role38FC3F9C"
+     }
+    ]
+   }
+  },
+  "Agent2AgentResource89D2D1CA": {
+   "Type": "AWS::Bedrock::Agent",
+   "Properties": {
+    "ActionGroups": [
+     {
+      "ActionGroupName": "UserInputAction",
+      "ActionGroupState": "DISABLED",
+      "ParentActionGroupSignature": "AMAZON.UserInput",
+      "SkipResourceInUseCheckOnDelete": false
+     },
+     {
+      "ActionGroupName": "CodeInterpreterAction",
+      "ActionGroupState": "DISABLED",
+      "ParentActionGroupSignature": "AMAZON.CodeInterpreter",
+      "SkipResourceInUseCheckOnDelete": false
+     },
+     {
+      "ActionGroupExecutor": {
+       "Lambda": {
+        "Fn::GetAtt": [
+         "ActionGroupFunctionFE14D1CB",
+         "Arn"
+        ]
+       }
+      },
+      "ActionGroupName": "my-ag",
+      "ActionGroupState": "ENABLED",
+      "ApiSchema": {
+       "Payload": "openapi: 3.0.3\ninfo:\n  title: Simple API\n  version: 1.0.0\n  description: A minimal API example\nservers:\n  - url: https://api.example.com\npaths:\n  /hello:\n    get:\n      operationId: sayHello\n      description: Returns a hello message\n      responses:\n        '200':\n          description: Successful response\n          content:\n            application/json:\n              schema:\n                type: object\n                properties:\n                  message:\n                    type: string\n                    description: The greeting message\n"
+      },
+      "Description": "my action group",
+      "SkipResourceInUseCheckOnDelete": false
+     }
+    ],
+    "AgentName": "bedrock-agent-awscdkbedrockagentsintegtest-agent2-79af7bea",
+    "AgentResourceRoleArn": {
+     "Fn::GetAtt": [
+      "Agent2Role38FC3F9C",
+      "Arn"
+     ]
+    },
+    "AutoPrepare": false,
+    "FoundationModel": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":bedrock:",
+       {
+        "Ref": "AWS::Region"
+       },
+       "::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0"
+      ]
+     ]
+    },
+    "IdleSessionTTLInSeconds": 3600,
+    "Instruction": "You are a helpful and friendly agent that answers questions about unicorns.",
+    "SkipResourceInUseCheckOnDelete": false
+   }
+  },
+  "ActionGroupFunctionServiceRole77660D62": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "ActionGroupFunctionFE14D1CB": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "ZipFile": "\n  def lambda_handler(event, context):\n    return {\n      'statusCode': 200,\n      'body': 'Hello from Lambda!'\n    }\n  "
+    },
+    "Handler": "index.lambda_handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "ActionGroupFunctionServiceRole77660D62",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.12"
+   },
+   "DependsOn": [
+    "ActionGroupFunctionServiceRole77660D62"
+   ]
+  },
+  "ActionGroupFunctionLambdaInvocationPolicyc8595f5b11fca83147578F98": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ActionGroupFunctionFE14D1CB",
+      "Arn"
+     ]
+    },
+    "Principal": "bedrock.amazonaws.com",
+    "SourceAccount": {
+     "Ref": "AWS::AccountId"
+    },
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "AgentAgentResourceD435B430",
+      "AgentArn"
+     ]
+    }
+   }
+  },
+  "ActionGroupFunctionLambdaInvocationPolicyc80052228f6f7ce11D9FE2F1": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ActionGroupFunctionFE14D1CB",
+      "Arn"
+     ]
+    },
+    "Principal": "bedrock.amazonaws.com",
+    "SourceAccount": {
+     "Ref": "AWS::AccountId"
+    },
+    "SourceArn": {
+     "Fn::GetAtt": [
+      "Agent2AgentResource89D2D1CA",
+      "AgentArn"
+     ]
+    }
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
