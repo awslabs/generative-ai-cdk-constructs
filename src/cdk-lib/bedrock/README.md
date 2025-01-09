@@ -779,7 +779,7 @@ TypeScript
 
 ```ts
 const agent = new bedrock.Agent(this, 'Agent', {
-  foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+  foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0,
   instruction: 'You are a helpful and friendly agent that answers questions about literature.',
 });
 
@@ -792,7 +792,7 @@ Python
 agent = bedrock.Agent(
     self,
     "Agent",
-    foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+    foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0,
     instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
 )
   agent.add_knowledge_base(kb);
@@ -842,14 +842,12 @@ const actionGroupFunction = new lambda_python.PythonFunction(this, 'ActionGroupF
   entry: path.join(__dirname, '../lambda/action-group'),
 });
 
-const actionGroup = new bedrock.AgentActionGroup(this, 'MyActionGroup', {
-  actionGroupName: 'query-library',
+const actionGroup = new AgentActionGroup({
+  name: 'query-library',
   description: 'Use these functions to get information about the books in the library.',
-  actionGroupExecutor: {
-    lambda: actionGroupFunction,
-  },
-  actionGroupState: 'ENABLED',
-  apiSchema: bedrock.ApiSchema.fromAsset(path.join(__dirname, 'action-group.yaml')),
+  executor: bedrock.ActionGroupExecutor.fromlambdaFunction(actionGroupFunction),
+  enabled: true,
+  apiSchema: bedrock.ApiSchema.fromLocalAsset(path.join(__dirname, 'action-group.yaml')),
 });
 
 agent.addActionGroup(actionGroup);
@@ -870,13 +868,11 @@ action_group_function = PythonFunction(
 
 actionGroup = bedrock.AgentActionGroup(self,
     "MyActionGroup",
-    action_group_name="query-library",
+    name="query-library",
     description="Use these functions to get information about the books in the library.",
-    action_group_executor= bedrock.ActionGroupExecutor(
-      lambda_=action_group_function
-    ),
-    action_group_state="ENABLED",
-    api_schema=bedrock.ApiSchema.from_asset("action-group.yaml"))
+    action_group_executor= bedrock.ActionGroupExecutor.from_lambda_function(action_group_function),
+    enabled=True,
+    api_schema=bedrock.ApiSchema.from_local_asset("action-group.yaml"))
 
 agent.add_action_group(actionGroup)
 ```
@@ -896,41 +892,31 @@ TypeScript
 ```ts
 import { readFileSync } from 'fs';
 
-const orchestration = readFileSync('prompts/orchestration.txt', 'utf-8');
+const file = readFileSync(prompt_path, 'utf-8');
+
 const agent = new bedrock.Agent(this, 'Agent', {
-  foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
-  instruction: 'You are a helpful and friendly agent that answers questions about literature.',
-  promptOverrideConfiguration: {
-    promptConfigurations: [
-      {
-        promptType: bedrock.PromptType.PRE_PROCESSING,
-        promptState: bedrock.PromptState.DISABLED,
-        promptCreationMode: bedrock.PromptCreationMode.OVERRIDDEN,
-        basePromptTemplate: 'disabled',
-        inferenceConfiguration: {
-          temperature: 0.0,
-          topP: 1,
-          topK: 250,
-          maximumLength: 1,
-          stopSequences: ['\n\nHuman:'],
-        },
-      },
-      {
-        promptType: bedrock.PromptType.ORCHESTRATION,
-        basePromptTemplate: orchestration,
-        promptState: bedrock.PromptState.ENABLED,
-        promptCreationMode: bedrock.PromptCreationMode.OVERRIDDEN,
-        inferenceConfiguration: {
-          temperature: 0.0,
-          topP: 1,
-          topK: 250,
-          maximumLength: 2048,
-          stopSequences: ['</invoke>', '</answer>', '</error>'],
-        },
-      },
-    ],
-  },
-});
+      foundationModel: bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
+      instruction: 'You are a helpful and friendly agent that answers questions about literature.',
+      userInputEnabled: true,
+      codeInterpreterEnabled: false,
+      shouldPrepareAgent:true,
+      promptOverrideConfiguration: bedrock.PromptOverrideConfiguration.fromSteps(
+        [
+          {
+            stepType: bedrock.AgentStepType.PRE_PROCESSING,
+            stepEnabled: true,
+            customPromptTemplate: file,
+            inferenceConfig: {
+              temperature: 0.0,
+              topP: 1,
+              topK: 250,
+              maximumLength: 1,
+              stopSequences: ["\n\nHuman:"],
+            },
+          }
+        ]
+      )
+    });
 ```
 
 Python
@@ -940,14 +926,16 @@ orchestration = open('prompts/orchestration.txt', encoding="utf-8").read()
 agent = bedrock.Agent(self, "Agent",
             foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
             instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
-            prompt_override_configuration= bedrock.PromptOverrideConfiguration(
-                prompt_configurations=[
-                    bedrock.PromptConfiguration(
-                        prompt_type=bedrock.PromptType.PRE_PROCESSING,
-                        prompt_state=bedrock.PromptState.DISABLED,
-                        prompt_creation_mode=bedrock.PromptCreationMode.OVERRIDDEN,
-                        base_prompt_template="disabled",
-                        inference_configuration=bedrock.InferenceConfiguration(
+            user_input_enabled=True,
+            code_interpreter_enabled=False,
+            should_prepare_agent=True,
+            prompt_override_configuration= bedrock.PromptOverrideConfiguration.from_steps(
+                steps=[
+                    bedrock.PromptStepConfiguration(
+                        step_type=bedrock.AgentStepType.PRE_PROCESSING,
+                        step_enabled= True,
+                        custom_prompt_template= file,
+                        inference_config=bedrock.InferenceConfiguration(
                             temperature=0.0,
                             top_k=250,
                             top_p=1,
@@ -955,19 +943,6 @@ agent = bedrock.Agent(self, "Agent",
                             stop_sequences=['\n\nHuman:'],
                         )
                     ),
-                    bedrock.PromptConfiguration(
-                        prompt_type=bedrock.PromptType.ORCHESTRATION,
-                        prompt_state=bedrock.PromptState.ENABLED,
-                        prompt_creation_mode=bedrock.PromptCreationMode.OVERRIDDEN,
-                        base_prompt_template=orchestration,
-                        inference_configuration=bedrock.InferenceConfiguration(
-                            temperature=0.0,
-                            top_k=250,
-                            top_p=1,
-                            maximum_length=2048,
-                            stop_sequences=['</invoke>', '</answer>', '</error>'],
-                        )
-                    )
                 ]
             ),
         )
@@ -981,75 +956,29 @@ To deploy your agent, you need to create an alias. During alias creation, Amazon
 
 By default, the `Agent` resource does not create any aliases, and you can use the 'DRAFT' version.
 
-#### Tracking the latest version
-
-The `Agent` resource optionally takes an `aliasName` property that, if defined, will create an Alias that creates a new version on every change.
-
-TypeScript
-
-```ts
-const agent = new bedrock.Agent(this, 'Agent', {
-  foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
-  instruction: 'You are a helpful and friendly agent that answers questions about literature.',
-  knowledgeBases: [kb],
-  aliasName: 'latest',
-});
-```
-
-Python
-
-```python
-agent = bedrock.Agent(
-    self,
-    "Agent",
-    foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
-    instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
-    knowledge_bases= [kb],
-    alias_name='latest'
-)
-```
-
 #### Specific version
 
-Using the `addAlias` method you can create aliases with a specific agent version.
+You can use the `AgentAlias` resource if you want to create an Alias for an existing Agent.
 
 TypeScript
 
 ```ts
-agent.addAlias({
-  aliasName: 'prod',
-  agentVersion: '12',
+const agentAlias2 = new bedrock.AgentAlias(this, 'myalias2', {
+  aliasName: 'myalias',
+  agent: agent,
+  agentVersion: '1', // optional
+  description: 'mytest'
 });
 ```
 
 Python
 
 ```python
-agent.add_alias(
-    alias_name='prod',
-    agent_version='12'
-)
-```
-
-Alternatively, you can use the `AgentAlias` resource if you want to create an Alias for an existing Agent.
-
-TypeScript
-
-```ts
-const alias = new bedrock.AgentAlias(this, 'ProdAlias', {
-  agentId: 'ABCDE12345',
-  aliasName: 'prod',
-  agentVersion: '12',
-});
-```
-
-Python
-
-```python
-alias = bedrock.AgentAlias(self, 'ProdAlias',
-    agent_id='ABCDE12345',
-    alias_name='prod',
-    agent_version='12'
+agent_alias_2 = bedrock.AgentAlias(self, 'myalias2',
+    alias_name='myalias',
+    agent=agent,
+    agent_version='1', # optional
+    description='mytest'
 )
 ```
 
