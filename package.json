@@ -109,7 +109,7 @@
     "ts-node": "^10.9.2",
     "typedoc": "^0.27.6",
     "typedoc-plugin-markdown": "^4.4.1",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.3"
   },
   "peerDependencies": {
     "aws-cdk-lib": "^2.174.1",
