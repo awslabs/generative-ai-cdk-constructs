@@ -10,6 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+
 import { CfnAgent } from 'aws-cdk-lib/aws-bedrock';
 import { IFunction } from 'aws-cdk-lib/aws-lambda';
 import * as validation from '../../../common/helpers/validation-helpers';
