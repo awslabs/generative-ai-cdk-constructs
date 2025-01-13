@@ -10,6 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+
 import { ProjenStruct, Struct } from '@mrgrain/jsii-struct-builder';
 import { JsonPatch, awscdk, ReleasableCommits } from 'projen';
 import { NpmAccess } from 'projen/lib/javascript';
@@ -48,10 +49,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
   authorOrganization: true,
   description: 'AWS Generative AI CDK Constructs is a library for well-architected generative AI patterns.',
   cdkVersion: CDK_VERSION,
-  projenVersion: '~0.84.5',
+  projenVersion: '~0.91.5',
   constructsVersion: '10.3.0',
   defaultReleaseBranch: 'main',
-  jsiiVersion: '~5.4.46',
+  jsiiVersion: '~5.6.0',
   name: '@' + PUBLICATION_NAMESPACE + '/' + PROJECT_NAME,
   projenrcTs: true,
   repositoryUrl: 'https://github.com/' + GITHUB_USER + '/' + PROJECT_NAME,
@@ -61,7 +62,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   devDeps: [
     '@commitlint/config-conventional',
     'commitlint',
-    'eslint-plugin-header',
+    'eslint-plugin-license-header',
     'husky',
     'pinst',
     '@mrgrain/jsii-struct-builder',
@@ -193,6 +194,10 @@ project.github?.actions.set(
   'actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34',
 );
 project.github?.actions.set(
+  'actions/upload-artifact@v4.4.0',
+  'actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874',
+);
+project.github?.actions.set(
   'amannn/action-semantic-pull-request@v5.0.2',
   'amannn/action-semantic-pull-request@01d5fd8a8ebb9aafe902c40c53f0f4744f7381eb',
 );
@@ -272,10 +277,12 @@ project.npmignore?.addPatterns(
 );
 
 // Add License header automatically
-project.eslint?.addPlugins('header');
+project.eslint?.addPlugins('license-header');
 project.eslint?.addRules({
-  'header/header': [2, 'header.js'],
+  'license-header/header': ['error', 'header.js'],
 });
+
+// https://eslint.style/rules/js/space-infix-ops
 project.eslint?.addRules({ 'space-infix-ops': ['error', { int32Hint: false }] });
 
 project.eslint?.addIgnorePattern('AdapterProps.ts');

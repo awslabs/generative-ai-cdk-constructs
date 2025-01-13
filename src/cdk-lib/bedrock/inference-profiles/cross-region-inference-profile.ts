@@ -10,6 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+
 import { Arn, ArnFormat, Aws } from 'aws-cdk-lib';
 import { Grant, IGrantable } from 'aws-cdk-lib/aws-iam';
 import { BedrockFoundationModel, IInvokable } from '../models';

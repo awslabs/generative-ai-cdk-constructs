@@ -10,6 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+
 import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
 import { Aws, Duration, aws_events_targets as eventsTarget } from 'aws-cdk-lib';
