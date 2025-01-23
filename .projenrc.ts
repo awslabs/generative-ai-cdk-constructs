@@ -76,7 +76,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   bundledDeps: ['deepmerge'],
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
   minNodeVersion: '18.12.0', // 'MAINTENANCE' (first LTS)
-  maxNodeVersion: '20.x', // 'CURRENT'
+  maxNodeVersion: '22.x', // 'CURRENT'
   workflowNodeVersion: '20.x', // 'ACTIVE'
 
   npmTokenSecret: 'NPM_TOKEN',
