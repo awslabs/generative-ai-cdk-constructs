@@ -166,7 +166,10 @@
     "IdleSessionTTLInSeconds": 3600,
     "Instruction": "You are a helpful and friendly agent that answers questions about literature.",
     "SkipResourceInUseCheckOnDelete": false
-   }
+   },
+   "DependsOn": [
+    "AgentRoleDefaultPolicyA34CCA36"
+   ]
   },
   "Agent2Role38FC3F9C": {
    "Type": "AWS::IAM::Role",
@@ -334,7 +337,10 @@
     "IdleSessionTTLInSeconds": 3600,
     "Instruction": "You are a helpful and friendly agent that answers questions about unicorns.",
     "SkipResourceInUseCheckOnDelete": false
-   }
+   },
+   "DependsOn": [
+    "Agent2RoleDefaultPolicy55328F4A"
+   ]
   },
   "ActionGroupFunctionServiceRole77660D62": {
    "Type": "AWS::IAM::Role",

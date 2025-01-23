@@ -437,6 +437,13 @@ export class Agent extends AgentBase {
     this.agentArn = this.__resource.attrAgentArn;
     this.agentVersion = this.__resource.attrAgentVersion;
     this.lastUpdated = this.__resource.attrUpdatedAt;
+
+    // Add explicit dependency between the agent resource and the agent's role default policy
+    // See https://github.com/awslabs/generative-ai-cdk-constructs/issues/899
+    if (!props.existingRole) {
+      this.__resource.node.addDependency(this.role.node.findChild('DefaultPolicy'));
+    }
+
     this.testAlias = AgentAlias.fromAttributes(this, 'DefaultAlias', {
       aliasId: 'TSTALIASID',
       aliasName: 'AgentTestAlias',
