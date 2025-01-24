@@ -1,7 +1,7 @@
 {
   "version": "39.0.0",
   "files": {
-    "8371c500cdb7d7db47b783ce965da719cc175fa62f9299c41a60f868691dbe0a": {
+    "fc1142f404eb5443446b22592dc6d75ae8c80055bfb9474da78f4254ae394a4f": {
       "source": {
         "path": "aws-cdk-bedrock-guardrails-integ-test.template.json",
         "packaging": "file"
@@ -9,7 +9,7 @@
       "destinations": {
         "current_account-eu-central-1": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-central-1",
-          "objectKey": "8371c500cdb7d7db47b783ce965da719cc175fa62f9299c41a60f868691dbe0a.json",
+          "objectKey": "fc1142f404eb5443446b22592dc6d75ae8c80055bfb9474da78f4254ae394a4f.json",
           "region": "eu-central-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-eu-central-1"
         }

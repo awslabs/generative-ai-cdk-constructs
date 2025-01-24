@@ -378,8 +378,6 @@ export class Agent extends AgentBase {
           },
         }),
       });
-      // add the appropriate permissions to use the FM
-      this.foundationModel.grantInvoke(this.role);
     }
     // ------------------------------------------------------
     // Set Lazy Props initial values
@@ -437,6 +435,15 @@ export class Agent extends AgentBase {
     this.agentArn = this.__resource.attrAgentArn;
     this.agentVersion = this.__resource.attrAgentVersion;
     this.lastUpdated = this.__resource.attrUpdatedAt;
+
+    // Add explicit dependency between the agent resource and the agent's role default policy
+    // See https://github.com/awslabs/generative-ai-cdk-constructs/issues/899
+    if (!props.existingRole) {
+      // add the appropriate permissions to use the FM
+      const grant = this.foundationModel.grantInvoke(this.role);
+      grant.applyBefore(this.__resource);
+    }
+
     this.testAlias = AgentAlias.fromAttributes(this, 'DefaultAlias', {
       aliasId: 'TSTALIASID',
       aliasName: 'AgentTestAlias',
