@@ -126,7 +126,7 @@
     "generative-ai"
   ],
   "engines": {
-    "node": ">= 18.12.0 <= 20.x"
+    "node": ">= 18.12.0 <= 22.x"
   },
   "main": "lib/index.js",
   "license": "Apache-2.0",
