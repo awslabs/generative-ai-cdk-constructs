@@ -10,7 +10,6 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-
 import * as zlib from 'zlib';
 import * as data from './jumpstart-models.json';
 
@@ -611,9 +610,11 @@ export class JumpStartModel {
   public static readonly HUGGINGFACE_LLM_GEMMA_2_27B_INSTRUCT_1_0_2 = this.of('HUGGINGFACE_LLM_GEMMA_2_27B_INSTRUCT_1_0_2');
   public static readonly HUGGINGFACE_LLM_GEMMA_2_27B_INSTRUCT_1_0_1 = this.of('HUGGINGFACE_LLM_GEMMA_2_27B_INSTRUCT_1_0_1');
   public static readonly HUGGINGFACE_LLM_GEMMA_2_27B_INSTRUCT_1_0_0 = this.of('HUGGINGFACE_LLM_GEMMA_2_27B_INSTRUCT_1_0_0');
+  public static readonly HUGGINGFACE_LLM_GEMMA_2_2B_1_0_3 = this.of('HUGGINGFACE_LLM_GEMMA_2_2B_1_0_3');
   public static readonly HUGGINGFACE_LLM_GEMMA_2_2B_1_0_2 = this.of('HUGGINGFACE_LLM_GEMMA_2_2B_1_0_2');
   public static readonly HUGGINGFACE_LLM_GEMMA_2_2B_1_0_1 = this.of('HUGGINGFACE_LLM_GEMMA_2_2B_1_0_1');
   public static readonly HUGGINGFACE_LLM_GEMMA_2_2B_1_0_0 = this.of('HUGGINGFACE_LLM_GEMMA_2_2B_1_0_0');
+  public static readonly HUGGINGFACE_LLM_GEMMA_2_2B_INSTRUCT_1_0_3 = this.of('HUGGINGFACE_LLM_GEMMA_2_2B_INSTRUCT_1_0_3');
   public static readonly HUGGINGFACE_LLM_GEMMA_2_2B_INSTRUCT_1_0_2 = this.of('HUGGINGFACE_LLM_GEMMA_2_2B_INSTRUCT_1_0_2');
   public static readonly HUGGINGFACE_LLM_GEMMA_2_2B_INSTRUCT_1_0_1 = this.of('HUGGINGFACE_LLM_GEMMA_2_2B_INSTRUCT_1_0_1');
   public static readonly HUGGINGFACE_LLM_GEMMA_2_2B_INSTRUCT_1_0_0 = this.of('HUGGINGFACE_LLM_GEMMA_2_2B_INSTRUCT_1_0_0');
@@ -623,6 +624,7 @@ export class JumpStartModel {
   public static readonly HUGGINGFACE_LLM_GEMMA_2_9B_INSTRUCT_1_0_2 = this.of('HUGGINGFACE_LLM_GEMMA_2_9B_INSTRUCT_1_0_2');
   public static readonly HUGGINGFACE_LLM_GEMMA_2_9B_INSTRUCT_1_0_1 = this.of('HUGGINGFACE_LLM_GEMMA_2_9B_INSTRUCT_1_0_1');
   public static readonly HUGGINGFACE_LLM_GEMMA_2_9B_INSTRUCT_1_0_0 = this.of('HUGGINGFACE_LLM_GEMMA_2_9B_INSTRUCT_1_0_0');
+  public static readonly HUGGINGFACE_LLM_GEMMA_2B_2_1_6 = this.of('HUGGINGFACE_LLM_GEMMA_2B_2_1_6');
   public static readonly HUGGINGFACE_LLM_GEMMA_2B_2_1_5 = this.of('HUGGINGFACE_LLM_GEMMA_2B_2_1_5');
   public static readonly HUGGINGFACE_LLM_GEMMA_2B_2_1_4 = this.of('HUGGINGFACE_LLM_GEMMA_2B_2_1_4');
   public static readonly HUGGINGFACE_LLM_GEMMA_2B_2_1_3 = this.of('HUGGINGFACE_LLM_GEMMA_2B_2_1_3');
@@ -639,6 +641,7 @@ export class JumpStartModel {
   public static readonly HUGGINGFACE_LLM_GEMMA_2B_1_1_1 = this.of('HUGGINGFACE_LLM_GEMMA_2B_1_1_1');
   public static readonly HUGGINGFACE_LLM_GEMMA_2B_1_1_0 = this.of('HUGGINGFACE_LLM_GEMMA_2B_1_1_0');
   public static readonly HUGGINGFACE_LLM_GEMMA_2B_1_0_0 = this.of('HUGGINGFACE_LLM_GEMMA_2B_1_0_0');
+  public static readonly HUGGINGFACE_LLM_GEMMA_2B_INSTRUCT_1_4_6 = this.of('HUGGINGFACE_LLM_GEMMA_2B_INSTRUCT_1_4_6');
   public static readonly HUGGINGFACE_LLM_GEMMA_2B_INSTRUCT_1_4_5 = this.of('HUGGINGFACE_LLM_GEMMA_2B_INSTRUCT_1_4_5');
   public static readonly HUGGINGFACE_LLM_GEMMA_2B_INSTRUCT_1_4_4 = this.of('HUGGINGFACE_LLM_GEMMA_2B_INSTRUCT_1_4_4');
   public static readonly HUGGINGFACE_LLM_GEMMA_2B_INSTRUCT_1_4_3 = this.of('HUGGINGFACE_LLM_GEMMA_2B_INSTRUCT_1_4_3');
@@ -966,6 +969,7 @@ export class JumpStartModel {
   public static readonly HUGGINGFACE_LLM_OPENLM_RESEARCH_OPEN_LLAMA_7B_V2_1_1_1 = this.of('HUGGINGFACE_LLM_OPENLM_RESEARCH_OPEN_LLAMA_7B_V2_1_1_1');
   public static readonly HUGGINGFACE_LLM_OPENLM_RESEARCH_OPEN_LLAMA_7B_V2_1_1_0 = this.of('HUGGINGFACE_LLM_OPENLM_RESEARCH_OPEN_LLAMA_7B_V2_1_1_0');
   public static readonly HUGGINGFACE_LLM_OPENLM_RESEARCH_OPEN_LLAMA_7B_V2_1_0_0 = this.of('HUGGINGFACE_LLM_OPENLM_RESEARCH_OPEN_LLAMA_7B_V2_1_0_0');
+  public static readonly HUGGINGFACE_LLM_PHI_2_1_1_5 = this.of('HUGGINGFACE_LLM_PHI_2_1_1_5');
   public static readonly HUGGINGFACE_LLM_PHI_2_1_1_4 = this.of('HUGGINGFACE_LLM_PHI_2_1_1_4');
   public static readonly HUGGINGFACE_LLM_PHI_2_1_1_3 = this.of('HUGGINGFACE_LLM_PHI_2_1_1_3');
   public static readonly HUGGINGFACE_LLM_PHI_2_1_1_2 = this.of('HUGGINGFACE_LLM_PHI_2_1_1_2');

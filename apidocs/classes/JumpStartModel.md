@@ -3462,6 +3462,12 @@
 
 ***
 
+### HUGGINGFACE\_LLM\_GEMMA\_2\_2B\_1\_0\_3
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_GEMMA\_2\_2B\_1\_0\_3**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
 ### HUGGINGFACE\_LLM\_GEMMA\_2\_2B\_INSTRUCT\_1\_0\_0
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_GEMMA\_2\_2B\_INSTRUCT\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -3477,6 +3483,12 @@
 ### HUGGINGFACE\_LLM\_GEMMA\_2\_2B\_INSTRUCT\_1\_0\_2
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_GEMMA\_2\_2B\_INSTRUCT\_1\_0\_2**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### HUGGINGFACE\_LLM\_GEMMA\_2\_2B\_INSTRUCT\_1\_0\_3
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_GEMMA\_2\_2B\_INSTRUCT\_1\_0\_3**: [`JumpStartModel`](JumpStartModel.md)
 
 ***
 
@@ -3612,6 +3624,12 @@
 
 ***
 
+### HUGGINGFACE\_LLM\_GEMMA\_2B\_2\_1\_6
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_GEMMA\_2B\_2\_1\_6**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
 ### HUGGINGFACE\_LLM\_GEMMA\_2B\_INSTRUCT\_1\_0\_0
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_GEMMA\_2B\_INSTRUCT\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
@@ -3699,6 +3717,12 @@
 ### HUGGINGFACE\_LLM\_GEMMA\_2B\_INSTRUCT\_1\_4\_5
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_GEMMA\_2B\_INSTRUCT\_1\_4\_5**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### HUGGINGFACE\_LLM\_GEMMA\_2B\_INSTRUCT\_1\_4\_6
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_GEMMA\_2B\_INSTRUCT\_1\_4\_6**: [`JumpStartModel`](JumpStartModel.md)
 
 ***
 
@@ -5619,6 +5643,12 @@
 ### HUGGINGFACE\_LLM\_PHI\_2\_1\_1\_4
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_PHI\_2\_1\_1\_4**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### HUGGINGFACE\_LLM\_PHI\_2\_1\_1\_5
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_PHI\_2\_1\_1\_5**: [`JumpStartModel`](JumpStartModel.md)
 
 ***
 
