@@ -1258,10 +1258,38 @@ const prompt1 = new Prompt(this, 'prompt1', {
   description: 'my first prompt',
   defaultVariant: variant1,
   variants: [variant1],
-  encryptionKey: cmk,
+  kmsKey: cmk,
 });
 ```
 
+Python
+
+```python
+        cmk = kms.Key(self, "cmk")
+        claude_model = bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0
+
+        variant1 = bedrock.PromptVariant.text(
+            variant_name="variant1",
+            model=claude_model,
+            prompt_variables=["topic"],
+            prompt_text="This is my first text prompt. Please summarize our conversation on: {{topic}}.",
+            inference_configuration={
+                "temperature": 1.0,
+                "top_p": 0.999,
+                "max_tokens": 2000,
+            }
+        )
+
+        prompt = bedrock.Prompt(
+            self,
+            "myprompt",
+            prompt_name="prompt1",
+            description="my first prompt",
+            default_variant=variant1,
+            variants=[variant1],
+            kms_key=cmk
+        )
+```
 Example of a "Chat" `Prompt`. Use this template type when the model supports the Converse API or the Anthropic Claude Messages API.
 This allows you to include a System prompt and previous User messages and Assistant messages for context.
 
@@ -1315,6 +1343,68 @@ new Prompt(stack, 'prompt1', {
 });
 ```
 
+Python
+
+```python
+
+# Create KMS key
+        cmk = kms.Key(self, "cmk")
+
+        # Create tool specification
+        tool_spec = CfnPrompt.ToolSpecificationProperty(
+            name="top_song",
+            description="Get the most popular song played on a radio station.",
+            input_schema=CfnPrompt.ToolInputSchemaProperty(
+                json={
+                    "type": "object",
+                    "properties": {
+                        "sign": {
+                            "type": "string",
+                            "description": "The call sign for the radio station for which you want the most popular song. Example calls signs are WZPZ and WKR."
+                        }
+                    },
+                    "required": ["sign"]
+                }
+            )
+        )
+
+        # Create tool configuration
+        tool_config = bedrock.ToolConfiguration(
+            tool_choice=bedrock.ToolChoice.AUTO,
+            tools=[
+                CfnPrompt.ToolProperty(
+                    tool_spec=tool_spec
+                )
+            ]
+        )
+
+        # Create chat variant
+        variant_chat = bedrock.PromptVariant.chat(
+            variant_name="variant1",
+            model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+            messages=[
+                bedrock.ChatMessage.user("From now on, you speak Japanese!"),
+                bedrock.ChatMessage.assistant("Konnichiwa!"),
+                bedrock.ChatMessage.user("From now on, you speak {{language}}!"),
+            ],
+            system="You are a helpful assistant that only speaks the language you're told.",
+            prompt_variables=["language"],
+            tool_configuration=tool_config
+        )
+
+        # Create prompt
+        prompt = bedrock.Prompt(
+            self,
+            "prompt1",
+            prompt_name="prompt-chat",
+            description="my first chat prompt",
+            default_variant=variant_chat,
+            variants=[variant_chat],
+            kms_key=cmk
+        )
+
+```
+
 ### Prompt Variants
 
 Prompt variants in the context of Amazon Bedrock refer to alternative configurations of a prompt,
@@ -1343,6 +1433,24 @@ const variant2 = PromptVariant.text({
 });
 
 prompt1.addVariant(variant2);
+```
+Python
+
+```python
+        
+        variant2 = bedrock.PromptVariant.text(
+            variant_name="variant2",
+            model=claude_model,
+            prompt_variables=["topic"],
+            prompt_text="This is my second text prompt. Please summarize our conversation on: {{topic}}.",
+            inference_configuration={
+                "temperature": 0.5,
+                "topP": 0.999,
+                "maxTokens": 2000,
+            }
+        )
+
+        prompt.add_variant(variant2)
 ```
 
 ### Prompt routing
@@ -1401,10 +1509,19 @@ to update the version whenever a certain configuration property changes.
 new PromptVersion(prompt1, 'my first version');
 ```
 
+```python
+bedrock.PromptVersion(self, "my first version")
+
+```
+
 or alternatively:
 
 ```ts
 prompt1.createVersion('my first version');
+```
+
+```python
+prompt.create_version("version1", "my first version")
 ```
 
 ## System defined inference profiles
