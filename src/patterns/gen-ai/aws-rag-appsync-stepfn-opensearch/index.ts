@@ -12,7 +12,7 @@
  */
 
 import * as path from 'path';
-import { Duration, Aws, Stack } from 'aws-cdk-lib';
+import { Duration, Aws, Stack, Annotations } from 'aws-cdk-lib';
 import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
@@ -232,6 +232,9 @@ export class RagAppsyncStepfnOpensearch extends BaseClass {
      */
   constructor(scope: Construct, id: string, props: RagAppsyncStepfnOpensearchProps) {
     super(scope, id);
+
+    Annotations.of(scope).addWarningV2('@cdklabs/generative-ai-cdk-constructs:RagAppsyncStepfnOpensearch.deprecation',
+      'This construct is deprecated and will not receive further support. It will be removed in the next release of the library.');
 
 
     const baseProps: BaseClassProps = {
