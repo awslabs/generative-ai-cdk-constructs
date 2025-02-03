@@ -13,7 +13,7 @@
 
 import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
-import { Aws, Duration, aws_events_targets as eventsTarget } from 'aws-cdk-lib';
+import { Annotations, Aws, Duration, aws_events_targets as eventsTarget } from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as events from 'aws-cdk-lib/aws-events';
 import * as iam from 'aws-cdk-lib/aws-iam';
@@ -250,6 +250,9 @@ export class TextToSql extends BaseClass {
    */
   constructor(scope: Construct, id: string, props: TextToSqlProps) {
     super(scope, id);
+
+    Annotations.of(scope).addWarningV2('@cdklabs/generative-ai-cdk-constructs:TextToSql.deprecation',
+      'This construct is deprecated and will not receive further support. It will be removed in the next release of the library.');
 
     const baseProps: BaseClassProps = {
       stage: props.stage,
