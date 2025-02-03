@@ -52,9 +52,9 @@
     md5 "^2.3.0"
 
 "@aws-cdk/cloud-assembly-schema@^39.2.0":
-  version "39.2.10"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/cloud-assembly-schema/-/cloud-assembly-schema-39.2.10.tgz#c638375f3ca3efd73cf4faa8309499f56650e729"
-  integrity sha512-TpMEalAybKtRKoKUsJsg1Jp27jIaQUwwjNniZEVLDRDn/ATEMBkcTnUOSbCePSk5fJNmp5wHew0Z03eNxDsjkQ==
+  version "39.2.12"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/cloud-assembly-schema/-/cloud-assembly-schema-39.2.12.tgz#7322a426672a410646b0b3be248820cd2e972741"
+  integrity sha512-LjHz0Yrl3sFPihZVpIGoBrMnKjj18G755IlVH79Tzufx7eWVL/G/4RCiLUn0+NFE5e3ssTtfXr3KY9pxGMe/bA==
   dependencies:
     jsonschema "~1.4.1"
     semver "^7.7.0"
@@ -1757,10 +1757,10 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-nag@^2.35.5:
-  version "2.35.5"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.35.5.tgz#6d6dc824351672d8bed453fc0578bce9c89578c2"
-  integrity sha512-k5MR6PTWMCAy0XYbguMjRh7mCVuv4P8fcAsrnEG87fEw/f4vMXyMFhsi7u5Kaknuey9BkXCkfx5tVmkdFJ39jw==
+cdk-nag@^2.35.7:
+  version "2.35.7"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.35.7.tgz#b4624c858e74d1fb03aebe9b06fc799d317fc79d"
+  integrity sha512-jUj12cT/LN1Vd6k1DrpCxGGIKZFVhibYa4TtdllB7Jygakd5NlC3ShLFoeb0HIswg3ho/NVLL95wzZgtMoT1Ug==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -3281,9 +3281,9 @@ ignore@^5.2.0, ignore@^5.3.1, ignore@^5.3.2:
   integrity sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==
 
 import-fresh@^3.0.0, import-fresh@^3.2.1, import-fresh@^3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/import-fresh/-/import-fresh-3.3.0.tgz#37162c25fcb9ebaa2e6e53d5b4d88ce17d9e0c2b"
-  integrity sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/import-fresh/-/import-fresh-3.3.1.tgz#9cecb56503c0ada1f2741dbbd6546e4b13b57ccf"
+  integrity sha512-TR3KfrTZTYLPB6jUjfx6MF9WcWrHL9su5TObK4ZkYgBdWKPOFoSoQIdEuTuR82pmtxH2spWG9h6etwfr1pLBqQ==
   dependencies:
     parent-module "^1.0.0"
     resolve-from "^4.0.0"
@@ -5814,9 +5814,9 @@ trim-newlines@^3.0.0:
   integrity sha512-c1PTsA3tYrIsLGkJkzHF+w9F2EyxfXGo4UyJc4pFL++FMjnq0HJS69T3M7d//gKrFKwy429bouPescbjecU+Zw==
 
 ts-api-utils@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/ts-api-utils/-/ts-api-utils-2.0.0.tgz#b9d7d5f7ec9f736f4d0f09758b8607979044a900"
-  integrity sha512-xCt/TOAc+EOHS1XPnijD3/yzpH6qg2xppZO1YDqGoVsNXfQfzHpOdNuXwrwOU8u4ITXJyDCTyt8w5g1sZv9ynQ==
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/ts-api-utils/-/ts-api-utils-2.0.1.tgz#660729385b625b939aaa58054f45c058f33f10cd"
+  integrity sha512-dnlgjFSVetynI8nzgJ+qF62efpglpWRk8isUEWZGWlJYySCTD6aKvbUDu+zbPeDakk3bg5H4XpitHukgfL1m9w==
 
 ts-jest@^29.2.5:
   version "29.2.5"
