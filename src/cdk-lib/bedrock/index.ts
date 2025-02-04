@@ -52,9 +52,9 @@ export * from './inference-profiles/application-inference-profile';
 //===================================
 // Knowledge Bases
 //===================================
+export * from './knowledge-bases/knowledge-base';
 export * from './knowledge-bases/vector-knowledge-base';
 export * from './knowledge-bases/kendra-knowledge-base';
-export * from './knowledge-bases/knowledge-base';
 
 //===================================
 // Prompts

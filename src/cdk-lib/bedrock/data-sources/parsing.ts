@@ -16,7 +16,7 @@ import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { DEFAULT_PARSING_PROMPT } from './default-parsing-prompt';
 import { IInvokable } from '../models';
 
-enum ParsingModality {
+export enum ParsingModality {
   /**
    * Specifies whether to enable parsing of multimodal data, including both text and/or images.
    */
@@ -26,7 +26,7 @@ enum ParsingModality {
  * Enum representing the types of parsing strategies available for Amazon Bedrock Knowledge Bases.
  * @see https://docs.aws.amazon.com/bedrock/latest/userguide/kb-advanced-parsing.html
  */
-enum ParsingStategyType {
+export enum ParsingStategyType {
   /**
    * Uses a Bedrock Foundation Model for advanced parsing of non-textual information from documents.
    */
