@@ -222,7 +222,7 @@ export class KendraGenAiIndex extends KendraGenAiIndexBase {
     // ------------------------------------------------------
     // Role Creation
     // ------------------------------------------------------
-    const roleName = generatePhysicalNameV2(this, `AmazonKendra-${this.name}`, { maxLength: 64 });
+    const roleName = generatePhysicalNameV2(this, `AmazonKendraRoleForIndex-${this.name}`, { maxLength: 64 });
     this.role = new iam.Role(this, 'Role', {
       roleName: roleName,
       assumedBy: new iam.ServicePrincipal('kendra.amazonaws.com'),

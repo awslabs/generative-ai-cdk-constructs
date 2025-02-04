@@ -114,6 +114,16 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
    */
   public readonly name: string;
   /**
+   * A description of the knowledge base.
+   */
+  readonly description?: string;
+
+  /**
+   * Instructions for agents based on the design and type of information of the
+   * Knowledge Base. This will impact how Agents interact with the Knowledge Base.
+   */
+  readonly instruction?: string;
+  /**
    * The GenAI Kendra Index.
    */
   public readonly kendraIndex: IKendraGenAiIndex;
