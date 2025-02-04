@@ -23,8 +23,9 @@ import { PromptOverrideConfiguration } from './prompt-override';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
 import * as validation from '../../../common/helpers/validation-helpers';
 import { IGuardrail } from '../guardrails/guardrails';
-import { IKnowledgeBase } from '../knowledge-base';
+import { IVectorKnowledgeBase } from '../knowledge-bases/vector-knowledge-base';
 import { IInvokable } from '../models';
+import { IKnowledgeBase } from '../knowledge-bases/knowledge-base';
 
 /******************************************************************************
  *                              COMMON
@@ -134,7 +135,7 @@ export interface AgentProps {
   /**
    * The KnowledgeBases associated with the agent.
    */
-  readonly knowledgeBases?: IKnowledgeBase[];
+  readonly knowledgeBases?: IVectorKnowledgeBase[];
   /**
    * The Action Groups associated with the agent.
    */
@@ -514,9 +515,9 @@ export class Agent extends AgentBase {
   private renderGuardrail(): bedrock.CfnAgent.GuardrailConfigurationProperty | undefined {
     return this.guardrail
       ? {
-        guardrailIdentifier: this.guardrail.guardrailId,
-        guardrailVersion: this.guardrail.guardrailVersion,
-      }
+          guardrailIdentifier: this.guardrail.guardrailId,
+          guardrailVersion: this.guardrail.guardrailVersion,
+        }
       : undefined;
   }
 
@@ -573,12 +574,12 @@ export class Agent extends AgentBase {
           fieldName: 'description',
           minLength: 0,
           maxLength: MAX_LENGTH,
-        }),
+        })
       );
     } else {
       errors.push(
         'If instructionForAgents is not provided, the description property of the KnowledgeBase ' +
-          `${knowledgeBase.knowledgeBaseId} must be provided.`,
+          `${knowledgeBase.knowledgeBaseId} must be provided.`
       );
     }
     return errors;
@@ -609,7 +610,7 @@ export class Agent extends AgentBase {
     if (this.guardrail) {
       errors.push(
         `Cannot add Guardrail ${guardrail.guardrailId}. ` +
-          `Guardrail ${this.guardrail.guardrailId} has already been specified for this agent.`,
+          `Guardrail ${this.guardrail.guardrailId} has already been specified for this agent.`
       );
     }
     errors.push(...validation.validateFieldPattern(guardrail.guardrailVersion, 'version', /^(([0-9]{1,8})|(DRAFT))$/));
