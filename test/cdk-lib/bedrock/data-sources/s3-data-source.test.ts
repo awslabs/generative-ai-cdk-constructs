@@ -22,14 +22,14 @@ import * as foundationModels from '../../../../src/cdk-lib/bedrock/models';
 describe('S3 Data Source', () => {
   let stack: cdk.Stack;
   let bucket: s3.Bucket;
-  let kb: bedrock.KnowledgeBase;
+  let kb: bedrock.VectorKnowledgeBase;
 
   beforeEach(() => {
     const app = new cdk.App();
     cdk.Aspects.of(app).add(new AwsSolutionsChecks());
     stack = new cdk.Stack(app, 'TestStack');
     bucket = new s3.Bucket(stack, 'TestBucket');
-    kb = new bedrock.KnowledgeBase(stack, 'KB', {
+    kb = new bedrock.VectorKnowledgeBase(stack, 'KB', {
       embeddingsModel: foundationModels.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
     });
   });

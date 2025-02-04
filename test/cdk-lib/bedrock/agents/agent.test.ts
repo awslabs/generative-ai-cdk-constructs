@@ -111,7 +111,7 @@ describe('CDK-Agent', () => {
         kmsKey: Key.fromKeyArn(
           stack,
           'importedKey',
-          'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418',
+          'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418'
         ),
       });
 
@@ -122,7 +122,7 @@ describe('CDK-Agent', () => {
       });
 
       expect(agent.kmsKey!.keyArn).toBe(
-        'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418',
+        'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418'
       );
     });
 
@@ -130,7 +130,7 @@ describe('CDK-Agent', () => {
       const myRole = Role.fromRoleArn(
         stack,
         'myRole',
-        'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForAgent_12345678',
+        'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForAgent_12345678'
       );
       const agent = new bedrock.Agent(stack, 'TestAgent', {
         name: 'TestAgent',
@@ -355,7 +355,7 @@ describe('CDK-Agent', () => {
 
       // THEN
       expect(() => agent.addGuardrail(anotherGuardrail)).toThrow(
-        'Cannot add Guardrail yib23y5g23b2wf. Guardrail oygh3o8g7rtl has already been specified for this agent.',
+        'Cannot add Guardrail yib23y5g23b2wf. Guardrail oygh3o8g7rtl has already been specified for this agent.'
       );
     });
   });
@@ -364,10 +364,10 @@ describe('CDK-Agent', () => {
    *              KNOWLEDGE BASES in Agents				 *
    *******************************************************/
   describe('w/ Knowledge Bases', () => {
-    let myKnowledgeBase: bedrock.IKnowledgeBase;
+    let myKnowledgeBase: bedrock.IVectorKnowledgeBase;
 
     beforeEach(() => {
-      myKnowledgeBase = bedrock.KnowledgeBase.fromKnowledgeBaseAttributes(stack, 'myKnowledgeBase', {
+      myKnowledgeBase = bedrock.VectorKnowledgeBase.fromKnowledgeBaseAttributes(stack, 'myKnowledgeBase', {
         knowledgeBaseId: 'ABCDEFG1234',
         executionRoleArn: 'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase_12345678',
         instruction: 'This is a sample KB with info about unicorns.',
@@ -423,13 +423,13 @@ describe('CDK-Agent', () => {
     });
 
     test('Knowledge Bases - Validation', () => {
-      const invalidKb = (myKnowledgeBase = bedrock.KnowledgeBase.fromKnowledgeBaseAttributes(
+      const invalidKb = (myKnowledgeBase = bedrock.VectorKnowledgeBase.fromKnowledgeBaseAttributes(
         stack,
         'otherKnowledgeBase',
         {
           knowledgeBaseId: 'ABCDEFG1234',
           executionRoleArn: 'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase_12345678',
-        },
+        }
       ));
 
       const agent = new bedrock.Agent(stack, 'TestAgent', {
@@ -439,7 +439,7 @@ describe('CDK-Agent', () => {
       });
 
       expect(() => agent.addKnowledgeBase(invalidKb)).toThrow(
-        'If instructionForAgents is not provided, the description property of the KnowledgeBase ABCDEFG1234 must be provided.',
+        'If instructionForAgents is not provided, the description property of the KnowledgeBase ABCDEFG1234 must be provided.'
       );
     });
   });

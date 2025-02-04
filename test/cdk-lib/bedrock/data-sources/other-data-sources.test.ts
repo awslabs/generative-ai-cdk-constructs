@@ -20,18 +20,17 @@ import * as foundationModels from '../../../../src/cdk-lib/bedrock/models';
 
 describe('Data Source', () => {
   let stack: Stack;
-  let kb: bedrock.KnowledgeBase;
+  let kb: bedrock.VectorKnowledgeBase;
   let key: IKey;
 
   beforeEach(() => {
     const app = new App();
     stack = new Stack(app, 'TestStack');
-    kb = new bedrock.KnowledgeBase(stack, 'KB', {
+    kb = new bedrock.VectorKnowledgeBase(stack, 'KB', {
       embeddingsModel: foundationModels.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
     });
     const sampleKeyArn = 'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418';
     key = Key.fromKeyArn(stack, 'TestKey', sampleKeyArn);
-
   });
 
   test('Basic Web Crawler', () => {
@@ -63,9 +62,11 @@ describe('Data Source', () => {
           },
           SourceConfiguration: {
             UrlConfiguration: {
-              SeedUrls: [{
-                Url: 'https://example.com',
-              }],
+              SeedUrls: [
+                {
+                  Url: 'https://example.com',
+                },
+              ],
             },
           },
         },
@@ -76,14 +77,14 @@ describe('Data Source', () => {
 
 describe('Third Party Data Source', () => {
   let stack: Stack;
-  let kb: bedrock.KnowledgeBase;
+  let kb: bedrock.VectorKnowledgeBase;
   let key: IKey;
   let secret: ISecret;
 
   beforeEach(() => {
     const app = new App();
     stack = new Stack(app, 'TestStack');
-    kb = new bedrock.KnowledgeBase(stack, 'KB', {
+    kb = new bedrock.VectorKnowledgeBase(stack, 'KB', {
       embeddingsModel: foundationModels.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
     });
     const sampleKeyArn = 'arn:aws:kms:eu-central-1:123456789012:key/06484191-7d55-49fb-9be7-0baaf7fe8418';
@@ -135,21 +136,13 @@ describe('Third Party Data Source', () => {
                 Filters: [
                   {
                     ObjectType: 'Attachment',
-                    InclusionFilters: [
-                      '.*\\.pdf',
-                    ],
-                    ExclusionFilters: [
-                      '.*private.*\\.pdf',
-                    ],
+                    InclusionFilters: ['.*\\.pdf'],
+                    ExclusionFilters: ['.*private.*\\.pdf'],
                   },
                   {
                     ObjectType: 'Page',
-                    InclusionFilters: [
-                      '.*public.*\\.pdf',
-                    ],
-                    ExclusionFilters: [
-                      '.*confidential.*\\.pdf',
-                    ],
+                    InclusionFilters: ['.*public.*\\.pdf'],
+                    ExclusionFilters: ['.*confidential.*\\.pdf'],
                   },
                 ],
               },
@@ -158,7 +151,6 @@ describe('Third Party Data Source', () => {
         },
       },
     });
-
   });
 
   test('Basic Confluence Setup - Method', () => {
@@ -203,21 +195,13 @@ describe('Third Party Data Source', () => {
                 Filters: [
                   {
                     ObjectType: 'Attachment',
-                    InclusionFilters: [
-                      '.*\\.pdf',
-                    ],
-                    ExclusionFilters: [
-                      '.*private.*\\.pdf',
-                    ],
+                    InclusionFilters: ['.*\\.pdf'],
+                    ExclusionFilters: ['.*private.*\\.pdf'],
                   },
                   {
                     ObjectType: 'Page',
-                    InclusionFilters: [
-                      '.*public.*\\.pdf',
-                    ],
-                    ExclusionFilters: [
-                      '.*confidential.*\\.pdf',
-                    ],
+                    InclusionFilters: ['.*public.*\\.pdf'],
+                    ExclusionFilters: ['.*confidential.*\\.pdf'],
                   },
                 ],
               },
@@ -226,7 +210,6 @@ describe('Third Party Data Source', () => {
         },
       },
     });
-
   });
 
   test('Basic Sharepoint Setup - Class', () => {
@@ -265,9 +248,7 @@ describe('Third Party Data Source', () => {
             TenantId: '888d0b57-69f1-4fb8-957f-e1f0bedf64de',
             HostType: 'ONLINE',
             Domain: 'yourdomain',
-            SiteUrls: [
-              'https://yourdomain.sharepoint.com/sites/mysite',
-            ],
+            SiteUrls: ['https://yourdomain.sharepoint.com/sites/mysite'],
             AuthType: 'OAUTH2_CLIENT_CREDENTIALS',
             CredentialsSecretArn: 'arn:aws:secretsmanager:eu-central-1:123456789012:secret:AmazonBedrock-auth-tW8BY1',
           },
@@ -278,21 +259,13 @@ describe('Third Party Data Source', () => {
                 Filters: [
                   {
                     ObjectType: 'Page',
-                    InclusionFilters: [
-                      '.*\\.pdf',
-                    ],
-                    ExclusionFilters: [
-                      '.*private.*\\.pdf',
-                    ],
+                    InclusionFilters: ['.*\\.pdf'],
+                    ExclusionFilters: ['.*private.*\\.pdf'],
                   },
                   {
                     ObjectType: 'File',
-                    InclusionFilters: [
-                      '.*public.*\\.pdf',
-                    ],
-                    ExclusionFilters: [
-                      '.*confidential.*\\.pdf',
-                    ],
+                    InclusionFilters: ['.*public.*\\.pdf'],
+                    ExclusionFilters: ['.*confidential.*\\.pdf'],
                   },
                 ],
               },
@@ -301,7 +274,6 @@ describe('Third Party Data Source', () => {
         },
       },
     });
-
   });
 
   test('Basic Sharepoint Setup - Method', () => {
@@ -339,9 +311,7 @@ describe('Third Party Data Source', () => {
             TenantId: '888d0b57-69f1-4fb8-957f-e1f0bedf64de',
             HostType: 'ONLINE',
             Domain: 'yourdomain',
-            SiteUrls: [
-              'https://yourdomain.sharepoint.com/sites/mysite',
-            ],
+            SiteUrls: ['https://yourdomain.sharepoint.com/sites/mysite'],
             AuthType: 'OAUTH2_CLIENT_CREDENTIALS',
             CredentialsSecretArn: 'arn:aws:secretsmanager:eu-central-1:123456789012:secret:AmazonBedrock-auth-tW8BY1',
           },
@@ -352,21 +322,13 @@ describe('Third Party Data Source', () => {
                 Filters: [
                   {
                     ObjectType: 'Page',
-                    InclusionFilters: [
-                      '.*\\.pdf',
-                    ],
-                    ExclusionFilters: [
-                      '.*private.*\\.pdf',
-                    ],
+                    InclusionFilters: ['.*\\.pdf'],
+                    ExclusionFilters: ['.*private.*\\.pdf'],
                   },
                   {
                     ObjectType: 'File',
-                    InclusionFilters: [
-                      '.*public.*\\.pdf',
-                    ],
-                    ExclusionFilters: [
-                      '.*confidential.*\\.pdf',
-                    ],
+                    InclusionFilters: ['.*public.*\\.pdf'],
+                    ExclusionFilters: ['.*confidential.*\\.pdf'],
                   },
                 ],
               },
@@ -375,7 +337,6 @@ describe('Third Party Data Source', () => {
         },
       },
     });
-
   });
 
   test('Basic SFDC Setup - Class', () => {
@@ -420,21 +381,13 @@ describe('Third Party Data Source', () => {
                 Filters: [
                   {
                     ObjectType: 'Campaign',
-                    InclusionFilters: [
-                      '.*\\.pdf',
-                    ],
-                    ExclusionFilters: [
-                      '.*private.*\\.pdf',
-                    ],
+                    InclusionFilters: ['.*\\.pdf'],
+                    ExclusionFilters: ['.*private.*\\.pdf'],
                   },
                   {
                     ObjectType: 'Contract',
-                    InclusionFilters: [
-                      '.*public.*\\.pdf',
-                    ],
-                    ExclusionFilters: [
-                      '.*confidential.*\\.pdf',
-                    ],
+                    InclusionFilters: ['.*public.*\\.pdf'],
+                    ExclusionFilters: ['.*confidential.*\\.pdf'],
                   },
                 ],
               },
@@ -443,7 +396,6 @@ describe('Third Party Data Source', () => {
         },
       },
     });
-
   });
 
   test('Basic SFDC Setup - Method', () => {
@@ -487,21 +439,13 @@ describe('Third Party Data Source', () => {
                 Filters: [
                   {
                     ObjectType: 'Campaign',
-                    InclusionFilters: [
-                      '.*\\.pdf',
-                    ],
-                    ExclusionFilters: [
-                      '.*private.*\\.pdf',
-                    ],
+                    InclusionFilters: ['.*\\.pdf'],
+                    ExclusionFilters: ['.*private.*\\.pdf'],
                   },
                   {
                     ObjectType: 'Contract',
-                    InclusionFilters: [
-                      '.*public.*\\.pdf',
-                    ],
-                    ExclusionFilters: [
-                      '.*confidential.*\\.pdf',
-                    ],
+                    InclusionFilters: ['.*public.*\\.pdf'],
+                    ExclusionFilters: ['.*confidential.*\\.pdf'],
                   },
                 ],
               },
@@ -510,8 +454,5 @@ describe('Third Party Data Source', () => {
         },
       },
     });
-
   });
-
-
 });
