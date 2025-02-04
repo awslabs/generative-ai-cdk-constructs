@@ -16,7 +16,7 @@ import { IKey } from 'aws-cdk-lib/aws-kms';
 import { ISecret } from 'aws-cdk-lib/aws-secretsmanager';
 import { Construct } from 'constructs';
 
-import { IKnowledgeBase } from './../knowledge-base';
+import { IKnowledgeBase } from './../knowledge-bases/knowledge-base';
 import { DataSourceAssociationProps, DataSourceNew, DataSourceType } from './base-data-source';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
 
@@ -91,7 +91,6 @@ export interface ConfluenceCrawlingFilters {
   readonly excludePatterns?: string[];
 }
 
-
 /**
  * Interface to add a new data source to an existing KB.
  */
@@ -117,7 +116,6 @@ export interface ConfluenceDataSourceAssociationProps extends DataSourceAssociat
    * @default None - all your content is crawled.
    */
   readonly filters?: ConfluenceCrawlingFilters[];
-
 }
 
 /**
@@ -129,7 +127,6 @@ export interface ConfluenceDataSourceProps extends ConfluenceDataSourceAssociati
    */
   readonly knowledgeBase: IKnowledgeBase;
 }
-
 
 /**
  * Sets up a Confluence Data Source to be added to a knowledge base.
@@ -179,13 +176,14 @@ export class ConfluenceDataSource extends DataSourceNew {
    */
   private readonly __resource: CfnDataSource;
 
-
   constructor(scope: Construct, id: string, props: ConfluenceDataSourceProps) {
     super(scope, id);
     // Assign common attributes
     this.knowledgeBase = props.knowledgeBase;
     this.dataSourceType = DataSourceType.CONFLUENCE;
-    this.dataSourceName = props.dataSourceName ?? generatePhysicalNameV2(this, 'confluence-ds', { maxLength: 40, lower: true, separator: '-' });
+    this.dataSourceName =
+      props.dataSourceName ??
+      generatePhysicalNameV2(this, 'confluence-ds', { maxLength: 40, lower: true, separator: '-' });
     this.kmsKey = props.kmsKey;
     // Assign unique attributes
     this.confluenceUrl = props.confluenceUrl;
@@ -206,19 +204,17 @@ export class ConfluenceDataSource extends DataSourceNew {
     // L1 Instantiation
     // ------------------------------------------------------
     this.__resource = new CfnDataSource(this, 'DataSource', {
-      ...this.formatAsCfnProps(
-        props,
-        {
-          type: this.dataSourceType,
-          confluenceConfiguration: {
-            sourceConfiguration: {
-              authType: props.authType ?? ConfluenceDataSourceAuthType.OAUTH2_CLIENT_CREDENTIALS,
-              credentialsSecretArn: this.authSecret.secretArn,
-              hostUrl: this.confluenceUrl,
-              hostType: 'SAAS',
-            },
-            crawlerConfiguration:
-              (props.filters) ? ({
+      ...this.formatAsCfnProps(props, {
+        type: this.dataSourceType,
+        confluenceConfiguration: {
+          sourceConfiguration: {
+            authType: props.authType ?? ConfluenceDataSourceAuthType.OAUTH2_CLIENT_CREDENTIALS,
+            credentialsSecretArn: this.authSecret.secretArn,
+            hostUrl: this.confluenceUrl,
+            hostType: 'SAAS',
+          },
+          crawlerConfiguration: props.filters
+            ? {
                 filterConfiguration: {
                   type: 'PATTERN',
                   patternObjectFilter: {
@@ -229,13 +225,12 @@ export class ConfluenceDataSource extends DataSourceNew {
                     })),
                   },
                 },
-              }) : undefined,
-          },
+              }
+            : undefined,
         },
-      ),
+      }),
     });
 
     this.dataSourceId = this.__resource.attrDataSourceId;
-
   }
 }

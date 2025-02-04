@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 
-import { ArnFormat, aws_bedrock as bedrock, IResource, Resource, Stack } from 'aws-cdk-lib';
+import { ArnFormat, aws_bedrock as bedrock, Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { NagSuppressions } from 'cdk-nag/lib/nag-suppressions';
 import { Construct } from 'constructs';
@@ -344,11 +344,6 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
    * @private
    */
   private vectorIndex?: VectorIndex;
-
-  /**
-   * Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
-   */
-  public readonly knowledgeBaseState: string;
 
   /**
    * The type of the knowledge base.

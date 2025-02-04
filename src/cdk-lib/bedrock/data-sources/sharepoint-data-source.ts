@@ -16,7 +16,7 @@ import { IKey } from 'aws-cdk-lib/aws-kms';
 import { ISecret } from 'aws-cdk-lib/aws-secretsmanager';
 import { Construct } from 'constructs';
 
-import { IKnowledgeBase } from './../knowledge-base';
+import { IKnowledgeBase } from './../knowledge-bases/knowledge-base';
 import { DataSourceAssociationProps, DataSourceNew, DataSourceType } from './base-data-source';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
 
@@ -32,7 +32,7 @@ export enum SharePointDataSourceAuthType {
    * - `clientId`: The client ID (also known as application ID)
    * - `clientSecret`: The client secret
    */
-  OAUTH2_CLIENT_CREDENTIALS = 'OAUTH2_CLIENT_CREDENTIALS'
+  OAUTH2_CLIENT_CREDENTIALS = 'OAUTH2_CLIENT_CREDENTIALS',
 }
 
 /**
@@ -111,7 +111,6 @@ export interface SharePointDataSourceAssociationProps extends DataSourceAssociat
    * @default None - all your content is crawled.
    */
   readonly filters?: SharePointCrawlingFilters[];
-
 }
 
 /**
@@ -175,13 +174,14 @@ export class SharePointDataSource extends DataSourceNew {
    */
   private readonly __resource: CfnDataSource;
 
-
   constructor(scope: Construct, id: string, props: SharePointDataSourceProps) {
     super(scope, id);
     // Assign attributes
     this.knowledgeBase = props.knowledgeBase;
     this.dataSourceType = DataSourceType.SHAREPOINT;
-    this.dataSourceName = props.dataSourceName ?? generatePhysicalNameV2(this, 'sharepoint-ds', { maxLength: 40, lower: true, separator: '-' });;
+    this.dataSourceName =
+      props.dataSourceName ??
+      generatePhysicalNameV2(this, 'sharepoint-ds', { maxLength: 40, lower: true, separator: '-' });
     this.siteUrls = props.siteUrls;
     this.domain = props.domain;
     this.authSecret = props.authSecret;
@@ -197,21 +197,19 @@ export class SharePointDataSource extends DataSourceNew {
     // L1 Instantiation
     // ------------------------------------------------------
     this.__resource = new CfnDataSource(this, 'DataSource', {
-      ...this.formatAsCfnProps(
-        props,
-        {
-          type: this.dataSourceType,
-          sharePointConfiguration: {
-            sourceConfiguration: {
-              authType: SharePointDataSourceAuthType.OAUTH2_CLIENT_CREDENTIALS,
-              credentialsSecretArn: this.authSecret.secretArn,
-              hostType: 'ONLINE',
-              domain: props.domain,
-              siteUrls: this.siteUrls,
-              tenantId: props.tenantId,
-            },
-            crawlerConfiguration:
-              (props.filters) ? ({
+      ...this.formatAsCfnProps(props, {
+        type: this.dataSourceType,
+        sharePointConfiguration: {
+          sourceConfiguration: {
+            authType: SharePointDataSourceAuthType.OAUTH2_CLIENT_CREDENTIALS,
+            credentialsSecretArn: this.authSecret.secretArn,
+            hostType: 'ONLINE',
+            domain: props.domain,
+            siteUrls: this.siteUrls,
+            tenantId: props.tenantId,
+          },
+          crawlerConfiguration: props.filters
+            ? {
                 filterConfiguration: {
                   type: 'PATTERN',
                   patternObjectFilter: {
@@ -222,14 +220,12 @@ export class SharePointDataSource extends DataSourceNew {
                     })),
                   },
                 },
-              }) : undefined,
-          },
+              }
+            : undefined,
         },
-      ),
+      }),
     });
 
     this.dataSourceId = this.__resource.attrDataSourceId;
-
-
   }
 }

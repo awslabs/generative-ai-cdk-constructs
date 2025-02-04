@@ -17,10 +17,9 @@ import { IBucket } from 'aws-cdk-lib/aws-s3';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 
-import { IKnowledgeBase } from './../knowledge-base';
+import { IKnowledgeBase } from './../knowledge-bases/knowledge-base';
 import { DataSourceAssociationProps, DataSourceNew, DataSourceType } from './base-data-source';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
-
 
 /**
  * Interface to add a new S3DataSource to an existing KB
@@ -37,7 +36,6 @@ export interface S3DataSourceAssociationProps extends DataSourceAssociationProps
    * @default - All objects in the bucket.
    */
   readonly inclusionPrefixes?: string[];
-
 }
 
 /**
@@ -49,7 +47,6 @@ export interface S3DataSourceProps extends S3DataSourceAssociationProps {
    */
   readonly knowledgeBase: IKnowledgeBase;
 }
-
 
 /**
  * Sets up an S3 Data Source to be added to a knowledge base.
@@ -94,7 +91,6 @@ export class S3DataSource extends DataSourceNew {
    */
   private readonly __resource: CfnDataSource;
 
-
   constructor(scope: Construct, id: string, props: S3DataSourceProps) {
     super(scope, id);
     // Assign attributes
@@ -105,7 +101,14 @@ export class S3DataSource extends DataSourceNew {
     const chunkingStrategy = props.chunkingStrategy;
     const parsingStrategy = props.parsingStrategy;
     const theseAreNotReplacable = { chunkingStrategy, parsingStrategy };
-    this.dataSourceName = props.dataSourceName ?? generatePhysicalNameV2(this, 's3-ds', { maxLength: 40, lower: true, separator: '-', destroyCreate: theseAreNotReplacable });;
+    this.dataSourceName =
+      props.dataSourceName ??
+      generatePhysicalNameV2(this, 's3-ds', {
+        maxLength: 40,
+        lower: true,
+        separator: '-',
+        destroyCreate: theseAreNotReplacable,
+      });
     this.bucket = props.bucket;
     this.kmsKey = props.kmsKey;
 
@@ -117,31 +120,28 @@ export class S3DataSource extends DataSourceNew {
 
     NagSuppressions.addResourceSuppressions(
       this.knowledgeBase.role,
-      [{
-        id: 'AwsSolutions-IAM5',
-        reason: 'The KB role needs read only access to all objects in the data source bucket.',
-      }],
-      true,
+      [
+        {
+          id: 'AwsSolutions-IAM5',
+          reason: 'The KB role needs read only access to all objects in the data source bucket.',
+        },
+      ],
+      true
     );
 
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
     this.__resource = new CfnDataSource(this, 'DataSource', {
-      ...this.formatAsCfnProps(
-        props,
-        {
-          type: this.dataSourceType,
-          s3Configuration: {
-            bucketArn: props.bucket.bucketArn,
-            inclusionPrefixes: props.inclusionPrefixes,
-          },
+      ...this.formatAsCfnProps(props, {
+        type: this.dataSourceType,
+        s3Configuration: {
+          bucketArn: props.bucket.bucketArn,
+          inclusionPrefixes: props.inclusionPrefixes,
         },
-      ),
+      }),
     });
 
     this.dataSourceId = this.__resource.attrDataSourceId;
-
-
   }
 }
