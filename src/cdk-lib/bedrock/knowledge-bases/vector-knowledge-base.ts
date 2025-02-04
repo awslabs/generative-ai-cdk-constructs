@@ -152,6 +152,8 @@ abstract class VectorKnowledgeBaseBase extends KnowledgeBaseBase implements IVec
   public abstract readonly knowledgeBaseArn: string;
   public abstract readonly knowledgeBaseId: string;
   public abstract readonly role: iam.IRole;
+  public abstract readonly description?: string;
+  public abstract readonly instruction?: string;
 
   public readonly type: KnowledgeBaseType = KnowledgeBaseType.VECTOR;
 

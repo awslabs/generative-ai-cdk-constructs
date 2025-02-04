@@ -70,6 +70,8 @@ export abstract class KendraKnowledgeBaseBase extends KnowledgeBaseBase {
   public abstract readonly knowledgeBaseId: string;
   public abstract readonly role: iam.IRole;
   public abstract readonly kendraIndex: IKendraGenAiIndex;
+  public abstract readonly description?: string;
+  public abstract readonly instruction?: string;
   public readonly type: KnowledgeBaseType = KnowledgeBaseType.KENDRA;
 }
 
@@ -83,7 +85,7 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
   public static fromKnowledgeBaseAttributes(
     scope: Construct,
     id: string,
-    attrs: KendraKnowledgeBaseAttributes,
+    attrs: KendraKnowledgeBaseAttributes
   ): IKendraKnowledgeBase {
     const stack = Stack.of(scope);
 
@@ -109,21 +111,14 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
   public readonly knowledgeBaseArn: string;
   public readonly knowledgeBaseId: string;
   public readonly role: iam.IRole;
+  public readonly description?: string;
+  public readonly instruction?: string;
 
   /**
    * The name of the knowledge base.
    */
   public readonly name: string;
-  /**
-   * A description of the knowledge base.
-   */
-  readonly description?: string;
 
-  /**
-   * Instructions for agents based on the design and type of information of the
-   * Knowledge Base. This will impact how Agents interact with the Knowledge Base.
-   */
-  readonly instruction?: string;
   /**
    * The GenAI Kendra Index.
    */
@@ -142,6 +137,8 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
     // ------------------------------------------------------
     this.kendraIndex = props.kendraIndex;
     this.name = props.name ?? generatePhysicalNameV2(this, 'kendra-kb', { maxLength: 32, separator: '-' });
+    this.instruction = props.instruction;
+    this.description = props.description;
 
     // ------------------------------------------------------
     // Role
@@ -172,7 +169,7 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
           sid: 'AmazonBedrockKnowledgeBaseKendraIndexAccessStatement',
           actions: ['kendra:Retrieve', 'kendra:DescribeIndex'],
           resources: [this.kendraIndex.indexArn],
-        }),
+        })
       );
     }
     // ------------------------------------------------------

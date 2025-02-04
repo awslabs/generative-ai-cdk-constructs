@@ -11,12 +11,12 @@
  *  and limitations under the License.
  */
 
-import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kendra from 'aws-cdk-lib/aws-kendra';
 import { IKey } from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
+import { ArnFormat, IResource, Resource, Stack } from 'aws-cdk-lib';
 
 /******************************************************************************
  *                              COMMON
@@ -24,7 +24,7 @@ import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 /**
  * Represents a Kendra Index, either created with CDK or imported.
  */
-export interface IKendraGenAiIndex extends cdk.IResource {
+export interface IKendraGenAiIndex extends IResource {
   /**
    * The Amazon Resource Name (ARN) of the index.
    * @example 'arn:aws:kendra:us-east-1:123456789012:index/af04c7ea-22bc-46b7-a65e-6c21e604fc11'
@@ -142,7 +142,7 @@ export interface KendraGenAiIndexAttributes {
  * Abstract base class for a Kendra GenAI index.
  * Contains methods and attributes valid for Kendra GenAI Indexes either created with CDK or imported.
  */
-export abstract class KendraGenAiIndexBase extends cdk.Resource implements IKendraGenAiIndex {
+export abstract class KendraGenAiIndexBase extends Resource implements IKendraGenAiIndex {
   public abstract readonly indexArn: string;
   public abstract readonly indexId: string;
   public abstract readonly role: iam.IRole;
@@ -163,11 +163,11 @@ export class KendraGenAiIndex extends KendraGenAiIndexBase {
     class Import extends KendraGenAiIndexBase {
       public readonly role = attrs.role;
       public readonly indexId = attrs.indexId;
-      public readonly indexArn = cdk.Stack.of(this).formatArn({
+      public readonly indexArn = Stack.of(this).formatArn({
         service: 'kendra',
         resource: 'index',
         resourceName: attrs.indexId,
-        arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
+        arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
       });
     }
     return new Import(scope, id);
@@ -231,7 +231,7 @@ export class KendraGenAiIndex extends KendraGenAiIndexBase {
       new iam.PolicyStatement({
         actions: ['logs:DescribeLogGroups'],
         resources: ['*'],
-      }),
+      })
     );
     this.role.addToPrincipalPolicy(
       new iam.PolicyStatement({
@@ -242,33 +242,33 @@ export class KendraGenAiIndex extends KendraGenAiIndexBase {
             'cloudwatch:namespace': 'AWS/Kendra',
           },
         },
-      }),
+      })
     );
     this.role.addToPrincipalPolicy(
       new iam.PolicyStatement({
         actions: ['logs:CreateLogGroup'],
         resources: [
-          cdk.Stack.of(this).formatArn({
+          Stack.of(this).formatArn({
             service: 'logs',
             resource: 'log-group',
             resourceName: '/aws/kendra/*',
-            arnFormat: cdk.ArnFormat.COLON_RESOURCE_NAME,
+            arnFormat: ArnFormat.COLON_RESOURCE_NAME,
           }),
         ],
-      }),
+      })
     );
     this.role.addToPrincipalPolicy(
       new iam.PolicyStatement({
         actions: ['logs:DescribeLogStreams', 'logs:CreateLogStream', 'logs:PutLogEvents'],
         resources: [
-          cdk.Stack.of(this).formatArn({
+          Stack.of(this).formatArn({
             service: 'logs',
             resource: 'log-group',
             resourceName: '/aws/kendra/*:log-stream:*',
-            arnFormat: cdk.ArnFormat.COLON_RESOURCE_NAME,
+            arnFormat: ArnFormat.COLON_RESOURCE_NAME,
           }),
         ],
-      }),
+      })
     );
 
     // ------------------------------------------------------
@@ -280,8 +280,8 @@ export class KendraGenAiIndex extends KendraGenAiIndexBase {
       roleArn: this.role.roleArn,
       serverSideEncryptionConfiguration: props.kmsKey
         ? {
-          kmsKeyId: props.kmsKey.keyId,
-        }
+            kmsKeyId: props.kmsKey.keyId,
+          }
         : undefined,
       capacityUnits: {
         storageCapacityUnits: this.documentCapacityUnits,

@@ -162,7 +162,7 @@ export interface CommonKnowledgeBaseAttributes {
   readonly instruction?: string;
   /**
    * Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
-   * @default
+   * @default - ENABLED
    */
   readonly knowledgeBaseState?: string;
 }
@@ -179,7 +179,10 @@ export abstract class KnowledgeBaseBase extends Resource implements IKnowledgeBa
   public abstract readonly knowledgeBaseArn: string;
   public abstract readonly knowledgeBaseId: string;
   public abstract readonly role: iam.IRole;
+  public abstract readonly description?: string;
+  public abstract readonly instruction?: string;
   public abstract readonly type: KnowledgeBaseType;
+
   constructor(scope: Construct, id: string) {
     super(scope, id);
   }
