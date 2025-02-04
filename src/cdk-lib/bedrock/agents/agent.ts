@@ -24,7 +24,6 @@ import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
 import * as validation from '../../../common/helpers/validation-helpers';
 import { IGuardrail } from '../guardrails/guardrails';
 import { IKnowledgeBase } from '../knowledge-bases/knowledge-base';
-import { IVectorKnowledgeBase } from '../knowledge-bases/vector-knowledge-base';
 import { IInvokable } from '../models';
 
 /******************************************************************************
