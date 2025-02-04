@@ -10,7 +10,11 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+
 export { KnowledgeBaseBase } from './knowledge-base';
+import { ArnFormat, Stack } from 'aws-cdk-lib';
+import * as bedrock from 'aws-cdk-lib/aws-bedrock';
+import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 import {
   CommonKnowledgeBaseAttributes,
@@ -19,11 +23,8 @@ import {
   KnowledgeBaseBase,
   KnowledgeBaseType,
 } from './knowledge-base';
-import { IKendraGenAiIndex } from '../../kendra';
-import * as bedrock from 'aws-cdk-lib/aws-bedrock';
-import * as iam from 'aws-cdk-lib/aws-iam';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
-import { ArnFormat, Stack } from 'aws-cdk-lib';
+import { IKendraGenAiIndex } from '../../kendra';
 
 /******************************************************************************
  *                             COMMON INTERFACES
@@ -82,7 +83,7 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
   public static fromKnowledgeBaseAttributes(
     scope: Construct,
     id: string,
-    attrs: KendraKnowledgeBaseAttributes
+    attrs: KendraKnowledgeBaseAttributes,
   ): IKendraKnowledgeBase {
     const stack = Stack.of(scope);
 
@@ -171,7 +172,7 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
           sid: 'AmazonBedrockKnowledgeBaseKendraIndexAccessStatement',
           actions: ['kendra:Retrieve', 'kendra:DescribeIndex'],
           resources: [this.kendraIndex.indexArn],
-        })
+        }),
       );
     }
     // ------------------------------------------------------

@@ -15,9 +15,9 @@ import { CfnDataSource } from 'aws-cdk-lib/aws-bedrock';
 import { IKey } from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 
+import { IKnowledgeBase } from './../knowledge-bases/knowledge-base';
 import { DataSourceNew, DataSourceAssociationProps, DataSourceType } from './base-data-source';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
-import { IKnowledgeBase } from './../knowledge-bases/knowledge-base';
 
 /**
  * The scope of the crawling.

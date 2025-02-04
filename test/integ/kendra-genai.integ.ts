@@ -10,11 +10,12 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+
 import * as integ from '@aws-cdk/integ-tests-alpha';
 import * as cdk from 'aws-cdk-lib';
 import * as kms from 'aws-cdk-lib/aws-kms';
-import { KendraGenAiIndex } from '../../src/cdk-lib/kendra';
 import { KendraKnowledgeBase } from '../../src/cdk-lib/bedrock';
+import { KendraGenAiIndex } from '../../src/cdk-lib/kendra';
 
 const app = new cdk.App();
 const region = 'us-east-1';

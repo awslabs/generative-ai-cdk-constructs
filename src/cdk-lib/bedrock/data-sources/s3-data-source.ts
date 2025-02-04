@@ -126,7 +126,7 @@ export class S3DataSource extends DataSourceNew {
           reason: 'The KB role needs read only access to all objects in the data source bucket.',
         },
       ],
-      true
+      true,
     );
 
     // ------------------------------------------------------

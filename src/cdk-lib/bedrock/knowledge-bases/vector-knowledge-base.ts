@@ -15,18 +15,6 @@ import { ArnFormat, aws_bedrock as bedrock, Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { NagSuppressions } from 'cdk-nag/lib/nag-suppressions';
 import { Construct } from 'constructs';
-import { Agent } from '../agents/agent';
-import { ConfluenceDataSource, ConfluenceDataSourceAssociationProps } from '../data-sources/confluence-data-source';
-import { S3DataSource, S3DataSourceAssociationProps } from '../data-sources/s3-data-source';
-import { SalesforceDataSource, SalesforceDataSourceAssociationProps } from '../data-sources/salesforce-data-source';
-import { SharePointDataSource, SharePointDataSourceAssociationProps } from '../data-sources/sharepoint-data-source';
-import { WebCrawlerDataSource, WebCrawlerDataSourceAssociationProps } from '../data-sources/web-crawler-data-source';
-import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
-import { ExistingAmazonAuroraVectorStore, AmazonAuroraVectorStore } from '../../amazonaurora';
-import { BedrockFoundationModel } from '../models';
-import { VectorIndex } from '../../opensearch-vectorindex';
-import { VectorCollection } from '../../opensearchserverless';
-import { PineconeVectorStore } from '../../pinecone';
 import {
   CommonKnowledgeBaseAttributes,
   CommonKnowledgeBaseProps,
@@ -34,6 +22,18 @@ import {
   KnowledgeBaseBase,
   KnowledgeBaseType,
 } from './knowledge-base';
+import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
+import { ExistingAmazonAuroraVectorStore, AmazonAuroraVectorStore } from '../../amazonaurora';
+import { VectorIndex } from '../../opensearch-vectorindex';
+import { VectorCollection } from '../../opensearchserverless';
+import { PineconeVectorStore } from '../../pinecone';
+import { Agent } from '../agents/agent';
+import { ConfluenceDataSource, ConfluenceDataSourceAssociationProps } from '../data-sources/confluence-data-source';
+import { S3DataSource, S3DataSourceAssociationProps } from '../data-sources/s3-data-source';
+import { SalesforceDataSource, SalesforceDataSourceAssociationProps } from '../data-sources/salesforce-data-source';
+import { SharePointDataSource, SharePointDataSourceAssociationProps } from '../data-sources/sharepoint-data-source';
+import { WebCrawlerDataSource, WebCrawlerDataSourceAssociationProps } from '../data-sources/web-crawler-data-source';
+import { BedrockFoundationModel } from '../models';
 
 /******************************************************************************
  *                                  ENUMS
@@ -273,7 +273,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
   public static fromKnowledgeBaseAttributes(
     scope: Construct,
     id: string,
-    attrs: VectorKnowledgeBaseAttributes
+    attrs: VectorKnowledgeBaseAttributes,
   ): IVectorKnowledgeBase {
     const stack = Stack.of(scope);
 
@@ -400,7 +400,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
         new iam.PolicyStatement({
           actions: ['bedrock:InvokeModel'],
           resources: [embeddingsModel.asArn(this)],
-        })
+        }),
       );
     }
     /**
@@ -435,7 +435,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
         new iam.PolicyStatement({
           actions: ['secretsmanager:GetSecretValue'],
           resources: [this.vectorStore.credentialsSecretArn],
-        })
+        }),
       );
     }
 
@@ -454,7 +454,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
         new iam.PolicyStatement({
           actions: ['rds-data:ExecuteStatement', 'rds-data:BatchExecuteStatement', 'rds:DescribeDBClusters'],
           resources: [this.vectorStore.resourceArn],
-        })
+        }),
       );
     }
 
@@ -593,7 +593,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
           reason: "Bedrock CreateKnowledgeBase can't be restricted by resource.",
         },
       ],
-      true
+      true,
     );
 
     this.knowledgeBaseArn = knowledgeBase.attrKnowledgeBaseArn;
@@ -705,19 +705,19 @@ function validateVectorIndex(vectorStore: any, vectorIndex: any, vectorField: an
   if (!(vectorStore instanceof VectorCollection) && vectorIndex) {
     throw new Error(
       'If vectorStore is not of type VectorCollection, vectorIndex should not be provided ' +
-        'in KnowledgeBase construct.'
+        'in KnowledgeBase construct.',
     );
   }
   if (!(vectorStore instanceof VectorCollection) && indexName) {
     throw new Error(
       'If vectorStore is not of type VectorCollection, indexName should not be provided ' +
-        'in KnowledgeBase construct.'
+        'in KnowledgeBase construct.',
     );
   }
   if (!(vectorStore instanceof VectorCollection) && vectorField) {
     throw new Error(
       'If vectorStore is not of type VectorCollection, vectorField should not be provided ' +
-        'in KnowledgeBase construct.'
+        'in KnowledgeBase construct.',
     );
   }
 }
@@ -741,7 +741,7 @@ function validateIndexParameters(vectorIndex: VectorIndex, indexName: string, ve
           ' If you create VectorIndex manually and assign vectorIndex to value other than' +
           ' `bedrock-knowledge-base-default-index` then you must provide the same value in KnowledgeBase construct.' +
           ' If you created VectorIndex manually and set it to `bedrock-knowledge-base-default-index`' +
-          ' then do not assign indexName in KnowledgeBase construct.'
+          ' then do not assign indexName in KnowledgeBase construct.',
       );
     }
   }
@@ -752,7 +752,7 @@ function validateIndexParameters(vectorIndex: VectorIndex, indexName: string, ve
           ' If you create VectorIndex manually and assign vectorField to value other than' +
           ' `bedrock-knowledge-base-default-field` then you must provide the same value in KnowledgeBase construct.' +
           ' If you created VectorIndex manually and set it to `bedrock-knowledge-base-default-vector`' +
-          ' then do not assign vectorField in KnowledgeBase construct.'
+          ' then do not assign vectorField in KnowledgeBase construct.',
       );
     }
   }

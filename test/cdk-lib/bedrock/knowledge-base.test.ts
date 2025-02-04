@@ -151,7 +151,7 @@ describe('VectorKnowledgeBase', () => {
             },
           ],
         },
-      })
+      }),
     );
     // const policyDocument = knowledgeBase.role.?.toJSON();
     // expect(policyDocument).toBeDefined();
@@ -253,7 +253,7 @@ describe('VectorKnowledgeBase', () => {
             EmbeddingModelConfiguration: ABSENT,
           },
         },
-      })
+      }),
     );
   });
 
@@ -275,7 +275,7 @@ describe('VectorKnowledgeBase', () => {
             },
           },
         },
-      })
+      }),
     );
   });
 
@@ -288,7 +288,7 @@ describe('VectorKnowledgeBase', () => {
 
     expect(kb.knowledgeBaseId).toEqual('OVGH4TEBDH');
     expect(kb.role.roleArn).toEqual(
-      'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseE9B1DDDC'
+      'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseE9B1DDDC',
     );
     expect(kb.role.roleName).toEqual('AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseE9B1DDDC');
     expect(kb.knowledgeBaseArn).toMatch(new RegExp('arn:.*:bedrock:us-east-1:123456789012:knowledge-base/OVGH4TEBDH$'));
@@ -302,7 +302,7 @@ describe('VectorKnowledgeBase', () => {
     const bucket = s3.Bucket.fromBucketArn(
       stack,
       's3-imported',
-      'arn:aws:s3:::aws-cdk-bedrock-test-bucket-83908e77-cdxrc7lilg6v'
+      'arn:aws:s3:::aws-cdk-bedrock-test-bucket-83908e77-cdxrc7lilg6v',
     );
 
     const s3datasource = kb2.addS3DataSource({

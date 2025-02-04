@@ -215,17 +215,17 @@ export class ConfluenceDataSource extends DataSourceNew {
           },
           crawlerConfiguration: props.filters
             ? {
-                filterConfiguration: {
-                  type: 'PATTERN',
-                  patternObjectFilter: {
-                    filters: props.filters?.map(item => ({
-                      objectType: item.objectType,
-                      inclusionFilters: item.includePatterns,
-                      exclusionFilters: item.excludePatterns,
-                    })),
-                  },
+              filterConfiguration: {
+                type: 'PATTERN',
+                patternObjectFilter: {
+                  filters: props.filters?.map(item => ({
+                    objectType: item.objectType,
+                    inclusionFilters: item.includePatterns,
+                    exclusionFilters: item.excludePatterns,
+                  })),
                 },
-              }
+              },
+            }
             : undefined,
         },
       }),

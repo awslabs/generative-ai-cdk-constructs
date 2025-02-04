@@ -206,7 +206,7 @@ export abstract class DataSourceNew extends DataSourceBase {
    */
   public formatAsCfnProps(
     props: DataSourceAssociationProps,
-    dataSourceConfiguration: CfnDataSource.DataSourceConfigurationProperty
+    dataSourceConfiguration: CfnDataSource.DataSourceConfigurationProperty,
   ): CfnDataSourceProps {
     return {
       dataDeletionPolicy: props.dataDeletionPolicy,
@@ -216,16 +216,16 @@ export abstract class DataSourceNew extends DataSourceBase {
       name: this.dataSourceName,
       serverSideEncryptionConfiguration: props.kmsKey
         ? {
-            kmsKeyArn: props.kmsKey.keyArn,
-          }
+          kmsKeyArn: props.kmsKey.keyArn,
+        }
         : undefined,
       vectorIngestionConfiguration:
         props.chunkingStrategy || props.parsingStrategy || props.customTransformation
           ? {
-              chunkingConfiguration: props.chunkingStrategy?.configuration,
-              parsingConfiguration: props.parsingStrategy?.configuration,
-              customTransformationConfiguration: props.customTransformation?.configuration,
-            }
+            chunkingConfiguration: props.chunkingStrategy?.configuration,
+            parsingConfiguration: props.parsingStrategy?.configuration,
+            customTransformationConfiguration: props.customTransformation?.configuration,
+          }
           : undefined,
     };
   }
