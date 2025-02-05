@@ -23,47 +23,48 @@ import {
   MathExpression,
 } from 'aws-cdk-lib/aws-cloudwatch';
 import { Construct } from 'constructs';
+import { IGuardrail } from '../../../cdk-lib/bedrock';
 
 /**
  * The properties for the ModelMonitoringProps class.
  */
 export interface ModelMonitoringProps {
   /*
-    * Optional - The period over which the specified statistic is applied.
-    * @default - 1 hour
-    */
+   * Optional - The period over which the specified statistic is applied.
+   * @default - 1 hour
+   */
   readonly period?: Duration;
   /*
-    * Optional - Only applicable for image generation models.
-    * Used for the OutputImageCount metric as follows:
-    * "ModelId + ImageSize + BucketedStepSize"
-    * @default - empty
-    */
+   * Optional - Only applicable for image generation models.
+   * Used for the OutputImageCount metric as follows:
+   * "ModelId + ImageSize + BucketedStepSize"
+   * @default - empty
+   */
   readonly imageSize?: string;
   /*
-    * Optional - Only applicable for image generation models.
-    * Used for the OutputImageCount metric as follows:
-    * "ModelId + ImageSize + BucketedStepSize"
-    * @default - empty
-    */
+   * Optional - Only applicable for image generation models.
+   * Used for the OutputImageCount metric as follows:
+   * "ModelId + ImageSize + BucketedStepSize"
+   * @default - empty
+   */
   readonly bucketedStepSize?: string;
   /*
-  * Optional - Cost per 1K input tokens
-  * Used Only for single model monitoring
-  * Used to compute on-demand input and total tokens cost
-  * for a specific model. Please refer to https://aws.amazon.com/bedrock/pricing/
-  * for pricing details.
-  * @default - empty
-  */
+   * Optional - Cost per 1K input tokens
+   * Used Only for single model monitoring
+   * Used to compute on-demand input and total tokens cost
+   * for a specific model. Please refer to https://aws.amazon.com/bedrock/pricing/
+   * for pricing details.
+   * @default - empty
+   */
   readonly inputTokenPrice?: number;
   /*
-  * Optional - Cost per 1K output tokens
-  * Used Only for single model monitoring
-  * Used to compute on-demand input and total tokens cost
-  * for a specific model. Please refer to https://aws.amazon.com/bedrock/pricing/
-  * for pricing details.
-  * @default - empty
-  */
+   * Optional - Cost per 1K output tokens
+   * Used Only for single model monitoring
+   * Used to compute on-demand input and total tokens cost
+   * for a specific model. Please refer to https://aws.amazon.com/bedrock/pricing/
+   * for pricing details.
+   * @default - empty
+   */
   readonly outputTokenPrice?: number;
 }
 
@@ -71,7 +72,6 @@ export interface ModelMonitoringProps {
  * The properties for the BedrockCwDashboardProps class.
  */
 export interface BedrockCwDashboardProps {
-
   /**
    * Optional An existing dashboard where metrics will be added to.
    * If not provided, the construct will create a new dashboard
@@ -94,7 +94,6 @@ export interface BedrockCwDashboardProps {
  * The BedrockCwDashboard class.
  */
 export class BedrockCwDashboard extends Construct {
-
   /**
    * Returns the instance of CloudWatch dashboard used by the construct
    */
@@ -111,11 +110,19 @@ export class BedrockCwDashboard extends Construct {
   constructor(scope: Construct, id: string, props: BedrockCwDashboardProps = {}) {
     super(scope, id);
 
-    this.dashboard = props.existingDashboard ?? new Dashboard(this, `BedrockMetricsDashboard${id}`, {
-      dashboardName: props.dashboardName ?? 'BedrockMetricsDashboard',
-    });
+    this.dashboard =
+      props.existingDashboard ??
+      new Dashboard(this, `BedrockMetricsDashboard${id}`, {
+        dashboardName: props.dashboardName ?? 'BedrockMetricsDashboard',
+      });
 
-    const cloudwatchDashboardURL = 'https://' + Aws.REGION + '.console.aws.amazon.com/cloudwatch/home?region=' + Aws.REGION + '#dashboards:name=' + this.dashboard.dashboardName;
+    const cloudwatchDashboardURL =
+      'https://' +
+      Aws.REGION +
+      '.console.aws.amazon.com/cloudwatch/home?region=' +
+      Aws.REGION +
+      '#dashboards:name=' +
+      this.dashboard.dashboardName;
 
     new CfnOutput(this, `BedrockMetricsDashboardOutput${id}`, {
       value: cloudwatchDashboardURL,
@@ -126,9 +133,8 @@ export class BedrockCwDashboard extends Construct {
    * @param {string} modelName - Model name as it will appear in the dashboard row widget.
    * @param {string} modelId - Bedrock model id as defined in https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html
    * @param {ModelMonitoringProps} props - user provided props for the monitoring.
-  */
+   */
   public addModelMonitoring(modelName: string, modelId: string, props: ModelMonitoringProps = {}) {
-
     const period = props.period ?? Duration.hours(1);
     const outputImageCountDimension = modelId + props.imageSize + props.bucketedStepSize;
 
@@ -247,8 +253,8 @@ export class BedrockCwDashboard extends Construct {
         new TextWidget({
           markdown: `# ${modelName}`,
           width: 24,
-        }),
-      ),
+        })
+      )
     );
 
     this.dashboard.addWidgets(
@@ -267,53 +273,52 @@ export class BedrockCwDashboard extends Construct {
           title: 'Max Latency',
           metrics: [modelLatencyMaxMetric],
           width: 8,
-        }),
-      ),
+        })
+      )
     );
 
     let pricingWidget;
 
     if (props.inputTokenPrice && props.outputTokenPrice) {
-      pricingWidget =
-          new GraphWidget({
-            title: 'Token Cost (USD)',
-            left: [
-              new MathExpression({
-                expression: `inputTokens / 1000 * ${props.inputTokenPrice}`,
-                usingMetrics: {
-                  inputTokens: modelInputTokensMetric,
-                },
-                label: 'Input Token Cost',
-              }),
-              new MathExpression({
-                expression: `outputTokens / 1000 * ${props.outputTokenPrice}`,
-                usingMetrics: {
-                  outputTokens: modelOutputTokensMetric,
-                },
-                label: 'Output Token Cost',
-              }),
-            ],
-            leftYAxis: {
-              label: 'Input and Output',
-              showUnits: false,
+      pricingWidget = new GraphWidget({
+        title: 'Token Cost (USD)',
+        left: [
+          new MathExpression({
+            expression: `inputTokens / 1000 * ${props.inputTokenPrice}`,
+            usingMetrics: {
+              inputTokens: modelInputTokensMetric,
             },
-            right: [
-              new MathExpression({
-                expression: `inputTokens / 1000 * ${props.inputTokenPrice} + outputTokens / 1000 * ${props.outputTokenPrice}`,
-                usingMetrics: {
-                  inputTokens: modelInputTokensMetric,
-                  outputTokens: modelOutputTokensMetric,
-                },
-                label: 'Total Cost',
-              }),
-            ],
-            rightYAxis: {
-              label: 'Total',
-              showUnits: false,
+            label: 'Input Token Cost',
+          }),
+          new MathExpression({
+            expression: `outputTokens / 1000 * ${props.outputTokenPrice}`,
+            usingMetrics: {
+              outputTokens: modelOutputTokensMetric,
             },
-            width: 12,
-            height: 10,
-          });
+            label: 'Output Token Cost',
+          }),
+        ],
+        leftYAxis: {
+          label: 'Input and Output',
+          showUnits: false,
+        },
+        right: [
+          new MathExpression({
+            expression: `inputTokens / 1000 * ${props.inputTokenPrice} + outputTokens / 1000 * ${props.outputTokenPrice}`,
+            usingMetrics: {
+              inputTokens: modelInputTokensMetric,
+              outputTokens: modelOutputTokensMetric,
+            },
+            label: 'Total Cost',
+          }),
+        ],
+        rightYAxis: {
+          label: 'Total',
+          showUnits: false,
+        },
+        width: 12,
+        height: 10,
+      });
     }
 
     this.dashboard.addWidgets(
@@ -326,8 +331,9 @@ export class BedrockCwDashboard extends Construct {
           width: 12,
           height: 10,
         }),
-        ...(pricingWidget ? [pricingWidget] : []),
-      ));
+        ...(pricingWidget ? [pricingWidget] : [])
+      )
+    );
 
     this.dashboard.addWidgets(
       new SingleValueWidget({
@@ -359,15 +365,14 @@ export class BedrockCwDashboard extends Construct {
         title: 'OutputImageCount',
         metrics: [modelOutputImageMetric],
         width: 4,
-      }),
+      })
     );
   }
 
   /* Add a new row to the dashboard providing metrics across all model ids in Bedrock
-  * @param {ModelMonitoringProps} props - user provided props for the monitoring.
-  */
+   * @param {ModelMonitoringProps} props - user provided props for the monitoring.
+   */
   public addAllModelsMonitoring(props: ModelMonitoringProps = {}) {
-
     const period = props.period ?? Duration.hours(1);
 
     // Metrics across all Model Ids
@@ -453,8 +458,8 @@ export class BedrockCwDashboard extends Construct {
         new TextWidget({
           markdown: '# Metrics Across All Models',
           width: 24,
-        }),
-      ),
+        })
+      )
     );
     this.dashboard.addWidgets(
       new Row(
@@ -472,8 +477,8 @@ export class BedrockCwDashboard extends Construct {
           title: 'Max Latency (All Models)',
           metrics: [latencyMaxAllModelsMetric],
           width: 8,
-        }),
-      ),
+        })
+      )
     );
     this.dashboard.addWidgets(
       new Row(
@@ -513,9 +518,38 @@ export class BedrockCwDashboard extends Construct {
           title: 'Legacy invocations (All Models)',
           metrics: [invocationsLegacyModelMetric],
           width: 4,
+        })
+      )
+    );
+  }
+
+  /**
+   * Add guardrail monitoring to the dashboard
+   * @param {IGuardrail} guardrail - The guardrail to monitor
+   */
+  public addGuardrailMonitoring(guardrail: IGuardrail) {
+    this.dashboard.addWidgets(
+      new Row(
+        new TextWidget({
+          markdown: `# Guardrail Metrics: ${guardrail.guardrailId}`,
+          width: 24,
         }),
-      ),
+        new GraphWidget({
+          title: 'Guardrail Activity Over Time',
+          left: [guardrail.metricInvocations({ statistic: Stats.SUM })],
+          leftYAxis: {
+            label: 'Invocations',
+            showUnits: false,
+          },
+          right: [guardrail.metricInvocationsIntervened({ statistic: Stats.SUM })],
+          rightYAxis: {
+            label: 'Interventions',
+            showUnits: false,
+          },
+          width: 24,
+          height: 6,
+        })
+      )
     );
   }
 }
-

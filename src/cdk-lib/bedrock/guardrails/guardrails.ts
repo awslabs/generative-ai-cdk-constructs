@@ -19,6 +19,7 @@ import { IKey, Key } from 'aws-cdk-lib/aws-kms';
 import { md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
 import { Construct } from 'constructs';
 import * as filters from './guardrail-filters';
+import { Metric, MetricOptions, MetricProps } from 'aws-cdk-lib/aws-cloudwatch';
 
 /******************************************************************************
  *                              COMMON
@@ -52,15 +53,55 @@ export interface IGuardrail extends IResource {
    * this will default to "DRAFT"
    */
   guardrailVersion: string;
+
   /**
    * Grant the given principal identity permissions to perform actions on this guardrail.
    */
   grant(grantee: iam.IGrantable, ...actions: string[]): iam.Grant;
-
   /**
    * Grant the given identity permissions to apply the guardrail.
    */
   grantApply(grantee: iam.IGrantable): iam.Grant;
+
+  /**
+   * Return the given named metric for this guardrail.
+   */
+  metric(metricName: string, props?: MetricOptions): Metric;
+
+  /**
+   * Return the invocations metric for this guardrail.
+   */
+  metricInvocations(props?: MetricOptions): Metric;
+
+  /**
+   * Return the invocation latency metric for this guardrail.
+   */
+  metricInvocationLatency(props?: MetricOptions): Metric;
+
+  /**
+   * Return the invocation client errors metric for this guardrail.
+   */
+  metricInvocationClientErrors(props?: MetricOptions): Metric;
+
+  /**
+   * Return the invocation server errors metric for this guardrail.
+   */
+  metricInvocationServerErrors(props?: MetricOptions): Metric;
+
+  /**
+   * Return the invocation throttles metric for this guardrail.
+   */
+  metricInvocationThrottles(props?: MetricOptions): Metric;
+
+  /**
+   * Return the text unit count metric for this guardrail.
+   */
+  metricTextUnitCount(props?: MetricOptions): Metric;
+
+  /**
+   * Return the invocations intervened metric for this guardrail.
+   */
+  metricInvocationsIntervened(props?: MetricOptions): Metric;
 }
 
 /**
@@ -113,6 +154,122 @@ export abstract class GuardrailBase extends Resource implements IGuardrail {
       // If no KMS key exists, return only the base grant
       return baseGrant;
     }
+  }
+
+  /**
+   * Return the given named metric for this guardrail.
+   *
+   * By default, the metric will be calculated as a sum over a period of 5 minutes.
+   * You can customize this by using the `statistic` and `period` properties.
+   */
+  public metric(metricName: string, props?: MetricOptions): Metric {
+    const metricProps: MetricProps = {
+      namespace: 'AWS/Bedrock/Guardrails',
+      metricName,
+      dimensionsMap: { GuardrailArn: this.guardrailArn, GuardrailVersion: this.guardrailVersion },
+      ...props,
+    };
+    return this.configureMetric(metricProps);
+  }
+
+  /**
+   * Return the invocations metric for this guardrail.
+   */
+  public metricInvocations(props?: MetricOptions): Metric {
+    return this.metric('Invocations', props);
+  }
+
+  /**
+   * Return the invocation latency metric for this guardrail.
+   */
+  public metricInvocationLatency(props?: MetricOptions): Metric {
+    return this.metric('InvocationLatency', props);
+  }
+
+  /**
+   * Return the invocation client errors metric for this guardrail.
+   */
+  public metricInvocationClientErrors(props?: MetricOptions): Metric {
+    return this.metric('InvocationClientErrors', props);
+  }
+
+  /**
+   * Return the invocation server errors metric for this guardrail.
+   */
+  public metricInvocationServerErrors(props?: MetricOptions): Metric {
+    return this.metric('InvocationServerErrors', props);
+  }
+
+  /**
+   * Return the invocation throttles metric for this guardrail.
+   */
+  public metricInvocationThrottles(props?: MetricOptions): Metric {
+    return this.metric('InvocationThrottles', props);
+  }
+
+  /**
+   * Return the text unit count metric for this guardrail.
+   */
+  public metricTextUnitCount(props?: MetricOptions): Metric {
+    return this.metric('TextUnitCount', props);
+  }
+
+  /**
+   * Return the invocations intervened metric for this guardrail.
+   */
+  public metricInvocationsIntervened(props?: MetricOptions): Metric {
+    return this.metric('InvocationsIntervened', props);
+  }
+
+  /**
+   * Return the given named metric for all guardrails.
+   *
+   * By default, the metric will be calculated as a sum over a period of 5 minutes.
+   * You can customize this by using the `statistic` and `period` properties.
+   */
+  public static metricAll(metricName: string, props?: MetricOptions): Metric {
+    return new Metric({
+      namespace: 'AWS/Bedrock/Guardrails',
+      dimensionsMap: { Operation: 'ApplyGuardrail' },
+      metricName,
+      ...props,
+    });
+  }
+
+  /**
+   * Return the invocations metric for all guardrails.
+   */
+  public static metricAllInvocations(props?: MetricOptions): Metric {
+    return this.metricAll('Invocations', props);
+  }
+
+  /**
+   * Return the text unit count metric for all guardrails.
+   */
+  public static metricAllTextUnitCount(props?: MetricOptions): Metric {
+    return this.metricAll('TextUnitCount', props);
+  }
+
+  /**
+   * Return the invocations intervened metric for all guardrails.
+   */
+  public static metricAllInvocationsIntervened(props?: MetricOptions): Metric {
+    return this.metricAll('InvocationsIntervened', props);
+  }
+
+  /**
+   * Return the invocation latency metric for all guardrails.
+   */
+  public static metricAllInvocationLatency(props?: MetricOptions): Metric {
+    return this.metricAll('InvocationLatency', props);
+  }
+
+  private configureMetric(props: MetricProps) {
+    return new Metric({
+      ...props,
+      region: props?.region ?? this.stack.region,
+      account: props?.account ?? this.stack.account,
+    });
   }
 }
 
@@ -545,7 +702,7 @@ export class Guardrail extends GuardrailBase {
           });
         },
       },
-      { omitEmptyArray: true },
+      { omitEmptyArray: true }
     );
   }
 
@@ -564,7 +721,7 @@ export class Guardrail extends GuardrailBase {
           });
         },
       },
-      { omitEmptyArray: true },
+      { omitEmptyArray: true }
     );
   }
 
@@ -586,7 +743,7 @@ export class Guardrail extends GuardrailBase {
           }
         },
       },
-      { omitEmptyArray: true },
+      { omitEmptyArray: true }
     );
   }
 
@@ -608,7 +765,7 @@ export class Guardrail extends GuardrailBase {
           });
         },
       },
-      { omitEmptyArray: true },
+      { omitEmptyArray: true }
     );
   }
 
@@ -628,7 +785,7 @@ export class Guardrail extends GuardrailBase {
           });
         },
       },
-      { omitEmptyArray: true },
+      { omitEmptyArray: true }
     );
   }
 }
