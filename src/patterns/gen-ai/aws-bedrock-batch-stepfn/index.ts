@@ -41,25 +41,32 @@ export interface BedrockBatchSfnProps {
    * - bedrock:InvokeModel
    * - bedrock:CreateModelInvocationJob
    *
-   * @example
-   * const bedrockBatchPolicy = new iam.ManagedPolicy(this, 'BedrockBatchPolicy', {});
-   *
-   * bedrockBatchPolicy.addStatements(
-   *   new iam.PolicyStatement({
-   *     sid: "Inference",
-   *     actions: ["bedrock:InvokeModel", "bedrock:CreateModelInvocationJob"],
-   *     resources: [
-   *       `arn:aws:bedrock:${Stack.of(scope).region}::foundation-model/*`,
-   *     ],
-   *   })
-   * );
+   * @default
+   * const bedrockBatchPolicy = new iam.ManagedPolicy(this, 'BedrockBatchPolicy', {
+   *         statements: [
+   *           new iam.PolicyStatement({
+   *             sid: 'Inference',
+   *             actions: ['bedrock:InvokeModel', 'bedrock:CreateModelInvocationJob'],
+   *             resources: [
+   *               'arn:aws:bedrock:*::foundation-model/*',
+   *               Stack.of(this).formatArn({
+   *                 service: 'bedrock',
+   *                 resource: 'inference-profile',
+   *                 resourceName: '*',
+   *               }),
+   *             ],
+   *           }),
+   *         ],
+   *       });
    */
-  readonly bedrockBatchPolicy: iam.IManagedPolicy;
+  readonly bedrockBatchPolicy?: iam.IManagedPolicy;
   /**
    * The timeout duration for the batch inference job.
    * Must be between 24 hours and 1 week (168 hours).
+   *
+   * @default Duration.hours(48)
    */
-  readonly timeout: Duration;
+  readonly timeout?: Duration;
   /**
    * JSONPath expression to select part of the state to be the input to this state.
    * May also be the special value JsonPath. DISCARD, which will cause the effective input to be the empty object {}.
@@ -131,7 +138,7 @@ export class BedrockBatchSfn extends sfn.StateMachineFragment {
   constructor(parent: Construct, id: string, props: BedrockBatchSfnProps) {
     super(parent, id);
 
-    if (props.timeout.toHours() < 24 || props.timeout.toHours() > 168) {
+    if (props.timeout && (props.timeout.toHours() < 24 || props.timeout.toHours() > 168)) {
       throw new Error('Timeout must be between 24 hours and 1 week (168 hours).');
     }
 
@@ -142,9 +149,44 @@ export class BedrockBatchSfn extends sfn.StateMachineFragment {
       assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com'),
     });
 
-    bedrockBatchRole.addManagedPolicy(
-      props.bedrockBatchPolicy,
-    );
+    let bedrockBatchPolicy: iam.IManagedPolicy;
+    if (props.bedrockBatchPolicy) {
+      bedrockBatchRole.addManagedPolicy(props.bedrockBatchPolicy);
+      bedrockBatchPolicy = props.bedrockBatchPolicy;
+    } else {
+      bedrockBatchPolicy = new iam.ManagedPolicy(this, 'BedrockBatchPolicy', {
+        statements: [
+          new iam.PolicyStatement({
+            sid: 'Inference',
+            actions: ['bedrock:InvokeModel', 'bedrock:CreateModelInvocationJob'],
+            resources: [
+              'arn:aws:bedrock:*::foundation-model/*',
+              Stack.of(this).formatArn({
+                service: 'bedrock',
+                resource: 'inference-profile',
+                resourceName: '*',
+              }),
+            ],
+          }),
+        ],
+      });
+
+      if (bedrockBatchPolicy instanceof iam.ManagedPolicy) {
+        NagSuppressions.addResourceSuppressions(
+          bedrockBatchPolicy,
+          [
+            {
+              id: 'AwsSolutions-IAM5',
+              reason: 'Wildcards allow Bedrock inference and model invocation jobs.',
+            },
+          ],
+          true,
+        );
+      }
+      bedrockBatchRole.addManagedPolicy(bedrockBatchPolicy);
+
+
+    }
 
     bedrockBatchRole.assumeRolePolicy?.addStatements(
       new iam.PolicyStatement({
@@ -186,7 +228,7 @@ export class BedrockBatchSfn extends sfn.StateMachineFragment {
         this,
         'CreateModelInvocationJobFunction',
         {
-          bedrockBatchPolicy: props.bedrockBatchPolicy,
+          bedrockBatchPolicy: bedrockBatchPolicy,
         },
       );
     bedrockBatchRole.grantPassRole(createModelInvocationJobFunction.role!);
@@ -197,7 +239,7 @@ export class BedrockBatchSfn extends sfn.StateMachineFragment {
       {
         lambdaFunction: createModelInvocationJobFunction,
         integrationPattern: sfn.IntegrationPattern.WAIT_FOR_TASK_TOKEN,
-        heartbeatTimeout: sfn.Timeout.duration(props.timeout),
+        heartbeatTimeout: sfn.Timeout.duration(props.timeout ? props.timeout : Duration.hours(48)),
         payload: sfn.TaskInput.fromObject({
           jobName: sfn.JsonPath.format(
             '{}{}',
@@ -222,7 +264,7 @@ export class BedrockBatchSfn extends sfn.StateMachineFragment {
               ),
             },
           },
-          timeoutDurationInHours: props.timeout.toHours(),
+          timeoutDurationInHours: props.timeout ? props.timeout.toHours() : 48,
           TaskToken: sfn.JsonPath.stringAt('$$.Task.Token'),
         }),
       },

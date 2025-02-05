@@ -24,9 +24,9 @@ The S3 bucket where the Bedrock Batch Inference Job stores the output.
 
 ***
 
-### bedrockBatchPolicy
+### bedrockBatchPolicy?
 
-> `readonly` **bedrockBatchPolicy**: `IManagedPolicy`
+> `readonly` `optional` **bedrockBatchPolicy**: `IManagedPolicy`
 
 IAM policy used for Bedrock batch processing
 
@@ -34,20 +34,25 @@ The policy must have the following permissions for the models and inference prof
 - bedrock:InvokeModel
 - bedrock:CreateModelInvocationJob
 
-#### Example
+#### Default
 
 ```ts
-const bedrockBatchPolicy = new iam.ManagedPolicy(this, 'BedrockBatchPolicy', {});
-
-bedrockBatchPolicy.addStatements(
-  new iam.PolicyStatement({
-    sid: "Inference",
-    actions: ["bedrock:InvokeModel", "bedrock:CreateModelInvocationJob"],
-    resources: [
-      `arn:aws:bedrock:${Stack.of(scope).region}::foundation-model/*`,
-    ],
-  })
-);
+const bedrockBatchPolicy = new iam.ManagedPolicy(this, 'BedrockBatchPolicy', {
+        statements: [
+          new iam.PolicyStatement({
+            sid: 'Inference',
+            actions: ['bedrock:InvokeModel', 'bedrock:CreateModelInvocationJob'],
+            resources: [
+              'arn:aws:bedrock:*::foundation-model/*',
+              Stack.of(this).formatArn({
+                service: 'bedrock',
+                resource: 'inference-profile',
+                resourceName: '*',
+              }),
+            ],
+          }),
+        ],
+      });
 ```
 
 ***
@@ -100,9 +105,15 @@ Replaces the entire input with the result (JSON path '$')
 
 ***
 
-### timeout
+### timeout?
 
-> `readonly` **timeout**: `Duration`
+> `readonly` `optional` **timeout**: `Duration`
 
 The timeout duration for the batch inference job.
 Must be between 24 hours and 1 week (168 hours).
+
+#### Default
+
+```ts
+Duration.hours(48)
+```
