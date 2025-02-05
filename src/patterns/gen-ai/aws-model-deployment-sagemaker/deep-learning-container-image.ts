@@ -10,7 +10,6 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
-
 import { Stack } from 'aws-cdk-lib';
 import * as ecr from 'aws-cdk-lib/aws-ecr';
 import * as iam from 'aws-cdk-lib/aws-iam';
@@ -66,6 +65,8 @@ export class DeepLearningContainerImage extends ContainerImage {
   public static readonly HUGGINGFACE_PYTORCH_INFERENCE_2_1_0_TRANSFORMERS4_37_0_GPU_PY310_CU118_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference', '2.1.0-transformers4.37.0-gpu-py310-cu118-ubuntu20.04');
   public static readonly HUGGINGFACE_PYTORCH_INFERENCE_2_3_0_TRANSFORMERS4_46_1_CPU_PY311_UBUNTU22_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference', '2.3.0-transformers4.46.1-cpu-py311-ubuntu22.04');
   public static readonly HUGGINGFACE_PYTORCH_INFERENCE_2_3_0_TRANSFORMERS4_46_1_GPU_PY311_CU121_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference', '2.3.0-transformers4.46.1-gpu-py311-cu121-ubuntu20.04');
+  public static readonly HUGGINGFACE_PYTORCH_INFERENCE_2_3_0_TRANSFORMERS4_48_0_CPU_PY311_UBUNTU22_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference', '2.3.0-transformers4.48.0-cpu-py311-ubuntu22.04');
+  public static readonly HUGGINGFACE_PYTORCH_INFERENCE_2_3_0_TRANSFORMERS4_48_0_GPU_PY311_CU121_UBUNTU22_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference', '2.3.0-transformers4.48.0-gpu-py311-cu121-ubuntu22.04');
   public static readonly HUGGINGFACE_PYTORCH_INFERENCE_NEURONX_1_13_0_TRANSFORMERS4_28_1_NEURONX_PY38_SDK2_9_1_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference-neuronx', '1.13.0-transformers4.28.1-neuronx-py38-sdk2.9.1-ubuntu20.04');
   public static readonly HUGGINGFACE_PYTORCH_INFERENCE_NEURONX_1_13_1_TRANSFORMERS4_34_1_NEURONX_PY310_SDK2_15_0_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference-neuronx', '1.13.1-transformers4.34.1-neuronx-py310-sdk2.15.0-ubuntu20.04');
   public static readonly HUGGINGFACE_PYTORCH_INFERENCE_NEURONX_1_13_1_TRANSFORMERS4_36_2_NEURONX_PY310_SDK2_16_1_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference-neuronx', '1.13.1-transformers4.36.2-neuronx-py310-sdk2.16.1-ubuntu20.04');
