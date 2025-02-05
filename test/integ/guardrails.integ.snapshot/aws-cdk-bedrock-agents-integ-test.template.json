@@ -113,7 +113,7 @@
        {
         "Ref": "AWS::Region"
        },
-       "\"}],[\"AWS/Bedrock/Guardrails\",\"InvocationsIntervened\",\"GuardrailArn\",\"",
+       "\",\"stat\":\"Sum\"}],[\"AWS/Bedrock/Guardrails\",\"InvocationsIntervened\",\"GuardrailArn\",\"",
        {
         "Fn::GetAtt": [
          "TestGuardrailMyGuardrail0493303A",
@@ -135,7 +135,11 @@
        {
         "Ref": "AWS::Region"
        },
-       "\",\"yAxis\":\"right\"}]],\"yAxis\":{\"left\":{\"label\":\"Count\",\"showUnits\":false},\"right\":{\"label\":\"Interventions\",\"showUnits\":false}}}}]}"
+       "\",\"stat\":\"Sum\",\"yAxis\":\"right\"}]],\"yAxis\":{\"left\":{\"label\":\"Invocations\",\"showUnits\":false},\"right\":{\"label\":\"Interventions\",\"showUnits\":false}}}},{\"type\":\"text\",\"width\":24,\"height\":2,\"x\":0,\"y\":8,\"properties\":{\"markdown\":\"# Guardrail Metrics Across All Guardrails\"}},{\"type\":\"metric\",\"width\":24,\"height\":6,\"x\":0,\"y\":10,\"properties\":{\"view\":\"timeSeries\",\"title\":\"Guardrail Activity Over Time\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/Bedrock/Guardrails\",\"Invocations\",\"Operation\",\"ApplyGuardrail\",{\"stat\":\"Sum\"}],[\"AWS/Bedrock/Guardrails\",\"InvocationsIntervened\",\"Operation\",\"ApplyGuardrail\",{\"stat\":\"Sum\",\"yAxis\":\"right\"}]],\"yAxis\":{\"left\":{\"label\":\"Invocations\",\"showUnits\":false},\"right\":{\"label\":\"Interventions\",\"showUnits\":false}}}}]}"
       ]
      ]
     },

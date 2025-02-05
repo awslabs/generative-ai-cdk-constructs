@@ -23,7 +23,7 @@ import {
   MathExpression,
 } from 'aws-cdk-lib/aws-cloudwatch';
 import { Construct } from 'constructs';
-import { IGuardrail } from '../../../cdk-lib/bedrock';
+import { Guardrail, IGuardrail } from '../../../cdk-lib/bedrock';
 
 /**
  * The properties for the ModelMonitoringProps class.
@@ -542,6 +542,35 @@ export class BedrockCwDashboard extends Construct {
             showUnits: false,
           },
           right: [guardrail.metricInvocationsIntervened({ statistic: Stats.SUM })],
+          rightYAxis: {
+            label: 'Interventions',
+            showUnits: false,
+          },
+          width: 24,
+          height: 6,
+        })
+      )
+    );
+  }
+
+  /**
+   * Add guardrail monitoring to the dashboard
+   */
+  public addAllGuardrailsMonitoring() {
+    this.dashboard.addWidgets(
+      new Row(
+        new TextWidget({
+          markdown: '# Guardrail Metrics Across All Guardrails',
+          width: 24,
+        }),
+        new GraphWidget({
+          title: 'Guardrail Activity Over Time',
+          left: [Guardrail.metricAllInvocations({ statistic: Stats.SUM })],
+          leftYAxis: {
+            label: 'Invocations',
+            showUnits: false,
+          },
+          right: [Guardrail.metricAllInvocationsIntervened({ statistic: Stats.SUM })],
           rightYAxis: {
             label: 'Interventions',
             showUnits: false,

@@ -48,6 +48,7 @@ const guardrail = new bedrock.Guardrail(stack, 'TestGuardrail', {
 const dashboard = new BedrockCwDashboard(stack, 'dashboard');
 
 dashboard.addGuardrailMonitoring(guardrail);
+dashboard.addAllGuardrailsMonitoring();
 
 new integ.IntegTest(app, 'ServiceTest', {
   testCases: [stack],
