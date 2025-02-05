@@ -12,7 +12,7 @@
  */
 
 import { join } from 'node:path';
-import { Duration, RemovalPolicy, Stack } from 'aws-cdk-lib';
+import { Annotations, Duration, RemovalPolicy, Stack } from 'aws-cdk-lib';
 import { FlowLogDestination, IVpc } from 'aws-cdk-lib/aws-ec2';
 import { DockerImageAsset, Platform } from 'aws-cdk-lib/aws-ecr-assets';
 import { Cluster, ContainerImage, CpuArchitecture, OperatingSystemFamily } from 'aws-cdk-lib/aws-ecs';
@@ -91,6 +91,9 @@ export class LlamaIndexDataLoader extends BaseClass {
 
   constructor(scope: Construct, id: string, props: LlamaIndexDataLoaderProps) {
     super(scope, id);
+
+    Annotations.of(scope).addWarningV2('@cdklabs/generative-ai-cdk-constructs:LlamaIndexDataLoader.deprecation',
+      'This construct is deprecated and will not receive further support. It will be removed in the next release of the library.');
 
     const baseProps: BaseClassProps = {
       stage: props.stage,
