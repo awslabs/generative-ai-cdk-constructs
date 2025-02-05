@@ -11,12 +11,12 @@
  *  and limitations under the License.
  */
 
+import { ArnFormat, IResource, Resource, Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kendra from 'aws-cdk-lib/aws-kendra';
 import { IKey } from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
-import { ArnFormat, IResource, Resource, Stack } from 'aws-cdk-lib';
 
 /******************************************************************************
  *                              COMMON
@@ -231,7 +231,7 @@ export class KendraGenAiIndex extends KendraGenAiIndexBase {
       new iam.PolicyStatement({
         actions: ['logs:DescribeLogGroups'],
         resources: ['*'],
-      })
+      }),
     );
     this.role.addToPrincipalPolicy(
       new iam.PolicyStatement({
@@ -242,7 +242,7 @@ export class KendraGenAiIndex extends KendraGenAiIndexBase {
             'cloudwatch:namespace': 'AWS/Kendra',
           },
         },
-      })
+      }),
     );
     this.role.addToPrincipalPolicy(
       new iam.PolicyStatement({
@@ -255,7 +255,7 @@ export class KendraGenAiIndex extends KendraGenAiIndexBase {
             arnFormat: ArnFormat.COLON_RESOURCE_NAME,
           }),
         ],
-      })
+      }),
     );
     this.role.addToPrincipalPolicy(
       new iam.PolicyStatement({
@@ -268,7 +268,7 @@ export class KendraGenAiIndex extends KendraGenAiIndexBase {
             arnFormat: ArnFormat.COLON_RESOURCE_NAME,
           }),
         ],
-      })
+      }),
     );
 
     // ------------------------------------------------------
@@ -280,8 +280,8 @@ export class KendraGenAiIndex extends KendraGenAiIndexBase {
       roleArn: this.role.roleArn,
       serverSideEncryptionConfiguration: props.kmsKey
         ? {
-            kmsKeyId: props.kmsKey.keyId,
-          }
+          kmsKeyId: props.kmsKey.keyId,
+        }
         : undefined,
       capacityUnits: {
         storageCapacityUnits: this.documentCapacityUnits,

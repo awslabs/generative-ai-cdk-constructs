@@ -85,7 +85,7 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
   public static fromKnowledgeBaseAttributes(
     scope: Construct,
     id: string,
-    attrs: KendraKnowledgeBaseAttributes
+    attrs: KendraKnowledgeBaseAttributes,
   ): IKendraKnowledgeBase {
     const stack = Stack.of(scope);
 
@@ -169,7 +169,7 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
           sid: 'AmazonBedrockKnowledgeBaseKendraIndexAccessStatement',
           actions: ['kendra:Retrieve', 'kendra:DescribeIndex'],
           resources: [this.kendraIndex.indexArn],
-        })
+        }),
       );
     }
     // ------------------------------------------------------

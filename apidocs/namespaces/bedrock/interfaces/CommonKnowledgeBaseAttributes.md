@@ -2,11 +2,16 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / KnowledgeBaseAttributes
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / CommonKnowledgeBaseAttributes
 
-# Interface: KnowledgeBaseAttributes
+# Interface: CommonKnowledgeBaseAttributes
 
-Properties for importing a knowledge base outside of this stack
+Common properties for importing a knowledge base (of any type) created outside of this stack.
+
+## Extended by
+
+- [`VectorKnowledgeBaseAttributes`](VectorKnowledgeBaseAttributes.md)
+- [`KendraKnowledgeBaseAttributes`](KendraKnowledgeBaseAttributes.md)
 
 ## Properties
 
@@ -63,4 +68,18 @@ The ID of the knowledge base.
 
 ```ts
 "KB12345678"
+```
+
+***
+
+### knowledgeBaseState?
+
+> `readonly` `optional` **knowledgeBaseState**: `string`
+
+Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
+
+#### Default
+
+```ts
+- ENABLED
 ```
