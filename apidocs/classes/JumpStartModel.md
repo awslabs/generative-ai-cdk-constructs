@@ -24,6 +24,42 @@
 
 ## Properties
 
+### DEEPSEEK\_LLM\_R1\_DISTILL\_LLAMA\_70B\_1\_0\_0
+
+> `readonly` `static` **DEEPSEEK\_LLM\_R1\_DISTILL\_LLAMA\_70B\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### DEEPSEEK\_LLM\_R1\_DISTILL\_LLAMA\_8B\_1\_0\_0
+
+> `readonly` `static` **DEEPSEEK\_LLM\_R1\_DISTILL\_LLAMA\_8B\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### DEEPSEEK\_LLM\_R1\_DISTILL\_QWEN\_1\_5B\_1\_0\_0
+
+> `readonly` `static` **DEEPSEEK\_LLM\_R1\_DISTILL\_QWEN\_1\_5B\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### DEEPSEEK\_LLM\_R1\_DISTILL\_QWEN\_14B\_1\_0\_0
+
+> `readonly` `static` **DEEPSEEK\_LLM\_R1\_DISTILL\_QWEN\_14B\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### DEEPSEEK\_LLM\_R1\_DISTILL\_QWEN\_32B\_1\_0\_0
+
+> `readonly` `static` **DEEPSEEK\_LLM\_R1\_DISTILL\_QWEN\_32B\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
+### DEEPSEEK\_LLM\_R1\_DISTILL\_QWEN\_7B\_1\_0\_0
+
+> `readonly` `static` **DEEPSEEK\_LLM\_R1\_DISTILL\_QWEN\_7B\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
+
+***
+
 ### HUGGINGFACE\_ASR\_WHISPER\_BASE\_1\_0\_0
 
 > `readonly` `static` **HUGGINGFACE\_ASR\_WHISPER\_BASE\_1\_0\_0**: [`JumpStartModel`](JumpStartModel.md)
