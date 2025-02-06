@@ -2,30 +2,17 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / IKnowledgeBase
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [kendra](../README.md) / IKendraGenAiIndex
 
-# Interface: IKnowledgeBase
+# Interface: IKendraGenAiIndex
 
-Represents a Knowledge Base, either created with CDK or imported, of any type.
+Represents a Kendra Index, either created with CDK or imported.
 
 ## Extends
 
 - `IResource`
 
-## Extended by
-
-- [`IVectorKnowledgeBase`](IVectorKnowledgeBase.md)
-- [`IKendraKnowledgeBase`](IKendraKnowledgeBase.md)
-
 ## Properties
-
-### description?
-
-> `readonly` `optional` **description**: `string`
-
-The description of the knowledge base.
-
-***
 
 ### env
 
@@ -45,40 +32,30 @@ that might be different than the stack they were imported into.
 
 ***
 
-### instruction?
+### indexArn
 
-> `readonly` `optional` **instruction**: `string`
+> `readonly` **indexArn**: `string`
 
-A narrative instruction of the knowledge base.
-A Bedrock Agent can use this instruction to determine if it should
-query this Knowledge Base.
-
-***
-
-### knowledgeBaseArn
-
-> `readonly` **knowledgeBaseArn**: `string`
-
-The ARN of the knowledge base.
+The Amazon Resource Name (ARN) of the index.
 
 #### Example
 
 ```ts
-"arn:aws:bedrock:us-east-1:123456789012:knowledge-base/KB12345678"
+'arn:aws:kendra:us-east-1:123456789012:index/af04c7ea-22bc-46b7-a65e-6c21e604fc11'
 ```
 
 ***
 
-### knowledgeBaseId
+### indexId
 
-> `readonly` **knowledgeBaseId**: `string`
+> `readonly` **indexId**: `string`
 
-The ID of the knowledge base.
+The identifier of the index.
 
 #### Example
 
 ```ts
-"KB12345678"
+'af04c7ea-22bc-46b7-a65e-6c21e604fc11'.
 ```
 
 ***
@@ -99,7 +76,10 @@ The tree node.
 
 > `readonly` **role**: `IRole`
 
-The role associated with the knowledge base.
+An IAM role that gives Amazon Kendra permissions to access
+your Amazon CloudWatch logs and metrics. This is also the
+role used when you use the BatchPutDocument operation to index
+documents from an Amazon S3 bucket.
 
 ***
 
@@ -112,14 +92,6 @@ The stack in which this resource is defined.
 #### Inherited from
 
 `IResource.stack`
-
-***
-
-### type
-
-> `readonly` **type**: [`KnowledgeBaseType`](../enumerations/KnowledgeBaseType.md)
-
-The type of knowledge base.
 
 ## Methods
 
@@ -150,43 +122,3 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 #### Inherited from
 
 `IResource.applyRemovalPolicy`
-
-***
-
-### grant()
-
-> **grant**(`grantee`, ...`actions`): `Grant`
-
-Grant the given principal identity permissions to perform actions on this knowledge base.
-
-#### Parameters
-
-##### grantee
-
-`IGrantable`
-
-##### actions
-
-...`string`[]
-
-#### Returns
-
-`Grant`
-
-***
-
-### grantQuery()
-
-> **grantQuery**(`grantee`): `Grant`
-
-Grant the given identity permissions to query the knowledge base.
-
-#### Parameters
-
-##### grantee
-
-`IGrantable`
-
-#### Returns
-
-`Grant`

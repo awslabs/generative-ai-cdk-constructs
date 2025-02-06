@@ -483,6 +483,69 @@
         }
       ]
     },
+    "integ:kendra-genai:assert": {
+      "name": "integ:kendra-genai:assert",
+      "description": "assert the snapshot of integration test 'kendra-genai'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/kendra-genai.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'kendra-genai'. Run 'projen integ:kendra-genai:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/kendra-genai.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/kendra-genai.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/kendra-genai.integ.snapshot/ test/integ/.tmp/kendra-genai.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:kendra-genai:deploy": {
+      "name": "integ:kendra-genai:deploy",
+      "description": "deploy integration test 'kendra-genai' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/kendra-genai.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/kendra-genai.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/kendra-genai.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/kendra-genai.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/kendra-genai.integ/deploy.cdk.out test/integ/kendra-genai.integ.snapshot"
+        },
+        {
+          "spawn": "integ:kendra-genai:destroy"
+        }
+      ]
+    },
+    "integ:kendra-genai:destroy": {
+      "name": "integ:kendra-genai:destroy",
+      "description": "destroy integration test 'kendra-genai'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/kendra-genai.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:kendra-genai:snapshot": {
+      "name": "integ:kendra-genai:snapshot",
+      "description": "update snapshot for integration test \"kendra-genai\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/kendra-genai.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/kendra-genai.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:kendra-genai:watch": {
+      "name": "integ:kendra-genai:watch",
+      "description": "watch integration test 'kendra-genai' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/kendra-genai.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/kendra-genai.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:prompt-router:assert": {
       "name": "integ:prompt-router:assert",
       "description": "assert the snapshot of integration test 'prompt-router'",
@@ -558,6 +621,9 @@
         },
         {
           "spawn": "integ:issue747:snapshot"
+        },
+        {
+          "spawn": "integ:kendra-genai:snapshot"
         },
         {
           "spawn": "integ:prompt-router:snapshot"
@@ -703,6 +769,9 @@
         },
         {
           "spawn": "integ:issue747:assert"
+        },
+        {
+          "spawn": "integ:kendra-genai:assert"
         },
         {
           "spawn": "integ:prompt-router:assert"

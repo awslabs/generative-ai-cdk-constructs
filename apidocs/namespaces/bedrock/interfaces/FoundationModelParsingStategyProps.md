@@ -10,6 +10,20 @@ Properties for configuring a Foundation Model parsing strategy.
 
 ## Properties
 
+### parsingModality?
+
+> `readonly` `optional` **parsingModality**: [`MULTIMODAL`](../enumerations/ParsingModality.md#multimodal)
+
+Specifies whether to enable parsing of multimodal data, including both text and/or images.
+
+#### Default
+
+```ts
+undefined - Text only
+```
+
+***
+
 ### parsingModel
 
 > `readonly` **parsingModel**: [`IInvokable`](IInvokable.md)

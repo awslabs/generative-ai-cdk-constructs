@@ -2,11 +2,15 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / KnowledgeBaseProps
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / VectorKnowledgeBaseProps
 
-# Interface: KnowledgeBaseProps
+# Interface: VectorKnowledgeBaseProps
 
 Properties for a knowledge base
+
+## Extends
+
+- [`CommonKnowledgeBaseProps`](CommonKnowledgeBaseProps.md)
 
 ## Properties
 
@@ -22,6 +26,10 @@ The description of the knowledge base.
 - No description provided.
 ```
 
+#### Inherited from
+
+[`CommonKnowledgeBaseProps`](CommonKnowledgeBaseProps.md).[`description`](CommonKnowledgeBaseProps.md#description)
+
 ***
 
 ### embeddingsModel
@@ -36,11 +44,15 @@ The embeddings model for the knowledge base
 
 > `readonly` `optional` **existingRole**: `IRole`
 
-Existing IAM role with a policy statement
-granting permission to invoke the specific embeddings model.
+Existing IAM role with policy statements granting appropriate permissions
+to invoke the specific embeddings models.
 Any entity (e.g., an AWS service or application) that assumes
 this role will be able to invoke or use the
 specified embeddings model within the Bedrock service.
+
+#### Inherited from
+
+[`CommonKnowledgeBaseProps`](CommonKnowledgeBaseProps.md).[`existingRole`](CommonKnowledgeBaseProps.md#existingrole)
 
 ***
 
@@ -64,8 +76,10 @@ do not include this property as it will throw error.
 
 > `readonly` `optional` **instruction**: `string`
 
-Instructions for agents based on the design and type of information of the
-Knowledge Base. This will impact how Agents interact with the Knowledge Base.
+A narrative description of the knowledge base.
+
+A Bedrock Agent can use this instruction to determine if it should
+query this Knowledge Base.
 
 #### Default
 
@@ -73,13 +87,9 @@ Knowledge Base. This will impact how Agents interact with the Knowledge Base.
 - No description provided.
 ```
 
-***
+#### Inherited from
 
-### knowledgeBaseState?
-
-> `readonly` `optional` **knowledgeBaseState**: `string`
-
-Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
+[`CommonKnowledgeBaseProps`](CommonKnowledgeBaseProps.md).[`instruction`](CommonKnowledgeBaseProps.md#instruction)
 
 ***
 
@@ -89,19 +99,9 @@ Specifies whether to use the knowledge base or not when sending an InvokeAgent r
 
 The name of the knowledge base.
 
-***
+#### Inherited from
 
-### tags?
-
-> `readonly` `optional` **tags**: `Record`\<`string`, `string`\>
-
-OPTIONAL: Tag (KEY-VALUE) bedrock agent resource
-
-#### Default
-
-```ts
-- false
-```
+[`CommonKnowledgeBaseProps`](CommonKnowledgeBaseProps.md).[`name`](CommonKnowledgeBaseProps.md#name)
 
 ***
 

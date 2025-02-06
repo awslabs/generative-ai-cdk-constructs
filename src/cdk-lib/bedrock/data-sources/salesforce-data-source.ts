@@ -16,10 +16,9 @@ import { IKey } from 'aws-cdk-lib/aws-kms';
 import { ISecret } from 'aws-cdk-lib/aws-secretsmanager';
 import { Construct } from 'constructs';
 
-import { IKnowledgeBase } from './../knowledge-base';
+import { IKnowledgeBase } from './../knowledge-bases/knowledge-base';
 import { DataSourceNew, DataSourceAssociationProps, DataSourceType } from './base-data-source';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
-
 
 /**
  * Represents the authentication types available for connecting to a Salesforce data source.
@@ -31,7 +30,7 @@ export enum SalesforceDataSourceAuthType {
    * - `consumerSecret` (client secret)
    * - `authenticationUrl`
    */
-  OAUTH2_CLIENT_CREDENTIALS = 'OAUTH2_CLIENT_CREDENTIALS'
+  OAUTH2_CLIENT_CREDENTIALS = 'OAUTH2_CLIENT_CREDENTIALS',
 }
 
 /**
@@ -58,7 +57,7 @@ export enum SalesforceObjectType {
   FEED_COMMENT = 'FeedComment',
   KNOWLEDGE_KAV = 'Knowledge__kav',
   USER = 'User',
-  COLLABORATION_GROUP = 'CollaborationGroup'
+  COLLABORATION_GROUP = 'CollaborationGroup',
 }
 
 /**
@@ -99,7 +98,6 @@ export interface SalesforceDataSourceAssociationProps extends DataSourceAssociat
    * @default None - all your content is crawled.
    */
   readonly filters?: SalesforceCrawlingFilters[];
-
 }
 
 /**
@@ -159,13 +157,13 @@ export class SalesforceDataSource extends DataSourceNew {
    */
   private readonly __resource: CfnDataSource;
 
-
   constructor(scope: Construct, id: string, props: SalesforceDataSourceProps) {
     super(scope, id);
     // Assign attributes
     this.knowledgeBase = props.knowledgeBase;
     this.dataSourceType = DataSourceType.SALESFORCE;
-    this.dataSourceName = props.dataSourceName ?? generatePhysicalNameV2(this, 'sfdc-ds', { maxLength: 40, lower: true, separator: '-' });;
+    this.dataSourceName =
+      props.dataSourceName ?? generatePhysicalNameV2(this, 'sfdc-ds', { maxLength: 40, lower: true, separator: '-' });
     this.endpoint = props.endpoint;
     this.authSecret = props.authSecret;
     this.kmsKey = props.kmsKey;
@@ -182,36 +180,32 @@ export class SalesforceDataSource extends DataSourceNew {
     // L1 Instantiation
     // ------------------------------------------------------
     this.__resource = new CfnDataSource(this, 'DataSource', {
-      ...this.formatAsCfnProps(
-        props,
-        {
-          type: this.dataSourceType,
-          salesforceConfiguration: {
-            sourceConfiguration: {
-              authType: SalesforceDataSourceAuthType.OAUTH2_CLIENT_CREDENTIALS,
-              credentialsSecretArn: this.authSecret.secretArn,
-              hostUrl: this.endpoint,
-            },
-            crawlerConfiguration:
-              (props.filters) ? ({
-                filterConfiguration: {
-                  type: 'PATTERN',
-                  patternObjectFilter: {
-                    filters: props.filters?.map(item => ({
-                      objectType: item.objectType,
-                      inclusionFilters: item.includePatterns,
-                      exclusionFilters: item.excludePatterns,
-                    })),
-                  },
-                },
-              }) : undefined,
+      ...this.formatAsCfnProps(props, {
+        type: this.dataSourceType,
+        salesforceConfiguration: {
+          sourceConfiguration: {
+            authType: SalesforceDataSourceAuthType.OAUTH2_CLIENT_CREDENTIALS,
+            credentialsSecretArn: this.authSecret.secretArn,
+            hostUrl: this.endpoint,
           },
+          crawlerConfiguration: props.filters
+            ? {
+              filterConfiguration: {
+                type: 'PATTERN',
+                patternObjectFilter: {
+                  filters: props.filters?.map(item => ({
+                    objectType: item.objectType,
+                    inclusionFilters: item.includePatterns,
+                    exclusionFilters: item.excludePatterns,
+                  })),
+                },
+              },
+            }
+            : undefined,
         },
-      ),
+      }),
     });
 
     this.dataSourceId = this.__resource.attrDataSourceId;
-
-
   }
 }
