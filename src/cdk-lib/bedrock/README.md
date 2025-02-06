@@ -831,11 +831,10 @@ const index = new kendra.KendraGenAiIndex(this, 'index', {
 });
 
 // or import an existing one
-
-const index = kendra.KendraGenAiIndex.fromAttrs(
+const index = kendra.KendraGenAiIndex.fromAttrs(this, 'myindex', {
   indexId: 'myindex',
   role: myRole
-);
+});
 
 new bedrock.KendraKnowledgeBase(this, 'kb', {
   name: 'kendra-kb-cdk',
@@ -861,7 +860,7 @@ index = kendra.KendraGenAiIndex(self, 'index',
 )
 
 # Or import an existing index
-index = kendra.KendraGenAiIndex.from_attrs(
+index = kendra.KendraGenAiIndex.from_attrs(self, 'myindex',
     index_id='myindex',
     role=my_role
 )
