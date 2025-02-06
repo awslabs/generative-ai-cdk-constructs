@@ -17,12 +17,11 @@ import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 
-import { IKnowledgeBase } from './../knowledge-base';
+import { IKnowledgeBase } from './../knowledge-bases/knowledge-base';
 import { ChunkingStrategy } from './chunking';
 import { CustomTransformation } from './custom-transformation';
 import { ParsingStategy } from './parsing';
 // import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
-
 
 /**
  * Specifies the policy for handling data when a data source resource is deleted.
@@ -39,9 +38,8 @@ export enum DataDeletionPolicy {
    * Retains all vector embeddings derived from the data source even after
    * deletion of a data source resource.
    */
-  RETAIN = 'RETAIN'
+  RETAIN = 'RETAIN',
 }
-
 
 /**
  * Represents the types of data sources that can be associated to an Knowledge Base.
@@ -71,9 +69,8 @@ export enum DataSourceType {
    * Web Crawler data source.
    * Extracts content from authorized public web pages using a crawler.
    */
-  WEB_CRAWLER = 'WEB'
+  WEB_CRAWLER = 'WEB',
 }
-
 
 /**
  * Specifies interface for resources created with CDK or imported into CDK.
@@ -98,7 +95,6 @@ export abstract class DataSourceBase extends Resource implements IDataSource {
 
   // Common methods for imported and new data sources go here
 }
-
 
 /**
  * Properties common for creating any of the different data source types.
@@ -178,8 +174,8 @@ export abstract class DataSourceNew extends DataSourceBase {
    */
   public abstract readonly knowledgeBase: IKnowledgeBase;
   /**
-  * The KMS key to use to encrypt the data source.
-  */
+   * The KMS key to use to encrypt the data source.
+   */
   public abstract readonly kmsKey?: kms.IKey;
 
   // ------------------------------------------------------
@@ -200,7 +196,7 @@ export abstract class DataSourceNew extends DataSourceBase {
       statementsToAdd.push(...props.customTransformation.generatePolicyStatements(this));
     }
     // Add the permission statements to the KB execution role
-    statementsToAdd.forEach((statement) => {
+    statementsToAdd.forEach(statement => {
       this.knowledgeBase.role.addToPrincipalPolicy(statement);
     });
   }
@@ -218,23 +214,24 @@ export abstract class DataSourceNew extends DataSourceBase {
       description: props.description,
       knowledgeBaseId: this.knowledgeBase.knowledgeBaseId,
       name: this.dataSourceName,
-      serverSideEncryptionConfiguration: props.kmsKey ? {
-        kmsKeyArn: props.kmsKey.keyArn,
-      } : undefined,
-      vectorIngestionConfiguration: (props.chunkingStrategy || props.parsingStrategy || props.customTransformation) ? {
-        chunkingConfiguration: props.chunkingStrategy?.configuration,
-        parsingConfiguration: props.parsingStrategy?.configuration,
-        customTransformationConfiguration: props.customTransformation?.configuration,
-      } : undefined,
-
+      serverSideEncryptionConfiguration: props.kmsKey
+        ? {
+          kmsKeyArn: props.kmsKey.keyArn,
+        }
+        : undefined,
+      vectorIngestionConfiguration:
+        props.chunkingStrategy || props.parsingStrategy || props.customTransformation
+          ? {
+            chunkingConfiguration: props.chunkingStrategy?.configuration,
+            parsingConfiguration: props.parsingStrategy?.configuration,
+            customTransformationConfiguration: props.customTransformation?.configuration,
+          }
+          : undefined,
     };
   }
-
 }
 
-
 export class DataSource extends DataSourceBase {
-
   public static fromDataSourceId(scope: Construct, id: string, dataSourceId: string): IDataSource {
     return new DataSource(scope, id, dataSourceId);
   }

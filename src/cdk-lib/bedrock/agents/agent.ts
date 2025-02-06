@@ -23,7 +23,7 @@ import { PromptOverrideConfiguration } from './prompt-override';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
 import * as validation from '../../../common/helpers/validation-helpers';
 import { IGuardrail } from '../guardrails/guardrails';
-import { IKnowledgeBase } from '../knowledge-base';
+import { IKnowledgeBase } from '../knowledge-bases/knowledge-base';
 import { IInvokable } from '../models';
 
 /******************************************************************************

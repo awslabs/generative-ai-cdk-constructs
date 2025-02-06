@@ -8,6 +8,7 @@
 
 - [amazonaurora](namespaces/amazonaurora/README.md)
 - [bedrock](namespaces/bedrock/README.md)
+- [kendra](namespaces/kendra/README.md)
 - [opensearch\_vectorindex](namespaces/opensearch_vectorindex/README.md)
 - [opensearchserverless](namespaces/opensearchserverless/README.md)
 - [pinecone](namespaces/pinecone/README.md)
@@ -22,6 +23,7 @@
 
 - [AossCwDashboard](classes/AossCwDashboard.md)
 - [BaseClass](classes/BaseClass.md)
+- [BedrockBatchSfn](classes/BedrockBatchSfn.md)
 - [BedrockCwDashboard](classes/BedrockCwDashboard.md)
 - [ContainerImage](classes/ContainerImage.md)
 - [ContentGenerationAppSyncLambda](classes/ContentGenerationAppSyncLambda.md)
@@ -43,6 +45,7 @@
 - [AossCwDashboardProps](interfaces/AossCwDashboardProps.md)
 - [AsyncInferenceConfig](interfaces/AsyncInferenceConfig.md)
 - [BaseClassProps](interfaces/BaseClassProps.md)
+- [BedrockBatchSfnProps](interfaces/BedrockBatchSfnProps.md)
 - [BedrockCwDashboardProps](interfaces/BedrockCwDashboardProps.md)
 - [CollectionMonitoringProps](interfaces/CollectionMonitoringProps.md)
 - [ContainerImageConfig](interfaces/ContainerImageConfig.md)

@@ -2,22 +2,22 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / KnowledgeBase
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / VectorKnowledgeBase
 
-# Class: KnowledgeBase
+# Class: VectorKnowledgeBase
 
 Deploys a Bedrock Knowledge Base and configures a backend by OpenSearch Serverless,
 Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
 
 ## Extends
 
-- `KnowledgeBaseBase`
+- `VectorKnowledgeBaseBase`
 
 ## Constructors
 
-### new KnowledgeBase()
+### new VectorKnowledgeBase()
 
-> **new KnowledgeBase**(`scope`, `id`, `props`): [`KnowledgeBase`](KnowledgeBase.md)
+> **new VectorKnowledgeBase**(`scope`, `id`, `props`): [`VectorKnowledgeBase`](VectorKnowledgeBase.md)
 
 #### Parameters
 
@@ -31,15 +31,15 @@ Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
 
 ##### props
 
-[`KnowledgeBaseProps`](../interfaces/KnowledgeBaseProps.md)
+[`VectorKnowledgeBaseProps`](../interfaces/VectorKnowledgeBaseProps.md)
 
 #### Returns
 
-[`KnowledgeBase`](KnowledgeBase.md)
+[`VectorKnowledgeBase`](VectorKnowledgeBase.md)
 
 #### Overrides
 
-`KnowledgeBaseBase.constructor`
+`VectorKnowledgeBaseBase.constructor`
 
 ## Properties
 
@@ -48,6 +48,10 @@ Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
 > `readonly` `optional` **description**: `string`
 
 A description of the knowledge base.
+
+#### Overrides
+
+`VectorKnowledgeBaseBase.description`
 
 ***
 
@@ -65,7 +69,7 @@ that might be different than the stack they were imported into.
 
 #### Inherited from
 
-`KnowledgeBaseBase.env`
+`VectorKnowledgeBaseBase.env`
 
 ***
 
@@ -75,6 +79,10 @@ that might be different than the stack they were imported into.
 
 Instructions for agents based on the design and type of information of the
 Knowledge Base. This will impact how Agents interact with the Knowledge Base.
+
+#### Overrides
+
+`VectorKnowledgeBaseBase.instruction`
 
 ***
 
@@ -86,7 +94,7 @@ The ARN of the knowledge base.
 
 #### Overrides
 
-`KnowledgeBaseBase.knowledgeBaseArn`
+`VectorKnowledgeBaseBase.knowledgeBaseArn`
 
 ***
 
@@ -98,7 +106,7 @@ The ID of the knowledge base.
 
 #### Overrides
 
-`KnowledgeBaseBase.knowledgeBaseId`
+`VectorKnowledgeBaseBase.knowledgeBaseId`
 
 ***
 
@@ -107,14 +115,6 @@ The ID of the knowledge base.
 > `readonly` **knowledgeBaseInstance**: `CfnKnowledgeBase`
 
 Instance of knowledge base.
-
-***
-
-### knowledgeBaseState
-
-> `readonly` **knowledgeBaseState**: `string`
-
-Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
 
 ***
 
@@ -134,7 +134,7 @@ The tree node.
 
 #### Inherited from
 
-`KnowledgeBaseBase.node`
+`VectorKnowledgeBaseBase.node`
 
 ***
 
@@ -153,7 +153,7 @@ This value will resolve to one of the following:
 
 #### Inherited from
 
-`KnowledgeBaseBase.physicalName`
+`VectorKnowledgeBaseBase.physicalName`
 
 ***
 
@@ -165,7 +165,7 @@ The role the Knowledge Base uses to access the vector store and data source.
 
 #### Overrides
 
-`KnowledgeBaseBase.role`
+`VectorKnowledgeBaseBase.role`
 
 ***
 
@@ -177,7 +177,17 @@ The stack in which this resource is defined.
 
 #### Inherited from
 
-`KnowledgeBaseBase.stack`
+`VectorKnowledgeBaseBase.stack`
+
+***
+
+### type
+
+> `readonly` **type**: [`KnowledgeBaseType`](../enumerations/KnowledgeBaseType.md) = `KnowledgeBaseType.VECTOR`
+
+#### Inherited from
+
+`VectorKnowledgeBaseBase.type`
 
 ***
 
@@ -206,7 +216,7 @@ through its absolute name/arn.
 
 #### Inherited from
 
-`KnowledgeBaseBase._enableCrossEnvironment`
+`VectorKnowledgeBaseBase._enableCrossEnvironment`
 
 ***
 
@@ -228,7 +238,7 @@ Add a Confluence data source to the knowledge base.
 
 #### Inherited from
 
-`KnowledgeBaseBase.addConfluenceDataSource`
+`VectorKnowledgeBaseBase.addConfluenceDataSource`
 
 ***
 
@@ -250,7 +260,7 @@ Add an S3 data source to the knowledge base.
 
 #### Inherited from
 
-`KnowledgeBaseBase.addS3DataSource`
+`VectorKnowledgeBaseBase.addS3DataSource`
 
 ***
 
@@ -272,7 +282,7 @@ Add a Salesforce data source to the knowledge base.
 
 #### Inherited from
 
-`KnowledgeBaseBase.addSalesforceDataSource`
+`VectorKnowledgeBaseBase.addSalesforceDataSource`
 
 ***
 
@@ -294,7 +304,7 @@ Add a SharePoint data source to the knowledge base.
 
 #### Inherited from
 
-`KnowledgeBaseBase.addSharePointDataSource`
+`VectorKnowledgeBaseBase.addSharePointDataSource`
 
 ***
 
@@ -316,7 +326,7 @@ Add a web crawler data source to the knowledge base.
 
 #### Inherited from
 
-`KnowledgeBaseBase.addWebCrawlerDataSource`
+`VectorKnowledgeBaseBase.addWebCrawlerDataSource`
 
 ***
 
@@ -346,7 +356,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Inherited from
 
-`KnowledgeBaseBase.applyRemovalPolicy`
+`VectorKnowledgeBaseBase.applyRemovalPolicy`
 
 ***
 
@@ -378,7 +388,7 @@ Associate knowledge base with an agent
 
 #### Inherited from
 
-`KnowledgeBaseBase.generatePhysicalName`
+`VectorKnowledgeBaseBase.generatePhysicalName`
 
 ***
 
@@ -418,7 +428,7 @@ cross-environment references to work.
 
 #### Inherited from
 
-`KnowledgeBaseBase.getResourceArnAttribute`
+`VectorKnowledgeBaseBase.getResourceArnAttribute`
 
 ***
 
@@ -448,7 +458,7 @@ Commonly this is the resource's `ref`.
 
 #### Inherited from
 
-`KnowledgeBaseBase.getResourceNameAttribute`
+`VectorKnowledgeBaseBase.getResourceNameAttribute`
 
 ***
 
@@ -474,7 +484,7 @@ Grant the given principal identity permissions to perform actions on this knowle
 
 #### Inherited from
 
-`KnowledgeBaseBase.grant`
+`VectorKnowledgeBaseBase.grant`
 
 ***
 
@@ -499,7 +509,7 @@ This contains:
 
 #### Inherited from
 
-`KnowledgeBaseBase.grantQuery`
+`VectorKnowledgeBaseBase.grantQuery`
 
 ***
 
@@ -521,7 +531,7 @@ Grant the given identity permissions to retrieve content from the knowledge base
 
 #### Inherited from
 
-`KnowledgeBaseBase.grantRetrieve`
+`VectorKnowledgeBaseBase.grantRetrieve`
 
 ***
 
@@ -543,7 +553,7 @@ Grant the given identity permissions to retrieve content from the knowledge base
 
 #### Inherited from
 
-`KnowledgeBaseBase.grantRetrieveAndGenerate`
+`VectorKnowledgeBaseBase.grantRetrieveAndGenerate`
 
 ***
 
@@ -559,13 +569,13 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-`KnowledgeBaseBase.toString`
+`VectorKnowledgeBaseBase.toString`
 
 ***
 
 ### fromKnowledgeBaseAttributes()
 
-> `static` **fromKnowledgeBaseAttributes**(`scope`, `id`, `attrs`): [`IKnowledgeBase`](../interfaces/IKnowledgeBase.md)
+> `static` **fromKnowledgeBaseAttributes**(`scope`, `id`, `attrs`): [`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md)
 
 #### Parameters
 
@@ -579,11 +589,11 @@ Returns a string representation of this construct.
 
 ##### attrs
 
-[`KnowledgeBaseAttributes`](../interfaces/KnowledgeBaseAttributes.md)
+[`VectorKnowledgeBaseAttributes`](../interfaces/VectorKnowledgeBaseAttributes.md)
 
 #### Returns
 
-[`IKnowledgeBase`](../interfaces/IKnowledgeBase.md)
+[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md)
 
 ***
 
@@ -623,7 +633,7 @@ true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-`KnowledgeBaseBase.isConstruct`
+`VectorKnowledgeBaseBase.isConstruct`
 
 ***
 
@@ -645,7 +655,7 @@ Returns true if the construct was created by CDK, and false otherwise
 
 #### Inherited from
 
-`KnowledgeBaseBase.isOwnedResource`
+`VectorKnowledgeBaseBase.isOwnedResource`
 
 ***
 
@@ -667,4 +677,4 @@ Check whether the given construct is a Resource
 
 #### Inherited from
 
-`KnowledgeBaseBase.isResource`
+`VectorKnowledgeBaseBase.isResource`
