@@ -159,6 +159,8 @@ describe('OpenSearch Serverless Vector Index with analyzer', () => {
       indexName: 'test-index',
       vectorField: 'vector',
       vectorDimensions: 1536,
+      distanceType: 'euclidian',
+      precision: 'fp32',
       mappings: [
         {
           mappingField: 'AMAZON_BEDROCK_TEXT_CHUNK',

@@ -51,6 +51,8 @@ class AnalyzerProperties(TypedDict):
 
 class VectorIndexProperties(TypedDict):
     Endpoint: str
+    Precision: str
+    DistanceType: str
     IndexName: str
     VectorField: str
     Dimensions: int | str
@@ -70,6 +72,10 @@ def validate_event(event: CustomResourceRequest[VectorIndexProperties]) -> bool:
             raise ValueError("VectorField is required")
         if event["ResourceProperties"]["Dimensions"] is None:
             raise ValueError("Dimensions is required")
+        if event["ResourceProperties"]["Precision"] is None:
+            raise ValueError("Precision is required")
+        if event["ResourceProperties"]["DistanceType"] is None:
+            raise ValueError("DistanceType is required")
         if isinstance(int(event["ResourceProperties"]["Dimensions"]), int) is False:
             raise ValueError("Dimensions must be an integer")
         if event["ResourceProperties"]["MetadataManagement"] is None:
@@ -125,6 +131,8 @@ def connect_opensearch(endpoint: str) -> OpenSearch:
 def create_mapping(
     vector_field: str,
     dimensions: int,
+    precision: str,
+    distance_type: str,
     metadata_management: Sequence[MetadataManagementField],
 ) -> dict:
     mapping = {
@@ -132,9 +140,10 @@ def create_mapping(
             vector_field: {
                 "type": "knn_vector",
                 "dimension": dimensions,
+                "data_type": precision,
                 "method": {
                     "engine": "faiss",
-                    "space_type": "l2",
+                    "space_type": distance_type,
                     "name": "hnsw",
                     "parameters": {},
                 },
@@ -206,6 +215,8 @@ def handle_create(
     index_name: str,
     vector_field: str,
     dimensions: int,
+    precision: str,
+    distance_type: str,
     metadata_management: Sequence[MetadataManagementField],
     analyzer: AnalyzerProperties | None,
 ):
@@ -213,7 +224,7 @@ def handle_create(
         raise ValueError(f"Index {index_name} already exists")
 
     try:
-        mapping = create_mapping(vector_field, dimensions, metadata_management)
+        mapping = create_mapping(vector_field, dimensions, precision, distance_type, metadata_management)
         setting = create_setting(analyzer)
         create_index(client, index_name, mapping, setting)
     except Exception as e:
@@ -248,6 +259,8 @@ def on_create(
         event["ResourceProperties"]["IndexName"],
         event["ResourceProperties"]["VectorField"],
         int(event["ResourceProperties"]["Dimensions"]),
+        event["ResourceProperties"]["Precision"],
+        event["ResourceProperties"]["DistanceType"],
         event["ResourceProperties"]["MetadataManagement"],
         event["ResourceProperties"].get("Analyzer", None),
     )
