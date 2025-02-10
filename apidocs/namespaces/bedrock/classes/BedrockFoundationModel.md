@@ -65,6 +65,12 @@ The ARN of the Bedrock invokable abstraction.
 
 ***
 
+### supportedVectorType?
+
+> `readonly` `optional` **supportedVectorType**: [`VectorType`](../enumerations/VectorType.md)[]
+
+***
+
 ### supportsAgents
 
 > `readonly` **supportsAgents**: `boolean`

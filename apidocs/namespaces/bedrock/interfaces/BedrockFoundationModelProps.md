@@ -8,6 +8,14 @@
 
 ## Properties
 
+### supportedVectorType?
+
+> `readonly` `optional` **supportedVectorType**: [`VectorType`](../enumerations/VectorType.md)[]
+
+Embeddings models have different supported vector types
+
+***
+
 ### supportsAgents?
 
 > `readonly` `optional` **supportsAgents**: `boolean`

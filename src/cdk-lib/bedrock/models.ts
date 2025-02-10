@@ -17,6 +17,23 @@ import { Grant, IGrantable } from 'aws-cdk-lib/aws-iam';
 import { IConstruct } from 'constructs';
 
 /**
+ * The data type for the vectors when using a model to convert text into vector embeddings.
+ * The model must support the specified data type for vector embeddings. Floating-point (float32)
+ * is the default data type, and is supported by most models for vector embeddings. See Supported
+ * embeddings models for information on the available models and their vector data types.
+ */
+export enum VectorType {
+  /**
+   * `FLOATING_POINT` convert the data to floating-point (float32) vector embeddings (more precise, but more costly).
+   */
+  FLOATING_POINT = 'FLOAT32',
+  /**
+   * `BINARY` convert the data to binary vector embeddings (less precise, but less costly).
+   */
+  BINARY = 'BINARY',
+}
+
+/**
  * Represents an Amazon Bedrock abstraction on which you can
  * run the `Invoke` API. This can be a Foundational Model,
  * a Custom Model, or an Inference Profile.
@@ -56,6 +73,10 @@ export interface BedrockFoundationModelProps {
    * Only applicable for embedding models.
    */
   readonly vectorDimensions?: number;
+  /**
+   * Embeddings models have different supported vector types
+   */
+  readonly supportedVectorType?: VectorType[];
 }
 
 /**
@@ -94,21 +115,25 @@ export class BedrockFoundationModel implements IInvokable {
   public static readonly TITAN_EMBED_TEXT_V1 = new BedrockFoundationModel('amazon.titan-embed-text-v1', {
     supportsKnowledgeBase: true,
     vectorDimensions: 1536,
+    supportedVectorType: [VectorType.FLOATING_POINT],
   });
 
   public static readonly TITAN_EMBED_TEXT_V2_1024 = new BedrockFoundationModel('amazon.titan-embed-text-v2:0', {
     supportsKnowledgeBase: true,
     vectorDimensions: 1024,
+    supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
   });
 
   public static readonly TITAN_EMBED_TEXT_V2_512 = new BedrockFoundationModel('amazon.titan-embed-text-v2:0', {
     supportsKnowledgeBase: true,
     vectorDimensions: 512,
+    supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
   });
 
   public static readonly TITAN_EMBED_TEXT_V2_256 = new BedrockFoundationModel('amazon.titan-embed-text-v2:0', {
     supportsKnowledgeBase: true,
     vectorDimensions: 256,
+    supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
   });
   /****************************************************************************
    *                            ANTHROPIC
@@ -161,11 +186,13 @@ export class BedrockFoundationModel implements IInvokable {
   public static readonly COHERE_EMBED_ENGLISH_V3 = new BedrockFoundationModel('cohere.embed-english-v3', {
     supportsKnowledgeBase: true,
     vectorDimensions: 1024,
+    supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
   });
 
   public static readonly COHERE_EMBED_MULTILINGUAL_V3 = new BedrockFoundationModel('cohere.embed-multilingual-v3', {
     supportsKnowledgeBase: true,
     vectorDimensions: 1024,
+    supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
   });
 
   /****************************************************************************
@@ -220,6 +247,7 @@ export class BedrockFoundationModel implements IInvokable {
   public readonly supportsCrossRegion: boolean;
   public readonly vectorDimensions?: number;
   public readonly supportsKnowledgeBase: boolean;
+  public readonly supportedVectorType?: VectorType[];
   constructor(value: string, props: BedrockFoundationModelProps = {}) {
     this.modelId = value;
     this.modelArn = Arn.format({
@@ -236,6 +264,7 @@ export class BedrockFoundationModel implements IInvokable {
     this.supportsAgents = props.supportsAgents ?? false;
     this.vectorDimensions = props.vectorDimensions;
     this.supportsKnowledgeBase = props.supportsKnowledgeBase ?? false;
+    this.supportedVectorType = props.supportedVectorType;
   }
 
   toString(): string {

@@ -33,7 +33,7 @@ import { S3DataSource, S3DataSourceAssociationProps } from '../data-sources/s3-d
 import { SalesforceDataSource, SalesforceDataSourceAssociationProps } from '../data-sources/salesforce-data-source';
 import { SharePointDataSource, SharePointDataSourceAssociationProps } from '../data-sources/sharepoint-data-source';
 import { WebCrawlerDataSource, WebCrawlerDataSourceAssociationProps } from '../data-sources/web-crawler-data-source';
-import { BedrockFoundationModel } from '../models';
+import { BedrockFoundationModel, VectorType } from '../models';
 
 /******************************************************************************
  *                                  ENUMS
@@ -213,6 +213,13 @@ export interface VectorKnowledgeBaseProps extends CommonKnowledgeBaseProps {
   readonly embeddingsModel: BedrockFoundationModel;
 
   /**
+   * The vector type to store vector embeddings.
+   *
+   * @default - VectorType.FLOATING_POINT
+   */
+  readonly vectorType?: VectorType;
+
+  /**
    * The name of the vector index.
    * If vectorStore is not of type `VectorCollection`,
    * do not include this property as it will throw error.
@@ -361,6 +368,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     // Set properties or defaults
     // ------------------------------------------------------
     const embeddingsModel = props.embeddingsModel;
+    const vectorType = props.vectorType ?? VectorType.FLOATING_POINT;
     const indexName = props.indexName ?? 'bedrock-knowledge-base-default-index';
     const vectorField = props.vectorField ?? 'bedrock-knowledge-base-default-vector';
     const textField = 'AMAZON_BEDROCK_TEXT_CHUNK';
@@ -370,7 +378,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     //this.knowledgeBaseState = props.knowledgeBaseState ?? 'ENABLED';
     this.instruction = props.instruction;
 
-    validateModel(embeddingsModel);
+    validateModel(embeddingsModel, vectorType);
     validateVectorIndex(props.vectorStore, props.vectorIndex, props.vectorField, props.indexName);
     if (props.vectorIndex) {
       validateIndexParameters(props.vectorIndex, indexName, vectorField);
@@ -427,6 +435,10 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
       ({ vectorStore: this.vectorStore, vectorStoreType: this.vectorStoreType } =
         this.handleOpenSearchDefaultVectorCollection());
     }
+
+    // perform this validation after the vector store is handled since if the user
+    // doesn't provide one, the method above will create it
+    validateVectorType(this.vectorStore, vectorType);
 
     /**
      * We need to add `secretsmanager:GetSecretValue` to the role
@@ -521,6 +533,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
           : metadataField,
     };
 
+
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
@@ -532,9 +545,14 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
           // Used this approach as if property is specified on models that do not
           // support configurable dimensions CloudFormation throws an error at runtime
           embeddingModelConfiguration:
-            embeddingsModel.modelId === 'amazon.titan-embed-text-v2:0'
-              ? { bedrockEmbeddingModelConfiguration: { dimensions: embeddingsModel.vectorDimensions } }
-              : undefined,
+            {
+              bedrockEmbeddingModelConfiguration: embeddingsModel.modelId === 'amazon.titan-embed-text-v2:0'
+                ? {
+                  dimensions: embeddingsModel.vectorDimensions,
+                  embeddingDataType: vectorType,
+                }
+                : { embeddingDataType: vectorType },
+            },
         },
       },
       name: this.name,
@@ -692,9 +710,28 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
  *
  * @internal This is an internal core function and should not be called directly.
  */
-function validateModel(foundationModel: BedrockFoundationModel) {
+function validateModel(foundationModel: BedrockFoundationModel, vectorType: VectorType) {
   if (!foundationModel.supportsKnowledgeBase) {
     throw new Error(`The model ${foundationModel} is not supported by Bedrock Knowledge Base.`);
+  }
+  if (foundationModel.supportedVectorType && !foundationModel.supportedVectorType.includes(vectorType)) {
+    throw new Error(`The vector type ${vectorType} is not supported by the model ${foundationModel}.`);
+  }
+}
+
+/**
+ * Validate that the storage configuration can use the selected vector type.
+ * It prevents the use of vector types with vector stores that do not support them,
+ * thereby avoiding potential runtime errors.
+ *
+ * @internal This is an internal core function and should not be called directly.
+ */
+function validateVectorType(vectorStore: any, vectorType: VectorType) {
+  if (!(vectorStore instanceof VectorCollection) && (vectorType == VectorType.BINARY)) {
+    console.log(vectorStore);
+    throw new Error(
+      'Amazon OpenSearch Serverless is currently the only vector store that supports storing binary vectors.',
+    );
   }
 }
 
