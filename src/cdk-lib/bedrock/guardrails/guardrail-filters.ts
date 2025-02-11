@@ -155,7 +155,7 @@ export class Topic {
     ],
   });
 
-  public static readonly INNOPROPRIATE_CONTENT = new Topic({
+  public static readonly INAPPROPRIATE_CONTENT = new Topic({
     name: 'Inappropriate_Content',
     definition:
       'Any discussions or references that include hate speech, discriminatory remarks, sexual content, or explicit language.',

@@ -55,15 +55,10 @@ export class BaseClass extends Construct {
    * Record<string, number> , maps construct name with number of deployments
    */
   protected static usageMetricMap : Record<string, number> = {
-    [ConstructName.AWSRAGAPPSYNCSTEPFNOPENSEARCH]: 0,
-    [ConstructName.AWSQAAPPSYNCOPENSEARCH]: 0,
-    [ConstructName.AWSSUMMARIZATIONAPPSYNCSTEPFN]: 0,
     [ConstructName.AWSMODELDEPLOYMENTSAGEMAKER]: 0,
     [ConstructName.CUSTOMSAGEMAKERENDPOINT]: 0,
     [ConstructName.HUGGINGFACESAGEMAKERENDPOINT]: 0,
     [ConstructName.JUMPSTARTSAGEMAKERENDPOINT]: 0,
-    [ConstructName.AWSCONTENTGENAPPSYNCLAMBDA]: 0,
-    [ConstructName.AWSLLAMAINDEXDATALOADER]: 0,
   };
 
 
