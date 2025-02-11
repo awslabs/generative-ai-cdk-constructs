@@ -484,8 +484,8 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
           indexName,
           vectorField,
           vectorDimensions: embeddingsModel.vectorDimensions!,
-          precision: props.vectorType === VectorType.BINARY ? 'Binary' : 'FP32',
-          distanceType: props.vectorType === VectorType.BINARY ? 'hamming' : 'euclidiean',
+          precision: props.vectorType === VectorType.BINARY ? 'Binary' : 'float',
+          distanceType: props.vectorType === VectorType.BINARY ? 'hamming' : 'l2',
           mappings: [
             {
               mappingField: 'AMAZON_BEDROCK_TEXT_CHUNK',
