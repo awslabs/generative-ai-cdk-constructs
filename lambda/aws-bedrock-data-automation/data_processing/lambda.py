@@ -201,20 +201,3 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
             }
         }
 
-
-
-# imput = {
-#     "detail-type": "Bedrock Invoke Request",
-#     "source": "custom.bedrock.blueprint",
-#     "detail": {
-#         "input_filename": "noa.pdf",
-#         "output_filename": "noa.json",
-#         "blueprints": [{
-#             "blueprint_arn": "arn:aws:bedrock:us-west-2:551246883740:blueprint/0730dd0ff015",
-#             #"version": "1",
-#             "stage": "LIVE"
-#         }]
-#     }
-# }
-
-# handler(imput, None)

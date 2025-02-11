@@ -116,23 +116,3 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
             }
         }
         
-        
-input = {
-    "version": "0",
-    "id": "89d1a02d-5ec7-412e-82f5-13505f9a91bd",
-    "detail-type": "ProjectAutomation",
-    "source": "custom.project.automation",
-    "account": "123456789012",
-    "time": "2024-01-01T00:00:00Z",
-    "region": "us-east-1",
-    "detail": {
-        "operation": "create",
-        # "project_name":"noa_proj",
-        # "project_description": "noa assessment",
-        # "project_stage": "LIVE",
-        "project_arn":"arn:aws:bedrock:us-west-2:551246883740:data-automation-project/48fdec15e1e2"
-        
-    }
-}
-
-handler(input, None )

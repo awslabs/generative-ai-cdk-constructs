@@ -126,16 +126,3 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
     """
     return asyncio.run(data_automation_status(event, context))
 
-
-# input = {
-#   "source": ["custom.bedrock.data.automation"],
-#   "detail-type": ["DataAutomationStatus"],
-#   "detail": {
-#     "invoke_arn": [{
-#       "exists": True
-#     }]
-#   }
-# }
-
-
-# handler(input, None)
