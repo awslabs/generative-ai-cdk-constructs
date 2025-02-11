@@ -14,15 +14,18 @@
 
 ## Enumerations
 
+- [BlueprintStage](enumerations/BlueprintStage.md)
 - [ConstructName](enumerations/ConstructName.md)
 - [DbName](enumerations/DbName.md)
 - [MetatdataSource](enumerations/MetatdataSource.md)
+- [ResourceType](enumerations/ResourceType.md)
 
 ## Classes
 
 - [AossCwDashboard](classes/AossCwDashboard.md)
 - [BaseClass](classes/BaseClass.md)
 - [BedrockCwDashboard](classes/BedrockCwDashboard.md)
+- [BedrockDataAutomation](classes/BedrockDataAutomation.md)
 - [ContainerImage](classes/ContainerImage.md)
 - [ContentGenerationAppSyncLambda](classes/ContentGenerationAppSyncLambda.md)
 - [CustomSageMakerEndpoint](classes/CustomSageMakerEndpoint.md)
@@ -44,6 +47,7 @@
 - [AsyncInferenceConfig](interfaces/AsyncInferenceConfig.md)
 - [BaseClassProps](interfaces/BaseClassProps.md)
 - [BedrockCwDashboardProps](interfaces/BedrockCwDashboardProps.md)
+- [BedrockDataAutomationProps](interfaces/BedrockDataAutomationProps.md)
 - [CollectionMonitoringProps](interfaces/CollectionMonitoringProps.md)
 - [ContainerImageConfig](interfaces/ContainerImageConfig.md)
 - [ContentGenerationAppSyncLambdaProps](interfaces/ContentGenerationAppSyncLambdaProps.md)

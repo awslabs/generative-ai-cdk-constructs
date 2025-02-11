@@ -1,0 +1,220 @@
+import os
+from dataclasses import dataclass
+from typing import Dict, Any, Optional
+from aws_lambda_powertools import Logger,Tracer,Metrics
+from aws_lambda_powertools.utilities.typing import LambdaContext
+from aws_lambda_powertools.utilities.data_classes import EventBridgeEvent
+from data_processing import DataProcessor, BlueprintConfig,EncryptionConfig,NotificationConfig,DataAutomationConfig
+
+
+logger = Logger(service="BEDROCK_DATA_AUTOMATION")
+tracer = Tracer(service="BEDROCK_DATA_AUTOMATION")
+metrics = Metrics(namespace="DATA_PROCESSING", service="BEDROCK_DATA_AUTOMATION")
+
+
+def get_env_var(var_name: str, default: str = None) -> str:
+    """Get environment variable with validation"""
+    value = os.environ.get(var_name, default)
+    if value is None:
+        raise ValueError(f"Environment variable {var_name} is not set")
+    return value
+
+#@logger.inject_lambda_context
+def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
+    """
+    Lambda handler to process EventBridge events and invoke data automation
+    
+    Expected event structure:
+    {
+        "detail-type": "DataAutomationRequest",
+        "client_token": "optional-client-token",  # Optional
+        "detail": {
+            "input_filename": "document.pdf",
+            "output_filename": "results.json",
+            "blueprint": {
+                "blueprint_arn": "arn:aws:bedrock:region:account:blueprint/id",
+                "version": "1",
+                "stage": "LIVE"
+            },
+            "data_automation": {
+                "data_automation_arn": "arn:aws:bedrock:region:account:automation/id",
+                "stage": "LIVE"
+            },
+            "encryption": {
+                "kms_key_id": "arn:aws:kms:region:account:key/id",
+                "kms_encryption_context": {"purpose": "data-processing"}
+            },
+            "notification": {
+                "eventbridge_enabled": true
+            }
+        }
+    }
+    """
+    try:
+        # Parse event
+        event_bridge_event = EventBridgeEvent(event)
+        detail = event_bridge_event.detail
+        
+        # Validate required fields
+        input_filename = detail.get('input_filename')
+        
+        if not input_filename :
+            raise ValueError("input_filename is required")
+        
+        default_output_filename = os.path.splitext(input_filename)[0] + '.json'
+        output_filename = detail.get('output_filename',default_output_filename)
+            
+        # Get environment variables
+        input_bucket = get_env_var('INPUT_BUCKET')
+        #input_bucket='cb-input-documents'
+        #output_bucket='cb-output-documents'
+        output_bucket = get_env_var('OUTPUT_BUCKET')
+        
+        # Initialize processor
+        processor = DataProcessor(
+            input_bucket=input_bucket,
+            output_bucket=output_bucket
+        )
+        
+        
+        # Initialize configurations if provided in the event
+        configs = {}
+        
+        # check client token
+        if client_token := detail.get('client_token'):
+            configs['client_token']=client_token
+        
+        # Check and initialize BlueprintConfig
+        if blueprint_data := detail.get('blueprints'):
+            try:
+                blueprint_config = blueprint_data[0]
+                configs['blueprint_config'] = BlueprintConfig(
+                blueprint_arn=blueprint_config['blueprint_arn'],
+                version=blueprint_config.get('version'),
+                stage=blueprint_config.get('stage', 'LIVE')
+                 )
+                logger.info("Blueprint configuration initialized", extra={
+                "blueprint_config": configs['blueprint_config']
+                })
+                    
+            except (IndexError, KeyError) as e:
+                logger.error(f"Missing required blueprint parameter: {e}")
+                raise ValueError(f"Missing required blueprint parameter: {e}")
+
+        # Check and initialize DataAutomationConfig
+        if automation_data := detail.get('data_automation'):
+            try:
+                configs['data_automation_config'] = DataAutomationConfig(
+                    data_automation_arn=automation_data['data_automation_arn'],
+                    stage=automation_data.get('stage', 'LIVE')
+                )
+                logger.info("Data automation configuration initialized", extra={
+                    "data_automation_config": configs['data_automation_config']
+                })
+            except KeyError as e:
+                logger.error(f"Missing required data automation parameter: {e}")
+                raise ValueError(f"Missing required data automation parameter: {e}")
+
+        # Check and initialize EncryptionConfig
+        if encryption_data := detail.get('encryption'):
+            try:
+                configs['encryption_config'] = EncryptionConfig(
+                    kms_key_id=encryption_data['kms_key_id'],
+                    kms_encryption_context=encryption_data.get('kms_encryption_context')
+                )
+                logger.info("Encryption configuration initialized", extra={
+                    "encryption_config": configs['encryption_config']
+                })
+            except KeyError as e:
+                logger.error(f"Missing required encryption parameter: {e}")
+                raise ValueError(f"Missing required encryption parameter: {e}")
+
+        # Check and initialize NotificationConfig
+        if notification_data := detail.get('notification'):
+            configs['notification_config'] = NotificationConfig(
+                eventbridge_enabled=notification_data.get('eventbridge_enabled', True)
+            )
+            logger.info("Notification configuration initialized", extra={
+                "notification_config": configs['notification_config']
+            })
+        
+        # Invoke data automation with all configurations
+        response = processor.invoke_data_automation_async(
+            input_filename=input_filename,
+            output_filename=output_filename,
+            **configs
+        )
+        
+        # Log response
+        logger.info("Data automation invocation response", extra={
+            "status_code": response['statusCode'],
+            "response": response['body']
+        })
+        
+        # Check response
+        if response['statusCode'] == 200:
+            job_id = response['body']['jobId']
+            logger.info(f"Job started successfully", extra={"job_id": job_id})
+            
+            return {
+                'statusCode': 200,
+                'body': {
+                    'message': 'Data automation job started successfully',
+                    'jobId': job_id,
+                    'clientToken': client_token,
+                    'configurations': {
+                        k: str(v) for k, v in configs.items()
+                    }
+                }
+            }
+        else:
+            error_message = response['body'].get('message', 'Unknown error')
+            logger.error("Failed to start job", extra={
+                "error": error_message
+            })
+            
+            return {
+                'statusCode': response['statusCode'],
+                'body': {
+                    'message': 'Failed to start data automation job',
+                    'error': error_message
+                }
+            }
+            
+    except ValueError as e:
+        logger.error("Validation error", exc_info=True)
+        return {
+            'statusCode': 400,
+            'body': {
+                'message': 'Validation error',
+                'error': str(e)
+            }
+        }
+        
+    except Exception as e:
+        logger.error("Unexpected error", exc_info=True)
+        return {
+            'statusCode': 500,
+            'body': {
+                'message': 'Internal server error',
+                'error': str(e)
+            }
+        }
+
+
+
+# imput = {
+#     "detail-type": "Bedrock Invoke Request",
+#     "source": "custom.bedrock.blueprint",
+#     "detail": {
+#         "input_filename": "noa.pdf",
+#         "output_filename": "noa.json",
+#         "blueprints": [{
+#             "blueprint_arn": "arn:aws:bedrock:us-west-2:551246883740:blueprint/0730dd0ff015",
+#             #"version": "1",
+#             "stage": "LIVE"
+#         }]
+#     }
+# }
+
+# handler(imput, None)
