@@ -61,6 +61,8 @@ The AWS Bedrock Data Automation construct simplifies the process of extracting i
 TypeScript:
 ```typescript
 import { BedrockDataAutomation } from 'generative-ai-cdk-constructs';
+import { EventbridgeToLambda } from '@aws-solutions-constructs/aws-eventbridge-lambda';
+
 
 const bdaConstruct = new BedrockDataAutomation(this, 'MyBDAConstruct', {
   inputBucketName: 'XXXXXXXXXXXXXXX',
@@ -70,6 +72,19 @@ const bdaConstruct = new BedrockDataAutomation(this, 'MyBDAConstruct', {
   isBDAInvocationRequired: true,
   isStatusRequired: true
 });
+
+// Frontend the construct with an eventbridge 
+    const bluePrintFunction = bdaConstruct.blueprintLambdaFunction
+    const blueprintEventbridge = new EventbridgeToLambda(this, 'CreateBlueprintEventRule', {
+      existingLambdaObj: bluePrintFunction,
+      eventRuleProps: {
+        eventPattern: {
+          source: ['custom.bedrock.blueprint'],
+          detailType: ['Bedrock Blueprint Request'],
+        }
+      },
+    });
+
 ```
 
 ```python
@@ -84,6 +99,16 @@ bda_construct = BedrockDataAutomation(self, "MyBDAConstruct",
     is_status_required=True
 )
 
+# Frontend the construct with an eventbridge 
+EventbridgeToLambda(self, 'create_blueprint-lambda',
+                    existing_lambda_obj=bda_construct
+                    event_rule_props= {
+                    event_pattern= {
+                    source= ['custom.bedrock.blueprint'],
+                    detail_type= ['Bedrock Blueprint Request'],
+                    }
+                    }
+                    )
 ```
 
 ## Creating Custom Blueprints
