@@ -41,6 +41,12 @@ export interface IJumpStartModelSpec {
 }
 
 export class JumpStartModel {
+  public static readonly DEEPSEEK_LLM_R1_DISTILL_LLAMA_70B_1_0_0 = this.of('DEEPSEEK_LLM_R1_DISTILL_LLAMA_70B_1_0_0');
+  public static readonly DEEPSEEK_LLM_R1_DISTILL_LLAMA_8B_1_0_0 = this.of('DEEPSEEK_LLM_R1_DISTILL_LLAMA_8B_1_0_0');
+  public static readonly DEEPSEEK_LLM_R1_DISTILL_QWEN_1_5B_1_0_0 = this.of('DEEPSEEK_LLM_R1_DISTILL_QWEN_1_5B_1_0_0');
+  public static readonly DEEPSEEK_LLM_R1_DISTILL_QWEN_14B_1_0_0 = this.of('DEEPSEEK_LLM_R1_DISTILL_QWEN_14B_1_0_0');
+  public static readonly DEEPSEEK_LLM_R1_DISTILL_QWEN_32B_1_0_0 = this.of('DEEPSEEK_LLM_R1_DISTILL_QWEN_32B_1_0_0');
+  public static readonly DEEPSEEK_LLM_R1_DISTILL_QWEN_7B_1_0_0 = this.of('DEEPSEEK_LLM_R1_DISTILL_QWEN_7B_1_0_0');
   public static readonly HUGGINGFACE_ASR_WHISPER_BASE_3_0_5 = this.of('HUGGINGFACE_ASR_WHISPER_BASE_3_0_5');
   public static readonly HUGGINGFACE_ASR_WHISPER_BASE_3_0_4 = this.of('HUGGINGFACE_ASR_WHISPER_BASE_3_0_4');
   public static readonly HUGGINGFACE_ASR_WHISPER_BASE_3_0_3 = this.of('HUGGINGFACE_ASR_WHISPER_BASE_3_0_3');

@@ -30,6 +30,8 @@ This construct library facilitates the deployment of Knowledge Bases, Bedrock Ag
 
 - [API](#api)
 - [Knowledge Bases](#knowledge-bases)
+  - [Vector Knowledge Base](#vector-knowledge-base)
+  - [Kendra Knowledge Base](#kendra-knowledge-base)
 - [Agents](#agents)
 - [Guardrails](#bedrock-guardrails)
 - [Prompt management](#prompt-management)
@@ -43,15 +45,15 @@ See the [API documentation](../../../apidocs/namespaces/bedrock/README.md).
 
 Amazon Bedrock Knowledge Bases enable you to provide foundation models and agents with contextual information from your company’s private data sources. This enhances the relevance, accuracy, and customization of their responses.
 
-### Create a Knowledge Base
+### Vector Knowledge Base
 
-A vector index on a vector store is required to create a Knowledge Base. This construct currently supports [Amazon OpenSearch Serverless](../opensearchserverless), [Amazon RDS Aurora PostgreSQL](../amazonaurora/), [Pinecone](../pinecone/) . By default, this resource will create an OpenSearch Serverless vector collection and index for each Knowledge Base you create, but you can provide an existing collection and/or index to have more control. For other resources you need to have the vector stores already created and credentials stored in AWS Secrets Manager. For Aurora, the construct provides an option to create a default `AmazonAuroraDefaultVectorStore` construct that will provision the vector store backed by Amazon Aurora for you. To learn more you can read [here](../amazonaurora/README.md).
+#### Create a vector Knowledge Base
+
+A vector index on a vector store is required to create a vector Knowledge Base. This construct currently supports [Amazon OpenSearch Serverless](../opensearchserverless), [Amazon RDS Aurora PostgreSQL](../amazonaurora/), [Pinecone](../pinecone/) . By default, this resource will create an OpenSearch Serverless vector collection and index for each Knowledge Base you create, but you can provide an existing collection and/or index to have more control. For other resources you need to have the vector stores already created and credentials stored in AWS Secrets Manager. For Aurora, the construct provides an option to create a default `AmazonAuroraDefaultVectorStore` construct that will provision the vector store backed by Amazon Aurora for you. To learn more you can read [here](../amazonaurora/README.md).
 
 The resource accepts an `instruction` prop that is provided to any Bedrock Agent it is associated with so the agent can decide when to query the Knowledge Base.
 
-Amazon Bedrock Knowledge Bases currently only supports S3 as a data source. The `S3DataSource` resource is used to configure how the Knowledge Base handles the data source.
-
-## Knowledge Base Properties
+#### Vector Knowledge Base Properties
 
 
 | Name | Type | Required | Description |
@@ -68,7 +70,7 @@ Amazon Bedrock Knowledge Bases currently only supports S3 as a data source. The 
 | knowledgeBaseState | string | No | Specifies whether to use the knowledge base or not when sending an InvokeAgent request |
 | tags | Record<string, string> | No | Tag (KEY-VALUE) bedrock agent resource |
 
-## Initializer
+### Initializer
 
 Example of `OpenSearch Serverless`:
 
@@ -78,7 +80,7 @@ TypeScript
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { bedrock } from '@cdklabs/generative-ai-cdk-constructs';
 
-const kb = new bedrock.KnowledgeBase(this, 'KnowledgeBase', {
+const kb = new bedrock.VectorKnowledgeBase(this, 'KnowledgeBase', {
   embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
   instruction: 'Use this knowledge base to answer questions about books. ' + 'It contains the full text of novels.',
 });
@@ -107,7 +109,7 @@ from cdklabs.generative_ai_cdk_constructs import (
     bedrock
 )
 
-kb = bedrock.KnowledgeBase(self, 'KnowledgeBase',
+kb = bedrock.VectorKnowledgeBase(self, 'KnowledgeBase',
             embeddings_model= bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
             instruction=  'Use this knowledge base to answer questions about books. ' +
     'It contains the full text of novels.'
@@ -138,7 +140,7 @@ const auroraDb = new amazonaurora.AmazonAuroraVectorStore(stack, 'AuroraDefaultV
   embeddingsModelVectorDimension: embeddingsModelVectorDimension,
 });
 
-const kb = new bedrock.KnowledgeBase(this, 'KnowledgeBase', {
+const kb = new bedrock.VectorKnowledgeBase(this, 'KnowledgeBase', {
   vectorStore: auroraDb,
   embeddingsModelVectorDimension: embeddingsModelVectorDimension,
   instruction: 'Use this knowledge base to answer questions about books. ' + 'It contains the full text of novels.',
@@ -176,7 +178,7 @@ aurora_db = amazonaurora.AmazonAuroraVectorStore(self, 'AuroraDefaultVectorStore
   embeddings_model_vector_dimension=embeddings_model_vector_dimension
 )
 
-kb = bedrock.KnowledgeBase(self, 'KnowledgeBase',
+kb = bedrock.VectorKnowledgeBase(self, 'KnowledgeBase',
             vector_store= aurora_db,
             embeddings_model_vector_dimension=embeddings_model_vector_dimension,
             instruction=  'Use this knowledge base to answer questions about books. ' +
@@ -231,7 +233,7 @@ const auroraDb = aurora.AmazonAuroraVectorStore.fromExistingAuroraVectorStore(st
   ),
 });
 
-const kb = new bedrock.KnowledgeBase(this, "KnowledgeBase", {
+const kb = new bedrock.VectorKnowledgeBase(this, "KnowledgeBase", {
   vectorStore: auroraDb,
   embeddingsModel: bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
   instruction:
@@ -292,7 +294,7 @@ aurora_db = amazonaurora.AmazonAuroraVectorStore.from_existing_aurora_vector_sto
     )
 )
 
-kb = bedrock.KnowledgeBase(self, 'KnowledgeBase',
+kb = bedrock.VectorKnowledgeBase(self, 'KnowledgeBase',
             vector_store= aurora_db,
             embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
             instruction=  'Use this knowledge base to answer questions about books. ' +
@@ -324,7 +326,7 @@ const pineconeds = new pinecone.PineconeVectorStore({
   metadataField: 'metadata',
 });
 
-const kb = new bedrock.KnowledgeBase(this, 'KnowledgeBase', {
+const kb = new bedrock.VectorKnowledgeBase(this, 'KnowledgeBase', {
   vectorStore: pineconeds,
   embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
   instruction: 'Use this knowledge base to answer questions about books. ' + 'It contains the full text of novels.',
@@ -359,7 +361,7 @@ pineconevs = pinecone.PineconeVectorStore(
             metadata_field='metadata'
         )
 
-kb = bedrock.KnowledgeBase(self, 'KnowledgeBase',
+kb = bedrock.VectorKnowledgeBase(self, 'KnowledgeBase',
             vector_store= pineconevs,
             embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
             instruction=  'Use this knowledge base to answer questions about books. ' +
@@ -376,7 +378,7 @@ bedrock.S3DataSource(self, 'DataSource',
 )
 ```
 
-#### Knowledge Base - Data Sources
+#### Vector Knowledge Base - Data Sources
 
 Data sources are the various repositories or systems from which information is extracted and ingested into the
 knowledge base. These sources provide the raw content that will be processed, indexed, and made available for
@@ -401,7 +403,7 @@ Typescript
 const app = new cdk.App();
 const stack = new cdk.Stack(app, 'aws-cdk-bedrock-data-sources-integ-test');
 
-const kb = new KnowledgeBase(stack, 'MyKnowledgeBase', {
+const kb = new VectorKnowledgeBase(stack, 'MyKnowledgeBase', {
   name: 'MyKnowledgeBase',
   embeddingsModel: BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
 });
@@ -512,7 +514,7 @@ class PythonTestStack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        kb = bedrock.KnowledgeBase(self, 'MyKnowledgeBase',
+        kb = bedrock.VectorKnowledgeBase(self, 'MyKnowledgeBase',
                     embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
                 )
 
@@ -604,7 +606,7 @@ class PythonTestStack(Stack):
 
 ```
 
-#### Knowledge Base - Chunking Strategies
+#### Vector Knowledge Base - Chunking Strategies
 
 - **Default Chunking**: Applies Fixed Chunking with the default chunk size of 300 tokens and 20% overlap.
 
@@ -731,7 +733,7 @@ class PythonTestStack(Stack):
   ChunkingStrategy.NONE
   ```
 
-#### Knowledge Base - Parsing Strategy
+#### Vector Knowledge Base - Parsing Strategy
 
 A parsing strategy in Amazon Bedrock is a configuration that determines how the service
 processes and interprets the contents of a document. It involves converting the document's
@@ -786,6 +788,87 @@ Python
 CustomTransformation.lambda_(
   lambda_function= function,
   s3_bucket_uri= f's3://{docBucket.bucket_name}/chunk-processor/'
+)
+```
+
+### Kendra Knowledge Base
+
+#### Create a Kendra Knowledge Base
+
+With Amazon Bedrock Knowledge Bases, you can build a knowledge base from an Amazon Kendra GenAI index to create more sophisticated and accurate Retrieval Augmented Generation (RAG)-powered digital assistants. By combining an Amazon Kendra GenAI index with Amazon Bedrock Knowledge Bases, you can:
+
+- Reuse your indexed content across multiple Amazon Bedrock applications without rebuilding indexes or re-ingesting data.
+- Leverage the advanced GenAI capabilities of Amazon Bedrock while benefiting from the high-accuracy information retrieval of Amazon Kendra.
+- Customize your digital assistant's behavior using the tools of Amazon Bedrock while maintaining the semantic accuracy of an Amazon Kendra GenAI index.
+
+#### Kendra Knowledge Base properties
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| kendraIndex | IKendraGenAiIndex | Yes | The Kendra Index to use for the knowledge base. |
+| name | string | No | The name of the knowledge base. If not provided, a name will be auto-generated. |
+| description | string | No | Description of the knowledge base. |
+| instruction | string | No | Instructions for the knowledge base. |
+| existingRole | iam.IRole | No | An existing IAM role to use for the knowledge base. If not provided, a new role will be created. |
+
+#### Initializer
+
+
+TypeScript
+
+```ts
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import { bedrock, kendra } from '@cdklabs/generative-ai-cdk-constructs';
+
+const cmk = new kms.Key(stack, 'cmk', {});
+
+// you can create a new index using the api below 
+const index = new kendra.KendraGenAiIndex(this, 'index', {
+  name: 'kendra-index-cdk',
+  kmsKey: cmk,
+  documentCapacityUnits: 1, // 40K documents
+  queryCapacityUnits: 1,    // 0.2 QPS
+});
+
+// or import an existing one
+const index = kendra.KendraGenAiIndex.fromAttrs(this, 'myindex', {
+  indexId: 'myindex',
+  role: myRole
+});
+
+new bedrock.KendraKnowledgeBase(this, 'kb', {
+  name: 'kendra-kb-cdk',
+  kendraIndex: index,
+});
+```
+
+Python
+
+```py
+from aws_cdk import aws_kms as kms
+from cdklabs.generative_ai_cdk_constructs import bedrock, kendra
+
+# Create a KMS key
+cmk = kms.Key(stack, 'cmk')
+
+# Create a new Kendra index
+index = kendra.KendraGenAiIndex(self, 'index',
+    name='kendra-index-cdk',
+    kms_key=cmk,
+    document_capacity_units=1,  # 40K documents
+    query_capacity_units=1      # 0.2 QPS
+)
+
+# Or import an existing index
+index = kendra.KendraGenAiIndex.from_attrs(self, 'myindex',
+    index_id='myindex',
+    role=my_role
+)
+
+# Create a Kendra Knowledge Base
+kb = bedrock.KendraKnowledgeBase(self, 'kb',
+    name='kendra-kb-cdk',
+    kendra_index=index
 )
 ```
 

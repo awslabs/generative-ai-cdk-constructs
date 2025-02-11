@@ -11,23 +11,33 @@
  *  and limitations under the License.
  */
 
-import { ArnFormat, aws_bedrock as bedrock, IResource, Resource, Stack } from 'aws-cdk-lib';
+import { ArnFormat, aws_bedrock as bedrock, Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { NagSuppressions } from 'cdk-nag/lib/nag-suppressions';
 import { Construct } from 'constructs';
-import { Agent } from './../bedrock/agents/agent';
-import { ConfluenceDataSource, ConfluenceDataSourceAssociationProps } from './data-sources/confluence-data-source';
-import { S3DataSource, S3DataSourceAssociationProps } from './data-sources/s3-data-source';
-import { SalesforceDataSource, SalesforceDataSourceAssociationProps } from './data-sources/salesforce-data-source';
-import { SharePointDataSource, SharePointDataSourceAssociationProps } from './data-sources/sharepoint-data-source';
-import { WebCrawlerDataSource, WebCrawlerDataSourceAssociationProps } from './data-sources/web-crawler-data-source';
-import { generatePhysicalNameV2 } from '../../common/helpers/utils';
-import { ExistingAmazonAuroraVectorStore, AmazonAuroraVectorStore } from '../amazonaurora';
-import { BedrockFoundationModel } from './models';
-import { VectorIndex } from '../opensearch-vectorindex';
-import { VectorCollection } from '../opensearchserverless';
-import { PineconeVectorStore } from '../pinecone';
+import {
+  CommonKnowledgeBaseAttributes,
+  CommonKnowledgeBaseProps,
+  IKnowledgeBase,
+  KnowledgeBaseBase,
+  KnowledgeBaseType,
+} from './knowledge-base';
+import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
+import { ExistingAmazonAuroraVectorStore, AmazonAuroraVectorStore } from '../../amazonaurora';
+import { VectorIndex } from '../../opensearch-vectorindex';
+import { VectorCollection } from '../../opensearchserverless';
+import { PineconeVectorStore } from '../../pinecone';
+import { Agent } from '../agents/agent';
+import { ConfluenceDataSource, ConfluenceDataSourceAssociationProps } from '../data-sources/confluence-data-source';
+import { S3DataSource, S3DataSourceAssociationProps } from '../data-sources/s3-data-source';
+import { SalesforceDataSource, SalesforceDataSourceAssociationProps } from '../data-sources/salesforce-data-source';
+import { SharePointDataSource, SharePointDataSourceAssociationProps } from '../data-sources/sharepoint-data-source';
+import { WebCrawlerDataSource, WebCrawlerDataSourceAssociationProps } from '../data-sources/web-crawler-data-source';
+import { BedrockFoundationModel } from '../models';
 
+/******************************************************************************
+ *                                  ENUMS
+ *****************************************************************************/
 /**
  * Knowledge base can be backed by different vector databases.
  * This enum represents the different vector databases that can be used.
@@ -52,6 +62,9 @@ enum VectorStoreType {
   AMAZON_AURORA = 'RDS',
 }
 
+/******************************************************************************
+ *                             COMMON INTERFACES
+ *****************************************************************************/
 /**
  * Interface for the configuration of the storage for knowledge base.
  */
@@ -91,35 +104,7 @@ interface StorageConfiguration {
 /**
  * Represents a Knowledge Base, either created with CDK or imported.
  */
-export interface IKnowledgeBase extends IResource {
-  /**
-   * The ARN of the knowledge base.
-   * @example "arn:aws:bedrock:us-east-1:123456789012:knowledge-base/KB12345678"
-   */
-  readonly knowledgeBaseArn: string;
-
-  /**
-   * The ID of the knowledge base.
-   * @example "KB12345678"
-   */
-  readonly knowledgeBaseId: string;
-
-  /**
-   * The role associated with the knowledge base.
-   */
-  readonly role: iam.IRole;
-
-  /**
-   * A description of the knowledge base.
-   */
-  readonly description?: string;
-
-  /**
-   * Instructions for agents based on the design and type of information of the
-   * Knowledge Base. This will impact how Agents interact with the Knowledge Base.
-   */
-  readonly instruction?: string;
-
+export interface IVectorKnowledgeBase extends IKnowledgeBase {
   /**
    * Add an S3 data source to the knowledge base.
    */
@@ -146,20 +131,6 @@ export interface IKnowledgeBase extends IResource {
   addSalesforceDataSource(props: SalesforceDataSourceAssociationProps): SalesforceDataSource;
 
   /**
-   * Grant the given principal identity permissions to perform actions on this knowledge base.
-   */
-  grant(grantee: iam.IGrantable, ...actions: string[]): iam.Grant;
-
-  /**
-   * Grant the given identity permissions to query the knowledge base.
-   * This contains:
-   * - Retrieve
-   * - RetrieveAndGenerate
-   * @param grantee The principal to grant permissions to
-   */
-  grantQuery(grantee: iam.IGrantable): iam.Grant;
-
-  /**
    * Grant the given identity permissions to retrieve content from the knowledge base.
    */
   grantRetrieve(grantee: iam.IGrantable): iam.Grant;
@@ -170,18 +141,26 @@ export interface IKnowledgeBase extends IResource {
   grantRetrieveAndGenerate(grantee: iam.IGrantable): iam.Grant;
 }
 
+/******************************************************************************
+ *                              ABSTRACT CLASS
+ *****************************************************************************/
 /**
- * Abstract base class for Knowledge Base.
+ * Abstract base class for Vector Knowledge Base.
  * Contains methods valid for KBs either created with CDK or imported.
  */
-abstract class KnowledgeBaseBase extends Resource implements IKnowledgeBase {
+abstract class VectorKnowledgeBaseBase extends KnowledgeBaseBase implements IVectorKnowledgeBase {
   public abstract readonly knowledgeBaseArn: string;
   public abstract readonly knowledgeBaseId: string;
   public abstract readonly role: iam.IRole;
+  public abstract readonly description?: string;
+  public abstract readonly instruction?: string;
+
+  public readonly type: KnowledgeBaseType = KnowledgeBaseType.VECTOR;
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
   }
+
   // ------------------------------------------------------
   // Helper methods to add Data Sources
   // ------------------------------------------------------
@@ -219,81 +198,19 @@ abstract class KnowledgeBaseBase extends Resource implements IKnowledgeBase {
       ...props,
     });
   }
-
-  /**
-   * Grant the given principal identity permissions to perform actions on this knowledge base.
-   */
-  public grant(grantee: iam.IGrantable, ...actions: string[]): iam.Grant {
-    return iam.Grant.addToPrincipal({
-      grantee,
-      actions,
-      resourceArns: [this.knowledgeBaseArn],
-      scope: this,
-    });
-  }
-
-  /**
-   * Grant the given identity permissions to retrieve content from the knowledge base.
-   */
-  public grantRetrieve(grantee: iam.IGrantable): iam.Grant {
-    return this.grant(grantee, 'bedrock:Retrieve');
-  }
-
-  /**
-   * Grant the given identity permissions to retrieve content from the knowledge base.
-   */
-  public grantRetrieveAndGenerate(grantee: iam.IGrantable): iam.Grant {
-    return this.grant(grantee, 'bedrock:RetrieveAndGenerate');
-  }
-
-  /**
-   * Grant the given identity permissions to query the knowledge base.
-   * This contains:
-   * - Retrieve
-   * - RetrieveAndGenerate
-   */
-  public grantQuery(grantee: iam.IGrantable): iam.Grant {
-    return this.grant(grantee, 'bedrock:Retrieve', 'bedrock:RetrieveAndGenerate');
-  }
 }
 
+/******************************************************************************
+ *                        PROPS FOR NEW CONSTRUCT
+ *****************************************************************************/
 /**
  * Properties for a knowledge base
  */
-export interface KnowledgeBaseProps {
+export interface VectorKnowledgeBaseProps extends CommonKnowledgeBaseProps {
   /**
    * The embeddings model for the knowledge base
    */
   readonly embeddingsModel: BedrockFoundationModel;
-
-  /**
-   * The name of the knowledge base.
-   */
-  readonly name?: string;
-
-  /**
-   * The description of the knowledge base.
-   *
-   * @default - No description provided.
-   */
-  readonly description?: string;
-
-  /**
-   * Instructions for agents based on the design and type of information of the
-   * Knowledge Base. This will impact how Agents interact with the Knowledge Base.
-   *
-   * @default - No description provided.
-   */
-  readonly instruction?: string;
-
-  /**
-   * Existing IAM role with a policy statement
-   * granting permission to invoke the specific embeddings model.
-   * Any entity (e.g., an AWS service or application) that assumes
-   * this role will be able to invoke or use the
-   * specified embeddings model within the Bedrock service.
-   */
-  readonly existingRole?: iam.IRole;
 
   /**
    * The name of the vector index.
@@ -321,10 +238,10 @@ export interface KnowledgeBaseProps {
    * @default - A new OpenSearch Serverless vector collection is created.
    */
   readonly vectorStore?:
-  | VectorCollection
-  | PineconeVectorStore
-  | AmazonAuroraVectorStore
-  | ExistingAmazonAuroraVectorStore;
+    | VectorCollection
+    | PineconeVectorStore
+    | AmazonAuroraVectorStore
+    | ExistingAmazonAuroraVectorStore;
 
   /**
    * The vector index for the OpenSearch Serverless backed knowledge base.
@@ -335,48 +252,16 @@ export interface KnowledgeBaseProps {
    * if vector store is of `VectorCollection` type.
    */
   readonly vectorIndex?: VectorIndex;
-
-  /**
-   * Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
-   */
-  readonly knowledgeBaseState?: string;
-
-  /**
-   * OPTIONAL: Tag (KEY-VALUE) bedrock agent resource
-   *
-   * @default - false
-   */
-  readonly tags?: Record<string, string>;
 }
 
+/******************************************************************************
+ *                      ATTRS FOR IMPORTED CONSTRUCT
+ *****************************************************************************/
 /**
  * Properties for importing a knowledge base outside of this stack
  */
-export interface KnowledgeBaseAttributes {
-  /**
-   * The ID of the knowledge base.
-   * @example "KB12345678"
-   */
-  readonly knowledgeBaseId: string;
-  /**
-   * The Service Execution Role associated with the knowledge base.
-   * @example "arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseKB12345678"
-   */
-  readonly executionRoleArn: string;
-  /**
-   * The description of the knowledge base.
-   *
-   * @default - No description provided.
-   */
-  readonly description?: string;
-
-  /**
-   * Instructions for agents based on the design and type of information of the
-   * Knowledge Base. This will impact how Agents interact with the Knowledge Base.
-   *
-   * @default - No description provided.
-   */
-  readonly instruction?: string;
+export interface VectorKnowledgeBaseAttributes extends CommonKnowledgeBaseAttributes {
+  // Unique props for vector KBs would be defined here
 }
 
 /**
@@ -384,27 +269,28 @@ export interface KnowledgeBaseAttributes {
  * Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
  *
  */
-export class KnowledgeBase extends KnowledgeBaseBase {
+export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
   // ------------------------------------------------------
   // Import Methods
   // ------------------------------------------------------
   public static fromKnowledgeBaseAttributes(
     scope: Construct,
     id: string,
-    attrs: KnowledgeBaseAttributes,
-  ): IKnowledgeBase {
+    attrs: VectorKnowledgeBaseAttributes,
+  ): IVectorKnowledgeBase {
     const stack = Stack.of(scope);
-    class Import extends KnowledgeBaseBase {
+
+    class Import extends VectorKnowledgeBaseBase {
+      public readonly role = iam.Role.fromRoleArn(this, `kb-${attrs.knowledgeBaseId}-role`, attrs.executionRoleArn);
+      public readonly description = attrs.description;
+      public readonly instruction = attrs.instruction;
+      public readonly knowledgeBaseId = attrs.knowledgeBaseId;
       public readonly knowledgeBaseArn = stack.formatArn({
         service: 'bedrock',
         resource: 'knowledge-base',
         resourceName: attrs.knowledgeBaseId,
         arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
       });
-      public readonly role = iam.Role.fromRoleArn(this, `kb-${attrs.knowledgeBaseId}-role`, attrs.executionRoleArn);
-      public readonly knowledgeBaseId = attrs.knowledgeBaseId;
-      public readonly description = attrs.description;
-      public readonly instruction = attrs.instruction;
     }
     return new Import(scope, id);
   }
@@ -430,10 +316,10 @@ export class KnowledgeBase extends KnowledgeBaseBase {
    * The vector store for the knowledge base.
    */
   public readonly vectorStore:
-  | VectorCollection
-  | PineconeVectorStore
-  | AmazonAuroraVectorStore
-  | ExistingAmazonAuroraVectorStore;
+    | VectorCollection
+    | PineconeVectorStore
+    | AmazonAuroraVectorStore
+    | ExistingAmazonAuroraVectorStore;
 
   /**
    * A description of the knowledge base.
@@ -463,19 +349,17 @@ export class KnowledgeBase extends KnowledgeBaseBase {
   private vectorIndex?: VectorIndex;
 
   /**
-   * Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
-   */
-  public readonly knowledgeBaseState: string;
-
-  /**
    * The type of the knowledge base.
    * @private
    */
   private vectorStoreType: VectorStoreType;
 
-  constructor(scope: Construct, id: string, props: KnowledgeBaseProps) {
+  constructor(scope: Construct, id: string, props: VectorKnowledgeBaseProps) {
     super(scope, id);
 
+    // ------------------------------------------------------
+    // Set properties or defaults
+    // ------------------------------------------------------
     const embeddingsModel = props.embeddingsModel;
     const indexName = props.indexName ?? 'bedrock-knowledge-base-default-index';
     const vectorField = props.vectorField ?? 'bedrock-knowledge-base-default-vector';
@@ -483,7 +367,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
     const metadataField = 'AMAZON_BEDROCK_METADATA';
 
     this.description = props.description ?? 'CDK deployed Knowledge base'; // even though this prop is optional, if no value is provided it will fail to deploy
-    this.knowledgeBaseState = props.knowledgeBaseState ?? 'ENABLED';
+    //this.knowledgeBaseState = props.knowledgeBaseState ?? 'ENABLED';
     this.instruction = props.instruction;
 
     validateModel(embeddingsModel);
@@ -637,9 +521,12 @@ export class KnowledgeBase extends KnowledgeBaseBase {
           : metadataField,
     };
 
+    // ------------------------------------------------------
+    // L1 Instantiation
+    // ------------------------------------------------------
     const knowledgeBase = new bedrock.CfnKnowledgeBase(this, 'MyCfnKnowledgeBase', {
       knowledgeBaseConfiguration: {
-        type: 'VECTOR',
+        type: KnowledgeBaseType.VECTOR,
         vectorKnowledgeBaseConfiguration: {
           embeddingModelArn: embeddingsModel.asArn(this),
           // Used this approach as if property is specified on models that do not
@@ -654,7 +541,6 @@ export class KnowledgeBase extends KnowledgeBaseBase {
       roleArn: this.role.roleArn,
       storageConfiguration: getStorageConfiguration(storageConfiguration),
       description: props.description,
-      tags: props.tags,
     });
 
     this.knowledgeBaseInstance = knowledgeBase;
@@ -724,7 +610,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
    * @returns The instance of VectorCollection, VectorStoreType.
    * @internal This is an internal core function and should not be called directly.
    */
-  private handleOpenSearchCollection(props: KnowledgeBaseProps): {
+  private handleOpenSearchCollection(props: VectorKnowledgeBaseProps): {
     vectorStore: VectorCollection;
     vectorStoreType: VectorStoreType;
   } {
@@ -743,7 +629,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
    * @returns The instance of PineconeVectorStore, VectorStoreType.
    * @internal This is an internal core function and should not be called directly.
    */
-  private handlePineconeVectorStore(props: KnowledgeBaseProps): {
+  private handlePineconeVectorStore(props: VectorKnowledgeBaseProps): {
     vectorStore: PineconeVectorStore;
     vectorStoreType: VectorStoreType;
   } {
@@ -761,7 +647,7 @@ export class KnowledgeBase extends KnowledgeBaseBase {
    * @returns The instance of AmazonAuroraVectorStore, VectorStoreType.
    * @internal This is an internal core function and should not be called directly.
    */
-  private handleAmazonAuroraVectorStore(props: KnowledgeBaseProps): {
+  private handleAmazonAuroraVectorStore(props: VectorKnowledgeBaseProps): {
     vectorStore: AmazonAuroraVectorStore | ExistingAmazonAuroraVectorStore;
     vectorStoreType: VectorStoreType;
   } {

@@ -18,7 +18,7 @@ export * from './patterns/gen-ai/aws-model-deployment-sagemaker';
 export * from './patterns/gen-ai/aws-contentgen-appsync-lambda';
 export * from './patterns/gen-ai/aws-text-to-sql';
 
-
+export * as kendra from './cdk-lib/kendra';
 export * as bedrock from './cdk-lib/bedrock';
 export * as amazonaurora from './cdk-lib/amazonaurora';
 export * as pinecone from './cdk-lib/pinecone';
@@ -31,3 +31,4 @@ export * from './common/base-class/construct-name-enum';
 export * from './patterns/gen-ai/aws-bedrock-cw-dashboard';
 export * from './patterns/gen-ai/aws-aoss-cw-dashboard';
 export * from './patterns/gen-ai/aws-llama-index-data-loader';
+export * from './patterns/gen-ai/aws-bedrock-batch-stepfn';
