@@ -11,7 +11,6 @@
  *  and limitations under the License.
  */
 
-import { ProjenStruct, Struct } from '@mrgrain/jsii-struct-builder';
 import { JsonPatch, awscdk, ReleasableCommits } from 'projen';
 import { NpmAccess } from 'projen/lib/javascript';
 import { buildUpgradeMainPRCustomJob } from './projenrc/github-jobs';
@@ -284,27 +283,6 @@ project.eslint?.addRules({
 
 // https://eslint.style/rules/js/space-infix-ops
 project.eslint?.addRules({ 'space-infix-ops': ['error', { int32Hint: false }] });
-
-project.eslint?.addIgnorePattern('AdapterProps.ts');
-project.eslint?.addIgnorePattern('DockerLambdaCustomProps.ts');
-
-// Shared interfaces extending pre-existing CDK interfaces
-new ProjenStruct(project, { name: 'DockerLambdaCustomProps', filePath: 'src/common/props/DockerLambdaCustomProps.ts' })
-  .mixin(Struct.fromFqn('aws-cdk-lib.aws_lambda.DockerImageFunctionProps'))
-  .withoutDeprecated()
-  .omit(
-    'tracing',
-    'functionName',
-    'description',
-    'role',
-    'vpc',
-    'vpcSubnets',
-    'securityGroups',
-    'role',
-    'layers',
-    'allowPublicSubnet',
-    'allowAllOutbound',
-  );
 
 const packageJson = project.tryFindObjectFile('package.json');
 packageJson?.patch(JsonPatch.add('/scripts/prepare', 'husky install')); // yarn 1
