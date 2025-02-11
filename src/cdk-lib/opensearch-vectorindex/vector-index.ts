@@ -198,7 +198,7 @@ export class VectorIndex extends cdk.Resource {
     this.indexName = props.indexName;
     this.vectorField = props.vectorField;
     this.vectorDimensions = props.vectorDimensions;
-  
+
     const crProvider = OpenSearchIndexCRProvider.getProvider(this);
     crProvider.role.addManagedPolicy(props.collection.aossPolicy);
 
