@@ -56,9 +56,9 @@ The name of the topic to deny.
 
 ***
 
-### INNOPROPRIATE\_CONTENT
+### INAPPROPRIATE\_CONTENT
 
-> `readonly` `static` **INNOPROPRIATE\_CONTENT**: [`Topic`](Topic.md)
+> `readonly` `static` **INAPPROPRIATE\_CONTENT**: [`Topic`](Topic.md)
 
 ***
 

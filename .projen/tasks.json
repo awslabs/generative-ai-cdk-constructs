@@ -231,69 +231,6 @@
         }
       ]
     },
-    "integ:aws-llama-index-data-loader:assert": {
-      "name": "integ:aws-llama-index-data-loader:assert",
-      "description": "assert the snapshot of integration test 'aws-llama-index-data-loader'",
-      "steps": [
-        {
-          "exec": "[ -d \"test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'aws-llama-index-data-loader'. Run 'projen integ:aws-llama-index-data-loader:deploy' to capture.\" && exit 1)"
-        },
-        {
-          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/.tmp/aws-llama-index-data-loader.integ/assert.cdk.out > /dev/null"
-        },
-        {
-          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot/ test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/.tmp/aws-llama-index-data-loader.integ/assert.cdk.out/"
-        }
-      ]
-    },
-    "integ:aws-llama-index-data-loader:deploy": {
-      "name": "integ:aws-llama-index-data-loader:deploy",
-      "description": "deploy integration test 'aws-llama-index-data-loader' and capture snapshot",
-      "steps": [
-        {
-          "exec": "rm -fr test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/.tmp/aws-llama-index-data-loader.integ/deploy.cdk.out"
-        },
-        {
-          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/.tmp/aws-llama-index-data-loader.integ/deploy.cdk.out"
-        },
-        {
-          "exec": "rm -fr test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot"
-        },
-        {
-          "exec": "mv test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/.tmp/aws-llama-index-data-loader.integ/deploy.cdk.out test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot"
-        },
-        {
-          "spawn": "integ:aws-llama-index-data-loader:destroy"
-        }
-      ]
-    },
-    "integ:aws-llama-index-data-loader:destroy": {
-      "name": "integ:aws-llama-index-data-loader:destroy",
-      "description": "destroy integration test 'aws-llama-index-data-loader'",
-      "steps": [
-        {
-          "exec": "cdk destroy --app test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot '**' --no-version-reporting"
-        }
-      ]
-    },
-    "integ:aws-llama-index-data-loader:snapshot": {
-      "name": "integ:aws-llama-index-data-loader:snapshot",
-      "description": "update snapshot for integration test \"aws-llama-index-data-loader\"",
-      "steps": [
-        {
-          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot > /dev/null"
-        }
-      ]
-    },
-    "integ:aws-llama-index-data-loader:watch": {
-      "name": "integ:aws-llama-index-data-loader:watch",
-      "description": "watch integration test 'aws-llama-index-data-loader' (without updating snapshots)",
-      "steps": [
-        {
-          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/.tmp/aws-llama-index-data-loader.integ/deploy.cdk.out"
-        }
-      ]
-    },
     "integ:chatprompt:assert": {
       "name": "integ:chatprompt:assert",
       "description": "assert the snapshot of integration test 'chatprompt'",
@@ -696,9 +633,6 @@
         },
         {
           "spawn": "integ:aws-aoss-cw-dashboard:snapshot"
-        },
-        {
-          "spawn": "integ:aws-llama-index-data-loader:snapshot"
         }
       ]
     },
@@ -847,9 +781,6 @@
         },
         {
           "spawn": "integ:aws-aoss-cw-dashboard:assert"
-        },
-        {
-          "spawn": "integ:aws-llama-index-data-loader:assert"
         }
       ]
     },
