@@ -253,8 +253,8 @@ export class BedrockCwDashboard extends Construct {
         new TextWidget({
           markdown: `# ${modelName}`,
           width: 24,
-        })
-      )
+        }),
+      ),
     );
 
     this.dashboard.addWidgets(
@@ -273,8 +273,8 @@ export class BedrockCwDashboard extends Construct {
           title: 'Max Latency',
           metrics: [modelLatencyMaxMetric],
           width: 8,
-        })
-      )
+        }),
+      ),
     );
 
     let pricingWidget;
@@ -331,8 +331,8 @@ export class BedrockCwDashboard extends Construct {
           width: 12,
           height: 10,
         }),
-        ...(pricingWidget ? [pricingWidget] : [])
-      )
+        ...(pricingWidget ? [pricingWidget] : []),
+      ),
     );
 
     this.dashboard.addWidgets(
@@ -365,7 +365,7 @@ export class BedrockCwDashboard extends Construct {
         title: 'OutputImageCount',
         metrics: [modelOutputImageMetric],
         width: 4,
-      })
+      }),
     );
   }
 
@@ -458,8 +458,8 @@ export class BedrockCwDashboard extends Construct {
         new TextWidget({
           markdown: '# Metrics Across All Models',
           width: 24,
-        })
-      )
+        }),
+      ),
     );
     this.dashboard.addWidgets(
       new Row(
@@ -477,8 +477,8 @@ export class BedrockCwDashboard extends Construct {
           title: 'Max Latency (All Models)',
           metrics: [latencyMaxAllModelsMetric],
           width: 8,
-        })
-      )
+        }),
+      ),
     );
     this.dashboard.addWidgets(
       new Row(
@@ -518,8 +518,8 @@ export class BedrockCwDashboard extends Construct {
           title: 'Legacy invocations (All Models)',
           metrics: [invocationsLegacyModelMetric],
           width: 4,
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -548,8 +548,8 @@ export class BedrockCwDashboard extends Construct {
           },
           width: 24,
           height: 6,
-        })
-      )
+        }),
+      ),
     );
   }
 
@@ -577,8 +577,8 @@ export class BedrockCwDashboard extends Construct {
           },
           width: 24,
           height: 6,
-        })
-      )
+        }),
+      ),
     );
   }
 }

@@ -180,3 +180,151 @@ Grant the given identity permissions to apply the guardrail.
 #### Returns
 
 `Grant`
+
+***
+
+### metric()
+
+> **metric**(`metricName`, `props`?): `Metric`
+
+Return the given named metric for this guardrail.
+
+#### Parameters
+
+##### metricName
+
+`string`
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+***
+
+### metricInvocationClientErrors()
+
+> **metricInvocationClientErrors**(`props`?): `Metric`
+
+Return the invocation client errors metric for this guardrail.
+
+#### Parameters
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+***
+
+### metricInvocationLatency()
+
+> **metricInvocationLatency**(`props`?): `Metric`
+
+Return the invocation latency metric for this guardrail.
+
+#### Parameters
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+***
+
+### metricInvocations()
+
+> **metricInvocations**(`props`?): `Metric`
+
+Return the invocations metric for this guardrail.
+
+#### Parameters
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+***
+
+### metricInvocationServerErrors()
+
+> **metricInvocationServerErrors**(`props`?): `Metric`
+
+Return the invocation server errors metric for this guardrail.
+
+#### Parameters
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+***
+
+### metricInvocationsIntervened()
+
+> **metricInvocationsIntervened**(`props`?): `Metric`
+
+Return the invocations intervened metric for this guardrail.
+
+#### Parameters
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+***
+
+### metricInvocationThrottles()
+
+> **metricInvocationThrottles**(`props`?): `Metric`
+
+Return the invocation throttles metric for this guardrail.
+
+#### Parameters
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+***
+
+### metricTextUnitCount()
+
+> **metricTextUnitCount**(`props`?): `Metric`
+
+Return the text unit count metric for this guardrail.
+
+#### Parameters
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
