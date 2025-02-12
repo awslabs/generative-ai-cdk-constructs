@@ -128,7 +128,7 @@ export interface AgentAliasProps {
   /**
    * The name for the agent alias.
    *
-   * @default - "latest"
+   * @default - "latest-{hash}"
    */
   readonly aliasName?: string;
   /**
@@ -215,14 +215,15 @@ export class AgentAlias extends AgentAliasBase {
   constructor(scope: Construct, id: string, props: AgentAliasProps) {
     super(scope, id);
 
+    // Compute hash from agent, to recreate the resource when agent has changed
+    const hash = md5hash(props.agent.agentId + props.agentVersion + props.agent.lastUpdated);
+
     // ------------------------------------------------------
     // Set properties or defaults
     // ------------------------------------------------------
-    this.aliasName = props.aliasName ?? 'latest';
+    // see https://github.com/awslabs/generative-ai-cdk-constructs/issues/947
+    this.aliasName = props.aliasName ?? `latest-${hash}`;
     this.agent = props.agent;
-
-    // Compute hash from agent, to recreate the resource when agent has changed
-    const hash = md5hash(props.agent.agentId + props.agentVersion + props.agent.lastUpdated);
 
     // ------------------------------------------------------
     // L1 Instantiation
