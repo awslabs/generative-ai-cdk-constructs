@@ -246,6 +246,10 @@ project.github?.actions.set(
   'peter-evans/create-pull-request@b1ddad2c994a25fbc81a28b3ec0e368bb2021c50',
 );
 project.github?.actions.set(
+  'peter-evans/create-pull-request@v7.0.6',
+  'peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f',
+);
+project.github?.actions.set(
   'aws-actions/configure-aws-credentials@v4.0.2',
   'aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502',
 );
