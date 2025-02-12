@@ -317,7 +317,7 @@ export class BedrockDataAutomation extends BaseClass {
       timeout: cdk.Duration.minutes(15),
     });
 
-    this.attachPolicies(bdaResultStatusRole, this.inputBucket);
+    this.attachPolicies(bdaResultStatusRole, this.outputBucket);
   }
 
   // ---------------------------------------------------------------------------------
@@ -334,7 +334,7 @@ export class BedrockDataAutomation extends BaseClass {
         's3:ListBucket',
       ],
       resources: [
-        inputBucket.bucketArn,
+        `${inputBucket.bucketArn}/*`,
         `${inputBucket.bucketArn}:${cdk.Stack.of(this).region}:${cdk.Stack.of(this).account}:s3/*`,
 
       ],
@@ -342,7 +342,7 @@ export class BedrockDataAutomation extends BaseClass {
 
     if (outputBucket) {
       policyStatement.addResources(
-        outputBucket.bucketArn,
+        `${outputBucket.bucketArn}/*`,
         `${outputBucket.bucketArn}:${cdk.Stack.of(this).region}:${cdk.Stack.of(this).account}:s3/*`,
       );
     }
@@ -378,15 +378,19 @@ export class BedrockDataAutomation extends BaseClass {
       effect: iam.Effect.ALLOW,
       actions: [
         'bedrock:CreateBlueprint',
-        'bedrock:ListBlueprint',
+        'bedrock:ListBlueprints',
         'bedrock:DeleteBlueprint',
-        'bedrock:CreateProject',
-        'bedrock:DeleteProject',
         'bedrock:InvokeBlueprint',
         'bedrock:ListBlueprintInvocations',
         'bedrock:GetBlueprintInvocation',
         'bedrock:InvokeDataAutomationAsync',
         'bedrock:CreateDataAutomationProject',
+        'bedrock:GetDataAutomationStatus',
+        'bedrock:ListDataAutomationProjects',
+        'bedrock:DeleteDataAutomationProject',
+        'bedrock:ListDataAutomationBlueprintInvocations',
+        'bedrock:GetDataAutomationBlueprintInvocation',
+        'bedrock:GetDataAutomationProject',
 
       ],
       resources: ['*'],

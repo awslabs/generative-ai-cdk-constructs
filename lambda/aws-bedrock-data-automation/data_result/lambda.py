@@ -7,11 +7,47 @@ from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_lambda_powertools.utilities.data_classes import EventBridgeEvent
 from data_automation_result import DataAutomationResult
+from aws_lambda_powertools.utilities.data_classes import EventBridgeEvent, APIGatewayProxyEvent
+
 
 logger = Logger(service="BEDROCK_DATA_AUTOMATION")
 tracer = Tracer(service="BEDROCK_DATA_AUTOMATION")
 metrics = Metrics(namespace="DATA_AUTOMATION_STATUS", service="BEDROCK_DATA_AUTOMATION")
 
+def process_event_bridge_event(event: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Process EventBridge events
+    """
+    event_bridge_event = EventBridgeEvent(event)
+    logger.info("Received EventBridge event", extra={
+        "detail_type": event_bridge_event.detail_type,
+        "source": event_bridge_event.source,
+        "detail":event_bridge_event.detail
+    })
+    
+    return event_bridge_event.detail
+
+def process_api_gateway_event(event: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Process API Gateway events
+    """
+    api_event = APIGatewayProxyEvent(event)
+    logger.info("Received API Gateway event", extra={
+        "http_method": api_event.http_method,
+        "path": api_event.path
+    })
+    
+    if not api_event.body:
+        raise ValueError("Request body is required")
+    
+    try:
+        return json.loads(api_event.body)
+    except json.JSONDecodeError as e:
+        logger.error("Invalid JSON in request body", extra={"error": str(e)})
+        raise ValueError("Invalid JSON in request body")
+    
+    
+    
 
 async def data_automation_status(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     """
@@ -33,13 +69,15 @@ async def data_automation_status(event: Dict[str, Any], context: Any) -> Dict[st
     }
     """
     try:
-        # Parse EventBridge event
-        event_bridge = EventBridgeEvent(event)
-        detail = event_bridge.detail
+        # Determine event source and process accordingly
+        if event.get("source") and event.get("detail-type"):
+            detail = process_event_bridge_event(event)
+        else:
+            detail = process_api_gateway_event(event)
 
         # Extract and validate required parameters
-        if 'invoke_arn' not in detail:
-            error_msg = "Missing required parameter: invoke_arn in event detail"
+        if 'invocation_arn' not in detail:
+            error_msg = "Missing required parameter: invocation_arn in event detail"
             logger.error(error_msg)
             return {
                 'statusCode': 400,
@@ -125,4 +163,3 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
     Main Lambda handler that wraps the async handler
     """
     return asyncio.run(data_automation_status(event, context))
-

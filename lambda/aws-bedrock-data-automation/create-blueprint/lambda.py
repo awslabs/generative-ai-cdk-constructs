@@ -5,7 +5,7 @@ from typing import Any, Dict
 import boto3
 from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
-
+from aws_lambda_powertools.utilities.data_classes import EventBridgeEvent, APIGatewayProxyEvent
 from create_blueprint import create_blueprint,delete_blueprint,list_blueprints,get_blueprint,update_blueprint
 from create_schema import create_schema
 
@@ -24,6 +24,39 @@ class OperationType(str, Enum):
 input_bucket = os.environ.get('INPUT_BUCKET')
     
 
+def process_event_bridge_event(event: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Process EventBridge events
+    """
+    event_bridge_event = EventBridgeEvent(event)
+    logger.info("Received EventBridge event", extra={
+        "detail_type": event_bridge_event.detail_type,
+        "source": event_bridge_event.source,
+        "detail":event_bridge_event.detail
+    })
+    
+    return event_bridge_event.detail
+
+def process_api_gateway_event(event: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Process API Gateway events
+    """
+    api_event = APIGatewayProxyEvent(event)
+    logger.info("Received API Gateway event", extra={
+        "body":api_event.body
+    })
+    
+    if not api_event.body:
+        raise ValueError("Request body is required")
+    
+    try:
+        return json.loads(api_event.body)
+    except json.JSONDecodeError as e:
+        logger.error("Invalid JSON in request body", extra={"error": str(e)})
+        raise ValueError("Invalid JSON in request body")
+    
+    
+    
 def get_schema(bucket_name: str, schema_key: str) -> Dict[str, Any]:
     """
     Get and parse schema JSON from S3 bucket
@@ -73,19 +106,12 @@ def handler(event, context: LambdaContext):
     """
     try:
         logger.info(f"Received event: {json.dumps(event)}")
-        # Get input bucket and key from environment variables
+        # Determine event source and process accordingly
+        if event.get("source") and event.get("detail-type"):
+            blueprint_details = process_event_bridge_event(event)
+        else:
+            blueprint_details = process_api_gateway_event(event)
        
-        if 'detail' not in event:
-            logger.error("Event detail section is missing")
-            return {
-                'statusCode': 400,
-                'body': json.dumps({
-                    'message': 'Invalid event format',
-                    'error': 'detail section is missing'
-                })
-            }
-
-        blueprint_details = event['detail']
         
         operation_type = blueprint_details.get('operation', 'CREATE')
         if operation_type not in [stage.value for stage in OperationType]:
@@ -114,8 +140,8 @@ def handler(event, context: LambdaContext):
             
         elif operation_type.lower() == 'create':
             # Check if schema_file_name is present
-            if 'schema_file_name' in event['detail']:
-                input_key = event['detail']['schema_file_name']
+            if 'schema_file_name' in blueprint_details:
+                input_key = blueprint_details['schema_file_name']
                 # Get schema from S3
                 logger.info(f"Retrieving schema from S3: {input_bucket}/{input_key}")
                 schema_content = get_schema(input_bucket, input_key)
@@ -124,8 +150,8 @@ def handler(event, context: LambdaContext):
 
             
             # Check if schema_fields is present
-            if 'schema_fields' in event['detail']:
-                schema_fields = event['detail']['schema_fields']
+            if 'schema_fields' in blueprint_details:
+                schema_fields = blueprint_details['schema_fields']
                 
                 # Validate schema_fields format
                 if not isinstance(schema_fields, list):
@@ -168,3 +194,5 @@ def handler(event, context: LambdaContext):
                 'error': str(e)
             })
         }
+
+

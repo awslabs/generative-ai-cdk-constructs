@@ -1,10 +1,12 @@
 import os
+import json
 from dataclasses import dataclass
 from typing import Dict, Any, Optional
 from aws_lambda_powertools import Logger,Tracer,Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_lambda_powertools.utilities.data_classes import EventBridgeEvent
 from data_processing import DataProcessor, BlueprintConfig,EncryptionConfig,NotificationConfig,DataAutomationConfig
+from aws_lambda_powertools.utilities.data_classes import EventBridgeEvent, APIGatewayProxyEvent
 
 
 logger = Logger(service="BEDROCK_DATA_AUTOMATION")
@@ -12,6 +14,47 @@ tracer = Tracer(service="BEDROCK_DATA_AUTOMATION")
 metrics = Metrics(namespace="DATA_PROCESSING", service="BEDROCK_DATA_AUTOMATION")
 
 
+def process_event_bridge_event(event: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Process EventBridge events
+    """
+    event_bridge_event = EventBridgeEvent(event)
+    logger.info("Received EventBridge event", extra={
+        "detail_type": event_bridge_event.detail_type,
+        "source": event_bridge_event.source,
+        "detail":event_bridge_event.detail
+    })
+    
+    return event_bridge_event.detail
+
+def process_api_gateway_event(event: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Process API Gateway events
+    """
+    api_event = APIGatewayProxyEvent(event)
+    logger.info("Received API Gateway event", extra={
+        "http_method": api_event.http_method,
+        "path": api_event.path,
+        "body":api_event.body
+    })
+    
+    if not api_event.body:
+        raise ValueError("Request body is required")
+    try:
+        # If body is already a string, parse it
+        if isinstance(api_event.body, str):
+            return json.loads(api_event.body)
+        # If body is already a dict, return it
+        elif isinstance(api_event.body, dict):
+            return api_event.body
+        else:
+            raise ValueError(f"Unexpected body type: {type(api_event.body)}")
+    
+    except json.JSONDecodeError as e:
+        logger.error("Invalid JSON in request body", extra={"error": str(e)})
+        raise ValueError("Invalid JSON in request body")
+    
+    
 def get_env_var(var_name: str, default: str = None) -> str:
     """Get environment variable with validation"""
     value = os.environ.get(var_name, default)
@@ -51,10 +94,12 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
     }
     """
     try:
-        # Parse event
-        event_bridge_event = EventBridgeEvent(event)
-        detail = event_bridge_event.detail
-        
+        # Determine event source and process accordingly
+        if event.get("source") and event.get("detail-type"):
+            detail = process_event_bridge_event(event)
+        else:
+            detail = process_api_gateway_event(event)
+            
         # Validate required fields
         input_filename = detail.get('input_filename')
         
@@ -65,26 +110,22 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
         output_filename = detail.get('output_filename',default_output_filename)
             
         # Get environment variables
-        input_bucket = get_env_var('INPUT_BUCKET')
-        #input_bucket='cb-input-documents'
-        #output_bucket='cb-output-documents'
-        output_bucket = get_env_var('OUTPUT_BUCKET')
+        # input_bucket = get_env_var('INPUT_BUCKET')
+        # output_bucket = get_env_var('OUTPUT_BUCKET')
+        input_bucket="bdaap-input-documents"
+        output_bucket="bdaap-output-documents"
         
         # Initialize processor
         processor = DataProcessor(
             input_bucket=input_bucket,
             output_bucket=output_bucket
         )
-        
-        
-        # Initialize configurations if provided in the event
+
         configs = {}
         
-        # check client token
         if client_token := detail.get('client_token'):
             configs['client_token']=client_token
         
-        # Check and initialize BlueprintConfig
         if blueprint_data := detail.get('blueprints'):
             try:
                 blueprint_config = blueprint_data[0]
@@ -201,3 +242,39 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
             }
         }
 
+
+input = {
+    "resource": "/path",
+    "path": "/path",
+    "httpMethod": "POST",
+    "headers": {
+        "Content-Type": "application/json"
+    },
+    "requestContext": {
+        "resourceId": "123456",
+        "resourcePath": "/path",
+        "httpMethod": "POST",
+        "requestId": "c6af9ac6-7b61-11e6-9a41-93e8deadbeef",
+        "accountId": "123456789012",
+        "stage": "prod",
+        "identity": {
+            "userAgent": "Custom User Agent String",
+            "sourceIp": "127.0.0.1"
+        }
+    },
+    "body": {
+        "input_filename": "noa.pdf",
+        "output_filename": "noa_2.csv",
+        "blueprints": [
+            {
+                "blueprint_arn": "arn:aws:bedrock:us-west-2:551246883740:blueprint/a55789f6bd81",
+                "stage": "LIVE"
+            }
+        ]
+    },
+    "isBase64Encoded": False
+}
+
+
+
+handler(input, None)

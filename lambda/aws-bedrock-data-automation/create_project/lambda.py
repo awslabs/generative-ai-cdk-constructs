@@ -1,118 +1,128 @@
-
 import boto3
+import json
 from typing import Dict, Any
-from aws_lambda_powertools import Logger,Metrics,Tracer
+from aws_lambda_powertools import Logger, Metrics, Tracer
 from aws_lambda_powertools.utilities.typing import LambdaContext
-from aws_lambda_powertools.utilities.data_classes import EventBridgeEvent
-from create_project import create_project, delete_project,update_project,get_project
-
+from aws_lambda_powertools.utilities.data_classes import EventBridgeEvent, APIGatewayProxyEvent
+from create_project import create_project,get_project,update_project,delete_project
 
 logger = Logger(service="BEDROCK_DATA_AUTOMATION")
 tracer = Tracer(service="BEDROCK_DATA_AUTOMATION")
 metrics = Metrics(namespace="CREATE_PROJECT", service="BEDROCK_DATA_AUTOMATION")
 
-bda_client = boto3.client("bedrock-data-automation")
+
+def process_event_bridge_event(event: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Process EventBridge events
+    """
+    event_bridge_event = EventBridgeEvent(event)
+    logger.info("Received EventBridge event", extra={
+        "detail_type": event_bridge_event.detail_type,
+        "source": event_bridge_event.source
+    })
+    
+    return event_bridge_event.detail
+
+def process_api_gateway_event(event: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Process API Gateway events
+    """
+    api_event = APIGatewayProxyEvent(event)
+    logger.info("Received API Gateway event", extra={
+        "http_method": api_event.http_method,
+        "path": api_event.path
+    })
+    
+    if not api_event.body:
+        raise ValueError("Request body is required")
+    
+    try:
+        return json.loads(api_event.body)
+    except json.JSONDecodeError as e:
+        logger.error("Invalid JSON in request body", extra={"error": str(e)})
+        raise ValueError("Invalid JSON in request body")
 
 
-
+@tracer.capture_lambda_handler
 def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
     """
-    Lambda handler for processing EventBridge events
-    
-    Expected EventBridge event format:
-    {
-        "version": "0",
-        "id": "event-id",
-        "detail-type": "ProjectAutomation",
-        "source": "custom.project.automation",
-        "account": "123456789012",
-        "time": "2024-01-01T00:00:00Z",
-        "region": "us-east-1",
-        "detail": {
-            "operation": "create" | "delete",
-            "project_arn": "string"  # Required for delete operation
-        }
-    }
+    Create a new project
     """
     try:
-        # Parse EventBridge event
-        event_bridge_event = EventBridgeEvent(event)
-        logger.info("Received EventBridge event", extra={
-            "detail_type": event_bridge_event.detail_type,
-            "source": event_bridge_event.source,
-            "detail": event_bridge_event.detail
-        })
+        # Determine event source and process accordingly
+        if event.get("source") and event.get("detail-type"):
+            project_config = process_event_bridge_event(event)
+        else:
+            project_config = process_api_gateway_event(event)
 
-        # Get operation from event detail
-        detail = event_bridge_event.detail
-        operation = detail.get('operation')
-        if operation is None:
-            logger.error("operation is required in the event detail", extra={"event": event})
-            raise ValueError("operation is required in the event detail")  
-        
-        project_name = detail.get('project_name', '')
-        project_description = detail.get('project_description', '')
-        project_stage = detail.get('project_stage', '')
-
-        project_details = {
-            'project_name': project_name,
-            'project_description': project_description,
-            'project_stage': project_stage
-        }
-        logger.info("Project details", extra={"project_details": project_details})
-        
-        if operation.lower() == 'create':
-            project_arn = create_project(project_details)
+        operation = project_config.get('operation', '')
+           
+        logger.info("Project configuration", extra={"config": project_config})
+       
+        if operation == 'create':
+            response = create_project(project_config)
             return {
                 'statusCode': 200,
-                'body': {
+                'body': json.dumps({
                     'message': 'Project created successfully',
-                    'project_arn': project_arn,
-                }
+                    'response': response,
+                })
             }
-        
-        elif operation.lower() =='update':
-            logger.info("Update project details", extra={"project_details": project_details})
-            return update_project(project_details)
-       
-        elif operation.lower() =='get':
-            logger.info("get project details", extra={"project_details": project_details})
-            return get_project(project_details)
+            
+        elif operation == 'update':
+            # Validate project ARN for update
+            if 'projectArn' not in project_config:
+                raise ValueError("projectArn is required for update operation")
+                
+            response = update_project(project_config)
+            
+            return {
+                'statusCode': 200,
+                'body': json.dumps({
+                    'message': 'Project updated successfully',
+                    'response': response
+                })
+            }
             
         elif operation == 'delete':
-            project_arn = detail.get('project_arn')
-            if not project_arn:
-                return {
-                    'statusCode': 400,
-                    'body': {
-                        'message': 'project_arn is required for delete operation',
-                    }
-                }
-                
-            delete_project(project_arn)
+            # Validate project ARN for delete
+            if 'projectArn' not in project_config:
+                raise ValueError("projectArn is required for delete operation")
+            
+            delete_project(project_config['projectArn'])
+            
             return {
                 'statusCode': 200,
-                'body': {
+                'body': json.dumps({
                     'message': 'Project deleted successfully',
-                    'project_arn': project_arn,
-                }
+                    'projectArn': project_config['projectArn']
+                })
             }
             
-        else:
+        elif operation == 'get':
+            # Validate project ARN for get
+            if 'projectArn' not in project_config:
+                raise ValueError("projectArn is required for get operation")
+                
+            response = get_project(project_config )
+            
             return {
-                'statusCode': 400,
-                'body': {
-                    'message': f'Invalid operation: {operation}. Supported actions: create, delete',
-                }
+                'statusCode': 200,
+                'body': json.dumps({
+                    'message': 'project fetched',
+                    'response': response
+                })
             }
+        logger.info("Project configuration", extra={"config": project_config})
 
     except Exception as e:
         logger.error("Unexpected error", extra={"error": str(e)})
         return {
             'statusCode': 500,
-            'body': {
+            'body': json.dumps({
                 'message': 'Internal server error',
                 'error': str(e)
-            }
+            })
         }
-        
+
+

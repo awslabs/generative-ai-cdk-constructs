@@ -61,8 +61,6 @@ The AWS Bedrock Data Automation construct simplifies the process of extracting i
 TypeScript:
 ```typescript
 import { BedrockDataAutomation } from 'generative-ai-cdk-constructs';
-import { EventbridgeToLambda } from '@aws-solutions-constructs/aws-eventbridge-lambda';
-
 
 const bdaConstruct = new BedrockDataAutomation(this, 'MyBDAConstruct', {
   inputBucketName: 'XXXXXXXXXXXXXXX',
@@ -73,17 +71,7 @@ const bdaConstruct = new BedrockDataAutomation(this, 'MyBDAConstruct', {
   isStatusRequired: true
 });
 
-// Frontend the construct with an eventbridge 
-    const bluePrintFunction = bdaConstruct.blueprintLambdaFunction
-    const blueprintEventbridge = new EventbridgeToLambda(this, 'CreateBlueprintEventRule', {
-      existingLambdaObj: bluePrintFunction,
-      eventRuleProps: {
-        eventPattern: {
-          source: ['custom.bedrock.blueprint'],
-          detailType: ['Bedrock Blueprint Request'],
-        }
-      },
-    });
+
 
 ```
 
@@ -99,7 +87,40 @@ bda_construct = BedrockDataAutomation(self, "MyBDAConstruct",
     is_status_required=True
 )
 
-# Frontend the construct with an eventbridge 
+
+                    
+```
+
+## Creating Custom Blueprints
+
+The construct supports creation of custom blueprints for data processing automation through an EventBridge-triggered Lambda function. To enable this functionality, set `isCustomBDABlueprintRequired = true` in the construct props.
+
+### Blueprint Creation Event Format
+
+To create a new blueprint, either send an event to EventBridge or an API Gateway with following options:
+
+## Option1:  Add Amazon EventBridge as a front-end interface to the construct
+
+Typescript
+
+```typescript
+import { EventbridgeToLambda } from '@aws-solutions-constructs/aws-eventbridge-lambda';
+
+    const bluePrintFunction = bdaConstruct.blueprintLambdaFunction
+    const blueprintEventbridge = new EventbridgeToLambda(this, 'CreateBlueprintEventRule', {
+      existingLambdaObj: bluePrintFunction,
+      eventRuleProps: {
+        eventPattern: {
+          source: ['custom.bedrock.blueprint'],
+          detailType: ['Bedrock Blueprint Request'],
+        }
+      },
+    });
+
+```
+Python 
+
+```python
 EventbridgeToLambda(self, 'create_blueprint-lambda',
                     existing_lambda_obj=bda_construct
                     event_rule_props= {
@@ -111,14 +132,17 @@ EventbridgeToLambda(self, 'create_blueprint-lambda',
                     )
 ```
 
-## Creating Custom Blueprints
 
-The construct supports creation of custom blueprints for data processing automation through an EventBridge-triggered Lambda function. To enable this functionality, set `isCustomBDABlueprintRequired = true` in the construct props.
+upload the sample file to s3
 
-### Blueprint Creation Event Format
+```
+aws s3 cp ./{sample_file.pdf} s3://{input-bucket-name}/
+```
 
-To create a new blueprint, send an event to EventBridge with the following structure:
-
+Create a bp_event.json file using above event and then use following cli command to push the event.
+```
+aws events put-events --cli-input-json file://bp_event.json
+```
 ```json
 {
     "Entries": [
@@ -151,7 +175,50 @@ To create a new blueprint, send an event to EventBridge with the following struc
                     }
     ]
 }
+```    
+
+## Option2:  Add API Gateway as a front-end interface to the construct
+
+```typescript
+import { ApiGatewayToLambda } from '@aws-solutions-constructs/aws-apigateway-lambda';
+
+new ApiGatewayToLambda(this, 'ApiGatewayToLambdaPattern', {
+      existingLambdaObj:bluePrintFunction,
+      apiGatewayProps:{
+        restApiName: 'createCustomBlueprint',
+      }
+    });
 ```
+
+Publish a POST request with following body
+```json 
+
+             {
+             "blueprint_name":"noa_bp_api_2",
+             "blueprint_type":"DOCUMENT",
+             "blueprint_stage":"LIVE",
+             "operation":"CREATE",
+             "schema_fields":[
+             {
+                "name":"Total income",
+                "description":"Please analyze the following Notice of assesment report and extract information about Total income.",
+                "alias":"Total income"
+                },
+             {
+                "name":"Taxable Income",
+                "description":"Please analyze the following Notice of assesment report and extract information about Taxable income.",
+                "alias":"Taxable Income"
+                },
+             {
+                "name":"Tax payable",
+                "description":"Please analyze the following Notice of assesment report and extract information about Tax payable.",
+                "alias":"Tax payable"
+                 
+             }
+             ]
+        }
+```
+
 ## Delete blueprint
 ```json
 
@@ -168,8 +235,32 @@ To create a new blueprint, send an event to EventBridge with the following struc
                     }
     ]
 }
+```
+
+## Get blueprint Post request
+
+```json
+{
+             "operation":"get","blueprintArn":"XXXXXXXX",
+}
+```
+## Update blueprint Post request
+
+```json
+{
+             "operation":"delete","blueprintArn":"XXXXXXXX",
+}
 
 ```
+
+## Delete blueprint Post request
+
+```json
+{
+             "operation":"delete","blueprintArn":"XXXXXXXX",
+}
+```
+
 
 ## Creating Data Automation Projects
 
@@ -177,7 +268,44 @@ The construct enables creation and management of Bedrock Data Automation project
 
 ### Project Creation Event Format
 
-To create a new data automation project, send an event to EventBridge with the following structure:
+To create a new bedrock data automation project, either send an event to EventBridge or an API Gateway with following options:
+
+## Option1:  Add Amazon EventBridge as a front-end interface to the construct
+
+Typescript
+
+```typescript
+import { EventbridgeToLambda } from '@aws-solutions-constructs/aws-eventbridge-lambda';
+
+    const bdaProjectFunction = bdaConstruct.bdaProjectLambdaFunction
+    const blueprintEventbridge = new EventbridgeToLambda(this, 'bdaProject', {
+      existingLambdaObj: bdaProjectFunction,
+      eventRuleProps: {
+        eventPattern: {
+          source: ['custom.bedrock.blueprint'],
+          detailType: ['Bedrock Project Request'],
+        }
+      },
+    });
+
+```
+Python 
+
+```python
+EventbridgeToLambda(self, 'create_blueprint-lambda',
+                    existing_lambda_obj=bdaProjectFunction
+                    event_rule_props= {
+                    event_pattern= {
+                    source= ['custom.bedrock.blueprint'],
+                    detail_type= ['Bedrock Project Request'],
+                    }
+                    }
+                    )
+```
+Create a bda_event.json file using above event and then use following cli command to push the event.
+```
+aws events put-events --cli-input-json file://bda_event.json
+```
 
 ```json
 {
@@ -195,33 +323,81 @@ To create a new data automation project, send an event to EventBridge with the f
     ]
 }
 ```
+## Option2:  Add API Gateway as a front-end interface to the construct
+
+```typescript
+import { ApiGatewayToLambda } from '@aws-solutions-constructs/aws-apigateway-lambda';
+
+new ApiGatewayToLambda(this, 'ApiGatewayToLambdaPattern', {
+      existingLambdaObj:bluePrintFunction,
+      apiGatewayProps:{
+        restApiName: 'createCustomBlueprint',
+      }
+    });
+```
+
+Publish a POST request with following body
+```json 
+
+   {
+             "operation":"create","projectName":"bp_project_1","projectStage":"LIVE","projectDescription":"sample","customOutputConfiguration":
+             {"blueprints":[{"blueprintArn":"XXXXXXXX","blueprintStage":"LIVE"}]}
+
+  
+}
+```
 
 ## Delete project
 ```json
-
 {
-    "Entries": [
-        {
-            "Source": "custom.bedrock.blueprint",
-            "DetailType": "Bedrock Blueprint Request",
-            "Detail": {
-                "project_arn": "XXXXXXXXX",
-                "operation": "DELETE",
-                
-            }
-                    }
-    ]
+             "operation":"delete","projectArn":"XXXXXXXX",
 }
-
 ```
 
 ## Data Processing Invocations
 
 The construct enables automated data processing through Bedrock Data Automation invocations. To enable this functionality, set `isBDAInvocationRequired = true` in the construct props.
 
-### Invocation Event Format
+To invoke data processing, either send an event to EventBridge or an API Gateway with following options:
 
-To trigger data processing, send an event to EventBridge with the following structure:
+## Option1:  Add Amazon EventBridge as a front-end interface to the construct
+
+Typescript
+
+```typescript
+import { EventbridgeToLambda } from '@aws-solutions-constructs/aws-eventbridge-lambda';
+
+    const dataProcessingFunction = bdaConstruct.bdaInvocationLambdaFunction
+    
+    new dataProcessingFunction(this, 'bdainvocation', {
+      existingLambdaObj: dataProcessingFunction,
+      eventRuleProps: {
+        eventPattern: {
+          source: ['custom.bedrock.blueprint'],
+          detailType: ['Bedrock Invoke Request'],
+        }
+      },
+    });
+
+```
+Python 
+
+```python
+EventbridgeToLambda(self, 'data_pricessing-lambda',
+                    existing_lambda_obj=dataProcessingFunction
+                    event_rule_props= {
+                    event_pattern= {
+                    source= ['custom.bedrock.blueprint'],
+                    detail_type= ['Bedrock Invoke Request'],
+                    }
+                    }
+                    )
+```
+Create a bda_event.json file using above event and then use following cli command to push the event.
+```
+aws events put-events --cli-input-json file://bda_event.json
+```
+blueprint_arn is fetched from create bluepreint response.
 
 ```json
 {
@@ -241,6 +417,34 @@ To trigger data processing, send an event to EventBridge with the following stru
     ]
 }
 ```
+## Option2:  Add API Gateway as a front-end interface to the construct
+
+```typescript
+import { ApiGatewayToLambda } from '@aws-solutions-constructs/aws-apigateway-lambda';
+
+new ApiGatewayToLambda(this, 'ApiGatewayToLambdaPattern', {
+      existingLambdaObj:bdaInvocationLambdaFunction,
+      apiGatewayProps:{
+        restApiName: 'invokeDataProcessing',
+      }
+    });
+```
+
+Publish a POST request with following body
+```json 
+
+             {
+             "input_filename": "sample_input.pdf",
+                "output_filename": "sample_output.json",
+                "blueprints": [{
+                    "blueprint_arn":"XXXXXXX",
+                    "stage":"LIVE"
+                }],
+        }
+```
+
+
+
 
 ## Processing Status Monitoring
 
@@ -248,22 +452,79 @@ The construct provides automated status monitoring for Bedrock Data Automation p
 
 ### Status Check Event Format
 
-To check the status of a processing job, send an event to EventBridge with the following structure:
+To check the status of a processing job,either send an event to EventBridge or an API Gateway with following options:
+
+## Option1:  Add Amazon EventBridge as a front-end interface to the construct
+
+Typescript
+
+```typescript
+import { EventbridgeToLambda } from '@aws-solutions-constructs/aws-eventbridge-lambda';
+
+    const dataResultStatusFunction = bdaConstruct.bdaResultStatuLambdaFunction
+    
+    new dataProcessingFunction(this, 'bdaResult', {
+      existingLambdaObj: dataResultStatusFunction,
+      eventRuleProps: {
+        eventPattern: {
+          source: ['custom.bedrock.blueprint'],
+          detailType: ['Bedrock Result Status'],
+        }
+      },
+    });
+
+```
+Python 
+
+```python
+EventbridgeToLambda(self, 'data_result_lambda',
+                    existing_lambda_obj=dataResultStatusFunction
+                    event_rule_props= {
+                    event_pattern= {
+                    source= ['custom.bedrock.blueprint'],
+                    detail_type= ['Bedrock Result Status'],
+                    }
+                    }
+                    )
+```
+Create a bda_result_event.json file using above event and then use following cli command to push the event.
+```
+aws events put-events --cli-input-json file://bda_result_event.json
+```
+invocation_arn is fetched from data processing started job.
 
 ```json
 {
     "Entries": [
         {
-            "Source": "custom.bedrock.status",
-            "DetailType": "Bedrock Status Request",
-            "Detail": {
-                "invocation_arn": "XXXXXXXXX"
-            }
+            "Source": "custom.bedrock.blueprint",
+            "DetailType": "Bedrock Result Status",
+            "Detail": {"invocation_arn":"XXXXXX"}
         }
     ]
 }
 
 ```
+## Option2:  Add API Gateway as a front-end interface to the construct
+
+```typescript
+import { ApiGatewayToLambda } from '@aws-solutions-constructs/aws-apigateway-lambda';
+
+new ApiGatewayToLambda(this, 'ApiGatewayToLambdaPattern', {
+      existingLambdaObj:dataResultStatusFunction,
+      apiGatewayProps:{
+        restApiName: 'dataResultStatus',
+      }
+    });
+```
+
+Publish a POST request with following body.
+invocation_arn is fetched from data processing API response
+```json 
+
+     {"invocation_arn":"XXXXXX"}
+```
+
 
 ## Cost
 

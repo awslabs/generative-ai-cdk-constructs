@@ -20,9 +20,9 @@ from botocore.exceptions import ClientError
 logger = Logger(service="DataAutomationResult")
 
 class DataAutomationResult:
-    def __init__(self, s3_client=None, runtime_client=None):
-        self.s3 = s3_client or boto3.client('s3')
-        self.runtime_client = runtime_client or boto3.client('bedrock-runtime')
+    def __init__(self, s3_client=None, bda_client=None):
+        self.s3 = boto3.client('s3')
+        self.bda_client = boto3.client("bedrock-data-automation-runtime")
         self.max_retries = 60
         self.retry_delay = 10
 
@@ -45,7 +45,7 @@ class DataAutomationResult:
     def get_job_status(self, invoke_arn: str) -> Dict[str, Any]:
         """Get current status of the data automation job"""
         try:
-            status = self.runtime_client.get_data_automation_status(
+            status = self.bda_client.get_data_automation_status(
                 invocationArn=invoke_arn
             )
             logger.info("Retrieved job status", extra={

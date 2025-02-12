@@ -1,21 +1,13 @@
-import os
-import json
+from typing import Dict, Any, List, Optional
 from enum import Enum
-from typing import Dict, Any, Optional, List
-import uuid
-from aws_lambda_powertools import Logger,Tracer, Metrics
-
-logger = Logger(service="BEDROCK_DATA_AUTOMATION")
-tracer = Tracer(service="BEDROCK_DATA_AUTOMATION")
-metrics = Metrics(namespace="CREATE_PROJECT", service="BEDROCK_DATA_AUTOMATION")
-
-class ConfigState(str, Enum):
-    ENABLED = "ENABLED"
-    DISABLED = "DISABLED"
 
 class ProjectStage(str, Enum):
     DEVELOPMENT = "DEVELOPMENT"
     LIVE = "LIVE"
+
+class State(str, Enum):
+    ENABLED = "ENABLED"
+    DISABLED = "DISABLED"
 
 class DocumentGranularity(str, Enum):
     DOCUMENT = "DOCUMENT"
@@ -59,314 +51,168 @@ class AudioGenerativeField(str, Enum):
     IAB = "IAB"
 
 class ProjectConfig:
-    def __init__(self, project_details: dict):
+    """Configuration class for Bedrock Data Automation project settings"""
+    
+    def __init__(self, project_details: Dict[str, Any]):
         """
-        Initialize ProjectConfig with values from request parameters
+        Initialize project configuration with project details
         
         Args:
-            project_details (dict): Dictionary containing project configuration details
+            project_details: Dictionary containing project configuration values
         """
-        self.project_name = project_details.get('project_name')
-        if not self.project_name:
-            logger.info("Project name is not set, using deafult project name")
-            project_default_name = f"bda_project_{str(uuid.uuid4())[:8]}"
-            self.project_name = project_default_name
+        self.project_details = project_details
+        self._validate_required_fields()
 
-        self.project_description = project_details.get('project_description', 'Default project description')
-        
-        # Get project stage from request, default to LIVE if not provided
-        project_stage_str = project_details.get('project_stage', ProjectStage.LIVE.value)
+    def _validate_required_fields(self) -> None:
+        """Validate required fields are present in project_details"""
+        required_fields = ['projectName']
+        missing_fields = [field for field in required_fields 
+                         if not self.project_details.get(field)]
+        if missing_fields:
+            raise ValueError(f"Missing required fields: {', '.join(missing_fields)}")
         
         # Validate project stage
-        if project_stage_str not in [stage.value for stage in ProjectStage]:
-            raise ValueError(f"Invalid project stage: {project_stage_str}. Must be one of {[stage.value for stage in ProjectStage]}")
-        
-        self.project_stage = ProjectStage(project_stage_str)
-        
+        if self.project_details['projectStage'] not in [e.value for e in ProjectStage]:
+            raise ValueError(f"Invalid projectStage. Must be one of: {[e.value for e in ProjectStage]}")
 
-    def to_dict(self) -> dict:
-        """
-        Convert ProjectConfig to dictionary format
-        
-        Returns:
-            dict: Dictionary representation of ProjectConfig
-        """
+    def _get_standard_output_config(self) -> Dict[str, Any]:
+        """Get standard output configuration if present"""
+        config = self.project_details.get('standardOutputConfiguration', {})
+       
         return {
-            'project_name': self.project_name,
-            'project_description': self.project_description,
-            'project_stage': self.project_stage.value
+            'document': self._get_document_config(config.get('document', {})),
+            'image': self._get_image_config(config.get('image', {})),
+            'video': self._get_video_config(config.get('video', {})),
+            'audio': self._get_audio_config(config.get('audio', {}))
         }
 
-
-    def _get_document_config(self) -> Dict[str, Any]:
-        """Get document configuration"""
+    def _get_document_config(self, config: Dict[str, Any]) -> Dict[str, Any]:
+        """Process document configuration"""
+        
         return {
             'extraction': {
                 'granularity': {
-                    'types': [
-                        os.getenv('DOCUMENT_GRANULARITY_TYPES', 'DOCUMENT')
-                    ]
+                    'types': (lambda x: [x] if not isinstance(x, list) else x)(
+                    config.get('extraction', {}).get('granularity', {}).get('types', [DocumentGranularity.DOCUMENT.value])
+                )
                 },
                 'boundingBox': {
-                    'state': os.getenv('DOCUMENT_BOUNDING_BOX_STATE', ConfigState.DISABLED.value)
+                    'state': config.get('extraction', {}).get('boundingBox', {}).get('state', State.DISABLED.value)
                 }
             },
             'generativeField': {
-                'state': os.getenv('DOCUMENT_GENERATIVE_FIELD_STATE', ConfigState.DISABLED.value)
+                'state': config.get('generativeField', {}).get('state', State.DISABLED.value)
             },
             'outputFormat': {
                 'textFormat': {
-                    'types': [
-                        os.getenv('DOCUMENT_TEXT_FORMAT_TYPES', 'PLAIN_TEXT')
-                    ]
+                    'types': (lambda x: [x] if not isinstance(x, list) else x)(
+                        config.get('document', {}).get('outputFormat', {}).get('textFormat', {}).get('types', ['PLAIN_TEXT'])
+                    )
                 },
                 'additionalFileFormat': {
-                    'state': os.getenv('DOCUMENT_ADDITIONAL_FILE_FORMAT_STATE', ConfigState.DISABLED.value)
+                    'state': config.get('outputFormat', {}).get('additionalFileFormat', {}).get('state', State.DISABLED.value)
                 }
             }
         }
 
-    def _get_image_config(self) -> Optional[Dict[str, Any]]:
-        """Get image configuration if enabled"""
-        if os.getenv('ENABLE_IMAGE', 'false').lower() != 'true':
-            return None
-
+    def _get_image_config(self, config: Dict[str, Any]) -> Dict[str, Any]:
+        """Process image configuration"""
+        
         return {
             'extraction': {
                 'category': {
-                    'state': os.getenv('IMAGE_CATEGORY_STATE', ConfigState.DISABLED.value),
-                    'types': [
-                        os.getenv('IMAGE_CATEGORY_TYPES', ImageCategory.TEXT_DETECTION)
-                    ]
+                    'state': config.get('extraction', {}).get('category', {}).get('state', State.DISABLED.value),
+                    'types': (lambda x: [x] if not isinstance(x, list) else x)(
+                        config.get('image', {}).get('extraction', {}).get('category', {}).get('types', ['CONTENT_MODERATION'])
+                    )
                 },
                 'boundingBox': {
-                    'state': os.getenv('IMAGE_BOUNDING_BOX_STATE', ConfigState.DISABLED.value)
+                    'state': config.get('extraction', {}).get('boundingBox', {}).get('state', State.DISABLED.value)
                 }
             },
             'generativeField': {
-                'state': os.getenv('IMAGE_GENERATIVE_FIELD_STATE', ConfigState.DISABLED.value),
-                'types': [
-                    os.getenv('IMAGE_GENERATIVE_FIELD_TYPES', ImageGenerativeField.IMAGE_SUMMARY)
-                ]
+                'state': config.get('generativeField', {}).get('state', State.DISABLED.value),
+                'types': (lambda x: [x] if not isinstance(x, list) else x)(
+                    config.get('image', {}).get('generativeField', {}).get('types', ['IMAGE_SUMMARY'])
+                )
             }
         }
 
-    def _get_video_config(self) -> Optional[Dict[str, Any]]:
-        """Get video configuration if enabled"""
-        if os.getenv('ENABLE_VIDEO', 'false').lower() != 'true':
-            return None
-
+    def _get_video_config(self, config: Dict[str, Any]) -> Dict[str, Any]:
+        """Process video configuration"""
+       
         return {
             'extraction': {
                 'category': {
-                    'state': os.getenv('VIDEO_CATEGORY_STATE', ConfigState.DISABLED.value),
-                    'types': [
-                        os.getenv('VIDEO_CATEGORY_TYPES',VideoCategory.CONTENT_MODERATION)
-                    ]
+                    'state': config.get('extraction', {}).get('category', {}).get('state', State.DISABLED.value),
+                    'types': (lambda x: [x] if not isinstance(x, list) else x)(
+                        config.get('video', {}).get('extraction', {}).get('category', {}).get('types', ['CONTENT_MODERATION'])
+                    )
                 },
                 'boundingBox': {
-                    'state': os.getenv('VIDEO_BOUNDING_BOX_STATE', ConfigState.DISABLED.value)
+                    'state': config.get('extraction', {}).get('boundingBox', {}).get('state', State.DISABLED.value)
                 }
             },
             'generativeField': {
-                'state': os.getenv('VIDEO_GENERATIVE_FIELD_STATE', ConfigState.DISABLED.value),
-                'types': [
-                    os.getenv('VIDEO_GENERATIVE_FIELD_TYPES', VideoGenerativeField.VIDEO_SUMMARY)
-                ]
-            }
+                'state': config.get('generativeField', {}).get('state', State.DISABLED.value),
+                'types': (lambda x: [x] if not isinstance(x, list) else x)(
+                    config.get('video', {}).get('generativeField', {}).get('types', ['VIDEO_SUMMARY'])
+                )
+    }
         }
 
-    def _get_audio_config(self) -> Optional[Dict[str, Any]]:
-        """Get audio configuration if enabled"""
-        if os.getenv('ENABLE_AUDIO', 'false').lower() != 'true':
-            return None
-
+    def _get_audio_config(self, config: Dict[str, Any]) -> Dict[str, Any]:
+        """Process audio configuration"""
+        if not config:
+            return {}
+        
         return {
             'extraction': {
                 'category': {
-                    'state': os.getenv('AUDIO_CATEGORY_STATE', ConfigState.DISABLED.value),
-                    'types': [
-                        os.getenv('AUDIO_CATEGORY_TYPES', AudioCategory.AUDIO_CONTENT_MODERATION)
-                    ]
-                }
+                    'state': config.get('extraction', {}).get('category', {}).get('state', State.DISABLED.value),
+                    'types': (lambda x: [x] if not isinstance(x, list) else x)(
+                        config.get('audio', {}).get('extraction', {}).get('category', {}).get('types', ['TRANSCRIPT'])
+                    )                }
             },
             'generativeField': {
-                'state': os.getenv('AUDIO_GENERATIVE_FIELD_STATE', ConfigState.DISABLED.value),
-                'types': [
-                     os.getenv('AUDIO_GENERATIVE_FIELD_TYPES', AudioGenerativeField.AUDIO_SUMMARY)
-                ]
-            }
+                'state': config.get('generativeField', {}).get('state', State.DISABLED.value),
+                'types': (lambda x: [x] if not isinstance(x, list) else x)(
+                    config.get('audio', {}).get('generativeField', {}).get('types', ['AUDIO_SUMMARY'])
+                )            }
         }
 
-
-
-    def get_standard_output_config(self) -> Dict[str, Any]:
-        """Get standard output configuration"""
-        config = {'document': self._get_document_config()}
-
-        # Add optional configurations if enabled
-        image_config = self._get_image_config()
-        if image_config:
-            config['image'] = image_config
-
-        video_config = self._get_video_config()
-        if video_config:
-            config['video'] = video_config
-
-        audio_config = self._get_audio_config()
-        if audio_config:
-            config['audio'] = audio_config
-
-        return config
-
-    def get_custom_output_config(self) -> Optional[Dict[str, Any]]:
-        """Get custom output configuration"""
-        blueprint_arn = os.getenv('BLUEPRINT_ARN')
-        if not blueprint_arn:
-            return None
-
-        blueprint_config = {
-            'blueprintArn': blueprint_arn,
-            'blueprintStage': os.getenv('BLUEPRINT_STAGE', ProjectStage.LIVE.value)
-        }
-
-        # Add version only if available
-        blueprint_version = os.getenv('BLUEPRINT_VERSION')
-        if blueprint_version:
-            blueprint_config['blueprintVersion'] = blueprint_version
-
-        return {'blueprints': [blueprint_config]}
-
-    def get_override_config(self) -> Optional[Dict[str, Any]]:
-        """Get override configuration"""
-        splitter_state = os.getenv('DOCUMENT_SPLITTER_STATE')
-        if not splitter_state:
-            return None
-
-        return {
-            'document': {
-                'splitter': {
-                    'state': splitter_state
-                }
-            }
-        }
-
-    def get_encryption_config(self) -> Optional[Dict[str, Any]]:
-        """Get encryption configuration"""
-        kms_key_id = os.getenv('KMS_KEY_ID')
-        if not kms_key_id:
-            return None
-
-        config = {'kmsKeyId': kms_key_id}
-
-        # Add encryption context if available
-        kms_context = os.getenv('KMS_ENCRYPTION_CONTEXT')
-        if kms_context:
-            try:
-                config['kmsEncryptionContext'] = json.loads(kms_context)
-            except json.JSONDecodeError:
-                logger.warning("Invalid KMS encryption context JSON", extra={"kms_context": kms_context})
-
-        return config
-
-    def get_project_config(self) -> Dict[str, Any]:
+    @property
+    def project_config(self) -> Dict[str, Any]:
         """Get complete project configuration"""
         config = {
-            'projectName': self.project_name,
-            'projectStage': self.project_stage.value,
-            'standardOutputConfiguration': self.get_standard_output_config()
+            'projectName': self.project_details['projectName'],
+            'projectDescription': self.project_details.get('projectDescription','sample description'),
+            'projectStage': self.project_details.get('projectStage','LIVE')
         }
 
-        # Add optional project description
-        if self.project_description:
-            config['projectDescription'] = self.project_description
+        # Add standard output configuration if present
+        standard_output = self._get_standard_output_config()
+        if standard_output:
+            config['standardOutputConfiguration'] = standard_output
 
-        # Add optional configurations
-        custom_output = self.get_custom_output_config()
-        if custom_output:
-            config['customOutputConfiguration'] = custom_output
+        # Add custom output configuration if present
+        if 'customOutputConfiguration' in self.project_details:
+            config['customOutputConfiguration'] = self.project_details['customOutputConfiguration']
 
-        override_config = self.get_override_config()
-        if override_config:
-            config['overrideConfiguration'] = override_config
+        # Add override configuration if present
+        if 'overrideConfiguration' in self.project_details:
+            config['overrideConfiguration'] = self.project_details['overrideConfiguration']
 
-        encryption_config = self.get_encryption_config()
-        if encryption_config:
-            config['encryptionConfiguration'] = encryption_config
+        # Add client token if present
+        if 'clientToken' in self.project_details:
+            config['clientToken'] = self.project_details['clientToken']
 
-        # Add client token if available
-        client_token = os.getenv('CLIENT_TOKEN')
-        if client_token:
-            config['clientToken'] = client_token
+        # Add encryption configuration if present
+        if 'encryptionConfiguration' in self.project_details:
+            config['encryptionConfiguration'] = self.project_details['encryptionConfiguration']
 
         return config
 
-# Example usage:
-# def create_project() -> str:
-#     """Create a data automation project"""
-#     try:
-#         project_config = ProjectConfig()
-#         config = project_config.get_project_config()
-
-#         logger.info("Creating project with configuration", extra={"config": config})
-
-#         client = boto3.client('bedrock')
-#         response = client.create_data_automation_project(**config)
-
-#         project_arn = response["projectArn"]
-#         logger.info("Project created successfully", extra={"project_arn": project_arn})
-
-#         return project_arn
-
-#     except Exception as e:
-#         logger.error("Error creating project", extra={"error": str(e)})
-#         raise
-
-# Required
-# PROJECT_NAME=MyProject
-# PROJECT_STAGE=LIVE
-
-# # Document Configuration (default enabled)
-# DOCUMENT_GRANULARITY_TYPES=DOCUMENT,PAGE
-# DOCUMENT_BOUNDING_BOX_STATE=ENABLED
-# DOCUMENT_GENERATIVE_FIELD_STATE=ENABLED
-# DOCUMENT_TEXT_FORMAT_TYPES=PLAIN_TEXT,HTML
-# DOCUMENT_ADDITIONAL_FILE_FORMAT_STATE=DISABLED
-
-# # Image Configuration (optional)
-# ENABLE_IMAGE=true
-# IMAGE_CATEGORY_STATE=ENABLED
-# IMAGE_CATEGORY_TYPES=CONTENT_MODERATION,TEXT_DETECTION
-# IMAGE_BOUNDING_BOX_STATE=ENABLED
-# IMAGE_GENERATIVE_FIELD_STATE=ENABLED
-# IMAGE_GENERATIVE_FIELD_TYPES=IMAGE_SUMMARY
-
-# # Video Configuration (optional)
-# ENABLE_VIDEO=true
-# VIDEO_CATEGORY_STATE=ENABLED
-# VIDEO_CATEGORY_TYPES=CONTENT_MODERATION,TRANSCRIPT
-# VIDEO_BOUNDING_BOX_STATE=ENABLED
-# VIDEO_GENERATIVE_FIELD_STATE=ENABLED
-# VIDEO_GENERATIVE_FIELD_TYPES=VIDEO_SUMMARY,SCENE_SUMMARY
-
-# # Audio Configuration (optional)
-# ENABLE_AUDIO=true
-# AUDIO_CATEGORY_STATE=ENABLED
-# AUDIO_CATEGORY_TYPES=TRANSCRIPT
-# AUDIO_GENERATIVE_FIELD_STATE=ENABLED
-# AUDIO_GENERATIVE_FIELD_TYPES=AUDIO_SUMMARY
-
-# # Blueprint Configuration (optional)
-# BLUEPRINT_ARN=arn:aws:bedrock:region:account:blueprint/id
-# BLUEPRINT_VERSION=1.0
-# BLUEPRINT_STAGE=LIVE
-
-# # Override Configuration (optional)
-# DOCUMENT_SPLITTER_STATE=ENABLED
-
-# # Encryption Configuration (optional)
-# KMS_KEY_ID=arn:aws:kms:region:account:key/key-id
-# KMS_ENCRYPTION_CONTEXT={"key1": "value1"}
-
-# # Client Token (optional)
-# CLIENT_TOKEN=unique-client-token
+    def __str__(self) -> str:
+        """String representation of project configuration"""
+        return f"ProjectConfig(name={self.project_details['projectName']}, stage={self.project_details['projectStage']})"
