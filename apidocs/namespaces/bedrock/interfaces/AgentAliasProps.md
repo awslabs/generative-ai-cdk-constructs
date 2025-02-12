@@ -41,7 +41,7 @@ The name for the agent alias.
 #### Default
 
 ```ts
-- "latest"
+- "latest-{hash}"
 ```
 
 ***
