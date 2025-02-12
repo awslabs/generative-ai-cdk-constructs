@@ -35,6 +35,7 @@
 - [SharePointDataSourceAuthType](enumerations/SharePointDataSourceAuthType.md)
 - [SharePointObjectType](enumerations/SharePointObjectType.md)
 - [TransformationStep](enumerations/TransformationStep.md)
+- [VectorType](enumerations/VectorType.md)
 
 ## Classes
 
