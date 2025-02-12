@@ -74,6 +74,18 @@ The tree node.
 
 ## Methods
 
+### addAllGuardrailsMonitoring()
+
+> **addAllGuardrailsMonitoring**(): `void`
+
+Add guardrail monitoring to the dashboard
+
+#### Returns
+
+`void`
+
+***
+
 ### addAllModelsMonitoring()
 
 > **addAllModelsMonitoring**(`props`): `void`
@@ -83,6 +95,26 @@ The tree node.
 ##### props
 
 [`ModelMonitoringProps`](../interfaces/ModelMonitoringProps.md) = `{}`
+
+#### Returns
+
+`void`
+
+***
+
+### addGuardrailMonitoring()
+
+> **addGuardrailMonitoring**(`guardrail`): `void`
+
+Add guardrail monitoring to the dashboard
+
+#### Parameters
+
+##### guardrail
+
+[`IGuardrail`](../namespaces/bedrock/interfaces/IGuardrail.md)
+
+The guardrail to monitor
 
 #### Returns
 
