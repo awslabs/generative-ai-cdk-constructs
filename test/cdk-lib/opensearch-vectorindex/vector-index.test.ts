@@ -54,6 +54,8 @@ describe('OpenSearch Serverless Vector Index', () => {
     aossVectorIndex = new VectorIndex(stack, 'test-aoss-vector-index', {
       collection: aossVector,
       indexName: 'test-index',
+      distanceType: 'euclidian',
+      precision: 'fp32',
       vectorField: 'vector',
       vectorDimensions: 1536,
       mappings: [
@@ -159,6 +161,8 @@ describe('OpenSearch Serverless Vector Index with analyzer', () => {
       indexName: 'test-index',
       vectorField: 'vector',
       vectorDimensions: 1536,
+      distanceType: 'euclidian',
+      precision: 'fp32',
       mappings: [
         {
           mappingField: 'AMAZON_BEDROCK_TEXT_CHUNK',
