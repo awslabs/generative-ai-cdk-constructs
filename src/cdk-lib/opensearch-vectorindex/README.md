@@ -28,6 +28,7 @@ This construct library provides a resource that creates a vector index on an Ama
 
 - [API](#api)
 - [Vector Index](#vector-index)
+- [Default values](#default-values)
 
 ## API
 
@@ -55,6 +56,8 @@ new opensearch_vectorindex.VectorIndex(this, 'VectorIndex', {
   indexName: 'bedrock-knowledge-base-default-index',
   vectorField: 'bedrock-knowledge-base-default-vector',
   vectorDimensions: 1536,
+  precision: 'float',
+  distanceType: 'l2',
   mappings: [
     {
       mappingField: 'AMAZON_BEDROCK_TEXT_CHUNK',
@@ -93,6 +96,8 @@ vectorIndex = opensearch_vectorindex.VectorIndex(self, "VectorIndex",
     collection=vectorCollection,
     index_name='bedrock-knowledge-base-default-index',
     vector_field='bedrock-knowledge-base-default-vector',
+    precision='float',
+    distance_type='l2',
     mappings= [
         opensearch_vectorindex.MetadataManagementFieldProps(
             mapping_field='AMAZON_BEDROCK_TEXT_CHUNK',
@@ -115,3 +120,33 @@ vectorIndex = opensearch_vectorindex.VectorIndex(self, "VectorIndex",
     )
 )
 ```
+
+## Default values
+
+Behind the scenes, the custom resource creates a k-NN vector in the OpenSearch index, allowing to perform different kinds of k-NN search. The knn_vector field is highly configurable and can serve many different k-NN workloads. It is created as follows:
+
+Python
+
+```py
+"properties": {
+            vector_field: {
+                "type": "knn_vector",
+                "dimension": dimensions,
+                "data_type": precision,
+                "method": {
+                    "engine": "faiss",
+                    "space_type": distance_type,
+                    "name": "hnsw",
+                    "parameters": {},
+                },
+            },
+            "id": {
+                "type": "text",
+                "fields": {"keyword": {"type": "keyword", "ignore_above": 256}},
+            },
+        },
+```
+
+Users can currently configure the ```vector_field```, ```dimension```, ```data_type```, and ```distance_type``` fields through the construct interface.
+
+For details on the different settings, you can refer to the [Knn plugin documentation](https://opensearch.org/docs/latest/search-plugins/knn/knn-index/).

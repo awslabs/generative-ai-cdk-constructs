@@ -149,3 +149,17 @@ type `VectorCollection`, `RedisEnterpriseVectorStore`,
 ```ts
 - A new OpenSearch Serverless vector collection is created.
 ```
+
+***
+
+### vectorType?
+
+> `readonly` `optional` **vectorType**: [`VectorType`](../enumerations/VectorType.md)
+
+The vector type to store vector embeddings.
+
+#### Default
+
+```ts
+- VectorType.FLOATING_POINT
+```

@@ -32,6 +32,12 @@ The OpenSearch Vector Collection.
 
 ***
 
+### distanceType
+
+> `readonly` **distanceType**: `string`
+
+***
+
 ### indexName
 
 > `readonly` **indexName**: `string`
@@ -45,6 +51,12 @@ The name of the index.
 > `readonly` **mappings**: [`MetadataManagementFieldProps`](MetadataManagementFieldProps.md)[]
 
 The metadata management fields.
+
+***
+
+### precision
+
+> `readonly` **precision**: `string`
 
 ***
 

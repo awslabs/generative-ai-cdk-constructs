@@ -87,6 +87,14 @@ interface VectorIndexResourceProps {
    */
   readonly Dimensions: number;
   /**
+   * The data_type of the binary vector index.
+   */
+  readonly Precision: string;
+  /**
+   * The space_type of the binary vector index.
+   */
+  readonly DistanceType: string;
+  /**
    * The metadata management fields.
    */
   readonly MetadataManagement: MetadataManagementField[];
@@ -154,6 +162,8 @@ export interface VectorIndexProps {
    * The number of dimensions in the vector.
    */
   readonly vectorDimensions: number;
+  readonly precision: string;
+  readonly distanceType: string;
   /**
    * The metadata management fields.
    */
@@ -188,6 +198,7 @@ export class VectorIndex extends cdk.Resource {
     this.indexName = props.indexName;
     this.vectorField = props.vectorField;
     this.vectorDimensions = props.vectorDimensions;
+
     const crProvider = OpenSearchIndexCRProvider.getProvider(this);
     crProvider.role.addManagedPolicy(props.collection.aossPolicy);
 
@@ -244,6 +255,8 @@ export class VectorIndex extends cdk.Resource {
         IndexName: props.indexName,
         VectorField: props.vectorField,
         Dimensions: props.vectorDimensions,
+        Precision: props.precision,
+        DistanceType: props.distanceType,
         MetadataManagement: props.mappings.map((m) => {
           return {
             MappingField: m.mappingField,
