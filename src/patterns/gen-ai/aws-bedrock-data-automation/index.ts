@@ -97,17 +97,9 @@ export class BedrockDataAutomation extends BaseClass {
     this.props = props;
 
 
-    this.validateProps();
     this.createResources(id);
   }
 
-  private validateProps() {
-    if (this.props.isBDAInvocationRequired &&
-         !this.props.isCustomBDABlueprintRequired &&
-         !this.props.inputBucketName) {
-      throw new Error('Input bucket Name is required when only isBDAInvocationRequired is true');
-    }
-  }
 
   private createResources(id: string) {
 

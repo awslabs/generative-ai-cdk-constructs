@@ -110,10 +110,9 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
         output_filename = detail.get('output_filename',default_output_filename)
             
         # Get environment variables
-        # input_bucket = get_env_var('INPUT_BUCKET')
-        # output_bucket = get_env_var('OUTPUT_BUCKET')
-        input_bucket="bdaap-input-documents"
-        output_bucket="bdaap-output-documents"
+        input_bucket = get_env_var('INPUT_BUCKET')
+        output_bucket = get_env_var('OUTPUT_BUCKET')
+        
         
         # Initialize processor
         processor = DataProcessor(

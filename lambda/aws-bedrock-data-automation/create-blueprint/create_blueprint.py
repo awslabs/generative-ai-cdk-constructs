@@ -155,23 +155,22 @@ def list_blueprints(detail) -> dict:
         if resource_owner not in [stage.value for stage in ResourceOwner]:
             raise ValueError(f"Invalid resource owner: {resource_owner}. Must be one of {[stage.value for stage in ResourceOwner]}")
 
-        blueprint_arn = detail.get('blueprint_arn')
-        max_results = detail.get('max_results',1)
-        next_token= detail.get('next_token')
-        project_arn= detail.get('project_arn')
-        project_stage= detail.get('project_stage')
+        if 'blueprint_arn' in detail:
+            request_params['blueprint_arn'] = detail['blueprint_arn']
+            
+        if 'max_results' in detail:
+            request_params['max_results'] = detail.get('max_results', 1)
+            
+        if 'next_token' in detail:
+            request_params['next_token'] = detail['next_token']
+            
+        if 'project_arn' in detail:
+            request_params['project_arn'] = detail['project_arn']
+            
+        if 'project_stage' in detail:
+            request_params['project_stage'] = detail['project_stage']
+
        
-        request_params={
-           'blueprintArn': blueprint_arn,
-           'blueprintStageFilter': blueprint_stage,
-           'maxResults': max_results,
-           'nextToken': next_token,
-           'projectFilter':{
-               'projectArn': project_arn,
-               'projectStage': project_stage,
-               'resourceOwner': resource_owner
-           }
-       }
         
         # Log request parameters for debugging
         logger.info("Listing blueprints with params", extra={"params": request_params})
@@ -184,6 +183,7 @@ def list_blueprints(detail) -> dict:
             "Successfully retrieved blueprints",
             extra={"blueprint_count": len(response.get('blueprintSummaries', []))}
         )
+        logger.info("List blueprints response", extra={"response": response})
         return response
 
     except bda_client.exceptions.ValidationException as e:

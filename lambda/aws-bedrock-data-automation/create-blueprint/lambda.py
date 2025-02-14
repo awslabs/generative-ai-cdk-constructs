@@ -113,11 +113,14 @@ def handler(event, context: LambdaContext):
             blueprint_details = process_api_gateway_event(event)
        
         
+        
         operation_type = blueprint_details.get('operation', 'CREATE')
         if operation_type not in [stage.value for stage in OperationType]:
             raise ValueError(f"Invalid operation type: {operation_type}. Must be one of {[stage.value for stage in OperationType]}")
 
         if operation_type.lower() == 'delete':
+            logger.info("delete blueprint")
+
             blueprint_arn = blueprint_details.get('blueprint_arn')
             blueprint_version = blueprint_details.get('blueprint_version')
             
@@ -139,6 +142,8 @@ def handler(event, context: LambdaContext):
             return update_blueprint(blueprint_details)
             
         elif operation_type.lower() == 'create':
+            logger.info("create blueprint")
+
             # Check if schema_file_name is present
             if 'schema_file_name' in blueprint_details:
                 input_key = blueprint_details['schema_file_name']
@@ -195,4 +200,38 @@ def handler(event, context: LambdaContext):
             })
         }
 
+input = {
+    "version": "2.0",
+    "routeKey": "$default",
+    "rawPath": "/path",
+    "rawQueryString": "",
+    "headers": {
+        "content-type": "application/json"
+    },
+    "requestContext": {
+        "accountId": "123456789012",
+        "apiId": "api-id",
+        "domainName": "id.execute-api.us-east-1.amazonaws.com",
+        "domainPrefix": "id",
+        "http": {
+            "method": "POST",
+            "path": "/path",
+            "protocol": "HTTP/1.1",
+            "sourceIp": "IP",
+            "userAgent": "agent"
+        },
+        "requestId": "id",
+        "routeKey": "$default",
+        "stage": "$default",
+        "time": "12/Mar/2020:19:03:58 +0000",
+        "timeEpoch": 1583348638390
+    },
+    "body": json.dumps({
+        "operation":"LIST",
+        "resource_owner": "ACCOUNT",
+        "blueprint_stage": "LIVE",
+    }),
+    "isBase64Encoded": False
+}
 
+handler(input, None)

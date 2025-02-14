@@ -26,8 +26,10 @@
 ## Table of contents
 
   - [Overview](#overview)
-  - [Initializer](#initializer)
+  - [Architecture](#architecture)
+  - [Key Features](#keyfeatures)
   - [Pattern Construct Props](#pattern-construct-props)
+  - [Initializer](#initializer)
   - [Pattern Properties](#pattern-properties)
   - [Methods](#methods)
   - [Default properties](#default-properties)
@@ -40,7 +42,15 @@
 
 ## Overview
 
-The AWS Bedrock Data Automation construct simplifies the process of extracting insights from unstructured multimodal content (documents, images, video, and audio) using Amazon Bedrock Data Automation. It provides a complete infrastructure setup with Lambda functions for managing the entire workflow - from creating custom blueprints and projects to handling data processing automation and monitoring task status. The construct automates the deployment of necessary AWS resources and configures the required IAM permissions, making it easier for developers to build and manage intelligent document processing, media analysis, and other multimodal data-centric automation solutions.
+The Amazon Bedrock Data Automation construct simplifies the process of extracting insights from unstructured multimodal content (documents, images, video, and audio) using Amazon Bedrock Data Automation. It provides a complete infrastructure setup with Lambda functions for managing the entire workflow - from creating custom blueprints and projects to handling data processing automation and monitoring task status. The construct automates the deployment of necessary AWS resources and configures the required IAM permissions, making it easier for developers to build and manage intelligent document processing, media analysis, and other multimodal data-centric automation solutions.
+
+## Architecture
+
+The AWS Bedrock Data Automation Construct implements a serverless solution that enables automated data processing using Amazon Bedrock. The construct deploys an AWS Lambda function that serves as a data automation client, capable of interacting with Amazon Simple Storage Service (Amazon S3) for input and output operations, and invoking the Amazon Bedrock Data Processing API.
+
+This construct can be integrated with Amazon API Gateway for synchronous REST API operations or Amazon EventBridge for event-driven processing. The Lambda function is configured to handle incoming requests from both services, allowing flexibility in implementation patterns. The solution supports both API-based and event-driven architectures, enabling you to process data through Amazon Bedrock based on HTTP requests or scheduled/triggered events. 
+
+![Architecture Diagram](architecture.png)
 
 
 ## Pattern Construct Props
@@ -91,7 +101,11 @@ bda_construct = BedrockDataAutomation(self, "MyBDAConstruct",
                     
 ```
 
-## Creating Custom Blueprints
+## Key Features
+
+This construct provides granular control over Amazon Bedrock Data Automation capabilities through configurable feature flags. You can selectively enable specific features based on your workload requirements.
+
+### Creating Custom Blueprints
 
 The construct supports creation of custom blueprints for data processing automation through an EventBridge-triggered Lambda function. To enable this functionality, set `isCustomBDABlueprintRequired = true` in the construct props.
 
