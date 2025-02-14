@@ -139,6 +139,7 @@ The following constructs are available in the library:
 | [Amazon Bedrock Monitoring (Amazon CloudWatch Dashboard)](./src/patterns/gen-ai/aws-bedrock-cw-dashboard/README.md) | Amazon CloudWatch dashboard to monitor model usage from Amazon Bedrock. | Amazon CloudWatch |
 | [TXT to SQL](./src/patterns/gen-ai/aws-text-to-sql/README.md) |  Leverages generative AI capabilities to facilitate natural language-based SQL query generation.  | Amazon Event Bridge, Amazon Bedrock, AWS Lambda, Amazon SQS, AWS Secrets, and database of choice |
 | [LlamaIndex Data Loading](./src/patterns/gen-ai/aws-llama-index-data-loader/README.md) | Use LlamaIndex to load data in preparation for generative AI workloads | Amazon ECS Fargate, Amazon SQS, and AWS Systems Manager Parameters |
+| [Bedrock Data Automation](./src/patterns/gen-ai/aws-bedrock-data-automation/README.md) | Use Amazon bedrock data automation client to to build and manage intelligent document processing, media analysis, and other multimodal data-centric automation solutions | AWS Lambda, Amazon S3 bucket |
 
 ### L2 Constructs
 

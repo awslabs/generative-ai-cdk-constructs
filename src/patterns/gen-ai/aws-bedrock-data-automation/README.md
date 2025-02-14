@@ -65,10 +65,10 @@ This construct can be integrated with Amazon API Gateway for synchronous REST AP
 | outputBucketName | string | No | Name of the S3 bucket for storing output files. If not provided, a new bucket will be created when isBDAInvocationRequired is true. |
 | outputFilename | string | No | Name of the output file for processed data. |
 
-
 ## Initializer
 
 TypeScript:
+
 ```typescript
 import { BedrockDataAutomation } from 'generative-ai-cdk-constructs';
 
@@ -80,8 +80,6 @@ const bdaConstruct = new BedrockDataAutomation(this, 'MyBDAConstruct', {
   isBDAInvocationRequired: true,
   isStatusRequired: true
 });
-
-
 
 ```
 
@@ -97,8 +95,6 @@ bda_construct = BedrockDataAutomation(self, "MyBDAConstruct",
     is_status_required=True
 )
 
-
-                    
 ```
 
 ## Key Features
@@ -107,9 +103,7 @@ This construct provides granular control over Amazon Bedrock Data Automation cap
 
 ### Creating Custom Blueprints
 
-The construct supports creation of custom blueprints for data processing automation through an EventBridge-triggered Lambda function. To enable this functionality, set `isCustomBDABlueprintRequired = true` in the construct props.
-
-### Blueprint Creation Event Format
+The construct enables creation of custom blueprints by setting the `isCustomBDABlueprintRequired` property to true in the construct configuration. You can integrate this construct with either Amazon EventBridge for event-driven workflows or Amazon API Gateway for REST API operations.
 
 To create a new blueprint, either send an event to EventBridge or an API Gateway with following options:
 
@@ -119,8 +113,17 @@ Typescript
 
 ```typescript
 import { EventbridgeToLambda } from '@aws-solutions-constructs/aws-eventbridge-lambda';
+import { BedrockDataAutomation } from 'generative-ai-cdk-constructs';
+
+    const bdaConstruct = new BedrockDataAutomation(this, 'MyBDAConstruct', {
+      isCustomBDABlueprintRequired: true,
+      isBDAProjectRequired: false,
+      isBDAInvocationRequired: false,
+      isStatusRequired: false
+    });
 
     const bluePrintFunction = bdaConstruct.blueprintLambdaFunction
+    
     const blueprintEventbridge = new EventbridgeToLambda(this, 'CreateBlueprintEventRule', {
       existingLambdaObj: bluePrintFunction,
       eventRuleProps: {
@@ -132,11 +135,26 @@ import { EventbridgeToLambda } from '@aws-solutions-constructs/aws-eventbridge-l
     });
 
 ```
-Python 
+
+Python
 
 ```python
+from cdklabs.generative_ai_cdk_constructs import BedrockDataAutomation
+from aws_solutions_constructs.aws_eventbridge_lambda import EventbridgeToLambda 
+
+bda_construct = BedrockDataAutomation(self, "MyBDAConstruct",
+    input_bucket_name="XXXXXXXXXXXXXXX",
+    output_bucket_name="XXXXXXXXXXXXXXXX",
+    is_custom_bda_blueprint_required=True,
+    is_bda_project_required=False,
+    is_bda_invocation_required=False,
+    is_status_required=False
+)
+
+blueprint_lambda_function = bda_construct.blueprint_lambda_function
+
 EventbridgeToLambda(self, 'create_blueprint-lambda',
-                    existing_lambda_obj=bda_construct
+                    existing_lambda_obj=blueprint_lambda_function
                     event_rule_props= {
                     event_pattern= {
                     source= ['custom.bedrock.blueprint'],
@@ -146,17 +164,15 @@ EventbridgeToLambda(self, 'create_blueprint-lambda',
                     )
 ```
 
-
 upload the sample file to s3
 
 ```
 aws s3 cp ./{sample_file.pdf} s3://{input-bucket-name}/
 ```
 
-Create a bp_event.json file using above event and then use following cli command to push the event.
-```
-aws events put-events --cli-input-json file://bp_event.json
-```
+Create a bp_event.json file with following event in your project directory.
+
+
 ```json
 {
     "Entries": [
@@ -189,53 +205,167 @@ aws events put-events --cli-input-json file://bp_event.json
                     }
     ]
 }
-```    
+```
+
+send event bridge event using below command
+
+```
+aws events put-events --cli-input-json file://bp_event.json
+```
+
+## Invoke Construct with S3 event notifications
+
+Note: To automatically trigger the blueprint Lambda function upon file upload to Amazon S3:
+
+* Enable Amazon EventBridge notifications on the input S3 bucket in your stack.
+ 
+ ```python
+        bda_input_bucket = bda_construct.input_bucket
+        bda_input_bucket.enable_event_bridge_notification()
+```
+
+* Configure Amazon S3 Event Notifications to send events to Amazon EventBridge.
+
+```python
+create_blueprint_event = EventbridgeToLambda(self, 'invokeBda',
+            existing_lambda_obj=bda_construct.blueprint_lambda_function,
+            event_rule_props={
+                "event_pattern": {
+                    "source": ["aws.s3"],
+                    "detail_type": ["Object Created"],
+                    "detail": {
+                        "bucket": {
+                            "name": [bda_construct.input_bucket.bucket_name]
+                        },
+                        "object": {
+                            "key": [{
+                                "suffix": ".pdf"
+                            }]
+                        }
+                    }
+                }
+            }
+        )
+
+         rule = create_blueprint_event.events_rule
+
+```
+
+* Use Amazon EventBridge input transformer to convert S3 events into the blueprint Lambda function format
+
+```python
+rule.add_target(targets.LambdaFunction(
+            bedrock_data_automation.blueprint_lambda_function,
+            event=events.RuleTargetInput.from_object({
+                "source": "custom.bedrock.blueprint",
+                "detail_type": "Bedrock Create Request",
+                "detail": json.dumps({
+                "blueprint_name": "XXXX",
+                "blueprint_type": "DOCUMENT",
+                "blueprint_stage": "LIVE",
+                "operation": "CREATE",
+                "schema_fields": [
+                    {
+                        "name": "XXXXX",
+                        "description": "XXXXXX.",
+                        "alias": "XXXXX"
+                    },
+                    {
+                        "name": "XXXXX",
+                        "description": "XXXXXX.",
+                        "alias": "XXXXX"
+                    },
+                    {
+                        "name": "XXXXX",
+                        "description": "XXXXXX.",
+                        "alias": "XXXXX"
+                    }
+                ]
+            })
+            })
+        ))
+```
 
 ## Option2:  Add API Gateway as a front-end interface to the construct
 
 ```typescript
 import { ApiGatewayToLambda } from '@aws-solutions-constructs/aws-apigateway-lambda';
 
+import { BedrockDataAutomation } from 'generative-ai-cdk-constructs';
+
+    const bdaConstruct = new BedrockDataAutomation(this, 'MyBDAConstruct', {
+      isCustomBDABlueprintRequired: true,
+      isBDAProjectRequired: false,
+      isBDAInvocationRequired: false,
+      isStatusRequired: false
+    });
+
 new ApiGatewayToLambda(this, 'ApiGatewayToLambdaPattern', {
-      existingLambdaObj:bluePrintFunction,
+      existingLambdaObj:bdaConstruct.bluePrintFunction,
       apiGatewayProps:{
         restApiName: 'createCustomBlueprint',
       }
     });
 ```
 
+```python
+from cdklabs.generative_ai_cdk_constructs import BedrockDataAutomation
+from aws_solutions_constructs.aws_eventbridge_lambda import ApiGatewayToLambda 
+
+bda_construct = BedrockDataAutomation(self, "MyBDAConstruct",
+    input_bucket_name="XXXXXXXXXXXXXXX",
+    output_bucket_name="XXXXXXXXXXXXXXXX",
+    is_custom_bda_blueprint_required=True,
+    is_bda_project_required=False,
+    is_bda_invocation_required=False,
+    is_status_required=False
+)
+
+blueprint_lambda_function = bda_construct.blueprint_lambda_function
+
+blueprint_api = ApiGatewayToLambda(self, 'CreateBlueprintApi',
+            existing_lambda_obj=bda.blueprint_lambda_function,
+            api_gateway_props=apigw.RestApiProps(
+                rest_api_name='createBluePrintPython'
+            )    
+        )
+```
+
 Publish a POST request with following body
-```json 
+
+```json
 
              {
              "blueprint_name":"noa_bp_api_2",
              "blueprint_type":"DOCUMENT",
              "blueprint_stage":"LIVE",
              "operation":"CREATE",
-             "schema_fields":[
+             "schema_fields":[ // Expected output fields
              {
-                "name":"Total income",
-                "description":"Please analyze the following Notice of assesment report and extract information about Total income.",
-                "alias":"Total income"
+                "name":"XXXX",
+                "description":"XXXX.",
+                "alias":"XXXX"
                 },
              {
-                "name":"Taxable Income",
-                "description":"Please analyze the following Notice of assesment report and extract information about Taxable income.",
-                "alias":"Taxable Income"
+                "name":"XXXX",
+                "description":"XXXX.",
+                "alias":"XXXX"
                 },
-             {
-                "name":"Tax payable",
-                "description":"Please analyze the following Notice of assesment report and extract information about Tax payable.",
-                "alias":"Tax payable"
-                 
-             }
              ]
         }
 ```
 
-## Delete blueprint
-```json
+### CRUD operation on blueprint
 
+You can perform additional operations like list, get, update and delete  on your Amazon Bedrock blueprints using the same stack.
+
+To execute these operations, invoke the Lambda function with the appropriate event payload. Each operation requires specific event parameters as detailed in the following sections.
+
+Note: The operation type is determined by the event structure passed to the Lambda function through either Amazon API Gateway or Amazon EventBridge
+
+## Eventbridge event format
+
+```json
 {
     "Entries": [
         {
@@ -243,7 +373,8 @@ Publish a POST request with following body
             "DetailType": "Bedrock Blueprint Request",
             "Detail": {
                 "blueprint_arn": "XXXXXXXXX",
-                "operation": "DELETE",
+                "operation": "DELETE/GET/UPDATE",// Use appropriate operation
+
                 
             }
                     }
@@ -251,75 +382,27 @@ Publish a POST request with following body
 }
 ```
 
-## Get blueprint Post request
-
+## APIGateway request body
+ 
 ```json
 {
-             "operation":"get","blueprintArn":"XXXXXXXX",
+             "operation":"GET/UPDATE/DELETE","blueprintArn":"XXXXXXXX",
 }
 ```
-## Update blueprint Post request
-
-```json
-{
-             "operation":"delete","blueprintArn":"XXXXXXXX",
-}
-
-```
-
-## Delete blueprint Post request
-
-```json
-{
-             "operation":"delete","blueprintArn":"XXXXXXXX",
-}
-```
-
 
 ## Creating Data Automation Projects
 
-The construct enables creation and management of Bedrock Data Automation projects through an EventBridge-triggered Lambda function. To enable this functionality, set `isBDAProjectRequired = true` in the construct props.
+The construct enables creation and management of Bedrock Data Automation projects by setting the `isBDAProjectRequired` property to true in the construct configuration. You can integrate this construct with either Amazon EventBridge for event-driven workflows or Amazon API Gateway for REST API operations.
 
 ### Project Creation Event Format
 
 To create a new bedrock data automation project, either send an event to EventBridge or an API Gateway with following options:
 
-## Option1:  Add Amazon EventBridge as a front-end interface to the construct
+## Option1: Add Amazon EventBridge as a front-end interface to the construct
 
-Typescript
+Please use the same [stack](#creating-custom-blueprints): Option1 and replace the `existingLambdaObj` with `bdaConstruct.bdaProjectLambdaFunction`.
 
-```typescript
-import { EventbridgeToLambda } from '@aws-solutions-constructs/aws-eventbridge-lambda';
-
-    const bdaProjectFunction = bdaConstruct.bdaProjectLambdaFunction
-    const blueprintEventbridge = new EventbridgeToLambda(this, 'bdaProject', {
-      existingLambdaObj: bdaProjectFunction,
-      eventRuleProps: {
-        eventPattern: {
-          source: ['custom.bedrock.blueprint'],
-          detailType: ['Bedrock Project Request'],
-        }
-      },
-    });
-
-```
-Python 
-
-```python
-EventbridgeToLambda(self, 'create_blueprint-lambda',
-                    existing_lambda_obj=bdaProjectFunction
-                    event_rule_props= {
-                    event_pattern= {
-                    source= ['custom.bedrock.blueprint'],
-                    detail_type= ['Bedrock Project Request'],
-                    }
-                    }
-                    )
-```
-Create a bda_event.json file using above event and then use following cli command to push the event.
-```
-aws events put-events --cli-input-json file://bda_event.json
-```
+Create a bda_event.json file using below event.
 
 ```json
 {
@@ -337,18 +420,17 @@ aws events put-events --cli-input-json file://bda_event.json
     ]
 }
 ```
-## Option2:  Add API Gateway as a front-end interface to the construct
 
-```typescript
-import { ApiGatewayToLambda } from '@aws-solutions-constructs/aws-apigateway-lambda';
+publish the event using below command.
 
-new ApiGatewayToLambda(this, 'ApiGatewayToLambdaPattern', {
-      existingLambdaObj:bluePrintFunction,
-      apiGatewayProps:{
-        restApiName: 'createCustomBlueprint',
-      }
-    });
 ```
+
+aws events put-events --cli-input-json file://bda_event.json
+```
+
+## Option2: Add API Gateway as a front-end interface to the construct
+
+Please use the same [stack](#creating-custom-blueprints), Option2 and replace the `existingLambdaObj` with `bdaConstruct.bdaProjectLambdaFunction`.
 
 Publish a POST request with following body
 ```json 
@@ -361,58 +443,31 @@ Publish a POST request with following body
 }
 ```
 
-## Delete project
+### CRUD operation on project
+
+You can perform additional operations like list, get, update and delete  on your Amazon Bedrock projects using the same stack.
+
+To execute these operations, invoke the Lambda function with the appropriate event payload. Each operation requires specific event parameters as detailed in the following sections.
+
+Note: The operation type is determined by the event structure passed to the Lambda function through either Amazon API Gateway or Amazon.
+
+## EventBridge
+
 ```json
 {
-             "operation":"delete","projectArn":"XXXXXXXX",
+             "operation":"delete/update/list","projectArn":"XXXXXXXX",
 }
 ```
 
 ## Data Processing Invocations
 
-The construct enables automated data processing through Bedrock Data Automation invocations. To enable this functionality, set `isBDAInvocationRequired = true` in the construct props.
+The construct enables automated data processing through Bedrock Data Automation invocations by setting the `isBDAInvocationRequired` property to true in the construct configuration. You can integrate this construct with either Amazon EventBridge for event-driven workflows or Amazon API Gateway for REST API operations.
 
-To invoke data processing, either send an event to EventBridge or an API Gateway with following options:
+## Option1: Add Amazon EventBridge as a front-end interface to the construct
 
-## Option1:  Add Amazon EventBridge as a front-end interface to the construct
+Please use the same [stack](#creating-custom-blueprints): Option1 and replace the `existingLambdaObj` with `bdaConstruct.bdaInvocationLambdaFunction`.
 
-Typescript
-
-```typescript
-import { EventbridgeToLambda } from '@aws-solutions-constructs/aws-eventbridge-lambda';
-
-    const dataProcessingFunction = bdaConstruct.bdaInvocationLambdaFunction
-    
-    new dataProcessingFunction(this, 'bdainvocation', {
-      existingLambdaObj: dataProcessingFunction,
-      eventRuleProps: {
-        eventPattern: {
-          source: ['custom.bedrock.blueprint'],
-          detailType: ['Bedrock Invoke Request'],
-        }
-      },
-    });
-
-```
-Python 
-
-```python
-EventbridgeToLambda(self, 'data_pricessing-lambda',
-                    existing_lambda_obj=dataProcessingFunction
-                    event_rule_props= {
-                    event_pattern= {
-                    source= ['custom.bedrock.blueprint'],
-                    detail_type= ['Bedrock Invoke Request'],
-                    }
-                    }
-                    )
-```
-Create a bda_event.json file using above event and then use following cli command to push the event.
-```
-aws events put-events --cli-input-json file://bda_event.json
-```
-blueprint_arn is fetched from create bluepreint response.
-
+Create a bda_event.json file using below event and then use following cli command to push the event.
 ```json
 {
     "Entries": [
@@ -431,34 +486,74 @@ blueprint_arn is fetched from create bluepreint response.
     ]
 }
 ```
-## Option2:  Add API Gateway as a front-end interface to the construct
 
-```typescript
-import { ApiGatewayToLambda } from '@aws-solutions-constructs/aws-apigateway-lambda';
-
-new ApiGatewayToLambda(this, 'ApiGatewayToLambdaPattern', {
-      existingLambdaObj:bdaInvocationLambdaFunction,
-      apiGatewayProps:{
-        restApiName: 'invokeDataProcessing',
-      }
-    });
+```
+aws events put-events --cli-input-json file://bda_event.json
 ```
 
-Publish a POST request with following body
-```json 
+blueprint_arn is fetched from create bluepreint response.
 
-             {
-             "input_filename": "sample_input.pdf",
-                "output_filename": "sample_output.json",
-                "blueprints": [{
-                    "blueprint_arn":"XXXXXXX",
-                    "stage":"LIVE"
-                }],
-        }
+## Invoke Construct with S3 event notifications
+
+Note: To automatically trigger the blueprint Lambda function upon file upload to Amazon S3:
+
+* Enable Amazon EventBridge notifications on the input S3 bucket in your stack.
+ 
+ ```python
+        bda_input_bucket = bda_construct.input_bucket
+        bda_input_bucket.enable_event_bridge_notification()
 ```
 
+* Configure Amazon S3 Event Notifications to send events to Amazon EventBridge.
 
+```python
+invoke_bda_event = EventbridgeToLambda(self, 'invokeBda',
+            existing_lambda_obj=bedrock_data_automation.bda_invocation_lambda_function,
+            event_rule_props={
+                "event_pattern": {
+                    "source": ["aws.s3"],
+                    "detail_type": ["Object Created"],
+                    "detail": {
+                        "bucket": {
+                            "name": [bedrock_data_automation.input_bucket.bucket_name]
+                        },
+                        "object": {
+                            "key": [{
+                                "suffix": ".pdf"
+                            }]
+                        }
+                    }
+                }
+            }
+        )
 
+         rule = create_blueprint_event.events_rule
+
+```
+
+* Use Amazon EventBridge input transformer to convert S3 events into the blueprint Lambda function format
+
+```python
+ rule.add_target(targets.LambdaFunction(
+            bedrock_data_automation.bda_invocation_lambda_function,
+            event=events.RuleTargetInput.from_object({
+                "source": "custom.bedrock.blueprint",
+                "detail_type": "Bedrock Invoke Request",
+                "detail": json.dumps({
+                    "input_filename": events.EventField.from_path('$.detail.object.key'),
+                    "output_filename": events.EventField.from_path('$.detail.object.key').replace('.pdf', '_2.csv'),
+                    "blueprints": [{
+                        "blueprint_arn": blueprint_arn,
+                        "stage": "LIVE"
+                    }]
+                })
+            })
+        ))
+```
+
+## Option2: Add API Gateway as a front-end interface to the construct
+
+Please use the same [stack](#creating-custom-blueprints): Option2 and replace the `existingLambdaObj` with `bdaConstruct.bdaInvocationLambdaFunction`.
 
 ## Processing Status Monitoring
 
@@ -468,7 +563,7 @@ The construct provides automated status monitoring for Bedrock Data Automation p
 
 To check the status of a processing job,either send an event to EventBridge or an API Gateway with following options:
 
-## Option1:  Add Amazon EventBridge as a front-end interface to the construct
+## Option1: Add Amazon EventBridge as a front-end interface to the construct
 
 Typescript
 
@@ -538,7 +633,6 @@ invocation_arn is fetched from data processing API response
 
      {"invocation_arn":"XXXXXX"}
 ```
-
 
 ## Cost
 
