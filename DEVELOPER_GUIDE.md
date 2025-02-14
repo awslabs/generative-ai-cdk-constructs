@@ -51,7 +51,7 @@ npm install -g npm aws-cdk yarn projen
 
 ## Testing
 
-AWS Generative AI CDK Constructs use two types of testing: unit testing and integration testing. Unit testing targets specific aspects of a construct or one of the functions in the core library. It examines the results and confirms the correct resources are there. For instance, it may call the deployLambdaFunction() in the core library and then confirm that AWS_NODEJS_CONNECTION_REUSE_ENABLED environment variable was set correctly. The unit tests check that certain aspects of the results are correct. You can learn more about unit testing CDK constructs [here](https://docs.aws.amazon.com/cdk/latest/guide/testing.html) and [here](https://aws.amazon.com/blogs/developer/testing-infrastructure-with-the-aws-cloud-development-kit-cdk/).
+AWS Generative AI CDK Constructs use two types of testing: unit testing and integration testing. Unit testing targets specific aspects of a construct or one of the functions in the core library. The unit tests check that certain aspects of the results are correct. You can learn more about unit testing CDK constructs [here](https://docs.aws.amazon.com/cdk/latest/guide/testing.html) and [here](https://aws.amazon.com/blogs/developer/testing-infrastructure-with-the-aws-cloud-development-kit-cdk/).
 
 All test files can be found in the /test directory under each construct (or core). You'll find two types of files in this directory:
 
@@ -78,13 +78,14 @@ All test files can be found in the /test directory under each construct (or core
 Navigate to the [Generative AI CDK Construct Repository] (https://github.com/aws-samples/generative-ai-cdk-constructs-samples):
     Open your command line interface and change directory to the generative AI CDK construct repository.
 
-- Execute the command ```yarn build```. 
+- Execute the command ```projen build```. 
   - This command runs npx projen build and generates a .jsii file in your repository.
 
 ### Step 2: Packaging the Constructs
-1. Run Yarn Package:JS:
-    - Execute ```yarn package:js```.
+1. Run ```projen package:js```:
+    - Execute ```projen package:js```.
       - This command creates a new .tgz package of all constructs in the dist/js folder.
+    - If you want to build a package for a different language, please refer to the existing ```projen package:X``` commands after running ```projen --help```
 
 2. Locate the TGZ File:
     - Find the generated .tgz file, typically named something like dist/js/generative-ai-cdk-constructs-0.0.0.jsii.tgz.

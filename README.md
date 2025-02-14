@@ -29,6 +29,7 @@
 - [Contributors](#contributors)
 - [Operational Metrics Collection](#operational-metrics-collection)
 - [Roadmap](#roadmap)
+- [Deprecation](#deprecation)
 - [License](#license)
 - [Legal Disclaimer](#legal-disclaimer)
 
@@ -179,6 +180,10 @@ Generative AI CDK Constructs may collect anonymous operational metrics, includin
 ## Roadmap
 
 Roadmap is available through the [GitHub Project](https://github.com/orgs/awslabs/projects/136)
+
+## Deprecation
+
+To understand our deprecation process, please refer to the dedicated [documentation](./DEPRECATION_PROCESS.md)
 
 ## License
 
