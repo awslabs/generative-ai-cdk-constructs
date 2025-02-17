@@ -55,6 +55,7 @@ export * from './inference-profiles/application-inference-profile';
 export * from './knowledge-bases/knowledge-base';
 export * from './knowledge-bases/vector-knowledge-base';
 export * from './knowledge-bases/kendra-knowledge-base';
+export * from './knowledge-bases/structured-data-knowledge-base';
 
 //===================================
 // Prompts

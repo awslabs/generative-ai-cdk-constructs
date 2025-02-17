@@ -2,17 +2,15 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / CommonKnowledgeBaseAttributes
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / SqlKnowledgeBaseAttributes
 
-# Interface: CommonKnowledgeBaseAttributes
+# Interface: SqlKnowledgeBaseAttributes
 
-Common properties for importing a knowledge base (of any type) created outside of this stack.
+Properties for importing a knowledge base outside of this stack
 
-## Extended by
+## Extends
 
-- [`VectorKnowledgeBaseAttributes`](VectorKnowledgeBaseAttributes.md)
-- [`KendraKnowledgeBaseAttributes`](KendraKnowledgeBaseAttributes.md)
-- [`SqlKnowledgeBaseAttributes`](SqlKnowledgeBaseAttributes.md)
+- [`CommonKnowledgeBaseAttributes`](CommonKnowledgeBaseAttributes.md)
 
 ## Properties
 
@@ -28,6 +26,10 @@ The description of the knowledge base.
 - No description provided.
 ```
 
+#### Inherited from
+
+[`CommonKnowledgeBaseAttributes`](CommonKnowledgeBaseAttributes.md).[`description`](CommonKnowledgeBaseAttributes.md#description)
+
 ***
 
 ### executionRoleArn
@@ -41,6 +43,10 @@ The Service Execution Role associated with the knowledge base.
 ```ts
 "arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseKB12345678"
 ```
+
+#### Inherited from
+
+[`CommonKnowledgeBaseAttributes`](CommonKnowledgeBaseAttributes.md).[`executionRoleArn`](CommonKnowledgeBaseAttributes.md#executionrolearn)
 
 ***
 
@@ -57,6 +63,10 @@ Knowledge Base. This will impact how Agents interact with the Knowledge Base.
 - No description provided.
 ```
 
+#### Inherited from
+
+[`CommonKnowledgeBaseAttributes`](CommonKnowledgeBaseAttributes.md).[`instruction`](CommonKnowledgeBaseAttributes.md#instruction)
+
 ***
 
 ### knowledgeBaseId
@@ -71,6 +81,10 @@ The ID of the knowledge base.
 "KB12345678"
 ```
 
+#### Inherited from
+
+[`CommonKnowledgeBaseAttributes`](CommonKnowledgeBaseAttributes.md).[`knowledgeBaseId`](CommonKnowledgeBaseAttributes.md#knowledgebaseid)
+
 ***
 
 ### knowledgeBaseState?
@@ -84,3 +98,7 @@ Specifies whether to use the knowledge base or not when sending an InvokeAgent r
 ```ts
 - ENABLED
 ```
+
+#### Inherited from
+
+[`CommonKnowledgeBaseAttributes`](CommonKnowledgeBaseAttributes.md).[`knowledgeBaseState`](CommonKnowledgeBaseAttributes.md#knowledgebasestate)
