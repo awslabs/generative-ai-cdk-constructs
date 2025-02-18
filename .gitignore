@@ -64,6 +64,14 @@ test/integ/chatprompt.integ.snapshot/manifest.json
 test/integ/chatprompt.integ.snapshot/**/manifest.json
 test/integ/chatprompt.integ.snapshot/tree.json
 test/integ/chatprompt.integ.snapshot/**/tree.json
+test/integ/guardrails.integ.snapshot/asset.*
+test/integ/guardrails.integ.snapshot/**/asset.*
+test/integ/guardrails.integ.snapshot/cdk.out
+test/integ/guardrails.integ.snapshot/**/cdk.out
+test/integ/guardrails.integ.snapshot/manifest.json
+test/integ/guardrails.integ.snapshot/**/manifest.json
+test/integ/guardrails.integ.snapshot/tree.json
+test/integ/guardrails.integ.snapshot/**/tree.json
 test/integ/inference-profiles.integ.snapshot/asset.*
 test/integ/inference-profiles.integ.snapshot/**/asset.*
 test/integ/inference-profiles.integ.snapshot/cdk.out
