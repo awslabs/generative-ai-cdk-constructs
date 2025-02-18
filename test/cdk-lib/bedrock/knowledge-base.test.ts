@@ -18,15 +18,13 @@ import { aws_s3 as s3 } from 'aws-cdk-lib';
 import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 
 import { AwsSolutionsChecks } from 'cdk-nag';
-import {
-  AmazonAuroraVectorStore,
-} from '../../../src/cdk-lib/amazonaurora';
-import { KnowledgeBase } from '../../../src/cdk-lib/bedrock/knowledge-base';
-import { BedrockFoundationModel } from '../../../src/cdk-lib/bedrock/models';
+import { AmazonAuroraVectorStore } from '../../../src/cdk-lib/amazonaurora';
+import { VectorKnowledgeBase } from '../../../src/cdk-lib/bedrock/knowledge-bases/vector-knowledge-base';
+import { BedrockFoundationModel, VectorType } from '../../../src/cdk-lib/bedrock/models';
 import { VectorCollection } from '../../../src/cdk-lib/opensearchserverless';
 import { PineconeVectorStore } from '../../../src/cdk-lib/pinecone';
 
-describe('KnowledgeBase', () => {
+describe('VectorKnowledgeBase', () => {
   let app: cdk.App;
   let stack: cdk.Stack;
   let vectorCollection: VectorCollection;
@@ -34,7 +32,11 @@ describe('KnowledgeBase', () => {
   let modelVectorDimension: number;
 
   beforeAll(() => {
-    app = new cdk.App();
+    app = new cdk.App({
+      context: {
+        '@aws-cdk/core:stackResourceLimit': 0,
+      },
+    });
     cdk.Aspects.of(app).add(new AwsSolutionsChecks());
     stack = new cdk.Stack(app, 'test-stack', {
       env: {
@@ -51,7 +53,7 @@ describe('KnowledgeBase', () => {
     const vectorStore = new VectorCollection(stack, 'VectorCollection');
     const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
     modelVectorDimension = 1024;
-    const knowledgeBase = new KnowledgeBase(stack, 'VectorKnowledgeBase', {
+    const knowledgeBase = new VectorKnowledgeBase(stack, 'VectorKnowledgeBase', {
       embeddingsModel: model,
       vectorStore: vectorStore,
     });
@@ -67,30 +69,23 @@ describe('KnowledgeBase', () => {
   });
 
   test('DataAccessPolicy should be empty', () => {
-    const conditions = template.findConditions(
-      '*',
-      {
-        'Fn::Not': [
-          {
-            'Fn::Equals': [
-              0,
-              0,
-            ],
-          },
-        ],
-      },
-    );
+    const conditions = template.findConditions('*', {
+      'Fn::Not': [
+        {
+          'Fn::Equals': [0, 0],
+        },
+      ],
+    });
     expect(Object.keys(conditions)).toHaveLength(1);
     const condition = Object.keys(conditions)[0];
-    template.hasResource(
-      'AWS::OpenSearchServerless::AccessPolicy', {
-        Condition: condition,
-        Properties: {
-          Name: Match.stringLikeRegexp('^dataaccesspolicy[a-z0-9]+'),
-          Policy: '[]',
-          Type: 'data',
-        },
-      });
+    template.hasResource('AWS::OpenSearchServerless::AccessPolicy', {
+      Condition: condition,
+      Properties: {
+        Name: Match.stringLikeRegexp('^dataaccesspolicy[a-z0-9]+'),
+        Policy: '[]',
+        Type: 'data',
+      },
+    });
   });
 
   test('Should have correct properties', () => {
@@ -106,7 +101,7 @@ describe('KnowledgeBase', () => {
     const vectorStore = new AmazonAuroraVectorStore(stack, 'AuroraVectorStore6', {
       embeddingsModelVectorDimension: modelVectorDimension,
     });
-    const knowledgeBase = new KnowledgeBase(stack, 'AuroraDefaultKnowledgeBase', {
+    const knowledgeBase = new VectorKnowledgeBase(stack, 'AuroraDefaultKnowledgeBase', {
       embeddingsModel: model,
       vectorStore: vectorStore,
       instruction: 'Test instruction',
@@ -123,7 +118,7 @@ describe('KnowledgeBase', () => {
   test('Should correctly initialize role with necessary permissions', () => {
     const vectorStore = new VectorCollection(stack, 'VectorCollection2');
     const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
-    new KnowledgeBase(stack, 'VectorKnowledgeBase2', {
+    new VectorKnowledgeBase(stack, 'VectorKnowledgeBase2', {
       embeddingsModel: model,
       vectorStore: vectorStore,
     });
@@ -162,12 +157,6 @@ describe('KnowledgeBase', () => {
         },
       }),
     );
-    // const policyDocument = knowledgeBase.role.?.toJSON();
-    // expect(policyDocument).toBeDefined();
-    // expect(policyDocument.Statement).toHaveLength(2);
-    // expect(policyDocument.Statement[0].Action).toContain('sts:AssumeRole');
-    // expect(policyDocument.Statement[0].Principal).toHaveProperty('Service');
-    // expect(policyDocument.Statement[0].Principal.Service).toContain('bedrock.amazonaws.com');
   });
 
   test('Should throw error when vectorStore is not VectorCollection and indexName is provided', () => {
@@ -177,7 +166,7 @@ describe('KnowledgeBase', () => {
     });
 
     expect(() => {
-      new KnowledgeBase(stack, 'AuroraKnowledgeBase6', {
+      new VectorKnowledgeBase(stack, 'AuroraKnowledgeBase6', {
         embeddingsModel: model,
         vectorStore: vectorStore,
         indexName: 'Test index',
@@ -192,7 +181,7 @@ describe('KnowledgeBase', () => {
     });
 
     expect(() => {
-      new KnowledgeBase(stack, 'AuroraKnowledgeBase5', {
+      new VectorKnowledgeBase(stack, 'AuroraKnowledgeBase5', {
         embeddingsModel: model,
         vectorStore: vectorStore,
         vectorField: 'Test vector field',
@@ -216,7 +205,7 @@ describe('KnowledgeBase', () => {
     const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
 
     vectorStores.forEach((vectorStore, index) => {
-      const knowledgeBase = new KnowledgeBase(stack, `KnowledgeBase${index}`, {
+      const knowledgeBase = new VectorKnowledgeBase(stack, `KnowledgeBase${index}`, {
         embeddingsModel: model,
         vectorStore: vectorStore,
       });
@@ -234,7 +223,7 @@ describe('KnowledgeBase', () => {
       embeddingsModelVectorDimension: modelVectorDimension,
     });
 
-    const knowledgeBase = new KnowledgeBase(stack, 'AuroraKnowledgeBase2', {
+    const knowledgeBase = new VectorKnowledgeBase(stack, 'AuroraKnowledgeBase2', {
       embeddingsModel: model,
       vectorStore: vectorStore,
     });
@@ -242,18 +231,41 @@ describe('KnowledgeBase', () => {
     expect(knowledgeBase.vectorStore).toBe(vectorStore);
   });
 
+  test('Vector store with unsupported vector type', () => {
+    const model = BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3;
+    const vectorStore = new AmazonAuroraVectorStore(stack, 'AuroraVectorStore22', {
+      embeddingsModelVectorDimension: modelVectorDimension,
+    });
+
+    expect(() => {
+      new VectorKnowledgeBase(stack, 'AuroraKnowledgeBase2', {
+        embeddingsModel: model,
+        vectorStore: vectorStore,
+        vectorType: VectorType.BINARY,
+      });
+    }).toThrow();
+  });
+
+  test('Embedding model with unsupported vector type', () => {
+    const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
+
+    expect(() => {
+      new VectorKnowledgeBase(stack, 'OSS22', {
+        embeddingsModel: model,
+        vectorType: VectorType.BINARY,
+      });
+    }).toThrow();
+  });
+
   test('No unsuppressed Errors', () => {
-    const errors = Annotations.fromStack(stack).findError(
-      '*',
-      Match.stringLikeRegexp('AwsSolutions-.*'),
-    );
+    const errors = Annotations.fromStack(stack).findError('*', Match.stringLikeRegexp('AwsSolutions-.*'));
     const errorData = errors.map(error => error.entry.data);
     expect(errorData).toHaveLength(2); // AwsSolutions-IAM4 and AwsSolutions-IAM5
   });
 
-  test('Knowledge Base with Embedding Model NOT supporting Configurable Dimensions', () => {
+  test('Knowledge Base with Embedding Model NOT supporting Configurable Dimensions and floating point', () => {
     //GIVEN
-    new KnowledgeBase(stack, 'AuroraDefaultKnowledgeBaseTitan1024', {
+    new VectorKnowledgeBase(stack, 'DefaultKnowledgeBaseTitan1024FP', {
       embeddingsModel: BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
     });
     //THEN
@@ -262,16 +274,45 @@ describe('KnowledgeBase', () => {
         KnowledgeBaseConfiguration: {
           Type: 'VECTOR',
           VectorKnowledgeBaseConfiguration: {
-            EmbeddingModelConfiguration: ABSENT,
+            EmbeddingModelConfiguration: {
+              BedrockEmbeddingModelConfiguration: {
+                Dimensions: ABSENT,
+                EmbeddingDataType: 'FLOAT32',
+              },
+            },
           },
         },
       }),
     );
   });
 
-  test('Knowledge Base with Embedding Model supporting Configurable Dimensions', () => {
+  test('Knowledge Base with Embedding Model NOT supporting Configurable Dimensions and binary', () => {
     //GIVEN
-    new KnowledgeBase(stack, 'AuroraDefaultKnowledgeBaseTitan512', {
+    new VectorKnowledgeBase(stack, 'AuroraDefaultKnowledgeBaseTitan1024Binary', {
+      embeddingsModel: BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
+      vectorType: VectorType.BINARY,
+    });
+    //THEN
+    cdkExpect(stack).to(
+      haveResourceLike('AWS::Bedrock::KnowledgeBase', {
+        KnowledgeBaseConfiguration: {
+          Type: 'VECTOR',
+          VectorKnowledgeBaseConfiguration: {
+            EmbeddingModelConfiguration: {
+              BedrockEmbeddingModelConfiguration: {
+                Dimensions: ABSENT,
+                EmbeddingDataType: 'BINARY',
+              },
+            },
+          },
+        },
+      }),
+    );
+  });
+
+  test('Knowledge Base with Embedding Model supporting Configurable Dimensions and floating point', () => {
+    //GIVEN
+    new VectorKnowledgeBase(stack, 'AuroraDefaultKnowledgeBaseTitan512FP', {
       embeddingsModel: BedrockFoundationModel.TITAN_EMBED_TEXT_V2_512,
     });
     //THEN
@@ -283,6 +324,32 @@ describe('KnowledgeBase', () => {
             EmbeddingModelConfiguration: {
               BedrockEmbeddingModelConfiguration: {
                 Dimensions: 512,
+                EmbeddingDataType: 'FLOAT32',
+              },
+            },
+          },
+        },
+      }),
+    );
+  });
+
+  test('Knowledge Base with Embedding Model supporting Configurable Dimensions and Binary', () => {
+    //GIVEN
+    new VectorKnowledgeBase(stack, 'AuroraDefaultKnowledgeBaseTitan512Binary', {
+      embeddingsModel: BedrockFoundationModel.TITAN_EMBED_TEXT_V2_512,
+      vectorType: VectorType.BINARY,
+    });
+    console.log(stack.toJsonString);
+    //THEN
+    cdkExpect(stack).to(
+      haveResourceLike('AWS::Bedrock::KnowledgeBase', {
+        KnowledgeBaseConfiguration: {
+          Type: 'VECTOR',
+          VectorKnowledgeBaseConfiguration: {
+            EmbeddingModelConfiguration: {
+              BedrockEmbeddingModelConfiguration: {
+                Dimensions: 512,
+                EmbeddingDataType: 'BINARY',
               },
             },
           },
@@ -292,24 +359,28 @@ describe('KnowledgeBase', () => {
   });
 
   test('Imported Knowledge Base', () => {
-    const kb = KnowledgeBase.fromKnowledgeBaseAttributes(stack, 'ImportedKnowledgeBase', {
+    const kb = VectorKnowledgeBase.fromKnowledgeBaseAttributes(stack, 'ImportedKnowledgeBase', {
       knowledgeBaseId: 'OVGH4TEBDH',
-      executionRoleArn: 'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseE9B1DDDC',
+      executionRoleArn:
+        'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseE9B1DDDC',
     });
 
     expect(kb.knowledgeBaseId).toEqual('OVGH4TEBDH');
-    expect(kb.role.roleArn).toEqual('arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseE9B1DDDC');
+    expect(kb.role.roleArn).toEqual(
+      'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseE9B1DDDC',
+    );
     expect(kb.role.roleName).toEqual('AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseE9B1DDDC');
-    expect(kb.knowledgeBaseArn).toMatch(new RegExp('arn:.*:bedrock:us-east-1:123456789012:knowledge-base\/OVGH4TEBDH$'));
-
+    expect(kb.knowledgeBaseArn).toMatch(new RegExp('arn:.*:bedrock:us-east-1:123456789012:knowledge-base/OVGH4TEBDH$'));
   });
 
   test('Imported Knowledge Base - Data Source Method', () => {
-    const kb2 = KnowledgeBase.fromKnowledgeBaseAttributes(stack, 'ImportedKnowledgeBase2', {
+    const kb2 = VectorKnowledgeBase.fromKnowledgeBaseAttributes(stack, 'ImportedKnowledgeBase2', {
       knowledgeBaseId: 'OVGH4TEBDH',
       executionRoleArn: 'arn:aws:iam::123456789012:role/service-role/AmazonBedrockExecutionRoleForKnowledgeBase_9ivh2',
     });
-    const bucket = s3.Bucket.fromBucketArn(stack, 's3-imported',
+    const bucket = s3.Bucket.fromBucketArn(
+      stack,
+      's3-imported',
       'arn:aws:s3:::aws-cdk-bedrock-test-bucket-83908e77-cdxrc7lilg6v',
     );
 
@@ -321,18 +392,5 @@ describe('KnowledgeBase', () => {
     expect(s3datasource.dataSourceType).toEqual('S3');
     expect(s3datasource.knowledgeBase.knowledgeBaseId).toEqual('OVGH4TEBDH');
     cdkExpect(stack).to(haveResource('AWS::Bedrock::DataSource'));
-
-    // console.log(Template.fromStack(stack).toJSON)
-
-    // Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
-    //   KnowledgeBaseId: 'OVGH4TEBDH',
-    //   Name: 'TestDataSourceS3',
-    //   DataSourceConfiguration: {
-    //     S3Configuration: {
-    //       BucketArn: 'arn:aws:s3:::aws-cdk-bedrock-test-bucket-83908e77-cdxrc7lilg6v'
-    //     },
-    //   },
-    // });
   });
-
 });

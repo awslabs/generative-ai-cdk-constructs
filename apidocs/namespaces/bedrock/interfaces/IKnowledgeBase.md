@@ -6,11 +6,16 @@
 
 # Interface: IKnowledgeBase
 
-Represents a Knowledge Base, either created with CDK or imported.
+Represents a Knowledge Base, either created with CDK or imported, of any type.
 
 ## Extends
 
 - `IResource`
+
+## Extended by
+
+- [`IVectorKnowledgeBase`](IVectorKnowledgeBase.md)
+- [`IKendraKnowledgeBase`](IKendraKnowledgeBase.md)
 
 ## Properties
 
@@ -18,7 +23,7 @@ Represents a Knowledge Base, either created with CDK or imported.
 
 > `readonly` `optional` **description**: `string`
 
-A description of the knowledge base.
+The description of the knowledge base.
 
 ***
 
@@ -44,8 +49,9 @@ that might be different than the stack they were imported into.
 
 > `readonly` `optional` **instruction**: `string`
 
-Instructions for agents based on the design and type of information of the
-Knowledge Base. This will impact how Agents interact with the Knowledge Base.
+A narrative instruction of the knowledge base.
+A Bedrock Agent can use this instruction to determine if it should
+query this Knowledge Base.
 
 ***
 
@@ -107,97 +113,15 @@ The stack in which this resource is defined.
 
 `IResource.stack`
 
+***
+
+### type
+
+> `readonly` **type**: [`KnowledgeBaseType`](../enumerations/KnowledgeBaseType.md)
+
+The type of knowledge base.
+
 ## Methods
-
-### addConfluenceDataSource()
-
-> **addConfluenceDataSource**(`props`): [`ConfluenceDataSource`](../classes/ConfluenceDataSource.md)
-
-Add a Confluence data source to the knowledge base.
-
-#### Parameters
-
-##### props
-
-[`ConfluenceDataSourceAssociationProps`](ConfluenceDataSourceAssociationProps.md)
-
-#### Returns
-
-[`ConfluenceDataSource`](../classes/ConfluenceDataSource.md)
-
-***
-
-### addS3DataSource()
-
-> **addS3DataSource**(`props`): [`S3DataSource`](../classes/S3DataSource.md)
-
-Add an S3 data source to the knowledge base.
-
-#### Parameters
-
-##### props
-
-[`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md)
-
-#### Returns
-
-[`S3DataSource`](../classes/S3DataSource.md)
-
-***
-
-### addSalesforceDataSource()
-
-> **addSalesforceDataSource**(`props`): [`SalesforceDataSource`](../classes/SalesforceDataSource.md)
-
-Add a Salesforce data source to the knowledge base.
-
-#### Parameters
-
-##### props
-
-[`SalesforceDataSourceAssociationProps`](SalesforceDataSourceAssociationProps.md)
-
-#### Returns
-
-[`SalesforceDataSource`](../classes/SalesforceDataSource.md)
-
-***
-
-### addSharePointDataSource()
-
-> **addSharePointDataSource**(`props`): [`SharePointDataSource`](../classes/SharePointDataSource.md)
-
-Add a SharePoint data source to the knowledge base.
-
-#### Parameters
-
-##### props
-
-[`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md)
-
-#### Returns
-
-[`SharePointDataSource`](../classes/SharePointDataSource.md)
-
-***
-
-### addWebCrawlerDataSource()
-
-> **addWebCrawlerDataSource**(`props`): [`WebCrawlerDataSource`](../classes/WebCrawlerDataSource.md)
-
-Add a web crawler data source to the knowledge base.
-
-#### Parameters
-
-##### props
-
-[`WebCrawlerDataSourceAssociationProps`](WebCrawlerDataSourceAssociationProps.md)
-
-#### Returns
-
-[`WebCrawlerDataSource`](../classes/WebCrawlerDataSource.md)
-
-***
 
 ### applyRemovalPolicy()
 
@@ -256,47 +180,6 @@ Grant the given principal identity permissions to perform actions on this knowle
 > **grantQuery**(`grantee`): `Grant`
 
 Grant the given identity permissions to query the knowledge base.
-This contains:
-- Retrieve
-- RetrieveAndGenerate
-
-#### Parameters
-
-##### grantee
-
-`IGrantable`
-
-The principal to grant permissions to
-
-#### Returns
-
-`Grant`
-
-***
-
-### grantRetrieve()
-
-> **grantRetrieve**(`grantee`): `Grant`
-
-Grant the given identity permissions to retrieve content from the knowledge base.
-
-#### Parameters
-
-##### grantee
-
-`IGrantable`
-
-#### Returns
-
-`Grant`
-
-***
-
-### grantRetrieveAndGenerate()
-
-> **grantRetrieveAndGenerate**(`grantee`): `Grant`
-
-Grant the given identity permissions to retrieve content from the knowledge base.
 
 #### Parameters
 

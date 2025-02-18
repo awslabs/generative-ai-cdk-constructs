@@ -11,7 +11,6 @@
  *  and limitations under the License.
  */
 
-import { ProjenStruct, Struct } from '@mrgrain/jsii-struct-builder';
 import { JsonPatch, awscdk, ReleasableCommits } from 'projen';
 import { NpmAccess } from 'projen/lib/javascript';
 import { buildUpgradeMainPRCustomJob } from './projenrc/github-jobs';
@@ -30,7 +29,7 @@ import {
 const GITHUB_USER = 'awslabs';
 const PUBLICATION_NAMESPACE = 'cdklabs';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
-const CDK_VERSION: string = '2.177.0';
+const CDK_VERSION: string = '2.178.0';
 
 function camelCaseIt(input: string): string {
   // Hypens and dashes to spaces and then CamelCase...
@@ -247,6 +246,10 @@ project.github?.actions.set(
   'peter-evans/create-pull-request@b1ddad2c994a25fbc81a28b3ec0e368bb2021c50',
 );
 project.github?.actions.set(
+  'peter-evans/create-pull-request@v7.0.6',
+  'peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f',
+);
+project.github?.actions.set(
   'aws-actions/configure-aws-credentials@v4.0.2',
   'aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502',
 );
@@ -284,27 +287,6 @@ project.eslint?.addRules({
 
 // https://eslint.style/rules/js/space-infix-ops
 project.eslint?.addRules({ 'space-infix-ops': ['error', { int32Hint: false }] });
-
-project.eslint?.addIgnorePattern('AdapterProps.ts');
-project.eslint?.addIgnorePattern('DockerLambdaCustomProps.ts');
-
-// Shared interfaces extending pre-existing CDK interfaces
-new ProjenStruct(project, { name: 'DockerLambdaCustomProps', filePath: 'src/common/props/DockerLambdaCustomProps.ts' })
-  .mixin(Struct.fromFqn('aws-cdk-lib.aws_lambda.DockerImageFunctionProps'))
-  .withoutDeprecated()
-  .omit(
-    'tracing',
-    'functionName',
-    'description',
-    'role',
-    'vpc',
-    'vpcSubnets',
-    'securityGroups',
-    'role',
-    'layers',
-    'allowPublicSubnet',
-    'allowAllOutbound',
-  );
 
 const packageJson = project.tryFindObjectFile('package.json');
 packageJson?.patch(JsonPatch.add('/scripts/prepare', 'husky install')); // yarn 1

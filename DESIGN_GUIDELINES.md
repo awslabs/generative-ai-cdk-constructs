@@ -10,33 +10,78 @@ This document defines the ways in which Constructs are consistent. When proposin
 
 ## Overall Guidelines
 
-**Use CDK definitions to define a service or resource**
+**Avoid custom resources**
 
-The construct should not create new classes or interfaces to describe services or resources. Although the new class may seem simpler now, as new capabilities are added to the construct the new class will acquire new properties – the ultimate result would be something equivalent to the CDK definition, but not compatible. The CDK definitions are well thought out and interact predictably with other CDK constructs, use them. If you want a client the ability to specify a few attributes of a ConstructProps without specifying every required value, then make the type of that attribute ConstructProps | any. This pattern exists several places in the Generative AI Constructs library.
+Even though this construct library is experimental, we will challenge contributions containing custom resources (CRs). CRs have been historically used in this library, and they have caused several issues:
+- They are difficult to maintain and debug
+- They introduce additional failure points and complexity
+- They often require external dependencies (Lambda functions)
+- They can lead to inconsistent behavior across different AWS regions
+- They may break when AWS makes changes to underlying services 
 
-Another practice that this rule prohibits is putting specific attributes of sub resources in your Generative AI Constructs Props object. For instance - if your VPC needs an Internet Gateway, then the client should send VPC Props that create the Internet Gateway, don't create a property at in your Construct Props object of InternetGateway: true.
+While custom resources might be justified in specific scenarios (e.g., interacting with third-party services or implementing unique functionality), we will review these cases individually. Instead, prefer using native AWS constructs and services whenever possible, even if it means accepting some limitations in functionality.
 
-**The client should have the option (but not requirement) to provide any props used within the construct**
+**Use Core CDK design guidelines**
 
-When you supply a CDK defined props object to any CDK constructor within your construct (L1 or L2), your construct should be able to generate all the default values required to create that L1 or L2 construct. Alternatively, the client should be able to override any or all of those default props values to completely customize the construct.
+The core CDK library provides a [design guidelines document](https://github.com/aws/aws-cdk/blob/main/docs/DESIGN_GUIDELINES.md). The purpose of this document is to provide guidelines for designing the APIs in the AWS Construct Library in order to ensure a consistent and integrated experience across the entire AWS surface area.
 
-There are exceptions to this rule. The Lambda Function L2 construct, for instance, cannot specify a default value for the Lambda code – the client must provide this. Also, at times the workings of the construct require specific props values to work. In this situation, those values will override user provided values. In general, the props values sent to a CDK constructor are generated like this:
+This is even more important if you design a construct which should eventually graduate to the core CDK library. For instance, if you are building a L2 construct for a service which doesn't have an official L2 construct yet, following those guidelines is crucial to make the construct compliant and streamline the review process.
 
-```
-let actualProps = overrideProps(defaultProps, userProvidedProps);
-actualProps = overrideProps(actualProps, constructRequiredProps)
-```
+**Keep L3 Constructs focused and manageable**
 
-Construct required props should be minimized and listed in the README.md file for the Construct.
-There is a possibility that the client could specify some props values that are incompatible with default props values.  That is the responsibility of the client – if they choose to not use the default implementation then they take responsibility for the configuration they specify.
+L3 constructs should be designed with a "do one thing and do it well" philosophy. While it's tempting to create large, feature-rich constructs that handle multiple use cases, experience has shown that such constructs often suffer from low adoption rates and impose significant cognitive load on users. Those constructs require significant maintenance efforts, and provide limited flexibility and customization for end users.
+
+- **Single Responsibility**: Each L3 construct should solve a specific, well-defined problem or use case. Avoid creating "Swiss Army knife" constructs that try to handle multiple distinct scenarios.
+
+- **Limited Scope**: If a construct requires more than 5-7 configuration properties or creates more than 6-8 underlying resources, consider breaking it down into smaller, more focused constructs.
+
+- **Clear Boundaries**: The construct's purpose and limitations should be immediately apparent from its name and interface. Users shouldn't need to understand complex internal implementations to use it effectively.
+
+Consider breaking down a construct when:
+- It has too many optional configuration parameters
+- It implements multiple distinct patterns or architectural solutions
+- Users frequently need to understand its internals to use it effectively
+- The construct's documentation becomes too complex to maintain
 
 **The Minimal Deployable Pattern Definition should be minimal**
 
-While a client should have great flexibility to fully specify how a Construct is deployed, the minimal deployment should consist of a single new statement. At times things like table schema might require some additional code – but if your minimal deployable solution is more than a couple lines long or requires creating one or more services first then your construct is outside the patterns for the library.
+When designing a construct, the minimal configuration required to deploy it should be as small as possible. This means that default values should be provided for most properties, and only the essential parameters should be mandatory.
+
+- Required properties should be limited to those absolutely necessary for the construct to function
+- All other properties should have sensible defaults
+- Default values should follow AWS best practices
+- The minimal configuration should result in a secure and functional deployment
+
+In simpler terms, you can think of it as "Be opinionated by default, flexible when required".
+
+Example:
+
+✅ Good:
+
+```
+// Only requires essential parameters
+new ApiGateway(this, 'Api', {
+  handler: myLambdaFunction // Only the handler is required
+});
+```
+
+❌ Avoid:
+```
+// Too many required parameters
+new ApiGateway(this, 'Api', {
+  handler: myLambdaFunction,
+  stageName: 'prod', // Should have a default
+  cors: true, // Should have a default
+  authorization: 'IAM', // Should have a default
+  logRetention: 30 // Should have a default
+});
+```
+
+There is a possibility that the client could specify some props values that are incompatible with default props values.  That is the responsibility of the client – if they choose to not use the default implementation then they take responsibility for the configuration they specify.
 
 **Business Logic**
 
-The Construct don't have to be restricted to deploying infrastructure (eg – implemented Lambda functions). This is because we want to abstract the complexity of the underlying Generative AInology area. However, the business logic should be configurable to adapt to different use cases.
+The Construct don't have to be restricted to deploying infrastructure (eg – implemented Lambda functions). This is because we want to abstract the complexity of the underlying Generative AI workflow area. However, the business logic should be configurable to adapt to different use cases.
 
 **Favor L2 CDK Constructs over L1**
 
@@ -61,17 +106,6 @@ For the Typescript class name, use Pascal casing and concatenate the names separ
 &emsp; &emsp; &emsp;ApigatewayToSagemakerendpoint
 
 Once again, these rules became clear as we wrote all of the existing constructs and not all of the early constructs comply with these rules.
-
-# Service Usage in Constructs
-It's important for consistency that services are implemented consistently across Generative AI Constructs – that clients specify the same properties. This section specifies the require attributes on your Construct Props interface for each service currently in the library, as well as the reasons behind any exceptions. We are unlikely to approve a construct with additional attributes, although we may if the proposed new attribute is appropriate for us to implement across all constructs using that service.
-
-If you are creating a construct that uses a service for the first time, defining the appropriate interface is a key step and we will work with you.
-
-This version of the document also lists what Constructs currently violate these standards and whether making the object compliant would be a breaking change.
-
-Existing Inconsistencies would not be published, that’s for our internal use – only the Required Properties and Attributes on Props would be published as requirements (along with specific notes).
-
-This section evolves as we add new constructs and use new services.
 
 ***
 &copy; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.

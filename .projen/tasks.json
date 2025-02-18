@@ -231,69 +231,6 @@
         }
       ]
     },
-    "integ:aws-llama-index-data-loader:assert": {
-      "name": "integ:aws-llama-index-data-loader:assert",
-      "description": "assert the snapshot of integration test 'aws-llama-index-data-loader'",
-      "steps": [
-        {
-          "exec": "[ -d \"test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'aws-llama-index-data-loader'. Run 'projen integ:aws-llama-index-data-loader:deploy' to capture.\" && exit 1)"
-        },
-        {
-          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/.tmp/aws-llama-index-data-loader.integ/assert.cdk.out > /dev/null"
-        },
-        {
-          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot/ test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/.tmp/aws-llama-index-data-loader.integ/assert.cdk.out/"
-        }
-      ]
-    },
-    "integ:aws-llama-index-data-loader:deploy": {
-      "name": "integ:aws-llama-index-data-loader:deploy",
-      "description": "deploy integration test 'aws-llama-index-data-loader' and capture snapshot",
-      "steps": [
-        {
-          "exec": "rm -fr test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/.tmp/aws-llama-index-data-loader.integ/deploy.cdk.out"
-        },
-        {
-          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/.tmp/aws-llama-index-data-loader.integ/deploy.cdk.out"
-        },
-        {
-          "exec": "rm -fr test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot"
-        },
-        {
-          "exec": "mv test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/.tmp/aws-llama-index-data-loader.integ/deploy.cdk.out test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot"
-        },
-        {
-          "spawn": "integ:aws-llama-index-data-loader:destroy"
-        }
-      ]
-    },
-    "integ:aws-llama-index-data-loader:destroy": {
-      "name": "integ:aws-llama-index-data-loader:destroy",
-      "description": "destroy integration test 'aws-llama-index-data-loader'",
-      "steps": [
-        {
-          "exec": "cdk destroy --app test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot '**' --no-version-reporting"
-        }
-      ]
-    },
-    "integ:aws-llama-index-data-loader:snapshot": {
-      "name": "integ:aws-llama-index-data-loader:snapshot",
-      "description": "update snapshot for integration test \"aws-llama-index-data-loader\"",
-      "steps": [
-        {
-          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.snapshot > /dev/null"
-        }
-      ]
-    },
-    "integ:aws-llama-index-data-loader:watch": {
-      "name": "integ:aws-llama-index-data-loader:watch",
-      "description": "watch integration test 'aws-llama-index-data-loader' (without updating snapshots)",
-      "steps": [
-        {
-          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/aws-llama-index-data-loader.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/patterns/gen-ai/aws-llama-index-data-loader/integ-tests/.tmp/aws-llama-index-data-loader.integ/deploy.cdk.out"
-        }
-      ]
-    },
     "integ:chatprompt:assert": {
       "name": "integ:chatprompt:assert",
       "description": "assert the snapshot of integration test 'chatprompt'",
@@ -354,6 +291,69 @@
       "steps": [
         {
           "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/chatprompt.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/chatprompt.integ/deploy.cdk.out"
+        }
+      ]
+    },
+    "integ:guardrails:assert": {
+      "name": "integ:guardrails:assert",
+      "description": "assert the snapshot of integration test 'guardrails'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/guardrails.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'guardrails'. Run 'projen integ:guardrails:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/guardrails.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/guardrails.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/guardrails.integ.snapshot/ test/integ/.tmp/guardrails.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:guardrails:deploy": {
+      "name": "integ:guardrails:deploy",
+      "description": "deploy integration test 'guardrails' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/guardrails.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/guardrails.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/guardrails.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/guardrails.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/guardrails.integ/deploy.cdk.out test/integ/guardrails.integ.snapshot"
+        },
+        {
+          "spawn": "integ:guardrails:destroy"
+        }
+      ]
+    },
+    "integ:guardrails:destroy": {
+      "name": "integ:guardrails:destroy",
+      "description": "destroy integration test 'guardrails'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/guardrails.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:guardrails:snapshot": {
+      "name": "integ:guardrails:snapshot",
+      "description": "update snapshot for integration test \"guardrails\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/guardrails.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/guardrails.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:guardrails:watch": {
+      "name": "integ:guardrails:watch",
+      "description": "watch integration test 'guardrails' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/guardrails.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/guardrails.integ/deploy.cdk.out"
         }
       ]
     },
@@ -483,6 +483,69 @@
         }
       ]
     },
+    "integ:kendra-genai:assert": {
+      "name": "integ:kendra-genai:assert",
+      "description": "assert the snapshot of integration test 'kendra-genai'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/kendra-genai.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'kendra-genai'. Run 'projen integ:kendra-genai:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/kendra-genai.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/kendra-genai.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/kendra-genai.integ.snapshot/ test/integ/.tmp/kendra-genai.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:kendra-genai:deploy": {
+      "name": "integ:kendra-genai:deploy",
+      "description": "deploy integration test 'kendra-genai' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/kendra-genai.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/kendra-genai.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/kendra-genai.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/kendra-genai.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/kendra-genai.integ/deploy.cdk.out test/integ/kendra-genai.integ.snapshot"
+        },
+        {
+          "spawn": "integ:kendra-genai:destroy"
+        }
+      ]
+    },
+    "integ:kendra-genai:destroy": {
+      "name": "integ:kendra-genai:destroy",
+      "description": "destroy integration test 'kendra-genai'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/kendra-genai.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:kendra-genai:snapshot": {
+      "name": "integ:kendra-genai:snapshot",
+      "description": "update snapshot for integration test \"kendra-genai\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/kendra-genai.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/kendra-genai.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:kendra-genai:watch": {
+      "name": "integ:kendra-genai:watch",
+      "description": "watch integration test 'kendra-genai' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/kendra-genai.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/kendra-genai.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:prompt-router:assert": {
       "name": "integ:prompt-router:assert",
       "description": "assert the snapshot of integration test 'prompt-router'",
@@ -554,19 +617,22 @@
           "spawn": "integ:chatprompt:snapshot"
         },
         {
+          "spawn": "integ:guardrails:snapshot"
+        },
+        {
           "spawn": "integ:inference-profiles:snapshot"
         },
         {
           "spawn": "integ:issue747:snapshot"
         },
         {
+          "spawn": "integ:kendra-genai:snapshot"
+        },
+        {
           "spawn": "integ:prompt-router:snapshot"
         },
         {
           "spawn": "integ:aws-aoss-cw-dashboard:snapshot"
-        },
-        {
-          "spawn": "integ:aws-llama-index-data-loader:snapshot"
         }
       ]
     },
@@ -699,19 +765,22 @@
           "spawn": "integ:chatprompt:assert"
         },
         {
+          "spawn": "integ:guardrails:assert"
+        },
+        {
           "spawn": "integ:inference-profiles:assert"
         },
         {
           "spawn": "integ:issue747:assert"
         },
         {
+          "spawn": "integ:kendra-genai:assert"
+        },
+        {
           "spawn": "integ:prompt-router:assert"
         },
         {
           "spawn": "integ:aws-aoss-cw-dashboard:assert"
-        },
-        {
-          "spawn": "integ:aws-llama-index-data-loader:assert"
         }
       ]
     },

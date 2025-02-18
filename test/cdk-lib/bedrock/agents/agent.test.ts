@@ -364,10 +364,10 @@ describe('CDK-Agent', () => {
    *              KNOWLEDGE BASES in Agents				 *
    *******************************************************/
   describe('w/ Knowledge Bases', () => {
-    let myKnowledgeBase: bedrock.IKnowledgeBase;
+    let myKnowledgeBase: bedrock.IVectorKnowledgeBase;
 
     beforeEach(() => {
-      myKnowledgeBase = bedrock.KnowledgeBase.fromKnowledgeBaseAttributes(stack, 'myKnowledgeBase', {
+      myKnowledgeBase = bedrock.VectorKnowledgeBase.fromKnowledgeBaseAttributes(stack, 'myKnowledgeBase', {
         knowledgeBaseId: 'ABCDEFG1234',
         executionRoleArn: 'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase_12345678',
         instruction: 'This is a sample KB with info about unicorns.',
@@ -423,7 +423,7 @@ describe('CDK-Agent', () => {
     });
 
     test('Knowledge Bases - Validation', () => {
-      const invalidKb = (myKnowledgeBase = bedrock.KnowledgeBase.fromKnowledgeBaseAttributes(
+      const invalidKb = (myKnowledgeBase = bedrock.VectorKnowledgeBase.fromKnowledgeBaseAttributes(
         stack,
         'otherKnowledgeBase',
         {

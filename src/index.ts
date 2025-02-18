@@ -11,24 +11,19 @@
  *  and limitations under the License.
  */
 
-export * from './patterns/gen-ai/aws-rag-appsync-stepfn-opensearch';
-export * from './patterns/gen-ai/aws-summarization-appsync-stepfn';
-export * from './patterns/gen-ai/aws-qa-appsync-opensearch';
 export * from './patterns/gen-ai/aws-model-deployment-sagemaker';
-export * from './patterns/gen-ai/aws-contentgen-appsync-lambda';
-export * from './patterns/gen-ai/aws-text-to-sql';
 
-
+export * as kendra from './cdk-lib/kendra';
 export * as bedrock from './cdk-lib/bedrock';
 export * as amazonaurora from './cdk-lib/amazonaurora';
 export * as pinecone from './cdk-lib/pinecone';
 export * as opensearchserverless from './cdk-lib/opensearchserverless';
 export * as opensearch_vectorindex from './cdk-lib/opensearch-vectorindex';
 export { version } from './common/helpers/utils';
-export * from './common/props/DockerLambdaCustomProps';
 export * from './common/base-class/base-class';
 export * from './common/base-class/construct-name-enum';
 export * from './patterns/gen-ai/aws-bedrock-cw-dashboard';
 export * from './patterns/gen-ai/aws-aoss-cw-dashboard';
 export * from './patterns/gen-ai/aws-llama-index-data-loader';
 export * from './patterns/gen-ai/aws-bedrock-data-automation';
+export * from './patterns/gen-ai/aws-bedrock-batch-stepfn';

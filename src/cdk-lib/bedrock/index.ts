@@ -11,19 +11,19 @@
  *  and limitations under the License.
  */
 
-export * from './knowledge-base';
+//===================================
+// Agents
+//===================================
 export * from './agents/action-group';
 export * from './agents/agent';
 export * from './agents/agent-alias';
 export * from './agents/api-executor';
 export * from './agents/api-schema';
 export * from './agents/prompt-override';
-export * from './guardrails/guardrail-filters';
-export * from './guardrails/guardrails';
-export * from './models';
-export * from './prompts/prompt';
-export * from './prompts/prompt-version';
-export * from './prompts/prompt-variant';
+
+//===================================
+// Data Sources
+//===================================
 export * from './data-sources/base-data-source';
 export * from './data-sources/chunking';
 export * from './data-sources/parsing';
@@ -33,7 +33,32 @@ export * from './data-sources/sharepoint-data-source';
 export * from './data-sources/confluence-data-source';
 export * from './data-sources/salesforce-data-source';
 export * from './data-sources/s3-data-source';
+
+//===================================
+// Guardrails
+//===================================
+export * from './guardrails/guardrail-filters';
+export * from './guardrails/guardrails';
+
+//===================================
+// Models and Inference Profiles
+//===================================
+export * from './models';
 export * from './inference-profiles/common';
 export * from './inference-profiles/default-prompt-routers';
 export * from './inference-profiles/cross-region-inference-profile';
 export * from './inference-profiles/application-inference-profile';
+
+//===================================
+// Knowledge Bases
+//===================================
+export * from './knowledge-bases/knowledge-base';
+export * from './knowledge-bases/vector-knowledge-base';
+export * from './knowledge-bases/kendra-knowledge-base';
+
+//===================================
+// Prompts
+//===================================
+export * from './prompts/prompt';
+export * from './prompts/prompt-version';
+export * from './prompts/prompt-variant';

@@ -1,0 +1,288 @@
+{
+ "Resources": {
+  "cmk01DE03DA": {
+   "Type": "AWS::KMS::Key",
+   "Properties": {
+    "KeyPolicy": {
+     "Statement": [
+      {
+       "Action": "kms:*",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":root"
+          ]
+         ]
+        }
+       },
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "indexRoleA34B045F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "kendra.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "RoleName": "AmazonKendraRoleForIndex-kendra-index-cdkawscdkbstindexAFEF7A6D"
+   }
+  },
+  "indexRoleDefaultPolicy2058C891": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "logs:DescribeLogGroups",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "cloudwatch:PutMetricData",
+       "Condition": {
+        "StringEquals": {
+         "cloudwatch:namespace": "AWS/Kendra"
+        }
+       },
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "logs:CreateLogGroup",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":logs:us-east-1:",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":log-group:/aws/kendra/*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "logs:DescribeLogStreams",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":logs:us-east-1:",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":log-group:/aws/kendra/*:log-stream:*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "indexRoleDefaultPolicy2058C891",
+    "Roles": [
+     {
+      "Ref": "indexRoleA34B045F"
+     }
+    ]
+   }
+  },
+  "indexGenAiIndex279FDB46": {
+   "Type": "AWS::Kendra::Index",
+   "Properties": {
+    "CapacityUnits": {
+     "QueryCapacityUnits": 1,
+     "StorageCapacityUnits": 1
+    },
+    "Edition": "GEN_AI_ENTERPRISE_EDITION",
+    "Name": "kendra-index-cdk",
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "indexRoleA34B045F",
+      "Arn"
+     ]
+    },
+    "ServerSideEncryptionConfiguration": {
+     "KmsKeyId": {
+      "Ref": "cmk01DE03DA"
+     }
+    },
+    "UserContextPolicy": "ATTRIBUTE_FILTER"
+   }
+  },
+  "kbRoleCD713A21": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Condition": {
+        "StringEquals": {
+         "aws:SourceAccount": {
+          "Ref": "AWS::AccountId"
+         }
+        },
+        "ArnLike": {
+         "aws:SourceArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":bedrock:us-east-1:",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":knowledge-base/*"
+           ]
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "bedrock.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "RoleName": "AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbgtestkb61D0F94D"
+   }
+  },
+  "kbRoleDefaultPolicy78099AA3": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "kendra:Retrieve",
+        "kendra:DescribeIndex"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "indexGenAiIndex279FDB46",
+         "Arn"
+        ]
+       },
+       "Sid": "AmazonBedrockKnowledgeBaseKendraIndexAccessStatement"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "kbRoleDefaultPolicy78099AA3",
+    "Roles": [
+     {
+      "Ref": "kbRoleCD713A21"
+     }
+    ]
+   }
+  },
+  "kbMyCfnKnowledgeBase70C046CF": {
+   "Type": "AWS::Bedrock::KnowledgeBase",
+   "Properties": {
+    "KnowledgeBaseConfiguration": {
+     "KendraKnowledgeBaseConfiguration": {
+      "KendraIndexArn": {
+       "Fn::GetAtt": [
+        "indexGenAiIndex279FDB46",
+        "Arn"
+       ]
+      }
+     },
+     "Type": "KENDRA"
+    },
+    "Name": "kendra-kb-cdk",
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "kbRoleCD713A21",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "kbRoleDefaultPolicy78099AA3"
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

@@ -41,8 +41,6 @@
     "node_modules/",
     "*.generated.ts",
     "coverage",
-    "AdapterProps.ts",
-    "DockerLambdaCustomProps.ts",
     "!.projenrc.ts",
     "!projenrc/**/*.ts"
   ],
