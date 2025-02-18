@@ -60,6 +60,7 @@ The resource accepts an `instruction` prop that is provided to any Bedrock Agent
 |---|---|---|---|
 | embeddingsModel | BedrockFoundationModel | Yes | The embeddings model for the knowledge base |
 | name | string | No | The name of the knowledge base |
+| vectorType | VectorType | No | The vector type to store vector embeddings |
 | description | string | No | The description of the knowledge base |
 | instruction | string | No | Instructions for agents based on the design and type of information of the Knowledge Base that will impact how Agents interact with the Knowledge Base |
 | existingRole | iam.IRole | No | Existing IAM role with a policy statement granting permission to invoke the specific embeddings model |
@@ -377,6 +378,47 @@ bedrock.S3DataSource(self, 'DataSource',
     chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
 )
 ```
+
+#### Vector Knowledge Base - Vector Type
+
+The data type for the vectors when using a model to convert text into vector embeddings. Embeddings type may impact the availability of some embeddings models and vector stores. The following vector types are available:
+
+- Floating point: More precise vector representation of the text, but more costly in storage.
+- Binary: Not as precise vector representation of the text, but not as costly in storage as a standard floating-point (float32). Not all embedding models and vector stores support binary embeddings
+
+See [Supported embeddings models](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-supported.html) for information on the available models and their vector data types.
+
+Typescript
+
+```ts
+const app = new cdk.App();
+const stack = new cdk.Stack(app, 'aws-cdk-bedrock-data-sources-integ-test');
+
+const kb = new VectorKnowledgeBase(stack, 'MyKnowledgeBase', {
+  name: 'MyKnowledgeBase',
+  vectorType: bedrock.VectorType.BINARY,
+  embeddingsModel: BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
+});
+```
+
+Python
+
+```python
+
+from aws_cdk import (
+    aws_s3 as s3,
+)
+from cdklabs.generative_ai_cdk_constructs import (
+    bedrock
+)
+
+kb = bedrock.VectorKnowledgeBase(self, 'KnowledgeBase',
+    name= 'MyKnowledgeBase',
+    vector_type= bedrock.VectorType.BINARY,
+    embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
+)
+```
+
 
 #### Vector Knowledge Base - Data Sources
 
@@ -1024,7 +1066,7 @@ agent.add_action_group(actionGroup)
 
 The `Agent` constructs take an optional parameter `shouldPrepareAgent` to indicate that the Agent should be prepared after any updates to an agent, Knowledge Base association, or action group. This may increase the time to create and update those resources. By default, this value is false .
 
-Creating an agent alias will not prepare the agent, so if you create an alias with `addAlias` or by providing an `aliasName` when creating the agent then you should set `shouldPrepareAgent` to **_true_**.
+Creating an agent alias will not prepare the agent, so if you create an alias using the `AgentAlias` resource then you should set `shouldPrepareAgent` to **_true_**.
 
 #### Prompt Overrides
 

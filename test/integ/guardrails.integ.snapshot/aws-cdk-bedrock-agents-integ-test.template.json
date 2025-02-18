@@ -1,0 +1,207 @@
+{
+ "Resources": {
+  "TestGuardrailMyGuardrail0493303A": {
+   "Type": "AWS::Bedrock::Guardrail",
+   "Properties": {
+    "BlockedInputMessaging": "Sorry, your query violates our usage policy.",
+    "BlockedOutputsMessaging": "Sorry, I am unable to answer your question because of our usage policy.",
+    "ContentPolicyConfig": {
+     "FiltersConfig": [
+      {
+       "InputStrength": "LOW",
+       "OutputStrength": "LOW",
+       "Type": "MISCONDUCT"
+      }
+     ]
+    },
+    "ContextualGroundingPolicyConfig": {
+     "FiltersConfig": [
+      {
+       "Threshold": 0.99,
+       "Type": "GROUNDING"
+      }
+     ]
+    },
+    "Description": "This is a test guardrail",
+    "Name": "TestGuardrailMetrics",
+    "SensitiveInformationPolicyConfig": {
+     "PiiEntitiesConfig": [
+      {
+       "Action": "ANONYMIZE",
+       "Type": "ADDRESS"
+      }
+     ],
+     "RegexesConfig": [
+      {
+       "Action": "ANONYMIZE",
+       "Description": "This is a test regex filter",
+       "Name": "TestRegexFilter",
+       "Pattern": "/^[A-Z]{2}d{6}$/"
+      }
+     ]
+    },
+    "TopicPolicyConfig": {
+     "TopicsConfig": [
+      {
+       "Definition": "'Discussions that involve providing guidance, recommendations, or suggestions related to managing, investing, or handling finances, investments, or assets.",
+       "Examples": [
+        "Can you suggest some good stocks to invest in right now?",
+        "What's the best way to save for retirement?",
+        "Should I put my money in a high-risk investment?",
+        "How can I maximize my returns on investments?",
+        "Is it a good time to buy real estate?"
+       ],
+       "Name": "Financial_Advice",
+       "Type": "DENY"
+      }
+     ]
+    },
+    "WordPolicyConfig": {
+     "ManagedWordListsConfig": [
+      {
+       "Type": "PROFANITY"
+      }
+     ],
+     "WordsConfig": [
+      {
+       "Text": "reggaeton"
+      },
+      {
+       "Text": "alcohol"
+      }
+     ]
+    }
+   }
+  },
+  "dashboardBedrockMetricsDashboarddashboardA2A91C92": {
+   "Type": "AWS::CloudWatch::Dashboard",
+   "Properties": {
+    "DashboardBody": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"widgets\":[{\"type\":\"text\",\"width\":24,\"height\":2,\"x\":0,\"y\":0,\"properties\":{\"markdown\":\"# Guardrail Metrics: ",
+       {
+        "Fn::GetAtt": [
+         "TestGuardrailMyGuardrail0493303A",
+         "GuardrailId"
+        ]
+       },
+       "\"}},{\"type\":\"metric\",\"width\":24,\"height\":6,\"x\":0,\"y\":2,\"properties\":{\"view\":\"timeSeries\",\"title\":\"Guardrail Activity Over Time\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/Bedrock/Guardrails\",\"Invocations\",\"GuardrailArn\",\"",
+       {
+        "Fn::GetAtt": [
+         "TestGuardrailMyGuardrail0493303A",
+         "GuardrailArn"
+        ]
+       },
+       "\",\"GuardrailVersion\",\"",
+       {
+        "Fn::GetAtt": [
+         "TestGuardrailMyGuardrail0493303A",
+         "Version"
+        ]
+       },
+       "\",{\"accountId\":\"",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"stat\":\"Sum\"}],[\"AWS/Bedrock/Guardrails\",\"InvocationsIntervened\",\"GuardrailArn\",\"",
+       {
+        "Fn::GetAtt": [
+         "TestGuardrailMyGuardrail0493303A",
+         "GuardrailArn"
+        ]
+       },
+       "\",\"GuardrailVersion\",\"",
+       {
+        "Fn::GetAtt": [
+         "TestGuardrailMyGuardrail0493303A",
+         "Version"
+        ]
+       },
+       "\",{\"accountId\":\"",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       "\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"stat\":\"Sum\",\"yAxis\":\"right\"}]],\"yAxis\":{\"left\":{\"label\":\"Invocations\",\"showUnits\":false},\"right\":{\"label\":\"Interventions\",\"showUnits\":false}}}},{\"type\":\"text\",\"width\":24,\"height\":2,\"x\":0,\"y\":8,\"properties\":{\"markdown\":\"# Guardrail Metrics Across All Guardrails\"}},{\"type\":\"metric\",\"width\":24,\"height\":6,\"x\":0,\"y\":10,\"properties\":{\"view\":\"timeSeries\",\"title\":\"Guardrail Activity Over Time\",\"region\":\"",
+       {
+        "Ref": "AWS::Region"
+       },
+       "\",\"metrics\":[[\"AWS/Bedrock/Guardrails\",\"Invocations\",\"Operation\",\"ApplyGuardrail\",{\"stat\":\"Sum\"}],[\"AWS/Bedrock/Guardrails\",\"InvocationsIntervened\",\"Operation\",\"ApplyGuardrail\",{\"stat\":\"Sum\",\"yAxis\":\"right\"}]],\"yAxis\":{\"left\":{\"label\":\"Invocations\",\"showUnits\":false},\"right\":{\"label\":\"Interventions\",\"showUnits\":false}}}}]}"
+      ]
+     ]
+    },
+    "DashboardName": "BedrockMetricsDashboard"
+   }
+  }
+ },
+ "Outputs": {
+  "dashboardBedrockMetricsDashboardOutputdashboard468CA75F": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Ref": "AWS::Region"
+      },
+      ".console.aws.amazon.com/cloudwatch/home?region=",
+      {
+       "Ref": "AWS::Region"
+      },
+      "#dashboards:name=",
+      {
+       "Ref": "dashboardBedrockMetricsDashboarddashboardA2A91C92"
+      }
+     ]
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

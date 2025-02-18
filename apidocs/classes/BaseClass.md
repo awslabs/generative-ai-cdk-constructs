@@ -12,13 +12,7 @@
 
 ## Extended by
 
-- [`RagAppsyncStepfnOpensearch`](RagAppsyncStepfnOpensearch.md)
-- [`SummarizationAppsyncStepfn`](SummarizationAppsyncStepfn.md)
-- [`QaAppsyncOpensearch`](QaAppsyncOpensearch.md)
 - [`SageMakerEndpointBase`](SageMakerEndpointBase.md)
-- [`ContentGenerationAppSyncLambda`](ContentGenerationAppSyncLambda.md)
-- [`TextToSql`](TextToSql.md)
-- [`LlamaIndexDataLoader`](LlamaIndexDataLoader.md)
 
 ## Constructors
 

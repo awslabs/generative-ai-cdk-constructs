@@ -49,35 +49,28 @@ If you are proposing a new AWS Generative AI CDK Construct, the best way to do t
 Once the design is finalized, you can re-purpose this PR for the implementation, or open a new PR to that end.
 
 Good AWS Generative AI CDK Constructs have the following characteristics:
-  1) Multi-service: The goal of AWS Generative AI CDK Constructs is to weave multiple services together in a well-architected way. 
-  2) Configurable Business Logic: AWS Generative AI CDK Constructs should be applicable to all businesses and workloads as much as possible so that they are easily reusable.
-  3) Reusable across multiple use-cases: We would rather have a small library of constructs that are wildly popular with customers rather than a huge library of constructs that customers find irrelevant.
-  4) Well Architected: AWS Generative AI CDK Constructs should be secure, reliable, scalable, and cost efficient.
+  1) Configurable Business Logic: AWS Generative AI CDK Constructs should be applicable to all businesses and workloads as much as possible so that they are easily reusable.
+  2) Reusable across multiple use-cases: We would rather have a small library of constructs that are wildly popular with customers rather than a huge library of constructs that customers find irrelevant.
+  3) Well Architected: AWS Generative AI CDK Constructs should be secure, reliable, scalable, and cost efficient.
+  4) They simplify complex service configurations while maintaining security and cost controls by default.
+  5) They provide clear, predictable interfaces focused on business outcomes rather than technical implementation details.
+  6) They integrate seamlessly with existing AWS services and follow established deployment patterns and best practices.
 
 ### Step 3: Work your Magic
 
 Now it's time to work your magic. Here are some guidelines:
 
 * Coding style (abbreviated):
-  * In general, follow the style of the code around you
-  * 2 space indentation
-  * 120 characters wide
-  * ATX style headings in markdown (e.g. `## H2 heading`)
+  * In general, follow the style of the code around you. The linter will run on every PR and modify files.
 * Every change requires a unit test
 * If you change APIs, make sure to update the module's README file
 * Try to maintain a single feature/bugfix per pull request. It's okay to introduce a little bit of housekeeping
    changes along the way, but try to avoid conflating multiple features. Eventually all these are going to go into a
    single commit, so you can use that to frame your scope.
-* If your change introduces a new construct, take a look at the our
-  [example construct]() for an explanation of the L3 patterns we use.
+* If your change introduces a new construct, take a look at our [example construct](./src/cdk-lib/bedrock/) for an overview of existing code.
   Feel free to start your contribution by copy&pasting files from that project,
   and then edit and rename them as appropriate -
   it might be easier to get started that way.
-* To ensure CDKv2 compatibility of all the Generative AI Constructs, please ensure the code meets the following guidelines:
-  * Import statement for `Construct` is standalone, for example, `import { Construct } from '@aws-cdk/core';` instead of `import { Construct, App, Aws } from '@aws-cdk/core';`
-  * Check to make sure the usage of `Construct` in the code is also standalone, for example, `export class IotToSqs extends Construct` insted of `export class IotToSqs extends cdk.Construct`
-  * Core classes are imported from `@aws-cdk/core` only, for example, `import { Duration } from "@aws-cdk/core;` instead of `import { Duration } from "@aws-cdk/core/lib/duration";`
-  * DO NOT USE deprecated APIs, it will not build in CDKv2, for example, using `statistic?` attribute of [@aws-cdk/aws-cloudwatch.Alarm](https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cloudwatch.Alarm.html) Construct Props will fail to build in CDKv2 
 
 #### Integration Tests
 
@@ -141,7 +134,7 @@ BREAKING CHANGE: Description of what broke and how to achieve this behavior now
 - The Build workflow - controlled by the buildWorkflow field. On a ‘pull_request’ or ‘workflow_dispatch’ the library will be built and checked for anti-tamper (ensure no manual changes to generated files).
 - The Release workflow - controlled by the releaseWorkflow field. On a push to main (overridden at props.defaultReleaseBranch) the library is built, anti-tampered, version bumped with a commit, pushed back to git, and then published to the configured artifact repositories (e.g. npm, pypi).
 
-By default, for every commit to the default (main) branch, a new version is released (trunk-based development). This includes the following steps:
+Every commit to the default (main) branch marked as feat or fix will trigger a new version release (trunk-based development). This includes the following steps:
 
 - Compile, lint and test the code.
 - Use JSII to produce library artifacts for all target languages.

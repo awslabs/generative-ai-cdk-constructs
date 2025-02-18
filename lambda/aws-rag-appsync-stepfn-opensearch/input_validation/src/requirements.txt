@@ -1,6 +1,0 @@
-aws-lambda-powertools
-aws-xray-sdk
-typing-extensions
-boto3
-requests
-requests-aws4auth
