@@ -94,7 +94,6 @@ bda_construct = BedrockDataAutomation(self, "MyBDAConstruct",
     is_bda_invocation_required=True,
     is_status_required=True
 )
-
 ```
 
 ## Key Features
