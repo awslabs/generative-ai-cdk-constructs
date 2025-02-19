@@ -1562,7 +1562,6 @@ const variant2 = PromptVariant.text({
 
 prompt1.addVariant(variant2);
 ```
-
 Python
 
 ```python
