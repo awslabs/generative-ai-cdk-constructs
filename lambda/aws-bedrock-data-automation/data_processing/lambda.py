@@ -9,9 +9,9 @@ from data_processing import DataProcessor, BlueprintConfig,EncryptionConfig,Noti
 from aws_lambda_powertools.utilities.data_classes import EventBridgeEvent, APIGatewayProxyEvent
 
 
-logger = Logger(service="BEDROCK_DATA_AUTOMATION")
-tracer = Tracer(service="BEDROCK_DATA_AUTOMATION")
-metrics = Metrics(namespace="DATA_PROCESSING", service="BEDROCK_DATA_AUTOMATION")
+logger = Logger()
+tracer = Tracer()
+metrics = Metrics(namespace="DATA_PROCESSING")
 
 
 def process_event_bridge_event(event: Dict[str, Any]) -> Dict[str, Any]:
@@ -240,40 +240,3 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
                 'error': str(e)
             }
         }
-
-
-input = {
-    "resource": "/path",
-    "path": "/path",
-    "httpMethod": "POST",
-    "headers": {
-        "Content-Type": "application/json"
-    },
-    "requestContext": {
-        "resourceId": "123456",
-        "resourcePath": "/path",
-        "httpMethod": "POST",
-        "requestId": "c6af9ac6-7b61-11e6-9a41-93e8deadbeef",
-        "accountId": "123456789012",
-        "stage": "prod",
-        "identity": {
-            "userAgent": "Custom User Agent String",
-            "sourceIp": "127.0.0.1"
-        }
-    },
-    "body": {
-        "input_filename": "noa.pdf",
-        "output_filename": "noa_2.csv",
-        "blueprints": [
-            {
-                "blueprint_arn": "arn:aws:bedrock:us-west-2:551246883740:blueprint/a55789f6bd81",
-                "stage": "LIVE"
-            }
-        ]
-    },
-    "isBase64Encoded": False
-}
-
-
-
-handler(input, None)

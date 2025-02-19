@@ -6,9 +6,9 @@ from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_lambda_powertools.utilities.data_classes import EventBridgeEvent, APIGatewayProxyEvent
 from create_project import create_project,get_project,update_project,delete_project
 
-logger = Logger(service="BEDROCK_DATA_AUTOMATION")
-tracer = Tracer(service="BEDROCK_DATA_AUTOMATION")
-metrics = Metrics(namespace="CREATE_PROJECT", service="BEDROCK_DATA_AUTOMATION")
+logger = Logger()
+tracer = Tracer()
+metrics = Metrics(namespace="CREATE_PROJECT")
 
 
 def process_event_bridge_event(event: Dict[str, Any]) -> Dict[str, Any]:

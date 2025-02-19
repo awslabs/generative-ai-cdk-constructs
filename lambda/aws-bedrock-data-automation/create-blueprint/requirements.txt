@@ -1,5 +1,0 @@
-aws-lambda-powertools==2.34.2
-aws-xray-sdk==2.13.0
-boto3>=1.36.14
-pydantic>=2.10.3
-

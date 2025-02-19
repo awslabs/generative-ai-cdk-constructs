@@ -10,9 +10,9 @@ from create_blueprint import create_blueprint,delete_blueprint,list_blueprints,g
 from create_schema import create_schema
 
 
-logger = Logger(service="BEDROCK_DATA_AUTOMATION")
-tracer = Tracer(service="BEDROCK_DATA_AUTOMATION")
-metrics = Metrics(namespace="CREATE_BLUEPRINT", service="BEDROCK_DATA_AUTOMATION")
+logger = Logger()
+tracer = Tracer()
+metrics = Metrics(namespace="CREATE_BLUEPRINT")
 
 class OperationType(str, Enum):
     CREATE_BLUEPRINT = "CREATE"
@@ -200,38 +200,3 @@ def handler(event, context: LambdaContext):
             })
         }
 
-input = {
-    "version": "2.0",
-    "routeKey": "$default",
-    "rawPath": "/path",
-    "rawQueryString": "",
-    "headers": {
-        "content-type": "application/json"
-    },
-    "requestContext": {
-        "accountId": "123456789012",
-        "apiId": "api-id",
-        "domainName": "id.execute-api.us-east-1.amazonaws.com",
-        "domainPrefix": "id",
-        "http": {
-            "method": "POST",
-            "path": "/path",
-            "protocol": "HTTP/1.1",
-            "sourceIp": "IP",
-            "userAgent": "agent"
-        },
-        "requestId": "id",
-        "routeKey": "$default",
-        "stage": "$default",
-        "time": "12/Mar/2020:19:03:58 +0000",
-        "timeEpoch": 1583348638390
-    },
-    "body": json.dumps({
-        "operation":"LIST",
-        "resource_owner": "ACCOUNT",
-        "blueprint_stage": "LIVE",
-    }),
-    "isBase64Encoded": False
-}
-
-handler(input, None)

@@ -10,9 +10,9 @@ from data_automation_result import DataAutomationResult
 from aws_lambda_powertools.utilities.data_classes import EventBridgeEvent, APIGatewayProxyEvent
 
 
-logger = Logger(service="BEDROCK_DATA_AUTOMATION")
-tracer = Tracer(service="BEDROCK_DATA_AUTOMATION")
-metrics = Metrics(namespace="DATA_AUTOMATION_STATUS", service="BEDROCK_DATA_AUTOMATION")
+logger = Logger()
+tracer = Tracer()
+metrics = Metrics(namespace="DATA_AUTOMATION_STATUS")
 
 def process_event_bridge_event(event: Dict[str, Any]) -> Dict[str, Any]:
     """
