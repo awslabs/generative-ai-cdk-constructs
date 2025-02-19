@@ -13,11 +13,7 @@
 ## Extended by
 
 - [`SageMakerEndpointBase`](SageMakerEndpointBase.md)
-- [`ContentGenerationAppSyncLambda`](ContentGenerationAppSyncLambda.md)
-- [`TextToSql`](TextToSql.md)
-- [`LlamaIndexDataLoader`](LlamaIndexDataLoader.md)
 - [`BedrockDataAutomation`](BedrockDataAutomation.md)
-
 
 ## Constructors
 

@@ -17,10 +17,7 @@
 
 - [BlueprintStage](enumerations/BlueprintStage.md)
 - [ConstructName](enumerations/ConstructName.md)
-- [DbName](enumerations/DbName.md)
-- [MetatdataSource](enumerations/MetatdataSource.md)
 - [ResourceType](enumerations/ResourceType.md)
-
 
 ## Classes
 
