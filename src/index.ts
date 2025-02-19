@@ -24,6 +24,5 @@ export * from './common/base-class/base-class';
 export * from './common/base-class/construct-name-enum';
 export * from './patterns/gen-ai/aws-bedrock-cw-dashboard';
 export * from './patterns/gen-ai/aws-aoss-cw-dashboard';
-export * from './patterns/gen-ai/aws-llama-index-data-loader';
 export * from './patterns/gen-ai/aws-bedrock-data-automation';
 export * from './patterns/gen-ai/aws-bedrock-batch-stepfn';
