@@ -819,13 +819,13 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@aws-cdk/assert,@commitlint/config-conventional,@mrgrain/jsii-struct-builder,@types/jest,aws-sdk-mock,commitlint,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-license-header,husky,jest,jsii-diff,jsii-pacmak,pinst,ts-jest,ts-node,typedoc,typedoc-plugin-markdown,typescript,deepmerge,cdk-nag"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@aws-cdk/assert,@commitlint/config-conventional,@mrgrain/jsii-struct-builder,@types/jest,aws-sdk-mock,commitlint,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-license-header,husky,jest,jsii-diff,jsii-pacmak,pinst,ts-jest,ts-node,typedoc,typedoc-plugin-markdown,typescript,@aws-cdk/aws-lambda-python-alpha,deepmerge,cdk-nag"
         },
         {
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade @aws-cdk/assert @aws-cdk/integ-tests-alpha @commitlint/config-conventional @mrgrain/jsii-struct-builder @stylistic/eslint-plugin @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk aws-sdk-mock commit-and-tag-version commitlint eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-license-header eslint husky jest jest-junit jsii-diff jsii-pacmak jsii-rosetta jsii pinst projen ts-jest ts-node typedoc typedoc-plugin-markdown typescript deepmerge aws-cdk-lib constructs cdk-nag"
+          "exec": "yarn upgrade @aws-cdk/assert @aws-cdk/integ-tests-alpha @commitlint/config-conventional @mrgrain/jsii-struct-builder @stylistic/eslint-plugin @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk aws-sdk-mock commit-and-tag-version commitlint eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-license-header eslint husky jest jest-junit jsii-diff jsii-pacmak jsii-rosetta jsii pinst projen ts-jest ts-node typedoc typedoc-plugin-markdown typescript @aws-cdk/aws-lambda-python-alpha deepmerge aws-cdk-lib constructs cdk-nag"
         },
         {
           "exec": "npx projen"

@@ -12,6 +12,7 @@
  */
 
 import * as path from 'path';
+import { PythonLayerVersion } from '@aws-cdk/aws-lambda-python-alpha';
 import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
@@ -99,22 +100,14 @@ export class BedrockDataAutomation extends BaseClass {
     this.scope = scope;
     this.props = props;
     this.powertoolsLayer = lambda.LayerVersion.fromLayerVersionArn(this.scope, 'PowertoolsLayer',
-      `arn:aws:lambda:${cdk.Stack.of(this).region}:017000801446:layer:AWSLambdaPowertoolsPythonV3-python312-x86_64:8`,
+      `arn:aws:lambda:${cdk.Stack.of(this).region}:017000801446:layer:AWSLambdaPowertoolsPythonV3-python313-x86_64:8`,
     );
 
-    this.boto3Layer = new lambda.LayerVersion(this, 'Boto3Layer', {
-      code: lambda.Code.fromAsset(path.join(__dirname, '../../../../layer'), {
-        bundling: {
-          image: lambda.Runtime.PYTHON_3_12.bundlingImage,
-          command: [
-            'bash', '-c',
-            'pip install boto3==1.36.14 botocore==1.36.14 -t /asset-output/python',
-          ],
-          user: 'root',
-        },
-      }),
-      compatibleRuntimes: [lambda.Runtime.PYTHON_3_12],
+    this.boto3Layer = new PythonLayerVersion(this, 'Boto3Layer', {
+      entry: path.join(__dirname, '../../../../layer'),
+      compatibleRuntimes: [lambda.Runtime.PYTHON_3_13],
       description: 'Latest boto3 layer for Bedrock Data Automation',
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
     this.createResources(id);
@@ -178,7 +171,7 @@ export class BedrockDataAutomation extends BaseClass {
 
 
     this.bdaBlueprintLambdaFunction = new lambda.Function(this, 'bdaBlueprintLambdaFunction', {
-      runtime: lambda.Runtime.PYTHON_3_12,
+      runtime: lambda.Runtime.PYTHON_3_13,
       handler: 'lambda.handler', // Adjust this based on your actual handler
       code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/create-blueprint')),
       layers: [this.powertoolsLayer, this.boto3Layer],
@@ -206,7 +199,7 @@ export class BedrockDataAutomation extends BaseClass {
 
 
     this.bdaProjectFunction = new lambda.Function(this, 'bdaProjectFunction', {
-      runtime: lambda.Runtime.PYTHON_3_12,
+      runtime: lambda.Runtime.PYTHON_3_13,
       handler: 'lambda.handler', // Adjust this based on your actual handler
       code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/create_project')),
       layers: [this.powertoolsLayer, this.boto3Layer],
@@ -303,7 +296,7 @@ export class BedrockDataAutomation extends BaseClass {
     const invocationRole = this.createLambdaRole('invocationRole');
 
     this.bdaInvocationFunction = new lambda.Function(this, 'bdaInvocationFunction', {
-      runtime: lambda.Runtime.PYTHON_3_12,
+      runtime: lambda.Runtime.PYTHON_3_13,
       handler: 'lambda.handler', // Adjust this based on your actual handler
       code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/data_processing')),
       layers: [this.powertoolsLayer, this.boto3Layer],
@@ -332,7 +325,7 @@ export class BedrockDataAutomation extends BaseClass {
     const bdaResultStatusRole = this.createLambdaRole('bdaResultStatusRole');
 
     this.bdaResultStatusFunction = new lambda.Function(this, 'bdaResultStatusFunction', {
-      runtime: lambda.Runtime.PYTHON_3_12,
+      runtime: lambda.Runtime.PYTHON_3_13,
       handler: 'lambda.handler', // Adjust this based on your actual handler
       code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/data_result')),
       layers: [this.powertoolsLayer, this.boto3Layer],
