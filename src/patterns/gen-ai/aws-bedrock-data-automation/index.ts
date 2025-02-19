@@ -65,6 +65,9 @@ export class BedrockDataAutomation extends BaseClass {
   private bdaInvocationFunction!: lambda.Function;
   private bdaResultStatusFunction!: lambda.Function;
 
+  private powertoolsLayer: lambda.ILayerVersion;
+  private boto3Layer: lambda.LayerVersion;
+
 
   public get inputBucket(): s3.IBucket {
     return this.bdaInputBucket;
@@ -95,7 +98,24 @@ export class BedrockDataAutomation extends BaseClass {
     super(scope, id);
     this.scope = scope;
     this.props = props;
+    this.powertoolsLayer = lambda.LayerVersion.fromLayerVersionArn(this.scope, 'PowertoolsLayer',
+      `arn:aws:lambda:${cdk.Stack.of(this).region}:017000801446:layer:AWSLambdaPowertoolsPythonV3-python312-x86_64:8`,
+    );
 
+    this.boto3Layer = new lambda.LayerVersion(this, 'Boto3Layer', {
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../../../layer'), {
+        bundling: {
+          image: lambda.Runtime.PYTHON_3_12.bundlingImage,
+          command: [
+            'bash', '-c',
+            'pip install boto3==1.36.14 botocore==1.36.14 -t /asset-output/python',
+          ],
+          user: 'root',
+        },
+      }),
+      compatibleRuntimes: [lambda.Runtime.PYTHON_3_12],
+      description: 'Latest boto3 layer for Bedrock Data Automation',
+    });
 
     this.createResources(id);
   }
@@ -156,11 +176,15 @@ export class BedrockDataAutomation extends BaseClass {
 
     const blueprintFunctionRole = this.createLambdaRole('createBlueprintFunctionRole');
 
-    this.bdaBlueprintLambdaFunction = new lambda.DockerImageFunction(this, 'bdaBlueprintLambdaFunction', {
-      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/create-blueprint'),
-      ),
+
+    this.bdaBlueprintLambdaFunction = new lambda.Function(this, 'bdaBlueprintLambdaFunction', {
+      runtime: lambda.Runtime.PYTHON_3_12,
+      handler: 'lambda.handler', // Adjust this based on your actual handler
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/create-blueprint')),
+      layers: [this.powertoolsLayer, this.boto3Layer],
       environment: {
         INPUT_BUCKET: this.inputBucket.bucketName,
+        POWERTOOLS_SERVICE_NAME: 'BEDROCK_BLUEPRINT',
       },
       memorySize: 1024,
       role: blueprintFunctionRole,
@@ -180,11 +204,15 @@ export class BedrockDataAutomation extends BaseClass {
 
     const bdaProjectLambdaFunctionRole = this.createLambdaRole('bdaProjectFunctionRole');
 
-    this.bdaProjectFunction = new lambda.DockerImageFunction(this, 'bdaProjectFunction', {
-      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/create_project'),
-      ),
+
+    this.bdaProjectFunction = new lambda.Function(this, 'bdaProjectFunction', {
+      runtime: lambda.Runtime.PYTHON_3_12,
+      handler: 'lambda.handler', // Adjust this based on your actual handler
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/create_project')),
+      layers: [this.powertoolsLayer, this.boto3Layer],
       environment: {
         INPUT_BUCKET: this.inputBucket.bucketName,
+        POWERTOOLS_SERVICE_NAME: 'BEDROCK_PROJECT',
       },
       memorySize: 1024,
       role: bdaProjectLambdaFunctionRole,
@@ -274,13 +302,16 @@ export class BedrockDataAutomation extends BaseClass {
 
     const invocationRole = this.createLambdaRole('invocationRole');
 
-    this.bdaInvocationFunction = new lambda.DockerImageFunction(this, 'bdaInvocationFunction', {
-      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/data_processing'),
-      ),
+    this.bdaInvocationFunction = new lambda.Function(this, 'bdaInvocationFunction', {
+      runtime: lambda.Runtime.PYTHON_3_12,
+      handler: 'lambda.handler', // Adjust this based on your actual handler
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/data_processing')),
+      layers: [this.powertoolsLayer, this.boto3Layer],
       environment: {
         INPUT_BUCKET: this.inputBucket.bucketName,
         OUTPUT_BUCKET: this.outputBucket.bucketName,
         OUTPUT_FILENAME: '',
+        POWERTOOLS_SERVICE_NAME: 'BEDROCK_INVOKE',
       },
       memorySize: 1024,
       role: invocationRole,
@@ -300,9 +331,14 @@ export class BedrockDataAutomation extends BaseClass {
 
     const bdaResultStatusRole = this.createLambdaRole('bdaResultStatusRole');
 
-    this.bdaResultStatusFunction = new lambda.DockerImageFunction(this, 'bdaResultStatusFunction', {
-      code: lambda.DockerImageCode.fromImageAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/data_result'),
-      ),
+    this.bdaResultStatusFunction = new lambda.Function(this, 'bdaResultStatusFunction', {
+      runtime: lambda.Runtime.PYTHON_3_12,
+      handler: 'lambda.handler', // Adjust this based on your actual handler
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/data_result')),
+      layers: [this.powertoolsLayer, this.boto3Layer],
+      environment: {
+        POWERTOOLS_SERVICE_NAME: 'BEDROCK_RESULT',
+      },
       memorySize: 1024,
       role: bdaResultStatusRole,
       architecture: lambda.Architecture.X86_64,
