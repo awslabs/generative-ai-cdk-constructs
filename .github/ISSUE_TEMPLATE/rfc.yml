@@ -1,7 +1,7 @@
 name: 🚧 Request for Comments (RFC)
 description: Feature design and detailed proposals
 title: "RFC: TITLE"
-labels: ["RFC", "triage"]
+labels: ["RFC-proposal", "needs-triage"]
 body:
   - type: markdown
     attributes:
