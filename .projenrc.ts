@@ -72,7 +72,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
     `@aws-cdk/integ-tests-alpha@${CDK_VERSION}-alpha.0`,
   ],
   deps: ['cdk-nag'],
-  bundledDeps: ['deepmerge', '@aws-cdk/aws-lambda-python-alpha'],
+  bundledDeps: [
+    'deepmerge',
+    `@aws-cdk/aws-lambda-python-alpha@${CDK_VERSION}-alpha.0`,
+  ],
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
   minNodeVersion: '18.12.0', // 'MAINTENANCE' (first LTS)
   maxNodeVersion: '22.x', // 'CURRENT'

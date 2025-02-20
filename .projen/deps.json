@@ -138,6 +138,7 @@
     },
     {
       "name": "@aws-cdk/aws-lambda-python-alpha",
+      "version": "2.178.0-alpha.0",
       "type": "bundled"
     },
     {

@@ -117,7 +117,7 @@
     "constructs": "^10.3.0"
   },
   "dependencies": {
-    "@aws-cdk/aws-lambda-python-alpha": "^2.179.0-alpha.0",
+    "@aws-cdk/aws-lambda-python-alpha": "2.178.0-alpha.0",
     "cdk-nag": "^2.35.24",
     "deepmerge": "^4.3.1"
   },

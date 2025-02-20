@@ -6,6 +6,8 @@
 
 # Enumeration: BlueprintStage
 
+Specifies the Stage of the Project.
+
 ## Enumeration Members
 
 ### DEVELOPMENT

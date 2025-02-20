@@ -6,6 +6,8 @@
 
 # Enumeration: ResourceType
 
+Specifies the type of resource.
+
 ## Enumeration Members
 
 ### DOCUMENT

@@ -43,10 +43,10 @@
   resolved "https://registry.yarnpkg.com/@aws-cdk/asset-node-proxy-agent-v6/-/asset-node-proxy-agent-v6-2.1.0.tgz#6d3c7860354d4856a7e75375f2f0ecab313b4989"
   integrity sha512-7bY3J8GCVxLupn/kNmpPc5VJz8grx+4RKfnnJiO1LG+uxkZfANZG3RMHhE+qQxxwkyQ9/MfPtTpf748UhR425A==
 
-"@aws-cdk/aws-lambda-python-alpha@^2.179.0-alpha.0":
-  version "2.179.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-lambda-python-alpha/-/aws-lambda-python-alpha-2.179.0-alpha.0.tgz#8832c304afe7d955622e0a180beac8fd2c016044"
-  integrity sha512-dFcLRm/XmiCkPopP4zcm50kPr0gOz5Ap0PBEjoP3N5ANYx9sfE7DJwdMjz0Ml6V0c9e7s92zCMJjW8n/3ase3w==
+"@aws-cdk/aws-lambda-python-alpha@2.178.0-alpha.0":
+  version "2.178.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-lambda-python-alpha/-/aws-lambda-python-alpha-2.178.0-alpha.0.tgz#ad65ed9b4025036b001af78ed7a34c74005b436d"
+  integrity sha512-sjlE3ifs/li05x8UBpTFWMyGnWcYUcvNz07iLYFu2pVXaMJGB+4EKyMIo+px18tflaw19LN+MXpgGwDvg5eFlg==
 
 "@aws-cdk/cfnspec@2.68.0":
   version "2.68.0"
