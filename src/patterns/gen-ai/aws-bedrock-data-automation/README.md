@@ -57,13 +57,12 @@ This construct can be integrated with Amazon API Gateway for synchronous REST AP
 
 | Name | Type | Required | Description |
 |------|------|----------|-------------|
-| inputBucketName | string | No | Name of the S3 bucket for uploading blueprint schema file. If not provided, a new bucket will be created. |
+| inputBucket | string | No | S3 bucket for uploading blueprint schema file. If not provided, a new bucket will be created. |
 | isCustomBDABlueprintRequired | boolean | No | Flag to indicate if custom Bedrock Data Automation blueprint creation is required. |
 | isBDAProjectRequired | boolean | No | Flag to indicate if Bedrock Data Automation project creation is required. |
 | isBDAInvocationRequired | boolean | No | Flag to indicate if Bedrock Data Automation invocation functionality is required. |
 | isStatusRequired | boolean | No | Flag to indicate if status checking functionality is required. |
-| outputBucketName | string | No | Name of the S3 bucket for storing output files. If not provided, a new bucket will be created when isBDAInvocationRequired is true. |
-| outputFilename | string | No | Name of the output file for processed data. |
+| outputBucket | string | No | S3 bucket for storing output files. If not provided, a new bucket will be created when isBDAInvocationRequired is true. |
 
 ## Initializer
 
@@ -73,8 +72,6 @@ TypeScript:
 import { BedrockDataAutomation } from 'generative-ai-cdk-constructs';
 
 const bdaConstruct = new BedrockDataAutomation(this, 'MyBDAConstruct', {
-  inputBucketName: 'XXXXXXXXXXXXXXX',
-  outputBucketName: 'XXXXXXXXXXXXXXXX',
   isCustomBDABlueprintRequired: true,
   isBDAProjectRequired: true,
   isBDAInvocationRequired: true,
@@ -87,8 +84,6 @@ const bdaConstruct = new BedrockDataAutomation(this, 'MyBDAConstruct', {
 from generative_ai_cdk_constructs import BedrockDataAutomation
 
 bda_construct = BedrockDataAutomation(self, "MyBDAConstruct",
-    input_bucket_name="XXXXXXXXXXXXXXX",
-    output_bucket_name="XXXXXXXXXXXXXXXX",
     is_custom_bda_blueprint_required=True,
     is_bda_project_required=True,
     is_bda_invocation_required=True,
@@ -142,8 +137,6 @@ from cdklabs.generative_ai_cdk_constructs import BedrockDataAutomation
 from aws_solutions_constructs.aws_eventbridge_lambda import EventbridgeToLambda 
 
 bda_construct = BedrockDataAutomation(self, "MyBDAConstruct",
-    input_bucket_name="XXXXXXXXXXXXXXX",
-    output_bucket_name="XXXXXXXXXXXXXXXX",
     is_custom_bda_blueprint_required=True,
     is_bda_project_required=False,
     is_bda_invocation_required=False,
@@ -312,8 +305,6 @@ from cdklabs.generative_ai_cdk_constructs import BedrockDataAutomation
 from aws_solutions_constructs.aws_eventbridge_lambda import ApiGatewayToLambda 
 
 bda_construct = BedrockDataAutomation(self, "MyBDAConstruct",
-    input_bucket_name="XXXXXXXXXXXXXXX",
-    output_bucket_name="XXXXXXXXXXXXXXXX",
     is_custom_bda_blueprint_required=True,
     is_bda_project_required=False,
     is_bda_invocation_required=False,

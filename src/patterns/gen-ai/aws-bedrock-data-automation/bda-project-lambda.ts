@@ -14,6 +14,7 @@
 import * as path from 'path';
 import { aws_iam as iam, aws_lambda as lambda, Duration, Aws } from 'aws-cdk-lib';
 import * as s3 from 'aws-cdk-lib/aws-s3';
+import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 
 /**
@@ -64,7 +65,7 @@ export class BdaProjectLambda extends lambda.Function {
     });
 
     // Add basic permissions for CloudWatch logs
-    role.attachInlinePolicy(new iam.Policy(
+    const cloudwatchLogsPolicy = new iam.Policy(
       scope,
       `${id}LambdaBasicExecPolicy`,
       {
@@ -83,25 +84,20 @@ export class BdaProjectLambda extends lambda.Function {
           }),
         ],
       },
-    ));
+    );
+
+    NagSuppressions.addResourceSuppressions(
+      cloudwatchLogsPolicy,
+      [{ id: 'AwsSolutions-IAM5', reason: 'Lambda requires CloudWatch logs permissions with log group name patterns' }],
+    );
 
     // Permissions for BDA
     const bedrockBDAPolicy = new iam.PolicyStatement({
       effect: iam.Effect.ALLOW,
       actions: [
-        'bedrock:CreateBlueprint',
-        'bedrock:ListBlueprints',
-        'bedrock:DeleteBlueprint',
-        'bedrock:InvokeBlueprint',
-        'bedrock:ListBlueprintInvocations',
-        'bedrock:GetBlueprintInvocation',
-        'bedrock:InvokeDataAutomationAsync',
         'bedrock:CreateDataAutomationProject',
-        'bedrock:GetDataAutomationStatus',
         'bedrock:ListDataAutomationProjects',
         'bedrock:DeleteDataAutomationProject',
-        'bedrock:ListDataAutomationBlueprintInvocations',
-        'bedrock:GetDataAutomationBlueprintInvocation',
         'bedrock:GetDataAutomationProject',
 
       ],
