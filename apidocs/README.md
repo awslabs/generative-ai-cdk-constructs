@@ -15,9 +15,7 @@
 
 ## Enumerations
 
-- [BlueprintStage](enumerations/BlueprintStage.md)
 - [ConstructName](enumerations/ConstructName.md)
-- [ResourceType](enumerations/ResourceType.md)
 
 ## Classes
 

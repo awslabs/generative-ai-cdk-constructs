@@ -14,14 +14,20 @@
 import * as cdk from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import * as s3 from 'aws-cdk-lib/aws-s3';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import { BedrockDataAutomation } from '../../../../src/patterns/gen-ai/aws-bedrock-data-automation';
 
 describe('BedrockDataAutomation Construct', () => {
+  let app: cdk.App;
   let stack: cdk.Stack;
   let template: Template;
 
   beforeEach(() => {
-    stack = new cdk.Stack();
+    app = new cdk.App();
+    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
+    stack = new cdk.Stack(app, 'undefined', {
+      env: { account: cdk.Aws.ACCOUNT_ID, region: cdk.Aws.REGION },
+    });
   });
 
   describe('Blueprint Resources', () => {
@@ -160,14 +166,14 @@ describe('BedrockDataAutomation Construct', () => {
     });
 
     test('creates output bucket and uses existing input bucket', () => {
-      const inputBucketName = 'XXXXXXXXXXXXXXXXX';
+      const inputBucket = new s3.Bucket(stack, 'testBucket');
 
       new BedrockDataAutomation(stack, 'TestConstruct', {
         isCustomBDABlueprintRequired: false,
         isBDAProjectRequired: false,
         isBDAInvocationRequired: true,
         isStatusRequired: false,
-        inputBucketName: inputBucketName,
+        inputBucket: inputBucket,
       });
 
       template = Template.fromStack(stack);
@@ -196,8 +202,8 @@ describe('BedrockDataAutomation Construct', () => {
         isStatusRequired: false,
       });
 
-      expect(construct.inputBucket).toBeDefined();
-      expect(construct.blueprintLambdaFunction).toBeDefined();
+      expect(construct.bdaInputBucket).toBeDefined();
+      expect(construct.bdaBlueprintLambdaFunction).toBeDefined();
     });
   });
 });

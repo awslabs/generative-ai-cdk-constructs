@@ -633,6 +633,34 @@ invocation_arn is fetched from data processing API response
      {"invocation_arn":"XXXXXX"}
 ```
 
+## Default properties
+
+### Lambda functions
+
+- **Memory Size**: 1024 MB
+- **Timeout**: 15 minutes
+- **Architecture**: x86_64
+
+### S3 buckets
+
+if not provided, the construct will handle the creation of the S3 buckets and associated server access log buckets :
+
+- **Input Bucket**: 
+  - **Name**: `${type}-documents` (where `type` is either 'input' or 'output')
+  - **Encryption**: S3 Managed
+  - **Versioned**: true
+  - **Block Public Access**: Block all public access
+  - **Removal Policy**: Destroy
+  - **Auto Delete Objects**: true
+
+- **Output Bucket**: 
+  - **Name**: `${type}-documents` (where `type` is either 'input' or 'output')
+  - **Encryption**: S3 Managed
+  - **Versioned**: true
+  - **Block Public Access**: Block all public access
+  - **Removal Policy**: Destroy
+  - **Auto Delete Objects**: true
+
 ## Cost
 
 You are responsible for the cost of the AWS services used while running this construct.
