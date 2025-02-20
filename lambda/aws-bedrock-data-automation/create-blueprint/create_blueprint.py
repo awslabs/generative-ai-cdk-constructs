@@ -17,9 +17,9 @@ import os
 from aws_lambda_powertools import Logger,Metrics,Tracer
 from custom_blueprint_schema import BlueprintStage,BlueprintType
 
-logger = Logger(service="BEDROCK_DATA_AUTOMATION")
-tracer = Tracer(service="BEDROCK_DATA_AUTOMATION")
-metrics = Metrics(namespace="CREATE_BLUEPRINT", service="BEDROCK_DATA_AUTOMATION")
+logger = Logger()
+tracer = Tracer()
+metrics = Metrics(namespace="CREATE_BLUEPRINT")
 
 bda_client = boto3.client("bedrock-data-automation")
 

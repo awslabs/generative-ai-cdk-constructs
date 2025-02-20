@@ -16,9 +16,9 @@ import time
 from botocore.exceptions import ClientError
 
 
-logger = Logger(service="BEDROCK_DATA_AUTOMATION")
-tracer = Tracer(service="BEDROCK_DATA_AUTOMATION")
-metrics = Metrics(namespace="DATA_AUTOMATION_RESULT", service="BEDROCK_DATA_AUTOMATION")
+logger = Logger()
+tracer = Tracer()
+metrics = Metrics(namespace="DATA_AUTOMATION_RESLT")
 
 import asyncio
 from typing import Dict, Any, Optional

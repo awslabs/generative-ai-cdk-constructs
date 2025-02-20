@@ -16,9 +16,9 @@ from aws_lambda_powertools import Logger,Metrics,Tracer
 from botocore.exceptions import ClientError
 from project_config import ProjectConfig
 
-logger = Logger(service="BEDROCK_DATA_AUTOMATION")
-tracer = Tracer(service="BEDROCK_DATA_AUTOMATION")
-metrics = Metrics(namespace="CREATE_PROJECT", service="BEDROCK_DATA_AUTOMATION")
+logger = Logger()
+tracer = Tracer()
+metrics = Metrics(namespace="CREATE_PROJECT")
 
 bda_client = boto3.client("bedrock-data-automation")
 

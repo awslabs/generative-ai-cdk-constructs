@@ -13,9 +13,9 @@ from dataclasses import dataclass
 from typing import Dict, Any, Optional, List
 from aws_lambda_powertools import Logger, Tracer, Metrics
 
-logger = Logger(service="BDA_BLUEPRINT")
-tracer = Tracer(service="BDA_BLUEPRINT")
-metrics = Metrics(namespace="data_processing", service="BDA_BLUEPRINT")
+logger = Logger()
+tracer = Tracer()
+metrics = Metrics(namespace="data_processing")
 
 
 
