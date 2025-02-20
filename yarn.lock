@@ -631,9 +631,9 @@
   integrity sha512-JBxkERygn7Bv/GbN5Rv8Ul6LVknS+5Bp6RgDC/O8gEBU/yeH5Ui5C/OlWrTb6qct7LjjfT6Re2NxB0ln0yYybA==
 
 "@humanwhocodes/retry@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@humanwhocodes/retry/-/retry-0.4.1.tgz#9a96ce501bc62df46c4031fbd970e3cc6b10f07b"
-  integrity sha512-c7hNEllBlenFTHBky65mhq8WD2kbN9Q6gk0bTk8lSBvc554jpXSkST1iePudpt7+A/AQvuHs9EMqjHDXMY1lrA==
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@humanwhocodes/retry/-/retry-0.4.2.tgz#1860473de7dfa1546767448f333db80cb0ff2161"
+  integrity sha512-xeO57FpIu4p1Ri3Jq/EXq4ClRm86dVF2z/+kvFnyqVYRavTZmaFaUBbWCOuuTh0o/g7DSsk6kc2vrS4Vl5oPOQ==
 
 "@hutson/parse-repository-url@^3.0.0":
   version "3.0.2"
@@ -1533,9 +1533,9 @@ aws-cdk-lib@2.178.0:
     yaml "1.10.2"
 
 aws-cdk@^2:
-  version "2.1000.1"
-  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.1000.1.tgz#2ff008c2f87c3573267f5f4388b07e0df9d05d3d"
-  integrity sha512-1hccUeH5fQeFSAhJITACw3Gs7JWO3EknxSvRARXBZLSy74RV1a2gk8T1yGyO+jtCd38OqhXmbwTinLs2MX4/eg==
+  version "2.1000.2"
+  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.1000.2.tgz#5c89404f24b09880bc9f7e9b4f7bd721be02b4bd"
+  integrity sha512-QsXqJhGWjHNqP7etgE3sHOTiDBXItmSKdFKgsm1qPMBabCMyFfmWZnEeUxfZ4sMaIoxvLpr3sqoWSNeLuUk4sg==
   optionalDependencies:
     fsevents "2.3.2"
 
@@ -1757,10 +1757,10 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-nag@^2.35.23:
-  version "2.35.23"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.35.23.tgz#6aae7c1dd1fcbe207595c165932cca93d8737609"
-  integrity sha512-rrF2bLhz2+WucvN39KlTpnI0rIfbZGv8gblY/RybSr6I17ZwHfhhxoH+A9Q4TYduimXFuzoSj/9lqUIpdufzNA==
+cdk-nag@^2.35.24:
+  version "2.35.24"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.35.24.tgz#723c22973d6616b3bee8ea77b7e0b0c2284e34da"
+  integrity sha512-zMetT+3trSmUY9j2PqSON75mlNKqt/PFi1TPwJVojgXMraCjwyhotqaPgVtA6ofqdTIGM5+AiVA7zMGpxre3Hw==
 
 chalk@^2.4.2:
   version "2.4.2"
