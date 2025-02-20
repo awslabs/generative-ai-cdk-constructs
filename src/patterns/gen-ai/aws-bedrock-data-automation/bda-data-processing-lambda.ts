@@ -47,7 +47,7 @@ export class BdaDataProcessingLambda extends lambda.Function {
 
     const role = new iam.Role(
       scope,
-      `${id}createBlueprint`,
+      `${id}createDataProcessing`,
       {
         assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
       },
