@@ -14,8 +14,10 @@
 import * as path from 'path';
 import { PythonLayerVersion } from '@aws-cdk/aws-lambda-python-alpha';
 import * as cdk from 'aws-cdk-lib';
+import { Aws } from 'aws-cdk-lib';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as s3 from 'aws-cdk-lib/aws-s3';
+import { md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
 import { Construct } from 'constructs';
 import { BdaBlueprintLambda } from './bda-blueprint-lambda';
 import { BdaDataProcessingLambda } from './bda-data-processing-lambda';
@@ -145,11 +147,14 @@ export class BedrockDataAutomation extends BaseClass {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
 
+    // Compute hash used for bucket name
+    const hash = md5hash(id + Aws.ACCOUNT_ID + Aws.REGION);
+
     // Manage input bucket if needed
-    if (props.isCustomBDABlueprintRequired || props.isBDAInvocationRequired) {this.bdaInputBucket = this.handleS3Bucket(props.inputBucket, 'input', id);}
+    if (props.isCustomBDABlueprintRequired || props.isBDAInvocationRequired) {this.bdaInputBucket = this.handleS3Bucket(props.inputBucket, 'input', hash);}
 
     // Manage output bucket if needed
-    if (props.isCustomBDABlueprintRequired || props.isBDAInvocationRequired) {this.bdaOutputBucket = this.handleS3Bucket(props.outputBucket, 'output', id);}
+    if (props.isCustomBDABlueprintRequired || props.isBDAInvocationRequired) {this.bdaOutputBucket = this.handleS3Bucket(props.outputBucket, 'output', hash);}
 
     if (props.isCustomBDABlueprintRequired && this.bdaInputBucket) {
       this.bdaBlueprintLambdaFunction = new BdaBlueprintLambda(this, 'bdablueprintlambda', {
@@ -184,7 +189,7 @@ export class BedrockDataAutomation extends BaseClass {
    * @param type - A string indicating the type of bucket (e.g., 'input' or 'output').
    * @returns The existing bucket if provided, or a newly created S3 bucket.
    */
-  private handleS3Bucket(existing_bucket: s3.IBucket | undefined, type: string, id: string): s3.IBucket {
+  private handleS3Bucket(existing_bucket: s3.IBucket | undefined, type: string, hash: string): s3.IBucket {
 
     if (existing_bucket) {
       return existing_bucket;
@@ -192,7 +197,7 @@ export class BedrockDataAutomation extends BaseClass {
       // bucket for storing server access logging
       const serverAccessLogBucket = new s3.Bucket(
         this,
-        `${id}-${type}-serveraccesslogbucket`,
+        `${hash}-${type}-serveraccesslogbucket`,
         {
           blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
           encryption: s3.BucketEncryption.S3_MANAGED,
@@ -207,8 +212,7 @@ export class BedrockDataAutomation extends BaseClass {
       );
 
       // create the bucket
-      return new s3.Bucket(this, `${id}-${type}-bucket`, {
-        bucketName: `${id}-${type}-documents`,
+      return new s3.Bucket(this, `${hash}-${type}-bucket`, {
         encryption: s3.BucketEncryption.S3_MANAGED,
         enforceSSL: true,
         blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
