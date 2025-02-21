@@ -15,15 +15,23 @@ import * as path from 'path';
 import { aws_iam as iam, aws_lambda as lambda, Duration, Aws } from 'aws-cdk-lib';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
+import * as s3 from 'aws-cdk-lib/aws-s3';
+
 
 /**
  * Properties for creating a BdaBlueprintLambda
  */
-export interface BdaResultsambdaProps {
+export interface BdaResultsLambdaProps {
   /**
    * The layers to apply to this lambda function.
    */
   readonly lambdaLayers: lambda.ILayerVersion[];
+  /**
+     * The S3 bucket
+     * Output bucket to publish the generated result
+     * by Bedrock Data Automation process.
+     */
+  readonly outputBucket: s3.IBucket;
 }
 
 /**
@@ -31,7 +39,7 @@ export interface BdaResultsambdaProps {
  */
 export class BdaResultsambda extends lambda.Function {
 
-  constructor(scope: Construct, id: string, props: BdaResultsambdaProps) {
+  constructor(scope: Construct, id: string, props: BdaResultsLambdaProps) {
 
     const role = new iam.Role(
       scope,
@@ -111,9 +119,10 @@ export class BdaResultsambda extends lambda.Function {
       true,
     );
 
-
     role.attachInlinePolicy(bedrockBDAPolicy);
 
-
+    if (this.role) {
+      props.outputBucket.grantReadWrite(this.role);
+    }
   }
 }

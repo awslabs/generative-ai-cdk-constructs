@@ -175,9 +175,10 @@ export class BedrockDataAutomation extends BaseClass {
         lambdaLayers: [this.powertoolsLayer, this.boto3Layer],
       });
     }
-    if (props.isStatusRequired) {
+    if (props.isStatusRequired && this.bdaOutputBucket) {
       this.bdaResultStatusFunction = new BdaResultsambda(this, 'bdaresultslambda', {
         lambdaLayers: [this.powertoolsLayer, this.boto3Layer],
+        outputBucket: this.bdaOutputBucket,
       });
     }
   }
