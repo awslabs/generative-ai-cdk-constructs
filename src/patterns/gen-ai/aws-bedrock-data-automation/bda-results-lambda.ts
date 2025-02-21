@@ -13,9 +13,9 @@
 
 import * as path from 'path';
 import { aws_iam as iam, aws_lambda as lambda, Duration, Aws } from 'aws-cdk-lib';
+import * as s3 from 'aws-cdk-lib/aws-s3';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
-import * as s3 from 'aws-cdk-lib/aws-s3';
 
 
 /**
