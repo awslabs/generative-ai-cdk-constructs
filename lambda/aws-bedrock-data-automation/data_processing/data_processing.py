@@ -87,8 +87,7 @@ class DataProcessor:
         self.client = boto3.client("bedrock-data-automation-runtime") 
         self.input_bucket = input_bucket
         self.output_bucket = output_bucket
-        # self.max_retries = 60
-        # self.retry_delay = 10
+       
 
     def invoke_data_automation_async(
         self,
@@ -120,9 +119,6 @@ class DataProcessor:
             
             validate_configs(blueprint_config, data_automation_config)
 
-            # Create S3 URIs
-            #s3://cb-output-documents/noa.json
-            #s3://cb-input-documents/noa.pdf
             input_s3_uri = f"s3://{self.input_bucket}/{input_filename}"
             output_s3_uri = f"s3://{self.output_bucket}/{output_filename}"
 

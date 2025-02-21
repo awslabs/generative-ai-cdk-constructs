@@ -24,14 +24,14 @@ logger = Logger()
 tracer = Tracer()
 metrics = Metrics(namespace="CREATE_BLUEPRINT")
 
+input_bucket = os.environ.get('INPUT_BUCKET')
+
 class OperationType(str, Enum):
     CREATE_BLUEPRINT = "CREATE"
     DELETE_BLUEPRINT = "DELETE"
     LIST_BLUEPRINTS = "LIST"
     UPDATE_BLUEPRINT = "UPDATE"
     GET_BLUEPRINT = "GET"
-
-input_bucket = os.environ.get('INPUT_BUCKET')
     
 
 def process_event_bridge_event(event: Dict[str, Any]) -> Dict[str, Any]:
@@ -109,14 +109,13 @@ def get_schema(bucket_name: str, schema_key: str) -> Dict[str, Any]:
         })
         raise
 
-#@logger.inject_lambda_context
+@logger.inject_lambda_context
 def handler(event, context: LambdaContext):
     """
     Lambda handler function
     """
     try:
         logger.info(f"Received event: {json.dumps(event)}")
-        # Determine event source and process accordingly
         if event.get("source") and event.get("detail-type"):
             blueprint_details = process_event_bridge_event(event)
         else:
@@ -128,77 +127,79 @@ def handler(event, context: LambdaContext):
         if operation_type not in [stage.value for stage in OperationType]:
             raise ValueError(f"Invalid operation type: {operation_type}. Must be one of {[stage.value for stage in OperationType]}")
 
-        if operation_type.lower() == 'delete':
-            logger.info("delete blueprint")
-
-            blueprint_arn = blueprint_details.get('blueprint_arn')
-            blueprint_version = blueprint_details.get('blueprint_version')
-            
-            if not blueprint_arn:
-                raise ValueError("blueprint_arn is required for delete operation")
+        match operation_type.lower():
+            case "delete":
+                logger.info(f"deleteing blueprint {blueprint_details}")
+                blueprint_arn = blueprint_details.get('blueprint_arn')
+                blueprint_version = blueprint_details.get('blueprint_version')
                 
-            return delete_blueprint(blueprint_arn, blueprint_version)
+                if not blueprint_arn:
+                    raise ValueError("blueprint_arn is required for delete operation")
+                    
+                return delete_blueprint(blueprint_arn, blueprint_version)
             
-        elif operation_type.lower() == 'list':
-            logger.info("Listing all blueprints")
-            return list_blueprints(blueprint_details)
+            case "list":
+                logger.info("Listing all blueprints")
+                return list_blueprints(blueprint_details)
         
-        elif operation_type.lower() == 'get':
-            logger.info("Get  blueprint")
-            return get_blueprint(blueprint_details)
+            case "get":
+                logger.info(f"Get blueprint {blueprint_details}")
+                return get_blueprint(blueprint_details)
         
-        elif operation_type.lower() == 'update':
-            logger.info("update  blueprints")
-            return update_blueprint(blueprint_details)
+            case "update":
+                logger.info(f"update  blueprint {blueprint_details}")
+                return update_blueprint(blueprint_details)
             
-        elif operation_type.lower() == 'create':
-            logger.info("create blueprint")
+            case "create":
+                logger.info("create blueprint")
 
-            # Check if schema_file_name is present
-            if 'schema_file_name' in blueprint_details:
-                input_key = blueprint_details['schema_file_name']
-                # Get schema from S3
-                logger.info(f"Retrieving schema from S3: {input_bucket}/{input_key}")
-                schema_content = get_schema(input_bucket, input_key)
-                if isinstance(schema_content, dict) and 'statusCode' in schema_content:
-                    return schema_content
+                if 'schema_file_name' in blueprint_details:
+                    input_key = blueprint_details['schema_file_name']
+                    
+                    logger.info(f"Retrieving schema from S3: {input_bucket}/{input_key}")
+                    schema_content = get_schema(input_bucket, input_key)
+                    if isinstance(schema_content, dict) and 'statusCode' in schema_content:
+                        return schema_content
 
-            
-            # Check if schema_fields is present
-            if 'schema_fields' in blueprint_details:
-                schema_fields = blueprint_details['schema_fields']
                 
-                # Validate schema_fields format
-                if not isinstance(schema_fields, list):
-                    raise ValueError("schema_fields must be a list of field configurations")
-                
-                # Validate each field has required properties
-                for field in schema_fields:
-                    if not all(key in field for key in ['name', 'description', 'alias']):
-                        raise ValueError("Each field must contain 'name', 'description', and 'alias'")
-                
-                # Create schema using the fields
-                try:
-                    DynamicSchema = create_schema(schema_fields)
-                    schema_instance = DynamicSchema()
-                    schema_content = json.dumps(schema_instance.model_json_schema())
+                if 'schema_fields' in blueprint_details:
+                    schema_fields = blueprint_details['schema_fields']
+                    
+                    # Validate schema_fields format
+                    if not isinstance(schema_fields, list):
+                        raise ValueError("schema_fields must be a list of field configurations")
+                    
+                    # Validate each field has required properties
+                    for field in schema_fields:
+                        if not all(key in field for key in ['name', 'description', 'alias']):
+                            raise ValueError("Each field must contain 'name', 'description', and 'alias'")
+                    
+                    # Create schema using the fields
+                    try:
+                        DynamicSchema = create_schema(schema_fields)
+                        schema_instance = DynamicSchema()
+                        schema_content = json.dumps(schema_instance.model_json_schema())
 
-                except Exception as e:
-                    print("Error creating schema")
-                    return {
-                        'statusCode': 500,
-                        'body': json.dumps({
-                            'message': 'Error creating schema',
-                            'error': str(e)
-                        })
-                    }
+                    except Exception as e:
+                        print("Error creating schema")
+                        return {
+                            'statusCode': 500,
+                            'body': json.dumps({
+                                'message': 'Error creating schema',
+                                'error': str(e)
+                            })
+                        }
+                
+                return create_blueprint(schema_content,blueprint_details)
             
-            # Create blueprint with schema content
-            return create_blueprint(schema_content,blueprint_details)
-        
-        else:
-            logger.warning(f"Unknown operation type: {operation_type}")
-        
+            case _:
+                logger.warning(f"Unknown operation type: {operation_type}")
+                return {
+                    'statusCode': 400,
+                    'body': json.dumps({
+                        'message': f'Unknown operation type: {operation_type}'
+                    })
+                }
 
     except Exception as e:
         print(f"Unexpected error: {str(e)}")

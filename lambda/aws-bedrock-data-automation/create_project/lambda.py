@@ -65,70 +65,56 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
         else:
             project_config = process_api_gateway_event(event)
 
-        operation = project_config.get('operation', '')
+        operation_type = project_config.get('operation_type', '')
            
         logger.info("Project configuration", extra={"config": project_config})
-       
-        if operation == 'create':
-            response = create_project(project_config)
-            return {
-                'statusCode': 200,
-                'body': json.dumps({
-                    'message': 'Project created successfully',
-                    'response': response,
-                })
-            }
+        
+        match operation_type.lower():
+            case "create":
+                response = create_project(project_config)
+                response_msg='Project created successfully'
+
+            case "update":
+                if 'projectArn' not in project_config:
+                    raise ValueError("projectArn is required for update operation")
+                    
+                response = update_project(project_config)
+                response_msg='Project updated successfully'          
             
-        elif operation == 'update':
-            # Validate project ARN for update
-            if 'projectArn' not in project_config:
-                raise ValueError("projectArn is required for update operation")
+            
+            case "delete":
+                if 'projectArn' not in project_config:
+                    raise ValueError("projectArn is required for delete operation")
+                delete_project(project_config['projectArn'])
+                response_msg='Project deleted successfully'  
                 
-            response = update_project(project_config)
-            
-            return {
-                'statusCode': 200,
-                'body': json.dumps({
-                    'message': 'Project updated successfully',
-                    'response': response
-                })
-            }
-            
-        elif operation == 'delete':
-            # Validate project ARN for delete
-            if 'projectArn' not in project_config:
-                raise ValueError("projectArn is required for delete operation")
-            
-            delete_project(project_config['projectArn'])
-            
-            return {
-                'statusCode': 200,
-                'body': json.dumps({
-                    'message': 'Project deleted successfully',
-                    'projectArn': project_config['projectArn']
-                })
-            }
-            
-        elif operation == 'get':
-            # Validate project ARN for get
-            if 'projectArn' not in project_config:
-                raise ValueError("projectArn is required for get operation")
+            case "get":
+                if 'projectArn' not in project_config:
+                    raise ValueError("projectArn is required for get operation")
                 
-            response = get_project(project_config )
-            
-            return {
-                'statusCode': 200,
-                'body': json.dumps({
-                    'message': 'project fetched',
-                    'response': response
-                })
-            }
+                response = get_project(project_config )
+                response_msg='Project fetched successfully'  
+               
+                
+            case _:
+                logger.warning(f"Unknown operation type: {operation_type}")
+                response_msg=f'Unknown operation type: {operation_type}'
+                status_code=400
+        
         logger.info("Project configuration", extra={"config": project_config})
+
+        return {
+                  'status_code': status_code if status_code else 200,
+                  'body': json.dumps({
+                      'message': response_msg,
+                      'response': response
+                  })
+              }
 
     except Exception as e:
         logger.error("Unexpected error", extra={"error": str(e)})
         return {
-            'statusCode': 500,
+            'status_code': 500,
             'body': json.dumps({
                 'message': 'Internal server error',
                 'error': str(e)

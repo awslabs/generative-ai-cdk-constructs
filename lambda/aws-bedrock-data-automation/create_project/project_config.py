@@ -60,6 +60,19 @@ class AudioGenerativeField(str, Enum):
     CHAPTER_SUMMARY = "CHAPTER_SUMMARY"
     IAB = "IAB"
 
+def ensure_list(x):
+    """
+    Ensures the input is always returned as a list.
+    If input is not a list, converts it to a single-item list.
+    If input is already a list, returns it unchanged.
+    
+    Args:
+        x: Any type of input
+    
+    Returns:
+        list: Input converted to or kept as list
+    """
+    return [x] if not isinstance(x, list) else x
 class ProjectConfig:
     """Configuration class for Bedrock Data Automation project settings"""
     
@@ -102,7 +115,7 @@ class ProjectConfig:
         return {
             'extraction': {
                 'granularity': {
-                    'types': (lambda x: [x] if not isinstance(x, list) else x)(
+                    'types': ensure_list(
                     config.get('extraction', {}).get('granularity', {}).get('types', [DocumentGranularity.DOCUMENT.value])
                 )
                 },
@@ -115,7 +128,7 @@ class ProjectConfig:
             },
             'outputFormat': {
                 'textFormat': {
-                    'types': (lambda x: [x] if not isinstance(x, list) else x)(
+                    'types': ensure_list(
                         config.get('document', {}).get('outputFormat', {}).get('textFormat', {}).get('types', ['PLAIN_TEXT'])
                     )
                 },
@@ -132,7 +145,7 @@ class ProjectConfig:
             'extraction': {
                 'category': {
                     'state': config.get('extraction', {}).get('category', {}).get('state', State.DISABLED.value),
-                    'types': (lambda x: [x] if not isinstance(x, list) else x)(
+                    'types': ensure_list(
                         config.get('image', {}).get('extraction', {}).get('category', {}).get('types', ['CONTENT_MODERATION'])
                     )
                 },
@@ -142,7 +155,7 @@ class ProjectConfig:
             },
             'generativeField': {
                 'state': config.get('generativeField', {}).get('state', State.DISABLED.value),
-                'types': (lambda x: [x] if not isinstance(x, list) else x)(
+                'types': ensure_list(
                     config.get('image', {}).get('generativeField', {}).get('types', ['IMAGE_SUMMARY'])
                 )
             }
@@ -155,7 +168,7 @@ class ProjectConfig:
             'extraction': {
                 'category': {
                     'state': config.get('extraction', {}).get('category', {}).get('state', State.DISABLED.value),
-                    'types': (lambda x: [x] if not isinstance(x, list) else x)(
+                    'types': ensure_list(
                         config.get('video', {}).get('extraction', {}).get('category', {}).get('types', ['CONTENT_MODERATION'])
                     )
                 },
@@ -165,7 +178,7 @@ class ProjectConfig:
             },
             'generativeField': {
                 'state': config.get('generativeField', {}).get('state', State.DISABLED.value),
-                'types': (lambda x: [x] if not isinstance(x, list) else x)(
+                'types': ensure_list(
                     config.get('video', {}).get('generativeField', {}).get('types', ['VIDEO_SUMMARY'])
                 )
     }
@@ -180,13 +193,13 @@ class ProjectConfig:
             'extraction': {
                 'category': {
                     'state': config.get('extraction', {}).get('category', {}).get('state', State.DISABLED.value),
-                    'types': (lambda x: [x] if not isinstance(x, list) else x)(
+                    'types': ensure_list(
                         config.get('audio', {}).get('extraction', {}).get('category', {}).get('types', ['TRANSCRIPT'])
                     )                }
             },
             'generativeField': {
                 'state': config.get('generativeField', {}).get('state', State.DISABLED.value),
-                'types': (lambda x: [x] if not isinstance(x, list) else x)(
+                'types': ensure_list(
                     config.get('audio', {}).get('generativeField', {}).get('types', ['AUDIO_SUMMARY'])
                 )            }
         }
