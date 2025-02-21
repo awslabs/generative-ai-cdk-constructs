@@ -92,23 +92,48 @@ export class BdaProjectLambda extends lambda.Function {
     );
 
     // Permissions for BDA
-    const bedrockBDAPolicy = new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW,
-      actions: [
-        'bedrock:CreateDataAutomationProject',
-        'bedrock:ListDataAutomationProjects',
-        'bedrock:DeleteDataAutomationProject',
-        'bedrock:GetDataAutomationProject',
+    const bedrockBDAPolicy = new iam.Policy(
+      scope,
+      `${id}BedrockBDAProjectPolicy`,
+      {
+        statements: [
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: [
+              'bedrock:CreateDataAutomationProject',
+              'bedrock:ListDataAutomationProjects',
+              'bedrock:DeleteDataAutomationProject',
+              'bedrock:GetDataAutomationProject',
+            ],
+            resources: ['*'],
+          }),
+        ],
+      },
+    );
 
-      ],
-      resources: ['*'],
-    });
-
-    role.addToPolicy(bedrockBDAPolicy);
+    NagSuppressions.addResourceSuppressions(
+      bedrockBDAPolicy,
+      [{
+        id: 'AwsSolutions-IAM5',
+        reason: 'Project Lambda need access for managing data processing projects',
+      }],
+      true,
+    );
+    role.attachInlinePolicy(bedrockBDAPolicy);
 
     // Give Lambda access to the bucket
     if (this.role) {
       props.inputBucket.grantReadWrite(this.role);
     }
+
+    NagSuppressions.addResourceSuppressions(
+      role,
+      [{
+        id: 'AwsSolutions-IAM5',
+        reason: 'Lambda needs read access to process files from the input bucket',
+      }],
+      true,
+    );
+
   }
 }

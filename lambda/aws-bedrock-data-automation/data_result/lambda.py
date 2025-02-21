@@ -9,14 +9,11 @@
 #  and limitations under the License.
 #
 
-import os
 import json
 import asyncio
-from dataclasses import dataclass
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
-from aws_lambda_powertools.utilities.data_classes import EventBridgeEvent
 from data_automation_result import DataAutomationResult
 from aws_lambda_powertools.utilities.data_classes import EventBridgeEvent, APIGatewayProxyEvent
 

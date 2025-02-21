@@ -99,22 +99,47 @@ export class BdaDataProcessingLambda extends lambda.Function {
     );
 
     // Permissions for BDA
-    const bedrockDPPolicy = new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW,
-      actions: [
-        'bedrock:InvokeDataAutomationAsync',
-      ],
-      resources: [
-        '*',
-      ],
-    });
+    const bedrockBDAPolicy = new iam.Policy(
+      scope,
+      `${id}BedrockBDAProcessingPolicy`,
+      {
+        statements: [
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: [
+              'bedrock:InvokeDataAutomationAsync',
+            ],
+            resources: ['*'],
+          }),
+        ],
+      },
+    );
 
-    role.addToPolicy(bedrockDPPolicy);
+    NagSuppressions.addResourceSuppressions(
+      bedrockBDAPolicy,
+      [{
+        id: 'AwsSolutions-IAM5',
+        reason: 'Invocation Lambda needs access for data processing operations',
+      }],
+      true,
+    );
+
+    role.attachInlinePolicy(bedrockBDAPolicy);
 
     // Give Lambda access to the buckets
     if (this.role) {
       props.inputBucket.grantReadWrite(this.role);
       props.outputBucket.grantReadWrite(this.role);
     }
+
+
+    NagSuppressions.addResourceSuppressions(
+      role,
+      [{
+        id: 'AwsSolutions-IAM5',
+        reason: 'Lambda needs read access to process files from the input bucket',
+      }],
+      true,
+    );
   }
 }

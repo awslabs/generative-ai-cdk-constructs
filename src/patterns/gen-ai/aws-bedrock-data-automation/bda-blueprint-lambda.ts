@@ -94,38 +94,79 @@ export class BdaBlueprintLambda extends lambda.Function {
     role.attachInlinePolicy(cloudwatchLogsPolicy);
 
     // Permissions for BDA
-    const bedrockLGUDBDAPolicy = new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW,
-      actions: [
-        'bedrock:ListBlueprints',
-        'bedrock:DeleteBlueprint',
-        'bedrock:InvokeBlueprint',
-        'bedrock:ListBlueprintInvocations',
-        'bedrock:GetBlueprintInvocation',
-      ],
-      resources: [
-        `arn:aws:bedrock:${Aws.REGION}:${Aws.ACCOUNT_ID}:blueprint/*`,
-      ],
-    });
+    const BedrockBDABPPolicy = new iam.Policy(
+      scope,
+      `${id}BedrockBDABPPolicy`,
+      {
+        statements: [
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: [
+              'bedrock:ListBlueprints',
+              'bedrock:DeleteBlueprint',
+              'bedrock:InvokeBlueprint',
+              'bedrock:ListBlueprintInvocations',
+              'bedrock:GetBlueprintInvocation',
+            ],
+            resources: ['*'],
+          }),
+        ],
+      },
+    );
 
-    role.addToPolicy(bedrockLGUDBDAPolicy);
+    NagSuppressions.addResourceSuppressions(
+      BedrockBDABPPolicy,
+      [{
+        id: 'AwsSolutions-IAM5',
+        reason: 'Bedrock Blueprint operations require access to all blueprints as resource-level permissions are not supported',
+      }],
+      true,
+    );
 
-    const bedrockCPolicy = new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW,
-      actions: [
-        'bedrock:CreateBlueprint',
-        'bedrock:CreateBlueprintVersion',
-      ],
-      resources: [
-        '*',
-      ],
-    });
+    role.attachInlinePolicy(BedrockBDABPPolicy);
 
-    role.addToPolicy(bedrockCPolicy);
+
+    const bedrockBDABPVersionPolicy = new iam.Policy(
+      scope,
+      `${id}BedrockBDABPVersionPolicy`,
+      {
+        statements: [
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: [
+              'bedrock:CreateBlueprint',
+              'bedrock:CreateBlueprintVersion',
+            ],
+            resources: ['*'],
+          }),
+        ],
+      },
+    );
+
+    NagSuppressions.addResourceSuppressions(
+      bedrockBDABPVersionPolicy,
+      [{
+        id: 'AwsSolutions-IAM5',
+        reason: 'Bedrock Blueprint version creation operations require access to all blueprints as resource-level permissions are not supported',
+      }],
+      true,
+    );
+
+
+    role.attachInlinePolicy(bedrockBDABPVersionPolicy);
 
     // Give Lambda access to the bucket
     if (this.role) {
       props.inputBucket.grantRead(this.role);
     }
+
+    NagSuppressions.addResourceSuppressions(
+      role,
+      [{
+        id: 'AwsSolutions-IAM5',
+        reason: 'Lambda needs read access to process files from the input bucket',
+      }],
+      true,
+    );
   }
 }

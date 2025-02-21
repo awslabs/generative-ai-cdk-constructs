@@ -84,14 +84,34 @@ export class BdaResultsambda extends lambda.Function {
     );
 
     // Permissions for BDA
-    const bedrockBDAPolicy = new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW,
-      actions: [
-        'bedrock:GetDataAutomationStatus',
-      ],
-      resources: ['*'],
-    });
+    const bedrockBDAPolicy = new iam.Policy(
+      scope,
+      `${id}BDAStatusPolicy`,
+      {
+        statements: [
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: [
+              'bedrock:GetDataAutomationStatus',
+            ],
+            resources: ['*'],
+          }),
+        ],
+      },
+    );
 
-    role.addToPolicy(bedrockBDAPolicy);
+    NagSuppressions.addResourceSuppressions(
+      bedrockBDAPolicy,
+      [{
+        id: 'AwsSolutions-IAM5',
+        reason: 'Lambda needs access for data processing and checking status',
+      }],
+      true,
+    );
+
+
+    role.attachInlinePolicy(bedrockBDAPolicy);
+
+
   }
 }

@@ -9,25 +9,16 @@
 #  and limitations under the License.
 #
 import json
-from typing import Dict, Any, List, Optional
 import boto3
+import asyncio
 from aws_lambda_powertools import Logger,Tracer,Metrics
-import time
 from botocore.exceptions import ClientError
-
+from typing import Dict, Any
 
 logger = Logger()
 tracer = Tracer()
-metrics = Metrics(namespace="DATA_AUTOMATION_RESLT")
+metrics = Metrics(namespace="DATA_AUTOMATION_RESULT")
 
-import asyncio
-from typing import Dict, Any, Optional
-import boto3
-import json
-from aws_lambda_powertools import Logger
-from botocore.exceptions import ClientError
-
-logger = Logger(service="DataAutomationResult")
 
 class DataAutomationResult:
     def __init__(self, s3_client=None, bda_client=None):

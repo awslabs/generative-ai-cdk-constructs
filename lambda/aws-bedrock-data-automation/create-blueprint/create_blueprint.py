@@ -10,10 +10,9 @@
 #
 from enum import Enum
 import json
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 import uuid
 import boto3
-import os
 from aws_lambda_powertools import Logger,Metrics,Tracer
 from custom_blueprint_schema import BlueprintStage,BlueprintType
 

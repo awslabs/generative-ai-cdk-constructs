@@ -10,7 +10,6 @@
 #  and limitations under the License.
 #
 from typing import Annotated, List, Dict, Type
-from pydantic import BaseModel
 from custom_blueprint_schema import create_schema_fields,custom_blue_print
 
 def create_schema(fields: List[Dict[str, str]]) -> Type[custom_blue_print]:

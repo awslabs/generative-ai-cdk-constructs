@@ -8,7 +8,6 @@
 #  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
 #  and limitations under the License.
 #
-import boto3
 import json
 from typing import Dict, Any
 from aws_lambda_powertools import Logger, Metrics, Tracer
@@ -42,10 +41,10 @@ def process_api_gateway_event(event: Dict[str, Any]) -> Dict[str, Any]:
         "http_method": api_event.http_method,
         "path": api_event.path
     })
-    
+
     if not api_event.body:
         raise ValueError("Request body is required")
-    
+  
     try:
         return json.loads(api_event.body)
     except json.JSONDecodeError as e:

@@ -10,7 +10,7 @@
 #
 import boto3
 from dataclasses import dataclass
-from typing import Dict, Any, Optional, List
+from typing import Dict, Any, Optional
 from aws_lambda_powertools import Logger, Tracer, Metrics
 
 logger = Logger()
