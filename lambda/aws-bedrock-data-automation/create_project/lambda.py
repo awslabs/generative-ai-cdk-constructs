@@ -64,10 +64,11 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
         else:
             project_config = process_api_gateway_event(event)
 
-        operation_type = project_config.get('operation_type', '')
+        operation_type = project_config.get('operation', '')
            
         logger.info("Project configuration", extra={"config": project_config})
         
+        status_code = 200
         match operation_type.lower():
             case "create":
                 response = create_project(project_config)
@@ -96,14 +97,13 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
                
                 
             case _:
-                logger.warning(f"Unknown operation type: {operation_type}")
-                response_msg=f'Unknown operation type: {operation_type}'
-                status_code=400
-        
-        logger.info("Project configuration", extra={"config": project_config})
+                response_msg = (f"Unknown operation type: {operation_type}. "
+                              "The supported operations are - create, update, delete and get.")
+                logger.warning(response_msg)
+                status_code = 400
 
         return {
-                  'status_code': status_code if status_code else 200,
+                  'status_code': status_code,
                   'body': json.dumps({
                       'message': response_msg,
                       'response': response

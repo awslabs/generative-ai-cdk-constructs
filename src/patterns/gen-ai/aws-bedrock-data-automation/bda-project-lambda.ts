@@ -91,6 +91,8 @@ export class BdaProjectLambda extends lambda.Function {
       [{ id: 'AwsSolutions-IAM5', reason: 'Lambda requires CloudWatch logs permissions with log group name patterns' }],
     );
 
+    role.attachInlinePolicy(cloudwatchLogsPolicy);
+
     // Permissions for BDA
     const bedrockBDAPolicy = new iam.Policy(
       scope,

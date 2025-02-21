@@ -122,11 +122,12 @@ def handler(event, context: LambdaContext):
             blueprint_details = process_api_gateway_event(event)
        
         
-        
+        schema_content=""
         operation_type = blueprint_details.get('operation', 'CREATE')
         if operation_type not in [stage.value for stage in OperationType]:
             raise ValueError(f"Invalid operation type: {operation_type}. Must be one of {[stage.value for stage in OperationType]}")
 
+        status_code = 200
         match operation_type.lower():
             case "delete":
                 logger.info(f"deleteing blueprint {blueprint_details}")
@@ -136,19 +137,22 @@ def handler(event, context: LambdaContext):
                 if not blueprint_arn:
                     raise ValueError("blueprint_arn is required for delete operation")
                     
-                return delete_blueprint(blueprint_arn, blueprint_version)
-            
+                response= delete_blueprint(blueprint_arn, blueprint_version)
+                response_msg='Blueprint deleted successfully' 
             case "list":
                 logger.info("Listing all blueprints")
-                return list_blueprints(blueprint_details)
+                response= list_blueprints(blueprint_details)
+                response_msg='Blueprints fetched successfully' 
         
             case "get":
                 logger.info(f"Get blueprint {blueprint_details}")
-                return get_blueprint(blueprint_details)
+                response= get_blueprint(blueprint_details)
+                response_msg='Blueprint fetched successfully' 
         
             case "update":
                 logger.info(f"update  blueprint {blueprint_details}")
-                return update_blueprint(blueprint_details)
+                response= update_blueprint(blueprint_details)
+                response_msg='Blueprint updated successfully'
             
             case "create":
                 logger.info("create blueprint")
@@ -158,10 +162,7 @@ def handler(event, context: LambdaContext):
                     
                     logger.info(f"Retrieving schema from S3: {input_bucket}/{input_key}")
                     schema_content = get_schema(input_bucket, input_key)
-                    if isinstance(schema_content, dict) and 'statusCode' in schema_content:
-                        return schema_content
-
-                
+                    
                 if 'schema_fields' in blueprint_details:
                     schema_fields = blueprint_details['schema_fields']
                     
@@ -190,16 +191,27 @@ def handler(event, context: LambdaContext):
                             })
                         }
                 
-                return create_blueprint(schema_content,blueprint_details)
+                if not schema_content or not schema_content.strip():
+                    response_msg = "Schema content cannot be empty or blank"
+                    logger.error(response_msg)
+                else:
+                    response= create_blueprint(schema_content,blueprint_details)
+                    response_msg='Blueprint created successfully'
             
             case _:
-                logger.warning(f"Unknown operation type: {operation_type}")
-                return {
-                    'statusCode': 400,
-                    'body': json.dumps({
-                        'message': f'Unknown operation type: {operation_type}'
-                    })
-                }
+                response_msg = (f"Unknown operation type: {operation_type}. "
+                              "The supported operations are - create, update, delete, list and get.")
+                logger.warning(response_msg)
+                status_code = 400
+                
+        return {
+                  'status_code': status_code,
+                  'body': json.dumps({
+                      'message': response_msg,
+                      'response': response
+                  })
+              }
+
 
     except Exception as e:
         print(f"Unexpected error: {str(e)}")
