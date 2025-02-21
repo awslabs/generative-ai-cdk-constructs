@@ -58,6 +58,19 @@ export interface BedrockFoundationModelProps {
    */
   readonly supportsAgents?: boolean;
   /**
+   * Currently, some of the offered models are optimized with prompts/parsers fine-tuned for integrating with the agents architecture.
+   *
+   * @default - false
+   */
+  readonly optimizedForAgents?: boolean;
+  /**
+   * https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle.html
+   * A version is marked Legacy when there is a more recent version which provides superior performance. Amazon Bedrock sets an EOL date for Legacy versions.
+   *
+   * @default - false
+   */
+  readonly legacy?: boolean;
+  /**
    * Bedrock Knowledge Base can use this model.
    *
    * @default - false
@@ -87,6 +100,20 @@ export interface BedrockFoundationModelProps {
  */
 export class BedrockFoundationModel implements IInvokable {
   /****************************************************************************
+   *                            AI21
+   ***************************************************************************/
+  public static readonly AI21_JAMBA_1_5_LARGE_V1 = new BedrockFoundationModel('ai21.jamba-1-5-large-v1:0', {
+    supportsAgents: true,
+  });
+
+  public static readonly AI21_JAMBA_1_5_MINI_V1 = new BedrockFoundationModel('ai21.jamba-1-5-mini-v1:0', {
+    supportsAgents: true,
+  });
+
+  public static readonly AI21_JAMBA_INSTRUCT_V1 = new BedrockFoundationModel('ai21.jamba-instruct-v1:0', {
+    supportsAgents: true,
+  });
+  /****************************************************************************
    *                            AMAZON
    ***************************************************************************/
   public static readonly AMAZON_TITAN_TEXT_EXPRESS_V1 = new BedrockFoundationModel('amazon.titan-text-express-v1', {
@@ -100,16 +127,19 @@ export class BedrockFoundationModel implements IInvokable {
   public static readonly AMAZON_NOVA_MICRO_V1 = new BedrockFoundationModel('amazon.nova-micro-v1:0', {
     supportsAgents: true,
     supportsCrossRegion: true,
+    optimizedForAgents: true,
   });
 
   public static readonly AMAZON_NOVA_LITE_V1 = new BedrockFoundationModel('amazon.nova-lite-v1:0', {
     supportsAgents: true,
     supportsCrossRegion: true,
+    optimizedForAgents: true,
   });
 
   public static readonly AMAZON_NOVA_PRO_V1 = new BedrockFoundationModel('amazon.nova-pro-v1:0', {
     supportsAgents: true,
     supportsCrossRegion: true,
+    optimizedForAgents: true,
   });
 
   public static readonly TITAN_EMBED_TEXT_V1 = new BedrockFoundationModel('amazon.titan-embed-text-v1', {
@@ -140,44 +170,50 @@ export class BedrockFoundationModel implements IInvokable {
    ***************************************************************************/
   public static readonly ANTHROPIC_CLAUDE_3_5_SONNET_V2_0 = new BedrockFoundationModel(
     'anthropic.claude-3-5-sonnet-20241022-v2:0',
-    { supportsAgents: true, supportsCrossRegion: true },
+    { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: true },
   );
 
   public static readonly ANTHROPIC_CLAUDE_3_5_SONNET_V1_0 = new BedrockFoundationModel(
     'anthropic.claude-3-5-sonnet-20240620-v1:0',
-    { supportsAgents: true, supportsCrossRegion: true },
+    { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: true },
   );
 
   public static readonly ANTHROPIC_CLAUDE_3_5_HAIKU_V1_0 = new BedrockFoundationModel(
     'anthropic.claude-3-5-haiku-20241022-v1:0',
-    { supportsAgents: true, supportsCrossRegion: true },
+    { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: true },
   );
 
   public static readonly ANTHROPIC_CLAUDE_OPUS_V1_0 = new BedrockFoundationModel(
     'anthropic.claude-3-opus-20240229-v1:0',
-    { supportsAgents: true },
+    { supportsAgents: true, optimizedForAgents: true },
   );
 
   public static readonly ANTHROPIC_CLAUDE_SONNET_V1_0 = new BedrockFoundationModel(
     'anthropic.claude-3-sonnet-20240229-v1:0',
-    { supportsAgents: true, supportsCrossRegion: true },
+    { supportsAgents: true, supportsCrossRegion: true, legacy: true, optimizedForAgents: true },
   );
 
   public static readonly ANTHROPIC_CLAUDE_HAIKU_V1_0 = new BedrockFoundationModel(
     'anthropic.claude-3-haiku-20240307-v1:0',
-    { supportsAgents: true, supportsCrossRegion: true },
+    { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: true },
   );
 
   public static readonly ANTHROPIC_CLAUDE_V2_1 = new BedrockFoundationModel('anthropic.claude-v2:1', {
     supportsAgents: true,
+    legacy: true,
+    optimizedForAgents: true,
   });
 
   public static readonly ANTHROPIC_CLAUDE_V2 = new BedrockFoundationModel('anthropic.claude-v2', {
     supportsAgents: true,
+    legacy: true,
+    optimizedForAgents: true,
   });
 
   public static readonly ANTHROPIC_CLAUDE_INSTANT_V1_2 = new BedrockFoundationModel('anthropic.claude-instant-v1', {
     supportsAgents: true,
+    legacy: true,
+    optimizedForAgents: true,
   });
 
   /****************************************************************************
@@ -199,12 +235,14 @@ export class BedrockFoundationModel implements IInvokable {
    *                            META
    ***************************************************************************/
   public static readonly META_LLAMA_3_1_8B_INSTRUCT_V1 = new BedrockFoundationModel('meta.llama3-1-8b-instruct-v1:0', {
+    supportsAgents: true,
     supportsCrossRegion: true,
   });
 
   public static readonly META_LLAMA_3_1_70B_INSTRUCT_V1 = new BedrockFoundationModel(
     'meta.llama3-1-70b-instruct-v1:0',
     {
+      supportsAgents: true,
       supportsCrossRegion: true,
     },
   );
@@ -212,15 +250,23 @@ export class BedrockFoundationModel implements IInvokable {
   public static readonly META_LLAMA_3_2_11B_INSTRUCT_V1 = new BedrockFoundationModel(
     'meta.llama3-2-11b-instruct-v1:0',
     {
+      supportsAgents: true,
       supportsCrossRegion: true,
     },
   );
 
   public static readonly META_LLAMA_3_2_3B_INSTRUCT_V1 = new BedrockFoundationModel('meta.llama3-2-3b-instruct-v1:0', {
+    supportsAgents: true,
     supportsCrossRegion: true,
   });
 
   public static readonly META_LLAMA_3_2_1B_INSTRUCT_V1 = new BedrockFoundationModel('meta.llama3-2-1b-instruct-v1:0', {
+    supportsAgents: true,
+    supportsCrossRegion: true,
+  });
+
+  public static readonly META_LLAMA_3_3_70B_INSTRUCT_V1 = new BedrockFoundationModel('meta.llama3-3-70b-instruct-v1:0', {
+    supportsAgents: true,
     supportsCrossRegion: true,
   });
 

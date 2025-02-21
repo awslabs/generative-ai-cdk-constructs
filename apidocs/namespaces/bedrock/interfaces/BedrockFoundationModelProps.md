@@ -8,6 +8,35 @@
 
 ## Properties
 
+### legacy?
+
+> `readonly` `optional` **legacy**: `boolean`
+
+https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle.html
+A version is marked Legacy when there is a more recent version which provides superior performance. Amazon Bedrock sets an EOL date for Legacy versions.
+
+#### Default
+
+```ts
+- false
+```
+
+***
+
+### optimizedForAgents?
+
+> `readonly` `optional` **optimizedForAgents**: `boolean`
+
+Currently, some of the offered models are optimized with prompts/parsers fine-tuned for integrating with the agents architecture.
+
+#### Default
+
+```ts
+- false
+```
+
+***
+
 ### supportedVectorType?
 
 > `readonly` `optional` **supportedVectorType**: [`VectorType`](../enumerations/VectorType.md)[]
