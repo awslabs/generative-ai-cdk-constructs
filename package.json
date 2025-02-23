@@ -108,7 +108,7 @@
     "projen": "~0.91.5",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
-    "typedoc": "^0.27.7",
+    "typedoc": "^0.27.8",
     "typedoc-plugin-markdown": "^4.4.2",
     "typescript": "^5.7.3"
   },
@@ -118,7 +118,7 @@
   },
   "dependencies": {
     "@aws-cdk/aws-lambda-python-alpha": "2.178.0-alpha.0",
-    "cdk-nag": "^2.35.25",
+    "cdk-nag": "^2.35.27",
     "deepmerge": "^4.3.1"
   },
   "bundledDependencies": [
