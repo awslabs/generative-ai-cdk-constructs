@@ -106,7 +106,7 @@
     "jsii-rosetta": "~5.6.0",
     "pinst": "^3.0.0",
     "projen": "~0.91.5",
-    "ts-jest": "^29.2.5",
+    "ts-jest": "^29.2.6",
     "ts-node": "^10.9.2",
     "typedoc": "^0.27.8",
     "typedoc-plugin-markdown": "^4.4.2",
@@ -117,7 +117,7 @@
     "constructs": "^10.3.0"
   },
   "dependencies": {
-    "cdk-nag": "^2.35.27",
+    "cdk-nag": "^2.35.28",
     "deepmerge": "^4.3.1"
   },
   "bundledDependencies": [
