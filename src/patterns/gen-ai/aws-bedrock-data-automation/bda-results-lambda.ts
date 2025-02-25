@@ -124,5 +124,14 @@ export class BdaResultsambda extends lambda.Function {
     if (this.role) {
       props.outputBucket.grantReadWrite(this.role);
     }
+
+    NagSuppressions.addResourceSuppressions(
+      role,
+      [{
+        id: 'AwsSolutions-IAM5',
+        reason: 'Lambda needs read access to process files from the input bucket',
+      }],
+      true,
+    );
   }
 }
