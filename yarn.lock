@@ -1541,9 +1541,9 @@ aws-cdk-lib@2.178.0:
     yaml "1.10.2"
 
 aws-cdk@^2:
-  version "2.1000.2"
-  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.1000.2.tgz#5c89404f24b09880bc9f7e9b4f7bd721be02b4bd"
-  integrity sha512-QsXqJhGWjHNqP7etgE3sHOTiDBXItmSKdFKgsm1qPMBabCMyFfmWZnEeUxfZ4sMaIoxvLpr3sqoWSNeLuUk4sg==
+  version "2.1000.3"
+  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.1000.3.tgz#48997f6b07c37d1aa43865162724dcad60f8cfca"
+  integrity sha512-y0sU603gGWpVTwqDw9MKVHg3e1t49Mvve6t3YDOvjeKY195Vu6dgHlHjW4h8n1vX04r49NKfpoApG60V8sMbdw==
   optionalDependencies:
     fsevents "2.3.2"
 
@@ -1765,10 +1765,10 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-nag@^2.35.29:
-  version "2.35.29"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.35.29.tgz#2bf0b7e6ad49d817afa6b4a433c2f4424562771e"
-  integrity sha512-iw2DsT/eQUIOEROLLL6Q2dnk4590riuKBFqlEGMZ2xPRMYOKXuxBvGm438wlO/mjQvoeX5D2KFXm5rAv+l+wYg==
+cdk-nag@^2.35.30:
+  version "2.35.30"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.35.30.tgz#99539a6911b4ced3f814fc8429b7a6ed9a63c634"
+  integrity sha512-ZMhn6feRc9qgR6MLZt5KZVFWyGk0EYO1hIm4hiFPmr2IU3nYuQZF2lO3vbO4Z622iVvXT4EzfUUqeS8mS17F9A==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -5230,9 +5230,9 @@ resolve@^1.1.6, resolve@^1.10.0, resolve@^1.20.0, resolve@^1.22.4:
     supports-preserve-symlinks-flag "^1.0.0"
 
 reusify@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/reusify/-/reusify-1.0.4.tgz#90da382b1e126efc02146e90845a88db12925d76"
-  integrity sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/reusify/-/reusify-1.1.0.tgz#0fe13b9522e1473f51b558ee796e08f11f9b489f"
+  integrity sha512-g6QUff04oZpHs0eG5p83rFLhHeV00ug/Yf9nZM6fLeUrPguBTkTQOdpAWWspMh55TZfVQDPaN3NQJfbVRAxdIw==
 
 rfdc@^1.3.0:
   version "1.4.1"
@@ -5989,10 +5989,10 @@ typedoc-plugin-markdown@^4.4.2:
   resolved "https://registry.yarnpkg.com/typedoc-plugin-markdown/-/typedoc-plugin-markdown-4.4.2.tgz#fc31779595aa9bf00e66709f3894e048345bf7ed"
   integrity sha512-kJVkU2Wd+AXQpyL6DlYXXRrfNrHrEIUgiABWH8Z+2Lz5Sq6an4dQ/hfvP75bbokjNDUskOdFlEEm/0fSVyC7eg==
 
-typedoc@^0.27.8:
-  version "0.27.8"
-  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.27.8.tgz#9d4c4aa3c6889090d8fa4776367e353697d3e706"
-  integrity sha512-q0/2TUunNEDmWkn23ULKGXieK8cgGuAmBUXC/HcZ/rgzMI9Yr4Nq3in1K1vT1NZ9zx6M78yTk3kmIPbwJgK5KA==
+typedoc@^0.27.9:
+  version "0.27.9"
+  resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.27.9.tgz#5e0a7bc32bfc7bd0b70a353f4f1d5cba3d667c46"
+  integrity sha512-/z585740YHURLl9DN2jCWe6OW7zKYm6VoQ93H0sxZ1cwHQEQrUn5BJrEnkWhfzUdyO+BLGjnKUZ9iz9hKloFDw==
   dependencies:
     "@gerrit0/mini-shiki" "^1.24.0"
     lunr "^2.3.9"
