@@ -170,9 +170,10 @@ export class BedrockFoundationModel implements IInvokable {
    ***************************************************************************/
   public static readonly ANTHROPIC_CLAUDE_3_7_SONNET_V1_0 = new BedrockFoundationModel(
     'anthropic.claude-3-7-sonnet-20250219-v1:0',
-    { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: true },
+
+    { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: false },
   );
-  
+
   public static readonly ANTHROPIC_CLAUDE_3_5_SONNET_V2_0 = new BedrockFoundationModel(
     'anthropic.claude-3-5-sonnet-20241022-v2:0',
     { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: true },
@@ -344,7 +345,7 @@ export class BedrockFoundationModel implements IInvokable {
   public grantInvoke(grantee: IGrantable): Grant {
     const grant = Grant.addToPrincipal({
       grantee: grantee,
-      actions: ['bedrock:InvokeModel'],
+      actions: ['bedrock:InvokeModel*', 'bedrock:GetFoundationModel'],
       resourceArns: [this.invokableArn],
     });
     return grant;
@@ -366,7 +367,7 @@ export class BedrockFoundationModel implements IInvokable {
 
     return Grant.addToPrincipal({
       grantee: grantee,
-      actions: ['bedrock:InvokeModel'],
+      actions: ['bedrock:InvokeModel*', 'bedrock:GetFoundationModel'],
       resourceArns: [invokableArn],
     });
   }

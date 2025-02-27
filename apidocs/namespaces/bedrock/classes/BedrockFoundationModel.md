@@ -167,6 +167,12 @@ The ARN of the Bedrock invokable abstraction.
 
 > `readonly` `static` **ANTHROPIC\_CLAUDE\_3\_5\_SONNET\_V2\_0**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
 
+***
+
+### ANTHROPIC\_CLAUDE\_3\_7\_SONNET\_V1\_0
+
+> `readonly` `static` **ANTHROPIC\_CLAUDE\_3\_7\_SONNET\_V1\_0**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
 *************************************************************************
                            ANTHROPIC
 *************************************************************************
