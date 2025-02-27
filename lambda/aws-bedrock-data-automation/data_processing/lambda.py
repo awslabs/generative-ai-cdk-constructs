@@ -21,6 +21,11 @@ logger = Logger()
 tracer = Tracer()
 metrics = Metrics(namespace="DATA_PROCESSING")
 
+COMMON_HEADERS = {
+    "Access-Control-Allow-Headers" : "Content-Type",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+}
 
 def process_event_bridge_event(event: Dict[str, Any]) -> Dict[str, Any]:
     """
@@ -203,41 +208,28 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
         if response['statusCode'] == 200:
             job_id = response['body']['jobId']
             logger.info(f"Job started successfully", extra={"job_id": job_id})
-            
-            return {
-                'statusCode': 200,
-                'body': {
-                    'response': response
-                }
-            }
+            response_msg = "Job started successfully"
+            status_code =200
         else:
-            error_message = response['body'].get('message', 'Unknown error')
+            response_msg = response['body'].get('message', 'Unknown error')
             logger.error("Failed to start job", extra={
-                "error": error_message
+                "error": response_msg
             })
+            status_code =500
             
-            return {
-                'statusCode': response['statusCode'],
-                'body': {
-                    'message': 'Failed to start data automation job',
-                    'error': error_message
-                }
-            }
-            
-    except ValueError as e:
-        logger.error("Validation error", exc_info=True)
         return {
-            'statusCode': 400,
-            'body': {
-                'message': 'Validation error',
-                'error': str(e)
-            }
-        }
-        
+                  'statusCode': status_code,
+                  'headers': COMMON_HEADERS,
+                  'body': json.dumps({
+                      'message': response_msg,
+                      'response': response
+                  })
+              }    
     except Exception as e:
         logger.error("Unexpected error", exc_info=True)
         return {
             'statusCode': 500,
+            'headers': COMMON_HEADERS,
             'body': {
                 'message': 'Internal server error',
                 'error': str(e)

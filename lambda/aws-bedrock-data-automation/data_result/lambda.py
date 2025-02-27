@@ -22,6 +22,12 @@ logger = Logger()
 tracer = Tracer()
 metrics = Metrics(namespace="DATA_AUTOMATION_STATUS")
 
+COMMON_HEADERS = {
+    "Access-Control-Allow-Headers" : "Content-Type",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+}
+
 def process_event_bridge_event(event: Dict[str, Any]) -> Dict[str, Any]:
     """
     Process EventBridge events
@@ -89,6 +95,7 @@ async def data_automation_status(event: Dict[str, Any], context: Any) -> Dict[st
             logger.error(error_msg)
             return {
                 'statusCode': 400,
+                'headers': COMMON_HEADERS,
                 'body': {
                     'message': error_msg
                 }
@@ -116,41 +123,12 @@ async def data_automation_status(event: Dict[str, Any], context: Any) -> Dict[st
         
         return {
             'statusCode': 200,
+            'headers': COMMON_HEADERS,
             'body': {
                 **results,
             }
         }
-        
-    except ValueError as e:
-        logger.error("Validation error", extra={
-            "error": str(e),
-            "event_id": event.get("id")
-        })
-        metrics.add_metadata(key="errorType", value="ValidationError")
-        return {
-            'statusCode': 400,
-            'body': {
-                'message': 'Validation error',
-                'error': str(e),
-                'event_id': event.get("id")
-            }
-        }
-        
-    except TimeoutError as e:
-        logger.error("Operation timed out", extra={
-            "error": str(e),
-            "event_id": event.get("id")
-        })
-        metrics.add_metadata(key="errorType", value="TimeoutError")
-        return {
-            'statusCode': 408,
-            'body': {
-                'message': 'Operation timed out',
-                'error': str(e),
-                'event_id': event.get("id")
-            }
-        }
-        
+            
     except Exception as e:
         logger.error("Unexpected error", extra={
             "error": str(e),
@@ -159,6 +137,7 @@ async def data_automation_status(event: Dict[str, Any], context: Any) -> Dict[st
         metrics.add_metadata(key="errorType", value="UnexpectedError")
         return {
             'statusCode': 500,
+            'headers': COMMON_HEADERS,
             'body': {
                 'message': 'Internal server error',
                 'error': str(e),

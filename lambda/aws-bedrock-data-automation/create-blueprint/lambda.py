@@ -26,6 +26,11 @@ metrics = Metrics(namespace="CREATE_BLUEPRINT")
 
 input_bucket = os.environ.get('INPUT_BUCKET')
 
+COMMON_HEADERS = {
+    "Access-Control-Allow-Headers" : "Content-Type",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+}
 class OperationType(str, Enum):
     CREATE_BLUEPRINT = "CREATE"
     DELETE_BLUEPRINT = "DELETE"
@@ -206,10 +211,7 @@ def handler(event, context: LambdaContext):
                 
         return {
                   'statusCode': status_code,
-                  'headers': {        
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*"
-                    },
+                  'headers': COMMON_HEADERS,
                   'body': json.dumps({
                       'message': response_msg,
                       'response': response
@@ -221,6 +223,7 @@ def handler(event, context: LambdaContext):
         print(f"Unexpected error: {str(e)}")
         return {
             'statusCode': 500,
+            'headers': COMMON_HEADERS,
             'body': json.dumps({
                 'message': 'Unexpected error occurred',
                 'error': str(e)

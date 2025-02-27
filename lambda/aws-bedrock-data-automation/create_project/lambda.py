@@ -19,6 +19,12 @@ logger = Logger()
 tracer = Tracer()
 metrics = Metrics(namespace="CREATE_PROJECT")
 
+COMMON_HEADERS = {
+    "Access-Control-Allow-Headers" : "Content-Type",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
+
+}
 
 def process_event_bridge_event(event: Dict[str, Any]) -> Dict[str, Any]:
     """
@@ -109,10 +115,7 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
 
         return {
                   'statusCode': status_code,
-                  'headers': {        
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*"
-                    },
+                  'headers': COMMON_HEADERS,
                   'body': json.dumps({
                       'message': response_msg,
                       'response': response
@@ -123,6 +126,7 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
         logger.error("Unexpected error", extra={"error": str(e)})
         return {
             'statusCode': 500,
+            'headers': COMMON_HEADERS,
             'body': json.dumps({
                 'message': 'Internal server error',
                 'error': str(e)
