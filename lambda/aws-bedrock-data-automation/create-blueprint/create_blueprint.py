@@ -122,6 +122,7 @@ def create_blueprint(schema_content,blueprint_details):
         logger.error("Error creating blueprint", extra={
             "error": str(e)
         })
+        raise e
         
 
 def list_blueprints(detail) -> dict:
@@ -210,7 +211,7 @@ def update_blueprint(blueprint_details):
     
         schema = blueprint_details.get('schema')
         if schema is None:
-            raise ValueError("schema  is required to update a blueprint")
+            logger.warning("updating a blueprint without schema")
 
         blueprint_stage = blueprint_details.get('blueprint_stage', BlueprintStage.LIVE)
         if blueprint_stage not in [stage.value for stage in BlueprintStage]:
@@ -242,6 +243,7 @@ def update_blueprint(blueprint_details):
         logger.error("Error updating blueprint", extra={
             "error": str(e)
         })
+        raise e
         
         
 def get_blueprint(blueprint_details):
@@ -290,6 +292,7 @@ def get_blueprint(blueprint_details):
         logger.error("Error fetching blueprint ", extra={
             "error": str(e)
         })
+        raise e
        
 
 
@@ -348,4 +351,5 @@ def delete_blueprint(blueprint_arn: str, blueprint_version: str = None) -> Dict[
             'blueprint_version': blueprint_version,
             'error': str(e)
         })
+        raise e
         

@@ -197,11 +197,10 @@ def handler(event, context: LambdaContext):
                         }
                 
                 if not schema_content or not schema_content.strip():
-                    response_msg = "Schema content cannot be empty or blank"
-                    logger.error(response_msg)
-                else:
-                    response= create_blueprint(schema_content,blueprint_details)
-                    response_msg='Blueprint created successfully'
+                    logger.warning("No Schema provided , creating a custom blueprint with no schema")
+                
+                response= create_blueprint(schema_content,blueprint_details)
+                response_msg='Blueprint created successfully'
             
             case _:
                 response_msg = (f"Unknown operation type: {operation_type}. "

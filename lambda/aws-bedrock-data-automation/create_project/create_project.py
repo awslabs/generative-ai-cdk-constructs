@@ -94,7 +94,7 @@ def get_project(project_details):
         logger.error("Error fetching project ", extra={
             "error": str(e)
         })
-        
+        raise e
     
 
 def list_projects(project_details):
@@ -145,6 +145,7 @@ def list_projects(project_details):
         logger.error("Error fetching project ", extra={
             "error": str(e)
         })
+        raise e
         
 
 def delete_project(project_arn: str) -> None:
@@ -224,9 +225,10 @@ def update_project(project_details: dict) -> Dict[str, Any]:
             "error_code": error_code,
             "error_message": error_message
         })
+        raise e
         
 
     except Exception as e:
         logger.error("Unexpected error updating project", extra={"error": str(e)})
-        
+        raise e
 

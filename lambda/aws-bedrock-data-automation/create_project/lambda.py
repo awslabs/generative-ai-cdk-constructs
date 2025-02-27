@@ -109,7 +109,7 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
                 
             case _:
                 response_msg = (f"Unknown operation type: {operation_type}. "
-                              "The supported operations are - create, update, delete and get.")
+                              "The supported operations are - create, update, delete , get and list.")
                 logger.warning(response_msg)
                 status_code = 400
 
