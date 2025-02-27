@@ -207,12 +207,7 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
             return {
                 'statusCode': 200,
                 'body': {
-                    'message': 'Data automation job started successfully',
-                    'jobId': job_id,
-                    'clientToken': client_token,
-                    'configurations': {
-                        k: str(v) for k, v in configs.items()
-                    }
+                    'response': response
                 }
             }
         else:

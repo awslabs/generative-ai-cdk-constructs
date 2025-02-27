@@ -12,6 +12,7 @@
 import json
 import boto3
 from typing import Dict, Any
+from datetime import datetime
 from aws_lambda_powertools import Logger,Metrics,Tracer
 from botocore.exceptions import ClientError
 from project_config import ProjectConfig
@@ -22,7 +23,11 @@ metrics = Metrics(namespace="CREATE_PROJECT")
 
 bda_client = boto3.client("bedrock-data-automation")
 
-
+class DateTimeEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        return super().default(obj)
 
 def create_project(project_details: dict) -> str:
     """Create a data automation project"""
@@ -82,27 +87,65 @@ def get_project(project_details):
         logger.info("Successfully get project", extra={
             "response": response,
         })
-        
-        return {
-            'statusCode': 200,
-            'body': json.dumps({
-                'message': 'data automation project fetched successfully',
-                'response': response
-            })
-        }
+    
+        return json.dumps(response, cls=DateTimeEncoder)
         
     except Exception as e:
         logger.error("Error fetching project ", extra={
             "error": str(e)
         })
-        return {
-            'statusCode': 500,
-            'body': json.dumps({
-                'message': 'Error fetching project',
-                'error': str(e)
-            })
-        }
+        
+    
 
+def list_projects(project_details):
+    """
+    list  bda projects  using boto3 client
+    """
+    try:
+        
+        blueprint_stage = project_details.get('blueprint_stage')
+        resource_owner = project_details.get('resource_owner')    
+        blueprint_arn =project_details.get('blueprint_arn')
+        blueprint_version =project_details.get('blueprint_version')
+        max_results =project_details.get('max_results')
+        project_stage =project_details.get('project_stage')
+        next_token =project_details.get('next_token', '')
+        
+        request_params = {}
+        
+        if blueprint_arn:
+            request_params['blueprintArn'] = blueprint_arn
+        if max_results:
+            request_params['maxResults'] = max_results
+        if next_token:
+            request_params['nextToken'] = next_token
+        if project_stage:
+            request_params['projectStageFilter'] = project_stage
+        if blueprint_version:
+            request_params['blueprintVersion'] = blueprint_version
+        if blueprint_stage:
+            request_params['blueprintStage'] = blueprint_stage
+        if resource_owner:
+            request_params['resourceOwner'] = resource_owner
+        
+        
+        logger.info("list project", extra={
+            "request_params": request_params
+        })
+
+        response = bda_client.list_data_automation_projects(**request_params)
+        
+        logger.info("Successfully fethed project list", extra={
+            "response": response,
+        })   
+        return json.dumps(response, cls=DateTimeEncoder)
+
+        
+    except Exception as e:
+        logger.error("Error fetching project ", extra={
+            "error": str(e)
+        })
+        
 
 def delete_project(project_arn: str) -> None:
     """
@@ -114,10 +157,10 @@ def delete_project(project_arn: str) -> None:
     try:
         logger.info("Deleting project", extra={"project_arn": project_arn})
 
-        bda_client.delete_data_automation_project(projectArn=project_arn)
-
+        response = bda_client.delete_data_automation_project(projectArn=project_arn)
         logger.info("Project deleted successfully", extra={"project_arn": project_arn})
-
+        return response
+        
     except ClientError as e:
         error_code = e.response.get('Error', {}).get('Code', 'Unknown')
         error_message = e.response.get('Error', {}).get('Message', str(e))
@@ -172,15 +215,7 @@ def update_project(project_details: dict) -> Dict[str, Any]:
             "response": response
         })
 
-        return {
-            'statusCode': 200,
-            'body': {
-                'message': 'Project updated successfully',
-                'projectArn': response.get('projectArn'),
-                'projectStatus': response.get('projectStatus'),
-                'lastUpdatedAt': str(response.get('lastUpdatedAt'))
-            }
-        }
+        return response
 
     except ClientError as e:
         error_code = e.response.get('Error', {}).get('Code', 'Unknown')
@@ -189,22 +224,9 @@ def update_project(project_details: dict) -> Dict[str, Any]:
             "error_code": error_code,
             "error_message": error_message
         })
-        return {
-            'statusCode': 400,
-            'body': {
-                'message': 'Failed to update project',
-                'error_code': error_code,
-                'error_message': error_message
-            }
-        }
+        
 
     except Exception as e:
         logger.error("Unexpected error updating project", extra={"error": str(e)})
-        return {
-            'statusCode': 500,
-            'body': {
-                'message': 'Internal server error',
-                'error': str(e)
-            }
-        }
+        
 

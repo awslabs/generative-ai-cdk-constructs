@@ -205,7 +205,11 @@ def handler(event, context: LambdaContext):
                 status_code = 400
                 
         return {
-                  'status_code': status_code,
+                  'statusCode': status_code,
+                  'headers': {        
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*"
+                    },
                   'body': json.dumps({
                       'message': response_msg,
                       'response': response

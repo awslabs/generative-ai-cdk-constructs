@@ -13,7 +13,7 @@ from typing import Dict, Any
 from aws_lambda_powertools import Logger, Metrics, Tracer
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_lambda_powertools.utilities.data_classes import EventBridgeEvent, APIGatewayProxyEvent
-from create_project import create_project,get_project,update_project,delete_project
+from create_project import create_project,get_project,update_project,delete_project,list_projects
 
 logger = Logger()
 tracer = Tracer()
@@ -93,6 +93,11 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
                     raise ValueError("projectArn is required for get operation")
                 
                 response = get_project(project_config )
+                response_msg='Project fetched successfully' 
+                
+            case "list":
+                
+                response = list_projects(project_config )
                 response_msg='Project fetched successfully'  
                
                 
@@ -103,7 +108,11 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
                 status_code = 400
 
         return {
-                  'status_code': status_code,
+                  'statusCode': status_code,
+                  'headers': {        
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*"
+                    },
                   'body': json.dumps({
                       'message': response_msg,
                       'response': response
@@ -113,7 +122,7 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
     except Exception as e:
         logger.error("Unexpected error", extra={"error": str(e)})
         return {
-            'status_code': 500,
+            'statusCode': 500,
             'body': json.dumps({
                 'message': 'Internal server error',
                 'error': str(e)

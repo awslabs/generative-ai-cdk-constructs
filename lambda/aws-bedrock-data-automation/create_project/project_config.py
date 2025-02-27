@@ -60,6 +60,13 @@ class AudioGenerativeField(str, Enum):
     CHAPTER_SUMMARY = "CHAPTER_SUMMARY"
     IAB = "IAB"
 
+class Modality(str, Enum):
+    DOCUMENT = "document"
+    IMAGE = "image"
+    VIDEO = "video"
+    AUDIO = "audio"
+
+
 def ensure_list(x):
     """
     Ensures the input is always returned as a list.
@@ -88,7 +95,7 @@ class ProjectConfig:
 
     def _validate_required_fields(self) -> None:
         """Validate required fields are present in project_details"""
-        required_fields = ['projectName']
+        required_fields = ['projectName','modality']
         missing_fields = [field for field in required_fields 
                          if not self.project_details.get(field)]
         if missing_fields:
@@ -101,13 +108,18 @@ class ProjectConfig:
     def _get_standard_output_config(self) -> Dict[str, Any]:
         """Get standard output configuration if present"""
         config = self.project_details.get('standardOutputConfiguration', {})
-       
-        return {
-            'document': self._get_document_config(config.get('document', {})),
-            'image': self._get_image_config(config.get('image', {})),
-            'video': self._get_video_config(config.get('video', {})),
-            'audio': self._get_audio_config(config.get('audio', {}))
-        }
+        modality = self.project_details.get('modality')
+        if modality == Modality.DOCUMENT.value:
+            return {'document': self._get_document_config(config.get('document', {}))}
+        elif modality == Modality.IMAGE.value:
+            return {'image': self._get_image_config(config.get('image', {}))}
+        elif modality == Modality.VIDEO.value:
+            return {'video': self._get_video_config(config.get('video', {}))}
+        elif modality == Modality.AUDIO.value:
+            return {'audio': self._get_audio_config(config.get('audio', {}))}
+        else:
+            raise ValueError(f"Invalid modality: {modality}. Must be one of {[e.value for e in Modality]}")
+        
 
     def _get_document_config(self, config: Dict[str, Any]) -> Dict[str, Any]:
         """Process document configuration"""

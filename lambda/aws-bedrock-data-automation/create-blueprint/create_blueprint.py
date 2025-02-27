@@ -13,6 +13,7 @@ import json
 from typing import Any, Dict
 import uuid
 import boto3
+from datetime import datetime
 from aws_lambda_powertools import Logger,Metrics,Tracer
 from custom_blueprint_schema import BlueprintStage,BlueprintType
 
@@ -26,6 +27,12 @@ class ResourceOwner(Enum):
     """Enum for valid resource owner filters"""
     SERVICE = "SERVICE"
     ACCOUNT = "ACCOUNT"
+
+class DateTimeEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.isoformat()
+        return super().default(obj)
 
 
 def create_blueprint(schema_content,blueprint_details):
@@ -84,14 +91,8 @@ def create_blueprint(schema_content,blueprint_details):
             "response": response,
             "blueprint_arn": blueprint_arn
         })
+        return response
         
-        return {
-            'statusCode': 200,
-            'body': json.dumps({
-                'message': 'Blueprint created successfully',
-                'blueprint_arn': blueprint_arn
-            })
-        }
 
     except bda_client.exceptions.ConflictException as ce:
         logger.warning("Blueprint already exists. Getting existing blueprint.", extra={
@@ -121,13 +122,7 @@ def create_blueprint(schema_content,blueprint_details):
         logger.error("Error creating blueprint", extra={
             "error": str(e)
         })
-        return {
-            'statusCode': 500,
-            'body': json.dumps({
-                'message': 'Error creating blueprint',
-                'error': str(e)
-            })
-        }
+        
 
 def list_blueprints(detail) -> dict:
     """
@@ -154,33 +149,33 @@ def list_blueprints(detail) -> dict:
         ClientError: If AWS API call fails
     """
     try:
-        request_params = {}
         
         blueprint_stage = detail.get('blueprint_stage')
-        if blueprint_stage not in [stage.value for stage in BlueprintStage]:
-            raise ValueError(f"Invalid blueprint stage: {blueprint_stage}. Must be one of {[stage.value for stage in BlueprintStage]}")
-
-        resource_owner = detail.get('resource_owner')
-        if resource_owner not in [stage.value for stage in ResourceOwner]:
-            raise ValueError(f"Invalid resource owner: {resource_owner}. Must be one of {[stage.value for stage in ResourceOwner]}")
-
-        if 'blueprint_arn' in detail:
-            request_params['blueprint_arn'] = detail['blueprint_arn']
-            
-        if 'max_results' in detail:
-            request_params['max_results'] = detail.get('max_results', 1)
-            
-        if 'next_token' in detail:
-            request_params['next_token'] = detail['next_token']
-            
-        if 'project_arn' in detail:
-            request_params['project_arn'] = detail['project_arn']
-            
-        if 'project_stage' in detail:
-            request_params['project_stage'] = detail['project_stage']
-
+        resource_owner = detail.get('resource_owner')    
+        blueprint_arn =detail.get('blueprint_arn')
+        max_results =detail.get('max_results')
+        project_stage =detail.get('project_stage')
+        project_arn =detail.get('project_arn','')
+        next_token =detail.get('next_token', '')
        
+        request_params = {}
         
+        if blueprint_arn:
+            request_params['blueprintArn'] = blueprint_arn
+        if resource_owner:
+            request_params['resourceOwner'] = resource_owner
+        if blueprint_stage:
+            request_params['blueprintStageFilter'] = blueprint_stage
+        if max_results:
+            request_params['maxResults'] = max_results
+        if next_token:
+            request_params['nextToken'] = next_token
+        if blueprint_arn:
+            request_params['blueprintArn'] = blueprint_arn
+        if project_stage:
+            request_params['projectFilter']['projectStage'] = project_stage
+        if project_arn:
+            request_params['projectFilter']['projectArn'] = project_arn            
         # Log request parameters for debugging
         logger.info("Listing blueprints with params", extra={"params": request_params})
 
@@ -193,7 +188,7 @@ def list_blueprints(detail) -> dict:
             extra={"blueprint_count": len(response.get('blueprintSummaries', []))}
         )
         logger.info("List blueprints response", extra={"response": response})
-        return response
+        return json.dumps(response, cls=DateTimeEncoder)
 
     except bda_client.exceptions.ValidationException as e:
         logger.error("Validation error in list_blueprints", extra={"error": str(e)})
@@ -241,26 +236,12 @@ def update_blueprint(blueprint_details):
             "response": response,
             "blueprint_arn": blueprint_arn
         })
-        
-        return {
-            'statusCode': 200,
-            'body': json.dumps({
-                'message': 'Blueprint updated successfully',
-                'response': response
-            })
-        }
+        return response
 
     except Exception as e:
         logger.error("Error updating blueprint", extra={
             "error": str(e)
         })
-        return {
-            'statusCode': 500,
-            'body': json.dumps({
-                'message': 'Error updating blueprint',
-                'error': str(e)
-            })
-        }
         
         
 def get_blueprint(blueprint_details):
@@ -302,25 +283,14 @@ def get_blueprint(blueprint_details):
             "response": response,
         })
         
-        return {
-            'statusCode': 200,
-            'body': json.dumps({
-                'message': 'Blueprint fetched successfully',
-                'response': response
-            })
-        }
+        return json.dumps(response, cls=DateTimeEncoder)
+
         
     except Exception as e:
         logger.error("Error fetching blueprint ", extra={
             "error": str(e)
         })
-        return {
-            'statusCode': 500,
-            'body': json.dumps({
-                'message': 'Error creating blueprint version',
-                'error': str(e)
-            })
-        }
+       
 
 
     
@@ -356,39 +326,21 @@ def delete_blueprint(blueprint_arn: str, blueprint_version: str = None) -> Dict[
         logger.info("Successfully deleted blueprint", extra={
             "response": response
         })
-        
-        return {
-            'statusCode': 200,
-            'body': json.dumps({
-                'message': 'Blueprint deleted successfully',
-            })
-        }
+        return response
         
     except bda_client.exceptions.ResourceNotFoundException as e:
         logger.error("Blueprint not found", extra={
             'blueprint_arn': blueprint_arn,
             'blueprint_version': blueprint_version
         })
-        return {
-            'statusCode': 404,
-            'body': json.dumps({
-                'message': 'Blueprint not found',
-                'error': str(e)
-            })
-        }
+        
         
     except bda_client.exceptions.ValidationException as e:
         logger.error("Validation error", extra={
             'blueprint_arn': blueprint_arn,
             'blueprint_version': blueprint_version
         })
-        return {
-            'statusCode': 400,
-            'body': json.dumps({
-                'message': 'Validation error while deleting blueprint',
-                'error': str(e)
-            })
-        }
+        
         
     except Exception as e:
         logger.error("Error deleting blueprint", extra={
@@ -396,10 +348,4 @@ def delete_blueprint(blueprint_arn: str, blueprint_version: str = None) -> Dict[
             'blueprint_version': blueprint_version,
             'error': str(e)
         })
-        return {
-            'statusCode': 500,
-            'body': json.dumps({
-                'message': 'Error deleting blueprint',
-                'error': str(e)
-            })
-        }
+        
