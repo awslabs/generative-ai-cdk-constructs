@@ -140,32 +140,32 @@ export class BedrockFoundationModel implements IInvokable {
    ***************************************************************************/
   public static readonly ANTHROPIC_CLAUDE_3_5_SONNET_V2_0 = new BedrockFoundationModel(
     'anthropic.claude-3-5-sonnet-20241022-v2:0',
-    { supportsAgents: true, supportsCrossRegion: true },
+    { supportsAgents: true, supportsCrossRegion: true }
   );
 
   public static readonly ANTHROPIC_CLAUDE_3_5_SONNET_V1_0 = new BedrockFoundationModel(
     'anthropic.claude-3-5-sonnet-20240620-v1:0',
-    { supportsAgents: true, supportsCrossRegion: true },
+    { supportsAgents: true, supportsCrossRegion: true }
   );
 
   public static readonly ANTHROPIC_CLAUDE_3_5_HAIKU_V1_0 = new BedrockFoundationModel(
     'anthropic.claude-3-5-haiku-20241022-v1:0',
-    { supportsAgents: true, supportsCrossRegion: true },
+    { supportsAgents: true, supportsCrossRegion: true }
   );
 
   public static readonly ANTHROPIC_CLAUDE_OPUS_V1_0 = new BedrockFoundationModel(
     'anthropic.claude-3-opus-20240229-v1:0',
-    { supportsAgents: true },
+    { supportsAgents: true }
   );
 
   public static readonly ANTHROPIC_CLAUDE_SONNET_V1_0 = new BedrockFoundationModel(
     'anthropic.claude-3-sonnet-20240229-v1:0',
-    { supportsAgents: true, supportsCrossRegion: true },
+    { supportsAgents: true, supportsCrossRegion: true }
   );
 
   public static readonly ANTHROPIC_CLAUDE_HAIKU_V1_0 = new BedrockFoundationModel(
     'anthropic.claude-3-haiku-20240307-v1:0',
-    { supportsAgents: true, supportsCrossRegion: true },
+    { supportsAgents: true, supportsCrossRegion: true }
   );
 
   public static readonly ANTHROPIC_CLAUDE_V2_1 = new BedrockFoundationModel('anthropic.claude-v2:1', {
@@ -206,14 +206,14 @@ export class BedrockFoundationModel implements IInvokable {
     'meta.llama3-1-70b-instruct-v1:0',
     {
       supportsCrossRegion: true,
-    },
+    }
   );
 
   public static readonly META_LLAMA_3_2_11B_INSTRUCT_V1 = new BedrockFoundationModel(
     'meta.llama3-2-11b-instruct-v1:0',
     {
       supportsCrossRegion: true,
-    },
+    }
   );
 
   public static readonly META_LLAMA_3_2_3B_INSTRUCT_V1 = new BedrockFoundationModel('meta.llama3-2-3b-instruct-v1:0', {
@@ -226,13 +226,13 @@ export class BedrockFoundationModel implements IInvokable {
 
   public static fromCdkFoundationModelId(
     modelId: FoundationModelIdentifier,
-    props: BedrockFoundationModelProps = {},
+    props: BedrockFoundationModelProps = {}
   ): BedrockFoundationModel {
     return new BedrockFoundationModel(modelId.modelId, props);
   }
   public static fromCdkFoundationModel(
     modelId: FoundationModel,
-    props: BedrockFoundationModelProps = {},
+    props: BedrockFoundationModelProps = {}
   ): BedrockFoundationModel {
     return new BedrockFoundationModel(modelId.modelId, props);
   }
@@ -293,7 +293,7 @@ export class BedrockFoundationModel implements IInvokable {
   public grantInvoke(grantee: IGrantable): Grant {
     const grant = Grant.addToPrincipal({
       grantee: grantee,
-      actions: ['bedrock:InvokeModel'],
+      actions: ['bedrock:InvokeModel*', 'bedrock:GetFoundationModel'],
       resourceArns: [this.invokableArn],
     });
     return grant;
@@ -315,7 +315,7 @@ export class BedrockFoundationModel implements IInvokable {
 
     return Grant.addToPrincipal({
       grantee: grantee,
-      actions: ['bedrock:InvokeModel'],
+      actions: ['bedrock:InvokeModel*', 'bedrock:GetFoundationModel'],
       resourceArns: [invokableArn],
     });
   }

@@ -151,7 +151,7 @@ export class CrossRegionInferenceProfile implements IInvokable, IInferenceProfil
   grantProfileUsage(grantee: IGrantable): Grant {
     const grant = Grant.addToPrincipal({
       grantee: grantee,
-      actions: ['bedrock:GetInferenceProfile', 'bedrock:InvokeModel'],
+      actions: ['bedrock:GetInferenceProfile', 'bedrock:InvokeModel*'],
       resourceArns: [this.inferenceProfileArn],
     });
     return grant;
