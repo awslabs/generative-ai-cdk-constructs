@@ -483,6 +483,69 @@
         }
       ]
     },
+    "integ:issue991:assert": {
+      "name": "integ:issue991:assert",
+      "description": "assert the snapshot of integration test 'issue991'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/issue991.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'issue991'. Run 'projen integ:issue991:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/issue991.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/issue991.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/issue991.integ.snapshot/ test/integ/.tmp/issue991.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:issue991:deploy": {
+      "name": "integ:issue991:deploy",
+      "description": "deploy integration test 'issue991' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/issue991.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/issue991.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/issue991.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/issue991.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/issue991.integ/deploy.cdk.out test/integ/issue991.integ.snapshot"
+        },
+        {
+          "spawn": "integ:issue991:destroy"
+        }
+      ]
+    },
+    "integ:issue991:destroy": {
+      "name": "integ:issue991:destroy",
+      "description": "destroy integration test 'issue991'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/issue991.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:issue991:snapshot": {
+      "name": "integ:issue991:snapshot",
+      "description": "update snapshot for integration test \"issue991\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/issue991.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/issue991.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:issue991:watch": {
+      "name": "integ:issue991:watch",
+      "description": "watch integration test 'issue991' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/issue991.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/issue991.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:kendra-genai:assert": {
       "name": "integ:kendra-genai:assert",
       "description": "assert the snapshot of integration test 'kendra-genai'",
@@ -624,6 +687,9 @@
         },
         {
           "spawn": "integ:issue747:snapshot"
+        },
+        {
+          "spawn": "integ:issue991:snapshot"
         },
         {
           "spawn": "integ:kendra-genai:snapshot"
@@ -772,6 +838,9 @@
         },
         {
           "spawn": "integ:issue747:assert"
+        },
+        {
+          "spawn": "integ:issue991:assert"
         },
         {
           "spawn": "integ:kendra-genai:assert"

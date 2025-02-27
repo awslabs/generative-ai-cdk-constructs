@@ -89,7 +89,10 @@
                             "policyDocument": {
                               "Statement": [
                                 {
-                                  "Action": "bedrock:InvokeModel",
+                                  "Action": [
+                                    "bedrock:InvokeModel*",
+                                    "bedrock:GetFoundationModel"
+                                  ],
                                   "Effect": "Allow",
                                   "Resource": {
                                     "Fn::Join": [
@@ -107,7 +110,7 @@
                                 {
                                   "Action": [
                                     "bedrock:GetInferenceProfile",
-                                    "bedrock:InvokeModel"
+                                    "bedrock:InvokeModel*"
                                   ],
                                   "Effect": "Allow",
                                   "Resource": {
@@ -181,14 +184,14 @@
                         "skipResourceInUseCheckOnDelete": false
                       }
                     ],
-                    "agentName": "test-agent",
+                    "agentName": "test-agent-claude37",
                     "agentResourceRoleArn": {
                       "Fn::GetAtt": [
                         "AgentRole9D587F56",
                         "Arn"
                       ]
                     },
-                    "autoPrepare": false,
+                    "autoPrepare": true,
                     "description": "Agent description.",
                     "foundationModel": {
                       "Fn::Join": [
