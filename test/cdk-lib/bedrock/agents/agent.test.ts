@@ -17,6 +17,7 @@ import { Role } from 'aws-cdk-lib/aws-iam';
 import { Key } from 'aws-cdk-lib/aws-kms';
 import { Function, IFunction } from 'aws-cdk-lib/aws-lambda';
 import * as bedrock from '../../../../src/cdk-lib/bedrock';
+import { Memory } from '../../../../src/cdk-lib/bedrock/agents/memory';
 
 describe('CDK-Agent', () => {
   let stack: cdk.Stack;
@@ -440,6 +441,125 @@ describe('CDK-Agent', () => {
 
       expect(() => agent.addKnowledgeBase(invalidKb)).toThrow(
         'If instructionForAgents is not provided, the description property of the KnowledgeBase ABCDEFG1234 must be provided.',
+      );
+    });
+  });
+  /*******************************************************
+   *              MEMORY CONFIGURATION in Agents		 *
+   *******************************************************/
+  describe('w/ Memory Configuration', () => {
+    test('default memory configuration is set correctly', () => {
+      // WHEN
+      new bedrock.Agent(stack, 'TestAgent', {
+        name: 'TestAgent',
+        foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+        instruction: 'This is a test instruction',
+        memory: Memory.SESSION_SUMMARY,
+      });
+
+      // THEN
+      Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
+        AgentName: 'TestAgent',
+        Instruction: 'This is a test instruction',
+        MemoryConfiguration: {
+          EnabledMemoryTypes: ['SESSION_SUMMARY'],
+          StorageDays: 30,
+          SessionSummaryConfiguration: {
+            MaxRecentSessions: 20,
+          },
+        },
+      });
+    });
+
+    test('custom memory configuration is set correctly', () => {
+      // WHEN
+      new bedrock.Agent(stack, 'TestAgent', {
+        name: 'TestAgent',
+        foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+        instruction: 'This is a test instruction',
+        memory: Memory.sessionSummary({
+          memoryDurationDays: 60,
+          maxRecentSessions: 30,
+        }),
+      });
+
+      // THEN
+      Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
+        AgentName: 'TestAgent',
+        Instruction: 'This is a test instruction',
+        MemoryConfiguration: {
+          EnabledMemoryTypes: ['SESSION_SUMMARY'],
+          StorageDays: 60,
+          SessionSummaryConfiguration: {
+            MaxRecentSessions: 30,
+          },
+        },
+      });
+    });
+
+    test('memory duration days must be between 1 and 365', () => {
+      // THEN
+      expect(
+        () =>
+          new bedrock.Agent(stack, 'TestAgent', {
+            name: 'TestAgent',
+            foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+            instruction: 'This is a test instruction',
+            memory: Memory.sessionSummary({
+              memoryDurationDays: 366,
+            }),
+          }),
+      ).toThrow(/memoryDurationDays must be between 1 and 365/);
+
+      expect(
+        () =>
+          new bedrock.Agent(stack, 'TestAgent2', {
+            name: 'TestAgent2',
+            foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+            instruction: 'This is a test instruction',
+            memory: Memory.sessionSummary({
+              memoryDurationDays: 0,
+            }),
+          }),
+      ).toThrow(/memoryDurationDays must be between 1 and 365/);
+    });
+
+    test('max recent sessions must be at least 1', () => {
+      // THEN
+      expect(
+        () =>
+          new bedrock.Agent(stack, 'TestAgent', {
+            name: 'TestAgent',
+            foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+            instruction: 'This is a test instruction',
+            memory: Memory.sessionSummary({
+              maxRecentSessions: 0,
+            }),
+          }),
+      ).toThrow(/maxRecentSessions must be greater than 0/);
+    });
+
+    test('memory configuration can be disabled', () => {
+      // WHEN
+      new bedrock.Agent(stack, 'TestAgent', {
+        name: 'TestAgent',
+        foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+        instruction: 'This is a test instruction',
+        memory: undefined,
+      });
+
+      // THEN
+      Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
+        AgentName: 'TestAgent',
+        Instruction: 'This is a test instruction',
+      });
+
+      const template = Template.fromStack(stack);
+      template.hasResourceProperties(
+        'AWS::Bedrock::Agent',
+        Match.not({
+          MemoryConfiguration: Match.anyValue(),
+        }),
       );
     });
   });

@@ -25,6 +25,7 @@ import * as validation from '../../../common/helpers/validation-helpers';
 import { IGuardrail } from '../guardrails/guardrails';
 import { IKnowledgeBase } from '../knowledge-bases/knowledge-base';
 import { IInvokable } from '../models';
+import { Memory } from './memory';
 
 /******************************************************************************
  *                              COMMON
@@ -168,6 +169,15 @@ export interface AgentProps {
    * @default - true
    */
   readonly forceDelete?: boolean;
+  /**
+   * The type and configuration of the memory to maintain context across multiple sessions and recall past interactions.
+   * This can be useful for maintaining continuity in multi-turn conversations and recalling user preferences
+   * or past interactions.
+   *
+   * @see https://docs.aws.amazon.com/bedrock/latest/userguide/agents-memory.html
+   * @default - No memory will be used. Agents will retain context from the current session only.
+   */
+  readonly memory?: Memory;
 }
 /******************************************************************************
  *                      ATTRS FOR IMPORTED CONSTRUCT
@@ -262,20 +272,6 @@ export class Agent extends AgentBase {
    */
   public readonly name: string;
   /**
-   * The description for the agent.
-   */
-  public readonly description?: string;
-  /**
-   * The instruction used by the agent. This determines how the agent will perform his task.
-   */
-  public readonly instruction?: string;
-  /**
-   * Overrides some prompt templates in different parts of an agent sequence configuration.
-   *
-   * @default - No overrides are provided.
-   */
-  readonly promptOverrideConfiguration?: PromptOverrideConfiguration;
-  /**
    * Whether the agent will automatically update the DRAFT version of the agent after
    * making changes to the agent.
    */
@@ -306,6 +302,27 @@ export class Agent extends AgentBase {
    * Whether the resource will be deleted even if it's in use.
    */
   public readonly forceDelete: boolean;
+  // ------------------------------------------------------
+  // CDK-only attributes (optional)
+  // ------------------------------------------------------
+  /**
+   * The description for the agent.
+   */
+  public readonly description?: string;
+  /**
+   * The instruction used by the agent. This determines how the agent will perform his task.
+   */
+  public readonly instruction?: string;
+  /**
+   * Overrides some prompt templates in different parts of an agent sequence configuration.
+   *
+   * @default - No overrides are provided.
+   */
+  readonly promptOverrideConfiguration?: PromptOverrideConfiguration;
+  /**
+   * The memory configuration for the agent.
+   */
+  public readonly memory?: Memory;
   // ------------------------------------------------------
   // Lazy Attributes
   // ------------------------------------------------------
@@ -351,6 +368,7 @@ export class Agent extends AgentBase {
     this.instruction = props.instruction;
     this.promptOverrideConfiguration = props.promptOverrideConfiguration;
     this.kmsKey = props.kmsKey;
+    this.memory = props.memory;
 
     // ------------------------------------------------------
     // Role
@@ -422,6 +440,7 @@ export class Agent extends AgentBase {
       idleSessionTtlInSeconds: this.idleSessionTTL.toSeconds(),
       instruction: props.instruction,
       knowledgeBases: Lazy.any({ produce: () => this.renderKnowledgeBases() }, { omitEmptyArray: true }),
+      memoryConfiguration: props.memory,
       promptOverrideConfiguration: this.promptOverrideConfiguration?._render(),
       skipResourceInUseCheckOnDelete: this.forceDelete,
     };
