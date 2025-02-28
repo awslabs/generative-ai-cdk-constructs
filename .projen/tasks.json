@@ -168,6 +168,69 @@
         }
       ]
     },
+    "integ:agent-mem:assert": {
+      "name": "integ:agent-mem:assert",
+      "description": "assert the snapshot of integration test 'agent-mem'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/agent-mem.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'agent-mem'. Run 'projen integ:agent-mem:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/agent-mem.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/agent-mem.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/agent-mem.integ.snapshot/ test/integ/.tmp/agent-mem.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:agent-mem:deploy": {
+      "name": "integ:agent-mem:deploy",
+      "description": "deploy integration test 'agent-mem' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/agent-mem.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/agent-mem.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/agent-mem.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/agent-mem.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/agent-mem.integ/deploy.cdk.out test/integ/agent-mem.integ.snapshot"
+        },
+        {
+          "spawn": "integ:agent-mem:destroy"
+        }
+      ]
+    },
+    "integ:agent-mem:destroy": {
+      "name": "integ:agent-mem:destroy",
+      "description": "destroy integration test 'agent-mem'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/agent-mem.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:agent-mem:snapshot": {
+      "name": "integ:agent-mem:snapshot",
+      "description": "update snapshot for integration test \"agent-mem\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/agent-mem.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/agent-mem.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:agent-mem:watch": {
+      "name": "integ:agent-mem:watch",
+      "description": "watch integration test 'agent-mem' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/agent-mem.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/agent-mem.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:aws-aoss-cw-dashboard:assert": {
       "name": "integ:aws-aoss-cw-dashboard:assert",
       "description": "assert the snapshot of integration test 'aws-aoss-cw-dashboard'",
@@ -677,6 +740,9 @@
       "description": "update snapshot for all integration tests",
       "steps": [
         {
+          "spawn": "integ:agent-mem:snapshot"
+        },
+        {
           "spawn": "integ:chatprompt:snapshot"
         },
         {
@@ -826,6 +892,9 @@
         },
         {
           "spawn": "eslint"
+        },
+        {
+          "spawn": "integ:agent-mem:assert"
         },
         {
           "spawn": "integ:chatprompt:assert"

@@ -1,0 +1,374 @@
+{
+ "Resources": {
+  "AgentRole9D587F56": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Condition": {
+        "StringEquals": {
+         "aws:SourceAccount": {
+          "Ref": "AWS::AccountId"
+         }
+        },
+        "ArnLike": {
+         "aws:SourceArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":bedrock:us-east-1:",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":agent/*"
+           ]
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "bedrock.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "RoleName": "AmazonBedrockExecutionRoleForAgents_AgentMemoryTestAgentDF7EB0E5"
+   }
+  },
+  "AgentRoleDefaultPolicyA34CCA36": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "bedrock:InvokeModel*",
+        "bedrock:GetFoundationModel"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":bedrock:*::foundation-model/amazon.nova-pro-v1:0"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "bedrock:GetInferenceProfile",
+        "bedrock:InvokeModel*"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":bedrock:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":inference-profile/us.amazon.nova-pro-v1:0"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "AgentRoleDefaultPolicyA34CCA36",
+    "Roles": [
+     {
+      "Ref": "AgentRole9D587F56"
+     }
+    ]
+   }
+  },
+  "AgentAgentResourceD435B430": {
+   "Type": "AWS::Bedrock::Agent",
+   "Properties": {
+    "ActionGroups": [
+     {
+      "ActionGroupName": "UserInputAction",
+      "ActionGroupState": "DISABLED",
+      "ParentActionGroupSignature": "AMAZON.UserInput",
+      "SkipResourceInUseCheckOnDelete": false
+     },
+     {
+      "ActionGroupName": "CodeInterpreterAction",
+      "ActionGroupState": "DISABLED",
+      "ParentActionGroupSignature": "AMAZON.CodeInterpreter",
+      "SkipResourceInUseCheckOnDelete": false
+     }
+    ],
+    "AgentName": "test-mem-default",
+    "AgentResourceRoleArn": {
+     "Fn::GetAtt": [
+      "AgentRole9D587F56",
+      "Arn"
+     ]
+    },
+    "AutoPrepare": true,
+    "Description": "Agent description.",
+    "FoundationModel": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":bedrock:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":inference-profile/us.amazon.nova-pro-v1:0"
+      ]
+     ]
+    },
+    "IdleSessionTTLInSeconds": 3600,
+    "Instruction": "You're a nice agent saying Konnichiwa in Hiragana at the start of every interaction",
+    "MemoryConfiguration": {
+     "EnabledMemoryTypes": [
+      "SESSION_SUMMARY"
+     ],
+     "SessionSummaryConfiguration": {
+      "MaxRecentSessions": 20
+     },
+     "StorageDays": 30
+    },
+    "SkipResourceInUseCheckOnDelete": false
+   },
+   "DependsOn": [
+    "AgentRoleDefaultPolicyA34CCA36"
+   ]
+  },
+  "Agent2Role38FC3F9C": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Condition": {
+        "StringEquals": {
+         "aws:SourceAccount": {
+          "Ref": "AWS::AccountId"
+         }
+        },
+        "ArnLike": {
+         "aws:SourceArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":bedrock:us-east-1:",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":agent/*"
+           ]
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "bedrock.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "RoleName": "AmazonBedrockExecutionRoleForAgents_AgentMemorTestAgent2B27C37BA"
+   }
+  },
+  "Agent2RoleDefaultPolicy55328F4A": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "bedrock:InvokeModel*",
+        "bedrock:GetFoundationModel"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":bedrock:*::foundation-model/amazon.nova-pro-v1:0"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "bedrock:GetInferenceProfile",
+        "bedrock:InvokeModel*"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":bedrock:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":inference-profile/us.amazon.nova-pro-v1:0"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "Agent2RoleDefaultPolicy55328F4A",
+    "Roles": [
+     {
+      "Ref": "Agent2Role38FC3F9C"
+     }
+    ]
+   }
+  },
+  "Agent2AgentResource89D2D1CA": {
+   "Type": "AWS::Bedrock::Agent",
+   "Properties": {
+    "ActionGroups": [
+     {
+      "ActionGroupName": "UserInputAction",
+      "ActionGroupState": "DISABLED",
+      "ParentActionGroupSignature": "AMAZON.UserInput",
+      "SkipResourceInUseCheckOnDelete": false
+     },
+     {
+      "ActionGroupName": "CodeInterpreterAction",
+      "ActionGroupState": "DISABLED",
+      "ParentActionGroupSignature": "AMAZON.CodeInterpreter",
+      "SkipResourceInUseCheckOnDelete": false
+     }
+    ],
+    "AgentName": "test-mem-custom",
+    "AgentResourceRoleArn": {
+     "Fn::GetAtt": [
+      "Agent2Role38FC3F9C",
+      "Arn"
+     ]
+    },
+    "AutoPrepare": true,
+    "Description": "Agent description.",
+    "FoundationModel": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":bedrock:",
+       {
+        "Ref": "AWS::Region"
+       },
+       ":",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":inference-profile/us.amazon.nova-pro-v1:0"
+      ]
+     ]
+    },
+    "IdleSessionTTLInSeconds": 3600,
+    "Instruction": "You're a nice agent saying Konnichiwa in Hiragana at the start of every interaction",
+    "MemoryConfiguration": {
+     "EnabledMemoryTypes": [
+      "SESSION_SUMMARY"
+     ],
+     "SessionSummaryConfiguration": {
+      "MaxRecentSessions": 10
+     },
+     "StorageDays": 20
+    },
+    "SkipResourceInUseCheckOnDelete": false
+   },
+   "DependsOn": [
+    "Agent2RoleDefaultPolicy55328F4A"
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
