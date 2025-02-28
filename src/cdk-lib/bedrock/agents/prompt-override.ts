@@ -16,12 +16,14 @@ import { IFunction } from 'aws-cdk-lib/aws-lambda';
 import * as validation from '../../../common/helpers/validation-helpers';
 
 /**
- * The step in the agent sequence where to set a specific prompt configuration.
+ * The step in the agent sequence that this prompt configuration applies to.
  */
 export enum AgentStepType {
   PRE_PROCESSING = 'PRE_PROCESSING',
   ORCHESTRATION = 'ORCHESTRATION',
   POST_PROCESSING = 'POST_PROCESSING',
+  ROUTING_CLASSIFIER = 'ROUTING_CLASSIFIER',
+  MEMORY_SUMMARIZATION = 'MEMORY_SUMMARIZATION',
   KNOWLEDGE_BASE_RESPONSE_GENERATION = 'KNOWLEDGE_BASE_RESPONSE_GENERATION',
 }
 
@@ -128,12 +130,12 @@ export interface PromptStepConfigurationCustomParser extends PromptStepConfigura
 
 export interface CustomParserProps {
   /*
-  * Lambda function to use as custom parser
-  */
+   * Lambda function to use as custom parser
+   */
   readonly parser?: IFunction;
   /*
-  * prompt step configurations. At least one of the steps must make use of the custom parser.
-  */
+   * prompt step configurations. At least one of the steps must make use of the custom parser.
+   */
   readonly steps?: PromptStepConfigurationCustomParser[];
 }
 

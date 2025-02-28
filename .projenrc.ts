@@ -29,7 +29,7 @@ import {
 const GITHUB_USER = 'awslabs';
 const PUBLICATION_NAMESPACE = 'cdklabs';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
-const CDK_VERSION: string = '2.178.0';
+const CDK_VERSION: string = '2.181.1';
 
 function camelCaseIt(input: string): string {
   // Hypens and dashes to spaces and then CamelCase...

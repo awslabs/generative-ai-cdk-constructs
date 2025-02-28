@@ -6,13 +6,19 @@
 
 # Enumeration: AgentStepType
 
-The step in the agent sequence where to set a specific prompt configuration.
+The step in the agent sequence that this prompt configuration applies to.
 
 ## Enumeration Members
 
 ### KNOWLEDGE\_BASE\_RESPONSE\_GENERATION
 
 > **KNOWLEDGE\_BASE\_RESPONSE\_GENERATION**: `"KNOWLEDGE_BASE_RESPONSE_GENERATION"`
+
+***
+
+### MEMORY\_SUMMARIZATION
+
+> **MEMORY\_SUMMARIZATION**: `"MEMORY_SUMMARIZATION"`
 
 ***
 
@@ -31,3 +37,9 @@ The step in the agent sequence where to set a specific prompt configuration.
 ### PRE\_PROCESSING
 
 > **PRE\_PROCESSING**: `"PRE_PROCESSING"`
+
+***
+
+### ROUTING\_CLASSIFIER
+
+> **ROUTING\_CLASSIFIER**: `"ROUTING_CLASSIFIER"`

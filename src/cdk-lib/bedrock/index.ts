@@ -20,6 +20,7 @@ export * from './agents/agent-alias';
 export * from './agents/api-executor';
 export * from './agents/api-schema';
 export * from './agents/prompt-override';
+export * from './agents/memory';
 
 //===================================
 // Data Sources

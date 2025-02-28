@@ -196,6 +196,14 @@ When this agent was last updated.
 
 ***
 
+### memory?
+
+> `readonly` `optional` **memory**: [`Memory`](Memory.md)
+
+The memory configuration for the agent.
+
+***
+
 ### name
 
 > `readonly` **name**: `string`
