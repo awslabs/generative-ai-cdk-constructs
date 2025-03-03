@@ -88,6 +88,14 @@ test/integ/issue747.integ.snapshot/manifest.json
 test/integ/issue747.integ.snapshot/**/manifest.json
 test/integ/issue747.integ.snapshot/tree.json
 test/integ/issue747.integ.snapshot/**/tree.json
+test/integ/issue991.integ.snapshot/asset.*
+test/integ/issue991.integ.snapshot/**/asset.*
+test/integ/issue991.integ.snapshot/cdk.out
+test/integ/issue991.integ.snapshot/**/cdk.out
+test/integ/issue991.integ.snapshot/manifest.json
+test/integ/issue991.integ.snapshot/**/manifest.json
+test/integ/issue991.integ.snapshot/tree.json
+test/integ/issue991.integ.snapshot/**/tree.json
 test/integ/kendra-genai.integ.snapshot/asset.*
 test/integ/kendra-genai.integ.snapshot/**/asset.*
 test/integ/kendra-genai.integ.snapshot/cdk.out

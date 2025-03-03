@@ -49,7 +49,10 @@
     "PolicyDocument": {
      "Statement": [
       {
-       "Action": "bedrock:InvokeModel",
+       "Action": [
+        "bedrock:InvokeModel*",
+        "bedrock:GetFoundationModel"
+       ],
        "Effect": "Allow",
        "Resource": {
         "Fn::Join": [
@@ -220,7 +223,10 @@
     "PolicyDocument": {
      "Statement": [
       {
-       "Action": "bedrock:InvokeModel",
+       "Action": [
+        "bedrock:InvokeModel*",
+        "bedrock:GetFoundationModel"
+       ],
        "Effect": "Allow",
        "Resource": {
         "Fn::Join": [
