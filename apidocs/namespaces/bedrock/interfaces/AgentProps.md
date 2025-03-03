@@ -138,6 +138,26 @@ The KnowledgeBases associated with the agent.
 
 ***
 
+### memory?
+
+> `readonly` `optional` **memory**: [`Memory`](../classes/Memory.md)
+
+The type and configuration of the memory to maintain context across multiple sessions and recall past interactions.
+This can be useful for maintaining continuity in multi-turn conversations and recalling user preferences
+or past interactions.
+
+#### See
+
+https://docs.aws.amazon.com/bedrock/latest/userguide/agents-memory.html
+
+#### Default
+
+```ts
+- No memory will be used. Agents will retain context from the current session only.
+```
+
+***
+
 ### name?
 
 > `readonly` `optional` **name**: `string`

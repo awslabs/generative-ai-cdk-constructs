@@ -33,6 +33,11 @@ This construct library facilitates the deployment of Knowledge Bases, Bedrock Ag
   - [Vector Knowledge Base](#vector-knowledge-base)
   - [Kendra Knowledge Base](#kendra-knowledge-base)
 - [Agents](#agents)
+  - [Create an Agent](#create-an-agent)
+  - [Action groups](#action-groups)
+  - [Prepare the Agent](#prepare-the-agent)
+  - [Memory Configuration](#memory-configuration)
+  - [Agent Alias](#agent-alias)
 - [Guardrails](#bedrock-guardrails)
 - [Prompt management](#prompt-management)
 - [Application inference profile](#application-inference-profile)
@@ -1132,6 +1137,59 @@ agent = bedrock.Agent(self, "Agent",
             ),
         )
 ```
+
+### Memory Configuration
+
+Agents can maintain context across multiple sessions and recall past interactions using memory. This feature is useful for creating a more coherent conversational experience.
+
+#### Memory Options
+
+You can configure memory for an agent using the `memory` property in the `AgentProps` interface. The memory configuration allows you to specify the type of memory and its properties.
+
+TypeScript
+
+```typescript
+import { Agent, Memory, SessionSummaryMemoryProps } from 'src/cdk-lib/bedrock/agents';
+
+const agent = new Agent(this, 'MyAgent', {
+  name: 'MyAgent',
+  instruction: 'Your instruction here',
+  foundationModel: bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
+  memory: Memory.sessionSummary({
+        maxRecentSessions: 10, // Keep the last 20 session summaries
+        memoryDurationDays: 20, // Retain summaries for 30 days
+      }),
+});
+```
+
+Python
+
+```py
+from src.cdk_lib.bedrock.agents import Agent, Memory, BedrockFoundationModel
+
+agent = Agent(self, 'MyAgent',
+    name='MyAgent',
+    instruction='Your instruction here',
+    foundation_model=BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
+    memory=Memory.session_summary(
+        max_recent_sessions=10,  # Keep the last 10 session summaries
+        memory_duration_days=20,  # Retain summaries for 20 days
+    ),
+)
+```
+
+### Memory Properties
+
+- **memoryDurationDays**: Duration in days for which session summaries are retained (1-365). Default is 30 days.
+- **maxRecentSessions**: Maximum number of recent session summaries to include (minimum 1). Default is 20.
+
+### Memory Types
+
+Currently, the following memory type is supported:
+
+- **SESSION_SUMMARY**: Uses memory summarization to enhance accuracy by summarizing sessions.
+
+For more information on memory configuration, refer to the [AWS Bedrock documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-memory.html).
 
 ### Agent Alias
 
