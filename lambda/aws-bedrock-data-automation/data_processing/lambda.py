@@ -87,22 +87,31 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
         "detail": {
             "input_filename": "document.pdf",
             "output_filename": "results.json",
-            "blueprint": {
-                "blueprint_arn": "arn:aws:bedrock:region:account:blueprint/id",
-                "version": "1",
-                "stage": "LIVE"
-            },
+            "blueprints": [
+                {
+                    "blueprint_arn": "arn:aws:bedrock:region:account:blueprint/id",
+                    "version": "1",
+                    "stage": "LIVE"
+                }
+            ],
             "data_automation": {
-                "data_automation_arn": "arn:aws:bedrock:region:account:automation/id",
+                "data_automation_project_arn": "arn:aws:bedrock:region:account:automation/id",
                 "stage": "LIVE"
             },
+            "data_automation_profile_arn": "arn:aws:bedrock:region:account:profile/id",
             "encryption": {
                 "kms_key_id": "arn:aws:kms:region:account:key/id",
                 "kms_encryption_context": {"purpose": "data-processing"}
             },
             "notification": {
                 "eventbridge_enabled": true
-            }
+            },
+            "tags": [
+                {
+                    "key": "string",
+                    "value": "string"
+                }
+            ]
         }
     }
     """
@@ -158,7 +167,7 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
         if automation_data := detail.get('data_automation'):
             try:
                 configs['data_automation_config'] = DataAutomationConfig(
-                    data_automation_arn=automation_data['data_automation_arn'],
+                    data_automation_project_arn=automation_data['data_automation_project_arn'],
                     stage=automation_data.get('stage', 'LIVE')
                 )
                 logger.info("Data automation configuration initialized", extra={
@@ -189,6 +198,20 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
             )
             logger.info("Notification configuration initialized", extra={
                 "notification_config": configs['notification_config']
+            })
+            
+        # Check and add data_automation_profile_arn
+        if profile_arn := detail.get('data_automation_profile_arn'):
+            configs['data_automation_profile_arn'] = profile_arn
+            logger.info("Data automation profile ARN added", extra={
+                "data_automation_profile_arn": profile_arn
+            })
+            
+        # Check and add tags
+        if tags := detail.get('tags'):
+            configs['tags'] = tags
+            logger.info("Tags added", extra={
+                "tags": tags
             })
         
         # Invoke data automation with all configurations

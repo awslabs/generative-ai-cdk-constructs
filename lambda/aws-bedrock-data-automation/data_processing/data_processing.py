@@ -39,7 +39,7 @@ class BlueprintConfig:
 @dataclass
 class DataAutomationConfig:
     """Data automation configuration"""
-    data_automation_arn: str
+    data_automation_project_arn: str
     stage: str = 'LIVE'
 
 @dataclass
@@ -98,6 +98,8 @@ class DataProcessor:
         data_automation_config: Optional[DataAutomationConfig] = None,
         encryption_config: Optional[EncryptionConfig] = None,
         notification_config: Optional[NotificationConfig] = None,
+        data_automation_profile_arn: Optional[str] = None,
+        tags: Optional[list] = None,
     ) -> Dict[str, Any]:
         """
         Invoke data automation asynchronously
@@ -110,6 +112,8 @@ class DataProcessor:
             data_automation_config (DataAutomationConfig, optional): Data automation configuration
             encryption_config (EncryptionConfig, optional): Encryption configuration
             notification_config (NotificationConfig, optional): Notification configuration
+            data_automation_profile_arn (str, optional): Data automation profile ARN
+            tags (list, optional): List of tags to apply to the job
             
         Returns:
             Dict[str, Any]: Response containing job details
@@ -141,6 +145,7 @@ class DataProcessor:
 
             if client_token:
                 request_params['clientToken'] = client_token
+                
             # Add blueprint configuration if provided
             if blueprint_config:
                 request_params['blueprints'] = [blueprint_config.to_dict()]
@@ -151,9 +156,13 @@ class DataProcessor:
             # Add data automation configuration if provided
             if data_automation_config:
                 request_params['dataAutomationConfiguration'] = {
-                    'dataAutomationArn': data_automation_config.data_automation_arn,
+                    'dataAutomationProjectArn': data_automation_config.data_automation_project_arn,
                     'stage': data_automation_config.stage
                 }
+                
+            # Add data automation profile ARN if provided
+            if data_automation_profile_arn:
+                request_params['dataAutomationProfileArn'] = data_automation_profile_arn
 
             # Add encryption configuration if provided
             if encryption_config:
@@ -173,6 +182,10 @@ class DataProcessor:
                         'eventBridgeEnabled': notification_config.eventbridge_enabled
                     }
                 }
+                
+            # Add tags if provided
+            if tags:
+                request_params['tags'] = tags
 
             # Invoke data automation
             logger.info("Invoking data automation", extra={
