@@ -449,6 +449,7 @@ export class Agent extends AgentBase {
     // ------------------------------------------------------
     this.knowledgeBases = [];
     this.actionGroups = [];
+    this.agentCollaborators = [];
     // Add Default Action Groups
     this.addActionGroup(AgentActionGroup.userInput(this.userInputEnabled));
     this.addActionGroup(AgentActionGroup.codeInterpreter(this.codeInterpreterEnabled));
@@ -460,6 +461,9 @@ export class Agent extends AgentBase {
     });
     props.actionGroups?.forEach(ag => {
       this.addActionGroup(ag);
+    });
+    props.agentCollaborators?.forEach(ac => {
+      this.addAgentCollaborator(ac);
     });
     if (props.guardrail) {
       this.addGuardrail(props.guardrail);
@@ -578,6 +582,14 @@ export class Agent extends AgentBase {
   }
 
   /**
+   * Add an agent collaborator to the agent.
+   */
+  public addAgentCollaborator(agentCollaborator: AgentCollaborator) {
+    this.agentCollaborators?.push(agentCollaborator);
+    agentCollaborator.grant(this.role);
+  }
+
+  /**
    * Add multiple action groups to the agent.
    */
   public addActionGroups(...actionGroups: AgentActionGroup[]) {
@@ -647,14 +659,7 @@ export class Agent extends AgentBase {
     const agentCollaboratorsCfn: bedrock.CfnAgent.AgentCollaboratorProperty[] = [];
 
     this.agentCollaborators.forEach(ac => {
-      agentCollaboratorsCfn.push({
-        agentDescriptor: {
-          aliasArn: ac.agentDescriptor.aliasArn,
-        },
-        collaborationInstruction: ac.collaborationInstruction,
-        collaboratorName: ac.collaboratorName,
-        relayConversationHistory: ac.relayConversationHistory,
-      });
+      agentCollaboratorsCfn.push(ac._render());
     });
     return agentCollaboratorsCfn;
   }

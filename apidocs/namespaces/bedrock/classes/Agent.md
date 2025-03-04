@@ -76,7 +76,7 @@ Agent collaboration type.
 
 ### agentCollaborators?
 
-> `readonly` `optional` **agentCollaborators**: [`AgentCollaborator`](../interfaces/AgentCollaborator.md)[]
+> `readonly` `optional` **agentCollaborators**: [`AgentCollaborator`](AgentCollaborator.md)[]
 
 Agent collaborators.
 
@@ -390,6 +390,24 @@ Add multiple action groups to the agent.
 ##### actionGroups
 
 ...[`AgentActionGroup`](AgentActionGroup.md)[]
+
+#### Returns
+
+`void`
+
+***
+
+### addAgentCollaborator()
+
+> **addAgentCollaborator**(`agentCollaborator`): `void`
+
+Add an agent collaborator to the agent.
+
+#### Parameters
+
+##### agentCollaborator
+
+[`AgentCollaborator`](AgentCollaborator.md)
 
 #### Returns
 

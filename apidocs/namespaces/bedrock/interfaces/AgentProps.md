@@ -34,7 +34,7 @@ The collaboration type for the agent.
 
 ### agentCollaborators?
 
-> `readonly` `optional` **agentCollaborators**: [`AgentCollaborator`](AgentCollaborator.md)[]
+> `readonly` `optional` **agentCollaborators**: [`AgentCollaborator`](../classes/AgentCollaborator.md)[]
 
 Collaborators that this agent will work with.
 

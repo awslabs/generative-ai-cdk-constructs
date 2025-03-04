@@ -1234,12 +1234,12 @@ const mainAgent = new Agent(this, 'MainAgent', {
   foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_SONNET_V1_0,
   agentCollaboration: AgentCollaboratorType.SUPERVISOR,
   agentCollaborators: [
-    {
+    new bedrock.AgentCollaborator({
       agentDescriptor: { aliasArn: customerSupportAlias.aliasArn },
       collaborationInstruction: 'Route customer support questions to this agent.',
       collaboratorName: 'CustomerSupport',
-      relayConversationHistory: RelayConversationHistoryType.TO_COLLABORATOR,
-    },
+      relayConversationHistory: bedrock.RelayConversationHistoryType.TO_COLLABORATOR,
+    }),
   ],
 });
 ```

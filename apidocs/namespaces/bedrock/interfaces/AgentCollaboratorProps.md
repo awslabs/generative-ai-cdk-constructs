@@ -2,11 +2,13 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / AgentCollaborator
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / AgentCollaboratorProps
 
-# Interface: AgentCollaborator
+# Interface: AgentCollaboratorProps
 
-Settings for agent collaboration with other agents.
+***************************************************************************
+                        PROPS - Agent Collaborator Class
+***************************************************************************
 
 ## Properties
 

@@ -6,7 +6,7 @@
 
 # Class: OrchestrationExecutor
 
-Contains details about the Lambda function containing the orchestration logic carried 
+Contains details about the Lambda function containing the orchestration logic carried
 out upon invoking the custom orchestration.
 
 ## Properties

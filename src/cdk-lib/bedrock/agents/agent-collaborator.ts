@@ -11,6 +11,8 @@
  *  and limitations under the License.
  */
 
+import { CfnAgent } from 'aws-cdk-lib/aws-bedrock';
+import { IGrantable, Grant } from 'aws-cdk-lib/aws-iam';
 import { AgentDescriptor } from './agent-descriptor';
 
 /**
@@ -48,29 +50,126 @@ export enum RelayConversationHistoryType {
   DISABLED = 'DISABLED'
 }
 
+/******************************************************************************
+ *                         PROPS - Agent Collaborator Class
+ *****************************************************************************/
+export interface AgentCollaboratorProps {
 /**
- * Settings for agent collaboration with other agents.
- */
-export interface AgentCollaborator {
-  /**
      * Descriptor for the collaborating agent.
      */
   readonly agentDescriptor: AgentDescriptor;
 
   /**
-     * Instructions on how this agent should collaborate with the main agent.
-     */
+   * Instructions on how this agent should collaborate with the main agent.
+   */
   readonly collaborationInstruction: string;
 
   /**
-     * A friendly name for the collaborator.
-     */
+   * A friendly name for the collaborator.
+   */
   readonly collaboratorName: string;
 
   /**
-     * Whether to relay conversation history to this collaborator.
-     *
-     * @default - undefined (uses service default)
-     */
+   * Whether to relay conversation history to this collaborator.
+   *
+   * @default - undefined (uses service default)
+   */
   readonly relayConversationHistory?: RelayConversationHistoryType;
+}
+
+/******************************************************************************
+ *                         DEF - Agent Collaborator Class
+ *****************************************************************************/
+
+export class AgentCollaborator {
+// ------------------------------------------------------
+// Attributes
+// ------------------------------------------------------
+  public readonly agentDescriptor: AgentDescriptor;
+
+  /**
+   * Instructions on how this agent should collaborate with the main agent.
+   */
+  public readonly collaborationInstruction: string;
+
+  /**
+   * A friendly name for the collaborator.
+   */
+  public readonly collaboratorName: string;
+
+  /**
+   * Whether to relay conversation history to this collaborator.
+   *
+   * @default - undefined (uses service default)
+   */
+  public readonly relayConversationHistory?: RelayConversationHistoryType;
+
+
+  public constructor(props: AgentCollaboratorProps) {
+    // Validate Props
+    this.validateProps(props);
+
+    // ------------------------------------------------------
+    // Set attributes or defaults
+    // ------------------------------------------------------
+    this.agentDescriptor = props.agentDescriptor;
+    this.collaborationInstruction = props.collaborationInstruction;
+    this.collaboratorName = props.collaboratorName;
+    this.relayConversationHistory = props.relayConversationHistory;
+  }
+
+  private validateProps(props: AgentCollaboratorProps) {
+    // Validate required properties
+    if (!props.agentDescriptor) {
+      throw new Error('agentDescriptor is required for AgentCollaborator');
+    }
+
+    if (!props.collaborationInstruction || props.collaborationInstruction.trim() === '') {
+      throw new Error('collaborationInstruction is required and cannot be empty for AgentCollaborator');
+    }
+
+    if (!props.collaboratorName || props.collaboratorName.trim() === '') {
+      throw new Error('collaboratorName is required and cannot be empty for AgentCollaborator');
+    }
+
+    // Validate optional properties if provided
+    if (props.relayConversationHistory !== undefined &&
+        !Object.values(RelayConversationHistoryType).includes(props.relayConversationHistory)) {
+      throw new Error(`relayConversationHistory must be a valid RelayConversationHistoryType enum value: ${Object.values(RelayConversationHistoryType).join(', ')}`);
+    }
+  }
+
+  /**
+ * Format as CFN properties
+ *
+ * @internal This is an internal core function and should not be called directly.
+ */
+  public _render(): CfnAgent.AgentCollaboratorProperty {
+    return {
+      agentDescriptor: {
+        aliasArn: this.agentDescriptor.aliasArn,
+      },
+      collaborationInstruction: this.collaborationInstruction,
+      collaboratorName: this.collaboratorName,
+      relayConversationHistory: this.relayConversationHistory,
+    };
+  }
+
+  /**
+ * Grants the specified principal permissions to get the agent alias and invoke the agent
+ * from this collaborator.
+ *
+ * @param grantee The principal to grant permissions to
+ * @returns The Grant object
+ */
+  public grant(grantee: IGrantable): Grant {
+    return Grant.addToPrincipal({
+      grantee,
+      actions: [
+        'bedrock:GetAgentAlias',
+        'bedrock:InvokeAgent',
+      ],
+      resourceArns: [this.agentDescriptor.aliasArn],
+    });
+  }
 }
