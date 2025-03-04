@@ -54,6 +54,7 @@ export class BdaProjectLambda extends lambda.Function {
       handler: 'lambda.handler',
       code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/bda_project')),
       layers: props.lambdaLayers,
+      description: 'BDA control plane for BDA project operations',
       environment: {
         INPUT_BUCKET: props.inputBucket.bucketName,
         POWERTOOLS_SERVICE_NAME: 'BEDROCK_PROJECT',
