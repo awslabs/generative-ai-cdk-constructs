@@ -21,7 +21,7 @@
                     "path": "Claude37Test/Agent/Role/ImportRole",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.Resource",
-                      "version": "2.178.0",
+                      "version": "2.181.1",
                       "metadata": []
                     }
                   },
@@ -73,7 +73,7 @@
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.CfnRole",
-                      "version": "2.178.0"
+                      "version": "2.181.1"
                     }
                   },
                   "DefaultPolicy": {
@@ -147,20 +147,20 @@
                         },
                         "constructInfo": {
                           "fqn": "aws-cdk-lib.aws_iam.CfnPolicy",
-                          "version": "2.178.0"
+                          "version": "2.181.1"
                         }
                       }
                     },
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.aws_iam.Policy",
-                      "version": "2.178.0",
+                      "version": "2.181.1",
                       "metadata": []
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_iam.Role",
-                  "version": "2.178.0",
+                  "version": "2.181.1",
                   "metadata": []
                 }
               },
@@ -220,7 +220,7 @@
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.aws_bedrock.CfnAgent",
-                  "version": "2.178.0"
+                  "version": "2.181.1"
                 }
               },
               "DefaultAlias": {
@@ -228,14 +228,14 @@
                 "path": "Claude37Test/Agent/DefaultAlias",
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Resource",
-                  "version": "2.178.0",
+                  "version": "2.181.1",
                   "metadata": []
                 }
               }
             },
             "constructInfo": {
               "fqn": "aws-cdk-lib.Resource",
-              "version": "2.178.0",
+              "version": "2.181.1",
               "metadata": []
             }
           },
@@ -244,7 +244,7 @@
             "path": "Claude37Test/BootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnParameter",
-              "version": "2.178.0"
+              "version": "2.181.1"
             }
           },
           "CheckBootstrapVersion": {
@@ -252,13 +252,13 @@
             "path": "Claude37Test/CheckBootstrapVersion",
             "constructInfo": {
               "fqn": "aws-cdk-lib.CfnRule",
-              "version": "2.178.0"
+              "version": "2.181.1"
             }
           }
         },
         "constructInfo": {
           "fqn": "aws-cdk-lib.Stack",
-          "version": "2.178.0"
+          "version": "2.181.1"
         }
       },
       "Claude37Test-Integ": {
@@ -286,7 +286,7 @@
                     "path": "Claude37Test-Integ/DefaultTest/DeployAssert/BootstrapVersion",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnParameter",
-                      "version": "2.178.0"
+                      "version": "2.181.1"
                     }
                   },
                   "CheckBootstrapVersion": {
@@ -294,25 +294,25 @@
                     "path": "Claude37Test-Integ/DefaultTest/DeployAssert/CheckBootstrapVersion",
                     "constructInfo": {
                       "fqn": "aws-cdk-lib.CfnRule",
-                      "version": "2.178.0"
+                      "version": "2.181.1"
                     }
                   }
                 },
                 "constructInfo": {
                   "fqn": "aws-cdk-lib.Stack",
-                  "version": "2.178.0"
+                  "version": "2.181.1"
                 }
               }
             },
             "constructInfo": {
               "fqn": "@aws-cdk/integ-tests-alpha.IntegTestCase",
-              "version": "2.178.0-alpha.0"
+              "version": "2.181.1-alpha.0"
             }
           }
         },
         "constructInfo": {
           "fqn": "@aws-cdk/integ-tests-alpha.IntegTest",
-          "version": "2.178.0-alpha.0"
+          "version": "2.181.1-alpha.0"
         }
       },
       "Tree": {
@@ -326,7 +326,7 @@
     },
     "constructInfo": {
       "fqn": "aws-cdk-lib.App",
-      "version": "2.178.0"
+      "version": "2.181.1"
     }
   }
 }
