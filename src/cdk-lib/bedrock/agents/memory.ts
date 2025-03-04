@@ -33,6 +33,9 @@ enum MemoryType {
   SESSION_SUMMARY = 'SESSION_SUMMARY',
 }
 
+/**
+ * Properties for SessionSummaryConfiguration.
+ */
 export interface SessionSummaryMemoryProps {
   /**
    * Duration in days for which session summaries are retained (1-365)
