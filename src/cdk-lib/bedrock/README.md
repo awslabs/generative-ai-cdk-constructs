@@ -185,19 +185,19 @@ aurora_db = amazonaurora.AmazonAuroraVectorStore(self, 'AuroraDefaultVectorStore
 )
 
 kb = bedrock.VectorKnowledgeBase(self, 'KnowledgeBase',
-            vector_store= aurora_db,
-            embeddings_model= foundation_models.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
-            instruction=  'Use this knowledge base to answer questions about books. ' +
-    'It contains the full text of novels.'
-        )
+  vector_store= aurora_db,
+  embeddings_model= foundation_models.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+  instruction=  'Use this knowledge base to answer questions about books. ' +
+'It contains the full text of novels.'
+)
 
 docBucket = s3.Bucket(self, 'DockBucket')
 
 bedrock.S3DataSource(self, 'DataSource',
-    bucket= docBucket,
-    knowledge_base=kb,
-    data_source_name='books',
-    chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
+  bucket= docBucket,
+  knowledge_base=kb,
+  data_source_name='books',
+  chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
 )
 
 ```
