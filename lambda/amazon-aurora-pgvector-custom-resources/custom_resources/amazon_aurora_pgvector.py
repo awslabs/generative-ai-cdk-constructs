@@ -85,20 +85,18 @@ def execute_sql_commands(
 ):
     try:
         with conn.cursor() as cur:
-
             cur.execute("CREATE EXTENSION IF NOT EXISTS vector;")
-            cur.execute("CREATE SCHEMA IF NOT EXISTS %s;", (schema_name,))
+            cur.execute(f"CREATE SCHEMA IF NOT EXISTS {schema_name};")
 
-            cur.execute("CREATE ROLE bedrock_user WITH PASSWORD %s LOGIN;", (password,))
-            cur.execute("GRANT ALL ON SCHEMA %s TO bedrock_user;", (schema_name,))
+            cur.execute(f"CREATE ROLE bedrock_user WITH PASSWORD '{password}' LOGIN;")
+            cur.execute(f"GRANT ALL ON SCHEMA {schema_name} TO bedrock_user;")
 
             cur.execute(
                 f"CREATE TABLE {schema_name}.{table_name} ("
                 f"{pk_field} uuid PRIMARY KEY, "
-                f"{vector_field} vector(%s), "
+                f"{vector_field} vector({vector_dimensions}), "
                 f"{text_field} text, "
-                f"{metadata_field} json);",
-                (vector_dimensions,),
+                f"{metadata_field} json);"
             )
 
             cur.execute(
