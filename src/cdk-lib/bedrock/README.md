@@ -1218,7 +1218,7 @@ import { Agent, AgentCollaboratorType, RelayConversationHistoryType } from '@cdk
 const customerSupportAgent = new Agent(this, 'CustomerSupportAgent', {
   name: 'CustomerSupportAgent',
   instruction: 'You specialize in answering customer support questions about our products.',
-  foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_SONNET_V1_0,
+  foundationModel: bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
 });
 
 // Create an agent alias for the specialized agent
@@ -1231,7 +1231,7 @@ const customerSupportAlias = new AgentAlias(this, 'CustomerSupportAlias', {
 const mainAgent = new Agent(this, 'MainAgent', {
   name: 'MainAgent',
   instruction: 'You are a helpful assistant that can answer general questions and route specialized customer support questions to the customer support agent.',
-  foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_SONNET_V1_0,
+  foundationModel: bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
   agentCollaboration: AgentCollaboratorType.SUPERVISOR,
   agentCollaborators: [
     new bedrock.AgentCollaborator({
@@ -1257,7 +1257,7 @@ from cdklabs.generative_ai_cdk_constructs import (
 customer_support_agent = bedrock.Agent(self, 'CustomerSupportAgent',
     name='CustomerSupportAgent',
     instruction='You specialize in answering customer support questions about our products.',
-    foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_SONNET_V1_0,
+    foundation_model=bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
 )
 
 # Create an agent alias for the specialized agent
@@ -1270,7 +1270,7 @@ customer_support_alias = bedrock.AgentAlias(self, 'CustomerSupportAlias',
 main_agent = bedrock.Agent(self, 'MainAgent',
     name='MainAgent',
     instruction='You are a helpful assistant that can answer general questions and route specialized customer support questions to the customer support agent.',
-    foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_SONNET_V1_0,
+    foundation_model=bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
     agent_collaboration=AgentCollaboratorType.SUPERVISOR,
     agent_collaborators=[
       bedrock.AgentCollaborator(
@@ -1316,7 +1316,7 @@ const orchestrationFunction = new lambda.Function(this, 'OrchestrationFunction',
 const agent = new Agent(this, 'CustomOrchestrationAgent', {
   name: 'CustomOrchestrationAgent',
   instruction: 'You are a helpful assistant with custom orchestration logic.',
-  foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_SONNET_V1_0,
+  foundationModel: bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
   orchestrationType: OrchestrationType.CUSTOM,
   customOrchestration: {
     executor: OrchestrationExecutor.fromlambdaFunction(orchestrationFunction),
@@ -1346,7 +1346,7 @@ orchestration_function = lambda_.Function(self, 'OrchestrationFunction',
 agent = bedrock.Agent(self, 'CustomOrchestrationAgent',
     name='CustomOrchestrationAgent',
     instruction='You are a helpful assistant with custom orchestration logic.',
-    foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_SONNET_V1_0,
+    foundation_model=bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
     orchestration_type=OrchestrationType.CUSTOM,
     custom_orchestration=bedrock.CustomOrchestration(
       executor= OrchestrationExecutor.fromlambda_function(orchestration_function),

@@ -405,10 +405,6 @@ export class Agent extends AgentBase {
     this.codeInterpreterEnabled = props.codeInterpreterEnabled ?? false;
     this.foundationModel = props.foundationModel;
     this.forceDelete = props.forceDelete ?? false;
-    this.agentCollaboration = props.agentCollaboration;
-    this.agentCollaborators = props.agentCollaborators;
-    this.customOrchestration = props.customOrchestration;
-    this.orchestrationType = props.orchestrationType;
 
     // Optional
     this.description = props.description;
@@ -416,6 +412,9 @@ export class Agent extends AgentBase {
     this.promptOverrideConfiguration = props.promptOverrideConfiguration;
     this.kmsKey = props.kmsKey;
     this.memory = props.memory;
+    this.agentCollaboration = props.agentCollaboration;
+    this.customOrchestration = props.customOrchestration;
+    this.orchestrationType = props.orchestrationType;
 
     // ------------------------------------------------------
     // Role
@@ -504,7 +503,6 @@ export class Agent extends AgentBase {
       memoryConfiguration: props.memory,
       promptOverrideConfiguration: this.promptOverrideConfiguration?._render(),
       skipResourceInUseCheckOnDelete: this.forceDelete,
-      // New properties
       agentCollaboration: this.agentCollaboration,
       agentCollaborators: Lazy.any({ produce: () => this.renderAgentCollaborators() }, { omitEmptyArray: true }),
       customOrchestration: this.renderCustomOrchestration(),
