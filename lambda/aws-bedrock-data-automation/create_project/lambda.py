@@ -13,7 +13,7 @@ from typing import Dict, Any
 from aws_lambda_powertools import Logger, Metrics, Tracer
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_lambda_powertools.utilities.data_classes import EventBridgeEvent, APIGatewayProxyEvent
-from create_project import create_project,get_project,update_project,delete_project,list_projects
+from manage_project import create_project,get_project,update_project,delete_project,list_projects
 
 logger = Logger()
 tracer = Tracer()

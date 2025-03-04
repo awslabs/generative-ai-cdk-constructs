@@ -1,4 +1,3 @@
-
 #  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 #
 #  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
@@ -15,7 +14,7 @@ from typing import Dict, Any
 from datetime import datetime
 from aws_lambda_powertools import Logger,Metrics,Tracer
 from botocore.exceptions import ClientError
-from project_config import ProjectConfig
+from project_config import ProjectConfig, ListProjectsConfig, UpdateProjectConfig
 
 logger = Logger()
 tracer = Tracer()
@@ -99,50 +98,25 @@ def get_project(project_details):
 
 def list_projects(project_details):
     """
-    list  bda projects  using boto3 client
+    List Bedrock Data Automation projects using boto3 client
     """
     try:
+        # Create list configuration
+        list_config = ListProjectsConfig(project_details)
         
-        blueprint_stage = project_details.get('blueprint_stage')
-        resource_owner = project_details.get('resource_owner')    
-        blueprint_arn =project_details.get('blueprint_arn')
-        blueprint_version =project_details.get('blueprint_version')
-        max_results =project_details.get('max_results')
-        project_stage =project_details.get('project_stage')
-        next_token =project_details.get('next_token', '')
-        
-        request_params = {}
-        
-        if blueprint_arn:
-            request_params['blueprintArn'] = blueprint_arn
-        if max_results:
-            request_params['maxResults'] = max_results
-        if next_token:
-            request_params['nextToken'] = next_token
-        if project_stage:
-            request_params['projectStageFilter'] = project_stage
-        if blueprint_version:
-            request_params['blueprintVersion'] = blueprint_version
-        if blueprint_stage:
-            request_params['blueprintStage'] = blueprint_stage
-        if resource_owner:
-            request_params['resourceOwner'] = resource_owner
-        
-        
-        logger.info("list project", extra={
-            "request_params": request_params
+        logger.info("Listing projects", extra={
+            "request_params": list_config.list_config
         })
 
-        response = bda_client.list_data_automation_projects(**request_params)
+        response = bda_client.list_data_automation_projects(**list_config.list_config)
         
-        logger.info("Successfully fethed project list", extra={
+        logger.info("Successfully fetched project list", extra={
             "response": response,
         })   
         return json.dumps(response, cls=DateTimeEncoder)
-
         
     except Exception as e:
-        logger.error("Error fetching project ", extra={
+        logger.error("Error fetching projects", extra={
             "error": str(e)
         })
         raise e
@@ -194,25 +168,19 @@ def update_project(project_details: dict) -> Dict[str, Any]:
         ClientError: If AWS API call fails
     """
     try:
-        project_arn = project_details.get('projectArn')
-        if not project_arn:
-            raise ValueError("Project ARN is required to update a project")
-
-        project_config = ProjectConfig(project_details)
+        # Create update configuration using the specialized UpdateProjectConfig class
+        update_config_obj = UpdateProjectConfig(project_details)
         
-        update_config = project_config.project_config
-        update_config['projectArn'] = project_arn
-
         logger.info("Updating project with configuration", extra={
-            "project_arn": project_arn,
-            "config": update_config
+            "project_arn": project_details.get('projectArn'),
+            "config": update_config_obj.update_config
         })
 
         # Call Bedrock API to update project
-        response = bda_client.update_data_automation_project(**update_config)
+        response = bda_client.update_data_automation_project(**update_config_obj.update_config)
 
         logger.info("Project updated successfully", extra={
-            "project_arn": project_arn,
+            "project_arn": project_details.get('projectArn'),
             "response": response
         })
 
@@ -227,7 +195,6 @@ def update_project(project_details: dict) -> Dict[str, Any]:
         })
         raise e
         
-
     except Exception as e:
         logger.error("Unexpected error updating project", extra={"error": str(e)})
         raise e
