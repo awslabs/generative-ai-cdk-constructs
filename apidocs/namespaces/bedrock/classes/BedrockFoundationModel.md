@@ -95,6 +95,28 @@ The ARN of the Bedrock invokable abstraction.
 
 ***
 
+### AI21\_JAMBA\_1\_5\_LARGE\_V1
+
+> `readonly` `static` **AI21\_JAMBA\_1\_5\_LARGE\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+*************************************************************************
+                           AI21
+*************************************************************************
+
+***
+
+### AI21\_JAMBA\_1\_5\_MINI\_V1
+
+> `readonly` `static` **AI21\_JAMBA\_1\_5\_MINI\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### AI21\_JAMBA\_INSTRUCT\_V1
+
+> `readonly` `static` **AI21\_JAMBA\_INSTRUCT\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
 ### AMAZON\_NOVA\_LITE\_V1
 
 > `readonly` `static` **AMAZON\_NOVA\_LITE\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
@@ -240,6 +262,12 @@ The ARN of the Bedrock invokable abstraction.
 ### META\_LLAMA\_3\_2\_3B\_INSTRUCT\_V1
 
 > `readonly` `static` **META\_LLAMA\_3\_2\_3B\_INSTRUCT\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### META\_LLAMA\_3\_3\_70B\_INSTRUCT\_V1
+
+> `readonly` `static` **META\_LLAMA\_3\_3\_70B\_INSTRUCT\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
 
 ***
 
