@@ -59,6 +59,7 @@ export class BdaDataProcessingLambda extends lambda.Function {
       handler: 'lambda.handler', // Adjust this based on your actual handler
       code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/data_processing')),
       layers: props.lambdaLayers,
+      description: 'BDA runtime for BDA data processing',
       environment: {
         INPUT_BUCKET: props.inputBucket.bucketName,
         OUTPUT_BUCKET: props.outputBucket.bucketName,

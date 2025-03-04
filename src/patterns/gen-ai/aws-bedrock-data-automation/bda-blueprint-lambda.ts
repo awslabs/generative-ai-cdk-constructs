@@ -42,7 +42,7 @@ export class BdaBlueprintLambda extends lambda.Function {
 
     const role = new iam.Role(
       scope,
-      `${id}createBlueprint`,
+      `${id}manageBlueprint`,
       {
         assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
       },
@@ -52,8 +52,9 @@ export class BdaBlueprintLambda extends lambda.Function {
 
       runtime: lambda.Runtime.PYTHON_3_13,
       handler: 'lambda.handler',
-      code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/create-blueprint')),
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/bda-blueprint')),
       layers: props.lambdaLayers,
+      description: 'BDA control plane for BDA blueprint operations',
       environment: {
         INPUT_BUCKET: props.inputBucket.bucketName,
         POWERTOOLS_SERVICE_NAME: 'BEDROCK_BLUEPRINT',

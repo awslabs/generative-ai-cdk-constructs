@@ -17,7 +17,7 @@ from manage_project import create_project,get_project,update_project,delete_proj
 
 logger = Logger()
 tracer = Tracer()
-metrics = Metrics(namespace="CREATE_PROJECT")
+metrics = Metrics(namespace="MANAGE_PROJECT")
 
 COMMON_HEADERS = {
     "Access-Control-Allow-Headers" : "Content-Type",

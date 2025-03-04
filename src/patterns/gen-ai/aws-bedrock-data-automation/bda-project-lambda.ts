@@ -42,7 +42,7 @@ export class BdaProjectLambda extends lambda.Function {
 
     const role = new iam.Role(
       scope,
-      `${id}createProject`,
+      `${id}manageProject`,
       {
         assumedBy: new iam.ServicePrincipal('lambda.amazonaws.com'),
       },
@@ -52,7 +52,7 @@ export class BdaProjectLambda extends lambda.Function {
 
       runtime: lambda.Runtime.PYTHON_3_13,
       handler: 'lambda.handler',
-      code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/create_project')),
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/bda_project')),
       layers: props.lambdaLayers,
       environment: {
         INPUT_BUCKET: props.inputBucket.bucketName,

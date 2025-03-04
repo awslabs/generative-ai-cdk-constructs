@@ -16,13 +16,13 @@ import boto3
 from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_lambda_powertools.utilities.data_classes import EventBridgeEvent, APIGatewayProxyEvent
-from create_blueprint import create_blueprint,delete_blueprint,list_blueprints,get_blueprint,update_blueprint
+from manage_blueprint import create_blueprint,delete_blueprint,list_blueprints,get_blueprint,update_blueprint
 from create_schema import create_schema
 
 
 logger = Logger()
 tracer = Tracer()
-metrics = Metrics(namespace="CREATE_BLUEPRINT")
+metrics = Metrics(namespace="MANAGE_BLUEPRINT")
 
 input_bucket = os.environ.get('INPUT_BUCKET')
 

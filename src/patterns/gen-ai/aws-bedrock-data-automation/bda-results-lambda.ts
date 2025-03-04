@@ -55,6 +55,7 @@ export class BdaResultsambda extends lambda.Function {
       handler: 'lambda.handler',
       code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/data_result')),
       layers: props.lambdaLayers,
+      description: 'BDA runtime for BDA results',
       environment: {
         POWERTOOLS_SERVICE_NAME: 'BEDROCK_RESULT',
       },

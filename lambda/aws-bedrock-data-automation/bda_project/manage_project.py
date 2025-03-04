@@ -18,7 +18,7 @@ from project_config import ProjectConfig, ListProjectsConfig, UpdateProjectConfi
 
 logger = Logger()
 tracer = Tracer()
-metrics = Metrics(namespace="CREATE_PROJECT")
+metrics = Metrics(namespace="MANAGE_PROJECT")
 
 bda_client = boto3.client("bedrock-data-automation")
 
