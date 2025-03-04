@@ -52,7 +52,7 @@ export class BdaBlueprintLambda extends lambda.Function {
 
       runtime: lambda.Runtime.PYTHON_3_13,
       handler: 'lambda.handler',
-      code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/bda-blueprint')),
+      code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/bda_blueprint')),
       layers: props.lambdaLayers,
       description: 'BDA control plane for BDA blueprint operations',
       environment: {
