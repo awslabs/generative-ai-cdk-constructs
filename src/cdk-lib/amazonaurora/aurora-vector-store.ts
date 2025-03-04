@@ -104,6 +104,11 @@ export interface AmazonAuroraVectorStoreProps extends BaseAuroraVectorStoreProps
    * User's VPC in which they want to deploy Aurora Database.
    */
   readonly vpc?: ec2.IVpc;
+
+  /**
+   * Cluster identifier.
+   */
+  readonly clusterId?: string;
 }
 
 /**
@@ -482,6 +487,7 @@ export class AmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore {
     const databaseClusterResources = this.createDatabaseCluster(
       props.postgreSQLVersion ?? SupportedPostgreSQLVersions.AURORA_POSTGRESQL_V15_5,
       props.vpc,
+      props.clusterId,
     );
     const auroraPgCRPolicy = this.createAuroraPgCRPolicy(databaseClusterResources.clusterIdentifier);
     const lambdaSecurityGroup = this.createLambdaSecurityGroup(databaseClusterResources.vpc);
@@ -504,6 +510,7 @@ export class AmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore {
   private createDatabaseCluster(
     postgreSQLVersion: SupportedPostgreSQLVersions,
     existingVpc: ec2.IVpc | undefined,
+    clusterIdentifier: string | undefined,
   ): DatabaseClusterResources {
     const vpc = buildVpc(this, {
       existingVpc: existingVpc,
@@ -524,7 +531,7 @@ export class AmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore {
         version: postgreSQLVersion,
       }),
       credentials: rds.Credentials.fromGeneratedSecret('postgres'),
-      clusterIdentifier: `aurora-serverless-vector-cluster-${cdk.Stack.of(this).account}`,
+      clusterIdentifier: clusterIdentifier ?? generatePhysicalNameV2(this, 'aurora-serverless', { maxLength: 63, lower: true, separator: '-' }),
       defaultDatabaseName: this.databaseName,
       vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },

@@ -14,6 +14,14 @@ Properties for configuring an Amazon Aurora Vector Store.
 
 ## Properties
 
+### clusterId?
+
+> `readonly` `optional` **clusterId**: `string`
+
+Cluster identifier.
+
+***
+
 ### databaseName?
 
 > `readonly` `optional` **databaseName**: `string`

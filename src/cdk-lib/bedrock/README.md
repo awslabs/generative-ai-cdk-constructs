@@ -148,7 +148,7 @@ const auroraDb = new amazonaurora.AmazonAuroraVectorStore(stack, 'AuroraDefaultV
 
 const kb = new bedrock.VectorKnowledgeBase(this, 'KnowledgeBase', {
   vectorStore: auroraDb,
-  embeddingsModelVectorDimension: embeddingsModelVectorDimension,
+  embeddingsModel: foundation_models.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
   instruction: 'Use this knowledge base to answer questions about books. ' + 'It contains the full text of novels.',
 });
 
@@ -186,7 +186,7 @@ aurora_db = amazonaurora.AmazonAuroraVectorStore(self, 'AuroraDefaultVectorStore
 
 kb = bedrock.VectorKnowledgeBase(self, 'KnowledgeBase',
             vector_store= aurora_db,
-            embeddings_model_vector_dimension=embeddings_model_vector_dimension,
+            embeddings_model= foundation_models.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
             instruction=  'Use this knowledge base to answer questions about books. ' +
     'It contains the full text of novels.'
         )

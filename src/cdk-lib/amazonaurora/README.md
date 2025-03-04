@@ -95,7 +95,7 @@ const auroraDb = amazonaurora.AmazonAuroraVectorStore.fromExistingAuroraVectorSt
   ),
 });
 
-const kb = new bedrock.KnowledgeBase(this, "KnowledgeBase", {
+const kb = new bedrock.VectorKnowledgeBase(this, "KnowledgeBase", {
   embeddingsModel: foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
   vectorStore: auroraDb,
   instruction:
@@ -158,7 +158,7 @@ aurora_db = amazonaurora.AmazonAuroraVectorStore.from_existing_aurora_vector_sto
     )
 )
 
-kb = bedrock.KnowledgeBase(self, 'KnowledgeBase',
+kb = bedrock.VectorKnowledgeBase(self, 'KnowledgeBase',
             embeddings_model= foundation_models.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
             vector_store=aurora_db,
             instruction=  'Use this knowledge base to answer questions about books. ' +
