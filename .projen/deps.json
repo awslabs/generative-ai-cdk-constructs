@@ -137,6 +137,11 @@
       "type": "build"
     },
     {
+      "name": "@aws-cdk/aws-lambda-python-alpha",
+      "version": "2.181.1-alpha.0",
+      "type": "bundled"
+    },
+    {
       "name": "deepmerge",
       "type": "bundled"
     },
