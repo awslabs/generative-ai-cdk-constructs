@@ -14,6 +14,7 @@
 import { CfnAgent } from 'aws-cdk-lib/aws-bedrock';
 import { IFunction } from 'aws-cdk-lib/aws-lambda';
 import * as validation from '../../../common/helpers/validation-helpers';
+import { IInvokable } from '../models';
 
 /**
  * The step in the agent sequence that this prompt configuration applies to.
@@ -117,6 +118,13 @@ export interface PromptStepConfiguration {
    * The inference configuration parameters to use.
    */
   readonly inferenceConfig?: InferenceConfiguration;
+  /**
+   * The foundation model to use for this specific prompt step.
+   * This allows using different models for different steps in the agent sequence.
+   *
+   * @default - The agent's default foundation model will be used.
+   */
+  readonly foundationModel?: IInvokable;
 }
 
 export interface PromptStepConfigurationCustomParser extends PromptStepConfiguration {
@@ -219,6 +227,8 @@ export class PromptOverrideConfiguration {
             : step?.customPromptTemplate ? 'OVERRIDDEN' : 'DEFAULT',
           basePromptTemplate: step.customPromptTemplate,
           inferenceConfiguration: step.inferenceConfig,
+          // Include foundation model if provided
+          foundationModel: step.foundationModel?.invokableArn,
         })) || [],
     };
   }
@@ -259,6 +269,11 @@ export class PromptOverrideConfiguration {
       const inferenceErrors = this.validateInferenceConfig(step.inferenceConfig);
       if (inferenceErrors.length > 0) {
         errors.push(`Step ${step.stepType}: ${inferenceErrors.join(', ')}`);
+      }
+
+      // Validate foundationModel if provided
+      if (step.foundationModel !== undefined && !step.foundationModel.invokableArn) {
+        errors.push(`Step ${step.stepType}: Foundation model must be a valid IInvokable with an invokableArn`);
       }
     });
 

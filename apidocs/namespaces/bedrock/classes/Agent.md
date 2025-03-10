@@ -66,6 +66,22 @@ The ARN of the agent.
 
 ***
 
+### agentCollaboration?
+
+> `readonly` `optional` **agentCollaboration**: [`AgentCollaboratorType`](../enumerations/AgentCollaboratorType.md)
+
+Agent collaboration type.
+
+***
+
+### agentCollaborators?
+
+> `readonly` `optional` **agentCollaborators**: [`AgentCollaborator`](AgentCollaborator.md)[]
+
+Agent collaborators.
+
+***
+
 ### agentId
 
 > `readonly` **agentId**: `string`
@@ -95,6 +111,14 @@ The version of the agent.
 > `readonly` **codeInterpreterEnabled**: `boolean`
 
 Whether the agent can generate, run, and troubleshoot code when trying to complete a task.
+
+***
+
+### customOrchestration?
+
+> `readonly` `optional` **customOrchestration**: [`CustomOrchestration`](../interfaces/CustomOrchestration.md)
+
+Custom orchestration configuration.
 
 ***
 
@@ -221,6 +245,14 @@ The tree node.
 #### Inherited from
 
 [`AgentBase`](AgentBase.md).[`node`](AgentBase.md#node)
+
+***
+
+### orchestrationType?
+
+> `readonly` `optional` **orchestrationType**: [`OrchestrationType`](../enumerations/OrchestrationType.md)
+
+The type of orchestration for the agent.
 
 ***
 
@@ -358,6 +390,24 @@ Add multiple action groups to the agent.
 ##### actionGroups
 
 ...[`AgentActionGroup`](AgentActionGroup.md)[]
+
+#### Returns
+
+`void`
+
+***
+
+### addAgentCollaborator()
+
+> **addAgentCollaborator**(`agentCollaborator`): `void`
+
+Add an agent collaborator to the agent.
+
+#### Parameters
+
+##### agentCollaborator
+
+[`AgentCollaborator`](AgentCollaborator.md)
 
 #### Returns
 
