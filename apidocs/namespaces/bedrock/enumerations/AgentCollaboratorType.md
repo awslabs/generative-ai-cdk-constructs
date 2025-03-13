@@ -30,4 +30,4 @@ Supervisor agent.
 
 > **SUPERVISOR\_ROUTER**: `"SUPERVISOR_ROUTER"`
 
-supervisor router.
+Supervisor router.

@@ -27,7 +27,7 @@ The collaboration type for the agent.
 #### Default
 
 ```ts
-- No collaboration (disabled).
+- No collaboration (AgentCollaboratorType.DISABLED).
 ```
 
 ***

@@ -94,7 +94,6 @@
 - [AgentAliasProps](interfaces/AgentAliasProps.md)
 - [AgentAttributes](interfaces/AgentAttributes.md)
 - [AgentCollaboratorProps](interfaces/AgentCollaboratorProps.md)
-- [AgentDescriptor](interfaces/AgentDescriptor.md)
 - [AgentPromptVariantProps](interfaces/AgentPromptVariantProps.md)
 - [AgentProps](interfaces/AgentProps.md)
 - [ApplicationInferenceProfileAttributes](interfaces/ApplicationInferenceProfileAttributes.md)

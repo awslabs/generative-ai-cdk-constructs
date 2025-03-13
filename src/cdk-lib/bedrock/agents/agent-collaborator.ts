@@ -13,25 +13,25 @@
 
 import { CfnAgent } from 'aws-cdk-lib/aws-bedrock';
 import { IGrantable, Grant } from 'aws-cdk-lib/aws-iam';
-import { AgentDescriptor } from './agent-descriptor';
+import { IAgentAlias } from './agent-alias';
 
 /**
  * Enum for collaborator's relay conversation history types.
  */
 export enum AgentCollaboratorType {
   /**
-     * Supervisor agent.
-     */
+   * Supervisor agent.
+   */
   SUPERVISOR = 'SUPERVISOR',
 
   /**
-     * Disabling collaboration.
-     */
+   * Disabling collaboration.
+   */
   DISABLED = 'DISABLED',
 
   /**
-     * supervisor router.
-     */
+   * Supervisor router.
+   */
   SUPERVISOR_ROUTER = 'SUPERVISOR_ROUTER'
 }
 
@@ -51,13 +51,14 @@ export enum RelayConversationHistoryType {
 }
 
 /******************************************************************************
- *                         PROPS - Agent Collaborator Class
+ *                    PROPS - Agent Collaborator Class
  *****************************************************************************/
 export interface AgentCollaboratorProps {
-/**
-     * Descriptor for the collaborating agent.
-     */
-  readonly agentDescriptor: AgentDescriptor;
+  /**
+   * Descriptor for the collaborating agent.
+   * This cannot be the TSTALIASID (`agent.testAlias`).
+   */
+  readonly agentAlias: IAgentAlias;
 
   /**
    * Instructions on how this agent should collaborate with the main agent.
@@ -74,7 +75,7 @@ export interface AgentCollaboratorProps {
    *
    * @default - undefined (uses service default)
    */
-  readonly relayConversationHistory?: RelayConversationHistoryType;
+  readonly relayConversationHistory?: boolean;
 }
 
 /******************************************************************************
@@ -82,10 +83,10 @@ export interface AgentCollaboratorProps {
  *****************************************************************************/
 
 export class AgentCollaborator {
-// ------------------------------------------------------
-// Attributes
-// ------------------------------------------------------
-  public readonly agentDescriptor: AgentDescriptor;
+  // ------------------------------------------------------
+  // Attributes
+  // ------------------------------------------------------
+  public readonly agentAlias: IAgentAlias;
 
   /**
    * Instructions on how this agent should collaborate with the main agent.
@@ -102,7 +103,7 @@ export class AgentCollaborator {
    *
    * @default - undefined (uses service default)
    */
-  public readonly relayConversationHistory?: RelayConversationHistoryType;
+  public readonly relayConversationHistory?: boolean;
 
 
   public constructor(props: AgentCollaboratorProps) {
@@ -112,7 +113,7 @@ export class AgentCollaborator {
     // ------------------------------------------------------
     // Set attributes or defaults
     // ------------------------------------------------------
-    this.agentDescriptor = props.agentDescriptor;
+    this.agentAlias = props.agentAlias;
     this.collaborationInstruction = props.collaborationInstruction;
     this.collaboratorName = props.collaboratorName;
     this.relayConversationHistory = props.relayConversationHistory;
@@ -120,8 +121,11 @@ export class AgentCollaborator {
 
   private validateProps(props: AgentCollaboratorProps) {
     // Validate required properties
-    if (!props.agentDescriptor) {
-      throw new Error('agentDescriptor is required for AgentCollaborator');
+    if (!props.agentAlias) {
+      throw new Error('agentAlias is required for AgentCollaborator');
+    }
+    if (props.agentAlias.aliasId === 'TSTALIASID') {
+      throw new Error('Agent cannot collaborate with TSTALIASID alias of another agent. Use a different alias to collaborate with.');
     }
 
     if (!props.collaborationInstruction || props.collaborationInstruction.trim() === '') {
@@ -133,10 +137,10 @@ export class AgentCollaborator {
     }
 
     // Validate optional properties if provided
-    if (props.relayConversationHistory !== undefined &&
-        !Object.values(RelayConversationHistoryType).includes(props.relayConversationHistory)) {
-      throw new Error(`relayConversationHistory must be a valid RelayConversationHistoryType enum value: ${Object.values(RelayConversationHistoryType).join(', ')}`);
-    }
+    // if (props.relayConversationHistory !== undefined &&
+    //     !Object.values(RelayConversationHistoryType).includes(props.relayConversationHistory)) {
+    //   throw new Error(`relayConversationHistory must be a valid RelayConversationHistoryType enum value: ${Object.values(RelayConversationHistoryType).join(', ')}`);
+    // }
   }
 
   /**
@@ -147,11 +151,11 @@ export class AgentCollaborator {
   public _render(): CfnAgent.AgentCollaboratorProperty {
     return {
       agentDescriptor: {
-        aliasArn: this.agentDescriptor.aliasArn,
+        aliasArn: this.agentAlias.aliasArn,
       },
       collaborationInstruction: this.collaborationInstruction,
       collaboratorName: this.collaboratorName,
-      relayConversationHistory: this.relayConversationHistory,
+      relayConversationHistory: this.relayConversationHistory ? RelayConversationHistoryType.TO_COLLABORATOR : RelayConversationHistoryType.DISABLED,
     };
   }
 
@@ -163,13 +167,8 @@ export class AgentCollaborator {
  * @returns The Grant object
  */
   public grant(grantee: IGrantable): Grant {
-    return Grant.addToPrincipal({
-      grantee,
-      actions: [
-        'bedrock:GetAgentAlias',
-        'bedrock:InvokeAgent',
-      ],
-      resourceArns: [this.agentDescriptor.aliasArn],
-    });
+    const grant1 = this.agentAlias.grantInvoke(grantee);
+    const combinedGrant = grant1.combine(this.agentAlias.grantGet(grantee));
+    return combinedGrant;
   }
 }

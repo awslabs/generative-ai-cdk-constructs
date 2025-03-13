@@ -28,9 +28,9 @@
 
 ## Properties
 
-### agentDescriptor
+### agentAlias
 
-> `readonly` **agentDescriptor**: [`AgentDescriptor`](../interfaces/AgentDescriptor.md)
+> `readonly` **agentAlias**: [`IAgentAlias`](../interfaces/IAgentAlias.md)
 
 ***
 
@@ -52,7 +52,7 @@ A friendly name for the collaborator.
 
 ### relayConversationHistory?
 
-> `readonly` `optional` **relayConversationHistory**: [`RelayConversationHistoryType`](../enumerations/RelayConversationHistoryType.md)
+> `readonly` `optional` **relayConversationHistory**: `boolean`
 
 Whether to relay conversation history to this collaborator.
 

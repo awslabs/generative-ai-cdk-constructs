@@ -1,0 +1,19 @@
+{
+  "version": "39.0.0",
+  "testCases": {
+    "AgentMemoryTest-Integ/DefaultTest": {
+      "stacks": [
+        "AgentMemoryTest"
+      ],
+      "cdkCommandOptions": {
+        "deploy": {
+          "args": {
+            "rollback": false
+          }
+        }
+      },
+      "assertionStack": "AgentMemoryTest-Integ/DefaultTest/DeployAssert",
+      "assertionStackName": "AgentMemoryTestIntegDefaultTestDeployAssertA6B9969F"
+    }
+  }
+}

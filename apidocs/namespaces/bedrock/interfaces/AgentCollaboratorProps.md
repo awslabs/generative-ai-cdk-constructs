@@ -7,16 +7,17 @@
 # Interface: AgentCollaboratorProps
 
 ***************************************************************************
-                        PROPS - Agent Collaborator Class
+                   PROPS - Agent Collaborator Class
 ***************************************************************************
 
 ## Properties
 
-### agentDescriptor
+### agentAlias
 
-> `readonly` **agentDescriptor**: [`AgentDescriptor`](AgentDescriptor.md)
+> `readonly` **agentAlias**: [`IAgentAlias`](IAgentAlias.md)
 
 Descriptor for the collaborating agent.
+This cannot be the TSTALIASID (`agent.testAlias`).
 
 ***
 
@@ -38,7 +39,7 @@ A friendly name for the collaborator.
 
 ### relayConversationHistory?
 
-> `readonly` `optional` **relayConversationHistory**: [`RelayConversationHistoryType`](../enumerations/RelayConversationHistoryType.md)
+> `readonly` `optional` **relayConversationHistory**: `boolean`
 
 Whether to relay conversation history to this collaborator.
 

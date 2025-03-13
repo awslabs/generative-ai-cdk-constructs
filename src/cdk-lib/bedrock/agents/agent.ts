@@ -183,7 +183,7 @@ export interface AgentProps {
   /**
    * The collaboration type for the agent.
    *
-   * @default - No collaboration (disabled).
+   * @default - No collaboration (AgentCollaboratorType.DISABLED).
    */
   readonly agentCollaboration?: AgentCollaboratorType;
   /**
