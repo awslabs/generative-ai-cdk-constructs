@@ -337,6 +337,28 @@ Grant the given principal identity permissions to perform actions on this agent 
 
 ***
 
+### grantGet()
+
+> **grantGet**(`grantee`): `Grant`
+
+Grant the given identity permissions to get the agent alias.
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+#### Returns
+
+`Grant`
+
+#### Implementation of
+
+[`IAgentAlias`](../interfaces/IAgentAlias.md).[`grantGet`](../interfaces/IAgentAlias.md#grantget)
+
+***
+
 ### grantInvoke()
 
 > **grantInvoke**(`grantee`): `Grant`

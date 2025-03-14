@@ -32,6 +32,21 @@ https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-placeholders.html
 
 ***
 
+### foundationModel?
+
+> `readonly` `optional` **foundationModel**: [`IInvokable`](IInvokable.md)
+
+The foundation model to use for this specific prompt step.
+This allows using different models for different steps in the agent sequence.
+
+#### Default
+
+```ts
+- The agent's default foundation model will be used.
+```
+
+***
+
 ### inferenceConfig?
 
 > `readonly` `optional` **inferenceConfig**: [`InferenceConfiguration`](InferenceConfiguration.md)

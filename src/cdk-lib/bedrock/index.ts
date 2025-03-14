@@ -21,6 +21,9 @@ export * from './agents/api-executor';
 export * from './agents/api-schema';
 export * from './agents/prompt-override';
 export * from './agents/memory';
+export * from './agents/agent-collaborator';
+export * from './agents/orchestration';
+export * from './agents/orchestration-executor';
 
 //===================================
 // Data Sources

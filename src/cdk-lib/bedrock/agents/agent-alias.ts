@@ -51,6 +51,11 @@ export interface IAgentAlias extends IResource {
   grantInvoke(grantee: iam.IGrantable): iam.Grant;
 
   /**
+   * Grant the given identity permissions to get the agent alias.
+   */
+  grantGet(grantee: iam.IGrantable): iam.Grant;
+
+  /**
    * Define an EventBridge rule that triggers when something happens to this agent alias
    *
    * Requires that there exists at least one CloudTrail Trail in your account
@@ -91,6 +96,13 @@ export abstract class AgentAliasBase extends Resource implements IAgentAlias {
    */
   public grantInvoke(grantee: iam.IGrantable): iam.Grant {
     return this.grant(grantee, 'bedrock:InvokeAgent');
+  }
+
+  /**
+   * Grant the given identity permissions to get the agent alias.
+   */
+  public grantGet(grantee: iam.IGrantable): iam.Grant {
+    return this.grant(grantee, 'bedrock:GetAgentAlias');
   }
 
   /**
@@ -186,7 +198,11 @@ export class AgentAlias extends AgentAliasBase {
   /**
    * Brings an Agent Alias from an existing one created outside of CDK.
    */
-  public static fromAttributes(scope: Construct, id: string, attrs: AgentAliasAttributes): IAgentAlias {
+  public static fromAttributes(
+    scope: Construct,
+    id: string,
+    attrs: AgentAliasAttributes,
+  ): IAgentAlias {
     class Import extends AgentAliasBase {
       public readonly agent = attrs.agent;
       public readonly aliasId = attrs.aliasId;

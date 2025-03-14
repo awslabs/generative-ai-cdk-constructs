@@ -22,6 +22,7 @@ dist
 tsconfig.tsbuildinfo
 /.eslintrc.json
 !.jsii
+test/integ/agent-collab.integ.snapshot
 test/integ/agent-mem.integ.snapshot
 test/integ/chatprompt.integ.snapshot
 test/integ/guardrails.integ.snapshot
