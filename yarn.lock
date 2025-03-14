@@ -538,9 +538,9 @@
   integrity sha512-UJnjoFsmxfKUdNYdWgOB0mWUypuLvAfQPH1+pyvRJs6euowbFkFC6P13w1l8mJyi3vxYMxc9kld5jZEGRQs6bw==
 
 "@eslint-community/eslint-utils@^4.2.0", "@eslint-community/eslint-utils@^4.4.0":
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/@eslint-community/eslint-utils/-/eslint-utils-4.5.0.tgz#716637f508a8add5814cc64c56e58cce57bdbe93"
-  integrity sha512-RoV8Xs9eNwiDvhv7M+xcL4PWyRyIXRY/FLp3buU4h1EYfdF7unWUy3dOjPqb3C7rMUewIcqwW850PgS8h1o1yg==
+  version "4.5.1"
+  resolved "https://registry.yarnpkg.com/@eslint-community/eslint-utils/-/eslint-utils-4.5.1.tgz#b0fc7e06d0c94f801537fd4237edc2706d3b8e4c"
+  integrity sha512-soEIOALTfTK6EjmKMMoLugwaP0rzkad90iIWd1hMO9ARkSAyjfMfkRRhLvD5qH7vvM0Cg72pieUfR6yh6XxC4w==
   dependencies:
     eslint-visitor-keys "^3.4.3"
 
@@ -1545,9 +1545,9 @@ aws-cdk-lib@2.181.1:
     yaml "1.10.2"
 
 aws-cdk@^2:
-  version "2.1003.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.1003.0.tgz#db3bcd839f86b9b7f0f3d2d3359cefb768458462"
-  integrity sha512-FORPDGW8oUg4tXFlhX+lv/j+152LO9wwi3/CwNr1WY3c3HwJUtc0fZGb2B3+Fzy6NhLWGHJclUsJPEhjEt8Nhg==
+  version "2.1004.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.1004.0.tgz#df55799fe75d60711f211a0c0aba4c9373429dbf"
+  integrity sha512-3E5ICmSc7ZCZCwLX7NY+HFmmdUYgRaL+67h/BDoDQmkhx9StC8wG4xgzHFY9k8WQS0+ib/MP28f2d9yzHtQLlQ==
   optionalDependencies:
     fsevents "2.3.2"
 
@@ -1760,19 +1760,19 @@ camelcase@^6.2.0, camelcase@^6.3.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001688:
-  version "1.0.30001703"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001703.tgz#977cb4920598c158f491ecf4f4f2cfed9e354718"
-  integrity sha512-kRlAGTRWgPsOj7oARC9m1okJEXdL/8fekFVcxA8Hl7GH4r/sN4OJn/i6Flde373T50KS7Y37oFbMwlE8+F42kQ==
+  version "1.0.30001704"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001704.tgz#6644fe909d924ac3a7125e8a0ab6af95b1f32990"
+  integrity sha512-+L2IgBbV6gXB4ETf0keSvLr7JUrRVbIaB/lrQ1+z8mRcQiisG5k+lG6O4n6Y5q6f5EuNfaYXKgymucphlEXQew==
 
 case@1.6.3, case@^1.6.3:
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-nag@^2.35.43:
-  version "2.35.43"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.35.43.tgz#e2c981e417e3b3005897daf138c601ee9f9958af"
-  integrity sha512-jqrbeTglVh6UvPge+oESK4tsy1UaTQsqHCcY/OF6ovgBqQxThL023lsrBwVy8SAi8X1WgS686fKobV5L52mpNQ==
+cdk-nag@^2.35.44:
+  version "2.35.44"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.35.44.tgz#4d03e9902568e2578d15bb32a90258a7d142807a"
+  integrity sha512-IkKNZZcJ+fl4xZAfYr3O3XlHMcQNvHSgTUgkXd9kriLKzbDHd5ynFYYqyaEXzVNaMT0BdDFeBV9x5ZAh+ulP7Q==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -2396,9 +2396,9 @@ ejs@^3.1.10:
     jake "^10.8.5"
 
 electron-to-chromium@^1.5.73:
-  version "1.5.115"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.115.tgz#193dd534948b3ea77e3d95dd38ca12cdc01c76a9"
-  integrity sha512-MN1nahVHAQMOz6dz6bNZ7apgqc9InZy7Ja4DBEVCTdeiUcegbyOYE9bi/f2Z/z6ZxLi0RxLpyJ3EGe+4h3w73A==
+  version "1.5.118"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.118.tgz#064bda9bfea1611074288adb1fdd1f787a131e21"
+  integrity sha512-yNDUus0iultYyVoEFLnQeei7LOQkL8wg8GQpkPCRrOlJXlcCwa6eGKZkxQ9ciHsqZyYbj8Jd94X1CTPzGm+uIA==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -2564,10 +2564,10 @@ eslint-import-resolver-node@^0.3.9:
     is-core-module "^2.13.0"
     resolve "^1.22.4"
 
-eslint-import-resolver-typescript@^3.8.6:
-  version "3.8.6"
-  resolved "https://registry.yarnpkg.com/eslint-import-resolver-typescript/-/eslint-import-resolver-typescript-3.8.6.tgz#002477b92aa9a15c74fb380571221f80d4404f65"
-  integrity sha512-d9UjvYpj/REmUoZvOtDEmayPlwyP4zOwwMBgtC6RtrpZta8u1AIVmxgZBYJIcCKKXwAcLs+DX2yn2LeMaTqKcQ==
+eslint-import-resolver-typescript@^3.8.7:
+  version "3.8.7"
+  resolved "https://registry.yarnpkg.com/eslint-import-resolver-typescript/-/eslint-import-resolver-typescript-3.8.7.tgz#997bb279098c555dd78469ad59e491560f79ebf5"
+  integrity sha512-U7k84gOzrfl09c33qrIbD3TkWTWu3nt3dK5sDajHSekfoLlYGusIwSdPlPzVeA6TFpi0Wpj+ZdBD8hX4hxPoww==
   dependencies:
     "@nolyfill/is-core-module" "1.0.39"
     debug "^4.3.7"
