@@ -30,10 +30,10 @@ export enum OrchestrationType {
   /**
      * Default orchestration by the agent.
      */
-  STANDARD = 'STANDARD',
+  DEFAULT = 'DEFAULT',
 
   /**
      * Custom orchestration using Lambda.
      */
-  CUSTOM = 'CUSTOM'
+  CUSTOM_ORCHESTRATION = 'CUSTOM_ORCHESTRATION'
 }

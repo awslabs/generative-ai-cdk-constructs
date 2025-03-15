@@ -1238,7 +1238,7 @@ const mainAgent = new Agent(this, 'MainAgent', {
       agentAlias: customerSupportAlias,
       collaborationInstruction: 'Route customer support questions to this agent.',
       collaboratorName: 'CustomerSupport',
-      relayConversationHistory: bedrock.RelayConversationHistoryType.TO_COLLABORATOR,
+      relayConversationHistory: true,
     }),
   ],
 });
@@ -1277,7 +1277,7 @@ main_agent = bedrock.Agent(self, 'MainAgent',
         agent_alias= customer_support_alias,
         collaboration_instruction= 'Route customer support questions to this agent.',
         collaborator_name= 'CustomerSupport',
-        relay_conversation_history= RelayConversationHistoryType.TO_COLLABORATOR,
+        relay_conversation_history= true,
       )
     ],
 )
@@ -1293,8 +1293,8 @@ Custom Orchestration allows you to override the default agent orchestration flow
 
 You can configure the orchestration type using the `orchestrationType` and `customOrchestration` properties in the `AgentProps` interface.
 
-- **STANDARD**: The default orchestration provided by Bedrock (default).
-- **CUSTOM**: Custom orchestration using a Lambda function.
+- **DEFAULT**: The default orchestration provided by Bedrock (default).
+- **CUSTOM_ORCHESTRATION**: Custom orchestration using a Lambda function.
 
 #### Custom Orchestration Example
 
@@ -1317,7 +1317,7 @@ const agent = new Agent(this, 'CustomOrchestrationAgent', {
   name: 'CustomOrchestrationAgent',
   instruction: 'You are a helpful assistant with custom orchestration logic.',
   foundationModel: bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
-  orchestrationType: OrchestrationType.CUSTOM,
+  orchestrationType: OrchestrationType.CUSTOM_ORCHESTRATION,
   customOrchestration: {
     executor: OrchestrationExecutor.fromlambdaFunction(orchestrationFunction),
   },
@@ -1347,7 +1347,7 @@ agent = bedrock.Agent(self, 'CustomOrchestrationAgent',
     name='CustomOrchestrationAgent',
     instruction='You are a helpful assistant with custom orchestration logic.',
     foundation_model=bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
-    orchestration_type=OrchestrationType.CUSTOM,
+    orchestration_type=OrchestrationType.CUSTOM_ORCHESTRATION,
     custom_orchestration=bedrock.CustomOrchestration(
       executor= OrchestrationExecutor.fromlambda_function(orchestration_function),
     )

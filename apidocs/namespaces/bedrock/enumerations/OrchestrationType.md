@@ -10,16 +10,16 @@ Enum for orchestration types available for agents.
 
 ## Enumeration Members
 
-### CUSTOM
+### CUSTOM\_ORCHESTRATION
 
-> **CUSTOM**: `"CUSTOM"`
+> **CUSTOM\_ORCHESTRATION**: `"CUSTOM_ORCHESTRATION"`
 
 Custom orchestration using Lambda.
 
 ***
 
-### STANDARD
+### DEFAULT
 
-> **STANDARD**: `"STANDARD"`
+> **DEFAULT**: `"DEFAULT"`
 
 Default orchestration by the agent.
