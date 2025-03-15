@@ -1235,7 +1235,7 @@ const mainAgent = new Agent(this, 'MainAgent', {
   agentCollaboration: AgentCollaboratorType.SUPERVISOR,
   agentCollaborators: [
     new bedrock.AgentCollaborator({
-      agentDescriptor: { aliasArn: customerSupportAlias.aliasArn },
+      agentAlias: customerSupportAlias,
       collaborationInstruction: 'Route customer support questions to this agent.',
       collaboratorName: 'CustomerSupport',
       relayConversationHistory: bedrock.RelayConversationHistoryType.TO_COLLABORATOR,
@@ -1274,7 +1274,7 @@ main_agent = bedrock.Agent(self, 'MainAgent',
     agent_collaboration=AgentCollaboratorType.SUPERVISOR,
     agent_collaborators=[
       bedrock.AgentCollaborator(
-        agent_descriptor= bedrock.AgentDescriptor(alias_arn= customer_support_alias.alias_arn),
+        agent_alias= customer_support_alias,
         collaboration_instruction= 'Route customer support questions to this agent.',
         collaborator_name= 'CustomerSupport',
         relay_conversation_history= RelayConversationHistoryType.TO_COLLABORATOR,

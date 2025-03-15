@@ -135,12 +135,6 @@ export class AgentCollaborator {
     if (!props.collaboratorName || props.collaboratorName.trim() === '') {
       throw new Error('collaboratorName is required and cannot be empty for AgentCollaborator');
     }
-
-    // Validate optional properties if provided
-    // if (props.relayConversationHistory !== undefined &&
-    //     !Object.values(RelayConversationHistoryType).includes(props.relayConversationHistory)) {
-    //   throw new Error(`relayConversationHistory must be a valid RelayConversationHistoryType enum value: ${Object.values(RelayConversationHistoryType).join(', ')}`);
-    // }
   }
 
   /**

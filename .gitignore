@@ -56,14 +56,6 @@ junit.xml
 !/.eslintrc.json
 .jsii
 tsconfig.json
-test/integ/agent-collab.integ.snapshot/asset.*
-test/integ/agent-collab.integ.snapshot/**/asset.*
-test/integ/agent-collab.integ.snapshot/cdk.out
-test/integ/agent-collab.integ.snapshot/**/cdk.out
-test/integ/agent-collab.integ.snapshot/manifest.json
-test/integ/agent-collab.integ.snapshot/**/manifest.json
-test/integ/agent-collab.integ.snapshot/tree.json
-test/integ/agent-collab.integ.snapshot/**/tree.json
 test/integ/agent-mem.integ.snapshot/asset.*
 test/integ/agent-mem.integ.snapshot/**/asset.*
 test/integ/agent-mem.integ.snapshot/cdk.out

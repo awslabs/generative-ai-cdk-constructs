@@ -168,69 +168,6 @@
         }
       ]
     },
-    "integ:agent-collab:assert": {
-      "name": "integ:agent-collab:assert",
-      "description": "assert the snapshot of integration test 'agent-collab'",
-      "steps": [
-        {
-          "exec": "[ -d \"test/integ/agent-collab.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'agent-collab'. Run 'projen integ:agent-collab:deploy' to capture.\" && exit 1)"
-        },
-        {
-          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/agent-collab.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/agent-collab.integ/assert.cdk.out > /dev/null"
-        },
-        {
-          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/agent-collab.integ.snapshot/ test/integ/.tmp/agent-collab.integ/assert.cdk.out/"
-        }
-      ]
-    },
-    "integ:agent-collab:deploy": {
-      "name": "integ:agent-collab:deploy",
-      "description": "deploy integration test 'agent-collab' and capture snapshot",
-      "steps": [
-        {
-          "exec": "rm -fr test/integ/.tmp/agent-collab.integ/deploy.cdk.out"
-        },
-        {
-          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/agent-collab.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/agent-collab.integ/deploy.cdk.out"
-        },
-        {
-          "exec": "rm -fr test/integ/agent-collab.integ.snapshot"
-        },
-        {
-          "exec": "mv test/integ/.tmp/agent-collab.integ/deploy.cdk.out test/integ/agent-collab.integ.snapshot"
-        },
-        {
-          "spawn": "integ:agent-collab:destroy"
-        }
-      ]
-    },
-    "integ:agent-collab:destroy": {
-      "name": "integ:agent-collab:destroy",
-      "description": "destroy integration test 'agent-collab'",
-      "steps": [
-        {
-          "exec": "cdk destroy --app test/integ/agent-collab.integ.snapshot '**' --no-version-reporting"
-        }
-      ]
-    },
-    "integ:agent-collab:snapshot": {
-      "name": "integ:agent-collab:snapshot",
-      "description": "update snapshot for integration test \"agent-collab\"",
-      "steps": [
-        {
-          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/agent-collab.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/agent-collab.integ.snapshot > /dev/null"
-        }
-      ]
-    },
-    "integ:agent-collab:watch": {
-      "name": "integ:agent-collab:watch",
-      "description": "watch integration test 'agent-collab' (without updating snapshots)",
-      "steps": [
-        {
-          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/agent-collab.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/agent-collab.integ/deploy.cdk.out"
-        }
-      ]
-    },
     "integ:agent-mem:assert": {
       "name": "integ:agent-mem:assert",
       "description": "assert the snapshot of integration test 'agent-mem'",
@@ -803,9 +740,6 @@
       "description": "update snapshot for all integration tests",
       "steps": [
         {
-          "spawn": "integ:agent-collab:snapshot"
-        },
-        {
           "spawn": "integ:agent-mem:snapshot"
         },
         {
@@ -958,9 +892,6 @@
         },
         {
           "spawn": "eslint"
-        },
-        {
-          "spawn": "integ:agent-collab:assert"
         },
         {
           "spawn": "integ:agent-mem:assert"
