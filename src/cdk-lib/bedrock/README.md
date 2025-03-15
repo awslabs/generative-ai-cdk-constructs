@@ -1418,12 +1418,12 @@ const guardrails = new bedrock.Guardrail(this, 'bedrockGuardrails', {
 
 // Optional - Add Sensitive information filters
 
-guardrail.addPIIFilter({
+guardrails.addPIIFilter({
   type: PIIType.General.ADDRESS,
   action: GuardrailAction.ANONYMIZE,
 });
 
-guardrail.addRegexFilter({
+guardrails.addRegexFilter({
   name: 'TestRegexFilter',
   description: 'This is a test regex filter',
   pattern: '/^[A-Z]{2}d{6}$/',
@@ -1432,20 +1432,20 @@ guardrail.addRegexFilter({
 
 // Optional - Add contextual grounding
 
-guardrail.addContextualGroundingFilter({
+guardrails.addContextualGroundingFilter({
   type: ContextualGroundingFilterType.GROUNDING,
   threshold: 0.95,
 });
 
-guardrail.addContextualGroundingFilter({
+guardrails.addContextualGroundingFilter({
   type: ContextualGroundingFilterType.RELEVANCE,
   threshold: 0.95,
 });
 
 // Optional - Add Denied topics . You can use a Topic or create your custom Topic
 
-guardrail.addDeniedTopicFilter(Topic.FINANCIAL_ADVICE);
-guardrail.addDeniedTopicFilter(
+guardrails.addDeniedTopicFilter(Topic.FINANCIAL_ADVICE);
+guardrails.addDeniedTopicFilter(
   Topic.custom({
     name: 'Legal_Advice',
     definition:
@@ -1461,8 +1461,8 @@ guardrail.addDeniedTopicFilter(
 );
 
 // Optional - Add Word filters. You can upload words from a file with addWordFilterFromFile function.
-guardrail.addWordFilter('drugs');
-guardrail.addManagedWordListFilter(ManagedWordFilterType.PROFANITY);
+guardrails.addWordFilter('drugs');
+guardrails.addManagedWordListFilter(ManagedWordFilterType.PROFANITY);
 guardrails.addWordFilterFromFile('./scripts/wordsPolicy.csv');
 
 // versioning - if you change any guardrail configuration, a new version will be created
