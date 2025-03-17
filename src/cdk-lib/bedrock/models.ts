@@ -278,6 +278,16 @@ export class BedrockFoundationModel implements IInvokable {
       supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
     },
   );
+  /****************************************************************************
+   *                            DEEPSEEK
+   ***************************************************************************/
+  public static readonly DEEPSEEK_R1_V1 = new BedrockFoundationModel(
+    'deepseek.r1-v1:0',
+    {
+      supportsAgents: true,
+      supportsCrossRegion: true,
+    },
+  );
 
   /****************************************************************************
    *                            META
