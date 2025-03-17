@@ -6,6 +6,8 @@
 
 # Interface: SessionSummaryMemoryProps
 
+Properties for SessionSummaryConfiguration.
+
 ## Properties
 
 ### maxRecentSessions?

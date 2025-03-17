@@ -37,6 +37,8 @@ This construct library facilitates the deployment of Knowledge Bases, Bedrock Ag
   - [Action groups](#action-groups)
   - [Prepare the Agent](#prepare-the-agent)
   - [Memory Configuration](#memory-configuration)
+  - [Agent Collaboration](#agent-collaboration)
+  - [Custom Orchestration](#custom-orchestration)
   - [Agent Alias](#agent-alias)
 - [Guardrails](#bedrock-guardrails)
 - [Prompt management](#prompt-management)
@@ -48,7 +50,7 @@ See the [API documentation](../../../apidocs/namespaces/bedrock/README.md).
 
 ## Knowledge Bases
 
-Amazon Bedrock Knowledge Bases enable you to provide foundation models and agents with contextual information from your company’s private data sources. This enhances the relevance, accuracy, and customization of their responses.
+Amazon Bedrock Knowledge Bases enable you to provide foundation models and agents with contextual information from your company's private data sources. This enhances the relevance, accuracy, and customization of their responses.
 
 ### Vector Knowledge Base
 
@@ -586,7 +588,7 @@ class PythonTestStack(Stack):
             bucket= docBucket,
             chunking_strategy= bedrock.ChunkingStrategy.SEMANTIC,
             parsing_strategy= bedrock.ParsingStategy.foundation_model(
-                parsing_model= bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0.as_i_model(self)
+                parsing_model= bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.as_i_model(self)
             )
         )
 
@@ -921,7 +923,7 @@ kb = bedrock.KendraKnowledgeBase(self, 'kb',
 
 ## Agents
 
-Amazon Bedrock Agents allow generative AI applications to automate complex, multistep tasks by seamlessly integrating with your company’s systems, APIs, and data sources.
+Amazon Bedrock Agents allow generative AI applications to automate complex, multistep tasks by seamlessly integrating with your company's systems, APIs, and data sources.
 
 
 ### Agent Properties
@@ -1103,6 +1105,7 @@ const agent = new bedrock.Agent(this, 'Agent', {
               maximumLength: 1,
               stopSequences: ["\n\nHuman:"],
             },
+            foundationModel: bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1
           }
         ]
       )
@@ -1131,7 +1134,8 @@ agent = bedrock.Agent(self, "Agent",
                             top_p=1,
                             maximum_length=1,
                             stop_sequences=['\n\nHuman:'],
-                        )
+                        ),
+                        foundationModel: bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1
                     ),
                 ]
             ),
@@ -1190,6 +1194,169 @@ Currently, the following memory type is supported:
 - **SESSION_SUMMARY**: Uses memory summarization to enhance accuracy by summarizing sessions.
 
 For more information on memory configuration, refer to the [AWS Bedrock documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-memory.html).
+
+### Agent Collaboration
+
+Agent Collaboration enables multiple Bedrock Agents to work together on complex tasks. This feature allows agents to specialize in different areas and collaborate to provide more comprehensive responses to user queries.
+
+#### Collaboration Types
+
+You can configure collaboration for an agent using the `agentCollaboration` and `agentCollaborators` properties in the `AgentProps` interface.
+
+- **SUPERVISOR**: The agent acts as a supervisor that can delegate tasks to other agents.
+- **SUPERVISOR_ROUTER**: The agent acts as a supervisor that can route requests to specialized agents.
+- **DISABLED**: Collaboration is disabled (default).
+
+#### Collaboration Example
+
+TypeScript
+
+```typescript
+import { Agent, AgentCollaboratorType, RelayConversationHistoryType } from '@cdklabs/generative-ai-cdk-constructs';
+
+// Create a specialized agent for customer support
+const customerSupportAgent = new Agent(this, 'CustomerSupportAgent', {
+  name: 'CustomerSupportAgent',
+  instruction: 'You specialize in answering customer support questions about our products.',
+  foundationModel: bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
+});
+
+// Create an agent alias for the specialized agent
+const customerSupportAlias = new AgentAlias(this, 'CustomerSupportAlias', {
+  agent: customerSupportAgent,
+  aliasName: 'production',
+});
+
+// Create a main agent that can collaborate with the specialized agent
+const mainAgent = new Agent(this, 'MainAgent', {
+  name: 'MainAgent',
+  instruction: 'You are a helpful assistant that can answer general questions and route specialized customer support questions to the customer support agent.',
+  foundationModel: bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
+  agentCollaboration: AgentCollaboratorType.SUPERVISOR,
+  agentCollaborators: [
+    new bedrock.AgentCollaborator({
+      agentAlias: customerSupportAlias,
+      collaborationInstruction: 'Route customer support questions to this agent.',
+      collaboratorName: 'CustomerSupport',
+      relayConversationHistory: true,
+    }),
+  ],
+});
+```
+
+Python
+
+```python
+from cdklabs.generative_ai_cdk_constructs import (
+    bedrock, 
+    AgentCollaboratorType, 
+    RelayConversationHistoryType
+)
+
+# Create a specialized agent for customer support
+customer_support_agent = bedrock.Agent(self, 'CustomerSupportAgent',
+    name='CustomerSupportAgent',
+    instruction='You specialize in answering customer support questions about our products.',
+    foundation_model=bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
+)
+
+# Create an agent alias for the specialized agent
+customer_support_alias = bedrock.AgentAlias(self, 'CustomerSupportAlias', 
+    agent=customer_support_agent,
+    alias_name='production',
+)
+
+# Create a main agent that can collaborate with the specialized agent
+main_agent = bedrock.Agent(self, 'MainAgent',
+    name='MainAgent',
+    instruction='You are a helpful assistant that can answer general questions and route specialized customer support questions to the customer support agent.',
+    foundation_model=bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
+    agent_collaboration=AgentCollaboratorType.SUPERVISOR,
+    agent_collaborators=[
+      bedrock.AgentCollaborator(
+        agent_alias= customer_support_alias,
+        collaboration_instruction= 'Route customer support questions to this agent.',
+        collaborator_name= 'CustomerSupport',
+        relay_conversation_history= true,
+      )
+    ],
+)
+```
+
+For more information on agent collaboration, refer to the [AWS Bedrock documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-collaboration.html).
+
+### Custom Orchestration
+
+Custom Orchestration allows you to override the default agent orchestration flow with your own Lambda function. This enables more control over how the agent processes user inputs, handles knowledge base queries, and invokes action groups.
+
+#### Orchestration Types
+
+You can configure the orchestration type using the `orchestrationType` and `customOrchestration` properties in the `AgentProps` interface.
+
+- **DEFAULT**: The default orchestration provided by Bedrock (default).
+- **CUSTOM_ORCHESTRATION**: Custom orchestration using a Lambda function.
+
+#### Custom Orchestration Example
+
+TypeScript
+
+```typescript
+import { Agent, OrchestrationType, OrchestrationExecutor } from '@cdklabs/generative-ai-cdk-constructs';
+import * as lambda from 'aws-cdk-lib/aws-lambda';
+import * as path from 'path';
+
+// Create a Lambda function for custom orchestration
+const orchestrationFunction = new lambda.Function(this, 'OrchestrationFunction', {
+  runtime: lambda.Runtime.PYTHON_3_10,
+  handler: 'index.handler',
+  code: lambda.Code.fromAsset(path.join(__dirname, 'lambda/orchestration')),
+});
+
+// Create an agent with custom orchestration
+const agent = new Agent(this, 'CustomOrchestrationAgent', {
+  name: 'CustomOrchestrationAgent',
+  instruction: 'You are a helpful assistant with custom orchestration logic.',
+  foundationModel: bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
+  orchestrationType: OrchestrationType.CUSTOM_ORCHESTRATION,
+  customOrchestration: {
+    executor: OrchestrationExecutor.fromlambdaFunction(orchestrationFunction),
+  },
+});
+```
+
+Python
+
+```python
+from cdklabs.generative_ai_cdk_constructs import (
+    bedrock, 
+    OrchestrationType, 
+    OrchestrationExecutor
+)
+import aws_cdk.aws_lambda as lambda_
+import os
+
+# Create a Lambda function for custom orchestration
+orchestration_function = lambda_.Function(self, 'OrchestrationFunction',
+    runtime=lambda_.Runtime.PYTHON_3_10,
+    handler='index.handler',
+    code=lambda_.Code.from_asset(os.path.join(os.path.dirname(__file__), 'lambda/orchestration')),
+)
+
+# Create an agent with custom orchestration
+agent = bedrock.Agent(self, 'CustomOrchestrationAgent',
+    name='CustomOrchestrationAgent',
+    instruction='You are a helpful assistant with custom orchestration logic.',
+    foundation_model=bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
+    orchestration_type=OrchestrationType.CUSTOM_ORCHESTRATION,
+    custom_orchestration=bedrock.CustomOrchestration(
+      executor= OrchestrationExecutor.fromlambda_function(orchestration_function),
+    )
+)
+```
+
+The custom orchestration Lambda function receives events from Bedrock with the user's input and context, and it can control the flow of the conversation by deciding when to query knowledge bases, invoke action groups, or respond directly to the user.
+
+For more information on custom orchestration, refer to the [AWS Bedrock documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-custom-orchestration.html).
 
 ### Agent Alias
 
@@ -1251,12 +1418,12 @@ const guardrails = new bedrock.Guardrail(this, 'bedrockGuardrails', {
 
 // Optional - Add Sensitive information filters
 
-guardrail.addPIIFilter({
+guardrails.addPIIFilter({
   type: PIIType.General.ADDRESS,
   action: GuardrailAction.ANONYMIZE,
 });
 
-guardrail.addRegexFilter({
+guardrails.addRegexFilter({
   name: 'TestRegexFilter',
   description: 'This is a test regex filter',
   pattern: '/^[A-Z]{2}d{6}$/',
@@ -1265,20 +1432,20 @@ guardrail.addRegexFilter({
 
 // Optional - Add contextual grounding
 
-guardrail.addContextualGroundingFilter({
+guardrails.addContextualGroundingFilter({
   type: ContextualGroundingFilterType.GROUNDING,
   threshold: 0.95,
 });
 
-guardrail.addContextualGroundingFilter({
+guardrails.addContextualGroundingFilter({
   type: ContextualGroundingFilterType.RELEVANCE,
   threshold: 0.95,
 });
 
 // Optional - Add Denied topics . You can use a Topic or create your custom Topic
 
-guardrail.addDeniedTopicFilter(Topic.FINANCIAL_ADVICE);
-guardrail.addDeniedTopicFilter(
+guardrails.addDeniedTopicFilter(Topic.FINANCIAL_ADVICE);
+guardrails.addDeniedTopicFilter(
   Topic.custom({
     name: 'Legal_Advice',
     definition:
@@ -1294,8 +1461,8 @@ guardrail.addDeniedTopicFilter(
 );
 
 // Optional - Add Word filters. You can upload words from a file with addWordFilterFromFile function.
-guardrail.addWordFilter('drugs');
-guardrail.addManagedWordListFilter(ManagedWordFilterType.PROFANITY);
+guardrails.addWordFilter('drugs');
+guardrails.addManagedWordListFilter(ManagedWordFilterType.PROFANITY);
 guardrails.addWordFilterFromFile('./scripts/wordsPolicy.csv');
 
 // versioning - if you change any guardrail configuration, a new version will be created
@@ -1462,7 +1629,7 @@ Python
             inference_configuration={
                 "temperature": 1.0,
                 "top_p": 0.999,
-                "max_tokens": 2000,
+                "maxTokens": 2000,
             }
         )
 
@@ -1620,6 +1787,7 @@ const variant2 = PromptVariant.text({
 
 prompt1.addVariant(variant2);
 ```
+
 Python
 
 ```python
@@ -1680,8 +1848,8 @@ bedrock.Prompt(self, 'Prompt',
 ### Prompt Version
 
 A prompt version is a snapshot of a prompt at a specific point in time that you
-create when you are satisfied with a set of configurations. Versions allow you to
-deploy your prompt and easily switch between different configurations for your
+create when you are satisfied with a set of configurations. Versions allow you
+to deploy your prompt and easily switch between different configurations for your
 prompt and update your application with the most appropriate version for your
 use-case.
 
