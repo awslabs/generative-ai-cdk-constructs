@@ -72,14 +72,6 @@ test/integ/chatprompt.integ.snapshot/manifest.json
 test/integ/chatprompt.integ.snapshot/**/manifest.json
 test/integ/chatprompt.integ.snapshot/tree.json
 test/integ/chatprompt.integ.snapshot/**/tree.json
-test/integ/custom-ds.integ.snapshot/asset.*
-test/integ/custom-ds.integ.snapshot/**/asset.*
-test/integ/custom-ds.integ.snapshot/cdk.out
-test/integ/custom-ds.integ.snapshot/**/cdk.out
-test/integ/custom-ds.integ.snapshot/manifest.json
-test/integ/custom-ds.integ.snapshot/**/manifest.json
-test/integ/custom-ds.integ.snapshot/tree.json
-test/integ/custom-ds.integ.snapshot/**/tree.json
 test/integ/guardrails.integ.snapshot/asset.*
 test/integ/guardrails.integ.snapshot/**/asset.*
 test/integ/guardrails.integ.snapshot/cdk.out
