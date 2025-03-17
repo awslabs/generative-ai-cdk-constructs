@@ -6,7 +6,7 @@
 
 # Class: CustomDataSource
 
-Sets up an S3 Data Source to be added to a knowledge base.
+Sets up a custom Data Source to be added to a knowledge base.
 
 ## Extends
 
