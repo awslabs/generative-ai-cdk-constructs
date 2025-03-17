@@ -104,7 +104,7 @@
     "commitlint": "^18.6.1",
     "constructs": "10.3.0",
     "eslint": "^9",
-    "eslint-import-resolver-typescript": "^3.9.0",
+    "eslint-import-resolver-typescript": "^3.9.1",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-license-header": "^0.8.0",
     "husky": "^8.0.3",
@@ -119,7 +119,7 @@
     "ts-jest": "^29.2.6",
     "ts-node": "^10.9.2",
     "typedoc": "^0.27.9",
-    "typedoc-plugin-markdown": "^4.4.2",
+    "typedoc-plugin-markdown": "^4.5.0",
     "typescript": "^5.8.2"
   },
   "peerDependencies": {
@@ -128,7 +128,7 @@
   },
   "dependencies": {
     "@aws-cdk/aws-lambda-python-alpha": "2.181.1-alpha.0",
-    "cdk-nag": "^2.35.46",
+    "cdk-nag": "^2.35.47",
     "deepmerge": "^4.3.1"
   },
   "bundledDependencies": [
