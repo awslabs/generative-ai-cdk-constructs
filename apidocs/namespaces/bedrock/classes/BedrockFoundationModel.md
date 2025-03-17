@@ -236,7 +236,7 @@ The ARN of the Bedrock invokable abstraction.
 > `readonly` `static` **DEEPSEEK\_R1\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
 
 *************************************************************************
-                           AMAZON
+                           DEEPSEEK
 *************************************************************************
 
 ***
