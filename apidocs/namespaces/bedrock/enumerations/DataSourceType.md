@@ -18,6 +18,24 @@ Confluence Cloud Instance data source.
 
 ***
 
+### CUSTOM
+
+> **CUSTOM**: `"CUSTOM"`
+
+Custom data source.
+A custom data source allows the flexibility to automatically ingest documents
+into your vector database directly.
+
+***
+
+### REDSHIFT\_METADATA
+
+> **REDSHIFT\_METADATA**: `"REDSHIFT_METADATA"`
+
+Redshift Metadata data source.
+
+***
+
 ### S3
 
 > **S3**: `"S3"`

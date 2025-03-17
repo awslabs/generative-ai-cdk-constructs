@@ -160,6 +160,24 @@ Add a Confluence data source to the knowledge base.
 
 ***
 
+### addCustomDataSource()
+
+> **addCustomDataSource**(`props`): [`CustomDataSource`](../classes/CustomDataSource.md)
+
+Add a Custom data source to the knowledge base.
+
+#### Parameters
+
+##### props
+
+[`CustomDataSourceAssociationProps`](CustomDataSourceAssociationProps.md)
+
+#### Returns
+
+[`CustomDataSource`](../classes/CustomDataSource.md)
+
+***
+
 ### addS3DataSource()
 
 > **addS3DataSource**(`props`): [`S3DataSource`](../classes/S3DataSource.md)

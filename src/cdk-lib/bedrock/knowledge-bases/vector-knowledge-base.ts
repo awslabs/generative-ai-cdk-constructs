@@ -28,11 +28,27 @@ import { VectorIndex } from '../../opensearch-vectorindex';
 import { VectorCollection } from '../../opensearchserverless';
 import { PineconeVectorStore } from '../../pinecone';
 import { Agent } from '../agents/agent';
-import { ConfluenceDataSource, ConfluenceDataSourceAssociationProps } from '../data-sources/confluence-data-source';
+import {
+  ConfluenceDataSource,
+  ConfluenceDataSourceAssociationProps,
+} from '../data-sources/confluence-data-source';
+import {
+  CustomDataSource,
+  CustomDataSourceAssociationProps,
+} from '../data-sources/custom-data-source';
 import { S3DataSource, S3DataSourceAssociationProps } from '../data-sources/s3-data-source';
-import { SalesforceDataSource, SalesforceDataSourceAssociationProps } from '../data-sources/salesforce-data-source';
-import { SharePointDataSource, SharePointDataSourceAssociationProps } from '../data-sources/sharepoint-data-source';
-import { WebCrawlerDataSource, WebCrawlerDataSourceAssociationProps } from '../data-sources/web-crawler-data-source';
+import {
+  SalesforceDataSource,
+  SalesforceDataSourceAssociationProps,
+} from '../data-sources/salesforce-data-source';
+import {
+  SharePointDataSource,
+  SharePointDataSourceAssociationProps,
+} from '../data-sources/sharepoint-data-source';
+import {
+  WebCrawlerDataSource,
+  WebCrawlerDataSourceAssociationProps,
+} from '../data-sources/web-crawler-data-source';
 import { BedrockFoundationModel, VectorType } from '../models';
 
 /******************************************************************************
@@ -73,7 +89,11 @@ interface StorageConfiguration {
    * The vector store, which can be of `VectorCollection`, `PineconeVectorStore` or
    * `AmazonAuroraVectorStore` types.
    */
-  vectorStore: VectorCollection | PineconeVectorStore | AmazonAuroraVectorStore | ExistingAmazonAuroraVectorStore;
+  vectorStore:
+    | VectorCollection
+    | PineconeVectorStore
+    | AmazonAuroraVectorStore
+    | ExistingAmazonAuroraVectorStore;
 
   /**
    * The type of the vector store.
@@ -131,6 +151,11 @@ export interface IVectorKnowledgeBase extends IKnowledgeBase {
   addSalesforceDataSource(props: SalesforceDataSourceAssociationProps): SalesforceDataSource;
 
   /**
+   * Add a Custom data source to the knowledge base.
+   */
+  addCustomDataSource(props: CustomDataSourceAssociationProps): CustomDataSource;
+
+  /**
    * Grant the given identity permissions to retrieve content from the knowledge base.
    */
   grantRetrieve(grantee: iam.IGrantable): iam.Grant;
@@ -170,30 +195,44 @@ abstract class VectorKnowledgeBaseBase extends KnowledgeBaseBase implements IVec
       ...props,
     });
   }
-  public addWebCrawlerDataSource(props: WebCrawlerDataSourceAssociationProps): WebCrawlerDataSource {
+  public addWebCrawlerDataSource(
+    props: WebCrawlerDataSourceAssociationProps,
+  ): WebCrawlerDataSource {
     const url = new URL(props.sourceUrls[0]);
     return new WebCrawlerDataSource(this, `web-${url.hostname.replace('.', '-')}`, {
       knowledgeBase: this,
       ...props,
     });
   }
-  public addSharePointDataSource(props: SharePointDataSourceAssociationProps): SharePointDataSource {
+  public addSharePointDataSource(
+    props: SharePointDataSourceAssociationProps,
+  ): SharePointDataSource {
     const url = new URL(props.siteUrls[0]);
     return new SharePointDataSource(this, `sp-${url.hostname.replace('.', '-')}`, {
       knowledgeBase: this,
       ...props,
     });
   }
-  public addConfluenceDataSource(props: ConfluenceDataSourceAssociationProps): ConfluenceDataSource {
+  public addConfluenceDataSource(
+    props: ConfluenceDataSourceAssociationProps,
+  ): ConfluenceDataSource {
     const url = new URL(props.confluenceUrl);
     return new ConfluenceDataSource(this, `cf-${url.hostname.replace('.', '-')}`, {
       knowledgeBase: this,
       ...props,
     });
   }
-  public addSalesforceDataSource(props: SalesforceDataSourceAssociationProps): SalesforceDataSource {
+  public addSalesforceDataSource(
+    props: SalesforceDataSourceAssociationProps,
+  ): SalesforceDataSource {
     const url = new URL(props.endpoint);
     return new SalesforceDataSource(this, `sf-${url.hostname.replace('.', '-')}`, {
+      knowledgeBase: this,
+      ...props,
+    });
+  }
+  public addCustomDataSource(props: CustomDataSourceAssociationProps): CustomDataSource {
+    return new CustomDataSource(this, `custom-${props.dataSourceName}`, {
       knowledgeBase: this,
       ...props,
     });
@@ -288,7 +327,11 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     const stack = Stack.of(scope);
 
     class Import extends VectorKnowledgeBaseBase {
-      public readonly role = iam.Role.fromRoleArn(this, `kb-${attrs.knowledgeBaseId}-role`, attrs.executionRoleArn);
+      public readonly role = iam.Role.fromRoleArn(
+        this,
+        `kb-${attrs.knowledgeBaseId}-role`,
+        attrs.executionRoleArn,
+      );
       public readonly description = attrs.description;
       public readonly instruction = attrs.instruction;
       public readonly knowledgeBaseId = attrs.knowledgeBaseId;
@@ -389,7 +432,9 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     if (props.existingRole) {
       this.role = props.existingRole;
     } else {
-      const roleName = generatePhysicalNameV2(this, 'AmazonBedrockExecutionRoleForKnowledgeBase', { maxLength: 64 });
+      const roleName = generatePhysicalNameV2(this, 'AmazonBedrockExecutionRoleForKnowledgeBase', {
+        maxLength: 64,
+      });
       this.role = new iam.Role(this, 'Role', {
         roleName: roleName,
         assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com', {
@@ -467,7 +512,11 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     ) {
       this.role.addToPrincipalPolicy(
         new iam.PolicyStatement({
-          actions: ['rds-data:ExecuteStatement', 'rds-data:BatchExecuteStatement', 'rds:DescribeDBClusters'],
+          actions: [
+            'rds-data:ExecuteStatement',
+            'rds-data:BatchExecuteStatement',
+            'rds:DescribeDBClusters',
+          ],
           resources: [this.vectorStore.resourceArn],
         }),
       );
@@ -535,7 +584,6 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
           : metadataField,
     };
 
-
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
@@ -546,15 +594,15 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
           embeddingModelArn: embeddingsModel.asArn(this),
           // Used this approach as if property is specified on models that do not
           // support configurable dimensions CloudFormation throws an error at runtime
-          embeddingModelConfiguration:
-            {
-              bedrockEmbeddingModelConfiguration: embeddingsModel.modelId === 'amazon.titan-embed-text-v2:0'
+          embeddingModelConfiguration: {
+            bedrockEmbeddingModelConfiguration:
+              embeddingsModel.modelId === 'amazon.titan-embed-text-v2:0'
                 ? {
                   dimensions: embeddingsModel.vectorDimensions,
                   embeddingDataType: vectorType,
                 }
                 : { embeddingDataType: vectorType },
-            },
+          },
         },
       },
       name: this.name,
@@ -577,12 +625,18 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
              * we are deploying Redis or Pinecone data sources
              */
             //...(this.vectorStoreType === VectorStoreType.REDIS_ENTERPRISE_CLOUD ||
-            ...(this.vectorStoreType === VectorStoreType.PINECONE ? ['bedrock:AssociateThirdPartyKnowledgeBase'] : []),
+            ...(this.vectorStoreType === VectorStoreType.PINECONE
+              ? ['bedrock:AssociateThirdPartyKnowledgeBase']
+              : []),
           ],
           resources: ['*'],
         }),
         new iam.PolicyStatement({
-          actions: ['bedrock:UpdateKnowledgeBase', 'bedrock:DeleteKnowledgeBase', 'bedrock:TagResource'],
+          actions: [
+            'bedrock:UpdateKnowledgeBase',
+            'bedrock:DeleteKnowledgeBase',
+            'bedrock:TagResource',
+          ],
           resources: [
             Stack.of(this).formatArn({
               service: 'bedrock',
@@ -716,8 +770,13 @@ function validateModel(foundationModel: BedrockFoundationModel, vectorType: Vect
   if (!foundationModel.supportsKnowledgeBase) {
     throw new Error(`The model ${foundationModel} is not supported by Bedrock Knowledge Base.`);
   }
-  if (foundationModel.supportedVectorType && !foundationModel.supportedVectorType.includes(vectorType)) {
-    throw new Error(`The vector type ${vectorType} is not supported by the model ${foundationModel}.`);
+  if (
+    foundationModel.supportedVectorType &&
+    !foundationModel.supportedVectorType.includes(vectorType)
+  ) {
+    throw new Error(
+      `The vector type ${vectorType} is not supported by the model ${foundationModel}.`,
+    );
   }
 }
 
@@ -729,7 +788,7 @@ function validateModel(foundationModel: BedrockFoundationModel, vectorType: Vect
  * @internal This is an internal core function and should not be called directly.
  */
 function validateVectorType(vectorStore: any, vectorType: VectorType) {
-  if (!(vectorStore instanceof VectorCollection) && (vectorType == VectorType.BINARY)) {
+  if (!(vectorStore instanceof VectorCollection) && vectorType == VectorType.BINARY) {
     console.log(vectorStore);
     throw new Error(
       'Amazon OpenSearch Serverless is currently the only vector store that supports storing binary vectors.',

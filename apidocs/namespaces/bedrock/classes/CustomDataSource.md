@@ -2,30 +2,21 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / DataSourceNew
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / CustomDataSource
 
-# Class: `abstract` DataSourceNew
+# Class: CustomDataSource
 
-Specifies the base class for all NEW data source resources of ANY type.
+Sets up a custom Data Source to be added to a knowledge base.
 
 ## Extends
 
-- [`DataSourceBase`](DataSourceBase.md)
-
-## Extended by
-
-- [`WebCrawlerDataSource`](WebCrawlerDataSource.md)
-- [`SharePointDataSource`](SharePointDataSource.md)
-- [`ConfluenceDataSource`](ConfluenceDataSource.md)
-- [`SalesforceDataSource`](SalesforceDataSource.md)
-- [`S3DataSource`](S3DataSource.md)
-- [`CustomDataSource`](CustomDataSource.md)
+- [`DataSourceNew`](DataSourceNew.md)
 
 ## Constructors
 
-### new DataSourceNew()
+### new CustomDataSource()
 
-> **new DataSourceNew**(`scope`, `id`, `props`?): [`DataSourceNew`](DataSourceNew.md)
+> **new CustomDataSource**(`scope`, `id`, `props`): [`CustomDataSource`](CustomDataSource.md)
 
 #### Parameters
 
@@ -37,23 +28,23 @@ Specifies the base class for all NEW data source resources of ANY type.
 
 `string`
 
-##### props?
+##### props
 
-`ResourceProps`
+[`CustomDataSourceProps`](../interfaces/CustomDataSourceProps.md)
 
 #### Returns
 
-[`DataSourceNew`](DataSourceNew.md)
+[`CustomDataSource`](CustomDataSource.md)
 
-#### Inherited from
+#### Overrides
 
-[`DataSourceBase`](DataSourceBase.md).[`constructor`](DataSourceBase.md#constructors)
+[`DataSourceNew`](DataSourceNew.md).[`constructor`](DataSourceNew.md#constructors)
 
 ## Properties
 
 ### dataSourceId
 
-> `abstract` `readonly` **dataSourceId**: `string`
+> `readonly` **dataSourceId**: `string`
 
 The unique identifier of the data source.
 
@@ -65,23 +56,31 @@ The unique identifier of the data source.
 
 #### Overrides
 
-[`DataSourceBase`](DataSourceBase.md).[`dataSourceId`](DataSourceBase.md#datasourceid)
+[`DataSourceNew`](DataSourceNew.md).[`dataSourceId`](DataSourceNew.md#datasourceid)
 
 ***
 
 ### dataSourceName
 
-> `abstract` `readonly` **dataSourceName**: `string`
+> `readonly` **dataSourceName**: `string`
 
 The name of the data source.
+
+#### Overrides
+
+[`DataSourceNew`](DataSourceNew.md).[`dataSourceName`](DataSourceNew.md#datasourcename)
 
 ***
 
 ### dataSourceType
 
-> `abstract` `readonly` **dataSourceType**: [`DataSourceType`](../enumerations/DataSourceType.md)
+> `readonly` **dataSourceType**: [`DataSourceType`](../enumerations/DataSourceType.md)
 
 The type of data source.
+
+#### Overrides
+
+[`DataSourceNew`](DataSourceNew.md).[`dataSourceType`](DataSourceNew.md#datasourcetype)
 
 ***
 
@@ -99,23 +98,31 @@ that might be different than the stack they were imported into.
 
 #### Inherited from
 
-[`DataSourceBase`](DataSourceBase.md).[`env`](DataSourceBase.md#env)
+[`DataSourceNew`](DataSourceNew.md).[`env`](DataSourceNew.md#env)
 
 ***
 
 ### kmsKey?
 
-> `abstract` `readonly` `optional` **kmsKey**: `IKey`
+> `readonly` `optional` **kmsKey**: `IKey`
 
 The KMS key to use to encrypt the data source.
+
+#### Overrides
+
+[`DataSourceNew`](DataSourceNew.md).[`kmsKey`](DataSourceNew.md#kmskey)
 
 ***
 
 ### knowledgeBase
 
-> `abstract` `readonly` **knowledgeBase**: [`IKnowledgeBase`](../interfaces/IKnowledgeBase.md)
+> `readonly` **knowledgeBase**: [`IKnowledgeBase`](../interfaces/IKnowledgeBase.md)
 
 The knowledge base associated with the data source.
+
+#### Overrides
+
+[`DataSourceNew`](DataSourceNew.md).[`knowledgeBase`](DataSourceNew.md#knowledgebase)
 
 ***
 
@@ -127,7 +134,7 @@ The tree node.
 
 #### Inherited from
 
-[`DataSourceBase`](DataSourceBase.md).[`node`](DataSourceBase.md#node)
+[`DataSourceNew`](DataSourceNew.md).[`node`](DataSourceNew.md#node)
 
 ***
 
@@ -146,7 +153,7 @@ This value will resolve to one of the following:
 
 #### Inherited from
 
-[`DataSourceBase`](DataSourceBase.md).[`physicalName`](DataSourceBase.md#physicalname)
+[`DataSourceNew`](DataSourceNew.md).[`physicalName`](DataSourceNew.md#physicalname)
 
 ***
 
@@ -158,7 +165,7 @@ The stack in which this resource is defined.
 
 #### Inherited from
 
-[`DataSourceBase`](DataSourceBase.md).[`stack`](DataSourceBase.md#stack)
+[`DataSourceNew`](DataSourceNew.md).[`stack`](DataSourceNew.md#stack)
 
 ## Methods
 
@@ -179,7 +186,7 @@ through its absolute name/arn.
 
 #### Inherited from
 
-[`DataSourceBase`](DataSourceBase.md).[`_enableCrossEnvironment`](DataSourceBase.md#_enablecrossenvironment)
+[`DataSourceNew`](DataSourceNew.md).[`_enableCrossEnvironment`](DataSourceNew.md#_enablecrossenvironment)
 
 ***
 
@@ -209,7 +216,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Inherited from
 
-[`DataSourceBase`](DataSourceBase.md).[`applyRemovalPolicy`](DataSourceBase.md#applyremovalpolicy)
+[`DataSourceNew`](DataSourceNew.md).[`applyRemovalPolicy`](DataSourceNew.md#applyremovalpolicy)
 
 ***
 
@@ -233,6 +240,10 @@ Formats the data source configuration properties for CloudFormation.
 
 `CfnDataSourceProps`
 
+#### Inherited from
+
+[`DataSourceNew`](DataSourceNew.md).[`formatAsCfnProps`](DataSourceNew.md#formatascfnprops)
+
 ***
 
 ### generatePhysicalName()
@@ -245,7 +256,7 @@ Formats the data source configuration properties for CloudFormation.
 
 #### Inherited from
 
-[`DataSourceBase`](DataSourceBase.md).[`generatePhysicalName`](DataSourceBase.md#generatephysicalname)
+[`DataSourceNew`](DataSourceNew.md).[`generatePhysicalName`](DataSourceNew.md#generatephysicalname)
 
 ***
 
@@ -285,7 +296,7 @@ cross-environment references to work.
 
 #### Inherited from
 
-[`DataSourceBase`](DataSourceBase.md).[`getResourceArnAttribute`](DataSourceBase.md#getresourcearnattribute)
+[`DataSourceNew`](DataSourceNew.md).[`getResourceArnAttribute`](DataSourceNew.md#getresourcearnattribute)
 
 ***
 
@@ -315,7 +326,7 @@ Commonly this is the resource's `ref`.
 
 #### Inherited from
 
-[`DataSourceBase`](DataSourceBase.md).[`getResourceNameAttribute`](DataSourceBase.md#getresourcenameattribute)
+[`DataSourceNew`](DataSourceNew.md).[`getResourceNameAttribute`](DataSourceNew.md#getresourcenameattribute)
 
 ***
 
@@ -335,6 +346,10 @@ Adds appropriate permissions to the KB execution role needed by the data source.
 
 `void`
 
+#### Inherited from
+
+[`DataSourceNew`](DataSourceNew.md).[`handleCommonPermissions`](DataSourceNew.md#handlecommonpermissions)
+
 ***
 
 ### toString()
@@ -349,7 +364,7 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-[`DataSourceBase`](DataSourceBase.md).[`toString`](DataSourceBase.md#tostring)
+[`DataSourceNew`](DataSourceNew.md).[`toString`](DataSourceNew.md#tostring)
 
 ***
 
@@ -389,7 +404,7 @@ true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-[`DataSourceBase`](DataSourceBase.md).[`isConstruct`](DataSourceBase.md#isconstruct)
+[`DataSourceNew`](DataSourceNew.md).[`isConstruct`](DataSourceNew.md#isconstruct)
 
 ***
 
@@ -411,7 +426,7 @@ Returns true if the construct was created by CDK, and false otherwise
 
 #### Inherited from
 
-[`DataSourceBase`](DataSourceBase.md).[`isOwnedResource`](DataSourceBase.md#isownedresource)
+[`DataSourceNew`](DataSourceNew.md).[`isOwnedResource`](DataSourceNew.md#isownedresource)
 
 ***
 
@@ -433,4 +448,4 @@ Check whether the given construct is a Resource
 
 #### Inherited from
 
-[`DataSourceBase`](DataSourceBase.md).[`isResource`](DataSourceBase.md#isresource)
+[`DataSourceNew`](DataSourceNew.md).[`isResource`](DataSourceNew.md#isresource)
