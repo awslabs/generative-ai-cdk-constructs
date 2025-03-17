@@ -22,7 +22,12 @@ import { IKey } from "aws-cdk-lib/aws-kms";
 /**
  * Interface to add a new CustomDataSource to an existing KB
  */
-export interface CustomDataSourceAssociationProps extends DataSourceAssociationProps {}
+export interface CustomDataSourceAssociationProps extends DataSourceAssociationProps {
+  /**
+   * An name to uniquely identify this custom data source.
+   */
+  readonly dataSourceName: string;
+}
 
 /**
  * Interface to create a new Custom Data Source object.

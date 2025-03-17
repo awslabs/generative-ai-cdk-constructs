@@ -425,21 +425,4 @@ export class BedrockFoundationModel implements IInvokable {
       resourceArns: [invokableArn],
     });
   }
-
-  /**
-   * Gives the appropriate policies to create batch inference jobs using this Foundation Model.
-   */
-  public grantBatchInference(grantee: IGrantable): Grant {
-    baseGrant = this.grantInvoke(grantee);
-    return Grant.addToPrincipal({
-      grantee: grantee,
-      actions: [
-        "bedrock:CreateModelInvocationJob",
-        "bedrock:GetModelInvocationJob",
-        "bedrock:ListModelInvocationJobs",
-        "bedrock:StopModelInvocationJob",
-      ],
-      resourceArns: [this.invokableArn],
-    });
-  }
 }

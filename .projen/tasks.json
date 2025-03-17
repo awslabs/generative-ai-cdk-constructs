@@ -357,6 +357,69 @@
         }
       ]
     },
+    "integ:custom-ds:assert": {
+      "name": "integ:custom-ds:assert",
+      "description": "assert the snapshot of integration test 'custom-ds'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/custom-ds.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'custom-ds'. Run 'projen integ:custom-ds:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/custom-ds.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/custom-ds.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/custom-ds.integ.snapshot/ test/integ/.tmp/custom-ds.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:custom-ds:deploy": {
+      "name": "integ:custom-ds:deploy",
+      "description": "deploy integration test 'custom-ds' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/custom-ds.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/custom-ds.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/custom-ds.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/custom-ds.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/custom-ds.integ/deploy.cdk.out test/integ/custom-ds.integ.snapshot"
+        },
+        {
+          "spawn": "integ:custom-ds:destroy"
+        }
+      ]
+    },
+    "integ:custom-ds:destroy": {
+      "name": "integ:custom-ds:destroy",
+      "description": "destroy integration test 'custom-ds'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/custom-ds.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:custom-ds:snapshot": {
+      "name": "integ:custom-ds:snapshot",
+      "description": "update snapshot for integration test \"custom-ds\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/custom-ds.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/custom-ds.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:custom-ds:watch": {
+      "name": "integ:custom-ds:watch",
+      "description": "watch integration test 'custom-ds' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/custom-ds.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/custom-ds.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:guardrails:assert": {
       "name": "integ:guardrails:assert",
       "description": "assert the snapshot of integration test 'guardrails'",
@@ -746,6 +809,9 @@
           "spawn": "integ:chatprompt:snapshot"
         },
         {
+          "spawn": "integ:custom-ds:snapshot"
+        },
+        {
           "spawn": "integ:guardrails:snapshot"
         },
         {
@@ -898,6 +964,9 @@
         },
         {
           "spawn": "integ:chatprompt:assert"
+        },
+        {
+          "spawn": "integ:custom-ds:assert"
         },
         {
           "spawn": "integ:guardrails:assert"
