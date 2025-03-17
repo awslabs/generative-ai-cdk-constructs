@@ -11,45 +11,45 @@
  *  and limitations under the License.
  */
 
-import { ArnFormat, aws_bedrock as bedrock, Stack } from "aws-cdk-lib";
-import * as iam from "aws-cdk-lib/aws-iam";
-import { NagSuppressions } from "cdk-nag/lib/nag-suppressions";
-import { Construct } from "constructs";
+import { ArnFormat, aws_bedrock as bedrock, Stack } from 'aws-cdk-lib';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import { NagSuppressions } from 'cdk-nag/lib/nag-suppressions';
+import { Construct } from 'constructs';
 import {
   CommonKnowledgeBaseAttributes,
   CommonKnowledgeBaseProps,
   IKnowledgeBase,
   KnowledgeBaseBase,
   KnowledgeBaseType,
-} from "./knowledge-base";
-import { generatePhysicalNameV2 } from "../../../common/helpers/utils";
-import { ExistingAmazonAuroraVectorStore, AmazonAuroraVectorStore } from "../../amazonaurora";
-import { VectorIndex } from "../../opensearch-vectorindex";
-import { VectorCollection } from "../../opensearchserverless";
-import { PineconeVectorStore } from "../../pinecone";
-import { Agent } from "../agents/agent";
+} from './knowledge-base';
+import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
+import { ExistingAmazonAuroraVectorStore, AmazonAuroraVectorStore } from '../../amazonaurora';
+import { VectorIndex } from '../../opensearch-vectorindex';
+import { VectorCollection } from '../../opensearchserverless';
+import { PineconeVectorStore } from '../../pinecone';
+import { Agent } from '../agents/agent';
 import {
   ConfluenceDataSource,
   ConfluenceDataSourceAssociationProps,
-} from "../data-sources/confluence-data-source";
-import { S3DataSource, S3DataSourceAssociationProps } from "../data-sources/s3-data-source";
-import {
-  SalesforceDataSource,
-  SalesforceDataSourceAssociationProps,
-} from "../data-sources/salesforce-data-source";
-import {
-  SharePointDataSource,
-  SharePointDataSourceAssociationProps,
-} from "../data-sources/sharepoint-data-source";
-import {
-  WebCrawlerDataSource,
-  WebCrawlerDataSourceAssociationProps,
-} from "../data-sources/web-crawler-data-source";
-import { BedrockFoundationModel, VectorType } from "../models";
+} from '../data-sources/confluence-data-source';
 import {
   CustomDataSource,
   CustomDataSourceAssociationProps,
-} from "../data-sources/custom-data-source";
+} from '../data-sources/custom-data-source';
+import { S3DataSource, S3DataSourceAssociationProps } from '../data-sources/s3-data-source';
+import {
+  SalesforceDataSource,
+  SalesforceDataSourceAssociationProps,
+} from '../data-sources/salesforce-data-source';
+import {
+  SharePointDataSource,
+  SharePointDataSourceAssociationProps,
+} from '../data-sources/sharepoint-data-source';
+import {
+  WebCrawlerDataSource,
+  WebCrawlerDataSourceAssociationProps,
+} from '../data-sources/web-crawler-data-source';
+import { BedrockFoundationModel, VectorType } from '../models';
 
 /******************************************************************************
  *                                  ENUMS
@@ -67,15 +67,15 @@ enum VectorStoreType {
   /**
    * `OPENSEARCH_SERVERLESS` is the vector store for OpenSearch Serverless.
    */
-  OPENSEARCH_SERVERLESS = "OPENSEARCH_SERVERLESS",
+  OPENSEARCH_SERVERLESS = 'OPENSEARCH_SERVERLESS',
   /**
    * `PINECONE` is the vector store for Pinecone.
    */
-  PINECONE = "PINECONE",
+  PINECONE = 'PINECONE',
   /**
    * `RDS` is the vector store for Amazon Aurora.
    */
-  AMAZON_AURORA = "RDS",
+  AMAZON_AURORA = 'RDS',
 }
 
 /******************************************************************************
@@ -196,37 +196,37 @@ abstract class VectorKnowledgeBaseBase extends KnowledgeBaseBase implements IVec
     });
   }
   public addWebCrawlerDataSource(
-    props: WebCrawlerDataSourceAssociationProps
+    props: WebCrawlerDataSourceAssociationProps,
   ): WebCrawlerDataSource {
     const url = new URL(props.sourceUrls[0]);
-    return new WebCrawlerDataSource(this, `web-${url.hostname.replace(".", "-")}`, {
+    return new WebCrawlerDataSource(this, `web-${url.hostname.replace('.', '-')}`, {
       knowledgeBase: this,
       ...props,
     });
   }
   public addSharePointDataSource(
-    props: SharePointDataSourceAssociationProps
+    props: SharePointDataSourceAssociationProps,
   ): SharePointDataSource {
     const url = new URL(props.siteUrls[0]);
-    return new SharePointDataSource(this, `sp-${url.hostname.replace(".", "-")}`, {
+    return new SharePointDataSource(this, `sp-${url.hostname.replace('.', '-')}`, {
       knowledgeBase: this,
       ...props,
     });
   }
   public addConfluenceDataSource(
-    props: ConfluenceDataSourceAssociationProps
+    props: ConfluenceDataSourceAssociationProps,
   ): ConfluenceDataSource {
     const url = new URL(props.confluenceUrl);
-    return new ConfluenceDataSource(this, `cf-${url.hostname.replace(".", "-")}`, {
+    return new ConfluenceDataSource(this, `cf-${url.hostname.replace('.', '-')}`, {
       knowledgeBase: this,
       ...props,
     });
   }
   public addSalesforceDataSource(
-    props: SalesforceDataSourceAssociationProps
+    props: SalesforceDataSourceAssociationProps,
   ): SalesforceDataSource {
     const url = new URL(props.endpoint);
-    return new SalesforceDataSource(this, `sf-${url.hostname.replace(".", "-")}`, {
+    return new SalesforceDataSource(this, `sf-${url.hostname.replace('.', '-')}`, {
       knowledgeBase: this,
       ...props,
     });
@@ -322,7 +322,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
   public static fromKnowledgeBaseAttributes(
     scope: Construct,
     id: string,
-    attrs: VectorKnowledgeBaseAttributes
+    attrs: VectorKnowledgeBaseAttributes,
   ): IVectorKnowledgeBase {
     const stack = Stack.of(scope);
 
@@ -330,14 +330,14 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
       public readonly role = iam.Role.fromRoleArn(
         this,
         `kb-${attrs.knowledgeBaseId}-role`,
-        attrs.executionRoleArn
+        attrs.executionRoleArn,
       );
       public readonly description = attrs.description;
       public readonly instruction = attrs.instruction;
       public readonly knowledgeBaseId = attrs.knowledgeBaseId;
       public readonly knowledgeBaseArn = stack.formatArn({
-        service: "bedrock",
-        resource: "knowledge-base",
+        service: 'bedrock',
+        resource: 'knowledge-base',
         resourceName: attrs.knowledgeBaseId,
         arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
       });
@@ -412,12 +412,12 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     // ------------------------------------------------------
     const embeddingsModel = props.embeddingsModel;
     const vectorType = props.vectorType ?? VectorType.FLOATING_POINT;
-    const indexName = props.indexName ?? "bedrock-knowledge-base-default-index";
-    const vectorField = props.vectorField ?? "bedrock-knowledge-base-default-vector";
-    const textField = "AMAZON_BEDROCK_TEXT_CHUNK";
-    const metadataField = "AMAZON_BEDROCK_METADATA";
+    const indexName = props.indexName ?? 'bedrock-knowledge-base-default-index';
+    const vectorField = props.vectorField ?? 'bedrock-knowledge-base-default-vector';
+    const textField = 'AMAZON_BEDROCK_TEXT_CHUNK';
+    const metadataField = 'AMAZON_BEDROCK_METADATA';
 
-    this.description = props.description ?? "CDK deployed Knowledge base"; // even though this prop is optional, if no value is provided it will fail to deploy
+    this.description = props.description ?? 'CDK deployed Knowledge base'; // even though this prop is optional, if no value is provided it will fail to deploy
     //this.knowledgeBaseState = props.knowledgeBaseState ?? 'ENABLED';
     this.instruction = props.instruction;
 
@@ -427,24 +427,24 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
       validateIndexParameters(props.vectorIndex, indexName, vectorField);
     }
 
-    this.name = props.name ?? generatePhysicalNameV2(this, "KB", { maxLength: 32 });
+    this.name = props.name ?? generatePhysicalNameV2(this, 'KB', { maxLength: 32 });
 
     if (props.existingRole) {
       this.role = props.existingRole;
     } else {
-      const roleName = generatePhysicalNameV2(this, "AmazonBedrockExecutionRoleForKnowledgeBase", {
+      const roleName = generatePhysicalNameV2(this, 'AmazonBedrockExecutionRoleForKnowledgeBase', {
         maxLength: 64,
       });
-      this.role = new iam.Role(this, "Role", {
+      this.role = new iam.Role(this, 'Role', {
         roleName: roleName,
-        assumedBy: new iam.ServicePrincipal("bedrock.amazonaws.com", {
+        assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com', {
           conditions: {
-            StringEquals: { "aws:SourceAccount": Stack.of(this).account },
+            StringEquals: { 'aws:SourceAccount': Stack.of(this).account },
             ArnLike: {
-              "aws:SourceArn": Stack.of(this).formatArn({
-                service: "bedrock",
-                resource: "knowledge-base",
-                resourceName: "*",
+              'aws:SourceArn': Stack.of(this).formatArn({
+                service: 'bedrock',
+                resource: 'knowledge-base',
+                resourceName: '*',
                 arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
               }),
             },
@@ -454,9 +454,9 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
 
       this.role.addToPrincipalPolicy(
         new iam.PolicyStatement({
-          actions: ["bedrock:InvokeModel"],
+          actions: ['bedrock:InvokeModel'],
           resources: [embeddingsModel.asArn(this)],
-        })
+        }),
       );
     }
     /**
@@ -493,9 +493,9 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     if (!(this.vectorStore instanceof VectorCollection)) {
       this.role.addToPrincipalPolicy(
         new iam.PolicyStatement({
-          actions: ["secretsmanager:GetSecretValue"],
+          actions: ['secretsmanager:GetSecretValue'],
           resources: [this.vectorStore.credentialsSecretArn],
-        })
+        }),
       );
     }
 
@@ -513,12 +513,12 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
       this.role.addToPrincipalPolicy(
         new iam.PolicyStatement({
           actions: [
-            "rds-data:ExecuteStatement",
-            "rds-data:BatchExecuteStatement",
-            "rds:DescribeDBClusters",
+            'rds-data:ExecuteStatement',
+            'rds-data:BatchExecuteStatement',
+            'rds:DescribeDBClusters',
           ],
           resources: [this.vectorStore.resourceArn],
-        })
+        }),
       );
     }
 
@@ -528,22 +528,22 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
      */
     if (this.vectorStoreType === VectorStoreType.OPENSEARCH_SERVERLESS) {
       if (!props.vectorIndex) {
-        this.vectorIndex = new VectorIndex(this, "KBIndex", {
+        this.vectorIndex = new VectorIndex(this, 'KBIndex', {
           collection: this.vectorStore as VectorCollection,
           indexName,
           vectorField,
           vectorDimensions: embeddingsModel.vectorDimensions!,
-          precision: props.vectorType === VectorType.BINARY ? "Binary" : "float",
-          distanceType: props.vectorType === VectorType.BINARY ? "hamming" : "l2",
+          precision: props.vectorType === VectorType.BINARY ? 'Binary' : 'float',
+          distanceType: props.vectorType === VectorType.BINARY ? 'hamming' : 'l2',
           mappings: [
             {
-              mappingField: "AMAZON_BEDROCK_TEXT_CHUNK",
-              dataType: "text",
+              mappingField: 'AMAZON_BEDROCK_TEXT_CHUNK',
+              dataType: 'text',
               filterable: true,
             },
             {
-              mappingField: "AMAZON_BEDROCK_METADATA",
-              dataType: "text",
+              mappingField: 'AMAZON_BEDROCK_METADATA',
+              dataType: 'text',
               filterable: false,
             },
           ],
@@ -587,7 +587,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
-    const knowledgeBase = new bedrock.CfnKnowledgeBase(this, "MyCfnKnowledgeBase", {
+    const knowledgeBase = new bedrock.CfnKnowledgeBase(this, 'MyCfnKnowledgeBase', {
       knowledgeBaseConfiguration: {
         type: KnowledgeBaseType.VECTOR,
         vectorKnowledgeBaseConfiguration: {
@@ -596,11 +596,11 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
           // support configurable dimensions CloudFormation throws an error at runtime
           embeddingModelConfiguration: {
             bedrockEmbeddingModelConfiguration:
-              embeddingsModel.modelId === "amazon.titan-embed-text-v2:0"
+              embeddingsModel.modelId === 'amazon.titan-embed-text-v2:0'
                 ? {
-                    dimensions: embeddingsModel.vectorDimensions,
-                    embeddingDataType: vectorType,
-                  }
+                  dimensions: embeddingsModel.vectorDimensions,
+                  embeddingDataType: vectorType,
+                }
                 : { embeddingDataType: vectorType },
           },
         },
@@ -613,41 +613,41 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
 
     this.knowledgeBaseInstance = knowledgeBase;
 
-    const kbCRPolicy = new iam.Policy(this, "KBCRPolicy", {
+    const kbCRPolicy = new iam.Policy(this, 'KBCRPolicy', {
       // roles: [crProvider.role],
       roles: [this.role],
       statements: [
         new iam.PolicyStatement({
           actions: [
-            "bedrock:CreateKnowledgeBase",
+            'bedrock:CreateKnowledgeBase',
             /**
              * We need to add `bedrock:AssociateThirdPartyKnowledgeBase` if
              * we are deploying Redis or Pinecone data sources
              */
             //...(this.vectorStoreType === VectorStoreType.REDIS_ENTERPRISE_CLOUD ||
             ...(this.vectorStoreType === VectorStoreType.PINECONE
-              ? ["bedrock:AssociateThirdPartyKnowledgeBase"]
+              ? ['bedrock:AssociateThirdPartyKnowledgeBase']
               : []),
           ],
-          resources: ["*"],
+          resources: ['*'],
         }),
         new iam.PolicyStatement({
           actions: [
-            "bedrock:UpdateKnowledgeBase",
-            "bedrock:DeleteKnowledgeBase",
-            "bedrock:TagResource",
+            'bedrock:UpdateKnowledgeBase',
+            'bedrock:DeleteKnowledgeBase',
+            'bedrock:TagResource',
           ],
           resources: [
             Stack.of(this).formatArn({
-              service: "bedrock",
-              resource: "knowledge-base",
-              resourceName: "*",
+              service: 'bedrock',
+              resource: 'knowledge-base',
+              resourceName: '*',
               arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
             }),
           ],
         }),
         new iam.PolicyStatement({
-          actions: ["iam:PassRole"],
+          actions: ['iam:PassRole'],
           resources: [this.role.roleArn],
         }),
       ],
@@ -666,11 +666,11 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
       kbCRPolicy,
       [
         {
-          id: "AwsSolutions-IAM5",
+          id: 'AwsSolutions-IAM5',
           reason: "Bedrock CreateKnowledgeBase can't be restricted by resource.",
         },
       ],
-      true
+      true,
     );
 
     this.knowledgeBaseArn = knowledgeBase.attrKnowledgeBaseArn;
@@ -745,7 +745,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     vectorStore: VectorCollection;
     vectorStoreType: VectorStoreType;
   } {
-    const vectorStore = new VectorCollection(this, "KBVectors");
+    const vectorStore = new VectorCollection(this, 'KBVectors');
     vectorStore.grantDataAccess(this.role);
     return {
       vectorStore: vectorStore,
@@ -775,7 +775,7 @@ function validateModel(foundationModel: BedrockFoundationModel, vectorType: Vect
     !foundationModel.supportedVectorType.includes(vectorType)
   ) {
     throw new Error(
-      `The vector type ${vectorType} is not supported by the model ${foundationModel}.`
+      `The vector type ${vectorType} is not supported by the model ${foundationModel}.`,
     );
   }
 }
@@ -791,7 +791,7 @@ function validateVectorType(vectorStore: any, vectorType: VectorType) {
   if (!(vectorStore instanceof VectorCollection) && vectorType == VectorType.BINARY) {
     console.log(vectorStore);
     throw new Error(
-      "Amazon OpenSearch Serverless is currently the only vector store that supports storing binary vectors."
+      'Amazon OpenSearch Serverless is currently the only vector store that supports storing binary vectors.',
     );
   }
 }
@@ -805,20 +805,20 @@ function validateVectorType(vectorStore: any, vectorType: VectorType) {
 function validateVectorIndex(vectorStore: any, vectorIndex: any, vectorField: any, indexName: any) {
   if (!(vectorStore instanceof VectorCollection) && vectorIndex) {
     throw new Error(
-      "If vectorStore is not of type VectorCollection, vectorIndex should not be provided " +
-        "in KnowledgeBase construct."
+      'If vectorStore is not of type VectorCollection, vectorIndex should not be provided ' +
+        'in KnowledgeBase construct.',
     );
   }
   if (!(vectorStore instanceof VectorCollection) && indexName) {
     throw new Error(
-      "If vectorStore is not of type VectorCollection, indexName should not be provided " +
-        "in KnowledgeBase construct."
+      'If vectorStore is not of type VectorCollection, indexName should not be provided ' +
+        'in KnowledgeBase construct.',
     );
   }
   if (!(vectorStore instanceof VectorCollection) && vectorField) {
     throw new Error(
-      "If vectorStore is not of type VectorCollection, vectorField should not be provided " +
-        "in KnowledgeBase construct."
+      'If vectorStore is not of type VectorCollection, vectorField should not be provided ' +
+        'in KnowledgeBase construct.',
     );
   }
 }
@@ -835,25 +835,25 @@ function validateVectorIndex(vectorStore: any, vectorIndex: any, vectorField: an
  * @internal This is an internal core function and should not be called directly.
  */
 function validateIndexParameters(vectorIndex: VectorIndex, indexName: string, vectorField: string) {
-  if (vectorIndex.indexName !== "bedrock-knowledge-base-default-index") {
+  if (vectorIndex.indexName !== 'bedrock-knowledge-base-default-index') {
     if (vectorIndex.indexName !== indexName) {
       throw new Error(
-        "Default value of indexName is `bedrock-knowledge-base-default-index`." +
-          " If you create VectorIndex manually and assign vectorIndex to value other than" +
-          " `bedrock-knowledge-base-default-index` then you must provide the same value in KnowledgeBase construct." +
-          " If you created VectorIndex manually and set it to `bedrock-knowledge-base-default-index`" +
-          " then do not assign indexName in KnowledgeBase construct."
+        'Default value of indexName is `bedrock-knowledge-base-default-index`.' +
+          ' If you create VectorIndex manually and assign vectorIndex to value other than' +
+          ' `bedrock-knowledge-base-default-index` then you must provide the same value in KnowledgeBase construct.' +
+          ' If you created VectorIndex manually and set it to `bedrock-knowledge-base-default-index`' +
+          ' then do not assign indexName in KnowledgeBase construct.',
       );
     }
   }
-  if (vectorIndex.vectorField !== "bedrock-knowledge-base-default-vector") {
+  if (vectorIndex.vectorField !== 'bedrock-knowledge-base-default-vector') {
     if (vectorIndex.vectorField !== vectorField) {
       throw new Error(
-        "Default value of vectorField is `bedrock-knowledge-base-default-vector`." +
-          " If you create VectorIndex manually and assign vectorField to value other than" +
-          " `bedrock-knowledge-base-default-field` then you must provide the same value in KnowledgeBase construct." +
-          " If you created VectorIndex manually and set it to `bedrock-knowledge-base-default-vector`" +
-          " then do not assign vectorField in KnowledgeBase construct."
+        'Default value of vectorField is `bedrock-knowledge-base-default-vector`.' +
+          ' If you create VectorIndex manually and assign vectorField to value other than' +
+          ' `bedrock-knowledge-base-default-field` then you must provide the same value in KnowledgeBase construct.' +
+          ' If you created VectorIndex manually and set it to `bedrock-knowledge-base-default-vector`' +
+          ' then do not assign vectorField in KnowledgeBase construct.',
       );
     }
   }
@@ -907,7 +907,7 @@ function getStorageConfiguration(params: StorageConfiguration): any {
           resourceArn: params.vectorStore.resourceArn,
           tableName: `${params.vectorStore.schemaName}.${params.vectorStore.tableName}`,
           fieldMapping: {
-            vectorField: params.vectorField.replace(/-/g, "_"),
+            vectorField: params.vectorField.replace(/-/g, '_'),
             primaryKeyField: params.vectorStore.primaryKeyField,
             textField: params.textField.toLowerCase(),
             metadataField: params.metadataField.toLowerCase(),

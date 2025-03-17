@@ -2,20 +2,19 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / DataSourceAssociationProps
+[@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / CustomDataSourceAssociationProps
 
-# Interface: DataSourceAssociationProps
+# Interface: CustomDataSourceAssociationProps
 
-Properties common for creating any of the different data source types.
+Interface to add a new CustomDataSource to an existing KB
+
+## Extends
+
+- [`DataSourceAssociationProps`](DataSourceAssociationProps.md)
 
 ## Extended by
 
-- [`WebCrawlerDataSourceAssociationProps`](WebCrawlerDataSourceAssociationProps.md)
-- [`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md)
-- [`ConfluenceDataSourceAssociationProps`](ConfluenceDataSourceAssociationProps.md)
-- [`SalesforceDataSourceAssociationProps`](SalesforceDataSourceAssociationProps.md)
-- [`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md)
-- [`CustomDataSourceAssociationProps`](CustomDataSourceAssociationProps.md)
+- [`CustomDataSourceProps`](CustomDataSourceProps.md)
 
 ## Properties
 
@@ -33,6 +32,10 @@ index allowing for similarity search and retrieval of the content.
 ChunkingStrategy.DEFAULT
 ```
 
+#### Inherited from
+
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`chunkingStrategy`](DataSourceAssociationProps.md#chunkingstrategy)
+
 ***
 
 ### customTransformation?
@@ -46,6 +49,10 @@ The custom transformation strategy to use.
 ```ts
 - No custom transformation is used.
 ```
+
+#### Inherited from
+
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`customTransformation`](DataSourceAssociationProps.md#customtransformation)
 
 ***
 
@@ -61,6 +68,10 @@ The data deletion policy to apply to the data source.
 - Sets the data deletion policy to the default of the data source type.
 ```
 
+#### Inherited from
+
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`dataDeletionPolicy`](DataSourceAssociationProps.md#datadeletionpolicy)
+
 ***
 
 ### dataSourceName?
@@ -74,6 +85,10 @@ The name of the data source.
 ```ts
 - A new name will be generated.
 ```
+
+#### Inherited from
+
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`dataSourceName`](DataSourceAssociationProps.md#datasourcename)
 
 ***
 
@@ -89,6 +104,10 @@ A description of the data source.
 - No description is provided.
 ```
 
+#### Inherited from
+
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`description`](DataSourceAssociationProps.md#description)
+
 ***
 
 ### kmsKey?
@@ -103,6 +122,10 @@ The KMS key to use to encrypt the data source.
 - Service owned and managed key.
 ```
 
+#### Inherited from
+
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`kmsKey`](DataSourceAssociationProps.md#kmskey)
+
 ***
 
 ### parsingStrategy?
@@ -116,3 +139,7 @@ The parsing strategy to use.
 ```ts
 - No Parsing Stategy is used.
 ```
+
+#### Inherited from
+
+[`DataSourceAssociationProps`](DataSourceAssociationProps.md).[`parsingStrategy`](DataSourceAssociationProps.md#parsingstrategy)

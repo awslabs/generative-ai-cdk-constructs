@@ -11,29 +11,29 @@
  *  and limitations under the License.
  */
 
-import * as integ from "@aws-cdk/integ-tests-alpha";
-import * as cdk from "aws-cdk-lib";
+import * as integ from '@aws-cdk/integ-tests-alpha';
+import * as cdk from 'aws-cdk-lib';
 
 import {
   BedrockFoundationModel,
   ChunkingStrategy,
   VectorKnowledgeBase,
-} from "../../src/cdk-lib/bedrock";
+} from '../../src/cdk-lib/bedrock';
 const app = new cdk.App();
-const stack = new cdk.Stack(app, "aws-cdk-bedrock-chat-prompts-integ-test");
+const stack = new cdk.Stack(app, 'aws-cdk-bedrock-chat-prompts-integ-test');
 
 // Create a Vector Knowledge Base
-const kb = new VectorKnowledgeBase(stack, "VectorKnowledgeBase", {
+const kb = new VectorKnowledgeBase(stack, 'VectorKnowledgeBase', {
   embeddingsModel: BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
 });
 
 kb.addCustomDataSource({
-  dataSourceName: "custom-test",
+  dataSourceName: 'custom-test',
   chunkingStrategy: ChunkingStrategy.SEMANTIC,
 });
 
 // const integ_case =
-new integ.IntegTest(app, "ServiceTest", {
+new integ.IntegTest(app, 'ServiceTest', {
   testCases: [stack],
   cdkCommandOptions: {
     destroy: {

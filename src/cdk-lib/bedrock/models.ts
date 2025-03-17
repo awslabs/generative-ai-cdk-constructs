@@ -11,10 +11,10 @@
  *  and limitations under the License.
  */
 
-import { Arn, ArnFormat, Aws } from "aws-cdk-lib";
-import { IModel, FoundationModel, FoundationModelIdentifier } from "aws-cdk-lib/aws-bedrock";
-import { Grant, IGrantable } from "aws-cdk-lib/aws-iam";
-import { IConstruct } from "constructs";
+import { Arn, ArnFormat, Aws } from 'aws-cdk-lib';
+import { IModel, FoundationModel, FoundationModelIdentifier } from 'aws-cdk-lib/aws-bedrock';
+import { Grant, IGrantable } from 'aws-cdk-lib/aws-iam';
+import { IConstruct } from 'constructs';
 
 /**
  * The data type for the vectors when using a model to convert text into vector embeddings.
@@ -26,11 +26,11 @@ export enum VectorType {
   /**
    * `FLOATING_POINT` convert the data to floating-point (float32) vector embeddings (more precise, but more costly).
    */
-  FLOATING_POINT = "FLOAT32",
+  FLOATING_POINT = 'FLOAT32',
   /**
    * `BINARY` convert the data to binary vector embeddings (less precise, but less costly).
    */
-  BINARY = "BINARY",
+  BINARY = 'BINARY',
 }
 
 /**
@@ -103,242 +103,242 @@ export class BedrockFoundationModel implements IInvokable {
    *                            AI21
    ***************************************************************************/
   public static readonly AI21_JAMBA_1_5_LARGE_V1 = new BedrockFoundationModel(
-    "ai21.jamba-1-5-large-v1:0",
+    'ai21.jamba-1-5-large-v1:0',
     {
       supportsAgents: true,
-    }
+    },
   );
 
   public static readonly AI21_JAMBA_1_5_MINI_V1 = new BedrockFoundationModel(
-    "ai21.jamba-1-5-mini-v1:0",
+    'ai21.jamba-1-5-mini-v1:0',
     {
       supportsAgents: true,
-    }
+    },
   );
 
   public static readonly AI21_JAMBA_INSTRUCT_V1 = new BedrockFoundationModel(
-    "ai21.jamba-instruct-v1:0",
+    'ai21.jamba-instruct-v1:0',
     {
       supportsAgents: true,
-    }
+    },
   );
   /****************************************************************************
    *                            AMAZON
    ***************************************************************************/
   public static readonly AMAZON_TITAN_TEXT_EXPRESS_V1 = new BedrockFoundationModel(
-    "amazon.titan-text-express-v1",
+    'amazon.titan-text-express-v1',
     {
       supportsAgents: true,
-    }
+    },
   );
 
   public static readonly AMAZON_TITAN_PREMIER_V1_0 = new BedrockFoundationModel(
-    "amazon.titan-text-premier-v1:0",
+    'amazon.titan-text-premier-v1:0',
     {
       supportsAgents: true,
-    }
+    },
   );
 
   public static readonly AMAZON_NOVA_MICRO_V1 = new BedrockFoundationModel(
-    "amazon.nova-micro-v1:0",
+    'amazon.nova-micro-v1:0',
     {
       supportsAgents: true,
       supportsCrossRegion: true,
       optimizedForAgents: true,
-    }
+    },
   );
 
-  public static readonly AMAZON_NOVA_LITE_V1 = new BedrockFoundationModel("amazon.nova-lite-v1:0", {
+  public static readonly AMAZON_NOVA_LITE_V1 = new BedrockFoundationModel('amazon.nova-lite-v1:0', {
     supportsAgents: true,
     supportsCrossRegion: true,
     optimizedForAgents: true,
   });
 
-  public static readonly AMAZON_NOVA_PRO_V1 = new BedrockFoundationModel("amazon.nova-pro-v1:0", {
+  public static readonly AMAZON_NOVA_PRO_V1 = new BedrockFoundationModel('amazon.nova-pro-v1:0', {
     supportsAgents: true,
     supportsCrossRegion: true,
     optimizedForAgents: true,
   });
 
   public static readonly TITAN_EMBED_TEXT_V1 = new BedrockFoundationModel(
-    "amazon.titan-embed-text-v1",
+    'amazon.titan-embed-text-v1',
     {
       supportsKnowledgeBase: true,
       vectorDimensions: 1536,
       supportedVectorType: [VectorType.FLOATING_POINT],
-    }
+    },
   );
 
   public static readonly TITAN_EMBED_TEXT_V2_1024 = new BedrockFoundationModel(
-    "amazon.titan-embed-text-v2:0",
+    'amazon.titan-embed-text-v2:0',
     {
       supportsKnowledgeBase: true,
       vectorDimensions: 1024,
       supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
-    }
+    },
   );
 
   public static readonly TITAN_EMBED_TEXT_V2_512 = new BedrockFoundationModel(
-    "amazon.titan-embed-text-v2:0",
+    'amazon.titan-embed-text-v2:0',
     {
       supportsKnowledgeBase: true,
       vectorDimensions: 512,
       supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
-    }
+    },
   );
 
   public static readonly TITAN_EMBED_TEXT_V2_256 = new BedrockFoundationModel(
-    "amazon.titan-embed-text-v2:0",
+    'amazon.titan-embed-text-v2:0',
     {
       supportsKnowledgeBase: true,
       vectorDimensions: 256,
       supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
-    }
+    },
   );
   /****************************************************************************
    *                            ANTHROPIC
    ***************************************************************************/
   public static readonly ANTHROPIC_CLAUDE_3_7_SONNET_V1_0 = new BedrockFoundationModel(
-    "anthropic.claude-3-7-sonnet-20250219-v1:0",
+    'anthropic.claude-3-7-sonnet-20250219-v1:0',
 
-    { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: false }
+    { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: false },
   );
 
   public static readonly ANTHROPIC_CLAUDE_3_5_SONNET_V2_0 = new BedrockFoundationModel(
-    "anthropic.claude-3-5-sonnet-20241022-v2:0",
-    { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: true }
+    'anthropic.claude-3-5-sonnet-20241022-v2:0',
+    { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: true },
   );
 
   public static readonly ANTHROPIC_CLAUDE_3_5_SONNET_V1_0 = new BedrockFoundationModel(
-    "anthropic.claude-3-5-sonnet-20240620-v1:0",
-    { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: true }
+    'anthropic.claude-3-5-sonnet-20240620-v1:0',
+    { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: true },
   );
 
   public static readonly ANTHROPIC_CLAUDE_3_5_HAIKU_V1_0 = new BedrockFoundationModel(
-    "anthropic.claude-3-5-haiku-20241022-v1:0",
-    { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: true }
+    'anthropic.claude-3-5-haiku-20241022-v1:0',
+    { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: true },
   );
 
   public static readonly ANTHROPIC_CLAUDE_OPUS_V1_0 = new BedrockFoundationModel(
-    "anthropic.claude-3-opus-20240229-v1:0",
-    { supportsAgents: true, optimizedForAgents: true }
+    'anthropic.claude-3-opus-20240229-v1:0',
+    { supportsAgents: true, optimizedForAgents: true },
   );
 
   public static readonly ANTHROPIC_CLAUDE_SONNET_V1_0 = new BedrockFoundationModel(
-    "anthropic.claude-3-sonnet-20240229-v1:0",
-    { supportsAgents: true, supportsCrossRegion: true, legacy: true, optimizedForAgents: true }
+    'anthropic.claude-3-sonnet-20240229-v1:0',
+    { supportsAgents: true, supportsCrossRegion: true, legacy: true, optimizedForAgents: true },
   );
 
   public static readonly ANTHROPIC_CLAUDE_HAIKU_V1_0 = new BedrockFoundationModel(
-    "anthropic.claude-3-haiku-20240307-v1:0",
-    { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: true }
+    'anthropic.claude-3-haiku-20240307-v1:0',
+    { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: true },
   );
 
   public static readonly ANTHROPIC_CLAUDE_V2_1 = new BedrockFoundationModel(
-    "anthropic.claude-v2:1",
+    'anthropic.claude-v2:1',
     {
       supportsAgents: true,
       legacy: true,
       optimizedForAgents: true,
-    }
+    },
   );
 
-  public static readonly ANTHROPIC_CLAUDE_V2 = new BedrockFoundationModel("anthropic.claude-v2", {
+  public static readonly ANTHROPIC_CLAUDE_V2 = new BedrockFoundationModel('anthropic.claude-v2', {
     supportsAgents: true,
     legacy: true,
     optimizedForAgents: true,
   });
 
   public static readonly ANTHROPIC_CLAUDE_INSTANT_V1_2 = new BedrockFoundationModel(
-    "anthropic.claude-instant-v1",
+    'anthropic.claude-instant-v1',
     {
       supportsAgents: true,
       legacy: true,
       optimizedForAgents: true,
-    }
+    },
   );
 
   /****************************************************************************
    *                            COHERE
    ***************************************************************************/
   public static readonly COHERE_EMBED_ENGLISH_V3 = new BedrockFoundationModel(
-    "cohere.embed-english-v3",
+    'cohere.embed-english-v3',
     {
       supportsKnowledgeBase: true,
       vectorDimensions: 1024,
       supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
-    }
+    },
   );
 
   public static readonly COHERE_EMBED_MULTILINGUAL_V3 = new BedrockFoundationModel(
-    "cohere.embed-multilingual-v3",
+    'cohere.embed-multilingual-v3',
     {
       supportsKnowledgeBase: true,
       vectorDimensions: 1024,
       supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
-    }
+    },
   );
 
   /****************************************************************************
    *                            META
    ***************************************************************************/
   public static readonly META_LLAMA_3_1_8B_INSTRUCT_V1 = new BedrockFoundationModel(
-    "meta.llama3-1-8b-instruct-v1:0",
+    'meta.llama3-1-8b-instruct-v1:0',
     {
       supportsAgents: true,
       supportsCrossRegion: true,
-    }
+    },
   );
 
   public static readonly META_LLAMA_3_1_70B_INSTRUCT_V1 = new BedrockFoundationModel(
-    "meta.llama3-1-70b-instruct-v1:0",
+    'meta.llama3-1-70b-instruct-v1:0',
     {
       supportsAgents: true,
       supportsCrossRegion: true,
-    }
+    },
   );
 
   public static readonly META_LLAMA_3_2_11B_INSTRUCT_V1 = new BedrockFoundationModel(
-    "meta.llama3-2-11b-instruct-v1:0",
+    'meta.llama3-2-11b-instruct-v1:0',
     {
       supportsAgents: true,
       supportsCrossRegion: true,
-    }
+    },
   );
 
   public static readonly META_LLAMA_3_2_3B_INSTRUCT_V1 = new BedrockFoundationModel(
-    "meta.llama3-2-3b-instruct-v1:0",
+    'meta.llama3-2-3b-instruct-v1:0',
     {
       supportsAgents: true,
       supportsCrossRegion: true,
-    }
+    },
   );
 
   public static readonly META_LLAMA_3_2_1B_INSTRUCT_V1 = new BedrockFoundationModel(
-    "meta.llama3-2-1b-instruct-v1:0",
+    'meta.llama3-2-1b-instruct-v1:0',
     {
       supportsAgents: true,
       supportsCrossRegion: true,
-    }
+    },
   );
 
   public static readonly META_LLAMA_3_3_70B_INSTRUCT_V1 = new BedrockFoundationModel(
-    "meta.llama3-3-70b-instruct-v1:0",
+    'meta.llama3-3-70b-instruct-v1:0',
     {
       supportsAgents: true,
       supportsCrossRegion: true,
-    }
+    },
   );
 
   public static fromCdkFoundationModelId(
     modelId: FoundationModelIdentifier,
-    props: BedrockFoundationModelProps = {}
+    props: BedrockFoundationModelProps = {},
   ): BedrockFoundationModel {
     return new BedrockFoundationModel(modelId.modelId, props);
   }
   public static fromCdkFoundationModel(
     modelId: FoundationModel,
-    props: BedrockFoundationModelProps = {}
+    props: BedrockFoundationModelProps = {},
   ): BedrockFoundationModel {
     return new BedrockFoundationModel(modelId.modelId, props);
   }
@@ -358,10 +358,10 @@ export class BedrockFoundationModel implements IInvokable {
     this.modelId = value;
     this.modelArn = Arn.format({
       partition: Aws.PARTITION,
-      service: "bedrock",
+      service: 'bedrock',
       region: Aws.REGION,
-      account: "",
-      resource: "foundation-model",
+      account: '',
+      resource: 'foundation-model',
       resourceName: this.modelId,
       arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
     });
@@ -399,7 +399,7 @@ export class BedrockFoundationModel implements IInvokable {
   public grantInvoke(grantee: IGrantable): Grant {
     const grant = Grant.addToPrincipal({
       grantee: grantee,
-      actions: ["bedrock:InvokeModel*", "bedrock:GetFoundationModel"],
+      actions: ['bedrock:InvokeModel*', 'bedrock:GetFoundationModel'],
       resourceArns: [this.invokableArn],
     });
     return grant;
@@ -411,17 +411,17 @@ export class BedrockFoundationModel implements IInvokable {
   public grantInvokeAllRegions(grantee: IGrantable): Grant {
     const invokableArn = Arn.format({
       partition: Aws.PARTITION,
-      service: "bedrock",
-      region: "*",
-      account: "",
-      resource: "foundation-model",
+      service: 'bedrock',
+      region: '*',
+      account: '',
+      resource: 'foundation-model',
       resourceName: this.modelId,
       arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
     });
 
     return Grant.addToPrincipal({
       grantee: grantee,
-      actions: ["bedrock:InvokeModel*", "bedrock:GetFoundationModel"],
+      actions: ['bedrock:InvokeModel*', 'bedrock:GetFoundationModel'],
       resourceArns: [invokableArn],
     });
   }

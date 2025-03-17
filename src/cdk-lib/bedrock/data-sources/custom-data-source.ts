@@ -11,23 +11,18 @@
  *  and limitations under the License.
  */
 
-import { CfnDataSource } from "aws-cdk-lib/aws-bedrock";
-import { Construct } from "constructs";
+import { CfnDataSource } from 'aws-cdk-lib/aws-bedrock';
+import { IKey } from 'aws-cdk-lib/aws-kms';
+import { Construct } from 'constructs';
 
-import { IKnowledgeBase } from "./../knowledge-bases/knowledge-base";
-import { DataSourceAssociationProps, DataSourceNew, DataSourceType } from "./base-data-source";
-import { generatePhysicalNameV2 } from "../../../common/helpers/utils";
-import { IKey } from "aws-cdk-lib/aws-kms";
+import { IKnowledgeBase } from './../knowledge-bases/knowledge-base';
+import { DataSourceAssociationProps, DataSourceNew, DataSourceType } from './base-data-source';
+import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
 
 /**
  * Interface to add a new CustomDataSource to an existing KB
  */
-export interface CustomDataSourceAssociationProps extends DataSourceAssociationProps {
-  /**
-   * An name to uniquely identify this custom data source.
-   */
-  readonly dataSourceName: string;
-}
+export interface CustomDataSourceAssociationProps extends DataSourceAssociationProps {}
 
 /**
  * Interface to create a new Custom Data Source object.
@@ -92,10 +87,10 @@ export class CustomDataSource extends DataSourceNew {
     const theseAreNotReplacable = { chunkingStrategy, parsingStrategy };
     this.dataSourceName =
       props.dataSourceName ??
-      generatePhysicalNameV2(this, "custom-ds", {
+      generatePhysicalNameV2(this, 'custom-ds', {
         maxLength: 40,
         lower: true,
-        separator: "-",
+        separator: '-',
         destroyCreate: theseAreNotReplacable,
       });
     this.kmsKey = props.kmsKey;
@@ -108,7 +103,7 @@ export class CustomDataSource extends DataSourceNew {
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
-    this.__resource = new CfnDataSource(this, "DataSource", {
+    this.__resource = new CfnDataSource(this, 'DataSource', {
       ...this.formatAsCfnProps(props, {
         type: this.dataSourceType,
       }),

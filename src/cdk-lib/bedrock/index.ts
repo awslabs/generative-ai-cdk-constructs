@@ -37,6 +37,7 @@ export * from './data-sources/sharepoint-data-source';
 export * from './data-sources/confluence-data-source';
 export * from './data-sources/salesforce-data-source';
 export * from './data-sources/s3-data-source';
+export * from './data-sources/custom-data-source';
 
 //===================================
 // Guardrails
