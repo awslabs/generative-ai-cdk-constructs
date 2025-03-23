@@ -624,6 +624,189 @@ Grant the given identity permissions to apply the guardrail.
 
 ***
 
+### metric()
+
+> **metric**(`metricName`, `props`?): `Metric`
+
+Return the given named metric for this guardrail.
+
+By default, the metric will be calculated as a sum over a period of 5 minutes.
+You can customize this by using the `statistic` and `period` properties.
+
+#### Parameters
+
+##### metricName
+
+`string`
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+#### Inherited from
+
+[`GuardrailBase`](GuardrailBase.md).[`metric`](GuardrailBase.md#metric)
+
+***
+
+### metricInvocationClientErrors()
+
+> **metricInvocationClientErrors**(`props`?): `Metric`
+
+Return the invocation client errors metric for this guardrail.
+
+#### Parameters
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+#### Inherited from
+
+[`GuardrailBase`](GuardrailBase.md).[`metricInvocationClientErrors`](GuardrailBase.md#metricinvocationclienterrors)
+
+***
+
+### metricInvocationLatency()
+
+> **metricInvocationLatency**(`props`?): `Metric`
+
+Return the invocation latency metric for this guardrail.
+
+#### Parameters
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+#### Inherited from
+
+[`GuardrailBase`](GuardrailBase.md).[`metricInvocationLatency`](GuardrailBase.md#metricinvocationlatency)
+
+***
+
+### metricInvocations()
+
+> **metricInvocations**(`props`?): `Metric`
+
+Return the invocations metric for this guardrail.
+
+#### Parameters
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+#### Inherited from
+
+[`GuardrailBase`](GuardrailBase.md).[`metricInvocations`](GuardrailBase.md#metricinvocations)
+
+***
+
+### metricInvocationServerErrors()
+
+> **metricInvocationServerErrors**(`props`?): `Metric`
+
+Return the invocation server errors metric for this guardrail.
+
+#### Parameters
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+#### Inherited from
+
+[`GuardrailBase`](GuardrailBase.md).[`metricInvocationServerErrors`](GuardrailBase.md#metricinvocationservererrors)
+
+***
+
+### metricInvocationsIntervened()
+
+> **metricInvocationsIntervened**(`props`?): `Metric`
+
+Return the invocations intervened metric for this guardrail.
+
+#### Parameters
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+#### Inherited from
+
+[`GuardrailBase`](GuardrailBase.md).[`metricInvocationsIntervened`](GuardrailBase.md#metricinvocationsintervened)
+
+***
+
+### metricInvocationThrottles()
+
+> **metricInvocationThrottles**(`props`?): `Metric`
+
+Return the invocation throttles metric for this guardrail.
+
+#### Parameters
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+#### Inherited from
+
+[`GuardrailBase`](GuardrailBase.md).[`metricInvocationThrottles`](GuardrailBase.md#metricinvocationthrottles)
+
+***
+
+### metricTextUnitCount()
+
+> **metricTextUnitCount**(`props`?): `Metric`
+
+Return the text unit count metric for this guardrail.
+
+#### Parameters
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+#### Inherited from
+
+[`GuardrailBase`](GuardrailBase.md).[`metricTextUnitCount`](GuardrailBase.md#metrictextunitcount)
+
+***
+
 ### toString()
 
 > **toString**(): `string`
@@ -765,3 +948,120 @@ Check whether the given construct is a Resource
 #### Inherited from
 
 [`GuardrailBase`](GuardrailBase.md).[`isResource`](GuardrailBase.md#isresource)
+
+***
+
+### metricAll()
+
+> `static` **metricAll**(`metricName`, `props`?): `Metric`
+
+Return the given named metric for all guardrails.
+
+By default, the metric will be calculated as a sum over a period of 5 minutes.
+You can customize this by using the `statistic` and `period` properties.
+
+#### Parameters
+
+##### metricName
+
+`string`
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+#### Inherited from
+
+[`GuardrailBase`](GuardrailBase.md).[`metricAll`](GuardrailBase.md#metricall)
+
+***
+
+### metricAllInvocationLatency()
+
+> `static` **metricAllInvocationLatency**(`props`?): `Metric`
+
+Return the invocation latency metric for all guardrails.
+
+#### Parameters
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+#### Inherited from
+
+[`GuardrailBase`](GuardrailBase.md).[`metricAllInvocationLatency`](GuardrailBase.md#metricallinvocationlatency)
+
+***
+
+### metricAllInvocations()
+
+> `static` **metricAllInvocations**(`props`?): `Metric`
+
+Return the invocations metric for all guardrails.
+
+#### Parameters
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+#### Inherited from
+
+[`GuardrailBase`](GuardrailBase.md).[`metricAllInvocations`](GuardrailBase.md#metricallinvocations)
+
+***
+
+### metricAllInvocationsIntervened()
+
+> `static` **metricAllInvocationsIntervened**(`props`?): `Metric`
+
+Return the invocations intervened metric for all guardrails.
+
+#### Parameters
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+#### Inherited from
+
+[`GuardrailBase`](GuardrailBase.md).[`metricAllInvocationsIntervened`](GuardrailBase.md#metricallinvocationsintervened)
+
+***
+
+### metricAllTextUnitCount()
+
+> `static` **metricAllTextUnitCount**(`props`?): `Metric`
+
+Return the text unit count metric for all guardrails.
+
+#### Parameters
+
+##### props?
+
+`MetricOptions`
+
+#### Returns
+
+`Metric`
+
+#### Inherited from
+
+[`GuardrailBase`](GuardrailBase.md).[`metricAllTextUnitCount`](GuardrailBase.md#metricalltextunitcount)

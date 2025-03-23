@@ -144,6 +144,24 @@ Grant the given principal identity permissions to perform actions on this agent 
 
 ***
 
+### grantGet()
+
+> **grantGet**(`grantee`): `Grant`
+
+Grant the given identity permissions to get the agent alias.
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+#### Returns
+
+`Grant`
+
+***
+
 ### grantInvoke()
 
 > **grantInvoke**(`grantee`): `Grant`

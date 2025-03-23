@@ -70,6 +70,18 @@ export enum DataSourceType {
    * Extracts content from authorized public web pages using a crawler.
    */
   WEB_CRAWLER = 'WEB',
+
+  /**
+   * Custom data source.
+   * A custom data source allows the flexibility to automatically ingest documents
+   * into your vector database directly.
+   */
+  CUSTOM = 'CUSTOM',
+
+  /**
+   * Redshift Metadata data source.
+   */
+  REDSHIFT_METADATA = 'REDSHIFT_METADATA',
 }
 
 /**
@@ -196,7 +208,7 @@ export abstract class DataSourceNew extends DataSourceBase {
       statementsToAdd.push(...props.customTransformation.generatePolicyStatements(this));
     }
     // Add the permission statements to the KB execution role
-    statementsToAdd.forEach(statement => {
+    statementsToAdd.forEach((statement) => {
       this.knowledgeBase.role.addToPrincipalPolicy(statement);
     });
   }

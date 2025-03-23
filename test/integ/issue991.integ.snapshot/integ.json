@@ -1,0 +1,19 @@
+{
+  "version": "39.0.0",
+  "testCases": {
+    "Claude37Test-Integ/DefaultTest": {
+      "stacks": [
+        "Claude37Test"
+      ],
+      "cdkCommandOptions": {
+        "deploy": {
+          "args": {
+            "rollback": false
+          }
+        }
+      },
+      "assertionStack": "Claude37Test-Integ/DefaultTest/DeployAssert",
+      "assertionStackName": "Claude37TestIntegDefaultTestDeployAssert7B904896"
+    }
+  }
+}

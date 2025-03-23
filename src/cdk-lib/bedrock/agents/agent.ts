@@ -19,12 +19,15 @@ import { Construct } from 'constructs';
 // Internal Libs
 import { AgentActionGroup } from './action-group';
 import { AgentAlias, IAgentAlias } from './agent-alias';
+import { AgentCollaborator, AgentCollaboratorType } from './agent-collaborator';
 import { PromptOverrideConfiguration } from './prompt-override';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
 import * as validation from '../../../common/helpers/validation-helpers';
 import { IGuardrail } from '../guardrails/guardrails';
 import { IKnowledgeBase } from '../knowledge-bases/knowledge-base';
 import { IInvokable } from '../models';
+import { Memory } from './memory';
+import { OrchestrationType, CustomOrchestration } from './orchestration';
 
 /******************************************************************************
  *                              COMMON
@@ -168,6 +171,39 @@ export interface AgentProps {
    * @default - true
    */
   readonly forceDelete?: boolean;
+  /**
+   * The type and configuration of the memory to maintain context across multiple sessions and recall past interactions.
+   * This can be useful for maintaining continuity in multi-turn conversations and recalling user preferences
+   * or past interactions.
+   *
+   * @see https://docs.aws.amazon.com/bedrock/latest/userguide/agents-memory.html
+   * @default - No memory will be used. Agents will retain context from the current session only.
+   */
+  readonly memory?: Memory;
+  /**
+   * The collaboration type for the agent.
+   *
+   * @default - No collaboration (AgentCollaboratorType.DISABLED).
+   */
+  readonly agentCollaboration?: AgentCollaboratorType;
+  /**
+   * Collaborators that this agent will work with.
+   *
+   * @default - No collaborators.
+   */
+  readonly agentCollaborators?: AgentCollaborator[];
+  /**
+   * Details of custom orchestration for the agent.
+   *
+   * @default - Standard orchestration.
+   */
+  readonly customOrchestration?: CustomOrchestration;
+  /**
+   * The type of orchestration to use for the agent.
+   *
+   * @default - STANDARD
+   */
+  readonly orchestrationType?: OrchestrationType;
 }
 /******************************************************************************
  *                      ATTRS FOR IMPORTED CONSTRUCT
@@ -262,20 +298,6 @@ export class Agent extends AgentBase {
    */
   public readonly name: string;
   /**
-   * The description for the agent.
-   */
-  public readonly description?: string;
-  /**
-   * The instruction used by the agent. This determines how the agent will perform his task.
-   */
-  public readonly instruction?: string;
-  /**
-   * Overrides some prompt templates in different parts of an agent sequence configuration.
-   *
-   * @default - No overrides are provided.
-   */
-  readonly promptOverrideConfiguration?: PromptOverrideConfiguration;
-  /**
    * Whether the agent will automatically update the DRAFT version of the agent after
    * making changes to the agent.
    */
@@ -306,6 +328,43 @@ export class Agent extends AgentBase {
    * Whether the resource will be deleted even if it's in use.
    */
   public readonly forceDelete: boolean;
+  /**
+   * Agent collaboration type.
+   */
+  public readonly agentCollaboration?: AgentCollaboratorType;
+  /**
+   * Agent collaborators.
+   */
+  public readonly agentCollaborators?: AgentCollaborator[];
+  /**
+   * Custom orchestration configuration.
+   */
+  public readonly customOrchestration?: CustomOrchestration;
+  /**
+   * The type of orchestration for the agent.
+   */
+  public readonly orchestrationType?: OrchestrationType;
+  // ------------------------------------------------------
+  // CDK-only attributes (optional)
+  // ------------------------------------------------------
+  /**
+   * The description for the agent.
+   */
+  public readonly description?: string;
+  /**
+   * The instruction used by the agent. This determines how the agent will perform his task.
+   */
+  public readonly instruction?: string;
+  /**
+   * Overrides some prompt templates in different parts of an agent sequence configuration.
+   *
+   * @default - No overrides are provided.
+   */
+  readonly promptOverrideConfiguration?: PromptOverrideConfiguration;
+  /**
+   * The memory configuration for the agent.
+   */
+  public readonly memory?: Memory;
   // ------------------------------------------------------
   // Lazy Attributes
   // ------------------------------------------------------
@@ -346,11 +405,16 @@ export class Agent extends AgentBase {
     this.codeInterpreterEnabled = props.codeInterpreterEnabled ?? false;
     this.foundationModel = props.foundationModel;
     this.forceDelete = props.forceDelete ?? false;
+
     // Optional
     this.description = props.description;
     this.instruction = props.instruction;
     this.promptOverrideConfiguration = props.promptOverrideConfiguration;
     this.kmsKey = props.kmsKey;
+    this.memory = props.memory;
+    this.agentCollaboration = props.agentCollaboration;
+    this.customOrchestration = props.customOrchestration;
+    this.orchestrationType = props.orchestrationType;
 
     // ------------------------------------------------------
     // Role
@@ -384,6 +448,7 @@ export class Agent extends AgentBase {
     // ------------------------------------------------------
     this.knowledgeBases = [];
     this.actionGroups = [];
+    this.agentCollaborators = [];
     // Add Default Action Groups
     this.addActionGroup(AgentActionGroup.userInput(this.userInputEnabled));
     this.addActionGroup(AgentActionGroup.codeInterpreter(this.codeInterpreterEnabled));
@@ -396,8 +461,21 @@ export class Agent extends AgentBase {
     props.actionGroups?.forEach(ag => {
       this.addActionGroup(ag);
     });
+    props.agentCollaborators?.forEach(ac => {
+      this.addAgentCollaborator(ac);
+    });
     if (props.guardrail) {
       this.addGuardrail(props.guardrail);
+    }
+
+    // Grant permissions for custom orchestration if provided
+    if (this.customOrchestration?.executor?.lambdaFunction) {
+      this.customOrchestration.executor.lambdaFunction.grantInvoke(this.role);
+      this.customOrchestration.executor.lambdaFunction.addPermission(`OrchestrationLambdaInvocationPolicy-${this.node.addr.slice(0, 16)}`, {
+        principal: new iam.ServicePrincipal('bedrock.amazonaws.com'),
+        sourceArn: Lazy.string({ produce: () => this.agentArn }),
+        sourceAccount: Stack.of(this).account,
+      });
     }
 
     // ------------------------------------------------------
@@ -422,8 +500,13 @@ export class Agent extends AgentBase {
       idleSessionTtlInSeconds: this.idleSessionTTL.toSeconds(),
       instruction: props.instruction,
       knowledgeBases: Lazy.any({ produce: () => this.renderKnowledgeBases() }, { omitEmptyArray: true }),
+      memoryConfiguration: props.memory,
       promptOverrideConfiguration: this.promptOverrideConfiguration?._render(),
       skipResourceInUseCheckOnDelete: this.forceDelete,
+      agentCollaboration: this.agentCollaboration,
+      agentCollaborators: Lazy.any({ produce: () => this.renderAgentCollaborators() }, { omitEmptyArray: true }),
+      customOrchestration: this.renderCustomOrchestration(),
+      orchestrationType: this.orchestrationType,
     };
 
     // ------------------------------------------------------
@@ -497,6 +580,14 @@ export class Agent extends AgentBase {
   }
 
   /**
+   * Add an agent collaborator to the agent.
+   */
+  public addAgentCollaborator(agentCollaborator: AgentCollaborator) {
+    this.agentCollaborators?.push(agentCollaborator);
+    agentCollaborator.grant(this.role);
+  }
+
+  /**
    * Add multiple action groups to the agent.
    */
   public addActionGroups(...actionGroups: AgentActionGroup[]) {
@@ -551,6 +642,41 @@ export class Agent extends AgentBase {
       actionGroupsCfn.push(ag._render());
     });
     return actionGroupsCfn;
+  }
+
+  /**
+   * Render the agent collaborators.
+   *
+   * @internal This is an internal core function and should not be called directly.
+   */
+  private renderAgentCollaborators(): bedrock.CfnAgent.AgentCollaboratorProperty[] | undefined {
+    if (!this.agentCollaborators || this.agentCollaborators.length === 0) {
+      return undefined;
+    }
+
+    const agentCollaboratorsCfn: bedrock.CfnAgent.AgentCollaboratorProperty[] = [];
+
+    this.agentCollaborators.forEach(ac => {
+      agentCollaboratorsCfn.push(ac._render());
+    });
+    return agentCollaboratorsCfn;
+  }
+
+  /**
+   * Render the custom orchestration.
+   *
+   * @internal This is an internal core function and should not be called directly.
+   */
+  private renderCustomOrchestration(): bedrock.CfnAgent.CustomOrchestrationProperty | undefined {
+    if (!this.customOrchestration) {
+      return undefined;
+    }
+
+    return {
+      executor: {
+        lambda: this.customOrchestration.executor.lambdaFunction.functionArn,
+      },
+    };
   }
 
   // ------------------------------------------------------

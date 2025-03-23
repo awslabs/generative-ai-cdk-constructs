@@ -19,6 +19,7 @@ Specifies the base class for all NEW data source resources of ANY type.
 - [`ConfluenceDataSource`](ConfluenceDataSource.md)
 - [`SalesforceDataSource`](SalesforceDataSource.md)
 - [`S3DataSource`](S3DataSource.md)
+- [`CustomDataSource`](CustomDataSource.md)
 
 ## Constructors
 

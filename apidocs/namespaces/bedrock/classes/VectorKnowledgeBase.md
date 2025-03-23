@@ -242,6 +242,28 @@ Add a Confluence data source to the knowledge base.
 
 ***
 
+### addCustomDataSource()
+
+> **addCustomDataSource**(`props`): [`CustomDataSource`](CustomDataSource.md)
+
+Add a Custom data source to the knowledge base.
+
+#### Parameters
+
+##### props
+
+[`CustomDataSourceAssociationProps`](../interfaces/CustomDataSourceAssociationProps.md)
+
+#### Returns
+
+[`CustomDataSource`](CustomDataSource.md)
+
+#### Inherited from
+
+`VectorKnowledgeBaseBase.addCustomDataSource`
+
+***
+
 ### addS3DataSource()
 
 > **addS3DataSource**(`props`): [`S3DataSource`](S3DataSource.md)

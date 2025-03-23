@@ -134,6 +134,7 @@ The following constructs are available in the library:
 | [SageMaker model deployment (Hugging Face)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_hugging_face.md) | Deploy a foundation model from Hugging Face to an Amazon SageMaker endpoint. | Amazon SageMaker |
 | [SageMaker model deployment (Custom)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_custom_sagemaker_endpoint.md) | Deploy a foundation model from an S3 location to an Amazon SageMaker endpoint. | Amazon SageMaker |
 | [Amazon Bedrock Monitoring (Amazon CloudWatch Dashboard)](./src/patterns/gen-ai/aws-bedrock-cw-dashboard/README.md) | Amazon CloudWatch dashboard to monitor model usage from Amazon Bedrock. | Amazon CloudWatch |
+| [Bedrock Data Automation](./src/patterns/gen-ai/aws-bedrock-data-automation/README.md) | Use Amazon bedrock data automation client to to build and manage intelligent document processing, media analysis, and other multimodal data-centric automation solutions | AWS Lambda, Amazon S3 bucket |
 | [Bedrock Batch Step Functions](./src/patterns/gen-ai/aws-bedrock-batch-stepfn/README.md) | Manage Bedrock model invocation jobs(batch inference) in AWS Step Functions state machines | AWS Step Functions, AWS Lambda, AWS EventBridge, Amazon Bedrock, AWS IAM |
 
 ### L2 Constructs
@@ -168,6 +169,7 @@ The official [samples repository](https://github.com/aws-samples/generative-ai-c
 | [Automating tasks using Amazon Bedrock Agents and AI](https://blog.serverlessadvocate.com/automating-tasks-using-amazon-bedrock-agents-and-ai-4b6fb8856589) | Blog post + Code sample | Blog post and associated code sample demonstrating how to deploy an Amazon Bedrock Agent and a Knowledge Base through a hotel and spa use case. |
 | [Agents for Amazon Bedrock - Powertools for AWS Lambda (Python)](https://docs.powertools.aws.dev/lambda/python/latest/core/event_handler/bedrock_agents/#using-aws-cloud-developer-kit-cdk) | Code sample | Create Agents for Amazon Bedrock using event handlers and auto generation of OpenAPI schemas. |
 | [Text to SQL Bedrock Agent](https://github.com/aws-samples/amazon-bedrock-samples/tree/main/agents-for-bedrock/use-case-examples/text-2-sql-agent-cdk-enhanced) | Code sample | Harnessing the power of natural language processing, the "Text to SQL Bedrock Agent" facilitates the automatic transformation of natural language questions into executable SQL queries. |
+| [Dynamic Text-to-SQL for Enterprise Workloads with Amazon Bedrock Agent](https://github.com/aws-samples/sample-Dynamic-Text-to-SQL-with-Amazon-Bedrock-Agent) | Code sample | Elevate your data analysis with an end-to-end agentic Text-to-SQL solution, built on AWS for enterprise-scale adaptability and resilience. Ideal for complex scenarios like fraud detection in financial services. |
 
 ## Contributors
 

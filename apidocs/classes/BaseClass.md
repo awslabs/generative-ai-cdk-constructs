@@ -13,6 +13,7 @@
 ## Extended by
 
 - [`SageMakerEndpointBase`](SageMakerEndpointBase.md)
+- [`BedrockDataAutomation`](BedrockDataAutomation.md)
 
 ## Constructors
 

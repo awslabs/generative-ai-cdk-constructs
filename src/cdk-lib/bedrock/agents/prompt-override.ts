@@ -14,14 +14,17 @@
 import { CfnAgent } from 'aws-cdk-lib/aws-bedrock';
 import { IFunction } from 'aws-cdk-lib/aws-lambda';
 import * as validation from '../../../common/helpers/validation-helpers';
+import { IInvokable } from '../models';
 
 /**
- * The step in the agent sequence where to set a specific prompt configuration.
+ * The step in the agent sequence that this prompt configuration applies to.
  */
 export enum AgentStepType {
   PRE_PROCESSING = 'PRE_PROCESSING',
   ORCHESTRATION = 'ORCHESTRATION',
   POST_PROCESSING = 'POST_PROCESSING',
+  ROUTING_CLASSIFIER = 'ROUTING_CLASSIFIER',
+  MEMORY_SUMMARIZATION = 'MEMORY_SUMMARIZATION',
   KNOWLEDGE_BASE_RESPONSE_GENERATION = 'KNOWLEDGE_BASE_RESPONSE_GENERATION',
 }
 
@@ -115,6 +118,13 @@ export interface PromptStepConfiguration {
    * The inference configuration parameters to use.
    */
   readonly inferenceConfig?: InferenceConfiguration;
+  /**
+   * The foundation model to use for this specific prompt step.
+   * This allows using different models for different steps in the agent sequence.
+   *
+   * @default - The agent's default foundation model will be used.
+   */
+  readonly foundationModel?: IInvokable;
 }
 
 export interface PromptStepConfigurationCustomParser extends PromptStepConfiguration {
@@ -128,12 +138,12 @@ export interface PromptStepConfigurationCustomParser extends PromptStepConfigura
 
 export interface CustomParserProps {
   /*
-  * Lambda function to use as custom parser
-  */
+   * Lambda function to use as custom parser
+   */
   readonly parser?: IFunction;
   /*
-  * prompt step configurations. At least one of the steps must make use of the custom parser.
-  */
+   * prompt step configurations. At least one of the steps must make use of the custom parser.
+   */
   readonly steps?: PromptStepConfigurationCustomParser[];
 }
 
@@ -217,6 +227,8 @@ export class PromptOverrideConfiguration {
             : step?.customPromptTemplate ? 'OVERRIDDEN' : 'DEFAULT',
           basePromptTemplate: step.customPromptTemplate,
           inferenceConfiguration: step.inferenceConfig,
+          // Include foundation model if provided
+          foundationModel: step.foundationModel?.invokableArn,
         })) || [],
     };
   }
@@ -258,6 +270,18 @@ export class PromptOverrideConfiguration {
       if (inferenceErrors.length > 0) {
         errors.push(`Step ${step.stepType}: ${inferenceErrors.join(', ')}`);
       }
+
+      // Validate foundationModel if provided
+      if (step.foundationModel !== undefined) {
+        if (!step.foundationModel.invokableArn) {
+          errors.push(`Step ${step.stepType}: Foundation model must be a valid IInvokable with an invokableArn`);
+        }
+        // Only allow foundation model override for ROUTING_CLASSIFIER
+        if (step.stepType !== AgentStepType.ROUTING_CLASSIFIER) {
+          errors.push(`Step ${step.stepType}: Foundation model can only be specified for ROUTING_CLASSIFIER step type`);
+        }
+      }
+
     });
 
     return errors;

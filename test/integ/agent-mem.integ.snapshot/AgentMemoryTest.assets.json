@@ -1,0 +1,20 @@
+{
+  "version": "39.0.0",
+  "files": {
+    "9f5d87597e60f4c70edcfcdea8130c16cdc6b52aa706bdeb2b7efca7ab170169": {
+      "source": {
+        "path": "AgentMemoryTest.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "9f5d87597e60f4c70edcfcdea8130c16cdc6b52aa706bdeb2b7efca7ab170169.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}
