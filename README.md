@@ -16,6 +16,8 @@
 [![Maven Central Version](https://img.shields.io/maven-central/v/io.github.cdklabs/generative-ai-cdk-constructs)](https://central.sonatype.com/artifact/io.github.cdklabs/generative-ai-cdk-constructs)
 [![Go Version](https://img.shields.io/github/v/tag/awslabs/generative-ai-cdk-constructs?label=go&color=orange)](https://pkg.go.dev/github.com/cdklabs/generative-ai-cdk-constructs-go/generative-ai-cdk-constructs)
 
+[![Terraform Bedrock Module]([https://img.shields.io/badge/Terraform-7B42BC?style=flat&logo=terraform&label=bedrock](https://img.shields.io/badge/Terraform-7B42BC?style=flat&logo=terraform&label=bedrock%20module))]([https://github.com/aws-ia/terraform-aws-bedrock](https://registry.terraform.io/modules/aws-ia/bedrock/aws/latest))
+
 ## Table of contents
 
 - [Introduction](#introduction)
