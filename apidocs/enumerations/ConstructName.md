@@ -40,3 +40,9 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 ### JUMPSTARTSAGEMAKERENDPOINT
 
 > **JUMPSTARTSAGEMAKERENDPOINT**: `"C7"`
+
+***
+
+### LANGFUSEDEPLOYMENT
+
+> **LANGFUSEDEPLOYMENT**: `"C8"`
