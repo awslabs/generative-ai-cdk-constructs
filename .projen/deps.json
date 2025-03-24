@@ -142,6 +142,11 @@
       "type": "bundled"
     },
     {
+      "name": "cdk-ecr-deployment",
+      "version": "3.0.154",
+      "type": "bundled"
+    },
+    {
       "name": "deepmerge",
       "type": "bundled"
     },
