@@ -21,20 +21,36 @@ import {
   CommonKnowledgeBaseProps,
   createKnowledgeBaseServiceRole,
   IKnowledgeBase,
-  KnowledgeBaseBase,
   KnowledgeBaseType,
 } from "./knowledge-base";
 import { generatePhysicalNameV2 } from "../../../common/helpers/utils";
-import { IKendraGenAiIndex } from "../../kendra";
+import { INeptuneGraph, NeptuneGraph } from "../../neptune/graph";
+import { VectorKnowledgeBaseBase } from "./vector-knowledge-base";
+import { BedrockFoundationModel } from "../models";
 
 /******************************************************************************
  *                             COMMON INTERFACES
  *****************************************************************************/
-export interface IKendraKnowledgeBase extends IKnowledgeBase {
+export interface IGraphKnowledgeBase extends IKnowledgeBase {
   /**
-   * The GenAI Kendra Index.
+   * The Neptune Analytics vector store
    */
-  readonly kendraIndex: IKendraGenAiIndex;
+  readonly graph: INeptuneGraph;
+}
+
+export interface VectorFieldMapping {
+  /**
+   * The name of the field in which Amazon Bedrock stores metadata about the vector store.
+   * @default "AMAZON_BEDROCK_METADATA"
+   */
+  readonly metadataField: string;
+
+  /**
+   * The name of the field in which Amazon Bedrock stores the raw text from your data.
+   * The text is split according to the chunking strategy you choose.
+   * @default "AMAZON_BEDROCK_TEXT"
+   */
+  readonly textField: string;
 }
 
 /******************************************************************************
@@ -43,11 +59,23 @@ export interface IKendraKnowledgeBase extends IKnowledgeBase {
 /**
  * Properties for creating a Kendra Index Knowledge Base.
  */
-export interface KendraKnowledgeBaseProps extends CommonKnowledgeBaseProps {
+export interface GraphKnowledgeBaseProps extends CommonKnowledgeBaseProps {
   /**
-   * The Kendra Index to use for the knowledge base.
+   * The embeddings model for the knowledge base.
    */
-  readonly kendraIndex: IKendraGenAiIndex;
+  readonly embeddingModel: BedrockFoundationModel;
+
+  /**
+   * The Neptune Analytics vector store
+   * @default - A new Neptune Analytics vector store is created
+   */
+  readonly graph?: INeptuneGraph;
+
+  /**
+   * The vector field mapping configuration.
+   * @default - { metadataField: "AMAZON_BEDROCK_METADATA", textField: "AMAZON_BEDROCK_TEXT" }
+   */
+  readonly fieldMapping?: VectorFieldMapping;
 }
 
 /******************************************************************************
@@ -56,41 +84,47 @@ export interface KendraKnowledgeBaseProps extends CommonKnowledgeBaseProps {
 /**
  * Properties for importing a knowledge base outside of this stack
  */
-export interface KendraKnowledgeBaseAttributes extends CommonKnowledgeBaseAttributes {
+export interface GraphKnowledgeBaseAttributes extends CommonKnowledgeBaseAttributes {
   /**
-   * The GenAI Kendra Index ARN.
+   * The ID of the Neptune Analytics vector store
    */
-  readonly kendraIndex: IKendraGenAiIndex;
+  readonly graphId: string;
+
+  /**
+   * The vector field mapping configuration.
+   * @default - { metadataField: "AMAZON_BEDROCK_METADATA", textField: "AMAZON_BEDROCK_TEXT" }
+   */
+  readonly fieldMapping: VectorFieldMapping;
 }
 
 /******************************************************************************
  *                              ABSTRACT CLASS
  *****************************************************************************/
-export abstract class KendraKnowledgeBaseBase extends KnowledgeBaseBase {
+export abstract class GraphKnowledgeBaseBase extends VectorKnowledgeBaseBase {
   public abstract readonly knowledgeBaseArn: string;
   public abstract readonly knowledgeBaseId: string;
   public abstract readonly role: iam.IRole;
-  public abstract readonly kendraIndex: IKendraGenAiIndex;
+  public abstract readonly graph: INeptuneGraph;
   public abstract readonly description?: string;
   public abstract readonly instruction?: string;
-  public readonly type: KnowledgeBaseType = KnowledgeBaseType.KENDRA;
+  public readonly type: KnowledgeBaseType = KnowledgeBaseType.VECTOR;
 }
 
 /******************************************************************************
  *                        		  CONSTRUCT
  *****************************************************************************/
-export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
+export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
   // ------------------------------------------------------
   // Import Methods
   // ------------------------------------------------------
   public static fromKnowledgeBaseAttributes(
     scope: Construct,
     id: string,
-    attrs: KendraKnowledgeBaseAttributes
-  ): IKendraKnowledgeBase {
+    attrs: GraphKnowledgeBaseAttributes
+  ): IGraphKnowledgeBase {
     const stack = Stack.of(scope);
 
-    class Import extends KendraKnowledgeBaseBase {
+    class Import extends GraphKnowledgeBaseBase {
       public readonly role = iam.Role.fromRoleArn(
         this,
         `kb-${attrs.knowledgeBaseId}-role`,
@@ -99,7 +133,7 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
       public readonly description = attrs.description;
       public readonly instruction = attrs.instruction;
       public readonly knowledgeBaseId = attrs.knowledgeBaseId;
-      public readonly kendraIndex = attrs.kendraIndex;
+      public readonly graph = NeptuneGraph.fromGraphId(scope, "Graph", attrs.graphId);
       public readonly knowledgeBaseArn = stack.formatArn({
         service: "bedrock",
         resource: "knowledge-base",
@@ -118,6 +152,7 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
   public readonly role: iam.IRole;
   public readonly description?: string;
   public readonly instruction?: string;
+  public readonly graph: INeptuneGraph;
 
   /**
    * The name of the knowledge base.
@@ -125,43 +160,46 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
   public readonly name: string;
 
   /**
-   * The GenAI Kendra Index.
+   * The vector field mapping configuration.
    */
-  public readonly kendraIndex: IKendraGenAiIndex;
-  /**
-   * The type of Knowledge Base
-   */
-  public readonly type: KnowledgeBaseType = KnowledgeBaseType.KENDRA;
+  public readonly fieldMapping: VectorFieldMapping;
 
   private readonly _resource: bedrock.CfnKnowledgeBase;
 
-  constructor(scope: Construct, id: string, props: KendraKnowledgeBaseProps) {
+  constructor(scope: Construct, id: string, props: GraphKnowledgeBaseProps) {
     super(scope, id);
     // ------------------------------------------------------
     // Set properties or defaults
     // ------------------------------------------------------
-    this.kendraIndex = props.kendraIndex;
+    this.graph =
+      props.graph ??
+      new NeptuneGraph(this, "Graph", {
+        embeddingModel: props.embeddingModel,
+      });
     this.name =
-      props.name ?? generatePhysicalNameV2(this, "kendra-kb", { maxLength: 32, separator: "-" });
+      props.name ?? generatePhysicalNameV2(this, "graph-kb", { maxLength: 32, separator: "-" });
     this.instruction = props.instruction;
     this.description = props.description;
+    this.fieldMapping = {
+      metadataField: props.fieldMapping?.metadataField ?? "AMAZON_BEDROCK_METADATA",
+      textField: props.fieldMapping?.textField ?? "AMAZON_BEDROCK_TEXT",
+    };
 
     // ------------------------------------------------------
     // Role
     // ------------------------------------------------------
-    let policyAddition: iam.AddToPrincipalPolicyResult | undefined;
     // Use existing role if provided, otherwise create a new one
     this.role = props.existingRole ?? createKnowledgeBaseServiceRole(this);
 
+    // ------------------------------------------------------
+    // Grant permissions
+    // ------------------------------------------------------
+    // Grant the service role permissions to query the Neptune Analytics vector store
     if (!props.existingRole) {
-      policyAddition = this.role.addToPrincipalPolicy(
-        new iam.PolicyStatement({
-          sid: "AmazonBedrockKnowledgeBaseKendraIndexAccessStatement",
-          actions: ["kendra:Retrieve", "kendra:DescribeIndex"],
-          resources: [this.kendraIndex.indexArn],
-        })
-      );
+      const grant = this.graph.grantQuery(this.role);
+      grant.applyBefore(this._resource);
     }
+
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
@@ -170,16 +208,34 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
       roleArn: this.role.roleArn,
       description: props.description,
       knowledgeBaseConfiguration: {
-        type: KnowledgeBaseType.KENDRA,
-        kendraKnowledgeBaseConfiguration: {
-          kendraIndexArn: props.kendraIndex.indexArn,
+        type: KnowledgeBaseType.VECTOR,
+        vectorKnowledgeBaseConfiguration: {
+          embeddingModelArn: props.embeddingModel.modelArn,
+          // Used this approach as if property is specified on models that do not
+          // support configurable dimensions CloudFormation throws an error at runtime
+          embeddingModelConfiguration: {
+            bedrockEmbeddingModelConfiguration:
+              props.embeddingModel.modelId ===
+              bedrock.FoundationModelIdentifier.AMAZON_TITAN_EMBED_TEXT_V2_0.modelId
+                ? {
+                    dimensions: props.embeddingModel.vectorDimensions,
+                  }
+                : undefined,
+          },
+        },
+      },
+      storageConfiguration: {
+        type: "NEPTUNE",
+        neptuneAnalyticsConfiguration: {
+          graphArn: this.graph.graphArn,
+          fieldMapping: this.fieldMapping,
         },
       },
     });
 
-    // Ensure policy statement is added before creating KnowledgeBase
-    this._resource.node.addDependency(policyAddition?.policyDependable!);
-
+    // ------------------------------------------------------
+    // Attribute assignments
+    // ------------------------------------------------------
     this.knowledgeBaseArn = this._resource.attrKnowledgeBaseArn;
     this.knowledgeBaseId = this._resource.attrKnowledgeBaseId;
   }

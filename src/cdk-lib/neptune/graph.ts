@@ -11,13 +11,13 @@
  *  and limitations under the License.
  */
 
-import * as iam from 'aws-cdk-lib/aws-iam';
-import * as neptunegraph from 'aws-cdk-lib/aws-neptunegraph';
-import { Construct } from 'constructs';
-import { IResource, Resource } from 'aws-cdk-lib';
-import { BedrockFoundationModel } from '../bedrock';
-import { Metric, MetricOptions, MetricProps } from 'aws-cdk-lib/aws-cloudwatch';
-import { generatePhysicalNameV2 } from '../../common/helpers/utils';
+import * as iam from "aws-cdk-lib/aws-iam";
+import * as neptunegraph from "aws-cdk-lib/aws-neptunegraph";
+import { Construct } from "constructs";
+import { ArnFormat, IResource, Resource, Stack } from "aws-cdk-lib";
+import { BedrockFoundationModel } from "../bedrock";
+import { Metric, MetricOptions, MetricProps } from "aws-cdk-lib/aws-cloudwatch";
+import { generatePhysicalNameV2 } from "../../common/helpers/utils";
 
 /******************************************************************************
  *                              COMMON
@@ -155,7 +155,7 @@ export interface NeptuneGraphProps {
 
   /**
    * The number of replicas in other AZs.
-   * @default 1
+   * @default 0
    */
   readonly replicaCount?: number;
 }
@@ -190,12 +190,12 @@ export abstract class NeptuneGraphBase extends Resource implements INeptuneGraph
    */
   public grantQuery(grantee: iam.IGrantable): iam.Grant {
     return this.grant(grantee, [
-      'neptune-graph:GetGraph',
-      'neptune-graph:ReadDataViaQuery',
-      'neptune-graph:WriteDataViaQuery',
-      'neptune-graph:DeleteDataViaQuery',
-      'neptune-graph:GetQueryStatus',
-      'neptune-graph:CancelQuery',
+      "neptune-graph:GetGraph",
+      "neptune-graph:ReadDataViaQuery",
+      "neptune-graph:WriteDataViaQuery",
+      "neptune-graph:DeleteDataViaQuery",
+      "neptune-graph:GetQueryStatus",
+      "neptune-graph:CancelQuery",
     ]);
   }
 
@@ -203,7 +203,11 @@ export abstract class NeptuneGraphBase extends Resource implements INeptuneGraph
    * Grant the given identity the permissions to read the Graph.
    */
   public grantReadOnly(grantee: iam.IGrantable): iam.Grant {
-    return this.grant(grantee, ['neptune-graph:Get*', 'neptune-graph:List*', 'neptune-graph:Read*']);
+    return this.grant(grantee, [
+      "neptune-graph:Get*",
+      "neptune-graph:List*",
+      "neptune-graph:Read*",
+    ]);
   }
 
   /**
@@ -211,10 +215,10 @@ export abstract class NeptuneGraphBase extends Resource implements INeptuneGraph
    */
   public grantExportTask(grantee: iam.IGrantable): iam.Grant {
     return this.grant(grantee, [
-      'neptune-graph:GetExportTask',
-      'neptune-graph:ListExportTasks',
-      'neptune-graph:StartExportTask',
-      'neptune-graph:CancelExportTask',
+      "neptune-graph:GetExportTask",
+      "neptune-graph:ListExportTasks",
+      "neptune-graph:StartExportTask",
+      "neptune-graph:CancelExportTask",
     ]);
   }
 
@@ -226,7 +230,7 @@ export abstract class NeptuneGraphBase extends Resource implements INeptuneGraph
    */
   public metric(metricName: string, props?: MetricOptions): Metric {
     const metricProps: MetricProps = {
-      namespace: 'AWS/Neptune',
+      namespace: "AWS/Neptune",
       metricName,
       dimensionsMap: { GraphIdentifier: this.graphId },
       ...props,
@@ -238,77 +242,77 @@ export abstract class NeptuneGraphBase extends Resource implements INeptuneGraph
    * Returns metric for number of queued requests per second
    */
   public metricNumQueuedRequestsPerSec(props?: MetricOptions): Metric {
-    return this.metric('NumQueuedRequestsPerSec', props);
+    return this.metric("NumQueuedRequestsPerSec", props);
   }
 
   /**
    * Returns metric for number of OpenCypher requests per second
    */
   public metricNumOpenCypherRequestsPerSec(props?: MetricOptions): Metric {
-    return this.metric('NumOpenCypherRequestsPerSec', props);
+    return this.metric("NumOpenCypherRequestsPerSec", props);
   }
 
   /**
    * Returns metric for number of OpenCypher client errors per second
    */
   public metricNumOpenCypherClientErrorsPerSec(props?: MetricOptions): Metric {
-    return this.metric('NumOpenCypherClientErrorsPerSec', props);
+    return this.metric("NumOpenCypherClientErrorsPerSec", props);
   }
 
   /**
    * Returns metric for number of OpenCypher server errors per second
    */
   public metricNumOpenCypherServerErrorsPerSec(props?: MetricOptions): Metric {
-    return this.metric('NumOpenCypherServerErrorsPerSec', props);
+    return this.metric("NumOpenCypherServerErrorsPerSec", props);
   }
 
   /**
    * Returns metric for number of edge properties
    */
   public metricNumEdgeProperties(props?: MetricOptions): Metric {
-    return this.metric('NumEdgeProperties', props);
+    return this.metric("NumEdgeProperties", props);
   }
 
   /**
    * Returns metric for number of edges
    */
   public metricNumEdges(props?: MetricOptions): Metric {
-    return this.metric('NumEdges', props);
+    return this.metric("NumEdges", props);
   }
 
   /**
    * Returns metric for CPU utilization
    */
   public metricCPUUtilization(props?: MetricOptions): Metric {
-    return this.metric('CPUUtilization', props);
+    return this.metric("CPUUtilization", props);
   }
 
   /**
    * Returns metric for number of vectors
    */
   public metricNumVectors(props?: MetricOptions): Metric {
-    return this.metric('NumVectors', props);
+    return this.metric("NumVectors", props);
   }
 
   /**
    * Returns metric for number of vertex properties
    */
   public metricNumVertexProperties(props?: MetricOptions): Metric {
-    return this.metric('NumVertexProperties', props);
+    return this.metric("NumVertexProperties", props);
   }
 
   /**
    * Returns metric for graph size in bytes
    */
   public metricGraphSizeBytes(props?: MetricOptions): Metric {
-    return this.metric('GraphSizeBytes', props);
+    return this.metric("GraphSizeBytes", props);
   }
 
   /**
    * Returns metric for graph storage usage percentage
    */
   public metricGraphStorageUsagePercent(props?: MetricOptions): Metric {
-    return this.metric('GraphStorageUsagePercent', props);
+    return this.metric("GraphStorageUsagePercent", props);
   }
 
   private configureMetric(props: MetricProps) {
@@ -328,6 +332,27 @@ export abstract class NeptuneGraphBase extends Resource implements INeptuneGraph
  * @cloudformationResource AWS::NeptuneGraph::Graph
  */
 export class NeptuneGraph extends NeptuneGraphBase implements INeptuneGraph {
+  // ------------------------------------------------------
+  // Import Methods
+  // ------------------------------------------------------
+  public static fromGraphId(scope: Construct, id: string, graphId: string): INeptuneGraph {
+    class Import extends NeptuneGraphBase {
+      public readonly graphId = graphId;
+      public readonly graphArn = Stack.of(scope).formatArn({
+        service: "neptune-graph",
+        resource: "graph",
+        resourceName: graphId,
+        arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
+      });
+      public readonly graphEndpoint = `${graphId}.${
+        Stack.of(scope).region
+      }.neptune-graph.amazonaws.com`;
+    }
+
+    return new Import(scope, id);
+  } // ------------------------------------------------------
+  // Attributes
+  // ------------------------------------------------------
   public readonly graphId: string;
   public readonly graphArn: string;
   public readonly graphEndpoint: string;
@@ -345,14 +370,15 @@ export class NeptuneGraph extends NeptuneGraphBase implements INeptuneGraph {
     // Set properties or defaults
     // ------------------------------------------------------
     this.provisionedMemory = props.provisionedMemory ?? 16;
-    this.graphName = props.graphName ?? generatePhysicalNameV2(this, 'bedrock-kb-graph', { separator: '-' });
+    this.graphName =
+      props.graphName ?? generatePhysicalNameV2(this, "bedrock-kb-graph", { separator: "-" });
     this.publicConnectivity = props.publicConnectivity ?? false;
-    this.replicaCount = props.replicaCount ?? 1;
+    this.replicaCount = props.replicaCount ?? 0;
 
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
-    this._resource = new neptunegraph.CfnGraph(this, 'Graph', {
+    this._resource = new neptunegraph.CfnGraph(this, "Resource", {
       provisionedMemory: this.provisionedMemory,
       graphName: this.graphName,
       publicConnectivity: this.publicConnectivity,
