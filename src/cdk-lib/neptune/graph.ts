@@ -18,6 +18,7 @@ import { ArnFormat, IResource, Resource, Stack } from "aws-cdk-lib";
 import { BedrockFoundationModel } from "../bedrock";
 import { Metric, MetricOptions, MetricProps } from "aws-cdk-lib/aws-cloudwatch";
 import { generatePhysicalNameV2 } from "../../common/helpers/utils";
+import { NeptuneGraphNotebook } from "./notebook";
 
 /******************************************************************************
  *                              COMMON
@@ -39,9 +40,20 @@ export interface INeptuneGraph extends IResource {
   readonly graphArn: string;
 
   /**
+   * The Neptune Graph endpoint.
+   * @example 'g-12a3bcdef4.us-east-1.neptune-graph.amazonaws.com'
+   */
+  readonly graphEndpoint: string;
+
+  /**
    * Grant the given principal identity permissions to perform actions on this agent alias.
    */
   grant(grantee: iam.IGrantable, actions: string[]): iam.Grant;
+
+  /**
+   * Grant the given identity full access to the Graph.
+   */
+  grantFullAccess(grantee: iam.IGrantable): iam.Grant;
 
   /**
    * Grant the given identity the permissions to query the Graph.
@@ -127,15 +139,15 @@ export interface INeptuneGraph extends IResource {
  */
 export interface NeptuneGraphProps {
   /**
-   * The Bedrock Embedding model used to save vectors.
+   * The Dimension used to save vectors.
    */
-  readonly embeddingModel: BedrockFoundationModel;
+  readonly vectorSearchDimension?: number;
 
   /**
    * The amount of memory (in Neptune Capacity Units m-NCUs) to use for the graph.
    * @default 16
    */
-  readonly provisionedMemory?: number;
+  readonly provisionedMemoryNCUs?: number;
 
   /**
    * The graph name. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter.
@@ -149,15 +161,47 @@ export interface NeptuneGraphProps {
    * When the graph is publicly available, its domain name system (DNS) endpoint resolves to the public IP address from the internet.
    * When the graph isn't publicly available, you need to create a PrivateGraphEndpoint in a given VPC to ensure the DNS name
    * resolves to a private IP address that is reachable from the VPC.
-   * @default false
+   * @default true
    */
   readonly publicConnectivity?: boolean;
 
   /**
    * The number of replicas in other AZs.
+   * Replicas are typically only needed for production critical workloads with strict availability requirements.
+   * **Note: Each replica incurs additional cost as it maintains a full copy of the graph data.**
    * @default 0
    */
   readonly replicaCount?: number;
+
+  /**
+   * Indicates whether the Graph should have deletion protection enabled.
+   * @default false
+   */
+  readonly deletionProtection?: boolean;
+
+  /**
+   * Whether to create a Neptune Graph Notebook for the graph. Defaults to a ml.t3.medium instance type.
+   * For custom instance types and configurations, use the `NeptuneGraphNotebook` construct directly.
+   *
+   * A Neptune Graph Notebook provides:
+   * - Web-based interactive environment for querying and visualizing graph data
+   * - Support for multiple query languages:
+   *   - OpenCypher for property graph queries
+   *   - Gremlin for traversal-based queries
+   *   - SPARQL for RDF graph queries
+   * - Built-in visualization capabilities for exploring graph relationships
+   * - Sample notebooks and tutorials to help you get started
+   * - Integration with popular data science libraries   *
+   * This option is only supported when `publicConnectivity` is set to `true`. For private graphs,
+   * you should create your own notebook deployment using the `NeptuneGraphNotebook` Construct and
+   * configure the appropriate VPC and security group settings.
+   *
+   * **Note: Creating a notebook will incur additional AWS costs for the notebook instance.**
+   *
+   * @default false
+   * @see https://docs.aws.amazon.com/neptune/latest/userguide/graph-notebooks.html
+   */
+  readonly notebook?: boolean;
 }
 
 /******************************************************************************
@@ -183,6 +227,13 @@ export abstract class NeptuneGraphBase extends Resource implements INeptuneGraph
       resourceArns: [this.graphArn],
       scope: this,
     });
+  }
+
+  /**
+   * Grant the given identity full access to the Graph.
+   */
+  public grantFullAccess(grantee: iam.IGrantable): iam.Grant {
+    return this.grant(grantee, ["neptune-graph:*"]);
   }
 
   /**
@@ -344,7 +395,7 @@ export class NeptuneGraph extends NeptuneGraphBase implements INeptuneGraph {
         resourceName: graphId,
         arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
       });
-      public readonly graphEndpoint = `${graphId}.${
+      public readonly graphEndpoint = `${this.graphId}.${
         Stack.of(scope).region
       }.neptune-graph.amazonaws.com`;
     }
@@ -369,10 +420,15 @@ export class NeptuneGraph extends NeptuneGraphBase implements INeptuneGraph {
     // ------------------------------------------------------
     // Set properties or defaults
     // ------------------------------------------------------
-    this.provisionedMemory = props.provisionedMemory ?? 16;
+    this.provisionedMemory = props.provisionedMemoryNCUs ?? 16;
     this.graphName =
-      props.graphName ?? generatePhysicalNameV2(this, "bedrock-kb-graph", { separator: "-" });
-    this.publicConnectivity = props.publicConnectivity ?? false;
+      props.graphName ??
+      generatePhysicalNameV2(this, "bedrock-kb-graph", {
+        separator: "-",
+        maxLength: 63,
+        lower: true,
+      });
+    this.publicConnectivity = props.publicConnectivity ?? true;
     this.replicaCount = props.replicaCount ?? 0;
 
     // ------------------------------------------------------
@@ -383,13 +439,26 @@ export class NeptuneGraph extends NeptuneGraphBase implements INeptuneGraph {
       graphName: this.graphName,
       publicConnectivity: this.publicConnectivity,
       replicaCount: this.replicaCount,
-      vectorSearchConfiguration: {
-        vectorSearchDimension: props.embeddingModel.vectorDimensions!,
-      },
+      vectorSearchConfiguration: props.vectorSearchDimension
+        ? {
+            vectorSearchDimension: props.vectorSearchDimension,
+          }
+        : undefined,
+      deletionProtection: props.deletionProtection ?? false,
     });
 
     this.graphArn = this._resource.attrGraphArn;
     this.graphId = this._resource.attrGraphId;
     this.graphEndpoint = this._resource.attrEndpoint;
+
+    // ------------------------------------------------------
+    // Notebook
+    // ------------------------------------------------------
+    if (props.notebook ?? false) {
+      const notebook = new NeptuneGraphNotebook(this, "Notebook", {
+        graph: this,
+      });
+      notebook.node.addDependency(this._resource);
+    }
   }
 }

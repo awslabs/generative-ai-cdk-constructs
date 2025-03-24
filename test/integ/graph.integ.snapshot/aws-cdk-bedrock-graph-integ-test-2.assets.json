@@ -1,0 +1,20 @@
+{
+  "version": "39.0.0",
+  "files": {
+    "eb39ee93bc02e294805884fbe4d776a28b1f60c5585e91e52e420aa87a8dad60": {
+      "source": {
+        "path": "aws-cdk-bedrock-graph-integ-test-2.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-us-east-1": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
+          "objectKey": "eb39ee93bc02e294805884fbe4d776a28b1f60c5585e91e52e420aa87a8dad60.json",
+          "region": "us-east-1",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

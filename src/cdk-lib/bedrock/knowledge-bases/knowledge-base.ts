@@ -234,7 +234,7 @@ export abstract class KnowledgeBaseBase extends Resource implements IKnowledgeBa
  */
 export function createKnowledgeBaseServiceRole(scope: Construct): iam.Role {
   return new iam.Role(scope, "Role", {
-    roleName: generatePhysicalNameV2(this, "AmazonBedrockExecutionRoleForKnowledgeBase", {
+    roleName: generatePhysicalNameV2(scope, "AmazonBedrockExecutionRoleForKnowledgeBase", {
       maxLength: 64,
     }),
     assumedBy: new iam.ServicePrincipal("bedrock.amazonaws.com", {

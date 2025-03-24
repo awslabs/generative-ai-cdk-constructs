@@ -27,6 +27,7 @@ import { generatePhysicalNameV2 } from "../../../common/helpers/utils";
 import { INeptuneGraph, NeptuneGraph } from "../../neptune/graph";
 import { VectorKnowledgeBaseBase } from "./vector-knowledge-base";
 import { BedrockFoundationModel } from "../models";
+import { NeptuneGraphNotebook } from "../../neptune/notebook";
 
 /******************************************************************************
  *                             COMMON INTERFACES
@@ -76,6 +77,13 @@ export interface GraphKnowledgeBaseProps extends CommonKnowledgeBaseProps {
    * @default - { metadataField: "AMAZON_BEDROCK_METADATA", textField: "AMAZON_BEDROCK_TEXT" }
    */
   readonly fieldMapping?: VectorFieldMapping;
+
+  /**
+   * The Foundation model to to automatically build graphs for your knowledge base.
+   * This automatically enables contextual enrichment.
+   * As of March 2025 only Claude 3 Haiku v1 is supported.
+   */
+  //readonly graphBuildFoundationModel?: BedrockFoundationModel;
 }
 
 /******************************************************************************
@@ -113,6 +121,29 @@ export abstract class GraphKnowledgeBaseBase extends VectorKnowledgeBaseBase {
 /******************************************************************************
  *                        		  CONSTRUCT
  *****************************************************************************/
+/**
+ * Creates a new Amazon Bedrock Knowledge Base using a Neptune Analytics vector store, this is also known as GraphRAG.
+ *
+ * GraphRAG is a capability that combines graph modeling with generative AI to enhance retrieval-augmented generation (RAG).
+ * It automatically identifies and leverages relationships between entities and structural elements within documents,
+ * enabling more comprehensive and contextually relevant responses from foundation models.
+ *
+ * Key benefits:
+ * - More relevant responses by leveraging relationships between entities and structural elements across documents
+ * - Enhanced search capabilities that connect content through multiple logical steps
+ * - Better cross-document reasoning for more precise and contextually accurate answers
+ * - Reduced hallucinations through improved information connectivity
+ *
+ * Limitations:
+ * - AWS PrivateLink VPC endpoint connectivity is not supported
+ * - Graph build configuration options are not customizable
+ * - Autoscaling is not supported for Neptune Analytics graphs
+ * - Only supports Amazon S3 as data source
+ * - Uses Claude 3 Haiku model for automatic graph building with contextual enrichment
+ * - Each data source limited to 1000 files (can be increased to max 10000 files)
+ *
+ * @see https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-build-graphs.html
+ */
 export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
   // ------------------------------------------------------
   // Import Methods
@@ -151,6 +182,7 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
   public readonly knowledgeBaseId: string;
   public readonly role: iam.IRole;
   public readonly description?: string;
+  public readonly notebook?: NeptuneGraphNotebook;
   public readonly instruction?: string;
   public readonly graph: INeptuneGraph;
 
@@ -158,6 +190,16 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
    * The name of the knowledge base.
    */
   public readonly name: string;
+
+  /**
+   * The embeddings model for the knowledge base.
+   */
+  public readonly embeddingModel: BedrockFoundationModel;
+
+  /**
+   * The Foundation model to to automatically build graphs for your knowledge base.
+   */
+  public readonly graphBuildFoundationModel: BedrockFoundationModel;
 
   /**
    * The vector field mapping configuration.
@@ -171,11 +213,17 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
     // ------------------------------------------------------
     // Set properties or defaults
     // ------------------------------------------------------
+    this.embeddingModel = props.embeddingModel;
+    // As of March 2025 only Claude 3 Haiku v1 is supported, that is why it is hardcoded.
+    // check
+    this.graphBuildFoundationModel = BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0;
+    // Create a new graph if not specified.
     this.graph =
       props.graph ??
       new NeptuneGraph(this, "Graph", {
-        embeddingModel: props.embeddingModel,
+        vectorSearchDimension: this.embeddingModel.vectorDimensions!,
       });
+
     this.name =
       props.name ?? generatePhysicalNameV2(this, "graph-kb", { maxLength: 32, separator: "-" });
     this.instruction = props.instruction;
@@ -184,6 +232,7 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
       metadataField: props.fieldMapping?.metadataField ?? "AMAZON_BEDROCK_METADATA",
       textField: props.fieldMapping?.textField ?? "AMAZON_BEDROCK_TEXT",
     };
+    this.embeddingModel = props.embeddingModel;
 
     // ------------------------------------------------------
     // Role
@@ -194,9 +243,14 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
     // ------------------------------------------------------
     // Grant permissions
     // ------------------------------------------------------
-    // Grant the service role permissions to query the Neptune Analytics vector store
+    // Add permissions only if it is a newly created role
     if (!props.existingRole) {
-      const grant = this.graph.grantQuery(this.role);
+      let grant = this.graph.grantQuery(this.role);
+      // Allow KB to create embeddings when ingesting data
+      grant = grant.combine(this.embeddingModel.grantInvoke(this.role));
+      // Allow KB to invoke FM that automatically build graphs for your knowledge base
+      grant = grant.combine(this.graphBuildFoundationModel.grantInvoke(this.role));
+      // Ensure the permissions are in place before KB creation
       grant.applyBefore(this._resource);
     }
 
@@ -224,13 +278,13 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
           },
         },
       },
-      storageConfiguration: {
-        type: "NEPTUNE",
-        neptuneAnalyticsConfiguration: {
-          graphArn: this.graph.graphArn,
-          fieldMapping: this.fieldMapping,
-        },
-      },
+      // storageConfiguration: {
+      //   type: "NEPTUNE",
+      //   neptuneAnalyticsConfiguration: {
+      //     graphArn: this.graph.graphArn,
+      //     fieldMapping: this.fieldMapping,
+      //   },
+      // },
     });
 
     // ------------------------------------------------------
