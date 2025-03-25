@@ -32,9 +32,9 @@
 - [JumpStartModel](classes/JumpStartModel.md)
 - [JumpStartSageMakerEndpoint](classes/JumpStartSageMakerEndpoint.md)
 - [LangfuseDeployment](classes/LangfuseDeployment.md)
+- [LangfuseVpcInfra](classes/LangfuseVpcInfra.md)
 - [SageMakerEndpointBase](classes/SageMakerEndpointBase.md)
 - [SageMakerInstanceType](classes/SageMakerInstanceType.md)
-- [VpcInfra](classes/VpcInfra.md)
 
 ## Interfaces
 
@@ -53,8 +53,8 @@
 - [IInstanceValiant](interfaces/IInstanceValiant.md)
 - [IJumpStartModelSpec](interfaces/IJumpStartModelSpec.md)
 - [ILangfuseDeploymentProps](interfaces/ILangfuseDeploymentProps.md)
+- [ILangfuseVpcInfraProps](interfaces/ILangfuseVpcInfraProps.md)
 - [IndexMonitoringProps](interfaces/IndexMonitoringProps.md)
-- [IVpcInfraProps](interfaces/IVpcInfraProps.md)
 - [JumpStartSageMakerEndpointProps](interfaces/JumpStartSageMakerEndpointProps.md)
 - [ModelMonitoringProps](interfaces/ModelMonitoringProps.md)
 

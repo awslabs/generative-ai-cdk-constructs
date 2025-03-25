@@ -13,4 +13,4 @@
 
 export { IClickHouseDeploymentProps, ClickHouseDeployment } from './clickhouse';
 export { ILangfuseDeploymentProps, LangfuseDeployment } from './main';
-export { IVpcInfraProps, VpcInfra } from './vpc';
+export { ILangfuseVpcInfraProps, LangfuseVpcInfra } from './vpc';
