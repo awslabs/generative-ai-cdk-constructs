@@ -24,14 +24,17 @@
 - [BedrockBatchSfn](classes/BedrockBatchSfn.md)
 - [BedrockCwDashboard](classes/BedrockCwDashboard.md)
 - [BedrockDataAutomation](classes/BedrockDataAutomation.md)
+- [ClickHouseDeployment](classes/ClickHouseDeployment.md)
 - [ContainerImage](classes/ContainerImage.md)
 - [CustomSageMakerEndpoint](classes/CustomSageMakerEndpoint.md)
 - [DeepLearningContainerImage](classes/DeepLearningContainerImage.md)
 - [HuggingFaceSageMakerEndpoint](classes/HuggingFaceSageMakerEndpoint.md)
 - [JumpStartModel](classes/JumpStartModel.md)
 - [JumpStartSageMakerEndpoint](classes/JumpStartSageMakerEndpoint.md)
+- [LangfuseDeployment](classes/LangfuseDeployment.md)
 - [SageMakerEndpointBase](classes/SageMakerEndpointBase.md)
 - [SageMakerInstanceType](classes/SageMakerInstanceType.md)
+- [VpcInfra](classes/VpcInfra.md)
 
 ## Interfaces
 
@@ -45,10 +48,13 @@
 - [ContainerImageConfig](interfaces/ContainerImageConfig.md)
 - [CustomSageMakerEndpointProps](interfaces/CustomSageMakerEndpointProps.md)
 - [HuggingFaceSageMakerEndpointProps](interfaces/HuggingFaceSageMakerEndpointProps.md)
+- [IClickHouseDeploymentProps](interfaces/IClickHouseDeploymentProps.md)
 - [IInstanceAliase](interfaces/IInstanceAliase.md)
 - [IInstanceValiant](interfaces/IInstanceValiant.md)
 - [IJumpStartModelSpec](interfaces/IJumpStartModelSpec.md)
+- [ILangfuseDeploymentProps](interfaces/ILangfuseDeploymentProps.md)
 - [IndexMonitoringProps](interfaces/IndexMonitoringProps.md)
+- [IVpcInfraProps](interfaces/IVpcInfraProps.md)
 - [JumpStartSageMakerEndpointProps](interfaces/JumpStartSageMakerEndpointProps.md)
 - [ModelMonitoringProps](interfaces/ModelMonitoringProps.md)
 
