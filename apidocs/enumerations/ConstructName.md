@@ -45,4 +45,4 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 
 ### LANGFUSEDEPLOYMENT
 
-> **LANGFUSEDEPLOYMENT**: `"C8"`
+> **LANGFUSEDEPLOYMENT**: `"C11"`
