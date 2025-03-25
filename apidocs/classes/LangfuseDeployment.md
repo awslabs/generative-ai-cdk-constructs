@@ -2,25 +2,26 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../README.md) / BaseClass
+[@cdklabs/generative-ai-cdk-constructs](../README.md) / LangfuseDeployment
 
-# Class: BaseClass
+# Class: LangfuseDeployment
+
+Construct to deploy Langfuse using ECS Fargate and native AWS database services
+
+This is a basic pattern intended for initial experimentation with Langfuse and not scaled
+production deployments: Auto-scaling is not configured across all of the different services
+created. For more information on best-practices for hosting Langfuse, see:
+https://langfuse.com/self-hosting
 
 ## Extends
 
-- `Construct`
-
-## Extended by
-
-- [`SageMakerEndpointBase`](SageMakerEndpointBase.md)
-- [`BedrockDataAutomation`](BedrockDataAutomation.md)
-- [`LangfuseDeployment`](LangfuseDeployment.md)
+- [`BaseClass`](BaseClass.md)
 
 ## Constructors
 
-### Constructor
+### new LangfuseDeployment()
 
-> **new BaseClass**(`scope`, `id`): `BaseClass`
+> **new LangfuseDeployment**(`scope`, `id`, `props`): [`LangfuseDeployment`](LangfuseDeployment.md)
 
 #### Parameters
 
@@ -32,13 +33,17 @@
 
 `string`
 
+##### props
+
+[`ILangfuseDeploymentProps`](../interfaces/ILangfuseDeploymentProps.md)
+
 #### Returns
 
-`BaseClass`
+[`LangfuseDeployment`](LangfuseDeployment.md)
 
 #### Overrides
 
-`Construct.constructor`
+[`BaseClass`](BaseClass.md).[`constructor`](BaseClass.md#constructors)
 
 ## Properties
 
@@ -47,6 +52,22 @@
 > `readonly` **constructUsageMetric**: `"uksb-1tupboc45"` = `'uksb-1tupboc45'`
 
 construct usage metric , added in template description
+
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`constructUsageMetric`](BaseClass.md#constructusagemetric)
+
+***
+
+### dnsNamespace
+
+> `readonly` **dnsNamespace**: `PrivateDnsNamespace`
+
+***
+
+### ecsCluster
+
+> `readonly` **ecsCluster**: `ICluster`
 
 ***
 
@@ -62,6 +83,10 @@ enable disable xray tracing
 - True
 ```
 
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`enablexray`](BaseClass.md#enablexray)
+
 ***
 
 ### fieldLogLevel
@@ -69,6 +94,10 @@ enable disable xray tracing
 > **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
 
 Default  log config for all constructs
+
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`fieldLogLevel`](BaseClass.md#fieldloglevel)
 
 ***
 
@@ -84,6 +113,10 @@ enable disable lambda tracing
 - Active
 ```
 
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`lambdaTracing`](BaseClass.md#lambdatracing)
+
 ***
 
 ### node
@@ -94,7 +127,7 @@ The tree node.
 
 #### Inherited from
 
-`Construct.node`
+[`BaseClass`](BaseClass.md).[`node`](BaseClass.md#node)
 
 ***
 
@@ -103,6 +136,10 @@ The tree node.
 > **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
 
 Default  log retention config for all constructs
+
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`retention`](BaseClass.md#retention)
 
 ***
 
@@ -118,6 +155,10 @@ Value will be appended to resources name.
 - _dev
 ```
 
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`stage`](BaseClass.md#stage)
+
 ***
 
 ### usageMetricMap
@@ -125,6 +166,22 @@ Value will be appended to resources name.
 > `protected` `static` **usageMetricMap**: `Record`\<`string`, `number`\>
 
 Record<string, number> , maps construct name with number of deployments
+
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`usageMetricMap`](BaseClass.md#usagemetricmap)
+
+## Accessors
+
+### url
+
+#### Get Signature
+
+> **get** **url**(): `string`
+
+##### Returns
+
+`string`
 
 ## Methods
 
@@ -142,6 +199,10 @@ Record<string, number> , maps construct name with number of deployments
 
 `void`
 
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`addObservabilityToConstruct`](BaseClass.md#addobservabilitytoconstruct)
+
 ***
 
 ### toString()
@@ -156,7 +217,7 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-`Construct.toString`
+[`BaseClass`](BaseClass.md).[`toString`](BaseClass.md#tostring)
 
 ***
 
@@ -182,6 +243,10 @@ Returns a string representation of this construct.
 
 `void`
 
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`updateConstructUsageMetricCode`](BaseClass.md#updateconstructusagemetriccode)
+
 ***
 
 ### updateEnvSuffix()
@@ -197,6 +262,10 @@ Returns a string representation of this construct.
 #### Returns
 
 `void`
+
+#### Inherited from
+
+[`BaseClass`](BaseClass.md).[`updateEnvSuffix`](BaseClass.md#updateenvsuffix)
 
 ***
 
@@ -236,4 +305,4 @@ true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-`Construct.isConstruct`
+[`BaseClass`](BaseClass.md).[`isConstruct`](BaseClass.md#isconstruct)
