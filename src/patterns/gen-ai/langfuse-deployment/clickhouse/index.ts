@@ -1,23 +1,34 @@
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-// SPDX-License-Identifier: Apache-2.0
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
+
 // NodeJS Built-Ins:
-import * as path from "path";
+import * as path from 'path';
 
 // External Dependencies:
-import * as cdk from "aws-cdk-lib";
-import * as ec2 from "aws-cdk-lib/aws-ec2";
-import * as ecrassets from "aws-cdk-lib/aws-ecr-assets";
-import * as ecs from "aws-cdk-lib/aws-ecs";
-import * as iam from "aws-cdk-lib/aws-iam";
-import * as logs from "aws-cdk-lib/aws-logs";
-import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
-import * as servicediscovery from "aws-cdk-lib/aws-servicediscovery";
-import { NagSuppressions } from "cdk-nag";
-import { Construct } from "constructs";
+import * as cdk from 'aws-cdk-lib';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as ecrassets from 'aws-cdk-lib/aws-ecr-assets';
+import * as ecs from 'aws-cdk-lib/aws-ecs';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as logs from 'aws-cdk-lib/aws-logs';
+import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
+import * as servicediscovery from 'aws-cdk-lib/aws-servicediscovery';
+import { NagSuppressions } from 'cdk-nag';
+import { Construct } from 'constructs';
 
 // Local Dependencies:
-import { ECRRepoAndDockerImage } from "../ecr";
-import { EFSWithSecurityGroups } from "./efs";
+import { ECRRepoAndDockerImage } from '../ecr';
+import { EFSWithSecurityGroups } from './efs';
 
 export interface IClickHouseDeploymentProps {
   /**
@@ -79,13 +90,13 @@ interface IPortSpec {
 }
 const CLICKHOUSE_PORT_HTTP: IPortSpec = {
   port: 8123,
-  description: "ClickHouse HTTP interface",
+  description: 'ClickHouse HTTP interface',
   internal: false,
   protocol: ecs.Protocol.TCP,
 };
 const CLICKHOUSE_PORT_NATIVE: IPortSpec = {
   port: 9000,
-  description: "ClickHouse native interface",
+  description: 'ClickHouse native interface',
   internal: false,
   protocol: ecs.Protocol.TCP,
 };
@@ -93,92 +104,92 @@ const CLICKHOUSE_PORTS = [
   CLICKHOUSE_PORT_HTTP,
   {
     port: 2181,
-    description: "Zookeeper default port",
+    description: 'Zookeeper default port',
     internal: true,
     protocol: ecs.Protocol.TCP,
   },
   {
     port: 8443,
-    description: "ClickHouse HTTPS interface",
+    description: 'ClickHouse HTTPS interface',
     internal: false,
     protocol: ecs.Protocol.TCP,
   },
   CLICKHOUSE_PORT_NATIVE,
   {
     port: 9004,
-    description: "ClickHouse MySQL emulation",
+    description: 'ClickHouse MySQL emulation',
     internal: false,
     protocol: ecs.Protocol.TCP,
   },
   {
     port: 9005,
-    description: "ClickHouse Postgres emulation",
+    description: 'ClickHouse Postgres emulation',
     internal: false,
     protocol: ecs.Protocol.TCP,
   },
   {
     port: 9009,
-    description: "ClickHouse interserver interface",
+    description: 'ClickHouse interserver interface',
     internal: true,
     protocol: ecs.Protocol.TCP,
   },
   {
     port: 9010,
-    description: "ClickHouse interserver SSL interface",
+    description: 'ClickHouse interserver SSL interface',
     internal: true,
     protocol: ecs.Protocol.TCP,
   },
   {
     port: 9011,
-    description: "ClickHouse native proxy v1",
+    description: 'ClickHouse native proxy v1',
     internal: false,
     protocol: ecs.Protocol.TCP,
   },
   {
     port: 9019,
-    description: "ClickHouse JDBC bridge",
+    description: 'ClickHouse JDBC bridge',
     internal: false,
     protocol: ecs.Protocol.TCP,
   },
   {
     port: 9100,
-    description: "ClickHouse gRPC interface",
+    description: 'ClickHouse gRPC interface',
     internal: false,
     protocol: ecs.Protocol.TCP,
   },
   {
     port: 9181,
-    description: "ClickHouse keeper",
+    description: 'ClickHouse keeper',
     internal: true,
     protocol: ecs.Protocol.TCP,
   },
   {
     port: 9234,
-    description: "ClickHouse keeper raft",
+    description: 'ClickHouse keeper raft',
     internal: true,
     protocol: ecs.Protocol.TCP,
   },
   {
     port: 9363,
-    description: "ClickHouse Prometheus metrics",
+    description: 'ClickHouse Prometheus metrics',
     internal: false,
     protocol: ecs.Protocol.TCP,
   },
   {
     port: 9281,
-    description: "ClickHouse keeper SSL",
+    description: 'ClickHouse keeper SSL',
     internal: false,
     protocol: ecs.Protocol.TCP,
   },
   {
     port: 9440,
-    description: "ClickHouse native SSL",
+    description: 'ClickHouse native SSL',
     internal: false,
     protocol: ecs.Protocol.TCP,
   },
   {
     port: 42000,
-    description: "ClickHouse graphite",
+    description: 'ClickHouse graphite',
     internal: true,
     protocol: ecs.Protocol.TCP,
   },
@@ -206,16 +217,16 @@ export class ClickHouseDeployment extends Construct {
 
     const cpu = props.cpu || 1024;
     const memoryLimitMiB = props.memoryLimitMiB || 8192;
-    const serviceName = props.serviceName || "clickhouse";
-    const version = props.version || "25.1";
+    const serviceName = props.serviceName || 'clickhouse';
+    const version = props.version || '25.1';
 
-    this.secret = new secretsmanager.Secret(this, "Secret", {
+    this.secret = new secretsmanager.Secret(this, 'Secret', {
       generateSecretString: {
         secretStringTemplate: JSON.stringify({
-          database: "default",
-          user: "clickhouse",
+          database: 'default',
+          user: 'clickhouse',
         }),
-        generateStringKey: "password",
+        generateStringKey: 'password',
         excludePunctuation: true,
         passwordLength: 24,
       },
@@ -227,23 +238,23 @@ export class ClickHouseDeployment extends Construct {
     }
     NagSuppressions.addResourceSuppressions(this.secret, [
       {
-        id: "AwsSolutions-SMG4",
+        id: 'AwsSolutions-SMG4',
         // To support this, we'd need to automatically force restart of the Langfuse web & worker
         // containers when rotation happens
         // See: https://repost.aws/questions/QUYHw--TXvTTewJeVsT2T5QA/
-        reason: "Rotation of ClickHouse secret not implemented",
+        reason: 'Rotation of ClickHouse secret not implemented',
       },
     ]);
 
     // Unfortunately the ClickHouse configuration files are baked into the container image, so we
     // need to build a custom image to make overrides for nice ECS deployment:
-    const customImage = new ecrassets.DockerImageAsset(this, "CustomImage", {
+    const customImage = new ecrassets.DockerImageAsset(this, 'CustomImage', {
       directory: path.join(
         __dirname,
-        "..",
-        "..",
-        "assets",
-        "clickhouse-container",
+        '..',
+        '..',
+        'assets',
+        'clickhouse-container',
       ),
       platform: ecrassets.Platform.LINUX_AMD64,
       buildArgs: {
@@ -251,7 +262,7 @@ export class ClickHouseDeployment extends Construct {
       },
     });
 
-    const deployedImage = new ECRRepoAndDockerImage(this, "ECR", {
+    const deployedImage = new ECRRepoAndDockerImage(this, 'ECR', {
       // If the custom image config overrides aren't needed, a straight `clickhouse:${version}`
       // dockerImageName would work here:
       dockerImageName: customImage.imageUri,
@@ -259,22 +270,22 @@ export class ClickHouseDeployment extends Construct {
       tags: props.tags,
     });
 
-    this.efs = new EFSWithSecurityGroups(this, "EFS", {
+    this.efs = new EFSWithSecurityGroups(this, 'EFS', {
       vpc: props.vpc,
       tags: props.tags,
     });
 
     // Role used by ECS e.g. for pulling the container image, starting up.
-    const taskExecutionRole = new iam.Role(this, "ECSTaskExecutionRole", {
-      assumedBy: new iam.ServicePrincipal("ecs-tasks.amazonaws.com"),
+    const taskExecutionRole = new iam.Role(this, 'ECSTaskExecutionRole', {
+      assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
       // service-role/AmazonECSTaskExecutionRolePolicy grants pulling *all* images which is broad:
       inlinePolicies: {
         Logs: new iam.PolicyDocument({
           statements: [
             new iam.PolicyStatement({
               effect: iam.Effect.ALLOW,
-              resources: ["*"],
-              actions: ["logs:CreateLogStream", "logs:PutLogEvents"],
+              resources: ['*'],
+              actions: ['logs:CreateLogStream', 'logs:PutLogEvents'],
             }),
           ],
         }),
@@ -291,16 +302,16 @@ export class ClickHouseDeployment extends Construct {
       taskExecutionRole,
       [
         {
-          id: "AwsSolutions-IAM5",
-          reason: "Allow writing logs to any group/stream",
+          id: 'AwsSolutions-IAM5',
+          reason: 'Allow writing logs to any group/stream',
         },
       ],
       true,
     );
 
     // Role assumed by the running Clickhouse container itself:
-    const taskRole = new iam.Role(this, "ECSTaskRole", {
-      assumedBy: new iam.ServicePrincipal("ecs-tasks.amazonaws.com"),
+    const taskRole = new iam.Role(this, 'ECSTaskRole', {
+      assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
     });
     if (props.tags) {
       props.tags.forEach((tag) => {
@@ -309,9 +320,9 @@ export class ClickHouseDeployment extends Construct {
     }
     this.efs.fileSystem.grantRootAccess(taskRole);
 
-    const CLICKHOUSE_VOLUME_NAME = "clickhouse_data";
-    const taskDefinition = new ecs.FargateTaskDefinition(this, "ECSTaskDef", {
-      family: "clickhouse",
+    const CLICKHOUSE_VOLUME_NAME = 'clickhouse_data';
+    const taskDefinition = new ecs.FargateTaskDefinition(this, 'ECSTaskDef', {
+      family: 'clickhouse',
       cpu,
       memoryLimitMiB,
       executionRole: taskExecutionRole,
@@ -321,7 +332,7 @@ export class ClickHouseDeployment extends Construct {
           name: CLICKHOUSE_VOLUME_NAME,
           efsVolumeConfiguration: {
             fileSystemId: this.efs.fileSystem.fileSystemId,
-            rootDirectory: "/",
+            rootDirectory: '/',
           },
         },
       ],
@@ -337,8 +348,8 @@ export class ClickHouseDeployment extends Construct {
       );
     }
 
-    const container = taskDefinition.addContainer("ClickhouseContainer", {
-      containerName: "clickhouse",
+    const container = taskDefinition.addContainer('ClickhouseContainer', {
+      containerName: 'clickhouse',
       image: ecs.ContainerImage.fromEcrRepository(
         deployedImage.repository,
         deployedImage.imageTag,
@@ -346,16 +357,16 @@ export class ClickHouseDeployment extends Construct {
       cpu,
       memoryLimitMiB,
       secrets: {
-        CLICKHOUSE_DB: ecs.Secret.fromSecretsManager(this.secret, "database"),
-        CLICKHOUSE_USER: ecs.Secret.fromSecretsManager(this.secret, "user"),
+        CLICKHOUSE_DB: ecs.Secret.fromSecretsManager(this.secret, 'database'),
+        CLICKHOUSE_USER: ecs.Secret.fromSecretsManager(this.secret, 'user'),
         CLICKHOUSE_PASSWORD: ecs.Secret.fromSecretsManager(
           this.secret,
-          "password",
+          'password',
         ),
       },
       healthCheck: {
         command: [
-          "CMD-SHELL",
+          'CMD-SHELL',
           `wget --no-verbose --tries=1 --spider http://localhost:${CLICKHOUSE_PORT_HTTP.port}/ping || exit 1`,
         ],
         interval: cdk.Duration.minutes(2),
@@ -364,7 +375,7 @@ export class ClickHouseDeployment extends Construct {
         timeout: cdk.Duration.seconds(10),
       },
       logging: ecs.LogDriver.awsLogs({
-        streamPrefix: "clickhouse",
+        streamPrefix: 'clickhouse',
         logRetention: logs.RetentionDays.ONE_MONTH,
       }),
       portMappings: CLICKHOUSE_PORTS.map((p) => ({
@@ -382,31 +393,31 @@ export class ClickHouseDeployment extends Construct {
     });
     container.node.addDependency(deployedImage.deployment);
     container.addMountPoints({
-      containerPath: "/var/lib/clickhouse",
+      containerPath: '/var/lib/clickhouse',
       readOnly: false,
       sourceVolume: CLICKHOUSE_VOLUME_NAME,
     });
 
-    this.clientSecurityGroup = new ec2.SecurityGroup(this, "ClientSG", {
+    this.clientSecurityGroup = new ec2.SecurityGroup(this, 'ClientSG', {
       vpc: props.vpc,
       allowAllOutbound: false,
-      description: "Clients connecting to ClickHouse",
+      description: 'Clients connecting to ClickHouse',
     });
-    cdk.Tags.of(this.clientSecurityGroup).add("Name", "clickhouse-clients");
+    cdk.Tags.of(this.clientSecurityGroup).add('Name', 'clickhouse-clients');
     if (props.tags) {
       props.tags.forEach((tag) =>
         cdk.Tags.of(this.clientSecurityGroup).add(tag.key, tag.value),
       );
     }
 
-    this.nodeSecurityGroup = new ec2.SecurityGroup(this, "NodeSG", {
+    this.nodeSecurityGroup = new ec2.SecurityGroup(this, 'NodeSG', {
       vpc: props.vpc,
       // We currently rely on allowAllOutbound for ECS service nodes, because haven't set up VPC
       // endpoints for all relevant services e.g. ECR, Secrets Manager, EFS and their various DNS.
       allowAllOutbound: true,
-      description: "Nodes in ClickHouse service cluster",
+      description: 'Nodes in ClickHouse service cluster',
     });
-    cdk.Tags.of(this.nodeSecurityGroup).add("Name", "clickhouse-nodes");
+    cdk.Tags.of(this.nodeSecurityGroup).add('Name', 'clickhouse-nodes');
     if (props.tags) {
       props.tags.forEach((tag) =>
         cdk.Tags.of(this.nodeSecurityGroup).add(tag.key, tag.value),
@@ -440,7 +451,7 @@ export class ClickHouseDeployment extends Construct {
       );
     });
 
-    this.fargateService = new ecs.FargateService(this, "FargateService", {
+    this.fargateService = new ecs.FargateService(this, 'FargateService', {
       serviceName,
       cluster: props.cluster,
       taskDefinition: taskDefinition,
@@ -451,7 +462,7 @@ export class ClickHouseDeployment extends Construct {
       securityGroups: [this.nodeSecurityGroup, this.efs.clientSecurityGroup],
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
     });
-    cdk.Tags.of(this.fargateService).add("Name", serviceName);
+    cdk.Tags.of(this.fargateService).add('Name', serviceName);
     if (props.tags) {
       props.tags.forEach((tag) =>
         cdk.Tags.of(this.fargateService).add(tag.key, tag.value),
@@ -471,7 +482,7 @@ export class ClickHouseDeployment extends Construct {
   public get url() {
     if (!this.cloudMapService) {
       throw new Error(
-        "URLs are not available when cloudMapService not provided",
+        'URLs are not available when cloudMapService not provided',
       );
     }
     return `http://${this.cloudMapService.serviceName}.${this.cloudMapService.namespace.namespaceName}:${CLICKHOUSE_PORT_HTTP.port}`;
@@ -480,7 +491,7 @@ export class ClickHouseDeployment extends Construct {
   public get migrationUrl() {
     if (!this.cloudMapService) {
       throw new Error(
-        "URLs are not available when cloudMapService not provided",
+        'URLs are not available when cloudMapService not provided',
       );
     }
     return `clickhouse://${this.cloudMapService.serviceName}.${this.cloudMapService.namespace.namespaceName}:${CLICKHOUSE_PORT_NATIVE.port}`;

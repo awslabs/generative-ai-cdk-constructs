@@ -1,21 +1,32 @@
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-// SPDX-License-Identifier: Apache-2.0
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
+
 // External Dependencies:
-import * as cdk from "aws-cdk-lib";
-import * as ec2 from "aws-cdk-lib/aws-ec2";
-import * as ecs from "aws-cdk-lib/aws-ecs";
-import * as iam from "aws-cdk-lib/aws-iam";
-import * as logs from "aws-cdk-lib/aws-logs";
-import * as s3 from "aws-cdk-lib/aws-s3";
-import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
-import { NagSuppressions } from "cdk-nag";
-import { Construct } from "constructs";
+import * as cdk from 'aws-cdk-lib';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as ecs from 'aws-cdk-lib/aws-ecs';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as logs from 'aws-cdk-lib/aws-logs';
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
+import { NagSuppressions } from 'cdk-nag';
+import { Construct } from 'constructs';
 
 // Local Dependencies:
-import { CacheCluster } from "./cache";
-import { ClickHouseDeployment } from "./clickhouse";
-import { ECRRepoAndDockerImage } from "./ecr";
-import { OLTPDatabase } from "./oltp";
+import { CacheCluster } from './cache';
+import { ClickHouseDeployment } from './clickhouse';
+import { ECRRepoAndDockerImage } from './ecr';
+import { OLTPDatabase } from './oltp';
 
 /**
  * Shared construct properties for Langfuse services (shared between web and worker)
@@ -166,34 +177,34 @@ export class LangfuseServiceBase extends Construct {
     super(scope, id);
 
     const cpu = props.cpu || 2048;
-    const imageTag = props.imageTag || "3";
+    const imageTag = props.imageTag || '3';
     const memoryLimitMiB = props.memoryLimitMiB || 4096;
     const numReplicas = props.numReplicas || 1;
-    const s3EventUploadPrefix = props.s3EventUploadPrefix || "langfuse-events/";
-    const s3MediaUploadPrefix = props.s3MediaUploadPrefix || "langfuse-media/";
-    if (props.s3BatchExportPrefix && !props.s3BatchExportPrefix.endsWith("/")) {
+    const s3EventUploadPrefix = props.s3EventUploadPrefix || 'langfuse-events/';
+    const s3MediaUploadPrefix = props.s3MediaUploadPrefix || 'langfuse-media/';
+    if (props.s3BatchExportPrefix && !props.s3BatchExportPrefix.endsWith('/')) {
       throw new Error(
         `s3BatchExportPrefix, if provided, must end with a '/'. Got: ${props.s3BatchExportPrefix}`,
       );
     }
 
-    const image = new ECRRepoAndDockerImage(this, "ECR", {
+    const image = new ECRRepoAndDockerImage(this, 'ECR', {
       dockerImageName: `${props.imageName}:${imageTag}`,
       ecrImageTag: imageTag,
       tags: props.tags,
     });
 
     // Role used by ECS e.g. for pulling the container image, starting up.
-    const taskExecutionRole = new iam.Role(this, "ECSTaskExecutionRole", {
-      assumedBy: new iam.ServicePrincipal("ecs-tasks.amazonaws.com"),
+    const taskExecutionRole = new iam.Role(this, 'ECSTaskExecutionRole', {
+      assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
       // service-role/AmazonECSTaskExecutionRolePolicy grants pulling *all* images which is broad:
       inlinePolicies: {
         Logs: new iam.PolicyDocument({
           statements: [
             new iam.PolicyStatement({
               effect: iam.Effect.ALLOW,
-              resources: ["*"],
-              actions: ["logs:CreateLogStream", "logs:PutLogEvents"],
+              resources: ['*'],
+              actions: ['logs:CreateLogStream', 'logs:PutLogEvents'],
             }),
           ],
         }),
@@ -206,35 +217,35 @@ export class LangfuseServiceBase extends Construct {
       taskExecutionRole,
       [
         {
-          id: "AwsSolutions-IAM5",
-          reason: "Allow writing logs to any group/stream",
+          id: 'AwsSolutions-IAM5',
+          reason: 'Allow writing logs to any group/stream',
         },
       ],
       true,
     );
 
-    const taskRole = new iam.Role(this, "ECSTaskRole", {
+    const taskRole = new iam.Role(this, 'ECSTaskRole', {
       // roleName: `ECSTaskRole-${this.stackName}`,
-      assumedBy: new iam.ServicePrincipal("ecs-tasks.amazonaws.com"),
+      assumedBy: new iam.ServicePrincipal('ecs-tasks.amazonaws.com'),
       description: `Role for Langfuse ${props.serviceName} container(s)`,
     });
-    props.s3Bucket.grantReadWrite(taskRole, s3EventUploadPrefix + "*");
-    props.s3Bucket.grantReadWrite(taskRole, s3MediaUploadPrefix + "*");
+    props.s3Bucket.grantReadWrite(taskRole, s3EventUploadPrefix + '*');
+    props.s3Bucket.grantReadWrite(taskRole, s3MediaUploadPrefix + '*');
     if (props.s3BatchExportPrefix) {
-      props.s3Bucket.grantReadWrite(taskRole, props.s3BatchExportPrefix + "*");
+      props.s3Bucket.grantReadWrite(taskRole, props.s3BatchExportPrefix + '*');
     }
     NagSuppressions.addResourceSuppressions(
       taskRole,
       [
         {
-          id: "AwsSolutions-IAM5",
-          reason: "Allow all S3 paths under given prefixes",
+          id: 'AwsSolutions-IAM5',
+          reason: 'Allow all S3 paths under given prefixes',
         },
       ],
       true,
     );
 
-    const taskDefinition = new ecs.FargateTaskDefinition(this, "ECSTaskDef", {
+    const taskDefinition = new ecs.FargateTaskDefinition(this, 'ECSTaskDef', {
       executionRole: taskExecutionRole,
       family: `langfuse-${props.serviceName}`,
       cpu,
@@ -258,13 +269,13 @@ export class LangfuseServiceBase extends Construct {
 
       CLICKHOUSE_MIGRATION_URL: props.clickhouse.migrationUrl,
       CLICKHOUSE_URL: props.clickhouse.url,
-      CLICKHOUSE_CLUSTER_ENABLED: "false",
+      CLICKHOUSE_CLUSTER_ENABLED: 'false',
 
       // DATABASE_ARGS?
 
       REDIS_HOST: props.cache.cluster.attrPrimaryEndPointAddress,
       REDIS_PORT: props.cache.cluster.attrPrimaryEndPointPort,
-      REDIS_TLS_ENABLED: "true",
+      REDIS_TLS_ENABLED: 'true',
 
       LANGFUSE_S3_EVENT_UPLOAD_BUCKET: props.s3Bucket.bucketName,
       LANGFUSE_S3_EVENT_UPLOAD_PREFIX: s3EventUploadPrefix,
@@ -275,14 +286,14 @@ export class LangfuseServiceBase extends Construct {
       LANGFUSE_S3_MEDIA_UPLOAD_REGION: cdk.Stack.of(this).region,
 
       LANGFUSE_S3_BATCH_EXPORT_ENABLED: props.s3BatchExportPrefix
-        ? "true"
-        : "false",
+        ? 'true'
+        : 'false',
 
-      HOSTNAME: "0.0.0.0",
+      HOSTNAME: '0.0.0.0',
       LANGFUSE_ENABLE_EXPERIMENTAL_FEATURES:
-        props.enableLangfuseExperimentalFeatures ? "true" : "false",
-      NODE_ENV: "production",
-      TELEMETRY_ENABLED: props.enableLangfuseTelemetry ? "true" : "false",
+        props.enableLangfuseExperimentalFeatures ? 'true' : 'false',
+      NODE_ENV: 'production',
+      TELEMETRY_ENABLED: props.enableLangfuseTelemetry ? 'true' : 'false',
       ...(props.environment || {}),
     };
     if (props.s3BatchExportPrefix) {
@@ -290,7 +301,7 @@ export class LangfuseServiceBase extends Construct {
       taskEnv.LANGFUSE_S3_BATCH_EXPORT_REGION = cdk.Stack.of(this).region;
     }
 
-    taskDefinition.addContainer("Container", {
+    taskDefinition.addContainer('Container', {
       containerName: `langfuse-${props.serviceName}`,
       image: ecs.ContainerImage.fromEcrRepository(
         image.repository,
@@ -302,35 +313,35 @@ export class LangfuseServiceBase extends Construct {
       secrets: {
         CLICKHOUSE_DB: ecs.Secret.fromSecretsManager(
           props.clickhouse.secret,
-          "database",
+          'database',
         ),
         CLICKHOUSE_PASSWORD: ecs.Secret.fromSecretsManager(
           props.clickhouse.secret,
-          "password",
+          'password',
         ),
         CLICKHOUSE_USER: ecs.Secret.fromSecretsManager(
           props.clickhouse.secret,
-          "user",
+          'user',
         ),
         DATABASE_HOST: ecs.Secret.fromSecretsManager(
           props.oltpDb.secret,
-          "host",
+          'host',
         ),
         DATABASE_PORT: ecs.Secret.fromSecretsManager(
           props.oltpDb.secret,
-          "port",
+          'port',
         ),
         DATABASE_USERNAME: ecs.Secret.fromSecretsManager(
           props.oltpDb.secret,
-          "username",
+          'username',
         ),
         DATABASE_PASSWORD: ecs.Secret.fromSecretsManager(
           props.oltpDb.secret,
-          "password",
+          'password',
         ),
         DATABASE_NAME: ecs.Secret.fromSecretsManager(
           props.oltpDb.secret,
-          "dbname",
+          'dbname',
         ),
         ENCRYPTION_KEY: ecs.Secret.fromSecretsManager(
           props.encryptionKeySecret,
@@ -347,21 +358,21 @@ export class LangfuseServiceBase extends Construct {
     });
     NagSuppressions.addResourceSuppressions(taskDefinition, [
       {
-        id: "AwsSolutions-ECS2",
-        reason: "Secrets are separated from non-secret environment variables",
+        id: 'AwsSolutions-ECS2',
+        reason: 'Secrets are separated from non-secret environment variables',
       },
     ]);
 
-    const awsAccessSG = new ec2.SecurityGroup(this, "AWSAccess", {
+    const awsAccessSG = new ec2.SecurityGroup(this, 'AWSAccess', {
       vpc: props.vpc,
       // We currently rely on allowAllOutbound for ECS service nodes, because haven't set up VPC
       // endpoints for all relevant services e.g. ECR, Secrets Manager, EFS and their various DNS.
       allowAllOutbound: true,
       description:
-        "Open outbound access for Langfuse containers to reach non-VPC AWS service endpoints",
+        'Open outbound access for Langfuse containers to reach non-VPC AWS service endpoints',
     });
     cdk.Tags.of(awsAccessSG).add(
-      "Name",
+      'Name',
       `langfuse-${props.serviceName}-awsaccess`,
     );
     if (props.tags) {
@@ -370,7 +381,7 @@ export class LangfuseServiceBase extends Construct {
       );
     }
 
-    this.fargateService = new ecs.FargateService(this, "FargateService", {
+    this.fargateService = new ecs.FargateService(this, 'FargateService', {
       serviceName: `langfuse_${props.serviceName}`,
       cluster: props.cluster,
       taskDefinition,
@@ -388,7 +399,7 @@ export class LangfuseServiceBase extends Construct {
       },
     });
     cdk.Tags.of(this.fargateService).add(
-      "Name",
+      'Name',
       `langfuse_${props.serviceName}`,
     );
     if (props.tags) {

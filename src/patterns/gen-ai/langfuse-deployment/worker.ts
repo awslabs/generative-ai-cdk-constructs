@@ -1,15 +1,26 @@
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-// SPDX-License-Identifier: Apache-2.0
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
+
 // External Dependencies:
-import * as cdk from "aws-cdk-lib";
-import * as ecs from "aws-cdk-lib/aws-ecs";
-import { Construct } from "constructs";
+import * as cdk from 'aws-cdk-lib';
+import * as ecs from 'aws-cdk-lib/aws-ecs';
+import { Construct } from 'constructs';
 
 // Local Dependencies:
 import {
   ILangfuseServiceSharedProps,
   LangfuseServiceBase,
-} from "./service-base";
+} from './service-base';
 
 const LANGFUSE_WORKER_PORT = 3030;
 
@@ -35,7 +46,7 @@ export class LangfuseWorkerService extends LangfuseServiceBase {
       ...props,
       healthCheck: {
         command: [
-          "CMD-SHELL",
+          'CMD-SHELL',
           // >> to capture health check in task/service logs as described at:
           // https://docs.aws.amazon.com/AmazonECS/latest/developerguide/view-container-health.html
           `wget --no-verbose --tries=1 --spider http://localhost:${LANGFUSE_WORKER_PORT}/api/health >> /proc/1/fd/1 2>&1  || exit 1`,
@@ -45,7 +56,7 @@ export class LangfuseWorkerService extends LangfuseServiceBase {
         startPeriod: cdk.Duration.minutes(4),
         timeout: cdk.Duration.seconds(60), // Worker can get busy and that's okay
       },
-      imageName: props.imageName || "langfuse/langfuse-worker",
+      imageName: props.imageName || 'langfuse/langfuse-worker',
       portMappings: [
         {
           containerPort: LANGFUSE_WORKER_PORT,
@@ -53,7 +64,7 @@ export class LangfuseWorkerService extends LangfuseServiceBase {
           protocol: ecs.Protocol.TCP,
         },
       ],
-      serviceName: "worker",
+      serviceName: 'worker',
     });
   }
 }
