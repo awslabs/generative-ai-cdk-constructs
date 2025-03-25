@@ -1,15 +1,26 @@
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-// SPDX-License-Identifier: Apache-2.0
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
+
 // External Dependencies:
-import * as cdk from "aws-cdk-lib";
-import * as cloudfront from "aws-cdk-lib/aws-cloudfront";
-import * as cloudfront_origins from "aws-cdk-lib/aws-cloudfront-origins";
-import * as ec2 from "aws-cdk-lib/aws-ec2";
-import * as elbv2 from "aws-cdk-lib/aws-elasticloadbalancingv2";
-import * as s3 from "aws-cdk-lib/aws-s3";
-import * as cr from "aws-cdk-lib/custom-resources";
-import { NagSuppressions } from "cdk-nag";
-import { Construct } from "constructs";
+import * as cdk from 'aws-cdk-lib';
+import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
+import * as cloudfront_origins from 'aws-cdk-lib/aws-cloudfront-origins';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as elbv2 from 'aws-cdk-lib/aws-elasticloadbalancingv2';
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as cr from 'aws-cdk-lib/custom-resources';
+import { NagSuppressions } from 'cdk-nag';
+import { Construct } from 'constructs';
 
 export interface IPublicVpcLoadBalancerProps {
   vpc: ec2.IVpc;
@@ -69,12 +80,12 @@ export class PublicVpcLoadBalancer extends Construct {
 
     this.listeners = {};
 
-    this.securityGroup = new ec2.SecurityGroup(this, "SG", {
+    this.securityGroup = new ec2.SecurityGroup(this, 'SG', {
       allowAllOutbound: false,
-      description: "Security group for Langfuse load balancer",
+      description: 'Security group for Langfuse load balancer',
       vpc: props.vpc,
     });
-    cdk.Tags.of(this.securityGroup).add("Name", "web-alb-sg");
+    cdk.Tags.of(this.securityGroup).add('Name', 'web-alb-sg');
     if (props.tags) {
       props.tags.forEach((tag) =>
         cdk.Tags.of(this.securityGroup).add(tag.key, tag.value),
@@ -83,7 +94,7 @@ export class PublicVpcLoadBalancer extends Construct {
 
     this.loadBalancer = new elbv2.ApplicationLoadBalancer(
       this,
-      "LoadBalancer",
+      'LoadBalancer',
       {
         internetFacing: !!props.disableCloudFront,
         securityGroup: this.securityGroup,
@@ -93,7 +104,7 @@ export class PublicVpcLoadBalancer extends Construct {
     if (props.accessLogBucket) {
       this.loadBalancer.logAccessLogs(
         props.accessLogBucket,
-        props.accessLogPrefix || "access-logs",
+        props.accessLogPrefix || 'access-logs',
       );
     }
     if (props.tags) {
@@ -113,8 +124,8 @@ export class PublicVpcLoadBalancer extends Construct {
         },
       );
 
-      const cfDist = new cloudfront.Distribution(this, "CloudFront", {
-        comment: "Langfuse CloudFront distribution",
+      const cfDist = new cloudfront.Distribution(this, 'CloudFront', {
+        comment: 'Langfuse CloudFront distribution',
         defaultBehavior: {
           cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED,
           origin: cfOrigin,
@@ -124,7 +135,7 @@ export class PublicVpcLoadBalancer extends Construct {
             cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         },
         additionalBehaviors: {
-          "/api/*": {
+          '/api/*': {
             allowedMethods: cloudfront.AllowedMethods.ALLOW_ALL,
             cachePolicy: cloudfront.CachePolicy.CACHING_DISABLED,
             origin: cfOrigin,
@@ -146,13 +157,13 @@ export class PublicVpcLoadBalancer extends Construct {
         cfDist,
         [
           {
-            id: "AwsSolutions-CFR3",
-            reason: "Ignore CloudFront access logging",
+            id: 'AwsSolutions-CFR3',
+            reason: 'Ignore CloudFront access logging',
           },
           // (If we were able to terminate HTTPS at ALB, we probably wouldn't need CloudFront in
           // the first place here)
           {
-            id: "AwsSolutions-CFR4",
+            id: 'AwsSolutions-CFR4',
             reason: "Can't support HTTPS-to-ALB without domain+ACM",
           },
         ],
@@ -163,32 +174,32 @@ export class PublicVpcLoadBalancer extends Construct {
       // because CloudFront creates its own VPC SG, and the alternative IP prefix list is
       // region-dependent... So look up the created SG dynamically as documented at:
       // https://docs.aws.amazon.com/cdk/api/v2/docs/aws-cdk-lib.aws_cloudfront_origins-readme.html#restrict-traffic-coming-to-the-vpc-origin
-      const getCloudFrontSg = new cr.AwsCustomResource(this, "GetCFSG", {
+      const getCloudFrontSg = new cr.AwsCustomResource(this, 'GetCFSG', {
         onCreate: {
-          service: "ec2",
-          action: "describeSecurityGroups",
+          service: 'ec2',
+          action: 'describeSecurityGroups',
           parameters: {
             Filters: [
-              { Name: "vpc-id", Values: [props.vpc.vpcId] },
+              { Name: 'vpc-id', Values: [props.vpc.vpcId] },
               // (The name is hard-wired by CloudFront itself:)
               {
-                Name: "group-name",
-                Values: ["CloudFront-VPCOrigins-Service-SG"],
+                Name: 'group-name',
+                Values: ['CloudFront-VPCOrigins-Service-SG'],
               },
             ],
           },
           physicalResourceId: cr.PhysicalResourceId.of(
-            "CloudFront-VPCOrigins-Service-SG",
+            'CloudFront-VPCOrigins-Service-SG',
           ),
         },
-        policy: cr.AwsCustomResourcePolicy.fromSdkCalls({ resources: ["*"] }),
+        policy: cr.AwsCustomResourcePolicy.fromSdkCalls({ resources: ['*'] }),
       });
       NagSuppressions.addResourceSuppressions(
         getCloudFrontSg,
         [
           {
-            id: "AwsSolutions-IAM5",
-            reason: "Policy defined in cdk-lib Lambda",
+            id: 'AwsSolutions-IAM5',
+            reason: 'Policy defined in cdk-lib Lambda',
           },
         ],
         true,
@@ -198,8 +209,8 @@ export class PublicVpcLoadBalancer extends Construct {
         `${cdk.Stack.of(this).stackName}/AWS679f53fac002430cb0da5b7982bd2287/ServiceRole/Resource`,
         [
           {
-            id: "AwsSolutions-IAM4",
-            reason: "Policy defined in cdk-lib Lambda",
+            id: 'AwsSolutions-IAM4',
+            reason: 'Policy defined in cdk-lib Lambda',
           },
         ],
       );
@@ -208,7 +219,7 @@ export class PublicVpcLoadBalancer extends Construct {
         `${cdk.Stack.of(this).stackName}/AWS679f53fac002430cb0da5b7982bd2287/Resource`,
         [
           {
-            id: "AwsSolutions-L1",
+            id: 'AwsSolutions-L1',
             reason: "Can't control runtime of CDK-managed Lambda",
           },
         ],
@@ -216,22 +227,22 @@ export class PublicVpcLoadBalancer extends Construct {
       // The security group will only be available after the distributon is deployed:
       getCloudFrontSg.node.addDependency(cfDist);
       // Now we can specify the rule, without creating a circular dependency with .addIngressRule:
-      new ec2.CfnSecurityGroupIngress(this, "CloudFrontIngress", {
-        ipProtocol: "tcp",
+      new ec2.CfnSecurityGroupIngress(this, 'CloudFrontIngress', {
+        ipProtocol: 'tcp',
         fromPort: 80,
         toPort: 80,
         groupId: this.securityGroup.securityGroupId,
         sourceSecurityGroupId: getCloudFrontSg.getResponseField(
-          "SecurityGroups.0.GroupId",
+          'SecurityGroups.0.GroupId',
         ),
       });
     } else {
       this.securityGroup.addIngressRule(
-        ec2.Peer.ipv4("0.0.0.0/0"),
+        ec2.Peer.ipv4('0.0.0.0/0'),
         ec2.Port.tcp(80),
       );
       this.securityGroup.addIngressRule(
-        ec2.Peer.ipv4("0.0.0.0/0"),
+        ec2.Peer.ipv4('0.0.0.0/0'),
         ec2.Port.tcp(443),
       );
       // This'll cause a high CDK Nag finding if configured, but we won't suppress it because it's

@@ -1,23 +1,34 @@
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-// SPDX-License-Identifier: Apache-2.0
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
+
 // External Dependencies:
-import * as cdk from "aws-cdk-lib";
-import * as ec2 from "aws-cdk-lib/aws-ec2";
-import * as ecs from "aws-cdk-lib/aws-ecs";
-import * as s3 from "aws-cdk-lib/aws-s3";
-import * as secretsmanager from "aws-cdk-lib/aws-secretsmanager";
-import * as servicediscovery from "aws-cdk-lib/aws-servicediscovery";
-import { NagSuppressions } from "cdk-nag";
-import { Construct } from "constructs";
+import * as cdk from 'aws-cdk-lib';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as ecs from 'aws-cdk-lib/aws-ecs';
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as secretsmanager from 'aws-cdk-lib/aws-secretsmanager';
+import * as servicediscovery from 'aws-cdk-lib/aws-servicediscovery';
+import { NagSuppressions } from 'cdk-nag';
+import { Construct } from 'constructs';
 
 // Local Dependencies:
-import { BaseClass, BaseClassProps, ConstructName } from "../../../common/base-class";
-import { CacheCluster } from "./cache";
-import { ClickHouseDeployment } from "./clickhouse";
-import { PublicVpcLoadBalancer } from "./load-balancer";
-import { OLTPDatabase } from "./oltp";
-import { LangfuseWebService } from "./web";
-import { LangfuseWorkerService } from "./worker";
+import { CacheCluster } from './cache';
+import { ClickHouseDeployment } from './clickhouse';
+import { PublicVpcLoadBalancer } from './load-balancer';
+import { OLTPDatabase } from './oltp';
+import { LangfuseWebService } from './web';
+import { LangfuseWorkerService } from './worker';
+import { BaseClass, BaseClassProps, ConstructName } from '../../../common/base-class';
 
 export interface ILangfuseDeploymentProps {
   /**
@@ -143,9 +154,9 @@ export class LangfuseDeployment extends BaseClass {
     this.updateConstructUsageMetricCode(baseProps, scope, lambdaFunctions);
 
     const privateDnsNamespaceName =
-      props.privateDnsNamespaceName || "langfuse.local";
+      props.privateDnsNamespaceName || 'langfuse.local';
 
-    this.ecsCluster = new ecs.Cluster(this, "ECSCluster", {
+    this.ecsCluster = new ecs.Cluster(this, 'ECSCluster', {
       vpc: props.vpc,
       containerInsightsV2: ecs.ContainerInsights.ENABLED,
     });
@@ -157,10 +168,10 @@ export class LangfuseDeployment extends BaseClass {
 
     this.dnsNamespace = new servicediscovery.PrivateDnsNamespace(
       this,
-      "PrivateDNS",
+      'PrivateDNS',
       {
         name: privateDnsNamespaceName,
-        description: "Langfuse Service Discovery namespace",
+        description: 'Langfuse Service Discovery namespace',
         vpc: props.vpc,
       },
     );
@@ -169,8 +180,8 @@ export class LangfuseDeployment extends BaseClass {
         cdk.Tags.of(this.dnsNamespace).add(tag.key, tag.value),
       );
     }
-    const clickHouseService = this.dnsNamespace.createService("ClickHouseDNS", {
-      name: "clickhouse",
+    const clickHouseService = this.dnsNamespace.createService('ClickHouseDNS', {
+      name: 'clickhouse',
       dnsRecordType: servicediscovery.DnsRecordType.A,
       dnsTtl: cdk.Duration.seconds(10),
       customHealthCheck: {
@@ -183,13 +194,13 @@ export class LangfuseDeployment extends BaseClass {
       );
     }
 
-    const cacheCluster = new CacheCluster(this, "CacheCluster", {
-      cacheNodeType: props.cacheNodeType || "cache.t3.small",
+    const cacheCluster = new CacheCluster(this, 'CacheCluster', {
+      cacheNodeType: props.cacheNodeType || 'cache.t3.small',
       vpc: props.vpc,
       tags: props.tags,
     });
 
-    const bucket = new s3.Bucket(this, "bucket", {
+    const bucket = new s3.Bucket(this, 'bucket', {
       autoDeleteObjects: true,
       blockPublicAccess: {
         blockPublicAcls: true,
@@ -205,32 +216,32 @@ export class LangfuseDeployment extends BaseClass {
     });
     NagSuppressions.addResourceSuppressions(bucket, [
       {
-        id: "AwsSolutions-S1",
-        reason: "Not logging access on Langfuse artifacts bucket",
+        id: 'AwsSolutions-S1',
+        reason: 'Not logging access on Langfuse artifacts bucket',
       },
     ]);
     if (props.tags) {
       props.tags.forEach((tag) => cdk.Tags.of(bucket).add(tag.key, tag.value));
     }
 
-    this.loadBalancer = new PublicVpcLoadBalancer(this, "LoadBalancer", {
+    this.loadBalancer = new PublicVpcLoadBalancer(this, 'LoadBalancer', {
       vpc: props.vpc,
       tags: props.tags,
     });
     NagSuppressions.addResourceSuppressions(this.loadBalancer.loadBalancer, [
       {
-        id: "AwsSolutions-ELB2",
-        reason: "Region is required to enable ELBv2 access logging",
+        id: 'AwsSolutions-ELB2',
+        reason: 'Region is required to enable ELBv2 access logging',
       },
     ]);
 
-    const oltpDb = new OLTPDatabase(this, "OLTP", {
+    const oltpDb = new OLTPDatabase(this, 'OLTP', {
       vpc: props.vpc,
       instanceType: props.dbNodeType,
       tags: props.tags,
     });
 
-    const clickhouse = new ClickHouseDeployment(this, "ClickHouse", {
+    const clickhouse = new ClickHouseDeployment(this, 'ClickHouse', {
       cluster: this.ecsCluster,
       cloudMapService: clickHouseService,
       cpu: props.clickHouseCpu,
@@ -241,12 +252,12 @@ export class LangfuseDeployment extends BaseClass {
 
     const encryptionKeySecret = new secretsmanager.Secret(
       this,
-      "EncKeySecret",
+      'EncKeySecret',
       {
         description:
-          "Langfuse ENCRYPTION_KEY (Used to encrypt sensitive data. Must be 256 bits, 64 string characters in hex format)",
+          'Langfuse ENCRYPTION_KEY (Used to encrypt sensitive data. Must be 256 bits, 64 string characters in hex format)',
         generateSecretString: {
-          excludeCharacters: "ghijklmnopqrstuvxyz",
+          excludeCharacters: 'ghijklmnopqrstuvxyz',
           excludePunctuation: true,
           includeSpace: false,
           excludeUppercase: true,
@@ -263,16 +274,16 @@ export class LangfuseDeployment extends BaseClass {
       encryptionKeySecret,
       [
         {
-          id: "AwsSolutions-SMG4",
+          id: 'AwsSolutions-SMG4',
           reason:
-            "Secret rotation not implemented as Langfuse application requires explicit coordination during credential rotation",
+            'Secret rotation not implemented as Langfuse application requires explicit coordination during credential rotation',
         },
       ],
       true,
     );
-    const nextAuthSecret = new secretsmanager.Secret(this, "NextAuthSecret", {
+    const nextAuthSecret = new secretsmanager.Secret(this, 'NextAuthSecret', {
       description:
-        "Langfuse NEXTAUTH_SECRET (Used to validate login session cookies)",
+        'Langfuse NEXTAUTH_SECRET (Used to validate login session cookies)',
       generateSecretString: {
         excludePunctuation: true,
         includeSpace: false,
@@ -288,15 +299,15 @@ export class LangfuseDeployment extends BaseClass {
       nextAuthSecret,
       [
         {
-          id: "AwsSolutions-SMG4",
+          id: 'AwsSolutions-SMG4',
           reason:
-            "Secret rotation not implemented as Langfuse requires explicit coordination during credential rotation",
+            'Secret rotation not implemented as Langfuse requires explicit coordination during credential rotation',
         },
       ],
       true,
     );
-    const saltSecret = new secretsmanager.Secret(this, "SaltSecret", {
-      description: "Langfuse SALT (Used to salt hashed API keys)",
+    const saltSecret = new secretsmanager.Secret(this, 'SaltSecret', {
+      description: 'Langfuse SALT (Used to salt hashed API keys)',
       generateSecretString: {
         excludePunctuation: true,
         includeSpace: false,
@@ -312,15 +323,15 @@ export class LangfuseDeployment extends BaseClass {
       saltSecret,
       [
         {
-          id: "AwsSolutions-SMG4",
+          id: 'AwsSolutions-SMG4',
           reason:
-            "Secret rotation not implemented as Langfuse requires explicit coordination during credential rotation",
+            'Secret rotation not implemented as Langfuse requires explicit coordination during credential rotation',
         },
       ],
       true,
     );
 
-    new LangfuseWorkerService(this, "Worker", {
+    new LangfuseWorkerService(this, 'Worker', {
       cache: cacheCluster,
       clickhouse,
       cluster: this.ecsCluster,
@@ -331,11 +342,11 @@ export class LangfuseDeployment extends BaseClass {
       s3Bucket: bucket,
       saltSecret,
       vpc: props.vpc,
-      s3BatchExportPrefix: "langfuse-exports/",
+      s3BatchExportPrefix: 'langfuse-exports/',
       tags: props.tags,
     });
 
-    new LangfuseWebService(this, "Web", {
+    new LangfuseWebService(this, 'Web', {
       cache: cacheCluster,
       clickhouse,
       cluster: this.ecsCluster,
@@ -348,7 +359,7 @@ export class LangfuseDeployment extends BaseClass {
       s3Bucket: bucket,
       saltSecret,
       vpc: props.vpc,
-      s3BatchExportPrefix: "langfuse-exports/",
+      s3BatchExportPrefix: 'langfuse-exports/',
       tags: props.tags,
     });
   }

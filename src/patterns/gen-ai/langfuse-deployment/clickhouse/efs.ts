@@ -1,11 +1,22 @@
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-// SPDX-License-Identifier: Apache-2.0
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
+
 // External Dependencies:
-import * as cdk from "aws-cdk-lib";
-import * as ec2 from "aws-cdk-lib/aws-ec2";
-import * as efs from "aws-cdk-lib/aws-efs";
-import * as iam from "aws-cdk-lib/aws-iam";
-import { Construct } from "constructs";
+import * as cdk from 'aws-cdk-lib';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as efs from 'aws-cdk-lib/aws-efs';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import { Construct } from 'constructs';
 
 export interface IEFSWithSecurityGroupsProps {
   /**
@@ -46,26 +57,26 @@ export class EFSWithSecurityGroups extends Construct {
       ec2.Port.tcp(2049), // NFS: https://docs.aws.amazon.com/efs/latest/ug/source-ports.html
     ];
 
-    this.clientSecurityGroup = new ec2.SecurityGroup(this, "EFSClientSG", {
+    this.clientSecurityGroup = new ec2.SecurityGroup(this, 'EFSClientSG', {
       vpc: props.vpc,
       allowAllOutbound: false,
-      description: "Clients for ClickHouse NFS",
+      description: 'Clients for ClickHouse NFS',
     });
     this.clientSecurityGroup.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
-    cdk.Tags.of(this.clientSecurityGroup).add("Name", "clickhouse-efs-clients");
+    cdk.Tags.of(this.clientSecurityGroup).add('Name', 'clickhouse-efs-clients');
     if (props.tags) {
       props.tags.forEach((tag) =>
         cdk.Tags.of(this.clientSecurityGroup).add(tag.key, tag.value),
       );
     }
 
-    this.nodeSecurityGroup = new ec2.SecurityGroup(this, "EFSNodeSG", {
+    this.nodeSecurityGroup = new ec2.SecurityGroup(this, 'EFSNodeSG', {
       vpc: props.vpc,
       allowAllOutbound: false,
-      description: "ClickHouse NFS nodes",
+      description: 'ClickHouse NFS nodes',
     });
     this.nodeSecurityGroup.applyRemovalPolicy(cdk.RemovalPolicy.DESTROY);
-    cdk.Tags.of(this.nodeSecurityGroup).add("Name", "clickhouse-efs-nodes");
+    cdk.Tags.of(this.nodeSecurityGroup).add('Name', 'clickhouse-efs-nodes');
     if (props.tags) {
       props.tags.forEach((tag) =>
         cdk.Tags.of(this.nodeSecurityGroup).add(tag.key, tag.value),
@@ -77,14 +88,14 @@ export class EFSWithSecurityGroups extends Construct {
       this.nodeSecurityGroup.addIngressRule(this.clientSecurityGroup, port);
     });
 
-    this.fileSystem = new efs.FileSystem(this, "FileSystem", {
+    this.fileSystem = new efs.FileSystem(this, 'FileSystem', {
       vpc: props.vpc,
       performanceMode: efs.PerformanceMode.GENERAL_PURPOSE,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       securityGroup: this.nodeSecurityGroup,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
     });
-    cdk.Tags.of(this.fileSystem).add("Name", "clickhouse-data");
+    cdk.Tags.of(this.fileSystem).add('Name', 'clickhouse-data');
     if (props.tags) {
       props.tags.forEach((tag) =>
         cdk.Tags.of(this.fileSystem).add(tag.key, tag.value),
@@ -94,11 +105,11 @@ export class EFSWithSecurityGroups extends Construct {
     this.fileSystem.addToResourcePolicy(
       new iam.PolicyStatement({
         effect: iam.Effect.ALLOW,
-        actions: ["elasticfilesystem:ClientMount"],
+        actions: ['elasticfilesystem:ClientMount'],
         principals: [new iam.AnyPrincipal()],
         conditions: {
           Bool: {
-            "elasticfilesystem:AccessedViaMountTarget": "true",
+            'elasticfilesystem:AccessedViaMountTarget': 'true',
           },
         },
       }),

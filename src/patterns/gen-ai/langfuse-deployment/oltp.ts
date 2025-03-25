@@ -1,12 +1,23 @@
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-// SPDX-License-Identifier: Apache-2.0
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
+
 // External Dependencies:
-import * as cdk from "aws-cdk-lib";
-import * as ec2 from "aws-cdk-lib/aws-ec2";
-import * as logs from "aws-cdk-lib/aws-logs";
-import * as rds from "aws-cdk-lib/aws-rds";
-import { NagSuppressions } from "cdk-nag";
-import { Construct } from "constructs";
+import * as cdk from 'aws-cdk-lib';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as logs from 'aws-cdk-lib/aws-logs';
+import * as rds from 'aws-cdk-lib/aws-rds';
+import { NagSuppressions } from 'cdk-nag';
+import { Construct } from 'constructs';
 
 const POSTGRES_PORT = 5432;
 
@@ -45,16 +56,16 @@ export class OLTPDatabase extends Construct {
     super(scope, id);
 
     const instanceType =
-      props.instanceType || new ec2.InstanceType("r6g.large");
+      props.instanceType || new ec2.InstanceType('r6g.large');
 
-    this.clientSecurityGroup = new ec2.SecurityGroup(this, "DBClientSG", {
+    this.clientSecurityGroup = new ec2.SecurityGroup(this, 'DBClientSG', {
       vpc: props.vpc,
       allowAllOutbound: false,
-      description: "Langfuse OLTP database clients",
+      description: 'Langfuse OLTP database clients',
     });
     cdk.Tags.of(this.clientSecurityGroup).add(
-      "Name",
-      "langfuse-oltpdb-client-sg",
+      'Name',
+      'langfuse-oltpdb-client-sg',
     );
     if (props.tags) {
       props.tags.forEach((tag) => {
@@ -62,13 +73,13 @@ export class OLTPDatabase extends Construct {
       });
     }
 
-    this.dbClusterSecurityGroup = new ec2.SecurityGroup(this, "DBClusterSG", {
+    this.dbClusterSecurityGroup = new ec2.SecurityGroup(this, 'DBClusterSG', {
       vpc: props.vpc,
-      description: "Langfuse OLTP database nodes",
+      description: 'Langfuse OLTP database nodes',
     });
     cdk.Tags.of(this.dbClusterSecurityGroup).add(
-      "Name",
-      "langfuse-oltpdb-cluster-sg",
+      'Name',
+      'langfuse-oltpdb-cluster-sg',
     );
     if (props.tags) {
       props.tags.forEach((tag) => {
@@ -79,37 +90,37 @@ export class OLTPDatabase extends Construct {
     this.clientSecurityGroup.addEgressRule(
       this.dbClusterSecurityGroup,
       ec2.Port.tcp(POSTGRES_PORT),
-      "Connect to OLTP DB",
+      'Connect to OLTP DB',
     );
     this.dbClusterSecurityGroup.addIngressRule(
       this.clientSecurityGroup,
       ec2.Port.tcp(POSTGRES_PORT),
-      "Connections from clients",
+      'Connections from clients',
     );
     this.dbClusterSecurityGroup.addIngressRule(
       this.dbClusterSecurityGroup,
       ec2.Port.allTcp(),
-      "Within-cluster comms",
+      'Within-cluster comms',
     );
 
-    const rdsSubnetGroup = new rds.SubnetGroup(this, "RDSSubnetGroup", {
-      description: "Langfuse OLTP DB subnets",
+    const rdsSubnetGroup = new rds.SubnetGroup(this, 'RDSSubnetGroup', {
+      description: 'Langfuse OLTP DB subnets',
       vpc: props.vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_WITH_EGRESS },
     });
 
-    const dbSecret = new rds.DatabaseSecret(this, "DBSecret", {
-      username: "postgres",
-      dbname: "postgres",
+    const dbSecret = new rds.DatabaseSecret(this, 'DBSecret', {
+      username: 'postgres',
+      dbname: 'postgres',
       excludeCharacters: " %+~`#$&*()|[]{}.,:;-<>?!'/@\"\\", // (Also exclude . and ,)
     });
     NagSuppressions.addResourceSuppressions(dbSecret, [
       {
-        id: "AwsSolutions-SMG4",
+        id: 'AwsSolutions-SMG4',
         // To support this, we'd need to automatically force restart of the Langfuse web & worker
         // containers when rotation happens.
         // See: https://repost.aws/questions/QUYHw--TXvTTewJeVsT2T5QA/
-        reason: "Secret rotation not implemented",
+        reason: 'Secret rotation not implemented',
       },
     ]);
 
@@ -121,41 +132,41 @@ export class OLTPDatabase extends Construct {
 
     const clusterParamGroup = new rds.ParameterGroup(
       this,
-      "ClusterParamGroup",
+      'ClusterParamGroup',
       {
         engine: rdsEngine,
-        description: "Cluster parameters for Langfuse OLTP database",
+        description: 'Cluster parameters for Langfuse OLTP database',
         parameters: {
-          log_min_duration_statement: "15000",
-          default_transaction_isolation: "read committed",
-          client_encoding: "UTF8",
+          log_min_duration_statement: '15000',
+          default_transaction_isolation: 'read committed',
+          client_encoding: 'UTF8',
         },
       },
     );
 
     const instanceParamGroup = new rds.ParameterGroup(
       this,
-      "InstanceParamGroup",
+      'InstanceParamGroup',
       {
         engine: rdsEngine,
-        description: "Instance parameters for Langfuse OLTP database",
+        description: 'Instance parameters for Langfuse OLTP database',
         parameters: {
-          log_min_duration_statement: "15000",
-          default_transaction_isolation: "read committed",
+          log_min_duration_statement: '15000',
+          default_transaction_isolation: 'read committed',
         },
       },
     );
 
-    this.dbCluster = new rds.DatabaseCluster(this, "Cluster", {
+    this.dbCluster = new rds.DatabaseCluster(this, 'Cluster', {
       engine: rdsEngine,
       credentials: rdsCredentials,
-      writer: rds.ClusterInstance.provisioned("writer", {
+      writer: rds.ClusterInstance.provisioned('writer', {
         instanceType,
         parameterGroup: instanceParamGroup,
         autoMinorVersionUpgrade: false,
       }),
       readers: [
-        rds.ClusterInstance.provisioned("reader", {
+        rds.ClusterInstance.provisioned('reader', {
           instanceType,
           parameterGroup: instanceParamGroup,
           autoMinorVersionUpgrade: false,
@@ -167,7 +178,7 @@ export class OLTPDatabase extends Construct {
       subnetGroup: rdsSubnetGroup,
       backup: {
         retention: cdk.Duration.days(3),
-        preferredWindow: "03:00-04:00",
+        preferredWindow: '03:00-04:00',
       },
       securityGroups: [this.dbClusterSecurityGroup],
       storageEncrypted: true,
@@ -181,12 +192,12 @@ export class OLTPDatabase extends Construct {
     }
     NagSuppressions.addResourceSuppressions(this.dbCluster, [
       {
-        id: "AwsSolutions-RDS6",
+        id: 'AwsSolutions-RDS6',
         reason: "Langfuse can't use IAM auth for RDS (we think)",
       },
       {
-        id: "AwsSolutions-RDS10",
-        reason: "OK to delete traces for demo environment",
+        id: 'AwsSolutions-RDS10',
+        reason: 'OK to delete traces for demo environment',
       },
     ]);
   }

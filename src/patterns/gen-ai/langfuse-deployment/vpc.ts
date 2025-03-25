@@ -1,11 +1,22 @@
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-// SPDX-License-Identifier: Apache-2.0
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
+
 // External Dependencies:
-import * as cdk from "aws-cdk-lib";
-import * as ec2 from "aws-cdk-lib/aws-ec2";
-import * as iam from "aws-cdk-lib/aws-iam";
-import * as logs from "aws-cdk-lib/aws-logs";
-import { Construct } from "constructs";
+import * as cdk from 'aws-cdk-lib';
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as logs from 'aws-cdk-lib/aws-logs';
+import { Construct } from 'constructs';
 
 export class IVpcInfraProps {
   /**
@@ -35,7 +46,7 @@ export class VpcInfra extends Construct {
     // The default behavior of the ec2.Vpc construct is to create a VPC with subnets spread across
     // 2 Availability Zones (AZs) when no maxAzs parameter is specified.
     // Each AZ will have one public subnet and one private subnet by default
-    this.vpc = new ec2.Vpc(this, "Vpc", {
+    this.vpc = new ec2.Vpc(this, 'Vpc', {
       gatewayEndpoints: {
         S3: {
           service: ec2.GatewayVpcEndpointAwsService.S3,
@@ -49,7 +60,7 @@ export class VpcInfra extends Construct {
     }
 
     // cdk-nag AwsSolutions-VPC7 rule wants every VPC to have an associated Flow log for debug:
-    this.vpcFlowLogGroup = new logs.LogGroup(this, "FlowLogs", {
+    this.vpcFlowLogGroup = new logs.LogGroup(this, 'FlowLogs', {
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       retention: logs.RetentionDays.ONE_MONTH,
     });
@@ -58,15 +69,15 @@ export class VpcInfra extends Construct {
         cdk.Tags.of(this.vpcFlowLogGroup).add(tag.key, tag.value),
       );
     }
-    const flowLogRole = new iam.Role(this, "FlowLogRole", {
-      assumedBy: new iam.ServicePrincipal("vpc-flow-logs.amazonaws.com"),
+    const flowLogRole = new iam.Role(this, 'FlowLogRole', {
+      assumedBy: new iam.ServicePrincipal('vpc-flow-logs.amazonaws.com'),
     });
     if (props.tags) {
       props.tags.forEach((tag) =>
         cdk.Tags.of(flowLogRole).add(tag.key, tag.value),
       );
     }
-    this.vpcFlowLog = new ec2.FlowLog(this, "FlowLog", {
+    this.vpcFlowLog = new ec2.FlowLog(this, 'FlowLog', {
       resourceType: ec2.FlowLogResourceType.fromVpc(this.vpc),
       destination: ec2.FlowLogDestination.toCloudWatchLogs(
         this.vpcFlowLogGroup,

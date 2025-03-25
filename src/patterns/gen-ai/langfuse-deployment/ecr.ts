@@ -1,11 +1,22 @@
-// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-// SPDX-License-Identifier: Apache-2.0
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
+
 // External Dependencies:
-import * as cdk from "aws-cdk-lib";
-import * as ecr from "aws-cdk-lib/aws-ecr";
-import * as ecrDeploy from "cdk-ecr-deployment";
-import { NagSuppressions } from "cdk-nag";
-import { Construct } from "constructs";
+import * as cdk from 'aws-cdk-lib';
+import * as ecr from 'aws-cdk-lib/aws-ecr';
+import * as ecrDeploy from 'cdk-ecr-deployment';
+import { NagSuppressions } from 'cdk-nag';
+import { Construct } from 'constructs';
 
 export interface IECRRepoAndDockerImageProps {
   /**
@@ -53,7 +64,7 @@ export class ECRRepoAndDockerImage extends Construct {
     super(scope, id);
 
     // Create the ECR repository:
-    this.repository = new ecr.Repository(this, "Repo", {
+    this.repository = new ecr.Repository(this, 'Repo', {
       emptyOnDelete: true,
       encryption: ecr.RepositoryEncryption.AES_256,
       removalPolicy: cdk.RemovalPolicy.DESTROY,
@@ -78,8 +89,8 @@ export class ECRRepoAndDockerImage extends Construct {
     });
 
     // Add the target image version(s):
-    this.imageTag = props.ecrImageTag || "latest";
-    this.deployment = new ecrDeploy.ECRDeployment(this, "Deployment", {
+    this.imageTag = props.ecrImageTag || 'latest';
+    this.deployment = new ecrDeploy.ECRDeployment(this, 'Deployment', {
       src: new ecrDeploy.DockerImageName(props.dockerImageName),
       dest: new ecrDeploy.DockerImageName(
         this.repository.repositoryUriForTagOrDigest(this.imageTag),
@@ -91,7 +102,7 @@ export class ECRRepoAndDockerImage extends Construct {
       `/${cdk.Stack.of(this).stackName}/Custom::CDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiB/ServiceRole/Resource`,
       [
         {
-          id: "AwsSolutions-IAM4",
+          id: 'AwsSolutions-IAM4',
           reason:
             "Can't control managed policies within ECRDeployment resource",
         },
@@ -102,7 +113,7 @@ export class ECRRepoAndDockerImage extends Construct {
       `/${cdk.Stack.of(this).stackName}/Custom::CDKECRDeploymentbd07c930edb94112a20f03f096f53666512MiB/ServiceRole/DefaultPolicy/Resource`,
       [
         {
-          id: "AwsSolutions-IAM5",
+          id: 'AwsSolutions-IAM5',
           reason:
             "Can't control wildcard policies within ECRDeployment resource",
         },
