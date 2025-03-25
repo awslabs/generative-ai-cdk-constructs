@@ -2,9 +2,9 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../README.md) / VpcInfra
+[@cdklabs/generative-ai-cdk-constructs](../README.md) / LangfuseVpcInfra
 
-# Class: VpcInfra
+# Class: LangfuseVpcInfra
 
 Example construct to deploy shared networking infrastructure for the Langfuse sample
 
@@ -20,9 +20,9 @@ security best-practice for cdk-nag: https://github.com/cdklabs/cdk-nag
 
 ## Constructors
 
-### new VpcInfra()
+### new LangfuseVpcInfra()
 
-> **new VpcInfra**(`scope`, `id`, `props`): [`VpcInfra`](VpcInfra.md)
+> **new LangfuseVpcInfra**(`scope`, `id`, `props`): [`LangfuseVpcInfra`](LangfuseVpcInfra.md)
 
 #### Parameters
 
@@ -36,11 +36,11 @@ security best-practice for cdk-nag: https://github.com/cdklabs/cdk-nag
 
 ##### props
 
-[`IVpcInfraProps`](../interfaces/IVpcInfraProps.md) = `{}`
+[`ILangfuseVpcInfraProps`](../interfaces/ILangfuseVpcInfraProps.md) = `{}`
 
 #### Returns
 
-[`VpcInfra`](VpcInfra.md)
+[`LangfuseVpcInfra`](LangfuseVpcInfra.md)
 
 #### Overrides
 

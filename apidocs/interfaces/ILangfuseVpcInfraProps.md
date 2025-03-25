@@ -2,9 +2,9 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../README.md) / IVpcInfraProps
+[@cdklabs/generative-ai-cdk-constructs](../README.md) / ILangfuseVpcInfraProps
 
-# Interface: IVpcInfraProps
+# Interface: ILangfuseVpcInfraProps
 
 ## Properties
 
