@@ -33,7 +33,4 @@ Langfuse v3 deployments involve multiple components, as discussed in their [offi
 
 ![](./architecture.png.png "Architecture diagram showing LLM applications and web browsers connecting to Langfuse through the above described components")
 
-
-## Usage
-
-TODO: Do we add usage example here, or just point people to samples repo if we add a relevant app there?
+For an example of how to use these constructs to deploy Langfuse and integrate tracing into your CDK-defined AI applications - see [self-hosted-langfuse-tracing in aws-samples/generative-ai-cdk-constructs-samples](https://github.com/aws-samples/generative-ai-cdk-constructs-samples/tree/main/samples/self-hosted-langfuse-tracing).
