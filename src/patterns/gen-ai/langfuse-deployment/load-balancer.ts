@@ -204,9 +204,10 @@ export class PublicVpcLoadBalancer extends Construct {
         ],
         true,
       );
+      const stack = cdk.Stack.of(this);
       NagSuppressions.addResourceSuppressionsByPath(
-        cdk.Stack.of(this),
-        `${cdk.Stack.of(this).stackName}/AWS679f53fac002430cb0da5b7982bd2287/ServiceRole/Resource`,
+        stack,
+        `${stack.node.path}/AWS679f53fac002430cb0da5b7982bd2287/ServiceRole/Resource`,
         [
           {
             id: 'AwsSolutions-IAM4',
@@ -215,12 +216,12 @@ export class PublicVpcLoadBalancer extends Construct {
         ],
       );
       NagSuppressions.addResourceSuppressionsByPath(
-        cdk.Stack.of(this),
-        `${cdk.Stack.of(this).stackName}/AWS679f53fac002430cb0da5b7982bd2287/Resource`,
+        stack,
+        `${stack.node.path}/AWS679f53fac002430cb0da5b7982bd2287/Resource`,
         [
           {
             id: 'AwsSolutions-L1',
-            reason: "Can't control runtime of CDK-managed Lambda",
+            reason: "Can't control runtime of upstream aws-cdk-lib Lambda",
           },
         ],
       );
