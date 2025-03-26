@@ -48,6 +48,18 @@ CPU allocation for the ECS Fargate container running Langfuse's (ClickHouse) OLA
 
 ***
 
+### clickHouseEnvironment?
+
+> `optional` **clickHouseEnvironment**: `object`
+
+Extra environment variables to configure on ClickHouse services' containers
+
+#### Index Signature
+
+\[`key`: `string`\]: `string`
+
+***
+
 ### clickHouseMemoryMiB?
 
 > `optional` **clickHouseMemoryMiB**: `number`
@@ -82,6 +94,18 @@ RDS instance type for Langfuse's OLTP (Postgres) database
 ```ts
 "r6g.large"
 ```
+
+***
+
+### langfuseEnvironment?
+
+> `optional` **langfuseEnvironment**: `object`
+
+Extra environment variables to configure on Langfuse services' containers
+
+#### Index Signature
+
+\[`key`: `string`\]: `string`
 
 ***
 

@@ -48,6 +48,18 @@ https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-tasks-servic
 
 ***
 
+### environment?
+
+> `optional` **environment**: `object`
+
+Extra environment variables to configure on the service's containers
+
+#### Index Signature
+
+\[`key`: `string`\]: `string`
+
+***
+
 ### memoryLimitMiB?
 
 > `optional` **memoryLimitMiB**: `number`

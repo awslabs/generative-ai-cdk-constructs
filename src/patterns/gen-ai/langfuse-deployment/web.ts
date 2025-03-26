@@ -63,6 +63,7 @@ export class LangfuseWebService extends LangfuseServiceBase {
         NEXTAUTH_URL: props.loadBalancer
           ? props.loadBalancer.url
           : `http://0.0.0.0:${LANGFUSE_WEB_PORT}`,
+        ...(props.environment || {}),
       },
       healthCheck: {
         command: [
