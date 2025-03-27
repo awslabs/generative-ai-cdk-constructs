@@ -11,16 +11,17 @@
  *  and limitations under the License.
  */
 
-import { IResource, Resource } from 'aws-cdk-lib';
-import { CfnDataSource, CfnDataSourceProps } from 'aws-cdk-lib/aws-bedrock';
-import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import * as kms from 'aws-cdk-lib/aws-kms';
-import { Construct } from 'constructs';
+import { IResource, Resource } from "aws-cdk-lib";
+import { CfnDataSource, CfnDataSourceProps } from "aws-cdk-lib/aws-bedrock";
+import { PolicyStatement } from "aws-cdk-lib/aws-iam";
+import * as kms from "aws-cdk-lib/aws-kms";
+import { Construct } from "constructs";
 
-import { IKnowledgeBase } from './../knowledge-bases/knowledge-base';
-import { ChunkingStrategy } from './chunking';
-import { CustomTransformation } from './custom-transformation';
-import { ParsingStategy } from './parsing';
+import { IKnowledgeBase } from "./../knowledge-bases/knowledge-base";
+import { ChunkingStrategy } from "./chunking";
+import { CustomTransformation } from "./custom-transformation";
+import { ParsingStategy } from "./parsing";
+import { ContextEnrichment } from "./context-enrichment";
 // import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 
 /**
@@ -32,13 +33,13 @@ export enum DataDeletionPolicy {
    * Deletes all vector embeddings derived from the data source upon deletion
    * of a data source resource.
    */
-  DELETE = 'DELETE',
+  DELETE = "DELETE",
 
   /**
    * Retains all vector embeddings derived from the data source even after
    * deletion of a data source resource.
    */
-  RETAIN = 'RETAIN',
+  RETAIN = "RETAIN",
 }
 
 /**
@@ -48,40 +49,40 @@ export enum DataSourceType {
   /**
    * Amazon S3 Bucket data source.
    */
-  S3 = 'S3',
+  S3 = "S3",
 
   /**
    * Confluence Cloud Instance data source.
    */
-  CONFLUENCE = 'CONFLUENCE',
+  CONFLUENCE = "CONFLUENCE",
 
   /**
    * Salesforce instance data source.
    */
-  SALESFORCE = 'SALESFORCE',
+  SALESFORCE = "SALESFORCE",
 
   /**
    * Microsoft SharePoint instance data source.
    */
-  SHAREPOINT = 'SHAREPOINT',
+  SHAREPOINT = "SHAREPOINT",
 
   /**
    * Web Crawler data source.
    * Extracts content from authorized public web pages using a crawler.
    */
-  WEB_CRAWLER = 'WEB',
+  WEB_CRAWLER = "WEB",
 
   /**
    * Custom data source.
    * A custom data source allows the flexibility to automatically ingest documents
    * into your vector database directly.
    */
-  CUSTOM = 'CUSTOM',
+  CUSTOM = "CUSTOM",
 
   /**
    * Redshift Metadata data source.
    */
-  REDSHIFT_METADATA = 'REDSHIFT_METADATA',
+  REDSHIFT_METADATA = "REDSHIFT_METADATA",
 }
 
 /**
@@ -157,6 +158,13 @@ export interface DataSourceAssociationProps {
   readonly parsingStrategy?: ParsingStategy;
 
   /**
+   * The context enrichment strategy to use.
+   *
+   * @default - No context enrichment is used.
+   */
+  readonly contextEnrichment?: ContextEnrichment;
+
+  /**
    * The custom transformation strategy to use.
    *
    * @default - No custom transformation is used.
@@ -207,6 +215,10 @@ export abstract class DataSourceNew extends DataSourceBase {
     if (props.customTransformation) {
       statementsToAdd.push(...props.customTransformation.generatePolicyStatements(this));
     }
+    // Context Enrichment requires invoke permissions for the enriching FM
+    if (props.contextEnrichment) {
+      statementsToAdd.push(...props.contextEnrichment.generatePolicyStatements());
+    }
     // Add the permission statements to the KB execution role
     statementsToAdd.forEach((statement) => {
       this.knowledgeBase.role.addToPrincipalPolicy(statement);
@@ -218,7 +230,7 @@ export abstract class DataSourceNew extends DataSourceBase {
    */
   public formatAsCfnProps(
     props: DataSourceAssociationProps,
-    dataSourceConfiguration: CfnDataSource.DataSourceConfigurationProperty,
+    dataSourceConfiguration: CfnDataSource.DataSourceConfigurationProperty
   ): CfnDataSourceProps {
     return {
       dataDeletionPolicy: props.dataDeletionPolicy,
@@ -228,16 +240,20 @@ export abstract class DataSourceNew extends DataSourceBase {
       name: this.dataSourceName,
       serverSideEncryptionConfiguration: props.kmsKey
         ? {
-          kmsKeyArn: props.kmsKey.keyArn,
-        }
+            kmsKeyArn: props.kmsKey.keyArn,
+          }
         : undefined,
       vectorIngestionConfiguration:
-        props.chunkingStrategy || props.parsingStrategy || props.customTransformation
+        props.chunkingStrategy ||
+        props.parsingStrategy ||
+        props.customTransformation ||
+        props.contextEnrichment
           ? {
-            chunkingConfiguration: props.chunkingStrategy?.configuration,
-            parsingConfiguration: props.parsingStrategy?.configuration,
-            customTransformationConfiguration: props.customTransformation?.configuration,
-          }
+              chunkingConfiguration: props.chunkingStrategy?.configuration,
+              parsingConfiguration: props.parsingStrategy?.configuration,
+              customTransformationConfiguration: props.customTransformation?.configuration,
+              contextEnrichmentConfiguration: props.contextEnrichment?.configuration,
+            }
           : undefined,
     };
   }

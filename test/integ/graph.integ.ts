@@ -16,6 +16,10 @@ import * as cdk from "aws-cdk-lib";
 import * as bedrock from "../../src/cdk-lib/bedrock";
 import { NeptuneGraph } from "../../src/cdk-lib/neptune/graph";
 import { GraphKnowledgeBase } from "../../src/cdk-lib/bedrock/knowledge-bases/graph-knowledge-base";
+import {
+  ContextEnrichment,
+  FoundationModelContextEnrichmentMethodType,
+} from "../../src/cdk-lib/bedrock/data-sources/context-enrichment";
 
 const app = new cdk.App();
 const stack = new cdk.Stack(app, "aws-cdk-bedrock-graph-integ-test-2", {
@@ -24,29 +28,44 @@ const stack = new cdk.Stack(app, "aws-cdk-bedrock-graph-integ-test-2", {
   },
 });
 
-// const kb = new GraphKnowledgeBase(stack, "GraphKnowledgeBase", {
-//   embeddingModel: bedrock.BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
-// });
+const kb1 = new GraphKnowledgeBase(stack, "GraphKnowledgeBase", {
+  embeddingModel: bedrock.BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
+});
 
-// kb.addS3DataSource({
-//   bucket: dataBucket,
-// });
+kb1.graph.createNotebook();
+
+const dataBucket = new cdk.aws_s3.Bucket(stack, "SampleBucket", {
+  removalPolicy: cdk.RemovalPolicy.DESTROY,
+  autoDeleteObjects: true,
+});
 
 const embeddingModel = bedrock.BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3;
 
 const graph = new NeptuneGraph(stack, "NeptuneGraph", {
   vectorSearchDimension: embeddingModel.vectorDimensions!,
-  notebook: true,
 });
+
+const notebook = graph.createNotebook();
 
 const kb = new GraphKnowledgeBase(stack, "GraphKnowledgeBase", {
   embeddingModel,
   graph,
 });
 
-// kb.addS3DataSource({
-//   bucket: dataBucket,
-// });
+kb.addS3DataSource({
+  bucket: dataBucket,
+  // Context enrichment configuration for GraphRAG
+  // - This is the default and only valid combination of model and method
+  // - Future versions may support additional models and extraction methods
+  contextEnrichment: ContextEnrichment.foundationModel({
+    model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0,
+    method: FoundationModelContextEnrichmentMethodType.CHUNK_ENTITY_EXTRACTION,
+  }),
+});
+
+new cdk.CfnOutput(stack, "GraphExplorerUrl", {
+  value: notebook.graphExplorerEndpoint,
+});
 
 new integ.IntegTest(app, "ServiceTest", {
   testCases: [stack],

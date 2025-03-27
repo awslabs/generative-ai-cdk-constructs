@@ -77,13 +77,6 @@ export interface GraphKnowledgeBaseProps extends CommonKnowledgeBaseProps {
    * @default - { metadataField: "AMAZON_BEDROCK_METADATA", textField: "AMAZON_BEDROCK_TEXT" }
    */
   readonly fieldMapping?: VectorFieldMapping;
-
-  /**
-   * The Foundation model to to automatically build graphs for your knowledge base.
-   * This automatically enables contextual enrichment.
-   * As of March 2025 only Claude 3 Haiku v1 is supported.
-   */
-  //readonly graphBuildFoundationModel?: BedrockFoundationModel;
 }
 
 /******************************************************************************
@@ -197,11 +190,6 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
   public readonly embeddingModel: BedrockFoundationModel;
 
   /**
-   * The Foundation model to to automatically build graphs for your knowledge base.
-   */
-  public readonly graphBuildFoundationModel: BedrockFoundationModel;
-
-  /**
    * The vector field mapping configuration.
    */
   public readonly fieldMapping: VectorFieldMapping;
@@ -213,10 +201,6 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
     // ------------------------------------------------------
     // Set properties or defaults
     // ------------------------------------------------------
-    this.embeddingModel = props.embeddingModel;
-    // As of March 2025 only Claude 3 Haiku v1 is supported, that is why it is hardcoded.
-    // check
-    this.graphBuildFoundationModel = BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0;
     // Create a new graph if not specified.
     this.graph =
       props.graph ??
@@ -248,8 +232,6 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
       let grant = this.graph.grantQuery(this.role);
       // Allow KB to create embeddings when ingesting data
       grant = grant.combine(this.embeddingModel.grantInvoke(this.role));
-      // Allow KB to invoke FM that automatically build graphs for your knowledge base
-      grant = grant.combine(this.graphBuildFoundationModel.grantInvoke(this.role));
       // Ensure the permissions are in place before KB creation
       grant.applyBefore(this._resource);
     }

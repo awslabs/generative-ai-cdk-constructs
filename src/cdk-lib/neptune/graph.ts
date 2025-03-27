@@ -18,7 +18,7 @@ import { ArnFormat, IResource, Resource, Stack } from "aws-cdk-lib";
 import { BedrockFoundationModel } from "../bedrock";
 import { Metric, MetricOptions, MetricProps } from "aws-cdk-lib/aws-cloudwatch";
 import { generatePhysicalNameV2 } from "../../common/helpers/utils";
-import { NeptuneGraphNotebook } from "./notebook";
+import { NeptuneGraphNotebook, NeptuneGraphNotebookProps } from "./notebook";
 
 /******************************************************************************
  *                              COMMON
@@ -129,6 +129,12 @@ export interface INeptuneGraph extends IResource {
    * Returns metric for graph storage usage percentage
    */
   metricGraphStorageUsagePercent(props?: MetricOptions): Metric;
+
+  /**
+   * Creates a Neptune Graph Notebook for the graph. Defaults to a ml.t3.medium instance type.
+   * **Note: Creating a notebook will incur additional AWS costs for the notebook instance.**
+   */
+  createNotebook(params?: NeptuneGraphNotebookProps): NeptuneGraphNotebook;
 }
 
 /******************************************************************************
@@ -178,30 +184,6 @@ export interface NeptuneGraphProps {
    * @default false
    */
   readonly deletionProtection?: boolean;
-
-  /**
-   * Whether to create a Neptune Graph Notebook for the graph. Defaults to a ml.t3.medium instance type.
-   * For custom instance types and configurations, use the `NeptuneGraphNotebook` construct directly.
-   *
-   * A Neptune Graph Notebook provides:
-   * - Web-based interactive environment for querying and visualizing graph data
-   * - Support for multiple query languages:
-   *   - OpenCypher for property graph queries
-   *   - Gremlin for traversal-based queries
-   *   - SPARQL for RDF graph queries
-   * - Built-in visualization capabilities for exploring graph relationships
-   * - Sample notebooks and tutorials to help you get started
-   * - Integration with popular data science libraries   *
-   * This option is only supported when `publicConnectivity` is set to `true`. For private graphs,
-   * you should create your own notebook deployment using the `NeptuneGraphNotebook` Construct and
-   * configure the appropriate VPC and security group settings.
-   *
-   * **Note: Creating a notebook will incur additional AWS costs for the notebook instance.**
-   *
-   * @default false
-   * @see https://docs.aws.amazon.com/neptune/latest/userguide/graph-notebooks.html
-   */
-  readonly notebook?: boolean;
 }
 
 /******************************************************************************
@@ -373,6 +355,17 @@ export abstract class NeptuneGraphBase extends Resource implements INeptuneGraph
       account: props?.account ?? this.stack.account,
     });
   }
+
+  /**
+   * Creates a Neptune Graph Notebook for the graph. Defaults to a ml.t3.medium instance type.
+   * **Note: Creating a notebook will incur additional AWS costs for the notebook instance.**
+   */
+  public createNotebook(params?: NeptuneGraphNotebookProps): NeptuneGraphNotebook {
+    return new NeptuneGraphNotebook(this, "Notebook", {
+      ...params,
+      graph: this,
+    });
+  }
 }
 
 /******************************************************************************
@@ -450,15 +443,5 @@ export class NeptuneGraph extends NeptuneGraphBase implements INeptuneGraph {
     this.graphArn = this._resource.attrGraphArn;
     this.graphId = this._resource.attrGraphId;
     this.graphEndpoint = this._resource.attrEndpoint;
-
-    // ------------------------------------------------------
-    // Notebook
-    // ------------------------------------------------------
-    if (props.notebook ?? false) {
-      const notebook = new NeptuneGraphNotebook(this, "Notebook", {
-        graph: this,
-      });
-      notebook.node.addDependency(this._resource);
-    }
   }
 }

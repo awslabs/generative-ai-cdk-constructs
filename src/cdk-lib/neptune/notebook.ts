@@ -33,7 +33,24 @@ export interface NeptuneGraphNotebookProps {
 }
 
 /**
- * Class to create an L2 Neptune Analytics Graph with CDK.
+ * Creates a Neptune Graph Notebook for a given graph.
+ *
+ * A Neptune Graph Notebook provides:
+ * - Web-based interactive environment for querying and visualizing graph data
+ * - Support for multiple query languages:
+ *   - OpenCypher for property graph queries
+ *   - Gremlin for traversal-based queries
+ *   - SPARQL for RDF graph queries
+ * - Built-in visualization capabilities for exploring graph relationships
+ * - Sample notebooks and tutorials to help you get started
+ * - Integration with popular data science libraries   *
+ * This option is only supported when `publicConnectivity` is set to `true`. For private graphs,
+ * you should create your own notebook deployment using the `NeptuneGraphNotebook` Construct and
+ * configure the appropriate VPC and security group settings.
+ *
+ * **Note: Creating a notebook will incur additional AWS costs for the notebook instance.**
+ *
+ * @see https://docs.aws.amazon.com/neptune/latest/userguide/graph-notebooks.html
  */
 export class NeptuneGraphNotebook extends Resource {
   // ------------------------------------------------------
