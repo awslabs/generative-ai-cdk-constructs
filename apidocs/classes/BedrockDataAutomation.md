@@ -14,9 +14,9 @@ Class to create a BDA pattern with CDK.
 
 ## Constructors
 
-### new BedrockDataAutomation()
+### Constructor
 
-> **new BedrockDataAutomation**(`scope`, `id`, `props`): [`BedrockDataAutomation`](BedrockDataAutomation.md)
+> **new BedrockDataAutomation**(`scope`, `id`, `props`): `BedrockDataAutomation`
 
 #### Parameters
 
@@ -34,11 +34,11 @@ Class to create a BDA pattern with CDK.
 
 #### Returns
 
-[`BedrockDataAutomation`](BedrockDataAutomation.md)
+`BedrockDataAutomation`
 
 #### Overrides
 
-[`BaseClass`](BaseClass.md).[`constructor`](BaseClass.md#constructors)
+[`BaseClass`](BaseClass.md).[`constructor`](BaseClass.md#constructor)
 
 ## Properties
 

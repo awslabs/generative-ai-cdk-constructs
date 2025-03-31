@@ -14,9 +14,9 @@ The BedrockCwDashboard class.
 
 ## Constructors
 
-### new BedrockCwDashboard()
+### Constructor
 
-> **new BedrockCwDashboard**(`scope`, `id`, `props`): [`BedrockCwDashboard`](BedrockCwDashboard.md)
+> **new BedrockCwDashboard**(`scope`, `id`, `props`): `BedrockCwDashboard`
 
 Constructs a new instance of the BedrockCwDashboard class.
 
@@ -42,7 +42,7 @@ user provided props for the construct.
 
 #### Returns
 
-[`BedrockCwDashboard`](BedrockCwDashboard.md)
+`BedrockCwDashboard`
 
 #### Since
 
@@ -112,7 +112,7 @@ Add guardrail monitoring to the dashboard
 
 ##### guardrail
 
-[`IGuardrail`](../namespaces/bedrock/interfaces/IGuardrail.md)
+[`IGuardrail`](../@cdklabs/namespaces/bedrock/interfaces/IGuardrail.md)
 
 The guardrail to monitor
 
