@@ -16,9 +16,9 @@
 
 ## Constructors
 
-### new CustomSageMakerEndpoint()
+### Constructor
 
-> **new CustomSageMakerEndpoint**(`scope`, `id`, `props`): [`CustomSageMakerEndpoint`](CustomSageMakerEndpoint.md)
+> **new CustomSageMakerEndpoint**(`scope`, `id`, `props`): `CustomSageMakerEndpoint`
 
 #### Parameters
 
@@ -36,11 +36,11 @@
 
 #### Returns
 
-[`CustomSageMakerEndpoint`](CustomSageMakerEndpoint.md)
+`CustomSageMakerEndpoint`
 
 #### Overrides
 
-[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`constructor`](SageMakerEndpointBase.md#constructors)
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`constructor`](SageMakerEndpointBase.md#constructor)
 
 ## Properties
 
