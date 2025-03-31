@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -15,6 +15,7 @@ Properties common for creating any of the different data source types.
 - [`ConfluenceDataSourceAssociationProps`](ConfluenceDataSourceAssociationProps.md)
 - [`SalesforceDataSourceAssociationProps`](SalesforceDataSourceAssociationProps.md)
 - [`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md)
+- [`CustomDataSourceAssociationProps`](CustomDataSourceAssociationProps.md)
 
 ## Properties
 

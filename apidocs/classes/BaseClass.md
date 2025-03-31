@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md)
 
 ***
 
@@ -12,13 +12,8 @@
 
 ## Extended by
 
-- [`RagAppsyncStepfnOpensearch`](RagAppsyncStepfnOpensearch.md)
-- [`SummarizationAppsyncStepfn`](SummarizationAppsyncStepfn.md)
-- [`QaAppsyncOpensearch`](QaAppsyncOpensearch.md)
 - [`SageMakerEndpointBase`](SageMakerEndpointBase.md)
-- [`ContentGenerationAppSyncLambda`](ContentGenerationAppSyncLambda.md)
-- [`WebCrawler`](WebCrawler.md)
-- [`TextToSql`](TextToSql.md)
+- [`BedrockDataAutomation`](BedrockDataAutomation.md)
 
 ## Constructors
 
@@ -28,9 +23,13 @@
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **id**: `string`
+`Construct`
+
+##### id
+
+`string`
 
 #### Returns
 
@@ -134,7 +133,9 @@ Record<string, number> , maps construct name with number of deployments
 
 #### Parameters
 
-• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
+##### props
+
+[`BaseClassProps`](../interfaces/BaseClassProps.md)
 
 #### Returns
 
@@ -164,11 +165,17 @@ Returns a string representation of this construct.
 
 #### Parameters
 
-• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
+##### props
 
-• **scope**: `Construct`
+[`BaseClassProps`](../interfaces/BaseClassProps.md)
 
-• **lambdaFunctions**: `DockerImageFunction`[]
+##### scope
+
+`Construct`
+
+##### lambdaFunctions
+
+`DockerImageFunction`[]
 
 #### Returns
 
@@ -182,7 +189,9 @@ Returns a string representation of this construct.
 
 #### Parameters
 
-• **props**: [`BaseClassProps`](../interfaces/BaseClassProps.md)
+##### props
+
+[`BaseClassProps`](../interfaces/BaseClassProps.md)
 
 #### Returns
 
@@ -212,7 +221,9 @@ this type-testing method instead.
 
 #### Parameters
 
-• **x**: `any`
+##### x
+
+`any`
 
 Any object
 

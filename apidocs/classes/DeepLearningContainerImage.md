@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md)
 
 ***
 
@@ -20,11 +20,17 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 #### Parameters
 
-• **repositoryName**: `string`
+##### repositoryName
 
-• **tag**: `string`
+`string`
 
-• **accountId?**: `string`
+##### tag
+
+`string`
+
+##### accountId?
+
+`string`
 
 #### Returns
 
@@ -180,6 +186,12 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 ***
 
+### DJL\_INFERENCE\_0\_30\_0\_NEURONX\_SDK2\_20\_1
+
+> `readonly` `static` **DJL\_INFERENCE\_0\_30\_0\_NEURONX\_SDK2\_20\_1**: [`ContainerImage`](ContainerImage.md)
+
+***
+
 ### HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_10\_2\_TRANSFORMERS4\_17\_0\_CPU\_PY38\_UBUNTU20\_04
 
 > `readonly` `static` **HUGGINGFACE\_PYTORCH\_INFERENCE\_1\_10\_2\_TRANSFORMERS4\_17\_0\_CPU\_PY38\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
@@ -300,6 +312,30 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 ***
 
+### HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_3\_0\_TRANSFORMERS4\_46\_1\_CPU\_PY311\_UBUNTU22\_04
+
+> `readonly` `static` **HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_3\_0\_TRANSFORMERS4\_46\_1\_CPU\_PY311\_UBUNTU22\_04**: [`ContainerImage`](ContainerImage.md)
+
+***
+
+### HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_3\_0\_TRANSFORMERS4\_46\_1\_GPU\_PY311\_CU121\_UBUNTU20\_04
+
+> `readonly` `static` **HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_3\_0\_TRANSFORMERS4\_46\_1\_GPU\_PY311\_CU121\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
+
+***
+
+### HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_3\_0\_TRANSFORMERS4\_48\_0\_CPU\_PY311\_UBUNTU22\_04
+
+> `readonly` `static` **HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_3\_0\_TRANSFORMERS4\_48\_0\_CPU\_PY311\_UBUNTU22\_04**: [`ContainerImage`](ContainerImage.md)
+
+***
+
+### HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_3\_0\_TRANSFORMERS4\_48\_0\_GPU\_PY311\_CU121\_UBUNTU22\_04
+
+> `readonly` `static` **HUGGINGFACE\_PYTORCH\_INFERENCE\_2\_3\_0\_TRANSFORMERS4\_48\_0\_GPU\_PY311\_CU121\_UBUNTU22\_04**: [`ContainerImage`](ContainerImage.md)
+
+***
+
 ### HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_1\_13\_0\_TRANSFORMERS4\_28\_1\_NEURONX\_PY38\_SDK2\_9\_1\_UBUNTU20\_04
 
 > `readonly` `static` **HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_1\_13\_0\_TRANSFORMERS4\_28\_1\_NEURONX\_PY38\_SDK2\_9\_1\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
@@ -327,6 +363,12 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 ### HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_2\_1\_2\_TRANSFORMERS4\_41\_1\_NEURONX\_PY310\_SDK2\_19\_1\_UBUNTU20\_04
 
 > `readonly` `static` **HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_2\_1\_2\_TRANSFORMERS4\_41\_1\_NEURONX\_PY310\_SDK2\_19\_1\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
+
+***
+
+### HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_2\_1\_2\_TRANSFORMERS4\_43\_2\_NEURONX\_PY310\_SDK2\_20\_0\_UBUNTU20\_04
+
+> `readonly` `static` **HUGGINGFACE\_PYTORCH\_INFERENCE\_NEURONX\_2\_1\_2\_TRANSFORMERS4\_43\_2\_NEURONX\_PY310\_SDK2\_20\_0\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
 
 ***
 
@@ -423,6 +465,30 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 ### HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_3\_0\_TGI2\_2\_0\_GPU\_PY310\_CU121\_UBUNTU22\_04
 
 > `readonly` `static` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_3\_0\_TGI2\_2\_0\_GPU\_PY310\_CU121\_UBUNTU22\_04**: [`ContainerImage`](ContainerImage.md)
+
+***
+
+### HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_4\_0\_TGI2\_3\_1\_GPU\_PY311\_CU124\_UBUNTU22\_04
+
+> `readonly` `static` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_4\_0\_TGI2\_3\_1\_GPU\_PY311\_CU124\_UBUNTU22\_04**: [`ContainerImage`](ContainerImage.md)
+
+***
+
+### HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_4\_0\_TGI2\_4\_0\_GPU\_PY311\_CU124\_UBUNTU22\_04
+
+> `readonly` `static` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_4\_0\_TGI2\_4\_0\_GPU\_PY311\_CU124\_UBUNTU22\_04**: [`ContainerImage`](ContainerImage.md)
+
+***
+
+### HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_4\_0\_TGI3\_0\_1\_GPU\_PY311\_CU124\_UBUNTU22\_04
+
+> `readonly` `static` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_4\_0\_TGI3\_0\_1\_GPU\_PY311\_CU124\_UBUNTU22\_04**: [`ContainerImage`](ContainerImage.md)
+
+***
+
+### HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_6\_0\_TGI3\_1\_1\_GPU\_PY311\_CU124\_UBUNTU22\_04
+
+> `readonly` `static` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_6\_0\_TGI3\_1\_1\_GPU\_PY311\_CU124\_UBUNTU22\_04**: [`ContainerImage`](ContainerImage.md)
 
 ***
 
@@ -540,9 +606,13 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
 
-• **grantable**: `IGrantable`
+`Construct`
+
+##### grantable
+
+`IGrantable`
 
 #### Returns
 
@@ -560,9 +630,13 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 #### Parameters
 
-• **directory**: `string`
+##### directory
 
-• **options**: `DockerImageAssetOptions` = `{}`
+`string`
+
+##### options
+
+`DockerImageAssetOptions` = `{}`
 
 #### Returns
 
@@ -580,11 +654,17 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 #### Parameters
 
-• **repositoryName**: `string`
+##### repositoryName
 
-• **tag**: `string`
+`string`
 
-• **accountId?**: `string`
+##### tag
+
+`string`
+
+##### accountId?
+
+`string`
 
 #### Returns
 
@@ -598,9 +678,13 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 #### Parameters
 
-• **repository**: `IRepository`
+##### repository
 
-• **tag**: `string` = `'latest'`
+`IRepository`
+
+##### tag
+
+`string` = `'latest'`
 
 #### Returns
 

@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md)
 
 ***
 
@@ -26,7 +26,7 @@
 
 #### Index Signature
 
- \[`key`: `string`\]: `string` \| `number` \| `boolean`
+\[`key`: `string`\]: `string` \| `number` \| `boolean`
 
 ***
 
@@ -66,7 +66,7 @@
 
 #### Index Signature
 
- \[`region`: `string`\]: `string`
+\[`region`: `string`\]: `string`
 
 ***
 

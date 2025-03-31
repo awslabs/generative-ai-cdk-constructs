@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -7,6 +7,12 @@
 # Enumeration: PromptTemplateType
 
 ## Enumeration Members
+
+### CHAT
+
+> **CHAT**: `"CHAT"`
+
+***
 
 ### TEXT
 

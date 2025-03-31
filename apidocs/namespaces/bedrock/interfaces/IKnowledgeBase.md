@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -6,13 +6,26 @@
 
 # Interface: IKnowledgeBase
 
-Represents a Knowledge Base, either created with CDK or imported.
+Represents a Knowledge Base, either created with CDK or imported, of any type.
 
 ## Extends
 
 - `IResource`
 
+## Extended by
+
+- [`IVectorKnowledgeBase`](IVectorKnowledgeBase.md)
+- [`IKendraKnowledgeBase`](IKendraKnowledgeBase.md)
+
 ## Properties
+
+### description?
+
+> `readonly` `optional` **description**: `string`
+
+The description of the knowledge base.
+
+***
 
 ### env
 
@@ -29,6 +42,16 @@ that might be different than the stack they were imported into.
 #### Inherited from
 
 `IResource.env`
+
+***
+
+### instruction?
+
+> `readonly` `optional` **instruction**: `string`
+
+A narrative instruction of the knowledge base.
+A Bedrock Agent can use this instruction to determine if it should
+query this Knowledge Base.
 
 ***
 
@@ -90,87 +113,15 @@ The stack in which this resource is defined.
 
 `IResource.stack`
 
+***
+
+### type
+
+> `readonly` **type**: [`KnowledgeBaseType`](../enumerations/KnowledgeBaseType.md)
+
+The type of knowledge base.
+
 ## Methods
-
-### addConfluenceDataSource()
-
-> **addConfluenceDataSource**(`props`): [`ConfluenceDataSource`](../classes/ConfluenceDataSource.md)
-
-Add a Confluence data source to the knowledge base.
-
-#### Parameters
-
-• **props**: [`ConfluenceDataSourceAssociationProps`](ConfluenceDataSourceAssociationProps.md)
-
-#### Returns
-
-[`ConfluenceDataSource`](../classes/ConfluenceDataSource.md)
-
-***
-
-### addS3DataSource()
-
-> **addS3DataSource**(`props`): [`S3DataSource`](../classes/S3DataSource.md)
-
-Add an S3 data source to the knowledge base.
-
-#### Parameters
-
-• **props**: [`S3DataSourceAssociationProps`](S3DataSourceAssociationProps.md)
-
-#### Returns
-
-[`S3DataSource`](../classes/S3DataSource.md)
-
-***
-
-### addSalesforceDataSource()
-
-> **addSalesforceDataSource**(`props`): [`SalesforceDataSource`](../classes/SalesforceDataSource.md)
-
-Add a Salesforce data source to the knowledge base.
-
-#### Parameters
-
-• **props**: [`SalesforceDataSourceAssociationProps`](SalesforceDataSourceAssociationProps.md)
-
-#### Returns
-
-[`SalesforceDataSource`](../classes/SalesforceDataSource.md)
-
-***
-
-### addSharePointDataSource()
-
-> **addSharePointDataSource**(`props`): [`SharePointDataSource`](../classes/SharePointDataSource.md)
-
-Add a SharePoint data source to the knowledge base.
-
-#### Parameters
-
-• **props**: [`SharePointDataSourceAssociationProps`](SharePointDataSourceAssociationProps.md)
-
-#### Returns
-
-[`SharePointDataSource`](../classes/SharePointDataSource.md)
-
-***
-
-### addWebCrawlerDataSource()
-
-> **addWebCrawlerDataSource**(`props`): [`WebCrawlerDataSource`](../classes/WebCrawlerDataSource.md)
-
-Add a web crawler data source to the knowledge base.
-
-#### Parameters
-
-• **props**: [`WebCrawlerDataSourceAssociationProps`](WebCrawlerDataSourceAssociationProps.md)
-
-#### Returns
-
-[`WebCrawlerDataSource`](../classes/WebCrawlerDataSource.md)
-
-***
 
 ### applyRemovalPolicy()
 
@@ -188,7 +139,9 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Parameters
 
-• **policy**: `RemovalPolicy`
+##### policy
+
+`RemovalPolicy`
 
 #### Returns
 
@@ -197,3 +150,43 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 #### Inherited from
 
 `IResource.applyRemovalPolicy`
+
+***
+
+### grant()
+
+> **grant**(`grantee`, ...`actions`): `Grant`
+
+Grant the given principal identity permissions to perform actions on this knowledge base.
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+##### actions
+
+...`string`[]
+
+#### Returns
+
+`Grant`
+
+***
+
+### grantQuery()
+
+> **grantQuery**(`grantee`): `Grant`
+
+Grant the given identity permissions to query the knowledge base.
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+#### Returns
+
+`Grant`

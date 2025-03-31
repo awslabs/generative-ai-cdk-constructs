@@ -10,6 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+
 import { AwsCdkConstructLibrary } from 'projen/lib/awscdk';
 import { Job, JobPermission } from 'projen/lib/github/workflows-model';
 
@@ -553,7 +554,7 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
       {
         name: 'Create Pull Request',
         id: 'create-pr',
-        uses: 'peter-evans/create-pull-request@v4',
+        uses: 'peter-evans/create-pull-request@v7.0.6',
         with: {
           'token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
           'commit-message': [

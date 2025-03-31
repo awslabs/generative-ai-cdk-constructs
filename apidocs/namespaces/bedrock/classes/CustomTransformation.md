@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -38,7 +38,9 @@ The CloudFormation property representation of this custom transformation configu
 
 #### Parameters
 
-• **scope**: `Construct`
+##### scope
+
+`Construct`
 
 #### Returns
 
@@ -55,7 +57,9 @@ into the knowledge base ingestion process.
 
 #### Parameters
 
-• **props**: [`LambdaCustomTransformationProps`](../interfaces/LambdaCustomTransformationProps.md)
+##### props
+
+[`LambdaCustomTransformationProps`](../interfaces/LambdaCustomTransformationProps.md)
 
 #### Returns
 

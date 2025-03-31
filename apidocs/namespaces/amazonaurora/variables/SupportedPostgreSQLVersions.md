@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -31,3 +31,27 @@ List of supported versions of PostgreSQL for Aurora cluster.
 ### AURORA\_POSTGRESQL\_V15\_5
 
 > `readonly` **AURORA\_POSTGRESQL\_V15\_5**: `AuroraPostgresEngineVersion` = `rds.AuroraPostgresEngineVersion.VER_15_5`
+
+### AURORA\_POSTGRESQL\_V15\_6
+
+> `readonly` **AURORA\_POSTGRESQL\_V15\_6**: `AuroraPostgresEngineVersion` = `rds.AuroraPostgresEngineVersion.VER_15_6`
+
+### AURORA\_POSTGRESQL\_V15\_7
+
+> `readonly` **AURORA\_POSTGRESQL\_V15\_7**: `AuroraPostgresEngineVersion` = `rds.AuroraPostgresEngineVersion.VER_15_7`
+
+### AURORA\_POSTGRESQL\_V15\_8
+
+> `readonly` **AURORA\_POSTGRESQL\_V15\_8**: `AuroraPostgresEngineVersion` = `rds.AuroraPostgresEngineVersion.VER_15_8`
+
+### AURORA\_POSTGRESQL\_V16\_1
+
+> `readonly` **AURORA\_POSTGRESQL\_V16\_1**: `AuroraPostgresEngineVersion` = `rds.AuroraPostgresEngineVersion.VER_16_1`
+
+### AURORA\_POSTGRESQL\_V16\_2
+
+> `readonly` **AURORA\_POSTGRESQL\_V16\_2**: `AuroraPostgresEngineVersion` = `rds.AuroraPostgresEngineVersion.VER_16_2`
+
+### AURORA\_POSTGRESQL\_V16\_3
+
+> `readonly` **AURORA\_POSTGRESQL\_V16\_3**: `AuroraPostgresEngineVersion` = `rds.AuroraPostgresEngineVersion.VER_16_3`

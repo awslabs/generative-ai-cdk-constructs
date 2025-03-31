@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -6,15 +6,15 @@
 
 # Interface: AgentAliasProps
 
-Interface to create a new Agent Alias.
+Properties for creating a CDK-Managed Agent Alias.
 
 ## Properties
 
-### agentId
+### agent
 
-> `readonly` **agentId**: `string`
+> `readonly` **agent**: [`IAgent`](IAgent.md)
 
-The unique identifier of the agent.
+The agent associated to this alias.
 
 ***
 
@@ -41,7 +41,7 @@ The name for the agent alias.
 #### Default
 
 ```ts
-- 'latest'
+- "latest-{hash}"
 ```
 
 ***
@@ -51,25 +51,3 @@ The name for the agent alias.
 > `readonly` `optional` **description**: `string`
 
 Description for the agent alias.
-
-***
-
-### resourceUpdates?
-
-> `readonly` `optional` **resourceUpdates**: `string`[]
-
-The list of resource update timestamps to let CloudFormation determine when to update the alias.
-
-***
-
-### tags?
-
-> `readonly` `optional` **tags**: `Record`\<`string`, `string`\>
-
-OPTIONAL: Tag (KEY-VALUE) bedrock agent resource
-
-#### Default
-
-```ts
-- false
-```

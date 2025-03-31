@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -11,6 +11,10 @@ Bedrock models.
 If you need to use a model name that doesn't exist as a static member, you
 can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationModel('my-model')`.
 
+## Implements
+
+- [`IInvokable`](../interfaces/IInvokable.md)
+
 ## Constructors
 
 ### new BedrockFoundationModel()
@@ -19,9 +23,13 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 #### Parameters
 
-• **value**: `string`
+##### value
 
-• **props**: [`BedrockFoundationModelProps`](../interfaces/BedrockFoundationModelProps.md) = `{}`
+`string`
+
+##### props
+
+[`BedrockFoundationModelProps`](../interfaces/BedrockFoundationModelProps.md) = `{}`
 
 #### Returns
 
@@ -29,15 +37,49 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 ## Properties
 
+### invokableArn
+
+> `readonly` **invokableArn**: `string`
+
+The ARN of the Bedrock invokable abstraction.
+
+#### Implementation of
+
+[`IInvokable`](../interfaces/IInvokable.md).[`invokableArn`](../interfaces/IInvokable.md#invokablearn)
+
+***
+
+### modelArn
+
+> `readonly` **modelArn**: `string`
+
+***
+
 ### modelId
 
 > `readonly` **modelId**: `string`
+
+*************************************************************************
+                           Constructor
+*************************************************************************
+
+***
+
+### supportedVectorType?
+
+> `readonly` `optional` **supportedVectorType**: [`VectorType`](../enumerations/VectorType.md)[]
 
 ***
 
 ### supportsAgents
 
 > `readonly` **supportsAgents**: `boolean`
+
+***
+
+### supportsCrossRegion
+
+> `readonly` **supportsCrossRegion**: `boolean`
 
 ***
 
@@ -53,6 +95,46 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 ***
 
+### AI21\_JAMBA\_1\_5\_LARGE\_V1
+
+> `readonly` `static` **AI21\_JAMBA\_1\_5\_LARGE\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+*************************************************************************
+                           AI21
+*************************************************************************
+
+***
+
+### AI21\_JAMBA\_1\_5\_MINI\_V1
+
+> `readonly` `static` **AI21\_JAMBA\_1\_5\_MINI\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### AI21\_JAMBA\_INSTRUCT\_V1
+
+> `readonly` `static` **AI21\_JAMBA\_INSTRUCT\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### AMAZON\_NOVA\_LITE\_V1
+
+> `readonly` `static` **AMAZON\_NOVA\_LITE\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### AMAZON\_NOVA\_MICRO\_V1
+
+> `readonly` `static` **AMAZON\_NOVA\_MICRO\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### AMAZON\_NOVA\_PRO\_V1
+
+> `readonly` `static` **AMAZON\_NOVA\_PRO\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
 ### AMAZON\_TITAN\_PREMIER\_V1\_0
 
 > `readonly` `static` **AMAZON\_TITAN\_PREMIER\_V1\_0**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
@@ -63,11 +145,37 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 > `readonly` `static` **AMAZON\_TITAN\_TEXT\_EXPRESS\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
 
+*************************************************************************
+                           AMAZON
+*************************************************************************
+
+***
+
+### ANTHROPIC\_CLAUDE\_3\_5\_HAIKU\_V1\_0
+
+> `readonly` `static` **ANTHROPIC\_CLAUDE\_3\_5\_HAIKU\_V1\_0**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
 ***
 
 ### ANTHROPIC\_CLAUDE\_3\_5\_SONNET\_V1\_0
 
 > `readonly` `static` **ANTHROPIC\_CLAUDE\_3\_5\_SONNET\_V1\_0**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### ANTHROPIC\_CLAUDE\_3\_5\_SONNET\_V2\_0
+
+> `readonly` `static` **ANTHROPIC\_CLAUDE\_3\_5\_SONNET\_V2\_0**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### ANTHROPIC\_CLAUDE\_3\_7\_SONNET\_V1\_0
+
+> `readonly` `static` **ANTHROPIC\_CLAUDE\_3\_7\_SONNET\_V1\_0**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+*************************************************************************
+                           ANTHROPIC
+*************************************************************************
 
 ***
 
@@ -111,11 +219,65 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 > `readonly` `static` **COHERE\_EMBED\_ENGLISH\_V3**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
 
+*************************************************************************
+                           COHERE
+*************************************************************************
+
 ***
 
 ### COHERE\_EMBED\_MULTILINGUAL\_V3
 
 > `readonly` `static` **COHERE\_EMBED\_MULTILINGUAL\_V3**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### DEEPSEEK\_R1\_V1
+
+> `readonly` `static` **DEEPSEEK\_R1\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+*************************************************************************
+                           DEEPSEEK
+*************************************************************************
+
+***
+
+### META\_LLAMA\_3\_1\_70B\_INSTRUCT\_V1
+
+> `readonly` `static` **META\_LLAMA\_3\_1\_70B\_INSTRUCT\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### META\_LLAMA\_3\_1\_8B\_INSTRUCT\_V1
+
+> `readonly` `static` **META\_LLAMA\_3\_1\_8B\_INSTRUCT\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+*************************************************************************
+                           META
+*************************************************************************
+
+***
+
+### META\_LLAMA\_3\_2\_11B\_INSTRUCT\_V1
+
+> `readonly` `static` **META\_LLAMA\_3\_2\_11B\_INSTRUCT\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### META\_LLAMA\_3\_2\_1B\_INSTRUCT\_V1
+
+> `readonly` `static` **META\_LLAMA\_3\_2\_1B\_INSTRUCT\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### META\_LLAMA\_3\_2\_3B\_INSTRUCT\_V1
+
+> `readonly` `static` **META\_LLAMA\_3\_2\_3B\_INSTRUCT\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### META\_LLAMA\_3\_3\_70B\_INSTRUCT\_V1
+
+> `readonly` `static` **META\_LLAMA\_3\_3\_70B\_INSTRUCT\_V1**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
 
 ***
 
@@ -152,7 +314,9 @@ Returns the ARN of the foundation model in the following format:
 
 #### Parameters
 
-• **construct**: `IConstruct`
+##### construct
+
+`IConstruct`
 
 #### Returns
 
@@ -166,7 +330,9 @@ Returns the ARN of the foundation model in the following format:
 
 #### Parameters
 
-• **construct**: `IConstruct`
+##### construct
+
+`IConstruct`
 
 #### Returns
 
@@ -174,10 +340,92 @@ Returns the ARN of the foundation model in the following format:
 
 ***
 
+### grantInvoke()
+
+> **grantInvoke**(`grantee`): `Grant`
+
+Gives the appropriate policies to invoke and use the Foundation Model in the stack region.
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+#### Returns
+
+`Grant`
+
+#### Implementation of
+
+[`IInvokable`](../interfaces/IInvokable.md).[`grantInvoke`](../interfaces/IInvokable.md#grantinvoke)
+
+***
+
+### grantInvokeAllRegions()
+
+> **grantInvokeAllRegions**(`grantee`): `Grant`
+
+Gives the appropriate policies to invoke and use the Foundation Model in all regions.
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+#### Returns
+
+`Grant`
+
+***
+
 ### toString()
 
 > **toString**(): `string`
 
+Returns a string representation of an object.
+
 #### Returns
 
 `string`
+
+***
+
+### fromCdkFoundationModel()
+
+> `static` **fromCdkFoundationModel**(`modelId`, `props`): [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+#### Parameters
+
+##### modelId
+
+`FoundationModel`
+
+##### props
+
+[`BedrockFoundationModelProps`](../interfaces/BedrockFoundationModelProps.md) = `{}`
+
+#### Returns
+
+[`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+***
+
+### fromCdkFoundationModelId()
+
+> `static` **fromCdkFoundationModelId**(`modelId`, `props`): [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+#### Parameters
+
+##### modelId
+
+`FoundationModelIdentifier`
+
+##### props
+
+[`BedrockFoundationModelProps`](../interfaces/BedrockFoundationModelProps.md) = `{}`
+
+#### Returns
+
+[`BedrockFoundationModel`](BedrockFoundationModel.md)

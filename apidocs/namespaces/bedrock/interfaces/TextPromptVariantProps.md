@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -22,7 +22,7 @@ Inference configuration for the Text Prompt
 
 ### model
 
-> `readonly` **model**: `IModel`
+> `readonly` **model**: [`IInvokable`](IInvokable.md)
 
 The model which is used to run the prompt. The model could be a foundation
 model, a custom model, or a provisioned model.
@@ -33,11 +33,24 @@ model, a custom model, or a provisioned model.
 
 ***
 
-### templateConfiguration?
+### promptText
 
-> `readonly` `optional` **templateConfiguration**: `TextPromptTemplateConfigurationProperty`
+> `readonly` **promptText**: `string`
 
-Template Configuration for the text prompt
+The text prompt. Variables are used by enclosing its name with double curly braces
+as in `{{variable_name}}`.
+
+***
+
+### promptVariables?
+
+> `readonly` `optional` **promptVariables**: `string`[]
+
+The variables in the prompt template that can be filled in at runtime.
+
+#### Inherited from
+
+[`CommonPromptVariantProps`](CommonPromptVariantProps.md).[`promptVariables`](CommonPromptVariantProps.md#promptvariables)
 
 ***
 

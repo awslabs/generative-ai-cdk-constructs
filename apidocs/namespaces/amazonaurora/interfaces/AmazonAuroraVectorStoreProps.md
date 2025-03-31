@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -13,6 +13,14 @@ Properties for configuring an Amazon Aurora Vector Store.
 - [`BaseAuroraVectorStoreProps`](BaseAuroraVectorStoreProps.md)
 
 ## Properties
+
+### clusterId?
+
+> `readonly` `optional` **clusterId**: `string`
+
+Cluster identifier.
+
+***
 
 ### databaseName?
 

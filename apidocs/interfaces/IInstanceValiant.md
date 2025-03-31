@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md)
 
 ***
 
@@ -14,7 +14,7 @@
 
 #### Index Signature
 
- \[`key`: `string`\]: `string`
+\[`key`: `string`\]: `string`
 
 ***
 

@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -21,6 +21,14 @@ You can optimize the prompt for specific use cases and models.
 [`PromptVariant`](PromptVariant.md)
 
 ## Properties
+
+### genAiResource?
+
+> `abstract` `optional` **genAiResource**: `PromptGenAiResourceProperty`
+
+The template configuration.
+
+***
 
 ### inferenceConfiguration?
 
@@ -46,9 +54,9 @@ The name of the prompt variant.
 
 ***
 
-### templateConfiguration?
+### templateConfiguration
 
-> `abstract` `optional` **templateConfiguration**: `PromptTemplateConfigurationProperty`
+> `abstract` **templateConfiguration**: `PromptTemplateConfigurationProperty`
 
 The template configuration.
 
@@ -56,11 +64,50 @@ The template configuration.
 
 ### templateType
 
-> `abstract` **templateType**: [`TEXT`](../enumerations/PromptTemplateType.md#text)
+> `abstract` **templateType**: [`PromptTemplateType`](../enumerations/PromptTemplateType.md)
 
 The type of prompt template.
 
 ## Methods
+
+### agent()
+
+> `static` **agent**(`props`): [`PromptVariant`](PromptVariant.md)
+
+Static method to create an agent prompt template.
+
+#### Parameters
+
+##### props
+
+[`AgentPromptVariantProps`](../interfaces/AgentPromptVariantProps.md)
+
+#### Returns
+
+[`PromptVariant`](PromptVariant.md)
+
+***
+
+### chat()
+
+> `static` **chat**(`props`): [`PromptVariant`](PromptVariant.md)
+
+Static method to create a chat template. Use this template type when
+the model supports the Converse API or the AnthropicClaude Messages API.
+This allows you to include a System prompt and previous User messages
+and Assistant messages for context.
+
+#### Parameters
+
+##### props
+
+[`ChatPromptVariantProps`](../interfaces/ChatPromptVariantProps.md)
+
+#### Returns
+
+[`PromptVariant`](PromptVariant.md)
+
+***
 
 ### text()
 
@@ -70,7 +117,9 @@ Static method to create a text template
 
 #### Parameters
 
-• **props**: [`TextPromptVariantProps`](../interfaces/TextPromptVariantProps.md)
+##### props
+
+[`TextPromptVariantProps`](../interfaces/TextPromptVariantProps.md)
 
 #### Returns
 

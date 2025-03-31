@@ -36,26 +36,26 @@ jobs:
         id: self_mutation
         run: |-
           git add .
-          git diff --staged --patch --exit-code > .repo.patch || echo "self_mutation_happened=true" >> $GITHUB_OUTPUT
+          git diff --staged --patch --exit-code > repo.patch || echo "self_mutation_happened=true" >> $GITHUB_OUTPUT
         working-directory: ./
       - name: Upload patch
         if: steps.self_mutation.outputs.self_mutation_happened
-        uses: actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874
         with:
-          name: .repo.patch
-          path: .repo.patch
+          name: repo.patch
+          path: repo.patch
           overwrite: true
       - name: Fail build on mutation
         if: steps.self_mutation.outputs.self_mutation_happened
         run: |-
           echo "::error::Files were changed during build (see build log). If this was triggered from a fork, you will need to update your branch."
-          cat .repo.patch
+          cat repo.patch
           exit 1
       - name: Backup artifact permissions
         run: cd dist && getfacl -R . > permissions-backup.acl
         continue-on-error: true
       - name: Upload artifact
-        uses: actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874
         with:
           name: build-artifact
           path: dist
@@ -76,10 +76,10 @@ jobs:
       - name: Download patch
         uses: actions/download-artifact@b4aefff88e83a2676a730654e1ce3dce61880379
         with:
-          name: .repo.patch
+          name: repo.patch
           path: ${{ runner.temp }}
       - name: Apply patch
-        run: '[ -s ${{ runner.temp }}/.repo.patch ] && git apply ${{ runner.temp }}/.repo.patch || echo "Empty patch. Skipping."'
+        run: '[ -s ${{ runner.temp }}/repo.patch ] && git apply ${{ runner.temp }}/repo.patch || echo "Empty patch. Skipping."'
       - name: Set git identity
         run: |-
           git config user.name "github-actions"
@@ -94,8 +94,9 @@ jobs:
   package-js:
     needs: build
     runs-on: ubuntu-latest
-    permissions: {}
-    if: "! needs.build.outputs.self_mutation_happened"
+    permissions:
+      contents: read
+    if: ${{ !needs.build.outputs.self_mutation_happened }}
     steps:
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
@@ -108,48 +109,28 @@ jobs:
       - name: Restore build artifact permissions
         run: cd dist && setfacl --restore=permissions-backup.acl
         continue-on-error: true
-      - name: Prepare Repository
-        run: mv dist .repo
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          path: .repo
       - name: Install Dependencies
         run: cd .repo && yarn install --check-files --frozen-lockfile
+      - name: Extract build artifact
+        run: tar --strip-components=1 -xzvf dist/js/*.tgz -C .repo
+      - name: Move build artifact out of the way
+        run: mv dist dist.old
       - name: Create js artifact
         run: cd .repo && npx projen package:js
-      - name: Collect js Artifact
-        run: mv .repo/dist dist
-  package-java:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions: {}
-    if: "! needs.build.outputs.self_mutation_happened"
-    steps:
-      - uses: actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9
-        with:
-          distribution: corretto
-          java-version: "11"
-      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
-        with:
-          node-version: 20.x
-      - name: Download build artifacts
-        uses: actions/download-artifact@b4aefff88e83a2676a730654e1ce3dce61880379
-        with:
-          name: build-artifact
-          path: dist
-      - name: Restore build artifact permissions
-        run: cd dist && setfacl --restore=permissions-backup.acl
-        continue-on-error: true
-      - name: Prepare Repository
-        run: mv dist .repo
-      - name: Install Dependencies
-        run: cd .repo && yarn install --check-files --frozen-lockfile
-      - name: Create java artifact
-        run: cd .repo && npx projen package:java
-      - name: Collect java Artifact
+      - name: Collect js artifact
         run: mv .repo/dist dist
   package-python:
     needs: build
     runs-on: ubuntu-latest
-    permissions: {}
-    if: "! needs.build.outputs.self_mutation_happened"
+    permissions:
+      contents: read
+    if: ${{ !needs.build.outputs.self_mutation_happened }}
     steps:
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
@@ -165,19 +146,28 @@ jobs:
       - name: Restore build artifact permissions
         run: cd dist && setfacl --restore=permissions-backup.acl
         continue-on-error: true
-      - name: Prepare Repository
-        run: mv dist .repo
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          path: .repo
       - name: Install Dependencies
         run: cd .repo && yarn install --check-files --frozen-lockfile
+      - name: Extract build artifact
+        run: tar --strip-components=1 -xzvf dist/js/*.tgz -C .repo
+      - name: Move build artifact out of the way
+        run: mv dist dist.old
       - name: Create python artifact
         run: cd .repo && npx projen package:python
-      - name: Collect python Artifact
+      - name: Collect python artifact
         run: mv .repo/dist dist
   package-dotnet:
     needs: build
     runs-on: ubuntu-latest
-    permissions: {}
-    if: "! needs.build.outputs.self_mutation_happened"
+    permissions:
+      contents: read
+    if: ${{ !needs.build.outputs.self_mutation_happened }}
     steps:
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
@@ -193,19 +183,28 @@ jobs:
       - name: Restore build artifact permissions
         run: cd dist && setfacl --restore=permissions-backup.acl
         continue-on-error: true
-      - name: Prepare Repository
-        run: mv dist .repo
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          path: .repo
       - name: Install Dependencies
         run: cd .repo && yarn install --check-files --frozen-lockfile
+      - name: Extract build artifact
+        run: tar --strip-components=1 -xzvf dist/js/*.tgz -C .repo
+      - name: Move build artifact out of the way
+        run: mv dist dist.old
       - name: Create dotnet artifact
         run: cd .repo && npx projen package:dotnet
-      - name: Collect dotnet Artifact
+      - name: Collect dotnet artifact
         run: mv .repo/dist dist
   package-go:
     needs: build
     runs-on: ubuntu-latest
-    permissions: {}
-    if: "! needs.build.outputs.self_mutation_happened"
+    permissions:
+      contents: read
+    if: ${{ !needs.build.outputs.self_mutation_happened }}
     steps:
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8
         with:
@@ -221,11 +220,19 @@ jobs:
       - name: Restore build artifact permissions
         run: cd dist && setfacl --restore=permissions-backup.acl
         continue-on-error: true
-      - name: Prepare Repository
-        run: mv dist .repo
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          path: .repo
       - name: Install Dependencies
         run: cd .repo && yarn install --check-files --frozen-lockfile
+      - name: Extract build artifact
+        run: tar --strip-components=1 -xzvf dist/js/*.tgz -C .repo
+      - name: Move build artifact out of the way
+        run: mv dist dist.old
       - name: Create go artifact
         run: cd .repo && npx projen package:go
-      - name: Collect go Artifact
+      - name: Collect go artifact
         run: mv .repo/dist dist

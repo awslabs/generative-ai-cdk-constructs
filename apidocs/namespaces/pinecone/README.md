@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../README.md)
 
 ***
 
@@ -6,12 +6,10 @@
 
 # pinecone
 
-## Index
-
-### Classes
+## Classes
 
 - [PineconeVectorStore](classes/PineconeVectorStore.md)
 
-### Interfaces
+## Interfaces
 
 - [PineconeVectorStoreProps](interfaces/PineconeVectorStoreProps.md)

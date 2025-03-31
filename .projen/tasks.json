@@ -33,6 +33,7 @@
         "BUMPFILE": "dist/version.txt",
         "RELEASETAG": "dist/releasetag.txt",
         "RELEASE_TAG_PREFIX": "",
+        "BUMP_PACKAGE": "commit-and-tag-version@^12",
         "RELEASABLE_COMMITS": "git log --no-merges --oneline $LATEST_TAG..HEAD -E --grep \"^(feat|fix){1}(\\([^()[:space:]]+\\))?(!)?:[[:blank:]]+.+\""
       },
       "steps": [
@@ -40,7 +41,7 @@
           "builtin": "release/bump-version"
         }
       ],
-      "condition": "! git log --oneline -1 | grep -q \"chore(release):\""
+      "condition": "git log --oneline -1 | grep -qv \"chore(release):\""
     },
     "clobber": {
       "name": "clobber",
@@ -116,6 +117,9 @@
     "eslint": {
       "name": "eslint",
       "description": "Runs eslint against the codebase",
+      "env": {
+        "ESLINT_USE_FLAT_CONFIG": "false"
+      },
       "steps": [
         {
           "exec": "eslint --ext .ts,.tsx --fix --no-error-on-unmatched-pattern $@ src test build-tools projenrc .projenrc.ts",
@@ -161,6 +165,69 @@
       "steps": [
         {
           "exec": "yarn install --check-files --frozen-lockfile"
+        }
+      ]
+    },
+    "integ:agent-mem:assert": {
+      "name": "integ:agent-mem:assert",
+      "description": "assert the snapshot of integration test 'agent-mem'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/agent-mem.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'agent-mem'. Run 'projen integ:agent-mem:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/agent-mem.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/agent-mem.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/agent-mem.integ.snapshot/ test/integ/.tmp/agent-mem.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:agent-mem:deploy": {
+      "name": "integ:agent-mem:deploy",
+      "description": "deploy integration test 'agent-mem' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/agent-mem.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/agent-mem.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/agent-mem.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/agent-mem.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/agent-mem.integ/deploy.cdk.out test/integ/agent-mem.integ.snapshot"
+        },
+        {
+          "spawn": "integ:agent-mem:destroy"
+        }
+      ]
+    },
+    "integ:agent-mem:destroy": {
+      "name": "integ:agent-mem:destroy",
+      "description": "destroy integration test 'agent-mem'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/agent-mem.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:agent-mem:snapshot": {
+      "name": "integ:agent-mem:snapshot",
+      "description": "update snapshot for integration test \"agent-mem\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/agent-mem.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/agent-mem.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:agent-mem:watch": {
+      "name": "integ:agent-mem:watch",
+      "description": "watch integration test 'agent-mem' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/agent-mem.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/agent-mem.integ/deploy.cdk.out"
         }
       ]
     },
@@ -227,10 +294,475 @@
         }
       ]
     },
+    "integ:chatprompt:assert": {
+      "name": "integ:chatprompt:assert",
+      "description": "assert the snapshot of integration test 'chatprompt'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/chatprompt.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'chatprompt'. Run 'projen integ:chatprompt:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/chatprompt.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/chatprompt.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/chatprompt.integ.snapshot/ test/integ/.tmp/chatprompt.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:chatprompt:deploy": {
+      "name": "integ:chatprompt:deploy",
+      "description": "deploy integration test 'chatprompt' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/chatprompt.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/chatprompt.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/chatprompt.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/chatprompt.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/chatprompt.integ/deploy.cdk.out test/integ/chatprompt.integ.snapshot"
+        },
+        {
+          "spawn": "integ:chatprompt:destroy"
+        }
+      ]
+    },
+    "integ:chatprompt:destroy": {
+      "name": "integ:chatprompt:destroy",
+      "description": "destroy integration test 'chatprompt'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/chatprompt.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:chatprompt:snapshot": {
+      "name": "integ:chatprompt:snapshot",
+      "description": "update snapshot for integration test \"chatprompt\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/chatprompt.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/chatprompt.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:chatprompt:watch": {
+      "name": "integ:chatprompt:watch",
+      "description": "watch integration test 'chatprompt' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/chatprompt.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/chatprompt.integ/deploy.cdk.out"
+        }
+      ]
+    },
+    "integ:guardrails:assert": {
+      "name": "integ:guardrails:assert",
+      "description": "assert the snapshot of integration test 'guardrails'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/guardrails.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'guardrails'. Run 'projen integ:guardrails:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/guardrails.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/guardrails.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/guardrails.integ.snapshot/ test/integ/.tmp/guardrails.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:guardrails:deploy": {
+      "name": "integ:guardrails:deploy",
+      "description": "deploy integration test 'guardrails' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/guardrails.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/guardrails.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/guardrails.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/guardrails.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/guardrails.integ/deploy.cdk.out test/integ/guardrails.integ.snapshot"
+        },
+        {
+          "spawn": "integ:guardrails:destroy"
+        }
+      ]
+    },
+    "integ:guardrails:destroy": {
+      "name": "integ:guardrails:destroy",
+      "description": "destroy integration test 'guardrails'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/guardrails.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:guardrails:snapshot": {
+      "name": "integ:guardrails:snapshot",
+      "description": "update snapshot for integration test \"guardrails\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/guardrails.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/guardrails.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:guardrails:watch": {
+      "name": "integ:guardrails:watch",
+      "description": "watch integration test 'guardrails' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/guardrails.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/guardrails.integ/deploy.cdk.out"
+        }
+      ]
+    },
+    "integ:inference-profiles:assert": {
+      "name": "integ:inference-profiles:assert",
+      "description": "assert the snapshot of integration test 'inference-profiles'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/inference-profiles.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'inference-profiles'. Run 'projen integ:inference-profiles:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/inference-profiles.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/inference-profiles.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/inference-profiles.integ.snapshot/ test/integ/.tmp/inference-profiles.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:inference-profiles:deploy": {
+      "name": "integ:inference-profiles:deploy",
+      "description": "deploy integration test 'inference-profiles' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/inference-profiles.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/inference-profiles.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/inference-profiles.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/inference-profiles.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/inference-profiles.integ/deploy.cdk.out test/integ/inference-profiles.integ.snapshot"
+        },
+        {
+          "spawn": "integ:inference-profiles:destroy"
+        }
+      ]
+    },
+    "integ:inference-profiles:destroy": {
+      "name": "integ:inference-profiles:destroy",
+      "description": "destroy integration test 'inference-profiles'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/inference-profiles.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:inference-profiles:snapshot": {
+      "name": "integ:inference-profiles:snapshot",
+      "description": "update snapshot for integration test \"inference-profiles\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/inference-profiles.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/inference-profiles.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:inference-profiles:watch": {
+      "name": "integ:inference-profiles:watch",
+      "description": "watch integration test 'inference-profiles' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/inference-profiles.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/inference-profiles.integ/deploy.cdk.out"
+        }
+      ]
+    },
+    "integ:issue747:assert": {
+      "name": "integ:issue747:assert",
+      "description": "assert the snapshot of integration test 'issue747'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/issue747.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'issue747'. Run 'projen integ:issue747:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/issue747.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/issue747.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/issue747.integ.snapshot/ test/integ/.tmp/issue747.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:issue747:deploy": {
+      "name": "integ:issue747:deploy",
+      "description": "deploy integration test 'issue747' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/issue747.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/issue747.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/issue747.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/issue747.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/issue747.integ/deploy.cdk.out test/integ/issue747.integ.snapshot"
+        },
+        {
+          "spawn": "integ:issue747:destroy"
+        }
+      ]
+    },
+    "integ:issue747:destroy": {
+      "name": "integ:issue747:destroy",
+      "description": "destroy integration test 'issue747'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/issue747.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:issue747:snapshot": {
+      "name": "integ:issue747:snapshot",
+      "description": "update snapshot for integration test \"issue747\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/issue747.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/issue747.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:issue747:watch": {
+      "name": "integ:issue747:watch",
+      "description": "watch integration test 'issue747' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/issue747.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/issue747.integ/deploy.cdk.out"
+        }
+      ]
+    },
+    "integ:issue991:assert": {
+      "name": "integ:issue991:assert",
+      "description": "assert the snapshot of integration test 'issue991'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/issue991.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'issue991'. Run 'projen integ:issue991:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/issue991.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/issue991.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/issue991.integ.snapshot/ test/integ/.tmp/issue991.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:issue991:deploy": {
+      "name": "integ:issue991:deploy",
+      "description": "deploy integration test 'issue991' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/issue991.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/issue991.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/issue991.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/issue991.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/issue991.integ/deploy.cdk.out test/integ/issue991.integ.snapshot"
+        },
+        {
+          "spawn": "integ:issue991:destroy"
+        }
+      ]
+    },
+    "integ:issue991:destroy": {
+      "name": "integ:issue991:destroy",
+      "description": "destroy integration test 'issue991'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/issue991.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:issue991:snapshot": {
+      "name": "integ:issue991:snapshot",
+      "description": "update snapshot for integration test \"issue991\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/issue991.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/issue991.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:issue991:watch": {
+      "name": "integ:issue991:watch",
+      "description": "watch integration test 'issue991' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/issue991.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/issue991.integ/deploy.cdk.out"
+        }
+      ]
+    },
+    "integ:kendra-genai:assert": {
+      "name": "integ:kendra-genai:assert",
+      "description": "assert the snapshot of integration test 'kendra-genai'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/kendra-genai.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'kendra-genai'. Run 'projen integ:kendra-genai:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/kendra-genai.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/kendra-genai.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/kendra-genai.integ.snapshot/ test/integ/.tmp/kendra-genai.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:kendra-genai:deploy": {
+      "name": "integ:kendra-genai:deploy",
+      "description": "deploy integration test 'kendra-genai' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/kendra-genai.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/kendra-genai.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/kendra-genai.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/kendra-genai.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/kendra-genai.integ/deploy.cdk.out test/integ/kendra-genai.integ.snapshot"
+        },
+        {
+          "spawn": "integ:kendra-genai:destroy"
+        }
+      ]
+    },
+    "integ:kendra-genai:destroy": {
+      "name": "integ:kendra-genai:destroy",
+      "description": "destroy integration test 'kendra-genai'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/kendra-genai.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:kendra-genai:snapshot": {
+      "name": "integ:kendra-genai:snapshot",
+      "description": "update snapshot for integration test \"kendra-genai\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/kendra-genai.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/kendra-genai.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:kendra-genai:watch": {
+      "name": "integ:kendra-genai:watch",
+      "description": "watch integration test 'kendra-genai' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/kendra-genai.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/kendra-genai.integ/deploy.cdk.out"
+        }
+      ]
+    },
+    "integ:prompt-router:assert": {
+      "name": "integ:prompt-router:assert",
+      "description": "assert the snapshot of integration test 'prompt-router'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/prompt-router.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'prompt-router'. Run 'projen integ:prompt-router:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/prompt-router.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/prompt-router.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/prompt-router.integ.snapshot/ test/integ/.tmp/prompt-router.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:prompt-router:deploy": {
+      "name": "integ:prompt-router:deploy",
+      "description": "deploy integration test 'prompt-router' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/prompt-router.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/prompt-router.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/prompt-router.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/prompt-router.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/prompt-router.integ/deploy.cdk.out test/integ/prompt-router.integ.snapshot"
+        },
+        {
+          "spawn": "integ:prompt-router:destroy"
+        }
+      ]
+    },
+    "integ:prompt-router:destroy": {
+      "name": "integ:prompt-router:destroy",
+      "description": "destroy integration test 'prompt-router'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/prompt-router.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:prompt-router:snapshot": {
+      "name": "integ:prompt-router:snapshot",
+      "description": "update snapshot for integration test \"prompt-router\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/prompt-router.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/prompt-router.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:prompt-router:watch": {
+      "name": "integ:prompt-router:watch",
+      "description": "watch integration test 'prompt-router' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/prompt-router.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/prompt-router.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:snapshot-all": {
       "name": "integ:snapshot-all",
       "description": "update snapshot for all integration tests",
       "steps": [
+        {
+          "spawn": "integ:agent-mem:snapshot"
+        },
+        {
+          "spawn": "integ:chatprompt:snapshot"
+        },
+        {
+          "spawn": "integ:guardrails:snapshot"
+        },
+        {
+          "spawn": "integ:inference-profiles:snapshot"
+        },
+        {
+          "spawn": "integ:issue747:snapshot"
+        },
+        {
+          "spawn": "integ:issue991:snapshot"
+        },
+        {
+          "spawn": "integ:kendra-genai:snapshot"
+        },
+        {
+          "spawn": "integ:prompt-router:snapshot"
+        },
         {
           "spawn": "integ:aws-aoss-cw-dashboard:snapshot"
         }
@@ -241,7 +773,7 @@
       "description": "Creates the distribution package",
       "steps": [
         {
-          "exec": "rsync -a . .repo --exclude .git --exclude node_modules && rm -rf dist && mv .repo dist",
+          "spawn": "package:js",
           "condition": "node -e \"if (!process.env.CI) process.exit(1)\""
         },
         {
@@ -256,9 +788,6 @@
       "steps": [
         {
           "spawn": "package:js"
-        },
-        {
-          "spawn": "package:java"
         },
         {
           "spawn": "package:python"
@@ -286,15 +815,6 @@
       "steps": [
         {
           "exec": "jsii-pacmak -v --target go"
-        }
-      ]
-    },
-    "package:java": {
-      "name": "package:java",
-      "description": "Create java language bindings",
-      "steps": [
-        {
-          "exec": "jsii-pacmak -v --target java"
         }
       ]
     },
@@ -374,6 +894,30 @@
           "spawn": "eslint"
         },
         {
+          "spawn": "integ:agent-mem:assert"
+        },
+        {
+          "spawn": "integ:chatprompt:assert"
+        },
+        {
+          "spawn": "integ:guardrails:assert"
+        },
+        {
+          "spawn": "integ:inference-profiles:assert"
+        },
+        {
+          "spawn": "integ:issue747:assert"
+        },
+        {
+          "spawn": "integ:issue991:assert"
+        },
+        {
+          "spawn": "integ:kendra-genai:assert"
+        },
+        {
+          "spawn": "integ:prompt-router:assert"
+        },
+        {
           "spawn": "integ:aws-aoss-cw-dashboard:assert"
         }
       ]
@@ -396,6 +940,7 @@
         "BUMPFILE": "dist/version.txt",
         "RELEASETAG": "dist/releasetag.txt",
         "RELEASE_TAG_PREFIX": "",
+        "BUMP_PACKAGE": "commit-and-tag-version@^12",
         "RELEASABLE_COMMITS": "git log --no-merges --oneline $LATEST_TAG..HEAD -E --grep \"^(feat|fix){1}(\\([^()[:space:]]+\\))?(!)?:[[:blank:]]+.+\""
       },
       "steps": [
@@ -412,13 +957,13 @@
       },
       "steps": [
         {
-          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --dep=dev,peer,prod,optional --filter=@aws-cdk/assert,@commitlint/config-conventional,@mrgrain/jsii-struct-builder,@types/jest,aws-sdk-mock,commitlint,eslint-import-resolver-typescript,eslint-plugin-header,eslint-plugin-import,husky,jest,jsii-diff,jsii-pacmak,pinst,ts-jest,ts-node,typedoc,typedoc-plugin-markdown,typescript,deepmerge,cdk-nag"
+          "exec": "npx npm-check-updates@16 --upgrade --target=minor --peer --no-deprecated --dep=dev,peer,prod,optional --filter=@aws-cdk/assert,@commitlint/config-conventional,@mrgrain/jsii-struct-builder,@types/jest,aws-sdk-mock,commitlint,eslint-import-resolver-typescript,eslint-plugin-import,eslint-plugin-license-header,husky,jest,jsii-diff,jsii-pacmak,pinst,ts-jest,ts-node,typedoc,typedoc-plugin-markdown,typescript,deepmerge,cdk-nag"
         },
         {
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade @aws-cdk/assert @aws-cdk/integ-tests-alpha @commitlint/config-conventional @mrgrain/jsii-struct-builder @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk aws-sdk-mock commitlint eslint-import-resolver-typescript eslint-plugin-header eslint-plugin-import eslint husky jest jest-junit jsii-diff jsii-pacmak jsii-rosetta jsii pinst projen standard-version ts-jest ts-node typedoc typedoc-plugin-markdown typescript deepmerge aws-cdk-lib constructs cdk-nag"
+          "exec": "yarn upgrade @aws-cdk/assert @aws-cdk/integ-tests-alpha @commitlint/config-conventional @mrgrain/jsii-struct-builder @stylistic/eslint-plugin @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk aws-sdk-mock commit-and-tag-version commitlint eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-license-header eslint husky jest jest-junit jsii-diff jsii-pacmak jsii-rosetta jsii pinst projen ts-jest ts-node typedoc typedoc-plugin-markdown typescript @aws-cdk/aws-lambda-python-alpha deepmerge aws-cdk-lib constructs cdk-nag"
         },
         {
           "exec": "npx projen"

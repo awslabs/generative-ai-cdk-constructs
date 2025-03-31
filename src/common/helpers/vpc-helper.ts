@@ -26,12 +26,20 @@ import {
 import { CfnLogGroup } from 'aws-cdk-lib/aws-logs';
 import { CfnVpcEndpoint } from 'aws-cdk-lib/aws-opensearchserverless';
 import { Construct } from 'constructs';
-import { buildSecurityGroup } from './kendra-helper';
 import { OpenSearchProps } from './opensearch-helper';
 import { addCfnSuppressRules } from './utils';
-import {
-  EndpointTypes,
-} from '../../patterns/gen-ai/aws-rag-appsync-stepfn-kendra/types';
+
+export enum EndpointTypes {
+  GATEWAY = 'Gateway',
+  INTERFACE = 'Interface',
+}
+
+export interface SecurityGroupRuleDefinition {
+  readonly peer: ec2.IPeer; // example: ec2.Peer.ipV4(vpc.vpcCiderBlock)
+  readonly connection: ec2.Port;
+  readonly description?: string;
+  readonly remoteRule?: boolean;
+}
 
 export interface VpcPropsSet {
   readonly existingVpc?: IVpc;
@@ -112,7 +120,7 @@ export function buildVpc(scope: Construct, props: BuildVpcProps): IVpc {
     return props?.existingVpc;
   }
 
-  let defaultVpcProps = createDefaultIsolatedVpcProps();
+  let defaultVpcProps = createDefaultVpcProps();
 
   let cumulativeProps: VpcProps = defaultVpcProps;
 
@@ -211,6 +219,37 @@ export function suppressEncryptedLogWarnings(flowLog: FlowLog) {
   ]);
 }
 
+export function buildSecurityGroup(
+  scope: Construct,
+  name: string,
+  props: ec2.SecurityGroupProps,
+  ingressRules: SecurityGroupRuleDefinition[],
+  egressRules: SecurityGroupRuleDefinition[],
+): SecurityGroup {
+  const newSecurityGroup = new SecurityGroup(scope, `${name}-security-group`, props);
+
+  ingressRules.forEach(rule => {
+    newSecurityGroup.addIngressRule(rule.peer, rule.connection, rule.description, rule.remoteRule);
+  });
+
+  egressRules.forEach(rule => {
+    newSecurityGroup.addEgressRule(rule.peer, rule.connection, rule.description, rule.remoteRule);
+  });
+
+  addCfnSuppressRules(newSecurityGroup, [
+    {
+      id: 'W5',
+      reason: 'Egress of 0.0.0.0/0 is default and generally considered OK',
+    },
+    {
+      id: 'W40',
+      reason: 'Egress IPProtocol of -1 is default and generally considered OK',
+    },
+  ]);
+
+  return newSecurityGroup;
+}
+
 function AddInterfaceEndpoint(scope: Construct, vpc: IVpc, service: EndpointDefinition, interfaceTag: ServiceEndpointTypeEnum) {
   const endpointDefaultSecurityGroup = buildSecurityGroup(
     scope,
@@ -229,16 +268,27 @@ function AddInterfaceEndpoint(scope: Construct, vpc: IVpc, service: EndpointDefi
   });
 }
 
-export function createDefaultIsolatedVpcProps(): VpcProps {
+export function createDefaultVpcProps(): VpcProps {
   return {
-    natGateways: 0,
     subnetConfiguration: [
       {
-        cidrMask: 18,
-        name: 'isolated',
+        cidrMask: 24,
+        name: 'public',
+        subnetType: SubnetType.PUBLIC,
+      },
+      {
+        cidrMask: 24,
+        name: 'private_isolated',
         subnetType: SubnetType.PRIVATE_ISOLATED,
       },
+      {
+        cidrMask: 24,
+        name: 'private_egress',
+        subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+      },
     ],
+    ipAddresses: ec2.IpAddresses.cidr('10.0.0.0/16'),
+
   } as VpcProps;
 }
 

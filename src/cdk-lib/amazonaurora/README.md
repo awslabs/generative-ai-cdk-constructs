@@ -17,6 +17,9 @@
 |:-------------|-----------------|
 |![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) TypeScript|`@cdklabs/generative-ai-cdk-constructs`|
 |![Python Logo](https://docs.aws.amazon.com/cdk/api/latest/img/python32.png) Python|`cdklabs.generative_ai_cdk_constructs`|
+| ![Java Logo](https://docs.aws.amazon.com/cdk/api/latest/img/java32.png) Java                   | `io.github.cdklabs.generative_ai_cdk_constructs`|
+| ![.Net](https://docs.aws.amazon.com/cdk/api/latest/img/dotnet32.png) .Net                   | `CdkLabs.GenerativeAICdkConstructs`|
+| ![Go](https://docs.aws.amazon.com/cdk/api/latest/img/go32.png) Go                   | `github.com/cdklabs/generative-ai-cdk-constructs-go/generative-ai-cdk-constructs`|
 
 This construct library provides a class that defines a `AmazonAuroraVectorStore` construct for an Amazon Aurora to be used for a vector store for a Knowledge Base. Additionally, you can utilize `fromExistingAuroraVectorStore()` method to use your existing Aurora database as a vector DB. `AmazonAuroraVectorStore` is an L3 resource that creates a VPC with 3 subnets (public, private with NAT Gateway, private without NAT Gateway) and Amazon Aurora Serverless V2 Cluster. The cluster has 1 writer/reader instance with latest supported PostgreSQL version (currently it is 15.5) and having the following cofiguration: min capacity 0.5, max capacity 4. Lambda custom resource executes required pgvector and Amazon Bedrock Knowledge Base SQL queries (see more [here](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/AuroraPostgreSQL.VectorDB.html)) against Aurora cluster during deployment. The secret containing databases credentials is being deployed and securely stored in AWS Secrets Manager. You must specify the same embeddings model that you are going to use in KnowledgeBase construct. Due to the nature of provisioning RDS cluster it takes a long time (over 20-25 minutes) to both deploying and destroying construct so please take this in consideration.
 
@@ -92,7 +95,7 @@ const auroraDb = amazonaurora.AmazonAuroraVectorStore.fromExistingAuroraVectorSt
   ),
 });
 
-const kb = new bedrock.KnowledgeBase(this, "KnowledgeBase", {
+const kb = new bedrock.VectorKnowledgeBase(this, "KnowledgeBase", {
   embeddingsModel: foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
   vectorStore: auroraDb,
   instruction:
@@ -155,7 +158,7 @@ aurora_db = amazonaurora.AmazonAuroraVectorStore.from_existing_aurora_vector_sto
     )
 )
 
-kb = bedrock.KnowledgeBase(self, 'KnowledgeBase',
+kb = bedrock.VectorKnowledgeBase(self, 'KnowledgeBase',
             embeddings_model= foundation_models.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
             vector_store=aurora_db,
             instruction=  'Use this knowledge base to answer questions about books. ' +

@@ -10,6 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+
 import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
@@ -142,6 +143,17 @@ export function buildCustomResourceProvider(props: CRProviderProps): ICRProvider
       });
 
       this.serviceToken = this.provider.serviceToken;
+
+      NagSuppressions.addResourceSuppressions(
+        customResourceFunction,
+        [
+          {
+            id: 'AwsSolutions-L1',
+            reason: 'Lambda runtime version is managed upstream by CDK.',
+          },
+        ],
+        true,
+      );
 
       NagSuppressions.addResourceSuppressionsByPath(
         cdk.Stack.of(this),

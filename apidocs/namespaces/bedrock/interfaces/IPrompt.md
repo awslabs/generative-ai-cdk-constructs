@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -9,6 +9,14 @@
 Represents a Prompt, either created with CDK or imported.
 
 ## Properties
+
+### kmsKey?
+
+> `readonly` `optional` **kmsKey**: `IKey`
+
+Optional KMS encryption key associated with this prompt.
+
+***
 
 ### promptArn
 
@@ -34,4 +42,18 @@ The ID of the prompt.
 
 ```ts
 "PROMPT12345"
+```
+
+***
+
+### promptVersion
+
+> **promptVersion**: `string`
+
+The version of the prompt.
+
+#### Default
+
+```ts
+- "DRAFT"
 ```

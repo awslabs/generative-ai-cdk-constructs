@@ -1,3 +1,31 @@
+# CDK Generative AI Constructs V0.1.294 (2025-02-28)
+
+Based on CDK library version 2.181.1
+
+# CDK Generative AI Constructs V0.1.293 (2025-02-10)
+
+Based on CDK library version 2.178.0
+
+# CDK Generative AI Constructs V0.1.291 (2025-01-26)
+
+Based on CDK library version 2.177.0
+
+# CDK Generative AI Constructs V0.1.290 (2025-01-21)
+
+Based on CDK library version 2.176.0
+
+# CDK Generative AI Constructs V0.1.289 (2025-01-08)
+
+Based on CDK library version 2.174.1
+
+# CDK Generative AI Constructs V0.1.289 (2025-01-06)
+
+Based on CDK library version 2.174.0
+
+# CDK Generative AI Constructs V0.1.283 (2024-11-20)
+
+Based on CDK library version 2.166.0
+
 # CDK Generative AI Constructs V0.1.273 (2024-10-15)
 
 Based on CDK library version 2.162.1

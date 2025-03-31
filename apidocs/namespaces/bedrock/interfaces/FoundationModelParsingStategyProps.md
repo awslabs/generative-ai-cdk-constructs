@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -10,9 +10,23 @@ Properties for configuring a Foundation Model parsing strategy.
 
 ## Properties
 
+### parsingModality?
+
+> `readonly` `optional` **parsingModality**: [`MULTIMODAL`](../enumerations/ParsingModality.md#multimodal)
+
+Specifies whether to enable parsing of multimodal data, including both text and/or images.
+
+#### Default
+
+```ts
+undefined - Text only
+```
+
+***
+
 ### parsingModel
 
-> `readonly` **parsingModel**: `IModel`
+> `readonly` **parsingModel**: [`IInvokable`](IInvokable.md)
 
 The Foundation Model to use for parsing non-textual information.
 Currently supported models are Claude 3 Sonnet and Claude 3 Haiku.

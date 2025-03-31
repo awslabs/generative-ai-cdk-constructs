@@ -22,6 +22,15 @@ dist
 tsconfig.tsbuildinfo
 /.eslintrc.json
 !.jsii
+test/integ/agent-mem.integ.snapshot
+test/integ/chatprompt.integ.snapshot
+test/integ/guardrails.integ.snapshot
+test/integ/inference-profiles.integ.snapshot
+test/integ/issue747.integ.snapshot
+test/integ/issue991.integ.snapshot
+test/integ/kendra-genai.integ.snapshot
+test/integ/.tmp
+test/integ/prompt-router.integ.snapshot
 test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp
 test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot
 /docs/

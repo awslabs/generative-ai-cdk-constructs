@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -6,172 +6,144 @@
 
 # Class: AgentActionGroup
 
-## Extends
-
-- `Construct`
+***************************************************************************
+                        DEF - Action Group Class
+***************************************************************************
 
 ## Constructors
 
 ### new AgentActionGroup()
 
-> **new AgentActionGroup**(`scope`, `id`, `props`): [`AgentActionGroup`](AgentActionGroup.md)
+> **new AgentActionGroup**(`props`): [`AgentActionGroup`](AgentActionGroup.md)
 
 #### Parameters
 
-• **scope**: `Construct`
+##### props
 
-• **id**: `string`
-
-• **props**: [`AgentActionGroupProps`](../interfaces/AgentActionGroupProps.md)
+[`AgentActionGroupProps`](../interfaces/AgentActionGroupProps.md)
 
 #### Returns
 
 [`AgentActionGroup`](AgentActionGroup.md)
 
-#### Overrides
-
-`Construct.constructor`
-
 ## Properties
 
-### actionGroupExecutor
+### apiSchema?
 
-> `readonly` **actionGroupExecutor**: `undefined` \| [`ActionGroupExecutor`](../interfaces/ActionGroupExecutor.md)
+> `readonly` `optional` **apiSchema**: [`ApiSchema`](ApiSchema.md)
 
-The Lambda function containing the business logic that is carried out upon invoking the action.
-
-***
-
-### actionGroupName
-
-> `readonly` **actionGroupName**: `string`
-
-The unique identifier of the action group.
+The api schema for this action group (if defined).
 
 ***
 
-### actionGroupProperty
+### description?
 
-> `readonly` **actionGroupProperty**: `AgentActionGroupProperty`
+> `readonly` `optional` **description**: `string`
 
-The action group.
-
-***
-
-### actionGroupState
-
-> `readonly` **actionGroupState**: `undefined` \| `string`
-
-The action group state.
+A description of the action group.
 
 ***
 
-### apiSchema
+### enabled
 
-> `readonly` **apiSchema**: `undefined` \| [`ApiSchemaConfig`](../interfaces/ApiSchemaConfig.md)
+> `readonly` **enabled**: `boolean`
 
-The API schema.
-
-***
-
-### description
-
-> `readonly` **description**: `undefined` \| `string`
-
-The description.
+Whether this action group is available for the agent to invoke or not.
 
 ***
 
-### functionSchema
+### executor?
 
-> `readonly` **functionSchema**: `undefined` \| `FunctionSchemaProperty`
+> `readonly` `optional` **executor**: [`ActionGroupExecutor`](ActionGroupExecutor.md)
 
-A list of action groups associated with the agent
-
-***
-
-### node
-
-> `readonly` **node**: `Node`
-
-The tree node.
-
-#### Inherited from
-
-`Construct.node`
+The action group executor for this action group (if defined).
 
 ***
 
-### parentActionGroupSignature
+### forceDelete?
 
-> `readonly` **parentActionGroupSignature**: `undefined` \| `string`
+> `readonly` `optional` **forceDelete**: `boolean`
 
-The parent action group signature.
+Whether to delete the resource even if it's in use.
 
 ***
 
-### skipResourceInUseCheckOnDelete
+### functionSchema?
 
-> `readonly` **skipResourceInUseCheckOnDelete**: `undefined` \| `boolean`
+> `readonly` `optional` **functionSchema**: `FunctionSchemaProperty`
 
-The skip resource in use check on delete.
+The function schema for this action group (if defined).
 
-#### Default
+***
 
-```ts
-- false
-```
+### name
+
+> `readonly` **name**: `string`
+
+The name of the action group.
+
+***
+
+### parentActionGroupSignature?
+
+> `readonly` `optional` **parentActionGroupSignature**: [`ParentActionGroupSignature`](ParentActionGroupSignature.md)
+
+The AWS Defined signature (if defined).
 
 ## Methods
 
-### toString()
+### \_render()
 
-> **toString**(): `string`
+> **\_render**(): `AgentActionGroupProperty`
 
-Returns a string representation of this construct.
+**`Internal`**
+
+Format as CFN properties
+
+ This is an internal core function and should not be called directly.
 
 #### Returns
 
-`string`
-
-#### Inherited from
-
-`Construct.toString`
+`AgentActionGroupProperty`
 
 ***
 
-### isConstruct()
+### codeInterpreter()
 
-> `static` **isConstruct**(`x`): `x is Construct`
+> `static` **codeInterpreter**(`enabled`): [`AgentActionGroup`](AgentActionGroup.md)
 
-Checks if `x` is a construct.
-
-Use this method instead of `instanceof` to properly detect `Construct`
-instances, even when the construct library is symlinked.
-
-Explanation: in JavaScript, multiple copies of the `constructs` library on
-disk are seen as independent, completely different libraries. As a
-consequence, the class `Construct` in each copy of the `constructs` library
-is seen as a different class, and an instance of one class will not test as
-`instanceof` the other class. `npm install` will not create installations
-like this, but users may manually symlink construct libraries together or
-use a monorepo tool: in those cases, multiple copies of the `constructs`
-library can be accidentally installed, and `instanceof` will behave
-unpredictably. It is safest to avoid using `instanceof`, and using
-this type-testing method instead.
+Defines an action group that allows your agent to request the user for
+additional information when trying to complete a task.
 
 #### Parameters
 
-• **x**: `any`
+##### enabled
 
-Any object
+`boolean`
+
+Specifies whether the action group is available for the agent
 
 #### Returns
 
-`x is Construct`
+[`AgentActionGroup`](AgentActionGroup.md)
 
-true if `x` is an object created from a class which extends `Construct`.
+***
 
-#### Inherited from
+### userInput()
 
-`Construct.isConstruct`
+> `static` **userInput**(`enabled`): [`AgentActionGroup`](AgentActionGroup.md)
+
+Defines an action group that allows your agent to request the user for
+additional information when trying to complete a task.
+
+#### Parameters
+
+##### enabled
+
+`boolean`
+
+Specifies whether the action group is available for the agent
+
+#### Returns
+
+[`AgentActionGroup`](AgentActionGroup.md)

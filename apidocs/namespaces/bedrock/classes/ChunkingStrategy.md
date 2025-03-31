@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -84,7 +84,9 @@ Method for customizing a fixed sized chunking strategy.
 
 #### Parameters
 
-• **props**: `FixedSizeChunkingConfigurationProperty`
+##### props
+
+`FixedSizeChunkingConfigurationProperty`
 
 #### Returns
 
@@ -103,7 +105,9 @@ For custom chunking, the maximum token chunk size depends on the model.
 
 #### Parameters
 
-• **props**: [`HierarchicalChunkingProps`](../interfaces/HierarchicalChunkingProps.md)
+##### props
+
+[`HierarchicalChunkingProps`](../interfaces/HierarchicalChunkingProps.md)
 
 #### Returns
 
@@ -122,7 +126,9 @@ For custom chunking, the maximum token chunk size depends on the model.
 
 #### Parameters
 
-• **props**: `SemanticChunkingConfigurationProperty`
+##### props
+
+`SemanticChunkingConfigurationProperty`
 
 #### Returns
 

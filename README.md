@@ -16,6 +16,11 @@
 [![Maven Central Version](https://img.shields.io/maven-central/v/io.github.cdklabs/generative-ai-cdk-constructs)](https://central.sonatype.com/artifact/io.github.cdklabs/generative-ai-cdk-constructs)
 [![Go Version](https://img.shields.io/github/v/tag/awslabs/generative-ai-cdk-constructs?label=go&color=orange)](https://pkg.go.dev/github.com/cdklabs/generative-ai-cdk-constructs-go/generative-ai-cdk-constructs)
 
+[![Terraform Amazon Bedrock Module](https://img.shields.io/badge/Terraform-7B42BC?style=flat&logo=terraform&label=bedrock%20module)](https://registry.terraform.io/modules/aws-ia/bedrock/aws/latest)
+[![Terraform Amazon OpenSearch Serverless Module](https://img.shields.io/badge/Terraform-7B42BC?style=flat&logo=terraform&label=opensearchserverless%20module)](https://registry.terraform.io/modules/aws-ia/opensearch-serverless/aws/latest)
+[![Terraform Amazon SageMaker Endpoint Module](https://img.shields.io/badge/Terraform-7B42BC?style=flat&logo=terraform&label=sagemaker%20endpoint%20module)](https://registry.terraform.io/modules/aws-ia/sagemaker-endpoint/aws/latest)
+[![Terraform Streamlit Module](https://img.shields.io/badge/Terraform-7B42BC?style=flat&logo=terraform&label=streamlit%20module)](https://registry.terraform.io/modules/aws-ia/serverless-streamlit-app/aws/latest)
+
 ## Table of contents
 
 - [Introduction](#introduction)
@@ -29,6 +34,7 @@
 - [Contributors](#contributors)
 - [Operational Metrics Collection](#operational-metrics-collection)
 - [Roadmap](#roadmap)
+- [Deprecation](#deprecation)
 - [License](#license)
 - [Legal Disclaimer](#legal-disclaimer)
 
@@ -107,7 +113,7 @@ _NOTE: The [Go distribution repository](https://github.com/cdklabs/generative-ai
 <summary><i>Java</i></summary>
 
 - Create or use an existing CDK application in Java
-  - cdk init app --language java
+  - `cdk init app --language java`
 - Add the dependency into the `pom.xml`
 ```
 <dependency>
@@ -129,29 +135,24 @@ The following constructs are available in the library:
 
 | **Construct** |Description| AWS Services used |
 |:-------------|:-------------|:-------------|
-| [Data ingestion pipeline - OpenSearch](./src/patterns/gen-ai/aws-rag-appsync-stepfn-opensearch/README.md) | Ingestion pipeline providing a RAG (retrieval augmented generation) source for storing documents in a knowledge base. | Amazon OpenSearch, AWS Step Functions, Amazon Bedrock, AWS AppSync, AWS Lambda |
-| [Data ingestion pipeline - Kendra](./src/patterns/gen-ai/aws-rag-appsync-stepfn-kendra/README.md) | Ingestion pipeline providing a RAG (retrieval augmented generation) source for storing documents in a knowledge base. | Amazon Kendra, AWS Step Functions, AWS AppSync, AWS Lambda |
-| [Question answering](./src/patterns/gen-ai/aws-qa-appsync-opensearch/README.md) | Utilizing Large Language Models (Anthropic Claude V2.1.) for Question Answering on PDF documents with  RAG (retrieval augmented generation) source and/or long context. Additionally, leveraging Anthropic Claude 3 for visual question answering on images.| Amazon OpenSearch, AWS Lambda, Amazon Bedrock, AWS AppSync |
-| [Summarization](./src/patterns/gen-ai/aws-summarization-appsync-stepfn/README.md) | Document summarization with a large language model (Anthropic Claude V2.1). | AWS Lambda, Amazon Bedrock, AWS AppSync and Amazon ElastiCache for Redis.  |
 | [SageMaker model deployment (JumpStart)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_jumpstart.md) | Deploy a foundation model from Amazon SageMaker JumpStart to an Amazon SageMaker endpoint. | Amazon SageMaker |
 | [SageMaker model deployment (Hugging Face)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_hugging_face.md) | Deploy a foundation model from Hugging Face to an Amazon SageMaker endpoint. | Amazon SageMaker |
 | [SageMaker model deployment (Custom)](./src/patterns/gen-ai/aws-model-deployment-sagemaker/README_custom_sagemaker_endpoint.md) | Deploy a foundation model from an S3 location to an Amazon SageMaker endpoint. | Amazon SageMaker |
-| [Content Generation](./src/patterns/gen-ai/aws-contentgen-appsync-lambda/README.md) | Generate images from text using Amazon titan-image-generator-v1 or stability.stable-diffusion-xl-v1 model.  | AWS Lambda, Amazon Bedrock, AWS AppSync |
-| [Web crawler](./src/patterns/gen-ai/aws-web-crawler/README.md) | Crawl websites and RSS feeds on a schedule and store changeset data in an Amazon Simple Storage Service bucket.  | AWS Lambda, AWS Batch, AWS Fargate, Amazon DynamoDB  |
 | [Amazon Bedrock Monitoring (Amazon CloudWatch Dashboard)](./src/patterns/gen-ai/aws-bedrock-cw-dashboard/README.md) | Amazon CloudWatch dashboard to monitor model usage from Amazon Bedrock. | Amazon CloudWatch |
+| [Bedrock Data Automation](./src/patterns/gen-ai/aws-bedrock-data-automation/README.md) | Use Amazon bedrock data automation client to to build and manage intelligent document processing, media analysis, and other multimodal data-centric automation solutions | AWS Lambda, Amazon S3 bucket |
+| [Bedrock Batch Step Functions](./src/patterns/gen-ai/aws-bedrock-batch-stepfn/README.md) | Manage Bedrock model invocation jobs(batch inference) in AWS Step Functions state machines | AWS Step Functions, AWS Lambda, AWS EventBridge, Amazon Bedrock, AWS IAM |
 
 ### L2 Constructs
 
 | **Construct** |Description| AWS Services used |
 |:-------------|:-------------|:-------------|
-| [Lambda layer](./src/patterns/gen-ai/aws-langchain-common-layer/README.md) | Python Lambda layer providing dependencies and utilities to develop generative AI applications on AWS. | AWS Lambda, Amazon Bedrock, Amazon SageMaker |
 | [Amazon Bedrock](./src/cdk-lib/bedrock/README.md) | CDK L2 Constructs for Amazon Bedrock. | Amazon Bedrock, Amazon OpenSearch Serverless, AWS Lambda |
 | [Amazon OpenSearch Serverless Vector Collection](./src/cdk-lib/opensearchserverless/README.md) | CDK L2 Constructs to create a vector collection. | Amazon OpenSearch Vector Index |
 | [Amazon OpenSearch Vector Index](./src/cdk-lib/opensearch-vectorindex/README.md) | CDK L1 Custom Resource to create a vector index. | Amazon OpenSearch Serverless, AWS Lambda |
 
 ## Sample Use Cases
 
-The official samples repository https://github.com/aws-samples/generative-ai-cdk-constructs-samples includes a collection of functional use case implementations to demonstrate the usage of AWS Generative AI CDK Constructs. These can be used in the same way as architectural patterns, and can be conceptualized as an additional "higher-level" abstraction of those patterns. Those patterns (constructs) are composed together into [stacks](https://docs.aws.amazon.com/cdk/latest/guide/stacks.html), forming a "CDK app".
+The official [samples repository](https://github.com/aws-samples/generative-ai-cdk-constructs-samples) includes a collection of functional use case implementations to demonstrate the usage of AWS Generative AI CDK Constructs. These can be used in the same way as architectural patterns, and can be conceptualized as an additional "higher-level" abstraction of those patterns. Those patterns (constructs) are composed together into [stacks](https://docs.aws.amazon.com/cdk/latest/guide/stacks.html), forming a "CDK app".
 
 ## Additional Resources
 
@@ -159,6 +160,7 @@ The official samples repository https://github.com/aws-samples/generative-ai-cdk
 |:-------------|:-------------|:-------------|
 | [AWS re:Invent 2023 - Keynote with Dr. Werner Vogels](https://youtu.be/UTRBVPvzt9w?t=6252) | Keynote | Dr. Werner Vogels, Amazon.com's VP and CTO, announces the AWS Generative AI CDK Constructs during his AWS re:Invent 2023 keynote. |
 | [Workshop - Building Generative AI Apps on AWS with CDK](https://catalog.workshops.aws/building-genai-apps) | Workshop | In this workshop, you will explore how to build a sample generative AI app on AWS using CDK and Generative AI CDK Constructs. |
+| [Workshop - Hands on AWS CDK Generative AI Constructs](https://catalog.us-east-1.prod.workshops.aws/workshops/84c00416-19b6-44c3-8d18-cc172361af41/en-US) | Workshop | In this workshop you will deploy projects that use CDK constructs from this library. Projects are from the [amazon-bedrock-samples](https://github.com/aws-samples/amazon-bedrock-samples/tree/main) Github Repository. |
 | [Build generative AI applications with Amazon Titan Text Premier, Amazon Bedrock, and AWS CDK](https://aws.amazon.com/blogs/machine-learning/build-generative-ai-applications-with-amazon-titan-text-premier-amazon-bedrock-and-aws-cdk/) | Blog post + Code sample | Blog post exploring building and deploying two sample applications powered by Amazon Titan Text Premier using the Generative AI CDK constructs. |
 | [aws-cdk-stack-builder-tool](https://github.com/aws-samples/aws-cdk-stack-builder-tool) | Code sample | AWS CDK Builder is a browser-based tool designed to streamline bootstrapping of Infrastructure as Code (IaC) projects using the AWS Cloud Development Kit (CDK). |
 | [CDK Live! Building generative AI applications and architectures leveraging AWS CDK Constructs!](https://www.youtube.com/watch?v=NI1F4Xxqyr8) | Video | CDK Live! episode focused on building and deploying generative AI applications and architectures on AWS using the AWS Cloud Development Kit (CDK) and the AWS Generative AI CDK Constructs. |
@@ -172,6 +174,7 @@ The official samples repository https://github.com/aws-samples/generative-ai-cdk
 | [Automating tasks using Amazon Bedrock Agents and AI](https://blog.serverlessadvocate.com/automating-tasks-using-amazon-bedrock-agents-and-ai-4b6fb8856589) | Blog post + Code sample | Blog post and associated code sample demonstrating how to deploy an Amazon Bedrock Agent and a Knowledge Base through a hotel and spa use case. |
 | [Agents for Amazon Bedrock - Powertools for AWS Lambda (Python)](https://docs.powertools.aws.dev/lambda/python/latest/core/event_handler/bedrock_agents/#using-aws-cloud-developer-kit-cdk) | Code sample | Create Agents for Amazon Bedrock using event handlers and auto generation of OpenAPI schemas. |
 | [Text to SQL Bedrock Agent](https://github.com/aws-samples/amazon-bedrock-samples/tree/main/agents-for-bedrock/use-case-examples/text-2-sql-agent-cdk-enhanced) | Code sample | Harnessing the power of natural language processing, the "Text to SQL Bedrock Agent" facilitates the automatic transformation of natural language questions into executable SQL queries. |
+| [Dynamic Text-to-SQL for Enterprise Workloads with Amazon Bedrock Agent](https://github.com/aws-samples/sample-Dynamic-Text-to-SQL-with-Amazon-Bedrock-Agent) | Code sample | Elevate your data analysis with an end-to-end agentic Text-to-SQL solution, built on AWS for enterprise-scale adaptability and resilience. Ideal for complex scenarios like fraud detection in financial services. |
 
 ## Contributors
 
@@ -184,6 +187,10 @@ Generative AI CDK Constructs may collect anonymous operational metrics, includin
 ## Roadmap
 
 Roadmap is available through the [GitHub Project](https://github.com/orgs/awslabs/projects/136)
+
+## Deprecation
+
+To understand our deprecation process, please refer to the dedicated [documentation](./DEPRECATION_PROCESS.md)
 
 ## License
 

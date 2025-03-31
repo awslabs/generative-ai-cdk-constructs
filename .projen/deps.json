@@ -6,7 +6,7 @@
     },
     {
       "name": "@aws-cdk/integ-tests-alpha",
-      "version": "2.162.1-alpha.0",
+      "version": "2.181.1-alpha.0",
       "type": "build"
     },
     {
@@ -15,6 +15,11 @@
     },
     {
       "name": "@mrgrain/jsii-struct-builder",
+      "type": "build"
+    },
+    {
+      "name": "@stylistic/eslint-plugin",
+      "version": "^2",
       "type": "build"
     },
     {
@@ -28,12 +33,12 @@
     },
     {
       "name": "@typescript-eslint/eslint-plugin",
-      "version": "^7",
+      "version": "^8",
       "type": "build"
     },
     {
       "name": "@typescript-eslint/parser",
-      "version": "^7",
+      "version": "^8",
       "type": "build"
     },
     {
@@ -46,6 +51,11 @@
       "type": "build"
     },
     {
+      "name": "commit-and-tag-version",
+      "version": "^12",
+      "type": "build"
+    },
+    {
       "name": "commitlint",
       "type": "build"
     },
@@ -54,16 +64,16 @@
       "type": "build"
     },
     {
-      "name": "eslint-plugin-header",
-      "type": "build"
-    },
-    {
       "name": "eslint-plugin-import",
       "type": "build"
     },
     {
+      "name": "eslint-plugin-license-header",
+      "type": "build"
+    },
+    {
       "name": "eslint",
-      "version": "^8",
+      "version": "^9",
       "type": "build"
     },
     {
@@ -76,7 +86,7 @@
     },
     {
       "name": "jest-junit",
-      "version": "^15",
+      "version": "^16",
       "type": "build"
     },
     {
@@ -89,12 +99,12 @@
     },
     {
       "name": "jsii-rosetta",
-      "version": "~5.4.0",
+      "version": "~5.6.0",
       "type": "build"
     },
     {
       "name": "jsii",
-      "version": "~5.4.0",
+      "version": "~5.6.0",
       "type": "build"
     },
     {
@@ -103,12 +113,7 @@
     },
     {
       "name": "projen",
-      "version": "~0.84.5",
-      "type": "build"
-    },
-    {
-      "name": "standard-version",
-      "version": "^9",
+      "version": "~0.91.5",
       "type": "build"
     },
     {
@@ -132,12 +137,17 @@
       "type": "build"
     },
     {
+      "name": "@aws-cdk/aws-lambda-python-alpha",
+      "version": "2.181.1-alpha.0",
+      "type": "bundled"
+    },
+    {
       "name": "deepmerge",
       "type": "bundled"
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.162.1",
+      "version": "^2.181.1",
       "type": "peer"
     },
     {

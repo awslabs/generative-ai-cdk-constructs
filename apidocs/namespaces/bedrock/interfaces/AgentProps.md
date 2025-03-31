@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Interface: AgentProps
 
-Properties for a Bedrock Agent.
+Properties for creating a CDK managed Bedrock Agent.
 
 ## Properties
 
@@ -14,26 +14,62 @@ Properties for a Bedrock Agent.
 
 > `readonly` `optional` **actionGroups**: [`AgentActionGroup`](../classes/AgentActionGroup.md)[]
 
-AgentActionGroup to make available to the agent.
+The Action Groups associated with the agent.
+
+***
+
+### agentCollaboration?
+
+> `readonly` `optional` **agentCollaboration**: [`AgentCollaboratorType`](../enumerations/AgentCollaboratorType.md)
+
+The collaboration type for the agent.
 
 #### Default
 
 ```ts
-- No AgentActionGroup  is used.
+- No collaboration (AgentCollaboratorType.DISABLED).
 ```
 
 ***
 
-### aliasName?
+### agentCollaborators?
 
-> `readonly` `optional` **aliasName**: `string`
+> `readonly` `optional` **agentCollaborators**: [`AgentCollaborator`](../classes/AgentCollaborator.md)[]
 
-Name of the alias for the agent.
+Collaborators that this agent will work with.
 
 #### Default
 
 ```ts
-- No alias is created.
+- No collaborators.
+```
+
+***
+
+### codeInterpreterEnabled?
+
+> `readonly` `optional` **codeInterpreterEnabled**: `boolean`
+
+Select whether the agent can generate, run, and troubleshoot code when trying to complete a task
+
+#### Default
+
+```ts
+- false
+```
+
+***
+
+### customOrchestration?
+
+> `readonly` `optional` **customOrchestration**: [`CustomOrchestration`](CustomOrchestration.md)
+
+Details of custom orchestration for the agent.
+
+#### Default
+
+```ts
+- Standard orchestration.
 ```
 
 ***
@@ -52,69 +88,48 @@ A description of the agent.
 
 ***
 
-### enableUserInput?
-
-> `readonly` `optional` **enableUserInput**: `boolean`
-
-Select whether the agent can prompt additional
-information from the user when it does not have
-enough information to respond to an utterance
-
-#### Default
-
-```ts
-- False
-```
-
-***
-
-### encryptionKey?
-
-> `readonly` `optional` **encryptionKey**: `IKey`
-
-KMS encryption key to use for the agent.
-
-#### Default
-
-```ts
-- An AWS managed key is used.
-```
-
-***
-
 ### existingRole?
 
-> `readonly` `optional` **existingRole**: `Role`
+> `readonly` `optional` **existingRole**: `IRole`
 
-The existing IAM Role for the agent with a trust policy that
-allows the Bedrock service to assume the role.
+The existing IAM Role for the agent to use.
+Ensure the role has a trust policy that allows the Bedrock service to assume the role.
+
+#### Default
+
+```ts
+- A new role is created for you.
+```
+
+***
+
+### forceDelete?
+
+> `readonly` `optional` **forceDelete**: `boolean`
+
+Whether to delete the resource even if it's in use.
+
+#### Default
+
+```ts
+- true
+```
 
 ***
 
 ### foundationModel
 
-> `readonly` **foundationModel**: [`BedrockFoundationModel`](../classes/BedrockFoundationModel.md)
+> `readonly` **foundationModel**: [`IInvokable`](IInvokable.md)
 
-The Bedrock text foundation model for the agent to use.
+The foundation model used for orchestration by the agent.
 
 ***
 
-### guardrailConfiguration?
+### guardrail?
 
-> `readonly` `optional` **guardrailConfiguration**: [`GuardrailConfiguration`](GuardrailConfiguration.md)
+> `readonly` `optional` **guardrail**: [`IGuardrail`](IGuardrail.md)
 
-Guardrail configuration
-
-Warning: If you provide a guardrail configuration through the constructor,
-you will need to provide the correct permissions for your agent to access
-the guardrails. If you want the permissions to be configured on your behalf,
-use the addGuardrail method.
-
-#### Default
-
-```ts
-- No guardrails associated to the agent.
-```
+The guardrail that will be associated with the agent.
 
 ***
 
@@ -122,7 +137,9 @@ use the addGuardrail method.
 
 > `readonly` `optional` **idleSessionTTL**: `Duration`
 
-How long sessions should be kept open for the agent.
+How long sessions should be kept open for the agent. If no conversation occurs
+during this time, the session expires and Amazon Bedrock deletes any data
+provided before the timeout.
 
 #### Default
 
@@ -136,20 +153,49 @@ How long sessions should be kept open for the agent.
 
 > `readonly` **instruction**: `string`
 
-A narrative instruction to provide the agent as context.
+The instruction used by the agent. This determines how the agent will perform his task.
+This instruction must have a minimum of 40 characters.
+
+***
+
+### kmsKey?
+
+> `readonly` `optional` **kmsKey**: `IKey`
+
+The KMS key of the agent if custom encryption is configured.
+
+#### Default
+
+```ts
+- An AWS managed key is used.
+```
 
 ***
 
 ### knowledgeBases?
 
-> `readonly` `optional` **knowledgeBases**: [`KnowledgeBase`](../classes/KnowledgeBase.md)[]
+> `readonly` `optional` **knowledgeBases**: [`IKnowledgeBase`](IKnowledgeBase.md)[]
 
-Knowledge Bases to make available to the agent.
+The KnowledgeBases associated with the agent.
+
+***
+
+### memory?
+
+> `readonly` `optional` **memory**: [`Memory`](../classes/Memory.md)
+
+The type and configuration of the memory to maintain context across multiple sessions and recall past interactions.
+This can be useful for maintaining continuity in multi-turn conversations and recalling user preferences
+or past interactions.
+
+#### See
+
+https://docs.aws.amazon.com/bedrock/latest/userguide/agents-memory.html
 
 #### Default
 
 ```ts
-- No knowledge base is used.
+- No memory will be used. Agents will retain context from the current session only.
 ```
 
 ***
@@ -163,16 +209,30 @@ The name of the agent.
 #### Default
 
 ```ts
-- A name is automatically generated.
+- A name is generated by CDK.
+```
+
+***
+
+### orchestrationType?
+
+> `readonly` `optional` **orchestrationType**: [`OrchestrationType`](../enumerations/OrchestrationType.md)
+
+The type of orchestration to use for the agent.
+
+#### Default
+
+```ts
+- STANDARD
 ```
 
 ***
 
 ### promptOverrideConfiguration?
 
-> `readonly` `optional` **promptOverrideConfiguration**: [`PromptOverrideConfiguration`](PromptOverrideConfiguration.md)
+> `readonly` `optional` **promptOverrideConfiguration**: [`PromptOverrideConfiguration`](../classes/PromptOverrideConfiguration.md)
 
-Overrides for the agent.
+Overrides some prompt templates in different parts of an agent sequence configuration.
 
 #### Default
 
@@ -186,7 +246,9 @@ Overrides for the agent.
 
 > `readonly` `optional` **shouldPrepareAgent**: `boolean`
 
-Whether to prepare the agent for use.
+Specifies whether to automatically update the `DRAFT` version of the agent after
+making changes to the agent. The `DRAFT` version can be continually iterated
+upon during internal development.
 
 #### Default
 
@@ -196,11 +258,12 @@ Whether to prepare the agent for use.
 
 ***
 
-### tags?
+### userInputEnabled?
 
-> `readonly` `optional` **tags**: `Record`\<`string`, `string`\>
+> `readonly` `optional` **userInputEnabled**: `boolean`
 
-OPTIONAL: Tag (KEY-VALUE) bedrock agent resource
+Select whether the agent can prompt additional information from the user when it does not have
+enough information to respond to an utterance
 
 #### Default
 

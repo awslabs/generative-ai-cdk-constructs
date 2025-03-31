@@ -10,6 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+
 import { isObject } from 'util';
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
@@ -281,6 +282,18 @@ describe('generatePhysicalNameV2', () => {
     }).toThrow(new RegExp('^The generated name is longer than the maximum length of'));
   });
 
+  test('hash for a more unique name', () => {
+    const hashedName = generatePhysicalNameV2(
+      testResourceB,
+      'test',
+      {
+        destroyCreate: { one: 'XXX', two: true, three: undefined },
+      });
+
+    expect(hashedName).not.toMatch(new RegExp('^test' + testResourceB.stack.stackName));
+    expect(hashedName).toMatch(new RegExp('^test' + '[0-9a-f]{7}' + testResourceB.stack.stackName));
+    expect(hashedName).toEqual('test0221ffeTestStackAB27595CD3');
+  });
 
   describe('kendra general utils', () => {
     describe('addCfnSuppressRules', () => {

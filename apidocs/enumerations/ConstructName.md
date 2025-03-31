@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../README.md)
 
 ***
 
@@ -19,51 +19,9 @@ Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 
 ## Enumeration Members
 
-### AWSCONTENTGENAPPSYNCLAMBDA
-
-> **AWSCONTENTGENAPPSYNCLAMBDA**: `"C8"`
-
-***
-
 ### AWSMODELDEPLOYMENTSAGEMAKER
 
 > **AWSMODELDEPLOYMENTSAGEMAKER**: `"C4"`
-
-***
-
-### AWSQAAPPSYNCOPENSEARCH
-
-> **AWSQAAPPSYNCOPENSEARCH**: `"C2"`
-
-***
-
-### AWSRAGAPPSYNCSTEPFNKENDRA
-
-> **AWSRAGAPPSYNCSTEPFNKENDRA**: `"C9"`
-
-***
-
-### AWSRAGAPPSYNCSTEPFNOPENSEARCH
-
-> **AWSRAGAPPSYNCSTEPFNOPENSEARCH**: `"C1"`
-
-***
-
-### AWSSUMMARIZATIONAPPSYNCSTEPFN
-
-> **AWSSUMMARIZATIONAPPSYNCSTEPFN**: `"C3"`
-
-***
-
-### AWSTEXTTOSQL
-
-> **AWSTEXTTOSQL**: `"C11"`
-
-***
-
-### AWSWEBCRAWLER
-
-> **AWSWEBCRAWLER**: `"C10"`
 
 ***
 

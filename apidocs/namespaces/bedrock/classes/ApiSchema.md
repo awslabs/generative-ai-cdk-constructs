@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -6,7 +6,7 @@
 
 # Class: `abstract` ApiSchema
 
-Bedrock Agents Action Group API Schema definition.
+Represents the concept of an API Schema for a Bedrock Agent Action Group.
 
 ## Extended by
 
@@ -17,75 +17,51 @@ Bedrock Agents Action Group API Schema definition.
 
 ### new ApiSchema()
 
-> **new ApiSchema**(): [`ApiSchema`](ApiSchema.md)
+> `protected` **new ApiSchema**(`s3File`?, `inlineSchema`?): [`ApiSchema`](ApiSchema.md)
+
+Constructor accessible only to extending classes.
+
+#### Parameters
+
+##### s3File?
+
+`Location`
+
+##### inlineSchema?
+
+`string`
 
 #### Returns
 
 [`ApiSchema`](ApiSchema.md)
 
+## Properties
+
+### inlineSchema?
+
+> `readonly` `optional` **inlineSchema**: `string`
+
+***
+
+### s3File?
+
+> `readonly` `optional` **s3File**: `Location`
+
 ## Methods
 
-### bind()
+### \_render()
 
-> `abstract` **bind**(`scope`): [`ApiSchemaConfig`](../interfaces/ApiSchemaConfig.md)
+> `abstract` **\_render**(): `APISchemaProperty`
 
-Called when the action group is initialized to allow this object to bind
-to the stack, add resources and have fun.
+**`Internal`**
 
-#### Parameters
+Format as CFN properties
 
-• **scope**: `Construct`
-
-The binding scope. Don't be smart about trying to down-cast or
-assume it's initialized. You may just use it as a construct scope.
+ This is an internal core function and should not be called directly.
 
 #### Returns
 
-[`ApiSchemaConfig`](../interfaces/ApiSchemaConfig.md)
-
-***
-
-### fromAsset()
-
-> `static` **fromAsset**(`path`): [`InlineApiSchema`](InlineApiSchema.md)
-
-Loads the API Schema from a local disk path.
-
-#### Parameters
-
-• **path**: `string`
-
-Path to the Open API schema file in yaml or JSON
-
-#### Returns
-
-[`InlineApiSchema`](InlineApiSchema.md)
-
-`InlineApiSchema` with the contents of `path`
-
-***
-
-### fromBucket()
-
-> `static` **fromBucket**(`bucket`, `key`): [`S3ApiSchema`](S3ApiSchema.md)
-
-API Schema as an S3 object.
-
-#### Parameters
-
-• **bucket**: `IBucket`
-
-The S3 bucket
-
-• **key**: `string`
-
-The object key
-
-#### Returns
-
-[`S3ApiSchema`](S3ApiSchema.md)
-
-`S3ApiSchema` with the S3 bucket and key.
+`APISchemaProperty`
 
 ***
 
@@ -93,16 +69,62 @@ The object key
 
 > `static` **fromInline**(`schema`): [`InlineApiSchema`](InlineApiSchema.md)
 
-Inline code for API Schema
+Creates an API Schema from an inline string.
 
 #### Parameters
 
-• **schema**: `string`
+##### schema
 
-The actual Open API schema
+`string`
+
+the JSON or YAML payload defining the OpenAPI schema for the action group
 
 #### Returns
 
 [`InlineApiSchema`](InlineApiSchema.md)
 
-`InlineApiSchema` with inline schema
+***
+
+### fromLocalAsset()
+
+> `static` **fromLocalAsset**(`path`): [`InlineApiSchema`](InlineApiSchema.md)
+
+Creates an API Schema from a local file.
+
+#### Parameters
+
+##### path
+
+`string`
+
+the path to the local file containing the OpenAPI schema for the action group
+
+#### Returns
+
+[`InlineApiSchema`](InlineApiSchema.md)
+
+***
+
+### fromS3File()
+
+> `static` **fromS3File**(`bucket`, `objectKey`): [`S3ApiSchema`](S3ApiSchema.md)
+
+Creates an API Schema from an S3 File
+
+#### Parameters
+
+##### bucket
+
+`IBucket`
+
+the bucket containing the local file containing the OpenAPI schema for the action group
+
+##### objectKey
+
+`string`
+
+object key in the bucket
+
+#### Returns
+
+[`S3ApiSchema`](S3ApiSchema.md)

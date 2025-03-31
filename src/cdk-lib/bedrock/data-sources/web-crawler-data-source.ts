@@ -10,13 +10,14 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+
 import { CfnDataSource } from 'aws-cdk-lib/aws-bedrock';
 import { IKey } from 'aws-cdk-lib/aws-kms';
 import { Construct } from 'constructs';
 
+import { IKnowledgeBase } from './../knowledge-bases/knowledge-base';
 import { DataSourceNew, DataSourceAssociationProps, DataSourceType } from './base-data-source';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
-import { IKnowledgeBase } from '../knowledge-base';
 
 /**
  * The scope of the crawling.
@@ -36,7 +37,7 @@ export enum CrawlingScope {
    * Limit crawling to web pages that belong to the same host and with the
    * same initial URL path.
    */
-  DEFAULT = 'DEFAULT'
+  DEFAULT = 'DEFAULT',
 }
 
 /**
@@ -144,7 +145,9 @@ export class WebCrawlerDataSource extends DataSourceNew {
     // Assign attributes
     this.knowledgeBase = props.knowledgeBase;
     this.dataSourceType = DataSourceType.WEB_CRAWLER;
-    this.dataSourceName = props.dataSourceName ?? generatePhysicalNameV2(this, 'crawler-ds', { maxLength: 40, lower: true, separator: '-' });;
+    this.dataSourceName =
+      props.dataSourceName ??
+      generatePhysicalNameV2(this, 'crawler-ds', { maxLength: 40, lower: true, separator: '-' });
     this.kmsKey = props.kmsKey;
     this.crawlingRate = props.crawlingRate ?? 300;
     this.siteUrls = props.sourceUrls;
@@ -159,32 +162,26 @@ export class WebCrawlerDataSource extends DataSourceNew {
     // ------------------------------------------------------
 
     this.__resource = new CfnDataSource(this, 'DataSource', {
-      ...this.formatAsCfnProps(
-        props,
-        {
-          type: this.dataSourceType,
-          webConfiguration: {
-            crawlerConfiguration: {
-              crawlerLimits: {
-                rateLimit: this.crawlingRate,
-              },
-              scope: (props.crawlingScope !== CrawlingScope.DEFAULT) ? props.crawlingScope : undefined, //?? CrawlingScope.HOST_ONLY,
-              inclusionFilters: props.filters?.includePatterns,
-              exclusionFilters: props.filters?.excludePatterns,
-
+      ...this.formatAsCfnProps(props, {
+        type: this.dataSourceType,
+        webConfiguration: {
+          crawlerConfiguration: {
+            crawlerLimits: {
+              rateLimit: this.crawlingRate,
             },
-            sourceConfiguration: {
-              urlConfiguration: {
-                seedUrls: props.sourceUrls.map(item => ({ url: item })),
-              },
+            scope: props.crawlingScope !== CrawlingScope.DEFAULT ? props.crawlingScope : undefined, //?? CrawlingScope.HOST_ONLY,
+            inclusionFilters: props.filters?.includePatterns,
+            exclusionFilters: props.filters?.excludePatterns,
+          },
+          sourceConfiguration: {
+            urlConfiguration: {
+              seedUrls: props.sourceUrls.map(item => ({ url: item })),
             },
           },
         },
-      ),
+      }),
     });
 
     this.dataSourceId = this.__resource.attrDataSourceId;
-
-
   }
 }

@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../README.md)
 
 ***
 
@@ -6,24 +6,22 @@
 
 # amazonaurora
 
-## Index
-
-### Classes
+## Classes
 
 - [AmazonAuroraVectorStore](classes/AmazonAuroraVectorStore.md)
 - [ExistingAmazonAuroraVectorStore](classes/ExistingAmazonAuroraVectorStore.md)
 
-### Interfaces
+## Interfaces
 
 - [AmazonAuroraVectorStoreProps](interfaces/AmazonAuroraVectorStoreProps.md)
 - [BaseAuroraVectorStoreProps](interfaces/BaseAuroraVectorStoreProps.md)
 - [DatabaseClusterResources](interfaces/DatabaseClusterResources.md)
 - [ExistingAmazonAuroraVectorStoreProps](interfaces/ExistingAmazonAuroraVectorStoreProps.md)
 
-### Type Aliases
+## Type Aliases
 
 - [SupportedPostgreSQLVersions](type-aliases/SupportedPostgreSQLVersions.md)
 
-### Variables
+## Variables
 
 - [SupportedPostgreSQLVersions](variables/SupportedPostgreSQLVersions.md)

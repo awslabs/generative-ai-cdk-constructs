@@ -1,10 +1,14 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
 [@cdklabs/generative-ai-cdk-constructs](../../../README.md) / [bedrock](../README.md) / PromptProps
 
 # Interface: PromptProps
+
+***************************************************************************
+                       PROPS FOR NEW CONSTRUCT
+***************************************************************************
 
 ## Properties
 
@@ -36,9 +40,9 @@ A description of what the prompt does.
 
 ***
 
-### encryptionKey?
+### kmsKey?
 
-> `readonly` `optional` **encryptionKey**: `IKey`
+> `readonly` `optional` **kmsKey**: `IKey`
 
 The KMS key that the prompt is encrypted with.
 

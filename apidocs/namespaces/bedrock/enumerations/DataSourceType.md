@@ -1,4 +1,4 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md) • **Docs**
+[**@cdklabs/generative-ai-cdk-constructs**](../../../README.md)
 
 ***
 
@@ -15,6 +15,24 @@ Represents the types of data sources that can be associated to an Knowledge Base
 > **CONFLUENCE**: `"CONFLUENCE"`
 
 Confluence Cloud Instance data source.
+
+***
+
+### CUSTOM
+
+> **CUSTOM**: `"CUSTOM"`
+
+Custom data source.
+A custom data source allows the flexibility to automatically ingest documents
+into your vector database directly.
+
+***
+
+### REDSHIFT\_METADATA
+
+> **REDSHIFT\_METADATA**: `"REDSHIFT_METADATA"`
+
+Redshift Metadata data source.
 
 ***
 

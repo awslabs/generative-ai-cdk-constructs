@@ -10,6 +10,7 @@
  *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
  *  and limitations under the License.
  */
+
 export const DEFAULT_PARSING_PROMPT = `Transcribe the text content from an image page and output in Markdown syntax (not code blocks). Follow these steps:
 
 1. Examine the provided page carefully.

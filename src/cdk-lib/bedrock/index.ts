@@ -11,19 +11,23 @@
  *  and limitations under the License.
  */
 
-export * from './knowledge-base';
-export * from './agent';
-export * from './agent-alias';
-export * from './agent-action-group';
-export * from './api-schema';
-export * from './guardrails';
-export * from './guardrail-version';
-export * from './topic-list';
-export * from './pii-list';
-export * from './content-policy';
-export * from './models';
-export * from './prompt';
-export * from './prompt-version';
+//===================================
+// Agents
+//===================================
+export * from './agents/action-group';
+export * from './agents/agent';
+export * from './agents/agent-alias';
+export * from './agents/api-executor';
+export * from './agents/api-schema';
+export * from './agents/prompt-override';
+export * from './agents/memory';
+export * from './agents/agent-collaborator';
+export * from './agents/orchestration';
+export * from './agents/orchestration-executor';
+
+//===================================
+// Data Sources
+//===================================
 export * from './data-sources/base-data-source';
 export * from './data-sources/chunking';
 export * from './data-sources/parsing';
@@ -33,3 +37,33 @@ export * from './data-sources/sharepoint-data-source';
 export * from './data-sources/confluence-data-source';
 export * from './data-sources/salesforce-data-source';
 export * from './data-sources/s3-data-source';
+export * from './data-sources/custom-data-source';
+
+//===================================
+// Guardrails
+//===================================
+export * from './guardrails/guardrail-filters';
+export * from './guardrails/guardrails';
+
+//===================================
+// Models and Inference Profiles
+//===================================
+export * from './models';
+export * from './inference-profiles/common';
+export * from './inference-profiles/default-prompt-routers';
+export * from './inference-profiles/cross-region-inference-profile';
+export * from './inference-profiles/application-inference-profile';
+
+//===================================
+// Knowledge Bases
+//===================================
+export * from './knowledge-bases/knowledge-base';
+export * from './knowledge-bases/vector-knowledge-base';
+export * from './knowledge-bases/kendra-knowledge-base';
+
+//===================================
+// Prompts
+//===================================
+export * from './prompts/prompt';
+export * from './prompts/prompt-version';
+export * from './prompts/prompt-variant';

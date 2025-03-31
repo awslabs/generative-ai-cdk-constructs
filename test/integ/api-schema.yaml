@@ -1,0 +1,23 @@
+openapi: 3.0.3
+info:
+  title: Simple API
+  version: 1.0.0
+  description: A minimal API example
+servers:
+  - url: https://api.example.com
+paths:
+  /hello:
+    get:
+      operationId: sayHello
+      description: Returns a hello message
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: The greeting message
