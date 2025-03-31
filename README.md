@@ -16,6 +16,11 @@
 [![Maven Central Version](https://img.shields.io/maven-central/v/io.github.cdklabs/generative-ai-cdk-constructs)](https://central.sonatype.com/artifact/io.github.cdklabs/generative-ai-cdk-constructs)
 [![Go Version](https://img.shields.io/github/v/tag/awslabs/generative-ai-cdk-constructs?label=go&color=orange)](https://pkg.go.dev/github.com/cdklabs/generative-ai-cdk-constructs-go/generative-ai-cdk-constructs)
 
+[![Terraform Amazon Bedrock Module](https://img.shields.io/badge/Terraform-7B42BC?style=flat&logo=terraform&label=bedrock%20module)](https://registry.terraform.io/modules/aws-ia/bedrock/aws/latest)
+[![Terraform Amazon OpenSearch Serverless Module](https://img.shields.io/badge/Terraform-7B42BC?style=flat&logo=terraform&label=opensearchserverless%20module)](https://registry.terraform.io/modules/aws-ia/opensearch-serverless/aws/latest)
+[![Terraform Amazon SageMaker Endpoint Module](https://img.shields.io/badge/Terraform-7B42BC?style=flat&logo=terraform&label=sagemaker%20endpoint%20module)](https://registry.terraform.io/modules/aws-ia/sagemaker-endpoint/aws/latest)
+[![Terraform Streamlit Module](https://img.shields.io/badge/Terraform-7B42BC?style=flat&logo=terraform&label=streamlit%20module)](https://registry.terraform.io/modules/aws-ia/serverless-streamlit-app/aws/latest)
+
 ## Table of contents
 
 - [Introduction](#introduction)
