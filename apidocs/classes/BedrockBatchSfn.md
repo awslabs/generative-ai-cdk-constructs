@@ -41,9 +41,9 @@ Error schema:
 
 ## Constructors
 
-### new BedrockBatchSfn()
+### Constructor
 
-> **new BedrockBatchSfn**(`parent`, `id`, `props`): [`BedrockBatchSfn`](BedrockBatchSfn.md)
+> **new BedrockBatchSfn**(`parent`, `id`, `props`): `BedrockBatchSfn`
 
 #### Parameters
 
@@ -61,7 +61,7 @@ Error schema:
 
 #### Returns
 
-[`BedrockBatchSfn`](BedrockBatchSfn.md)
+`BedrockBatchSfn`
 
 #### Overrides
 

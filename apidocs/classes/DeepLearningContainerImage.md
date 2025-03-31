@@ -14,9 +14,9 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 ## Constructors
 
-### new DeepLearningContainerImage()
+### Constructor
 
-> **new DeepLearningContainerImage**(`repositoryName`, `tag`, `accountId`?): [`DeepLearningContainerImage`](DeepLearningContainerImage.md)
+> **new DeepLearningContainerImage**(`repositoryName`, `tag`, `accountId`?): `DeepLearningContainerImage`
 
 #### Parameters
 
@@ -34,11 +34,11 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 #### Returns
 
-[`DeepLearningContainerImage`](DeepLearningContainerImage.md)
+`DeepLearningContainerImage`
 
 #### Overrides
 
-[`ContainerImage`](ContainerImage.md).[`constructor`](ContainerImage.md#constructors)
+[`ContainerImage`](ContainerImage.md).[`constructor`](ContainerImage.md#constructor)
 
 ## Properties
 

@@ -14,9 +14,9 @@ The BedrockCwDashboard class.
 
 ## Constructors
 
-### new AossCwDashboard()
+### Constructor
 
-> **new AossCwDashboard**(`scope`, `id`, `props`): [`AossCwDashboard`](AossCwDashboard.md)
+> **new AossCwDashboard**(`scope`, `id`, `props`): `AossCwDashboard`
 
 Constructs a new instance of the AossCwDashboard class.
 
@@ -42,7 +42,7 @@ user provided props for the construct.
 
 #### Returns
 
-[`AossCwDashboard`](AossCwDashboard.md)
+`AossCwDashboard`
 
 #### Since
 
