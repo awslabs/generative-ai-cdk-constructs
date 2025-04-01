@@ -856,6 +856,8 @@ CustomTransformation.lambda_(
 
 Context Enrichment in Amazon Bedrock is a feature that allows you to enhance the context of your documents during the ingestion process. This is particularly useful for applications like Neptune GraphRAG, where you need to extract entities from chunks to build a knowledge graph.
 
+Currently, context enrichment is only supported when using Neptune Analytics as a storage configuration.
+
 The enrichment process uses Amazon Bedrock foundation models to perform operations like chunk entity extraction. To configure context enrichment, set the `contextEnrichment` in a data source as below.
 
 TypeScript
