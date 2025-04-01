@@ -81,6 +81,23 @@ export interface WebCrawlerDataSourceAssociationProps extends DataSourceAssociat
    * @default None
    */
   readonly filters?: CrawlingFilters;
+  /**
+   * The user agent string to use when crawling.
+   * @default - Default user agent string
+   */
+  readonly userAgent?: string;
+  /**
+   * The user agent header to use when crawling.
+   * @default - Default user agent header
+   */
+  readonly userAgentHeader?: string;
+  /**
+   * The maximum number of pages to crawl. The max number of web pages crawled from your source URLs,
+   * up to 25,000 pages. If the web pages exceed this limit, the data source sync will fail and
+   * no web pages will be ingested.
+   * @default - No limit
+   */
+  readonly maxPages?: number;
 }
 
 /**
@@ -132,6 +149,10 @@ export class WebCrawlerDataSource extends DataSourceNew {
    * The max rate at which pages are crawled.
    */
   public readonly crawlingRate: number;
+  /**
+   * The maximum number of pages to crawl.
+   */
+  public readonly maxPages: number;
   // ------------------------------------------------------
   // Internal Only
   // ------------------------------------------------------
@@ -151,7 +172,7 @@ export class WebCrawlerDataSource extends DataSourceNew {
     this.kmsKey = props.kmsKey;
     this.crawlingRate = props.crawlingRate ?? 300;
     this.siteUrls = props.sourceUrls;
-
+    this.maxPages = props.maxPages ?? 25000;
     // ------------------------------------------------------
     // Manage permissions for the data source
     // ------------------------------------------------------
@@ -168,10 +189,13 @@ export class WebCrawlerDataSource extends DataSourceNew {
           crawlerConfiguration: {
             crawlerLimits: {
               rateLimit: this.crawlingRate,
+              maxPages: this.maxPages,
             },
-            scope: props.crawlingScope !== CrawlingScope.DEFAULT ? props.crawlingScope : undefined, //?? CrawlingScope.HOST_ONLY,
+            scope: props.crawlingScope !== CrawlingScope.DEFAULT ? props.crawlingScope : undefined,
             inclusionFilters: props.filters?.includePatterns,
             exclusionFilters: props.filters?.excludePatterns,
+            userAgent: props.userAgent,
+            userAgentHeader: props.userAgentHeader,
           },
           sourceConfiguration: {
             urlConfiguration: {

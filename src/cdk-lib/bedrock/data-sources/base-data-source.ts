@@ -19,10 +19,9 @@ import { Construct } from 'constructs';
 
 import { IKnowledgeBase } from './../knowledge-bases/knowledge-base';
 import { ChunkingStrategy } from './chunking';
+import { ContextEnrichment } from './context-enrichment';
 import { CustomTransformation } from './custom-transformation';
 import { ParsingStategy } from './parsing';
-// import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
-
 /**
  * Specifies the policy for handling data when a data source resource is deleted.
  * This policy affects the vector embeddings created from the data source.
@@ -162,6 +161,12 @@ export interface DataSourceAssociationProps {
    * @default - No custom transformation is used.
    */
   readonly customTransformation?: CustomTransformation;
+
+  /**
+   * The context enrichment configuration to use.
+   * @default - No context enrichment is used.
+   */
+  readonly contextEnrichment?: ContextEnrichment;
 }
 
 /**
@@ -232,11 +237,12 @@ export abstract class DataSourceNew extends DataSourceBase {
         }
         : undefined,
       vectorIngestionConfiguration:
-        props.chunkingStrategy || props.parsingStrategy || props.customTransformation
+        props.chunkingStrategy || props.parsingStrategy || props.customTransformation || props.contextEnrichment
           ? {
             chunkingConfiguration: props.chunkingStrategy?.configuration,
             parsingConfiguration: props.parsingStrategy?.configuration,
             customTransformationConfiguration: props.customTransformation?.configuration,
+            contextEnrichmentConfiguration: props.contextEnrichment?.configuration,
           }
           : undefined,
     };

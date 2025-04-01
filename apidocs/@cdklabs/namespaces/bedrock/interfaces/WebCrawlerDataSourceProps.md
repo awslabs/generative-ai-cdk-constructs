@@ -34,6 +34,24 @@ ChunkingStrategy.DEFAULT
 
 ***
 
+### contextEnrichment?
+
+> `readonly` `optional` **contextEnrichment**: [`ContextEnrichment`](../classes/ContextEnrichment.md)
+
+The context enrichment configuration to use.
+
+#### Default
+
+```ts
+- No context enrichment is used.
+```
+
+#### Inherited from
+
+[`WebCrawlerDataSourceAssociationProps`](WebCrawlerDataSourceAssociationProps.md).[`contextEnrichment`](WebCrawlerDataSourceAssociationProps.md#contextenrichment)
+
+***
+
 ### crawlingRate?
 
 > `readonly` `optional` **crawlingRate**: `number`
@@ -188,6 +206,26 @@ The knowledge base to associate with the data source.
 
 ***
 
+### maxPages?
+
+> `readonly` `optional` **maxPages**: `number`
+
+The maximum number of pages to crawl. The max number of web pages crawled from your source URLs,
+up to 25,000 pages. If the web pages exceed this limit, the data source sync will fail and
+no web pages will be ingested.
+
+#### Default
+
+```ts
+- No limit
+```
+
+#### Inherited from
+
+[`WebCrawlerDataSourceAssociationProps`](WebCrawlerDataSourceAssociationProps.md).[`maxPages`](WebCrawlerDataSourceAssociationProps.md#maxpages)
+
+***
+
 ### parsingStrategy?
 
 > `readonly` `optional` **parsingStrategy**: [`ParsingStategy`](../classes/ParsingStategy.md)
@@ -216,3 +254,39 @@ Maximum of 100 URLs.
 #### Inherited from
 
 [`WebCrawlerDataSourceAssociationProps`](WebCrawlerDataSourceAssociationProps.md).[`sourceUrls`](WebCrawlerDataSourceAssociationProps.md#sourceurls)
+
+***
+
+### userAgent?
+
+> `readonly` `optional` **userAgent**: `string`
+
+The user agent string to use when crawling.
+
+#### Default
+
+```ts
+- Default user agent string
+```
+
+#### Inherited from
+
+[`WebCrawlerDataSourceAssociationProps`](WebCrawlerDataSourceAssociationProps.md).[`userAgent`](WebCrawlerDataSourceAssociationProps.md#useragent)
+
+***
+
+### userAgentHeader?
+
+> `readonly` `optional` **userAgentHeader**: `string`
+
+The user agent header to use when crawling.
+
+#### Default
+
+```ts
+- Default user agent header
+```
+
+#### Inherited from
+
+[`WebCrawlerDataSourceAssociationProps`](WebCrawlerDataSourceAssociationProps.md).[`userAgentHeader`](WebCrawlerDataSourceAssociationProps.md#useragentheader)
