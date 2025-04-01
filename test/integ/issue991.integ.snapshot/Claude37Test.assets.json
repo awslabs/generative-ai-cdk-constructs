@@ -1,7 +1,8 @@
 {
-  "version": "39.0.0",
+  "version": "41.0.0",
   "files": {
     "1f9354e3c8c90e6a6e4f3adf164e2746481f44ff6494e937f784a37964b01274": {
+      "displayName": "Claude37Test Template",
       "source": {
         "path": "Claude37Test.template.json",
         "packaging": "file"
