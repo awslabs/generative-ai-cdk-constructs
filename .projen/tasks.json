@@ -168,6 +168,69 @@
         }
       ]
     },
+    "integ:agent-mem:assert": {
+      "name": "integ:agent-mem:assert",
+      "description": "assert the snapshot of integration test 'agent-mem'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/agent-mem.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'agent-mem'. Run 'projen integ:agent-mem:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/agent-mem.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/agent-mem.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/agent-mem.integ.snapshot/ test/integ/.tmp/agent-mem.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:agent-mem:deploy": {
+      "name": "integ:agent-mem:deploy",
+      "description": "deploy integration test 'agent-mem' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/agent-mem.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/agent-mem.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/agent-mem.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/agent-mem.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/agent-mem.integ/deploy.cdk.out test/integ/agent-mem.integ.snapshot"
+        },
+        {
+          "spawn": "integ:agent-mem:destroy"
+        }
+      ]
+    },
+    "integ:agent-mem:destroy": {
+      "name": "integ:agent-mem:destroy",
+      "description": "destroy integration test 'agent-mem'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/agent-mem.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:agent-mem:snapshot": {
+      "name": "integ:agent-mem:snapshot",
+      "description": "update snapshot for integration test \"agent-mem\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/agent-mem.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/agent-mem.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:agent-mem:watch": {
+      "name": "integ:agent-mem:watch",
+      "description": "watch integration test 'agent-mem' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/agent-mem.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/agent-mem.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:aws-aoss-cw-dashboard:assert": {
       "name": "integ:aws-aoss-cw-dashboard:assert",
       "description": "assert the snapshot of integration test 'aws-aoss-cw-dashboard'",
@@ -483,6 +546,69 @@
         }
       ]
     },
+    "integ:issue991:assert": {
+      "name": "integ:issue991:assert",
+      "description": "assert the snapshot of integration test 'issue991'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/issue991.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'issue991'. Run 'projen integ:issue991:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/issue991.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/issue991.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/issue991.integ.snapshot/ test/integ/.tmp/issue991.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:issue991:deploy": {
+      "name": "integ:issue991:deploy",
+      "description": "deploy integration test 'issue991' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/issue991.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/issue991.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/issue991.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/issue991.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/issue991.integ/deploy.cdk.out test/integ/issue991.integ.snapshot"
+        },
+        {
+          "spawn": "integ:issue991:destroy"
+        }
+      ]
+    },
+    "integ:issue991:destroy": {
+      "name": "integ:issue991:destroy",
+      "description": "destroy integration test 'issue991'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/issue991.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:issue991:snapshot": {
+      "name": "integ:issue991:snapshot",
+      "description": "update snapshot for integration test \"issue991\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/issue991.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/issue991.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:issue991:watch": {
+      "name": "integ:issue991:watch",
+      "description": "watch integration test 'issue991' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/issue991.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/issue991.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:kendra-genai:assert": {
       "name": "integ:kendra-genai:assert",
       "description": "assert the snapshot of integration test 'kendra-genai'",
@@ -614,6 +740,9 @@
       "description": "update snapshot for all integration tests",
       "steps": [
         {
+          "spawn": "integ:agent-mem:snapshot"
+        },
+        {
           "spawn": "integ:chatprompt:snapshot"
         },
         {
@@ -624,6 +753,9 @@
         },
         {
           "spawn": "integ:issue747:snapshot"
+        },
+        {
+          "spawn": "integ:issue991:snapshot"
         },
         {
           "spawn": "integ:kendra-genai:snapshot"
@@ -762,6 +894,9 @@
           "spawn": "eslint"
         },
         {
+          "spawn": "integ:agent-mem:assert"
+        },
+        {
           "spawn": "integ:chatprompt:assert"
         },
         {
@@ -772,6 +907,9 @@
         },
         {
           "spawn": "integ:issue747:assert"
+        },
+        {
+          "spawn": "integ:issue991:assert"
         },
         {
           "spawn": "integ:kendra-genai:assert"
@@ -825,7 +963,7 @@
           "exec": "yarn install --check-files"
         },
         {
-          "exec": "yarn upgrade @aws-cdk/assert @aws-cdk/integ-tests-alpha @commitlint/config-conventional @mrgrain/jsii-struct-builder @stylistic/eslint-plugin @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk aws-sdk-mock commit-and-tag-version commitlint eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-license-header eslint husky jest jest-junit jsii-diff jsii-pacmak jsii-rosetta jsii pinst projen ts-jest ts-node typedoc typedoc-plugin-markdown typescript deepmerge aws-cdk-lib constructs cdk-nag"
+          "exec": "yarn upgrade @aws-cdk/assert @aws-cdk/integ-tests-alpha @commitlint/config-conventional @mrgrain/jsii-struct-builder @stylistic/eslint-plugin @types/jest @types/node @typescript-eslint/eslint-plugin @typescript-eslint/parser aws-cdk aws-sdk-mock commit-and-tag-version commitlint eslint-import-resolver-typescript eslint-plugin-import eslint-plugin-license-header eslint husky jest jest-junit jsii-diff jsii-pacmak jsii-rosetta jsii pinst projen ts-jest ts-node typedoc typedoc-plugin-markdown typescript @aws-cdk/aws-lambda-python-alpha deepmerge aws-cdk-lib constructs cdk-nag"
         },
         {
           "exec": "npx projen"

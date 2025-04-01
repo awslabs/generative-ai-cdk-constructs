@@ -17,6 +17,7 @@ import { Role } from 'aws-cdk-lib/aws-iam';
 import { Key } from 'aws-cdk-lib/aws-kms';
 import { Function, IFunction } from 'aws-cdk-lib/aws-lambda';
 import * as bedrock from '../../../../src/cdk-lib/bedrock';
+import { Memory } from '../../../../src/cdk-lib/bedrock/agents/memory';
 
 describe('CDK-Agent', () => {
   let stack: cdk.Stack;
@@ -147,6 +148,163 @@ describe('CDK-Agent', () => {
       });
 
       expect(agent.role).toEqual(myRole);
+    });
+  });
+
+  /*******************************************************
+   *               AGENT COLLABORATION                  *
+   *******************************************************/
+  describe('w/ Agent Collaboration', () => {
+    test('Agent with SUPERVISOR_ROUTER collaboration mode', () => {
+      const agent = new bedrock.Agent(stack, 'TestAgent', {
+        name: 'TestAgent',
+        foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+        instruction: 'This is a test instruction',
+        agentCollaboration: bedrock.AgentCollaboratorType.SUPERVISOR_ROUTER,
+      });
+
+      Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
+        AgentName: 'TestAgent',
+        Instruction: 'This is a test instruction',
+        AgentCollaboration: 'SUPERVISOR_ROUTER',
+      });
+
+      expect(agent.agentCollaboration).toBe(bedrock.AgentCollaboratorType.SUPERVISOR_ROUTER);
+    });
+
+    test('Agent with collaborator', () => {
+      // Create a collaborator agent first
+      const collaboratorAgent = new bedrock.Agent(stack, 'CollaboratorAgent', {
+        name: 'CollaboratorAgent',
+        foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+        instruction: 'You are a specialized agent',
+      });
+
+      const collaboratorAlias = new bedrock.AgentAlias(stack, 'CollaboratorAlias', {
+        agent: collaboratorAgent,
+      });
+
+      const mainAgent = new bedrock.Agent(stack, 'TestAgent', {
+        name: 'TestAgent',
+        foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+        instruction: 'This is a test instruction',
+        agentCollaboration: bedrock.AgentCollaboratorType.SUPERVISOR_ROUTER,
+        agentCollaborators: [
+          new bedrock.AgentCollaborator({
+            agentAlias: collaboratorAlias,
+            collaborationInstruction: 'Route specialized questions to this agent.',
+            collaboratorName: 'SpecializedAgent',
+            relayConversationHistory: true,
+          }),
+        ],
+      });
+
+      Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
+        AgentName: 'TestAgent',
+        AgentCollaboration: 'SUPERVISOR_ROUTER',
+        AgentCollaborators: Match.arrayEquals([
+          {
+            AgentDescriptor: {
+              AliasArn: {
+                'Fn::GetAtt': [
+                  Match.stringLikeRegexp('CollaboratorAlias.*'),
+                  'AgentAliasArn',
+                ],
+              },
+            },
+            CollaborationInstruction: 'Route specialized questions to this agent.',
+            CollaboratorName: 'SpecializedAgent',
+            RelayConversationHistory: 'TO_COLLABORATOR',
+          },
+        ]),
+      });
+
+      expect(mainAgent.agentCollaboration).toBe(bedrock.AgentCollaboratorType.SUPERVISOR_ROUTER);
+      expect(mainAgent.agentCollaborators).toHaveLength(1);
+      expect(mainAgent.agentCollaborators![0].collaboratorName).toBe('SpecializedAgent');
+    });
+
+    test('Agent with multiple collaborators', () => {
+      // Create first collaborator agent
+      const collaborator1Agent = new bedrock.Agent(stack, 'Collaborator1Agent', {
+        name: 'Collaborator1Agent',
+        foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+        instruction: 'You are specialized agent 1',
+      });
+
+      const collaborator1Alias = new bedrock.AgentAlias(stack, 'Collaborator1Alias', {
+        agent: collaborator1Agent,
+      });
+
+      // Create second collaborator agent
+      const collaborator2Agent = new bedrock.Agent(stack, 'Collaborator2Agent', {
+        name: 'Collaborator2Agent',
+        foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+        instruction: 'You are specialized agent 2',
+      });
+
+      const collaborator2Alias = new bedrock.AgentAlias(stack, 'Collaborator2Alias', {
+        agent: collaborator2Agent,
+      });
+
+      const mainAgent = new bedrock.Agent(stack, 'TestAgent', {
+        name: 'TestAgent',
+        foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+        instruction: 'This is a test instruction',
+        agentCollaboration: bedrock.AgentCollaboratorType.SUPERVISOR_ROUTER,
+        agentCollaborators: [
+          new bedrock.AgentCollaborator({
+            agentAlias: collaborator1Alias,
+            collaborationInstruction: 'Route type 1 questions to this agent.',
+            collaboratorName: 'SpecializedAgent1',
+            relayConversationHistory: true,
+          }),
+          new bedrock.AgentCollaborator({
+            agentAlias: collaborator2Alias,
+            collaborationInstruction: 'Route type 2 questions to this agent.',
+            collaboratorName: 'SpecializedAgent2',
+            relayConversationHistory: false,
+          }),
+        ],
+      });
+
+      Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
+        AgentName: 'TestAgent',
+        AgentCollaboration: 'SUPERVISOR_ROUTER',
+        AgentCollaborators: Match.arrayWith([
+          {
+            AgentDescriptor: {
+              AliasArn: {
+                'Fn::GetAtt': [
+                  Match.stringLikeRegexp('Collaborator1Alias.*'),
+                  'AgentAliasArn',
+                ],
+              },
+            },
+            CollaborationInstruction: 'Route type 1 questions to this agent.',
+            CollaboratorName: 'SpecializedAgent1',
+            RelayConversationHistory: 'TO_COLLABORATOR',
+          },
+          {
+            AgentDescriptor: {
+              AliasArn: {
+                'Fn::GetAtt': [
+                  Match.stringLikeRegexp('Collaborator2Alias.*'),
+                  'AgentAliasArn',
+                ],
+              },
+            },
+            CollaborationInstruction: 'Route type 2 questions to this agent.',
+            CollaboratorName: 'SpecializedAgent2',
+            RelayConversationHistory: 'DISABLED',
+          },
+        ]),
+      });
+
+      expect(mainAgent.agentCollaboration).toBe(bedrock.AgentCollaboratorType.SUPERVISOR_ROUTER);
+      expect(mainAgent.agentCollaborators).toHaveLength(2);
+      expect(mainAgent.agentCollaborators![0].collaboratorName).toBe('SpecializedAgent1');
+      expect(mainAgent.agentCollaborators![1].collaboratorName).toBe('SpecializedAgent2');
     });
   });
 
@@ -440,6 +598,125 @@ describe('CDK-Agent', () => {
 
       expect(() => agent.addKnowledgeBase(invalidKb)).toThrow(
         'If instructionForAgents is not provided, the description property of the KnowledgeBase ABCDEFG1234 must be provided.',
+      );
+    });
+  });
+  /*******************************************************
+   *              MEMORY CONFIGURATION in Agents		 *
+   *******************************************************/
+  describe('w/ Memory Configuration', () => {
+    test('default memory configuration is set correctly', () => {
+      // WHEN
+      new bedrock.Agent(stack, 'TestAgent', {
+        name: 'TestAgent',
+        foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+        instruction: 'This is a test instruction',
+        memory: Memory.SESSION_SUMMARY,
+      });
+
+      // THEN
+      Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
+        AgentName: 'TestAgent',
+        Instruction: 'This is a test instruction',
+        MemoryConfiguration: {
+          EnabledMemoryTypes: ['SESSION_SUMMARY'],
+          StorageDays: 30,
+          SessionSummaryConfiguration: {
+            MaxRecentSessions: 20,
+          },
+        },
+      });
+    });
+
+    test('custom memory configuration is set correctly', () => {
+      // WHEN
+      new bedrock.Agent(stack, 'TestAgent', {
+        name: 'TestAgent',
+        foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+        instruction: 'This is a test instruction',
+        memory: Memory.sessionSummary({
+          memoryDurationDays: 60,
+          maxRecentSessions: 30,
+        }),
+      });
+
+      // THEN
+      Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
+        AgentName: 'TestAgent',
+        Instruction: 'This is a test instruction',
+        MemoryConfiguration: {
+          EnabledMemoryTypes: ['SESSION_SUMMARY'],
+          StorageDays: 60,
+          SessionSummaryConfiguration: {
+            MaxRecentSessions: 30,
+          },
+        },
+      });
+    });
+
+    test('memory duration days must be between 1 and 365', () => {
+      // THEN
+      expect(
+        () =>
+          new bedrock.Agent(stack, 'TestAgent', {
+            name: 'TestAgent',
+            foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+            instruction: 'This is a test instruction',
+            memory: Memory.sessionSummary({
+              memoryDurationDays: 366,
+            }),
+          }),
+      ).toThrow(/memoryDurationDays must be between 1 and 365/);
+
+      expect(
+        () =>
+          new bedrock.Agent(stack, 'TestAgent2', {
+            name: 'TestAgent2',
+            foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+            instruction: 'This is a test instruction',
+            memory: Memory.sessionSummary({
+              memoryDurationDays: 0,
+            }),
+          }),
+      ).toThrow(/memoryDurationDays must be between 1 and 365/);
+    });
+
+    test('max recent sessions must be at least 1', () => {
+      // THEN
+      expect(
+        () =>
+          new bedrock.Agent(stack, 'TestAgent', {
+            name: 'TestAgent',
+            foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+            instruction: 'This is a test instruction',
+            memory: Memory.sessionSummary({
+              maxRecentSessions: 0,
+            }),
+          }),
+      ).toThrow(/maxRecentSessions must be greater than 0/);
+    });
+
+    test('memory configuration can be disabled', () => {
+      // WHEN
+      new bedrock.Agent(stack, 'TestAgent', {
+        name: 'TestAgent',
+        foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+        instruction: 'This is a test instruction',
+        memory: undefined,
+      });
+
+      // THEN
+      Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
+        AgentName: 'TestAgent',
+        Instruction: 'This is a test instruction',
+      });
+
+      const template = Template.fromStack(stack);
+      template.hasResourceProperties(
+        'AWS::Bedrock::Agent',
+        Match.not({
+          MemoryConfiguration: Match.anyValue(),
+        }),
       );
     });
   });

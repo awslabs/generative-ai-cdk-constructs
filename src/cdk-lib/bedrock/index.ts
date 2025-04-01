@@ -20,6 +20,10 @@ export * from './agents/agent-alias';
 export * from './agents/api-executor';
 export * from './agents/api-schema';
 export * from './agents/prompt-override';
+export * from './agents/memory';
+export * from './agents/agent-collaborator';
+export * from './agents/orchestration';
+export * from './agents/orchestration-executor';
 
 //===================================
 // Data Sources
@@ -33,6 +37,7 @@ export * from './data-sources/sharepoint-data-source';
 export * from './data-sources/confluence-data-source';
 export * from './data-sources/salesforce-data-source';
 export * from './data-sources/s3-data-source';
+export * from './data-sources/custom-data-source';
 
 //===================================
 // Guardrails

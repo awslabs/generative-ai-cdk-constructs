@@ -29,7 +29,7 @@ import {
 const GITHUB_USER = 'awslabs';
 const PUBLICATION_NAMESPACE = 'cdklabs';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
-const CDK_VERSION: string = '2.178.0';
+const CDK_VERSION: string = '2.181.1';
 
 function camelCaseIt(input: string): string {
   // Hypens and dashes to spaces and then CamelCase...
@@ -72,7 +72,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
     `@aws-cdk/integ-tests-alpha@${CDK_VERSION}-alpha.0`,
   ],
   deps: ['cdk-nag'],
-  bundledDeps: ['deepmerge'],
+  bundledDeps: [
+    'deepmerge',
+    `@aws-cdk/aws-lambda-python-alpha@${CDK_VERSION}-alpha.0`,
+  ],
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
   minNodeVersion: '18.12.0', // 'MAINTENANCE' (first LTS)
   maxNodeVersion: '22.x', // 'CURRENT'

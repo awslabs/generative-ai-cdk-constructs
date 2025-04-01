@@ -18,9 +18,9 @@ The HuggingFaceSageMakerEndpoint class.
 
 ## Constructors
 
-### new HuggingFaceSageMakerEndpoint()
+### Constructor
 
-> **new HuggingFaceSageMakerEndpoint**(`scope`, `id`, `props`): [`HuggingFaceSageMakerEndpoint`](HuggingFaceSageMakerEndpoint.md)
+> **new HuggingFaceSageMakerEndpoint**(`scope`, `id`, `props`): `HuggingFaceSageMakerEndpoint`
 
 #### Parameters
 
@@ -38,11 +38,11 @@ The HuggingFaceSageMakerEndpoint class.
 
 #### Returns
 
-[`HuggingFaceSageMakerEndpoint`](HuggingFaceSageMakerEndpoint.md)
+`HuggingFaceSageMakerEndpoint`
 
 #### Overrides
 
-[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`constructor`](SageMakerEndpointBase.md#constructors)
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`constructor`](SageMakerEndpointBase.md#constructor)
 
 ## Properties
 

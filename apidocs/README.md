@@ -6,12 +6,12 @@
 
 ## Namespaces
 
-- [amazonaurora](namespaces/amazonaurora/README.md)
-- [bedrock](namespaces/bedrock/README.md)
-- [kendra](namespaces/kendra/README.md)
-- [opensearch\_vectorindex](namespaces/opensearch_vectorindex/README.md)
-- [opensearchserverless](namespaces/opensearchserverless/README.md)
-- [pinecone](namespaces/pinecone/README.md)
+- [amazonaurora](@cdklabs/namespaces/amazonaurora/README.md)
+- [bedrock](@cdklabs/namespaces/bedrock/README.md)
+- [kendra](@cdklabs/namespaces/kendra/README.md)
+- [opensearch\_vectorindex](@cdklabs/namespaces/opensearch_vectorindex/README.md)
+- [opensearchserverless](@cdklabs/namespaces/opensearchserverless/README.md)
+- [pinecone](@cdklabs/namespaces/pinecone/README.md)
 
 ## Enumerations
 
@@ -23,6 +23,7 @@
 - [BaseClass](classes/BaseClass.md)
 - [BedrockBatchSfn](classes/BedrockBatchSfn.md)
 - [BedrockCwDashboard](classes/BedrockCwDashboard.md)
+- [BedrockDataAutomation](classes/BedrockDataAutomation.md)
 - [ContainerImage](classes/ContainerImage.md)
 - [CustomSageMakerEndpoint](classes/CustomSageMakerEndpoint.md)
 - [DeepLearningContainerImage](classes/DeepLearningContainerImage.md)
@@ -39,6 +40,7 @@
 - [BaseClassProps](interfaces/BaseClassProps.md)
 - [BedrockBatchSfnProps](interfaces/BedrockBatchSfnProps.md)
 - [BedrockCwDashboardProps](interfaces/BedrockCwDashboardProps.md)
+- [BedrockDataAutomationProps](interfaces/BedrockDataAutomationProps.md)
 - [CollectionMonitoringProps](interfaces/CollectionMonitoringProps.md)
 - [ContainerImageConfig](interfaces/ContainerImageConfig.md)
 - [CustomSageMakerEndpointProps](interfaces/CustomSageMakerEndpointProps.md)
