@@ -1,7 +1,8 @@
 {
-  "version": "39.0.0",
+  "version": "41.0.0",
   "files": {
     "1c41a7151b84506d8b20ef231edaf08a41a061b40f85b3a04ea5ba16b367324c": {
+      "displayName": "aws-cdk-bedrock-prompt-kendra-integ-test Template",
       "source": {
         "path": "aws-cdk-bedrock-prompt-kendra-integ-test.template.json",
         "packaging": "file"

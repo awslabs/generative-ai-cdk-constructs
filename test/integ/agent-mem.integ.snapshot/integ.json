@@ -1,5 +1,5 @@
 {
-  "version": "39.0.0",
+  "version": "41.0.0",
   "testCases": {
     "AgentMemoryTest-Integ/DefaultTest": {
       "stacks": [
@@ -15,5 +15,6 @@
       "assertionStack": "AgentMemoryTest-Integ/DefaultTest/DeployAssert",
       "assertionStackName": "AgentMemoryTestIntegDefaultTestDeployAssertA6B9969F"
     }
-  }
+  },
+  "minimumCliVersion": "2.1005.0"
 }
