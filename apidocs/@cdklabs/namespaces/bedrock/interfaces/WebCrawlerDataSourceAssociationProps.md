@@ -251,10 +251,10 @@ The user agent string to use when crawling.
 
 > `readonly` `optional` **userAgentHeader**: `string`
 
-The user agent header to use when crawling. A string used for identifying 
-the crawler or bot when it accesses a web server. The user agent header value 
-consists of the bedrockbot, UUID, and a user agent suffix for your crawler (if one is provided). 
-By default, it is set to bedrockbot_UUID. You can optionally append a custom suffix to bedrockbot_UUID 
+The user agent header to use when crawling. A string used for identifying
+the crawler or bot when it accesses a web server. The user agent header value
+consists of the bedrockbot, UUID, and a user agent suffix for your crawler (if one is provided).
+By default, it is set to bedrockbot_UUID. You can optionally append a custom suffix to bedrockbot_UUID
 to allowlist a specific user agent permitted to access your source URLs.
 
 #### Default
