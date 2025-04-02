@@ -31,6 +31,6 @@ Langfuse v3 deployments involve multiple components, as discussed in their [offi
 4. [Amazon EFS](https://aws.amazon.com/efs/) for durable managed storage to back the deployed [ClickHouse](https://clickhouse.com/docs/intro) OLAP system
 5. [Amazon CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html) for high-performance CDN and HTTPS connectivity to the deployed Langfuse service.
 
-![](./architecture.png.png "Architecture diagram showing LLM applications and web browsers connecting to Langfuse through the above described components")
+![](./architecture.png "Architecture diagram showing LLM applications and web browsers connecting to Langfuse through the above described components")
 
 For an example of how to use these constructs to deploy Langfuse and integrate tracing into your CDK-defined AI applications - see [self-hosted-langfuse-tracing in aws-samples/generative-ai-cdk-constructs-samples](https://github.com/aws-samples/generative-ai-cdk-constructs-samples/tree/main/samples/self-hosted-langfuse-tracing).
