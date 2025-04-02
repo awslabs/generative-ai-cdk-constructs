@@ -83,6 +83,24 @@ https://example.atlassian.net
 
 ***
 
+### contextEnrichment?
+
+> `readonly` `optional` **contextEnrichment**: [`ContextEnrichment`](../classes/ContextEnrichment.md)
+
+The context enrichment configuration to use.
+
+#### Default
+
+```ts
+- No context enrichment is used.
+```
+
+#### Inherited from
+
+[`ConfluenceDataSourceAssociationProps`](ConfluenceDataSourceAssociationProps.md).[`contextEnrichment`](ConfluenceDataSourceAssociationProps.md#contextenrichment)
+
+***
+
 ### customTransformation?
 
 > `readonly` `optional` **customTransformation**: [`CustomTransformation`](../classes/CustomTransformation.md)
