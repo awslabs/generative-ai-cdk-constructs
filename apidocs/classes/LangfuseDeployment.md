@@ -19,9 +19,9 @@ https://langfuse.com/self-hosting
 
 ## Constructors
 
-### new LangfuseDeployment()
+### Constructor
 
-> **new LangfuseDeployment**(`scope`, `id`, `props`): [`LangfuseDeployment`](LangfuseDeployment.md)
+> **new LangfuseDeployment**(`scope`, `id`, `props`): `LangfuseDeployment`
 
 #### Parameters
 
@@ -39,11 +39,11 @@ https://langfuse.com/self-hosting
 
 #### Returns
 
-[`LangfuseDeployment`](LangfuseDeployment.md)
+`LangfuseDeployment`
 
 #### Overrides
 
-[`BaseClass`](BaseClass.md).[`constructor`](BaseClass.md#constructors)
+[`BaseClass`](BaseClass.md).[`constructor`](BaseClass.md#constructor)
 
 ## Properties
 

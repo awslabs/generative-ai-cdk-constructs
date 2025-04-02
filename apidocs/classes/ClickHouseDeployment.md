@@ -19,9 +19,9 @@ For more information on best practices, see: https://clickhouse.com/docs/install
 
 ## Constructors
 
-### new ClickHouseDeployment()
+### Constructor
 
-> **new ClickHouseDeployment**(`scope`, `id`, `props`): [`ClickHouseDeployment`](ClickHouseDeployment.md)
+> **new ClickHouseDeployment**(`scope`, `id`, `props`): `ClickHouseDeployment`
 
 #### Parameters
 
@@ -39,7 +39,7 @@ For more information on best practices, see: https://clickhouse.com/docs/install
 
 #### Returns
 
-[`ClickHouseDeployment`](ClickHouseDeployment.md)
+`ClickHouseDeployment`
 
 #### Overrides
 

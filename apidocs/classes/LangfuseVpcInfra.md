@@ -20,9 +20,9 @@ security best-practice for cdk-nag: https://github.com/cdklabs/cdk-nag
 
 ## Constructors
 
-### new LangfuseVpcInfra()
+### Constructor
 
-> **new LangfuseVpcInfra**(`scope`, `id`, `props`): [`LangfuseVpcInfra`](LangfuseVpcInfra.md)
+> **new LangfuseVpcInfra**(`scope`, `id`, `props`): `LangfuseVpcInfra`
 
 #### Parameters
 
@@ -40,7 +40,7 @@ security best-practice for cdk-nag: https://github.com/cdklabs/cdk-nag
 
 #### Returns
 
-[`LangfuseVpcInfra`](LangfuseVpcInfra.md)
+`LangfuseVpcInfra`
 
 #### Overrides
 
