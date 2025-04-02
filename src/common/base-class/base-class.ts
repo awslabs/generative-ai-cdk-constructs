@@ -59,6 +59,7 @@ export class BaseClass extends Construct {
     [ConstructName.CUSTOMSAGEMAKERENDPOINT]: 0,
     [ConstructName.HUGGINGFACESAGEMAKERENDPOINT]: 0,
     [ConstructName.JUMPSTARTSAGEMAKERENDPOINT]: 0,
+    [ConstructName.LANGFUSEDEPLOYMENT]: 0,
   };
 
 

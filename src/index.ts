@@ -26,3 +26,4 @@ export * from './patterns/gen-ai/aws-bedrock-cw-dashboard';
 export * from './patterns/gen-ai/aws-aoss-cw-dashboard';
 export * from './patterns/gen-ai/aws-bedrock-data-automation';
 export * from './patterns/gen-ai/aws-bedrock-batch-stepfn';
+export * from './patterns/gen-ai/langfuse-deployment';
