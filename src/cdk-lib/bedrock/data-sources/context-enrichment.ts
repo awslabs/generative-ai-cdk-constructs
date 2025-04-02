@@ -40,7 +40,7 @@ export interface FoundationModelContextEnrichmentProps {
   /**
    * The Bedrock Foundation Model configuration for context enrichment.
    */
-  readonly parsingModel: IInvokable;
+  readonly enrichmentModel: IInvokable;
 }
 
 /**
@@ -63,7 +63,7 @@ export abstract class ContextEnrichment {
       public readonly configuration = {
         type: ContextEnrichmentType.BEDROCK_FOUNDATION_MODEL,
         bedrockFoundationModelConfiguration: {
-          modelArn: props.parsingModel.invokableArn,
+          modelArn: props.enrichmentModel.invokableArn,
           enrichmentStrategyConfiguration: {
             method: EnrichmentStrategyConfigurationType.CHUNK_ENTITY_EXTRACTION,
           },
@@ -73,8 +73,8 @@ export abstract class ContextEnrichment {
       public generatePolicyStatements(): PolicyStatement[] {
         return [
           new PolicyStatement({
-            actions: ['bedrock:InvokeModel'],
-            resources: [props.parsingModel.invokableArn],
+            actions: ['bedrock:InvokeModel*'],
+            resources: [props.enrichmentModel.invokableArn],
           }),
         ];
       }

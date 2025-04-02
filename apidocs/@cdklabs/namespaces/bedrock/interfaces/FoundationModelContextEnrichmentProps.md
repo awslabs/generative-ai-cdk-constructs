@@ -10,8 +10,8 @@ Properties for configuring a Foundation Model enrichment strategy.
 
 ## Properties
 
-### parsingModel
+### enrichmentModel
 
-> `readonly` **parsingModel**: [`IInvokable`](IInvokable.md)
+> `readonly` **enrichmentModel**: [`IInvokable`](IInvokable.md)
 
 The Bedrock Foundation Model configuration for context enrichment.

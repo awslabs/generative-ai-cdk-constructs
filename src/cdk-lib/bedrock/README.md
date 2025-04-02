@@ -864,7 +864,7 @@ TypeScript
 
 ```ts
 bedrock.ContextEnrichment.foundationModel({
-  parsingModel: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
+  enrichmentModel: BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_HAIKU_V1_0,
 });
 ```
 
@@ -872,7 +872,7 @@ Python
 
 ```python
 bedrock.ContextEnrichment.foundation_model(
-  parsing_model=BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0
+  enrichment_model=BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_HAIKU_V1_0
 )
 ```
 
