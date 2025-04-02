@@ -24,7 +24,7 @@ import {
 } from './knowledge-base';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
 import { ExistingAmazonAuroraVectorStore, AmazonAuroraVectorStore } from '../../amazonaurora';
-import { VectorIndex } from '../../opensearch-vectorindex';
+import { VectorIndex, SpaceType, OpensearchFieldType, EngineType, AlgorithmNameType } from '../../opensearch-vectorindex';
 import { VectorCollection } from '../../opensearchserverless';
 import { PineconeVectorStore } from '../../pinecone';
 import { Agent } from '../agents/agent';
@@ -424,7 +424,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     validateModel(embeddingsModel, vectorType);
     validateVectorIndex(props.vectorStore, props.vectorIndex, props.vectorField, props.indexName);
     if (props.vectorIndex) {
-      validateIndexParameters(props.vectorIndex, indexName, vectorField);
+      validateIndexParameters(props.vectorIndex, indexName);
     }
 
     this.name = props.name ?? generatePhysicalNameV2(this, 'KB', { maxLength: 32 });
@@ -531,22 +531,32 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
         this.vectorIndex = new VectorIndex(this, 'KBIndex', {
           collection: this.vectorStore as VectorCollection,
           indexName,
-          vectorField,
-          vectorDimensions: embeddingsModel.vectorDimensions!,
-          precision: props.vectorType === VectorType.BINARY ? 'Binary' : 'float',
-          distanceType: props.vectorType === VectorType.BINARY ? 'hamming' : 'l2',
-          mappings: [
-            {
-              mappingField: 'AMAZON_BEDROCK_TEXT_CHUNK',
-              dataType: 'text',
-              filterable: true,
+          settings: {
+            knn: true,
+          },
+          mappings: {
+            properties: {
+              vectorField: {
+                type: OpensearchFieldType.KNN_VECTOR,
+                dimension: embeddingsModel.vectorDimensions!,
+                //data_type: props.vectorType === VectorType.BINARY ? 'Binary' : 'float', <- This is missing in L1 CfnIndex props
+                method: {
+                  engine: EngineType.FAISS,
+                  spaceType: props.vectorType === VectorType.BINARY ? SpaceType.HAMMING : SpaceType.L2,
+                  name: AlgorithmNameType.HNSW,
+                  parameters: {},
+                },
+              },
+              AMAZON_BEDROCK_TEXT_CHUNK: {
+                type: OpensearchFieldType.TEXT,
+                index: true,
+              },
+              AMAZON_BEDROCK_METADATA: {
+                type: OpensearchFieldType.TEXT,
+                index: false,
+              },
             },
-            {
-              mappingField: 'AMAZON_BEDROCK_METADATA',
-              dataType: 'text',
-              filterable: false,
-            },
-          ],
+          },
         });
 
         this.vectorIndex.node.addDependency(this.vectorStore);
@@ -834,7 +844,7 @@ function validateVectorIndex(vectorStore: any, vectorIndex: any, vectorField: an
  *
  * @internal This is an internal core function and should not be called directly.
  */
-function validateIndexParameters(vectorIndex: VectorIndex, indexName: string, vectorField: string) {
+function validateIndexParameters(vectorIndex: VectorIndex, indexName: string) {
   if (vectorIndex.indexName !== 'bedrock-knowledge-base-default-index') {
     if (vectorIndex.indexName !== indexName) {
       throw new Error(
@@ -846,7 +856,7 @@ function validateIndexParameters(vectorIndex: VectorIndex, indexName: string, ve
       );
     }
   }
-  if (vectorIndex.vectorField !== 'bedrock-knowledge-base-default-vector') {
+  /*if (vectorIndex.vectorField !== 'bedrock-knowledge-base-default-vector') {
     if (vectorIndex.vectorField !== vectorField) {
       throw new Error(
         'Default value of vectorField is `bedrock-knowledge-base-default-vector`.' +
@@ -856,7 +866,7 @@ function validateIndexParameters(vectorIndex: VectorIndex, indexName: string, ve
           ' then do not assign vectorField in KnowledgeBase construct.',
       );
     }
-  }
+  }*/
 }
 
 /**
