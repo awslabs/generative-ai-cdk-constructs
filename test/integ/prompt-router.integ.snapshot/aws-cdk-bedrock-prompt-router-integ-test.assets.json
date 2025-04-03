@@ -1,7 +1,8 @@
 {
-  "version": "39.0.0",
+  "version": "41.0.0",
   "files": {
     "d234028c8a2b4e7ef7c530e7abc3de36d8f1325a26b3ef033f98d37f8b627ad9": {
+      "displayName": "aws-cdk-bedrock-prompt-router-integ-test Template",
       "source": {
         "path": "aws-cdk-bedrock-prompt-router-integ-test.template.json",
         "packaging": "file"

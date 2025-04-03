@@ -134,6 +134,14 @@ The knowledge base associated with the data source.
 
 ***
 
+### maxPages
+
+> `readonly` **maxPages**: `number`
+
+The maximum number of pages to crawl.
+
+***
+
 ### node
 
 > `readonly` **node**: `Node`

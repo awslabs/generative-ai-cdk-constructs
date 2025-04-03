@@ -1,7 +1,8 @@
 {
-  "version": "39.0.0",
+  "version": "41.0.0",
   "files": {
     "7e760cbfec7bfb0f842abf3934b793e311a38bd24c9810f722b3e1b8ac300b23": {
+      "displayName": "aws-cdk-bedrock-agents-integ-test Template",
       "source": {
         "path": "aws-cdk-bedrock-agents-integ-test.template.json",
         "packaging": "file"

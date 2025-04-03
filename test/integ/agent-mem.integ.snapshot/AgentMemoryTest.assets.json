@@ -1,7 +1,8 @@
 {
-  "version": "39.0.0",
+  "version": "41.0.0",
   "files": {
     "9f5d87597e60f4c70edcfcdea8130c16cdc6b52aa706bdeb2b7efca7ab170169": {
+      "displayName": "AgentMemoryTest Template",
       "source": {
         "path": "AgentMemoryTest.template.json",
         "packaging": "file"
