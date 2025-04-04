@@ -482,6 +482,18 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
 
     if (!props.existingRole) {
       embeddingsModel.grantInvoke(this.role);
+
+      // Add CDK Nag suppression for bedrock:InvokeModel* wildcard permission
+      NagSuppressions.addResourceSuppressions(
+        this.role,
+        [
+          {
+            id: 'AwsSolutions-IAM5',
+            reason: 'Bedrock Knowledge Base requires wildcard permissions to invoke embedding models',
+          },
+        ],
+        true,
+      );
     }
 
     // ------------------------------------------------------

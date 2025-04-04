@@ -19,7 +19,7 @@ import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 
 import { AwsSolutionsChecks } from 'cdk-nag';
 import { AmazonAuroraVectorStore } from '../../../src/cdk-lib/amazonaurora';
-import { VectorKnowledgeBase } from '../../../src/cdk-lib/bedrock/knowledge-bases/vector-knowledge-base';
+import { VectorKnowledgeBase, VectorStoreType } from '../../../src/cdk-lib/bedrock/knowledge-bases/vector-knowledge-base';
 import { BedrockFoundationModel, VectorType } from '../../../src/cdk-lib/bedrock/models';
 import { VectorCollection } from '../../../src/cdk-lib/opensearchserverless';
 import { PineconeVectorStore } from '../../../src/cdk-lib/pinecone';
@@ -363,6 +363,7 @@ describe('VectorKnowledgeBase', () => {
       knowledgeBaseId: 'OVGH4TEBDH',
       executionRoleArn:
         'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseE9B1DDDC',
+      vectorStoreType: VectorStoreType.OPENSEARCH_SERVERLESS,
     });
 
     expect(kb.knowledgeBaseId).toEqual('OVGH4TEBDH');
@@ -377,6 +378,7 @@ describe('VectorKnowledgeBase', () => {
     const kb2 = VectorKnowledgeBase.fromKnowledgeBaseAttributes(stack, 'ImportedKnowledgeBase2', {
       knowledgeBaseId: 'OVGH4TEBDH',
       executionRoleArn: 'arn:aws:iam::123456789012:role/service-role/AmazonBedrockExecutionRoleForKnowledgeBase_9ivh2',
+      vectorStoreType: VectorStoreType.OPENSEARCH_SERVERLESS,
     });
     const bucket = s3.Bucket.fromBucketArn(
       stack,
