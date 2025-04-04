@@ -15,7 +15,6 @@ import * as iam from "aws-cdk-lib/aws-iam";
 import * as neptunegraph from "aws-cdk-lib/aws-neptunegraph";
 import { Construct } from "constructs";
 import { ArnFormat, IResource, Resource, Stack } from "aws-cdk-lib";
-import { BedrockFoundationModel } from "../bedrock";
 import { Metric, MetricOptions, MetricProps } from "aws-cdk-lib/aws-cloudwatch";
 import { generatePhysicalNameV2 } from "../../common/helpers/utils";
 import { NeptuneGraphNotebook, NeptuneGraphNotebookProps } from "./notebook";

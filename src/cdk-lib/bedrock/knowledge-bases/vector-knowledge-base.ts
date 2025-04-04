@@ -51,6 +51,7 @@ import {
   WebCrawlerDataSourceAssociationProps,
 } from "../data-sources/web-crawler-data-source";
 import { BedrockFoundationModel, VectorType } from "../models";
+import { ContextEnrichment } from "../data-sources/context-enrichment";
 
 /******************************************************************************
  *                                  ENUMS
@@ -60,11 +61,10 @@ import { BedrockFoundationModel, VectorType } from "../models";
  * This enum represents the different vector databases that can be used.
  *
  * `OPENSEARCH_SERVERLESS` is the default vector database.
- * `REDIS_ENTERPRISE_CLOUD` is the vector database for Redis Enterprise Cloud.
  * `PINECONE` is the vector database for Pinecone.
  * `AMAZON_AURORA` is the vector database for Amazon Aurora PostgreSQL.
  */
-enum VectorStoreType {
+export enum VectorStoreType {
   /**
    * `OPENSEARCH_SERVERLESS` is the vector store for OpenSearch Serverless.
    */
@@ -77,6 +77,14 @@ enum VectorStoreType {
    * `RDS` is the vector store for Amazon Aurora.
    */
   AMAZON_AURORA = "RDS",
+  /**
+   * `MONGO_DB_ATLAS` is the vector store for MongoDB Atlas.
+   */
+  MONGO_DB_ATLAS = "MONGO_DB_ATLAS",
+  /**
+   * `NEPTUNE_ANALYTICS` is the vector store for Amazon Neptune Analytics.
+   */
+  NEPTUNE_ANALYTICS = "NEPTUNE_ANALYTICS",
 }
 
 /******************************************************************************
@@ -126,6 +134,11 @@ interface StorageConfiguration {
  * Represents a Knowledge Base, either created with CDK or imported.
  */
 export interface IVectorKnowledgeBase extends IKnowledgeBase {
+  /**
+   * The storage type for the Vector Embeddings.
+   */
+  readonly vectorStoreType: VectorStoreType;
+
   /**
    * Add an S3 data source to the knowledge base.
    */
@@ -181,6 +194,7 @@ export abstract class VectorKnowledgeBaseBase
   public abstract readonly knowledgeBaseArn: string;
   public abstract readonly knowledgeBaseId: string;
   public abstract readonly role: iam.IRole;
+  public abstract readonly vectorStoreType: VectorStoreType;
   public abstract readonly description?: string;
   public abstract readonly instruction?: string;
 
@@ -193,12 +207,34 @@ export abstract class VectorKnowledgeBaseBase
   // ------------------------------------------------------
   // Helper methods to add Data Sources
   // ------------------------------------------------------
+  /**
+   * Adds an S3 data source to the knowledge base.
+   */
   public addS3DataSource(props: S3DataSourceAssociationProps): S3DataSource {
+    // Validate context enrichment is only used with Neptune Analytics
+    const isNeptuneKB = this.vectorStoreType === VectorStoreType.NEPTUNE_ANALYTICS;
+    if (props.contextEnrichment && !isNeptuneKB) {
+      throw new Error("Context enrichment is only supported for Neptune/GraphRAG KnowledgeBases");
+    }
+
+    // Set context enrichment - use provided value or default for Neptune
+    let contextEnrichment = props.contextEnrichment;
+    if (isNeptuneKB) {
+      contextEnrichment =
+        props.contextEnrichment ??
+        ContextEnrichment.foundationModel({
+          enrichmentModel: BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0,
+        });
+    }
+
+    // Create and return the S3 data source
     return new S3DataSource(this, `s3-${props.bucket.node.addr}`, {
       knowledgeBase: this,
       ...props,
+      contextEnrichment: contextEnrichment,
     });
   }
+
   public addWebCrawlerDataSource(
     props: WebCrawlerDataSourceAssociationProps
   ): WebCrawlerDataSource {
@@ -311,7 +347,10 @@ export interface VectorKnowledgeBaseProps extends CommonKnowledgeBaseProps {
  * Properties for importing a knowledge base outside of this stack
  */
 export interface VectorKnowledgeBaseAttributes extends CommonKnowledgeBaseAttributes {
-  // Unique props for vector KBs would be defined here
+  /**
+   * The vector store type for the knowledge base.
+   */
+  readonly vectorStoreType: VectorStoreType;
 }
 
 /**
@@ -339,6 +378,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
       public readonly description = attrs.description;
       public readonly instruction = attrs.instruction;
       public readonly knowledgeBaseId = attrs.knowledgeBaseId;
+      public readonly vectorStoreType = attrs.vectorStoreType;
       public readonly knowledgeBaseArn = stack.formatArn({
         service: "bedrock",
         resource: "knowledge-base",
@@ -404,9 +444,8 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
 
   /**
    * The type of the knowledge base.
-   * @private
    */
-  private vectorStoreType: VectorStoreType;
+  public vectorStoreType: VectorStoreType;
 
   constructor(scope: Construct, id: string, props: VectorKnowledgeBaseProps) {
     super(scope, id);
@@ -678,11 +717,12 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     vectorStore: VectorCollection;
     vectorStoreType: VectorStoreType;
   } {
+    this.vectorStoreType = VectorStoreType.OPENSEARCH_SERVERLESS;
     const vectorStore = props.vectorStore as VectorCollection;
     vectorStore.grantDataAccess(this.role);
     return {
       vectorStore: vectorStore,
-      vectorStoreType: VectorStoreType.OPENSEARCH_SERVERLESS,
+      vectorStoreType: this.vectorStoreType,
     };
   }
 
@@ -697,10 +737,11 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     vectorStore: PineconeVectorStore;
     vectorStoreType: VectorStoreType;
   } {
+    this.vectorStoreType = VectorStoreType.PINECONE;
     const vectorStore = props.vectorStore as PineconeVectorStore;
     return {
       vectorStore: vectorStore,
-      vectorStoreType: VectorStoreType.PINECONE,
+      vectorStoreType: this.vectorStoreType,
     };
   }
 
@@ -715,13 +756,14 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     vectorStore: AmazonAuroraVectorStore | ExistingAmazonAuroraVectorStore;
     vectorStoreType: VectorStoreType;
   } {
+    this.vectorStoreType = VectorStoreType.AMAZON_AURORA;
     const vectorStore =
       props.vectorStore instanceof ExistingAmazonAuroraVectorStore
         ? props.vectorStore
         : (props.vectorStore as AmazonAuroraVectorStore);
     return {
       vectorStore: vectorStore,
-      vectorStoreType: VectorStoreType.AMAZON_AURORA,
+      vectorStoreType: this.vectorStoreType,
     };
   }
 
@@ -735,11 +777,12 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     vectorStore: VectorCollection;
     vectorStoreType: VectorStoreType;
   } {
+    this.vectorStoreType = VectorStoreType.OPENSEARCH_SERVERLESS;
     const vectorStore = new VectorCollection(this, "KBVectors");
     vectorStore.grantDataAccess(this.role);
     return {
       vectorStore: vectorStore,
-      vectorStoreType: VectorStoreType.OPENSEARCH_SERVERLESS,
+      vectorStoreType: this.vectorStoreType,
     };
   }
 

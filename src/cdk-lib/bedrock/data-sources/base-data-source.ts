@@ -156,13 +156,6 @@ export interface DataSourceAssociationProps {
   readonly parsingStrategy?: ParsingStategy;
 
   /**
-   * The context enrichment strategy to use.
-   *
-   * @default - No context enrichment is used.
-   */
-  readonly contextEnrichment?: ContextEnrichment;
-
-  /**
    * The custom transformation strategy to use.
    *
    * @default - No custom transformation is used.

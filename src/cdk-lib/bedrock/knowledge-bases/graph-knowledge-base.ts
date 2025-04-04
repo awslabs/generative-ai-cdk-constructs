@@ -25,7 +25,7 @@ import {
 } from "./knowledge-base";
 import { generatePhysicalNameV2 } from "../../../common/helpers/utils";
 import { INeptuneGraph, NeptuneGraph } from "../../neptune/graph";
-import { VectorKnowledgeBaseBase } from "./vector-knowledge-base";
+import { VectorKnowledgeBaseBase, VectorStoreType } from "./vector-knowledge-base";
 import { BedrockFoundationModel } from "../models";
 import { NeptuneGraphNotebook } from "../../neptune/notebook";
 
@@ -157,6 +157,7 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
       public readonly description = attrs.description;
       public readonly instruction = attrs.instruction;
       public readonly knowledgeBaseId = attrs.knowledgeBaseId;
+      public readonly vectorStoreType = VectorStoreType.NEPTUNE_ANALYTICS;
       public readonly graph = NeptuneGraph.fromGraphId(scope, "Graph", attrs.graphId);
       public readonly knowledgeBaseArn = stack.formatArn({
         service: "bedrock",
@@ -178,6 +179,7 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
   public readonly notebook?: NeptuneGraphNotebook;
   public readonly instruction?: string;
   public readonly graph: INeptuneGraph;
+  public readonly vectorStoreType = VectorStoreType.NEPTUNE_ANALYTICS;
 
   /**
    * The name of the knowledge base.
@@ -205,7 +207,7 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
     this.graph =
       props.graph ??
       new NeptuneGraph(this, "Graph", {
-        vectorSearchDimension: this.embeddingModel.vectorDimensions!,
+        vectorSearchDimension: props.embeddingModel.vectorDimensions!,
       });
 
     this.name =
@@ -223,18 +225,6 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
     // ------------------------------------------------------
     // Use existing role if provided, otherwise create a new one
     this.role = props.existingRole ?? createKnowledgeBaseServiceRole(this);
-
-    // ------------------------------------------------------
-    // Grant permissions
-    // ------------------------------------------------------
-    // Add permissions only if it is a newly created role
-    if (!props.existingRole) {
-      let grant = this.graph.grantQuery(this.role);
-      // Allow KB to create embeddings when ingesting data
-      grant = grant.combine(this.embeddingModel.grantInvoke(this.role));
-      // Ensure the permissions are in place before KB creation
-      grant.applyBefore(this._resource);
-    }
 
     // ------------------------------------------------------
     // L1 Instantiation
@@ -260,14 +250,26 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
           },
         },
       },
-      // storageConfiguration: {
-      //   type: "NEPTUNE",
-      //   neptuneAnalyticsConfiguration: {
-      //     graphArn: this.graph.graphArn,
-      //     fieldMapping: this.fieldMapping,
-      //   },
-      // },
+      storageConfiguration: {
+        type: VectorStoreType.NEPTUNE_ANALYTICS,
+        neptuneAnalyticsConfiguration: {
+          graphArn: this.graph.graphArn,
+          fieldMapping: this.fieldMapping,
+        },
+      },
     });
+
+    // ------------------------------------------------------
+    // Grant permissions
+    // ------------------------------------------------------
+    // Add permissions only if it is a newly created role
+    if (!props.existingRole) {
+      let grant = this.graph.grantQuery(this.role);
+      // Allow KB to create embeddings when ingesting data
+      grant = grant.combine(this.embeddingModel.grantInvoke(this.role));
+      // Ensure the permissions are in place before KB creation
+      grant.applyBefore(this._resource);
+    }
 
     // ------------------------------------------------------
     // Attribute assignments

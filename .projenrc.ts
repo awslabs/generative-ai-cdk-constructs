@@ -26,10 +26,10 @@ import {
 } from "./projenrc/github-workflows";
 
 // Constants
-const GITHUB_USER = 'awslabs';
-const PUBLICATION_NAMESPACE = 'cdklabs';
-const PROJECT_NAME = 'generative-ai-cdk-constructs';
-const CDK_VERSION: string = '2.187.0';
+const GITHUB_USER = "awslabs";
+const PUBLICATION_NAMESPACE = "cdklabs";
+const PROJECT_NAME = "generative-ai-cdk-constructs";
+const CDK_VERSION: string = "2.188.0";
 
 function camelCaseIt(input: string): string {
   // Hypens and dashes to spaces and then CamelCase...

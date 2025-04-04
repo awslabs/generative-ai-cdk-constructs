@@ -1,9 +1,9 @@
 {
-  "version": "39.0.0",
+  "version": "41.0.0",
   "testCases": {
     "ServiceTest/DefaultTest": {
       "stacks": [
-        "aws-cdk-bedrock-graph-integ-test-2"
+        "aws-cdk-bedrock-graph-integ-test"
       ],
       "cdkCommandOptions": {
         "destroy": {
@@ -15,5 +15,6 @@
       "assertionStack": "ServiceTest/DefaultTest/DeployAssert",
       "assertionStackName": "ServiceTestDefaultTestDeployAssertE49B1ECE"
     }
-  }
+  },
+  "minimumCliVersion": "2.1005.0"
 }
