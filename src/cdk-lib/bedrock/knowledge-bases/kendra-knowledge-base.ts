@@ -19,6 +19,7 @@ import { Construct } from 'constructs';
 import {
   CommonKnowledgeBaseAttributes,
   CommonKnowledgeBaseProps,
+  createKnowledgeBaseServiceRole,
   IKnowledgeBase,
   KnowledgeBaseBase,
   KnowledgeBaseType,
@@ -90,7 +91,11 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
     const stack = Stack.of(scope);
 
     class Import extends KendraKnowledgeBaseBase {
-      public readonly role = iam.Role.fromRoleArn(this, `kb-${attrs.knowledgeBaseId}-role`, attrs.executionRoleArn);
+      public readonly role = iam.Role.fromRoleArn(
+        this,
+        `kb-${attrs.knowledgeBaseId}-role`,
+        attrs.executionRoleArn,
+      );
       public readonly description = attrs.description;
       public readonly instruction = attrs.instruction;
       public readonly knowledgeBaseId = attrs.knowledgeBaseId;
@@ -136,7 +141,8 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
     // Set properties or defaults
     // ------------------------------------------------------
     this.kendraIndex = props.kendraIndex;
-    this.name = props.name ?? generatePhysicalNameV2(this, 'kendra-kb', { maxLength: 32, separator: '-' });
+    this.name =
+      props.name ?? generatePhysicalNameV2(this, 'kendra-kb', { maxLength: 32, separator: '-' });
     this.instruction = props.instruction;
     this.description = props.description;
 
@@ -144,26 +150,10 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
     // Role
     // ------------------------------------------------------
     let policyAddition: iam.AddToPrincipalPolicyResult | undefined;
-    if (props.existingRole) {
-      this.role = props.existingRole;
-    } else {
-      const roleName = generatePhysicalNameV2(this, 'AmazonBedrockExecutionRoleForKnowledgeBase', { maxLength: 64 });
-      this.role = new iam.Role(this, 'Role', {
-        roleName: roleName,
-        assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com', {
-          conditions: {
-            StringEquals: { 'aws:SourceAccount': Stack.of(this).account },
-            ArnLike: {
-              'aws:SourceArn': Stack.of(this).formatArn({
-                service: 'bedrock',
-                resource: 'knowledge-base',
-                resourceName: '*',
-                arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
-              }),
-            },
-          },
-        }),
-      });
+    // Use existing role if provided, otherwise create a new one
+    this.role = props.existingRole ?? createKnowledgeBaseServiceRole(this);
+
+    if (!props.existingRole) {
       policyAddition = this.role.addToPrincipalPolicy(
         new iam.PolicyStatement({
           sid: 'AmazonBedrockKnowledgeBaseKendraIndexAccessStatement',

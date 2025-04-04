@@ -212,6 +212,10 @@ export abstract class DataSourceNew extends DataSourceBase {
     if (props.customTransformation) {
       statementsToAdd.push(...props.customTransformation.generatePolicyStatements(this));
     }
+    // Context Enrichment requires invoke permissions for the enriching FM
+    if (props.contextEnrichment) {
+      statementsToAdd.push(...props.contextEnrichment.generatePolicyStatements());
+    }
     // Add the permission statements to the KB execution role
     statementsToAdd.forEach((statement) => {
       this.knowledgeBase.role.addToPrincipalPolicy(statement);
@@ -237,7 +241,10 @@ export abstract class DataSourceNew extends DataSourceBase {
         }
         : undefined,
       vectorIngestionConfiguration:
-        props.chunkingStrategy || props.parsingStrategy || props.customTransformation || props.contextEnrichment
+        props.chunkingStrategy ||
+        props.parsingStrategy ||
+        props.customTransformation ||
+        props.contextEnrichment
           ? {
             chunkingConfiguration: props.chunkingStrategy?.configuration,
             parsingConfiguration: props.parsingStrategy?.configuration,

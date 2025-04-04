@@ -16,6 +16,7 @@ applicable to Knowledge Bases of any type.
 
 ## Extended by
 
+- [`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md)
 - [`KendraKnowledgeBaseBase`](KendraKnowledgeBaseBase.md)
 
 ## Implements

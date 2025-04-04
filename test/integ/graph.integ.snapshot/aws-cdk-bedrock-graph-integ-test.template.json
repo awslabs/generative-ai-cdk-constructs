@@ -1,0 +1,631 @@
+{
+ "Resources": {
+  "SampleBucket7F6F8160": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "SampleBucketPolicy07CB9459": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "SampleBucket7F6F8160"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:PutBucketPolicy",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "SampleBucket7F6F8160",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "SampleBucket7F6F8160",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   }
+  },
+  "SampleBucketAutoDeleteObjectsCustomResourceAC99DCF6": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "SampleBucket7F6F8160"
+    }
+   },
+   "DependsOn": [
+    "SampleBucketPolicy07CB9459"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ]
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
+     },
+     "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function for auto-deleting objects in ",
+       {
+        "Ref": "SampleBucket7F6F8160"
+       },
+       " S3 bucket."
+      ]
+     ]
+    }
+   },
+   "DependsOn": [
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+   ]
+  },
+  "NeptuneGraphAAAEC4F2": {
+   "Type": "AWS::NeptuneGraph::Graph",
+   "Properties": {
+    "DeletionProtection": false,
+    "GraphName": "bedrock-kb-graph-awscdkbedrockgraphigtest-neptunegraph-14dd5275",
+    "ProvisionedMemory": 16,
+    "PublicConnectivity": true,
+    "ReplicaCount": 0,
+    "VectorSearchConfiguration": {
+     "VectorSearchDimension": 1024
+    }
+   }
+  },
+  "NeptuneGraphNotebookNeptuneNotebookLifecycle0FC51C74": {
+   "Type": "AWS::SageMaker::NotebookInstanceLifecycleConfig",
+   "Properties": {
+    "OnStart": [
+     {
+      "Content": {
+       "Fn::Base64": {
+        "Fn::Join": [
+         "",
+         [
+          "#!/bin/bash\nsudo -u ec2-user -i <<'EOF'\n\necho \"export GRAPH_NOTEBOOK_AUTH_MODE=IAM\" >> ~/.bashrc\necho \"export GRAPH_NOTEBOOK_SSL=True\" >> ~/.bashrc\necho \"export GRAPH_NOTEBOOK_SERVICE=neptune-graph\" >> ~/.bashrc\necho \"export GRAPH_NOTEBOOK_HOST=",
+          {
+           "Fn::GetAtt": [
+            "NeptuneGraphAAAEC4F2",
+            "Endpoint"
+           ]
+          },
+          "\" >> ~/.bashrc\necho \"export GRAPH_NOTEBOOK_PORT=8182\" >> ~/.bashrc\necho \"export NEPTUNE_LOAD_FROM_S3_ROLE_ARN=\" >> ~/.bashrc\necho \"export AWS_REGION=us-east-1\" >> ~/.bashrc\n\naws s3 cp s3://aws-neptune-notebook-us-east-1/graph_notebook.tar.gz /tmp/graph_notebook.tar.gz\nrm -rf /tmp/graph_notebook\ntar -zxvf /tmp/graph_notebook.tar.gz -C /tmp\n/tmp/graph_notebook/install.sh\n\nEOF"
+         ]
+        ]
+       }
+      }
+     }
+    ]
+   }
+  },
+  "NeptuneGraphNotebookNeptuneNotebookRole97EE0C25": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "sagemaker.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonSageMakerFullAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonS3ReadOnlyAccess"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "NeptuneGraphNotebookNeptuneNotebookRoleDefaultPolicyC90F8B76": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "neptune-graph:*",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "NeptuneGraphAAAEC4F2",
+         "GraphArn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "NeptuneGraphNotebookNeptuneNotebookRoleDefaultPolicyC90F8B76",
+    "Roles": [
+     {
+      "Ref": "NeptuneGraphNotebookNeptuneNotebookRole97EE0C25"
+     }
+    ]
+   }
+  },
+  "NeptuneGraphNotebook18649D05": {
+   "Type": "AWS::SageMaker::NotebookInstance",
+   "Properties": {
+    "DirectInternetAccess": "Enabled",
+    "InstanceMetadataServiceConfiguration": {
+     "MinimumInstanceMetadataServiceVersion": "2"
+    },
+    "InstanceType": "ml.t3.medium",
+    "LifecycleConfigName": {
+     "Fn::GetAtt": [
+      "NeptuneGraphNotebookNeptuneNotebookLifecycle0FC51C74",
+      "NotebookInstanceLifecycleConfigName"
+     ]
+    },
+    "NotebookInstanceName": "aws-neptune-notebook-awscdkbedrockgrapnegraph-notebook-72ae7bd1",
+    "PlatformIdentifier": "notebook-al2-v2",
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "NeptuneGraphNotebookNeptuneNotebookRole97EE0C25",
+      "Arn"
+     ]
+    },
+    "RootAccess": "Disabled",
+    "Tags": [
+     {
+      "Key": "aws-neptune-graph-id",
+      "Value": {
+       "Fn::GetAtt": [
+        "NeptuneGraphAAAEC4F2",
+        "GraphId"
+       ]
+      }
+     }
+    ],
+    "VolumeSizeInGB": 5
+   }
+  },
+  "GraphKnowledgeBaseRole63CCFE39": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Condition": {
+        "StringEquals": {
+         "aws:SourceAccount": {
+          "Ref": "AWS::AccountId"
+         }
+        },
+        "ArnLike": {
+         "aws:SourceArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":bedrock:us-east-1:",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":knowledge-base/*"
+           ]
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "bedrock.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "RoleName": "AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBase18C3BA7F"
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "The KB role needs read only access to all objects in the data source bucket.",
+       "id": "AwsSolutions-IAM5"
+      }
+     ]
+    }
+   }
+  },
+  "GraphKnowledgeBaseRoleDefaultPolicy07E30A0C": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "neptune-graph:GetGraph",
+        "neptune-graph:ReadDataViaQuery",
+        "neptune-graph:WriteDataViaQuery",
+        "neptune-graph:DeleteDataViaQuery",
+        "neptune-graph:GetQueryStatus",
+        "neptune-graph:CancelQuery"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "NeptuneGraphAAAEC4F2",
+         "GraphArn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "bedrock:InvokeModel*",
+        "bedrock:GetFoundationModel"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":bedrock:",
+          {
+           "Ref": "AWS::Region"
+          },
+          "::foundation-model/cohere.embed-multilingual-v3"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "bedrock:InvokeModel*",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":bedrock:",
+          {
+           "Ref": "AWS::Region"
+          },
+          "::foundation-model/anthropic.claude-3-haiku-20240307-v1:0"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "SampleBucket7F6F8160",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "SampleBucket7F6F8160",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "GraphKnowledgeBaseRoleDefaultPolicy07E30A0C",
+    "Roles": [
+     {
+      "Ref": "GraphKnowledgeBaseRole63CCFE39"
+     }
+    ]
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "The KB role needs read only access to all objects in the data source bucket.",
+       "id": "AwsSolutions-IAM5"
+      }
+     ]
+    }
+   }
+  },
+  "GraphKnowledgeBaseMyCfnKnowledgeBase7390EE17": {
+   "Type": "AWS::Bedrock::KnowledgeBase",
+   "Properties": {
+    "KnowledgeBaseConfiguration": {
+     "Type": "VECTOR",
+     "VectorKnowledgeBaseConfiguration": {
+      "EmbeddingModelArn": {
+       "Fn::Join": [
+        "",
+        [
+         "arn:",
+         {
+          "Ref": "AWS::Partition"
+         },
+         ":bedrock:",
+         {
+          "Ref": "AWS::Region"
+         },
+         "::foundation-model/cohere.embed-multilingual-v3"
+        ]
+       ]
+      },
+      "EmbeddingModelConfiguration": {}
+     }
+    },
+    "Name": "graph-kb-awscdkbgeBase-18C3BA7F",
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "GraphKnowledgeBaseRole63CCFE39",
+      "Arn"
+     ]
+    },
+    "StorageConfiguration": {
+     "NeptuneAnalyticsConfiguration": {
+      "FieldMapping": {
+       "MetadataField": "AMAZON_BEDROCK_METADATA",
+       "TextField": "AMAZON_BEDROCK_TEXT"
+      },
+      "GraphArn": {
+       "Fn::GetAtt": [
+        "NeptuneGraphAAAEC4F2",
+        "GraphArn"
+       ]
+      }
+     },
+     "Type": "NEPTUNE_ANALYTICS"
+    }
+   },
+   "DependsOn": [
+    "GraphKnowledgeBaseRoleDefaultPolicy07E30A0C"
+   ]
+  },
+  "GraphKnowledgeBases3c8f3d9433200227788ab194071f24c1f418cd2e0d9DataSourceEEC73C16": {
+   "Type": "AWS::Bedrock::DataSource",
+   "Properties": {
+    "DataSourceConfiguration": {
+     "S3Configuration": {
+      "BucketArn": {
+       "Fn::GetAtt": [
+        "SampleBucket7F6F8160",
+        "Arn"
+       ]
+      }
+     },
+     "Type": "S3"
+    },
+    "KnowledgeBaseId": {
+     "Fn::GetAtt": [
+      "GraphKnowledgeBaseMyCfnKnowledgeBase7390EE17",
+      "KnowledgeBaseId"
+     ]
+    },
+    "Name": "s3-ds44136fa-awscdkbed8cd2e0d9-f63a0251",
+    "VectorIngestionConfiguration": {
+     "ContextEnrichmentConfiguration": {
+      "BedrockFoundationModelConfiguration": {
+       "EnrichmentStrategyConfiguration": {
+        "Method": "CHUNK_ENTITY_EXTRACTION"
+       },
+       "ModelArn": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":bedrock:",
+          {
+           "Ref": "AWS::Region"
+          },
+          "::foundation-model/anthropic.claude-3-haiku-20240307-v1:0"
+         ]
+        ]
+       }
+      },
+      "Type": "BEDROCK_FOUNDATION_MODEL"
+     }
+    }
+   }
+  }
+ },
+ "Outputs": {
+  "NeptuneGraphNotebookGraphExplorerEndpoint129C2633": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Fn::GetAtt": [
+        "NeptuneGraphNotebook18649D05",
+        "NotebookInstanceName"
+       ]
+      },
+      ".notebook.us-east-1.sagemaker.aws/proxy/9250/explorer/"
+     ]
+    ]
+   }
+  },
+  "GraphExplorerUrl": {
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "https://",
+      {
+       "Fn::GetAtt": [
+        "NeptuneGraphNotebook18649D05",
+        "NotebookInstanceName"
+       ]
+      },
+      ".notebook.us-east-1.sagemaker.aws/proxy/9250/explorer/"
+     ]
+    ]
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

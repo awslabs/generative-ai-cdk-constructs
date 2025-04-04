@@ -102,3 +102,11 @@ Specifies whether to use the knowledge base or not when sending an InvokeAgent r
 #### Inherited from
 
 [`CommonKnowledgeBaseAttributes`](CommonKnowledgeBaseAttributes.md).[`knowledgeBaseState`](CommonKnowledgeBaseAttributes.md#knowledgebasestate)
+
+***
+
+### vectorStoreType
+
+> `readonly` **vectorStoreType**: [`VectorStoreType`](../enumerations/VectorStoreType.md)
+
+The vector store type for the knowledge base.

@@ -20,8 +20,8 @@ import { IInvokable } from '../models';
  */
 export enum ContextEnrichmentType {
   /**
-     * Uses a Bedrock Foundation Model for context enrichment.
-     */
+   * Uses a Bedrock Foundation Model for context enrichment.
+   */
   BEDROCK_FOUNDATION_MODEL = 'BEDROCK_FOUNDATION_MODEL',
 }
 
@@ -29,7 +29,6 @@ export enum ContextEnrichmentType {
  * Enum representing the method to be used for enrichment strategy.
  */
 export enum EnrichmentStrategyConfigurationType {
-
   CHUNK_ENTITY_EXTRACTION = 'CHUNK_ENTITY_EXTRACTION',
 }
 
@@ -50,7 +49,6 @@ export interface FoundationModelContextEnrichmentProps {
  * models to perform chunk entity extraction.
  */
 export abstract class ContextEnrichment {
-
   // ------------------------------------------------------
   // FM Enrichment Strategy
   // ------------------------------------------------------

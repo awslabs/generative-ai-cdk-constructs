@@ -140,6 +140,14 @@ The type of knowledge base.
 
 [`IKnowledgeBase`](IKnowledgeBase.md).[`type`](IKnowledgeBase.md#type)
 
+***
+
+### vectorStoreType
+
+> `readonly` **vectorStoreType**: [`VectorStoreType`](../enumerations/VectorStoreType.md)
+
+The storage type for the Vector Embeddings.
+
 ## Methods
 
 ### addConfluenceDataSource()

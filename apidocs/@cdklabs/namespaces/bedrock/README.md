@@ -40,6 +40,7 @@
 - [SharePointDataSourceAuthType](enumerations/SharePointDataSourceAuthType.md)
 - [SharePointObjectType](enumerations/SharePointObjectType.md)
 - [TransformationStep](enumerations/TransformationStep.md)
+- [VectorStoreType](enumerations/VectorStoreType.md)
 - [VectorType](enumerations/VectorType.md)
 
 ## Classes
@@ -89,6 +90,7 @@
 - [ToolChoice](classes/ToolChoice.md)
 - [Topic](classes/Topic.md)
 - [VectorKnowledgeBase](classes/VectorKnowledgeBase.md)
+- [VectorKnowledgeBaseBase](classes/VectorKnowledgeBaseBase.md)
 - [WebCrawlerDataSource](classes/WebCrawlerDataSource.md)
 
 ## Interfaces
@@ -167,3 +169,7 @@
 ## Variables
 
 - [REGION\_TO\_GEO\_AREA](variables/REGION_TO_GEO_AREA.md)
+
+## Functions
+
+- [createKnowledgeBaseServiceRole](functions/createKnowledgeBaseServiceRole.md)
