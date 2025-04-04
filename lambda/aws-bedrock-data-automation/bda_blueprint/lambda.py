@@ -16,7 +16,7 @@ import boto3
 from aws_lambda_powertools import Logger, Tracer, Metrics
 from aws_lambda_powertools.utilities.typing import LambdaContext
 from aws_lambda_powertools.utilities.data_classes import EventBridgeEvent, APIGatewayProxyEvent
-from manage_blueprint import create_blueprint,delete_blueprint,list_blueprints,get_blueprint,update_blueprint
+from manage_blueprint import create_blueprint,delete_blueprint,list_blueprints,get_blueprint,update_blueprint,DateTimeEncoder
 from create_schema import create_schema
 
 
@@ -98,11 +98,7 @@ def get_schema(bucket_name: str, schema_key: str) -> Dict[str, Any]:
             Key=schema_key
         )
         schema_content = json.loads(response['Body'].read().decode('utf-8'))
-        logger.info("Successfully retrieved and parsed schema", extra={
-            "schema_size": len(json.dumps(schema_content)),
-            "bucket": bucket_name,
-            "key": schema_key
-        })
+        logger.info(f"Successfully retrieved and parsed schema {schema_content}")
         
         return schema_content
     
@@ -180,12 +176,9 @@ def handler(event, context: LambdaContext):
                         if not all(key in field for key in ['name', 'description', 'alias']):
                             raise ValueError("Each field must contain 'name', 'description', and 'alias'")
                     
-                    # Create schema using the fields
+                    # Create schema using AWS BDA format
                     try:
-                        DynamicSchema = create_schema(schema_fields)
-                        schema_instance = DynamicSchema()
-                        schema_content = json.dumps(schema_instance.model_json_schema())
-
+                        schema_content = create_schema(schema_fields)
                     except Exception as e:
                         print("Error creating schema")
                         return {
@@ -196,8 +189,6 @@ def handler(event, context: LambdaContext):
                             })
                         }
                 
-                if not schema_content or not schema_content.strip():
-                    logger.warning("No Schema provided , creating a custom blueprint with no schema")
                 
                 response= create_blueprint(schema_content,blueprint_details)
                 response_msg='Blueprint created successfully'
@@ -214,7 +205,7 @@ def handler(event, context: LambdaContext):
                   'body': json.dumps({
                       'message': response_msg,
                       'response': response
-                  })
+                  }, cls=DateTimeEncoder)
               }
 
 
@@ -226,6 +217,5 @@ def handler(event, context: LambdaContext):
             'body': json.dumps({
                 'message': 'Unexpected error occurred',
                 'error': str(e)
-            })
+            }, cls=DateTimeEncoder)
         }
-

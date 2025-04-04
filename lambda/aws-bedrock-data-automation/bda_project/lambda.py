@@ -45,7 +45,8 @@ def process_api_gateway_event(event: Dict[str, Any]) -> Dict[str, Any]:
     api_event = APIGatewayProxyEvent(event)
     logger.info("Received API Gateway event", extra={
         "http_method": api_event.http_method,
-        "path": api_event.path
+        "path": api_event.path,
+        "body": api_event.body
     })
 
     if not api_event.body:
@@ -65,6 +66,8 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
     """
     try:
         # Determine event source and process accordingly
+        logger.info(f"Received event: {json.dumps(event)}")
+
         if event.get("source") and event.get("detail-type"):
             project_config = process_event_bridge_event(event)
         else:
