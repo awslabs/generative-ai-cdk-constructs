@@ -19,7 +19,11 @@ import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 
 import { AwsSolutionsChecks } from 'cdk-nag';
 import { AmazonAuroraVectorStore } from '../../../src/cdk-lib/amazonaurora';
-import { VectorKnowledgeBase, VectorStoreType } from '../../../src/cdk-lib/bedrock/knowledge-bases/vector-knowledge-base';
+import { GraphKnowledgeBase } from '../../../src/cdk-lib/bedrock/knowledge-bases/graph-knowledge-base';
+import {
+  VectorKnowledgeBase,
+  VectorStoreType,
+} from '../../../src/cdk-lib/bedrock/knowledge-bases/vector-knowledge-base';
 import { BedrockFoundationModel, VectorType } from '../../../src/cdk-lib/bedrock/models';
 import { VectorCollection } from '../../../src/cdk-lib/opensearchserverless';
 import { PineconeVectorStore } from '../../../src/cdk-lib/pinecone';
@@ -258,8 +262,11 @@ describe('VectorKnowledgeBase', () => {
   });
 
   test('No unsuppressed Errors', () => {
-    const errors = Annotations.fromStack(stack).findError('*', Match.stringLikeRegexp('AwsSolutions-.*'));
-    const errorData = errors.map(error => error.entry.data);
+    const errors = Annotations.fromStack(stack).findError(
+      '*',
+      Match.stringLikeRegexp('AwsSolutions-.*'),
+    );
+    const errorData = errors.map((error) => error.entry.data);
     expect(errorData).toHaveLength(2); // AwsSolutions-IAM4 and AwsSolutions-IAM5
   });
 
@@ -370,14 +377,19 @@ describe('VectorKnowledgeBase', () => {
     expect(kb.role.roleArn).toEqual(
       'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseE9B1DDDC',
     );
-    expect(kb.role.roleName).toEqual('AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseE9B1DDDC');
-    expect(kb.knowledgeBaseArn).toMatch(new RegExp('arn:.*:bedrock:us-east-1:123456789012:knowledge-base/OVGH4TEBDH$'));
+    expect(kb.role.roleName).toEqual(
+      'AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseE9B1DDDC',
+    );
+    expect(kb.knowledgeBaseArn).toMatch(
+      new RegExp('arn:.*:bedrock:us-east-1:123456789012:knowledge-base/OVGH4TEBDH$'),
+    );
   });
 
   test('Imported Knowledge Base - Data Source Method', () => {
     const kb2 = VectorKnowledgeBase.fromKnowledgeBaseAttributes(stack, 'ImportedKnowledgeBase2', {
       knowledgeBaseId: 'OVGH4TEBDH',
-      executionRoleArn: 'arn:aws:iam::123456789012:role/service-role/AmazonBedrockExecutionRoleForKnowledgeBase_9ivh2',
+      executionRoleArn:
+        'arn:aws:iam::123456789012:role/service-role/AmazonBedrockExecutionRoleForKnowledgeBase_9ivh2',
       vectorStoreType: VectorStoreType.OPENSEARCH_SERVERLESS,
     });
     const bucket = s3.Bucket.fromBucketArn(
@@ -394,5 +406,162 @@ describe('VectorKnowledgeBase', () => {
     expect(s3datasource.dataSourceType).toEqual('S3');
     expect(s3datasource.knowledgeBase.knowledgeBaseId).toEqual('OVGH4TEBDH');
     cdkExpect(stack).to(haveResource('AWS::Bedrock::DataSource'));
+  });
+});
+
+describe('Graph KB - CDK Created', () => {
+  let stack: cdk.Stack;
+
+  beforeEach(() => {
+    const app = new cdk.App();
+    stack = new cdk.Stack(app, 'TestStack');
+  });
+
+  test('Should have Neptune Graph resource', () => {
+    new GraphKnowledgeBase(stack, 'GraphKnowledgeBase', {
+      embeddingModel: BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
+    });
+
+    Template.fromStack(stack).hasResourceProperties('AWS::NeptuneGraph::Graph', {
+      DeletionProtection: false,
+      GraphName: Match.stringLikeRegexp('bedrock-kb-graph-.*'),
+      ProvisionedMemory: 16,
+      PublicConnectivity: true,
+      ReplicaCount: 0,
+      VectorSearchConfiguration: {
+        VectorSearchDimension: 1024,
+      },
+    });
+  });
+
+  test('Should have SageMaker Notebook Instance', () => {
+    const kb = new GraphKnowledgeBase(stack, 'GraphKnowledgeBase2', {
+      embeddingModel: BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
+    });
+
+    kb.graph.createNotebook();
+
+    Template.fromStack(stack).hasResourceProperties('AWS::SageMaker::NotebookInstance', {
+      DirectInternetAccess: 'Enabled',
+      InstanceType: 'ml.t3.medium',
+      NotebookInstanceName: Match.stringLikeRegexp('aws-neptune-notebook-.*'),
+      PlatformIdentifier: 'notebook-al2-v2',
+      RootAccess: 'Disabled',
+      VolumeSizeInGB: 5,
+    });
+  });
+
+  test('Should have Knowledge Base with Neptune Analytics configuration', () => {
+    new GraphKnowledgeBase(stack, 'GraphKnowledgeBase3', {
+      embeddingModel: BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
+    });
+
+    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::KnowledgeBase', {
+      KnowledgeBaseConfiguration: {
+        Type: 'VECTOR',
+        VectorKnowledgeBaseConfiguration: {
+          EmbeddingModelConfiguration: Match.anyValue(),
+        },
+      },
+      StorageConfiguration: {
+        NeptuneAnalyticsConfiguration: {
+          FieldMapping: {
+            MetadataField: 'AMAZON_BEDROCK_METADATA',
+            TextField: 'AMAZON_BEDROCK_TEXT',
+          },
+        },
+        Type: 'NEPTUNE_ANALYTICS',
+      },
+    });
+
+    Template.fromStack(stack).hasResourceProperties('AWS::IAM::Role', {
+      AssumeRolePolicyDocument: {
+        Statement: [
+          {
+            Action: 'sts:AssumeRole',
+            Effect: 'Allow',
+            Principal: {
+              Service: 'bedrock.amazonaws.com',
+            },
+            Condition: {
+              ArnLike: {
+                'aws:SourceArn': Match.anyValue(),
+              },
+            },
+          },
+        ],
+      },
+    });
+  });
+
+  test('Should have S3 Data Source', () => {
+    const dataBucket = new cdk.aws_s3.Bucket(stack, 'SampleBucket', {
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+    });
+
+    const kb = new GraphKnowledgeBase(stack, 'GraphKnowledgeBase', {
+      embeddingModel: BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
+    });
+
+    kb.addS3DataSource({ bucket: dataBucket });
+
+    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
+      DataSourceConfiguration: {
+        S3Configuration: {
+          BucketArn: Match.objectLike({
+            'Fn::GetAtt': [Match.anyValue(), 'Arn'],
+          }),
+        },
+        Type: 'S3',
+      },
+      VectorIngestionConfiguration: {
+        ContextEnrichmentConfiguration: {
+          BedrockFoundationModelConfiguration: {
+            EnrichmentStrategyConfiguration: {
+              Method: 'CHUNK_ENTITY_EXTRACTION',
+            },
+          },
+          Type: 'BEDROCK_FOUNDATION_MODEL',
+        },
+      },
+    });
+  });
+});
+
+describe('Graph KB - Imported', () => {
+  let app: cdk.App;
+  let stack: cdk.Stack;
+
+  beforeAll(() => {
+    app = new cdk.App({});
+    stack = new cdk.Stack(app, 'test-stack', {
+      env: {
+        account: '123456789012',
+        region: 'us-east-1',
+      },
+    });
+  });
+
+  test('Standard Import', () => {
+    const kb = GraphKnowledgeBase.fromKnowledgeBaseAttributes(stack, 'ImportedGraphKnowledgeBase', {
+      knowledgeBaseId: 'OVGH4TEBDH',
+      executionRoleArn:
+        'arn:aws:iam::123456789012:role/service-role/AmazonBedrockExecutionRoleForKnowledgeBase_9ivh2',
+      graphId: 'g-t3l7bd29k2',
+      fieldMapping: {
+        textField: 'AMAZON_BEDROCK_TEXT',
+        metadataField: 'AMAZON_BEDROCK_METADATA',
+      },
+    });
+
+    expect(kb.knowledgeBaseId).toEqual('OVGH4TEBDH');
+    expect(kb.graph.graphId).toEqual('g-t3l7bd29k2');
+    expect(kb.role.roleArn).toEqual(
+      'arn:aws:iam::123456789012:role/service-role/AmazonBedrockExecutionRoleForKnowledgeBase_9ivh2',
+    );
+    expect(kb.knowledgeBaseArn).toMatch(
+      new RegExp('arn:.*:bedrock:us-east-1:123456789012:knowledge-base/OVGH4TEBDH$'),
+    );
   });
 });

@@ -16,6 +16,7 @@ export * from './patterns/gen-ai/aws-model-deployment-sagemaker';
 export * as kendra from './cdk-lib/kendra';
 export * as bedrock from './cdk-lib/bedrock';
 export * as amazonaurora from './cdk-lib/amazonaurora';
+export * as neptune from './cdk-lib/neptune';
 export * as pinecone from './cdk-lib/pinecone';
 export * as opensearchserverless from './cdk-lib/opensearchserverless';
 export * as opensearch_vectorindex from './cdk-lib/opensearch-vectorindex';
