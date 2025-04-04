@@ -65,14 +65,19 @@ def create_blueprint(schema_content,blueprint_details):
         client_token = blueprint_details.get('client_token', '')
         tags = blueprint_details.get('tags', [])
         
+        logger.info(" collecting request params...")
         # Prepare request parameters
         request_params = {
             'blueprintName': blueprint_name,
             'type': blueprint_type,
             'blueprintStage': blueprint_stage,
-            'schema': schema_content,
         }
 
+        # Add schema if provided and not empty
+        #schema_json = json.loads(schema_content)
+        request_params['schema'] = json.dumps(schema_content) if isinstance(schema_content, dict) else schema_content
+        
+        logger.info("Added schema_json...")
         # Add client token if provided
         if client_token:
             request_params['clientToken'] = client_token
@@ -81,11 +86,6 @@ def create_blueprint(schema_content,blueprint_details):
         if tags:
             request_params['tags'] = tags
 
-        logger.info("Creating blueprint", extra={
-            "blueprint_name": blueprint_name,
-            "blueprint_type": blueprint_type,
-            "blueprint_stage": blueprint_stage,
-        })
 
         # Add encryption configuration if provided
         encryption_config = blueprint_details.get('encryption_config')
@@ -108,7 +108,9 @@ def create_blueprint(schema_content,blueprint_details):
                 valid_encryption_config['kmsEncryptionContext'] = encryption_config['kmsEncryptionContext']
                 
             request_params['encryptionConfiguration'] = valid_encryption_config
-            
+        
+        logger.info(f"Creating blueprint with request params: {request_params}" )
+
         # Create blueprint
         response = bda_client.create_blueprint(**request_params)
         blueprint_arn = response["blueprint"]["blueprintArn"]
@@ -477,4 +479,3 @@ def delete_blueprint(blueprint_arn: str, blueprint_version: str = None) -> Dict[
             'error': str(e)
         })
         raise e
-        
