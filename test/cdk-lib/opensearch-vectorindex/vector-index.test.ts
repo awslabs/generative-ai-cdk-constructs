@@ -14,22 +14,9 @@
 import * as cdk from 'aws-cdk-lib';
 import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 import * as iam from 'aws-cdk-lib/aws-iam';
-import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag';
-import { OpenSearchIndexCRProvider, VectorIndex } from '../../../src/cdk-lib/opensearch-vectorindex';
-import { VectorCollection, CharacterFilterType, TokenizerType, TokenFilterType } from '../../../src/cdk-lib/opensearchserverless';
-
-// mock lambda.Code.fromDockerBuild()
-jest.mock('aws-cdk-lib/aws-lambda', () => {
-  const actualLambda = jest.requireActual('aws-cdk-lib/aws-lambda');
-  return {
-    ...actualLambda,
-    Code: {
-      ...actualLambda.Code,
-      fromDockerBuild: jest.fn(() => actualLambda.Code.fromInline('mockCode')),
-      fromAsset: jest.fn(() => actualLambda.Code.fromInline('mockCode')),
-    },
-  };
-});
+import { AwsSolutionsChecks } from 'cdk-nag';
+import { AlgorithmNameType, EngineType, OpensearchFieldType, SpaceType, VectorIndex } from '../../../src/cdk-lib/opensearch-vectorindex';
+import { VectorCollection } from '../../../src/cdk-lib/opensearchserverless';
 
 describe('OpenSearch Serverless Vector Index', () => {
   let template: Template;
@@ -54,35 +41,29 @@ describe('OpenSearch Serverless Vector Index', () => {
     aossVectorIndex = new VectorIndex(stack, 'test-aoss-vector-index', {
       collection: aossVector,
       indexName: 'test-index',
-      distanceType: 'euclidian',
-      precision: 'fp32',
-      vectorField: 'vector',
-      vectorDimensions: 1536,
-      mappings: [
-        {
-          mappingField: 'AMAZON_BEDROCK_TEXT_CHUNK',
-          dataType: 'text',
-          filterable: true,
+      settings: {
+        knn: true,
+      },
+      mappings: {
+        properties: {
+          vectorField: {
+            type: OpensearchFieldType.KNN_VECTOR,
+            dimension: 1536,
+            //data_type: props.vectorType === VectorType.BINARY ? 'Binary' : 'float', <- This is missing in L1 CfnIndex props
+            method: {
+              engine: EngineType.FAISS,
+              spaceType: SpaceType.L2,
+              name: AlgorithmNameType.HNSW,
+              parameters: {},
+            },
+          },
+          AMAZON_BEDROCK_TEXT_CHUNK: {
+            type: OpensearchFieldType.TEXT,
+            index: true,
+          },
         },
-      ],
+      },
     });
-
-    NagSuppressions.addResourceSuppressionsByPath(
-      stack,
-      '/test-stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole',
-      [
-        {
-          id: 'AwsSolutions-IAM4',
-          reason: 'CDK CustomResource LogRetention Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy. Managed by CDK.',
-        },
-        {
-          id: 'AwsSolutions-IAM5',
-          reason: 'CDK CustomResource LogRetention Lambda uses a wildcard to manage log streams created at runtime. Managed by CDK.',
-        },
-      ],
-      true,
-    );
-
 
     aossVectorIndex.node.addDependency(aossVector.dataAccessPolicy);
 
@@ -99,146 +80,8 @@ describe('OpenSearch Serverless Vector Index', () => {
 
   test('Should have the correct resources', () => {
     template.resourceCountIs('AWS::OpenSearchServerless::Collection', 1);
-    template.resourceCountIs('Custom::OpenSearchIndex', 1);
+    template.resourceCountIs('AWS::OpenSearchServerless::Index', 1);
     template.resourceCountIs('AWS::OpenSearchServerless::AccessPolicy', 2);
-    template.resourceCountIs('AWS::Lambda::Function', 3);
-  });
-
-  test('ManageIndexPolicy should allow CRProvider', () => {
-    const crProvider = OpenSearchIndexCRProvider.getProvider(stack);
-    const crRoleLogicalId = stack.getLogicalId(crProvider.role.node.defaultChild as iam.CfnRole);
-
-    template.hasResource('AWS::OpenSearchServerless::AccessPolicy', {
-      Properties: {
-        Name: Match.stringLikeRegexp('^manageindexpolicy[a-z0-9]+'),
-        Policy: {
-          'Fn::Join': Match.arrayWith([
-            Match.arrayWith([
-              Match.objectEquals({
-                'Fn::GetAtt': Match.arrayWith([
-                  crRoleLogicalId,
-                ]),
-              }),
-            ]),
-          ]),
-        },
-        Type: 'data',
-      },
-    });
-  });
-
-  test('No unsuppressed Errors', () => {
-    const errors = Annotations.fromStack(stack).findError(
-      '*',
-      Match.stringLikeRegexp('AwsSolutions-.*'),
-    );
-    expect(errors).toHaveLength(0);
-  });
-});
-
-describe('OpenSearch Serverless Vector Index with analyzer', () => {
-  let template: Template;
-  let app: cdk.App;
-  let stack: cdk.Stack;
-  let aossVector: VectorCollection;
-  let aossVectorIndex: VectorIndex;
-  let testRole: iam.Role;
-
-  beforeAll(() => {
-    app = new cdk.App();
-    cdk.Aspects.of(app).add(new AwsSolutionsChecks());
-    stack = new cdk.Stack(app, 'test-stack', {
-      env: {
-        account: '123456789012',
-        region: 'us-east-1',
-      },
-    });
-
-    aossVector = new VectorCollection(stack, 'test-aoss-vector');
-
-    aossVectorIndex = new VectorIndex(stack, 'test-aoss-vector-index', {
-      collection: aossVector,
-      indexName: 'test-index',
-      vectorField: 'vector',
-      vectorDimensions: 1536,
-      distanceType: 'euclidian',
-      precision: 'fp32',
-      mappings: [
-        {
-          mappingField: 'AMAZON_BEDROCK_TEXT_CHUNK',
-          dataType: 'text',
-          filterable: true,
-        },
-      ],
-      analyzer: {
-        characterFilters: [CharacterFilterType.ICU_NORMALIZER],
-        tokenizer: TokenizerType.KUROMOJI_TOKENIZER,
-        tokenFilters: [
-          TokenFilterType.KUROMOJI_BASEFORM,
-          TokenFilterType.JA_STOP,
-        ],
-      },
-    });
-
-    NagSuppressions.addResourceSuppressionsByPath(
-      stack,
-      '/test-stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole',
-      [
-        {
-          id: 'AwsSolutions-IAM4',
-          reason: 'CDK CustomResource LogRetention Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy. Managed by CDK.',
-        },
-        {
-          id: 'AwsSolutions-IAM5',
-          reason: 'CDK CustomResource LogRetention Lambda uses a wildcard to manage log streams created at runtime. Managed by CDK.',
-        },
-      ],
-      true,
-    );
-
-
-    aossVectorIndex.node.addDependency(aossVector.dataAccessPolicy);
-
-    testRole = new iam.Role(stack, 'TestRole', {
-      assumedBy: new iam.AccountRootPrincipal(),
-    });
-
-    aossVector.grantDataAccess(testRole);
-
-    app.synth();
-    template = Template.fromStack(stack);
-  });
-
-
-  test('Should have the correct resources', () => {
-    console.log(template.toJSON());
-    template.resourceCountIs('AWS::OpenSearchServerless::Collection', 1);
-    template.resourceCountIs('Custom::OpenSearchIndex', 1);
-    template.resourceCountIs('AWS::OpenSearchServerless::AccessPolicy', 2);
-    template.resourceCountIs('AWS::Lambda::Function', 3);
-  });
-
-  test('ManageIndexPolicy should allow CRProvider', () => {
-    const crProvider = OpenSearchIndexCRProvider.getProvider(stack);
-    const crRoleLogicalId = stack.getLogicalId(crProvider.role.node.defaultChild as iam.CfnRole);
-
-    template.hasResource('AWS::OpenSearchServerless::AccessPolicy', {
-      Properties: {
-        Name: Match.stringLikeRegexp('^manageindexpolicy[a-z0-9]+'),
-        Policy: {
-          'Fn::Join': Match.arrayWith([
-            Match.arrayWith([
-              Match.objectEquals({
-                'Fn::GetAtt': Match.arrayWith([
-                  crRoleLogicalId,
-                ]),
-              }),
-            ]),
-          ]),
-        },
-        Type: 'data',
-      },
-    });
   });
 
   test('No unsuppressed Errors', () => {
