@@ -11,17 +11,17 @@
  *  and limitations under the License.
  */
 
-import { IResource, Resource } from "aws-cdk-lib";
-import { CfnDataSource, CfnDataSourceProps } from "aws-cdk-lib/aws-bedrock";
-import { PolicyStatement } from "aws-cdk-lib/aws-iam";
-import * as kms from "aws-cdk-lib/aws-kms";
-import { Construct } from "constructs";
+import { IResource, Resource } from 'aws-cdk-lib';
+import { CfnDataSource, CfnDataSourceProps } from 'aws-cdk-lib/aws-bedrock';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import * as kms from 'aws-cdk-lib/aws-kms';
+import { Construct } from 'constructs';
 
-import { IKnowledgeBase } from "./../knowledge-bases/knowledge-base";
-import { ChunkingStrategy } from "./chunking";
-import { ContextEnrichment } from "./context-enrichment";
-import { CustomTransformation } from "./custom-transformation";
-import { ParsingStategy } from "./parsing";
+import { IKnowledgeBase } from './../knowledge-bases/knowledge-base';
+import { ChunkingStrategy } from './chunking';
+import { ContextEnrichment } from './context-enrichment';
+import { CustomTransformation } from './custom-transformation';
+import { ParsingStategy } from './parsing';
 /**
  * Specifies the policy for handling data when a data source resource is deleted.
  * This policy affects the vector embeddings created from the data source.
@@ -31,13 +31,13 @@ export enum DataDeletionPolicy {
    * Deletes all vector embeddings derived from the data source upon deletion
    * of a data source resource.
    */
-  DELETE = "DELETE",
+  DELETE = 'DELETE',
 
   /**
    * Retains all vector embeddings derived from the data source even after
    * deletion of a data source resource.
    */
-  RETAIN = "RETAIN",
+  RETAIN = 'RETAIN',
 }
 
 /**
@@ -47,40 +47,40 @@ export enum DataSourceType {
   /**
    * Amazon S3 Bucket data source.
    */
-  S3 = "S3",
+  S3 = 'S3',
 
   /**
    * Confluence Cloud Instance data source.
    */
-  CONFLUENCE = "CONFLUENCE",
+  CONFLUENCE = 'CONFLUENCE',
 
   /**
    * Salesforce instance data source.
    */
-  SALESFORCE = "SALESFORCE",
+  SALESFORCE = 'SALESFORCE',
 
   /**
    * Microsoft SharePoint instance data source.
    */
-  SHAREPOINT = "SHAREPOINT",
+  SHAREPOINT = 'SHAREPOINT',
 
   /**
    * Web Crawler data source.
    * Extracts content from authorized public web pages using a crawler.
    */
-  WEB_CRAWLER = "WEB",
+  WEB_CRAWLER = 'WEB',
 
   /**
    * Custom data source.
    * A custom data source allows the flexibility to automatically ingest documents
    * into your vector database directly.
    */
-  CUSTOM = "CUSTOM",
+  CUSTOM = 'CUSTOM',
 
   /**
    * Redshift Metadata data source.
    */
-  REDSHIFT_METADATA = "REDSHIFT_METADATA",
+  REDSHIFT_METADATA = 'REDSHIFT_METADATA',
 }
 
 /**
@@ -227,7 +227,7 @@ export abstract class DataSourceNew extends DataSourceBase {
    */
   public formatAsCfnProps(
     props: DataSourceAssociationProps,
-    dataSourceConfiguration: CfnDataSource.DataSourceConfigurationProperty
+    dataSourceConfiguration: CfnDataSource.DataSourceConfigurationProperty,
   ): CfnDataSourceProps {
     return {
       dataDeletionPolicy: props.dataDeletionPolicy,
@@ -237,8 +237,8 @@ export abstract class DataSourceNew extends DataSourceBase {
       name: this.dataSourceName,
       serverSideEncryptionConfiguration: props.kmsKey
         ? {
-            kmsKeyArn: props.kmsKey.keyArn,
-          }
+          kmsKeyArn: props.kmsKey.keyArn,
+        }
         : undefined,
       vectorIngestionConfiguration:
         props.chunkingStrategy ||
@@ -246,11 +246,11 @@ export abstract class DataSourceNew extends DataSourceBase {
         props.customTransformation ||
         props.contextEnrichment
           ? {
-              chunkingConfiguration: props.chunkingStrategy?.configuration,
-              parsingConfiguration: props.parsingStrategy?.configuration,
-              customTransformationConfiguration: props.customTransformation?.configuration,
-              contextEnrichmentConfiguration: props.contextEnrichment?.configuration,
-            }
+            chunkingConfiguration: props.chunkingStrategy?.configuration,
+            parsingConfiguration: props.parsingStrategy?.configuration,
+            customTransformationConfiguration: props.customTransformation?.configuration,
+            contextEnrichmentConfiguration: props.contextEnrichment?.configuration,
+          }
           : undefined,
     };
   }

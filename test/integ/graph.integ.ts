@@ -11,33 +11,33 @@
  *  and limitations under the License.
  */
 
-import * as integ from "@aws-cdk/integ-tests-alpha";
-import * as cdk from "aws-cdk-lib";
-import * as bedrock from "../../src/cdk-lib/bedrock";
-import { NeptuneGraph } from "../../src/cdk-lib/neptune/graph";
-import { GraphKnowledgeBase } from "../../src/cdk-lib/bedrock/knowledge-bases/graph-knowledge-base";
+import * as integ from '@aws-cdk/integ-tests-alpha';
+import * as cdk from 'aws-cdk-lib';
+import * as bedrock from '../../src/cdk-lib/bedrock';
+import { GraphKnowledgeBase } from '../../src/cdk-lib/bedrock/knowledge-bases/graph-knowledge-base';
+import { NeptuneGraph } from '../../src/cdk-lib/neptune/graph';
 
 const app = new cdk.App();
-const stack = new cdk.Stack(app, "aws-cdk-bedrock-graph-integ-test", {
+const stack = new cdk.Stack(app, 'aws-cdk-bedrock-graph-integ-test', {
   env: {
-    region: "us-east-1",
+    region: 'us-east-1',
   },
 });
 
-const dataBucket = new cdk.aws_s3.Bucket(stack, "SampleBucket", {
+const dataBucket = new cdk.aws_s3.Bucket(stack, 'SampleBucket', {
   removalPolicy: cdk.RemovalPolicy.DESTROY,
   autoDeleteObjects: true,
 });
 
 const embeddingModel = bedrock.BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3;
 
-const graph = new NeptuneGraph(stack, "NeptuneGraph", {
+const graph = new NeptuneGraph(stack, 'NeptuneGraph', {
   vectorSearchDimension: embeddingModel.vectorDimensions!,
 });
 
 const notebook = graph.createNotebook();
 
-const kb = new GraphKnowledgeBase(stack, "GraphKnowledgeBase", {
+const kb = new GraphKnowledgeBase(stack, 'GraphKnowledgeBase', {
   embeddingModel,
   graph,
 });
@@ -52,11 +52,11 @@ kb.addS3DataSource({
   // }),
 });
 
-new cdk.CfnOutput(stack, "GraphExplorerUrl", {
+new cdk.CfnOutput(stack, 'GraphExplorerUrl', {
   value: notebook.graphExplorerEndpoint,
 });
 
-new integ.IntegTest(app, "ServiceTest", {
+new integ.IntegTest(app, 'ServiceTest', {
   testCases: [stack],
   cdkCommandOptions: {
     destroy: {

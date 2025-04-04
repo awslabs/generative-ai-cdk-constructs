@@ -11,11 +11,11 @@
  *  and limitations under the License.
  */
 
-export { KnowledgeBaseBase } from "./knowledge-base";
-import { ArnFormat, Stack } from "aws-cdk-lib";
-import * as bedrock from "aws-cdk-lib/aws-bedrock";
-import * as iam from "aws-cdk-lib/aws-iam";
-import { Construct } from "constructs";
+export { KnowledgeBaseBase } from './knowledge-base';
+import { ArnFormat, Stack } from 'aws-cdk-lib';
+import * as bedrock from 'aws-cdk-lib/aws-bedrock';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import { Construct } from 'constructs';
 import {
   CommonKnowledgeBaseAttributes,
   CommonKnowledgeBaseProps,
@@ -23,9 +23,9 @@ import {
   IKnowledgeBase,
   KnowledgeBaseBase,
   KnowledgeBaseType,
-} from "./knowledge-base";
-import { generatePhysicalNameV2 } from "../../../common/helpers/utils";
-import { IKendraGenAiIndex } from "../../kendra";
+} from './knowledge-base';
+import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
+import { IKendraGenAiIndex } from '../../kendra';
 
 /******************************************************************************
  *                             COMMON INTERFACES
@@ -86,7 +86,7 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
   public static fromKnowledgeBaseAttributes(
     scope: Construct,
     id: string,
-    attrs: KendraKnowledgeBaseAttributes
+    attrs: KendraKnowledgeBaseAttributes,
   ): IKendraKnowledgeBase {
     const stack = Stack.of(scope);
 
@@ -94,15 +94,15 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
       public readonly role = iam.Role.fromRoleArn(
         this,
         `kb-${attrs.knowledgeBaseId}-role`,
-        attrs.executionRoleArn
+        attrs.executionRoleArn,
       );
       public readonly description = attrs.description;
       public readonly instruction = attrs.instruction;
       public readonly knowledgeBaseId = attrs.knowledgeBaseId;
       public readonly kendraIndex = attrs.kendraIndex;
       public readonly knowledgeBaseArn = stack.formatArn({
-        service: "bedrock",
-        resource: "knowledge-base",
+        service: 'bedrock',
+        resource: 'knowledge-base',
         resourceName: attrs.knowledgeBaseId,
         arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
       });
@@ -142,7 +142,7 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
     // ------------------------------------------------------
     this.kendraIndex = props.kendraIndex;
     this.name =
-      props.name ?? generatePhysicalNameV2(this, "kendra-kb", { maxLength: 32, separator: "-" });
+      props.name ?? generatePhysicalNameV2(this, 'kendra-kb', { maxLength: 32, separator: '-' });
     this.instruction = props.instruction;
     this.description = props.description;
 
@@ -156,16 +156,16 @@ export class KendraKnowledgeBase extends KendraKnowledgeBaseBase {
     if (!props.existingRole) {
       policyAddition = this.role.addToPrincipalPolicy(
         new iam.PolicyStatement({
-          sid: "AmazonBedrockKnowledgeBaseKendraIndexAccessStatement",
-          actions: ["kendra:Retrieve", "kendra:DescribeIndex"],
+          sid: 'AmazonBedrockKnowledgeBaseKendraIndexAccessStatement',
+          actions: ['kendra:Retrieve', 'kendra:DescribeIndex'],
           resources: [this.kendraIndex.indexArn],
-        })
+        }),
       );
     }
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
-    this._resource = new bedrock.CfnKnowledgeBase(this, "MyCfnKnowledgeBase", {
+    this._resource = new bedrock.CfnKnowledgeBase(this, 'MyCfnKnowledgeBase', {
       name: this.name,
       roleArn: this.role.roleArn,
       description: props.description,

@@ -11,23 +11,23 @@
  *  and limitations under the License.
  */
 
-export { KnowledgeBaseBase } from "./knowledge-base";
-import { ArnFormat, Stack } from "aws-cdk-lib";
-import * as bedrock from "aws-cdk-lib/aws-bedrock";
-import * as iam from "aws-cdk-lib/aws-iam";
-import { Construct } from "constructs";
+export { KnowledgeBaseBase } from './knowledge-base';
+import { ArnFormat, Stack } from 'aws-cdk-lib';
+import * as bedrock from 'aws-cdk-lib/aws-bedrock';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import { Construct } from 'constructs';
 import {
   CommonKnowledgeBaseAttributes,
   CommonKnowledgeBaseProps,
   createKnowledgeBaseServiceRole,
   IKnowledgeBase,
   KnowledgeBaseType,
-} from "./knowledge-base";
-import { generatePhysicalNameV2 } from "../../../common/helpers/utils";
-import { INeptuneGraph, NeptuneGraph } from "../../neptune/graph";
-import { VectorKnowledgeBaseBase, VectorStoreType } from "./vector-knowledge-base";
-import { BedrockFoundationModel } from "../models";
-import { NeptuneGraphNotebook } from "../../neptune/notebook";
+} from './knowledge-base';
+import { VectorKnowledgeBaseBase, VectorStoreType } from './vector-knowledge-base';
+import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
+import { INeptuneGraph, NeptuneGraph } from '../../neptune/graph';
+import { NeptuneGraphNotebook } from '../../neptune/notebook';
+import { BedrockFoundationModel } from '../models';
 
 /******************************************************************************
  *                             COMMON INTERFACES
@@ -144,7 +144,7 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
   public static fromKnowledgeBaseAttributes(
     scope: Construct,
     id: string,
-    attrs: GraphKnowledgeBaseAttributes
+    attrs: GraphKnowledgeBaseAttributes,
   ): IGraphKnowledgeBase {
     const stack = Stack.of(scope);
 
@@ -152,16 +152,16 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
       public readonly role = iam.Role.fromRoleArn(
         this,
         `kb-${attrs.knowledgeBaseId}-role`,
-        attrs.executionRoleArn
+        attrs.executionRoleArn,
       );
       public readonly description = attrs.description;
       public readonly instruction = attrs.instruction;
       public readonly knowledgeBaseId = attrs.knowledgeBaseId;
       public readonly vectorStoreType = VectorStoreType.NEPTUNE_ANALYTICS;
-      public readonly graph = NeptuneGraph.fromGraphId(scope, "Graph", attrs.graphId);
+      public readonly graph = NeptuneGraph.fromGraphId(scope, 'Graph', attrs.graphId);
       public readonly knowledgeBaseArn = stack.formatArn({
-        service: "bedrock",
-        resource: "knowledge-base",
+        service: 'bedrock',
+        resource: 'knowledge-base',
         resourceName: attrs.knowledgeBaseId,
         arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
       });
@@ -206,17 +206,17 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
     // Create a new graph if not specified.
     this.graph =
       props.graph ??
-      new NeptuneGraph(this, "Graph", {
+      new NeptuneGraph(this, 'Graph', {
         vectorSearchDimension: props.embeddingModel.vectorDimensions!,
       });
 
     this.name =
-      props.name ?? generatePhysicalNameV2(this, "graph-kb", { maxLength: 32, separator: "-" });
+      props.name ?? generatePhysicalNameV2(this, 'graph-kb', { maxLength: 32, separator: '-' });
     this.instruction = props.instruction;
     this.description = props.description;
     this.fieldMapping = {
-      metadataField: props.fieldMapping?.metadataField ?? "AMAZON_BEDROCK_METADATA",
-      textField: props.fieldMapping?.textField ?? "AMAZON_BEDROCK_TEXT",
+      metadataField: props.fieldMapping?.metadataField ?? 'AMAZON_BEDROCK_METADATA',
+      textField: props.fieldMapping?.textField ?? 'AMAZON_BEDROCK_TEXT',
     };
     this.embeddingModel = props.embeddingModel;
 
@@ -229,7 +229,7 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
-    this._resource = new bedrock.CfnKnowledgeBase(this, "MyCfnKnowledgeBase", {
+    this._resource = new bedrock.CfnKnowledgeBase(this, 'MyCfnKnowledgeBase', {
       name: this.name,
       roleArn: this.role.roleArn,
       description: props.description,
@@ -244,8 +244,8 @@ export class GraphKnowledgeBase extends GraphKnowledgeBaseBase {
               props.embeddingModel.modelId ===
               bedrock.FoundationModelIdentifier.AMAZON_TITAN_EMBED_TEXT_V2_0.modelId
                 ? {
-                    dimensions: props.embeddingModel.vectorDimensions,
-                  }
+                  dimensions: props.embeddingModel.vectorDimensions,
+                }
                 : undefined,
           },
         },

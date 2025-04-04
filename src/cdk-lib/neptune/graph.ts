@@ -11,13 +11,13 @@
  *  and limitations under the License.
  */
 
-import * as iam from "aws-cdk-lib/aws-iam";
-import * as neptunegraph from "aws-cdk-lib/aws-neptunegraph";
-import { Construct } from "constructs";
-import { ArnFormat, IResource, Resource, Stack } from "aws-cdk-lib";
-import { Metric, MetricOptions, MetricProps } from "aws-cdk-lib/aws-cloudwatch";
-import { generatePhysicalNameV2 } from "../../common/helpers/utils";
-import { NeptuneGraphNotebook, NeptuneGraphNotebookProps } from "./notebook";
+import { ArnFormat, IResource, Resource, Stack } from 'aws-cdk-lib';
+import { Metric, MetricOptions, MetricProps } from 'aws-cdk-lib/aws-cloudwatch';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as neptunegraph from 'aws-cdk-lib/aws-neptunegraph';
+import { Construct } from 'constructs';
+import { NeptuneGraphNotebook, NeptuneGraphNotebookProps } from './notebook';
+import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 
 /******************************************************************************
  *                              COMMON
@@ -214,7 +214,7 @@ export abstract class NeptuneGraphBase extends Resource implements INeptuneGraph
    * Grant the given identity full access to the Graph.
    */
   public grantFullAccess(grantee: iam.IGrantable): iam.Grant {
-    return this.grant(grantee, ["neptune-graph:*"]);
+    return this.grant(grantee, ['neptune-graph:*']);
   }
 
   /**
@@ -222,12 +222,12 @@ export abstract class NeptuneGraphBase extends Resource implements INeptuneGraph
    */
   public grantQuery(grantee: iam.IGrantable): iam.Grant {
     return this.grant(grantee, [
-      "neptune-graph:GetGraph",
-      "neptune-graph:ReadDataViaQuery",
-      "neptune-graph:WriteDataViaQuery",
-      "neptune-graph:DeleteDataViaQuery",
-      "neptune-graph:GetQueryStatus",
-      "neptune-graph:CancelQuery",
+      'neptune-graph:GetGraph',
+      'neptune-graph:ReadDataViaQuery',
+      'neptune-graph:WriteDataViaQuery',
+      'neptune-graph:DeleteDataViaQuery',
+      'neptune-graph:GetQueryStatus',
+      'neptune-graph:CancelQuery',
     ]);
   }
 
@@ -236,9 +236,9 @@ export abstract class NeptuneGraphBase extends Resource implements INeptuneGraph
    */
   public grantReadOnly(grantee: iam.IGrantable): iam.Grant {
     return this.grant(grantee, [
-      "neptune-graph:Get*",
-      "neptune-graph:List*",
-      "neptune-graph:Read*",
+      'neptune-graph:Get*',
+      'neptune-graph:List*',
+      'neptune-graph:Read*',
     ]);
   }
 
@@ -247,10 +247,10 @@ export abstract class NeptuneGraphBase extends Resource implements INeptuneGraph
    */
   public grantExportTask(grantee: iam.IGrantable): iam.Grant {
     return this.grant(grantee, [
-      "neptune-graph:GetExportTask",
-      "neptune-graph:ListExportTasks",
-      "neptune-graph:StartExportTask",
-      "neptune-graph:CancelExportTask",
+      'neptune-graph:GetExportTask',
+      'neptune-graph:ListExportTasks',
+      'neptune-graph:StartExportTask',
+      'neptune-graph:CancelExportTask',
     ]);
   }
 
@@ -262,7 +262,7 @@ export abstract class NeptuneGraphBase extends Resource implements INeptuneGraph
    */
   public metric(metricName: string, props?: MetricOptions): Metric {
     const metricProps: MetricProps = {
-      namespace: "AWS/Neptune",
+      namespace: 'AWS/Neptune',
       metricName,
       dimensionsMap: { GraphIdentifier: this.graphId },
       ...props,
@@ -274,77 +274,77 @@ export abstract class NeptuneGraphBase extends Resource implements INeptuneGraph
    * Returns metric for number of queued requests per second
    */
   public metricNumQueuedRequestsPerSec(props?: MetricOptions): Metric {
-    return this.metric("NumQueuedRequestsPerSec", props);
+    return this.metric('NumQueuedRequestsPerSec', props);
   }
 
   /**
    * Returns metric for number of OpenCypher requests per second
    */
   public metricNumOpenCypherRequestsPerSec(props?: MetricOptions): Metric {
-    return this.metric("NumOpenCypherRequestsPerSec", props);
+    return this.metric('NumOpenCypherRequestsPerSec', props);
   }
 
   /**
    * Returns metric for number of OpenCypher client errors per second
    */
   public metricNumOpenCypherClientErrorsPerSec(props?: MetricOptions): Metric {
-    return this.metric("NumOpenCypherClientErrorsPerSec", props);
+    return this.metric('NumOpenCypherClientErrorsPerSec', props);
   }
 
   /**
    * Returns metric for number of OpenCypher server errors per second
    */
   public metricNumOpenCypherServerErrorsPerSec(props?: MetricOptions): Metric {
-    return this.metric("NumOpenCypherServerErrorsPerSec", props);
+    return this.metric('NumOpenCypherServerErrorsPerSec', props);
   }
 
   /**
    * Returns metric for number of edge properties
    */
   public metricNumEdgeProperties(props?: MetricOptions): Metric {
-    return this.metric("NumEdgeProperties", props);
+    return this.metric('NumEdgeProperties', props);
   }
 
   /**
    * Returns metric for number of edges
    */
   public metricNumEdges(props?: MetricOptions): Metric {
-    return this.metric("NumEdges", props);
+    return this.metric('NumEdges', props);
   }
 
   /**
    * Returns metric for CPU utilization
    */
   public metricCPUUtilization(props?: MetricOptions): Metric {
-    return this.metric("CPUUtilization", props);
+    return this.metric('CPUUtilization', props);
   }
 
   /**
    * Returns metric for number of vectors
    */
   public metricNumVectors(props?: MetricOptions): Metric {
-    return this.metric("NumVectors", props);
+    return this.metric('NumVectors', props);
   }
 
   /**
    * Returns metric for number of vertex properties
    */
   public metricNumVertexProperties(props?: MetricOptions): Metric {
-    return this.metric("NumVertexProperties", props);
+    return this.metric('NumVertexProperties', props);
   }
 
   /**
    * Returns metric for graph size in bytes
    */
   public metricGraphSizeBytes(props?: MetricOptions): Metric {
-    return this.metric("GraphSizeBytes", props);
+    return this.metric('GraphSizeBytes', props);
   }
 
   /**
    * Returns metric for graph storage usage percentage
    */
   public metricGraphStorageUsagePercent(props?: MetricOptions): Metric {
-    return this.metric("GraphStorageUsagePercent", props);
+    return this.metric('GraphStorageUsagePercent', props);
   }
 
   private configureMetric(props: MetricProps) {
@@ -360,7 +360,7 @@ export abstract class NeptuneGraphBase extends Resource implements INeptuneGraph
    * **Note: Creating a notebook will incur additional AWS costs for the notebook instance.**
    */
   public createNotebook(params?: NeptuneGraphNotebookProps): NeptuneGraphNotebook {
-    return new NeptuneGraphNotebook(this, "Notebook", {
+    return new NeptuneGraphNotebook(this, 'Notebook', {
       ...params,
       graph: this,
     });
@@ -382,8 +382,8 @@ export class NeptuneGraph extends NeptuneGraphBase implements INeptuneGraph {
     class Import extends NeptuneGraphBase {
       public readonly graphId = graphId;
       public readonly graphArn = Stack.of(scope).formatArn({
-        service: "neptune-graph",
-        resource: "graph",
+        service: 'neptune-graph',
+        resource: 'graph',
         resourceName: graphId,
         arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
       });
@@ -415,8 +415,8 @@ export class NeptuneGraph extends NeptuneGraphBase implements INeptuneGraph {
     this.provisionedMemory = props.provisionedMemoryNCUs ?? 16;
     this.graphName =
       props.graphName ??
-      generatePhysicalNameV2(this, "bedrock-kb-graph", {
-        separator: "-",
+      generatePhysicalNameV2(this, 'bedrock-kb-graph', {
+        separator: '-',
         maxLength: 63,
         lower: true,
       });
@@ -426,15 +426,15 @@ export class NeptuneGraph extends NeptuneGraphBase implements INeptuneGraph {
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
-    this._resource = new neptunegraph.CfnGraph(this, "Resource", {
+    this._resource = new neptunegraph.CfnGraph(this, 'Resource', {
       provisionedMemory: this.provisionedMemory,
       graphName: this.graphName,
       publicConnectivity: this.publicConnectivity,
       replicaCount: this.replicaCount,
       vectorSearchConfiguration: props.vectorSearchDimension
         ? {
-            vectorSearchDimension: props.vectorSearchDimension,
-          }
+          vectorSearchDimension: props.vectorSearchDimension,
+        }
         : undefined,
       deletionProtection: props.deletionProtection ?? false,
     });

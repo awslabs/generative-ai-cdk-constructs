@@ -11,9 +11,9 @@
  *  and limitations under the License.
  */
 
-import { CfnDataSource } from "aws-cdk-lib/aws-bedrock";
-import { PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { IInvokable } from "../models";
+import { CfnDataSource } from 'aws-cdk-lib/aws-bedrock';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { IInvokable } from '../models';
 
 /**
  * Enum representing the type of context enrichment.
@@ -22,14 +22,14 @@ export enum ContextEnrichmentType {
   /**
    * Uses a Bedrock Foundation Model for context enrichment.
    */
-  BEDROCK_FOUNDATION_MODEL = "BEDROCK_FOUNDATION_MODEL",
+  BEDROCK_FOUNDATION_MODEL = 'BEDROCK_FOUNDATION_MODEL',
 }
 
 /**
  * Enum representing the method to be used for enrichment strategy.
  */
 export enum EnrichmentStrategyConfigurationType {
-  CHUNK_ENTITY_EXTRACTION = "CHUNK_ENTITY_EXTRACTION",
+  CHUNK_ENTITY_EXTRACTION = 'CHUNK_ENTITY_EXTRACTION',
 }
 
 /**
@@ -71,7 +71,7 @@ export abstract class ContextEnrichment {
       public generatePolicyStatements(): PolicyStatement[] {
         return [
           new PolicyStatement({
-            actions: ["bedrock:InvokeModel*"],
+            actions: ['bedrock:InvokeModel*'],
             resources: [props.enrichmentModel.invokableArn],
           }),
         ];

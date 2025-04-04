@@ -1,11 +1,24 @@
-import { CfnOutput, Fn, Resource, Size, Stack } from "aws-cdk-lib";
+/**
+ *  Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License"). You may not use this file except in compliance
+ *  with the License. A copy of the License is located at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS, WITHOUT WARRANTIES
+ *  OR CONDITIONS OF ANY KIND, express or implied. See the License for the specific language governing permissions
+ *  and limitations under the License.
+ */
 
-import { Construct } from "constructs";
-import * as sagemaker from "aws-cdk-lib/aws-sagemaker";
-import { INeptuneGraph } from "./graph";
-import * as iam from "aws-cdk-lib/aws-iam";
-import * as ec2 from "aws-cdk-lib/aws-ec2";
-import { generatePhysicalNameV2 } from "../../common/helpers/utils";
+import { CfnOutput, Fn, Resource, Size, Stack } from 'aws-cdk-lib';
+
+import * as ec2 from 'aws-cdk-lib/aws-ec2';
+import * as iam from 'aws-cdk-lib/aws-iam';
+import * as sagemaker from 'aws-cdk-lib/aws-sagemaker';
+import { Construct } from 'constructs';
+import { INeptuneGraph } from './graph';
+import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 
 /******************************************************************************
  *                        PROPS FOR NEW CONSTRUCT
@@ -81,7 +94,7 @@ export class NeptuneGraphNotebook extends Resource {
     // Create lifecycle configuration for Neptune notebook
     this.lifecycleConfig = new sagemaker.CfnNotebookInstanceLifecycleConfig(
       this,
-      "NeptuneNotebookLifecycle",
+      'NeptuneNotebookLifecycle',
       {
         onStart: [
           {
@@ -102,20 +115,20 @@ rm -rf /tmp/graph_notebook
 tar -zxvf /tmp/graph_notebook.tar.gz -C /tmp
 /tmp/graph_notebook/install.sh
 
-EOF`
+EOF`,
             ),
           },
         ],
-      }
+      },
     );
 
     // Creates a role associated to the notebook instance
-    this.role = new iam.Role(this, "NeptuneNotebookRole", {
-      assumedBy: new iam.ServicePrincipal("sagemaker.amazonaws.com"),
+    this.role = new iam.Role(this, 'NeptuneNotebookRole', {
+      assumedBy: new iam.ServicePrincipal('sagemaker.amazonaws.com'),
       managedPolicies: [
-        iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonSageMakerFullAccess"),
+        iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonSageMakerFullAccess'),
         // Allows downloading the graph_notebook package
-        iam.ManagedPolicy.fromAwsManagedPolicyName("AmazonS3ReadOnlyAccess"),
+        iam.ManagedPolicy.fromAwsManagedPolicyName('AmazonS3ReadOnlyAccess'),
       ],
     });
 
@@ -125,25 +138,25 @@ EOF`
     // ------------------------------------------------------
     // Set properties or defaults
     // ------------------------------------------------------
-    this.__resource = new sagemaker.CfnNotebookInstance(this, "Resource", {
+    this.__resource = new sagemaker.CfnNotebookInstance(this, 'Resource', {
       instanceType: `ml.${this.instanceType.toString()}`,
       roleArn: this.role.roleArn,
       lifecycleConfigName: this.lifecycleConfig.attrNotebookInstanceLifecycleConfigName,
-      notebookInstanceName: generatePhysicalNameV2(this, "aws-neptune-notebook", {
-        separator: "-",
+      notebookInstanceName: generatePhysicalNameV2(this, 'aws-neptune-notebook', {
+        separator: '-',
         maxLength: 63,
         lower: true,
       }),
       volumeSizeInGb: this.volumeSize.toGibibytes(),
-      platformIdentifier: "notebook-al2-v2",
-      rootAccess: "Disabled",
+      platformIdentifier: 'notebook-al2-v2',
+      rootAccess: 'Disabled',
       instanceMetadataServiceConfiguration: {
-        minimumInstanceMetadataServiceVersion: "2",
+        minimumInstanceMetadataServiceVersion: '2',
       },
-      directInternetAccess: "Enabled",
+      directInternetAccess: 'Enabled',
       tags: [
         {
-          key: "aws-neptune-graph-id",
+          key: 'aws-neptune-graph-id',
           value: props.graph.graphId,
         },
       ],
@@ -153,7 +166,7 @@ EOF`
     this.jupyterLabEndpoint = `https://${this.__resource.attrNotebookInstanceName}.notebook.${region}.sagemaker.aws/lab`;
 
     // Output Graph Explorer Endpoint
-    new CfnOutput(this, "GraphExplorerEndpoint", {
+    new CfnOutput(this, 'GraphExplorerEndpoint', {
       value: this.graphExplorerEndpoint,
     });
   }
