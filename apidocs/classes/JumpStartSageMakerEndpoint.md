@@ -14,9 +14,9 @@ The JumpStartSageMakerEndpoint class.
 
 ## Constructors
 
-### new JumpStartSageMakerEndpoint()
+### Constructor
 
-> **new JumpStartSageMakerEndpoint**(`scope`, `id`, `props`): [`JumpStartSageMakerEndpoint`](JumpStartSageMakerEndpoint.md)
+> **new JumpStartSageMakerEndpoint**(`scope`, `id`, `props`): `JumpStartSageMakerEndpoint`
 
 #### Parameters
 
@@ -34,11 +34,11 @@ The JumpStartSageMakerEndpoint class.
 
 #### Returns
 
-[`JumpStartSageMakerEndpoint`](JumpStartSageMakerEndpoint.md)
+`JumpStartSageMakerEndpoint`
 
 #### Overrides
 
-[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`constructor`](SageMakerEndpointBase.md#constructors)
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`constructor`](SageMakerEndpointBase.md#constructor)
 
 ## Properties
 

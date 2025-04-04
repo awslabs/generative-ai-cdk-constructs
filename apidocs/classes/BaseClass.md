@@ -17,9 +17,9 @@
 
 ## Constructors
 
-### new BaseClass()
+### Constructor
 
-> **new BaseClass**(`scope`, `id`): [`BaseClass`](BaseClass.md)
+> **new BaseClass**(`scope`, `id`): `BaseClass`
 
 #### Parameters
 
@@ -33,7 +33,7 @@
 
 #### Returns
 
-[`BaseClass`](BaseClass.md)
+`BaseClass`
 
 #### Overrides
 

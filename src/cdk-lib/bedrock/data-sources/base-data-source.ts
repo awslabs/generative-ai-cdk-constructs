@@ -19,11 +19,9 @@ import { Construct } from "constructs";
 
 import { IKnowledgeBase } from "./../knowledge-bases/knowledge-base";
 import { ChunkingStrategy } from "./chunking";
+import { ContextEnrichment } from "./context-enrichment";
 import { CustomTransformation } from "./custom-transformation";
 import { ParsingStategy } from "./parsing";
-import { ContextEnrichment } from "./context-enrichment";
-// import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
-
 /**
  * Specifies the policy for handling data when a data source resource is deleted.
  * This policy affects the vector embeddings created from the data source.
@@ -170,6 +168,12 @@ export interface DataSourceAssociationProps {
    * @default - No custom transformation is used.
    */
   readonly customTransformation?: CustomTransformation;
+
+  /**
+   * The context enrichment configuration to use.
+   * @default - No context enrichment is used.
+   */
+  readonly contextEnrichment?: ContextEnrichment;
 }
 
 /**

@@ -13,103 +13,57 @@
 
 import { CfnDataSource } from "aws-cdk-lib/aws-bedrock";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { BedrockFoundationModel, IInvokable } from "../models";
+import { IInvokable } from "../models";
 
 /**
- * Enum representing the types of context enrichment strategies available for
- * Amazon Bedrock Knowledge Bases. These strategies determine how additional context
- * and metadata is extracted from documents during ingestion.
- *
- * Currently supports:
- * - `FOUNDATION_MODEL` enrichment using Bedrock models to extract semantic information
- *   for GraphRAG capabilities that combine graph modeling with generative AI
+ * Enum representing the type of context enrichment.
  */
 export enum ContextEnrichmentType {
   /**
-   * Uses a Bedrock Foundation Model for advanced context enrichment.
-   * Enables AI-powered extraction of semantic information and entities from documents.
-   * Powers GraphRAG functionality by automatically identifying relationships between:
-   * - Entities across documents
-   * - Structural elements like section titles
-   * - Related facts and concepts
+   * Uses a Bedrock Foundation Model for context enrichment.
    */
-  FOUNDATION_MODEL = "BEDROCK_FOUNDATION_MODEL",
+  BEDROCK_FOUNDATION_MODEL = "BEDROCK_FOUNDATION_MODEL",
 }
 
 /**
- * Enum representing the available methods for foundation model context enrichment.
- * These methods specify how the foundation model processes and extracts information
- * from documents during ingestion.
+ * Enum representing the method to be used for enrichment strategy.
  */
-export enum FoundationModelContextEnrichmentMethodType {
-  /**
-   * Extracts named entities and key information from document chunks to enable GraphRAG.
-   * Creates semantic connections between document segments by identifying:
-   * - Named entities (people, places, organizations)
-   * - Key concepts and topics
-   * - Relationships between entities
-   * - Structural elements (section titles, hierarchies)
-   *
-   * Benefits:
-   * - Enhanced cross-document reasoning
-   * - Multi-step logical connections
-   * - More comprehensive and contextually relevant responses
-   * - Improved accuracy and reduced hallucinations
-   * - Better handling of complex queries requiring information from multiple sources
-   */
+export enum EnrichmentStrategyConfigurationType {
   CHUNK_ENTITY_EXTRACTION = "CHUNK_ENTITY_EXTRACTION",
 }
 
 /**
- * Properties for configuring a Foundation Model context enrichment strategy.
- * Defines how AI models extract additional semantic context from documents
- * during Knowledge Base ingestion.
+ * Properties for configuring a Foundation Model enrichment strategy.
  */
 export interface FoundationModelContextEnrichmentProps {
   /**
-   * The Foundation Model to use for extracting semantic information and entities.
-   * Must be a compatible Bedrock model that supports entity extraction.
-   * Currently only supports Claude 3 Haiku.
-   * @default BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0
+   * The Bedrock Foundation Model configuration for context enrichment.
    */
-  readonly model?: IInvokable;
-
-  /**
-   * The method to use for context enrichment.
-   * Specifies how the foundation model processes documents and extracts semantic information.
-   * Controls the type of entities and relationships that are identified.
-   * @default FoundationModelContextEnrichmentMethodType.CHUNK_ENTITY_EXTRACTION
-   */
-  readonly method?: FoundationModelContextEnrichmentMethodType;
+  readonly enrichmentModel: IInvokable;
 }
 
 /**
- * Represents an advanced parsing strategy configuration for Knowledge Base ingestion.
- * @see https://docs.aws.amazon.com/bedrock/latest/userguide/kb-chunking-parsing.html#kb-advanced-parsing
+ * Abstract class representing a context enrichment strategy.
+ * The enrichment stategy used to provide additional context.
+ * For example, Neptune GraphRAG uses Amazon Bedrock foundation
+ * models to perform chunk entity extraction.
  */
 export abstract class ContextEnrichment {
   // ------------------------------------------------------
-  // FM Parsing Strategy
+  // FM Enrichment Strategy
   // ------------------------------------------------------
   /**
-   * Creates a Foundation Model-based parsing strategy for extracting non-textual information
-   * from documents such as tables and charts.
-   * - Additional costs apply when using advanced parsing due to foundation model usage.
-   * - There are limits on file types (PDF) and total data that can be parsed using advanced parsing.
-   * @see https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-ds.html#kb-ds-supported-doc-formats-limits
+   * Creates a Foundation Model-based enrichment strategy used to provide additional context
+   * to the RAG application.
    */
   public static foundationModel(props: FoundationModelContextEnrichmentProps): ContextEnrichment {
-    const enrichmentModel = props.model ?? BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0;
-    const enrichmentMethod =
-      props.method ?? FoundationModelContextEnrichmentMethodType.CHUNK_ENTITY_EXTRACTION;
-    class FoundationModelTransformation extends ContextEnrichment {
-      /** The CloudFormation property representation of this configuration */
-      public readonly configuration: CfnDataSource.ContextEnrichmentConfigurationProperty = {
-        type: ContextEnrichmentType.FOUNDATION_MODEL,
+    class FoundationModelContextEnrichment extends ContextEnrichment {
+      public readonly configuration = {
+        type: ContextEnrichmentType.BEDROCK_FOUNDATION_MODEL,
         bedrockFoundationModelConfiguration: {
-          modelArn: enrichmentModel.invokableArn,
+          modelArn: props.enrichmentModel.invokableArn,
           enrichmentStrategyConfiguration: {
-            method: enrichmentMethod,
+            method: EnrichmentStrategyConfigurationType.CHUNK_ENTITY_EXTRACTION,
           },
         },
       };
@@ -118,13 +72,13 @@ export abstract class ContextEnrichment {
         return [
           new PolicyStatement({
             actions: ["bedrock:InvokeModel*"],
-            resources: [enrichmentModel.invokableArn],
+            resources: [props.enrichmentModel.invokableArn],
           }),
         ];
       }
     }
 
-    return new FoundationModelTransformation();
+    return new FoundationModelContextEnrichment();
   }
   // ------------------------------------------------------
   // Properties

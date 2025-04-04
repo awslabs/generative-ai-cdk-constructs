@@ -14,9 +14,9 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 ## Constructors
 
-### new DeepLearningContainerImage()
+### Constructor
 
-> **new DeepLearningContainerImage**(`repositoryName`, `tag`, `accountId`?): [`DeepLearningContainerImage`](DeepLearningContainerImage.md)
+> **new DeepLearningContainerImage**(`repositoryName`, `tag`, `accountId`?): `DeepLearningContainerImage`
 
 #### Parameters
 
@@ -34,11 +34,11 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 #### Returns
 
-[`DeepLearningContainerImage`](DeepLearningContainerImage.md)
+`DeepLearningContainerImage`
 
 #### Overrides
 
-[`ContainerImage`](ContainerImage.md).[`constructor`](ContainerImage.md#constructors)
+[`ContainerImage`](ContainerImage.md).[`constructor`](ContainerImage.md#constructor)
 
 ## Properties
 
@@ -489,6 +489,12 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 ### HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_6\_0\_TGI3\_1\_1\_GPU\_PY311\_CU124\_UBUNTU22\_04
 
 > `readonly` `static` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_6\_0\_TGI3\_1\_1\_GPU\_PY311\_CU124\_UBUNTU22\_04**: [`ContainerImage`](ContainerImage.md)
+
+***
+
+### HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_6\_0\_TGI3\_2\_0\_GPU\_PY311\_CU124\_UBUNTU22\_04
+
+> `readonly` `static` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_6\_0\_TGI3\_2\_0\_GPU\_PY311\_CU124\_UBUNTU22\_04**: [`ContainerImage`](ContainerImage.md)
 
 ***
 

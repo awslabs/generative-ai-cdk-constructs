@@ -1,5 +1,5 @@
 {
-  "version": "39.0.0",
+  "version": "41.0.0",
   "artifacts": {
     "Claude37Test.assets": {
       "type": "cdk:asset-manifest",
@@ -121,5 +121,6 @@
         "file": "tree.json"
       }
     }
-  }
+  },
+  "minimumCliVersion": "2.1005.0"
 }

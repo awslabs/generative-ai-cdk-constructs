@@ -14,13 +14,13 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 ## Constructors
 
-### new ContainerImage()
+### Constructor
 
-> **new ContainerImage**(): [`ContainerImage`](ContainerImage.md)
+> **new ContainerImage**(): `ContainerImage`
 
 #### Returns
 
-[`ContainerImage`](ContainerImage.md)
+`ContainerImage`
 
 ## Methods
 
@@ -46,7 +46,7 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 ### fromAsset()
 
-> `static` **fromAsset**(`directory`, `options`): [`ContainerImage`](ContainerImage.md)
+> `static` **fromAsset**(`directory`, `options`): `ContainerImage`
 
 #### Parameters
 
@@ -60,13 +60,13 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 #### Returns
 
-[`ContainerImage`](ContainerImage.md)
+`ContainerImage`
 
 ***
 
 ### fromEcrRepository()
 
-> `static` **fromEcrRepository**(`repository`, `tag`): [`ContainerImage`](ContainerImage.md)
+> `static` **fromEcrRepository**(`repository`, `tag`): `ContainerImage`
 
 #### Parameters
 
@@ -80,4 +80,4 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 #### Returns
 
-[`ContainerImage`](ContainerImage.md)
+`ContainerImage`

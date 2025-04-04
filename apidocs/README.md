@@ -6,12 +6,12 @@
 
 ## Namespaces
 
-- [amazonaurora](namespaces/amazonaurora/README.md)
-- [bedrock](namespaces/bedrock/README.md)
-- [kendra](namespaces/kendra/README.md)
-- [opensearch\_vectorindex](namespaces/opensearch_vectorindex/README.md)
-- [opensearchserverless](namespaces/opensearchserverless/README.md)
-- [pinecone](namespaces/pinecone/README.md)
+- [amazonaurora](@cdklabs/namespaces/amazonaurora/README.md)
+- [bedrock](@cdklabs/namespaces/bedrock/README.md)
+- [kendra](@cdklabs/namespaces/kendra/README.md)
+- [opensearch\_vectorindex](@cdklabs/namespaces/opensearch_vectorindex/README.md)
+- [opensearchserverless](@cdklabs/namespaces/opensearchserverless/README.md)
+- [pinecone](@cdklabs/namespaces/pinecone/README.md)
 
 ## Enumerations
 

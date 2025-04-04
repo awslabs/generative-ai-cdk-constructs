@@ -18,9 +18,9 @@
 
 ## Constructors
 
-### new SageMakerEndpointBase()
+### Constructor
 
-> **new SageMakerEndpointBase**(`scope`, `id`): [`SageMakerEndpointBase`](SageMakerEndpointBase.md)
+> **new SageMakerEndpointBase**(`scope`, `id`): `SageMakerEndpointBase`
 
 #### Parameters
 
@@ -34,11 +34,11 @@
 
 #### Returns
 
-[`SageMakerEndpointBase`](SageMakerEndpointBase.md)
+`SageMakerEndpointBase`
 
 #### Inherited from
 
-[`BaseClass`](BaseClass.md).[`constructor`](BaseClass.md#constructors)
+[`BaseClass`](BaseClass.md).[`constructor`](BaseClass.md#constructor)
 
 ## Properties
 
