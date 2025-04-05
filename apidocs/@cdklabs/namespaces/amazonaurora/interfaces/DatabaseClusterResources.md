@@ -20,7 +20,7 @@ The Amazon Aurora RDS cluster.
 
 ### auroraSecurityGroup
 
-> `readonly` **auroraSecurityGroup**: `SecurityGroup`
+> `readonly` **auroraSecurityGroup**: `ISecurityGroup`
 
 The security group associated with the Aurora cluster.
 
