@@ -133,7 +133,6 @@
   },
   "dependencies": {
     "@aws-cdk/aws-lambda-python-alpha": "2.188.0-alpha.0",
-    "@aws-cdk/aws-lambda-python-alpha": "2.187.0-alpha.0",
     "cdk-nag": "^2.35.64",
     "deepmerge": "^4.3.1"
   },
