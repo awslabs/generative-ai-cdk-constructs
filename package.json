@@ -120,7 +120,7 @@
     "ts-node": "^10.9.2",
     "typedoc": "^0.28.1",
     "typedoc-plugin-markdown": "^4.6.1",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
   },
   "peerDependencies": {
     "aws-cdk-lib": "^2.187.0",
@@ -128,7 +128,7 @@
   },
   "dependencies": {
     "@aws-cdk/aws-lambda-python-alpha": "2.187.0-alpha.0",
-    "cdk-nag": "^2.35.62",
+    "cdk-nag": "^2.35.64",
     "deepmerge": "^4.3.1"
   },
   "bundledDependencies": [
