@@ -28,23 +28,10 @@ This construct library facilitates the deployment of Knowledge Bases, Bedrock Ag
 
 ## Table of contents
 
-- [API](#api)
+- [API](../../../apidocs/@cdklabs/namespaces/bedrock/README.md)
 - [Knowledge Bases](./knowledge-bases/README.md)
-  - [Vector Knowledge Base](./knowledge-bases/README.md#vector-knowledge-base)
-  - [Kendra Knowledge Base](./knowledge-bases/README.md#kendra-knowledge-base)
-  - [Graph Knowledge Base](./knowledge-bases/README.md#graph-knowledge-base)
 - [Agents](./agents/README.md)
-  - [Create an Agent](./agents/README.md#create-an-agent)
-  - [Action groups](./agents/README.md#action-groups)
-  - [Memory Configuration](./agents/README.md#memory-configuration)
-  - [Agent Collaboration](./agents/README.md#agent-collaboration)
-  - [Custom Orchestration](./agents/README.md#custom-orchestration)
-  - [Agent Alias](./agents/README.md#agent-alias)
 - [Guardrails](./guardrails/README.md)
 - [Prompt Management](./prompts/README.md)
 - [Inference Profiles](./inference-profiles/README.md)
 - [Data Sources](./data-sources/README.md)
-
-## API
-
-See the [API documentation](../../../apidocs/@cdklabs/namespaces/bedrock/README.md).

@@ -2,6 +2,22 @@
 
 Amazon Bedrock Data Sources provide a way to connect and manage various data sources for your knowledge bases. They allow you to ingest, process, and index data from different sources to make it available for your AI applications.
 
+## Table of Contents
+- [Supported Data Sources](#supported-data-sources)
+- [Creating a Data Source](#creating-a-data-source)
+  - [S3 Data Source Example](#s3-data-source-example)
+  - [Database Data Source Example](#database-data-source-example)
+  - [Web Crawler Data Source Example](#web-crawler-data-source-example)
+  - [Custom Data Source Example](#custom-data-source-example)
+- [Data Source Properties](#data-source-properties)
+- [Data Processing Configuration](#data-processing-configuration)
+  - [Chunking Strategies](#chunking-strategies)
+  - [Parsing Strategies](#parsing-strategies)
+  - [Context Enrichment](#context-enrichment)
+- [Permissions and Methods](#permissions-and-methods)
+- [Import Methods](#import-methods)
+- [Best Practices](#best-practices)
+
 ## Supported Data Sources
 
 Amazon Bedrock supports the following types of data sources:
@@ -16,10 +32,15 @@ Amazon Bedrock supports the following types of data sources:
    - Support for NoSQL databases (DynamoDB)
    - Real-time data synchronization
 
-3. **API Data Sources**
-   - Connect to REST APIs
-   - Support for GraphQL endpoints
-   - Custom data transformation
+3. **Web Crawler Data Sources**
+   - Crawl web pages from specified URLs
+   - Configure crawling scope and rate
+   - Filter content using include/exclude patterns
+
+4. **Custom Data Sources**
+   - Create custom data sources for specialized use cases
+   - Implement custom data processing logic
+   - Integrate with external systems
 
 ## Creating a Data Source
 
@@ -137,6 +158,70 @@ db_data_source = bedrock.DatabaseDataSource(
 )
 ```
 
+### Web Crawler Data Source Example
+
+#### TypeScript Example
+
+```ts
+const webCrawlerDataSource = new WebCrawlerDataSource(this, 'MyWebCrawlerDataSource', {
+  dataSourceName: 'my-web-crawler-data-source',
+  description: 'Data source for company website',
+  sourceUrls: ['https://www.example.com'],
+  crawlingScope: CrawlingScope.SUBDOMAINS,
+  crawlingRate: 300,
+  filters: {
+    includePatterns: ['/blog/', '/docs/'],
+    excludePatterns: ['/private/', '/admin/'],
+  },
+  maxPages: 1000,
+});
+```
+
+#### Python Example
+
+```python
+web_crawler_data_source = bedrock.WebCrawlerDataSource(
+    self,
+    "MyWebCrawlerDataSource",
+    data_source_name="my-web-crawler-data-source",
+    description="Data source for company website",
+    source_urls=["https://www.example.com"],
+    crawling_scope=bedrock.CrawlingScope.SUBDOMAINS,
+    crawling_rate=300,
+    filters={
+        "includePatterns": ["/blog/", "/docs/"],
+        "excludePatterns": ["/private/", "/admin/"],
+    },
+    max_pages=1000,
+)
+```
+
+### Custom Data Source Example
+
+#### TypeScript Example
+
+```ts
+const customDataSource = new CustomDataSource(this, 'MyCustomDataSource', {
+  dataSourceName: 'my-custom-data-source',
+  description: 'Custom data source for specialized data',
+  knowledgeBase: myKnowledgeBase,
+  // Add custom configuration as needed
+});
+```
+
+#### Python Example
+
+```python
+custom_data_source = bedrock.CustomDataSource(
+    self,
+    "MyCustomDataSource",
+    data_source_name="my-custom-data-source",
+    description="Custom data source for specialized data",
+    knowledge_base=my_knowledge_base,
+    # Add custom configuration as needed
+)
+```
+
 ## Data Source Properties
 
 Common properties for all data sources:
@@ -147,6 +232,131 @@ Common properties for all data sources:
 | description | string | A description of the data source. |
 | roleArn | string | The ARN of the IAM role that Bedrock can assume to access the data source. |
 | tags | object | Key-value pairs to tag the data source. |
+
+## Data Processing Configuration
+
+### Chunking Strategies
+
+Amazon Bedrock provides several chunking strategies to split your source data:
+
+1. **Fixed Size Chunking**
+   ```ts
+   const chunkingStrategy = ChunkingStrategy.fixedSize({
+     maxTokens: 300,
+     overlapPercentage: 20,
+   });
+   ```
+
+2. **Hierarchical Chunking**
+   ```ts
+   const chunkingStrategy = ChunkingStrategy.hierarchical({
+     overlapTokens: 60,
+     maxParentTokenSize: 1500,
+     maxChildTokenSize: 300,
+   });
+   ```
+
+3. **Semantic Chunking**
+   ```ts
+   const chunkingStrategy = ChunkingStrategy.semantic({
+     // Configuration for semantic chunking
+   });
+   ```
+
+4. **No Chunking**
+   ```ts
+   const chunkingStrategy = ChunkingStrategy.noChunking();
+   ```
+
+### Parsing Strategies
+
+Amazon Bedrock supports advanced parsing strategies:
+
+1. **Foundation Model Parsing**
+   ```ts
+   const parsingStrategy = ParsingStategy.foundationModel({
+     parsingModel: myModel,
+     parsingPrompt: "Custom parsing instructions",
+     parsingModality: ParsingModality.MULTIMODAL,
+   });
+   ```
+
+2. **Data Automation Parsing**
+   ```ts
+   const parsingStrategy = ParsingStategy.dataAutomation({
+     // Configuration for data automation parsing
+   });
+   ```
+
+### Context Enrichment
+
+Enhance your data with additional context:
+
+```ts
+const contextEnrichment = ContextEnrichment.foundationModel({
+  enrichmentModel: myModel,
+});
+```
+
+## Permissions and Methods
+
+### Common Methods
+
+All data sources inherit the following methods:
+
+| Method | Description |
+|--------|-------------|
+| `grantRead(principal)` | Grants read permissions to the specified principal |
+| `grantWrite(principal)` | Grants write permissions to the specified principal |
+| `grantDelete(principal)` | Grants delete permissions to the specified principal |
+| `grantInvoke(principal)` | Grants invoke permissions to the specified principal |
+
+### S3 Data Source Methods
+
+| Method | Description |
+|--------|-------------|
+| `grantBucketRead(principal)` | Grants read permissions to the S3 bucket |
+| `grantBucketWrite(principal)` | Grants write permissions to the S3 bucket |
+| `grantBucketDelete(principal)` | Grants delete permissions to the S3 bucket |
+
+### Web Crawler Data Source Methods
+
+| Method | Description |
+|--------|-------------|
+| `grantCrawl(principal)` | Grants permissions to crawl specified URLs |
+| `grantProcess(principal)` | Grants permissions to process crawled content |
+
+## Import Methods
+
+### S3 Data Source
+
+```ts
+// Import an existing S3 data source
+const s3DataSource = S3DataSource.fromS3DataSourceArn(this, 'ImportedS3DataSource', 'arn:aws:bedrock:region:account:data-source/data-source-id');
+
+// Import an existing S3 data source by name
+const s3DataSourceByName = S3DataSource.fromS3DataSourceName(this, 'ImportedS3DataSourceByName', 'my-s3-data-source');
+```
+
+### Web Crawler Data Source
+
+```ts
+// Import an existing web crawler data source
+const webCrawlerDataSource = WebCrawlerDataSource.fromWebCrawlerDataSourceArn(this, 'ImportedWebCrawlerDataSource', 'arn:aws:bedrock:region:account:data-source/data-source-id');
+
+// Import an existing web crawler data source by name
+const webCrawlerDataSourceByName = WebCrawlerDataSource.fromWebCrawlerDataSourceName(this, 'ImportedWebCrawlerDataSourceByName', 'my-web-crawler-data-source');
+```
+
+### Custom Data Source
+
+```ts
+// Import an existing custom data source
+const customDataSource = CustomDataSource.fromCustomDataSourceArn(this, 'ImportedCustomDataSource', 'arn:aws:bedrock:region:account:data-source/data-source-id');
+
+// Import an existing custom data source by name
+const customDataSourceByName = CustomDataSource.fromCustomDataSourceName(this, 'ImportedCustomDataSourceByName', 'my-custom-data-source');
+```
 
 ## Best Practices
 

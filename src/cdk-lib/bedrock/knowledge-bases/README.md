@@ -1,8 +1,26 @@
-
-
 # Amazon Bedrock Knowledge Bases
 
 Amazon Bedrock Knowledge Bases enable you to provide foundation models and agents with contextual information from your company's private data sources. This enhances the relevance, accuracy, and customization of their responses.
+
+## Table of contents
+
+- [Vector Knowledge Base](#vector-knowledge-base)
+  - [Create a vector Knowledge Base](#create-a-vector-knowledge-base)
+  - [Vector Knowledge Base Properties](#vector-knowledge-base-properties)
+  - [Vector Knowledge Base - Vector Type](#vector-knowledge-base---vector-type)
+  - [Vector Knowledge Base - Data Sources](#vector-knowledge-base---data-sources)
+  - [Vector Knowledge Base - Chunking Strategies](#vector-knowledge-base---chunking-strategies)
+  - [Vector Knowledge Base - Parsing Strategy](#vector-knowledge-base---parsing-strategy)
+- [Kendra Knowledge Base](#kendra-knowledge-base)
+  - [Create a Kendra Knowledge Base](#create-a-kendra-knowledge-base)
+  - [Kendra Knowledge Base properties](#kendra-knowledge-base-properties)
+- [Graph Knowledge Base](#graph-knowledge-base)
+  - [Graph Knowledge Base Properties](#graph-knowledge-base-properties)
+  - [Data Sources](#data-sources)
+- [Knowledge Base - Custom Transformation](#knowledge-base---custom-transformation)
+- [Knowledge Base - Context Enrichment](#knowledge-base---context-enrichment)
+- [Knowledge Base Permissions](#knowledge-base-permissions)
+- [Importing Existing Knowledge Bases](#importing-existing-knowledge-bases)
 
 ## Vector Knowledge Base
 
@@ -83,6 +101,129 @@ new bedrock.S3DataSource(this, 'DataSource', {
 });
 ```
 
+### Vector Knowledge Base - Vector Type
+
+The data type for the vectors when using a model to convert text into vector embeddings. Embeddings type may impact the availability of some embeddings models and vector stores. The following vector types are available:
+
+- **Floating point**: More precise vector representation of the text, but more costly in storage.
+- **Binary**: Not as precise vector representation of the text, but not as costly in storage as a standard floating-point (float32). Not all embedding models and vector stores support binary embeddings.
+
+See [Supported embeddings models](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-supported.html) for information on the available models and their vector data types.
+
+```ts
+const kb = new bedrock.VectorKnowledgeBase(this, 'MyKnowledgeBase', {
+  name: 'MyKnowledgeBase',
+  vectorType: bedrock.VectorType.BINARY,
+  embeddingsModel: bedrock.BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
+});
+```
+
+### Vector Knowledge Base - Data Sources
+
+Data sources are the various repositories or systems from which information is extracted and ingested into the knowledge base. These sources provide the raw content that will be processed, indexed, and made available for querying within the knowledge base system. Data sources can include various types of systems such as document management systems, databases, file storage systems, and content management platforms. Supported Data Sources include Amazon S3 buckets, Web Crawlers, SharePoint sites, Salesforce instances, and Confluence spaces.
+
+- **Amazon S3**: You can either create a new data source using the `bedrock.S3DataSource(..)` class, or using the `kb.addS3DataSource(..)`.
+- **Web Crawler**: You can either create a new data source using the `bedrock.WebCrawlerDataSource(..)` class, or using the `kb.addWebCrawlerDataSource(..)`.
+- **Confluence**: You can either create a new data source using the `bedrock.ConfluenceDataSource(..)` class, or using the `kb.addConfluenceDataSource(..)`.
+- **SharePoint**: You can either create a new data source using the `bedrock.SharePointDataSource(..)` class, or using the `kb.addSharePointDataSource(..)`.
+- **Salesforce**: You can either create a new data source using the `bedrock.SalesforceDataSource(..)` class, or using the `kb.addSalesforceDataSource(..)`.
+- **Custom**: You can either create a new data source using the `bedrock.CustomDataSource(..)` class, or using the `kb.addCustomDataSource(..)`. This allows you to add your own custom data source to the knowledge base.
+
+More details about the different data sources can be found in the dedicated [Readme](../data-sources/README.md).
+
+### Vector Knowledge Base - Chunking Strategies
+
+- **Default Chunking**: Applies Fixed Chunking with the default chunk size of 300 tokens and 20% overlap.
+
+  ```ts
+  ChunkingStrategy.DEFAULT;
+  ```
+
+- **Fixed Size Chunking**: This method divides the data into fixed-size chunks, with each chunk containing a predetermined number of tokens. This strategy is useful when the data is uniform in size and structure.
+
+  ```ts
+  // Fixed Size Chunking with sane defaults.
+  ChunkingStrategy.FIXED_SIZE;
+
+  // Fixed Size Chunking with custom values.
+  ChunkingStrategy.fixedSize({ maxTokens: 200, overlapPercentage: 25 });
+  ```
+
+- **Hierarchical Chunking**: This strategy organizes data into layers of chunks, with the first layer containing large chunks and the second layer containing smaller chunks derived from the first. It is ideal for data with inherent hierarchies or nested structures.
+
+  ```ts
+  // Hierarchical Chunking with the default for Cohere Models.
+  ChunkingStrategy.HIERARCHICAL_COHERE;
+
+  // Hierarchical Chunking with the default for Titan Models.
+  ChunkingStrategy.HIERARCHICAL_TITAN;
+
+  // Hierarchical Chunking with custom values. The maximum chunk size depends on the model.
+  // Amazon Titan Text Embeddings: 8192. Cohere Embed models: 512
+  ChunkingStrategy.hierarchical({
+    overlapTokens: 60,
+    maxParentTokenSize: 1500,
+    maxChildTokenSize: 300,
+  });
+  ```
+
+- **Semantic Chunking**: This method splits data into smaller documents based on groups of similar content derived from the text using natural language processing. It helps preserve contextual relationships and ensures accurate and contextually appropriate results.
+
+  ```ts
+  // Semantic Chunking with sane defaults.
+  ChunkingStrategy.SEMANTIC;
+
+  // Semantic Chunking with custom values.
+  ChunkingStrategy.semantic({ bufferSize: 0, breakpointPercentileThreshold: 95, maxTokens: 300 });
+  ```
+
+- **No Chunking**: This strategy treats each file as one chunk. If you choose this option, you may want to pre-process your documents by splitting them into separate files.
+
+  ```ts
+  ChunkingStrategy.NONE;
+  ```
+
+### Vector Knowledge Base - Parsing Strategy
+
+A parsing strategy in Amazon Bedrock is a configuration that determines how the service processes and interprets the contents of a document. It involves converting the document's contents into text and splitting it into smaller chunks for analysis. Amazon Bedrock offers two parsing strategies:
+
+- **Default Parsing Strategy**: This strategy converts the document's contents into text and splits it into chunks using a predefined approach. It is suitable for most use cases but may not be optimal for specific document types or requirements.
+
+- **Foundation Model Parsing Strategy**: This strategy uses a foundation model to describe the contents of the document. It is particularly useful for improved processing of PDF files with tables and images. To use this strategy, set the `parsingStrategy` in a data source as below.
+
+  ```ts
+  bedrock.ParsingStategy.foundationModel({
+    model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
+  });
+  ```
+
+### Knowledge Base - Custom Transformation
+
+Custom Transformation in Amazon Bedrock is a feature that allows you to create and apply custom processing steps to documents moving through a data source ingestion pipeline.
+
+Custom Transformation uses AWS Lambda functions to process documents, enabling you to perform custom operations such as data extraction, normalization, or enrichment. To create a custom transformation, set the `customTransformation` in a data source as below.
+
+```ts
+CustomTransformation.lambda({
+  lambdaFunction: lambdaFunction,
+  s3BucketUri: `s3://${bucket.bucketName}/chunk-processor/`,
+});
+```
+
+### Knowledge Base - Context Enrichment
+
+Context Enrichment in Amazon Bedrock is a feature that allows you to enhance the context of your documents during the ingestion process. This is particularly useful for applications like Neptune GraphRAG, where you need to extract entities from chunks to build a knowledge graph.
+
+Currently, context enrichment is only supported when using Neptune Analytics as a storage configuration.
+
+The enrichment process uses Amazon Bedrock foundation models to perform operations like chunk entity extraction. To configure context enrichment, set the `contextEnrichment` in a data source as below.
+
+```ts
+bedrock.ContextEnrichment.foundationModel({
+  enrichmentModel: BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0,
+});
+```
+
 ## Kendra Knowledge Base
 
 ### Create a Kendra Knowledge Base
@@ -135,6 +276,18 @@ new bedrock.KendraKnowledgeBase(this, 'kb', {
 
 The Graph Knowledge Base is a specialized type of knowledge base that combines graph modeling with generative AI to enhance retrieval-augmented generation (RAG). It automatically identifies and leverages relationships between entities and structural elements within documents, enabling more comprehensive and contextually relevant responses from foundation models.
 
+### Graph Knowledge Base Properties
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| embeddingModel | BedrockFoundationModel | Yes | The embeddings model for the knowledge base |
+| graph | INeptuneGraph | No | The Neptune Analytics vector store. If not provided, a new one will be created |
+| fieldMapping | VectorFieldMapping | No | The vector field mapping configuration |
+| name | string | No | The name of the knowledge base |
+| description | string | No | The description of the knowledge base |
+| instruction | string | No | Instructions for agents based on the design and type of information of the Knowledge Base |
+| existingRole | iam.IRole | No | Existing IAM role with a policy statement granting permission to invoke the specific embeddings model |
+
 ### Example
 
 ```ts
@@ -171,5 +324,63 @@ kb.addS3DataSource({
 
 new cdk.CfnOutput(stack, "GraphExplorerUrl", {
   value: notebook.graphExplorerEndpoint,
+});
+```
+
+### Data Sources
+
+The Graph Knowledge Base currently supports the following data sources:
+
+- Amazon S3 (with context enrichment for graph building)
+
+For more information about GraphRAG capabilities, see the [AWS documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-build-graphs.html).
+
+## Knowledge Base Permissions
+
+Knowledge Bases provide methods to grant permissions to other resources:
+
+- `grant(grantee, ...actions)`: Grants the given principal identity permissions to perform actions on this knowledge base.
+- `grantQuery(grantee)`: Grants the given identity permissions to query the knowledge base.
+- `grantRetrieve(grantee)`: Grants the given identity permissions to retrieve content from the knowledge base.
+- `grantRetrieveAndGenerate(grantee)`: Grants the given identity permissions to retrieve content from the knowledge base and generate responses.
+
+Example:
+
+```ts
+// Grant permissions to a Lambda function to query the knowledge base
+kb.grantQuery(lambdaFunction);
+
+// Grant permissions to a Lambda function to retrieve content from the knowledge base
+kb.grantRetrieve(lambdaFunction);
+```
+
+## Importing Existing Knowledge Bases
+
+You can import existing knowledge bases using the `fromKnowledgeBaseAttributes` method:
+
+```ts
+// Import a Vector Knowledge Base
+const importedKb = bedrock.VectorKnowledgeBase.fromKnowledgeBaseAttributes(this, 'ImportedKb', {
+  knowledgeBaseId: 'kb-12345678',
+  executionRoleArn: 'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase',
+  vectorStoreType: bedrock.VectorStoreType.OPENSEARCH_SERVERLESS,
+});
+
+// Import a Kendra Knowledge Base
+const importedKendraKb = bedrock.KendraKnowledgeBase.fromKnowledgeBaseAttributes(this, 'ImportedKendraKb', {
+  knowledgeBaseId: 'kb-12345678',
+  executionRoleArn: 'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase',
+  kendraIndex: existingKendraIndex,
+});
+
+// Import a Graph Knowledge Base
+const importedGraphKb = bedrock.GraphKnowledgeBase.fromKnowledgeBaseAttributes(this, 'ImportedGraphKb', {
+  knowledgeBaseId: 'kb-12345678',
+  executionRoleArn: 'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase',
+  graphId: 'graph-12345678',
+  fieldMapping: {
+    metadataField: 'AMAZON_BEDROCK_METADATA',
+    textField: 'AMAZON_BEDROCK_TEXT',
+  },
 });
 ``` 

@@ -4,6 +4,15 @@ Amazon Bedrock provides the ability to create and save prompts using Prompt mana
 
 The `Prompt` resource allows you to create a new prompt.
 
+## Table of Contents
+
+- [Basic Text Prompt](#basic-text-prompt)
+- [Chat Prompt](#chat-prompt)
+- [Prompt Variants](#prompt-variants)
+- [Prompt Routing](#prompt-routing)
+- [Permissions and Methods](#permissions-and-methods)
+- [Import Methods](#import-methods)
+
 ## Basic Text Prompt
 
 ### TypeScript Example
@@ -250,32 +259,57 @@ bedrock.Prompt(self, 'Prompt',
 )
 ```
 
-## Prompt Version
+## Permissions and Methods
 
-A prompt version is a snapshot of a prompt at a specific point in time that you create when you are satisfied with a set of configurations. Versions allow you to deploy your prompt and easily switch between different configurations for your prompt and update your application with the most appropriate version for your use-case.
+### Prompt Methods
 
-You can create a Prompt version by using the `PromptVersion` class or by using the `.createVersion(..)` on a `Prompt` object. It is recommended to use the `.createVersion(..)` method. It uses a hash based mechanism to update the version whenever a certain configuration property changes.
+| Method | Description |
+|--------|-------------|
+| `addVariant(variant)` | Adds a variant to the prompt |
+| `createVersion(description?)` | Creates a new version of the prompt with an optional description |
+| `grantGet(grantee)` | Grants the given identity permissions to get the prompt |
 
-### TypeScript Example
+### PromptVariant Methods
+
+| Method | Description |
+|--------|-------------|
+| `PromptVariant.text(props)` | Creates a text prompt variant |
+| `PromptVariant.chat(props)` | Creates a chat prompt variant |
+| `PromptVariant.agent(props)` | Creates an agent prompt variant |
+
+### ChatMessage Methods
+
+| Method | Description |
+|--------|-------------|
+| `ChatMessage.user(text)` | Creates a user message |
+| `ChatMessage.assistant(text)` | Creates an assistant message |
+
+### ToolChoice Methods
+
+| Method | Description |
+|--------|-------------|
+| `ToolChoice.ANY` | Allows the model to use any tool |
+| `ToolChoice.AUTO` | Allows the model to automatically decide which tool to use |
+| `ToolChoice.specificTool(toolName)` | Forces the model to use a specific tool |
+
+## Import Methods
 
 ```ts
-new PromptVersion(prompt1, 'my first version');
+// Import an existing prompt by ARN
+const importedPrompt = bedrock.Prompt.fromPromptAttributes(this, 'ImportedPrompt', {
+  promptArn: 'arn:aws:bedrock:region:account:prompt/prompt-id',
+  kmsKeyArn: 'arn:aws:kms:region:account:key/key-id', // optional
+  promptVersion: '1', // optional, defaults to 'DRAFT'
+});
 ```
-
-or alternatively:
-
-```ts
-prompt1.createVersion('my first version');
-```
-
-### Python Example
 
 ```python
-bedrock.PromptVersion(self, "my first version")
+# Import an existing prompt by ARN
+imported_prompt = bedrock.Prompt.from_prompt_attributes(
+    self, 
+    'ImportedPrompt',
+    prompt_arn='arn:aws:bedrock:region:account:prompt/prompt-id',
+    kms_key_arn='arn:aws:kms:region:account:key/key-id',  # optional
+    prompt_version='1'  # optional, defaults to 'DRAFT'
+)
 ```
-
-or alternatively:
-
-```python
-prompt.create_version("version1", "my first version")
-``` 

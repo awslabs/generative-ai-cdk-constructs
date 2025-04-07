@@ -2,6 +2,18 @@
 
 Amazon Bedrock Agents allow generative AI applications to automate complex, multistep tasks by seamlessly integrating with your company's systems, APIs, and data sources.
 
+## Table of Contents
+
+- [Agent Properties](#agent-properties)
+- [Creating an Agent](#create-an-agent)
+- [Action Groups](#action-groups)
+- [Memory Configuration](#memory-configuration)
+- [Agent Collaboration](#agent-collaboration)
+- [Custom Orchestration](#custom-orchestration)
+- [Agent Alias](#agent-alias)
+- [Permissions and Methods](#permissions-and-methods)
+- [Import Methods](#import-methods)
+
 ## Agent Properties
 
 | Name | Type | Required | Description |
@@ -21,6 +33,11 @@ Amazon Bedrock Agents allow generative AI applications to automate complex, mult
 | userInputEnabled | boolean | No | Select whether the agent can prompt additional information from the user when it lacks enough information. Defaults to false |
 | codeInterpreterEnabled | boolean | No | Select whether the agent can generate, run, and troubleshoot code when trying to complete a task. Defaults to false |
 | forceDelete | boolean | No | Whether to delete the resource even if it's in use. Defaults to true |
+| memory | Memory | No | The type and configuration of the memory to maintain context across multiple sessions |
+| agentCollaboration | AgentCollaboratorType | No | The collaboration type for the agent. Defaults to DISABLED |
+| agentCollaborators | AgentCollaborator[] | No | Collaborators that this agent will work with |
+| customOrchestration | CustomOrchestration | No | Details of custom orchestration for the agent |
+| orchestrationType | OrchestrationType | No | The type of orchestration to use for the agent. Defaults to STANDARD |
 
 ## Create an Agent
 
@@ -91,8 +108,8 @@ const agent = new Agent(this, 'MyAgent', {
   instruction: 'Your instruction here',
   foundationModel: bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
   memory: Memory.sessionSummary({
-    maxRecentSessions: 10, // Keep the last 20 session summaries
-    memoryDurationDays: 20, // Retain summaries for 30 days
+    maxRecentSessions: 10, // Keep the last 10 session summaries
+    memoryDurationDays: 20, // Retain summaries for 20 days
   }),
 });
 ```
@@ -208,5 +225,59 @@ const agentAlias2 = new bedrock.AgentAlias(this, 'myalias2', {
   agent: agent,
   agentVersion: '1', // optional
   description: 'mytest'
+});
+```
+
+## Permissions and Methods
+
+### Agent Methods
+
+| Method | Description |
+|--------|-------------|
+| `addKnowledgeBase(knowledgeBase)` | Adds a knowledge base to the agent |
+| `addGuardrail(guardrail)` | Adds a guardrail to the agent |
+| `addActionGroup(actionGroup)` | Adds an action group to the agent |
+| `addAgentCollaborator(agentCollaborator)` | Adds an agent collaborator to the agent |
+| `addActionGroups(...actionGroups)` | Adds multiple action groups to the agent |
+
+### Agent Alias Methods
+
+| Method | Description |
+|--------|-------------|
+| `grant(grantee, ...actions)` | Grants the given principal identity permissions to perform actions on this agent alias |
+| `grantInvoke(grantee)` | Grants the given identity permissions to invoke the agent alias |
+| `grantGet(grantee)` | Grants the given identity permissions to get the agent alias |
+| `onCloudTrailEvent(id, options?)` | Defines an EventBridge rule that triggers when something happens to this agent alias |
+
+### Agent Collaborator Methods
+
+| Method | Description |
+|--------|-------------|
+| `grant(grantee)` | Grants the given identity permissions to collaborate with the agent |
+
+## Import Methods
+
+### Import an Agent
+
+```ts
+// Import an existing agent by ARN
+const importedAgent = bedrock.Agent.fromAgentAttrs(this, 'ImportedAgent', {
+  agentArn: 'arn:aws:bedrock:region:account:agent/agent-id',
+  roleArn: 'arn:aws:iam::account:role/role-name',
+  kmsKeyArn: 'arn:aws:kms:region:account:key/key-id', // optional
+  lastUpdated: '2023-01-01T00:00:00Z', // optional
+  agentVersion: '1', // optional, defaults to 'DRAFT'
+});
+```
+
+### Import an Agent Alias
+
+```ts
+// Import an existing agent alias
+const importedAgentAlias = bedrock.AgentAlias.fromAttributes(this, 'ImportedAgentAlias', {
+  aliasId: 'alias-id',
+  aliasName: 'alias-name', // optional
+  agent: importedAgent,
+  agentVersion: '1',
 });
 ``` 
