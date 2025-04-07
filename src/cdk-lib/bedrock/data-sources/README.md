@@ -15,7 +15,6 @@ Amazon Bedrock Data Sources provide a way to connect and manage various data sou
   - [Chunking Strategies](#chunking-strategies)
   - [Parsing Strategies](#parsing-strategies)
   - [Context Enrichment](#context-enrichment)
-- [Permissions and Methods](#permissions-and-methods)
 - [Import Methods](#import-methods)
 
 ## Supported Data Sources
@@ -239,137 +238,213 @@ Common properties for all data sources:
 
 Amazon Bedrock provides several chunking strategies to split your source data:
 
+#### Default Chunking
+
+Applies Fixed Chunking with the default chunk size of 300 tokens and 20% overlap.
+
+##### TypeScript
+
+  ```ts
+  ChunkingStrategy.DEFAULT;
+  ```
+
+##### Python
+
+  ```python
+  ChunkingStrategy.DEFAULT
+  ```
+
 #### Fixed Size Chunking Example
 
-##### TypeScript
-
-```ts
-const chunkingStrategy = ChunkingStrategy.fixedSize({
-  maxTokens: 300,
-  overlapPercentage: 20,
-});
-```
-
-#### Hierarchical Chunking Example
+This method divides the data into fixed-size chunks, with each chunk containing a predetermined number of tokens. This strategy is useful when the data is uniform in size and structure. Typescript
 
 ##### TypeScript
 
 ```ts
-const chunkingStrategy = ChunkingStrategy.hierarchical({
-  maxTokens: 500,
-  overlapPercentage: 10,
-  hierarchyLevels: ['title', 'section', 'paragraph'],
-});
+// Fixed Size Chunking with sane defaults.
+ChunkingStrategy.FIXED_SIZE;
+
+// Fixed Size Chunking with custom values.
+ChunkingStrategy.fixedSize({ maxTokens: 200, overlapPercentage: 25 });
 ```
+
+##### Python
+
+```python
+# Fixed Size Chunking with sane defaults.
+ChunkingStrategy.FIXED_SIZE
+
+# Fixed Size Chunking with custom values.
+ChunkingStrategy.fixed_size(
+  max_tokens= 200,
+  overlap_percentage= 25
+)
+```
+
+#### Hierarchical Chunking
+
+This strategy organizes data into layers of chunks, with the first
+  layer containing large chunks and the second layer containing smaller chunks derived from the first.
+  It is ideal for data with inherent hierarchies or nested structures.
+
+##### TypeScript
+
+```ts
+  // Hierarchical Chunking with the default for Cohere Models.
+  ChunkingStrategy.HIERARCHICAL_COHERE;
+
+  // Hierarchical Chunking with the default for Titan Models.
+  ChunkingStrategy.HIERARCHICAL_TITAN;
+
+  // Hierarchical Chunking with custom values. Tthe maximum chunk size depends on the model.
+  // Amazon Titan Text Embeddings: 8192. Cohere Embed models: 512
+  ChunkingStrategy.hierarchical({
+    overlapTokens: 60,
+    maxParentTokenSize: 1500,
+    maxChildTokenSize: 300,
+  });
+  ```
+
+##### Python
+
+```python
+  # Hierarchical Chunking with the default for Cohere Models.
+  ChunkingStrategy.HIERARCHICAL_COHERE
+
+  # Hierarchical Chunking with the default for Titan Models.
+  ChunkingStrategy.HIERARCHICAL_TITAN
+
+  # Hierarchical Chunking with custom values. Tthe maximum chunk size depends on the model.
+  # Amazon Titan Text Embeddings: 8192. Cohere Embed models: 512
+  chunking_strategy= ChunkingStrategy.hierarchical(
+      overlap_tokens=60,
+      max_parent_token_size=1500,
+      max_child_token_size=300
+  )
+  ```
+
+#### Semantic chunking
+
+ This method splits data into smaller documents based on groups of similar
+  content derived from the text using natural language processing. It helps preserve contextual
+  relationships and ensures accurate and contextually appropriate results.
+
+##### TypeScript
+
+  ```ts
+  // Semantic Chunking with sane defaults.
+  ChunkingStrategy.SEMANTIC;
+
+  // Semantic Chunking with custom values.
+  ChunkingStrategy.semantic({ bufferSize: 0, breakpointPercentileThreshold: 95, maxTokens: 300 });
+  ```
+
+##### Python
+
+  ```python
+  # Semantic Chunking with sane defaults.
+  ChunkingStrategy.SEMANTIC
+
+  # Semantic Chunking with custom values.
+  ChunkingStrategy.semantic(
+    buffer_size=0,
+    breakpoint_percentile_threshold=95,
+    max_tokens=300
+  )
+  ```
+
+#### No Chunking
+
+ This strategy treats each file as one chunk. If you choose this option,
+  you may want to pre-process your documents by splitting them into separate files.
+
+  TypeScript
+
+  ```ts
+  ChunkingStrategy.NONE;
+  ```
+
+  Python
+
+  ```python
+  ChunkingStrategy.NONE
+  ```
 
 ### Parsing Strategies
 
-Amazon Bedrock provides various parsing strategies to extract content from different file formats:
+A parsing strategy in Amazon Bedrock is a configuration that determines how the service
+processes and interprets the contents of a document. It involves converting the document's
+contents into text and splitting it into smaller chunks for analysis. Amazon Bedrock offers
+two parsing strategies:
 
-#### PDF Parsing Example
+- **Default Parsing Strategy**: This strategy converts the document's contents into text
+  and splits it into chunks using a predefined approach. It is suitable for most use cases
+  but may not be optimal for specific document types or requirements.
 
-##### TypeScript
+- **Foundation Model Parsing Strategy**: This strategy uses a foundation model to describe
+  the contents of the document. It is particularly useful for improved processing of PDF files
+  with tables and images. To use this strategy, set the `parsingStrategy` in a data source as below.
 
-```ts
-const parsingStrategy = ParsingStrategy.pdf({
-  extractImages: true,
-  extractTables: true,
-});
-```
+#### TypeScript
 
-#### HTML Parsing Example
+  ```ts
+  bedrock.ParsingStategy.foundationModel({
+    model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
+  });
+  ```
 
-##### TypeScript
+#### Python
 
-```ts
-const parsingStrategy = ParsingStrategy.html({
-  extractLinks: true,
-  extractMetadata: true,
-});
-```
+  ```python
+  bedrock.ParsingStategy.foundation_model(
+      parsing_model=BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0
+  )
+  ```
 
 ### Context Enrichment
 
-Amazon Bedrock allows you to enrich your data with additional context:
+Context Enrichment in Amazon Bedrock is a feature that allows you to enhance the context of your documents during the ingestion process. This is particularly useful for applications like Neptune GraphRAG, where you need to extract entities from chunks to build a knowledge graph.
+
+Currently, context enrichment is only supported when using Neptune Analytics as a storage configuration.
+
+The enrichment process uses Amazon Bedrock foundation models to perform operations like chunk entity extraction. To configure context enrichment, set the contextEnrichment in a data source as below.
 
 #### Metadata Enrichment Example
 
 ##### TypeScript
 
 ```ts
-const enrichmentStrategy = EnrichmentStrategy.metadata({
-  metadataFields: ['author', 'date', 'category'],
+bedrock.ContextEnrichment.foundationModel({
+  enrichmentModel: BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0,
 });
 ```
 
-#### Entity Recognition Example
+##### Python
 
-##### TypeScript
-
-```ts
-const enrichmentStrategy = EnrichmentStrategy.entityRecognition({
-  entityTypes: ['PERSON', 'ORGANIZATION', 'LOCATION'],
-});
+```py
+bedrock.ContextEnrichment.foundation_model(
+  enrichment_model=BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0
+)
 ```
-
-## Permissions and Methods
-
-### Data Source Methods
-
-| Method | Description |
-|--------|-------------|
-| `startIngestionJob()` | Starts a new ingestion job for the data source |
-| `stopIngestionJob(jobId)` | Stops a running ingestion job |
-| `getIngestionJob(jobId)` | Gets information about a specific ingestion job |
-| `listIngestionJobs()` | Lists all ingestion jobs for the data source |
-
-### S3 Data Source Methods
-
-| Method | Description |
-|--------|-------------|
-| `updateS3Prefix(prefix)` | Updates the S3 prefix for the data source |
-| `updateS3Bucket(bucket)` | Updates the S3 bucket for the data source |
-
-### Web Crawler Data Source Methods
-
-| Method | Description |
-|--------|-------------|
-| `updateSourceUrls(urls)` | Updates the source URLs for the web crawler |
-| `updateCrawlingScope(scope)` | Updates the crawling scope for the web crawler |
-| `updateCrawlingRate(rate)` | Updates the crawling rate for the web crawler |
 
 ## Import Methods
+
+You can import existing data sources using the `fromDataSourceId` method.
 
 ### TypeScript
 
 ```ts
-// Import an existing data source by ARN
-const importedDataSource = bedrock.DataSource.fromDataSourceAttributes(this, 'ImportedDataSource', {
-  dataSourceArn: 'arn:aws:bedrock:region:account:data-source/data-source-id',
-  roleArn: 'arn:aws:iam::account:role/role-name',
-});
-
-// Import an existing data source by name
-const importedDataSourceByName = bedrock.DataSource.fromDataSourceName(this, 'ImportedDataSourceByName', {
-  dataSourceName: 'my-data-source',
-});
+// Import an existing data source by ID
+const importedDataSource = bedrock.DataSource.fromDataSourceId(this, 'ImportedDataSource', 'data-source-id');
 ```
 
 ### Python
 
 ```python
-# Import an existing data source by ARN
-imported_data_source = bedrock.DataSource.from_data_source_attributes(
+# Import an existing data source by ID
+imported_data_source = bedrock.DataSource.from_data_source_id(
     self, 
     'ImportedDataSource',
-    data_source_arn='arn:aws:bedrock:region:account:data-source/data-source-id',
-    role_arn='arn:aws:iam::account:role/role-name'
-)
-
-# Import an existing data source by name
-imported_data_source_by_name = bedrock.DataSource.from_data_source_name(
-    self, 
-    'ImportedDataSourceByName',
-    data_source_name='my-data-source'
+    data_source_id='data-source-id'
 )
 ```

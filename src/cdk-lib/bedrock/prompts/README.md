@@ -237,6 +237,29 @@ variant2 = bedrock.PromptVariant.text(
 prompt.add_variant(variant2)
 ```
 
+## Prompt Version
+
+A prompt version is a snapshot of a prompt at a specific point in time that you create when you are satisfied with a set of configurations. Versions allow you to deploy your prompt and easily switch between different configurations for your prompt and update your application with the most appropriate version for your use-case.
+
+You can create a Prompt version by using the PromptVersion class or by using the .createVersion(..) on a Prompt object. It is recommended to use the .createVersion(..) method. It uses a hash based mechanism to update the version whenever a certain configuration property changes.
+
+### TypeScript
+
+```ts
+new PromptVersion(prompt1, 'my first version');
+
+bedrock.PromptVersion(self, "my first version")
+```
+
+or alternatively:
+
+```ts
+prompt1.createVersion('my first version');
+
+prompt.create_version("version1", "my first version")
+```
+
+
 ## Prompt Routing
 
 Amazon Bedrock intelligent prompt routing provides a single serverless endpoint for efficiently routing requests between different foundational models within the same model family. It can help you optimize for response quality and cost. They offer a comprehensive solution for managing multiple AI models through a single serverless endpoint, simplifying the process for you. Intelligent prompt routing predicts the performance of each model for each request, and dynamically routes each request to the model that it predicts is most likely to give the desired response at the lowest cost.

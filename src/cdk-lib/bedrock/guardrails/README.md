@@ -364,43 +364,57 @@ guardrails.addContextualGroundingFilter({
 | `addRegexFilter()` | Adds a regex filter to the guardrail |
 | `addContextualGroundingFilter()` | Adds a contextual grounding filter to the guardrail |
 | `createVersion()` | Creates a new version of the guardrail |
-| `grantRead()` | Grants read permissions to the specified principal |
-| `grantWrite()` | Grants write permissions to the specified principal |
-| `grantDelete()` | Grants delete permissions to the specified principal |
+
 
 ## Guardrail Permissions
 
-Use the `grantRead`, `grantWrite`, and `grantDelete` methods to grant appropriate permissions to resources that need to use the guardrail.
+Guardrails provide methods to grant permissions to other resources that need to interact with the guardrail.
 
-### Permission Configuration
+### Permission Methods
+
+| Method | Description | Parameters |
+|--------|-------------|------------|
+| `grant(grantee, ...actions)` | Grants the given principal identity permissions to perform actions on this guardrail | `grantee`: The principal to grant permissions to<br>`actions`: The actions to grant (e.g., `bedrock:GetGuardrail`, `bedrock:ListGuardrails`) |
+| `grantApply(grantee)` | Grants the given identity permissions to apply the guardrail | `grantee`: The principal to grant permissions to |
+
+### Permission Examples
 
 #### TypeScript
 
 ```ts
-// Grant read permissions
-guardrails.grantRead(lambdaFunction);
+// Grant specific permissions to a Lambda function
+guardrails.grant(lambdaFunction, 'bedrock:GetGuardrail', 'bedrock:ListGuardrails');
 
-// Grant write permissions
-guardrails.grantWrite(lambdaFunction);
-
-// Grant delete permissions
-guardrails.grantDelete(lambdaFunction);
+// Grant permissions to apply the guardrail
+guardrails.grantApply(lambdaFunction);
 ```
 
 ## Guardrail Metrics
 
-Amazon Bedrock provides metrics for your guardrails, allowing you to monitor their effectiveness and usage.
+Amazon Bedrock provides metrics for your guardrails, allowing you to monitor their effectiveness and usage. These metrics are available in CloudWatch and can be used to create dashboards and alarms.
 
-### Metrics Configuration
+
+
+### Metrics Examples
 
 #### TypeScript
 
 ```ts
-// Enable CloudWatch metrics for the guardrail
-guardrails.enableMetrics({
-  metricName: 'GuardrailMetrics',
-  namespace: 'Bedrock/Guardrails',
+// Get a specific metric for this guardrail
+const invocationsMetric = guardrails.metricInvocations({
+  statistic: 'Sum',
+  period: cdk.Duration.minutes(5),
 });
+
+// Create a CloudWatch alarm for high invocation latency
+new cdk.aws_cloudwatch.Alarm(this, 'HighLatencyAlarm', {
+  metric: guardrails.metricInvocationLatency(),
+  threshold: 1000, // 1 second
+  evaluationPeriods: 3,
+});
+
+// Get metrics for all guardrails
+const allInvocationsMetric = bedrock.Guardrail.metricAllInvocations();
 ```
 
 ## Importing Guardrails

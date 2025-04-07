@@ -29,6 +29,7 @@ This construct library facilitates the deployment of Knowledge Bases, Bedrock Ag
 ## Table of contents
 
 - [API](../../../apidocs/@cdklabs/namespaces/bedrock/README.md)
+- [Models](./models_readme.md)
 - [Knowledge Bases](./knowledge-bases/README.md)
 - [Agents](./agents/README.md)
 - [Guardrails](./guardrails/README.md)

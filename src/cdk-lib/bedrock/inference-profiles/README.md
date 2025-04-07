@@ -11,7 +11,7 @@ Amazon Bedrock Inference Profiles provide a way to manage and optimize inference
 - [Inference Configuration Properties](#inference-configuration-properties)
 - [Types of Inference Profiles](#types-of-inference-profiles)
   - [Application Inference Profiles](#application-inference-profiles)
-  - [Cross-Region Inference Profiles](#cross-region-inference-profiles)
+  - [System defined Inference Profiles](#system-defined-inference-profiles)
 - [Prompt Routers](#prompt-routers)
 - [Inference profile permissions](#inference-profile-permissions)
 
@@ -133,11 +133,11 @@ const multiRegionProfile = new bedrock.ApplicationInferenceProfile(this, 'MultiR
 });
 ```
 
-### Cross-Region Inference Profiles
+### System Defined Inference Profiles
 
 Cross-region inference enables you to seamlessly manage unplanned traffic bursts by utilizing compute across different AWS Regions. With cross-region inference, you can distribute traffic across multiple AWS Regions, enabling higher throughput and enhanced resilience during periods of peak demands.
 
-#### Cross-Region Profile Configuration
+#### System Defined Profile Configuration
 
 ##### TypeScript
 
@@ -162,6 +162,8 @@ const apacProfile = bedrock.CrossRegionInferenceProfile.fromConfig({
   model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
 });
 ```
+
+For more information on cross region inference, please refer to [System defined inference profiles](https://github.com/krokoko/generative-ai-cdk-constructs/blob/main/src/cdk-lib/bedrock/README.md#system-defined-inference-profiles)
 
 ## Prompt Routers
 

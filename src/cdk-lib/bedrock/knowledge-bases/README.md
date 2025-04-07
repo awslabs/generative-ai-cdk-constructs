@@ -19,7 +19,6 @@ Amazon Bedrock Knowledge Bases enable you to provide foundation models and agent
   - [Data Sources](#data-sources)
 - [Knowledge Base - Custom Transformation](#knowledge-base---custom-transformation)
 - [Knowledge Base - Context Enrichment](#knowledge-base---context-enrichment)
-- [Knowledge Base Permissions](#knowledge-base-permissions)
 - [Permissions and Methods](#permissions-and-methods)
 - [Importing Existing Knowledge Bases](#importing-existing-knowledge-bases)
 
@@ -382,16 +381,7 @@ The Graph Knowledge Base currently supports the following data sources:
 
 For more information about GraphRAG capabilities, see the [AWS documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-build-graphs.html).
 
-## Knowledge Base Permissions
-
-Knowledge Bases provide methods to grant permissions to other resources:
-
-- `grant(grantee, ...actions)`: Grants the given principal identity permissions to perform actions on this knowledge base.
-- `grantQuery(grantee)`: Grants the given identity permissions to query the knowledge base.
-- `grantRetrieve(grantee)`: Grants the given identity permissions to retrieve content from the knowledge base.
-- `grantRetrieveAndGenerate(grantee)`: Grants the given identity permissions to retrieve content from the knowledge base and generate responses.
-
-## Permissions and Methods
+## Permissions and methods
 
 Knowledge Bases provide several methods to grant permissions and perform operations:
 
@@ -403,11 +393,6 @@ Knowledge Bases provide several methods to grant permissions and perform operati
 | `grantQuery(grantee)` | Grants the given identity permissions to query the knowledge base | `grantee`: The principal to grant permissions to |
 | `grantRetrieve(grantee)` | Grants the given identity permissions to retrieve content from the knowledge base | `grantee`: The principal to grant permissions to |
 | `grantRetrieveAndGenerate(grantee)` | Grants the given identity permissions to retrieve content from the knowledge base and generate responses | `grantee`: The principal to grant permissions to |
-| `grantCreateDataSource(grantee)` | Grants the given identity permissions to create data sources for this knowledge base | `grantee`: The principal to grant permissions to |
-| `grantDeleteDataSource(grantee)` | Grants the given identity permissions to delete data sources from this knowledge base | `grantee`: The principal to grant permissions to |
-| `grantUpdateDataSource(grantee)` | Grants the given identity permissions to update data sources in this knowledge base | `grantee`: The principal to grant permissions to |
-| `grantGetDataSource(grantee)` | Grants the given identity permissions to get data source information | `grantee`: The principal to grant permissions to |
-| `grantListDataSources(grantee)` | Grants the given identity permissions to list data sources | `grantee`: The principal to grant permissions to |
 
 ### Knowledge Base Methods
 
@@ -415,7 +400,6 @@ Knowledge Bases provide several methods to grant permissions and perform operati
 |--------|-------------|------------|
 | `addDataSource(dataSource)` | Adds a data source to the knowledge base | `dataSource`: The data source to add |
 | `fromKnowledgeBaseAttributes(scope, id, attrs)` | Imports an existing knowledge base | `scope`: The CDK scope<br>`id`: The CDK ID<br>`attrs`: The knowledge base attributes |
-| `fromKnowledgeBaseId(scope, id, knowledgeBaseId)` | Imports an existing knowledge base by ID | `scope`: The CDK scope<br>`id`: The CDK ID<br>`knowledgeBaseId`: The knowledge base ID |
 
 ### Data Source Methods
 
@@ -430,14 +414,13 @@ Knowledge Bases provide several methods to grant permissions and perform operati
 
 ## Importing Existing Knowledge Bases
 
-You can import existing knowledge bases using the `fromKnowledgeBaseAttributes` or `fromKnowledgeBaseId` methods. This allows you to reference existing knowledge bases in your CDK application without creating new ones.
+You can import existing knowledge bases using the `fromKnowledgeBaseAttributes` method. This allows you to reference existing knowledge bases in your CDK application without creating new ones.
 
 ### Import Methods
 
 | Method | Description | Parameters | Returns |
 |--------|-------------|------------|---------|
 | `fromKnowledgeBaseAttributes(scope, id, attrs)` | Imports an existing knowledge base using its attributes | `scope`: The CDK scope<br>`id`: The CDK ID<br>`attrs`: The knowledge base attributes | `IKnowledgeBase` |
-| `fromKnowledgeBaseId(scope, id, knowledgeBaseId)` | Imports an existing knowledge base using its ID | `scope`: The CDK scope<br>`id`: The CDK ID<br>`knowledgeBaseId`: The knowledge base ID | `IKnowledgeBase` |
 
 ### Import Examples
 
@@ -482,13 +465,6 @@ const importedGraphKb = bedrock.GraphKnowledgeBase.fromKnowledgeBaseAttributes(t
     textField: 'AMAZON_BEDROCK_TEXT',
   },
 });
-```
-
-#### Import by ID
-
-```ts
-// Import a Knowledge Base by ID
-const importedKb = bedrock.KnowledgeBase.fromKnowledgeBaseId(this, 'ImportedKb', 'kb-12345678');
 ```
 
 ### Using Imported Knowledge Bases
