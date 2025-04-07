@@ -1248,7 +1248,7 @@ const agent = new Agent(this, 'MyAgent', {
   foundationModel: bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
   memory: Memory.sessionSummary({
         maxRecentSessions: 10, // Keep the last 20 session summaries
-        memoryDurationDays: 20, // Retain summaries for 30 days
+        memoryDurationDays: 20, // Retain summaries for 20 days
       }),
 });
 ```
