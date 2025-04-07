@@ -32,6 +32,7 @@ This construct library facilitates the deployment of Knowledge Bases, Bedrock Ag
 - [Knowledge Bases](#knowledge-bases)
   - [Vector Knowledge Base](#vector-knowledge-base)
   - [Kendra Knowledge Base](#kendra-knowledge-base)
+  - [Graph Knowledge Base](#graph-knowledge-base)
 - [Agents](#agents)
   - [Create an Agent](#create-an-agent)
   - [Action groups](#action-groups)
@@ -244,9 +245,7 @@ const auroraDb = aurora.AmazonAuroraVectorStore.fromExistingAuroraVectorStore(st
 const kb = new bedrock.VectorKnowledgeBase(this, "KnowledgeBase", {
   vectorStore: auroraDb,
   embeddingsModel: bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
-  instruction:
-    "Use this knowledge base to answer questions about books. " +
-    "It contains the full text of novels.",
+  instruction: 'Use this knowledge base to answer questions about books. ' + 'It contains the full text of novels.',
 });
 
 const docBucket = new s3.Bucket(this, "DocBucket");
@@ -898,7 +897,6 @@ With Amazon Bedrock Knowledge Bases, you can build a knowledge base from an Amaz
 
 #### Initializer
 
-
 TypeScript
 
 ```ts
@@ -956,6 +954,59 @@ kb = bedrock.KendraKnowledgeBase(self, 'kb',
     kendra_index=index
 )
 ```
+
+### Graph Knowledge Base
+
+The Graph Knowledge Base is a specialized type of knowledge base that combines graph modeling with generative AI to enhance retrieval-augmented generation (RAG). It automatically identifies and leverages relationships between entities and structural elements within documents, enabling more comprehensive and contextually relevant responses from foundation models.
+
+#### Initializer
+
+TypeScript
+
+```ts
+import * as bedrock from '@cdklabs/generative-ai-cdk-constructs';
+
+const dataBucket = new cdk.aws_s3.Bucket(stack, "SampleBucket", {
+  removalPolicy: cdk.RemovalPolicy.DESTROY,
+  autoDeleteObjects: true,
+});
+
+const embeddingModel = bedrock.BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3;
+
+const graph = new bedrock.NeptuneGraph(stack, "NeptuneGraph", {
+  vectorSearchDimension: embeddingModel.vectorDimensions!,
+  // Graph customization goes here
+});
+
+const notebook = graph.createNotebook();
+
+const kb = new GraphKnowledgeBase(stack, "GraphKnowledgeBase", {
+  embeddingModel,
+  graph,
+});
+
+kb.addS3DataSource({
+  bucket: dataBucket,
+  // Context enrichment configuration for GraphRAG
+  // - This is the default and only valid combination of model and method
+  // - Future versions may support additional models and enrichment methods
+  // contextEnrichment: ContextEnrichment.foundationModel({
+  //   enrichmentModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0,
+  // }),
+});
+
+new cdk.CfnOutput(stack, "GraphExplorerUrl", {
+  value: notebook.graphExplorerEndpoint,
+});
+```
+
+#### Data Sources
+
+The Graph Knowledge Base currently supports the following data sources:
+
+- Amazon S3 (with context enrichment for graph building)
+
+For more information about GraphRAG capabilities, see the [AWS documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-build-graphs.html).
 
 ## Agents
 

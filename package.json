@@ -30,6 +30,11 @@
     "integ:chatprompt:destroy": "npx projen integ:chatprompt:destroy",
     "integ:chatprompt:snapshot": "npx projen integ:chatprompt:snapshot",
     "integ:chatprompt:watch": "npx projen integ:chatprompt:watch",
+    "integ:graph:assert": "npx projen integ:graph:assert",
+    "integ:graph:deploy": "npx projen integ:graph:deploy",
+    "integ:graph:destroy": "npx projen integ:graph:destroy",
+    "integ:graph:snapshot": "npx projen integ:graph:snapshot",
+    "integ:graph:watch": "npx projen integ:graph:watch",
     "integ:guardrails:assert": "npx projen integ:guardrails:assert",
     "integ:guardrails:deploy": "npx projen integ:guardrails:deploy",
     "integ:guardrails:destroy": "npx projen integ:guardrails:destroy",
@@ -89,7 +94,7 @@
   },
   "devDependencies": {
     "@aws-cdk/assert": "^2.68.0",
-    "@aws-cdk/integ-tests-alpha": "2.187.0-alpha.0",
+    "@aws-cdk/integ-tests-alpha": "2.188.0-alpha.0",
     "@commitlint/config-conventional": "^18.6.3",
     "@mrgrain/jsii-struct-builder": "^0.7.50",
     "@stylistic/eslint-plugin": "^2",
@@ -98,7 +103,7 @@
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
     "aws-cdk": "^2",
-    "aws-cdk-lib": "2.187.0",
+    "aws-cdk-lib": "2.188.0",
     "aws-sdk-mock": "^5.9.0",
     "commit-and-tag-version": "^12",
     "commitlint": "^18.6.1",
@@ -123,11 +128,11 @@
     "typescript": "^5.8.3"
   },
   "peerDependencies": {
-    "aws-cdk-lib": "^2.187.0",
+    "aws-cdk-lib": "^2.188.0",
     "constructs": "^10.3.0"
   },
   "dependencies": {
-    "@aws-cdk/aws-lambda-python-alpha": "2.187.0-alpha.0",
+    "@aws-cdk/aws-lambda-python-alpha": "2.188.0-alpha.0",
     "cdk-nag": "^2.35.65",
     "deepmerge": "^4.3.1"
   },

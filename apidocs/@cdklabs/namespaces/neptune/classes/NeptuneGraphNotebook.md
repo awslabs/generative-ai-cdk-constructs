@@ -2,32 +2,40 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / KnowledgeBaseBase
+[@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [neptune](../README.md) / NeptuneGraphNotebook
 
-# Class: `abstract` KnowledgeBaseBase
+# Class: NeptuneGraphNotebook
 
-Abstract base class for Knowledge Base (regarless the type).
-Contains methods valid for KBs either created with CDK or imported and
-applicable to Knowledge Bases of any type.
+Creates a Neptune Graph Notebook for a given graph.
+
+A Neptune Graph Notebook provides:
+- Web-based interactive environment for querying and visualizing graph data
+- Support for multiple query languages:
+  - OpenCypher for property graph queries
+  - Gremlin for traversal-based queries
+  - SPARQL for RDF graph queries
+- Built-in visualization capabilities for exploring graph relationships
+- Sample notebooks and tutorials to help you get started
+- Integration with popular data science libraries   *
+This option is only supported when `publicConnectivity` is set to `true`. For private graphs,
+you should create your own notebook deployment using the `NeptuneGraphNotebook` Construct and
+configure the appropriate VPC and security group settings.
+
+**Note: Creating a notebook will incur additional AWS costs for the notebook instance.**
+
+## See
+
+https://docs.aws.amazon.com/neptune/latest/userguide/graph-notebooks.html
 
 ## Extends
 
 - `Resource`
 
-## Extended by
-
-- [`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md)
-- [`KendraKnowledgeBaseBase`](KendraKnowledgeBaseBase.md)
-
-## Implements
-
-- [`IKnowledgeBase`](../interfaces/IKnowledgeBase.md)
-
 ## Constructors
 
 ### Constructor
 
-> **new KnowledgeBaseBase**(`scope`, `id`): `KnowledgeBaseBase`
+> **new NeptuneGraphNotebook**(`scope`, `id`, `props`): `NeptuneGraphNotebook`
 
 #### Parameters
 
@@ -39,27 +47,19 @@ applicable to Knowledge Bases of any type.
 
 `string`
 
+##### props
+
+[`NeptuneGraphNotebookProps`](../interfaces/NeptuneGraphNotebookProps.md)
+
 #### Returns
 
-`KnowledgeBaseBase`
+`NeptuneGraphNotebook`
 
 #### Overrides
 
 `Resource.constructor`
 
 ## Properties
-
-### description?
-
-> `abstract` `readonly` `optional` **description**: `string`
-
-The description of the knowledge base.
-
-#### Implementation of
-
-[`IKnowledgeBase`](../interfaces/IKnowledgeBase.md).[`description`](../interfaces/IKnowledgeBase.md#description)
-
-***
 
 ### env
 
@@ -73,63 +73,33 @@ however, for imported resources
 (those obtained from static methods like fromRoleArn, fromBucketName, etc.),
 that might be different than the stack they were imported into.
 
-#### Implementation of
-
-[`IKnowledgeBase`](../interfaces/IKnowledgeBase.md).[`env`](../interfaces/IKnowledgeBase.md#env)
-
 #### Inherited from
 
 `Resource.env`
 
 ***
 
-### instruction?
+### graphExplorerEndpoint
 
-> `abstract` `readonly` `optional` **instruction**: `string`
-
-A narrative instruction of the knowledge base.
-A Bedrock Agent can use this instruction to determine if it should
-query this Knowledge Base.
-
-#### Implementation of
-
-[`IKnowledgeBase`](../interfaces/IKnowledgeBase.md).[`instruction`](../interfaces/IKnowledgeBase.md#instruction)
+> `readonly` **graphExplorerEndpoint**: `string`
 
 ***
 
-### knowledgeBaseArn
+### instanceType
 
-> `abstract` `readonly` **knowledgeBaseArn**: `string`
-
-The ARN of the knowledge base.
-
-#### Example
-
-```ts
-"arn:aws:bedrock:us-east-1:123456789012:knowledge-base/KB12345678"
-```
-
-#### Implementation of
-
-[`IKnowledgeBase`](../interfaces/IKnowledgeBase.md).[`knowledgeBaseArn`](../interfaces/IKnowledgeBase.md#knowledgebasearn)
+> `readonly` **instanceType**: `InstanceType`
 
 ***
 
-### knowledgeBaseId
+### jupyterLabEndpoint
 
-> `abstract` `readonly` **knowledgeBaseId**: `string`
+> `readonly` **jupyterLabEndpoint**: `string`
 
-The ID of the knowledge base.
+***
 
-#### Example
+### lifecycleConfig
 
-```ts
-"KB12345678"
-```
-
-#### Implementation of
-
-[`IKnowledgeBase`](../interfaces/IKnowledgeBase.md).[`knowledgeBaseId`](../interfaces/IKnowledgeBase.md#knowledgebaseid)
+> `readonly` **lifecycleConfig**: `CfnNotebookInstanceLifecycleConfig`
 
 ***
 
@@ -138,10 +108,6 @@ The ID of the knowledge base.
 > `readonly` **node**: `Node`
 
 The tree node.
-
-#### Implementation of
-
-[`IKnowledgeBase`](../interfaces/IKnowledgeBase.md).[`node`](../interfaces/IKnowledgeBase.md#node)
 
 #### Inherited from
 
@@ -170,13 +136,7 @@ This value will resolve to one of the following:
 
 ### role
 
-> `abstract` `readonly` **role**: `IRole`
-
-The role associated with the knowledge base.
-
-#### Implementation of
-
-[`IKnowledgeBase`](../interfaces/IKnowledgeBase.md).[`role`](../interfaces/IKnowledgeBase.md#role)
+> `readonly` **role**: `Role`
 
 ***
 
@@ -186,25 +146,15 @@ The role associated with the knowledge base.
 
 The stack in which this resource is defined.
 
-#### Implementation of
-
-[`IKnowledgeBase`](../interfaces/IKnowledgeBase.md).[`stack`](../interfaces/IKnowledgeBase.md#stack)
-
 #### Inherited from
 
 `Resource.stack`
 
 ***
 
-### type
+### volumeSize
 
-> `abstract` `readonly` **type**: [`KnowledgeBaseType`](../enumerations/KnowledgeBaseType.md)
-
-The type of knowledge base.
-
-#### Implementation of
-
-[`IKnowledgeBase`](../interfaces/IKnowledgeBase.md).[`type`](../interfaces/IKnowledgeBase.md#type)
+> `readonly` **volumeSize**: `Size`
 
 ## Methods
 
@@ -252,10 +202,6 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 #### Returns
 
 `void`
-
-#### Implementation of
-
-[`IKnowledgeBase`](../interfaces/IKnowledgeBase.md).[`applyRemovalPolicy`](../interfaces/IKnowledgeBase.md#applyremovalpolicy)
 
 #### Inherited from
 
@@ -344,93 +290,6 @@ Commonly this is the resource's `ref`.
 #### Inherited from
 
 `Resource.getResourceNameAttribute`
-
-***
-
-### grant()
-
-> **grant**(`grantee`, ...`actions`): `Grant`
-
-Grant the given principal identity permissions to perform actions on this knowledge base.
-
-#### Parameters
-
-##### grantee
-
-`IGrantable`
-
-##### actions
-
-...`string`[]
-
-#### Returns
-
-`Grant`
-
-#### Implementation of
-
-[`IKnowledgeBase`](../interfaces/IKnowledgeBase.md).[`grant`](../interfaces/IKnowledgeBase.md#grant)
-
-***
-
-### grantQuery()
-
-> **grantQuery**(`grantee`): `Grant`
-
-Grant the given identity permissions to query the knowledge base.
-This contains:
-- Retrieve
-- RetrieveAndGenerate
-
-#### Parameters
-
-##### grantee
-
-`IGrantable`
-
-#### Returns
-
-`Grant`
-
-#### Implementation of
-
-[`IKnowledgeBase`](../interfaces/IKnowledgeBase.md).[`grantQuery`](../interfaces/IKnowledgeBase.md#grantquery)
-
-***
-
-### grantRetrieve()
-
-> **grantRetrieve**(`grantee`): `Grant`
-
-Grant the given identity permissions to retrieve content from the knowledge base.
-
-#### Parameters
-
-##### grantee
-
-`IGrantable`
-
-#### Returns
-
-`Grant`
-
-***
-
-### grantRetrieveAndGenerate()
-
-> **grantRetrieveAndGenerate**(`grantee`): `Grant`
-
-Grant the given identity permissions to retrieve content from the knowledge base.
-
-#### Parameters
-
-##### grantee
-
-`IGrantable`
-
-#### Returns
-
-`Grant`
 
 ***
 
