@@ -18,6 +18,7 @@ import { Construct } from 'constructs';
 import {
   CommonKnowledgeBaseAttributes,
   CommonKnowledgeBaseProps,
+  createKnowledgeBaseServiceRole,
   IKnowledgeBase,
   KnowledgeBaseBase,
   KnowledgeBaseType,
@@ -32,6 +33,7 @@ import {
   ConfluenceDataSource,
   ConfluenceDataSourceAssociationProps,
 } from '../data-sources/confluence-data-source';
+import { ContextEnrichment } from '../data-sources/context-enrichment';
 import {
   CustomDataSource,
   CustomDataSourceAssociationProps,
@@ -59,11 +61,10 @@ import { BedrockFoundationModel, VectorType } from '../models';
  * This enum represents the different vector databases that can be used.
  *
  * `OPENSEARCH_SERVERLESS` is the default vector database.
- * `REDIS_ENTERPRISE_CLOUD` is the vector database for Redis Enterprise Cloud.
  * `PINECONE` is the vector database for Pinecone.
  * `AMAZON_AURORA` is the vector database for Amazon Aurora PostgreSQL.
  */
-enum VectorStoreType {
+export enum VectorStoreType {
   /**
    * `OPENSEARCH_SERVERLESS` is the vector store for OpenSearch Serverless.
    */
@@ -76,6 +77,14 @@ enum VectorStoreType {
    * `RDS` is the vector store for Amazon Aurora.
    */
   AMAZON_AURORA = 'RDS',
+  /**
+   * `MONGO_DB_ATLAS` is the vector store for MongoDB Atlas.
+   */
+  MONGO_DB_ATLAS = 'MONGO_DB_ATLAS',
+  /**
+   * `NEPTUNE_ANALYTICS` is the vector store for Amazon Neptune Analytics.
+   */
+  NEPTUNE_ANALYTICS = 'NEPTUNE_ANALYTICS',
 }
 
 /******************************************************************************
@@ -126,6 +135,11 @@ interface StorageConfiguration {
  */
 export interface IVectorKnowledgeBase extends IKnowledgeBase {
   /**
+   * The storage type for the Vector Embeddings.
+   */
+  readonly vectorStoreType: VectorStoreType;
+
+  /**
    * Add an S3 data source to the knowledge base.
    */
   addS3DataSource(props: S3DataSourceAssociationProps): S3DataSource;
@@ -173,10 +187,13 @@ export interface IVectorKnowledgeBase extends IKnowledgeBase {
  * Abstract base class for Vector Knowledge Base.
  * Contains methods valid for KBs either created with CDK or imported.
  */
-abstract class VectorKnowledgeBaseBase extends KnowledgeBaseBase implements IVectorKnowledgeBase {
+export abstract class VectorKnowledgeBaseBase
+  extends KnowledgeBaseBase
+  implements IVectorKnowledgeBase {
   public abstract readonly knowledgeBaseArn: string;
   public abstract readonly knowledgeBaseId: string;
   public abstract readonly role: iam.IRole;
+  public abstract readonly vectorStoreType: VectorStoreType;
   public abstract readonly description?: string;
   public abstract readonly instruction?: string;
 
@@ -189,12 +206,34 @@ abstract class VectorKnowledgeBaseBase extends KnowledgeBaseBase implements IVec
   // ------------------------------------------------------
   // Helper methods to add Data Sources
   // ------------------------------------------------------
+  /**
+   * Adds an S3 data source to the knowledge base.
+   */
   public addS3DataSource(props: S3DataSourceAssociationProps): S3DataSource {
+    // Validate context enrichment is only used with Neptune Analytics
+    const isNeptuneKB = this.vectorStoreType === VectorStoreType.NEPTUNE_ANALYTICS;
+    if (props.contextEnrichment && !isNeptuneKB) {
+      throw new Error('Context enrichment is only supported for Neptune/GraphRAG KnowledgeBases');
+    }
+
+    // Set context enrichment - use provided value or default for Neptune
+    let contextEnrichment = props.contextEnrichment;
+    if (isNeptuneKB) {
+      contextEnrichment =
+        props.contextEnrichment ??
+        ContextEnrichment.foundationModel({
+          enrichmentModel: BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0,
+        });
+    }
+
+    // Create and return the S3 data source
     return new S3DataSource(this, `s3-${props.bucket.node.addr}`, {
       knowledgeBase: this,
       ...props,
+      contextEnrichment: contextEnrichment,
     });
   }
+
   public addWebCrawlerDataSource(
     props: WebCrawlerDataSourceAssociationProps,
   ): WebCrawlerDataSource {
@@ -307,7 +346,10 @@ export interface VectorKnowledgeBaseProps extends CommonKnowledgeBaseProps {
  * Properties for importing a knowledge base outside of this stack
  */
 export interface VectorKnowledgeBaseAttributes extends CommonKnowledgeBaseAttributes {
-  // Unique props for vector KBs would be defined here
+  /**
+   * The vector store type for the knowledge base.
+   */
+  readonly vectorStoreType: VectorStoreType;
 }
 
 /**
@@ -335,6 +377,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
       public readonly description = attrs.description;
       public readonly instruction = attrs.instruction;
       public readonly knowledgeBaseId = attrs.knowledgeBaseId;
+      public readonly vectorStoreType = attrs.vectorStoreType;
       public readonly knowledgeBaseArn = stack.formatArn({
         service: 'bedrock',
         resource: 'knowledge-base',
@@ -393,16 +436,15 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
   public readonly knowledgeBaseId: string;
 
   /**
+   * The type of the knowledge base.
+   */
+  public readonly vectorStoreType: VectorStoreType;
+
+  /**
    * The OpenSearch vector index for the knowledge base.
    * @private
    */
   private vectorIndex?: VectorIndex;
-
-  /**
-   * The type of the knowledge base.
-   * @private
-   */
-  private vectorStoreType: VectorStoreType;
 
   constructor(scope: Construct, id: string, props: VectorKnowledgeBaseProps) {
     super(scope, id);
@@ -420,6 +462,11 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     this.description = props.description ?? 'CDK deployed Knowledge base'; // even though this prop is optional, if no value is provided it will fail to deploy
     //this.knowledgeBaseState = props.knowledgeBaseState ?? 'ENABLED';
     this.instruction = props.instruction;
+    this.name = props.name ?? generatePhysicalNameV2(this, 'KB', { maxLength: 32 });
+
+    // ------------------------------------------------------
+    // Validations
+    // ------------------------------------------------------
 
     validateModel(embeddingsModel, vectorType);
     validateVectorIndex(props.vectorStore, props.vectorIndex, props.vectorField, props.indexName);
@@ -427,56 +474,53 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
       validateIndexParameters(props.vectorIndex, indexName);
     }
 
-    this.name = props.name ?? generatePhysicalNameV2(this, 'KB', { maxLength: 32 });
+    // ------------------------------------------------------
+    // Role
+    // ------------------------------------------------------
+    // Use existing role if provided, otherwise create a new one
+    this.role = props.existingRole ?? createKnowledgeBaseServiceRole(this);
 
-    if (props.existingRole) {
-      this.role = props.existingRole;
-    } else {
-      const roleName = generatePhysicalNameV2(this, 'AmazonBedrockExecutionRoleForKnowledgeBase', {
-        maxLength: 64,
-      });
-      this.role = new iam.Role(this, 'Role', {
-        roleName: roleName,
-        assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com', {
-          conditions: {
-            StringEquals: { 'aws:SourceAccount': Stack.of(this).account },
-            ArnLike: {
-              'aws:SourceArn': Stack.of(this).formatArn({
-                service: 'bedrock',
-                resource: 'knowledge-base',
-                resourceName: '*',
-                arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
-              }),
-            },
+    if (!props.existingRole) {
+      embeddingsModel.grantInvoke(this.role);
+
+      // Add CDK Nag suppression for bedrock:InvokeModel* wildcard permission
+      NagSuppressions.addResourceSuppressions(
+        this.role,
+        [
+          {
+            id: 'AwsSolutions-IAM5',
+            reason: 'Bedrock Knowledge Base requires wildcard permissions to invoke embedding models',
           },
-        }),
-      });
-
-      this.role.addToPrincipalPolicy(
-        new iam.PolicyStatement({
-          actions: ['bedrock:InvokeModel'],
-          resources: [embeddingsModel.asArn(this)],
-        }),
+        ],
+        true,
       );
     }
+
+    // ------------------------------------------------------
+    // Vector Store
+    // ------------------------------------------------------
     /**
      * Create the vector store if the vector store was provided by the user.
      * Otherwise check againts all possible vector datastores.
      * If none was provided create default OpenSearch Serverless Collection.
      */
     if (props.vectorStore instanceof VectorCollection) {
+      this.vectorStoreType = VectorStoreType.OPENSEARCH_SERVERLESS;
       ({ vectorStore: this.vectorStore, vectorStoreType: this.vectorStoreType } =
         this.handleOpenSearchCollection(props));
     } else if (props.vectorStore instanceof PineconeVectorStore) {
+      this.vectorStoreType = VectorStoreType.PINECONE;
       ({ vectorStore: this.vectorStore, vectorStoreType: this.vectorStoreType } =
         this.handlePineconeVectorStore(props));
     } else if (
       props.vectorStore instanceof AmazonAuroraVectorStore ||
       props.vectorStore instanceof ExistingAmazonAuroraVectorStore
     ) {
+      this.vectorStoreType = VectorStoreType.AMAZON_AURORA;
       ({ vectorStore: this.vectorStore, vectorStoreType: this.vectorStoreType } =
         this.handleAmazonAuroraVectorStore(props));
     } else {
+      this.vectorStoreType = VectorStoreType.OPENSEARCH_SERVERLESS;
       ({ vectorStore: this.vectorStore, vectorStoreType: this.vectorStoreType } =
         this.handleOpenSearchDefaultVectorCollection());
     }
