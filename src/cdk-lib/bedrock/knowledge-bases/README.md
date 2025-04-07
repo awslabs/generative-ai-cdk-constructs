@@ -20,6 +20,7 @@ Amazon Bedrock Knowledge Bases enable you to provide foundation models and agent
 - [Knowledge Base - Custom Transformation](#knowledge-base---custom-transformation)
 - [Knowledge Base - Context Enrichment](#knowledge-base---context-enrichment)
 - [Knowledge Base Permissions](#knowledge-base-permissions)
+- [Permissions and Methods](#permissions-and-methods)
 - [Importing Existing Knowledge Bases](#importing-existing-knowledge-bases)
 
 ## Vector Knowledge Base
@@ -51,12 +52,14 @@ The resource accepts an `instruction` prop that is provided to any Bedrock Agent
 
 #### OpenSearch Serverless
 
+##### TypeScript
+
 ```ts
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import { bedrock } from '@cdklabs/generative-ai-cdk-constructs';
 
 const kb = new bedrock.VectorKnowledgeBase(this, 'KnowledgeBase', {
-  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
   instruction: 'Use this knowledge base to answer questions about books. ' + 'It contains the full text of novels.',
 });
 
@@ -73,7 +76,9 @@ new bedrock.S3DataSource(this, 'DataSource', {
 });
 ```
 
-#### Amazon RDS Aurora PostgreSQL
+#### Amazon RDS Aurora PostgreSQL Example
+
+##### TypeScript
 
 ```ts
 import * as s3 from 'aws-cdk-lib/aws-s3';
@@ -87,7 +92,7 @@ const auroraDb = new amazonaurora.AmazonAuroraVectorStore(stack, 'AuroraDefaultV
 
 const kb = new bedrock.VectorKnowledgeBase(this, 'KnowledgeBase', {
   vectorStore: auroraDb,
-  embeddingsModel: foundation_models.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+  embeddingsModel: foundation_models.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
   instruction: 'Use this knowledge base to answer questions about books. ' + 'It contains the full text of novels.',
 });
 
@@ -109,6 +114,10 @@ The data type for the vectors when using a model to convert text into vector emb
 - **Binary**: Not as precise vector representation of the text, but not as costly in storage as a standard floating-point (float32). Not all embedding models and vector stores support binary embeddings.
 
 See [Supported embeddings models](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-supported.html) for information on the available models and their vector data types.
+
+#### Vector Type Configuration
+
+##### TypeScript
 
 ```ts
 const kb = new bedrock.VectorKnowledgeBase(this, 'MyKnowledgeBase', {
@@ -135,11 +144,19 @@ More details about the different data sources can be found in the dedicated [Rea
 
 - **Default Chunking**: Applies Fixed Chunking with the default chunk size of 300 tokens and 20% overlap.
 
+  #### Default Chunking Configuration
+
+  ##### TypeScript
+
   ```ts
   ChunkingStrategy.DEFAULT;
   ```
 
 - **Fixed Size Chunking**: This method divides the data into fixed-size chunks, with each chunk containing a predetermined number of tokens. This strategy is useful when the data is uniform in size and structure.
+
+  #### Fixed Size Chunking Configuration
+
+  ##### TypeScript
 
   ```ts
   // Fixed Size Chunking with sane defaults.
@@ -150,6 +167,10 @@ More details about the different data sources can be found in the dedicated [Rea
   ```
 
 - **Hierarchical Chunking**: This strategy organizes data into layers of chunks, with the first layer containing large chunks and the second layer containing smaller chunks derived from the first. It is ideal for data with inherent hierarchies or nested structures.
+
+  #### Hierarchical Chunking Configuration
+
+  ##### TypeScript
 
   ```ts
   // Hierarchical Chunking with the default for Cohere Models.
@@ -169,6 +190,10 @@ More details about the different data sources can be found in the dedicated [Rea
 
 - **Semantic Chunking**: This method splits data into smaller documents based on groups of similar content derived from the text using natural language processing. It helps preserve contextual relationships and ensures accurate and contextually appropriate results.
 
+  #### Semantic Chunking Configuration
+
+  ##### TypeScript
+
   ```ts
   // Semantic Chunking with sane defaults.
   ChunkingStrategy.SEMANTIC;
@@ -178,6 +203,10 @@ More details about the different data sources can be found in the dedicated [Rea
   ```
 
 - **No Chunking**: This strategy treats each file as one chunk. If you choose this option, you may want to pre-process your documents by splitting them into separate files.
+
+  #### No Chunking Configuration
+
+  ##### TypeScript
 
   ```ts
   ChunkingStrategy.NONE;
@@ -191,6 +220,10 @@ A parsing strategy in Amazon Bedrock is a configuration that determines how the 
 
 - **Foundation Model Parsing Strategy**: This strategy uses a foundation model to describe the contents of the document. It is particularly useful for improved processing of PDF files with tables and images. To use this strategy, set the `parsingStrategy` in a data source as below.
 
+  #### Foundation Model Parsing Configuration
+
+  ##### TypeScript
+
   ```ts
   bedrock.ParsingStategy.foundationModel({
     model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
@@ -202,6 +235,10 @@ A parsing strategy in Amazon Bedrock is a configuration that determines how the 
 Custom Transformation in Amazon Bedrock is a feature that allows you to create and apply custom processing steps to documents moving through a data source ingestion pipeline.
 
 Custom Transformation uses AWS Lambda functions to process documents, enabling you to perform custom operations such as data extraction, normalization, or enrichment. To create a custom transformation, set the `customTransformation` in a data source as below.
+
+#### Custom Transformation Configuration
+
+##### TypeScript
 
 ```ts
 CustomTransformation.lambda({
@@ -217,6 +254,10 @@ Context Enrichment in Amazon Bedrock is a feature that allows you to enhance the
 Currently, context enrichment is only supported when using Neptune Analytics as a storage configuration.
 
 The enrichment process uses Amazon Bedrock foundation models to perform operations like chunk entity extraction. To configure context enrichment, set the `contextEnrichment` in a data source as below.
+
+#### Context Enrichment Configuration
+
+##### TypeScript
 
 ```ts
 bedrock.ContextEnrichment.foundationModel({
@@ -245,6 +286,10 @@ With Amazon Bedrock Knowledge Bases, you can build a knowledge base from an Amaz
 | existingRole | iam.IRole | No | An existing IAM role to use for the knowledge base. If not provided, a new role will be created. |
 
 ### Example
+
+#### Kendra Knowledge Base Creation
+
+##### TypeScript
 
 ```ts
 import * as s3 from 'aws-cdk-lib/aws-s3';
@@ -289,6 +334,8 @@ The Graph Knowledge Base is a specialized type of knowledge base that combines g
 | existingRole | iam.IRole | No | Existing IAM role with a policy statement granting permission to invoke the specific embeddings model |
 
 ### Example
+
+#### TypeScript
 
 ```ts
 import * as bedrock from '@cdklabs/generative-ai-cdk-constructs';
@@ -344,19 +391,59 @@ Knowledge Bases provide methods to grant permissions to other resources:
 - `grantRetrieve(grantee)`: Grants the given identity permissions to retrieve content from the knowledge base.
 - `grantRetrieveAndGenerate(grantee)`: Grants the given identity permissions to retrieve content from the knowledge base and generate responses.
 
-Example:
+## Permissions and Methods
 
-```ts
-// Grant permissions to a Lambda function to query the knowledge base
-kb.grantQuery(lambdaFunction);
+Knowledge Bases provide several methods to grant permissions and perform operations:
 
-// Grant permissions to a Lambda function to retrieve content from the knowledge base
-kb.grantRetrieve(lambdaFunction);
-```
+### Grant Methods
+
+| Method | Description | Parameters |
+|--------|-------------|------------|
+| `grant(grantee, ...actions)` | Grants the given principal identity permissions to perform actions on this knowledge base | `grantee`: The principal to grant permissions to<br>`actions`: The actions to grant (e.g., `bedrock:GetKnowledgeBase`, `bedrock:ListKnowledgeBases`) |
+| `grantQuery(grantee)` | Grants the given identity permissions to query the knowledge base | `grantee`: The principal to grant permissions to |
+| `grantRetrieve(grantee)` | Grants the given identity permissions to retrieve content from the knowledge base | `grantee`: The principal to grant permissions to |
+| `grantRetrieveAndGenerate(grantee)` | Grants the given identity permissions to retrieve content from the knowledge base and generate responses | `grantee`: The principal to grant permissions to |
+| `grantCreateDataSource(grantee)` | Grants the given identity permissions to create data sources for this knowledge base | `grantee`: The principal to grant permissions to |
+| `grantDeleteDataSource(grantee)` | Grants the given identity permissions to delete data sources from this knowledge base | `grantee`: The principal to grant permissions to |
+| `grantUpdateDataSource(grantee)` | Grants the given identity permissions to update data sources in this knowledge base | `grantee`: The principal to grant permissions to |
+| `grantGetDataSource(grantee)` | Grants the given identity permissions to get data source information | `grantee`: The principal to grant permissions to |
+| `grantListDataSources(grantee)` | Grants the given identity permissions to list data sources | `grantee`: The principal to grant permissions to |
+
+### Knowledge Base Methods
+
+| Method | Description | Parameters |
+|--------|-------------|------------|
+| `addDataSource(dataSource)` | Adds a data source to the knowledge base | `dataSource`: The data source to add |
+| `fromKnowledgeBaseAttributes(scope, id, attrs)` | Imports an existing knowledge base | `scope`: The CDK scope<br>`id`: The CDK ID<br>`attrs`: The knowledge base attributes |
+| `fromKnowledgeBaseId(scope, id, knowledgeBaseId)` | Imports an existing knowledge base by ID | `scope`: The CDK scope<br>`id`: The CDK ID<br>`knowledgeBaseId`: The knowledge base ID |
+
+### Data Source Methods
+
+| Method | Description | Parameters |
+|--------|-------------|------------|
+| `S3DataSource` | Creates an S3 data source | `bucket`: The S3 bucket<br>`knowledgeBase`: The knowledge base<br>`dataSourceName`: The name of the data source<br>`chunkingStrategy`: The chunking strategy<br>`parsingStrategy`: The parsing strategy |
+| `WebCrawlerDataSource` | Creates a web crawler data source | `urls`: The URLs to crawl<br>`knowledgeBase`: The knowledge base<br>`dataSourceName`: The name of the data source<br>`crawlDepth`: The crawl depth<br>`crawlSchedule`: The crawl schedule |
+| `ConfluenceDataSource` | Creates a Confluence data source | `siteUrl`: The Confluence site URL<br>`knowledgeBase`: The knowledge base<br>`dataSourceName`: The name of the data source<br>`spaceKeys`: The space keys to index |
+| `SharePointDataSource` | Creates a SharePoint data source | `siteUrl`: The SharePoint site URL<br>`knowledgeBase`: The knowledge base<br>`dataSourceName`: The name of the data source<br>`documentLibraryNames`: The document library names to index |
+| `SalesforceDataSource` | Creates a Salesforce data source | `instanceUrl`: The Salesforce instance URL<br>`knowledgeBase`: The knowledge base<br>`dataSourceName`: The name of the data source<br>`objectNames`: The object names to index |
+| `CustomDataSource` | Creates a custom data source | `dataSourceConfiguration`: The data source configuration<br>`knowledgeBase`: The knowledge base<br>`dataSourceName`: The name of the data source |
 
 ## Importing Existing Knowledge Bases
 
-You can import existing knowledge bases using the `fromKnowledgeBaseAttributes` method:
+You can import existing knowledge bases using the `fromKnowledgeBaseAttributes` or `fromKnowledgeBaseId` methods. This allows you to reference existing knowledge bases in your CDK application without creating new ones.
+
+### Import Methods
+
+| Method | Description | Parameters | Returns |
+|--------|-------------|------------|---------|
+| `fromKnowledgeBaseAttributes(scope, id, attrs)` | Imports an existing knowledge base using its attributes | `scope`: The CDK scope<br>`id`: The CDK ID<br>`attrs`: The knowledge base attributes | `IKnowledgeBase` |
+| `fromKnowledgeBaseId(scope, id, knowledgeBaseId)` | Imports an existing knowledge base using its ID | `scope`: The CDK scope<br>`id`: The CDK ID<br>`knowledgeBaseId`: The knowledge base ID | `IKnowledgeBase` |
+
+### Import Examples
+
+#### Import a Vector Knowledge Base
+
+##### TypeScript
 
 ```ts
 // Import a Vector Knowledge Base
@@ -365,14 +452,26 @@ const importedKb = bedrock.VectorKnowledgeBase.fromKnowledgeBaseAttributes(this,
   executionRoleArn: 'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase',
   vectorStoreType: bedrock.VectorStoreType.OPENSEARCH_SERVERLESS,
 });
+```
 
+#### Import a Kendra Knowledge Base
+
+##### TypeScript
+
+```ts
 // Import a Kendra Knowledge Base
 const importedKendraKb = bedrock.KendraKnowledgeBase.fromKnowledgeBaseAttributes(this, 'ImportedKendraKb', {
   knowledgeBaseId: 'kb-12345678',
   executionRoleArn: 'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase',
   kendraIndex: existingKendraIndex,
 });
+```
 
+#### Import a Graph Knowledge Base
+
+##### TypeScript
+
+```ts
 // Import a Graph Knowledge Base
 const importedGraphKb = bedrock.GraphKnowledgeBase.fromKnowledgeBaseAttributes(this, 'ImportedGraphKb', {
   knowledgeBaseId: 'kb-12345678',
@@ -383,4 +482,35 @@ const importedGraphKb = bedrock.GraphKnowledgeBase.fromKnowledgeBaseAttributes(t
     textField: 'AMAZON_BEDROCK_TEXT',
   },
 });
-``` 
+```
+
+#### Import by ID
+
+```ts
+// Import a Knowledge Base by ID
+const importedKb = bedrock.KnowledgeBase.fromKnowledgeBaseId(this, 'ImportedKb', 'kb-12345678');
+```
+
+### Using Imported Knowledge Bases
+
+Once imported, you can use the knowledge base in your CDK application just like any other knowledge base:
+
+#### TypeScript
+
+```ts
+// Grant permissions to a Lambda function to query the knowledge base
+importedKb.grantQuery(lambdaFunction);
+
+// Grant permissions to a Lambda function to retrieve content from the knowledge base
+importedKb.grantRetrieve(lambdaFunction);
+
+// Add a data source to the imported knowledge base
+importedKb.addS3DataSource({
+  bucket: docBucket,
+  dataSourceName: 'books',
+  chunkingStrategy: bedrock.ChunkingStrategy.fixedSize({
+    maxTokens: 500,
+    overlapPercentage: 20,
+  }),
+});
+```

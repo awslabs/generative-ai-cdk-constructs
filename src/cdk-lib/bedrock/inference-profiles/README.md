@@ -5,8 +5,6 @@ Amazon Bedrock Inference Profiles provide a way to manage and optimize inference
 ## Table of Contents
 
 - [Creating an Inference Profile](#creating-an-inference-profile)
-  - [TypeScript Example](#typescript-example)
-  - [Python Example](#python-example)
 - [Using Inference Profiles](#using-inference-profiles)
   - [With Prompts](#with-prompts)
   - [With Agents](#with-agents)
@@ -19,7 +17,7 @@ Amazon Bedrock Inference Profiles provide a way to manage and optimize inference
 
 ## Creating an Inference Profile
 
-### TypeScript Example
+### TypeScript
 
 ```ts
 const profile = new InferenceProfile(this, 'MyProfile', {
@@ -34,7 +32,7 @@ const profile = new InferenceProfile(this, 'MyProfile', {
 });
 ```
 
-### Python Example
+### Python
 
 ```python
 profile = bedrock.InferenceProfile(
@@ -57,6 +55,10 @@ Inference profiles can be used with prompts and agents to maintain consistent in
 
 ### With Prompts
 
+#### Prompt with Inference Profile
+
+##### TypeScript
+
 ```ts
 const prompt = new Prompt(this, 'MyPrompt', {
   promptName: 'my-prompt',
@@ -70,6 +72,10 @@ const prompt = new Prompt(this, 'MyPrompt', {
 ```
 
 ### With Agents
+
+#### Agent with Inference Profile
+
+##### TypeScript
 
 ```ts
 const agent = new Agent(this, 'MyAgent', {
@@ -102,6 +108,8 @@ Amazon Bedrock offers two types of inference profiles:
 
 Application inference profiles are user-defined profiles that help you track costs and model usage. They can be created for a single region or for multiple regions using a cross-region inference profile.
 
+#### TypeScript
+
 ```ts
 import { bedrock } from '@cdklabs/generative-ai-cdk-constructs';
 
@@ -129,6 +137,10 @@ const multiRegionProfile = new bedrock.ApplicationInferenceProfile(this, 'MultiR
 
 Cross-region inference enables you to seamlessly manage unplanned traffic bursts by utilizing compute across different AWS Regions. With cross-region inference, you can distribute traffic across multiple AWS Regions, enabling higher throughput and enhanced resilience during periods of peak demands.
 
+#### Cross-Region Profile Configuration
+
+##### TypeScript
+
 ```ts
 import { bedrock } from '@cdklabs/generative-ai-cdk-constructs';
 
@@ -154,6 +166,10 @@ const apacProfile = bedrock.CrossRegionInferenceProfile.fromConfig({
 ## Prompt Routers
 
 Prompt routers allow you to route requests to different foundation models based on the prompt content. Amazon Bedrock provides default prompt routers for specific model families.
+
+### Default and Custom Prompt Routers
+
+#### TypeScript
 
 ```ts
 import { bedrock } from '@cdklabs/generative-ai-cdk-constructs';
@@ -183,6 +199,10 @@ const customRouter = new bedrock.PromptRouter({
 ## Inference profile permissions
 
 Use the `grantProfileUsage` method to grant appropriate permissions to resources that need to use the inference profile.
+
+### Granting Profile Usage Permissions
+
+#### TypeScript
 
 ```ts
 import { bedrock } from '@cdklabs/generative-ai-cdk-constructs';

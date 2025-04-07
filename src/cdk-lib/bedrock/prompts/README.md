@@ -8,6 +8,7 @@ The `Prompt` resource allows you to create a new prompt.
 
 - [Basic Text Prompt](#basic-text-prompt)
 - [Chat Prompt](#chat-prompt)
+- [Prompt properties](#prompt-properties)
 - [Prompt Variants](#prompt-variants)
 - [Prompt Routing](#prompt-routing)
 - [Permissions and Methods](#permissions-and-methods)
@@ -15,7 +16,7 @@ The `Prompt` resource allows you to create a new prompt.
 
 ## Basic Text Prompt
 
-### TypeScript Example
+### TypeScript
 
 ```ts
 const cmk = new kms.Key(this, 'cmk', {});
@@ -42,7 +43,7 @@ const prompt1 = new Prompt(this, 'prompt1', {
 });
 ```
 
-### Python Example
+### Python
 
 ```python
 cmk = kms.Key(self, "cmk")
@@ -75,7 +76,7 @@ prompt = bedrock.Prompt(
 
 Use this template type when the model supports the Converse API or the Anthropic Claude Messages API. This allows you to include a System prompt and previous User messages and Assistant messages for context.
 
-### TypeScript Example
+### TypeScript
 
 ```ts
 const cmk = new kms.Key(this, 'cmk', {});
@@ -125,7 +126,7 @@ new Prompt(stack, 'prompt1', {
 });
 ```
 
-### Python Example
+### Python
 
 ```python
 # Create KMS key
@@ -185,11 +186,22 @@ prompt = bedrock.Prompt(
 )
 ```
 
+## Prompt properties
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| promptName | string | Yes | The name of the prompt |
+| description | string | No | A description of the prompt |
+| defaultVariant | PromptVariant | Yes | The default variant to use for the prompt |
+| variants | PromptVariant[] | No | Additional variants for the prompt |
+| kmsKey | kms.IKey | No | The KMS key to use for encrypting the prompt. Defaults to AWS managed key |
+| tags | Record<string, string> | No | Tags to apply to the prompt |
+
 ## Prompt Variants
 
 Prompt variants in the context of Amazon Bedrock refer to alternative configurations of a prompt, including its message or the model and inference configurations used. Prompt variants allow you to create different versions of a prompt, test them, and save the variant that works best for your use case. You can add prompt variants to a prompt by creating a `PromptVariant` object and specify the variants on prompt creation, or by using the `.addVariant(..)` method on a `Prompt` object.
 
-### TypeScript Example
+### TypeScript
 
 ```ts
 const variant2 = PromptVariant.text({
@@ -207,7 +219,7 @@ const variant2 = PromptVariant.text({
 prompt1.addVariant(variant2);
 ```
 
-### Python Example
+### Python
 
 ```python
 variant2 = bedrock.PromptVariant.text(
@@ -229,7 +241,7 @@ prompt.add_variant(variant2)
 
 Amazon Bedrock intelligent prompt routing provides a single serverless endpoint for efficiently routing requests between different foundational models within the same model family. It can help you optimize for response quality and cost. They offer a comprehensive solution for managing multiple AI models through a single serverless endpoint, simplifying the process for you. Intelligent prompt routing predicts the performance of each model for each request, and dynamically routes each request to the model that it predicts is most likely to give the desired response at the lowest cost.
 
-### TypeScript Example
+### TypeScript
 
 ```ts
 const variant = PromptVariant.text({
@@ -244,7 +256,7 @@ new Prompt(stack, 'Prompt', {
 });
 ```
 
-### Python Example
+### Python
 
 ```py
 variant = bedrock.PromptVariant.text(
@@ -294,6 +306,8 @@ bedrock.Prompt(self, 'Prompt',
 
 ## Import Methods
 
+### TypeScript
+
 ```ts
 // Import an existing prompt by ARN
 const importedPrompt = bedrock.Prompt.fromPromptAttributes(this, 'ImportedPrompt', {
@@ -302,6 +316,8 @@ const importedPrompt = bedrock.Prompt.fromPromptAttributes(this, 'ImportedPrompt
   promptVersion: '1', // optional, defaults to 'DRAFT'
 });
 ```
+
+### Python
 
 ```python
 # Import an existing prompt by ARN
