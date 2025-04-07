@@ -223,6 +223,25 @@ export class BedrockDataAutomation extends BaseClass {
         objectOwnership: s3.ObjectOwnership.BUCKET_OWNER_ENFORCED,
         removalPolicy: cdk.RemovalPolicy.DESTROY,
         autoDeleteObjects: true,
+        cors: [
+          {
+            allowedMethods: [
+              s3.HttpMethods.GET,
+              s3.HttpMethods.POST,
+              s3.HttpMethods.PUT,
+              s3.HttpMethods.DELETE,
+            ],
+            allowedOrigins: ['*'],
+            allowedHeaders: ['*'],
+            exposedHeaders: ['x-amz-server-side-encryption',
+              'x-amz-request-id',
+              'x-amz-id-2',
+              'ETag',
+              'Content-Type',
+              'Content-Disposition',
+              'Access-Control-Allow-Origin'],
+          },
+        ],
       });
     }
   }

@@ -529,6 +529,7 @@ describe('CDK-Agent', () => {
         knowledgeBaseId: 'ABCDEFG1234',
         executionRoleArn: 'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase_12345678',
         instruction: 'This is a sample KB with info about unicorns.',
+        vectorStoreType: bedrock.VectorStoreType.OPENSEARCH_SERVERLESS,
       });
     });
 
@@ -587,6 +588,7 @@ describe('CDK-Agent', () => {
         {
           knowledgeBaseId: 'ABCDEFG1234',
           executionRoleArn: 'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase_12345678',
+          vectorStoreType: bedrock.VectorStoreType.OPENSEARCH_SERVERLESS,
         },
       ));
 
