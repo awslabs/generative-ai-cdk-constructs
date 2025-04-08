@@ -159,7 +159,7 @@ aurora_db = amazonaurora.AmazonAuroraVectorStore.from_existing_aurora_vector_sto
 )
 
 kb = bedrock.VectorKnowledgeBase(self, 'KnowledgeBase',
-            embeddings_model= foundation_models.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+            embeddings_model= foundation_models.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
             vector_store=aurora_db,
             instruction=  'Use this knowledge base to answer questions about books. ' +
     'It contains the full text of novels.'
