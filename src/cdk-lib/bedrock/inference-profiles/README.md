@@ -4,7 +4,6 @@ Amazon Bedrock Inference Profiles provide a way to manage and optimize inference
 
 ## Table of Contents
 
-- [Creating an Inference Profile](#creating-an-inference-profile)
 - [Using Inference Profiles](#using-inference-profiles)
   - [With Agents](#with-agents)
 - [Inference Configuration Properties](#inference-configuration-properties)
@@ -14,40 +13,6 @@ Amazon Bedrock Inference Profiles provide a way to manage and optimize inference
 - [Prompt Routers](#prompt-routers)
 - [Inference profile permissions](#inference-profile-permissions)
 - [Import methods](#import-methods)
-
-## Creating an Inference Profile
-
-### TypeScript
-
-```ts
-const profile = new InferenceProfile(this, 'MyProfile', {
-  profileName: 'my-inference-profile',
-  description: 'A profile for high-quality responses',
-  inferenceConfiguration: {
-    temperature: 0.7,
-    topP: 0.9,
-    maxTokens: 2000,
-    stopSequences: ['Human:', 'Assistant:'],
-  },
-});
-```
-
-### Python
-
-```python
-profile = bedrock.InferenceProfile(
-    self,
-    "MyProfile",
-    profile_name="my-inference-profile",
-    description="A profile for high-quality responses",
-    inference_configuration={
-        "temperature": 0.7,
-        "topP": 0.9,
-        "maxTokens": 2000,
-        "stopSequences": ["Human:", "Assistant:"],
-    }
-)
-```
 
 ## Using Inference Profiles
 
@@ -102,7 +67,6 @@ The following properties can be configured in an inference profile:
 ## Types of Inference Profiles
 
 Amazon Bedrock offers two types of inference profiles:
-
 
 ### System Defined Inference Profiles
 
@@ -241,23 +205,35 @@ import { bedrock } from '@cdklabs/generative-ai-cdk-constructs';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 
 // Create an application inference profile
-const profile = new bedrock.ApplicationInferenceProfile(this, 'MyProfile', {
-  inferenceProfileName: 'my-inference-profile',
-  description: 'A profile for high-quality responses',
-  modelSource: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
-});
+const profile = new bedrock.ApplicationInferenceProfile(...);
 
 // Grant the Lambda function permission to use the inference profile
 profile.grantProfileUsage(lambdaFunction);
 
 // Use a system defined inference profile
-const crossRegionProfile = bedrock.CrossRegionInferenceProfile.fromConfig({
-  geoRegion: bedrock.CrossRegionInferenceProfileRegion.US,
-  model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
-});
+const crossRegionProfile = bedrock.CrossRegionInferenceProfile.fromConfig(...);
 
 // Grant permissions to use the cross-region inference profile
 crossRegionProfile.grantProfileUsage(lambdaFunction);
+```
+
+#### Python
+
+```python
+from aws_cdk import aws_lambda as lambda
+import bedrock
+
+# Create an application inference profile
+profile = bedrock.ApplicationInferenceProfile(...)
+
+# Grant the Lambda function permission to use the inference profile
+profile.grant_profile_usage(lambda_function)
+
+# Use a system defined inference profile
+cross_region_profile = bedrock.CrossRegionInferenceProfile.from_config(...)
+
+# Grant permissions to use the cross-region inference profile
+cross_region_profile.grant_profile_usage(lambda_function)
 ```
 
 The `grantProfileUsage` method adds the necessary IAM permissions to the resource, allowing it to use the inference profile. This includes permissions to call `bedrock:GetInferenceProfile` and `bedrock:ListInferenceProfiles` actions on the inference profile resource.

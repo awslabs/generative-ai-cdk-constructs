@@ -124,19 +124,20 @@ const bedrockModelFromId = BedrockFoundationModel.fromCdkFoundationModelId(model
 #### Python
 
 ```python
-import { FoundationModel } from 'aws-cdk-lib/aws-bedrock';
+from aws_cdk import CfnOutput
+from aws_cdk.aws_bedrock import FoundationModel, BedrockFoundationModel, FoundationModelIdentifier
 
-// Import from FoundationModel
-const cdkModel = FoundationModel.CLAUDE_3_SONNET;
-const bedrockModel = BedrockFoundationModel.fromCdkFoundationModel(cdkModel, {
-  supportsAgents: true,
-});
+# Import from FoundationModel
+cdk_model = FoundationModel.CLAUDE_3_SONNET
+bedrock_model = BedrockFoundationModel.fromCdkFoundationModel(cdk_model, 
+    supports_agents=True,
+)
 
-// Import from FoundationModelIdentifier
-const modelId = FoundationModelIdentifier.CLAUDE_3_SONNET;
-const bedrockModelFromId = BedrockFoundationModel.fromCdkFoundationModelId(modelId, {
-  supportsAgents: true,
-});
+# Import from FoundationModelIdentifier
+model_id = FoundationModelIdentifier.CLAUDE_3_SONNET
+bedrock_model_from_id = BedrockFoundationModel.fromCdkFoundationModelId(model_id, 
+    supports_agents=True,
+)
 ```
 
 ### Granting Permissions

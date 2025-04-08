@@ -36,82 +36,10 @@ You can create a Guardrail with a minimum blockedInputMessaging, blockedOutputsM
 
 
 ```ts
-const guardrails = new bedrock.Guardrail(this, 'bedrockGuardrails', {
+const guardrail = new bedrock.Guardrail(this, 'bedrockGuardrails', {
   name: 'my-BedrockGuardrails',
   description: 'Legal ethical guardrails.',
 });
-
-// Optional - Add Sensitive information filters
-guardrails.addPIIFilter({
-  type: PIIType.General.ADDRESS,
-  action: GuardrailAction.ANONYMIZE,
-});
-
-guardrails.addRegexFilter({
-  name: 'TestRegexFilter',
-  description: 'This is a test regex filter',
-  pattern: '/^[A-Z]{2}d{6}$/',
-  action: bedrock.GuardrailAction.ANONYMIZE,
-});
-
-// Optional - Add contextual grounding
-guardrails.addContextualGroundingFilter({
-  type: ContextualGroundingFilterType.GROUNDING,
-  threshold: 0.95,
-});
-
-guardrails.addContextualGroundingFilter({
-  type: ContextualGroundingFilterType.RELEVANCE,
-  threshold: 0.95,
-});
-
-// Optional - Add Denied topics . You can use a Topic or create your custom Topic
-guardrails.addDeniedTopicFilter(Topic.FINANCIAL_ADVICE);
-guardrails.addDeniedTopicFilter(
-  Topic.custom({
-    name: 'Legal_Advice',
-    definition:
-      'Offering guidance or suggestions on legal matters, legal actions, interpretation of laws, or legal rights and responsibilities.',
-    examples: [
-      'Can I sue someone for this?',
-      'What are my legal rights in this situation?',
-      'Is this action against the law?',
-      'What should I do to file a legal complaint?',
-      'Can you explain this law to me?',
-    ],
-  })
-);
-
-// Optional - Add Word filters. You can upload words from a file with addWordFilterFromFile function.
-guardrails.addWordFilter('drugs');
-guardrails.addManagedWordListFilter(ManagedWordFilterType.PROFANITY);
-guardrails.addWordFilterFromFile('./scripts/wordsPolicy.csv');
-
-// versioning - if you change any guardrail configuration, a new version will be created
-guardrails.createVersion('testversion');
-
-// Importing existing guardrail
-const importedGuardrail = bedrock.Guardrail.fromGuardrailAttributes(stack, 'TestGuardrail', {
-  guardrailArn: 'arn:aws:bedrock:us-east-1:123456789012:guardrail/oygh3o8g7rtl',
-  guardrailVersion: '1', //optional
-  kmsKey: kmsKey, //optional
-});
-
-// Importing Guardrails created through the L1 CDK CfnGuardrail construct
-const cfnGuardrail = new CfnGuardrail(this, 'MyCfnGuardrail', {
-  blockedInputMessaging: 'blockedInputMessaging',
-  blockedOutputsMessaging: 'blockedOutputsMessaging',
-  name: 'namemycfnguardrails',
-  wordPolicyConfig: {
-    wordsConfig: [
-      {
-        text: 'drugs',
-      },
-    ],
-  },
-});
-
-const importedGuardrail = bedrock.Guardrail.fromCfnGuardrail(cfnGuardrail);
 ```
 
 #### Python
@@ -120,77 +48,6 @@ const importedGuardrail = bedrock.Guardrail.fromCfnGuardrail(cfnGuardrail);
 guardrail = bedrock.Guardrail(self, 'myGuardrails',
     name='my-BedrockGuardrails',
     description= "Legal ethical guardrails.")
-
-# Optional - Add Sensitive information filters
-guardrail.add_pii_filter(
-    type= bedrock.pii_type.General.ADDRESS,
-    action= bedrock.GuardrailAction.ANONYMIZE,
-)
-
-guardrail.add_regex_filter(
-    name= "TestRegexFilter",
-    description= "This is a test regex filter",
-    pattern= "/^[A-Z]{2}d{6}$/",
-    action= bedrock.GuardrailAction.ANONYMIZE,
-)
-
-# Optional - Add contextual grounding
-guardrail.add_contextual_grounding_filter(
-    type= bedrock.ContextualGroundingFilterType.GROUNDING,
-    threshold= 0.95,
-)
-
-guardrail.add_contextual_grounding_filter(
-    type= bedrock.ContextualGroundingFilterType.RELEVANCE,
-    threshold= 0.95,
-)
-
-# Optional - Add Denied topics . You can use default Topic or create your custom Topic with createTopic function. The default Topics can also be overwritten.
-guardrail.add_denied_topic_filter(bedrock.Topic.FINANCIAL_ADVICE)
-
-guardrail.add_denied_topic_filter(
-  bedrock.Topic.custom(
-    name= "Legal_Advice",
-    definition=
-        "Offering guidance or suggestions on legal matters, legal actions, interpretation of laws, or legal rights and responsibilities.",
-    examples= [
-        "Can I sue someone for this?",
-        "What are my legal rights in this situation?",
-        "Is this action against the law?",
-        "What should I do to file a legal complaint?",
-        "Can you explain this law to me?",
-    ]
-  )
-)
-
-# Optional - Add Word filters. You can upload words from a file with addWordFilterFromFile function.
-guardrail.add_word_filter("drugs")
-guardrail.add_managed_word_list_filter(bedrock.ManagedWordFilterType.PROFANITY)
-guardrail.add_word_filter_from_file("./scripts/wordsPolicy.csv")
-
-# versioning - if you change any guardrail configuration, a new version will be created
-guardrail.create_version("testversion")
-
-# Importing existing guardrail
-imported_guardrail = bedrock.Guardrail.from_guardrail_attributes(self, "TestGuardrail",
-  guardrail_arn="arn:aws:bedrock:us-east-1:123456789012:guardrail/oygh3o8g7rtl",
-  guardrail_version="1",
-  kms_key=kms_key
-)
-
-# Importing Guardrails created through the L1 CDK CfnGuardrail construct
-cfn_guardrail = cfnbedrock.CfnGuardrail(self, "MyCfnGuardrail",
-    blocked_input_messaging="blockedInputMessaging",
-    blocked_outputs_messaging="blockedOutputsMessaging",
-    name="name",
-    word_policy_config=cfnbedrock.CfnGuardrail.WordPolicyConfigProperty(
-        words_config=[cfnbedrock.CfnGuardrail.WordConfigProperty(
-            text="drugs"
-        )]
-    )
-)
-
-imported_guardrail = bedrock.Guardrail.from_cfn_guardrail(cfn_guardrail)
 ```
 
 ## Guardrail Properties
@@ -221,11 +78,21 @@ Content filters allow you to block input prompts or model responses containing h
 ##### TypeScript
 
 ```ts
-guardrails.addContentFilter({
+guardrail.addContentFilter({
   type: ContentFilterType.SEXUAL,
   inputStrength: ContentFilterStrength.HIGH,
   outputStrength: ContentFilterStrength.MEDIUM,
 });
+```
+
+##### Python
+
+```python
+guardrail.add_content_filter(
+  type=ContentFilterType.SEXUAL,
+  input_strength=ContentFilterStrength.HIGH,
+  output_strength=ContentFilterStrength.MEDIUM,
+);
 ```
 
 Available content filter types:
@@ -254,10 +121,10 @@ Denied topics allow you to define a set of topics that are undesirable in the co
 
 ```ts
 // Use a predefined topic
-guardrails.addDeniedTopicFilter(Topic.FINANCIAL_ADVICE);
+guardrail.addDeniedTopicFilter(Topic.FINANCIAL_ADVICE);
 
 // Create a custom topic
-guardrails.addDeniedTopicFilter(
+guardrail.addDeniedTopicFilter(
   Topic.custom({
     name: 'Legal_Advice',
     definition: 'Offering guidance or suggestions on legal matters, legal actions, interpretation of laws, or legal rights and responsibilities.',
@@ -272,6 +139,28 @@ guardrails.addDeniedTopicFilter(
 );
 ```
 
+##### Python
+
+```python
+# Use a predefined topic
+guardrail.add_denied_topic_filter(Topic.FINANCIAL_ADVICE);
+
+# Create a custom topic
+guardrail.add_denied_topic_filter(
+  Topic.custom(
+    name='Legal_Advice',
+    definition='Offering guidance or suggestions on legal matters, legal actions, interpretation of laws, or legal rights and responsibilities.',
+    examples=[
+      'Can I sue someone for this?',
+      'What are my legal rights in this situation?',
+      'Is this action against the law?',
+      'What should I do to file a legal complaint?',
+      'Can you explain this law to me?',
+    ],
+  )
+);
+```
+
 ### Word Filters
 
 Word filters allow you to block specific words, phrases, or profanity in user inputs and model responses.
@@ -282,14 +171,25 @@ Word filters allow you to block specific words, phrases, or profanity in user in
 
 ```ts
 // Add individual words
-guardrails.addWordFilter('drugs');
-guardrails.addWordFilter('competitor');
+guardrail.addWordFilter('drugs');
+guardrail.addWordFilter('competitor');
 
 // Add managed word lists
-guardrails.addManagedWordListFilter(ManagedWordFilterType.PROFANITY);
+guardrail.addManagedWordListFilter(ManagedWordFilterType.PROFANITY);
 
 // Add words from a file
-guardrails.addWordFilterFromFile('./scripts/wordsPolicy.csv');
+guardrail.addWordFilterFromFile('./scripts/wordsPolicy.csv');
+```
+
+##### Python
+
+```python
+guardrail.add_word_filter("drugs")
+guardrail.add_word_filter("competitor")
+
+guardrail.add_managed_word_list_filter(bedrock.ManagedWordFilterType.PROFANITY)
+
+guardrail.add_word_filter_from_file("./scripts/wordsPolicy.csv")
 ```
 
 ### PII Filters
@@ -302,16 +202,32 @@ PII filters allow you to detect and handle personally identifiable information i
 
 ```ts
 // Add PII filter for addresses
-guardrails.addPIIFilter({
+guardrail.addPIIFilter({
   type: PIIType.General.ADDRESS,
   action: GuardrailAction.ANONYMIZE,
 });
 
 // Add PII filter for credit card numbers
-guardrails.addPIIFilter({
+guardrail.addPIIFilter({
   type: PIIType.General.CREDIT_CARD_NUMBER,
   action: GuardrailAction.BLOCK,
 });
+```
+
+##### Python
+
+```python
+# Add PII filter for addresses
+guardrail.add_pii_filter(
+    type= bedrock.pii_type.General.ADDRESS,
+    action= bedrock.GuardrailAction.ANONYMIZE,
+)
+
+# Add PII filter for credit card numbers
+guardrail.add_pii_filter(
+    type= bedrock.pii_type.General.CREDIT_CARD_NUMBER,
+    action= bedrock.GuardrailAction.ANONYMIZE,
+)
 ```
 
 ### Regex Filters
@@ -323,12 +239,23 @@ Regex filters allow you to detect and handle custom patterns in user inputs and 
 ##### TypeScript
 
 ```ts
-guardrails.addRegexFilter({
+guardrail.addRegexFilter({
   name: 'TestRegexFilter',
   description: 'This is a test regex filter',
   pattern: '/^[A-Z]{2}d{6}$/',
   action: bedrock.GuardrailAction.ANONYMIZE,
 });
+```
+
+##### Python
+
+```python
+guardrail.add_regex_filter(
+    name= "TestRegexFilter",
+    description= "This is a test regex filter",
+    pattern= "/^[A-Z]{2}d{6}$/",
+    action= bedrock.GuardrailAction.ANONYMIZE,
+)
 ```
 
 ### Contextual Grounding Filters
@@ -340,15 +267,29 @@ Contextual grounding filters allow you to ensure that model responses are ground
 ##### TypeScript
 
 ```ts
-guardrails.addContextualGroundingFilter({
+guardrail.addContextualGroundingFilter({
   type: ContextualGroundingFilterType.GROUNDING,
   threshold: 0.95,
 });
 
-guardrails.addContextualGroundingFilter({
+guardrail.addContextualGroundingFilter({
   type: ContextualGroundingFilterType.RELEVANCE,
   threshold: 0.95,
 });
+```
+
+##### Python
+
+```python
+guardrail.add_contextual_grounding_filter(
+    type= bedrock.ContextualGroundingFilterType.GROUNDING,
+    threshold= 0.95,
+)
+
+guardrail.add_contextual_grounding_filter(
+    type= bedrock.ContextualGroundingFilterType.RELEVANCE,
+    threshold= 0.95,
+)
 ```
 
 ## Guardrail Methods
@@ -383,17 +324,25 @@ Guardrails provide methods to grant permissions to other resources that need to 
 
 ```ts
 // Grant specific permissions to a Lambda function
-guardrails.grant(lambdaFunction, 'bedrock:GetGuardrail', 'bedrock:ListGuardrails');
+guardrail.grant(lambdaFunction, 'bedrock:GetGuardrail', 'bedrock:ListGuardrails');
 
 // Grant permissions to apply the guardrail
-guardrails.grantApply(lambdaFunction);
+guardrail.grantApply(lambdaFunction);
+```
+
+#### Python
+
+```python
+# Grant specific permissions to a Lambda function
+guardrail.grant(lambdaFunction, 'bedrock:GetGuardrail', 'bedrock:ListGuardrails')
+
+# Grant permissions to apply the guardrail
+guardrail.grant_apply(lambdaFunction)
 ```
 
 ## Guardrail Metrics
 
 Amazon Bedrock provides metrics for your guardrails, allowing you to monitor their effectiveness and usage. These metrics are available in CloudWatch and can be used to create dashboards and alarms.
-
-
 
 ### Metrics Examples
 
@@ -450,6 +399,31 @@ const cfnGuardrail = new CfnGuardrail(this, 'MyCfnGuardrail', {
 const importedGuardrail = bedrock.Guardrail.fromCfnGuardrail(cfnGuardrail);
 ```
 
+#### Python
+
+```python
+# Importing existing guardrail
+imported_guardrail = bedrock.Guardrail.from_guardrail_attributes(self, "TestGuardrail",
+  guardrail_arn="arn:aws:bedrock:us-east-1:123456789012:guardrail/oygh3o8g7rtl",
+  guardrail_version="1",
+  kms_key=kms_key
+)
+
+# Importing Guardrails created through the L1 CDK CfnGuardrail construct
+cfn_guardrail = cfnbedrock.CfnGuardrail(self, "MyCfnGuardrail",
+    blocked_input_messaging="blockedInputMessaging",
+    blocked_outputs_messaging="blockedOutputsMessaging",
+    name="name",
+    word_policy_config=cfnbedrock.CfnGuardrail.WordPolicyConfigProperty(
+        words_config=[cfnbedrock.CfnGuardrail.WordConfigProperty(
+            text="drugs"
+        )]
+    )
+)
+
+imported_guardrail = bedrock.Guardrail.from_cfn_guardrail(cfn_guardrail)
+```
+
 ## Guardrail Versioning
 
 Guardrails support versioning, allowing you to track changes and maintain multiple versions of your guardrail configurations.
@@ -460,5 +434,12 @@ Guardrails support versioning, allowing you to track changes and maintain multip
 
 ```ts
 // Create a new version of the guardrail
-guardrails.createVersion('testversion');
-``` 
+guardrail.createVersion('testversion');
+```
+
+#### Python
+
+```python
+# Create a new version of the guardrail
+guardrail.create_version("testversion")
+```
