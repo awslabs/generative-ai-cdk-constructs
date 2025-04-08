@@ -329,6 +329,8 @@ bedrock.Prompt(self, 'Prompt',
 
 ## Import Methods
 
+You can use the `fromPromptAttributes` method to import an existing Bedrock Prompt into your CDK application.
+
 ### TypeScript
 
 ```ts

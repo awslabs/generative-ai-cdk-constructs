@@ -6,7 +6,6 @@ Amazon Bedrock Inference Profiles provide a way to manage and optimize inference
 
 - [Creating an Inference Profile](#creating-an-inference-profile)
 - [Using Inference Profiles](#using-inference-profiles)
-  - [With Prompts](#with-prompts)
   - [With Agents](#with-agents)
 - [Inference Configuration Properties](#inference-configuration-properties)
 - [Types of Inference Profiles](#types-of-inference-profiles)
@@ -14,6 +13,7 @@ Amazon Bedrock Inference Profiles provide a way to manage and optimize inference
   - [System defined Inference Profiles](#system-defined-inference-profiles)
 - [Prompt Routers](#prompt-routers)
 - [Inference profile permissions](#inference-profile-permissions)
+- [Import methods](#import-methods)
 
 ## Creating an Inference Profile
 
@@ -53,37 +53,36 @@ profile = bedrock.InferenceProfile(
 
 Inference profiles can be used with prompts and agents to maintain consistent inference configurations across your application.
 
-### With Prompts
+### With Agents
 
-#### Prompt with Inference Profile
-
-##### TypeScript
+#### TypeScript
 
 ```ts
-const prompt = new Prompt(this, 'MyPrompt', {
-  promptName: 'my-prompt',
-  defaultVariant: PromptVariant.text({
-    variantName: 'default',
-    model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
-    promptText: 'Hello, how can I help you?',
-    inferenceConfiguration: profile.inferenceConfiguration,
-  }),
+const cris = bedrock.CrossRegionInferenceProfile.fromConfig({
+  geoRegion: bedrock.CrossRegionInferenceProfileRegion.US,
+  model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+});
+
+const agent = new bedrock.Agent(this, 'Agent', {
+  foundationModel: cris,
+  instruction: 'You are a helpful and friendly agent that answers questions about agriculture.',
 });
 ```
 
-### With Agents
+#### Python
 
-#### Agent with Inference Profile
+```python
+cris = bedrock.CrossRegionInferenceProfile.from_config(
+  geo_region= bedrock.CrossRegionInferenceProfileRegion.US,
+  model= bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0
+)
 
-##### TypeScript
-
-```ts
-const agent = new Agent(this, 'MyAgent', {
-  agentName: 'my-agent',
-  instruction: 'You are a helpful assistant.',
-  foundationModel: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
-  inferenceConfiguration: profile.inferenceConfiguration,
-});
+agent = bedrock.Agent(
+    self,
+    "Agent",
+    foundation_model=cris,
+    instruction="You are a helpful and friendly agent that answers questions about agriculture.",
+)
 ```
 
 ## Inference Configuration Properties
@@ -104,98 +103,129 @@ The following properties can be configured in an inference profile:
 
 Amazon Bedrock offers two types of inference profiles:
 
-### Application Inference Profiles
-
-Application inference profiles are user-defined profiles that help you track costs and model usage. They can be created for a single region or for multiple regions using a cross-region inference profile.
-
-#### TypeScript
-
-```ts
-import { bedrock } from '@cdklabs/generative-ai-cdk-constructs';
-
-// Create an application inference profile for a single region
-const profile = new bedrock.ApplicationInferenceProfile(this, 'MyProfile', {
-  inferenceProfileName: 'my-inference-profile',
-  description: 'A profile for high-quality responses',
-  modelSource: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
-});
-
-// Create an application inference profile for multiple regions
-const crossRegionProfile = bedrock.CrossRegionInferenceProfile.fromConfig({
-  geoRegion: bedrock.CrossRegionInferenceProfileRegion.US,
-  model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
-});
-
-const multiRegionProfile = new bedrock.ApplicationInferenceProfile(this, 'MultiRegionProfile', {
-  inferenceProfileName: 'my-multi-region-profile',
-  description: 'A profile for multi-region deployment',
-  modelSource: crossRegionProfile,
-});
-```
 
 ### System Defined Inference Profiles
 
 Cross-region inference enables you to seamlessly manage unplanned traffic bursts by utilizing compute across different AWS Regions. With cross-region inference, you can distribute traffic across multiple AWS Regions, enabling higher throughput and enhanced resilience during periods of peak demands.
+
+You can build a CrossRegionInferenceProfile using a system defined inference profile. The inference profile will route requests to the Regions defined in the cross region (system-defined) inference profile that you choose. You can find the system defined inference profiles by navigating to your console (Amazon Bedrock -> Cross-region inference) or programmatically, for instance using boto3.
+
+Before using creating a CrossRegionInferenceProfile, ensure that you have access to the models and regions defined in the inference profiles. For instance, if you see the system defined inference profile "us.anthropic.claude-3-5-sonnet-20241022-v2:0" defined in your region, the table mentions that inference requests will be routed to US East (Virginia) us-east-1, US East (Ohio) us-east-2 and US West (Oregon) us-west-2. Thus, you need to have model access enabled in those regions for the model anthropic.claude-3-5-sonnet-20241022-v2:0.
 
 #### System Defined Profile Configuration
 
 ##### TypeScript
 
 ```ts
-import { bedrock } from '@cdklabs/generative-ai-cdk-constructs';
-
-// Create a cross-region inference profile for the US region
-const usProfile = bedrock.CrossRegionInferenceProfile.fromConfig({
+const cris = bedrock.CrossRegionInferenceProfile.fromConfig({
   geoRegion: bedrock.CrossRegionInferenceProfileRegion.US,
-  model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
+  model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0,
 });
+```
 
-// Create a cross-region inference profile for the EU region
-const euProfile = bedrock.CrossRegionInferenceProfile.fromConfig({
-  geoRegion: bedrock.CrossRegionInferenceProfileRegion.EU,
-  model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
-});
+##### Python
 
-// Create a cross-region inference profile for the APAC region
-const apacProfile = bedrock.CrossRegionInferenceProfile.fromConfig({
-  geoRegion: bedrock.CrossRegionInferenceProfileRegion.APAC,
-  model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
-});
+```python
+cris = bedrock.CrossRegionInferenceProfile.from_config(
+  geo_region= bedrock.CrossRegionInferenceProfileRegion.US,
+  model= bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0
+)
 ```
 
 For more information on cross region inference, please refer to [System defined inference profiles](https://github.com/krokoko/generative-ai-cdk-constructs/blob/main/src/cdk-lib/bedrock/README.md#system-defined-inference-profiles)
 
+### Application Inference Profiles
+
+Application inference profiles are user-defined profiles that help you track costs and model usage. They can be created for a single region or for multiple regions using a cross-region inference profile.
+
+To create an application inference profile for one Region, specify a foundation model. Usage and costs for requests made to that Region with that model will be tracked.
+
+To create an application inference profile for multiple Regions, specify a cross region (system-defined) inference profile. The inference profile will route requests to the Regions defined in the cross region (system-defined) inference profile that you choose. Usage and costs for requests made to the Regions in the inference profile will be tracked. You can find the system defined inference profiles by navigating to your console
+
+#### TypeScript
+
+```ts
+// Create an application inference profile for one Region
+// You can use the 'bedrock.BedrockFoundationModel' or pass the arn as a string
+const appInfProfile1 = new ApplicationInferenceProfile(this, 'myapplicationprofile', {
+  inferenceProfileName: 'claude 3 sonnet v1',
+  modelSource: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
+  tags: [{ key: 'test', value: 'test' }],
+});
+
+// To create an application inference profile across regions, specify the cross region inference profile
+const cris = bedrock.CrossRegionInferenceProfile.fromConfig({
+  geoRegion: bedrock.CrossRegionInferenceProfileRegion.US,
+  model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0,
+});
+
+const appInfProfile2 = new ApplicationInferenceProfile(this, 'myapplicationprofile2', {
+  inferenceProfileName: 'claude 3 sonnet v1',
+  modelSource: cris,
+});
+```
+
+#### Python
+
+```python
+
+# Create an application inference profile for one Region
+# You can use the 'bedrock.BedrockFoundationModel' or pass the arn as a string
+appInfProfile1 = bedrock.ApplicationInferenceProfile(self, 'myapplicationprofile',
+  inference_profile_name='claude 3 sonnet v1',
+  model_source=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
+  tags=[CfnTag(
+    key="key",
+    value="value"
+  )]
+)
+
+# To create an application inference profile across regions, specify the cross region inference profile
+cris = bedrock.CrossRegionInferenceProfile.from_config(
+  geo_region= bedrock.CrossRegionInferenceProfileRegion.US,
+  model= bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V2_0
+)
+
+appInfProfile2 = bedrock.ApplicationInferenceProfile(self, 'myapplicationprofile2',
+  inference_profile_name='claude 35 sonnet v2',
+  model_source=cris
+)
+```
+
 ## Prompt Routers
 
-Prompt routers allow you to route requests to different foundation models based on the prompt content. Amazon Bedrock provides default prompt routers for specific model families.
+Amazon Bedrock intelligent prompt routing provides a single serverless endpoint for efficiently routing requests between different foundational models within the same model family. It can help you optimize for response quality and cost. They offer a comprehensive solution for managing multiple AI models through a single serverless endpoint, simplifying the process for you. Intelligent prompt routing predicts the performance of each model for each request, and dynamically routes each request to the model that it predicts is most likely to give the desired response at the lowest cost. More information about prompt routing in the [documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-routing.html).
 
 ### Default and Custom Prompt Routers
 
 #### TypeScript
 
 ```ts
-import { bedrock } from '@cdklabs/generative-ai-cdk-constructs';
+const variant = PromptVariant.text({
+  variantName: 'variant1',
+  promptText: 'What is the capital of France?',
+  model: PromptRouter.fromDefaultId(DefaultPromptRouterIdentifier.ANTHROPIC_CLAUDE_V1, region),
+});
 
-// Use the default Anthropic Claude V1 router
-const claudeRouter = bedrock.PromptRouter.fromDefaultId(
-  bedrock.DefaultPromptRouterIdentifier.ANTHROPIC_CLAUDE_V1,
-  'us-east-1'
-);
+new Prompt(stack, 'Prompt', {
+  promptName: 'prompt-router-test',
+  variants: [variant],
+});
+```
 
-// Use the default Meta Llama 3.1 router
-const llamaRouter = bedrock.PromptRouter.fromDefaultId(
-  bedrock.DefaultPromptRouterIdentifier.META_LLAMA_3_1,
-  'us-east-1'
-);
+#### Python
 
-// Create a custom prompt router
-const customRouter = new bedrock.PromptRouter({
-  promptRouterId: 'my-custom-router',
-  routingModels: [
-    bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
-    bedrock.BedrockFoundationModel.META_LLAMA_3_1_70B_INSTRUCT_V1,
-  ],
-}, 'us-east-1');
+```python
+variant = bedrock.PromptVariant.text(
+    variant_name='variant1',
+    prompt_text='What is the capital of France?',
+    model=bedrock.PromptRouter.from_default_id(bedrock.DefaultPromptRouterIdentifier.ANTHROPIC_CLAUDE_V1, region),
+)
+
+bedrock.Prompt(self, 'Prompt',
+    prompt_name='prompt-router-test',
+    variants=[variant],
+)
 ```
 
 ## Inference profile permissions
@@ -231,3 +261,47 @@ crossRegionProfile.grantProfileUsage(lambdaFunction);
 ```
 
 The `grantProfileUsage` method adds the necessary IAM permissions to the resource, allowing it to use the inference profile. This includes permissions to call `bedrock:GetInferenceProfile` and `bedrock:ListInferenceProfiles` actions on the inference profile resource.
+
+## Import methods
+
+You can import existing application inference profiles using the following methods:
+
+### TypeScript
+
+```ts
+// Import a Cfn L1 construct created application inference profile
+const cfnapp = new CfnApplicationInferenceProfile(this, 'mytestaip3', {
+  inferenceProfileName: 'mytest',
+  modelSource: {
+    copyFrom: 'arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0',
+  },
+});
+
+const appInfProfile3 = bedrock.ApplicationInferenceProfile.fromCfnApplicationInferenceProfile(cfnapp);
+
+// Import an inference profile through attributes
+const appInfProfile4 = bedrock.ApplicationInferenceProfile.fromApplicationInferenceProfileAttributes(this, 'TestAIP', {
+  inferenceProfileArn: 'arn:aws:bedrock:us-east-1:XXXXX:application-inference-profile/ID',
+  inferenceProfileIdentifier: 'arn:aws:bedrock:us-east-1:XXXXXXX:application-inference-profile/ID',
+});
+```
+
+### Python
+
+```python
+# Import an inference profile through attributes
+appInfProfile3 = bedrock.ApplicationInferenceProfile.from_application_inference_profile_attributes(self, 'TestAIP',
+  inference_profile_arn='arn:aws:bedrock:us-east-1:XXXXX:application-inference-profile/ID',
+  inference_profile_identifier='arn:aws:bedrock:us-east-1:XXXXXXX:application-inference-profile/ID',
+)
+
+# Import a Cfn L1 construct created application inference profile
+cfnaip = CfnApplicationInferenceProfile(this, 'mytestaip4',
+  inference_profile_name='mytest',
+  model_source= CfnApplicationInferenceProfile.InferenceProfileModelSourceProperty(
+    copy_from='arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-3-sonnet-20240229-v1:0'
+  ),
+)
+
+appInfProfile4 = bedrock.ApplicationInferenceProfile.from_cfn_application_inference_profile(cfnaip);
+```

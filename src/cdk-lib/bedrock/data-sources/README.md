@@ -5,12 +5,12 @@ Amazon Bedrock Data Sources provide a way to connect and manage various data sou
 ## Table of Contents
 
 - [Supported Data Sources](#supported-data-sources)
+- [Data Source Properties](#data-source-properties)
 - [Creating a Data Source](#creating-a-data-source)
   - [S3 Data Source Example](#s3-data-source-example)
   - [Database Data Source Example](#database-data-source-example)
   - [Web Crawler Data Source Example](#web-crawler-data-source-example)
   - [Custom Data Source Example](#custom-data-source-example)
-- [Data Source Properties](#data-source-properties)
 - [Data Processing Configuration](#data-processing-configuration)
   - [Chunking Strategies](#chunking-strategies)
   - [Parsing Strategies](#parsing-strategies)
@@ -40,6 +40,17 @@ Amazon Bedrock supports the following types of data sources:
    - Create custom data sources for specialized use cases
    - Implement custom data processing logic
    - Integrate with external systems
+
+## Data Source Properties
+
+Common properties for all data sources:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| dataSourceName | string | The name of the data source. |
+| description | string | A description of the data source. |
+| roleArn | string | The ARN of the IAM role that Bedrock can assume to access the data source. |
+| tags | object | Key-value pairs to tag the data source. |
 
 ## Creating a Data Source
 
@@ -220,17 +231,6 @@ custom_data_source = bedrock.CustomDataSource(
     # Add custom configuration as needed
 )
 ```
-
-## Data Source Properties
-
-Common properties for all data sources:
-
-| Property | Type | Description |
-|----------|------|-------------|
-| dataSourceName | string | The name of the data source. |
-| description | string | A description of the data source. |
-| roleArn | string | The ARN of the IAM role that Bedrock can assume to access the data source. |
-| tags | object | Key-value pairs to tag the data source. |
 
 ## Data Processing Configuration
 

@@ -24,7 +24,7 @@
 
 [Amazon Bedrock](https://aws.amazon.com/bedrock/) is a fully managed service that offers a choice of high-performing foundation models (FMs) from leading AI companies and Amazon through a single API, along with a broad set of capabilities you need to build generative AI applications with security, privacy, and responsible AI.
 
-This construct library facilitates the deployment of Knowledge Bases, Bedrock Agents, Guardrails, Prompt Management, and Inference Pipelines. It leverages underlying CloudFormation L1 resources to provision these Bedrock features.
+This construct library facilitates the deployment of Amazon Bedrock resources through a higher level, L2 set of constructs. It leverages underlying CloudFormation L1 resources to provision these Bedrock features.
 
 ## Table of contents
 

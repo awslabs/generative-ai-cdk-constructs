@@ -75,6 +75,34 @@ new bedrock.S3DataSource(this, 'DataSource', {
 });
 ```
 
+##### Python
+
+```python
+
+from aws_cdk import (
+    aws_s3 as s3,
+)
+from cdklabs.generative_ai_cdk_constructs import (
+    bedrock
+)
+
+kb = bedrock.VectorKnowledgeBase(self, 'KnowledgeBase',
+            embeddings_model= bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
+            instruction=  'Use this knowledge base to answer questions about books. ' +
+    'It contains the full text of novels.'
+        )
+
+docBucket = s3.Bucket(self, 'DockBucket')
+
+bedrock.S3DataSource(self, 'DataSource',
+    bucket= docBucket,
+    knowledge_base=kb,
+    data_source_name='books',
+    chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
+)
+
+```
+
 #### Amazon RDS Aurora PostgreSQL Example
 
 ##### TypeScript
@@ -105,6 +133,114 @@ new bedrock.S3DataSource(this, 'DataSource', {
 });
 ```
 
+##### Python
+
+```python
+
+from aws_cdk import (
+    aws_s3 as s3,
+    aws_rds as rds,
+    aws_ec2 as ec2,
+    Stack,
+    ArnFormat
+)
+from cdklabs.generative_ai_cdk_constructs import (
+    bedrock,
+    amazonaurora,
+)
+
+# Dimension of your vector embedding
+embeddings_model_vector_dimension = 1024
+aurora_db = amazonaurora.AmazonAuroraVectorStore(self, 'AuroraDefaultVectorStore',
+  embeddings_model_vector_dimension=embeddings_model_vector_dimension
+)
+
+kb = bedrock.VectorKnowledgeBase(self, 'KnowledgeBase',
+  vector_store= aurora_db,
+  embeddings_model= foundation_models.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
+  instruction=  'Use this knowledge base to answer questions about books. ' +
+'It contains the full text of novels.'
+)
+
+docBucket = s3.Bucket(self, 'DockBucket')
+
+bedrock.S3DataSource(self, 'DataSource',
+  bucket= docBucket,
+  knowledge_base=kb,
+  data_source_name='books',
+  chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
+)
+```
+
+#### Pinecone
+    
+manual, you must have Pinecone vector store created:
+
+##### TypeScript
+
+```ts
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import { pinecone, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
+
+const pineconeds = new pinecone.PineconeVectorStore({
+  connectionString: 'https://your-index-1234567.svc.gcp-starter.pinecone.io',
+  credentialsSecretArn: 'arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name',
+  textField: 'question',
+  metadataField: 'metadata',
+});
+
+const kb = new bedrock.VectorKnowledgeBase(this, 'KnowledgeBase', {
+  vectorStore: pineconeds,
+  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+  instruction: 'Use this knowledge base to answer questions about books. ' + 'It contains the full text of novels.',
+});
+
+const docBucket = new s3.Bucket(this, 'DocBucket');
+
+new bedrock.S3DataSource(this, 'DataSource', {
+  bucket: docBucket,
+  knowledgeBase: kb,
+  dataSourceName: 'books',
+  chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
+});
+```
+
+##### Python
+
+```python
+
+from aws_cdk import (
+    aws_s3 as s3,
+)
+from cdklabs.generative_ai_cdk_constructs import (
+    bedrock,
+    pinecone,
+)
+
+pineconevs = pinecone.PineconeVectorStore(
+            connection_string='https://your-index-1234567.svc.gcp-starter.pinecone.io',
+            credentials_secret_arn='arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name',
+            text_field='question',
+            metadata_field='metadata'
+        )
+
+kb = bedrock.VectorKnowledgeBase(self, 'KnowledgeBase',
+            vector_store= pineconevs,
+            embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+            instruction=  'Use this knowledge base to answer questions about books. ' +
+    'It contains the full text of novels.'
+        )
+
+docBucket = s3.Bucket(self, 'DockBucket')
+
+bedrock.S3DataSource(self, 'DataSource',
+    bucket= docBucket,
+    knowledge_base=kb,
+    data_source_name='books',
+    chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
+)
+```
+
 ### Vector Knowledge Base - Vector Type
 
 The data type for the vectors when using a model to convert text into vector embeddings. Embeddings type may impact the availability of some embeddings models and vector stores. The following vector types are available:
@@ -114,9 +250,7 @@ The data type for the vectors when using a model to convert text into vector emb
 
 See [Supported embeddings models](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-supported.html) for information on the available models and their vector data types.
 
-#### Vector Type Configuration
-
-##### TypeScript
+#### TypeScript
 
 ```ts
 const kb = new bedrock.VectorKnowledgeBase(this, 'MyKnowledgeBase', {
@@ -124,6 +258,16 @@ const kb = new bedrock.VectorKnowledgeBase(this, 'MyKnowledgeBase', {
   vectorType: bedrock.VectorType.BINARY,
   embeddingsModel: bedrock.BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
 });
+```
+
+#### Python
+
+```python
+kb = bedrock.VectorKnowledgeBase(self, 'KnowledgeBase',
+    name= 'MyKnowledgeBase',
+    vector_type= bedrock.VectorType.BINARY,
+    embeddings_model= bedrock.BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
+)
 ```
 
 ### Vector Knowledge Base - Data Sources
@@ -151,6 +295,12 @@ More details about the different data sources can be found in the dedicated [Rea
   ChunkingStrategy.DEFAULT;
   ```
 
+  ##### Python
+
+  ```python
+  ChunkingStrategy.DEFAULT
+  ```
+
 - **Fixed Size Chunking**: This method divides the data into fixed-size chunks, with each chunk containing a predetermined number of tokens. This strategy is useful when the data is uniform in size and structure.
 
   #### Fixed Size Chunking Configuration
@@ -164,6 +314,21 @@ More details about the different data sources can be found in the dedicated [Rea
   // Fixed Size Chunking with custom values.
   ChunkingStrategy.fixedSize({ maxTokens: 200, overlapPercentage: 25 });
   ```
+
+  ##### Python
+
+  ```python
+  # Fixed Size Chunking with sane defaults.
+  ChunkingStrategy.FIXED_SIZE
+
+  # Fixed Size Chunking with custom values.
+  ChunkingStrategy.fixed_size(
+    max_tokens= 200,
+    overlap_percentage= 25
+  )
+  ```
+
+
 
 - **Hierarchical Chunking**: This strategy organizes data into layers of chunks, with the first layer containing large chunks and the second layer containing smaller chunks derived from the first. It is ideal for data with inherent hierarchies or nested structures.
 
@@ -187,6 +352,26 @@ More details about the different data sources can be found in the dedicated [Rea
   });
   ```
 
+  ##### Python
+
+  Python
+
+  ```python
+  # Hierarchical Chunking with the default for Cohere Models.
+  ChunkingStrategy.HIERARCHICAL_COHERE
+
+  # Hierarchical Chunking with the default for Titan Models.
+  ChunkingStrategy.HIERARCHICAL_TITAN
+
+  # Hierarchical Chunking with custom values. Tthe maximum chunk size depends on the model.
+  # Amazon Titan Text Embeddings: 8192. Cohere Embed models: 512
+  chunking_strategy= ChunkingStrategy.hierarchical(
+      overlap_tokens=60,
+      max_parent_token_size=1500,
+      max_child_token_size=300
+  )
+  ```
+
 - **Semantic Chunking**: This method splits data into smaller documents based on groups of similar content derived from the text using natural language processing. It helps preserve contextual relationships and ensures accurate and contextually appropriate results.
 
   #### Semantic Chunking Configuration
@@ -201,6 +386,20 @@ More details about the different data sources can be found in the dedicated [Rea
   ChunkingStrategy.semantic({ bufferSize: 0, breakpointPercentileThreshold: 95, maxTokens: 300 });
   ```
 
+  ##### Python
+
+  ```python
+  # Semantic Chunking with sane defaults.
+  ChunkingStrategy.SEMANTIC
+
+  # Semantic Chunking with custom values.
+  ChunkingStrategy.semantic(
+    buffer_size=0,
+    breakpoint_percentile_threshold=95,
+    max_tokens=300
+  )
+  ```
+
 - **No Chunking**: This strategy treats each file as one chunk. If you choose this option, you may want to pre-process your documents by splitting them into separate files.
 
   #### No Chunking Configuration
@@ -209,6 +408,12 @@ More details about the different data sources can be found in the dedicated [Rea
 
   ```ts
   ChunkingStrategy.NONE;
+  ```
+
+  ##### Python
+
+  ```python
+  ChunkingStrategy.NONE
   ```
 
 ### Vector Knowledge Base - Parsing Strategy
@@ -229,6 +434,14 @@ A parsing strategy in Amazon Bedrock is a configuration that determines how the 
   });
   ```
 
+  ##### Python
+
+  ```python
+  bedrock.ParsingStategy.foundation_model(
+      parsing_model=BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0
+  )
+  ```
+
 ### Knowledge Base - Custom Transformation
 
 Custom Transformation in Amazon Bedrock is a feature that allows you to create and apply custom processing steps to documents moving through a data source ingestion pipeline.
@@ -244,6 +457,15 @@ CustomTransformation.lambda({
   lambdaFunction: lambdaFunction,
   s3BucketUri: `s3://${bucket.bucketName}/chunk-processor/`,
 });
+```
+
+##### Python
+
+```python
+CustomTransformation.lambda_(
+  lambda_function= function,
+  s3_bucket_uri= f's3://{docBucket.bucket_name}/chunk-processor/'
+)
 ```
 
 ### Knowledge Base - Context Enrichment
@@ -262,6 +484,14 @@ The enrichment process uses Amazon Bedrock foundation models to perform operatio
 bedrock.ContextEnrichment.foundationModel({
   enrichmentModel: BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0,
 });
+```
+
+##### Python
+
+```python
+bedrock.ContextEnrichment.foundation_model(
+  enrichment_model=BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0
+)
 ```
 
 ## Kendra Knowledge Base
@@ -286,9 +516,7 @@ With Amazon Bedrock Knowledge Bases, you can build a knowledge base from an Amaz
 
 ### Example
 
-#### Kendra Knowledge Base Creation
-
-##### TypeScript
+#### TypeScript
 
 ```ts
 import * as s3 from 'aws-cdk-lib/aws-s3';
@@ -314,6 +542,36 @@ new bedrock.KendraKnowledgeBase(this, 'kb', {
   name: 'kendra-kb-cdk',
   kendraIndex: index,
 });
+```
+
+#### Python
+
+```py
+from aws_cdk import aws_kms as kms
+from cdklabs.generative_ai_cdk_constructs import bedrock, kendra
+
+# Create a KMS key
+cmk = kms.Key(stack, 'cmk')
+
+# Create a new Kendra index
+index = kendra.KendraGenAiIndex(self, 'index',
+    name='kendra-index-cdk',
+    kms_key=cmk,
+    document_capacity_units=1,  # 40K documents
+    query_capacity_units=1      # 0.2 QPS
+)
+
+# Or import an existing index
+index = kendra.KendraGenAiIndex.from_attrs(self, 'myindex',
+    index_id='myindex',
+    role=my_role
+)
+
+# Create a Kendra Knowledge Base
+kb = bedrock.KendraKnowledgeBase(self, 'kb',
+    name='kendra-kb-cdk',
+    kendra_index=index
+)
 ```
 
 ## Graph Knowledge Base
@@ -371,6 +629,54 @@ kb.addS3DataSource({
 new cdk.CfnOutput(stack, "GraphExplorerUrl", {
   value: notebook.graphExplorerEndpoint,
 });
+```
+
+#### Python
+
+```python
+import aws_cdk as cdk
+from aws_cdk import aws_s3 as s3
+import bedrock
+
+# Create an S3 bucket for data
+data_bucket = s3.Bucket(self, "SampleBucket",
+    removal_policy=cdk.RemovalPolicy.DESTROY,
+    auto_delete_objects=True
+)
+
+# Use a multilingual embedding model
+embedding_model = bedrock.BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3
+
+# Create a Neptune graph
+graph = bedrock.NeptuneGraph(self, "NeptuneGraph",
+    vector_search_dimension=embedding_model.vector_dimensions,
+    # Graph customization goes here
+)
+
+# Create a notebook for the graph
+notebook = graph.create_notebook()
+
+# Create a graph knowledge base
+kb = bedrock.GraphKnowledgeBase(self, "GraphKnowledgeBase",
+    embedding_model=embedding_model,
+    graph=graph
+)
+
+# Add an S3 data source
+kb.add_s3_data_source(
+    bucket=data_bucket,
+    # Context enrichment configuration for GraphRAG
+    # - This is the default and only valid combination of model and method
+    # - Future versions may support additional models and enrichment methods
+    # context_enrichment=bedrock.ContextEnrichment.foundation_model(
+    #     enrichment_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0
+    # )
+)
+
+# Output the graph explorer URL
+cdk.CfnOutput(stack, "GraphExplorerUrl",
+    value=notebook.graph_explorer_endpoint
+)
 ```
 
 ### Data Sources
@@ -437,6 +743,18 @@ const importedKb = bedrock.VectorKnowledgeBase.fromKnowledgeBaseAttributes(this,
 });
 ```
 
+##### Python
+
+```python
+imported_kb = bedrock.VectorKnowledgeBase.from_knowledge_base_attributes(
+    self, 
+    'ImportedKb',
+    knowledge_base_id='kb-12345678',
+    execution_role_arn='arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase',
+    vector_store_type=bedrock.VectorStoreType.OPENSEARCH_SERVERLESS,
+)
+```
+
 #### Import a Kendra Knowledge Base
 
 ##### TypeScript
@@ -448,6 +766,18 @@ const importedKendraKb = bedrock.KendraKnowledgeBase.fromKnowledgeBaseAttributes
   executionRoleArn: 'arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase',
   kendraIndex: existingKendraIndex,
 });
+```
+
+##### Python
+
+```python
+imported_kendra_kb = bedrock.KendraKnowledgeBase.from_knowledge_base_attributes(
+    self, 
+    'ImportedKendraKb',
+    knowledge_base_id='kb-12345678',
+    execution_role_arn='arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase',
+    kendra_index=existing_kendra_index,
+)
 ```
 
 #### Import a Graph Knowledge Base
@@ -467,26 +797,19 @@ const importedGraphKb = bedrock.GraphKnowledgeBase.fromKnowledgeBaseAttributes(t
 });
 ```
 
-### Using Imported Knowledge Bases
+##### Python
 
-Once imported, you can use the knowledge base in your CDK application just like any other knowledge base:
-
-#### TypeScript
-
-```ts
-// Grant permissions to a Lambda function to query the knowledge base
-importedKb.grantQuery(lambdaFunction);
-
-// Grant permissions to a Lambda function to retrieve content from the knowledge base
-importedKb.grantRetrieve(lambdaFunction);
-
-// Add a data source to the imported knowledge base
-importedKb.addS3DataSource({
-  bucket: docBucket,
-  dataSourceName: 'books',
-  chunkingStrategy: bedrock.ChunkingStrategy.fixedSize({
-    maxTokens: 500,
-    overlapPercentage: 20,
-  }),
-});
+```python
+# Import a Graph Knowledge Base
+imported_graph_kb = bedrock.GraphKnowledgeBase.from_knowledge_base_attributes(
+    self, 
+    'ImportedGraphKb',
+    knowledge_base_id='kb-12345678',
+    execution_role_arn='arn:aws:iam::123456789012:role/AmazonBedrockExecutionRoleForKnowledgeBase',
+    graph_id='graph-12345678',
+    field_mapping={
+        'metadataField': 'AMAZON_BEDROCK_METADATA',
+        'textField': 'AMAZON_BEDROCK_TEXT',
+    }
+)
 ```

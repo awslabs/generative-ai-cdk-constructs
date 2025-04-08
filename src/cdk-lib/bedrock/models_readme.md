@@ -53,11 +53,27 @@ const model = new BedrockFoundationModel('model-id', {
 });
 ```
 
+### Python
+
+```python
+model = BedrockFoundationModel('model-id', 
+    supports_agents=True,
+    optimized_for_agents=True,
+    legacy=False,
+    supports_knowledge_base=False,
+    supports_cross_region=True,
+    vector_dimensions=1536,
+    supported_vector_type=[VectorType.FLOATING_POINT],
+)
+```
+
 ## Using Models
 
 ### Creating a Model
 
 You can create a model using the static properties or by instantiating a new `BedrockFoundationModel`:
+
+#### TypeScript
 
 ```ts
 // Using a predefined model
@@ -70,11 +86,44 @@ const customModel = new BedrockFoundationModel('custom.model-id', {
 });
 ```
 
+#### Python
+
+```python
+# Using a predefined model
+claude_model = BedrockFoundationModel.ANTHROPIC_CLAUDE_3_SONNET_V1_0
+
+# Creating a custom model
+custom_model = BedrockFoundationModel('custom.model-id', 
+    supports_agents=True,
+    supports_knowledge_base=True,
+)
+```
+
 ### Importing from CDK Models
 
 You can also import models from the AWS CDK's `FoundationModel` or `FoundationModelIdentifier`:
 
+#### TypeScript
+
 ```ts
+import { FoundationModel } from 'aws-cdk-lib/aws-bedrock';
+
+// Import from FoundationModel
+const cdkModel = FoundationModel.CLAUDE_3_SONNET;
+const bedrockModel = BedrockFoundationModel.fromCdkFoundationModel(cdkModel, {
+  supportsAgents: true,
+});
+
+// Import from FoundationModelIdentifier
+const modelId = FoundationModelIdentifier.CLAUDE_3_SONNET;
+const bedrockModelFromId = BedrockFoundationModel.fromCdkFoundationModelId(modelId, {
+  supportsAgents: true,
+});
+```
+
+#### Python
+
+```python
 import { FoundationModel } from 'aws-cdk-lib/aws-bedrock';
 
 // Import from FoundationModel
@@ -94,12 +143,24 @@ const bedrockModelFromId = BedrockFoundationModel.fromCdkFoundationModelId(model
 
 You can grant permissions to invoke a model:
 
+#### TypeScript
+
 ```ts
 // Grant permissions to invoke the model in the current region
 model.grantInvoke(role);
 
 // Grant permissions to invoke the model in all regions
 model.grantInvokeAllRegions(role);
+```
+
+#### Python
+
+```python
+# Grant permissions to invoke the model in the current region
+model.grant_invoke(role);
+
+# Grant permissions to invoke the model in all regions
+model.grant_invoke_all_regions(role);
 ```
 
 ## Model Capabilities
@@ -125,6 +186,8 @@ Embedding models have specific properties:
 
 Example usage with a knowledge base:
 
+#### TypeScript
+
 ```ts
 import { VectorKnowledgeBase } from 'aws-cdk-lib/aws-bedrock';
 
@@ -133,4 +196,17 @@ const knowledgeBase = new VectorKnowledgeBase(this, 'MyKnowledgeBase', {
   vectorType: VectorType.FLOATING_POINT,
   // Other properties...
 });
-``` 
+```
+
+#### Python
+
+```python
+from aws_cdk import CfnOutput
+from aws_cdk.aws_bedrock import VectorKnowledgeBase
+
+knowledge_base = VectorKnowledgeBase(self, 'MyKnowledgeBase', 
+    embeddings_model=BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+    vector_type=VectorType.FLOATING_POINT,
+    # Other properties...
+)
+```

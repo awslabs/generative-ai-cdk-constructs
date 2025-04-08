@@ -6,6 +6,7 @@ Amazon Bedrock Agents allow generative AI applications to automate complex, mult
 
 - [Agent Properties](#agent-properties)
 - [Creating an Agent](#create-an-agent)
+- [Prompt Overriding](#prompt-overriding)
 - [Action Groups](#action-groups)
 - [Memory Configuration](#memory-configuration)
 - [Agent Collaboration](#agent-collaboration)
@@ -43,7 +44,7 @@ Amazon Bedrock Agents allow generative AI applications to automate complex, mult
 
 The following example creates an Agent with a simple instruction and default prompts that consults a Knowledge Base.
 
-### TypeScript Example
+### TypeScript
 
 ```ts
 const agent = new bedrock.Agent(this, 'Agent', {
@@ -52,6 +53,126 @@ const agent = new bedrock.Agent(this, 'Agent', {
 });
 
 agent.addKnowledgeBase(kb);
+```
+
+### Python
+
+```py
+agent = bedrock.Agent(
+    self,
+    "Agent",
+    foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0,
+    instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
+)
+
+agent.add_knowledge_base(kb)
+```
+
+You can also use system defined inference profiles to enable cross region inference requests for supported models. For instance:
+
+### TypeScript
+
+```ts
+const cris = bedrock.CrossRegionInferenceProfile.fromConfig({
+  geoRegion: bedrock.CrossRegionInferenceProfileRegion.US,
+  model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+});
+
+const agent = new bedrock.Agent(this, 'Agent', {
+  foundationModel: cris,
+  instruction: 'You are a helpful and friendly agent that answers questions about agriculture.',
+});
+```
+
+### Python
+
+```python
+cris = bedrock.CrossRegionInferenceProfile.from_config(
+  geo_region= bedrock.CrossRegionInferenceProfileRegion.US,
+  model= bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0
+)
+
+agent = bedrock.Agent(
+    self,
+    "Agent",
+    foundation_model=cris,
+    instruction="You are a helpful and friendly agent that answers questions about agriculture.",
+)
+```
+
+For more information on cross region inference, please refer to [Inference profiles](../inference-profiles/README.md).
+
+### Preparing an Agent
+
+The `Agent` constructs take an optional parameter `shouldPrepareAgent` to indicate that the Agent should be prepared after any updates to an agent, Knowledge Base association, or action group. This may increase the time to create and update those resources. By default, this value is false .
+
+Creating an agent alias will not prepare the agent, so if you create an alias using the `AgentAlias` resource then you should set `shouldPrepareAgent` to **_true_**.
+
+## Prompt Overriding
+
+Bedrock Agents allows you to customize the prompts and LLM configuration for its different steps. You can disable steps or create a new prompt template. Prompt templates can be inserted from plain text files.
+
+### TypeScript
+
+```ts
+import { readFileSync } from 'fs';
+
+const file = readFileSync(prompt_path, 'utf-8');
+
+const agent = new bedrock.Agent(this, 'Agent', {
+      foundationModel: bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
+      instruction: 'You are a helpful and friendly agent that answers questions about literature.',
+      userInputEnabled: true,
+      codeInterpreterEnabled: false,
+      shouldPrepareAgent:true,
+      promptOverrideConfiguration: bedrock.PromptOverrideConfiguration.fromSteps(
+        [
+          {
+            stepType: bedrock.AgentStepType.PRE_PROCESSING,
+            stepEnabled: true,
+            customPromptTemplate: file,
+            inferenceConfig: {
+              temperature: 0.0,
+              topP: 1,
+              topK: 250,
+              maximumLength: 1,
+              stopSequences: ["\n\nHuman:"],
+            },
+            foundationModel: bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1
+          }
+        ]
+      )
+    });
+```
+
+### Python
+
+```python
+orchestration = open('prompts/orchestration.txt', encoding="utf-8").read()
+agent = bedrock.Agent(self, "Agent",
+            foundation_model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_V2_1,
+            instruction="You are a helpful and friendly agent that answers questions about insurance claims.",
+            user_input_enabled=True,
+            code_interpreter_enabled=False,
+            should_prepare_agent=True,
+            prompt_override_configuration= bedrock.PromptOverrideConfiguration.from_steps(
+                steps=[
+                    bedrock.PromptStepConfiguration(
+                        step_type=bedrock.AgentStepType.PRE_PROCESSING,
+                        step_enabled= True,
+                        custom_prompt_template= file,
+                        inference_config=bedrock.InferenceConfiguration(
+                            temperature=0.0,
+                            top_k=250,
+                            top_p=1,
+                            maximum_length=1,
+                            stop_sequences=['\n\nHuman:'],
+                        ),
+                        foundationModel: bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1
+                    ),
+                ]
+            ),
+        )
 ```
 
 ## Action Groups
@@ -90,6 +211,29 @@ const actionGroup = new AgentActionGroup({
 agent.addActionGroup(actionGroup);
 ```
 
+### Python
+
+```python
+
+action_group_function = PythonFunction(
+            self,
+            "LambdaFunction",
+            runtime=Runtime.PYTHON_3_12,
+            entry="./lambda",
+            index="app.py",
+            handler="lambda_handler",
+)
+
+actionGroup = bedrock.AgentActionGroup(
+    name="query-library",
+    description="Use these functions to get information about the books in the library.",
+    executor= bedrock.ActionGroupExecutor.fromlambda_function(action_group_function),
+    enabled=True,
+    api_schema=bedrock.ApiSchema.from_local_asset("action-group.yaml"))
+
+agent.add_action_group(actionGroup)
+```
+
 ## Memory Configuration
 
 Agents can maintain context across multiple sessions and recall past interactions using memory. This feature is useful for creating a more coherent conversational experience.
@@ -98,7 +242,7 @@ Agents can maintain context across multiple sessions and recall past interaction
 
 You can configure memory for an agent using the `memory` property in the `AgentProps` interface. The memory configuration allows you to specify the type of memory and its properties.
 
-### TypeScript
+#### TypeScript
 
 ```ts
 import { Agent, Memory, SessionSummaryMemoryProps } from 'src/cdk-lib/bedrock/agents';
@@ -112,6 +256,22 @@ const agent = new Agent(this, 'MyAgent', {
     memoryDurationDays: 20, // Retain summaries for 20 days
   }),
 });
+```
+
+#### Python
+
+```py
+from src.cdk_lib.bedrock.agents import Agent, Memory, BedrockFoundationModel
+
+agent = Agent(self, 'MyAgent',
+    name='MyAgent',
+    instruction='Your instruction here',
+    foundation_model=BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
+    memory=Memory.session_summary(
+        max_recent_sessions=10,  # Keep the last 10 session summaries
+        memory_duration_days=20,  # Retain summaries for 20 days
+    ),
+)
 ```
 
 ### Memory Properties
@@ -137,7 +297,7 @@ You can configure collaboration for an agent using the `agentCollaboration` and 
 - **SUPERVISOR_ROUTER**: The agent acts as a supervisor that can route requests to specialized agents.
 - **DISABLED**: Collaboration is disabled (default).
 
-### TypeScript
+#### TypeScript
 
 ```ts
 import { Agent, AgentCollaboratorType, RelayConversationHistoryType } from '@cdklabs/generative-ai-cdk-constructs';
@@ -172,6 +332,47 @@ const mainAgent = new Agent(this, 'MainAgent', {
 });
 ```
 
+#### Python
+
+```python
+from cdklabs.generative_ai_cdk_constructs import (
+    bedrock, 
+    AgentCollaboratorType, 
+    RelayConversationHistoryType
+)
+
+# Create a specialized agent for customer support
+customer_support_agent = bedrock.Agent(self, 'CustomerSupportAgent',
+    name='CustomerSupportAgent',
+    instruction='You specialize in answering customer support questions about our products.',
+    foundation_model=bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
+)
+
+# Create an agent alias for the specialized agent
+customer_support_alias = bedrock.AgentAlias(self, 'CustomerSupportAlias', 
+    agent=customer_support_agent,
+    alias_name='production',
+)
+
+# Create a main agent that can collaborate with the specialized agent
+main_agent = bedrock.Agent(self, 'MainAgent',
+    name='MainAgent',
+    instruction='You are a helpful assistant that can answer general questions and route specialized customer support questions to the customer support agent.',
+    foundation_model=bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
+    agent_collaboration=AgentCollaboratorType.SUPERVISOR,
+    agent_collaborators=[
+      bedrock.AgentCollaborator(
+        agent_alias= customer_support_alias,
+        collaboration_instruction= 'Route customer support questions to this agent.',
+        collaborator_name= 'CustomerSupport',
+        relay_conversation_history= true,
+      )
+    ],
+)
+```
+
+For more information on agent collaboration, refer to the [AWS Bedrock documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-collaboration.html).
+
 ## Custom Orchestration
 
 Custom Orchestration allows you to override the default agent orchestration flow with your own Lambda function. This enables more control over how the agent processes user inputs, handles knowledge base queries, and invokes action groups.
@@ -183,7 +384,7 @@ You can configure the orchestration type using the `orchestrationType` and `cust
 - **DEFAULT**: The default orchestration provided by Bedrock (default).
 - **CUSTOM_ORCHESTRATION**: Custom orchestration using a Lambda function.
 
-### TypeScript
+#### TypeScript
 
 ```ts
 import { Agent, OrchestrationType, OrchestrationExecutor } from '@cdklabs/generative-ai-cdk-constructs';
@@ -209,6 +410,40 @@ const agent = new Agent(this, 'CustomOrchestrationAgent', {
 });
 ```
 
+#### Python
+
+```python
+from cdklabs.generative_ai_cdk_constructs import (
+    bedrock, 
+    OrchestrationType, 
+    OrchestrationExecutor
+)
+import aws_cdk.aws_lambda as lambda_
+import os
+
+# Create a Lambda function for custom orchestration
+orchestration_function = lambda_.Function(self, 'OrchestrationFunction',
+    runtime=lambda_.Runtime.PYTHON_3_10,
+    handler='index.handler',
+    code=lambda_.Code.from_asset(os.path.join(os.path.dirname(__file__), 'lambda/orchestration')),
+)
+
+# Create an agent with custom orchestration
+agent = bedrock.Agent(self, 'CustomOrchestrationAgent',
+    name='CustomOrchestrationAgent',
+    instruction='You are a helpful assistant with custom orchestration logic.',
+    foundation_model=bedrock.BedrockFoundationModel.AMAZON_NOVA_LITE_V1,
+    orchestration_type=OrchestrationType.CUSTOM_ORCHESTRATION,
+    custom_orchestration=bedrock.CustomOrchestration(
+      executor= OrchestrationExecutor.fromlambda_function(orchestration_function),
+    )
+)
+```
+
+The custom orchestration Lambda function receives events from Bedrock with the user's input and context, and it can control the flow of the conversation by deciding when to query knowledge bases, invoke action groups, or respond directly to the user.
+
+For more information on custom orchestration, refer to the [AWS Bedrock documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-custom-orchestration.html).
+
 ## Agent Alias
 
 After you have sufficiently iterated on your working draft and are satisfied with the behavior of your agent, you can set it up for deployment and integration into your application by creating aliases of your agent.
@@ -226,6 +461,17 @@ const agentAlias2 = new bedrock.AgentAlias(this, 'myalias2', {
   agentVersion: '1', // optional
   description: 'mytest'
 });
+```
+
+### Python
+
+```python
+agent_alias_2 = bedrock.AgentAlias(self, 'myalias2',
+    alias_name='myalias',
+    agent=agent,
+    agent_version='1', # optional
+    description='mytest'
+)
 ```
 
 ## Permissions and Methods
