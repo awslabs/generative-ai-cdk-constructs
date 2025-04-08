@@ -21,27 +21,14 @@ Amazon Bedrock Data Sources provide a way to connect and manage various data sou
 
 ## Supported Data Sources
 
-Amazon Bedrock supports the following types of data sources:
+Amazon Bedrock supports the following types of data sources: 
 
-1. **S3 Data Sources**
-   - Connect to S3 buckets containing documents, text files, or other data
-   - Support for various file formats (PDF, DOCX, TXT, etc.)
-   - Automatic content extraction and processing
-
-2. **Database Data Sources**
-   - Connect to relational databases (RDS, Aurora)
-   - Support for NoSQL databases (DynamoDB)
-   - Real-time data synchronization
-
-3. **Web Crawler Data Sources**
-   - Crawl web pages from specified URLs
-   - Configure crawling scope and rate
-   - Filter content using include/exclude patterns
-
-4. **Custom Data Sources**
-   - Create custom data sources for specialized use cases
-   - Implement custom data processing logic
-   - Integrate with external systems
+- S3
+- Web Crawler
+- Confluence
+- Salesforce
+- Sharepoint
+- Custom
 
 ## Data Source Properties
 
