@@ -8,8 +8,10 @@ Amazon Bedrock Data Sources provide a way to connect and manage various data sou
 - [Data Source Properties](#data-source-properties)
 - [Creating a Data Source](#creating-a-data-source)
   - [S3 Data Source Example](#s3-data-source-example)
-  - [Database Data Source Example](#database-data-source-example)
   - [Web Crawler Data Source Example](#web-crawler-data-source-example)
+  - [Confluence Data Source Example](#confluence-data-source-example)
+  - [Salesforce Data Source Example](#salesforce-data-source-example)
+  - [Sharepoint Data Source Example](#sharepoint-data-source-example)
   - [Custom Data Source Example](#custom-data-source-example)
 - [Data Processing Configuration](#data-processing-configuration)
   - [Chunking Strategies](#chunking-strategies)
@@ -59,112 +61,32 @@ Common properties for all data sources:
 #### TypeScript
 
 ```ts
-const dataSource = new S3DataSource(this, 'MyS3DataSource', {
-  dataSourceName: 'my-s3-data-source',
-  description: 'Data source for company documents',
-  s3Bucket: 'my-company-documents',
-  s3Prefix: 'documents/',
-  dataSourceConfiguration: {
-    chunkingConfiguration: {
-      chunkSize: 1000,
-      chunkOverlap: 100,
-    },
-    documentProcessingConfiguration: {
-      textExtractionConfiguration: {
-        enableTextExtraction: true,
-      },
-    },
-  },
+const docBucket = new s3.Bucket(this, 'DocBucket');
+
+const dataSource = new bedrock.S3DataSource(this, 'DataSource', {
+  bucket: docBucket,
+  knowledgeBase: kb,
+  dataSourceName: 'mydatasource',
+  chunkingStrategy: bedrock.ChunkingStrategy.fixedSize({
+    maxTokens: 500,
+    overlapPercentage: 20
+  }),
 });
 ```
 
 #### Python
 
 ```python
-data_source = bedrock.S3DataSource(
-    self,
-    "MyS3DataSource",
-    data_source_name="my-s3-data-source",
-    description="Data source for company documents",
-    s3_bucket="my-company-documents",
-    s3_prefix="documents/",
-    data_source_configuration={
-        "chunkingConfiguration": {
-            "chunkSize": 1000,
-            "chunkOverlap": 100,
-        },
-        "documentProcessingConfiguration": {
-            "textExtractionConfiguration": {
-                "enableTextExtraction": True,
-            },
-        },
-    }
-)
-```
+doc_bucket = s3.Bucket(self, 'DockBucket')
 
-### Database Data Source Example
-
-#### TypeScript
-
-```ts
-const dbDataSource = new DatabaseDataSource(this, 'MyDBDataSource', {
-  dataSourceName: 'my-db-data-source',
-  description: 'Data source for product information',
-  connectionConfiguration: {
-    databaseType: 'RDS',
-    connectionString: 'postgresql://user:password@host:5432/dbname',
-    vpcConfiguration: {
-      vpcId: 'vpc-12345678',
-      subnetIds: ['subnet-1', 'subnet-2'],
-      securityGroupIds: ['sg-12345678'],
-    },
-  },
-  dataSourceConfiguration: {
-    tableConfigurations: [
-      {
-        tableName: 'products',
-        columnConfigurations: [
-          {
-            columnName: 'description',
-            dataType: 'TEXT',
-          },
-        ],
-      },
-    ],
-  },
-});
-```
-
-#### Python
-
-```python
-db_data_source = bedrock.DatabaseDataSource(
-    self,
-    "MyDBDataSource",
-    data_source_name="my-db-data-source",
-    description="Data source for product information",
-    connection_configuration={
-        "databaseType": "RDS",
-        "connectionString": "postgresql://user:password@host:5432/dbname",
-        "vpcConfiguration": {
-            "vpcId": "vpc-12345678",
-            "subnetIds": ["subnet-1", "subnet-2"],
-            "securityGroupIds": ["sg-12345678"],
-        },
-    },
-    data_source_configuration={
-        "tableConfigurations": [
-            {
-                "tableName": "products",
-                "columnConfigurations": [
-                    {
-                        "columnName": "description",
-                        "dataType": "TEXT",
-                    },
-                ],
-            },
-        ],
-    }
+data_source = bedrock.S3DataSource(self, 'DataSource', 
+  bucket=doc_bucket,
+  knowledge_base=kb,
+  data_source_name='mydatasource',
+  chunking_strategy=bedrock.ChunkingStrategy.fixed_size(
+    max_tokens=500,
+    overlap_percentage=20
+  ),
 )
 ```
 
@@ -173,36 +95,198 @@ db_data_source = bedrock.DatabaseDataSource(
 #### TypeScript
 
 ```ts
-const webCrawlerDataSource = new WebCrawlerDataSource(this, 'MyWebCrawlerDataSource', {
-  dataSourceName: 'my-web-crawler-data-source',
-  description: 'Data source for company website',
-  sourceUrls: ['https://www.example.com'],
-  crawlingScope: CrawlingScope.SUBDOMAINS,
-  crawlingRate: 300,
-  filters: {
-    includePatterns: ['/blog/', '/docs/'],
-    excludePatterns: ['/private/', '/admin/'],
-  },
-  maxPages: 1000,
+const dataSource = new bedrock.WebCrawlerDataSource(this, 'DataSource', {
+  knowledgeBase: kb,
+  sourceUrls: ['https://docs.aws.amazon.com/'],
+  chunkingStrategy: ChunkingStrategy.HIERARCHICAL_COHERE,
+  customTransformation: CustomTransformation.lambda({
+    lambdaFunction: lambdaFunction,
+    s3BucketUri: `s3://${bucket.bucketName}/chunk-processor/`,
+  }),
 });
 ```
 
 #### Python
 
 ```python
-web_crawler_data_source = bedrock.WebCrawlerDataSource(
-    self,
-    "MyWebCrawlerDataSource",
-    data_source_name="my-web-crawler-data-source",
-    description="Data source for company website",
-    source_urls=["https://www.example.com"],
-    crawling_scope=bedrock.CrawlingScope.SUBDOMAINS,
-    crawling_rate=300,
-    filters={
-        "includePatterns": ["/blog/", "/docs/"],
-        "excludePatterns": ["/private/", "/admin/"],
+data_source = bedrock.WebCrawlerDataSource(self, 'wcDataSource', 
+  knowledge_base=kb,
+  source_urls= ['https://docs.aws.amazon.com/'],
+  chunking_strategy= bedrock.ChunkingStrategy.HIERARCHICAL_COHERE,
+  custom_transformation= bedrock.CustomTransformation.lambda_(
+      lambda_function= function,
+      s3_bucket_uri= f's3://{docBucket.bucket_name}/chunk-processor/'
+  )
+)
+```
+
+### Confluence Data Source Example
+
+#### TypeScript
+
+```ts
+const secret = new Secret(stack, 'Secret');
+const key = new Key(stack, 'Key');
+
+const dataSource = new bedrock.ConfluenceDataSource(this, 'webds', {
+  knowledgeBase: kb,
+  dataSourceName: 'TestDataSource',
+  authSecret: secret,
+  kmsKey: key,
+  confluenceUrl: 'https://example.atlassian.net',
+  filters: [
+    {
+      objectType: ConfluenceObjectType.ATTACHMENT,
+      includePatterns: ['.*\\.pdf'],
+      excludePatterns: ['.*private.*\\.pdf'],
     },
-    max_pages=1000,
+    {
+      objectType: ConfluenceObjectType.PAGE,
+      includePatterns: ['.*public.*\\.pdf'],
+      excludePatterns: ['.*confidential.*\\.pdf'],
+    },
+  ],
+});
+```
+
+#### Python
+
+```python
+secret = secretsmanager.Secret(self, 'Secret')
+key = kms.Key(self, 'Key')
+
+dataSource = bedrock.ConfluenceDataSource(self, 'confds',
+    knowledge_base=kb,
+    data_source_name='TestDataSource',
+    auth_secret=secret,
+    kms_key=key,
+    confluence_url='https://example.atlassian.net',
+    filters=[
+        bedrock.ConfluenceCrawlingFilters(
+            object_type=bedrock.ConfluenceObjectType.ATTACHMENT,
+            include_patterns= [".*\\.pdf"],
+            exclude_patterns= [".*private.*\\.pdf"],
+        ),
+        bedrock.ConfluenceCrawlingFilters(
+            object_type=bedrock.ConfluenceObjectType.PAGE,
+            include_patterns= [".*public.*\\.pdf"],
+            exclude_patterns= [".*confidential.*\\.pdf"],
+        ),
+    ]
+)
+```
+
+### Salesforce Data Source Example
+
+#### TypeScript
+
+```ts
+const secret = new Secret(stack, 'Secret');
+const key = new Key(stack, 'Key');
+
+const dataSource = new bedrock.SalesforceDataSource(this, 'sfds', {
+  knowledgeBase: kb,
+  authSecret: secret,
+  endpoint: 'https://your-instance.my.salesforce.com',
+  kmsKey: key,
+  filters: [
+    {
+      objectType: SalesforceObjectType.ATTACHMENT,
+      includePatterns: ['.*\\.pdf'],
+      excludePatterns: ['.*private.*\\.pdf'],
+    },
+    {
+      objectType: SalesforceObjectType.CONTRACT,
+      includePatterns: ['.*public.*\\.pdf'],
+      excludePatterns: ['.*confidential.*\\.pdf'],
+    },
+  ],
+});
+```
+
+#### Python
+
+```python
+secret = secretsmanager.Secret(self, 'Secret')
+key = kms.Key(self, 'Key')
+
+bedrock.SalesforceceDataSource(self, 'confds',
+    knowledge_base=kb,
+    auth_secret=secret,
+    endpoint='https://your-instance.my.salesforce.com',
+    kms_key=key,
+    filters=[
+        bedrock.SalesforceCrawlingFilters(
+            object_type=bedrock.SalesforceObjectType.ATTACHMENT,
+            include_patterns= [".*\\.pdf"],
+            exclude_patterns= [".*private.*\\.pdf"],
+        ),
+        bedrock.SalesforceCrawlingFilters(
+            object_type=bedrock.SalesforceObjectType.CONTRACT,
+            include_patterns= [".*public.*\\.pdf"],
+            exclude_patterns= [".*confidential.*\\.pdf"],
+        ),
+    ]
+)
+```
+
+### Sharepoint Data Source Example
+
+#### TypeScript
+
+```ts
+const secret = new Secret(stack, 'Secret');
+const key = new Key(stack, 'Key');
+
+const dataSource = new bedrock.SharepointDataSource(this, 'spds', {
+  knowledgeBase: kb,
+  dataSourceName: 'SharepointDataSource',
+  authSecret: secret,
+  kmsKey: key,
+  domain: 'yourdomain',
+  siteUrls: ['https://yourdomain.sharepoint.com/sites/mysite'],
+  tenantId: '888d0b57-69f1-4fb8-957f-e1f0bedf64de',
+  filters: [
+    {
+      objectType: SharePointObjectType.PAGE,
+      includePatterns: ['.*\\.pdf'],
+      excludePatterns: ['.*private.*\\.pdf'],
+    },
+    {
+      objectType: SharePointObjectType.FILE,
+      includePatterns: ['.*public.*\\.pdf'],
+      excludePatterns: ['.*confidential.*\\.pdf'],
+    },
+  ],
+});
+```
+
+#### Python
+
+```python
+secret = secretsmanager.Secret(self, 'Secret')
+key = kms.Key(self, 'Key')
+
+bedrock.SalesforceceDataSource(self, 'confds',
+    knowledge_base=kb,
+    data_source_name='SharepointDataSource',
+    auth_secret=secret,
+    kms_key=key,
+    domain='yourDomain',
+    site_urls= ['https://yourdomain.sharepoint.com/sites/mysite'],
+    tenant_id='888d0b57-69f1-4fb8-957f-e1f0bedf64de',
+    filters=[
+        bedrock.SharePointCrawlingFilters(
+            object_type=bedrock.SharePointObjectType.PAGE,
+            include_patterns= [".*\\.pdf"],
+            exclude_patterns= [".*private.*\\.pdf"],
+        ),
+        bedrock.SharePointCrawlingFilters(
+            object_type=bedrock.SharePointObjectType.FILE,
+            include_patterns= [".*public.*\\.pdf"],
+            exclude_patterns= [".*confidential.*\\.pdf"],
+        ),
+    ]
 )
 ```
 
@@ -212,6 +296,7 @@ web_crawler_data_source = bedrock.WebCrawlerDataSource(
 
 ```ts
 const customDataSource = new CustomDataSource(this, 'MyCustomDataSource', {
+  knowledgeBase: kb,
   dataSourceName: 'my-custom-data-source',
   description: 'Custom data source for specialized data',
   knowledgeBase: myKnowledgeBase,
@@ -222,14 +307,12 @@ const customDataSource = new CustomDataSource(this, 'MyCustomDataSource', {
 #### Python
 
 ```python
-custom_data_source = bedrock.CustomDataSource(
-    self,
-    "MyCustomDataSource",
-    data_source_name="my-custom-data-source",
-    description="Custom data source for specialized data",
-    knowledge_base=my_knowledge_base,
-    # Add custom configuration as needed
-)
+customDataSource = new CustomDataSource(self, 'MyCustomDataSource',
+  knowledge_base=kb,
+  data_source_name='CustomDataSource',
+  chunking_strategy=bedrock.ChunkingStrategy.FIXED_SIZE,
+  knowledge_base=kb,
+);
 ```
 
 ## Data Processing Configuration
