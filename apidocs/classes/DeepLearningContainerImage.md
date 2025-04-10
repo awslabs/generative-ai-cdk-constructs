@@ -510,6 +510,12 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 ***
 
+### HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_6\_0\_TGI3\_2\_3\_GPU\_PY311\_CU124\_UBUNTU22\_04
+
+> `readonly` `static` **HUGGINGFACE\_PYTORCH\_TGI\_INFERENCE\_2\_6\_0\_TGI3\_2\_3\_GPU\_PY311\_CU124\_UBUNTU22\_04**: [`ContainerImage`](ContainerImage.md)
+
+***
+
 ### HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_11\_0\_TRANSFORMERS4\_26\_0\_CPU\_PY39\_UBUNTU20\_04
 
 > `readonly` `static` **HUGGINGFACE\_TENSORFLOW\_INFERENCE\_2\_11\_0\_TRANSFORMERS4\_26\_0\_CPU\_PY39\_UBUNTU20\_04**: [`ContainerImage`](ContainerImage.md)
