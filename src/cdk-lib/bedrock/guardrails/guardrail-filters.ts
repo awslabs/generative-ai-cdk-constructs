@@ -27,6 +27,20 @@ export enum ContentFilterStrength {
 }
 
 /**
+ * The type of modality that can be used in content filters.
+ */
+export enum ModalityType {
+  /**
+   * Text modality for content filters.
+   */
+  TEXT = 'TEXT',
+  /**
+   * Image modality for content filters.
+   */
+  IMAGE = 'IMAGE',
+}
+
+/**
  * The type of harmful category usable in a content filter.
  */
 export enum ContentFilterType {
@@ -82,6 +96,16 @@ export interface ContentFilter {
    * The strength of the content filter to apply to model responses.
    */
   readonly outputStrength: ContentFilterStrength;
+  /**
+   * The input modalities to apply the content filter to.
+   * @default undefined - Applies to all input modalities
+   */
+  readonly inputModalities?: ModalityType[];
+  /**
+   * The output modalities to apply the content filter to.
+   * @default undefined - Applies to all output modalities
+   */
+  readonly outputModalities?: ModalityType[];
 }
 
 /******************************************************************************

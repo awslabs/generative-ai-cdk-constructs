@@ -82,6 +82,8 @@ guardrail.addContentFilter({
   type: ContentFilterType.SEXUAL,
   inputStrength: ContentFilterStrength.HIGH,
   outputStrength: ContentFilterStrength.MEDIUM,
+  inputModalities: [ModalityType.TEXT, ModalityType.IMAGE],
+  outputModalities: [ModalityType.TEXT],
 });
 ```
 
@@ -92,6 +94,8 @@ guardrail.add_content_filter(
   type=ContentFilterType.SEXUAL,
   input_strength=ContentFilterStrength.HIGH,
   output_strength=ContentFilterStrength.MEDIUM,
+  input_modalities=[ModalityType.TEXT, ModalityType.IMAGE],
+  output_modalities=[ModalityType.TEXT],
 );
 ```
 
@@ -110,6 +114,11 @@ Available content filter strengths:
 - `LOW`: Light filtering
 - `MEDIUM`: Moderate filtering
 - `HIGH`: Strict filtering
+
+Available modality types:
+
+- `TEXT`: Text modality for content filters
+- `IMAGE`: Image modality for content filters
 
 ### Denied Topics
 

@@ -10,11 +10,39 @@ Interface to declare a content filter.
 
 ## Properties
 
+### inputModalities?
+
+> `readonly` `optional` **inputModalities**: [`ModalityType`](../enumerations/ModalityType.md)[]
+
+The input modalities to apply the content filter to.
+
+#### Default
+
+```ts
+undefined - Applies to all input modalities
+```
+
+***
+
 ### inputStrength
 
 > `readonly` **inputStrength**: [`ContentFilterStrength`](../enumerations/ContentFilterStrength.md)
 
 The strength of the content filter to apply to prompts / user input.
+
+***
+
+### outputModalities?
+
+> `readonly` `optional` **outputModalities**: [`ModalityType`](../enumerations/ModalityType.md)[]
+
+The output modalities to apply the content filter to.
+
+#### Default
+
+```ts
+undefined - Applies to all output modalities
+```
 
 ***
 
