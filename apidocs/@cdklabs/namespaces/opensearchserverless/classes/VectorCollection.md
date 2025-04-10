@@ -16,7 +16,7 @@ Provides a vector search collection in Amazon OpenSearch Serverless.
 
 ### Constructor
 
-> **new VectorCollection**(`scope`, `id`, `props`?): `VectorCollection`
+> **new VectorCollection**(`scope`, `id`, `props?`): `VectorCollection`
 
 #### Parameters
 
@@ -342,7 +342,7 @@ The role to grant access to.
 
 ### metric()
 
-> **metric**(`metricName`, `props`?): `Metric`
+> **metric**(`metricName`, `props?`): `Metric`
 
 Return the given named metric for this VectorCollection.
 
@@ -372,7 +372,7 @@ Properties for the metric
 
 ### metricIndexRequestCount()
 
-> **metricIndexRequestCount**(`props`?): `Metric`
+> **metricIndexRequestCount**(`props?`): `Metric`
 
 Metric for the number of index requests.
 
@@ -396,7 +396,7 @@ Properties for the metric
 
 ### metricSearchLatency()
 
-> **metricSearchLatency**(`props`?): `Metric`
+> **metricSearchLatency**(`props?`): `Metric`
 
 Metric for the search latency.
 
@@ -420,7 +420,7 @@ Properties for the metric
 
 ### metricSearchLatencyP90()
 
-> **metricSearchLatencyP90**(`props`?): `Metric`
+> **metricSearchLatencyP90**(`props?`): `Metric`
 
 Metric for the 90th percentile search latency.
 
@@ -444,7 +444,7 @@ Properties for the metric
 
 ### metricSearchRequestCount()
 
-> **metricSearchRequestCount**(`props`?): `Metric`
+> **metricSearchRequestCount**(`props?`): `Metric`
 
 Metric for the number of search requests.
 
@@ -600,7 +600,7 @@ Check whether the given construct is a Resource
 
 ### metricAll()
 
-> `static` **metricAll**(`metricName`, `props`?): `Metric`
+> `static` **metricAll**(`metricName`, `props?`): `Metric`
 
 Return metrics for all vector collections.
 
@@ -622,7 +622,7 @@ Return metrics for all vector collections.
 
 ### metricAllIndexRequestCount()
 
-> `static` **metricAllIndexRequestCount**(`props`?): `Metric`
+> `static` **metricAllIndexRequestCount**(`props?`): `Metric`
 
 Metric for the total number of index requests across all collections.
 
@@ -640,7 +640,7 @@ Metric for the total number of index requests across all collections.
 
 ### metricAllSearchLatency()
 
-> `static` **metricAllSearchLatency**(`props`?): `Metric`
+> `static` **metricAllSearchLatency**(`props?`): `Metric`
 
 Metric for average search latency across all collections.
 
@@ -658,7 +658,7 @@ Metric for average search latency across all collections.
 
 ### metricAllSearchRequestCount()
 
-> `static` **metricAllSearchRequestCount**(`props`?): `Metric`
+> `static` **metricAllSearchRequestCount**(`props?`): `Metric`
 
 Metric for the total number of search requests across all collections.
 

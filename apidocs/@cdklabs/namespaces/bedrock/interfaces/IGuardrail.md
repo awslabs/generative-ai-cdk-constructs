@@ -185,7 +185,7 @@ Grant the given identity permissions to apply the guardrail.
 
 ### metric()
 
-> **metric**(`metricName`, `props`?): `Metric`
+> **metric**(`metricName`, `props?`): `Metric`
 
 Return the given named metric for this guardrail.
 
@@ -207,7 +207,7 @@ Return the given named metric for this guardrail.
 
 ### metricInvocationClientErrors()
 
-> **metricInvocationClientErrors**(`props`?): `Metric`
+> **metricInvocationClientErrors**(`props?`): `Metric`
 
 Return the invocation client errors metric for this guardrail.
 
@@ -225,7 +225,7 @@ Return the invocation client errors metric for this guardrail.
 
 ### metricInvocationLatency()
 
-> **metricInvocationLatency**(`props`?): `Metric`
+> **metricInvocationLatency**(`props?`): `Metric`
 
 Return the invocation latency metric for this guardrail.
 
@@ -243,7 +243,7 @@ Return the invocation latency metric for this guardrail.
 
 ### metricInvocations()
 
-> **metricInvocations**(`props`?): `Metric`
+> **metricInvocations**(`props?`): `Metric`
 
 Return the invocations metric for this guardrail.
 
@@ -261,7 +261,7 @@ Return the invocations metric for this guardrail.
 
 ### metricInvocationServerErrors()
 
-> **metricInvocationServerErrors**(`props`?): `Metric`
+> **metricInvocationServerErrors**(`props?`): `Metric`
 
 Return the invocation server errors metric for this guardrail.
 
@@ -279,7 +279,7 @@ Return the invocation server errors metric for this guardrail.
 
 ### metricInvocationsIntervened()
 
-> **metricInvocationsIntervened**(`props`?): `Metric`
+> **metricInvocationsIntervened**(`props?`): `Metric`
 
 Return the invocations intervened metric for this guardrail.
 
@@ -297,7 +297,7 @@ Return the invocations intervened metric for this guardrail.
 
 ### metricInvocationThrottles()
 
-> **metricInvocationThrottles**(`props`?): `Metric`
+> **metricInvocationThrottles**(`props?`): `Metric`
 
 Return the invocation throttles metric for this guardrail.
 
@@ -315,7 +315,7 @@ Return the invocation throttles metric for this guardrail.
 
 ### metricTextUnitCount()
 
-> **metricTextUnitCount**(`props`?): `Metric`
+> **metricTextUnitCount**(`props?`): `Metric`
 
 Return the text unit count metric for this guardrail.
 

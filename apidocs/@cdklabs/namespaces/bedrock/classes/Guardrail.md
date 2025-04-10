@@ -472,7 +472,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 ### createVersion()
 
-> **createVersion**(`description`?): `string`
+> **createVersion**(`description?`): `string`
 
 Create a version for the guardrail.
 
@@ -626,7 +626,7 @@ Grant the given identity permissions to apply the guardrail.
 
 ### metric()
 
-> **metric**(`metricName`, `props`?): `Metric`
+> **metric**(`metricName`, `props?`): `Metric`
 
 Return the given named metric for this guardrail.
 
@@ -655,7 +655,7 @@ You can customize this by using the `statistic` and `period` properties.
 
 ### metricInvocationClientErrors()
 
-> **metricInvocationClientErrors**(`props`?): `Metric`
+> **metricInvocationClientErrors**(`props?`): `Metric`
 
 Return the invocation client errors metric for this guardrail.
 
@@ -677,7 +677,7 @@ Return the invocation client errors metric for this guardrail.
 
 ### metricInvocationLatency()
 
-> **metricInvocationLatency**(`props`?): `Metric`
+> **metricInvocationLatency**(`props?`): `Metric`
 
 Return the invocation latency metric for this guardrail.
 
@@ -699,7 +699,7 @@ Return the invocation latency metric for this guardrail.
 
 ### metricInvocations()
 
-> **metricInvocations**(`props`?): `Metric`
+> **metricInvocations**(`props?`): `Metric`
 
 Return the invocations metric for this guardrail.
 
@@ -721,7 +721,7 @@ Return the invocations metric for this guardrail.
 
 ### metricInvocationServerErrors()
 
-> **metricInvocationServerErrors**(`props`?): `Metric`
+> **metricInvocationServerErrors**(`props?`): `Metric`
 
 Return the invocation server errors metric for this guardrail.
 
@@ -743,7 +743,7 @@ Return the invocation server errors metric for this guardrail.
 
 ### metricInvocationsIntervened()
 
-> **metricInvocationsIntervened**(`props`?): `Metric`
+> **metricInvocationsIntervened**(`props?`): `Metric`
 
 Return the invocations intervened metric for this guardrail.
 
@@ -765,7 +765,7 @@ Return the invocations intervened metric for this guardrail.
 
 ### metricInvocationThrottles()
 
-> **metricInvocationThrottles**(`props`?): `Metric`
+> **metricInvocationThrottles**(`props?`): `Metric`
 
 Return the invocation throttles metric for this guardrail.
 
@@ -787,7 +787,7 @@ Return the invocation throttles metric for this guardrail.
 
 ### metricTextUnitCount()
 
-> **metricTextUnitCount**(`props`?): `Metric`
+> **metricTextUnitCount**(`props?`): `Metric`
 
 Return the text unit count metric for this guardrail.
 
@@ -953,7 +953,7 @@ Check whether the given construct is a Resource
 
 ### metricAll()
 
-> `static` **metricAll**(`metricName`, `props`?): `Metric`
+> `static` **metricAll**(`metricName`, `props?`): `Metric`
 
 Return the given named metric for all guardrails.
 
@@ -982,7 +982,7 @@ You can customize this by using the `statistic` and `period` properties.
 
 ### metricAllInvocationLatency()
 
-> `static` **metricAllInvocationLatency**(`props`?): `Metric`
+> `static` **metricAllInvocationLatency**(`props?`): `Metric`
 
 Return the invocation latency metric for all guardrails.
 
@@ -1004,7 +1004,7 @@ Return the invocation latency metric for all guardrails.
 
 ### metricAllInvocations()
 
-> `static` **metricAllInvocations**(`props`?): `Metric`
+> `static` **metricAllInvocations**(`props?`): `Metric`
 
 Return the invocations metric for all guardrails.
 
@@ -1026,7 +1026,7 @@ Return the invocations metric for all guardrails.
 
 ### metricAllInvocationsIntervened()
 
-> `static` **metricAllInvocationsIntervened**(`props`?): `Metric`
+> `static` **metricAllInvocationsIntervened**(`props?`): `Metric`
 
 Return the invocations intervened metric for all guardrails.
 
@@ -1048,7 +1048,7 @@ Return the invocations intervened metric for all guardrails.
 
 ### metricAllTextUnitCount()
 
-> `static` **metricAllTextUnitCount**(`props`?): `Metric`
+> `static` **metricAllTextUnitCount**(`props?`): `Metric`
 
 Return the text unit count metric for all guardrails.
 

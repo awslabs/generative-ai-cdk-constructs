@@ -25,7 +25,7 @@ Specifies the base class for all NEW data source resources of ANY type.
 
 ### Constructor
 
-> **new DataSourceNew**(`scope`, `id`, `props`?): `DataSourceNew`
+> **new DataSourceNew**(`scope`, `id`, `props?`): `DataSourceNew`
 
 #### Parameters
 

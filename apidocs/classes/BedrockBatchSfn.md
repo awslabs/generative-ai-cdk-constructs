@@ -147,7 +147,7 @@ Continue normal execution with the given state
 
 ### prefixStates()
 
-> **prefixStates**(`prefix`?): `StateMachineFragment`
+> **prefixStates**(`prefix?`): `StateMachineFragment`
 
 Prefix the IDs of all states in this state machine fragment
 
@@ -174,7 +174,7 @@ The prefix to add. Will use construct ID by default.
 
 ### toSingleState()
 
-> **toSingleState**(`options`?): `Parallel`
+> **toSingleState**(`options?`): `Parallel`
 
 Wrap all states in this state machine fragment up into a single state.
 

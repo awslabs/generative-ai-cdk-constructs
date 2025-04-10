@@ -16,7 +16,7 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 ### Constructor
 
-> **new DeepLearningContainerImage**(`repositoryName`, `tag`, `accountId`?): `DeepLearningContainerImage`
+> **new DeepLearningContainerImage**(`repositoryName`, `tag`, `accountId?`): `DeepLearningContainerImage`
 
 #### Parameters
 
@@ -668,7 +668,7 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 ### fromDeepLearningContainerImage()
 
-> `static` **fromDeepLearningContainerImage**(`repositoryName`, `tag`, `accountId`?): [`ContainerImage`](ContainerImage.md)
+> `static` **fromDeepLearningContainerImage**(`repositoryName`, `tag`, `accountId?`): [`ContainerImage`](ContainerImage.md)
 
 #### Parameters
 

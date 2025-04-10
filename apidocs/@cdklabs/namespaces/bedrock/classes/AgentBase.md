@@ -25,7 +25,7 @@ Contains methods and attributes valid for Agents either created with CDK or impo
 
 ### Constructor
 
-> **new AgentBase**(`scope`, `id`, `props`?): `AgentBase`
+> **new AgentBase**(`scope`, `id`, `props?`): `AgentBase`
 
 #### Parameters
 
