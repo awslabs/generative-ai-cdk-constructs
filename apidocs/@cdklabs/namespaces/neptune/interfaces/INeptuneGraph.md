@@ -130,7 +130,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 ### createNotebook()
 
-> **createNotebook**(`params`?): [`NeptuneGraphNotebook`](../classes/NeptuneGraphNotebook.md)
+> **createNotebook**(`params?`): [`NeptuneGraphNotebook`](../classes/NeptuneGraphNotebook.md)
 
 Creates a Neptune Graph Notebook for the graph. Defaults to a ml.t3.medium instance type.
 **Note: Creating a notebook will incur additional AWS costs for the notebook instance.**
@@ -243,7 +243,7 @@ Grant the given identity the permissions to read the Graph.
 
 ### metric()
 
-> **metric**(`metricName`, `props`?): `Metric`
+> **metric**(`metricName`, `props?`): `Metric`
 
 Return the given named metric for this guardrail.
 
@@ -265,7 +265,7 @@ Return the given named metric for this guardrail.
 
 ### metricCPUUtilization()
 
-> **metricCPUUtilization**(`props`?): `Metric`
+> **metricCPUUtilization**(`props?`): `Metric`
 
 Returns metric for CPU utilization
 
@@ -283,7 +283,7 @@ Returns metric for CPU utilization
 
 ### metricGraphSizeBytes()
 
-> **metricGraphSizeBytes**(`props`?): `Metric`
+> **metricGraphSizeBytes**(`props?`): `Metric`
 
 Returns metric for graph size in bytes
 
@@ -301,7 +301,7 @@ Returns metric for graph size in bytes
 
 ### metricGraphStorageUsagePercent()
 
-> **metricGraphStorageUsagePercent**(`props`?): `Metric`
+> **metricGraphStorageUsagePercent**(`props?`): `Metric`
 
 Returns metric for graph storage usage percentage
 
@@ -319,7 +319,7 @@ Returns metric for graph storage usage percentage
 
 ### metricNumEdgeProperties()
 
-> **metricNumEdgeProperties**(`props`?): `Metric`
+> **metricNumEdgeProperties**(`props?`): `Metric`
 
 Returns metric for number of edge properties
 
@@ -337,7 +337,7 @@ Returns metric for number of edge properties
 
 ### metricNumEdges()
 
-> **metricNumEdges**(`props`?): `Metric`
+> **metricNumEdges**(`props?`): `Metric`
 
 Returns metric for number of edges
 
@@ -355,7 +355,7 @@ Returns metric for number of edges
 
 ### metricNumOpenCypherClientErrorsPerSec()
 
-> **metricNumOpenCypherClientErrorsPerSec**(`props`?): `Metric`
+> **metricNumOpenCypherClientErrorsPerSec**(`props?`): `Metric`
 
 Returns metric for number of OpenCypher client errors per second
 
@@ -373,7 +373,7 @@ Returns metric for number of OpenCypher client errors per second
 
 ### metricNumOpenCypherRequestsPerSec()
 
-> **metricNumOpenCypherRequestsPerSec**(`props`?): `Metric`
+> **metricNumOpenCypherRequestsPerSec**(`props?`): `Metric`
 
 Returns metric for number of OpenCypher requests per second
 
@@ -391,7 +391,7 @@ Returns metric for number of OpenCypher requests per second
 
 ### metricNumOpenCypherServerErrorsPerSec()
 
-> **metricNumOpenCypherServerErrorsPerSec**(`props`?): `Metric`
+> **metricNumOpenCypherServerErrorsPerSec**(`props?`): `Metric`
 
 Returns metric for number of OpenCypher server errors per second
 
@@ -409,7 +409,7 @@ Returns metric for number of OpenCypher server errors per second
 
 ### metricNumQueuedRequestsPerSec()
 
-> **metricNumQueuedRequestsPerSec**(`props`?): `Metric`
+> **metricNumQueuedRequestsPerSec**(`props?`): `Metric`
 
 Returns metric for number of queued requests per second
 
@@ -427,7 +427,7 @@ Returns metric for number of queued requests per second
 
 ### metricNumVectors()
 
-> **metricNumVectors**(`props`?): `Metric`
+> **metricNumVectors**(`props?`): `Metric`
 
 Returns metric for number of vectors
 
@@ -445,7 +445,7 @@ Returns metric for number of vectors
 
 ### metricNumVertexProperties()
 
-> **metricNumVertexProperties**(`props`?): `Metric`
+> **metricNumVertexProperties**(`props?`): `Metric`
 
 Returns metric for number of vertex properties
 

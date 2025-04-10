@@ -21,7 +21,7 @@ Contains methods and attributes valid for Promtps either created with CDK or imp
 
 ### Constructor
 
-> **new PromptBase**(`scope`, `id`, `props`?): `PromptBase`
+> **new PromptBase**(`scope`, `id`, `props?`): `PromptBase`
 
 #### Parameters
 
