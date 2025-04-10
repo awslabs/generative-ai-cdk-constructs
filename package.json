@@ -103,7 +103,7 @@
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
     "aws-cdk": "^2",
-    "aws-cdk-lib": "2.188.0",
+    "aws-cdk-lib": "2.189.0",
     "aws-sdk-mock": "^5.9.0",
     "commit-and-tag-version": "^12",
     "commitlint": "^18.6.1",
