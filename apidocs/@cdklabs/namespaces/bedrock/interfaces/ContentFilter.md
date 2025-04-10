@@ -19,7 +19,7 @@ The input modalities to apply the content filter to.
 #### Default
 
 ```ts
-undefined - Applies to all input modalities
+undefined - Applies to text modality
 ```
 
 ***
@@ -41,7 +41,7 @@ The output modalities to apply the content filter to.
 #### Default
 
 ```ts
-undefined - Applies to all output modalities
+undefined - Applies to text modality
 ```
 
 ***

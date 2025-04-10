@@ -98,12 +98,12 @@ export interface ContentFilter {
   readonly outputStrength: ContentFilterStrength;
   /**
    * The input modalities to apply the content filter to.
-   * @default undefined - Applies to all input modalities
+   * @default undefined - Applies to text modality
    */
   readonly inputModalities?: ModalityType[];
   /**
    * The output modalities to apply the content filter to.
-   * @default undefined - Applies to all output modalities
+   * @default undefined - Applies to text modality
    */
   readonly outputModalities?: ModalityType[];
 }
