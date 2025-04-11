@@ -20,6 +20,7 @@ import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 import { AwsSolutionsChecks } from 'cdk-nag';
 import { AmazonAuroraVectorStore } from '../../../src/cdk-lib/amazonaurora';
 import { GraphKnowledgeBase } from '../../../src/cdk-lib/bedrock/knowledge-bases/graph-knowledge-base';
+import { SupplementalDataStorageLocation } from '../../../src/cdk-lib/bedrock/knowledge-bases/supplemental-data-storage';
 import {
   VectorKnowledgeBase,
   VectorStoreType,
@@ -450,6 +451,51 @@ describe('VectorKnowledgeBase', () => {
     expect(knowledgeBase.role).toBeDefined();
     expect(knowledgeBase.vectorStore).toBe(vectorStore);
     expect(knowledgeBase.name).toBe('TestMongoDBAtlasKnowledgeBase');
+  });
+
+  test('Should correctly initialize with SupplementalDataStorageLocation', () => {
+    const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
+    const vectorStore = new VectorCollection(stack, 'VectorCollection4');
+
+    // Create a supplemental data storage location
+    const supplementalStorageS3 = SupplementalDataStorageLocation.s3({
+      uri: 's3://test-bucket/supplemental-data/',
+    });
+
+    const knowledgeBase = new VectorKnowledgeBase(stack, 'SupplementalDataKnowledgeBase', {
+      embeddingsModel: model,
+      vectorStore: vectorStore,
+      instruction: 'Test instruction with supplemental data storage',
+      name: 'TestSupplementalDataKnowledgeBase',
+      supplementalDataStorageLocations: [supplementalStorageS3],
+    });
+
+    expect(knowledgeBase.instruction).toBe('Test instruction with supplemental data storage');
+    expect(knowledgeBase.name).toBeDefined();
+    expect(knowledgeBase.role).toBeDefined();
+    expect(knowledgeBase.vectorStore).toBe(vectorStore);
+    expect(knowledgeBase.name).toBe('TestSupplementalDataKnowledgeBase');
+
+    // Verify that the supplemental data storage location is correctly rendered
+    cdkExpect(stack).to(
+      haveResourceLike('AWS::Bedrock::KnowledgeBase', {
+        KnowledgeBaseConfiguration: {
+          Type: 'VECTOR',
+          VectorKnowledgeBaseConfiguration: {
+            SupplementalDataStorageConfiguration: {
+              SupplementalDataStorageLocations: [
+                {
+                  S3Location: {
+                    URI: 's3://test-bucket/supplemental-data/',
+                  },
+                  SupplementalDataStorageLocationType: 'S3',
+                },
+              ],
+            },
+          },
+        },
+      }),
+    );
   });
 });
 

@@ -53,6 +53,7 @@ import {
   WebCrawlerDataSourceAssociationProps,
 } from '../data-sources/web-crawler-data-source';
 import { BedrockFoundationModel, VectorType } from '../models';
+import { SupplementalDataStorageLocation } from './supplemental-data-storage';
 
 /******************************************************************************
  *                                  ENUMS
@@ -291,6 +292,11 @@ export interface VectorKnowledgeBaseProps extends CommonKnowledgeBaseProps {
    * The embeddings model for the knowledge base
    */
   readonly embeddingsModel: BedrockFoundationModel;
+
+  /**
+   * The supplemental data storage locations for the knowledge base
+   */
+  readonly supplementalDataStorageLocations?: SupplementalDataStorageLocation[];
 
   /**
    * The vector type to store vector embeddings.
@@ -654,6 +660,9 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
                   embeddingDataType: vectorType,
                 }
                 : { embeddingDataType: vectorType },
+          },
+          supplementalDataStorageConfiguration: {
+            supplementalDataStorageLocations: props.supplementalDataStorageLocations?.map(location => location.__render()) ?? [],
           },
         },
       },

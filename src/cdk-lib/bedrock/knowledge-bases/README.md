@@ -21,6 +21,7 @@ Amazon Bedrock Knowledge Bases enable you to provide foundation models and agent
 - [Context Enrichment](#context-enrichment)
 - [Permissions and Methods](#permissions-and-methods)
 - [Importing Existing Knowledge Bases](#importing-existing-knowledge-bases)
+- [Supplemental Data Storage](#supplemental-data-storage)
 
 ## Vector Knowledge Base
 
@@ -46,6 +47,7 @@ The resource accepts an `instruction` prop that is provided to any Bedrock Agent
 | vectorIndex | VectorIndex | No | The vector index for the OpenSearch Serverless backed knowledge base |
 | knowledgeBaseState | string | No | Specifies whether to use the knowledge base or not when sending an InvokeAgent request |
 | tags | Record<string, string> | No | Tag (KEY-VALUE) bedrock agent resource |
+| supplementalDataStorageLocations | SupplementalDataStorageLocation[] | No | Storage locations for supplemental data, such as images extracted from multimodal documents |
 
 ### Examples
 
@@ -400,7 +402,7 @@ kb.addS3DataSource({
   bucket,
   chunkingStrategy: ChunkingStrategy.SEMANTIC,
   parsingStrategy: ParsingStategy.foundationModel({
-    model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
+    parsingModel: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
   }),
 });
 
@@ -1111,5 +1113,93 @@ imported_graph_kb = bedrock.GraphKnowledgeBase.from_knowledge_base_attributes(
         'metadataField': 'AMAZON_BEDROCK_METADATA',
         'textField': 'AMAZON_BEDROCK_TEXT',
     }
+)
+```
+
+## Supplemental Data Storage
+
+Supplemental Data Storage is used to specify configurations for the storage location of the images extracted from multimodal documents in your data source. These images can be retrieved and returned to the end user. If configured, your data source should use a parsing strategy either a foundation model or Amazon Bedrock Data Automation.
+
+### TypeScript
+
+```typescript
+import { bedrock } from '@cdklabs/generative-ai-cdk-constructs';
+
+// Create a bucket to store multimodal data extracted from input files
+const supplementalBucket = new cdk.aws_s3.Bucket(stack, "SSucket", {
+  removalPolicy: cdk.RemovalPolicy.DESTROY,
+  autoDeleteObjects: true,
+});
+
+// Create an S3 supplemental data storage location. The multimodal data storage bucket cannot 
+// be the same as the data source bucket if using an S3 data source
+const supplementalS3Storage = bedrock.SupplementalDataStorageLocation.s3({
+  uri: `s3://${supplementalBucket.bucketName}/supplemental-data/`
+});
+
+// Use it with a knowledge base
+const knowledgeBase = new bedrock.VectorKnowledgeBase(this, 'MyKnowledgeBase', {
+  // Other properties...
+  supplementalDataStorageLocations: [supplementalS3Storage],
+});
+
+// Grant the kb role access to the supplementalBucket bucket
+supplementalBucket.grantReadWrite(kb.role);
+
+// Configure the parsing strategy in your data source to use either foundation model or bedrock data automation
+```
+
+### Python
+
+```python
+import * as cdk from 'aws-cdk-lib';
+import * as bedrock from '@cdklabs/generative-ai-cdk-constructs';
+
+# Create a bucket to store multimodal data extracted from input files
+supplemental_bucket = cdk.aws_s3.Bucket(self, "SSucket", 
+    removal_policy=cdk.CfnDeletionPolicy.DESTROY,
+    auto_delete_objects=True,
+)
+
+# Create an S3 supplemental data storage location. The multimodal data storage bucket cannot 
+# be the same as the data source bucket if using an S3 data source
+supplemental_s3_storage = bedrock.SupplementalDataStorageLocation.s3(
+    uri=f"s3://{supplemental_bucket.bucket_name}/supplemental-data/"
+)
+
+# Use it with a knowledge base
+knowledge_base = bedrock.VectorKnowledgeBase(self, 'MyKnowledgeBase', 
+    # Other properties...
+    supplemental_data_storage_locations=[supplemental_s3_storage],
+)
+
+# Grant the kb role access to the supplementalBucket bucket
+supplemental_bucket.grant_read_write(knowledge_base.role)
+
+# Configure the parsing strategy in your data source to use either foundation model or bedrock data automation
+# End of Selection
+```
+
+### Supported Storage Types
+
+Currently, the following storage types are supported:
+
+#### S3 Storage
+
+S3 storage is used to store supplemental data in an Amazon S3 bucket.
+
+##### TypeScript
+
+```typescript
+const s3Storage = SupplementalDataStorageLocation.s3({
+  uri: 's3://my-bucket/supplemental-data/'
+});
+```
+
+##### Python
+
+```python
+s3Storage = bedrock.SupplementalDataStorageLocation.s3(
+    uri=f"s3://mybucket/supplemental-data/"
 )
 ```
