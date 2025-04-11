@@ -30,6 +30,7 @@
 - [InferenceProfileType](enumerations/InferenceProfileType.md)
 - [KnowledgeBaseType](enumerations/KnowledgeBaseType.md)
 - [ManagedWordFilterType](enumerations/ManagedWordFilterType.md)
+- [ModalityType](enumerations/ModalityType.md)
 - [OrchestrationType](enumerations/OrchestrationType.md)
 - [ParsingModality](enumerations/ParsingModality.md)
 - [ParsingStategyType](enumerations/ParsingStategyType.md)
