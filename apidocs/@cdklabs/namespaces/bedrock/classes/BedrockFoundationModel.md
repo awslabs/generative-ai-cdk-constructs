@@ -321,6 +321,46 @@ The ARN of the Bedrock invokable abstraction.
 
 ***
 
+### MISTRAL\_7B\_INSTRUCT\_V0
+
+> `readonly` `static` **MISTRAL\_7B\_INSTRUCT\_V0**: `BedrockFoundationModel`
+
+*************************************************************************
+                           MISTRAL AI
+*************************************************************************
+
+***
+
+### MISTRAL\_LARGE\_2402\_V1
+
+> `readonly` `static` **MISTRAL\_LARGE\_2402\_V1**: `BedrockFoundationModel`
+
+***
+
+### MISTRAL\_LARGE\_2407\_V1
+
+> `readonly` `static` **MISTRAL\_LARGE\_2407\_V1**: `BedrockFoundationModel`
+
+***
+
+### MISTRAL\_MIXTRAL\_8X7B\_INSTRUCT\_V0
+
+> `readonly` `static` **MISTRAL\_MIXTRAL\_8X7B\_INSTRUCT\_V0**: `BedrockFoundationModel`
+
+***
+
+### MISTRAL\_PIXTRAL\_LARGE\_2502\_V1
+
+> `readonly` `static` **MISTRAL\_PIXTRAL\_LARGE\_2502\_V1**: `BedrockFoundationModel`
+
+***
+
+### MISTRAL\_SMALL\_2402\_V1
+
+> `readonly` `static` **MISTRAL\_SMALL\_2402\_V1**: `BedrockFoundationModel`
+
+***
+
 ### TITAN\_EMBED\_TEXT\_V1
 
 > `readonly` `static` **TITAN\_EMBED\_TEXT\_V1**: `BedrockFoundationModel`
