@@ -25,6 +25,7 @@ import {
   VectorStoreType,
 } from '../../../src/cdk-lib/bedrock/knowledge-bases/vector-knowledge-base';
 import { BedrockFoundationModel, VectorType } from '../../../src/cdk-lib/bedrock/models';
+import { MongoDBAtlasVectorStore } from '../../../src/cdk-lib/mongodb-atlas';
 import { VectorCollection } from '../../../src/cdk-lib/opensearchserverless';
 import { PineconeVectorStore } from '../../../src/cdk-lib/pinecone';
 
@@ -204,6 +205,19 @@ describe('VectorKnowledgeBase', () => {
         credentialsSecretArn: 'test-secret-arn',
         textField: 'testextfield',
         metadataField: 'testmetadata',
+      }),
+      new MongoDBAtlasVectorStore({
+        collectionName: 'test-collection',
+        credentialsSecretArn: 'test-secret-arn',
+        databaseName: 'test-database',
+        endpoint: 'https://test-endpoint.mongodb.net',
+        endpointServiceName: 'mongodb-atlas',
+        fieldMapping: {
+          vectorField: 'test-vector-field',
+          textField: 'test-text-field',
+          metadataField: 'test-metadata-field',
+        },
+        vectorIndexName: 'test-vector-index',
       }),
     ];
     const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
@@ -406,6 +420,36 @@ describe('VectorKnowledgeBase', () => {
     expect(s3datasource.dataSourceType).toEqual('S3');
     expect(s3datasource.knowledgeBase.knowledgeBaseId).toEqual('OVGH4TEBDH');
     cdkExpect(stack).to(haveResource('AWS::Bedrock::DataSource'));
+  });
+
+  test('Should correctly initialize with MongoDBAtlasVectorStore', () => {
+    const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
+    const vectorStore = new MongoDBAtlasVectorStore({
+      collectionName: 'test-collection',
+      credentialsSecretArn: 'test-secret-arn',
+      databaseName: 'test-database',
+      endpoint: 'https://test-endpoint.mongodb.net',
+      endpointServiceName: 'mongodb-atlas',
+      fieldMapping: {
+        vectorField: 'test-vector-field',
+        textField: 'test-text-field',
+        metadataField: 'test-metadata-field',
+      },
+      vectorIndexName: 'test-vector-index',
+    });
+
+    const knowledgeBase = new VectorKnowledgeBase(stack, 'MongoDBAtlasKnowledgeBase', {
+      embeddingsModel: model,
+      vectorStore: vectorStore,
+      instruction: 'Test instruction for MongoDB Atlas',
+      name: 'TestMongoDBAtlasKnowledgeBase',
+    });
+
+    expect(knowledgeBase.instruction).toBe('Test instruction for MongoDB Atlas');
+    expect(knowledgeBase.name).toBeDefined();
+    expect(knowledgeBase.role).toBeDefined();
+    expect(knowledgeBase.vectorStore).toBe(vectorStore);
+    expect(knowledgeBase.name).toBe('TestMongoDBAtlasKnowledgeBase');
   });
 });
 

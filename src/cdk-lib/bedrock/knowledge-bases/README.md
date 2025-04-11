@@ -241,6 +241,89 @@ bedrock.S3DataSource(self, 'DataSource',
 )
 ```
 
+#### MongoDB Atlas
+
+manual, you must have MongoDB Atlas vector store created:
+
+##### TypeScript
+
+```ts
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import { mongodbAtlas, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
+
+const mongoDbVectorStore = new mongodbAtlas.MongoDBAtlasVectorStore({
+  collectionName: 'embeddings',
+  credentialsSecretArn: 'arn:aws:secretsmanager:your-region:123456789876:secret:mongodb-atlas-credentials',
+  databaseName: 'vectordb',
+  endpoint: 'https://your-mongodb-atlas-endpoint.mongodb.net',
+  endpointServiceName: 'mongodb-atlas',
+  fieldMapping: {
+    vectorField: 'embedding',
+    textField: 'text',
+    metadataField: 'metadata'
+  },
+  vectorIndexName: 'vector_index'
+});
+
+const kb = new bedrock.VectorKnowledgeBase(this, 'KnowledgeBase', {
+  vectorStore: mongoDbVectorStore,
+  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+  instruction: 'Use this knowledge base to answer questions about product documentation. ' + 
+    'It contains technical specifications and user guides.',
+});
+
+const docBucket = new s3.Bucket(this, 'DocBucket');
+
+new bedrock.S3DataSource(this, 'DataSource', {
+  bucket: docBucket,
+  knowledgeBase: kb,
+  dataSourceName: 'product-docs',
+  chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
+});
+```
+
+##### Python
+
+```python
+from aws_cdk import (
+    aws_s3 as s3,
+)
+from cdklabs.generative_ai_cdk_constructs import (
+    bedrock,
+    mongodb_atlas,
+)
+
+mongo_db_vector_store = mongodb_atlas.MongoDBAtlasVectorStore(
+    collection_name='embeddings',
+    credentials_secret_arn='arn:aws:secretsmanager:your-region:123456789876:secret:mongodb-atlas-credentials',
+    database_name='vectordb',
+    endpoint='https://your-mongodb-atlas-endpoint.mongodb.net',
+    endpoint_service_name='mongodb-atlas',
+    field_mapping=mongodb_atlas.MongoDbAtlasFieldMapping(
+        vector_field='embedding',
+        text_field='text',
+        metadata_field='metadata'
+    ),
+    vector_index_name='vector_index'
+)
+
+kb = bedrock.VectorKnowledgeBase(self, 'KnowledgeBase',
+    vector_store=mongo_db_vector_store,
+    embeddings_model=bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+    instruction='Use this knowledge base to answer questions about product documentation. ' +
+        'It contains technical specifications and user guides.'
+)
+
+doc_bucket = s3.Bucket(self, 'DocBucket')
+
+bedrock.S3DataSource(self, 'DataSource',
+    bucket=doc_bucket,
+    knowledge_base=kb,
+    data_source_name='product-docs',
+    chunking_strategy=bedrock.ChunkingStrategy.FIXED_SIZE
+)
+```
+
 ### Vector Type
 
 The data type for the vectors when using a model to convert text into vector embeddings. Embeddings type may impact the availability of some embeddings models and vector stores. The following vector types are available:
