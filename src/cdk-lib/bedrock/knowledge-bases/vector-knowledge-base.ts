@@ -661,9 +661,13 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
                 }
                 : { embeddingDataType: vectorType },
           },
-          supplementalDataStorageConfiguration: {
-            supplementalDataStorageLocations: props.supplementalDataStorageLocations?.map(location => location.__render()) ?? [],
-          },
+          ...(props.supplementalDataStorageLocations && props.supplementalDataStorageLocations.length > 0
+            ? {
+              supplementalDataStorageConfiguration: {
+                supplementalDataStorageLocations: props.supplementalDataStorageLocations.map(location => location.__render()),
+              },
+            }
+            : {}),
         },
       },
       name: this.name,
