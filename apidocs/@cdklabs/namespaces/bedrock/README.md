@@ -40,6 +40,7 @@
 - [SalesforceObjectType](enumerations/SalesforceObjectType.md)
 - [SharePointDataSourceAuthType](enumerations/SharePointDataSourceAuthType.md)
 - [SharePointObjectType](enumerations/SharePointObjectType.md)
+- [SupplementalDataStorageLocationType](enumerations/SupplementalDataStorageLocationType.md)
 - [TransformationStep](enumerations/TransformationStep.md)
 - [VectorStoreType](enumerations/VectorStoreType.md)
 - [VectorType](enumerations/VectorType.md)
@@ -88,6 +89,7 @@
 - [S3DataSource](classes/S3DataSource.md)
 - [SalesforceDataSource](classes/SalesforceDataSource.md)
 - [SharePointDataSource](classes/SharePointDataSource.md)
+- [SupplementalDataStorageLocation](classes/SupplementalDataStorageLocation.md)
 - [ToolChoice](classes/ToolChoice.md)
 - [Topic](classes/Topic.md)
 - [VectorKnowledgeBase](classes/VectorKnowledgeBase.md)
@@ -160,12 +162,17 @@
 - [SharePointCrawlingFilters](interfaces/SharePointCrawlingFilters.md)
 - [SharePointDataSourceAssociationProps](interfaces/SharePointDataSourceAssociationProps.md)
 - [SharePointDataSourceProps](interfaces/SharePointDataSourceProps.md)
+- [SupplementalDataStorageS3Config](interfaces/SupplementalDataStorageS3Config.md)
 - [TextPromptVariantProps](interfaces/TextPromptVariantProps.md)
 - [ToolConfiguration](interfaces/ToolConfiguration.md)
 - [VectorKnowledgeBaseAttributes](interfaces/VectorKnowledgeBaseAttributes.md)
 - [VectorKnowledgeBaseProps](interfaces/VectorKnowledgeBaseProps.md)
 - [WebCrawlerDataSourceAssociationProps](interfaces/WebCrawlerDataSourceAssociationProps.md)
 - [WebCrawlerDataSourceProps](interfaces/WebCrawlerDataSourceProps.md)
+
+## Type Aliases
+
+- [SupplementalDataStorageLocationConfig](type-aliases/SupplementalDataStorageLocationConfig.md)
 
 ## Variables
 

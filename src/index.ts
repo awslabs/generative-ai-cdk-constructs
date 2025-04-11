@@ -18,6 +18,7 @@ export * as bedrock from './cdk-lib/bedrock';
 export * as amazonaurora from './cdk-lib/amazonaurora';
 export * as neptune from './cdk-lib/neptune';
 export * as pinecone from './cdk-lib/pinecone';
+export * as mongodbAtlas from './cdk-lib/mongodb-atlas';
 export * as opensearchserverless from './cdk-lib/opensearchserverless';
 export * as opensearch_vectorindex from './cdk-lib/opensearch-vectorindex';
 export { version } from './common/helpers/utils';

@@ -105,6 +105,14 @@ The name of the knowledge base.
 
 ***
 
+### supplementalDataStorageLocations?
+
+> `readonly` `optional` **supplementalDataStorageLocations**: [`SupplementalDataStorageLocation`](../classes/SupplementalDataStorageLocation.md)[]
+
+The supplemental data storage locations for the knowledge base
+
+***
+
 ### vectorField?
 
 > `readonly` `optional` **vectorField**: `string`
@@ -138,11 +146,11 @@ if vector store is of `VectorCollection` type.
 
 ### vectorStore?
 
-> `readonly` `optional` **vectorStore**: [`ExistingAmazonAuroraVectorStore`](../../amazonaurora/classes/ExistingAmazonAuroraVectorStore.md) \| [`AmazonAuroraVectorStore`](../../amazonaurora/classes/AmazonAuroraVectorStore.md) \| [`VectorCollection`](../../opensearchserverless/classes/VectorCollection.md) \| [`PineconeVectorStore`](../../pinecone/classes/PineconeVectorStore.md)
+> `readonly` `optional` **vectorStore**: [`ExistingAmazonAuroraVectorStore`](../../amazonaurora/classes/ExistingAmazonAuroraVectorStore.md) \| [`AmazonAuroraVectorStore`](../../amazonaurora/classes/AmazonAuroraVectorStore.md) \| [`MongoDBAtlasVectorStore`](../../mongodbAtlas/classes/MongoDBAtlasVectorStore.md) \| [`VectorCollection`](../../opensearchserverless/classes/VectorCollection.md) \| [`PineconeVectorStore`](../../pinecone/classes/PineconeVectorStore.md)
 
 The vector store for the knowledge base. Must be either of
 type `VectorCollection`, `RedisEnterpriseVectorStore`,
-`PineconeVectorStore` or `AmazonAuroraVectorStore`.
+`PineconeVectorStore`, `AmazonAuroraVectorStore`, or `MongoDBAtlasVectorStore`.
 
 #### Default
 
