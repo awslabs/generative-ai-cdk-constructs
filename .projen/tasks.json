@@ -231,6 +231,69 @@
         }
       ]
     },
+    "integ:auroracr:assert": {
+      "name": "integ:auroracr:assert",
+      "description": "assert the snapshot of integration test 'auroracr'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/auroracr.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'auroracr'. Run 'projen integ:auroracr:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/auroracr.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/auroracr.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/auroracr.integ.snapshot/ test/integ/.tmp/auroracr.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:auroracr:deploy": {
+      "name": "integ:auroracr:deploy",
+      "description": "deploy integration test 'auroracr' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/auroracr.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/auroracr.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/auroracr.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/auroracr.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/auroracr.integ/deploy.cdk.out test/integ/auroracr.integ.snapshot"
+        },
+        {
+          "spawn": "integ:auroracr:destroy"
+        }
+      ]
+    },
+    "integ:auroracr:destroy": {
+      "name": "integ:auroracr:destroy",
+      "description": "destroy integration test 'auroracr'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/auroracr.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:auroracr:snapshot": {
+      "name": "integ:auroracr:snapshot",
+      "description": "update snapshot for integration test \"auroracr\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/auroracr.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/auroracr.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:auroracr:watch": {
+      "name": "integ:auroracr:watch",
+      "description": "watch integration test 'auroracr' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/auroracr.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/auroracr.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:aws-aoss-cw-dashboard:assert": {
       "name": "integ:aws-aoss-cw-dashboard:assert",
       "description": "assert the snapshot of integration test 'aws-aoss-cw-dashboard'",
@@ -806,6 +869,9 @@
           "spawn": "integ:agent-mem:snapshot"
         },
         {
+          "spawn": "integ:auroracr:snapshot"
+        },
+        {
           "spawn": "integ:chatprompt:snapshot"
         },
         {
@@ -961,6 +1027,9 @@
         },
         {
           "spawn": "integ:agent-mem:assert"
+        },
+        {
+          "spawn": "integ:auroracr:assert"
         },
         {
           "spawn": "integ:chatprompt:assert"
