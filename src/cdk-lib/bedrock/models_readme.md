@@ -193,7 +193,7 @@ Example usage with a knowledge base:
 import { VectorKnowledgeBase } from 'aws-cdk-lib/aws-bedrock';
 
 const knowledgeBase = new VectorKnowledgeBase(this, 'MyKnowledgeBase', {
-  embeddingsModel: BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+  embeddingsModel: BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
   vectorType: VectorType.FLOATING_POINT,
   // Other properties...
 });
@@ -206,7 +206,7 @@ from aws_cdk import CfnOutput
 from aws_cdk.aws_bedrock import VectorKnowledgeBase
 
 knowledge_base = VectorKnowledgeBase(self, 'MyKnowledgeBase', 
-    embeddings_model=BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+    embeddings_model=BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
     vector_type=VectorType.FLOATING_POINT,
     # Other properties...
 )

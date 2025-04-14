@@ -193,7 +193,7 @@ const pineconeds = new pinecone.PineconeVectorStore({
 
 const kb = new bedrock.VectorKnowledgeBase(this, 'KnowledgeBase', {
   vectorStore: pineconeds,
-  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
   instruction: 'Use this knowledge base to answer questions about books. ' + 'It contains the full text of novels.',
 });
 
@@ -269,7 +269,7 @@ const mongoDbVectorStore = new mongodbAtlas.MongoDBAtlasVectorStore({
 
 const kb = new bedrock.VectorKnowledgeBase(this, 'KnowledgeBase', {
   vectorStore: mongoDbVectorStore,
-  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
   instruction: 'Use this knowledge base to answer questions about product documentation. ' + 
     'It contains technical specifications and user guides.',
 });
