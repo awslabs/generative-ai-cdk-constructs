@@ -10,7 +10,7 @@
 
 ### Constructor
 
-> **new ToolChoice**(`any`, `auto`, `tool`?): `ToolChoice`
+> **new ToolChoice**(`any`, `auto`, `tool?`): `ToolChoice`
 
 #### Parameters
 

@@ -61,7 +61,7 @@ Format as CfnAgent.PromptOverrideConfigurationProperty
 
 ### fromSteps()
 
-> `static` **fromSteps**(`steps`?): `PromptOverrideConfiguration`
+> `static` **fromSteps**(`steps?`): `PromptOverrideConfiguration`
 
 #### Parameters
 

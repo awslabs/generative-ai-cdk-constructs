@@ -20,11 +20,13 @@ import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 import { AwsSolutionsChecks } from 'cdk-nag';
 import { AmazonAuroraVectorStore } from '../../../src/cdk-lib/amazonaurora';
 import { GraphKnowledgeBase } from '../../../src/cdk-lib/bedrock/knowledge-bases/graph-knowledge-base';
+import { SupplementalDataStorageLocation } from '../../../src/cdk-lib/bedrock/knowledge-bases/supplemental-data-storage';
 import {
   VectorKnowledgeBase,
   VectorStoreType,
 } from '../../../src/cdk-lib/bedrock/knowledge-bases/vector-knowledge-base';
 import { BedrockFoundationModel, VectorType } from '../../../src/cdk-lib/bedrock/models';
+import { MongoDBAtlasVectorStore } from '../../../src/cdk-lib/mongodb-atlas';
 import { VectorCollection } from '../../../src/cdk-lib/opensearchserverless';
 import { PineconeVectorStore } from '../../../src/cdk-lib/pinecone';
 
@@ -204,6 +206,19 @@ describe('VectorKnowledgeBase', () => {
         credentialsSecretArn: 'test-secret-arn',
         textField: 'testextfield',
         metadataField: 'testmetadata',
+      }),
+      new MongoDBAtlasVectorStore({
+        collectionName: 'test-collection',
+        credentialsSecretArn: 'test-secret-arn',
+        databaseName: 'test-database',
+        endpoint: 'https://test-endpoint.mongodb.net',
+        endpointServiceName: 'mongodb-atlas',
+        fieldMapping: {
+          vectorField: 'test-vector-field',
+          textField: 'test-text-field',
+          metadataField: 'test-metadata-field',
+        },
+        vectorIndexName: 'test-vector-index',
       }),
     ];
     const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
@@ -406,6 +421,81 @@ describe('VectorKnowledgeBase', () => {
     expect(s3datasource.dataSourceType).toEqual('S3');
     expect(s3datasource.knowledgeBase.knowledgeBaseId).toEqual('OVGH4TEBDH');
     cdkExpect(stack).to(haveResource('AWS::Bedrock::DataSource'));
+  });
+
+  test('Should correctly initialize with MongoDBAtlasVectorStore', () => {
+    const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
+    const vectorStore = new MongoDBAtlasVectorStore({
+      collectionName: 'test-collection',
+      credentialsSecretArn: 'test-secret-arn',
+      databaseName: 'test-database',
+      endpoint: 'https://test-endpoint.mongodb.net',
+      endpointServiceName: 'mongodb-atlas',
+      fieldMapping: {
+        vectorField: 'test-vector-field',
+        textField: 'test-text-field',
+        metadataField: 'test-metadata-field',
+      },
+      vectorIndexName: 'test-vector-index',
+    });
+
+    const knowledgeBase = new VectorKnowledgeBase(stack, 'MongoDBAtlasKnowledgeBase', {
+      embeddingsModel: model,
+      vectorStore: vectorStore,
+      instruction: 'Test instruction for MongoDB Atlas',
+      name: 'TestMongoDBAtlasKnowledgeBase',
+    });
+
+    expect(knowledgeBase.instruction).toBe('Test instruction for MongoDB Atlas');
+    expect(knowledgeBase.name).toBeDefined();
+    expect(knowledgeBase.role).toBeDefined();
+    expect(knowledgeBase.vectorStore).toBe(vectorStore);
+    expect(knowledgeBase.name).toBe('TestMongoDBAtlasKnowledgeBase');
+  });
+
+  test('Should correctly initialize with SupplementalDataStorageLocation', () => {
+    const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
+    const vectorStore = new VectorCollection(stack, 'VectorCollection4');
+
+    // Create a supplemental data storage location
+    const supplementalStorageS3 = SupplementalDataStorageLocation.s3({
+      uri: 's3://test-bucket/supplemental-data/',
+    });
+
+    const knowledgeBase = new VectorKnowledgeBase(stack, 'SupplementalDataKnowledgeBase', {
+      embeddingsModel: model,
+      vectorStore: vectorStore,
+      instruction: 'Test instruction with supplemental data storage',
+      name: 'TestSupplementalDataKnowledgeBase',
+      supplementalDataStorageLocations: [supplementalStorageS3],
+    });
+
+    expect(knowledgeBase.instruction).toBe('Test instruction with supplemental data storage');
+    expect(knowledgeBase.name).toBeDefined();
+    expect(knowledgeBase.role).toBeDefined();
+    expect(knowledgeBase.vectorStore).toBe(vectorStore);
+    expect(knowledgeBase.name).toBe('TestSupplementalDataKnowledgeBase');
+
+    // Verify that the supplemental data storage location is correctly rendered
+    cdkExpect(stack).to(
+      haveResourceLike('AWS::Bedrock::KnowledgeBase', {
+        KnowledgeBaseConfiguration: {
+          Type: 'VECTOR',
+          VectorKnowledgeBaseConfiguration: {
+            SupplementalDataStorageConfiguration: {
+              SupplementalDataStorageLocations: [
+                {
+                  S3Location: {
+                    URI: 's3://test-bucket/supplemental-data/',
+                  },
+                  SupplementalDataStorageLocationType: 'S3',
+                },
+              ],
+            },
+          },
+        },
+      }),
+    );
   });
 });
 

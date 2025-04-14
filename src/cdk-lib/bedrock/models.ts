@@ -281,13 +281,10 @@ export class BedrockFoundationModel implements IInvokable {
   /****************************************************************************
    *                            DEEPSEEK
    ***************************************************************************/
-  public static readonly DEEPSEEK_R1_V1 = new BedrockFoundationModel(
-    'deepseek.r1-v1:0',
-    {
-      supportsAgents: true,
-      supportsCrossRegion: true,
-    },
-  );
+  public static readonly DEEPSEEK_R1_V1 = new BedrockFoundationModel('deepseek.r1-v1:0', {
+    supportsAgents: true,
+    supportsCrossRegion: true,
+  });
 
   /****************************************************************************
    *                            META
@@ -336,6 +333,62 @@ export class BedrockFoundationModel implements IInvokable {
     'meta.llama3-3-70b-instruct-v1:0',
     {
       supportsAgents: true,
+      supportsCrossRegion: true,
+    },
+  );
+  /****************************************************************************
+   *                            MISTRAL AI
+   ***************************************************************************/
+  public static readonly MISTRAL_7B_INSTRUCT_V0 = new BedrockFoundationModel(
+    'mistral.mistral-7b-instruct-v0:2',
+    {
+      supportsAgents: true,
+      optimizedForAgents: false,
+      supportsCrossRegion: false,
+    },
+  );
+
+  public static readonly MISTRAL_MIXTRAL_8X7B_INSTRUCT_V0 = new BedrockFoundationModel(
+    'mistral.mixtral-8x7b-instruct-v0:1',
+    {
+      supportsAgents: true,
+      optimizedForAgents: false,
+      supportsCrossRegion: false,
+    },
+  );
+
+  public static readonly MISTRAL_SMALL_2402_V1 = new BedrockFoundationModel(
+    'mistral.mistral-small-2402-v1:0',
+    {
+      supportsAgents: true,
+      optimizedForAgents: false,
+      supportsCrossRegion: false,
+    },
+  );
+
+  public static readonly MISTRAL_LARGE_2402_V1 = new BedrockFoundationModel(
+    'mistral.mistral-large-2402-v1:0',
+    {
+      supportsAgents: true,
+      optimizedForAgents: false,
+      supportsCrossRegion: false,
+    },
+  );
+
+  public static readonly MISTRAL_LARGE_2407_V1 = new BedrockFoundationModel(
+    'mistral.mistral-large-2407-v1:0',
+    {
+      supportsAgents: true,
+      optimizedForAgents: false,
+      supportsCrossRegion: false,
+    },
+  );
+
+  public static readonly MISTRAL_PIXTRAL_LARGE_2502_V1 = new BedrockFoundationModel(
+    'mistral.pixtral-large-2502-v1:0',
+    {
+      supportsAgents: true,
+      optimizedForAgents: false,
       supportsCrossRegion: true,
     },
   );

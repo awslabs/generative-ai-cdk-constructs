@@ -448,8 +448,8 @@ contents into text and splitting it into smaller chunks for analysis. Amazon Bed
 two parsing strategies:
 
 - **Default Parsing Strategy**: This strategy converts the document's contents into text
-  and splits it into chunks using a predefined approach. It is suitable for most use cases
-  but may not be optimal for specific document types or requirements.
+  and splits it into chunks using a predefined approach. It only parses text in text files,
+  including .txt, .md, .html, .doc/.docx, .xls/.xlsx, and .pdf files. This parser doesn't incur any usage charges.
 
 - **Foundation Model Parsing Strategy**: This strategy uses a foundation model to describe
   the contents of the document. It is particularly useful for improved processing of PDF files
@@ -470,6 +470,8 @@ two parsing strategies:
       parsing_model=BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0
   )
   ```
+
+For additional information regarding parsing, please refer to the [parsing documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-advanced-parsing.html)
 
 ### Context Enrichment
 
