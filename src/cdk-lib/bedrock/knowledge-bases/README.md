@@ -21,6 +21,7 @@ Amazon Bedrock Knowledge Bases enable you to provide foundation models and agent
 - [Context Enrichment](#context-enrichment)
 - [Permissions and Methods](#permissions-and-methods)
 - [Importing Existing Knowledge Bases](#importing-existing-knowledge-bases)
+- [Supplemental Data Storage](#supplemental-data-storage)
 
 ## Vector Knowledge Base
 
@@ -46,6 +47,7 @@ The resource accepts an `instruction` prop that is provided to any Bedrock Agent
 | vectorIndex | VectorIndex | No | The vector index for the OpenSearch Serverless backed knowledge base |
 | knowledgeBaseState | string | No | Specifies whether to use the knowledge base or not when sending an InvokeAgent request |
 | tags | Record<string, string> | No | Tag (KEY-VALUE) bedrock agent resource |
+| supplementalDataStorageLocations | SupplementalDataStorageLocation[] | No | Storage locations for supplemental data, such as images extracted from multimodal documents |
 
 ### Examples
 
@@ -191,7 +193,7 @@ const pineconeds = new pinecone.PineconeVectorStore({
 
 const kb = new bedrock.VectorKnowledgeBase(this, 'KnowledgeBase', {
   vectorStore: pineconeds,
-  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1,
+  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
   instruction: 'Use this knowledge base to answer questions about books. ' + 'It contains the full text of novels.',
 });
 
@@ -238,6 +240,89 @@ bedrock.S3DataSource(self, 'DataSource',
     knowledge_base=kb,
     data_source_name='books',
     chunking_strategy= bedrock.ChunkingStrategy.FIXED_SIZE,
+)
+```
+
+#### MongoDB Atlas
+
+manual, you must have MongoDB Atlas vector store created:
+
+##### TypeScript
+
+```ts
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import { mongodbAtlas, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
+
+const mongoDbVectorStore = new mongodbAtlas.MongoDBAtlasVectorStore({
+  collectionName: 'embeddings',
+  credentialsSecretArn: 'arn:aws:secretsmanager:your-region:123456789876:secret:mongodb-atlas-credentials',
+  databaseName: 'vectordb',
+  endpoint: 'https://your-mongodb-atlas-endpoint.mongodb.net',
+  endpointServiceName: 'mongodb-atlas',
+  fieldMapping: {
+    vectorField: 'embedding',
+    textField: 'text',
+    metadataField: 'metadata'
+  },
+  vectorIndexName: 'vector_index'
+});
+
+const kb = new bedrock.VectorKnowledgeBase(this, 'KnowledgeBase', {
+  vectorStore: mongoDbVectorStore,
+  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
+  instruction: 'Use this knowledge base to answer questions about product documentation. ' + 
+    'It contains technical specifications and user guides.',
+});
+
+const docBucket = new s3.Bucket(this, 'DocBucket');
+
+new bedrock.S3DataSource(this, 'DataSource', {
+  bucket: docBucket,
+  knowledgeBase: kb,
+  dataSourceName: 'product-docs',
+  chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
+});
+```
+
+##### Python
+
+```python
+from aws_cdk import (
+    aws_s3 as s3,
+)
+from cdklabs.generative_ai_cdk_constructs import (
+    bedrock,
+    mongodb_atlas,
+)
+
+mongo_db_vector_store = mongodb_atlas.MongoDBAtlasVectorStore(
+    collection_name='embeddings',
+    credentials_secret_arn='arn:aws:secretsmanager:your-region:123456789876:secret:mongodb-atlas-credentials',
+    database_name='vectordb',
+    endpoint='https://your-mongodb-atlas-endpoint.mongodb.net',
+    endpoint_service_name='mongodb-atlas',
+    field_mapping=mongodb_atlas.MongoDbAtlasFieldMapping(
+        vector_field='embedding',
+        text_field='text',
+        metadata_field='metadata'
+    ),
+    vector_index_name='vector_index'
+)
+
+kb = bedrock.VectorKnowledgeBase(self, 'KnowledgeBase',
+    vector_store=mongo_db_vector_store,
+    embeddings_model=bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+    instruction='Use this knowledge base to answer questions about product documentation. ' +
+        'It contains technical specifications and user guides.'
+)
+
+doc_bucket = s3.Bucket(self, 'DocBucket')
+
+bedrock.S3DataSource(self, 'DataSource',
+    bucket=doc_bucket,
+    knowledge_base=kb,
+    data_source_name='product-docs',
+    chunking_strategy=bedrock.ChunkingStrategy.FIXED_SIZE
 )
 ```
 
@@ -317,7 +402,7 @@ kb.addS3DataSource({
   bucket,
   chunkingStrategy: ChunkingStrategy.SEMANTIC,
   parsingStrategy: ParsingStategy.foundationModel({
-    model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
+    parsingModel: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
   }),
 });
 
@@ -1028,5 +1113,93 @@ imported_graph_kb = bedrock.GraphKnowledgeBase.from_knowledge_base_attributes(
         'metadataField': 'AMAZON_BEDROCK_METADATA',
         'textField': 'AMAZON_BEDROCK_TEXT',
     }
+)
+```
+
+## Supplemental Data Storage
+
+Supplemental Data Storage is used to specify configurations for the storage location of the images extracted from multimodal documents in your data source. These images can be retrieved and returned to the end user. If configured, your data source should use a parsing strategy either a foundation model or Amazon Bedrock Data Automation.
+
+### TypeScript
+
+```typescript
+import { bedrock } from '@cdklabs/generative-ai-cdk-constructs';
+
+// Create a bucket to store multimodal data extracted from input files
+const supplementalBucket = new cdk.aws_s3.Bucket(stack, "SSucket", {
+  removalPolicy: cdk.RemovalPolicy.DESTROY,
+  autoDeleteObjects: true,
+});
+
+// Create an S3 supplemental data storage location. The multimodal data storage bucket cannot 
+// be the same as the data source bucket if using an S3 data source
+const supplementalS3Storage = bedrock.SupplementalDataStorageLocation.s3({
+  uri: `s3://${supplementalBucket.bucketName}/supplemental-data/`
+});
+
+// Use it with a knowledge base
+const knowledgeBase = new bedrock.VectorKnowledgeBase(this, 'MyKnowledgeBase', {
+  // Other properties...
+  supplementalDataStorageLocations: [supplementalS3Storage],
+});
+
+// Grant the kb role access to the supplementalBucket bucket
+supplementalBucket.grantReadWrite(kb.role);
+
+// Configure the parsing strategy in your data source to use either foundation model or bedrock data automation
+```
+
+### Python
+
+```python
+import * as cdk from 'aws-cdk-lib';
+import * as bedrock from '@cdklabs/generative-ai-cdk-constructs';
+
+# Create a bucket to store multimodal data extracted from input files
+supplemental_bucket = cdk.aws_s3.Bucket(self, "SSucket", 
+    removal_policy=cdk.CfnDeletionPolicy.DESTROY,
+    auto_delete_objects=True,
+)
+
+# Create an S3 supplemental data storage location. The multimodal data storage bucket cannot 
+# be the same as the data source bucket if using an S3 data source
+supplemental_s3_storage = bedrock.SupplementalDataStorageLocation.s3(
+    uri=f"s3://{supplemental_bucket.bucket_name}/supplemental-data/"
+)
+
+# Use it with a knowledge base
+knowledge_base = bedrock.VectorKnowledgeBase(self, 'MyKnowledgeBase', 
+    # Other properties...
+    supplemental_data_storage_locations=[supplemental_s3_storage],
+)
+
+# Grant the kb role access to the supplementalBucket bucket
+supplemental_bucket.grant_read_write(knowledge_base.role)
+
+# Configure the parsing strategy in your data source to use either foundation model or bedrock data automation
+# End of Selection
+```
+
+### Supported Storage Types
+
+Currently, the following storage types are supported:
+
+#### S3 Storage
+
+S3 storage is used to store supplemental data in an Amazon S3 bucket.
+
+##### TypeScript
+
+```typescript
+const s3Storage = SupplementalDataStorageLocation.s3({
+  uri: 's3://my-bucket/supplemental-data/'
+});
+```
+
+##### Python
+
+```python
+s3Storage = bedrock.SupplementalDataStorageLocation.s3(
+    uri=f"s3://mybucket/supplemental-data/"
 )
 ```
