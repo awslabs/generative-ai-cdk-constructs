@@ -64,14 +64,6 @@ test/integ/agent-mem.integ.snapshot/manifest.json
 test/integ/agent-mem.integ.snapshot/**/manifest.json
 test/integ/agent-mem.integ.snapshot/tree.json
 test/integ/agent-mem.integ.snapshot/**/tree.json
-test/integ/auroracr.integ.snapshot/asset.*
-test/integ/auroracr.integ.snapshot/**/asset.*
-test/integ/auroracr.integ.snapshot/cdk.out
-test/integ/auroracr.integ.snapshot/**/cdk.out
-test/integ/auroracr.integ.snapshot/manifest.json
-test/integ/auroracr.integ.snapshot/**/manifest.json
-test/integ/auroracr.integ.snapshot/tree.json
-test/integ/auroracr.integ.snapshot/**/tree.json
 test/integ/chatprompt.integ.snapshot/asset.*
 test/integ/chatprompt.integ.snapshot/**/asset.*
 test/integ/chatprompt.integ.snapshot/cdk.out
