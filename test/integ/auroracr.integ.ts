@@ -11,10 +11,10 @@
  *  and limitations under the License.
  */
 
-import * as integ from "@aws-cdk/integ-tests-alpha";
-import * as cdk from "aws-cdk-lib";
-import * as genai from "../../src";
-import * as s3 from "aws-cdk-lib/aws-s3";
+import * as integ from '@aws-cdk/integ-tests-alpha';
+import * as cdk from 'aws-cdk-lib';
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import * as genai from '../../src';
 
 class TestStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
@@ -24,23 +24,23 @@ class TestStack extends cdk.Stack {
 
     const auroraDb = new genai.amazonaurora.AmazonAuroraVectorStore(
       this,
-      "AuroraDefaultVectorStore",
+      'AuroraDefaultVectorStore',
       {
         embeddingsModelVectorDimension: embeddingsModel.vectorDimensions!,
-      }
+      },
     );
 
-    const kb = new genai.bedrock.VectorKnowledgeBase(this, "KnowledgeBase", {
+    const kb = new genai.bedrock.VectorKnowledgeBase(this, 'KnowledgeBase', {
       embeddingsModel: embeddingsModel,
       vectorStore: auroraDb,
     });
 
-    const docBucket = new s3.Bucket(this, "DocBucket");
+    const docBucket = new s3.Bucket(this, 'DocBucket');
 
-    new genai.bedrock.S3DataSource(this, "DataSource", {
+    new genai.bedrock.S3DataSource(this, 'DataSource', {
       bucket: docBucket,
       chunkingStrategy: genai.bedrock.ChunkingStrategy.FIXED_SIZE,
-      dataSourceName: "texts",
+      dataSourceName: 'texts',
       knowledgeBase: kb,
     });
   }
@@ -48,13 +48,13 @@ class TestStack extends cdk.Stack {
 
 // Integration test
 const app = new cdk.App();
-const stack = new TestStack(app, "AuroraVectorDB", {
+const stack = new TestStack(app, 'AuroraVectorDB', {
   env: {
-    region: "us-east-2",
+    region: 'us-east-2',
   },
 });
 
-new integ.IntegTest(app, "AuroraVectorDB-Integ", {
+new integ.IntegTest(app, 'AuroraVectorDB-Integ', {
   testCases: [stack],
   cdkCommandOptions: {
     deploy: {
