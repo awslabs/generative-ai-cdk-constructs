@@ -1,0 +1,2416 @@
+{
+ "Transform": "AWS::Serverless-2016-10-31",
+ "Resources": {
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "10.0.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc"
+     }
+    ]
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1Subnet60BA9BB4": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      0,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.0.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/publicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   },
+   "Metadata": {
+    "cfn_nag": {
+     "rules_to_suppress": [
+      {
+       "id": "W33",
+       "reason": "Allow Public Subnets to have MapPublicIpOnLaunch set to true"
+      }
+     ]
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1RouteTableE6D8BD84": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/publicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1RouteTableAssociation41D1B60F": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1RouteTableE6D8BD84"
+    },
+    "SubnetId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1Subnet60BA9BB4"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1DefaultRoute643E7FF7": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcIGW074D77AE"
+    },
+    "RouteTableId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1RouteTableE6D8BD84"
+    }
+   },
+   "DependsOn": [
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcVPCGW99079FF1"
+   ]
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1EIP943AAF18": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/publicSubnet1"
+     }
+    ]
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1NATGateway433E55F1": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1EIP943AAF18",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1Subnet60BA9BB4"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/publicSubnet1"
+     }
+    ]
+   },
+   "DependsOn": [
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1DefaultRoute643E7FF7",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1RouteTableAssociation41D1B60F"
+   ]
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2Subnet845ACD01": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.1.0/24",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/publicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   },
+   "Metadata": {
+    "cfn_nag": {
+     "rules_to_suppress": [
+      {
+       "id": "W33",
+       "reason": "Allow Public Subnets to have MapPublicIpOnLaunch set to true"
+      }
+     ]
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2RouteTable9DA5E2ED": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/publicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2RouteTableAssociation428D3DD3": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2RouteTable9DA5E2ED"
+    },
+    "SubnetId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2Subnet845ACD01"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2DefaultRoute4F90EA4F": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcIGW074D77AE"
+    },
+    "RouteTableId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2RouteTable9DA5E2ED"
+    }
+   },
+   "DependsOn": [
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcVPCGW99079FF1"
+   ]
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2EIP58A255F5": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/publicSubnet2"
+     }
+    ]
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2NATGatewayDB891FDD": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2EIP58A255F5",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2Subnet845ACD01"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/publicSubnet2"
+     }
+    ]
+   },
+   "DependsOn": [
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2DefaultRoute4F90EA4F",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2RouteTableAssociation428D3DD3"
+   ]
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet1SubnetF91DEAFD": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      0,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.2.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "private_isolated"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Isolated"
+     },
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/private_isolatedSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet1RouteTableDCEAE8D7": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/private_isolatedSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet1RouteTableAssociation23E0D003": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet1RouteTableDCEAE8D7"
+    },
+    "SubnetId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet1SubnetF91DEAFD"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet2Subnet91654687": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.3.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "private_isolated"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Isolated"
+     },
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/private_isolatedSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet2RouteTableB6071D9A": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/private_isolatedSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet2RouteTableAssociation3879A9D6": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet2RouteTableB6071D9A"
+    },
+    "SubnetId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet2Subnet91654687"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet1SubnetCBF123CD": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      0,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.4.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "private_egress"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/private_egressSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet1RouteTable11F22E6F": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/private_egressSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet1RouteTableAssociation6AAE66EC": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet1RouteTable11F22E6F"
+    },
+    "SubnetId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet1SubnetCBF123CD"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet1DefaultRouteE3DC94DA": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1NATGateway433E55F1"
+    },
+    "RouteTableId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet1RouteTable11F22E6F"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet2Subnet830BAE13": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.5.0/24",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "private_egress"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/private_egressSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet2RouteTable39731F9B": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/private_egressSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet2RouteTableAssociation355436A3": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet2RouteTable39731F9B"
+    },
+    "SubnetId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet2Subnet830BAE13"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet2DefaultRoute2B27AFF0": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2NATGatewayDB891FDD"
+    },
+    "RouteTableId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet2RouteTable39731F9B"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcIGW074D77AE": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc"
+     }
+    ]
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcVPCGW99079FF1": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcIGW074D77AE"
+    },
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFlowLogIAMRole0B62CD4A": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "vpc-flow-logs.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/FlowLog"
+     }
+    ]
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFlowLogIAMRoleDefaultPolicy121C8B7A": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogStreams"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFlowLogLogGroup7AD1E030",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": "iam:PassRole",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFlowLogIAMRole0B62CD4A",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFlowLogIAMRoleDefaultPolicy121C8B7A",
+    "Roles": [
+     {
+      "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFlowLogIAMRole0B62CD4A"
+     }
+    ]
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFlowLogLogGroup7AD1E030": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/FlowLog"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain",
+   "Metadata": {
+    "cfn_nag": {
+     "rules_to_suppress": [
+      {
+       "id": "W84",
+       "reason": "By default CloudWatchLogs LogGroups data is encrypted using the CloudWatch server-side encryption keys (AWS Managed Keys)"
+      }
+     ]
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFlowLog3A17C3F6": {
+   "Type": "AWS::EC2::FlowLog",
+   "Properties": {
+    "DeliverLogsPermissionArn": {
+     "Fn::GetAtt": [
+      "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFlowLogIAMRole0B62CD4A",
+      "Arn"
+     ]
+    },
+    "LogDestinationType": "cloud-watch-logs",
+    "LogGroupName": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFlowLogLogGroup7AD1E030"
+    },
+    "ResourceId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    },
+    "ResourceType": "VPC",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/FlowLog"
+     }
+    ],
+    "TrafficType": "ALL"
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcVpcFlowLogIAMRoleFD8A6D79": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "vpc-flow-logs.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/VpcFlowLog"
+     }
+    ]
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcVpcFlowLogIAMRoleDefaultPolicyF91A4D23": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogStreams"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcVpcFlowLogLogGroup9819DAD7",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": "iam:PassRole",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcVpcFlowLogIAMRoleFD8A6D79",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcVpcFlowLogIAMRoleDefaultPolicyF91A4D23",
+    "Roles": [
+     {
+      "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcVpcFlowLogIAMRoleFD8A6D79"
+     }
+    ]
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcVpcFlowLogLogGroup9819DAD7": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "RetentionInDays": 731,
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/VpcFlowLog"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcVpcFlowLog709B2D57": {
+   "Type": "AWS::EC2::FlowLog",
+   "Properties": {
+    "DeliverLogsPermissionArn": {
+     "Fn::GetAtt": [
+      "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcVpcFlowLogIAMRoleFD8A6D79",
+      "Arn"
+     ]
+    },
+    "LogDestinationType": "cloud-watch-logs",
+    "LogGroupName": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcVpcFlowLogLogGroup9819DAD7"
+    },
+    "ResourceId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    },
+    "ResourceType": "VPC",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc/VpcFlowLog"
+     }
+    ],
+    "TrafficType": "ALL"
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcSECRETSMANAGER623125BD": {
+   "Type": "AWS::EC2::VPCEndpoint",
+   "Properties": {
+    "PrivateDnsEnabled": true,
+    "SecurityGroupIds": [
+     {
+      "Fn::GetAtt": [
+       "AuroraVectorDBSECRETSMANAGERAuroraDefaultVectorStorevpcsecuritygroup890EA0FE",
+       "GroupId"
+      ]
+     }
+    ],
+    "ServiceName": "com.amazonaws.us-east-2.secretsmanager",
+    "SubnetIds": [
+     {
+      "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet1SubnetCBF123CD"
+     },
+     {
+      "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet2Subnet830BAE13"
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc"
+     }
+    ],
+    "VpcEndpointType": "Interface",
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcBEDROCKRUNTIME82027991": {
+   "Type": "AWS::EC2::VPCEndpoint",
+   "Properties": {
+    "PrivateDnsEnabled": true,
+    "SecurityGroupIds": [
+     {
+      "Fn::GetAtt": [
+       "AuroraVectorDBBEDROCKRUNTIMEAuroraDefaultVectorStorevpcsecuritygroupB04FA306",
+       "GroupId"
+      ]
+     }
+    ],
+    "ServiceName": "com.amazonaws.us-east-2.bedrock-runtime",
+    "SubnetIds": [
+     {
+      "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet1SubnetCBF123CD"
+     },
+     {
+      "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet2Subnet830BAE13"
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraDefaultVectorStore-vpc"
+     }
+    ],
+    "VpcEndpointType": "Interface",
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraSecurityGroup26ED6137": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Security group for access to Aurora from Lambda",
+    "GroupName": "aurora-security-group",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraSecurityGroupfromAuroraVectorDBAuroraDefaultVectorStoreAuroraClusterRotationSingleUserSecurityGroupA8151350IndirectPort75FC9AB3": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "from AuroraVectorDBAuroraDefaultVectorStoreAuroraClusterRotationSingleUserSecurityGroupA8151350:{IndirectPort}",
+    "FromPort": {
+     "Fn::GetAtt": [
+      "AuroraDefaultVectorStoreAuroraClusterD53A2F66",
+      "Endpoint.Port"
+     ]
+    },
+    "GroupId": {
+     "Fn::GetAtt": [
+      "AuroraDefaultVectorStoreAuroraSecurityGroup26ED6137",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "AuroraDefaultVectorStoreAuroraClusterRotationSingleUserSecurityGroupDCF3E875",
+      "GroupId"
+     ]
+    },
+    "ToPort": {
+     "Fn::GetAtt": [
+      "AuroraDefaultVectorStoreAuroraClusterD53A2F66",
+      "Endpoint.Port"
+     ]
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraSecurityGroupfromAuroraVectorDBAuroraDefaultVectorStoreLambdaSecurityGroup1ABE93C454321E53E5B9": {
+   "Type": "AWS::EC2::SecurityGroupIngress",
+   "Properties": {
+    "Description": "Allow PostgreSQL access from Lambda security group",
+    "FromPort": 5432,
+    "GroupId": {
+     "Fn::GetAtt": [
+      "AuroraDefaultVectorStoreAuroraSecurityGroup26ED6137",
+      "GroupId"
+     ]
+    },
+    "IpProtocol": "tcp",
+    "SourceSecurityGroupId": {
+     "Fn::GetAtt": [
+      "AuroraDefaultVectorStoreLambdaSecurityGroup7457D4FD",
+      "GroupId"
+     ]
+    },
+    "ToPort": 5432
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraClusterSubnetsFCBB359B": {
+   "Type": "AWS::RDS::DBSubnetGroup",
+   "Properties": {
+    "DBSubnetGroupDescription": "Subnets for AuroraCluster database",
+    "SubnetIds": [
+     {
+      "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet1SubnetF91DEAFD"
+     },
+     {
+      "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet2Subnet91654687"
+     }
+    ]
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Deletion protection is disabled to make sure a customer can stop incurring charges if they want to delete the construct.",
+       "id": "AwsSolutions-RDS10"
+      }
+     ]
+    }
+   }
+  },
+  "AuroraVectorDBAuroraDefaultVectorStoreAuroraClusterSecretD2C864933fdaad7efa858a3daf9490cf0a702aeb": {
+   "Type": "AWS::SecretsManager::Secret",
+   "Properties": {
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Generated by the CDK for stack: ",
+       {
+        "Ref": "AWS::StackName"
+       }
+      ]
+     ]
+    },
+    "GenerateSecretString": {
+     "ExcludeCharacters": " %+~`#$&*()|[]{}:;<>?!'/@\"\\",
+     "GenerateStringKey": "password",
+     "PasswordLength": 30,
+     "SecretStringTemplate": "{\"username\":\"postgres\"}"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Deletion protection is disabled to make sure a customer can stop incurring charges if they want to delete the construct.",
+       "id": "AwsSolutions-RDS10"
+      }
+     ]
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraClusterSecretAttachment465C882D": {
+   "Type": "AWS::SecretsManager::SecretTargetAttachment",
+   "Properties": {
+    "SecretId": {
+     "Ref": "AuroraVectorDBAuroraDefaultVectorStoreAuroraClusterSecretD2C864933fdaad7efa858a3daf9490cf0a702aeb"
+    },
+    "TargetId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraClusterD53A2F66"
+    },
+    "TargetType": "AWS::RDS::DBCluster"
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Deletion protection is disabled to make sure a customer can stop incurring charges if they want to delete the construct.",
+       "id": "AwsSolutions-RDS10"
+      }
+     ]
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraClusterSecretAttachmentRotationScheduleE74D4C4D": {
+   "Type": "AWS::SecretsManager::RotationSchedule",
+   "Properties": {
+    "RotationLambdaARN": {
+     "Fn::GetAtt": [
+      "AuroraDefaultVectorStoreAuroraClusterRotationSingleUser69470144",
+      "Outputs.RotationLambdaARN"
+     ]
+    },
+    "RotationRules": {
+     "ScheduleExpression": "rate(30 days)"
+    },
+    "SecretId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraClusterSecretAttachment465C882D"
+    }
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Deletion protection is disabled to make sure a customer can stop incurring charges if they want to delete the construct.",
+       "id": "AwsSolutions-RDS10"
+      }
+     ]
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraClusterSecretAttachmentPolicyB1DD1A42": {
+   "Type": "AWS::SecretsManager::ResourcePolicy",
+   "Properties": {
+    "ResourcePolicy": {
+     "Statement": [
+      {
+       "Action": "secretsmanager:DeleteSecret",
+       "Effect": "Deny",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":root"
+          ]
+         ]
+        }
+       },
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "SecretId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraClusterSecretAttachment465C882D"
+    }
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Deletion protection is disabled to make sure a customer can stop incurring charges if they want to delete the construct.",
+       "id": "AwsSolutions-RDS10"
+      }
+     ]
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraClusterD53A2F66": {
+   "Type": "AWS::RDS::DBCluster",
+   "Properties": {
+    "CopyTagsToSnapshot": true,
+    "DBClusterIdentifier": "aurora-serverless-auroravectordb-aurefaultvectorstore-a23979f4",
+    "DBClusterParameterGroupName": "default.aurora-postgresql15",
+    "DBSubnetGroupName": {
+     "Ref": "AuroraDefaultVectorStoreAuroraClusterSubnetsFCBB359B"
+    },
+    "DatabaseName": "bedrock_vector_db",
+    "EnableHttpEndpoint": true,
+    "EnableIAMDatabaseAuthentication": true,
+    "Engine": "aurora-postgresql",
+    "EngineVersion": "15.5",
+    "MasterUserPassword": {
+     "Fn::Join": [
+      "",
+      [
+       "{{resolve:secretsmanager:",
+       {
+        "Ref": "AuroraVectorDBAuroraDefaultVectorStoreAuroraClusterSecretD2C864933fdaad7efa858a3daf9490cf0a702aeb"
+       },
+       ":SecretString:password::}}"
+      ]
+     ]
+    },
+    "MasterUsername": "postgres",
+    "Port": 5432,
+    "ServerlessV2ScalingConfiguration": {
+     "MaxCapacity": 4,
+     "MinCapacity": 0.5
+    },
+    "StorageEncrypted": true,
+    "VpcSecurityGroupIds": [
+     {
+      "Fn::GetAtt": [
+       "AuroraDefaultVectorStoreAuroraSecurityGroup26ED6137",
+       "GroupId"
+      ]
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Deletion protection is disabled to make sure a customer can stop incurring charges if they want to delete the construct.",
+       "id": "AwsSolutions-RDS10"
+      }
+     ]
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraClusterAuroraServerlessWriter76D74C08": {
+   "Type": "AWS::RDS::DBInstance",
+   "Properties": {
+    "DBClusterIdentifier": {
+     "Ref": "AuroraDefaultVectorStoreAuroraClusterD53A2F66"
+    },
+    "DBInstanceClass": "db.serverless",
+    "Engine": "aurora-postgresql",
+    "PromotionTier": 0,
+    "PubliclyAccessible": false
+   },
+   "DependsOn": [
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet1RouteTableAssociation23E0D003",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet2RouteTableAssociation3879A9D6"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Deletion protection is disabled to make sure a customer can stop incurring charges if they want to delete the construct.",
+       "id": "AwsSolutions-RDS10"
+      }
+     ]
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraClusterAuroraServerlessReaderDED0F501": {
+   "Type": "AWS::RDS::DBInstance",
+   "Properties": {
+    "DBClusterIdentifier": {
+     "Ref": "AuroraDefaultVectorStoreAuroraClusterD53A2F66"
+    },
+    "DBInstanceClass": "db.serverless",
+    "Engine": "aurora-postgresql",
+    "PromotionTier": 1,
+    "PubliclyAccessible": false
+   },
+   "DependsOn": [
+    "AuroraDefaultVectorStoreAuroraClusterAuroraServerlessWriter76D74C08",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet1RouteTableAssociation23E0D003",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet2RouteTableAssociation3879A9D6"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Deletion protection is disabled to make sure a customer can stop incurring charges if they want to delete the construct.",
+       "id": "AwsSolutions-RDS10"
+      }
+     ]
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraClusterRotationSingleUserSecurityGroupDCF3E875": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "AuroraVectorDB/AuroraDefaultVectorStore/AuroraCluster/RotationSingleUser/SecurityGroup",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Deletion protection is disabled to make sure a customer can stop incurring charges if they want to delete the construct.",
+       "id": "AwsSolutions-RDS10"
+      }
+     ]
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraClusterRotationSingleUser69470144": {
+   "Type": "AWS::Serverless::Application",
+   "Properties": {
+    "Location": {
+     "ApplicationId": {
+      "Fn::FindInMap": [
+       "AuroraDefaultVectorStoreAuroraClusterRotationSingleUserSARMapping2938D20C",
+       {
+        "Ref": "AWS::Partition"
+       },
+       "applicationId"
+      ]
+     },
+     "SemanticVersion": {
+      "Fn::FindInMap": [
+       "AuroraDefaultVectorStoreAuroraClusterRotationSingleUserSARMapping2938D20C",
+       {
+        "Ref": "AWS::Partition"
+       },
+       "semanticVersion"
+      ]
+     }
+    },
+    "Parameters": {
+     "endpoint": {
+      "Fn::Join": [
+       "",
+       [
+        "https://secretsmanager.us-east-2.",
+        {
+         "Ref": "AWS::URLSuffix"
+        }
+       ]
+      ]
+     },
+     "functionName": "BAuroraDefaultVectorStoreAuroraClusterRotationSingleUserF1EA1E73",
+     "vpcSubnetIds": {
+      "Fn::Join": [
+       "",
+       [
+        {
+         "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet1SubnetF91DEAFD"
+        },
+        ",",
+        {
+         "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet2Subnet91654687"
+        }
+       ]
+      ]
+     },
+     "vpcSecurityGroupIds": {
+      "Fn::GetAtt": [
+       "AuroraDefaultVectorStoreAuroraClusterRotationSingleUserSecurityGroupDCF3E875",
+       "GroupId"
+      ]
+     },
+     "excludeCharacters": " %+~`#$&*()|[]{}:;<>?!'/@\"\\"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Deletion protection is disabled to make sure a customer can stop incurring charges if they want to delete the construct.",
+       "id": "AwsSolutions-RDS10"
+      }
+     ]
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraPgPolicy6070B911": {
+   "Type": "AWS::IAM::ManagedPolicy",
+   "Properties": {
+    "Description": "",
+    "ManagedPolicyName": "aurorapgpolicyaurorstorea23979f4",
+    "Path": "/",
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "ec2:DescribeInstances",
+        "ec2:CreateNetworkInterface",
+        "ec2:AttachNetworkInterface",
+        "ec2:DescribeNetworkInterfaces",
+        "autoscaling:CompleteLifecycleAction",
+        "ec2:DeleteNetworkInterface"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "rds:DescribeDBClusters",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":rds:us-east-2:",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":cluster:",
+          {
+           "Ref": "AuroraDefaultVectorStoreAuroraClusterD53A2F66"
+          }
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "The AWSLambdaBasicExecutionRole managed policy is required for the Lambda function to write logs to CloudWatch.",
+       "id": "AwsSolutions-IAM4"
+      },
+      {
+       "reason": "This policy is required to allow the custom resource to create a network interface for the Aurora cluster and it has to be wildcard.",
+       "id": "AwsSolutions-IAM5"
+      }
+     ]
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreLambdaSecurityGroup7457D4FD": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "Security group for Lambda access to Aurora",
+    "GroupName": "lambda-security-group",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   }
+  },
+  "AuroraDefaultVectorStoreAuroraPgVectorC90505FF": {
+   "Type": "Custom::AmazonAuroraPgVector",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "AmazonAuroraPgVectorCRProviderframeworkonEventFCEB4E99",
+      "Arn"
+     ]
+    },
+    "SecretName": {
+     "Fn::Join": [
+      "-",
+      [
+       {
+        "Fn::Select": [
+         0,
+         {
+          "Fn::Split": [
+           "-",
+           {
+            "Fn::Select": [
+             6,
+             {
+              "Fn::Split": [
+               ":",
+               {
+                "Ref": "AuroraVectorDBAuroraDefaultVectorStoreAuroraClusterSecretD2C864933fdaad7efa858a3daf9490cf0a702aeb"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           "-",
+           {
+            "Fn::Select": [
+             6,
+             {
+              "Fn::Split": [
+               ":",
+               {
+                "Ref": "AuroraVectorDBAuroraDefaultVectorStoreAuroraClusterSecretD2C864933fdaad7efa858a3daf9490cf0a702aeb"
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     ]
+    },
+    "ClusterIdentifier": {
+     "Ref": "AuroraDefaultVectorStoreAuroraClusterD53A2F66"
+    },
+    "DatabaseName": "bedrock_vector_db",
+    "TableName": "bedrock_kb",
+    "VectorDimensions": 1024,
+    "PrimaryKeyField": "id",
+    "SchemaName": "bedrock_integration",
+    "VectorField": "embedding",
+    "TextField": "chunks",
+    "MetadataField": "metadata"
+   },
+   "DependsOn": [
+    "AuroraDefaultVectorStoreAuroraClusterAuroraServerlessReaderDED0F501",
+    "AuroraDefaultVectorStoreAuroraClusterAuroraServerlessWriter76D74C08",
+    "AuroraDefaultVectorStoreAuroraClusterD53A2F66",
+    "AuroraDefaultVectorStoreAuroraClusterRotationSingleUser69470144",
+    "AuroraDefaultVectorStoreAuroraClusterRotationSingleUserSecurityGroupDCF3E875",
+    "AuroraDefaultVectorStoreAuroraClusterSecretAttachmentPolicyB1DD1A42",
+    "AuroraDefaultVectorStoreAuroraClusterSecretAttachment465C882D",
+    "AuroraDefaultVectorStoreAuroraClusterSecretAttachmentRotationScheduleE74D4C4D",
+    "AuroraVectorDBAuroraDefaultVectorStoreAuroraClusterSecretD2C864933fdaad7efa858a3daf9490cf0a702aeb",
+    "AuroraDefaultVectorStoreAuroraClusterSubnetsFCBB359B",
+    "AuroraDefaultVectorStoreAuroraPgPolicy6070B911"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "AuroraVectorDBSECRETSMANAGERAuroraDefaultVectorStorevpcsecuritygroup890EA0FE": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "AuroraVectorDB/AuroraVectorDB-SECRETS_MANAGER-AuroraDefaultVectorStore-vpc-security-group",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": {
+       "Fn::GetAtt": [
+        "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567",
+        "CidrBlock"
+       ]
+      },
+      "Description": {
+       "Fn::Join": [
+        "",
+        [
+         "from ",
+         {
+          "Fn::GetAtt": [
+           "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567",
+           "CidrBlock"
+          ]
+         },
+         ":443"
+        ]
+       ]
+      },
+      "FromPort": 443,
+      "IpProtocol": "tcp",
+      "ToPort": 443
+     }
+    ],
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   },
+   "Metadata": {
+    "cfn_nag": {
+     "rules_to_suppress": [
+      {
+       "id": "W5",
+       "reason": "Egress of 0.0.0.0/0 is default and generally considered OK"
+      },
+      {
+       "id": "W40",
+       "reason": "Egress IPProtocol of -1 is default and generally considered OK"
+      }
+     ]
+    }
+   }
+  },
+  "AuroraVectorDBBEDROCKRUNTIMEAuroraDefaultVectorStorevpcsecuritygroupB04FA306": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "AuroraVectorDB/AuroraVectorDB-BEDROCK_RUNTIME-AuroraDefaultVectorStore-vpc-security-group",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "SecurityGroupIngress": [
+     {
+      "CidrIp": {
+       "Fn::GetAtt": [
+        "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567",
+        "CidrBlock"
+       ]
+      },
+      "Description": {
+       "Fn::Join": [
+        "",
+        [
+         "from ",
+         {
+          "Fn::GetAtt": [
+           "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567",
+           "CidrBlock"
+          ]
+         },
+         ":443"
+        ]
+       ]
+      },
+      "FromPort": 443,
+      "IpProtocol": "tcp",
+      "ToPort": 443
+     }
+    ],
+    "VpcId": {
+     "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567"
+    }
+   },
+   "Metadata": {
+    "cfn_nag": {
+     "rules_to_suppress": [
+      {
+       "id": "W5",
+       "reason": "Egress of 0.0.0.0/0 is default and generally considered OK"
+      },
+      {
+       "id": "W40",
+       "reason": "Egress IPProtocol of -1 is default and generally considered OK"
+      }
+     ]
+    }
+   }
+  },
+  "AmazonAuroraPgVectorCRProviderCRRole49514561": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     },
+     {
+      "Ref": "AuroraDefaultVectorStoreAuroraPgPolicy6070B911"
+     }
+    ]
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "CDK CustomResource Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.",
+       "id": "AwsSolutions-IAM4"
+      }
+     ]
+    }
+   }
+  },
+  "AmazonAuroraPgVectorCRProviderCRRoleDefaultPolicy9E38BB3E": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "AuroraDefaultVectorStoreAuroraClusterSecretAttachment465C882D"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "AmazonAuroraPgVectorCRProviderCRRoleDefaultPolicy9E38BB3E",
+    "Roles": [
+     {
+      "Ref": "AmazonAuroraPgVectorCRProviderCRRole49514561"
+     }
+    ]
+   }
+  },
+  "AmazonAuroraPgVectorCRProviderCustomResourcesFunction50EC6F26": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-2"
+     },
+     "S3Key": "543d15deeec2a709b6fcf0bf6034364a36389371758f8dcc5791be6dbdd782e6.zip"
+    },
+    "Description": "Custom Resource Provider",
+    "Handler": "custom_resources.on_event",
+    "MemorySize": 128,
+    "Role": {
+     "Fn::GetAtt": [
+      "AmazonAuroraPgVectorCRProviderCRRole49514561",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.12",
+    "Timeout": 900,
+    "VpcConfig": {
+     "SecurityGroupIds": [
+      {
+       "Fn::GetAtt": [
+        "AuroraDefaultVectorStoreLambdaSecurityGroup7457D4FD",
+        "GroupId"
+       ]
+      }
+     ],
+     "SubnetIds": [
+      {
+       "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet1SubnetF91DEAFD"
+      },
+      {
+       "Ref": "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet2Subnet91654687"
+      }
+     ]
+    }
+   },
+   "DependsOn": [
+    "AmazonAuroraPgVectorCRProviderCRRoleDefaultPolicy9E38BB3E",
+    "AmazonAuroraPgVectorCRProviderCRRole49514561",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet1RouteTableAssociation23E0D003",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet2RouteTableAssociation3879A9D6"
+   ],
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Lambda runtime version is managed upstream by CDK.",
+       "id": "AwsSolutions-L1"
+      }
+     ]
+    }
+   }
+  },
+  "AmazonAuroraPgVectorCRProviderCustomResourcesFunctionLogRetentionF05880FF": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "AmazonAuroraPgVectorCRProviderCustomResourcesFunction50EC6F26"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 7
+   },
+   "DependsOn": [
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet1RouteTableAssociation23E0D003",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet2RouteTableAssociation3879A9D6"
+   ],
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Lambda runtime version is managed upstream by CDK.",
+       "id": "AwsSolutions-L1"
+      }
+     ]
+    }
+   }
+  },
+  "AmazonAuroraPgVectorCRProviderProviderRoleB64206D1": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "CDK CustomResource Lambda uses the AWSLambdaBasicExecutionRole AWS Managed Policy.",
+       "id": "AwsSolutions-IAM4"
+      },
+      {
+       "reason": "CDK CustomResource Provider has a wildcard to invoke any version of the specific Custom Resource function.",
+       "id": "AwsSolutions-IAM5",
+       "applies_to": [
+        {
+         "regex": "/^Resource::<AmazonAuroraPgVectorCRProviderCustomResourcesFunction[A-Z0-9]+\\.Arn>:\\*$/g"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "AmazonAuroraPgVectorCRProviderProviderRoleDefaultPolicy8C471FA2": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "AmazonAuroraPgVectorCRProviderCustomResourcesFunction50EC6F26",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "AmazonAuroraPgVectorCRProviderCustomResourcesFunction50EC6F26",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "lambda:GetFunction",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "AmazonAuroraPgVectorCRProviderCustomResourcesFunction50EC6F26",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "AmazonAuroraPgVectorCRProviderProviderRoleDefaultPolicy8C471FA2",
+    "Roles": [
+     {
+      "Ref": "AmazonAuroraPgVectorCRProviderProviderRoleB64206D1"
+     }
+    ]
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "CDK CustomResource Provider has a wildcard to invoke any version of the specific Custom Resource function.",
+       "id": "AwsSolutions-IAM5",
+       "applies_to": [
+        {
+         "regex": "/^Resource::<AmazonAuroraPgVectorCRProviderCustomResourcesFunction[A-Z0-9]+\\.Arn>:\\*$/g"
+        }
+       ]
+      }
+     ]
+    }
+   }
+  },
+  "AmazonAuroraPgVectorCRProviderframeworkonEventFCEB4E99": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-2"
+     },
+     "S3Key": "bdc104ed9cab1b5b6421713c8155f0b753380595356f710400609664d3635eca.zip"
+    },
+    "Description": "AWS CDK resource provider framework - onEvent (AuroraVectorDB/AmazonAuroraPgVectorCRProvider/Provider)",
+    "Environment": {
+     "Variables": {
+      "USER_ON_EVENT_FUNCTION_ARN": {
+       "Fn::GetAtt": [
+        "AmazonAuroraPgVectorCRProviderCustomResourcesFunction50EC6F26",
+        "Arn"
+       ]
+      }
+     }
+    },
+    "Handler": "framework.onEvent",
+    "Role": {
+     "Fn::GetAtt": [
+      "AmazonAuroraPgVectorCRProviderProviderRoleB64206D1",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 900
+   },
+   "DependsOn": [
+    "AmazonAuroraPgVectorCRProviderProviderRoleDefaultPolicy8C471FA2",
+    "AmazonAuroraPgVectorCRProviderProviderRoleB64206D1"
+   ],
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Lambda runtime version is managed upstream by CDK.",
+       "id": "AwsSolutions-L1"
+      }
+     ]
+    }
+   }
+  },
+  "AmazonAuroraPgVectorCRProviderframeworkonEventLogRetentionC330550D": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "AmazonAuroraPgVectorCRProviderframeworkonEventFCEB4E99"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 7
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:PutRetentionPolicy",
+        "logs:DeleteRetentionPolicy"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+    "Roles": [
+     {
+      "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+     }
+    ]
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Handler": "index.handler",
+    "Runtime": "nodejs20.x",
+    "Timeout": 900,
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-2"
+     },
+     "S3Key": "2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+   ]
+  },
+  "KnowledgeBaseRoleA3794006": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Condition": {
+        "StringEquals": {
+         "aws:SourceAccount": {
+          "Ref": "AWS::AccountId"
+         }
+        },
+        "ArnLike": {
+         "aws:SourceArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":bedrock:us-east-2:",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":knowledge-base/*"
+           ]
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "bedrock.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "RoleName": "AmazonBedrockExecutionRoleForKnowledgeBaseAuroraVdgeBase7852634F"
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Bedrock Knowledge Base requires wildcard permissions to invoke embedding models",
+       "id": "AwsSolutions-IAM5"
+      },
+      {
+       "reason": "The KB role needs read only access to all objects in the data source bucket.",
+       "id": "AwsSolutions-IAM5"
+      }
+     ]
+    }
+   }
+  },
+  "KnowledgeBaseRoleDefaultPolicyBA5BA301": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "bedrock:InvokeModel*",
+        "bedrock:GetFoundationModel"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":bedrock:",
+          {
+           "Ref": "AWS::Region"
+          },
+          "::foundation-model/amazon.titan-embed-text-v2:0"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "secretsmanager:GetSecretValue",
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "AuroraDefaultVectorStoreAuroraClusterSecretAttachment465C882D"
+       }
+      },
+      {
+       "Action": [
+        "rds-data:ExecuteStatement",
+        "rds-data:BatchExecuteStatement",
+        "rds:DescribeDBClusters"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":rds:us-east-2:",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":cluster:",
+          {
+           "Ref": "AuroraDefaultVectorStoreAuroraClusterD53A2F66"
+          }
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "DocBucket01E283E8",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "DocBucket01E283E8",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "KnowledgeBaseRoleDefaultPolicyBA5BA301",
+    "Roles": [
+     {
+      "Ref": "KnowledgeBaseRoleA3794006"
+     }
+    ]
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Bedrock Knowledge Base requires wildcard permissions to invoke embedding models",
+       "id": "AwsSolutions-IAM5"
+      },
+      {
+       "reason": "The KB role needs read only access to all objects in the data source bucket.",
+       "id": "AwsSolutions-IAM5"
+      }
+     ]
+    }
+   }
+  },
+  "KnowledgeBaseMyCfnKnowledgeBaseB201D483": {
+   "Type": "AWS::Bedrock::KnowledgeBase",
+   "Properties": {
+    "KnowledgeBaseConfiguration": {
+     "Type": "VECTOR",
+     "VectorKnowledgeBaseConfiguration": {
+      "EmbeddingModelArn": {
+       "Fn::Join": [
+        "",
+        [
+         "arn:",
+         {
+          "Ref": "AWS::Partition"
+         },
+         ":bedrock:",
+         {
+          "Ref": "AWS::Region"
+         },
+         "::foundation-model/amazon.titan-embed-text-v2:0"
+        ]
+       ]
+      },
+      "EmbeddingModelConfiguration": {
+       "BedrockEmbeddingModelConfiguration": {
+        "Dimensions": 1024,
+        "EmbeddingDataType": "FLOAT32"
+       }
+      }
+     }
+    },
+    "Name": "KBAuroraVectoowledgeBase7852634F",
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "KnowledgeBaseRoleA3794006",
+      "Arn"
+     ]
+    },
+    "StorageConfiguration": {
+     "RdsConfiguration": {
+      "CredentialsSecretArn": {
+       "Ref": "AuroraDefaultVectorStoreAuroraClusterSecretAttachment465C882D"
+      },
+      "DatabaseName": "bedrock_vector_db",
+      "FieldMapping": {
+       "MetadataField": "metadata",
+       "PrimaryKeyField": "id",
+       "TextField": "chunks",
+       "VectorField": "embedding"
+      },
+      "ResourceArn": {
+       "Fn::Join": [
+        "",
+        [
+         "arn:",
+         {
+          "Ref": "AWS::Partition"
+         },
+         ":rds:us-east-2:",
+         {
+          "Ref": "AWS::AccountId"
+         },
+         ":cluster:",
+         {
+          "Ref": "AuroraDefaultVectorStoreAuroraClusterD53A2F66"
+         }
+        ]
+       ]
+      },
+      "TableName": "bedrock_integration.bedrock_kb"
+     },
+     "Type": "RDS"
+    }
+   },
+   "DependsOn": [
+    "AuroraDefaultVectorStoreAuroraClusterAuroraServerlessReaderDED0F501",
+    "AuroraDefaultVectorStoreAuroraClusterAuroraServerlessWriter76D74C08",
+    "AuroraDefaultVectorStoreAuroraClusterD53A2F66",
+    "AuroraDefaultVectorStoreAuroraClusterRotationSingleUser69470144",
+    "AuroraDefaultVectorStoreAuroraClusterRotationSingleUserSecurityGroupDCF3E875",
+    "AuroraDefaultVectorStoreAuroraClusterSecretAttachmentPolicyB1DD1A42",
+    "AuroraDefaultVectorStoreAuroraClusterSecretAttachment465C882D",
+    "AuroraDefaultVectorStoreAuroraClusterSecretAttachmentRotationScheduleE74D4C4D",
+    "AuroraVectorDBAuroraDefaultVectorStoreAuroraClusterSecretD2C864933fdaad7efa858a3daf9490cf0a702aeb",
+    "AuroraDefaultVectorStoreAuroraClusterSubnetsFCBB359B",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcBEDROCKRUNTIME82027991",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFlowLog3A17C3F6",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFlowLogIAMRoleDefaultPolicy121C8B7A",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFlowLogIAMRole0B62CD4A",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFlowLogLogGroup7AD1E030",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcIGW074D77AE",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet1DefaultRouteE3DC94DA",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet1RouteTable11F22E6F",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet1RouteTableAssociation6AAE66EC",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet1SubnetCBF123CD",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet2DefaultRoute2B27AFF0",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet2RouteTable39731F9B",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet2RouteTableAssociation355436A3",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateegressSubnet2Subnet830BAE13",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet1RouteTableDCEAE8D7",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet1RouteTableAssociation23E0D003",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet1SubnetF91DEAFD",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet2RouteTableB6071D9A",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet2RouteTableAssociation3879A9D6",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcprivateisolatedSubnet2Subnet91654687",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1DefaultRoute643E7FF7",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1EIP943AAF18",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1NATGateway433E55F1",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1RouteTableE6D8BD84",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1RouteTableAssociation41D1B60F",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet1Subnet60BA9BB4",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2DefaultRoute4F90EA4F",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2EIP58A255F5",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2NATGatewayDB891FDD",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2RouteTable9DA5E2ED",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2RouteTableAssociation428D3DD3",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcpublicSubnet2Subnet845ACD01",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcFCBFF567",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcSECRETSMANAGER623125BD",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcVpcFlowLog709B2D57",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcVpcFlowLogIAMRoleDefaultPolicyF91A4D23",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcVpcFlowLogIAMRoleFD8A6D79",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcVpcFlowLogLogGroup9819DAD7",
+    "AuroraDefaultVectorStoreAuroraDefaultVectorStorevpcVPCGW99079FF1",
+    "AuroraDefaultVectorStoreAuroraPgPolicy6070B911",
+    "AuroraDefaultVectorStoreAuroraPgVectorC90505FF",
+    "AuroraDefaultVectorStoreAuroraSecurityGroupfromAuroraVectorDBAuroraDefaultVectorStoreAuroraClusterRotationSingleUserSecurityGroupA8151350IndirectPort75FC9AB3",
+    "AuroraDefaultVectorStoreAuroraSecurityGroupfromAuroraVectorDBAuroraDefaultVectorStoreLambdaSecurityGroup1ABE93C454321E53E5B9",
+    "AuroraDefaultVectorStoreAuroraSecurityGroup26ED6137",
+    "AuroraDefaultVectorStoreLambdaSecurityGroup7457D4FD",
+    "KnowledgeBaseKBCRPolicy36BEC0C1",
+    "KnowledgeBaseRoleDefaultPolicyBA5BA301",
+    "KnowledgeBaseRoleA3794006"
+   ]
+  },
+  "KnowledgeBaseKBCRPolicy36BEC0C1": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "bedrock:CreateKnowledgeBase",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "bedrock:UpdateKnowledgeBase",
+        "bedrock:DeleteKnowledgeBase",
+        "bedrock:TagResource"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":bedrock:us-east-2:",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":knowledge-base/*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "iam:PassRole",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "KnowledgeBaseRoleA3794006",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "KnowledgeBaseKBCRPolicy36BEC0C1",
+    "Roles": [
+     {
+      "Ref": "KnowledgeBaseRoleA3794006"
+     }
+    ]
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Bedrock CreateKnowledgeBase can't be restricted by resource.",
+       "id": "AwsSolutions-IAM5"
+      }
+     ]
+    }
+   }
+  },
+  "DocBucket01E283E8": {
+   "Type": "AWS::S3::Bucket",
+   "UpdateReplacePolicy": "Retain",
+   "DeletionPolicy": "Retain"
+  },
+  "DataSource152DC04E": {
+   "Type": "AWS::Bedrock::DataSource",
+   "Properties": {
+    "DataSourceConfiguration": {
+     "S3Configuration": {
+      "BucketArn": {
+       "Fn::GetAtt": [
+        "DocBucket01E283E8",
+        "Arn"
+       ]
+      }
+     },
+     "Type": "S3"
+    },
+    "KnowledgeBaseId": {
+     "Fn::GetAtt": [
+      "KnowledgeBaseMyCfnKnowledgeBaseB201D483",
+      "KnowledgeBaseId"
+     ]
+    },
+    "Name": "texts",
+    "VectorIngestionConfiguration": {
+     "ChunkingConfiguration": {
+      "ChunkingStrategy": "FIXED_SIZE",
+      "FixedSizeChunkingConfiguration": {
+       "MaxTokens": 300,
+       "OverlapPercentage": 20
+      }
+     }
+    }
+   }
+  }
+ },
+ "Mappings": {
+  "AuroraDefaultVectorStoreAuroraClusterRotationSingleUserSARMapping2938D20C": {
+   "aws": {
+    "applicationId": "arn:aws:serverlessrepo:us-east-1:297356227824:applications/SecretsManagerRDSPostgreSQLRotationSingleUser",
+    "semanticVersion": "1.1.367"
+   },
+   "aws-cn": {
+    "applicationId": "arn:aws-cn:serverlessrepo:cn-north-1:193023089310:applications/SecretsManagerRDSPostgreSQLRotationSingleUser",
+    "semanticVersion": "1.1.237"
+   },
+   "aws-us-gov": {
+    "applicationId": "arn:aws-us-gov:serverlessrepo:us-gov-west-1:023102451235:applications/SecretsManagerRDSPostgreSQLRotationSingleUser",
+    "semanticVersion": "1.1.213"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}
