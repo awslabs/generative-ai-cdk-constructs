@@ -2,31 +2,43 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / VectorKnowledgeBaseBase
+[@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / GraphKnowledgeBase
 
-# Class: `abstract` VectorKnowledgeBaseBase
+# Class: GraphKnowledgeBase
 
-Abstract base class for Vector Knowledge Base.
-Contains methods valid for KBs either created with CDK or imported.
+Creates a new Amazon Bedrock Knowledge Base using a Neptune Analytics vector store, this is also known as GraphRAG.
+
+GraphRAG is a capability that combines graph modeling with generative AI to enhance retrieval-augmented generation (RAG).
+It automatically identifies and leverages relationships between entities and structural elements within documents,
+enabling more comprehensive and contextually relevant responses from foundation models.
+
+Key benefits:
+- More relevant responses by leveraging relationships between entities and structural elements across documents
+- Enhanced search capabilities that connect content through multiple logical steps
+- Better cross-document reasoning for more precise and contextually accurate answers
+- Reduced hallucinations through improved information connectivity
+
+Limitations:
+- AWS PrivateLink VPC endpoint connectivity is not supported
+- Graph build configuration options are not customizable
+- Autoscaling is not supported for Neptune Analytics graphs
+- Only supports Amazon S3 as data source
+- Uses Claude 3 Haiku model for automatic graph building with contextual enrichment
+- Each data source limited to 1000 files (can be increased to max 10000 files)
+
+## See
+
+https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-build-graphs.html
 
 ## Extends
 
-- [`KnowledgeBaseBase`](KnowledgeBaseBase.md)
-
-## Extended by
-
-- [`VectorKnowledgeBase`](VectorKnowledgeBase.md)
 - [`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md)
-
-## Implements
-
-- [`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md)
 
 ## Constructors
 
 ### Constructor
 
-> **new VectorKnowledgeBaseBase**(`scope`, `id`): `VectorKnowledgeBaseBase`
+> **new GraphKnowledgeBase**(`scope`, `id`, `props`): `GraphKnowledgeBase`
 
 #### Parameters
 
@@ -38,29 +50,37 @@ Contains methods valid for KBs either created with CDK or imported.
 
 `string`
 
+##### props
+
+[`GraphKnowledgeBaseProps`](../interfaces/GraphKnowledgeBaseProps.md)
+
 #### Returns
 
-`VectorKnowledgeBaseBase`
+`GraphKnowledgeBase`
 
 #### Overrides
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`constructor`](KnowledgeBaseBase.md#constructor)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`constructor`](GraphKnowledgeBaseBase.md#constructor)
 
 ## Properties
 
 ### description?
 
-> `abstract` `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description**: `string`
 
 The description of the knowledge base.
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`description`](../interfaces/IVectorKnowledgeBase.md#description)
-
 #### Overrides
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`description`](KnowledgeBaseBase.md#description)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`description`](GraphKnowledgeBaseBase.md#description)
+
+***
+
+### embeddingModel
+
+> `readonly` **embeddingModel**: [`BedrockFoundationModel`](BedrockFoundationModel.md)
+
+The embeddings model for the knowledge base.
 
 ***
 
@@ -76,37 +96,47 @@ however, for imported resources
 (those obtained from static methods like fromRoleArn, fromBucketName, etc.),
 that might be different than the stack they were imported into.
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`env`](../interfaces/IVectorKnowledgeBase.md#env)
-
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`env`](KnowledgeBaseBase.md#env)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`env`](GraphKnowledgeBaseBase.md#env)
+
+***
+
+### fieldMapping
+
+> `readonly` **fieldMapping**: [`VectorFieldMapping`](../interfaces/VectorFieldMapping.md)
+
+The vector field mapping configuration.
+
+***
+
+### graph
+
+> `readonly` **graph**: [`INeptuneGraph`](../../neptune/interfaces/INeptuneGraph.md)
+
+#### Overrides
+
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`graph`](GraphKnowledgeBaseBase.md#graph)
 
 ***
 
 ### instruction?
 
-> `abstract` `readonly` `optional` **instruction**: `string`
+> `readonly` `optional` **instruction**: `string`
 
 A narrative instruction of the knowledge base.
 A Bedrock Agent can use this instruction to determine if it should
 query this Knowledge Base.
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`instruction`](../interfaces/IVectorKnowledgeBase.md#instruction)
-
 #### Overrides
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`instruction`](KnowledgeBaseBase.md#instruction)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`instruction`](GraphKnowledgeBaseBase.md#instruction)
 
 ***
 
 ### knowledgeBaseArn
 
-> `abstract` `readonly` **knowledgeBaseArn**: `string`
+> `readonly` **knowledgeBaseArn**: `string`
 
 The ARN of the knowledge base.
 
@@ -116,19 +146,15 @@ The ARN of the knowledge base.
 "arn:aws:bedrock:us-east-1:123456789012:knowledge-base/KB12345678"
 ```
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`knowledgeBaseArn`](../interfaces/IVectorKnowledgeBase.md#knowledgebasearn)
-
 #### Overrides
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`knowledgeBaseArn`](KnowledgeBaseBase.md#knowledgebasearn)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`knowledgeBaseArn`](GraphKnowledgeBaseBase.md#knowledgebasearn)
 
 ***
 
 ### knowledgeBaseId
 
-> `abstract` `readonly` **knowledgeBaseId**: `string`
+> `readonly` **knowledgeBaseId**: `string`
 
 The ID of the knowledge base.
 
@@ -138,13 +164,17 @@ The ID of the knowledge base.
 "KB12345678"
 ```
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`knowledgeBaseId`](../interfaces/IVectorKnowledgeBase.md#knowledgebaseid)
-
 #### Overrides
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`knowledgeBaseId`](KnowledgeBaseBase.md#knowledgebaseid)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`knowledgeBaseId`](GraphKnowledgeBaseBase.md#knowledgebaseid)
+
+***
+
+### name
+
+> `readonly` **name**: `string`
+
+The name of the knowledge base.
 
 ***
 
@@ -154,13 +184,15 @@ The ID of the knowledge base.
 
 The tree node.
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`node`](../interfaces/IVectorKnowledgeBase.md#node)
-
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`node`](KnowledgeBaseBase.md#node)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`node`](GraphKnowledgeBaseBase.md#node)
+
+***
+
+### notebook?
+
+> `readonly` `optional` **notebook**: [`NeptuneGraphNotebook`](../../neptune/classes/NeptuneGraphNotebook.md)
 
 ***
 
@@ -179,23 +211,19 @@ This value will resolve to one of the following:
 
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`physicalName`](KnowledgeBaseBase.md#physicalname)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`physicalName`](GraphKnowledgeBaseBase.md#physicalname)
 
 ***
 
 ### role
 
-> `abstract` `readonly` **role**: `IRole`
+> `readonly` **role**: `IRole`
 
 The role associated with the knowledge base.
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`role`](../interfaces/IVectorKnowledgeBase.md#role)
-
 #### Overrides
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`role`](KnowledgeBaseBase.md#role)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`role`](GraphKnowledgeBaseBase.md#role)
 
 ***
 
@@ -205,13 +233,9 @@ The role associated with the knowledge base.
 
 The stack in which this resource is defined.
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`stack`](../interfaces/IVectorKnowledgeBase.md#stack)
-
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`stack`](KnowledgeBaseBase.md#stack)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`stack`](GraphKnowledgeBaseBase.md#stack)
 
 ***
 
@@ -221,25 +245,21 @@ The stack in which this resource is defined.
 
 The type of knowledge base.
 
-#### Implementation of
+#### Inherited from
 
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`type`](../interfaces/IVectorKnowledgeBase.md#type)
-
-#### Overrides
-
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`type`](KnowledgeBaseBase.md#type)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`type`](GraphKnowledgeBaseBase.md#type)
 
 ***
 
 ### vectorStoreType
 
-> `abstract` `readonly` **vectorStoreType**: [`VectorStoreType`](../enumerations/VectorStoreType.md)
+> `readonly` **vectorStoreType**: [`NEPTUNE_ANALYTICS`](../enumerations/VectorStoreType.md#neptune_analytics) = `VectorStoreType.NEPTUNE_ANALYTICS`
 
 The storage type for the Vector Embeddings.
 
-#### Implementation of
+#### Overrides
 
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`vectorStoreType`](../interfaces/IVectorKnowledgeBase.md#vectorstoretype)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`vectorStoreType`](GraphKnowledgeBaseBase.md#vectorstoretype)
 
 ## Methods
 
@@ -260,7 +280,7 @@ through its absolute name/arn.
 
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`_enableCrossEnvironment`](KnowledgeBaseBase.md#_enablecrossenvironment)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`_enableCrossEnvironment`](GraphKnowledgeBaseBase.md#_enablecrossenvironment)
 
 ***
 
@@ -280,9 +300,9 @@ Add a Confluence data source to the knowledge base.
 
 [`ConfluenceDataSource`](ConfluenceDataSource.md)
 
-#### Implementation of
+#### Inherited from
 
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`addConfluenceDataSource`](../interfaces/IVectorKnowledgeBase.md#addconfluencedatasource)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`addConfluenceDataSource`](GraphKnowledgeBaseBase.md#addconfluencedatasource)
 
 ***
 
@@ -302,9 +322,9 @@ Add a Custom data source to the knowledge base.
 
 [`CustomDataSource`](CustomDataSource.md)
 
-#### Implementation of
+#### Inherited from
 
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`addCustomDataSource`](../interfaces/IVectorKnowledgeBase.md#addcustomdatasource)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`addCustomDataSource`](GraphKnowledgeBaseBase.md#addcustomdatasource)
 
 ***
 
@@ -324,9 +344,9 @@ Adds an S3 data source to the knowledge base.
 
 [`S3DataSource`](S3DataSource.md)
 
-#### Implementation of
+#### Inherited from
 
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`addS3DataSource`](../interfaces/IVectorKnowledgeBase.md#adds3datasource)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`addS3DataSource`](GraphKnowledgeBaseBase.md#adds3datasource)
 
 ***
 
@@ -346,9 +366,9 @@ Add a Salesforce data source to the knowledge base.
 
 [`SalesforceDataSource`](SalesforceDataSource.md)
 
-#### Implementation of
+#### Inherited from
 
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`addSalesforceDataSource`](../interfaces/IVectorKnowledgeBase.md#addsalesforcedatasource)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`addSalesforceDataSource`](GraphKnowledgeBaseBase.md#addsalesforcedatasource)
 
 ***
 
@@ -368,9 +388,9 @@ Add a SharePoint data source to the knowledge base.
 
 [`SharePointDataSource`](SharePointDataSource.md)
 
-#### Implementation of
+#### Inherited from
 
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`addSharePointDataSource`](../interfaces/IVectorKnowledgeBase.md#addsharepointdatasource)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`addSharePointDataSource`](GraphKnowledgeBaseBase.md#addsharepointdatasource)
 
 ***
 
@@ -390,9 +410,9 @@ Add a web crawler data source to the knowledge base.
 
 [`WebCrawlerDataSource`](WebCrawlerDataSource.md)
 
-#### Implementation of
+#### Inherited from
 
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`addWebCrawlerDataSource`](../interfaces/IVectorKnowledgeBase.md#addwebcrawlerdatasource)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`addWebCrawlerDataSource`](GraphKnowledgeBaseBase.md#addwebcrawlerdatasource)
 
 ***
 
@@ -420,13 +440,9 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 `void`
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`applyRemovalPolicy`](../interfaces/IVectorKnowledgeBase.md#applyremovalpolicy)
-
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`applyRemovalPolicy`](KnowledgeBaseBase.md#applyremovalpolicy)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`applyRemovalPolicy`](GraphKnowledgeBaseBase.md#applyremovalpolicy)
 
 ***
 
@@ -440,7 +456,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`generatePhysicalName`](KnowledgeBaseBase.md#generatephysicalname)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`generatePhysicalName`](GraphKnowledgeBaseBase.md#generatephysicalname)
 
 ***
 
@@ -480,7 +496,7 @@ cross-environment references to work.
 
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`getResourceArnAttribute`](KnowledgeBaseBase.md#getresourcearnattribute)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`getResourceArnAttribute`](GraphKnowledgeBaseBase.md#getresourcearnattribute)
 
 ***
 
@@ -510,7 +526,7 @@ Commonly this is the resource's `ref`.
 
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`getResourceNameAttribute`](KnowledgeBaseBase.md#getresourcenameattribute)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`getResourceNameAttribute`](GraphKnowledgeBaseBase.md#getresourcenameattribute)
 
 ***
 
@@ -534,13 +550,9 @@ Grant the given principal identity permissions to perform actions on this knowle
 
 `Grant`
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`grant`](../interfaces/IVectorKnowledgeBase.md#grant)
-
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`grant`](KnowledgeBaseBase.md#grant)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`grant`](GraphKnowledgeBaseBase.md#grant)
 
 ***
 
@@ -563,13 +575,9 @@ This contains:
 
 `Grant`
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`grantQuery`](../interfaces/IVectorKnowledgeBase.md#grantquery)
-
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`grantQuery`](KnowledgeBaseBase.md#grantquery)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`grantQuery`](GraphKnowledgeBaseBase.md#grantquery)
 
 ***
 
@@ -589,13 +597,9 @@ Grant the given identity permissions to retrieve content from the knowledge base
 
 `Grant`
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`grantRetrieve`](../interfaces/IVectorKnowledgeBase.md#grantretrieve)
-
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`grantRetrieve`](KnowledgeBaseBase.md#grantretrieve)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`grantRetrieve`](GraphKnowledgeBaseBase.md#grantretrieve)
 
 ***
 
@@ -615,13 +619,9 @@ Grant the given identity permissions to retrieve content from the knowledge base
 
 `Grant`
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`grantRetrieveAndGenerate`](../interfaces/IVectorKnowledgeBase.md#grantretrieveandgenerate)
-
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`grantRetrieveAndGenerate`](KnowledgeBaseBase.md#grantretrieveandgenerate)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`grantRetrieveAndGenerate`](GraphKnowledgeBaseBase.md#grantretrieveandgenerate)
 
 ***
 
@@ -637,7 +637,31 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`toString`](KnowledgeBaseBase.md#tostring)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`toString`](GraphKnowledgeBaseBase.md#tostring)
+
+***
+
+### fromKnowledgeBaseAttributes()
+
+> `static` **fromKnowledgeBaseAttributes**(`scope`, `id`, `attrs`): [`IGraphKnowledgeBase`](../interfaces/IGraphKnowledgeBase.md)
+
+#### Parameters
+
+##### scope
+
+`Construct`
+
+##### id
+
+`string`
+
+##### attrs
+
+[`GraphKnowledgeBaseAttributes`](../interfaces/GraphKnowledgeBaseAttributes.md)
+
+#### Returns
+
+[`IGraphKnowledgeBase`](../interfaces/IGraphKnowledgeBase.md)
 
 ***
 
@@ -677,7 +701,7 @@ true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`isConstruct`](KnowledgeBaseBase.md#isconstruct)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`isConstruct`](GraphKnowledgeBaseBase.md#isconstruct)
 
 ***
 
@@ -699,7 +723,7 @@ Returns true if the construct was created by CDK, and false otherwise
 
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`isOwnedResource`](KnowledgeBaseBase.md#isownedresource)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`isOwnedResource`](GraphKnowledgeBaseBase.md#isownedresource)
 
 ***
 
@@ -721,4 +745,4 @@ Check whether the given construct is a Resource
 
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`isResource`](KnowledgeBaseBase.md#isresource)
+[`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md).[`isResource`](GraphKnowledgeBaseBase.md#isresource)
