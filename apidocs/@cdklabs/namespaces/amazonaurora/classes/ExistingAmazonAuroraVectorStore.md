@@ -182,11 +182,11 @@ The VPC of your Amazon Aurora DB cluster.
 
 ##### lambdaSecurityGroup
 
-`SecurityGroup`
+`ISecurityGroup`
 
 ##### auroraSecurityGroup
 
-`SecurityGroup`
+`ISecurityGroup`
 
 #### Returns
 
@@ -288,7 +288,7 @@ The VPC of your Amazon Aurora DB cluster.
 
 ### setupDatabaseClusterResources()
 
-> `protected` **setupDatabaseClusterResources**(`vpc`, `secret`, `clusterIdentifier`, `auroraSecurityGroupId`): [`DatabaseClusterResources`](../interfaces/DatabaseClusterResources.md)
+> `protected` **setupDatabaseClusterResources**(`vpc`, `secret`, `clusterIdentifier`, `auroraSecurityGroup`): [`DatabaseClusterResources`](../interfaces/DatabaseClusterResources.md)
 
 #### Parameters
 
@@ -304,9 +304,9 @@ The VPC of your Amazon Aurora DB cluster.
 
 `string`
 
-##### auroraSecurityGroupId
+##### auroraSecurityGroup
 
-`string`
+`ISecurityGroup`
 
 #### Returns
 

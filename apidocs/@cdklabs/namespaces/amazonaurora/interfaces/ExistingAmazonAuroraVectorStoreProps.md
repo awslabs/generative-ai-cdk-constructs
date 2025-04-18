@@ -17,11 +17,11 @@ set up for `5432`.
 
 ## Properties
 
-### auroraSecurityGroupId
+### auroraSecurityGroup
 
-> `readonly` **auroraSecurityGroupId**: `string`
+> `readonly` **auroraSecurityGroup**: `ISecurityGroup`
 
-The id of the security group associated with the RDS Aurora instance.
+The Security group associated with the RDS Aurora instance.
 This security group allows access to the Aurora Vector Store from Lambda's
 custom resource running pgVector SQL commands.
 

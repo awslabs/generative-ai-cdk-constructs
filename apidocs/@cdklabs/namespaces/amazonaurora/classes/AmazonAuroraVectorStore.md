@@ -182,11 +182,11 @@ The VPC of your Amazon Aurora DB cluster.
 
 ##### lambdaSecurityGroup
 
-`SecurityGroup`
+`ISecurityGroup`
 
 ##### auroraSecurityGroup
 
-`SecurityGroup`
+`ISecurityGroup`
 
 #### Returns
 
@@ -288,7 +288,7 @@ The VPC of your Amazon Aurora DB cluster.
 
 ### setupDatabaseClusterResources()
 
-> `protected` **setupDatabaseClusterResources**(`vpc`, `secret`, `clusterIdentifier`, `auroraSecurityGroupId`): [`DatabaseClusterResources`](../interfaces/DatabaseClusterResources.md)
+> `protected` **setupDatabaseClusterResources**(`vpc`, `secret`, `clusterIdentifier`, `auroraSecurityGroup`): [`DatabaseClusterResources`](../interfaces/DatabaseClusterResources.md)
 
 #### Parameters
 
@@ -304,9 +304,9 @@ The VPC of your Amazon Aurora DB cluster.
 
 `string`
 
-##### auroraSecurityGroupId
+##### auroraSecurityGroup
 
-`string`
+`ISecurityGroup`
 
 #### Returns
 
@@ -342,8 +342,7 @@ Creates an instance of AmazonAuroraVectorStore using existing Aurora Vector Stor
 You need to provide your existing Aurora Vector Store properties
 such as `databaseName`, `clusterIdentifier`, `vpc` where database is deployed,
 `secret` containing username and password for authentication to database,
-and `auroraSecurityGroupId` with the value of a security group id that was
-used for the database.
+and `auroraSecurityGroup` with the ecurity group that was used for the database.
 
 #### Parameters
 
