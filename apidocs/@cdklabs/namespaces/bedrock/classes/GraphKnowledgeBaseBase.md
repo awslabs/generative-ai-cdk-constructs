@@ -2,31 +2,27 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / VectorKnowledgeBaseBase
+[@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / GraphKnowledgeBaseBase
 
-# Class: `abstract` VectorKnowledgeBaseBase
+# Class: `abstract` GraphKnowledgeBaseBase
 
-Abstract base class for Vector Knowledge Base.
-Contains methods valid for KBs either created with CDK or imported.
+***************************************************************************
+                             ABSTRACT CLASS
+***************************************************************************
 
 ## Extends
 
-- [`KnowledgeBaseBase`](KnowledgeBaseBase.md)
+- [`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md)
 
 ## Extended by
 
-- [`VectorKnowledgeBase`](VectorKnowledgeBase.md)
-- [`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md)
-
-## Implements
-
-- [`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md)
+- [`GraphKnowledgeBase`](GraphKnowledgeBase.md)
 
 ## Constructors
 
 ### Constructor
 
-> **new VectorKnowledgeBaseBase**(`scope`, `id`): `VectorKnowledgeBaseBase`
+> **new GraphKnowledgeBaseBase**(`scope`, `id`): `GraphKnowledgeBaseBase`
 
 #### Parameters
 
@@ -40,11 +36,11 @@ Contains methods valid for KBs either created with CDK or imported.
 
 #### Returns
 
-`VectorKnowledgeBaseBase`
+`GraphKnowledgeBaseBase`
 
-#### Overrides
+#### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`constructor`](KnowledgeBaseBase.md#constructor)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`constructor`](VectorKnowledgeBaseBase.md#constructor)
 
 ## Properties
 
@@ -54,13 +50,9 @@ Contains methods valid for KBs either created with CDK or imported.
 
 The description of the knowledge base.
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`description`](../interfaces/IVectorKnowledgeBase.md#description)
-
 #### Overrides
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`description`](KnowledgeBaseBase.md#description)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`description`](VectorKnowledgeBaseBase.md#description)
 
 ***
 
@@ -76,13 +68,15 @@ however, for imported resources
 (those obtained from static methods like fromRoleArn, fromBucketName, etc.),
 that might be different than the stack they were imported into.
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`env`](../interfaces/IVectorKnowledgeBase.md#env)
-
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`env`](KnowledgeBaseBase.md#env)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`env`](VectorKnowledgeBaseBase.md#env)
+
+***
+
+### graph
+
+> `abstract` `readonly` **graph**: [`INeptuneGraph`](../../neptune/interfaces/INeptuneGraph.md)
 
 ***
 
@@ -94,13 +88,9 @@ A narrative instruction of the knowledge base.
 A Bedrock Agent can use this instruction to determine if it should
 query this Knowledge Base.
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`instruction`](../interfaces/IVectorKnowledgeBase.md#instruction)
-
 #### Overrides
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`instruction`](KnowledgeBaseBase.md#instruction)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`instruction`](VectorKnowledgeBaseBase.md#instruction)
 
 ***
 
@@ -116,13 +106,9 @@ The ARN of the knowledge base.
 "arn:aws:bedrock:us-east-1:123456789012:knowledge-base/KB12345678"
 ```
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`knowledgeBaseArn`](../interfaces/IVectorKnowledgeBase.md#knowledgebasearn)
-
 #### Overrides
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`knowledgeBaseArn`](KnowledgeBaseBase.md#knowledgebasearn)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`knowledgeBaseArn`](VectorKnowledgeBaseBase.md#knowledgebasearn)
 
 ***
 
@@ -138,13 +124,9 @@ The ID of the knowledge base.
 "KB12345678"
 ```
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`knowledgeBaseId`](../interfaces/IVectorKnowledgeBase.md#knowledgebaseid)
-
 #### Overrides
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`knowledgeBaseId`](KnowledgeBaseBase.md#knowledgebaseid)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`knowledgeBaseId`](VectorKnowledgeBaseBase.md#knowledgebaseid)
 
 ***
 
@@ -154,13 +136,9 @@ The ID of the knowledge base.
 
 The tree node.
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`node`](../interfaces/IVectorKnowledgeBase.md#node)
-
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`node`](KnowledgeBaseBase.md#node)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`node`](VectorKnowledgeBaseBase.md#node)
 
 ***
 
@@ -179,7 +157,7 @@ This value will resolve to one of the following:
 
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`physicalName`](KnowledgeBaseBase.md#physicalname)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`physicalName`](VectorKnowledgeBaseBase.md#physicalname)
 
 ***
 
@@ -189,13 +167,9 @@ This value will resolve to one of the following:
 
 The role associated with the knowledge base.
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`role`](../interfaces/IVectorKnowledgeBase.md#role)
-
 #### Overrides
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`role`](KnowledgeBaseBase.md#role)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`role`](VectorKnowledgeBaseBase.md#role)
 
 ***
 
@@ -205,13 +179,9 @@ The role associated with the knowledge base.
 
 The stack in which this resource is defined.
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`stack`](../interfaces/IVectorKnowledgeBase.md#stack)
-
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`stack`](KnowledgeBaseBase.md#stack)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`stack`](VectorKnowledgeBaseBase.md#stack)
 
 ***
 
@@ -221,13 +191,9 @@ The stack in which this resource is defined.
 
 The type of knowledge base.
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`type`](../interfaces/IVectorKnowledgeBase.md#type)
-
 #### Overrides
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`type`](KnowledgeBaseBase.md#type)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`type`](VectorKnowledgeBaseBase.md#type)
 
 ***
 
@@ -237,9 +203,9 @@ The type of knowledge base.
 
 The storage type for the Vector Embeddings.
 
-#### Implementation of
+#### Inherited from
 
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`vectorStoreType`](../interfaces/IVectorKnowledgeBase.md#vectorstoretype)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`vectorStoreType`](VectorKnowledgeBaseBase.md#vectorstoretype)
 
 ## Methods
 
@@ -260,7 +226,7 @@ through its absolute name/arn.
 
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`_enableCrossEnvironment`](KnowledgeBaseBase.md#_enablecrossenvironment)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`_enableCrossEnvironment`](VectorKnowledgeBaseBase.md#_enablecrossenvironment)
 
 ***
 
@@ -280,9 +246,9 @@ Add a Confluence data source to the knowledge base.
 
 [`ConfluenceDataSource`](ConfluenceDataSource.md)
 
-#### Implementation of
+#### Inherited from
 
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`addConfluenceDataSource`](../interfaces/IVectorKnowledgeBase.md#addconfluencedatasource)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`addConfluenceDataSource`](VectorKnowledgeBaseBase.md#addconfluencedatasource)
 
 ***
 
@@ -302,9 +268,9 @@ Add a Custom data source to the knowledge base.
 
 [`CustomDataSource`](CustomDataSource.md)
 
-#### Implementation of
+#### Inherited from
 
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`addCustomDataSource`](../interfaces/IVectorKnowledgeBase.md#addcustomdatasource)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`addCustomDataSource`](VectorKnowledgeBaseBase.md#addcustomdatasource)
 
 ***
 
@@ -324,9 +290,9 @@ Adds an S3 data source to the knowledge base.
 
 [`S3DataSource`](S3DataSource.md)
 
-#### Implementation of
+#### Inherited from
 
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`addS3DataSource`](../interfaces/IVectorKnowledgeBase.md#adds3datasource)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`addS3DataSource`](VectorKnowledgeBaseBase.md#adds3datasource)
 
 ***
 
@@ -346,9 +312,9 @@ Add a Salesforce data source to the knowledge base.
 
 [`SalesforceDataSource`](SalesforceDataSource.md)
 
-#### Implementation of
+#### Inherited from
 
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`addSalesforceDataSource`](../interfaces/IVectorKnowledgeBase.md#addsalesforcedatasource)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`addSalesforceDataSource`](VectorKnowledgeBaseBase.md#addsalesforcedatasource)
 
 ***
 
@@ -368,9 +334,9 @@ Add a SharePoint data source to the knowledge base.
 
 [`SharePointDataSource`](SharePointDataSource.md)
 
-#### Implementation of
+#### Inherited from
 
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`addSharePointDataSource`](../interfaces/IVectorKnowledgeBase.md#addsharepointdatasource)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`addSharePointDataSource`](VectorKnowledgeBaseBase.md#addsharepointdatasource)
 
 ***
 
@@ -390,9 +356,9 @@ Add a web crawler data source to the knowledge base.
 
 [`WebCrawlerDataSource`](WebCrawlerDataSource.md)
 
-#### Implementation of
+#### Inherited from
 
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`addWebCrawlerDataSource`](../interfaces/IVectorKnowledgeBase.md#addwebcrawlerdatasource)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`addWebCrawlerDataSource`](VectorKnowledgeBaseBase.md#addwebcrawlerdatasource)
 
 ***
 
@@ -420,13 +386,9 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 `void`
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`applyRemovalPolicy`](../interfaces/IVectorKnowledgeBase.md#applyremovalpolicy)
-
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`applyRemovalPolicy`](KnowledgeBaseBase.md#applyremovalpolicy)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`applyRemovalPolicy`](VectorKnowledgeBaseBase.md#applyremovalpolicy)
 
 ***
 
@@ -440,7 +402,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`generatePhysicalName`](KnowledgeBaseBase.md#generatephysicalname)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`generatePhysicalName`](VectorKnowledgeBaseBase.md#generatephysicalname)
 
 ***
 
@@ -480,7 +442,7 @@ cross-environment references to work.
 
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`getResourceArnAttribute`](KnowledgeBaseBase.md#getresourcearnattribute)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`getResourceArnAttribute`](VectorKnowledgeBaseBase.md#getresourcearnattribute)
 
 ***
 
@@ -510,7 +472,7 @@ Commonly this is the resource's `ref`.
 
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`getResourceNameAttribute`](KnowledgeBaseBase.md#getresourcenameattribute)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`getResourceNameAttribute`](VectorKnowledgeBaseBase.md#getresourcenameattribute)
 
 ***
 
@@ -534,13 +496,9 @@ Grant the given principal identity permissions to perform actions on this knowle
 
 `Grant`
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`grant`](../interfaces/IVectorKnowledgeBase.md#grant)
-
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`grant`](KnowledgeBaseBase.md#grant)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`grant`](VectorKnowledgeBaseBase.md#grant)
 
 ***
 
@@ -563,13 +521,9 @@ This contains:
 
 `Grant`
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`grantQuery`](../interfaces/IVectorKnowledgeBase.md#grantquery)
-
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`grantQuery`](KnowledgeBaseBase.md#grantquery)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`grantQuery`](VectorKnowledgeBaseBase.md#grantquery)
 
 ***
 
@@ -589,13 +543,9 @@ Grant the given identity permissions to retrieve content from the knowledge base
 
 `Grant`
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`grantRetrieve`](../interfaces/IVectorKnowledgeBase.md#grantretrieve)
-
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`grantRetrieve`](KnowledgeBaseBase.md#grantretrieve)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`grantRetrieve`](VectorKnowledgeBaseBase.md#grantretrieve)
 
 ***
 
@@ -615,13 +565,9 @@ Grant the given identity permissions to retrieve content from the knowledge base
 
 `Grant`
 
-#### Implementation of
-
-[`IVectorKnowledgeBase`](../interfaces/IVectorKnowledgeBase.md).[`grantRetrieveAndGenerate`](../interfaces/IVectorKnowledgeBase.md#grantretrieveandgenerate)
-
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`grantRetrieveAndGenerate`](KnowledgeBaseBase.md#grantretrieveandgenerate)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`grantRetrieveAndGenerate`](VectorKnowledgeBaseBase.md#grantretrieveandgenerate)
 
 ***
 
@@ -637,7 +583,7 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`toString`](KnowledgeBaseBase.md#tostring)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`toString`](VectorKnowledgeBaseBase.md#tostring)
 
 ***
 
@@ -677,7 +623,7 @@ true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`isConstruct`](KnowledgeBaseBase.md#isconstruct)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`isConstruct`](VectorKnowledgeBaseBase.md#isconstruct)
 
 ***
 
@@ -699,7 +645,7 @@ Returns true if the construct was created by CDK, and false otherwise
 
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`isOwnedResource`](KnowledgeBaseBase.md#isownedresource)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`isOwnedResource`](VectorKnowledgeBaseBase.md#isownedresource)
 
 ***
 
@@ -721,4 +667,4 @@ Check whether the given construct is a Resource
 
 #### Inherited from
 
-[`KnowledgeBaseBase`](KnowledgeBaseBase.md).[`isResource`](KnowledgeBaseBase.md#isresource)
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`isResource`](VectorKnowledgeBaseBase.md#isresource)

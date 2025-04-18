@@ -2,21 +2,17 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / IKnowledgeBase
+[@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / IGraphKnowledgeBase
 
-# Interface: IKnowledgeBase
+# Interface: IGraphKnowledgeBase
 
-Represents a Knowledge Base, either created with CDK or imported, of any type.
+***************************************************************************
+                            COMMON INTERFACES
+***************************************************************************
 
 ## Extends
 
-- `IResource`
-
-## Extended by
-
-- [`IVectorKnowledgeBase`](IVectorKnowledgeBase.md)
-- [`IKendraKnowledgeBase`](IKendraKnowledgeBase.md)
-- [`IGraphKnowledgeBase`](IGraphKnowledgeBase.md)
+- [`IKnowledgeBase`](IKnowledgeBase.md)
 
 ## Properties
 
@@ -25,6 +21,10 @@ Represents a Knowledge Base, either created with CDK or imported, of any type.
 > `readonly` `optional` **description**: `string`
 
 The description of the knowledge base.
+
+#### Inherited from
+
+[`IKnowledgeBase`](IKnowledgeBase.md).[`description`](IKnowledgeBase.md#description)
 
 ***
 
@@ -42,7 +42,15 @@ that might be different than the stack they were imported into.
 
 #### Inherited from
 
-`IResource.env`
+[`IKnowledgeBase`](IKnowledgeBase.md).[`env`](IKnowledgeBase.md#env)
+
+***
+
+### graph
+
+> `readonly` **graph**: [`INeptuneGraph`](../../neptune/interfaces/INeptuneGraph.md)
+
+The Neptune Analytics vector store
 
 ***
 
@@ -53,6 +61,10 @@ that might be different than the stack they were imported into.
 A narrative instruction of the knowledge base.
 A Bedrock Agent can use this instruction to determine if it should
 query this Knowledge Base.
+
+#### Inherited from
+
+[`IKnowledgeBase`](IKnowledgeBase.md).[`instruction`](IKnowledgeBase.md#instruction)
 
 ***
 
@@ -68,6 +80,10 @@ The ARN of the knowledge base.
 "arn:aws:bedrock:us-east-1:123456789012:knowledge-base/KB12345678"
 ```
 
+#### Inherited from
+
+[`IKnowledgeBase`](IKnowledgeBase.md).[`knowledgeBaseArn`](IKnowledgeBase.md#knowledgebasearn)
+
 ***
 
 ### knowledgeBaseId
@@ -82,6 +98,10 @@ The ID of the knowledge base.
 "KB12345678"
 ```
 
+#### Inherited from
+
+[`IKnowledgeBase`](IKnowledgeBase.md).[`knowledgeBaseId`](IKnowledgeBase.md#knowledgebaseid)
+
 ***
 
 ### node
@@ -92,7 +112,7 @@ The tree node.
 
 #### Inherited from
 
-`IResource.node`
+[`IKnowledgeBase`](IKnowledgeBase.md).[`node`](IKnowledgeBase.md#node)
 
 ***
 
@@ -101,6 +121,10 @@ The tree node.
 > `readonly` **role**: `IRole`
 
 The role associated with the knowledge base.
+
+#### Inherited from
+
+[`IKnowledgeBase`](IKnowledgeBase.md).[`role`](IKnowledgeBase.md#role)
 
 ***
 
@@ -112,7 +136,7 @@ The stack in which this resource is defined.
 
 #### Inherited from
 
-`IResource.stack`
+[`IKnowledgeBase`](IKnowledgeBase.md).[`stack`](IKnowledgeBase.md#stack)
 
 ***
 
@@ -121,6 +145,10 @@ The stack in which this resource is defined.
 > `readonly` **type**: [`KnowledgeBaseType`](../enumerations/KnowledgeBaseType.md)
 
 The type of knowledge base.
+
+#### Inherited from
+
+[`IKnowledgeBase`](IKnowledgeBase.md).[`type`](IKnowledgeBase.md#type)
 
 ## Methods
 
@@ -150,7 +178,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Inherited from
 
-`IResource.applyRemovalPolicy`
+[`IKnowledgeBase`](IKnowledgeBase.md).[`applyRemovalPolicy`](IKnowledgeBase.md#applyremovalpolicy)
 
 ***
 
@@ -174,6 +202,10 @@ Grant the given principal identity permissions to perform actions on this knowle
 
 `Grant`
 
+#### Inherited from
+
+[`IKnowledgeBase`](IKnowledgeBase.md).[`grant`](IKnowledgeBase.md#grant)
+
 ***
 
 ### grantQuery()
@@ -191,3 +223,7 @@ Grant the given identity permissions to query the knowledge base.
 #### Returns
 
 `Grant`
+
+#### Inherited from
+
+[`IKnowledgeBase`](IKnowledgeBase.md).[`grantQuery`](IKnowledgeBase.md#grantquery)
