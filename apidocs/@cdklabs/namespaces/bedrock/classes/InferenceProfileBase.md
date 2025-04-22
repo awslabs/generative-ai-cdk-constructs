@@ -26,7 +26,7 @@ Contains methods and attributes valid for ApplicationInferenceProfiles either cr
 
 ### Constructor
 
-> **new InferenceProfileBase**(`scope`, `id`, `props`?): `InferenceProfileBase`
+> **new InferenceProfileBase**(`scope`, `id`, `props?`): `InferenceProfileBase`
 
 #### Parameters
 

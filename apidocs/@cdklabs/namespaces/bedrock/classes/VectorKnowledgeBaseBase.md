@@ -16,6 +16,7 @@ Contains methods valid for KBs either created with CDK or imported.
 ## Extended by
 
 - [`VectorKnowledgeBase`](VectorKnowledgeBase.md)
+- [`GraphKnowledgeBaseBase`](GraphKnowledgeBaseBase.md)
 
 ## Implements
 

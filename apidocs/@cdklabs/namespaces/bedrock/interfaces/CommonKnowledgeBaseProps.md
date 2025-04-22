@@ -12,6 +12,7 @@ Common properties for creating any type of new Knowledge Base.
 
 - [`VectorKnowledgeBaseProps`](VectorKnowledgeBaseProps.md)
 - [`KendraKnowledgeBaseProps`](KendraKnowledgeBaseProps.md)
+- [`GraphKnowledgeBaseProps`](GraphKnowledgeBaseProps.md)
 
 ## Properties
 

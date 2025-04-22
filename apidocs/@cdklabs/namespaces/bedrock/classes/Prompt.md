@@ -174,7 +174,7 @@ Adds a prompt variant.
 
 ### createVersion()
 
-> **createVersion**(`description`?): `string`
+> **createVersion**(`description?`): `string`
 
 Creates a prompt version, a static snapshot of your prompt that can be
 deployed to production.

@@ -26,6 +26,7 @@ import {
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
 import { ExistingAmazonAuroraVectorStore, AmazonAuroraVectorStore } from '../../amazonaurora';
 import { VectorIndex, SpaceType, OpensearchFieldType, EngineType, AlgorithmNameType } from '../../opensearch-vectorindex';
+import { MongoDBAtlasVectorStore } from '../../mongodb-atlas';
 import { VectorCollection } from '../../opensearchserverless';
 import { PineconeVectorStore } from '../../pinecone';
 import { Agent } from '../agents/agent';
@@ -52,6 +53,7 @@ import {
   WebCrawlerDataSourceAssociationProps,
 } from '../data-sources/web-crawler-data-source';
 import { BedrockFoundationModel, VectorType } from '../models';
+import { SupplementalDataStorageLocation } from './supplemental-data-storage';
 
 /******************************************************************************
  *                                  ENUMS
@@ -95,14 +97,15 @@ export enum VectorStoreType {
  */
 interface StorageConfiguration {
   /**
-   * The vector store, which can be of `VectorCollection`, `PineconeVectorStore` or
-   * `AmazonAuroraVectorStore` types.
+   * The vector store, which can be of `VectorCollection`, `PineconeVectorStore`,
+   * `AmazonAuroraVectorStore`, or `MongoDBAtlasVectorStore` types.
    */
   vectorStore:
     | VectorCollection
     | PineconeVectorStore
     | AmazonAuroraVectorStore
-    | ExistingAmazonAuroraVectorStore;
+    | ExistingAmazonAuroraVectorStore
+    | MongoDBAtlasVectorStore;
 
   /**
    * The type of the vector store.
@@ -291,6 +294,11 @@ export interface VectorKnowledgeBaseProps extends CommonKnowledgeBaseProps {
   readonly embeddingsModel: BedrockFoundationModel;
 
   /**
+   * The supplemental data storage locations for the knowledge base
+   */
+  readonly supplementalDataStorageLocations?: SupplementalDataStorageLocation[];
+
+  /**
    * The vector type to store vector embeddings.
    *
    * @default - VectorType.FLOATING_POINT
@@ -318,7 +326,7 @@ export interface VectorKnowledgeBaseProps extends CommonKnowledgeBaseProps {
   /**
    * The vector store for the knowledge base. Must be either of
    * type `VectorCollection`, `RedisEnterpriseVectorStore`,
-   * `PineconeVectorStore` or `AmazonAuroraVectorStore`.
+   * `PineconeVectorStore`, `AmazonAuroraVectorStore`, or `MongoDBAtlasVectorStore`.
    *
    * @default - A new OpenSearch Serverless vector collection is created.
    */
@@ -326,7 +334,8 @@ export interface VectorKnowledgeBaseProps extends CommonKnowledgeBaseProps {
     | VectorCollection
     | PineconeVectorStore
     | AmazonAuroraVectorStore
-    | ExistingAmazonAuroraVectorStore;
+    | ExistingAmazonAuroraVectorStore
+    | MongoDBAtlasVectorStore;
 
   /**
    * The vector index for the OpenSearch Serverless backed knowledge base.
@@ -412,7 +421,8 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     | VectorCollection
     | PineconeVectorStore
     | AmazonAuroraVectorStore
-    | ExistingAmazonAuroraVectorStore;
+    | ExistingAmazonAuroraVectorStore
+    | MongoDBAtlasVectorStore;
 
   /**
    * A description of the knowledge base.
@@ -519,6 +529,10 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
       this.vectorStoreType = VectorStoreType.AMAZON_AURORA;
       ({ vectorStore: this.vectorStore, vectorStoreType: this.vectorStoreType } =
         this.handleAmazonAuroraVectorStore(props));
+    } else if (props.vectorStore instanceof MongoDBAtlasVectorStore) {
+      this.vectorStoreType = VectorStoreType.MONGO_DB_ATLAS;
+      ({ vectorStore: this.vectorStore, vectorStoreType: this.vectorStoreType } =
+        this.handleMongoDBAtlasVectorStore(props));
     } else {
       this.vectorStoreType = VectorStoreType.OPENSEARCH_SERVERLESS;
       ({ vectorStore: this.vectorStore, vectorStoreType: this.vectorStoreType } =
@@ -657,6 +671,13 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
                 }
                 : { embeddingDataType: vectorType },
           },
+          ...(props.supplementalDataStorageLocations && props.supplementalDataStorageLocations.length > 0
+            ? {
+              supplementalDataStorageConfiguration: {
+                supplementalDataStorageLocations: props.supplementalDataStorageLocations.map(location => location.__render()),
+              },
+            }
+            : {}),
         },
       },
       name: this.name,
@@ -786,6 +807,24 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     return {
       vectorStore: vectorStore,
       vectorStoreType: VectorStoreType.AMAZON_AURORA,
+    };
+  }
+
+  /**
+   * Handle MongoDBAtlasVectorStore type of VectorStore.
+   *
+   * @param props - The properties of the KnowledgeBase.
+   * @returns The instance of MongoDBAtlasVectorStore, VectorStoreType.
+   * @internal This is an internal core function and should not be called directly.
+   */
+  private handleMongoDBAtlasVectorStore(props: VectorKnowledgeBaseProps): {
+    vectorStore: MongoDBAtlasVectorStore;
+    vectorStoreType: VectorStoreType;
+  } {
+    const vectorStore = props.vectorStore as MongoDBAtlasVectorStore;
+    return {
+      vectorStore: vectorStore,
+      vectorStoreType: VectorStoreType.MONGO_DB_ATLAS,
     };
   }
 
@@ -966,6 +1005,24 @@ function getStorageConfiguration(params: StorageConfiguration): any {
             textField: params.textField.toLowerCase(),
             metadataField: params.metadataField.toLowerCase(),
           },
+        },
+      };
+    case VectorStoreType.MONGO_DB_ATLAS:
+      params.vectorStore = params.vectorStore as MongoDBAtlasVectorStore;
+      return {
+        type: VectorStoreType.MONGO_DB_ATLAS,
+        mongoDbAtlasConfiguration: {
+          collectionName: params.vectorStore.collectionName,
+          credentialsSecretArn: params.vectorStore.credentialsSecretArn,
+          databaseName: params.vectorStore.databaseName,
+          endpoint: params.vectorStore.endpoint,
+          endpointServiceName: params.vectorStore.endpointServiceName,
+          fieldMapping: {
+            vectorField: params.vectorField,
+            textField: params.textField,
+            metadataField: params.metadataField,
+          },
+          vectorIndexName: params.indexName,
         },
       };
     default:

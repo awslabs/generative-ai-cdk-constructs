@@ -12,6 +12,7 @@ Common properties for importing a knowledge base (of any type) created outside o
 
 - [`VectorKnowledgeBaseAttributes`](VectorKnowledgeBaseAttributes.md)
 - [`KendraKnowledgeBaseAttributes`](KendraKnowledgeBaseAttributes.md)
+- [`GraphKnowledgeBaseAttributes`](GraphKnowledgeBaseAttributes.md)
 
 ## Properties
 
