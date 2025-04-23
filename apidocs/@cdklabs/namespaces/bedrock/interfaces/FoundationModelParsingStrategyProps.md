@@ -2,9 +2,9 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / FoundationModelParsingStategyProps
+[@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / FoundationModelParsingStrategyProps
 
-# Interface: FoundationModelParsingStategyProps
+# Interface: FoundationModelParsingStrategyProps
 
 Properties for configuring a Foundation Model parsing strategy.
 

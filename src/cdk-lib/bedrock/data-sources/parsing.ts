@@ -26,7 +26,7 @@ export enum ParsingModality {
  * Enum representing the types of parsing strategies available for Amazon Bedrock Knowledge Bases.
  * @see https://docs.aws.amazon.com/bedrock/latest/userguide/kb-advanced-parsing.html
  */
-export enum ParsingStategyType {
+export enum ParsingStrategyType {
   /**
    * Uses a Bedrock Foundation Model for advanced parsing of non-textual information from documents.
    */
@@ -43,7 +43,7 @@ export enum ParsingStategyType {
 /**
  * Properties for configuring a Foundation Model parsing strategy.
  */
-export interface FoundationModelParsingStategyProps {
+export interface FoundationModelParsingStrategyProps {
   /**
    * The Foundation Model to use for parsing non-textual information.
    * Currently supported models are Claude 3 Sonnet and Claude 3 Haiku.
@@ -69,7 +69,7 @@ export interface FoundationModelParsingStategyProps {
  * Represents an advanced parsing strategy configuration for Knowledge Base ingestion.
  * @see https://docs.aws.amazon.com/bedrock/latest/userguide/kb-chunking-parsing.html#kb-advanced-parsing
  */
-export abstract class ParsingStategy {
+export abstract class ParsingStrategy {
   // ------------------------------------------------------
   // FM Parsing Strategy
   // ------------------------------------------------------
@@ -80,8 +80,8 @@ export abstract class ParsingStategy {
    * - There are limits on file types (PDF) and total data that can be parsed using advanced parsing.
    * @see https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-ds.html#kb-ds-supported-doc-formats-limits
    */
-  public static foundationModel(props: FoundationModelParsingStategyProps): ParsingStategy {
-    class FoundationModelTransformation extends ParsingStategy {
+  public static foundationModel(props: FoundationModelParsingStrategyProps): ParsingStrategy {
+    class FoundationModelTransformation extends ParsingStrategy {
       /** The CloudFormation property representation of this configuration */
       public readonly configuration = {
         bedrockFoundationModelConfiguration: {
@@ -90,7 +90,7 @@ export abstract class ParsingStategy {
             parsingPromptText: props.parsingPrompt ?? DEFAULT_PARSING_PROMPT,
           },
         },
-        parsingStrategy: ParsingStategyType.FOUNDATION_MODEL,
+        parsingStrategy: ParsingStrategyType.FOUNDATION_MODEL,
       };
 
       public generatePolicyStatements(): PolicyStatement[] {
@@ -111,14 +111,14 @@ export abstract class ParsingStategy {
    * It leverages generative AI to automate the transformation of multi-modal data into structured formats.
    * If the parsing fails, the Amazon Bedrock default parser is used instead.
    */
-  public static bedrockDataAutomation(): ParsingStategy {
-    class BedrockDataAutomationTransformation extends ParsingStategy {
+  public static bedrockDataAutomation(): ParsingStrategy {
+    class BedrockDataAutomationTransformation extends ParsingStrategy {
       /** The CloudFormation property representation of this configuration */
       public readonly configuration = {
         bedrockDataAutomationConfiguration: {
           parsingModality: ParsingModality.MULTIMODAL,
         },
-        parsingStrategy: ParsingStategyType.DATA_AUTOMATION,
+        parsingStrategy: ParsingStrategyType.DATA_AUTOMATION,
       };
 
       public generatePolicyStatements(): PolicyStatement[] {

@@ -2,9 +2,9 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / ParsingStategy
+[@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / ParsingStrategy
 
-# Class: `abstract` ParsingStategy
+# Class: `abstract` ParsingStrategy
 
 Represents an advanced parsing strategy configuration for Knowledge Base ingestion.
 
@@ -16,11 +16,11 @@ https://docs.aws.amazon.com/bedrock/latest/userguide/kb-chunking-parsing.html#kb
 
 ### Constructor
 
-> **new ParsingStategy**(): `ParsingStategy`
+> **new ParsingStrategy**(): `ParsingStrategy`
 
 #### Returns
 
-`ParsingStategy`
+`ParsingStrategy`
 
 ## Properties
 
@@ -44,7 +44,7 @@ The CloudFormation property representation of this configuration
 
 ### bedrockDataAutomation()
 
-> `static` **bedrockDataAutomation**(): `ParsingStategy`
+> `static` **bedrockDataAutomation**(): `ParsingStrategy`
 
 Creates a Bedrock Data Automation-based parsing strategy for processing multimodal data.
 It leverages generative AI to automate the transformation of multi-modal data into structured formats.
@@ -52,13 +52,13 @@ If the parsing fails, the Amazon Bedrock default parser is used instead.
 
 #### Returns
 
-`ParsingStategy`
+`ParsingStrategy`
 
 ***
 
 ### foundationModel()
 
-> `static` **foundationModel**(`props`): `ParsingStategy`
+> `static` **foundationModel**(`props`): `ParsingStrategy`
 
 Creates a Foundation Model-based parsing strategy for extracting non-textual information
 from documents such as tables and charts.
@@ -69,11 +69,11 @@ from documents such as tables and charts.
 
 ##### props
 
-[`FoundationModelParsingStategyProps`](../interfaces/FoundationModelParsingStategyProps.md)
+[`FoundationModelParsingStrategyProps`](../interfaces/FoundationModelParsingStrategyProps.md)
 
 #### Returns
 
-`ParsingStategy`
+`ParsingStrategy`
 
 #### See
 

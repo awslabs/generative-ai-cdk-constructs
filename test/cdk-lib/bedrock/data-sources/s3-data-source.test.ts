@@ -220,7 +220,7 @@ describe('S3 Data Source', () => {
       bucket,
       knowledgeBase: kb,
       dataSourceName: 'TestDataSource',
-      parsingStrategy: bedrock.ParsingStategy.foundationModel({
+      parsingStrategy: bedrock.ParsingStrategy.foundationModel({
         parsingModel: foundationModels.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
       }),
     });
@@ -245,7 +245,7 @@ describe('S3 Data Source', () => {
       bucket,
       knowledgeBase: kb,
       dataSourceName: 'TestDataSource',
-      parsingStrategy: bedrock.ParsingStategy.bedrockDataAutomation(),
+      parsingStrategy: bedrock.ParsingStrategy.bedrockDataAutomation(),
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {

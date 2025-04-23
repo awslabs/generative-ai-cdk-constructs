@@ -459,7 +459,7 @@ two parsing strategies:
 #### TypeScript
 
   ```ts
-  bedrock.ParsingStategy.foundationModel({
+  bedrock.ParsingStrategy.foundationModel({
     model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
   });
   ```
@@ -467,7 +467,7 @@ two parsing strategies:
 #### Python
 
   ```python
-  bedrock.ParsingStategy.foundation_model(
+  bedrock.ParsingStrategy.foundation_model(
       parsing_model=BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0
   )
   ```
@@ -476,12 +476,12 @@ two parsing strategies:
 
 #### TypeScript
    ```ts
-   const parsingStrategy = ParsingStategy.bedrockDataAutomation();
+   const parsingStrategy = ParsingStrategy.bedrockDataAutomation();
    ```
 
 #### Python
   ```python
-  bedrock.ParsingStategy.bedrock_data_automation()
+  bedrock.ParsingStrategy.bedrock_data_automation()
   ```
 
 If the chosen parsing strategy fails to parse a file, the Amazon Bedrock default parser is used as a fallback.
