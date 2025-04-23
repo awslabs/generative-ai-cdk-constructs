@@ -1042,6 +1042,7 @@ function getStorageConfiguration(params: StorageConfiguration): any {
             metadataField: params.metadataField,
           },
           vectorIndexName: params.indexName,
+          textIndexName: params.vectorStore.textIndexName,
         },
       };
     case VectorStoreType.OPENSEARCH_MANAGED_CLUSTER:
