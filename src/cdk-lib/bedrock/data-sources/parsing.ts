@@ -11,6 +11,7 @@
  *  and limitations under the License.
  */
 
+import { Aws } from 'aws-cdk-lib';
 import { CfnDataSource } from 'aws-cdk-lib/aws-bedrock';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { DEFAULT_PARSING_PROMPT } from './default-parsing-prompt';
@@ -122,7 +123,21 @@ export abstract class ParsingStrategy {
       };
 
       public generatePolicyStatements(): PolicyStatement[] {
-        return [];
+        return [
+          new PolicyStatement({
+            actions: ['bedrock:InvokeDataAutomationAsync'],
+            resources: [
+              `arn:${Aws.PARTITION}:bedrock:${Aws.REGION}:${Aws.PARTITION}:data-automation-project/public-rag-default`,
+              `arn:${Aws.PARTITION}:bedrock:*:${Aws.ACCOUNT_ID}:data-automation-profile/us.data-automation-v1` // see https://docs.aws.amazon.com/bedrock/latest/userguide/bda-cris.html
+            ],
+          }),
+          new PolicyStatement({
+            actions: ['bedrock:GetDataAutomationStatus'],
+            resources: [
+              `arn:${Aws.PARTITION}:bedrock:${Aws.REGION}:${Aws.ACCOUNT_ID}:data-automation-invocation/*`
+            ],
+          }),
+        ];
       }
     }
 
