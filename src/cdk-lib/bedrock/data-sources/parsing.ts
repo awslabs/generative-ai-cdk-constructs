@@ -128,13 +128,13 @@ export abstract class ParsingStrategy {
             actions: ['bedrock:InvokeDataAutomationAsync'],
             resources: [
               `arn:${Aws.PARTITION}:bedrock:${Aws.REGION}:${Aws.PARTITION}:data-automation-project/public-rag-default`,
-              `arn:${Aws.PARTITION}:bedrock:*:${Aws.ACCOUNT_ID}:data-automation-profile/us.data-automation-v1` // see https://docs.aws.amazon.com/bedrock/latest/userguide/bda-cris.html
+              `arn:${Aws.PARTITION}:bedrock:*:${Aws.ACCOUNT_ID}:data-automation-profile/us.data-automation-v1`, // see https://docs.aws.amazon.com/bedrock/latest/userguide/bda-cris.html
             ],
           }),
           new PolicyStatement({
             actions: ['bedrock:GetDataAutomationStatus'],
             resources: [
-              `arn:${Aws.PARTITION}:bedrock:${Aws.REGION}:${Aws.ACCOUNT_ID}:data-automation-invocation/*`
+              `arn:${Aws.PARTITION}:bedrock:${Aws.REGION}:${Aws.ACCOUNT_ID}:data-automation-invocation/*`,
             ],
           }),
         ];
