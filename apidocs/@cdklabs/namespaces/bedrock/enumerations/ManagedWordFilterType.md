@@ -6,8 +6,6 @@
 
 # Enumeration: ManagedWordFilterType
 
-The managed word type filter available for guardrails.
-
 ## Enumeration Members
 
 ### PROFANITY

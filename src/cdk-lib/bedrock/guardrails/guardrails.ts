@@ -318,11 +318,11 @@ export interface GuardrailProps {
   /**
    * The word filters to apply to the guardrail.
    */
-  readonly wordFilters?: string[];
+  readonly wordFilters?: filters.WordFilter[];
   /**
    * The managed word filters to apply to the guardrail.
    */
-  readonly managedWordListFilters?: filters.ManagedWordFilterType[];
+  readonly managedWordListFilters?: filters.ManagedWordFilter[];
   /**
    * The PII filters to apply to the guardrail.
    */
@@ -448,11 +448,11 @@ export class Guardrail extends GuardrailBase {
   /**
    * The word filters applied by the guardrail.
    */
-  public readonly wordFilters: string[];
+  public readonly wordFilters: filters.WordFilter[];
   /**
    * The managed word list filters applied by the guardrail.
    */
-  public readonly managedWordListFilters: filters.ManagedWordFilterType[];
+  public readonly managedWordListFilters: filters.ManagedWordFilter[];
   /**
    * When this guardrail was last updated
    */
@@ -564,7 +564,7 @@ export class Guardrail extends GuardrailBase {
    * Adds a word filter to the guardrail.
    * @param filter The word filter to add.
    */
-  public addWordFilter(filter: string): void {
+  public addWordFilter(filter: filters.WordFilter): void {
     this.wordFilters.push(filter);
   }
 
@@ -572,17 +572,21 @@ export class Guardrail extends GuardrailBase {
    * Adds a word filter to the guardrail.
    * @param filePath The location of the word filter file.
    */
-  public addWordFilterFromFile(filePath: string): void {
+  public addWordFilterFromFile(filePath: string,
+    inputAction?: filters.GuardrailAction,
+    outputAction?: filters.GuardrailAction,
+    inputEnabled?: boolean,
+    outputEnabled?: boolean): void {
     const fileContents = fs.readFileSync(filePath, 'utf8');
     const words = fileContents.trim().split(',');
-    for (const word of words) this.addWordFilter(word);
+    for (const word of words) this.addWordFilter({ text: word, inputAction, outputAction, inputEnabled, outputEnabled });
   }
 
   /**
    * Adds a managed word list filter to the guardrail.
    * @param filter The managed word list filter to add.
    */
-  public addManagedWordListFilter(filter: filters.ManagedWordFilterType): void {
+  public addManagedWordListFilter(filter: filters.ManagedWordFilter): void {
     this.managedWordListFilters.push(filter);
   }
 
@@ -695,9 +699,13 @@ export class Guardrail extends GuardrailBase {
     return Lazy.any(
       {
         produce: () => {
-          return this.wordFilters.flatMap((word: string) => {
+          return this.wordFilters.flatMap((word: filters.WordFilter) => {
             return {
-              text: word,
+              text: word.text,
+              inputAction: word.inputAction,
+              inputEnabled: word.inputEnabled,
+              outputAction: word.outputAction,
+              outputEnabled: word.outputEnabled,
             } as bedrock.CfnGuardrail.WordConfigProperty;
           });
         },
@@ -714,9 +722,13 @@ export class Guardrail extends GuardrailBase {
     return Lazy.any(
       {
         produce: () => {
-          return this.managedWordListFilters.flatMap((filter: filters.ManagedWordFilterType) => {
+          return this.managedWordListFilters.flatMap((filter: filters.ManagedWordFilter) => {
             return {
-              type: filter.toString(),
+              type: filter.type,
+              inputAction: filter.inputAction,
+              inputEnabled: filter.inputEnabled,
+              outputAction: filter.outputAction,
+              outputEnabled: filter.outputEnabled,
             } as bedrock.CfnGuardrail.ManagedWordsConfigProperty;
           });
         },

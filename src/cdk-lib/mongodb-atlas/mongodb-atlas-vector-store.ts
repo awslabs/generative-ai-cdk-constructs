@@ -58,7 +58,7 @@ export interface MongoDBAtlasVectorStoreProps {
   /**
    * The name of the endpoint service
    */
-  readonly endpointServiceName: string;
+  readonly endpointServiceName?: string;
 
   /**
    * The field mapping for MongoDB Atlas
@@ -69,6 +69,11 @@ export interface MongoDBAtlasVectorStoreProps {
    * The name of the vector index
    */
   readonly vectorIndexName: string;
+
+  /**
+   * The name of the text index
+   */
+  readonly textIndexName?: string;
 }
 
 /**
@@ -98,7 +103,7 @@ export class MongoDBAtlasVectorStore {
   /**
    * The name of the endpoint service
    */
-  public readonly endpointServiceName: string;
+  public readonly endpointServiceName?: string;
 
   /**
    * The field mapping for MongoDB Atlas
@@ -109,6 +114,11 @@ export class MongoDBAtlasVectorStore {
    * The name of the vector index
    */
   public readonly vectorIndexName: string;
+
+  /**
+   * The name of the text index
+   */
+  public readonly textIndexName?: string;
 
   /**
    * Creates a new instance of the MongoDBAtlas class
@@ -123,5 +133,6 @@ export class MongoDBAtlasVectorStore {
     this.endpointServiceName = props.endpointServiceName;
     this.fieldMapping = props.fieldMapping;
     this.vectorIndexName = props.vectorIndexName;
+    this.textIndexName = props.textIndexName;
   }
 }

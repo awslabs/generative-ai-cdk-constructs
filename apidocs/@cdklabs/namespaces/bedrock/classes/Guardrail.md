@@ -178,7 +178,7 @@ When this guardrail was last updated
 
 ### managedWordListFilters
 
-> `readonly` **managedWordListFilters**: [`PROFANITY`](../enumerations/ManagedWordFilterType.md#profanity)[]
+> `readonly` **managedWordListFilters**: [`ManagedWordFilter`](../interfaces/ManagedWordFilter.md)[]
 
 The managed word list filters applied by the guardrail.
 
@@ -253,7 +253,7 @@ The stack in which this resource is defined.
 
 ### wordFilters
 
-> `readonly` **wordFilters**: `string`[]
+> `readonly` **wordFilters**: [`WordFilter`](../interfaces/WordFilter.md)[]
 
 The word filters applied by the guardrail.
 
@@ -350,7 +350,7 @@ Adds a managed word list filter to the guardrail.
 
 ##### filter
 
-[`PROFANITY`](../enumerations/ManagedWordFilterType.md#profanity)
+[`ManagedWordFilter`](../interfaces/ManagedWordFilter.md)
 
 The managed word list filter to add.
 
@@ -410,7 +410,7 @@ Adds a word filter to the guardrail.
 
 ##### filter
 
-`string`
+[`WordFilter`](../interfaces/WordFilter.md)
 
 The word filter to add.
 
@@ -422,7 +422,7 @@ The word filter to add.
 
 ### addWordFilterFromFile()
 
-> **addWordFilterFromFile**(`filePath`): `void`
+> **addWordFilterFromFile**(`filePath`, `inputAction?`, `outputAction?`, `inputEnabled?`, `outputEnabled?`): `void`
 
 Adds a word filter to the guardrail.
 
@@ -433,6 +433,22 @@ Adds a word filter to the guardrail.
 `string`
 
 The location of the word filter file.
+
+##### inputAction?
+
+[`GuardrailAction`](../enumerations/GuardrailAction.md)
+
+##### outputAction?
+
+[`GuardrailAction`](../enumerations/GuardrailAction.md)
+
+##### inputEnabled?
+
+`boolean`
+
+##### outputEnabled?
+
+`boolean`
 
 #### Returns
 
