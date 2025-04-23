@@ -21,6 +21,7 @@ export * as pinecone from './cdk-lib/pinecone';
 export * as mongodbAtlas from './cdk-lib/mongodb-atlas';
 export * as opensearchserverless from './cdk-lib/opensearchserverless';
 export * as opensearch_vectorindex from './cdk-lib/opensearch-vectorindex';
+export * as opensearchmanagedcluster from './cdk-lib/opensearchmanagedcluster';
 export { version } from './common/helpers/utils';
 export * from './common/base-class/base-class';
 export * from './common/base-class/construct-name-enum';

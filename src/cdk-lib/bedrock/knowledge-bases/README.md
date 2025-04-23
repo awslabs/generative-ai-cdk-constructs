@@ -243,6 +243,94 @@ bedrock.S3DataSource(self, 'DataSource',
 )
 ```
 
+#### OpenSearch Managed Cluster
+
+Manual, you must have an OpenSearch managed cluster created. Please refer to the [documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-osm-permissions-prereq.html) for the prerequisites and permissions required for using OpenSearch Managed Clusters with Amazon Bedrock Knowledge Bases.
+
+```
+Ensure that your domain's access policy grants the permissions to perform the required OpenSearch API actions by the roles in your account. If your domain has a restrictive access policy, you can either:
+- Create your knowledge base using an existing IAM role that the domain can grant access to for performing the necessary operations.
+- Update your access policy to grant the minimum required access to perform the necessary API operations.
+See [Sample IAM policy and validations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-osm-permissions-prereq.html#kb-osm-permissions-iam) for more details.
+
+If your domain has fine-grained access control enabled:
+- Create an OpenSearch role  within the OpenSearch dashboard.
+- Update the role's back-end mapping to the Knowledge Base service role
+```
+
+##### TypeScript
+
+```ts
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import { opensearchmanagedcluster, bedrock } from '@cdklabs/generative-ai-cdk-constructs';
+
+const opensearchVectorStore = new opensearchmanagedcluster.OpenSearchManagedClusterVectorStore({
+  domainArn: 'arn:aws:es:region:account:domain/your-domain',
+  domainEndpoint: 'https://your-domain.region.es.amazonaws.com',
+  vectorIndexName: 'your-vector-index',
+  fieldMapping: {
+    metadataField: 'metadata',
+    textField: 'text',
+    vectorField: 'vector'
+  }
+});
+
+const kb = new bedrock.VectorKnowledgeBase(this, 'KnowledgeBase', {
+  vectorStore: opensearchVectorStore,
+  embeddingsModel: bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V2_1024,
+  instruction: 'Use this knowledge base to answer questions about product documentation. ' + 
+    'It contains technical specifications and user guides.',
+});
+
+const docBucket = new s3.Bucket(this, 'DocBucket');
+
+new bedrock.S3DataSource(this, 'DataSource', {
+  bucket: docBucket,
+  knowledgeBase: kb,
+  dataSourceName: 'product-docs',
+  chunkingStrategy: bedrock.ChunkingStrategy.FIXED_SIZE,
+});
+```
+
+##### Python
+
+```python
+from aws_cdk import (
+    aws_s3 as s3,
+)
+from cdklabs.generative_ai_cdk_constructs import (
+    bedrock,
+    opensearchmanagedcluster,
+)
+
+opensearch_vector_store = opensearchmanagedcluster.OpenSearchManagedClusterVectorStore(
+    domain_arn='arn:aws:es:region:account:domain/your-domain',
+    domain_endpoint='https://your-domain.region.es.amazonaws.com',
+    vector_index_name='your-vector-index',
+    field_mapping={
+        'metadataField': 'metadata',
+        'textField': 'text',
+        'vectorField': 'vector'
+    }
+)
+
+kb = bedrock.VectorKnowledgeBase(self, 'KnowledgeBase',
+    vector_store=opensearch_vector_store,
+    embeddings_model=bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+    instruction='Use this knowledge base to answer questions about product documentation. ' +
+        'It contains technical specifications and user guides.'
+)
+
+doc_bucket = s3.Bucket(self, 'DocBucket')
+
+bedrock.S3DataSource(self, 'DataSource',
+    bucket=doc_bucket,
+    knowledge_base=kb,
+    data_source_name='product-docs',
+    chunking_strategy=bedrock.ChunkingStrategy.FIXED_SIZE
+)
+```
+
 #### MongoDB Atlas
 
 manual, you must have MongoDB Atlas vector store created:

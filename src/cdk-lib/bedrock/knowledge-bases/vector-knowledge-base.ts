@@ -23,10 +23,12 @@ import {
   KnowledgeBaseBase,
   KnowledgeBaseType,
 } from './knowledge-base';
+import { SupplementalDataStorageLocation } from './supplemental-data-storage';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
 import { ExistingAmazonAuroraVectorStore, AmazonAuroraVectorStore } from '../../amazonaurora';
 import { MongoDBAtlasVectorStore } from '../../mongodb-atlas';
 import { VectorIndex } from '../../opensearch-vectorindex';
+import { OpenSearchManagedClusterVectorStore } from '../../opensearchmanagedcluster';
 import { VectorCollection } from '../../opensearchserverless';
 import { PineconeVectorStore } from '../../pinecone';
 import { Agent } from '../agents/agent';
@@ -53,7 +55,6 @@ import {
   WebCrawlerDataSourceAssociationProps,
 } from '../data-sources/web-crawler-data-source';
 import { BedrockFoundationModel, VectorType } from '../models';
-import { SupplementalDataStorageLocation } from './supplemental-data-storage';
 
 /******************************************************************************
  *                                  ENUMS
@@ -71,6 +72,10 @@ export enum VectorStoreType {
    * `OPENSEARCH_SERVERLESS` is the vector store for OpenSearch Serverless.
    */
   OPENSEARCH_SERVERLESS = 'OPENSEARCH_SERVERLESS',
+  /**
+   * `OPENSEARCH_MANAGED_CLUSTER` is the vector store for OpenSearch Managed Cluster.
+   */
+  OPENSEARCH_MANAGED_CLUSTER = 'OPENSEARCH_MANAGED_CLUSTER',
   /**
    * `PINECONE` is the vector store for Pinecone.
    */
@@ -105,7 +110,8 @@ interface StorageConfiguration {
     | PineconeVectorStore
     | AmazonAuroraVectorStore
     | ExistingAmazonAuroraVectorStore
-    | MongoDBAtlasVectorStore;
+    | MongoDBAtlasVectorStore
+    | OpenSearchManagedClusterVectorStore;
 
   /**
    * The type of the vector store.
@@ -335,8 +341,8 @@ export interface VectorKnowledgeBaseProps extends CommonKnowledgeBaseProps {
     | PineconeVectorStore
     | AmazonAuroraVectorStore
     | ExistingAmazonAuroraVectorStore
-    | MongoDBAtlasVectorStore;
-
+    | MongoDBAtlasVectorStore
+    | OpenSearchManagedClusterVectorStore;
   /**
    * The vector index for the OpenSearch Serverless backed knowledge base.
    * If vectorStore is not of type `VectorCollection`, do not include
@@ -422,7 +428,8 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     | PineconeVectorStore
     | AmazonAuroraVectorStore
     | ExistingAmazonAuroraVectorStore
-    | MongoDBAtlasVectorStore;
+    | MongoDBAtlasVectorStore
+    | OpenSearchManagedClusterVectorStore;
 
   /**
    * A description of the knowledge base.
@@ -533,6 +540,10 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
       this.vectorStoreType = VectorStoreType.MONGO_DB_ATLAS;
       ({ vectorStore: this.vectorStore, vectorStoreType: this.vectorStoreType } =
         this.handleMongoDBAtlasVectorStore(props));
+    } else if (props.vectorStore instanceof OpenSearchManagedClusterVectorStore) {
+      this.vectorStoreType = VectorStoreType.OPENSEARCH_MANAGED_CLUSTER;
+      ({ vectorStore: this.vectorStore, vectorStoreType: this.vectorStoreType } =
+        this.handleOpenSearchManagedClusterVectorStore(props));
     } else {
       this.vectorStoreType = VectorStoreType.OPENSEARCH_SERVERLESS;
       ({ vectorStore: this.vectorStore, vectorStoreType: this.vectorStoreType } =
@@ -545,10 +556,10 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
 
     /**
      * We need to add `secretsmanager:GetSecretValue` to the role
-     * of the knowledge base if we use data sources
+     * of the knowledge base if we use vector stores
      * other than OpenSearch Serverless.
      */
-    if (!(this.vectorStore instanceof VectorCollection)) {
+    if (!(this.vectorStore instanceof VectorCollection) && !(this.vectorStore instanceof OpenSearchManagedClusterVectorStore)) {
       this.role.addToPrincipalPolicy(
         new iam.PolicyStatement({
           actions: ['secretsmanager:GetSecretValue'],
@@ -801,6 +812,24 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
   }
 
   /**
+   * Handle OpenSearchManagedClusterVectorStore type of VectorStore.
+   *
+   * @param props - The properties of the KnowledgeBase.
+   * @returns The instance of OpenSearchManagedClusterVectorStore, VectorStoreType.
+   * @internal This is an internal core function and should not be called directly.
+   */
+  private handleOpenSearchManagedClusterVectorStore(props: VectorKnowledgeBaseProps): {
+    vectorStore: OpenSearchManagedClusterVectorStore;
+    vectorStoreType: VectorStoreType;
+  } {
+    const vectorStore = props.vectorStore as OpenSearchManagedClusterVectorStore;
+    return {
+      vectorStore: vectorStore,
+      vectorStoreType: VectorStoreType.OPENSEARCH_MANAGED_CLUSTER,
+    };
+  }
+
+  /**
    * Handle MongoDBAtlasVectorStore type of VectorStore.
    *
    * @param props - The properties of the KnowledgeBase.
@@ -1007,6 +1036,21 @@ function getStorageConfiguration(params: StorageConfiguration): any {
           databaseName: params.vectorStore.databaseName,
           endpoint: params.vectorStore.endpoint,
           endpointServiceName: params.vectorStore.endpointServiceName,
+          fieldMapping: {
+            vectorField: params.vectorField,
+            textField: params.textField,
+            metadataField: params.metadataField,
+          },
+          vectorIndexName: params.indexName,
+        },
+      };
+    case VectorStoreType.OPENSEARCH_MANAGED_CLUSTER:
+      params.vectorStore = params.vectorStore as OpenSearchManagedClusterVectorStore;
+      return {
+        type: VectorStoreType.OPENSEARCH_MANAGED_CLUSTER,
+        opensearchManagedClusterConfiguration: {
+          domainArn: params.vectorStore.domainArn,
+          domainEndpoint: params.vectorStore.domainEndpoint,
           fieldMapping: {
             vectorField: params.vectorField,
             textField: params.textField,
