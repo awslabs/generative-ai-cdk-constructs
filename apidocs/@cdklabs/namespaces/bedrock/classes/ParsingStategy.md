@@ -42,6 +42,20 @@ The CloudFormation property representation of this configuration
 
 ***
 
+### bedrockDataAutomation()
+
+> `static` **bedrockDataAutomation**(): `ParsingStategy`
+
+Creates a Bedrock Data Automation-based parsing strategy for processing multimodal data.
+It leverages generative AI to automate the transformation of multi-modal data into structured formats.
+If the parsing fails, the Amazon Bedrock default parser is used instead.
+
+#### Returns
+
+`ParsingStategy`
+
+***
+
 ### foundationModel()
 
 > `static` **foundationModel**(`props`): `ParsingStategy`

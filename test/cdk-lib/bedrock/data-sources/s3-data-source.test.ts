@@ -240,6 +240,26 @@ describe('S3 Data Source', () => {
     });
   });
 
+  test('BDA parsing', () => {
+    new bedrock.S3DataSource(stack, 'TestDataSource', {
+      bucket,
+      knowledgeBase: kb,
+      dataSourceName: 'TestDataSource',
+      parsingStrategy: bedrock.ParsingStategy.bedrockDataAutomation(),
+    });
+
+    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
+      VectorIngestionConfiguration: {
+        ParsingConfiguration: {
+          ParsingStrategy: 'BEDROCK_DATA_AUTOMATION',
+          BedrockDataAutomationConfiguration: {
+            ParsingModality: 'MULTIMODAL',
+          },
+        },
+      },
+    });
+  });
+
   test('Lambda Transformation', () => {
     // WHEN
     const bucket2 = new s3.Bucket(stack, 'mybucket', {

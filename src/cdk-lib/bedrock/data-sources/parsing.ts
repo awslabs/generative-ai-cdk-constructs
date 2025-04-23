@@ -105,6 +105,29 @@ export abstract class ParsingStategy {
 
     return new FoundationModelTransformation();
   }
+
+  /**
+   * Creates a Bedrock Data Automation-based parsing strategy for processing multimodal data.
+   * It leverages generative AI to automate the transformation of multi-modal data into structured formats.
+   * If the parsing fails, the Amazon Bedrock default parser is used instead.
+   */
+  public static bedrockDataAutomation(): ParsingStategy {
+    class BedrockDataAutomationTransformation extends ParsingStategy {
+      /** The CloudFormation property representation of this configuration */
+      public readonly configuration = {
+        bedrockDataAutomationConfiguration: {
+          parsingModality: ParsingModality.MULTIMODAL,
+        },
+        parsingStrategy: ParsingStategyType.DATA_AUTOMATION,
+      };
+
+      public generatePolicyStatements(): PolicyStatement[] {
+        return [];
+      }
+    }
+
+    return new BedrockDataAutomationTransformation();
+  }
   // ------------------------------------------------------
   // Properties
   // ------------------------------------------------------
