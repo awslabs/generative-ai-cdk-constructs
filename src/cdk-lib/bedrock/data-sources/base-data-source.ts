@@ -21,7 +21,7 @@ import { IKnowledgeBase } from './../knowledge-bases/knowledge-base';
 import { ChunkingStrategy } from './chunking';
 import { ContextEnrichment } from './context-enrichment';
 import { CustomTransformation } from './custom-transformation';
-import { ParsingStategy } from './parsing';
+import { ParsingStrategy } from './parsing';
 /**
  * Specifies the policy for handling data when a data source resource is deleted.
  * This policy affects the vector embeddings created from the data source.
@@ -153,7 +153,7 @@ export interface DataSourceAssociationProps {
    *
    * @default - No Parsing Stategy is used.
    */
-  readonly parsingStrategy?: ParsingStategy;
+  readonly parsingStrategy?: ParsingStrategy;
 
   /**
    * The custom transformation strategy to use.
