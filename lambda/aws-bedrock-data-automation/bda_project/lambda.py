@@ -59,7 +59,7 @@ def process_api_gateway_event(event: Dict[str, Any]) -> Dict[str, Any]:
         raise ValueError("Invalid JSON in request body")
 
 
-#@tracer.capture_lambda_handler
+@tracer.capture_lambda_handler
 def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
     """
     Create a new project
@@ -136,23 +136,3 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
             })
         }
 
-
-input = {
-    "version": "0", 
-    "id": "c868de8e-45c5-f562-59fb-3f47f3a912d1", 
-    "detail-type": "Bedrock Project Request", 
-    "source": "custom.bedrock.blueprint", 
-    "account": "551246883740", 
-    "time": "2025-04-24T16:42:30Z", 
-    "region": "us-west-2", 
-    "resources": [], 
-    "detail": {
-        "project_name": "sample_proj_5", 
-        "project_description": "Sample Project", 
-        "project_stage": "LIVE", 
-        "operation": "CREATE",
-        "modality": "document"
-    }
-}
-         
-handler(input, None)
