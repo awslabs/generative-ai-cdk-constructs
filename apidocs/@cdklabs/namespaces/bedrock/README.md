@@ -30,16 +30,19 @@
 - [InferenceProfileType](enumerations/InferenceProfileType.md)
 - [KnowledgeBaseType](enumerations/KnowledgeBaseType.md)
 - [ManagedWordFilterType](enumerations/ManagedWordFilterType.md)
+- [ModalityType](enumerations/ModalityType.md)
 - [OrchestrationType](enumerations/OrchestrationType.md)
 - [ParsingModality](enumerations/ParsingModality.md)
-- [ParsingStategyType](enumerations/ParsingStategyType.md)
+- [ParsingStrategyType](enumerations/ParsingStrategyType.md)
 - [PromptTemplateType](enumerations/PromptTemplateType.md)
 - [RelayConversationHistoryType](enumerations/RelayConversationHistoryType.md)
 - [SalesforceDataSourceAuthType](enumerations/SalesforceDataSourceAuthType.md)
 - [SalesforceObjectType](enumerations/SalesforceObjectType.md)
 - [SharePointDataSourceAuthType](enumerations/SharePointDataSourceAuthType.md)
 - [SharePointObjectType](enumerations/SharePointObjectType.md)
+- [SupplementalDataStorageLocationType](enumerations/SupplementalDataStorageLocationType.md)
 - [TransformationStep](enumerations/TransformationStep.md)
+- [VectorStoreType](enumerations/VectorStoreType.md)
 - [VectorType](enumerations/VectorType.md)
 
 ## Classes
@@ -65,6 +68,8 @@
 - [DataSourceBase](classes/DataSourceBase.md)
 - [DataSourceNew](classes/DataSourceNew.md)
 - [DefaultPromptRouterIdentifier](classes/DefaultPromptRouterIdentifier.md)
+- [GraphKnowledgeBase](classes/GraphKnowledgeBase.md)
+- [GraphKnowledgeBaseBase](classes/GraphKnowledgeBaseBase.md)
 - [Guardrail](classes/Guardrail.md)
 - [GuardrailBase](classes/GuardrailBase.md)
 - [InferenceProfileBase](classes/InferenceProfileBase.md)
@@ -75,7 +80,7 @@
 - [Memory](classes/Memory.md)
 - [OrchestrationExecutor](classes/OrchestrationExecutor.md)
 - [ParentActionGroupSignature](classes/ParentActionGroupSignature.md)
-- [ParsingStategy](classes/ParsingStategy.md)
+- [ParsingStrategy](classes/ParsingStrategy.md)
 - [Prompt](classes/Prompt.md)
 - [PromptBase](classes/PromptBase.md)
 - [PromptOverrideConfiguration](classes/PromptOverrideConfiguration.md)
@@ -86,9 +91,11 @@
 - [S3DataSource](classes/S3DataSource.md)
 - [SalesforceDataSource](classes/SalesforceDataSource.md)
 - [SharePointDataSource](classes/SharePointDataSource.md)
+- [SupplementalDataStorageLocation](classes/SupplementalDataStorageLocation.md)
 - [ToolChoice](classes/ToolChoice.md)
 - [Topic](classes/Topic.md)
 - [VectorKnowledgeBase](classes/VectorKnowledgeBase.md)
+- [VectorKnowledgeBaseBase](classes/VectorKnowledgeBaseBase.md)
 - [WebCrawlerDataSource](classes/WebCrawlerDataSource.md)
 
 ## Interfaces
@@ -121,13 +128,16 @@
 - [CustomTopicProps](interfaces/CustomTopicProps.md)
 - [DataSourceAssociationProps](interfaces/DataSourceAssociationProps.md)
 - [FoundationModelContextEnrichmentProps](interfaces/FoundationModelContextEnrichmentProps.md)
-- [FoundationModelParsingStategyProps](interfaces/FoundationModelParsingStategyProps.md)
+- [FoundationModelParsingStrategyProps](interfaces/FoundationModelParsingStrategyProps.md)
+- [GraphKnowledgeBaseAttributes](interfaces/GraphKnowledgeBaseAttributes.md)
+- [GraphKnowledgeBaseProps](interfaces/GraphKnowledgeBaseProps.md)
 - [GuardrailAttributes](interfaces/GuardrailAttributes.md)
 - [GuardrailProps](interfaces/GuardrailProps.md)
 - [HierarchicalChunkingProps](interfaces/HierarchicalChunkingProps.md)
 - [IAgent](interfaces/IAgent.md)
 - [IAgentAlias](interfaces/IAgentAlias.md)
 - [IDataSource](interfaces/IDataSource.md)
+- [IGraphKnowledgeBase](interfaces/IGraphKnowledgeBase.md)
 - [IGuardrail](interfaces/IGuardrail.md)
 - [IInferenceProfile](interfaces/IInferenceProfile.md)
 - [IInvokable](interfaces/IInvokable.md)
@@ -157,13 +167,23 @@
 - [SharePointCrawlingFilters](interfaces/SharePointCrawlingFilters.md)
 - [SharePointDataSourceAssociationProps](interfaces/SharePointDataSourceAssociationProps.md)
 - [SharePointDataSourceProps](interfaces/SharePointDataSourceProps.md)
+- [SupplementalDataStorageS3Config](interfaces/SupplementalDataStorageS3Config.md)
 - [TextPromptVariantProps](interfaces/TextPromptVariantProps.md)
 - [ToolConfiguration](interfaces/ToolConfiguration.md)
+- [VectorFieldMapping](interfaces/VectorFieldMapping.md)
 - [VectorKnowledgeBaseAttributes](interfaces/VectorKnowledgeBaseAttributes.md)
 - [VectorKnowledgeBaseProps](interfaces/VectorKnowledgeBaseProps.md)
 - [WebCrawlerDataSourceAssociationProps](interfaces/WebCrawlerDataSourceAssociationProps.md)
 - [WebCrawlerDataSourceProps](interfaces/WebCrawlerDataSourceProps.md)
 
+## Type Aliases
+
+- [SupplementalDataStorageLocationConfig](type-aliases/SupplementalDataStorageLocationConfig.md)
+
 ## Variables
 
 - [REGION\_TO\_GEO\_AREA](variables/REGION_TO_GEO_AREA.md)
+
+## Functions
+
+- [createKnowledgeBaseServiceRole](functions/createKnowledgeBaseServiceRole.md)

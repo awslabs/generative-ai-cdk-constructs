@@ -182,7 +182,7 @@ Grant the given identity permissions to invoke the agent alias.
 
 ### onCloudTrailEvent()
 
-> **onCloudTrailEvent**(`id`, `options`?): `Rule`
+> **onCloudTrailEvent**(`id`, `options?`): `Rule`
 
 Define an EventBridge rule that triggers when something happens to this agent alias
 

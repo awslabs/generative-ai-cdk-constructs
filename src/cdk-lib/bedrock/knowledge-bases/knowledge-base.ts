@@ -11,9 +11,10 @@
  *  and limitations under the License.
  */
 
-import { IResource, Resource } from 'aws-cdk-lib';
+import { ArnFormat, IResource, Resource, Stack } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
+import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
 
 /******************************************************************************
  *                              ENUMS
@@ -221,4 +222,33 @@ export abstract class KnowledgeBaseBase extends Resource implements IKnowledgeBa
   public grantQuery(grantee: iam.IGrantable): iam.Grant {
     return this.grant(grantee, 'bedrock:Retrieve', 'bedrock:RetrieveAndGenerate');
   }
+}
+
+/******************************************************************************
+ *                              COMMON METHODS
+ *****************************************************************************/
+/**
+ * Create a new Service Role for the Knowledge Base.
+ * @param scope
+ * @returns
+ */
+export function createKnowledgeBaseServiceRole(scope: Construct): iam.Role {
+  return new iam.Role(scope, 'Role', {
+    roleName: generatePhysicalNameV2(scope, 'AmazonBedrockExecutionRoleForKnowledgeBase', {
+      maxLength: 64,
+    }),
+    assumedBy: new iam.ServicePrincipal('bedrock.amazonaws.com', {
+      conditions: {
+        StringEquals: { 'aws:SourceAccount': Stack.of(scope).account },
+        ArnLike: {
+          'aws:SourceArn': Stack.of(scope).formatArn({
+            service: 'bedrock',
+            resource: 'knowledge-base',
+            resourceName: '*',
+            arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
+          }),
+        },
+      },
+    }),
+  });
 }

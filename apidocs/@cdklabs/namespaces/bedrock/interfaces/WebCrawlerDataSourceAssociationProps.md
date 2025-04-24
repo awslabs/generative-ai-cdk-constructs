@@ -208,7 +208,7 @@ no web pages will be ingested.
 
 ### parsingStrategy?
 
-> `readonly` `optional` **parsingStrategy**: [`ParsingStategy`](../classes/ParsingStategy.md)
+> `readonly` `optional` **parsingStrategy**: [`ParsingStrategy`](../classes/ParsingStrategy.md)
 
 The parsing strategy to use.
 

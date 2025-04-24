@@ -29,7 +29,7 @@ import {
 const GITHUB_USER = 'awslabs';
 const PUBLICATION_NAMESPACE = 'cdklabs';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
-const CDK_VERSION: string = '2.187.0';
+const CDK_VERSION: string = '2.189.0';
 
 function camelCaseIt(input: string): string {
   // Hypens and dashes to spaces and then CamelCase...
@@ -46,7 +46,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   author: 'Amazon Web Services - Prototyping and Cloud Engineering',
   authorAddress: 'https://aws.amazon.com',
   authorOrganization: true,
-  description: 'AWS Generative AI CDK Constructs is a library for well-architected generative AI patterns.',
+  description:
+    'AWS Generative AI CDK Constructs is a library for well-architected generative AI patterns.',
   cdkVersion: CDK_VERSION,
   projenVersion: '~0.91.5',
   constructsVersion: '10.3.0',
@@ -72,10 +73,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     `@aws-cdk/integ-tests-alpha@${CDK_VERSION}-alpha.0`,
   ],
   deps: ['cdk-nag'],
-  bundledDeps: [
-    'deepmerge',
-    `@aws-cdk/aws-lambda-python-alpha@${CDK_VERSION}-alpha.0`,
-  ],
+  bundledDeps: ['deepmerge', `@aws-cdk/aws-lambda-python-alpha@${CDK_VERSION}-alpha.0`],
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
   minNodeVersion: '18.12.0', // 'MAINTENANCE' (first LTS)
   maxNodeVersion: '22.x', // 'CURRENT'
@@ -131,7 +129,15 @@ const project = new awscdk.AwsCdkConstructLibrary({
   license: 'Apache-2.0',
   copyrightPeriod: '2023-',
   copyrightOwner: 'Amazon.com, Inc. or its affiliates. All Rights Reserved.',
-  gitignore: ['*.DS_STORE', '!.node-version', '*.pyc', '__pycache__/', '!.ort.yml', '.idea', '.vscode'],
+  gitignore: [
+    '*.DS_STORE',
+    '!.node-version',
+    '*.pyc',
+    '__pycache__/',
+    '!.ort.yml',
+    '.idea',
+    '.vscode',
+  ],
   stability: 'experimental',
   sampleCode: false,
   stale: true,
@@ -163,8 +169,14 @@ if (workflowUpgradeMain) {
 project.upgradeWorkflow?.postUpgradeTask.spawn(project.tasks.tryFind('integ:snapshot-all')!);
 
 // Add specific overrides https://projen.io/docs/integrations/github/#actions-versions
-project.github?.actions.set('actions/checkout@v3', 'actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11'); // https://github.com/projen/projen/issues/3529
-project.github?.actions.set('actions/checkout@v4', 'actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11');
+project.github?.actions.set(
+  'actions/checkout@v3',
+  'actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11',
+); // https://github.com/projen/projen/issues/3529
+project.github?.actions.set(
+  'actions/checkout@v4',
+  'actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11',
+);
 project.github?.actions.set(
   'actions/download-artifact@v3',
   'actions/download-artifact@b4aefff88e83a2676a730654e1ce3dce61880379',
@@ -177,16 +189,46 @@ project.github?.actions.set(
   'actions/github-script@v6',
   'actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410',
 );
-project.github?.actions.set('actions/setup-dotnet@v3', 'actions/setup-dotnet@4d6c8fcf3c8f7a60068d26b594648e99df24cee3');
-project.github?.actions.set('actions/setup-dotnet@v4', 'actions/setup-dotnet@4d6c8fcf3c8f7a60068d26b594648e99df24cee3');
-project.github?.actions.set('actions/setup-go@v5', 'actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32');
-project.github?.actions.set('actions/setup-node@v3', 'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8'); // https://github.com/projen/projen/issues/3529
-project.github?.actions.set('actions/setup-node@v4', 'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8');
-project.github?.actions.set('actions/setup-python@v4', 'actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d'); // https://github.com/projen/projen/issues/3529
-project.github?.actions.set('actions/setup-python@v5', 'actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d');
-project.github?.actions.set('actions/setup-java@v3', 'actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9');
-project.github?.actions.set('actions/setup-java@v4', 'actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9');
-project.github?.actions.set('actions/stale@v4', 'actions/stale@a20b814fb01b71def3bd6f56e7494d667ddf28da');
+project.github?.actions.set(
+  'actions/setup-dotnet@v3',
+  'actions/setup-dotnet@4d6c8fcf3c8f7a60068d26b594648e99df24cee3',
+);
+project.github?.actions.set(
+  'actions/setup-dotnet@v4',
+  'actions/setup-dotnet@4d6c8fcf3c8f7a60068d26b594648e99df24cee3',
+);
+project.github?.actions.set(
+  'actions/setup-go@v5',
+  'actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32',
+);
+project.github?.actions.set(
+  'actions/setup-node@v3',
+  'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8',
+); // https://github.com/projen/projen/issues/3529
+project.github?.actions.set(
+  'actions/setup-node@v4',
+  'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8',
+);
+project.github?.actions.set(
+  'actions/setup-python@v4',
+  'actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d',
+); // https://github.com/projen/projen/issues/3529
+project.github?.actions.set(
+  'actions/setup-python@v5',
+  'actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d',
+);
+project.github?.actions.set(
+  'actions/setup-java@v3',
+  'actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9',
+);
+project.github?.actions.set(
+  'actions/setup-java@v4',
+  'actions/setup-java@99b8673ff64fbf99d8d325f52d9a5bdedb8483e9',
+);
+project.github?.actions.set(
+  'actions/stale@v4',
+  'actions/stale@a20b814fb01b71def3bd6f56e7494d667ddf28da',
+);
 project.github?.actions.set(
   'actions/upload-artifact@v3',
   'actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34',
@@ -219,7 +261,10 @@ project.github?.actions.set(
   'codecov/codecov-action@v4',
   'codecov/codecov-action@84508663e988701840491b86de86b666e8a86bed',
 );
-project.github?.actions.set('github/issue-metrics@v2', 'github/issue-metrics@6bc5254e72971dbb7462db077779f1643f772afd');
+project.github?.actions.set(
+  'github/issue-metrics@v2',
+  'github/issue-metrics@6bc5254e72971dbb7462db077779f1643f772afd',
+);
 project.github?.actions.set(
   'hmarr/auto-approve-action@v4.0.0',
   'hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363',
@@ -256,7 +301,10 @@ project.github?.actions.set(
   'aws-actions/configure-aws-credentials@v4.0.2',
   'aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502',
 );
-project.github?.actions.set('imjohnbo/issue-bot@v3', 'imjohnbo/issue-bot@3daae12aa54d38685d7ff8459fc8a2aee8cea98b');
+project.github?.actions.set(
+  'imjohnbo/issue-bot@v3',
+  'imjohnbo/issue-bot@3daae12aa54d38685d7ff8459fc8a2aee8cea98b',
+);
 
 // We don't want to package certain things
 project.npmignore?.addPatterns(

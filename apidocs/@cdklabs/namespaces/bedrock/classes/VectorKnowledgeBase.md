@@ -11,7 +11,7 @@ Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
 
 ## Extends
 
-- `VectorKnowledgeBaseBase`
+- [`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md)
 
 ## Constructors
 
@@ -39,7 +39,7 @@ Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
 
 #### Overrides
 
-`VectorKnowledgeBaseBase.constructor`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`constructor`](VectorKnowledgeBaseBase.md#constructor)
 
 ## Properties
 
@@ -51,7 +51,7 @@ A description of the knowledge base.
 
 #### Overrides
 
-`VectorKnowledgeBaseBase.description`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`description`](VectorKnowledgeBaseBase.md#description)
 
 ***
 
@@ -69,7 +69,7 @@ that might be different than the stack they were imported into.
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.env`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`env`](VectorKnowledgeBaseBase.md#env)
 
 ***
 
@@ -82,7 +82,7 @@ Knowledge Base. This will impact how Agents interact with the Knowledge Base.
 
 #### Overrides
 
-`VectorKnowledgeBaseBase.instruction`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`instruction`](VectorKnowledgeBaseBase.md#instruction)
 
 ***
 
@@ -94,7 +94,7 @@ The ARN of the knowledge base.
 
 #### Overrides
 
-`VectorKnowledgeBaseBase.knowledgeBaseArn`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`knowledgeBaseArn`](VectorKnowledgeBaseBase.md#knowledgebasearn)
 
 ***
 
@@ -106,7 +106,7 @@ The ID of the knowledge base.
 
 #### Overrides
 
-`VectorKnowledgeBaseBase.knowledgeBaseId`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`knowledgeBaseId`](VectorKnowledgeBaseBase.md#knowledgebaseid)
 
 ***
 
@@ -134,7 +134,7 @@ The tree node.
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.node`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`node`](VectorKnowledgeBaseBase.md#node)
 
 ***
 
@@ -153,7 +153,7 @@ This value will resolve to one of the following:
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.physicalName`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`physicalName`](VectorKnowledgeBaseBase.md#physicalname)
 
 ***
 
@@ -165,7 +165,7 @@ The role the Knowledge Base uses to access the vector store and data source.
 
 #### Overrides
 
-`VectorKnowledgeBaseBase.role`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`role`](VectorKnowledgeBaseBase.md#role)
 
 ***
 
@@ -177,7 +177,7 @@ The stack in which this resource is defined.
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.stack`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`stack`](VectorKnowledgeBaseBase.md#stack)
 
 ***
 
@@ -185,17 +185,31 @@ The stack in which this resource is defined.
 
 > `readonly` **type**: [`KnowledgeBaseType`](../enumerations/KnowledgeBaseType.md) = `KnowledgeBaseType.VECTOR`
 
+The type of knowledge base.
+
 #### Inherited from
 
-`VectorKnowledgeBaseBase.type`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`type`](VectorKnowledgeBaseBase.md#type)
 
 ***
 
 ### vectorStore
 
-> `readonly` **vectorStore**: [`ExistingAmazonAuroraVectorStore`](../../amazonaurora/classes/ExistingAmazonAuroraVectorStore.md) \| [`AmazonAuroraVectorStore`](../../amazonaurora/classes/AmazonAuroraVectorStore.md) \| [`VectorCollection`](../../opensearchserverless/classes/VectorCollection.md) \| [`PineconeVectorStore`](../../pinecone/classes/PineconeVectorStore.md)
+> `readonly` **vectorStore**: [`ExistingAmazonAuroraVectorStore`](../../amazonaurora/classes/ExistingAmazonAuroraVectorStore.md) \| [`AmazonAuroraVectorStore`](../../amazonaurora/classes/AmazonAuroraVectorStore.md) \| [`MongoDBAtlasVectorStore`](../../mongodbAtlas/classes/MongoDBAtlasVectorStore.md) \| [`VectorCollection`](../../opensearchserverless/classes/VectorCollection.md) \| [`PineconeVectorStore`](../../pinecone/classes/PineconeVectorStore.md)
 
 The vector store for the knowledge base.
+
+***
+
+### vectorStoreType
+
+> `readonly` **vectorStoreType**: [`VectorStoreType`](../enumerations/VectorStoreType.md)
+
+The type of the knowledge base.
+
+#### Overrides
+
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`vectorStoreType`](VectorKnowledgeBaseBase.md#vectorstoretype)
 
 ## Methods
 
@@ -216,7 +230,7 @@ through its absolute name/arn.
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase._enableCrossEnvironment`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`_enableCrossEnvironment`](VectorKnowledgeBaseBase.md#_enablecrossenvironment)
 
 ***
 
@@ -238,7 +252,7 @@ Add a Confluence data source to the knowledge base.
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.addConfluenceDataSource`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`addConfluenceDataSource`](VectorKnowledgeBaseBase.md#addconfluencedatasource)
 
 ***
 
@@ -260,7 +274,7 @@ Add a Custom data source to the knowledge base.
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.addCustomDataSource`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`addCustomDataSource`](VectorKnowledgeBaseBase.md#addcustomdatasource)
 
 ***
 
@@ -268,7 +282,7 @@ Add a Custom data source to the knowledge base.
 
 > **addS3DataSource**(`props`): [`S3DataSource`](S3DataSource.md)
 
-Add an S3 data source to the knowledge base.
+Adds an S3 data source to the knowledge base.
 
 #### Parameters
 
@@ -282,7 +296,7 @@ Add an S3 data source to the knowledge base.
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.addS3DataSource`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`addS3DataSource`](VectorKnowledgeBaseBase.md#adds3datasource)
 
 ***
 
@@ -304,7 +318,7 @@ Add a Salesforce data source to the knowledge base.
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.addSalesforceDataSource`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`addSalesforceDataSource`](VectorKnowledgeBaseBase.md#addsalesforcedatasource)
 
 ***
 
@@ -326,7 +340,7 @@ Add a SharePoint data source to the knowledge base.
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.addSharePointDataSource`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`addSharePointDataSource`](VectorKnowledgeBaseBase.md#addsharepointdatasource)
 
 ***
 
@@ -348,7 +362,7 @@ Add a web crawler data source to the knowledge base.
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.addWebCrawlerDataSource`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`addWebCrawlerDataSource`](VectorKnowledgeBaseBase.md#addwebcrawlerdatasource)
 
 ***
 
@@ -378,7 +392,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.applyRemovalPolicy`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`applyRemovalPolicy`](VectorKnowledgeBaseBase.md#applyremovalpolicy)
 
 ***
 
@@ -410,7 +424,7 @@ Associate knowledge base with an agent
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.generatePhysicalName`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`generatePhysicalName`](VectorKnowledgeBaseBase.md#generatephysicalname)
 
 ***
 
@@ -450,7 +464,7 @@ cross-environment references to work.
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.getResourceArnAttribute`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`getResourceArnAttribute`](VectorKnowledgeBaseBase.md#getresourcearnattribute)
 
 ***
 
@@ -480,7 +494,7 @@ Commonly this is the resource's `ref`.
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.getResourceNameAttribute`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`getResourceNameAttribute`](VectorKnowledgeBaseBase.md#getresourcenameattribute)
 
 ***
 
@@ -506,7 +520,7 @@ Grant the given principal identity permissions to perform actions on this knowle
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.grant`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`grant`](VectorKnowledgeBaseBase.md#grant)
 
 ***
 
@@ -531,7 +545,7 @@ This contains:
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.grantQuery`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`grantQuery`](VectorKnowledgeBaseBase.md#grantquery)
 
 ***
 
@@ -553,7 +567,7 @@ Grant the given identity permissions to retrieve content from the knowledge base
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.grantRetrieve`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`grantRetrieve`](VectorKnowledgeBaseBase.md#grantretrieve)
 
 ***
 
@@ -575,7 +589,7 @@ Grant the given identity permissions to retrieve content from the knowledge base
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.grantRetrieveAndGenerate`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`grantRetrieveAndGenerate`](VectorKnowledgeBaseBase.md#grantretrieveandgenerate)
 
 ***
 
@@ -591,7 +605,7 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.toString`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`toString`](VectorKnowledgeBaseBase.md#tostring)
 
 ***
 
@@ -655,7 +669,7 @@ true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.isConstruct`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`isConstruct`](VectorKnowledgeBaseBase.md#isconstruct)
 
 ***
 
@@ -677,7 +691,7 @@ Returns true if the construct was created by CDK, and false otherwise
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.isOwnedResource`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`isOwnedResource`](VectorKnowledgeBaseBase.md#isownedresource)
 
 ***
 
@@ -699,4 +713,4 @@ Check whether the given construct is a Resource
 
 #### Inherited from
 
-`VectorKnowledgeBaseBase.isResource`
+[`VectorKnowledgeBaseBase`](VectorKnowledgeBaseBase.md).[`isResource`](VectorKnowledgeBaseBase.md#isresource)

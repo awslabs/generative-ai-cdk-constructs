@@ -25,7 +25,7 @@ Contains methods and attributes valid for Kendra GenAI Indexes either created wi
 
 ### Constructor
 
-> **new KendraGenAiIndexBase**(`scope`, `id`, `props`?): `KendraGenAiIndexBase`
+> **new KendraGenAiIndexBase**(`scope`, `id`, `props?`): `KendraGenAiIndexBase`
 
 #### Parameters
 

@@ -220,7 +220,7 @@ describe('S3 Data Source', () => {
       bucket,
       knowledgeBase: kb,
       dataSourceName: 'TestDataSource',
-      parsingStrategy: bedrock.ParsingStategy.foundationModel({
+      parsingStrategy: bedrock.ParsingStrategy.foundationModel({
         parsingModel: foundationModels.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
       }),
     });
@@ -234,6 +234,26 @@ describe('S3 Data Source', () => {
             ParsingPrompt: {
               ParsingPromptText: Match.stringLikeRegexp('Transcribe the text content.*'),
             },
+          },
+        },
+      },
+    });
+  });
+
+  test('BDA parsing', () => {
+    new bedrock.S3DataSource(stack, 'TestDataSource', {
+      bucket,
+      knowledgeBase: kb,
+      dataSourceName: 'TestDataSource',
+      parsingStrategy: bedrock.ParsingStrategy.bedrockDataAutomation(),
+    });
+
+    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
+      VectorIngestionConfiguration: {
+        ParsingConfiguration: {
+          ParsingStrategy: 'BEDROCK_DATA_AUTOMATION',
+          BedrockDataAutomationConfiguration: {
+            ParsingModality: 'MULTIMODAL',
           },
         },
       },

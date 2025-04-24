@@ -25,7 +25,7 @@ Specifies the base class for all data source resources (imported and new).
 
 ### Constructor
 
-> **new DataSourceBase**(`scope`, `id`, `props`?): `DataSourceBase`
+> **new DataSourceBase**(`scope`, `id`, `props?`): `DataSourceBase`
 
 #### Parameters
 

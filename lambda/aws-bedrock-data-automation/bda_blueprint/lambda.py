@@ -198,6 +198,7 @@ def handler(event, context: LambdaContext):
                         # Convert the schema class to a JSON schema dictionary and then to a JSON string
                         schema_json = schema_class.model_json_schema()
                         schema_content = json.dumps(schema_json)
+
                     except Exception as e:
                         logger.error("Error creating schema", extra={"error": str(e)})
                         return {

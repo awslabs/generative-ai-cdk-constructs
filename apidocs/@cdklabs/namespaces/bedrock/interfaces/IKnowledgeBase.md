@@ -16,6 +16,7 @@ Represents a Knowledge Base, either created with CDK or imported, of any type.
 
 - [`IVectorKnowledgeBase`](IVectorKnowledgeBase.md)
 - [`IKendraKnowledgeBase`](IKendraKnowledgeBase.md)
+- [`IGraphKnowledgeBase`](IGraphKnowledgeBase.md)
 
 ## Properties
 

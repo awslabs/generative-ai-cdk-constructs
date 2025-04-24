@@ -103,6 +103,11 @@ def execute_sql_commands(
                 f"CREATE INDEX ON {schema_name}.{table_name} "
                 f"USING hnsw ({vector_field} vector_cosine_ops);"
             )
+
+            cur.execute(
+                f"CREATE INDEX ON {schema_name}.{table_name} "
+                f"USING gin (to_tsvector('simple'::regconfig, {text_field}));"
+            )
         conn.commit()
     except pg8000.ProgrammingError as e:
         error_message = f"Error executing SQL commands: {e}"

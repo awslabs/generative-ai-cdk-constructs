@@ -16,7 +16,7 @@ Default output format [None]: json
 ```
 
 - [Node](https://nodejs.org/en) >= v20.9.0
-- [AWS CDK](https://github.com/aws/aws-cdk/releases/tag/v2.187.0) >= 2.187.0
+- [AWS CDK](https://github.com/aws/aws-cdk/releases/tag/v2.189.0) >= 2.189.0
 - [Python](https://www.python.org/downloads/) >=3.9
 - [Projen](https://github.com/projen/projen) >= 0.91.5
 - [Yarn](https://classic.yarnpkg.com/lang/en/docs/cli/install/) >= 1.22.19

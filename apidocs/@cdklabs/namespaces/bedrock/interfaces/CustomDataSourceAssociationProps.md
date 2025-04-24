@@ -148,7 +148,7 @@ The KMS key to use to encrypt the data source.
 
 ### parsingStrategy?
 
-> `readonly` `optional` **parsingStrategy**: [`ParsingStategy`](../classes/ParsingStategy.md)
+> `readonly` `optional` **parsingStrategy**: [`ParsingStrategy`](../classes/ParsingStrategy.md)
 
 The parsing strategy to use.
 

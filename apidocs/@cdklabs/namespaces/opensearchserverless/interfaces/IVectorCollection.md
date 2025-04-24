@@ -144,7 +144,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 ### metric()
 
-> **metric**(`metricName`, `props`?): `Metric`
+> **metric**(`metricName`, `props?`): `Metric`
 
 Return the given named metric for this VectorCollection.
 
@@ -170,7 +170,7 @@ Properties for the metric
 
 ### metricIndexRequestCount()
 
-> **metricIndexRequestCount**(`props`?): `Metric`
+> **metricIndexRequestCount**(`props?`): `Metric`
 
 Metric for the number of index requests.
 
@@ -190,7 +190,7 @@ Properties for the metric
 
 ### metricSearchLatency()
 
-> **metricSearchLatency**(`props`?): `Metric`
+> **metricSearchLatency**(`props?`): `Metric`
 
 Metric for the search latency.
 
@@ -210,7 +210,7 @@ Properties for the metric
 
 ### metricSearchLatencyP90()
 
-> **metricSearchLatencyP90**(`props`?): `Metric`
+> **metricSearchLatencyP90**(`props?`): `Metric`
 
 Metric for the 90th percentile search latency.
 
@@ -230,7 +230,7 @@ Properties for the metric
 
 ### metricSearchRequestCount()
 
-> **metricSearchRequestCount**(`props`?): `Metric`
+> **metricSearchRequestCount**(`props?`): `Metric`
 
 Metric for the number of search requests.
 

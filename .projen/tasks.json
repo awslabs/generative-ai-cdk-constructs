@@ -357,6 +357,69 @@
         }
       ]
     },
+    "integ:graph:assert": {
+      "name": "integ:graph:assert",
+      "description": "assert the snapshot of integration test 'graph'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/graph.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'graph'. Run 'projen integ:graph:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/graph.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/graph.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/graph.integ.snapshot/ test/integ/.tmp/graph.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:graph:deploy": {
+      "name": "integ:graph:deploy",
+      "description": "deploy integration test 'graph' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/graph.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/graph.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/graph.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/graph.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/graph.integ/deploy.cdk.out test/integ/graph.integ.snapshot"
+        },
+        {
+          "spawn": "integ:graph:destroy"
+        }
+      ]
+    },
+    "integ:graph:destroy": {
+      "name": "integ:graph:destroy",
+      "description": "destroy integration test 'graph'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/graph.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:graph:snapshot": {
+      "name": "integ:graph:snapshot",
+      "description": "update snapshot for integration test \"graph\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/graph.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/graph.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:graph:watch": {
+      "name": "integ:graph:watch",
+      "description": "watch integration test 'graph' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/graph.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/graph.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:guardrails:assert": {
       "name": "integ:guardrails:assert",
       "description": "assert the snapshot of integration test 'guardrails'",
@@ -746,6 +809,9 @@
           "spawn": "integ:chatprompt:snapshot"
         },
         {
+          "spawn": "integ:graph:snapshot"
+        },
+        {
           "spawn": "integ:guardrails:snapshot"
         },
         {
@@ -898,6 +964,9 @@
         },
         {
           "spawn": "integ:chatprompt:assert"
+        },
+        {
+          "spawn": "integ:graph:assert"
         },
         {
           "spawn": "integ:guardrails:assert"

@@ -17,7 +17,7 @@ Represents the concept of an API Schema for a Bedrock Agent Action Group.
 
 ### Constructor
 
-> `protected` **new ApiSchema**(`s3File`?, `inlineSchema`?): `ApiSchema`
+> `protected` **new ApiSchema**(`s3File?`, `inlineSchema?`): `ApiSchema`
 
 Constructor accessible only to extending classes.
 

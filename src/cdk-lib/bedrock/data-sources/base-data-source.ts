@@ -21,7 +21,7 @@ import { IKnowledgeBase } from './../knowledge-bases/knowledge-base';
 import { ChunkingStrategy } from './chunking';
 import { ContextEnrichment } from './context-enrichment';
 import { CustomTransformation } from './custom-transformation';
-import { ParsingStategy } from './parsing';
+import { ParsingStrategy } from './parsing';
 /**
  * Specifies the policy for handling data when a data source resource is deleted.
  * This policy affects the vector embeddings created from the data source.
@@ -153,7 +153,7 @@ export interface DataSourceAssociationProps {
    *
    * @default - No Parsing Stategy is used.
    */
-  readonly parsingStrategy?: ParsingStategy;
+  readonly parsingStrategy?: ParsingStrategy;
 
   /**
    * The custom transformation strategy to use.
@@ -212,6 +212,10 @@ export abstract class DataSourceNew extends DataSourceBase {
     if (props.customTransformation) {
       statementsToAdd.push(...props.customTransformation.generatePolicyStatements(this));
     }
+    // Context Enrichment requires invoke permissions for the enriching FM
+    if (props.contextEnrichment) {
+      statementsToAdd.push(...props.contextEnrichment.generatePolicyStatements());
+    }
     // Add the permission statements to the KB execution role
     statementsToAdd.forEach((statement) => {
       this.knowledgeBase.role.addToPrincipalPolicy(statement);
@@ -237,7 +241,10 @@ export abstract class DataSourceNew extends DataSourceBase {
         }
         : undefined,
       vectorIngestionConfiguration:
-        props.chunkingStrategy || props.parsingStrategy || props.customTransformation || props.contextEnrichment
+        props.chunkingStrategy ||
+        props.parsingStrategy ||
+        props.customTransformation ||
+        props.contextEnrichment
           ? {
             chunkingConfiguration: props.chunkingStrategy?.configuration,
             parsingConfiguration: props.parsingStrategy?.configuration,
