@@ -453,12 +453,13 @@ two parsing strategies:
 
 - **Foundation Model Parsing Strategy**: This strategy uses a foundation model to describe
   the contents of the document. It is particularly useful for improved processing of PDF files
-  with tables and images. To use this strategy, set the `parsingStrategy` in a data source as below.
+  with tables and images. To use this strategy, set the `parsingStrategy` in a data source as below. 
+  For the list of supported models, please refer to the [documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-supported.html#knowledge-base-supported-parsing)
 
 #### TypeScript
 
   ```ts
-  bedrock.ParsingStategy.foundationModel({
+  bedrock.ParsingStrategy.foundationModel({
     model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
   });
   ```
@@ -466,10 +467,27 @@ two parsing strategies:
 #### Python
 
   ```python
-  bedrock.ParsingStategy.foundation_model(
+  bedrock.ParsingStrategy.foundation_model(
       parsing_model=BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0
   )
   ```
+
+- **Bedrock Data Automation**: A fully-managed service that effectively processes multimodal data, without the need to provide any additional prompting. The cost of this parser depends on the number of pages in the document or number of images to be processed. Currently, only documents and images are supported, using standard output.
+
+#### TypeScript
+   ```ts
+   const parsingStrategy = ParsingStrategy.bedrockDataAutomation();
+   ```
+
+#### Python
+  ```python
+  bedrock.ParsingStrategy.bedrock_data_automation()
+  ```
+
+If the chosen parsing strategy fails to parse a file, the Amazon Bedrock default parser is used as a fallback.
+
+> warning
+> If you choose Amazon Bedrock Data Automation or foundation models as a parser, the method that you choose will be used to parse all .pdf files in your data source, even if  the .pdf files contain only text. The default parser won’t be used to parse these .pdf files. Your account incurs charges for the use of Amazon Bedrock Data Automation or the foundation model in parsing these files.
 
 For additional information regarding parsing, please refer to the [parsing documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-advanced-parsing.html)
 
