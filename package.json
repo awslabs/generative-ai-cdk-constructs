@@ -124,7 +124,7 @@
     "ts-jest": "^29.3.2",
     "ts-node": "^10.9.2",
     "typedoc": "^0.28.3",
-    "typedoc-plugin-markdown": "^4.6.2",
+    "typedoc-plugin-markdown": "^4.6.3",
     "typescript": "^5.8.3"
   },
   "peerDependencies": {
@@ -133,7 +133,7 @@
   },
   "dependencies": {
     "@aws-cdk/aws-lambda-python-alpha": "2.189.0-alpha.0",
-    "cdk-nag": "^2.35.77",
+    "cdk-nag": "^2.35.78",
     "deepmerge": "^4.3.1"
   },
   "bundledDependencies": [
