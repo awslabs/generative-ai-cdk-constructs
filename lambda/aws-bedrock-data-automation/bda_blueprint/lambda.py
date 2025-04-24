@@ -158,13 +158,19 @@ def handler(event, context: LambdaContext):
             case "create":
                 logger.info("create blueprint")
 
+                # Check if schema_file_name is provided
                 if 'schema_file_name' in blueprint_details:
                     input_key = blueprint_details['schema_file_name']
                     
                     logger.info(f"Retrieving schema from S3: {input_bucket}/{input_key}")
                     schema_content = get_schema(input_bucket, input_key)
                     
-                if 'schema_fields' in blueprint_details:
+                    # Convert schema_content to a JSON string if it's a dictionary
+                    if isinstance(schema_content, dict):
+                        schema_content = json.dumps(schema_content)
+                
+                # Only use schema_fields if schema_file_name is not provided
+                elif 'schema_fields' in blueprint_details:
                     schema_fields = blueprint_details['schema_fields']
                     
                     # Validate schema_fields format
@@ -178,9 +184,23 @@ def handler(event, context: LambdaContext):
                     
                     # Create schema using AWS BDA format
                     try:
-                        schema_content = create_schema(schema_fields)
+                        # Get document class and description from blueprint_details if provided
+                        document_class = blueprint_details.get('document_class', "")
+                        document_description = blueprint_details.get('document_description', "")
+                        
+                        # Create schema with the provided fields, class, and description
+                        schema_class = create_schema(
+                            schema_fields, 
+                            document_class=document_class, 
+                            document_description=document_description
+                        )
+                        
+                        # Convert the schema class to a JSON schema dictionary and then to a JSON string
+                        schema_json = schema_class.model_json_schema()
+                        schema_content = json.dumps(schema_json)
+
                     except Exception as e:
-                        print("Error creating schema")
+                        logger.error("Error creating schema", extra={"error": str(e)})
                         return {
                             'statusCode': 500,
                             'body': json.dumps({
@@ -188,6 +208,8 @@ def handler(event, context: LambdaContext):
                                 'error': str(e)
                             })
                         }
+                else:
+                    raise ValueError("Either schema_file_name or schema_fields must be provided")
                 
                 
                 response= create_blueprint(schema_content,blueprint_details)

@@ -150,12 +150,17 @@ class DataAutomationResult:
                             "path": segment["custom_output_path"]
                         })
 
-                    # Add standard output
-                    standard_result = self._read_s3_json(segment["standard_output_path"])
-                    results.append(standard_result)
-                    logger.debug("Added standard output", extra={
-                        "path": segment["standard_output_path"]
-                    })
+                    # Add standard output if path exists
+                    if "standard_output_path" in segment:
+                        standard_result = self._read_s3_json(segment["standard_output_path"])
+                        results.append(standard_result)
+                        logger.debug("Added standard output", extra={
+                            "path": segment["standard_output_path"]
+                        })
+                    else:
+                        logger.warning("Missing standard_output_path in segment", extra={
+                            "segment_id": segment.get("segment_id", "unknown")
+                        })
 
             logger.info("Successfully retrieved results", extra={
                 "invoke_arn": invocation_arn,
