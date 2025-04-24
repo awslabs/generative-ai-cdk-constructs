@@ -31,8 +31,8 @@ class custom_blue_print(BaseModel):
         "json_schema_extra": {
             # Specify JSON Schema version and default metadata
             "$schema": "http://json-schema.org/draft-07/schema#",
-            "description": "default",
-            "documentClass": "default",
+            "description": "",
+            "class": "",
         },
     }
 
@@ -53,6 +53,9 @@ class custom_blue_print(BaseModel):
         
         # Remove top-level title if present
         schema.pop("title", None)
+        
+        # Remove required field if present
+        schema.pop("required", None)
 
         # Process each field in the model
         properties = {}
@@ -67,21 +70,20 @@ class custom_blue_print(BaseModel):
 
 def create_schema_fields(description: str, alias: str | None = None):
     """
-    Creates a field configuration for extractive schema fields.
+    Creates a field configuration for explicit schema fields.
     
     Args:
-        description (str): Description of what should be extracted from the document
+        description (str): Instruction of what should be extracted from the document
         alias (str | None): Optional alternative name for the field in the output
         
     Returns:
-        Field: Configured Pydantic Field with extractive properties
+        Field: Configured Pydantic Field with explicit properties
     """
     return Field(
-        default_factory=list,
-        description=description,
         alias=alias,
         json_schema_extra={
-            "inferenceType": "extractive",  
-            "items": {"type": "string"},   
+            "type": "string",
+            "inferenceType": "explicit",
+            "instruction": description
         },
     )

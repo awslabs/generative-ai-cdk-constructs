@@ -155,6 +155,10 @@ const blueprintEventbridge = new EventbridgeToLambda(this, 'CreateBlueprintEvent
     }
     },
 });
+
+// print input bucket
+new cdk.CfnOutput(this, 'inputbucketname', { value: bdaConstruct.bdaInputBucket!.bucketName });
+new cdk.CfnOutput(this, 'outputbucketname', { value: bdaConstruct.bdaOutputBucket!.bucketName });
 ```
 
 Python
@@ -200,32 +204,55 @@ Create a bp_event.json file with following event in your project directory.
             "Source": "custom.bedrock.blueprint",
             "DetailType": "Bedrock Blueprint Request",
             "Detail": {
-                "blueprint_name": "noa_bp",
-                "blueprint_type": "DOCUMENT",
-                "blueprint_stage": "LIVE",
-                "operation": "CREATE",
-                "schema_fields": [ // This is a sample schema, replace this with your expected blueprint schema.
-                    {
-                        "name": "Total income",
-                        "description": "Please analyze the following Notice of assesment report and extract information about Total income.",
-                        "alias": "Total income"
-                    },
-                    {
-                        "name": "Taxable Income", 
-                        "description": "Please analyze the following Notice of assesment report and extract information about Taxable income.",
-                        "alias": "Taxable Income"
-                    },
-                    {
-                        "name": "Tax payable",
-                        "description": "Please analyze the following Notice of assesment report and extract information about Tax payable.",
-                        "alias": "Tax payable"
+                        "blueprint_name": "custom_blueprint", 
+                        "blueprint_type": "DOCUMENT", 
+                        "blueprint_stage": "LIVE", 
+                        "operation": "CREATE", 
+                        "document_class": "Notice of Assessment", // sample file and fields, replace it with your file
+                        "document_description": "A document issued by tax authorities that summarizes tax assessment details",
+                        "schema_fields": [
+                            {
+                                "name": "Total income", 
+                                "description": "Please analyze the following Notice of assesment report and extract information about Total income.", 
+                                "alias": "Total income"
+                            }, 
+                            {
+                                "name": "Taxable Income", 
+                                "description": "Please analyze the following Notice of assesment report and extract information about Taxable income.", 
+                                "alias": "Taxable Income"
+                            }, 
+                            {
+                                "name": "Tax payable", 
+                                "description": "Please analyze the following Notice of assesment report and extract information about Tax payable.", 
+                                "alias": "Tax payable"
+                            }
+                        ]
                     }
-                ]
-            }
                     }
     ]
 }
 ```
+
+OR you can also upload your schema json file and create following event
+
+```json
+{
+    "Entries": [
+        {
+            "Source": "custom.bedrock.blueprint",
+            "DetailType": "Bedrock Blueprint Request",
+            "Detail": {
+                    "blueprint_name": "custom_bp", 
+                    "blueprint_type": "DOCUMENT", 
+                    "blueprint_stage": "LIVE", 
+                    "operation": "CREATE", 
+                    "schema_file_name": "claims_form.json" // upload this schema file to input s3 bucket
+                      }
+                    }
+    ]
+}
+```
+
 
 send event bridge event using below command
 
@@ -483,6 +510,7 @@ Create a bda_event.json file using below event and then use following cli comman
                     "stage":"LIVE"
                 }],
                 "dataAutomationProfileArn":"BDA-CRIS profile",
+                "dataAutomationProfileArn":"arn:aws:bedrock:{region_name}:{account_id}:data-automation-profile/us.data-automation-v1"
             }
         }
     ]

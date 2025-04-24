@@ -75,7 +75,7 @@ def get_env_var(var_name: str, default: str = None) -> str:
         raise ValueError(f"Environment variable {var_name} is not set")
     return value
 
-#@logger.inject_lambda_context
+@logger.inject_lambda_context
 def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
     """
     Lambda handler to process EventBridge events and invoke data automation
@@ -200,7 +200,7 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
                 "notification_config": configs['notification_config']
             })
             
-        # Check and add data_automation_profile_arn
+        # Add data_automation_profile_arn to configs if provided
         if profile_arn := detail.get('data_automation_profile_arn'):
             configs['data_automation_profile_arn'] = profile_arn
             logger.info("Data automation profile ARN added", extra={
@@ -258,3 +258,5 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
                 'error': str(e)
             }
         }
+
+

@@ -135,5 +135,3 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
                 'error': str(e)
             })
         }
-
-
