@@ -150,3 +150,5 @@ def handler(event: Dict[str, Any], context: LambdaContext) -> Dict[str, Any]:
     Main Lambda handler that wraps the async handler
     """
     return asyncio.run(data_automation_status(event, context))
+
+

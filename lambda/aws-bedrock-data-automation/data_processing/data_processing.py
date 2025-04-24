@@ -100,6 +100,7 @@ class DataProcessor:
         notification_config: Optional[NotificationConfig] = None,
         data_automation_profile_arn: Optional[str] = None,
         tags: Optional[list] = None,
+        **kwargs  # To handle any additional parameters that might be passed but not used
     ) -> Dict[str, Any]:
         """
         Invoke data automation asynchronously
@@ -162,7 +163,11 @@ class DataProcessor:
                 
             # Add data automation profile ARN if provided
             if data_automation_profile_arn:
+                # The AWS documentation shows this parameter as dataAutomationProfileArn
                 request_params['dataAutomationProfileArn'] = data_automation_profile_arn
+                logger.info("Added data automation profile ARN", extra={
+                    "data_automation_profile_arn": data_automation_profile_arn
+                })
 
             # Add encryption configuration if provided
             if encryption_config:
@@ -191,6 +196,7 @@ class DataProcessor:
             logger.info("Invoking data automation", extra={
                 "request_params": request_params
             })
+            
             response = self.client.invoke_data_automation_async(**request_params)
 
             logger.info("Successfully invoked data automation", extra={
