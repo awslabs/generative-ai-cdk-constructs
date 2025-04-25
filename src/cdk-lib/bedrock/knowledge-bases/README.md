@@ -401,7 +401,7 @@ kb.addWebCrawlerDataSource({
 kb.addS3DataSource({
   bucket,
   chunkingStrategy: ChunkingStrategy.SEMANTIC,
-  parsingStrategy: ParsingStategy.foundationModel({
+  parsingStrategy: ParsingStrategy.foundationModel({
     parsingModel: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
   }),
 });
@@ -514,7 +514,7 @@ class PythonTestStack(Stack):
         kb.add_s3_data_source(
             bucket= docBucket,
             chunking_strategy= bedrock.ChunkingStrategy.SEMANTIC,
-            parsing_strategy= bedrock.ParsingStategy.foundation_model(
+            parsing_strategy= bedrock.ParsingStrategy.foundation_model(
                 parsing_model= bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0.as_i_model(self)
             )
         )
@@ -731,7 +731,7 @@ A parsing strategy in Amazon Bedrock is a configuration that determines how the 
   ##### TypeScript
 
   ```ts
-  bedrock.ParsingStategy.foundationModel({
+  bedrock.ParsingStrategy.foundationModel({
     model: BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,
   });
   ```
@@ -739,7 +739,7 @@ A parsing strategy in Amazon Bedrock is a configuration that determines how the 
   ##### Python
 
   ```python
-  bedrock.ParsingStategy.foundation_model(
+  bedrock.ParsingStrategy.foundation_model(
       parsing_model=BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0
   )
   ```

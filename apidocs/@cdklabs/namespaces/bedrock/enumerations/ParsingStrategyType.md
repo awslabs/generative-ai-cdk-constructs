@@ -2,9 +2,9 @@
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / ParsingStategyType
+[@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / ParsingStrategyType
 
-# Enumeration: ParsingStategyType
+# Enumeration: ParsingStrategyType
 
 Enum representing the types of parsing strategies available for Amazon Bedrock Knowledge Bases.
 
