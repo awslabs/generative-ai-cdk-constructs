@@ -29088,6 +29088,12 @@
 
 ***
 
+### HUGGINGFACE\_VLM\_GEMMA\_3\_27B\_INSTRUCT\_1\_0\_3
+
+> `readonly` `static` **HUGGINGFACE\_VLM\_GEMMA\_3\_27B\_INSTRUCT\_1\_0\_3**: `JumpStartModel`
+
+***
+
 ### HUGGINGFACE\_VLM\_QVQ\_72B\_PREVIEW\_1\_0\_0
 
 > `readonly` `static` **HUGGINGFACE\_VLM\_QVQ\_72B\_PREVIEW\_1\_0\_0**: `JumpStartModel`
