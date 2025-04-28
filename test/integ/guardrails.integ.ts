@@ -54,8 +54,20 @@ const guardrail = new bedrock.Guardrail(stack, 'TestGuardrail', {
       action: bedrock.GuardrailAction.ANONYMIZE,
     },
   ],
-  wordFilters: ['reggaeton', 'alcohol'],
-  managedWordListFilters: [bedrock.ManagedWordFilterType.PROFANITY],
+  wordFilters: [
+    {
+      text: 'reggaeton',
+      inputAction: bedrock.GuardrailAction.BLOCK,
+      outputAction: bedrock.GuardrailAction.NONE,
+    },
+  ],
+  managedWordListFilters: [
+    {
+      type: bedrock.ManagedWordFilterType.PROFANITY,
+      inputAction: bedrock.GuardrailAction.BLOCK,
+      outputAction: bedrock.GuardrailAction.NONE,
+    },
+  ],
 });
 
 const dashboard = new BedrockCwDashboard(stack, 'dashboard');

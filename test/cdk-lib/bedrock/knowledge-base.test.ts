@@ -27,6 +27,7 @@ import {
 } from '../../../src/cdk-lib/bedrock/knowledge-bases/vector-knowledge-base';
 import { BedrockFoundationModel, VectorType } from '../../../src/cdk-lib/bedrock/models';
 import { MongoDBAtlasVectorStore } from '../../../src/cdk-lib/mongodb-atlas';
+import { OpenSearchManagedClusterVectorStore } from '../../../src/cdk-lib/opensearchmanagedcluster';
 import { VectorCollection } from '../../../src/cdk-lib/opensearchserverless';
 import { PineconeVectorStore } from '../../../src/cdk-lib/pinecone';
 
@@ -219,6 +220,16 @@ describe('VectorKnowledgeBase', () => {
           metadataField: 'test-metadata-field',
         },
         vectorIndexName: 'test-vector-index',
+      }),
+      new OpenSearchManagedClusterVectorStore({
+        domainArn: 'arn:aws:es:us-east-1:123456789012:domain/test-domain',
+        domainEndpoint: 'https://test-domain.us-east-1.es.amazonaws.com',
+        vectorIndexName: 'test-vector-index',
+        fieldMapping: {
+          metadataField: 'test-metadata-field',
+          textField: 'test-text-field',
+          vectorField: 'test-vector-field',
+        },
       }),
     ];
     const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
@@ -451,6 +462,33 @@ describe('VectorKnowledgeBase', () => {
     expect(knowledgeBase.role).toBeDefined();
     expect(knowledgeBase.vectorStore).toBe(vectorStore);
     expect(knowledgeBase.name).toBe('TestMongoDBAtlasKnowledgeBase');
+  });
+
+  test('Should correctly initialize with OpenSearchManagedClusterVectorStore', () => {
+    const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
+    const vectorStore = new OpenSearchManagedClusterVectorStore({
+      domainArn: 'arn:aws:es:us-east-1:123456789012:domain/test-domain',
+      domainEndpoint: 'https://test-domain.us-east-1.es.amazonaws.com',
+      vectorIndexName: 'test-vector-index',
+      fieldMapping: {
+        metadataField: 'test-metadata-field',
+        textField: 'test-text-field',
+        vectorField: 'test-vector-field',
+      },
+    });
+
+    const knowledgeBase = new VectorKnowledgeBase(stack, 'OpenSearchManagedClusterKnowledgeBase', {
+      embeddingsModel: model,
+      vectorStore: vectorStore,
+      instruction: 'Test instruction for OpenSearch Managed Cluster',
+      name: 'TestOpenSearchManagedClusterKnowledgeBase',
+    });
+
+    expect(knowledgeBase.instruction).toBe('Test instruction for OpenSearch Managed Cluster');
+    expect(knowledgeBase.name).toBeDefined();
+    expect(knowledgeBase.role).toBeDefined();
+    expect(knowledgeBase.vectorStore).toBe(vectorStore);
+    expect(knowledgeBase.name).toBe('TestOpenSearchManagedClusterKnowledgeBase');
   });
 
   test('Should correctly initialize with SupplementalDataStorageLocation', () => {

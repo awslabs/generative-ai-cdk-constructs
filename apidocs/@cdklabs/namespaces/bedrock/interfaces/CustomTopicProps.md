@@ -43,8 +43,40 @@ each.
 
 ***
 
+### inputAction?
+
+> `readonly` `optional` **inputAction**: [`GuardrailAction`](../enumerations/GuardrailAction.md)
+
+The action to take when a topic is detected in the input.
+
+***
+
+### inputEnabled?
+
+> `readonly` `optional` **inputEnabled**: `boolean`
+
+Whether the topic filter is enabled for input.
+
+***
+
 ### name
 
 > `readonly` **name**: `string`
 
 The name of the topic to deny.
+
+***
+
+### outputAction?
+
+> `readonly` `optional` **outputAction**: [`GuardrailAction`](../enumerations/GuardrailAction.md)
+
+The action to take when a topic is detected in the output.
+
+***
+
+### outputEnabled?
+
+> `readonly` `optional` **outputEnabled**: `boolean`
+
+Whether the topic filter is enabled for output.

@@ -12,6 +12,7 @@
 - [mongodbAtlas](@cdklabs/namespaces/mongodbAtlas/README.md)
 - [neptune](@cdklabs/namespaces/neptune/README.md)
 - [opensearch\_vectorindex](@cdklabs/namespaces/opensearch_vectorindex/README.md)
+- [opensearchmanagedcluster](@cdklabs/namespaces/opensearchmanagedcluster/README.md)
 - [opensearchserverless](@cdklabs/namespaces/opensearchserverless/README.md)
 - [pinecone](@cdklabs/namespaces/pinecone/README.md)
 

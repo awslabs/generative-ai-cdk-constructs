@@ -97,6 +97,22 @@ export interface ContentFilter {
    */
   readonly outputStrength: ContentFilterStrength;
   /**
+   * The action to take when content is detected in the input.
+   */
+  readonly inputAction?: GuardrailAction;
+  /**
+   * Whether the content filter is enabled for input.
+   */
+  readonly inputEnabled?: boolean;
+  /**
+   * The action to take when content is detected in the output.
+   */
+  readonly outputAction?: GuardrailAction;
+  /**
+   * Whether the content filter is enabled for output.
+   */
+  readonly outputEnabled?: boolean;
+  /**
    * The input modalities to apply the content filter to.
    * @default undefined - Applies to text modality
    */
@@ -134,6 +150,22 @@ export interface CustomTopicProps {
    * @example "Where should I invest my money?"
    */
   readonly examples: string[];
+  /**
+   * The action to take when a topic is detected in the input.
+   */
+  readonly inputAction?: GuardrailAction;
+  /**
+   * Whether the topic filter is enabled for input.
+   */
+  readonly inputEnabled?: boolean;
+  /**
+   * The action to take when a topic is detected in the output.
+   */
+  readonly outputAction?: GuardrailAction;
+  /**
+   * Whether the topic filter is enabled for output.
+   */
+  readonly outputEnabled?: boolean;
 }
 
 /**
@@ -231,8 +263,54 @@ export class Topic {
  *                               WORD FILTERS
  *****************************************************************************/
 /**
- * The managed word type filter available for guardrails.
+ * Interface to define a Word Filter.
  */
+export interface WordFilter {
+  /**
+   * The text to filter.
+   */
+  readonly text: string;
+  /**
+   * The action to take when a word is detected in the input.
+   */
+  readonly inputAction?: GuardrailAction;
+  /**
+   * Whether the word filter is enabled for input.
+   */
+  readonly inputEnabled?: boolean;
+  /**
+   * The action to take when a word is detected in the output.
+   */
+  readonly outputAction?: GuardrailAction;
+  /**
+   * Whether the word filter is enabled for output.
+   */
+  readonly outputEnabled?: boolean;
+}
+
+export interface ManagedWordFilter {
+  /**
+   * The type of managed word filter.
+   */
+  readonly type: ManagedWordFilterType;
+  /**
+   * The action to take when a managed word is detected in the input.
+   */
+  readonly inputAction?: GuardrailAction;
+  /**
+   * Whether the managed word filter is enabled for input.
+   */
+  readonly inputEnabled?: boolean;
+  /**
+   * The action to take when a managed word is detected in the output.
+   */
+  readonly outputAction?: GuardrailAction;
+  /**
+   * Whether the managed word filter is enabled for output.
+   */
+  readonly outputEnabled?: boolean;
+}
+
 export enum ManagedWordFilterType {
   PROFANITY = 'PROFANITY',
 }
@@ -447,6 +525,10 @@ export enum GuardrailAction {
    * identifier tags (for example: [NAME-1], [NAME-2], [EMAIL-1], etc.).
    */
   ANONYMIZE = 'ANONYMIZE',
+  /**
+   * Do not take any action.
+   */
+  NONE = 'NONE',
 }
 
 /**
@@ -457,16 +539,32 @@ export interface PIIFilter {
    * The type of PII to filter.
    */
   readonly type:
-  | PIIType.General
-  | PIIType.Finance
-  | PIIType.InformationTechnology
-  | PIIType.USASpecific
-  | PIIType.CanadaSpecific
-  | PIIType.UKSpecific;
+    | PIIType.General
+    | PIIType.Finance
+    | PIIType.InformationTechnology
+    | PIIType.USASpecific
+    | PIIType.CanadaSpecific
+    | PIIType.UKSpecific;
   /**
    * The action to take when PII is detected.
    */
   readonly action: GuardrailAction;
+  /**
+   * The action to take when PII is detected in the input.
+   */
+  readonly inputAction?: GuardrailAction;
+  /**
+   * Whether the PII filter is enabled for input.
+   */
+  readonly inputEnabled?: boolean;
+  /**
+   * The action to take when PII is detected in the output.
+   */
+  readonly outputAction?: GuardrailAction;
+  /**
+   * Whether the PII filter is enabled for output.
+   */
+  readonly outputEnabled?: boolean;
 }
 
 /******************************************************************************
@@ -495,6 +593,22 @@ export interface RegexFilter {
    * The action to take when a regex match is detected.
    */
   readonly action: GuardrailAction;
+  /**
+   * The action to take when a regex match is detected in the input.
+   */
+  readonly inputAction?: GuardrailAction;
+  /**
+   * Whether the regex filter is enabled for input.
+   */
+  readonly inputEnabled?: boolean;
+  /**
+   * The action to take when a regex match is detected in the output.
+   */
+  readonly outputAction?: GuardrailAction;
+  /**
+   * Whether the regex filter is enabled for output.
+   */
+  readonly outputEnabled?: boolean;
   /**
    * The regular expression pattern to match.
    */
@@ -532,6 +646,14 @@ export interface ContextualGroundingFilter {
    * The type of contextual grounding filter.
    */
   readonly type: ContextualGroundingFilterType;
+  /**
+   * The action to take when contextual grounding is detected.
+   */
+  readonly action?: GuardrailAction;
+  /**
+   * Whether the contextual grounding filter is enabled.
+   */
+  readonly enabled?: boolean;
   /**
    * The threshold for the contextual grounding filter.
    * - `0` (blocks nothing)

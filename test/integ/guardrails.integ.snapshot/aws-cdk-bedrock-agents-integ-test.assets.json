@@ -1,7 +1,7 @@
 {
   "version": "41.0.0",
   "files": {
-    "af31033b7f078caddeaf5b13bb937cd953e2cce2ff101745332c68f0138ba843": {
+    "6b78d5938a1e4585788cff39eb913319f736add1ddbaa1e342f15939ddd272bf": {
       "displayName": "aws-cdk-bedrock-agents-integ-test Template",
       "source": {
         "path": "aws-cdk-bedrock-agents-integ-test.template.json",
@@ -10,7 +10,7 @@
       "destinations": {
         "current_account-current_region": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
-          "objectKey": "af31033b7f078caddeaf5b13bb937cd953e2cce2ff101745332c68f0138ba843.json",
+          "objectKey": "6b78d5938a1e4585788cff39eb913319f736add1ddbaa1e342f15939ddd272bf.json",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
         }
       }

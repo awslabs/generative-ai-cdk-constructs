@@ -38,10 +38,10 @@
   resolved "https://registry.yarnpkg.com/@aws-cdk/asset-node-proxy-agent-v6/-/asset-node-proxy-agent-v6-2.1.0.tgz#6d3c7860354d4856a7e75375f2f0ecab313b4989"
   integrity sha512-7bY3J8GCVxLupn/kNmpPc5VJz8grx+4RKfnnJiO1LG+uxkZfANZG3RMHhE+qQxxwkyQ9/MfPtTpf748UhR425A==
 
-"@aws-cdk/aws-lambda-python-alpha@2.189.0-alpha.0":
-  version "2.189.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-lambda-python-alpha/-/aws-lambda-python-alpha-2.189.0-alpha.0.tgz#f6e41cc2e8a2eeb88494d0333fd89d2ebcaae295"
-  integrity sha512-8CQTqj7jnqIgvOe3qYlYiWSgDdm8vHz+zLo+vplLDSazpwrpR14goig1WXiO26vpfqNTX0dIyFbx+NJk/A4PiQ==
+"@aws-cdk/aws-lambda-python-alpha@2.191.0-alpha.0":
+  version "2.191.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-lambda-python-alpha/-/aws-lambda-python-alpha-2.191.0-alpha.0.tgz#cf20e55966b02b8d62d9c6cc4516d2c31954461a"
+  integrity sha512-HEA2gnrv3dYzor6a73YDnco1xDB7cGzgHJojKO9vJTnE49aVLVqXUAIjP+IS79+PZjh3bS4xbbHd4JzAiQFoww==
 
 "@aws-cdk/cfnspec@2.68.0":
   version "2.68.0"
@@ -71,10 +71,10 @@
     string-width "^4.2.3"
     table "^6.8.1"
 
-"@aws-cdk/integ-tests-alpha@2.189.0-alpha.0":
-  version "2.189.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/integ-tests-alpha/-/integ-tests-alpha-2.189.0-alpha.0.tgz#bac13089c981a93af0253e01debeaec243047728"
-  integrity sha512-83j4nnflyp+vO6NzQjqvvp3glcbO7lD/xuMWQWp3m+YNi+dlas8QkaEFbLCv00XUam2CU2YpcYvPZ/GfDIspYQ==
+"@aws-cdk/integ-tests-alpha@2.191.0-alpha.0":
+  version "2.191.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/integ-tests-alpha/-/integ-tests-alpha-2.191.0-alpha.0.tgz#4c84e1c2e381fa47dfab29a4cdf208d64ed0eaf7"
+  integrity sha512-XAUTcXJ5uDE31+hKQv4olWwLjQsd4F/yo4ZB44Ei7JJHPe+aqjy417/JGsenSoENQ4Hso/E3vFl5C8RqXKqQhQ==
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.26.2":
   version "7.26.2"
@@ -1658,10 +1658,10 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-aws-cdk-lib@2.189.0:
-  version "2.189.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.189.0.tgz#b5964f1686215834b9f8497c131901c120355147"
-  integrity sha512-B5Uha7uRntOAyuKfU0eFtxij3ZVTzGAbetw5qaXlURa68wsWpKlU72/OyKugB6JYkhjCZkSTVVBxd1pVTosxEw==
+aws-cdk-lib@2.191.0:
+  version "2.191.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.191.0.tgz#ebe042b45b66ecd972c23215461b4b2699a9f6b8"
+  integrity sha512-MrD937EsVCzT6ZvPr8u82TBVBYdcrvNSx/z8lZ8XvviFDgr6bA2yBWQ6CI+OqiPi/Z+OWizjkqYIb43Lovjixw==
   dependencies:
     "@aws-cdk/asset-awscli-v1" "^2.2.229"
     "@aws-cdk/asset-node-proxy-agent-v6" "^2.1.0"
