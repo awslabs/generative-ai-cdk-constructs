@@ -36,11 +36,43 @@ The description of the regex filter.
 
 ***
 
+### inputAction?
+
+> `readonly` `optional` **inputAction**: [`GuardrailAction`](../enumerations/GuardrailAction.md)
+
+The action to take when a regex match is detected in the input.
+
+***
+
+### inputEnabled?
+
+> `readonly` `optional` **inputEnabled**: `boolean`
+
+Whether the regex filter is enabled for input.
+
+***
+
 ### name
 
 > `readonly` **name**: `string`
 
 The name of the regex filter.
+
+***
+
+### outputAction?
+
+> `readonly` `optional` **outputAction**: [`GuardrailAction`](../enumerations/GuardrailAction.md)
+
+The action to take when a regex match is detected in the output.
+
+***
+
+### outputEnabled?
+
+> `readonly` `optional` **outputEnabled**: `boolean`
+
+Whether the regex filter is enabled for output.
 
 ***
 

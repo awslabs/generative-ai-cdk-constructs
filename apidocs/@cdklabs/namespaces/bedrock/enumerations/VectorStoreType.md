@@ -39,6 +39,14 @@ This enum represents the different vector databases that can be used.
 
 ***
 
+### OPENSEARCH\_MANAGED\_CLUSTER
+
+> **OPENSEARCH\_MANAGED\_CLUSTER**: `"OPENSEARCH_MANAGED_CLUSTER"`
+
+`OPENSEARCH_MANAGED_CLUSTER` is the vector store for OpenSearch Managed Cluster.
+
+***
+
 ### OPENSEARCH\_SERVERLESS
 
 > **OPENSEARCH\_SERVERLESS**: `"OPENSEARCH_SERVERLESS"`

@@ -34,7 +34,6 @@ You can create a Guardrail with a minimum blockedInputMessaging, blockedOutputsM
 
 #### TypeScript
 
-
 ```ts
 const guardrail = new bedrock.Guardrail(this, 'bedrockGuardrails', {
   name: 'my-BedrockGuardrails',
@@ -71,7 +70,7 @@ guardrail = bedrock.Guardrail(self, 'myGuardrails',
 
 ### Content Filters
 
-Content filters allow you to block input prompts or model responses containing harmful content. You can adjust the filter strength for each type of harmful content.
+Content filters allow you to block input prompts or model responses containing harmful content. You can adjust the filter strength and configure separate actions for input and output.
 
 #### Content Filter Configuration
 
@@ -82,6 +81,11 @@ guardrail.addContentFilter({
   type: ContentFilterType.SEXUAL,
   inputStrength: ContentFilterStrength.HIGH,
   outputStrength: ContentFilterStrength.MEDIUM,
+  // props below are optional
+  inputAction: GuardrailAction.BLOCK,
+  inputEnabled: true,
+  outputAction: GuardrailAction.NONE,
+  outputEnabled: true,
   inputModalities: [ModalityType.TEXT, ModalityType.IMAGE],
   outputModalities: [ModalityType.TEXT],
 });
@@ -94,6 +98,11 @@ guardrail.add_content_filter(
   type=ContentFilterType.SEXUAL,
   input_strength=ContentFilterStrength.HIGH,
   output_strength=ContentFilterStrength.MEDIUM,
+  # props below are optional
+  input_action=GuardrailAction.BLOCK,
+  input_enabled=True,
+  output_action=GuardrailAction.NONE,
+  output_enabled=True,
   input_modalities=[ModalityType.TEXT, ModalityType.IMAGE],
   output_modalities=[ModalityType.TEXT],
 );
@@ -115,6 +124,15 @@ Available content filter strengths:
 - `MEDIUM`: Moderate filtering
 - `HIGH`: Strict filtering
 
+Available guardrail actions:
+
+- `BLOCK`: Blocks the content from being processed
+- `ANONYMIZE`: Masks the content with an identifier tag
+- `NONE`: Takes no action
+
+> Warning: the ANONYMIZE action is not available in all configurations. Please refer to the documentation of each filter to see which ones
+> support 
+
 Available modality types:
 
 - `TEXT`: Text modality for content filters
@@ -122,7 +140,7 @@ Available modality types:
 
 ### Denied Topics
 
-Denied topics allow you to define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses.
+Denied topics allow you to define a set of topics that are undesirable in the context of your application. These topics will be blocked if detected in user queries or model responses. You can configure separate actions for input and output.
 
 #### Denied Topic Configuration
 
@@ -132,7 +150,7 @@ Denied topics allow you to define a set of topics that are undesirable in the co
 // Use a predefined topic
 guardrail.addDeniedTopicFilter(Topic.FINANCIAL_ADVICE);
 
-// Create a custom topic
+// Create a custom topic with input/output actions
 guardrail.addDeniedTopicFilter(
   Topic.custom({
     name: 'Legal_Advice',
@@ -144,6 +162,11 @@ guardrail.addDeniedTopicFilter(
       'What should I do to file a legal complaint?',
       'Can you explain this law to me?',
     ],
+    // props below are optional
+    inputAction: GuardrailAction.BLOCK,
+    inputEnabled: true,
+    outputAction: GuardrailAction.NONE,
+    outputEnabled: true,
   })
 );
 ```
@@ -154,7 +177,7 @@ guardrail.addDeniedTopicFilter(
 # Use a predefined topic
 guardrail.add_denied_topic_filter(Topic.FINANCIAL_ADVICE);
 
-# Create a custom topic
+# Create a custom topic with input/output actions
 guardrail.add_denied_topic_filter(
   Topic.custom(
     name='Legal_Advice',
@@ -166,25 +189,36 @@ guardrail.add_denied_topic_filter(
       'What should I do to file a legal complaint?',
       'Can you explain this law to me?',
     ],
+    # props below are optional
+    input_action=GuardrailAction.BLOCK,
+    input_enabled=True,
+    output_action=GuardrailAction.NONE,
+    output_enabled=True,
   )
 );
 ```
 
 ### Word Filters
 
-Word filters allow you to block specific words, phrases, or profanity in user inputs and model responses.
+Word filters allow you to block specific words, phrases, or profanity in user inputs and model responses. You can configure separate actions for input and output.
 
 #### Word Filter Configuration
 
 ##### TypeScript
 
 ```ts
-// Add individual words
-guardrail.addWordFilter('drugs');
-guardrail.addWordFilter('competitor');
+// Add managed word list with input/output actions
+guardrail.addManagedWordListFilter({
+  type: ManagedWordFilterType.PROFANITY,
+  inputAction: GuardrailAction.BLOCK,
+  inputEnabled: true,
+  outputAction: GuardrailAction.NONE,
+  outputEnabled: true,
+});
 
-// Add managed word lists
-guardrail.addManagedWordListFilter(ManagedWordFilterType.PROFANITY);
+// Add individual words
+guardrail.addWordFilter({text: 'drugs'});
+guardrail.addWordFilter({text: 'competitor'});
 
 // Add words from a file
 guardrail.addWordFilterFromFile('./scripts/wordsPolicy.csv');
@@ -193,111 +227,148 @@ guardrail.addWordFilterFromFile('./scripts/wordsPolicy.csv');
 ##### Python
 
 ```python
-guardrail.add_word_filter("drugs")
-guardrail.add_word_filter("competitor")
+# Add managed word list with input/output actions
+guardrail.add_managed_word_list_filter(
+  type=ManagedWordFilterType.PROFANITY,
+  input_action=GuardrailAction.BLOCK,
+  input_enabled=True,
+  output_action=GuardrailAction.NONE,
+  output_enabled=True,
+);
 
-guardrail.add_managed_word_list_filter(bedrock.ManagedWordFilterType.PROFANITY)
+guardrail.add_word_filter(text="drugs")
+guardrail.add_word_filter(text="competitor")
 
 guardrail.add_word_filter_from_file("./scripts/wordsPolicy.csv")
 ```
 
 ### PII Filters
 
-PII filters allow you to detect and handle personally identifiable information in user inputs and model responses.
+PII filters allow you to detect and handle personally identifiable information in user inputs and model responses. You can configure separate actions for input and output.
 
 #### PII Filter Configuration
 
 ##### TypeScript
 
 ```ts
-// Add PII filter for addresses
+// Add PII filter for addresses with input/output actions
 guardrail.addPIIFilter({
-  type: PIIType.General.ADDRESS,
-  action: GuardrailAction.ANONYMIZE,
+  type: bedrock.PIIType.General.ADDRESS,
+  action: bedrock.GuardrailAction.BLOCK,
+  // below props are optional
+  inputAction: bedrock.GuardrailAction.BLOCK,
+  inputEnabled: true,
+  outputAction: bedrock.GuardrailAction.ANONYMIZE,
+  outputEnabled: true,
 });
 
-// Add PII filter for credit card numbers
+// Add PII filter for credit card numbers with input/output actions
 guardrail.addPIIFilter({
-  type: PIIType.General.CREDIT_CARD_NUMBER,
-  action: GuardrailAction.BLOCK,
+  type: bedrock.PIIType.General.LICENSE_PLATE,
+  action: bedrock.GuardrailAction.BLOCK,
+  // below props are optional
+  inputAction: bedrock.GuardrailAction.BLOCK,
+  inputEnabled: true,
+  outputAction: bedrock.GuardrailAction.ANONYMIZE,
+  outputEnabled: true,
 });
 ```
 
 ##### Python
 
 ```python
-# Add PII filter for addresses
+# Add PII filter for addresses with input/output actions
 guardrail.add_pii_filter(
-    type= bedrock.pii_type.General.ADDRESS,
-    action= bedrock.GuardrailAction.ANONYMIZE,
+    type=bedrock.pii_type.General.ADDRESS,
+    action=bedrock.GuardrailAction.BLOCK,
+    # below props are optional
+    input_action=bedrock.GuardrailAction.BLOCK,
+    input_enabled=True,
+    output_action=bedrock.GuardrailAction.ANONYMIZE,
+    output_enabled=True,
 )
 
-# Add PII filter for credit card numbers
+# Add PII filter for credit card numbers with input/output actions
 guardrail.add_pii_filter(
-    type= bedrock.pii_type.General.CREDIT_CARD_NUMBER,
-    action= bedrock.GuardrailAction.ANONYMIZE,
+    type=bedrock.pii_type.General.CREDIT_CARD_NUMBER,
+    action=bedrock.GuardrailAction.BLOCK,
+    # below props are optional
+    input_action=bedrock.GuardrailAction.BLOCK,
+    input_enabled=True,
+    output_action=bedrock.GuardrailAction.ANONYMIZE,
+    output_enabled=True,
 )
 ```
 
 ### Regex Filters
 
-Regex filters allow you to detect and handle custom patterns in user inputs and model responses.
+Regex filters allow you to detect and handle custom patterns in user inputs and model responses. You can configure separate actions for input and output.
 
 #### Regex Filter Configuration
 
 ##### TypeScript
 
 ```ts
+// Add regex filter with input/output actions
 guardrail.addRegexFilter({
   name: 'TestRegexFilter',
-  description: 'This is a test regex filter',
   pattern: '/^[A-Z]{2}d{6}$/',
   action: bedrock.GuardrailAction.ANONYMIZE,
+  // below props are optional
+  description: 'This is a test regex filter',
+  inputAction: GuardrailAction.BLOCK,
+  inputEnabled: true,
+  outputAction: GuardrailAction.ANONYMIZE,
+  outputEnabled: true,
 });
 ```
 
 ##### Python
 
 ```python
+# Add regex filter with input/output actions
 guardrail.add_regex_filter(
     name= "TestRegexFilter",
-    description= "This is a test regex filter",
     pattern= "/^[A-Z]{2}d{6}$/",
     action= bedrock.GuardrailAction.ANONYMIZE,
+    # below props are optional
+    description= "This is a test regex filter",
+    input_action=bedrock.GuardrailAction.BLOCK,
+    input_enabled=True,
+    output_action=bedrock.GuardrailAction.ANONYMIZE,
+    output_enabled=True,
 )
 ```
 
 ### Contextual Grounding Filters
 
-Contextual grounding filters allow you to ensure that model responses are grounded in the provided context.
+Contextual grounding filters allow you to ensure that model responses are factually correct and relevant to the user's query. You can configure the action and enable/disable the filter.
 
-#### Contextual Grounding Configuration
+#### Contextual Grounding Filter Configuration
 
 ##### TypeScript
 
 ```ts
+// Add contextual grounding filter with action and enabled flag
 guardrail.addContextualGroundingFilter({
   type: ContextualGroundingFilterType.GROUNDING,
-  threshold: 0.95,
-});
-
-guardrail.addContextualGroundingFilter({
-  type: ContextualGroundingFilterType.RELEVANCE,
-  threshold: 0.95,
+  threshold: 0.8,
+  // the properties below are optional
+  action: GuardrailAction.BLOCK,
+  enabled: true,
 });
 ```
 
 ##### Python
 
 ```python
+# Add contextual grounding filter with action and enabled flag
 guardrail.add_contextual_grounding_filter(
-    type= bedrock.ContextualGroundingFilterType.GROUNDING,
-    threshold= 0.95,
-)
-
-guardrail.add_contextual_grounding_filter(
-    type= bedrock.ContextualGroundingFilterType.RELEVANCE,
-    threshold= 0.95,
+    type=bedrock.ContextualGroundingFilterType.GROUNDING,
+    threshold=0.8,
+    # the properties below are optional
+    action=bedrock.GuardrailAction.BLOCK,
+    enabled=True,
 )
 ```
 
