@@ -234,7 +234,31 @@ actionGroup = bedrock.AgentActionGroup(
 agent.add_action_group(actionGroup)
 ```
 
-If you chose to load your schema file from S3, you will need to provide the necessary permissions to your agent's execution role to access the schema file from the specific bucket.
+If you chose to load your schema file from S3, the construct will provide the necessary permissions to your agent's execution role to access the schema file from the specific bucket. Similar to performing the operation through the console, the agent execution role will get a permission like:
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AmazonBedrockAgentS3PolicyProd",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::<BUCKET_NAME>/<OBJECT_KEY>"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceAccount": "ACCOUNT_NUMBER"
+                }
+            }
+        }
+    ]
+}
+```
+
 For example:
 
 ```typescript
@@ -279,9 +303,6 @@ const actionGroup = new AgentActionGroup({
   enabled: true,
   apiSchema: bedrock.ApiSchema.fromS3File(docBucket, 'inputschema/action-group.yaml'),
 });
-
-// Give the agent's execution role the permission to access the schema file
-docBucket.grantRead(agent.role);
 
 // add the action group to the agent
 agent.addActionGroup(actionGroup);
