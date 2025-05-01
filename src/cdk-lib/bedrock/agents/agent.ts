@@ -577,6 +577,18 @@ export class Agent extends AgentBase {
       sourceArn: this.agentArn,
       sourceAccount: Stack.of(this).account,
     });
+    // Handle permissions to access the schema file from S3
+    if (actionGroup.apiSchema?.s3File) {
+      this.role.addToPrincipalPolicy(new iam.PolicyStatement({
+        actions: ['s3:GetObject'],
+        resources: [`arn:aws:s3:::${actionGroup.apiSchema.s3File.bucketName}/${actionGroup.apiSchema.s3File.objectKey}`],
+        conditions: {
+          StringEquals: {
+            'aws:ResourceAccount': Stack.of(this).account,
+          },
+        },
+      }));
+    }
   }
 
   /**
