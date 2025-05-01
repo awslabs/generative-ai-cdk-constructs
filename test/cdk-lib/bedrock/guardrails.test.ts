@@ -347,7 +347,14 @@ describe('CDK-Created-Guardrail', () => {
     new bedrock.Guardrail(stack, 'TestGuardrail', {
       name: 'TestGuardrail',
       description: 'This is a test guardrail',
-      wordFilters: ['reggaeton', 'alcohol'],
+      wordFilters: [
+        {
+          text: 'reggaeton',
+        },
+        {
+          text: 'alcohol',
+        },
+      ],
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Guardrail', {
@@ -372,8 +379,12 @@ describe('CDK-Created-Guardrail', () => {
       description: 'This is a test guardrail',
     });
 
-    guardrail.addWordFilter('reggaeton');
-    guardrail.addWordFilter('alcohol');
+    guardrail.addWordFilter({
+      text: 'reggaeton',
+    });
+    guardrail.addWordFilter({
+      text: 'alcohol',
+    });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Guardrail', {
       Name: 'TestGuardrail',
@@ -395,7 +406,11 @@ describe('CDK-Created-Guardrail', () => {
     new bedrock.Guardrail(stack, 'TestGuardrail', {
       name: 'TestGuardrail',
       description: 'This is a test guardrail',
-      managedWordListFilters: [bedrock.ManagedWordFilterType.PROFANITY],
+      managedWordListFilters: [
+        {
+          type: bedrock.ManagedWordFilterType.PROFANITY,
+        },
+      ],
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Guardrail', {
@@ -417,7 +432,9 @@ describe('CDK-Created-Guardrail', () => {
       description: 'This is a test guardrail',
     });
 
-    guardrail.addManagedWordListFilter(bedrock.ManagedWordFilterType.PROFANITY);
+    guardrail.addManagedWordListFilter({
+      type: bedrock.ManagedWordFilterType.PROFANITY,
+    });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Guardrail', {
       Name: 'TestGuardrail',
@@ -464,8 +481,19 @@ describe('CDK-Created-Guardrail', () => {
           action: bedrock.GuardrailAction.ANONYMIZE,
         },
       ],
-      wordFilters: ['reggaeton', 'alcohol'],
-      managedWordListFilters: [bedrock.ManagedWordFilterType.PROFANITY],
+      wordFilters: [
+        {
+          text: 'reggaeton',
+        },
+        {
+          text: 'alcohol',
+        },
+      ],
+      managedWordListFilters: [
+        {
+          type: bedrock.ManagedWordFilterType.PROFANITY,
+        },
+      ],
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Guardrail', {
@@ -558,10 +586,16 @@ describe('CDK-Created-Guardrail', () => {
       threshold: 0.99,
     });
 
-    guardrail.addWordFilter('reggaeton');
-    guardrail.addWordFilter('alcohol');
+    guardrail.addWordFilter({
+      text: 'reggaeton',
+    });
+    guardrail.addWordFilter({
+      text: 'alcohol',
+    });
 
-    guardrail.addManagedWordListFilter(bedrock.ManagedWordFilterType.PROFANITY);
+    guardrail.addManagedWordListFilter({
+      type: bedrock.ManagedWordFilterType.PROFANITY,
+    });
 
     guardrail.addPIIFilter({
       type: bedrock.PIIType.General.ADDRESS,

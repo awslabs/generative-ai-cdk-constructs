@@ -10,6 +10,22 @@ Interface to declare a content filter.
 
 ## Properties
 
+### inputAction?
+
+> `readonly` `optional` **inputAction**: [`GuardrailAction`](../enumerations/GuardrailAction.md)
+
+The action to take when content is detected in the input.
+
+***
+
+### inputEnabled?
+
+> `readonly` `optional` **inputEnabled**: `boolean`
+
+Whether the content filter is enabled for input.
+
+***
+
 ### inputModalities?
 
 > `readonly` `optional` **inputModalities**: [`ModalityType`](../enumerations/ModalityType.md)[]
@@ -29,6 +45,22 @@ undefined - Applies to text modality
 > `readonly` **inputStrength**: [`ContentFilterStrength`](../enumerations/ContentFilterStrength.md)
 
 The strength of the content filter to apply to prompts / user input.
+
+***
+
+### outputAction?
+
+> `readonly` `optional` **outputAction**: [`GuardrailAction`](../enumerations/GuardrailAction.md)
+
+The action to take when content is detected in the output.
+
+***
+
+### outputEnabled?
+
+> `readonly` `optional` **outputEnabled**: `boolean`
+
+Whether the content filter is enabled for output.
 
 ***
 

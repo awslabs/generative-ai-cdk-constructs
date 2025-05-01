@@ -26,3 +26,11 @@ identifier tags (for example: [NAME-1], [NAME-2], [EMAIL-1], etc.).
 
 If sensitive information is detected in the prompt or response, the guardrail
 blocks all the content and returns a message that you configure.
+
+***
+
+### NONE
+
+> **NONE**: `"NONE"`
+
+Do not take any action.

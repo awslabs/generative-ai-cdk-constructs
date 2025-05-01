@@ -107,20 +107,29 @@ class ProjectConfig:
 
     def _validate_required_fields(self) -> None:
         """Validate required fields are present in project_details"""
-        required_fields = ['projectName','modality']
+        required_fields = ['project_name', 'modality']
         missing_fields = [field for field in required_fields 
                          if not self.project_details.get(field)]
         if missing_fields:
             raise ValueError(f"Missing required fields: {', '.join(missing_fields)}")
         
         # Validate project stage
-        if self.project_details['projectStage'] not in [e.value for e in ProjectStage]:
-            raise ValueError(f"Invalid projectStage. Must be one of: {[e.value for e in ProjectStage]}")
+        project_stage = self.project_details.get('project_stage')
+        if project_stage and project_stage not in [e.value for e in ProjectStage]:
+            raise ValueError(f"Invalid project_stage. Must be one of: {[e.value for e in ProjectStage]}")
 
     def _get_standard_output_config(self) -> Dict[str, Any]:
         """Get standard output configuration if present"""
         config = self.project_details.get('standardOutputConfiguration', {})
         modality = self.project_details.get('modality')
+        
+        # If modality is not provided, return empty dict
+        if not modality:
+            return {}
+            
+        # Convert modality to lowercase for case-insensitive comparison
+        modality = modality.lower()
+            
         if modality == Modality.DOCUMENT.value:
             return {'document': self._get_document_config(config.get('document', {}))}
         elif modality == Modality.IMAGE.value:
@@ -234,9 +243,9 @@ class ProjectConfig:
     def project_config(self) -> Dict[str, Any]:
         """Get complete project configuration"""
         config = {
-            'projectName': self.project_details['projectName'],
-            'projectDescription': self.project_details.get('projectDescription','sample description'),
-            'projectStage': self.project_details.get('projectStage','LIVE')
+            'projectName': self.project_details.get('project_name'),
+            'projectDescription': self.project_details.get('project_description', 'sample description'),
+            'projectStage': self.project_details.get('project_stage', 'LIVE')
         }
 
         # Add standard output configuration if present
@@ -268,7 +277,7 @@ class ProjectConfig:
 
     def __str__(self) -> str:
         """String representation of project configuration"""
-        return f"ProjectConfig(name={self.project_details['projectName']}, stage={self.project_details['projectStage']})"
+        return f"ProjectConfig(name={self.project_details.get('project_name')}, stage={self.project_details.get('project_stage')})"
 
 class ListProjectsConfig:
     """Configuration class for listing Bedrock Data Automation projects"""

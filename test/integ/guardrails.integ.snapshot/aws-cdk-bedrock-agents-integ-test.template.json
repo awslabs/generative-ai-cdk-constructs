@@ -59,15 +59,16 @@
     "WordPolicyConfig": {
      "ManagedWordListsConfig": [
       {
+       "InputAction": "BLOCK",
+       "OutputAction": "NONE",
        "Type": "PROFANITY"
       }
      ],
      "WordsConfig": [
       {
+       "InputAction": "BLOCK",
+       "OutputAction": "NONE",
        "Text": "reggaeton"
-      },
-      {
-       "Text": "alcohol"
       }
      ]
     }

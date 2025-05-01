@@ -150,6 +150,7 @@
 - [KendraKnowledgeBaseAttributes](interfaces/KendraKnowledgeBaseAttributes.md)
 - [KendraKnowledgeBaseProps](interfaces/KendraKnowledgeBaseProps.md)
 - [LambdaCustomTransformationProps](interfaces/LambdaCustomTransformationProps.md)
+- [ManagedWordFilter](interfaces/ManagedWordFilter.md)
 - [PIIFilter](interfaces/PIIFilter.md)
 - [PromptAttributes](interfaces/PromptAttributes.md)
 - [PromptProps](interfaces/PromptProps.md)
@@ -175,6 +176,7 @@
 - [VectorKnowledgeBaseProps](interfaces/VectorKnowledgeBaseProps.md)
 - [WebCrawlerDataSourceAssociationProps](interfaces/WebCrawlerDataSourceAssociationProps.md)
 - [WebCrawlerDataSourceProps](interfaces/WebCrawlerDataSourceProps.md)
+- [WordFilter](interfaces/WordFilter.md)
 
 ## Type Aliases
 

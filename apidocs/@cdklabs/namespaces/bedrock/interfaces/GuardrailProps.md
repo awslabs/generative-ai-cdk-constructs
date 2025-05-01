@@ -87,7 +87,7 @@ A custom KMS key to use for encrypting data.
 
 ### managedWordListFilters?
 
-> `readonly` `optional` **managedWordListFilters**: [`PROFANITY`](../enumerations/ManagedWordFilterType.md#profanity)[]
+> `readonly` `optional` **managedWordListFilters**: [`ManagedWordFilter`](ManagedWordFilter.md)[]
 
 The managed word filters to apply to the guardrail.
 
@@ -119,6 +119,6 @@ The regular expression (regex) filters to apply to the guardrail.
 
 ### wordFilters?
 
-> `readonly` `optional` **wordFilters**: `string`[]
+> `readonly` `optional` **wordFilters**: [`WordFilter`](WordFilter.md)[]
 
 The word filters to apply to the guardrail.
