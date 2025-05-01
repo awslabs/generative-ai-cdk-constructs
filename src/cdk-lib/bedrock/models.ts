@@ -343,8 +343,8 @@ export class BedrockFoundationModel implements IInvokable {
     },
   );
 
-  public static readonly META_LLAMA_4_MAVERICK_70B_INSTRUCT_V1 = new BedrockFoundationModel(
-    'meta.llama4-maverick-70b-instruct-v1:0',
+  public static readonly META_LLAMA_4_MAVERICK_17B_INSTRUCT_V1 = new BedrockFoundationModel(
+    'meta.llama4-maverick-17b-instruct-v1:0',
     {
       supportsAgents: true,
       supportsCrossRegion: true,

@@ -21,8 +21,15 @@ import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import { buildCustomResourceProvider } from '../../common/helpers/custom-resource-provider-helper';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
-import { AddAwsServiceEndpoint, buildVpc, ServiceEndpointTypeEnum } from '../../common/helpers/vpc-helper';
+import {
+  AddAwsServiceEndpoint,
+  buildVpc,
+  ServiceEndpointTypeEnum,
+} from '../../common/helpers/vpc-helper';
 
+/******************************************************************************
+ *                              ENUMS
+ *****************************************************************************/
 /**
  * List of supported versions of PostgreSQL for Aurora cluster.
  */
@@ -43,6 +50,9 @@ export const SupportedPostgreSQLVersions = {
 export type SupportedPostgreSQLVersions =
   (typeof SupportedPostgreSQLVersions)[keyof typeof SupportedPostgreSQLVersions];
 
+/******************************************************************************
+ *                              COMMON
+ *****************************************************************************/
 /**
  * Base properties for an Aurora Vector Store.
  */
@@ -141,11 +151,11 @@ export interface ExistingAmazonAuroraVectorStoreProps extends BaseAuroraVectorSt
   readonly secret: secretsmanager.ISecret;
 
   /**
-   * The id of the security group associated with the RDS Aurora instance.
+   * The Security group associated with the RDS Aurora instance.
    * This security group allows access to the Aurora Vector Store from Lambda's
    * custom resource running pgVector SQL commands.
    */
-  readonly auroraSecurityGroupId: string;
+  readonly auroraSecurityGroup: ec2.ISecurityGroup;
 }
 
 /**
@@ -181,7 +191,7 @@ export interface DatabaseClusterResources {
   /**
    * The security group associated with the Aurora cluster.
    */
-  readonly auroraSecurityGroup: ec2.SecurityGroup;
+  readonly auroraSecurityGroup: ec2.ISecurityGroup;
 }
 
 /**
@@ -242,7 +252,8 @@ abstract class BaseAmazonAuroraVectorStore extends Construct {
      * Setup databaseName based on if it is provided in the props or not
      * and based on whether it is an existing Aurora Vector Store or not.
      */
-    this.databaseName = 'clusterIdentifier' in props ? props.databaseName : props.databaseName ?? 'bedrock_vector_db';
+    this.databaseName =
+      'clusterIdentifier' in props ? props.databaseName : props.databaseName ?? 'bedrock_vector_db';
 
     this.schemaName = props.schemaName ?? 'bedrock_integration';
     this.vectorField = props.vectorField ?? 'embedding';
@@ -324,14 +335,9 @@ abstract class BaseAmazonAuroraVectorStore extends Construct {
     vpc: ec2.IVpc,
     secret: secretsmanager.ISecret,
     clusterIdentifier: string,
-    auroraSecurityGroupId: string,
+    auroraSecurityGroup: ec2.ISecurityGroup,
   ): DatabaseClusterResources {
     const resourceArn = this.generateResourceArn(clusterIdentifier);
-    const auroraSecurityGroup = ec2.SecurityGroup.fromLookupById(
-      this,
-      'ExistingSG',
-      auroraSecurityGroupId,
-    ) as ec2.SecurityGroup;
 
     return {
       vpc,
@@ -351,8 +357,8 @@ abstract class BaseAmazonAuroraVectorStore extends Construct {
   }
 
   protected addIngressRuleToAuroraSecurityGroup(
-    lambdaSecurityGroup: ec2.SecurityGroup,
-    auroraSecurityGroup: ec2.SecurityGroup,
+    lambdaSecurityGroup: ec2.ISecurityGroup,
+    auroraSecurityGroup: ec2.ISecurityGroup,
   ) {
     auroraSecurityGroup.addIngressRule(
       lambdaSecurityGroup,
@@ -424,12 +430,17 @@ export class ExistingAmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore
       props.vpc,
       props.secret,
       props.clusterIdentifier,
-      props.auroraSecurityGroupId,
+      props.auroraSecurityGroup,
     );
 
-    const auroraPgCRPolicy = this.createAuroraPgCRPolicy(databaseClusterResources.clusterIdentifier);
+    const auroraPgCRPolicy = this.createAuroraPgCRPolicy(
+      databaseClusterResources.clusterIdentifier,
+    );
     const lambdaSecurityGroup = this.createLambdaSecurityGroup(databaseClusterResources.vpc);
-    this.addIngressRuleToAuroraSecurityGroup(lambdaSecurityGroup, databaseClusterResources.auroraSecurityGroup);
+    this.addIngressRuleToAuroraSecurityGroup(
+      lambdaSecurityGroup,
+      databaseClusterResources.auroraSecurityGroup,
+    );
 
     this.resourceArn = this.generateResourceArn(databaseClusterResources.clusterIdentifier);
     this.credentialsSecretArn = databaseClusterResources.secret.secretArn;
@@ -450,8 +461,7 @@ export class AmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore {
    * You need to provide your existing Aurora Vector Store properties
    * such as `databaseName`, `clusterIdentifier`, `vpc` where database is deployed,
    * `secret` containing username and password for authentication to database,
-   * and `auroraSecurityGroupId` with the value of a security group id that was
-   * used for the database.
+   * and `auroraSecurityGroup` with the ecurity group that was used for the database.
    *
    * @param scope - The scope in which to define the construct.
    * @param id - The ID of the construct.
@@ -489,9 +499,14 @@ export class AmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore {
       props.vpc,
       props.clusterId,
     );
-    const auroraPgCRPolicy = this.createAuroraPgCRPolicy(databaseClusterResources.clusterIdentifier);
+    const auroraPgCRPolicy = this.createAuroraPgCRPolicy(
+      databaseClusterResources.clusterIdentifier,
+    );
     const lambdaSecurityGroup = this.createLambdaSecurityGroup(databaseClusterResources.vpc);
-    this.addIngressRuleToAuroraSecurityGroup(lambdaSecurityGroup, databaseClusterResources.auroraSecurityGroup);
+    this.addIngressRuleToAuroraSecurityGroup(
+      lambdaSecurityGroup,
+      databaseClusterResources.auroraSecurityGroup,
+    );
 
     this.resourceArn = databaseClusterResources.resourceArn;
     this.credentialsSecretArn = databaseClusterResources.secret.secretArn;
@@ -502,7 +517,11 @@ export class AmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore {
       ServiceEndpointTypeEnum.BEDROCK_RUNTIME,
     ]);
 
-    const auroraPgVector = this.setupCustomResource(databaseClusterResources, lambdaSecurityGroup, auroraPgCRPolicy);
+    const auroraPgVector = this.setupCustomResource(
+      databaseClusterResources,
+      lambdaSecurityGroup,
+      auroraPgCRPolicy,
+    );
 
     auroraPgVector.node.addDependency(databaseClusterResources.auroraCluster!);
   }
@@ -531,7 +550,13 @@ export class AmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore {
         version: postgreSQLVersion,
       }),
       credentials: rds.Credentials.fromGeneratedSecret('postgres'),
-      clusterIdentifier: clusterIdentifier ?? generatePhysicalNameV2(this, 'aurora-serverless', { maxLength: 63, lower: true, separator: '-' }),
+      clusterIdentifier:
+        clusterIdentifier ??
+        generatePhysicalNameV2(this, 'aurora-serverless', {
+          maxLength: 63,
+          lower: true,
+          separator: '-',
+        }),
       defaultDatabaseName: this.databaseName,
       vpc,
       vpcSubnets: { subnetType: ec2.SubnetType.PRIVATE_ISOLATED },
@@ -541,7 +566,9 @@ export class AmazonAuroraVectorStore extends BaseAmazonAuroraVectorStore {
       serverlessV2MinCapacity: 0.5,
       serverlessV2MaxCapacity: 4,
       writer: rds.ClusterInstance.serverlessV2('AuroraServerlessWriter'),
-      readers: [rds.ClusterInstance.serverlessV2('AuroraServerlessReader', { scaleWithWriter: true })],
+      readers: [
+        rds.ClusterInstance.serverlessV2('AuroraServerlessReader', { scaleWithWriter: true }),
+      ],
       removalPolicy: cdk.RemovalPolicy.DESTROY,
     });
     const resourceArn = cdk.Stack.of(this).formatArn({

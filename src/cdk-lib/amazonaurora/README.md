@@ -76,11 +76,15 @@ const auroraDb = amazonaurora.AmazonAuroraVectorStore.fromExistingAuroraVectorSt
   textField: 'chunks',
   metadataField: 'metadata',
   primaryKeyField: 'id',
-  embeddingsModel: foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+  embeddingsModelVectorDimension: bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3.vectorDimensions!,
   vpc: cdk.aws_ec2.Vpc.fromLookup(stack, 'VPC', {
     vpcId: 'vpc-0c1a234567ee8bc90',
   }),
-  auroraSecurityGroupId: 'sg-012ef345678c98a76',
+  auroraSecurityGroup: cdk.aws_ec2.SecurityGroup.fromSecurityGroupId(
+    stack,
+    'AuroraSecurityGroup',
+    'sg-012456789'
+  ),
   secret: cdk.aws_rds.DatabaseSecret.fromSecretCompleteArn(
     stack,
     'Secret',
@@ -141,9 +145,13 @@ aurora_db = amazonaurora.AmazonAuroraVectorStore.from_existing_aurora_vector_sto
     text_field='chunks',
     metadata_field='metadata',
     primary_key_field='id',
-    embeddings_model=foundation_models.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3,
+    embeddings_model_vector_dimension=bedrock.BedrockFoundationModel.COHERE_EMBED_ENGLISH_V3.vectorDimensions!,
     vpc=ec2.Vpc.from_lookup(self, 'VPC', vpc_id='vpc-0c1a234567ee8bc90'),
-    aurora_security_group_id='sg-012ef345678c98a76',,
+    aurora_security_group=ec2.SecurityGroup.from_security_group_id(
+        self,
+        'AuroraSecurityGroup',
+        'sg-01245678'
+    ),
     secret=rds.DatabaseSecret.from_secret_complete_arn(
         self,
         'Secret',

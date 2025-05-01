@@ -13,7 +13,7 @@
 
 import * as cdk from 'aws-cdk-lib';
 import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
-import { SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
+import { SubnetType, Vpc, SecurityGroup } from 'aws-cdk-lib/aws-ec2';
 import { AwsSolutionsChecks, NagSuppressions } from 'cdk-nag';
 import { AmazonAuroraVectorStore, ExistingAmazonAuroraVectorStore } from '../../../src/cdk-lib/amazonaurora';
 
@@ -144,7 +144,11 @@ describe('Amazon Aurora Vector Store', () => {
           embeddingsModelVectorDimension: modelVectorDimension,
           vpc: vpc,
           secret: secret,
-          auroraSecurityGroupId: 'sg-12345678',
+          auroraSecurityGroup: new SecurityGroup(stack, 'AuroraSecurityGroup', {
+            vpc,
+            securityGroupName: 'aurora-security-group',
+            description: 'Security group for access to Aurora from Lambda',
+          }),
         });
     });
 
