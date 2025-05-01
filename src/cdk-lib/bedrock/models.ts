@@ -160,6 +160,12 @@ export class BedrockFoundationModel implements IInvokable {
     optimizedForAgents: true,
   });
 
+  public static readonly AMAZON_NOVA_PREMIER_V1 = new BedrockFoundationModel('amazon.nova-premier-v1:0', {
+    supportsAgents: true,
+    supportsCrossRegion: true,
+    optimizedForAgents: true,
+  });
+
   public static readonly TITAN_EMBED_TEXT_V1 = new BedrockFoundationModel(
     'amazon.titan-embed-text-v1',
     {
@@ -331,6 +337,22 @@ export class BedrockFoundationModel implements IInvokable {
 
   public static readonly META_LLAMA_3_3_70B_INSTRUCT_V1 = new BedrockFoundationModel(
     'meta.llama3-3-70b-instruct-v1:0',
+    {
+      supportsAgents: true,
+      supportsCrossRegion: true,
+    },
+  );
+
+  public static readonly META_LLAMA_4_MAVERICK_70B_INSTRUCT_V1 = new BedrockFoundationModel(
+    'meta.llama4-maverick-70b-instruct-v1:0',
+    {
+      supportsAgents: true,
+      supportsCrossRegion: true,
+    },
+  );
+
+  public static readonly META_LLAMA_4_SCOUT_17B_INSTRUCT_V1 = new BedrockFoundationModel(
+    'meta.llama4-scout-17b-instruct-v1:0',
     {
       supportsAgents: true,
       supportsCrossRegion: true,
