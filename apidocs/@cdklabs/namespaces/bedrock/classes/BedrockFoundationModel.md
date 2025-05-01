@@ -287,9 +287,9 @@ The ARN of the Bedrock invokable abstraction.
 
 ***
 
-### META\_LLAMA\_4\_MAVERICK\_70B\_INSTRUCT\_V1
+### META\_LLAMA\_4\_MAVERICK\_17B\_INSTRUCT\_V1
 
-> `readonly` `static` **META\_LLAMA\_4\_MAVERICK\_70B\_INSTRUCT\_V1**: `BedrockFoundationModel`
+> `readonly` `static` **META\_LLAMA\_4\_MAVERICK\_17B\_INSTRUCT\_V1**: `BedrockFoundationModel`
 
 ***
 
