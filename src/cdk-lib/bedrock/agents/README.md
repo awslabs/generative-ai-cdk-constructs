@@ -234,6 +234,83 @@ actionGroup = bedrock.AgentActionGroup(
 agent.add_action_group(actionGroup)
 ```
 
+If you chose to load your schema file from S3, the construct will provide the necessary permissions to your agent's execution role to access the schema file from the specific bucket. Similar to performing the operation through the console, the agent execution role will get a permission like:
+
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AmazonBedrockAgentS3PolicyProd",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::<BUCKET_NAME>/<OBJECT_KEY>"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "aws:ResourceAccount": "ACCOUNT_NUMBER"
+                }
+            }
+        }
+    ]
+}
+```
+
+For example:
+
+```typescript
+// create a bucket containing the input schema
+const schemaBucket = new s3.Bucket(this, 'SchemaBucket', {
+  enforceSSL: true,
+  versioned: true,
+  publicReadAccess: false,
+  blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+  encryption: s3.BucketEncryption.S3_MANAGED,
+  removalPolicy: cdk.RemovalPolicy.DESTROY,
+  autoDeleteObjects: true,
+});
+
+// deploy the local schema file to S3
+const deployement = new cdk.aws_s3_deployment.BucketDeployment(this, 'DeployWebsite', {
+  sources: [cdk.aws_s3_deployment.Source.asset(path.join(__dirname, '../inputschema'))],
+  destinationBucket: schemaBucket,
+  destinationKeyPrefix: 'inputschema',
+});
+
+// create the agent
+const agent = new bedrock.Agent(this, 'Agent', {
+  foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+  instruction: 'You are a helpful and friendly agent that answers questions about literature.',
+  userInputEnabled: true,
+  shouldPrepareAgent:true
+});
+
+// create a lambda function
+const actionGroupFunction = new lambda_python.PythonFunction(this, 'ActionGroupFunction', {
+  runtime: lambda.Runtime.PYTHON_3_12,
+  entry: path.join(__dirname, '../lambda/action-group'),
+  timeout:cdk.Duration.minutes(2)
+});
+
+// create an action group and read the schema file from S3
+const actionGroup = new AgentActionGroup({
+  name: 'query-library',
+  description: 'Use these functions to get information about the books in the library.',
+  executor: bedrock.ActionGroupExecutor.fromlambdaFunction(actionGroupFunction),
+  enabled: true,
+  apiSchema: bedrock.ApiSchema.fromS3File(docBucket, 'inputschema/action-group.yaml'),
+});
+
+// add the action group to the agent
+agent.addActionGroup(actionGroup);
+
+// add dependency for the agent on the s3 deployment
+agent.node.addDependency(deployement);
+```
+
 ## Memory Configuration
 
 Agents can maintain context across multiple sessions and recall past interactions using memory. This feature is useful for creating a more coherent conversational experience.
