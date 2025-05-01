@@ -129,6 +129,12 @@ The ARN of the Bedrock invokable abstraction.
 
 ***
 
+### AMAZON\_NOVA\_PREMIER\_V1
+
+> `readonly` `static` **AMAZON\_NOVA\_PREMIER\_V1**: `BedrockFoundationModel`
+
+***
+
 ### AMAZON\_NOVA\_PRO\_V1
 
 > `readonly` `static` **AMAZON\_NOVA\_PRO\_V1**: `BedrockFoundationModel`
@@ -278,6 +284,18 @@ The ARN of the Bedrock invokable abstraction.
 ### META\_LLAMA\_3\_3\_70B\_INSTRUCT\_V1
 
 > `readonly` `static` **META\_LLAMA\_3\_3\_70B\_INSTRUCT\_V1**: `BedrockFoundationModel`
+
+***
+
+### META\_LLAMA\_4\_MAVERICK\_70B\_INSTRUCT\_V1
+
+> `readonly` `static` **META\_LLAMA\_4\_MAVERICK\_70B\_INSTRUCT\_V1**: `BedrockFoundationModel`
+
+***
+
+### META\_LLAMA\_4\_SCOUT\_17B\_INSTRUCT\_V1
+
+> `readonly` `static` **META\_LLAMA\_4\_SCOUT\_17B\_INSTRUCT\_V1**: `BedrockFoundationModel`
 
 ***
 
