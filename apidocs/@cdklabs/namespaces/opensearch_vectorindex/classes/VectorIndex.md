@@ -6,11 +6,11 @@
 
 # Class: VectorIndex
 
-Deploy a vector index on the collection.
+Provides a vector index in Amazon OpenSearch Serverless.
 
 ## Extends
 
-- `Resource`
+- `VectorIndexBase`
 
 ## Constructors
 
@@ -38,9 +38,21 @@ Deploy a vector index on the collection.
 
 #### Overrides
 
-`cdk.Resource.constructor`
+`VectorIndexBase.constructor`
 
 ## Properties
+
+### collectionEndpoint
+
+> `readonly` **collectionEndpoint**: `string`
+
+The endpoint of the collection
+
+#### Overrides
+
+`VectorIndexBase.collectionEndpoint`
+
+***
 
 ### env
 
@@ -56,7 +68,7 @@ that might be different than the stack they were imported into.
 
 #### Inherited from
 
-`cdk.Resource.env`
+`VectorIndexBase.env`
 
 ***
 
@@ -65,6 +77,10 @@ that might be different than the stack they were imported into.
 > `readonly` **indexName**: `string`
 
 The name of the index.
+
+#### Overrides
+
+`VectorIndexBase.indexName`
 
 ***
 
@@ -76,7 +92,7 @@ The tree node.
 
 #### Inherited from
 
-`cdk.Resource.node`
+`VectorIndexBase.node`
 
 ***
 
@@ -95,7 +111,7 @@ This value will resolve to one of the following:
 
 #### Inherited from
 
-`cdk.Resource.physicalName`
+`VectorIndexBase.physicalName`
 
 ***
 
@@ -107,23 +123,7 @@ The stack in which this resource is defined.
 
 #### Inherited from
 
-`cdk.Resource.stack`
-
-***
-
-### vectorDimensions
-
-> `readonly` **vectorDimensions**: `number`
-
-The number of dimensions in the vector.
-
-***
-
-### vectorField
-
-> `readonly` **vectorField**: `string`
-
-The name of the vector field.
+`VectorIndexBase.stack`
 
 ## Methods
 
@@ -144,7 +144,7 @@ through its absolute name/arn.
 
 #### Inherited from
 
-`cdk.Resource._enableCrossEnvironment`
+`VectorIndexBase._enableCrossEnvironment`
 
 ***
 
@@ -174,7 +174,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Inherited from
 
-`cdk.Resource.applyRemovalPolicy`
+`VectorIndexBase.applyRemovalPolicy`
 
 ***
 
@@ -188,7 +188,7 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 
 #### Inherited from
 
-`cdk.Resource.generatePhysicalName`
+`VectorIndexBase.generatePhysicalName`
 
 ***
 
@@ -228,7 +228,7 @@ cross-environment references to work.
 
 #### Inherited from
 
-`cdk.Resource.getResourceArnAttribute`
+`VectorIndexBase.getResourceArnAttribute`
 
 ***
 
@@ -258,7 +258,7 @@ Commonly this is the resource's `ref`.
 
 #### Inherited from
 
-`cdk.Resource.getResourceNameAttribute`
+`VectorIndexBase.getResourceNameAttribute`
 
 ***
 
@@ -274,7 +274,7 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-`cdk.Resource.toString`
+`VectorIndexBase.toString`
 
 ***
 
@@ -314,7 +314,7 @@ true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-`cdk.Resource.isConstruct`
+`VectorIndexBase.isConstruct`
 
 ***
 
@@ -336,7 +336,7 @@ Returns true if the construct was created by CDK, and false otherwise
 
 #### Inherited from
 
-`cdk.Resource.isOwnedResource`
+`VectorIndexBase.isOwnedResource`
 
 ***
 
@@ -358,4 +358,4 @@ Check whether the given construct is a Resource
 
 #### Inherited from
 
-`cdk.Resource.isResource`
+`VectorIndexBase.isResource`
