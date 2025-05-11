@@ -529,6 +529,8 @@ To deploy your agent, you need to create an alias. During alias creation, Amazon
 
 By default, the `Agent` resource does not create any aliases, and you can use the 'DRAFT' version.
 
+To create a new version for an existing alias, you can update the description of your agent alias and re-deploy.
+
 ### TypeScript
 
 ```ts

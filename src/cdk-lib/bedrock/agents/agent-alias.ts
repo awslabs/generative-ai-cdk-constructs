@@ -244,7 +244,7 @@ export class AgentAlias extends AgentAliasBase {
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
-    const alias = new bedrock.CfnAgentAlias(this, `MyCfnAgentAlias+${hash}`, {
+    const alias = new bedrock.CfnAgentAlias(this, 'Resource', {
       agentAliasName: this.aliasName,
       agentId: this.agent.agentId,
       description: props.description,
