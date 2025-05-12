@@ -529,7 +529,13 @@ To deploy your agent, you need to create an alias. During alias creation, Amazon
 
 By default, the `Agent` resource does not create any aliases, and you can use the 'DRAFT' version.
 
-To create a new version for an existing alias, you can update the description of your agent alias and re-deploy.
+To create a new version for an existing alias, you can update the description of your agent alias and re-deploy. For instance, you can use the `last_updated` attribute of the agent in the agent alias description. Thus, whenever the agent will be updated, a new version will be created automatically and the existing alias will point to that version.
+
+```
+...
+description: `Updated at ${agent.lastUpdated}`
+...
+```
 
 ### TypeScript
 
