@@ -9636,12 +9636,6 @@
 
 ***
 
-### HUGGINGFACE\_LLM\_QWEN2\_5\_CODER\_7B\_INSTRUCT\_1\_0\_4
-
-> `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_CODER\_7B\_INSTRUCT\_1\_0\_4**: `JumpStartModel`
-
-***
-
 ### HUGGINGFACE\_LLM\_QWEN2\_7B\_1\_0\_0
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_7B\_1\_0\_0**: `JumpStartModel`
