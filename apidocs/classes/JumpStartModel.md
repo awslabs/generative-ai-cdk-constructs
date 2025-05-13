@@ -9636,6 +9636,12 @@
 
 ***
 
+### HUGGINGFACE\_LLM\_QWEN2\_5\_CODER\_7B\_INSTRUCT\_1\_0\_4
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_CODER\_7B\_INSTRUCT\_1\_0\_4**: `JumpStartModel`
+
+***
+
 ### HUGGINGFACE\_LLM\_QWEN2\_7B\_1\_0\_0
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_7B\_1\_0\_0**: `JumpStartModel`
@@ -26466,6 +26472,12 @@
 
 ***
 
+### HUGGINGFACE\_TXT2IMG\_BLACK\_FOREST\_LABS\_FLUX\_1\_SCHNELL\_2\_0\_0
+
+> `readonly` `static` **HUGGINGFACE\_TXT2IMG\_BLACK\_FOREST\_LABS\_FLUX\_1\_SCHNELL\_2\_0\_0**: `JumpStartModel`
+
+***
+
 ### HUGGINGFACE\_TXT2IMG\_BUNTOPSIH\_NOVGORANSTEFANOVSKI\_1\_0\_0
 
 > `readonly` `static` **HUGGINGFACE\_TXT2IMG\_BUNTOPSIH\_NOVGORANSTEFANOVSKI\_1\_0\_0**: `JumpStartModel`
@@ -33099,6 +33111,12 @@
 ### HUGGINGFACE\_VLM\_GEMMA\_3\_27B\_INSTRUCT\_1\_0\_5
 
 > `readonly` `static` **HUGGINGFACE\_VLM\_GEMMA\_3\_27B\_INSTRUCT\_1\_0\_5**: `JumpStartModel`
+
+***
+
+### HUGGINGFACE\_VLM\_GEMMA\_3\_27B\_INSTRUCT\_2\_0\_0
+
+> `readonly` `static` **HUGGINGFACE\_VLM\_GEMMA\_3\_27B\_INSTRUCT\_2\_0\_0**: `JumpStartModel`
 
 ***
 
