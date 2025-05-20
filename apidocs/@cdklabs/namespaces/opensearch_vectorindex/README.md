@@ -6,16 +6,24 @@
 
 # opensearch\_vectorindex
 
+## Enumerations
+
+- [AlgorithmNameType](enumerations/AlgorithmNameType.md)
+- [EngineType](enumerations/EngineType.md)
+- [OpensearchFieldType](enumerations/OpensearchFieldType.md)
+- [SpaceType](enumerations/SpaceType.md)
+
 ## Classes
 
 - [VectorIndex](classes/VectorIndex.md)
 
 ## Interfaces
 
-- [Analyzer](interfaces/Analyzer.md)
-- [MetadataManagementFieldProps](interfaces/MetadataManagementFieldProps.md)
+- [IndexSettings](interfaces/IndexSettings.md)
+- [IVectorIndex](interfaces/IVectorIndex.md)
+- [MappingsProperty](interfaces/MappingsProperty.md)
+- [Method](interfaces/Method.md)
+- [MethodParameters](interfaces/MethodParameters.md)
+- [PropertyMapping](interfaces/PropertyMapping.md)
+- [VectorIndexAttributes](interfaces/VectorIndexAttributes.md)
 - [VectorIndexProps](interfaces/VectorIndexProps.md)
-
-## Variables
-
-- [OpenSearchIndexCRProvider](variables/OpenSearchIndexCRProvider.md)
