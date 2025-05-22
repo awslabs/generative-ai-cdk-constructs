@@ -204,6 +204,18 @@ export class BedrockFoundationModel implements IInvokable {
   /****************************************************************************
    *                            ANTHROPIC
    ***************************************************************************/
+  public static readonly ANTHROPIC_CLAUDE_4_SONNET_V1_0 = new BedrockFoundationModel(
+    'anthropic.claude-sonnet-4-20250514-v1:0',
+
+    { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: false },
+  );
+
+  public static readonly ANTHROPIC_CLAUDE_4_OPUS_V1_0 = new BedrockFoundationModel(
+    'anthropic.claude-opus-4-20250514-v1:0',
+
+    { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: false },
+  );
+
   public static readonly ANTHROPIC_CLAUDE_3_7_SONNET_V1_0 = new BedrockFoundationModel(
     'anthropic.claude-3-7-sonnet-20250219-v1:0',
 
