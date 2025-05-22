@@ -91,7 +91,7 @@ export class BaseClass extends Construct {
   /**
    * Default  log config for all constructs
    */
-  fieldLogLevel:appsync.FieldLogLevel = appsync.FieldLogLevel.ALL;
+  fieldLogLevel: appsync.FieldLogLevel = appsync.FieldLogLevel.ALL;
 
   /**
    * Default  log retention config for all constructs
