@@ -20,7 +20,7 @@ import { buildCustomResourceProvider } from '../../../src/common/helpers/custom-
 const AOSSCRProvider = buildCustomResourceProvider({
   providerName: 'OpenSearchIndexCRProvider',
   codePath: path.join(
-    __dirname, '../../../lambda/opensearch-serverless-custom-resources'),
+    __dirname, '../../../lambda/amazon-aurora-pgvector-custom-resources'),
   handler: 'custom_resources.on_event',
   runtime: lambda.Runtime.PYTHON_3_12,
 });

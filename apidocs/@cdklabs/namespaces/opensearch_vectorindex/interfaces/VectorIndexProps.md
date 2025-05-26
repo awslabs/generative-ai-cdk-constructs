@@ -10,31 +10,11 @@ Properties for the VectorIndex.
 
 ## Properties
 
-### analyzer?
-
-> `readonly` `optional` **analyzer**: [`Analyzer`](Analyzer.md)
-
-The analyzer to use.
-
-#### Default
-
-```ts
-- No analyzer.
-```
-
-***
-
 ### collection
 
 > `readonly` **collection**: [`VectorCollection`](../../opensearchserverless/classes/VectorCollection.md)
 
 The OpenSearch Vector Collection.
-
-***
-
-### distanceType
-
-> `readonly` **distanceType**: `string`
 
 ***
 
@@ -46,30 +26,16 @@ The name of the index.
 
 ***
 
-### mappings
+### mappings?
 
-> `readonly` **mappings**: [`MetadataManagementFieldProps`](MetadataManagementFieldProps.md)[]
+> `readonly` `optional` **mappings**: [`MappingsProperty`](MappingsProperty.md)
 
 The metadata management fields.
 
 ***
 
-### precision
+### settings?
 
-> `readonly` **precision**: `string`
+> `readonly` `optional` **settings**: [`IndexSettings`](IndexSettings.md)
 
-***
-
-### vectorDimensions
-
-> `readonly` **vectorDimensions**: `number`
-
-The number of dimensions in the vector.
-
-***
-
-### vectorField
-
-> `readonly` **vectorField**: `string`
-
-The name of the vector field.
+The settings for the index.
