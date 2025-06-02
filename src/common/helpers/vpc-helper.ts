@@ -72,7 +72,7 @@ export enum ServiceEndpointTypeEnum {
   BEDROCK_RUNTIME = 'BEDROCK_RUNTIME',
   COMPREHEND = 'COMPREHEND',
   REKOGNITION = 'REKOGNITION',
-  APP_SYNC = 'APP_SYNC'
+  APP_SYNC = 'APP_SYNC',
 }
 
 export function CheckVpcProps(propsObject: VpcPropsSet | any) {

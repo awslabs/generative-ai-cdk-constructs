@@ -35,5 +35,5 @@ export enum OrchestrationType {
   /**
      * Custom orchestration using Lambda.
      */
-  CUSTOM_ORCHESTRATION = 'CUSTOM_ORCHESTRATION'
+  CUSTOM_ORCHESTRATION = 'CUSTOM_ORCHESTRATION',
 }

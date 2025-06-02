@@ -32,7 +32,7 @@ export enum AgentCollaboratorType {
   /**
    * Supervisor router.
    */
-  SUPERVISOR_ROUTER = 'SUPERVISOR_ROUTER'
+  SUPERVISOR_ROUTER = 'SUPERVISOR_ROUTER',
 }
 
 /**
@@ -47,7 +47,7 @@ export enum RelayConversationHistoryType {
   /**
      * Disabling relay of conversation history to the collaborator.
      */
-  DISABLED = 'DISABLED'
+  DISABLED = 'DISABLED',
 }
 
 /******************************************************************************
