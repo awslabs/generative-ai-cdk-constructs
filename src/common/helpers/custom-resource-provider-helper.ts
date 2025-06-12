@@ -115,7 +115,7 @@ export function buildCustomResourceProvider(props: CRProviderProps): ICRProvider
       });
 
       const customResourceFunction = new lambda.Function(this, 'CustomResourcesFunction', {
-        code: lambda.Code.fromDockerBuild(codePath),
+        code: lambda.Code.fromDockerBuild(codePath, { platform: 'linux/amd64' }),
         handler,
         runtime,
         layers,
