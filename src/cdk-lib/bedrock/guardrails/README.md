@@ -65,6 +65,8 @@ guardrail = bedrock.Guardrail(self, 'myGuardrails',
 | piiFilters | PIIFilter[] | No | The PII filters to apply to the guardrail |
 | regexFilters | RegexFilter[] | No | The regular expression (regex) filters to apply to the guardrail |
 | contextualGroundingFilters | ContextualGroundingFilter[] | No | The contextual grounding filters to apply to the guardrail |
+| crossRegionConfig | string | No | ARN of the cross-region inference profile for the guardrail. Required if contentFiltersTier is set to "STANDARD". |
+| contentFiltersTier | string | No | Content filters tier. Can be "CLASSIC" (default) or "STANDARD". |
 
 ## Filter Types
 
