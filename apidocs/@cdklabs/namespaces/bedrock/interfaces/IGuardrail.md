@@ -18,7 +18,7 @@ Represents a Guardrail, either created with CDK or imported.
 
 > `optional` **contentFiltersTier**: `string`
 
-The detection mode for the guardrail.
+The content filters tier for the guardrail.
 If not set, defaults to "CLASSIC"
 
 ***
@@ -128,6 +128,15 @@ The stack in which this resource is defined.
 #### Inherited from
 
 `IResource.stack`
+
+***
+
+### topicFiltersTier?
+
+> `optional` **topicFiltersTier**: `string`
+
+The topic filters tier for the guardrail.
+If not set, defaults to "CLASSIC"
 
 ## Methods
 

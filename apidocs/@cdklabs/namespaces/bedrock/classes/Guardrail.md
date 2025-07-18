@@ -58,7 +58,7 @@ The content filters applied by the guardrail.
 
 > `optional` **contentFiltersTier**: `string`
 
-The detection mode of the guardrail.
+The content filters tier of the guardrail.
 
 #### Overrides
 
@@ -272,6 +272,18 @@ The stack in which this resource is defined.
 #### Inherited from
 
 [`GuardrailBase`](GuardrailBase.md).[`stack`](GuardrailBase.md#stack)
+
+***
+
+### topicFiltersTier?
+
+> `optional` **topicFiltersTier**: `string`
+
+The topics filters tier of the guardrail.
+
+#### Overrides
+
+[`GuardrailBase`](GuardrailBase.md).[`topicFiltersTier`](GuardrailBase.md#topicfilterstier)
 
 ***
 

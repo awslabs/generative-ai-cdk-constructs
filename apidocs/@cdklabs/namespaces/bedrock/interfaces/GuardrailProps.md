@@ -133,6 +133,14 @@ The regular expression (regex) filters to apply to the guardrail.
 
 ***
 
+### topicFiltersTier?
+
+> `readonly` `optional` **topicFiltersTier**: `string`
+
+The topic filters tier for the guardrail.
+
+***
+
 ### wordFilters?
 
 > `readonly` `optional` **wordFilters**: [`WordFilter`](WordFilter.md)[]

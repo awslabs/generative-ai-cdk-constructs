@@ -55,7 +55,7 @@ Contains methods and attributes valid for Guardrails either created with CDK or 
 
 > `abstract` `optional` **contentFiltersTier**: `string`
 
-The detection mode of the guardrail.
+The content filters tier of the guardrail.
 
 #### Implementation of
 
@@ -205,6 +205,19 @@ The stack in which this resource is defined.
 #### Inherited from
 
 `Resource.stack`
+
+***
+
+### topicFiltersTier?
+
+> `abstract` `optional` **topicFiltersTier**: `string`
+
+The topic filters tier for the guardrail.
+If not set, defaults to "CLASSIC"
+
+#### Implementation of
+
+[`IGuardrail`](../interfaces/IGuardrail.md).[`topicFiltersTier`](../interfaces/IGuardrail.md#topicfilterstier)
 
 ## Methods
 
