@@ -53,6 +53,16 @@ export interface IGuardrail extends IResource {
    * this will default to "DRAFT"
    */
   guardrailVersion: string;
+  /**
+   * The cross-region profile for the guardrail.
+   * Required if the detection mode is set to "CONTEXTUAL"
+   */
+  guardrailCrossRegionProfile?: string;
+  /**
+   * The detection mode for the guardrail.
+   * If not set, defaults to "CLASSIC"
+   */
+  contentFiltersTier?: string;
 
   /**
    * Grant the given principal identity permissions to perform actions on this guardrail.
@@ -164,6 +174,14 @@ export abstract class GuardrailBase extends Resource implements IGuardrail {
    * The ID of the guardrail.
    */
   public abstract guardrailVersion: string;
+  /**
+   * The cross-region inference profile of the guardrail.
+   */
+  public abstract guardrailCrossRegionProfile?: string;
+  /**
+   * The detection mode of the guardrail.
+   */
+  public abstract contentFiltersTier?: string;
   /**
    * The KMS key of the guardrail if custom encryption is configured.
    */
@@ -335,6 +353,14 @@ export interface GuardrailProps {
    * The contextual grounding filters to apply to the guardrail.
    */
   readonly contextualGroundingFilters?: filters.ContextualGroundingFilter[];
+  /**
+   * The cross-region inference profile of the guardrail.
+   */
+  readonly guardrailCrossRegionProfile?: string;
+  /**
+   * The content filter tier of the guardrail.
+   */
+  readonly contentFiltersTier?: string;
 }
 
 /******************************************************************************
@@ -378,6 +404,8 @@ export class Guardrail extends GuardrailBase {
       public readonly guardrailVersion = attrs.guardrailVersion ?? 'DRAFT';
       public readonly kmsKey = attrs.kmsKey;
       public readonly lastUpdated = undefined;
+      public readonly contentFiltersTier = 'CLASSIC';
+      public readonly guardrailCrossRegionProfile?: string | undefined;
     }
 
     return new Import(scope, id);
@@ -391,6 +419,19 @@ export class Guardrail extends GuardrailBase {
       public readonly guardrailArn = cfnGuardrail.attrGuardrailArn;
       public readonly guardrailId = cfnGuardrail.attrGuardrailId;
       public readonly guardrailVersion = cfnGuardrail.attrVersion;
+      public readonly contentFiltersTier =
+        typeof cfnGuardrail.contentPolicyConfig === 'object' &&
+          cfnGuardrail.contentPolicyConfig !== null &&
+          'contentFiltersTierConfig' in cfnGuardrail.contentPolicyConfig &&
+          cfnGuardrail.contentPolicyConfig.contentFiltersTierConfig &&
+          typeof cfnGuardrail.contentPolicyConfig.contentFiltersTierConfig === 'object' &&
+          'tierName' in cfnGuardrail.contentPolicyConfig.contentFiltersTierConfig
+          ? (cfnGuardrail.contentPolicyConfig.contentFiltersTierConfig as bedrock.CfnGuardrail.ContentFiltersTierConfigProperty).tierName
+          : 'CLASSIC';
+      public readonly guardrailCrossRegionProfile =
+        cfnGuardrail.crossRegionConfig && typeof cfnGuardrail.crossRegionConfig === 'object' && 'guardrailProfileArn' in cfnGuardrail.crossRegionConfig
+          ? (cfnGuardrail.crossRegionConfig as bedrock.CfnGuardrail.GuardrailCrossRegionConfigProperty).guardrailProfileArn
+          : undefined;
       public readonly kmsKey = cfnGuardrail.kmsKeyArn
         ? Key.fromKeyArn(this, '@FromCfnGuardrailKey', cfnGuardrail.kmsKeyArn)
         : undefined;
@@ -462,6 +503,14 @@ export class Guardrail extends GuardrailBase {
    */
   public readonly hash: string;
   /**
+   * The cross-region inference profile of the guardrail.
+   */
+  public guardrailCrossRegionProfile?: string;
+  /**
+   * The detection mode of the guardrail.
+   */
+  public contentFiltersTier?: string;
+  /**
    * The L1 representation of the guardrail
    */
   private readonly __resource: bedrock.CfnGuardrail;
@@ -482,6 +531,8 @@ export class Guardrail extends GuardrailBase {
     this.contextualGroundingFilters = props.contextualGroundingFilters ?? [];
     this.wordFilters = props.wordFilters ?? [];
     this.managedWordListFilters = props.managedWordListFilters ?? [];
+    this.guardrailCrossRegionProfile = props.guardrailCrossRegionProfile;
+    this.contentFiltersTier = props.contentFiltersTier;
 
     const defaultBlockedInputMessaging = 'Sorry, your query violates our usage policy.';
     const defaultBlockedOutputsMessaging = 'Sorry, I am unable to answer your question because of our usage policy.';
@@ -501,6 +552,7 @@ export class Guardrail extends GuardrailBase {
       topicPolicyConfig: this.generateCfnTopicPolicy(),
       wordPolicyConfig: this.generateCfnWordPolicyConfig(),
       sensitiveInformationPolicyConfig: this.generateCfnSensitiveInformationPolicyConfig(),
+      crossRegionConfig: this.generateCrossRegionConfig(),
     };
 
     // Hash calculation useful for versioning of the guardrail
@@ -520,6 +572,15 @@ export class Guardrail extends GuardrailBase {
   // ------------------------------------------------------
   // METHODS
   // ------------------------------------------------------
+  /**
+   * Generates the cross-region configuration for the guardrail.
+   * This method is a placeholder and should be implemented in subclasses if needed.
+   * @returns The cross-region configuration or undefined if not applicable.
+   */
+  public generateCrossRegionConfig(): IResolvable | bedrock.CfnGuardrail.GuardrailCrossRegionConfigProperty | undefined {
+    return this.guardrailCrossRegionProfile ? { guardrailProfileArn: this.guardrailCrossRegionProfile } : undefined;
+  }
+
   /**
    * Adds a content filter to the guardrail.
    * @param filter The content filter to add.
@@ -616,7 +677,16 @@ export class Guardrail extends GuardrailBase {
     return Lazy.any({
       produce: () => {
         if (this.contentFilters.length > 0) {
-          return { filtersConfig: this.contentFilters } as bedrock.CfnGuardrail.ContentPolicyConfigProperty;
+          let config = { filtersConfig: this.contentFilters } as bedrock.CfnGuardrail.ContentPolicyConfigProperty;
+          if (this.contentFiltersTier) {
+            config = {
+              ...config,
+              contentFiltersTierConfig: {
+                tierName: this.contentFiltersTier,
+              },
+            } as bedrock.CfnGuardrail.ContentPolicyConfigProperty;
+          }
+          return config;
         } else {
           return undefined;
         }

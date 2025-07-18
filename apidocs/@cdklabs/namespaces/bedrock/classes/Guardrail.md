@@ -54,6 +54,18 @@ The content filters applied by the guardrail.
 
 ***
 
+### contentFiltersTier?
+
+> `optional` **contentFiltersTier**: `string`
+
+The detection mode of the guardrail.
+
+#### Overrides
+
+[`GuardrailBase`](GuardrailBase.md).[`contentFiltersTier`](GuardrailBase.md#contentfilterstier)
+
+***
+
 ### contextualGroundingFilters
 
 > `readonly` **contextualGroundingFilters**: [`ContextualGroundingFilter`](../interfaces/ContextualGroundingFilter.md)[]
@@ -97,6 +109,18 @@ The ARN of the guardrail.
 #### Overrides
 
 [`GuardrailBase`](GuardrailBase.md).[`guardrailArn`](GuardrailBase.md#guardrailarn)
+
+***
+
+### guardrailCrossRegionProfile?
+
+> `optional` **guardrailCrossRegionProfile**: `string`
+
+The cross-region inference profile of the guardrail.
+
+#### Overrides
+
+[`GuardrailBase`](GuardrailBase.md).[`guardrailCrossRegionProfile`](GuardrailBase.md#guardrailcrossregionprofile)
 
 ***
 
@@ -505,6 +529,21 @@ The description of the version.
 `string`
 
 The guardrail version.
+
+***
+
+### generateCrossRegionConfig()
+
+> **generateCrossRegionConfig**(): `undefined` \| `IResolvable` \| `GuardrailCrossRegionConfigProperty`
+
+Generates the cross-region configuration for the guardrail.
+This method is a placeholder and should be implemented in subclasses if needed.
+
+#### Returns
+
+`undefined` \| `IResolvable` \| `GuardrailCrossRegionConfigProperty`
+
+The cross-region configuration or undefined if not applicable.
 
 ***
 

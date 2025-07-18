@@ -51,6 +51,18 @@ Contains methods and attributes valid for Guardrails either created with CDK or 
 
 ## Properties
 
+### contentFiltersTier?
+
+> `abstract` `optional` **contentFiltersTier**: `string`
+
+The detection mode of the guardrail.
+
+#### Implementation of
+
+[`IGuardrail`](../interfaces/IGuardrail.md).[`contentFiltersTier`](../interfaces/IGuardrail.md#contentfilterstier)
+
+***
+
 ### env
 
 > `readonly` **env**: `ResourceEnvironment`
@@ -82,6 +94,18 @@ The ARN of the guardrail.
 #### Implementation of
 
 [`IGuardrail`](../interfaces/IGuardrail.md).[`guardrailArn`](../interfaces/IGuardrail.md#guardrailarn)
+
+***
+
+### guardrailCrossRegionProfile?
+
+> `abstract` `optional` **guardrailCrossRegionProfile**: `string`
+
+The cross-region inference profile of the guardrail.
+
+#### Implementation of
+
+[`IGuardrail`](../interfaces/IGuardrail.md).[`guardrailCrossRegionProfile`](../interfaces/IGuardrail.md#guardrailcrossregionprofile)
 
 ***
 

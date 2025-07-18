@@ -47,6 +47,14 @@ Note, if one of
 
 ***
 
+### contentFiltersTier?
+
+> `readonly` `optional` **contentFiltersTier**: `string`
+
+The content filter tier of the guardrail.
+
+***
+
 ### contextualGroundingFilters?
 
 > `readonly` `optional` **contextualGroundingFilters**: [`ContextualGroundingFilter`](ContextualGroundingFilter.md)[]
@@ -68,6 +76,14 @@ Up to 30 denied topics to block user inputs or model responses associated with t
 > `readonly` `optional` **description**: `string`
 
 The description of the guardrail.
+
+***
+
+### guardrailCrossRegionProfile?
+
+> `readonly` `optional` **guardrailCrossRegionProfile**: `string`
+
+The cross-region inference profile of the guardrail.
 
 ***
 

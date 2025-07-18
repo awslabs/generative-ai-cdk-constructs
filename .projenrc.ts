@@ -11,25 +11,25 @@
  *  and limitations under the License.
  */
 
-import { JsonPatch, awscdk, ReleasableCommits } from 'projen';
+import { awscdk, JsonPatch, ReleasableCommits } from 'projen';
 import { NpmAccess } from 'projen/lib/javascript';
 import { buildUpgradeMainPRCustomJob } from './projenrc/github-jobs';
 import {
+  buildAutoApproveWorkflow,
+  buildCodeGenerationWorkflow,
   buildMeritBadgerWorkflow,
   buildMonthlyIssuesMetricsWorkflow,
-  buildAutoApproveWorkflow,
   buildOrtToolkitWorkflow,
-  runSemGrepWorkflow,
   runBanditWorkflow,
   runCommitLintWorkflow,
-  buildCodeGenerationWorkflow,
+  runSemGrepWorkflow,
 } from './projenrc/github-workflows';
 
 // Constants
 const GITHUB_USER = 'awslabs';
 const PUBLICATION_NAMESPACE = 'cdklabs';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
-const CDK_VERSION: string = '2.191.0';
+const CDK_VERSION: string = '2.206.0';
 
 function camelCaseIt(input: string): string {
   // Hypens and dashes to spaces and then CamelCase...

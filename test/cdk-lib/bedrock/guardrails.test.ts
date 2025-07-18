@@ -567,6 +567,68 @@ describe('CDK-Created-Guardrail', () => {
     });
   });
 
+  test('All filters - Crossregion + tier', () => {
+    new bedrock.Guardrail(stack, 'TestGuardrail', {
+      name: 'TestGuardrail',
+      description: 'This is a test guardrail',
+      guardrailCrossRegionProfile: 'This is a test ARN',
+      contentFiltersTier: 'STANDARD',
+      contentFilters: [
+        {
+          type: bedrock.ContentFilterType.MISCONDUCT,
+          inputStrength: bedrock.ContentFilterStrength.LOW,
+          outputStrength: bedrock.ContentFilterStrength.LOW,
+        },
+      ],
+      contextualGroundingFilters: [
+        {
+          type: bedrock.ContextualGroundingFilterType.GROUNDING,
+          threshold: 0.99,
+        },
+      ],
+      piiFilters: [
+        {
+          type: bedrock.PIIType.General.ADDRESS,
+          action: bedrock.GuardrailAction.ANONYMIZE,
+        },
+      ],
+      regexFilters: [
+        {
+          name: 'TestRegexFilter',
+          description: 'This is a test regex filter',
+          pattern: '/^[A-Z]{2}d{6}$/',
+          action: bedrock.GuardrailAction.ANONYMIZE,
+        },
+      ],
+      wordFilters: [
+        {
+          text: 'reggaeton',
+        },
+        {
+          text: 'alcohol',
+        },
+      ],
+      managedWordListFilters: [
+        {
+          type: bedrock.ManagedWordFilterType.PROFANITY,
+        },
+      ],
+    });
+
+    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Guardrail', {
+      Name: 'TestGuardrail',
+      Description: 'This is a test guardrail',
+      CrossRegionConfig: {
+        GuardrailProfileArn: 'This is a test ARN',
+      },
+      ContentPolicyConfig: {
+        ContentFiltersTierConfig: {
+          TierName: 'STANDARD',
+        },
+      },
+    });
+  });
+
   test('All filters - Method', () => {
     const guardrail = new bedrock.Guardrail(stack, 'TestGuardrail', {
       name: 'TestGuardrail',

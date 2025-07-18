@@ -14,6 +14,15 @@ Represents a Guardrail, either created with CDK or imported.
 
 ## Properties
 
+### contentFiltersTier?
+
+> `optional` **contentFiltersTier**: `string`
+
+The detection mode for the guardrail.
+If not set, defaults to "CLASSIC"
+
+***
+
 ### env
 
 > `readonly` **env**: `ResourceEnvironment`
@@ -45,6 +54,15 @@ The ARN of the guardrail.
 ```
 
 #### Attribute
+
+***
+
+### guardrailCrossRegionProfile?
+
+> `optional` **guardrailCrossRegionProfile**: `string`
+
+The cross-region profile for the guardrail.
+Required if the detection mode is set to "CONTEXTUAL"
 
 ***
 
