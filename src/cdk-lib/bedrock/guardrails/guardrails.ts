@@ -11,7 +11,6 @@
  *  and limitations under the License.
  */
 
-import * as fs from 'fs';
 import { Arn, ArnFormat, IResolvable, IResource, Lazy, Resource } from 'aws-cdk-lib';
 import * as bedrock from 'aws-cdk-lib/aws-bedrock';
 import { Metric, MetricOptions, MetricProps } from 'aws-cdk-lib/aws-cloudwatch';
@@ -19,6 +18,7 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import { IKey, Key } from 'aws-cdk-lib/aws-kms';
 import { md5hash } from 'aws-cdk-lib/core/lib/helpers-internal';
 import { Construct } from 'constructs';
+import * as fs from 'fs';
 import * as filters from './guardrail-filters';
 
 /******************************************************************************
@@ -59,7 +59,7 @@ export interface IGuardrail extends IResource {
    */
   guardrailCrossRegionProfile?: string;
   /**
-   * The detection mode for the guardrail.
+   * The content filters tier for the guardrail.
    * If not set, defaults to "CLASSIC"
    */
   contentFiltersTier?: string;
@@ -179,7 +179,7 @@ export abstract class GuardrailBase extends Resource implements IGuardrail {
    */
   public abstract guardrailCrossRegionProfile?: string;
   /**
-   * The detection mode of the guardrail.
+   * The content filters tier of the guardrail.
    */
   public abstract contentFiltersTier?: string;
   /**
@@ -507,7 +507,7 @@ export class Guardrail extends GuardrailBase {
    */
   public guardrailCrossRegionProfile?: string;
   /**
-   * The detection mode of the guardrail.
+   * The content filters tier of the guardrail.
    */
   public contentFiltersTier?: string;
   /**
