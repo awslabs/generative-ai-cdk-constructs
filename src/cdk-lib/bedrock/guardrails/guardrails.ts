@@ -63,6 +63,11 @@ export interface IGuardrail extends IResource {
    * If not set, defaults to "CLASSIC"
    */
   contentFiltersTier?: string;
+  /**
+   * The topic filters tier for the guardrail.
+   * If not set, defaults to "CLASSIC"
+   */
+  topicFiltersTier?: string;
 
   /**
    * Grant the given principal identity permissions to perform actions on this guardrail.
@@ -182,6 +187,11 @@ export abstract class GuardrailBase extends Resource implements IGuardrail {
    * The content filters tier of the guardrail.
    */
   public abstract contentFiltersTier?: string;
+  /**
+   * The topic filters tier for the guardrail.
+   * If not set, defaults to "CLASSIC"
+   */
+  public abstract topicFiltersTier?: string;
   /**
    * The KMS key of the guardrail if custom encryption is configured.
    */
@@ -361,6 +371,10 @@ export interface GuardrailProps {
    * The content filter tier of the guardrail.
    */
   readonly contentFiltersTier?: string;
+  /**
+   * The topic filters tier for the guardrail.
+   */
+  readonly topicFiltersTier?: string;
 }
 
 /******************************************************************************
@@ -405,6 +419,7 @@ export class Guardrail extends GuardrailBase {
       public readonly kmsKey = attrs.kmsKey;
       public readonly lastUpdated = undefined;
       public readonly contentFiltersTier = 'CLASSIC';
+      public readonly topicFiltersTier = 'CLASSIC';
       public readonly guardrailCrossRegionProfile?: string | undefined;
     }
 
@@ -427,6 +442,15 @@ export class Guardrail extends GuardrailBase {
           typeof cfnGuardrail.contentPolicyConfig.contentFiltersTierConfig === 'object' &&
           'tierName' in cfnGuardrail.contentPolicyConfig.contentFiltersTierConfig
           ? (cfnGuardrail.contentPolicyConfig.contentFiltersTierConfig as bedrock.CfnGuardrail.ContentFiltersTierConfigProperty).tierName
+          : 'CLASSIC';
+      public readonly topicFiltersTier =
+        typeof cfnGuardrail.topicPolicyConfig === 'object' &&
+          cfnGuardrail.topicPolicyConfig !== null &&
+          'topicsTierConfig' in cfnGuardrail.topicPolicyConfig &&
+          cfnGuardrail.topicPolicyConfig.topicsTierConfig &&
+          typeof cfnGuardrail.topicPolicyConfig.topicsTierConfig === 'object' &&
+          'tierName' in cfnGuardrail.topicPolicyConfig.topicsTierConfig
+          ? (cfnGuardrail.topicPolicyConfig.topicsTierConfig as bedrock.CfnGuardrail.TopicsTierConfigProperty).tierName
           : 'CLASSIC';
       public readonly guardrailCrossRegionProfile =
         cfnGuardrail.crossRegionConfig && typeof cfnGuardrail.crossRegionConfig === 'object' && 'guardrailProfileArn' in cfnGuardrail.crossRegionConfig
@@ -511,6 +535,10 @@ export class Guardrail extends GuardrailBase {
    */
   public contentFiltersTier?: string;
   /**
+   * The topics filters tier of the guardrail.
+   */
+  public topicFiltersTier?: string;
+  /**
    * The L1 representation of the guardrail
    */
   private readonly __resource: bedrock.CfnGuardrail;
@@ -533,6 +561,7 @@ export class Guardrail extends GuardrailBase {
     this.managedWordListFilters = props.managedWordListFilters ?? [];
     this.guardrailCrossRegionProfile = props.guardrailCrossRegionProfile;
     this.contentFiltersTier = props.contentFiltersTier;
+    this.topicFiltersTier = props.topicFiltersTier;
 
     const defaultBlockedInputMessaging = 'Sorry, your query violates our usage policy.';
     const defaultBlockedOutputsMessaging = 'Sorry, I am unable to answer your question because of our usage policy.';
@@ -702,7 +731,7 @@ export class Guardrail extends GuardrailBase {
     return Lazy.any({
       produce: () => {
         if (this.deniedTopics.length > 0) {
-          return {
+          let config = {
             topicsConfig: this.deniedTopics.flatMap((topic: filters.Topic) => {
               return {
                 definition: topic.definition,
@@ -710,8 +739,16 @@ export class Guardrail extends GuardrailBase {
                 examples: topic.examples,
                 type: 'DENY',
               } as bedrock.CfnGuardrail.TopicConfigProperty;
-            }),
-          };
+            })
+          } as bedrock.CfnGuardrail.TopicPolicyConfigProperty;
+          if (this.topicFiltersTier)
+            config = {
+              ...config,
+              topicsTierConfig: {
+                tierName: this.topicFiltersTier
+              }
+            }
+          return config;
         } else {
           return undefined;
         }

@@ -573,6 +573,7 @@ describe('CDK-Created-Guardrail', () => {
       description: 'This is a test guardrail',
       guardrailCrossRegionProfile: 'This is a test ARN',
       contentFiltersTier: 'STANDARD',
+      topicFiltersTier: 'STANDARD',
       contentFilters: [
         {
           type: bedrock.ContentFilterType.MISCONDUCT,
@@ -626,6 +627,11 @@ describe('CDK-Created-Guardrail', () => {
           TierName: 'STANDARD',
         },
       },
+      TopicPolicyConfig: {
+        TopicsTierConfig: {
+          TierName: 'STANDARD'
+        }
+      }
     });
   });
 
