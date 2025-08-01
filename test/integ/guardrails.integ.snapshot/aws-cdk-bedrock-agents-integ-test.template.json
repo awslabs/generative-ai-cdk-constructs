@@ -28,6 +28,8 @@
      "PiiEntitiesConfig": [
       {
        "Action": "ANONYMIZE",
+       "InputEnabled": true,
+       "OutputEnabled": true,
        "Type": "ADDRESS"
       }
      ],
