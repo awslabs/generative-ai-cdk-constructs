@@ -546,23 +546,31 @@ export interface PIIFilter {
     | PIIType.CanadaSpecific
     | PIIType.UKSpecific;
   /**
-   * The action to take when PII is detected.
+   * The action to take when PII is detected (in the input or output).
    */
   readonly action: GuardrailAction;
   /**
-   * The action to take when PII is detected in the input.
+   * Override the `action` to take when PII is detected on the input side
+   *
+   * @default - Same as `action`
    */
   readonly inputAction?: GuardrailAction;
   /**
-   * Whether the PII filter is enabled for input.
+   * Set `false` to disable checking for the PII on model inputs
+   *
+   * @default true
    */
   readonly inputEnabled?: boolean;
   /**
-   * The action to take when PII is detected in the output.
+   * Override the `action` to take when PII is detected on the output response side
+   *
+   * @default - Same as `action`
    */
   readonly outputAction?: GuardrailAction;
   /**
-   * Whether the PII filter is enabled for output.
+   * Set `false` to disable checking for the PII on output responses
+   *
+   * @default true
    */
   readonly outputEnabled?: boolean;
 }

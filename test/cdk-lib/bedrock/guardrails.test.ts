@@ -242,6 +242,26 @@ describe('CDK-Created-Guardrail', () => {
           type: bedrock.PIIType.General.ADDRESS,
           action: bedrock.GuardrailAction.ANONYMIZE,
         },
+        {
+          type: bedrock.PIIType.General.AGE,
+          action: bedrock.GuardrailAction.ANONYMIZE,
+          inputEnabled: false,
+        },
+        {
+          type: bedrock.PIIType.General.DRIVER_ID,
+          action: bedrock.GuardrailAction.ANONYMIZE,
+          outputEnabled: false,
+        },
+        {
+          type: bedrock.PIIType.General.EMAIL,
+          action: bedrock.GuardrailAction.ANONYMIZE,
+          inputAction: bedrock.GuardrailAction.BLOCK,
+        },
+        {
+          type: bedrock.PIIType.General.LICENSE_PLATE,
+          action: bedrock.GuardrailAction.ANONYMIZE,
+          outputAction: bedrock.GuardrailAction.BLOCK,
+        },
       ],
     });
 
@@ -252,7 +272,28 @@ describe('CDK-Created-Guardrail', () => {
         PiiEntitiesConfig: [
           {
             Action: 'ANONYMIZE',
+            InputEnabled: true,
             Type: 'ADDRESS',
+          },
+          {
+            Action: 'ANONYMIZE',
+            InputEnabled: false,
+            Type: 'AGE',
+          },
+          {
+            Action: 'ANONYMIZE',
+            OutputEnabled: false,
+            Type: 'DRIVER_ID',
+          },
+          {
+            Action: 'ANONYMIZE',
+            InputAction: 'BLOCK',
+            Type: 'EMAIL',
+          },
+          {
+            Action: 'ANONYMIZE',
+            OutputAction: 'BLOCK',
+            Type: 'LICENSE_PLATE',
           },
         ],
       },
@@ -268,6 +309,8 @@ describe('CDK-Created-Guardrail', () => {
     guardrail.addPIIFilter({
       type: bedrock.PIIType.General.ADDRESS,
       action: bedrock.GuardrailAction.ANONYMIZE,
+      inputEnabled: false,
+      inputAction: bedrock.GuardrailAction.BLOCK,
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Guardrail', {
@@ -277,6 +320,8 @@ describe('CDK-Created-Guardrail', () => {
         PiiEntitiesConfig: [
           {
             Action: 'ANONYMIZE',
+            InputAction: 'BLOCK',
+            InputEnabled: false,
             Type: 'ADDRESS',
           },
         ],

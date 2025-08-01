@@ -789,11 +789,17 @@ export class Guardrail extends GuardrailBase {
     return Lazy.any(
       {
         produce: () => {
-          return this.piiFilters.flatMap((filter: filters.PIIFilter) => {
+          return this.piiFilters.flatMap((filter: filters.PIIFilter): bedrock.CfnGuardrail.PiiEntityConfigProperty => {
             return {
               type: filter.type,
               action: filter.action,
-            } as bedrock.CfnGuardrail.PiiEntityConfigProperty;
+              inputAction: filter.inputAction,
+              inputEnabled: filter.inputEnabled ?? true,
+              outputAction: filter.outputAction,
+              // outputEnabled will actually default to true at CFn level if not provided, but
+              // let's be explicit about it:
+              outputEnabled: filter.outputEnabled ?? true,
+            };
           });
         },
       },
