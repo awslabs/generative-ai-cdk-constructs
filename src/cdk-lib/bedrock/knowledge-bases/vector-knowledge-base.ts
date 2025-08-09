@@ -12,7 +12,9 @@
  */
 
 import { ArnFormat, aws_bedrock as bedrock, Stack } from 'aws-cdk-lib';
+import * as cr from 'aws-cdk-lib/custom-resources';
 import * as iam from 'aws-cdk-lib/aws-iam';
+import * as cdk from 'aws-cdk-lib';
 import { NagSuppressions } from 'cdk-nag/lib/nag-suppressions';
 import { Construct } from 'constructs';
 import {
@@ -31,6 +33,7 @@ import { VectorIndex } from '../../opensearch-vectorindex';
 import { OpenSearchManagedClusterVectorStore } from '../../opensearchmanagedcluster';
 import { VectorCollection } from '../../opensearchserverless';
 import { PineconeVectorStore } from '../../pinecone';
+import { S3VectorBucket } from '../../s3vectors';
 import { Agent } from '../agents/agent';
 import {
   ConfluenceDataSource,
@@ -55,6 +58,10 @@ import {
   WebCrawlerDataSourceAssociationProps,
 } from '../data-sources/web-crawler-data-source';
 import { BedrockFoundationModel, VectorType } from '../models';
+import type {
+  CreateKnowledgeBaseCommandInput,
+  DeleteKnowledgeBaseCommandInput,
+} from "@aws-sdk/client-bedrock-agent";
 
 /******************************************************************************
  *                                  ENUMS
@@ -68,6 +75,10 @@ import { BedrockFoundationModel, VectorType } from '../models';
  * `AMAZON_AURORA` is the vector database for Amazon Aurora PostgreSQL.
  */
 export enum VectorStoreType {
+  /**
+   * `S3_VECTORS` is the vector store for S3 Vector Buckets.
+   */
+  S3_VECTORS = 'S3_VECTORS',
   /**
    * `OPENSEARCH_SERVERLESS` is the vector store for OpenSearch Serverless.
    */
@@ -106,6 +117,7 @@ interface StorageConfiguration {
    * `AmazonAuroraVectorStore`, or `MongoDBAtlasVectorStore` types.
    */
   vectorStore:
+    | S3VectorBucket
     | VectorCollection
     | PineconeVectorStore
     | AmazonAuroraVectorStore
@@ -337,6 +349,7 @@ export interface VectorKnowledgeBaseProps extends CommonKnowledgeBaseProps {
    * @default - A new OpenSearch Serverless vector collection is created.
    */
   readonly vectorStore?:
+    | S3VectorBucket
     | VectorCollection
     | PineconeVectorStore
     | AmazonAuroraVectorStore
@@ -365,6 +378,111 @@ export interface VectorKnowledgeBaseAttributes extends CommonKnowledgeBaseAttrib
    * The vector store type for the knowledge base.
    */
   readonly vectorStoreType: VectorStoreType;
+}
+
+export interface BarebonesVectorKnowledgeInstance extends Construct {
+  readonly attrKnowledgeBaseArn: string;
+  readonly attrKnowledgeBaseId: string;
+}
+
+function customResourceKbFactory(props: bedrock.CfnKnowledgeBaseProps) {
+  class CustomKb extends Construct implements BarebonesVectorKnowledgeInstance {
+    readonly _onCreate: cr.AwsCustomResource;
+    readonly _onDelete: cr.AwsCustomResource;
+
+    constructor(scope: Construct, id: string) {
+      super(scope, id);
+
+      const statements = [
+        new iam.PolicyStatement({
+          actions: ["bedrock:CreateKnowledgeBase"],
+          resources: ["*"],
+        }),
+        new iam.PolicyStatement({
+          actions: [
+            "bedrock:UpdateKnowledgeBase",
+            "bedrock:DeleteKnowledgeBase",
+            "bedrock:TagResource",
+          ],
+          resources: [
+            cdk.Stack.of(this).formatArn({
+              service: "bedrock",
+              resource: "knowledge-base",
+              resourceName: "*",
+              arnFormat: cdk.ArnFormat.SLASH_RESOURCE_NAME,
+            }),
+          ],
+        }),
+        new iam.PolicyStatement({
+          actions: ["iam:PassRole"],
+          resources: [props.roleArn],
+        }),
+      ];
+
+      const onCreate = new cr.AwsCustomResource(
+        this,
+        "CustomKbOnCreate",
+        {
+          installLatestAwsSdk: true,
+          policy: cr.AwsCustomResourcePolicy.fromStatements(statements),
+          onCreate: {
+            service: "BedrockAgent",
+            action: "createKnowledgeBase",
+            parameters: {
+              name: props.name,
+              roleArn: props.roleArn,
+              description: props.description,
+              knowledgeBaseConfiguration:
+                props.knowledgeBaseConfiguration,
+              storageConfiguration: {
+                type: "S3_VECTORS",
+                s3VectorsConfiguration: props.storageConfiguration,
+              },
+            } as CreateKnowledgeBaseCommandInput,
+            physicalResourceId: cr.PhysicalResourceId.fromResponse(
+              "knowledgeBase.knowledgeBaseId"
+            ),
+          },
+        }
+      );
+
+      const onDelete = new cr.AwsCustomResource(
+        this,
+        "CustomKbOnDelete",
+        {
+          installLatestAwsSdk: true,
+          policy: cr.AwsCustomResourcePolicy.fromStatements(statements),
+          onDelete: {
+            service: "BedrockAgent",
+            action: "deleteKnowledgeBase",
+            parameters: {
+              knowledgeBaseId: onCreate.getResponseField(
+                "knowledgeBase.knowledgeBaseId"
+              ),
+            } as DeleteKnowledgeBaseCommandInput,
+          },
+        }
+      );
+
+      onDelete.node.addDependency(onCreate);
+
+      this._onDelete = onDelete;
+      this._onCreate = onCreate;
+    }
+
+    get attrKnowledgeBaseArn(): string {
+      return this._onCreate.getResponseField(
+        "knowledgeBase.knowledgeBaseArn"
+      );
+    }
+
+    get attrKnowledgeBaseId(): string {
+      return this._onCreate.getResponseField(
+        "knowledgeBase.knowledgeBaseId"
+      );
+    }
+  }
+  return new CustomKb(this, "CustomKb");
 }
 
 /**
@@ -413,7 +531,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
   /**
    * Instance of knowledge base.
    */
-  public readonly knowledgeBaseInstance: bedrock.CfnKnowledgeBase;
+  public readonly knowledgeBaseInstance: BarebonesVectorKnowledgeInstance;
 
   /**
    * The role the Knowledge Base uses to access the vector store and data source.
@@ -424,6 +542,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
    * The vector store for the knowledge base.
    */
   public readonly vectorStore:
+    | S3VectorBucket
     | VectorCollection
     | PineconeVectorStore
     | AmazonAuroraVectorStore
@@ -521,7 +640,11 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
      * Otherwise check againts all possible vector datastores.
      * If none was provided create default OpenSearch Serverless Collection.
      */
-    if (props.vectorStore instanceof VectorCollection) {
+    if (props.vectorStore instanceof S3VectorBucket) {
+      this.vectorStoreType = VectorStoreType.S3_VECTORS;
+      ({ vectorStore: this.vectorStore, vectorStoreType: this.vectorStoreType } =
+        this.handleS3VectorBucket(props));
+    } else if (props.vectorStore instanceof VectorCollection) {
       this.vectorStoreType = VectorStoreType.OPENSEARCH_SERVERLESS;
       ({ vectorStore: this.vectorStore, vectorStoreType: this.vectorStoreType } =
         this.handleOpenSearchCollection(props));
@@ -559,7 +682,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
      * of the knowledge base if we use vector stores
      * other than OpenSearch Serverless.
      */
-    if (!(this.vectorStore instanceof VectorCollection) && !(this.vectorStore instanceof OpenSearchManagedClusterVectorStore)) {
+    if (!(this.vectorStore instanceof VectorCollection) && !(this.vectorStore instanceof OpenSearchManagedClusterVectorStore || this.vectorStore instanceof S3VectorBucket)) {
       this.role.addToPrincipalPolicy(
         new iam.PolicyStatement({
           actions: ['secretsmanager:GetSecretValue'],
@@ -656,7 +779,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
-    const knowledgeBase = new bedrock.CfnKnowledgeBase(this, 'MyCfnKnowledgeBase', {
+    const params = {
       knowledgeBaseConfiguration: {
         type: KnowledgeBaseType.VECTOR,
         vectorKnowledgeBaseConfiguration: {
@@ -685,7 +808,10 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
       roleArn: this.role.roleArn,
       storageConfiguration: getStorageConfiguration(storageConfiguration),
       description: props.description,
-    });
+    };
+    const knowledgeBase = this.vectorStoreType === VectorStoreType.S3_VECTORS
+      ? customResourceKbFactory(params)
+      : new bedrock.CfnKnowledgeBase(this, 'MyCfnKnowledgeBase', params);
 
     this.knowledgeBaseInstance = knowledgeBase;
 
@@ -751,6 +877,25 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
 
     this.knowledgeBaseArn = knowledgeBase.attrKnowledgeBaseArn;
     this.knowledgeBaseId = knowledgeBase.attrKnowledgeBaseId;
+  }
+
+  /**
+   * Handle VectorCollection type of S3VectorBucket.
+   *
+   * @param props - The properties of the KnowledgeBase.
+   * @returns The instance of VectorCollection, VectorStoreType.
+   * @internal This is an internal core function and should not be called directly.
+   */
+  private handleS3VectorBucket(props: VectorKnowledgeBaseProps): {
+    vectorStore: S3VectorBucket;
+    vectorStoreType: VectorStoreType;
+  } {
+    const vectorBucket = props.vectorStore as S3VectorBucket;
+    vectorBucket.grantDataAccess(this.role);
+    return {
+      vectorStore: vectorBucket,
+      vectorStoreType: VectorStoreType.S3_VECTORS,
+    };
   }
 
   /**
@@ -978,6 +1123,15 @@ function validateIndexParameters(vectorIndex: VectorIndex, indexName: string, ve
  */
 function getStorageConfiguration(params: StorageConfiguration): any {
   switch (params.vectorStoreType) {
+    case VectorStoreType.S3_VECTORS:
+      params.vectorStore = params.vectorStore as S3VectorBucket;
+      return {
+        type: VectorStoreType.S3_VECTORS,
+        s3VectorBucketConfiguration: {
+          indexArn: params.vectorStore.indexArns[0], // handle more than one index at a time ??
+          vectorBucketArn: params.vectorStore.bucketArn,
+        },
+      };
     case VectorStoreType.OPENSEARCH_SERVERLESS:
       params.vectorStore = params.vectorStore as VectorCollection;
       return {
