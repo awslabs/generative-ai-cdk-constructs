@@ -53,7 +53,7 @@ export enum VectorCollectionType {
    * Vector search – Semantic search on vector embeddings that simplifies vector data management and powers machine learning (ML) augmented search experiences and generative AI applications,
    * such as chatbots, personal assistants, and fraud detection.
    */
-  VECTORSEARCH = 'VECTORSEARCH'
+  VECTORSEARCH = 'VECTORSEARCH',
 }
 
 /**

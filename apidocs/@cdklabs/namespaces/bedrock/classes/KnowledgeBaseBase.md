@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / KnowledgeBaseBase
 
-# Class: `abstract` KnowledgeBaseBase
+# Abstract Class: KnowledgeBaseBase
 
 Abstract base class for Knowledge Base (regarless the type).
 Contains methods valid for KBs either created with CDK or imported and

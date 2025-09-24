@@ -34,8 +34,8 @@ export interface CustomSageMakerEndpointProps {
   readonly modelId: string;
   readonly endpointName: string;
   readonly instanceType: SageMakerInstanceType;
-  readonly minCapacity?:number;
-  readonly maxCapacity?:number;
+  readonly minCapacity?: number;
+  readonly maxCapacity?: number;
   readonly container: ContainerImage;
   readonly instanceCount?: number;
   readonly role?: iam.Role;

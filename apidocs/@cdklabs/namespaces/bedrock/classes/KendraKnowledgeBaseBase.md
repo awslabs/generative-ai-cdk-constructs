@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / KendraKnowledgeBaseBase
 
-# Class: `abstract` KendraKnowledgeBaseBase
+# Abstract Class: KendraKnowledgeBaseBase
 
 ***************************************************************************
                              ABSTRACT CLASS

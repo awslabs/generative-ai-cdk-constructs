@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / PromptBase
 
-# Class: `abstract` PromptBase
+# Abstract Class: PromptBase
 
 Abstract base class for a Prompt.
 Contains methods and attributes valid for Promtps either created with CDK or imported.

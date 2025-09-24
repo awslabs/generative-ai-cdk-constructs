@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / ApiSchema
 
-# Class: `abstract` ApiSchema
+# Abstract Class: ApiSchema
 
 Represents the concept of an API Schema for a Bedrock Agent Action Group.
 

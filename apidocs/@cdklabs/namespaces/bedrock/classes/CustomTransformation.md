@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / CustomTransformation
 
-# Class: `abstract` CustomTransformation
+# Abstract Class: CustomTransformation
 
 Represents a custom transformation configuration for a data source ingestion.
 

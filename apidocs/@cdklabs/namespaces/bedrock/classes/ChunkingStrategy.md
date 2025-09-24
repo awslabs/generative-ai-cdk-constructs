@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / ChunkingStrategy
 
-# Class: `abstract` ChunkingStrategy
+# Abstract Class: ChunkingStrategy
 
 ## Properties
 

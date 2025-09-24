@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [neptune](../README.md) / NeptuneGraphBase
 
-# Class: `abstract` NeptuneGraphBase
+# Abstract Class: NeptuneGraphBase
 
 Abstract base class for a Neptune Graph.
 Contains methods and attributes valid for Graphs either created with CDK or imported.
