@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [kendra](../README.md) / KendraGenAiIndexBase
 
-# Class: `abstract` KendraGenAiIndexBase
+# Abstract Class: KendraGenAiIndexBase
 
 Abstract base class for a Kendra GenAI index.
 Contains methods and attributes valid for Kendra GenAI Indexes either created with CDK or imported.

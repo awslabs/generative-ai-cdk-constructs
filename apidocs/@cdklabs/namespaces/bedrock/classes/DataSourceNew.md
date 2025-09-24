@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / DataSourceNew
 
-# Class: `abstract` DataSourceNew
+# Abstract Class: DataSourceNew
 
 Specifies the base class for all NEW data source resources of ANY type.
 

@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / ContainerImage
 
-# Class: `abstract` ContainerImage
+# Abstract Class: ContainerImage
 
 https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 

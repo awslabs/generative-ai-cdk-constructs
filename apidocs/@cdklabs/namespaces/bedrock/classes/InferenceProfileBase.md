@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / InferenceProfileBase
 
-# Class: `abstract` InferenceProfileBase
+# Abstract Class: InferenceProfileBase
 
 Abstract base class for a ApplicationInferenceProfile.
 Contains methods and attributes valid for ApplicationInferenceProfiles either created with CDK or imported.

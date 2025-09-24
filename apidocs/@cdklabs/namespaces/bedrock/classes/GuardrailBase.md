@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / GuardrailBase
 
-# Class: `abstract` GuardrailBase
+# Abstract Class: GuardrailBase
 
 Abstract base class for a Guardrail.
 Contains methods and attributes valid for Guardrails either created with CDK or imported.

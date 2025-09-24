@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../README.md) / SageMakerEndpointBase
 
-# Class: `abstract` SageMakerEndpointBase
+# Abstract Class: SageMakerEndpointBase
 
 ## Extends
 

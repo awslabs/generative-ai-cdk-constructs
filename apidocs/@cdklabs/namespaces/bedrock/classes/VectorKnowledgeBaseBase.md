@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / VectorKnowledgeBaseBase
 
-# Class: `abstract` VectorKnowledgeBaseBase
+# Abstract Class: VectorKnowledgeBaseBase
 
 Abstract base class for Vector Knowledge Base.
 Contains methods valid for KBs either created with CDK or imported.
