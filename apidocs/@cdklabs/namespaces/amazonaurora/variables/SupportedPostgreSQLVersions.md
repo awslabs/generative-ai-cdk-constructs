@@ -10,7 +10,7 @@
 
 List of supported versions of PostgreSQL for Aurora cluster.
 
-## Type declaration
+## Type Declaration
 
 ### AURORA\_POSTGRESQL\_V12\_16
 

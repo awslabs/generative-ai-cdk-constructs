@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / PromptVariant
 
-# Class: `abstract` PromptVariant
+# Abstract Class: PromptVariant
 
 Variants are specific sets of inputs that guide FMs on Amazon Bedrock to
 generate an appropriate response or output for a given task or instruction.

@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / AgentBase
 
-# Class: `abstract` AgentBase
+# Abstract Class: AgentBase
 
 Abstract base class for an Agent.
 Contains methods and attributes valid for Agents either created with CDK or imported.

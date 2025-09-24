@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / GraphKnowledgeBaseBase
 
-# Class: `abstract` GraphKnowledgeBaseBase
+# Abstract Class: GraphKnowledgeBaseBase
 
 ***************************************************************************
                              ABSTRACT CLASS

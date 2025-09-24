@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / ContextEnrichment
 
-# Class: `abstract` ContextEnrichment
+# Abstract Class: ContextEnrichment
 
 Abstract class representing a context enrichment strategy.
 The enrichment stategy used to provide additional context.

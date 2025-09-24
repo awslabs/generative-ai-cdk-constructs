@@ -4,7 +4,7 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [bedrock](../README.md) / ParsingStrategy
 
-# Class: `abstract` ParsingStrategy
+# Abstract Class: ParsingStrategy
 
 Represents an advanced parsing strategy configuration for Knowledge Base ingestion.
 
