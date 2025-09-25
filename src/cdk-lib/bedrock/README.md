@@ -23,9 +23,8 @@
 | ![Go](https://docs.aws.amazon.com/cdk/api/latest/img/go32.png) Go                   | `github.com/cdklabs/generative-ai-cdk-constructs-go/generative-ai-cdk-constructs`|
 
 > [!WARNING]
-> The Amazon Bedrock L2 constructs are being migrated towards the core CDK in an alpha package: https://github.com/aws/aws-cdk/tree/main/packages/%40aws-cdk/aws-bedrock-alpha
-> We do recommend to use the alpha package from now on. 
-> The Bedrock L2 constructs in this package will not receive new updates.
+> Important: Amazon Bedrock L2 constructs are transitioning to the AWS CDK core repository. You can now find these constructs at: https://github.com/aws/aws-cdk/tree/main/packages/%40aws-cdk/aws-bedrock-alpha.
+> Please migrate to the alpha package, as Bedrock L2 constructs in this repository are now deprecated and will no longer receive updates.
 
 [Amazon Bedrock](https://aws.amazon.com/bedrock/) is a fully managed service that offers a choice of high-performing foundation models (FMs) from leading AI companies and Amazon through a single API, along with a broad set of capabilities you need to build generative AI applications with security, privacy, and responsible AI.
 
