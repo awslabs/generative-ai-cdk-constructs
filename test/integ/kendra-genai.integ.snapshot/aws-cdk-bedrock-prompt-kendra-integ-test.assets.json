@@ -1,5 +1,5 @@
 {
-  "version": "41.0.0",
+  "version": "48.0.0",
   "files": {
     "1c41a7151b84506d8b20ef231edaf08a41a061b40f85b3a04ea5ba16b367324c": {
       "displayName": "aws-cdk-bedrock-prompt-kendra-integ-test Template",
@@ -8,7 +8,7 @@
         "packaging": "file"
       },
       "destinations": {
-        "current_account-us-east-1": {
+        "current_account-us-east-1-5370d482": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
           "objectKey": "1c41a7151b84506d8b20ef231edaf08a41a061b40f85b3a04ea5ba16b367324c.json",
           "region": "us-east-1",

@@ -1,5 +1,5 @@
 {
-  "version": "41.0.0",
+  "version": "48.0.0",
   "files": {
     "ea52821b2f897f4747652193704dc57b09f387d548e94159a698de2d27cca5ca": {
       "displayName": "aws-cdk-bedrock-guardrails-integ-test Template",
@@ -8,7 +8,7 @@
         "packaging": "file"
       },
       "destinations": {
-        "current_account-eu-central-1": {
+        "current_account-eu-central-1-bc8a9c28": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-eu-central-1",
           "objectKey": "ea52821b2f897f4747652193704dc57b09f387d548e94159a698de2d27cca5ca.json",
           "region": "eu-central-1",

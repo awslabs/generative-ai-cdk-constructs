@@ -144,6 +144,10 @@ The following constructs are available in the library:
 
 ### L2 Constructs
 
+> [!WARNING]
+> Important: Amazon Bedrock L2 constructs are transitioning to the AWS CDK core repository. You can now find these constructs at: https://github.com/aws/aws-cdk/tree/main/packages/%40aws-cdk/aws-bedrock-alpha.
+> Please migrate to the alpha package, as Bedrock L2 constructs in this repository are now deprecated and will no longer receive updates.
+
 | **Construct** |Description| AWS Services used |
 |:-------------|:-------------|:-------------|
 | [Amazon Bedrock](./src/cdk-lib/bedrock/README.md) | CDK L2 Constructs for Amazon Bedrock. | Amazon Bedrock, Amazon OpenSearch Serverless, AWS Lambda |
