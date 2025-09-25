@@ -15,7 +15,6 @@
 /.github/workflows/ort-toolkit.yml linguist-generated
 /.github/workflows/pull-request-lint.yml linguist-generated
 /.github/workflows/release.yml linguist-generated
-/.github/workflows/semgrep.yml linguist-generated
 /.github/workflows/stale.yml linguist-generated
 /.github/workflows/upgrade-main.yml linguist-generated
 /.gitignore linguist-generated

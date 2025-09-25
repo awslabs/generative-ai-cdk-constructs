@@ -1,5 +1,5 @@
 {
-  "version": "41.0.0",
+  "version": "48.0.0",
   "files": {
     "9f5d87597e60f4c70edcfcdea8130c16cdc6b52aa706bdeb2b7efca7ab170169": {
       "displayName": "AgentMemoryTest Template",
@@ -8,7 +8,7 @@
         "packaging": "file"
       },
       "destinations": {
-        "current_account-us-east-1": {
+        "current_account-us-east-1-aeeff067": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
           "objectKey": "9f5d87597e60f4c70edcfcdea8130c16cdc6b52aa706bdeb2b7efca7ab170169.json",
           "region": "us-east-1",

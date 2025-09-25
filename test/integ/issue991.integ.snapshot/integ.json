@@ -1,5 +1,5 @@
 {
-  "version": "41.0.0",
+  "version": "48.0.0",
   "testCases": {
     "Claude37Test-Integ/DefaultTest": {
       "stacks": [
@@ -16,5 +16,5 @@
       "assertionStackName": "Claude37TestIntegDefaultTestDeployAssert7B904896"
     }
   },
-  "minimumCliVersion": "2.1005.0"
+  "minimumCliVersion": "2.1029.3"
 }
