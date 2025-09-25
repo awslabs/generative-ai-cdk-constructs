@@ -1,5 +1,5 @@
 {
-  "version": "41.0.0",
+  "version": "48.0.0",
   "files": {
     "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6": {
       "displayName": "aws-cdk-bedrock-graph-integ-test/Custom::S3AutoDeleteObjectsCustomResourceProvider Code",
@@ -8,7 +8,7 @@
         "packaging": "zip"
       },
       "destinations": {
-        "current_account-us-east-1": {
+        "current_account-us-east-1-e650c2de": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
           "objectKey": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip",
           "region": "us-east-1",
@@ -16,16 +16,16 @@
         }
       }
     },
-    "382d4045982da575c0616ea910df7e92c7096add9b098e7c1f3558c9c002eb59": {
+    "c12088c94b4f94b0363af33b7c426f994df4ffec13dde400e15b8a03e07f0e09": {
       "displayName": "aws-cdk-bedrock-graph-integ-test Template",
       "source": {
         "path": "aws-cdk-bedrock-graph-integ-test.template.json",
         "packaging": "file"
       },
       "destinations": {
-        "current_account-us-east-1": {
+        "current_account-us-east-1-e28c8995": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
-          "objectKey": "382d4045982da575c0616ea910df7e92c7096add9b098e7c1f3558c9c002eb59.json",
+          "objectKey": "c12088c94b4f94b0363af33b7c426f994df4ffec13dde400e15b8a03e07f0e09.json",
           "region": "us-east-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
         }

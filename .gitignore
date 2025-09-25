@@ -142,7 +142,6 @@ test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.int
 !/.github/workflows/monthly-repo-metrics.yml
 !/.github/workflows/auto-approve.yml
 !/.github/workflows/ort-toolkit.yml
-!/.github/workflows/semgrep.yml
 !/.github/workflows/bandit.yml
 !/.github/workflows/commitlint.yml
 !/.github/workflows/code-generation.yml
