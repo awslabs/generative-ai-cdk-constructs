@@ -1,5 +1,5 @@
 {
-  "version": "41.0.0",
+  "version": "48.0.0",
   "files": {
     "d234028c8a2b4e7ef7c530e7abc3de36d8f1325a26b3ef033f98d37f8b627ad9": {
       "displayName": "aws-cdk-bedrock-prompt-router-integ-test Template",
@@ -8,7 +8,7 @@
         "packaging": "file"
       },
       "destinations": {
-        "current_account-us-east-1": {
+        "current_account-us-east-1-9222fc87": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
           "objectKey": "d234028c8a2b4e7ef7c530e7abc3de36d8f1325a26b3ef033f98d37f8b627ad9.json",
           "region": "us-east-1",

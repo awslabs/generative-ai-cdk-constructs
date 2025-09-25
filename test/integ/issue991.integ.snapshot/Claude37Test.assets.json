@@ -1,5 +1,5 @@
 {
-  "version": "41.0.0",
+  "version": "48.0.0",
   "files": {
     "1f9354e3c8c90e6a6e4f3adf164e2746481f44ff6494e937f784a37964b01274": {
       "displayName": "Claude37Test Template",
@@ -8,7 +8,7 @@
         "packaging": "file"
       },
       "destinations": {
-        "current_account-us-east-1": {
+        "current_account-us-east-1-c3a00149": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
           "objectKey": "1f9354e3c8c90e6a6e4f3adf164e2746481f44ff6494e937f784a37964b01274.json",
           "region": "us-east-1",
