@@ -11,135 +11,144 @@
  *  and limitations under the License.
  */
 
-import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
 import * as oss from 'aws-cdk-lib/aws-opensearchserverless';
 import { Construct } from 'constructs';
-import { buildCustomResourceProvider } from '../../common/helpers/custom-resource-provider-helper';
 import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 import { VectorCollection } from '../opensearchserverless';
-import {
-  CharacterFilterType,
-  TokenFilterType,
-  TokenizerType,
-} from '../opensearchserverless/analysis-plugins';
 
 /**
- * Metadata field definitions.
+ * The field data type. Must be a valid OpenSearch field type.
  */
-export interface MetadataManagementFieldProps {
-  /**
-   * The name of the field.
-   */
-  readonly mappingField: string;
-  /**
-   * The data type of the field.
-   */
-  readonly dataType: string;
-  /**
-   * Whether the field is filterable.
-   */
-  readonly filterable: boolean;
+export enum OpensearchFieldType {
+  TEXT = 'text',
+  KNN_VECTOR = 'knn_vector',
 }
 
 /**
- * Metadata field definitions as the API expects them.
- *
- * @internal - JSII requires the exported interface to have camel camelCase properties,
- * but the API expect PascalCase properties
+ * The k-NN search engine to use.
  */
-type MetadataManagementField = {
+export enum EngineType {
   /**
-   * The name of the field.
+   * C++ implementation.
    */
-  readonly MappingField: string;
+  FAISS = 'faiss',
   /**
-   * The data type of the field.
+   * C++ implementation.
    */
-  readonly DataType: string;
+  NMSLIB = 'nmslib',
   /**
-   * Whether the field is filterable.
+   * Java implementation.
    */
-  readonly Filterable: boolean;
-};
-
-/**
- * Properties for the Custom::OpenSearchIndex custom resource.
- *
- * @internal
- */
-interface VectorIndexResourceProps {
-  /**
-   * The OpenSearch Endpoint.
-   */
-  readonly Endpoint: string;
-  /**
-   * The name of the index.
-   */
-  readonly IndexName: string;
-  /**
-   * The name of the vector field.
-   */
-  readonly VectorField: string;
-  /**
-   * The number of dimensions in the vector.
-   */
-  readonly Dimensions: number;
-  /**
-   * The data_type of the binary vector index.
-   */
-  readonly Precision: string;
-  /**
-   * The space_type of the binary vector index.
-   */
-  readonly DistanceType: string;
-  /**
-   * The metadata management fields.
-   */
-  readonly MetadataManagement: MetadataManagementField[];
-  /**
-   * The analyzer to use.
-   */
-  readonly Analyzer?: AnalyzerProps;
+  LUCENE = 'lucene',
 }
 
 /**
- * Properties for the Analyzer used in Custom::OpenSearchIndex custom resource.
- *
- * @internal - JSII requires the exported interface to have camel camelCase properties
+ * The algorithm name for k-NN search.
  */
-interface AnalyzerProps {
-  /**
-   * The analyzers to use.
-   */
-  readonly CharacterFilters: CharacterFilterType[];
-  /**
-   * The tokenizer to use.
-   */
-  readonly Tokenizer: TokenizerType;
-  /**
-   * The token filters to use.
-   */
-  readonly TokenFilters: TokenFilterType[];
+export enum AlgorithmNameType {
+  HNSW = 'hnsw',
+  IVF = 'ivf',
 }
 
 /**
- * Properties for the Analyzer.
+ * The distance function used for k-NN search.
  */
-export interface Analyzer {
+export enum SpaceType {
+  L2 = 'l2',
+  L1 = 'l1',
+  LINF = 'linf',
+  COSINESIMILARITY = 'cosinesimil',
+  INNERPRODUCT = 'innerproduct',
+  HAMMING = 'hamming',
+}
+
+/**
+ * Additional parameters for the k-NN algorithm.
+ */
+export interface MethodParameters {
   /**
-   * The analyzers to use.
+   * The size of the dynamic list used during k-NN graph creation.
    */
-  readonly characterFilters: CharacterFilterType[];
+  readonly efConstruction?: number;
   /**
-   * The tokenizer to use.
+   * Number of neighbors to consider during k-NN search.
    */
-  readonly tokenizer: TokenizerType;
+  readonly m?: number;
+}
+
+/**
+ * Configuration for k-NN search method.
+ */
+export interface Method {
   /**
-   * The token filters to use.
+   * The k-NN search engine to use.
+  */
+  readonly engine: EngineType;
+  /**
+   * The algorithm name for k-NN search.
    */
-  readonly tokenFilters: TokenFilterType[];
+  readonly name: AlgorithmNameType;
+  /**
+   * Additional parameters for the k-NN algorithm.
+   */
+  readonly parameters?: MethodParameters;
+  /**
+   * The distance function used for k-NN search.
+   */
+  readonly spaceType?: SpaceType;
+}
+
+export interface PropertyMapping {
+  /**
+   * Dimension size for vector fields, defines the number of dimensions in the vector.
+   */
+  readonly dimension?: number;
+  /**
+   * Whether the index is indexed. Previously, this was called `filterable`.
+   */
+  readonly index?: boolean;
+  /**
+   * Configuration for k-NN search method.
+   */
+  readonly method?: Method;
+  /**
+   * Defines the fields within the mapping, including their types and configurations.
+   */
+  readonly properties?: Record<string, PropertyMapping>;
+  /**
+   * The field data type. Must be a valid OpenSearch field type.
+   */
+  readonly type: OpensearchFieldType;
+  /**
+   * Default value for the field when not specified in a document.
+   */
+  readonly value?: string;
+}
+
+/**
+ * Index settings for the OpenSearch Serverless index.
+ */
+export interface IndexSettings {
+  /**
+   * Enable or disable k-nearest neighbor search capability.
+   */
+  readonly knn?: boolean;
+  /**
+   * The size of the dynamic list for the nearest neighbors.
+   */
+  readonly knnAlgoParamEfSearch?: number;
+  /**
+   * How often to perform a refresh operation. For example, 1s or 5s.
+   */
+  readonly refreshInterval?: cdk.Duration;
+}
+
+/**
+ * The mappings for the OpenSearch Serverless index.
+ */
+export interface MappingsProperty {
+  readonly properties: Record<string, PropertyMapping>;
 }
 
 /**
@@ -155,52 +164,76 @@ export interface VectorIndexProps {
    */
   readonly indexName: string;
   /**
-   * The name of the vector field.
-   */
-  readonly vectorField: string;
-  /**
-   * The number of dimensions in the vector.
-   */
-  readonly vectorDimensions: number;
-  readonly precision: string;
-  readonly distanceType: string;
-  /**
    * The metadata management fields.
    */
-  readonly mappings: MetadataManagementFieldProps[];
+  readonly mappings?: MappingsProperty;
   /**
-   * The analyzer to use.
-   * @default - No analyzer.
+   * The settings for the index.
    */
-  readonly analyzer?: Analyzer;
+  readonly settings?: IndexSettings;
+}
+
+export interface VectorIndexAttributes {
+  /**
+   * The endpoint of the collection
+   */
+  readonly collectionEndpoint: string;
+  /**
+   * The name of the index
+   */
+  readonly indexName: string;
 }
 
 /**
- * Deploy a vector index on the collection.
+ * Interface representing a vector index
  */
-export class VectorIndex extends cdk.Resource {
+export interface IVectorIndex extends cdk.IResource {
+  /**
+   * The endpoint of the collection
+   */
+  readonly collectionEndpoint: string;
+  /**
+   * The name of the index
+   */
+  readonly indexName: string;
+}
+
+/**
+ * A new or imported vector index.
+ */
+abstract class VectorIndexBase extends cdk.Resource implements IVectorIndex {
+  public abstract readonly collectionEndpoint: string;
+  public abstract readonly indexName: string;
+
+  //TODO: add the fromVectorIndexAttributes method
+}
+
+/**
+ * Provides a vector index in Amazon OpenSearch Serverless.
+ */
+export class VectorIndex extends VectorIndexBase {
   /**
    * The name of the index.
    */
   public readonly indexName: string;
   /**
-   * The name of the vector field.
+   * The endpoint of the collection
    */
-  public readonly vectorField: string;
+  public readonly collectionEndpoint: string;
+
   /**
-   * The number of dimensions in the vector.
+   * Instance of CfnIndex.
    */
-  public readonly vectorDimensions: number;
+  private readonly _resource: oss.CfnIndex;
+
 
   constructor(scope: Construct, id: string, props: VectorIndexProps) {
     super(scope, id);
 
+    // ------------------------------------------------------
+    // Set attributes or defaults
+    // ------------------------------------------------------
     this.indexName = props.indexName;
-    this.vectorField = props.vectorField;
-    this.vectorDimensions = props.vectorDimensions;
-
-    const crProvider = OpenSearchIndexCRProvider.getProvider(this);
-    crProvider.role.addManagedPolicy(props.collection.aossPolicy);
 
     const manageIndexPolicyName = generatePhysicalNameV2(
       this,
@@ -232,58 +265,57 @@ export class VectorIndex extends cdk.Resource {
                 ResourceType: 'collection',
               },
             ],
-            Principal: [crProvider.role.roleArn],
+            Principal: ['*'],
             Description: '',
           },
         ]),
       },
     );
 
-    const analyzerProps = props.analyzer
-      ? {
-        CharacterFilters: props.analyzer.characterFilters,
-        Tokenizer: props.analyzer.tokenizer,
-        TokenFilters: props.analyzer.tokenFilters,
-      }
-      : undefined;
-    const vectorIndex = new cdk.CustomResource(this, 'VectorIndex', {
-      serviceToken: crProvider.serviceToken,
-      properties: {
-        Endpoint: `${props.collection.collectionId}.${
-          cdk.Stack.of(this).region
-        }.aoss.amazonaws.com`,
-        IndexName: props.indexName,
-        VectorField: props.vectorField,
-        Dimensions: props.vectorDimensions,
-        Precision: props.precision,
-        DistanceType: props.distanceType,
-        MetadataManagement: props.mappings.map((m) => {
-          return {
-            MappingField: m.mappingField,
-            DataType: m.dataType,
-            Filterable: m.filterable,
-          };
-        }),
-        Analyzer: analyzerProps,
-      } as VectorIndexResourceProps,
-      resourceType: 'Custom::OpenSearchIndex',
+    // ------------------------------------------------------
+    // L1 Instantiation
+    // ------------------------------------------------------
+    this._resource = new oss.CfnIndex(this, 'VectorIndex', {
+      indexName: props.indexName,
+      collectionEndpoint: props.collection.collectionEndpoint,
+      mappings: this._renderMappings(props.mappings),
+      settings: this._renderIndexSettings(props.settings),
     });
 
-    vectorIndex.node.addDependency(manageIndexPolicy);
-    vectorIndex.node.addDependency(props.collection);
-    vectorIndex.node.addDependency(props.collection.dataAccessPolicy);
+    this.collectionEndpoint = this._resource.collectionEndpoint;
+
+    this._resource.addDependency(manageIndexPolicy);
+    this._resource.addDependency(props.collection.dataAccessPolicy);
+  }
+
+  /**
+   * Render the index settings.
+   */
+  private _renderIndexSettings(props?: IndexSettings): oss.CfnIndex.IndexSettingsProperty {
+    if (!props) return {};
+
+    return {
+      index: {
+        knn: props?.knn,
+        knnAlgoParamEfSearch: props?.knnAlgoParamEfSearch,
+        refreshInterval: props?.refreshInterval?.toString(),
+      },
+    };
+  }
+
+  /**
+   * Render the mappings.
+   */
+  private _renderMappings(props?: MappingsProperty): oss.CfnIndex.MappingsProperty {
+    if (!props) return {};
+
+    const convertedProps: Record<string, oss.CfnIndex.PropertyMappingProperty> = {};
+    for (const [key, value] of Object.entries(props.properties)) {
+      convertedProps[key] = value as unknown as oss.CfnIndex.PropertyMappingProperty;
+    }
+
+    return {
+      properties: convertedProps,
+    };
   }
 }
-
-/**
- * Custom Resource provider for OpenSearch Index operations.
- *
- * @internal This is an internal core function and should not be called directly by Solutions Constructs clients.
- */
-export const OpenSearchIndexCRProvider = buildCustomResourceProvider({
-  providerName: 'OpenSearchIndexCRProvider',
-  codePath: path.join(
-    __dirname, '../../../lambda/opensearch-serverless-custom-resources'),
-  handler: 'custom_resources.on_event',
-  runtime: lambda.Runtime.PYTHON_3_12,
-});
