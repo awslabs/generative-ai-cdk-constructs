@@ -193,7 +193,7 @@ def create_index(
     logger.debug(f"setting: {setting}")
     logger.debug(f"mapping: {mapping}")
     client.indices.create(
-        index_name,
+        index=index_name,
         body={
             "settings": setting,
             "mappings": mapping,
@@ -220,7 +220,7 @@ def handle_create(
     metadata_management: Sequence[MetadataManagementField],
     analyzer: AnalyzerProperties | None,
 ):
-    if client.indices.exists(index_name):
+    if client.indices.exists(index=index_name):
         raise ValueError(f"Index {index_name} already exists")
 
     try:
@@ -241,7 +241,7 @@ def handle_create(
 )
 def handle_delete(client: OpenSearch, index_name: str):
     try:
-        client.indices.delete(index_name)
+        client.indices.delete(index=index_name)
     except Exception as e:
         logger.error(f"Error deleting index {index_name}")
         logger.exception(e)
