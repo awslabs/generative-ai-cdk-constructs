@@ -6,7 +6,7 @@
     },
     {
       "name": "@aws-cdk/integ-tests-alpha",
-      "version": "2.216.0-alpha.0",
+      "version": "2.219.0-alpha.0",
       "type": "build"
     },
     {
@@ -138,7 +138,7 @@
     },
     {
       "name": "@aws-cdk/aws-lambda-python-alpha",
-      "version": "2.216.0-alpha.0",
+      "version": "2.219.0-alpha.0",
       "type": "bundled"
     },
     {
@@ -147,7 +147,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.216.0",
+      "version": "^2.219.0",
       "type": "peer"
     },
     {

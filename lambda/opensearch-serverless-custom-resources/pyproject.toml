@@ -9,12 +9,12 @@ description = ""
 authors = [ "Amazon Web Services - Prototyping and Cloud Engineering" ]
 
 [tool.poetry.dependencies]
-boto3 = "^1.33.6"
-opensearch-py = "^2.4.2"
+boto3 = "^1.40.49"
+opensearch-py = "^3.0.0"
 python = "^3.11"
-tenacity = "^8.2.3"
+tenacity = "^9.1.2"
 
 [tool.poetry.dev-dependencies]
 mypy = "^1.2.0"
-pytest = "^7.4.3"
+pytest = "^8.4.2"
 
