@@ -44,9 +44,9 @@
     md5 "^2.3.0"
 
 "@aws-cdk/cloud-assembly-schema@^48.6.0":
-  version "48.12.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/cloud-assembly-schema/-/cloud-assembly-schema-48.12.0.tgz#fc36f4a7980727d6424ebf06dd3aea1bd7203ab3"
-  integrity sha512-/GNDW8+O5FZldDXVtNJSMnd6+hG8DmwLt02cqlYHqWjpqTap7XzFFv3pqGTl/lL7s97jlbgj/568pLjpUWh2Dw==
+  version "48.13.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/cloud-assembly-schema/-/cloud-assembly-schema-48.13.0.tgz#43e25476029b1de096d6d88539b456682ff6de20"
+  integrity sha512-xzcNCfygJRJJ+S1DI82hNcUgNWcwj0Z4tnTeBJ+5uW7f5rpyP9objT4L3OaEGdumLuOSuuvy5+iQQNAjCic0zA==
   dependencies:
     jsonschema "~1.4.1"
     semver "^7.7.2"
@@ -1224,16 +1224,16 @@
   integrity sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag==
 
 "@types/node@*":
-  version "24.7.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-24.7.0.tgz#a34c9f0d3401db396782e440317dd5d8373c286f"
-  integrity sha512-IbKooQVqUBrlzWTi79E8Fw78l8k1RNtlDDNWsFZs7XonuQSJ8oNYfEeclhprUldXISRMLzBpILuKgPlIxm+/Yw==
+  version "24.7.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-24.7.1.tgz#3f0b17eddcd965c9e337af22459b04bafbf96e5e"
+  integrity sha512-CmyhGZanP88uuC5GpWU9q+fI61j2SkhO3UGMUdfYRE6Bcy0ccyzn1Rqj9YAB/ZY4kOXmNf0ocah5GtphmLMP6Q==
   dependencies:
     undici-types "~7.14.0"
 
 "@types/node@^18":
-  version "18.19.129"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.129.tgz#1fea86229068c748ea395294dae4b0d5f1d96290"
-  integrity sha512-hrmi5jWt2w60ayox3iIXwpMEnfUvOLJCRtrOPbHtH15nTjvO7uhnelvrdAs0dO0/zl5DZ3ZbahiaXEVb54ca/A==
+  version "18.19.130"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.19.130.tgz#da4c6324793a79defb7a62cba3947ec5add00d59"
+  integrity sha512-GRaXQx6jGfL8sKfaIDD6OupbIHBr9jv7Jnaml9tB7l4v068PAOXqfcujMMo5PhbIs6ggR1XODELqahT2R8v0fg==
   dependencies:
     undici-types "~5.26.4"
 
@@ -1706,9 +1706,9 @@ aws-cdk-lib@2.216.0:
     yaml "1.10.2"
 
 aws-cdk@^2:
-  version "2.1029.4"
-  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.1029.4.tgz#cc444bacc3e96ccd8f221443387fdd971e0a7bc2"
-  integrity sha512-rJa8QLd8WHaoTEjPLqVwmNpDMmyJycVaxdr/Evr/1MDLq+WCovP46IqPaXfH0q/jY0gCsga9or907tEayK5xcg==
+  version "2.1030.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.1030.0.tgz#6eb9b9f91f79bb93377c135c7b8cc7f10cdb96a0"
+  integrity sha512-jYgOy1Hqx8cOTWW9On9xpypXLecjOqSZ4X2q5U0Gzd14xI+HLmpaRJV5ILJ8vYrLKVbqjhiog0pdxAC7vwF9uQ==
   optionalDependencies:
     fsevents "2.3.2"
 
@@ -1811,9 +1811,9 @@ base64-js@^1.0.2:
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
 
 baseline-browser-mapping@^2.8.9:
-  version "2.8.14"
-  resolved "https://registry.yarnpkg.com/baseline-browser-mapping/-/baseline-browser-mapping-2.8.14.tgz#b73b0ae23efcb967e30b381c09a1a001777ec927"
-  integrity sha512-GM9c0cWWR8Ga7//Ves/9KRgTS8nLausCkP3CGiFLrnwA2CDUluXgaQqvrULoR2Ujrd/mz/lkX87F5BHFsNr5sQ==
+  version "2.8.15"
+  resolved "https://registry.yarnpkg.com/baseline-browser-mapping/-/baseline-browser-mapping-2.8.15.tgz#78d795047dcd878e29c0c0f7a916c782fb96e062"
+  integrity sha512-qsJ8/X+UypqxHXN75M7dF88jNK37dLBRW7LeUzCPz+TNs37G8cfWy9nWzS+LS//g600zrt2le9KuXt0rWfDz5Q==
 
 brace-expansion@^1.1.7:
   version "1.1.12"
@@ -1936,10 +1936,10 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-nag@^2.37.47:
-  version "2.37.47"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.37.47.tgz#4e59e710ee99bba0e32fcc197f26adbd0f21f4a6"
-  integrity sha512-WaTxzX4NrR80S77TphL9JSjnE2nyi97jg2c2EQDvYD/6cf28vrTmklUVKIvD4tU7mmVRK6ZT7iko1wF7dJyBJA==
+cdk-nag@^2.37.48:
+  version "2.37.48"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.37.48.tgz#6b174bbe49991073e2c8c34a988f762fbd07a090"
+  integrity sha512-CkEzvIk++LZlSXtWhVdD2HzHk78otrhENydpd5QDEjTKe7EAlOdp+lCMd8MwtcBHL5NOB2FVKXakNwrNxrp2kA==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -2567,9 +2567,9 @@ dunder-proto@^1.0.0, dunder-proto@^1.0.1:
     gopd "^1.2.0"
 
 electron-to-chromium@^1.5.227:
-  version "1.5.233"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.233.tgz#05db98476cee317527d6c48934571e13ad6b6f58"
-  integrity sha512-iUdTQSf7EFXsDdQsp8MwJz5SVk4APEFqXU/S47OtQ0YLqacSwPXdZ5vRlMX3neb07Cy2vgioNuRnWUXFwuslkg==
+  version "1.5.234"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.234.tgz#d895b6dba84269f4e83b3a1149dcc55e27848c30"
+  integrity sha512-RXfEp2x+VRYn8jbKfQlRImzoJU01kyDvVPBmG39eU2iuRVhuS6vQNocB8J0/8GrIMLnPzgz4eW6WiRnJkTuNWg==
 
 emittery@^0.13.1:
   version "0.13.1"
