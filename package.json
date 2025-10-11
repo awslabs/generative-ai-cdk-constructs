@@ -121,7 +121,7 @@
     "jsii-rosetta": "~5.6.0",
     "pinst": "^3.0.0",
     "projen": "~0.91.5",
-    "ts-jest": "^29.4.4",
+    "ts-jest": "^29.4.5",
     "ts-node": "^10.9.2",
     "typedoc": "^0.28.13",
     "typedoc-plugin-markdown": "^4.9.0",
@@ -133,7 +133,7 @@
   },
   "dependencies": {
     "@aws-cdk/aws-lambda-python-alpha": "2.219.0-alpha.0",
-    "cdk-nag": "^2.37.47",
+    "cdk-nag": "^2.37.49",
     "deepmerge": "^4.3.1"
   },
   "bundledDependencies": [
