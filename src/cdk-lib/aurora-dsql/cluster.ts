@@ -78,9 +78,13 @@ export interface ICluster extends IResource {
    */
   grant(grantee: iam.IGrantable, ...actions: string[]): iam.Grant;
   /**
-   * grants connection authorization to the IAM Principal
+   * grants connection authorization for a custom database role to the IAM Principal
    */
   grantConnect(grantee: iam.IGrantable): iam.Grant;
+  /**
+   * Grants connection authorization for the admin role to the IAM Principal
+   */
+  grantConnectAdmin(grantee: iam.IGrantable): iam.Grant;
 }
 
 /******************************************************************************
@@ -136,7 +140,7 @@ export abstract class ClusterBase extends Resource implements ICluster {
 
   /**
    * Grants connection authorization to the IAM Principal
-   * @see https://docs.aws.amazon.com/aurora-dsql/latest/userguide/using-database-and-iam-roles.html#using-database-and-iam-roles-custom-database-roles
+   * @see https://docs.aws.amazon.com/aurora-dsql/latest/userguide/authentication-authorization.html#authentication-authorization-iam-policy
    * @param grantee - The IAM principal to grant permissions to
    * @default - Default grant configuration:
    * - actions: ['dsql:DbConnect'] on this.clusterArn
@@ -144,6 +148,18 @@ export abstract class ClusterBase extends Resource implements ICluster {
    */
   public grantConnect(grantee: iam.IGrantable): iam.Grant {
     return this.grant(grantee, ...perms.AURORA_DSQL_CONNECT_PERMS);
+  }
+
+  /**
+   * Grants connection authorization to the IAM Principal
+   * @see https://docs.aws.amazon.com/aurora-dsql/latest/userguide/authentication-authorization.html#authentication-authorization-iam-policy
+   * @param grantee - The IAM principal to grant permissions to
+   * @default - Default grant configuration:
+   * - actions: ['dsql:DbConnectAdmin'] on this.clusterArn
+   * @returns An IAM Grant object representing the granted permissions
+   */
+  public grantConnectAdmin(grantee: iam.IGrantable): iam.Grant {
+    return this.grant(grantee, ...perms.AURORA_DSQL_CONNECT_ADMIN_PERMS);
   }
 }
 

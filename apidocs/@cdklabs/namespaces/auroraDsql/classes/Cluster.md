@@ -418,7 +418,7 @@ An IAM Grant object representing the granted permissions
 
 #### See
 
-https://docs.aws.amazon.com/aurora-dsql/latest/userguide/using-database-and-iam-roles.html#using-database-and-iam-roles-custom-database-roles
+https://docs.aws.amazon.com/aurora-dsql/latest/userguide/authentication-authorization.html#authentication-authorization-iam-policy
 
 #### Default
 
@@ -430,6 +430,43 @@ https://docs.aws.amazon.com/aurora-dsql/latest/userguide/using-database-and-iam-
 #### Inherited from
 
 [`ClusterBase`](ClusterBase.md).[`grantConnect`](ClusterBase.md#grantconnect)
+
+***
+
+### grantConnectAdmin()
+
+> **grantConnectAdmin**(`grantee`): `Grant`
+
+Grants connection authorization to the IAM Principal
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+The IAM principal to grant permissions to
+
+#### Returns
+
+`Grant`
+
+An IAM Grant object representing the granted permissions
+
+#### See
+
+https://docs.aws.amazon.com/aurora-dsql/latest/userguide/authentication-authorization.html#authentication-authorization-iam-policy
+
+#### Default
+
+```ts
+- Default grant configuration:
+- actions: ['dsql:DbConnectAdmin'] on this.clusterArn
+```
+
+#### Inherited from
+
+[`ClusterBase`](ClusterBase.md).[`grantConnectAdmin`](ClusterBase.md#grantconnectadmin)
 
 ***
 

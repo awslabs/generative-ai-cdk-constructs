@@ -166,7 +166,25 @@ Grants IAM actions to the IAM Principal
 
 > **grantConnect**(`grantee`): `Grant`
 
-grants connection authorization to the IAM Principal
+grants connection authorization for a custom database role to the IAM Principal
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+#### Returns
+
+`Grant`
+
+***
+
+### grantConnectAdmin()
+
+> **grantConnectAdmin**(`grantee`): `Grant`
+
+Grants connection authorization for the admin role to the IAM Principal
 
 #### Parameters
 

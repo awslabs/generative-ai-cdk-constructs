@@ -51,7 +51,7 @@ If not provided, the cluster will be created in the same region as the stack (si
 
 > `readonly` `optional` **removalPolicy**: `RemovalPolicy`
 
-The removal policy for the cluster. 
+The removal policy for the cluster.
 Only RemovalPolicy.DESTROY and RemovalPolicy.RETAIN are allowed.
 
 #### Default

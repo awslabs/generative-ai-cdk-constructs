@@ -13,7 +13,18 @@
 
 /**
  * Permissions to grant connection authorization
+ * If you are using a custom database role.
+ * You create and manage this role by using SQL commands in your database.
  */
 export const AURORA_DSQL_CONNECT_PERMS = [
   'dsql:DbConnect',
+];
+
+/**
+ * Permissions to grant connection authorization
+ * If you're using the admin role
+ * Aurora DSQL creates and manages this role for you.
+ */
+export const AURORA_DSQL_CONNECT_ADMIN_PERMS = [
+  'dsql:DbConnectAdmin',
 ];
