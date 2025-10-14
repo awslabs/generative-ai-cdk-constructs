@@ -40,10 +40,10 @@ Aurora DSQL provides several configuration options to help you establish the rig
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| deletionProtectionEnabled | Boolean | No | Whether to enable deletion protection for the cluster. |
+| removalPolicy | RemovalPolicy | No | This option prevents accidental cluster deletion. When set to RETAIN, you can't delete the cluster. By default, RemovalPolicy.DESTROY is applied. |
 | kmsKey | IKey | No | A custom KMS key to use for encrypting data. Default: Your data is encrypted by default with a key that AWS owns and manages for you. |
-| multiRegionProperties | MultiRegionProperties | No | Structure for multi-Region cluster configurations |
-| tags | Record<string, string> | No | Tags to apply to the cluster. |
+| multiRegionProperties | MultiRegionProperties | No | Structure for multi-Region cluster configurations. Default: single region configuration. |
+| tags | Record<string, string> | No | Tags to apply to the cluster. Default: no tags applied. |
 
 ### Single region cluster
 
@@ -56,7 +56,7 @@ You can use tags on a cluster, for instance:
 ```typescript
 new auroraDsql.Cluster(this, 'TestCluster', {
     tags: {
-    Name: 'TestCluster',
+        Name: 'TestCluster',
     }
 });
 ```

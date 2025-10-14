@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 
-import { IResource, Resource, Arn, ArnFormat, Token } from 'aws-cdk-lib';
+import { IResource, Resource, Arn, ArnFormat, Token, RemovalPolicy } from 'aws-cdk-lib';
 import * as dsql from 'aws-cdk-lib/aws-dsql';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
@@ -19,6 +19,7 @@ import { IKey } from 'aws-cdk-lib/aws-kms';
 import { propertyInjectable } from 'aws-cdk-lib/core/lib/prop-injectable';
 import { Construct } from 'constructs';
 // Internal libs
+import * as perms from './perms';
 import { validateStringFieldLength, validateFieldPattern, throwIfInvalid } from './validation-helpers';
 
 /******************************************************************************
@@ -76,6 +77,10 @@ export interface ICluster extends IResource {
    * Grants IAM actions to the IAM Principal
    */
   grant(grantee: iam.IGrantable, ...actions: string[]): iam.Grant;
+  /**
+   * grants connection authorization to the IAM Principal
+   */
+  grantConnect(grantee: iam.IGrantable): iam.Grant;
 }
 
 /******************************************************************************
@@ -128,6 +133,18 @@ export abstract class ClusterBase extends Resource implements ICluster {
       actions: actions,
     });
   }
+
+  /**
+   * Grants connection authorization to the IAM Principal
+   * @see https://docs.aws.amazon.com/aurora-dsql/latest/userguide/using-database-and-iam-roles.html#using-database-and-iam-roles-custom-database-roles
+   * @param grantee - The IAM principal to grant permissions to
+   * @default - Default grant configuration:
+   * - actions: ['dsql:DbConnect'] on this.clusterArn
+   * @returns An IAM Grant object representing the granted permissions
+   */
+  public grantConnect(grantee: iam.IGrantable): iam.Grant {
+    return this.grant(grantee, ...perms.AURORA_DSQL_CONNECT_PERMS);
+  }
 }
 
 /**
@@ -162,11 +179,12 @@ export interface MultiRegionProperties {
  */
 export interface ClusterCustomProps {
   /**
-     * Whether to enable deletion protection for the cluster.
-     * @default false
+     * The removal policy for the cluster.
+     * Only RemovalPolicy.DESTROY and RemovalPolicy.RETAIN are allowed.
+     * @default - RemovalPolicy.DESTROY
      * @required - No
      */
-  readonly deletionProtectionEnabled?: boolean;
+  readonly removalPolicy?: RemovalPolicy;
   /**
      * KMS key to use for the cluster.
      * @default - A new KMS key is created.
@@ -332,12 +350,13 @@ export class Cluster extends ClusterBase {
     // ------------------------------------------------------
     this._validateMultiRegionProperties(this.multiRegionProperties);
     throwIfInvalid(this._validateClusterTags, this.tags);
+    this._validateRemovalPolicy(props.removalPolicy);
 
     // ------------------------------------------------------
     // CFN Props - With Lazy support
     // ------------------------------------------------------
     const cfnProps: dsql.CfnClusterProps = {
-      deletionProtectionEnabled: props.deletionProtectionEnabled ?? false,
+      deletionProtectionEnabled: props.removalPolicy ? props.removalPolicy === RemovalPolicy.RETAIN : false,
       kmsEncryptionKey: this.encryptionKey?.keyArn,
       multiRegionProperties: this._renderMultiRegionProperties(),
       tags: this.tags ? Object.entries(this.tags).map(([key, value]) => ({ key, value })) : undefined,
@@ -376,7 +395,7 @@ export class Cluster extends ClusterBase {
   /**
    * Validates the multi-region properties
    * @param props The multi-region properties to validate
-   * @returns Array of validation error messages, empty if valid
+   * @throws Error if the multi-region properties are invalid
    */
   private _validateMultiRegionProperties = (props: MultiRegionProperties | undefined): void => {
     if (!props) {
@@ -398,6 +417,17 @@ export class Cluster extends ClusterBase {
           throw new Error(`Peered cluster ${cluster.clusterArn} cannot be in the same Region ${this.stack.region} as the cluster's Region`);
         }
       }
+    }
+  };
+
+  /**
+   * Validates the removal policy
+   * @param removalPolicy The removal policy to validate
+   * @throws Error if the removal policy is invalid
+   */
+  private _validateRemovalPolicy = (removalPolicy?: RemovalPolicy): void => {
+    if (removalPolicy && removalPolicy !== RemovalPolicy.DESTROY && removalPolicy !== RemovalPolicy.RETAIN) {
+      throw new Error('Invalid removal policy. Only RemovalPolicy.DESTROY and RemovalPolicy.RETAIN are allowed.');
     }
   };
 

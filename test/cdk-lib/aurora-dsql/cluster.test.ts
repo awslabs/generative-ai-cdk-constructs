@@ -12,6 +12,7 @@
  */
 
 import * as cdk from 'aws-cdk-lib';
+import { RemovalPolicy } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import { AwsSolutionsChecks } from 'cdk-nag';
@@ -46,9 +47,17 @@ describe('CDK-Created-Cluster with single region', () => {
     });
   });
 
+  test('Invalid removal policy throws error', () => {
+    expect(() => {
+      new Cluster(stack, 'TestCluster', {
+        removalPolicy: RemovalPolicy.SNAPSHOT,
+      });
+    }).toThrow('Invalid removal policy. Only RemovalPolicy.DESTROY and RemovalPolicy.RETAIN are allowed.');
+  });
+
   test('Basic Creation with deletion protection enabled', () => {
     new Cluster(stack, 'TestCluster', {
-      deletionProtectionEnabled: true,
+      removalPolicy: RemovalPolicy.RETAIN,
     });
 
     Template.fromStack(stack).hasResourceProperties('AWS::DSQL::Cluster', {

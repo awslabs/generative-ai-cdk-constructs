@@ -159,3 +159,21 @@ Grants IAM actions to the IAM Principal
 #### Returns
 
 `Grant`
+
+***
+
+### grantConnect()
+
+> **grantConnect**(`grantee`): `Grant`
+
+grants connection authorization to the IAM Principal
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+#### Returns
+
+`Grant`

@@ -10,24 +10,6 @@ Properties for creating a Aurora DSQL cluster resource
 
 ## Properties
 
-### deletionProtectionEnabled?
-
-> `readonly` `optional` **deletionProtectionEnabled**: `boolean`
-
-Whether to enable deletion protection for the cluster.
-
-#### Default
-
-```ts
-false
-```
-
-#### Required
-
-- No
-
-***
-
 ### kmsKey?
 
 > `readonly` `optional` **kmsKey**: `IKey`
@@ -57,6 +39,25 @@ If not provided, the cluster will be created in the same region as the stack (si
 
 ```ts
 - No multi-Region cluster configurations.
+```
+
+#### Required
+
+- No
+
+***
+
+### removalPolicy?
+
+> `readonly` `optional` **removalPolicy**: `RemovalPolicy`
+
+The removal policy for the cluster. 
+Only RemovalPolicy.DESTROY and RemovalPolicy.RETAIN are allowed.
+
+#### Default
+
+```ts
+- RemovalPolicy.DESTROY
 ```
 
 #### Required
