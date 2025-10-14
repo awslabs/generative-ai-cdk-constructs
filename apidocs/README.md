@@ -7,6 +7,7 @@
 ## Namespaces
 
 - [amazonaurora](@cdklabs/namespaces/amazonaurora/README.md)
+- [auroraDsql](@cdklabs/namespaces/auroraDsql/README.md)
 - [bedrock](@cdklabs/namespaces/bedrock/README.md)
 - [kendra](@cdklabs/namespaces/kendra/README.md)
 - [mongodbAtlas](@cdklabs/namespaces/mongodbAtlas/README.md)
