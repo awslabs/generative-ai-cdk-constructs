@@ -22,6 +22,7 @@ export * as mongodbAtlas from './cdk-lib/mongodb-atlas';
 export * as opensearchserverless from './cdk-lib/opensearchserverless';
 export * as opensearch_vectorindex from './cdk-lib/opensearch-vectorindex';
 export * as opensearchmanagedcluster from './cdk-lib/opensearchmanagedcluster';
+export * as auroraDsql from './cdk-lib/aurora-dsql';
 export { version } from './common/helpers/utils';
 export * from './common/base-class/base-class';
 export * from './common/base-class/construct-name-enum';
