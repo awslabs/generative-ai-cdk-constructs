@@ -30,22 +30,16 @@ Each peered cluster represents a database instance in a different Region.
 
 ***
 
-### witnessRegion?
+### witnessRegion
 
-> `readonly` `optional` **witnessRegion**: `string`
+> `readonly` **witnessRegion**: `string`
 
 The Region that serves as the witness Region for a multi-Region cluster.
 
 The witness Region helps maintain cluster consistency and quorum.
-The witness Region receives data written to any Read-Write Region 
+The witness Region receives data written to any Read-Write Region
 but does not have an endpoint.
-
-#### Default
-
-```ts
-- No witness region
-```
 
 #### Required
 
-- No
+- Yes

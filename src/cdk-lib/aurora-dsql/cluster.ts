@@ -146,13 +146,12 @@ export interface MultiRegionProperties {
      * The Region that serves as the witness Region for a multi-Region cluster.
      *
      * The witness Region helps maintain cluster consistency and quorum.
-     * The witness Region receives data written to any Read-Write Region 
+     * The witness Region receives data written to any Read-Write Region
      * but does not have an endpoint.
      *
-     * @default - No witness region
-     * @required - No
+     * @required - Yes
     */
-  readonly witnessRegion?: string;
+  readonly witnessRegion: string;
 }
 
 /******************************************************************************
