@@ -86,12 +86,10 @@ export interface GuardrailVersionProps {
 export interface GuardrailVersionAttributes {
   /**
    * The ARN of the guardrail.
-   * @example "arn:aws:bedrock:us-east-1:123456789012:guardrail/yympzo398ipq"
    */
   readonly guardrailArn: string;
   /**
    * The ID of the guardrail version.
-   * @example "1"
    */
   readonly guardrailVersion: string;
 }

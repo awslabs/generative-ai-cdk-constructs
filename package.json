@@ -12,6 +12,7 @@
     "compat": "npx projen compat",
     "compile": "npx projen compile",
     "default": "npx projen default",
+    "docs:compile": "npx projen docs:compile",
     "eject": "npx projen eject",
     "eslint": "npx projen eslint",
     "generate-models-containers": "npx projen generate-models-containers",

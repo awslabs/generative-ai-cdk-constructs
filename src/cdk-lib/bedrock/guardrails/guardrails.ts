@@ -30,13 +30,11 @@ import * as filters from './guardrail-filters';
 export interface IGuardrail extends IResource {
   /**
    * The ARN of the guardrail.
-   * @example "arn:aws:bedrock:us-east-1:123456789012:guardrail/yympzo398ipq"
    * @attribute
    */
   readonly guardrailArn: string;
   /**
    * The ID of the guardrail.
-   * @example "yympzo398ipq"
    * @attribute
    */
   readonly guardrailId: string;

@@ -38,12 +38,6 @@ that might be different than the stack they were imported into.
 
 The Amazon Resource Name (ARN) of the index.
 
-#### Example
-
-```ts
-'arn:aws:kendra:us-east-1:123456789012:index/af04c7ea-22bc-46b7-a65e-6c21e604fc11'
-```
-
 ***
 
 ### indexId
@@ -51,12 +45,6 @@ The Amazon Resource Name (ARN) of the index.
 > `readonly` **indexId**: `string`
 
 The identifier of the index.
-
-#### Example
-
-```ts
-'af04c7ea-22bc-46b7-a65e-6c21e604fc11'.
-```
 
 ***
 

@@ -38,13 +38,11 @@ import { OrchestrationType, CustomOrchestration } from './orchestration';
 export interface IAgent extends IResource {
   /**
    * The ARN of the agent.
-   * @example "arn:aws:bedrock:us-east-1:123456789012:agent/OKDSJOGKMO"
    * @attribute
    */
   readonly agentArn: string;
   /**
    * The ID of the Agent.
-   * @example "OKDSJOGKMO"
    * @attribute
    */
   readonly agentId: string;
@@ -214,13 +212,11 @@ export interface AgentProps {
 export interface AgentAttributes {
   /**
    * The ARN of the agent.
-   * @example "arn:aws:bedrock:us-east-1:123456789012:agent/OKDSJOGKMO"
    * @attribute
    */
   readonly agentArn: string;
   /**
    * The ARN of the IAM role associated to the agent.
-   * @example "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
    * @attribute
    */
   readonly roleArn: string;

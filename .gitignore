@@ -38,6 +38,7 @@ __pycache__/
 !.ort.yml
 .idea
 .vscode
+.jsii.tabl.json
 /test-reports/
 junit.xml
 /coverage/

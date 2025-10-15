@@ -57,12 +57,6 @@ Contains methods and attributes valid for Agents either created with CDK or impo
 
 The ARN of the agent.
 
-#### Example
-
-```ts
-"arn:aws:bedrock:us-east-1:123456789012:agent/OKDSJOGKMO"
-```
-
 #### Attribute
 
 #### Implementation of
@@ -76,12 +70,6 @@ The ARN of the agent.
 > `abstract` `readonly` **agentId**: `string`
 
 The ID of the Agent.
-
-#### Example
-
-```ts
-"OKDSJOGKMO"
-```
 
 #### Attribute
 

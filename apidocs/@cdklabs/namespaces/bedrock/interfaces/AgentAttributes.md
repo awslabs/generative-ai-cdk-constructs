@@ -16,12 +16,6 @@ Attributes for specifying an imported Bedrock Agent.
 
 The ARN of the agent.
 
-#### Example
-
-```ts
-"arn:aws:bedrock:us-east-1:123456789012:agent/OKDSJOGKMO"
-```
-
 #### Attribute
 
 ***
@@ -57,11 +51,5 @@ When this agent was last updated.
 > `readonly` **roleArn**: `string`
 
 The ARN of the IAM role associated to the agent.
-
-#### Example
-
-```ts
-"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-```
 
 #### Attribute

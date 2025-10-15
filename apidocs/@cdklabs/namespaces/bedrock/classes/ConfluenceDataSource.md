@@ -68,12 +68,6 @@ The Confluence host URL or instance URL.
 
 The unique identifier of the data source.
 
-#### Example
-
-```ts
-'JHUEVXUZMU'
-```
-
 #### Overrides
 
 [`DataSourceNew`](DataSourceNew.md).[`dataSourceId`](DataSourceNew.md#datasourceid)

@@ -38,12 +38,6 @@ that might be different than the stack they were imported into.
 
 The ARN of the guardrail.
 
-#### Example
-
-```ts
-"arn:aws:bedrock:us-east-1:123456789012:guardrail/yympzo398ipq"
-```
-
 #### Attribute
 
 ***
@@ -53,12 +47,6 @@ The ARN of the guardrail.
 > `readonly` **guardrailId**: `string`
 
 The ID of the guardrail.
-
-#### Example
-
-```ts
-"yympzo398ipq"
-```
 
 #### Attribute
 

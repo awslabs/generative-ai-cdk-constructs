@@ -95,15 +95,15 @@ export class CrossRegionInferenceProfile implements IInvokable, IInferenceProfil
     return new CrossRegionInferenceProfile(config);
   }
   /**
-   * @example 'us.anthropic.claude-3-5-sonnet-20240620-v1:0'
+   * Inference profile ID
    */
   public readonly inferenceProfileId: string;
   /**
-   * @example 'arn:aws:bedrock:us-east-1:123456789012:inference-profile/us.anthropic.claude-3-5-sonnet-20240620-v1:0'
+   * Inference profile ARN
    */
   public readonly inferenceProfileArn: string;
   /**
-   * @example InferenceProfileType.SYSTEM_DEFINED
+   * Inference profile type
    */
   public readonly type: InferenceProfileType;
   /**
