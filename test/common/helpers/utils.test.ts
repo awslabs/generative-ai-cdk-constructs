@@ -33,7 +33,6 @@ describe('lambdaMemorySizeLimiter', () => {
   afterAll(() => {
     // console.warn = consoleWarn;
     jest.restoreAllMocks();
-    console.log('Test "lambdaMemorySizeLimiter" completed');
   });
 
   test('requested memory above default', () => {
@@ -152,10 +151,6 @@ describe('lambdaMemorySizeLimiter', () => {
 describe('generatePhysicalName', () => {
   let testStack: cdk.Stack;
 
-  afterAll(() => {
-    console.log('Test "generatePhysicalName" completed');
-  });
-
   beforeAll(() => {
     const app = new cdk.App();
     testStack = new cdk.Stack(app, 'TestStack', { env: { account: '012345678912', region: 'bermuda-triangle-1' } });
@@ -190,10 +185,6 @@ describe('generatePhysicalNameV2', () => {
   let testResourceA: TestResource;
   let testResourceB: TestResource;
   let testStack: cdk.Stack;
-
-  afterAll(() => {
-    console.log('Test completed');
-  });
 
   beforeAll(() => {
     const app = new cdk.App();
@@ -271,7 +262,6 @@ describe('generatePhysicalNameV2', () => {
   });
 
   test('maxlength too short', () => {
-
     expect(() => {
       generatePhysicalNameV2(
         testResourceB,
@@ -358,7 +348,6 @@ describe('generatePhysicalNameV2', () => {
         expect(isPlainObject(new Constructor())).toBeFalsy();
       });
     });
-
   });
 });
 

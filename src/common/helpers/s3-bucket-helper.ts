@@ -13,7 +13,6 @@
 
 import * as s3 from 'aws-cdk-lib/aws-s3';
 
-
 export interface S3Props {
   readonly existingBucketObj?: s3.Bucket;
   readonly existingBucketInterface?: s3.IBucket;

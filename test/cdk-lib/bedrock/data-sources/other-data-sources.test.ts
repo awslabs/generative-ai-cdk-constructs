@@ -34,7 +34,6 @@ describe('Data Source', () => {
   });
 
   test('Basic Web Crawler', () => {
-    kb.addWebCrawlerDataSource;
     new bedrock.WebCrawlerDataSource(stack, 'TestDataSource', {
       knowledgeBase: kb,
       dataSourceName: 'TestDataSource',
@@ -114,7 +113,6 @@ describe('Third Party Data Source', () => {
       ],
     });
 
-    console.log(Template.fromStack(stack));
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
       Name: 'TestDataSource',
       ServerSideEncryptionConfiguration: {
@@ -173,7 +171,6 @@ describe('Third Party Data Source', () => {
       ],
     });
 
-    console.log(Template.fromStack(stack));
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
       Name: 'TestDataSource',
       ServerSideEncryptionConfiguration: {
@@ -235,7 +232,6 @@ describe('Third Party Data Source', () => {
       ],
     });
 
-    console.log(Template.fromStack(stack));
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
       Name: 'SharepointDataSource',
       ServerSideEncryptionConfiguration: {
@@ -298,7 +294,6 @@ describe('Third Party Data Source', () => {
       ],
     });
 
-    console.log(Template.fromStack(stack));
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
       Name: 'SharepointDataSource',
       ServerSideEncryptionConfiguration: {
@@ -360,7 +355,6 @@ describe('Third Party Data Source', () => {
       ],
     });
 
-    console.log(Template.fromStack(stack));
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
       Name: 'SalesforceDataSource',
       ServerSideEncryptionConfiguration: {
@@ -418,7 +412,6 @@ describe('Third Party Data Source', () => {
       ],
     });
 
-    console.log(Template.fromStack(stack));
     Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::DataSource', {
       Name: 'SalesforceDataSource',
       ServerSideEncryptionConfiguration: {

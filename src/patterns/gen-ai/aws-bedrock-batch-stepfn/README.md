@@ -57,15 +57,7 @@ must have the following permissions for the models and inference profiles you pl
 
 Here is a minimal deployable pattern definition:
 
-```typescript
-import {BedrockBatchSfn} from "@cdklabs/generative-ai-cdk-constructs";
-import {
-  aws_iam as iam,
-  aws_s3 as s3,
-  aws_stepfunctions as sfn,
-  Duration,
-} from "aws-cdk-lib";
-
+```typescript fixture=default-bedrock-batch-stepfn
 const batchBucket = new s3.Bucket(stack, 'BedrockBatchBucket');
 
 const batchPolicy = new iam.ManagedPolicy(stack, 'BatchPolicy', {});
@@ -80,7 +72,7 @@ batchPolicy.addStatements(
   }),
 );
 
-const bedrockBatchSfnFragment = new BedrockBatchSfn(stack, 'AwsBedrockBatchSfn', {
+const bedrockBatchSfnFragment = new genaicdk.BedrockBatchSfn(stack, 'AwsBedrockBatchSfn', {
   bedrockBatchInputBucket: batchBucket,
   bedrockBatchOutputBucket: batchBucket,
   bedrockBatchPolicy: batchPolicy,

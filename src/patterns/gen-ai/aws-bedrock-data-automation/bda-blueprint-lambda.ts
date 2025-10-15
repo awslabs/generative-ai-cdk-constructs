@@ -37,9 +37,7 @@ export interface BdaBlueprintLambdaProps {
  * Lambda function that manages BDA blueprint creation
  */
 export class BdaBlueprintLambda extends lambda.Function {
-
   constructor(scope: Construct, id: string, props: BdaBlueprintLambdaProps) {
-
     const role = new iam.Role(
       scope,
       `${id}manageBlueprint`,
@@ -52,6 +50,7 @@ export class BdaBlueprintLambda extends lambda.Function {
 
       runtime: lambda.Runtime.PYTHON_3_13,
       handler: 'lambda.handler',
+      // eslint-disable-next-line @cdklabs/no-invalid-path
       code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/bda_blueprint')),
       layers: props.lambdaLayers,
       description: 'BDA control plane for BDA blueprint operations',
@@ -79,8 +78,8 @@ export class BdaBlueprintLambda extends lambda.Function {
               'logs:PutLogEvents',
             ],
             resources: [
-              `arn:aws:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/${this.functionName}`,
-              `arn:aws:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/${this.functionName}:*`,
+              `arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/${this.functionName}`,
+              `arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/${this.functionName}:*`,
             ],
           }),
         ],
@@ -126,7 +125,6 @@ export class BdaBlueprintLambda extends lambda.Function {
 
     role.attachInlinePolicy(BedrockBDABPPolicy);
 
-
     const bedrockBDABPVersionPolicy = new iam.Policy(
       scope,
       `${id}BedrockBDABPVersionPolicy`,
@@ -152,7 +150,6 @@ export class BdaBlueprintLambda extends lambda.Function {
       }],
       true,
     );
-
 
     role.attachInlinePolicy(bedrockBDABPVersionPolicy);
 

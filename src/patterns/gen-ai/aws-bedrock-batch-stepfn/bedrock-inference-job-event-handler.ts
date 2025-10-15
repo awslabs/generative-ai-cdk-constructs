@@ -112,6 +112,4 @@ export class BedrockInferenceJobEventHandler extends Construct implements iam.IG
       targets: [new targets.LambdaFunction(eventHandlerLambda, {})],
     });
   }
-
-
 }

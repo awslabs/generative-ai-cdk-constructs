@@ -36,7 +36,6 @@ describe('BedrockFoundationModel', () => {
     expect(BedrockFoundationModel.TITAN_EMBED_TEXT_V1.invokableArn).toMatch(
       /^arn:\${Token\[AWS\.Partition\.\d+\]}:bedrock:\${Token\[AWS\.Region\.\d+\]}::foundation-model\/amazon\.titan-embed-text-v1$/,
     );
-
   });
 
   test('returns ARN fromCdkFoundationModelId', () => {
@@ -55,7 +54,6 @@ describe('BedrockFoundationModel', () => {
     ).invokableArn).toMatch(
       /^arn:\${Token\[AWS\.Partition\.\d+\]}:bedrock:\${Token\[AWS\.Region\.\d+\]}::foundation-model\/anthropic\.claude-3-5-sonnet-20241022-v2:0$/,
     );
-
   });
 
   test('returns ARN fromCdkFoundationModel', () => {
@@ -77,6 +75,5 @@ describe('BedrockFoundationModel', () => {
       )).invokableArn).toMatch(
       /^arn:\${Token\[AWS\.Partition\.\d+\]}:bedrock:\${Token\[AWS\.Region\.\d+\]}::foundation-model\/anthropic\.claude-3-5-sonnet-20241022-v2:0$/,
     );
-
   });
 });

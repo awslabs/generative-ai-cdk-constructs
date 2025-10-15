@@ -35,5 +35,4 @@ describe('Custom Resource Provider', () => {
       Runtime: 'python3.12',
     });
   });
-
 });

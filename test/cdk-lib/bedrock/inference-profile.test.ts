@@ -26,7 +26,7 @@ describe('CDK-Created-Cross-Region-Inference-Profile', () => {
     stack = new cdk.Stack(app, 'TestStack');
   });
 
-  /*test('Basic Creation', () => {
+  /* test('Basic Creation', () => {
     const cris = bedrock.CrossRegionInferenceProfile.fromConfig({
       geoRegion: bedrock.CrossRegionInferenceProfileRegion.EU,
       model: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0,

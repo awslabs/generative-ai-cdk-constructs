@@ -40,7 +40,6 @@ export function buildEventBus(scope: Construct, props: buildEventBridgeProps) {
   }
 }
 
-
 export interface EventBridgeProps {
   readonly existingEventBusInterface: events.IEventBus;
   readonly eventBusProps: events.EventBusProps;

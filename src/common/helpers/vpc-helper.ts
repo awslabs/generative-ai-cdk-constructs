@@ -114,7 +114,6 @@ export interface BuildVpcProps {
   readonly vpcName: string;
 }
 
-
 export function buildVpc(scope: Construct, props: BuildVpcProps): IVpc {
   if (props?.existingVpc) {
     return props?.existingVpc;
@@ -126,7 +125,7 @@ export function buildVpc(scope: Construct, props: BuildVpcProps): IVpc {
 
   // Merge props provided by construct builder and by the end user
   // If user provided props are empty, the vpc will use only the builder provided props
-  //cumulativeProps = consolidateProps(cumulativeProps, props?.userVpcProps, props?.constructVpcProps);
+  // cumulativeProps = consolidateProps(cumulativeProps, props?.userVpcProps, props?.constructVpcProps);
   const vpc = new Vpc(scope, props.vpcName, cumulativeProps);
 
   // Add VPC FlowLogs with the default setting of trafficType:ALL and destination: CloudWatch Logs
@@ -136,7 +135,6 @@ export function buildVpc(scope: Construct, props: BuildVpcProps): IVpc {
   suppressEncryptedLogWarnings(flowLog);
 
   return vpc;
-
 }
 
 // get subnet id for passed vpc.
@@ -154,7 +152,6 @@ export function getlambdaSecuritygroup(scope: Construct, vpc: IVpc, id: string):
   });
   return lambdaSecurityGroup;
 }
-
 
 /**
  * @internal This is an internal core function and should not be called directly by Solutions Constructs clients.
@@ -419,5 +416,4 @@ export function AddAwsServiceEndpoint(
     // ESLint requires this return statement, so disabling SonarQube warning
     return; // NOSONAR
   });
-
 }

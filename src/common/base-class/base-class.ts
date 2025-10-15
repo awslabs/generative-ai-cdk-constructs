@@ -19,7 +19,6 @@ import { Construct } from 'constructs';
 import { ConstructName } from './construct-name-enum';
 import { version } from '../helpers/utils';
 
-
 export interface BaseClassProps {
   /**
    * Value will be appended to resources name.
@@ -50,7 +49,6 @@ export interface BaseClassProps {
 }
 
 export class BaseClass extends Construct {
-
   /**
    * Record<string, number> , maps construct name with number of deployments
    */
@@ -60,7 +58,6 @@ export class BaseClass extends Construct {
     [ConstructName.HUGGINGFACESAGEMAKERENDPOINT]: 0,
     [ConstructName.JUMPSTARTSAGEMAKERENDPOINT]: 0,
   };
-
 
   /**
    * construct usage metric , added in template description
@@ -98,13 +95,11 @@ export class BaseClass extends Construct {
    */
   retention: logs.RetentionDays = logs.RetentionDays.TEN_YEARS;
 
-
   constructor(scope: Construct, id: string) {
     super(scope, id);
-
   }
 
-  //overwrite default env suffix
+  // overwrite default env suffix
   protected updateEnvSuffix(props: BaseClassProps) {
     let stage = '-dev';
     if (props?.stage) {
@@ -142,7 +137,6 @@ export class BaseClass extends Construct {
     // where C1,C2, etc are mapped with construct-name-enum and the values shows the number of time stack created/deleted.
     Stack.of(scope).templateOptions.description =
     `Description: (${this.constructUsageMetric}) (version:${version}) (tag:${ usageMetricMapSerialized}) `;
-
   }
 
   // observability
@@ -152,6 +146,6 @@ export class BaseClass extends Construct {
       this.lambdaTracing = lambda.Tracing.DISABLED;
       this.fieldLogLevel = appsync.FieldLogLevel.NONE;
       this.retention = logs.RetentionDays.TEN_YEARS;
-    };
+    }
   }
 }

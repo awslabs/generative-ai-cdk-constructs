@@ -19,7 +19,7 @@ import { BedrockCwDashboard } from '../../src/patterns/gen-ai/aws-bedrock-cw-das
 const app = new cdk.App();
 const stack = new cdk.Stack(app, 'aws-cdk-bedrock-agents-integ-test', {
   env: {
-    //region: 'eu-central-1',
+    // region: 'eu-central-1',
   },
 });
 

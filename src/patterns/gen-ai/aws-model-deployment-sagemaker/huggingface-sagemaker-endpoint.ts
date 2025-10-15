@@ -63,7 +63,6 @@ export class HuggingFaceSageMakerEndpoint extends SageMakerEndpointBase implemen
     const lambdaFunctions: cdk.aws_lambda.DockerImageFunction[] = [];
     this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
 
-
     this.modelId = props.modelId;
     this.instanceType = props.instanceType;
     this.instanceCount = Math.max(1, props.instanceCount ?? 1);
@@ -146,6 +145,4 @@ export class HuggingFaceSageMakerEndpoint extends SageMakerEndpointBase implemen
       resourceArns: [this.endpointArn],
     });
   }
-
-
 }

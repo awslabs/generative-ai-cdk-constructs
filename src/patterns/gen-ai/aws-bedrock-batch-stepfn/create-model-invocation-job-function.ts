@@ -60,7 +60,6 @@ export class CreateModelInvocationJobFunction extends lambda.Function {
 
     this.role?.addManagedPolicy(props.bedrockBatchPolicy);
 
-
     NagSuppressions.addResourceSuppressions(
       this,
       [

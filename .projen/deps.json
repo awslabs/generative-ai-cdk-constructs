@@ -10,6 +10,10 @@
       "type": "build"
     },
     {
+      "name": "@cdklabs/eslint-plugin",
+      "type": "build"
+    },
+    {
       "name": "@commitlint/config-conventional",
       "type": "build"
     },

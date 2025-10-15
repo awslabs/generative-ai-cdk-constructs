@@ -297,11 +297,11 @@ describe('VectorKnowledgeBase', () => {
   });
 
   test('Knowledge Base with Embedding Model NOT supporting Configurable Dimensions and floating point', () => {
-    //GIVEN
+    // GIVEN
     new VectorKnowledgeBase(stack, 'DefaultKnowledgeBaseTitan1024FP', {
       embeddingsModel: BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
     });
-    //THEN
+    // THEN
     cdkExpect(stack).to(
       haveResourceLike('AWS::Bedrock::KnowledgeBase', {
         KnowledgeBaseConfiguration: {
@@ -320,12 +320,12 @@ describe('VectorKnowledgeBase', () => {
   });
 
   test('Knowledge Base with Embedding Model NOT supporting Configurable Dimensions and binary', () => {
-    //GIVEN
+    // GIVEN
     new VectorKnowledgeBase(stack, 'AuroraDefaultKnowledgeBaseTitan1024Binary', {
       embeddingsModel: BedrockFoundationModel.COHERE_EMBED_MULTILINGUAL_V3,
       vectorType: VectorType.BINARY,
     });
-    //THEN
+    // THEN
     cdkExpect(stack).to(
       haveResourceLike('AWS::Bedrock::KnowledgeBase', {
         KnowledgeBaseConfiguration: {
@@ -344,11 +344,11 @@ describe('VectorKnowledgeBase', () => {
   });
 
   test('Knowledge Base with Embedding Model supporting Configurable Dimensions and floating point', () => {
-    //GIVEN
+    // GIVEN
     new VectorKnowledgeBase(stack, 'AuroraDefaultKnowledgeBaseTitan512FP', {
       embeddingsModel: BedrockFoundationModel.TITAN_EMBED_TEXT_V2_512,
     });
-    //THEN
+    // THEN
     cdkExpect(stack).to(
       haveResourceLike('AWS::Bedrock::KnowledgeBase', {
         KnowledgeBaseConfiguration: {
@@ -367,13 +367,12 @@ describe('VectorKnowledgeBase', () => {
   });
 
   test('Knowledge Base with Embedding Model supporting Configurable Dimensions and Binary', () => {
-    //GIVEN
+    // GIVEN
     new VectorKnowledgeBase(stack, 'AuroraDefaultKnowledgeBaseTitan512Binary', {
       embeddingsModel: BedrockFoundationModel.TITAN_EMBED_TEXT_V2_512,
       vectorType: VectorType.BINARY,
     });
-    console.log(stack.toJsonString);
-    //THEN
+    // THEN
     cdkExpect(stack).to(
       haveResourceLike('AWS::Bedrock::KnowledgeBase', {
         KnowledgeBaseConfiguration: {

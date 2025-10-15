@@ -130,7 +130,6 @@ describe('CDK-Created-Cluster with multi-region properties', () => {
   });
 
   test('Basic Creation with peered clusters', () => {
-
     const peeredCluster1 = Cluster.fromClusterAttributes(stack, 'TestPeeredCluster1', {
       clusterArn: 'arn:aws:dsql:us-east-2:123456789012:cluster/test-peered-cluster-1',
       vpcEndpointServiceName: 'test-vpc-endpoint-service-1',

@@ -19,7 +19,7 @@ import {
   buildMonthlyIssuesMetricsWorkflow,
   buildAutoApproveWorkflow,
   buildOrtToolkitWorkflow,
-  //runSemGrepWorkflow,
+  // runSemGrepWorkflow,
   runBanditWorkflow,
   runCommitLintWorkflow,
   buildCodeGenerationWorkflow,
@@ -71,6 +71,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     'aws-sdk-mock',
     '@aws-cdk/assert',
     `@aws-cdk/integ-tests-alpha@${CDK_VERSION}-alpha.0`,
+    '@cdklabs/eslint-plugin',
   ],
   deps: ['cdk-nag'],
   bundledDeps: ['deepmerge', `@aws-cdk/aws-lambda-python-alpha@${CDK_VERSION}-alpha.0`],
@@ -93,7 +94,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     packageId: camelCaseIt(PUBLICATION_NAMESPACE) + '.' + camelCaseIt(PROJECT_NAME),
   },
 
-  //TODO: JumpStartModel.java is over 64K skipping building Java distribution until resolved.
+  // TODO: JumpStartModel.java is over 64K skipping building Java distribution until resolved.
   // publishToMaven: {
   //   javaPackage: `io.github.${PUBLICATION_NAMESPACE.replace(/-/g, '_')}.${PROJECT_NAME.replace(/-/g, '_')}`,
   //   mavenGroupId: `io.github.${PUBLICATION_NAMESPACE}`,
@@ -155,7 +156,7 @@ buildMeritBadgerWorkflow(project);
 buildMonthlyIssuesMetricsWorkflow(project);
 buildAutoApproveWorkflow(project);
 buildOrtToolkitWorkflow(project);
-//runSemGrepWorkflow(project);
+// runSemGrepWorkflow(project);
 runBanditWorkflow(project);
 runCommitLintWorkflow(project);
 buildCodeGenerationWorkflow(project);
@@ -331,14 +332,119 @@ project.npmignore?.addPatterns(
   '.husky',
 );
 
-// Add License header automatically
-project.eslint?.addPlugins('license-header');
+project.eslint?.addPlugins('license-header', '@cdklabs/eslint-plugin');
 project.eslint?.addRules({
   'license-header/header': ['error', 'header.js'],
-});
+  '@cdklabs/no-core-construct': ['error'],
+  '@cdklabs/invalid-cfn-imports': ['error'],
+  '@cdklabs/no-literal-partition': ['error'],
+  '@cdklabs/no-invalid-path': ['error'],
+  '@cdklabs/promiseall-no-unbounded-parallelism': ['error'],
 
-// https://eslint.style/rules/js/space-infix-ops
-project.eslint?.addRules({ 'space-infix-ops': ['error', { int32Hint: false }] });
+  // Error handling
+  'no-throw-literal': ['error'],
+
+  '@stylistic/indent': ['error', 2],
+
+  // Style
+  'quotes': ['error', 'single', { avoidEscape: true }],
+  '@stylistic/member-delimiter-style': ['error'], // require semicolon delimiter
+  '@stylistic/comma-dangle': ['error', 'always-multiline'], // ensures clean diffs, see https://medium.com/@nikgraf/why-you-should-enforce-dangling-commas-for-multiline-statements-d034c98e36f8
+  '@stylistic/no-extra-semi': ['error'], // no extra semicolons
+  'comma-spacing': ['error', { before: false, after: true }], // space after, no space before
+  'no-multi-spaces': ['error', { ignoreEOLComments: false }], // no multi spaces
+  'array-bracket-spacing': ['error', 'never'], // [1, 2, 3]
+  'array-bracket-newline': ['error', 'consistent'], // enforce consistent line breaks between brackets
+  'object-curly-spacing': ['error', 'always'], // { key: 'value' }
+  'object-curly-newline': ['error', { multiline: true, consistent: true }], // enforce consistent line breaks between braces
+  'object-property-newline': ['error', { allowAllPropertiesOnSameLine: true }], // enforce "same line" or "multiple line" on object properties
+  'keyword-spacing': ['error'], // require a space before & after keywords
+  'brace-style': ['error', '1tbs', { allowSingleLine: true }], // enforce one true brace style
+  'space-before-blocks': 'error', // require space before blocks
+  'curly': ['error', 'multi-line', 'consistent'], // require curly braces for multiline control statements
+  'eol-last': ['error', 'always'], // require a newline a the end of files
+  '@stylistic/spaced-comment': ['error', 'always', { exceptions: ['/', '*'], markers: ['/'] }], // require a whitespace at the beginninng of each comment
+  '@stylistic/padded-blocks': ['error', { classes: 'never', blocks: 'never', switches: 'never' }],
+  // Require all imported libraries actually resolve (!!required for import/no-extraneous-dependencies to work!!)
+  'import/no-unresolved': ['error'],
+  // Require an ordering on all imports
+  'import/order': ['error', {
+    groups: ['builtin', 'external'],
+    alphabetize: { order: 'asc', caseInsensitive: true },
+  }],
+  // Cannot import from the same module twice
+  'no-duplicate-imports': ['error'],
+
+  // Cannot shadow names
+  'no-shadow': ['off'],
+  // Required spacing in property declarations (copied from TSLint, defaults are good)
+  'key-spacing': ['error'],
+
+  // Require semicolons
+  'semi': ['error', 'always'],
+
+  // Don't unnecessarily quote properties
+  'quote-props': ['error', 'consistent-as-needed'],
+
+  // No multiple empty lines
+  'no-multiple-empty-lines': ['error', { max: 1 }],
+  // Max line lengths
+  'max-len': ['error', {
+    code: 150,
+    ignoreUrls: true, // Most common reason to disable it
+    ignoreStrings: true, // These are not fantastic but necessary for error messages
+    ignoreTemplateLiterals: true,
+    ignoreComments: true,
+    ignoreRegExpLiterals: true,
+  }],
+  // One of the easiest mistakes to make
+  '@typescript-eslint/no-floating-promises': ['error'],
+
+  // Make sure that inside try/catch blocks, promises are 'return await'ed
+  // (must disable the base rule as it can report incorrect errors)
+  'no-return-await': 'off',
+  '@typescript-eslint/return-await': 'error',
+  // Don't leave log statements littering the premises!
+  'no-console': ['error'],
+
+  // Useless diff results
+  'no-trailing-spaces': ['error'],
+
+  // Must use foo.bar instead of foo['bar'] if possible
+  'dot-notation': ['error'],
+  // Are you sure | is not a typo for || ?
+  'no-bitwise': ['error'],
+  // No more md5, will break in FIPS environments
+  'no-restricted-syntax': [
+    'error',
+    {
+      // Both qualified and unqualified calls
+      selector: "CallExpression:matches([callee.name='createHash'], [callee.property.name='createHash']) Literal[value='md5']",
+      message: 'Use the md5hash() function from the core library if you want md5',
+    },
+  ],
+  // Member ordering
+  '@typescript-eslint/member-ordering': ['error', {
+    default: [
+      'public-static-field',
+      'public-static-method',
+      'protected-static-field',
+      'protected-static-method',
+      'private-static-field',
+      'private-static-method',
+
+      'field',
+
+      // Constructors
+      'constructor', // = ["public-constructor", "protected-constructor", "private-constructor"]
+
+      // Methods
+      'method',
+    ],
+  }],
+  // Too easy to make mistakes
+  '@typescript-eslint/unbound-method': 'error',
+});
 
 const packageJson = project.tryFindObjectFile('package.json');
 packageJson?.patch(JsonPatch.add('/scripts/prepare', 'husky install')); // yarn 1

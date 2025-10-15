@@ -51,12 +51,8 @@ Here is a minimal deployable pattern definition:
 
 TypeScript
 
-```typescript
-import { Construct } from 'constructs';
-import { Stack, StackProps, Aws } from 'aws-cdk-lib';
-import { AossCwDashboard } from '@cdklabs/generative-ai-cdk-constructs';
-
-const bddashboard = new AossCwDashboard(this, 'AossDashboardConstruct', {});
+```typescript fixture=default-aoss-dashboard
+const bddashboard = new genaicdk.AossCwDashboard(this, 'AossDashboardConstruct', {});
 
 // provides monitoring for a specific collection
 bddashboard.addCollectionMonitoringbyAttributes(
@@ -64,22 +60,6 @@ bddashboard.addCollectionMonitoringbyAttributes(
         "mycollectionid",
         {},
     );
-
-```
-
-Python
-
-```python
-from constructs import Construct
-from cdklabs.generative_ai_cdk_constructs import AossCwDashboard
-
-aossdashboard = AossCwDashboard(self, 'AossDashboardConstruct')
-
-# provides monitoring for a specific model
-aossdashboard.add_collection_monitoringby_attributes(
-    collection_name: 'mycollection',
-    collection_id: 'mycollectionid'
-)
 
 ```
 

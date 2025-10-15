@@ -25,6 +25,4 @@ export abstract class SageMakerEndpointBase extends BaseClass {
 
     return role;
   }
-
-
 }

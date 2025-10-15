@@ -21,17 +21,11 @@ import {
 } from '../../../../src/patterns/gen-ai/aws-model-deployment-sagemaker';
 
 describe('HuggingFaceSageMakerEndpoint construct', () => {
-
   let app: cdk.App;
   let HgngfcTestTemplate: Template;
   let HgngfcTestConstruct: HuggingFaceSageMakerEndpoint;
 
-  afterAll(() => {
-    console.log('Test completed');
-  });
-
   beforeAll(() => {
-
     app = new cdk.App();
     cdk.Aspects.of(app).add(new AwsSolutionsChecks());
     const HgngfcTestStack = new cdk.Stack(app, 'undefined', {
@@ -50,12 +44,11 @@ describe('HuggingFaceSageMakerEndpoint construct', () => {
       },
     });
     HgngfcTestTemplate = Template.fromStack(HgngfcTestStack);
-
   });
 
   test('SageMaker endpoint count', () => {
     HgngfcTestTemplate.resourceCountIs('AWS::SageMaker::Endpoint', 1);
-    expect(HgngfcTestConstruct.cfnEndpoint).not.toBeNull;
+    expect(HgngfcTestConstruct.cfnEndpoint).not.toBeNull();
   });
 
   test('SageMaker endpoint config count', () => {
@@ -71,7 +64,7 @@ describe('HuggingFaceSageMakerEndpoint construct', () => {
         InstanceType: 'ml.g5.2xlarge',
       }],
     });
-    expect(HgngfcTestConstruct.cfnEndpointConfig).not.toBeNull;
+    expect(HgngfcTestConstruct.cfnEndpointConfig).not.toBeNull();
   });
 
   test('SageMaker model count', () => {
@@ -95,7 +88,7 @@ describe('HuggingFaceSageMakerEndpoint construct', () => {
         Value: 'mistralai/Mistral-7B-Instruct-v0.1',
       }],
     });
-    expect(HgngfcTestConstruct.cfnModel).not.toBeNull;
+    expect(HgngfcTestConstruct.cfnModel).not.toBeNull();
   });
 });
 

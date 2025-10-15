@@ -37,9 +37,7 @@ export interface BdaProjectLambdaProps {
  * Lambda function that manages BDA project creation
  */
 export class BdaProjectLambda extends lambda.Function {
-
   constructor(scope: Construct, id: string, props: BdaProjectLambdaProps) {
-
     const role = new iam.Role(
       scope,
       `${id}manageProject`,
@@ -52,6 +50,7 @@ export class BdaProjectLambda extends lambda.Function {
 
       runtime: lambda.Runtime.PYTHON_3_13,
       handler: 'lambda.handler',
+      // eslint-disable-next-line @cdklabs/no-invalid-path
       code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/bda_project')),
       layers: props.lambdaLayers,
       description: 'BDA control plane for BDA project operations',
@@ -79,8 +78,8 @@ export class BdaProjectLambda extends lambda.Function {
               'logs:PutLogEvents',
             ],
             resources: [
-              `arn:aws:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/${this.functionName}`,
-              `arn:aws:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/${this.functionName}:*`,
+              `arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/${this.functionName}`,
+              `arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/${this.functionName}:*`,
             ],
           }),
         ],
@@ -137,6 +136,5 @@ export class BdaProjectLambda extends lambda.Function {
       }],
       true,
     );
-
   }
 }

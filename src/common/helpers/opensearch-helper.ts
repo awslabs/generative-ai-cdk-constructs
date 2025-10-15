@@ -56,7 +56,6 @@ export function CheckOpenSearchProps(propsObject: OpenSearchProps | any) {
 export function getOpenSearchApiName(propsObject: OpenSearchProps) {
   if (propsObject.existingOpensearchDomain) {
     return 'es';
-
   } else if (propsObject.existingOpensearchServerlessCollection) {
     return 'aoss';
   }
@@ -67,7 +66,6 @@ export function getOpenSearchApiName(propsObject: OpenSearchProps) {
 export function getOpenSearchEndpoint(propsObject: OpenSearchProps) {
   if (propsObject.existingOpensearchDomain) {
     return propsObject.existingOpensearchDomain.domainEndpoint;
-
   } else if (propsObject.existingOpensearchServerlessCollection) {
     return propsObject.existingOpensearchServerlessCollection.attrCollectionEndpoint;
   }

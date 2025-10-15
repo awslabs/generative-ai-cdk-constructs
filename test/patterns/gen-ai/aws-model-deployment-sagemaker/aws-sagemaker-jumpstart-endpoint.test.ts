@@ -22,17 +22,11 @@ import {
 } from '../../../../src/patterns/gen-ai/aws-model-deployment-sagemaker';
 
 describe('JumpStartSageMakerEndpoint construct', () => {
-
   let app: cdk.App;
   let JmpStrtTestTemplate: Template;
   let JmpStrtTestConstruct: JumpStartSageMakerEndpoint;
 
-  afterAll(() => {
-    console.log('Test completed');
-  });
-
   beforeAll(() => {
-
     app = new cdk.App();
     cdk.Aspects.of(app).add(new AwsSolutionsChecks());
     const JmpStrtTestStack = new cdk.Stack(app, 'undefined', {
@@ -46,12 +40,11 @@ describe('JumpStartSageMakerEndpoint construct', () => {
       endpointName: 'testendpoint',
     });
     JmpStrtTestTemplate = Template.fromStack(JmpStrtTestStack);
-
   });
 
   test('SageMaker endpoint count', () => {
     JmpStrtTestTemplate.resourceCountIs('AWS::SageMaker::Endpoint', 1);
-    expect(JmpStrtTestConstruct.cfnEndpoint).not.toBeNull;
+    expect(JmpStrtTestConstruct.cfnEndpoint).not.toBeNull();
   });
 
   test('SageMaker endpoint config count', () => {
@@ -67,7 +60,7 @@ describe('JumpStartSageMakerEndpoint construct', () => {
         InstanceType: 'ml.g5.2xlarge',
       }],
     });
-    expect(JmpStrtTestConstruct.cfnEndpointConfig).not.toBeNull;
+    expect(JmpStrtTestConstruct.cfnEndpointConfig).not.toBeNull();
   });
 
   test('SageMaker model count', () => {
@@ -85,7 +78,7 @@ describe('JumpStartSageMakerEndpoint construct', () => {
         Value: '2.0.2',
       }],
     });
-    expect(JmpStrtTestConstruct.cfnModel).not.toBeNull;
+    expect(JmpStrtTestConstruct.cfnModel).not.toBeNull();
   });
 
   test('SageMaker network properties', () => {
@@ -95,27 +88,19 @@ describe('JumpStartSageMakerEndpoint construct', () => {
 });
 
 describe('JumpStartSageMakerEndpoint eula validation', () => {
-
   let app: cdk.App;
   let JmpStrtTestStack: cdk.Stack;
 
-  afterAll(() => {
-    console.log('Test completed');
-  });
-
   beforeAll(() => {
-
     app = new cdk.App();
     cdk.Aspects.of(app).add(new AwsSolutionsChecks());
     JmpStrtTestStack = new cdk.Stack(app, 'undefined', {
       env: { account: cdk.Aws.ACCOUNT_ID, region: 'us-east-1' },
     });
-
   });
 
   test('SageMaker endpoint fails to synth', () => {
-
-    //wrapping code in a function, otherwise the error will not be caught and the assertion will fail.
+    // wrapping code in a function, otherwise the error will not be caught and the assertion will fail.
     const t = () => {
       new JumpStartSageMakerEndpoint(JmpStrtTestStack, 'test', {
         model: JumpStartModel.META_TEXTGENERATION_LLAMA_2_7B_F_2_0_2,
@@ -129,8 +114,7 @@ describe('JumpStartSageMakerEndpoint eula validation', () => {
   });
 
   test('SageMaker endpoint succeeds to synth', () => {
-
-    //wrapping code in a function, otherwise the error will not be caught and the assertion will fail.
+    // wrapping code in a function, otherwise the error will not be caught and the assertion will fail.
     const t = () => {
       new JumpStartSageMakerEndpoint(JmpStrtTestStack, 'test2', {
         model: JumpStartModel.META_TEXTGENERATION_LLAMA_2_7B_F_2_0_2,
@@ -144,8 +128,7 @@ describe('JumpStartSageMakerEndpoint eula validation', () => {
   });
 
   test('SageMaker endpoint doesnt require eula succeeds to synth', () => {
-
-    //wrapping code in a function, otherwise the error will not be caught and the assertion will fail.
+    // wrapping code in a function, otherwise the error will not be caught and the assertion will fail.
     const t = () => {
       new JumpStartSageMakerEndpoint(JmpStrtTestStack, 'test3', {
         model: JumpStartModel.MODEL_DEPTH2IMG_STABLE_DIFFUSION_V1_5_CONTROLNET_1_0_0, // eula not defined
@@ -159,17 +142,11 @@ describe('JumpStartSageMakerEndpoint eula validation', () => {
 });
 
 describe('JumpStartSageMakerEndpoint VPC construct', () => {
-
   let app: cdk.App;
   let JmpStrtTestTemplate: Template;
   let JmpStrtTestConstruct: JumpStartSageMakerEndpoint;
 
-  afterAll(() => {
-    console.log('Test completed');
-  });
-
   beforeAll(() => {
-
     app = new cdk.App();
     cdk.Aspects.of(app).add(new AwsSolutionsChecks());
     const JmpStrtTestStack = new cdk.Stack(app, 'undefined', {
@@ -219,12 +196,11 @@ describe('JumpStartSageMakerEndpoint VPC construct', () => {
       },
     });
     JmpStrtTestTemplate = Template.fromStack(JmpStrtTestStack);
-
   });
 
   test('SageMaker endpoint count', () => {
     JmpStrtTestTemplate.resourceCountIs('AWS::SageMaker::Endpoint', 1);
-    expect(JmpStrtTestConstruct.cfnEndpoint).not.toBeNull;
+    expect(JmpStrtTestConstruct.cfnEndpoint).not.toBeNull();
   });
 
   test('SageMaker endpoint config count', () => {
@@ -240,7 +216,7 @@ describe('JumpStartSageMakerEndpoint VPC construct', () => {
         InstanceType: 'ml.g5.2xlarge',
       }],
     });
-    expect(JmpStrtTestConstruct.cfnEndpointConfig).not.toBeNull;
+    expect(JmpStrtTestConstruct.cfnEndpointConfig).not.toBeNull();
   });
 
   test('SageMaker model count', () => {
@@ -258,7 +234,7 @@ describe('JumpStartSageMakerEndpoint VPC construct', () => {
         Value: '2.0.2',
       }],
     });
-    expect(JmpStrtTestConstruct.cfnModel).not.toBeNull;
+    expect(JmpStrtTestConstruct.cfnModel).not.toBeNull();
   });
 
   test('SageMaker network properties', () => {
