@@ -66,11 +66,6 @@ export enum ConfluenceObjectType {
  * - You can specify inclusion and exclusion patterns using regular expressions.
  * - If both inclusion and exclusion patterns match a document, the exclusion takes precedence.
  *
- * @example
- * {
- *   objectType: ConfluenceObjectType.ATTACHMENT,
- *   excludePatterns: [".*private.*\\.pdf"]
- * }
  */
 export interface ConfluenceCrawlingFilters {
   /**
@@ -97,7 +92,6 @@ export interface ConfluenceCrawlingFilters {
 export interface ConfluenceDataSourceAssociationProps extends DataSourceAssociationProps {
   /**
    * The Confluence host URL or instance URL.
-   * @example https://example.atlassian.net
    */
   readonly confluenceUrl: string;
   /**
@@ -138,7 +132,6 @@ export class ConfluenceDataSource extends DataSourceNew {
   // ------------------------------------------------------
   /**
    * The unique identifier of the data source.
-   * @example 'JHUEVXUZMU'
    */
   public readonly dataSourceId: string;
   /**

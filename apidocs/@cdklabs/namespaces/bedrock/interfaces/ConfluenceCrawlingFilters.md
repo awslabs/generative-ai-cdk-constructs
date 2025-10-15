@@ -20,15 +20,6 @@ These filters allow you to include or exclude specific content based on object t
 - You can specify inclusion and exclusion patterns using regular expressions.
 - If both inclusion and exclusion patterns match a document, the exclusion takes precedence.
 
-## Example
-
-```ts
-{
- *   objectType: ConfluenceObjectType.ATTACHMENT,
- *   excludePatterns: [".*private.*\\.pdf"]
- * }
-```
-
 ## Properties
 
 ### excludePatterns?

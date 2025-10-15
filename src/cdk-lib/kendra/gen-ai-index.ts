@@ -27,13 +27,11 @@ import { generatePhysicalNameV2 } from '../../common/helpers/utils';
 export interface IKendraGenAiIndex extends IResource {
   /**
    * The Amazon Resource Name (ARN) of the index.
-   * @example 'arn:aws:kendra:us-east-1:123456789012:index/af04c7ea-22bc-46b7-a65e-6c21e604fc11'
    */
   readonly indexArn: string;
 
   /**
    * The identifier of the index.
-   * @example 'af04c7ea-22bc-46b7-a65e-6c21e604fc11'.
    */
   readonly indexId: string;
 
@@ -126,7 +124,6 @@ export interface KendraGenAiIndexProps {
 export interface KendraGenAiIndexAttributes {
   /**
    * The Id of the index.
-   * @example 'af04c7ea-22bc-46b7-a65e-6c21e604fc11'
    */
   readonly indexId: string;
   /**

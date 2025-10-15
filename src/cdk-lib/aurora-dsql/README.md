@@ -47,14 +47,14 @@ Aurora DSQL provides several configuration options to help you establish the rig
 
 ### Single region cluster
 
-```typescript
-new auroraDsql.Cluster(stack, 'TestCluster', {});
+```typescript fixture=default-bedrock
+new genaicdk.auroraDsql.Cluster(this, 'TestCluster', {});
 ```
 
 You can use tags on a cluster, for instance:
 
-```typescript
-new auroraDsql.Cluster(this, 'TestCluster', {
+```typescript fixture=default-bedrock
+new genaicdk.auroraDsql.Cluster(this, 'TestCluster', {
     tags: {
         Name: 'TestCluster',
     }
@@ -65,13 +65,13 @@ new auroraDsql.Cluster(this, 'TestCluster', {
 
 Multi-Region peered clusters provide the same resilience and connectivity as single-Region clusters. But they improve availability by offering two Regional endpoints, one in each peered cluster Region. Both endpoints of a peered cluster present a single logical database. They are available for concurrent read and write operations, and provide strong data consistency. You can build applications that run in multiple Regions at the same time for performance and resilience—and know that readers always see the same data.
 
-```typescript
+```typescript fixture=default-bedrock
 // create a cluster in a different region
-const peeredCluster1 = new auroraDsql.Cluster(stack1, 'TestPeeredCluster1', {});
+const peeredCluster1 = new genaicdk.auroraDsql.Cluster(stack1, 'TestPeeredCluster1', {});
 
 // or load existing cluster through the fromAttributes method
 
-new Cluster(stack3, 'TestCluster', {
+new genaicdk.auroraDsql.Cluster(this, 'TestCluster', {
     multiRegionProperties: {
         witnessRegion: 'us-east-1',
         clusters: [peeredCluster1],

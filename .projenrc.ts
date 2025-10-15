@@ -137,6 +137,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     '!.ort.yml',
     '.idea',
     '.vscode',
+    '.jsii.tabl.json',
   ],
   stability: 'experimental',
   sampleCode: false,
@@ -369,11 +370,42 @@ project.addTask('generate-models-containers', {
   ],
 });
 
+// Add verification of documentation examples as a new task
+project.addTask('docs:compile', {
+  description: 'Verify documentation examples are correctly compiled',
+  steps: [
+    {
+      say: 'Synthesize project files',
+      spawn: 'default',
+    },
+    {
+      say: 'Pre-compile',
+      spawn: 'pre-compile',
+    },
+    {
+      say: 'Compile',
+      spawn: 'compile',
+    },
+    {
+      say: 'Verify documentation examples are correctly compiled',
+      exec: 'jsii-rosetta extract --strict',
+    },
+  ],
+});
+
 const postCompile = project.tasks.tryFind('post-compile');
 if (postCompile) {
   postCompile.exec(
     'npx typedoc --plugin typedoc-plugin-markdown --out apidocs --readme none --categoryOrder "Namespaces,Classes,Interfaces,*" --disableSources ./src/index.ts',
   );
 }
+
+// Add verification of documentation examples to the post-compile task
+// (we cannot add it to the build task since it's locked. We add it to post-compile instead which
+// is not locked and executed as part of the build task)
+project.tasks.tryFind('post-compile')?.insertStep(1, {
+  say: 'Verify documentation examples are correctly compiled',
+  exec: 'jsii-rosetta extract --strict',
+});
 
 project.synth();

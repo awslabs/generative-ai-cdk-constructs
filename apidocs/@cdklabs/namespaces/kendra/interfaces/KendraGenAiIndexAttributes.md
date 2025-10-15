@@ -16,12 +16,6 @@ Properties needed for importing an existing Kendra Index.
 
 The Id of the index.
 
-#### Example
-
-```ts
-'af04c7ea-22bc-46b7-a65e-6c21e604fc11'
-```
-
 ***
 
 ### role

@@ -67,12 +67,6 @@ ChunkingStrategy.DEFAULT
 
 The Confluence host URL or instance URL.
 
-#### Example
-
-```ts
-https://example.atlassian.net
-```
-
 ***
 
 ### contextEnrichment?

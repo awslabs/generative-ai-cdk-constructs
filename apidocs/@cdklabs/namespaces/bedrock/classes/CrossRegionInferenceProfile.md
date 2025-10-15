@@ -26,11 +26,7 @@ https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html
 
 > `readonly` **inferenceProfileArn**: `string`
 
-#### Example
-
-```ts
-'arn:aws:bedrock:us-east-1:123456789012:inference-profile/us.anthropic.claude-3-5-sonnet-20240620-v1:0'
-```
+Inference profile ARN
 
 #### Implementation of
 
@@ -42,11 +38,7 @@ https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html
 
 > `readonly` **inferenceProfileId**: `string`
 
-#### Example
-
-```ts
-'us.anthropic.claude-3-5-sonnet-20240620-v1:0'
-```
+Inference profile ID
 
 #### Implementation of
 
@@ -78,11 +70,7 @@ This equals to the inferenceProfileArn property, useful just to implement IInvok
 
 > `readonly` **type**: [`InferenceProfileType`](../enumerations/InferenceProfileType.md)
 
-#### Example
-
-```ts
-InferenceProfileType.SYSTEM_DEFINED
-```
+Inference profile type
 
 #### Implementation of
 

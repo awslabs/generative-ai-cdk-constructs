@@ -51,7 +51,10 @@ npm install -g npm aws-cdk yarn projen
 
 ## Testing
 
-AWS Generative AI CDK Constructs use two types of testing: unit testing and integration testing. Unit testing targets specific aspects of a construct or one of the functions in the core library. The unit tests check that certain aspects of the results are correct. You can learn more about unit testing CDK constructs [here](https://docs.aws.amazon.com/cdk/latest/guide/testing.html) and [here](https://aws.amazon.com/blogs/developer/testing-infrastructure-with-the-aws-cloud-development-kit-cdk/).
+AWS Generative AI CDK Constructs use three types of testing: unit testing, integration testing and documentation testing. 
+
+- Unit testing targets specific aspects of a construct or one of the functions in the core library. The unit tests check that certain aspects of the results are correct. You can learn more about unit testing CDK constructs [here](https://docs.aws.amazon.com/cdk/latest/guide/testing.html) and [here](https://aws.amazon.com/blogs/developer/testing-infrastructure-with-the-aws-cloud-development-kit-cdk/).
+- Documentation tests are verifying that the code snippets present in the main README file compile. This prevents common issues where documentation examples become outdated or contain errors. For more information, please refer to the [DOCUMENTATION_TESTING](./DOCUMENTATION_TESTING.md) guide.
 
 All test files can be found in the /test directory under each construct (or core). You'll find two types of files in this directory:
 
@@ -69,9 +72,9 @@ All test files can be found in the /test directory under each construct (or core
 - Using the samples repository to test your locally changed constructs. This is also useful for development.
 
 ### Pre-req:
+
 - Download the samples repository (The official samples repository https://github.com/aws-samples/generative-ai-cdk-constructs-samples includes a collection of functional use case implementations to demonstrate the usage of AWS Generative AI CDK Constructs. These can be used in the same way as architectural patterns, and can be conceptualized as an additional "higher-level" abstraction of those patterns. Those patterns (constructs) are composed together into [stacks](https://docs.aws.amazon.com/cdk/latest/guide/stacks.html), forming a "CDK app".
 )
-
 
 ### Step 1: Building the Generative AI CDK Construct
 

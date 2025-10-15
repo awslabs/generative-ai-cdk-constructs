@@ -20,12 +20,6 @@ Represents an Agent, either created with CDK or imported.
 
 The ARN of the agent.
 
-#### Example
-
-```ts
-"arn:aws:bedrock:us-east-1:123456789012:agent/OKDSJOGKMO"
-```
-
 #### Attribute
 
 ***
@@ -35,12 +29,6 @@ The ARN of the agent.
 > `readonly` **agentId**: `string`
 
 The ID of the Agent.
-
-#### Example
-
-```ts
-"OKDSJOGKMO"
-```
 
 #### Attribute
 

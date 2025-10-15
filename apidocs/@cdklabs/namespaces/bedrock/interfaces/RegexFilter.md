@@ -8,16 +8,6 @@
 
 A Regular expression (regex) filter for sensitive information.
 
-## Example
-
-```ts
-const regexFilter: RegexFilter = {
-  name: "my-custom-filter",
-  action: SensitiveInfoGuardrailAction.BLOCK,
-  pattern: "\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b",
-};
-```
-
 ## Properties
 
 ### action

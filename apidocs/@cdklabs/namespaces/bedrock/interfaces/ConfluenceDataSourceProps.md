@@ -71,12 +71,6 @@ ChunkingStrategy.DEFAULT
 
 The Confluence host URL or instance URL.
 
-#### Example
-
-```ts
-https://example.atlassian.net
-```
-
 #### Inherited from
 
 [`ConfluenceDataSourceAssociationProps`](ConfluenceDataSourceAssociationProps.md).[`confluenceUrl`](ConfluenceDataSourceAssociationProps.md#confluenceurl)
