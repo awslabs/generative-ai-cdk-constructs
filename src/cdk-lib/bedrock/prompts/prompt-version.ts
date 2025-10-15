@@ -15,7 +15,6 @@ import { aws_bedrock as bedrock } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { Prompt } from './prompt';
 
-
 export interface PromptVersionProps {
   /**
    * The prompt to use for this version.
@@ -73,7 +72,5 @@ export class PromptVersion extends Construct {
 
     this.versionArn = this._resource.attrArn;
     this.version = this._resource.attrVersion;
-
   }
-
 }

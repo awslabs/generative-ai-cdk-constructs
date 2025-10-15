@@ -23,7 +23,6 @@ import {
 import { CfnCollection } from 'aws-cdk-lib/aws-opensearchserverless';
 import { Construct } from 'constructs';
 
-
 /**
  * The properties for the CollectionMonitoringProps class.
  */
@@ -84,7 +83,6 @@ export interface AossCwDashboardProps {
  * The BedrockCwDashboard class.
  */
 export class AossCwDashboard extends Construct {
-
   /**
    * Returns the instance of CloudWatch dashboard used by the construct
    */
@@ -112,7 +110,6 @@ export class AossCwDashboard extends Construct {
    * @param {CollectionMonitoringProps} props - user provided props for monitoring.
   */
   public addCollectionMonitoringbyAttributes(collectionName: string, collectionId: string, props: CollectionMonitoringProps) {
-
     const period = props.period ?? Duration.hours(1);
     const clientId = props.clientId ?? Aws.ACCOUNT_ID;
 
@@ -247,8 +244,6 @@ export class AossCwDashboard extends Construct {
         })],
       }),
     );
-
-
   }
 
   /* Provide metrics for a specific aoss collection
@@ -256,9 +251,7 @@ export class AossCwDashboard extends Construct {
    * @param {CollectionMonitoringProps} props - user provided props for monitoring.
   */
   public addCollectionMonitoringByCollection(collection: CfnCollection, props: CollectionMonitoringProps) {
-
     this.addCollectionMonitoringbyAttributes(collection.name, collection.attrId, props);
-
   }
 
   /* Provide metrics for a specific aoss index
@@ -275,7 +268,6 @@ export class AossCwDashboard extends Construct {
     IndexId: string,
     props: IndexMonitoringProps,
   ) {
-
     const period = props.period ?? Duration.hours(1);
     const clientId = props.clientId ?? Aws.ACCOUNT_ID;
 
@@ -369,7 +361,6 @@ export class AossCwDashboard extends Construct {
         })],
       }),
     );
-
   }
 }
 

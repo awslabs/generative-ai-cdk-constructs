@@ -86,6 +86,7 @@ export abstract class GenerateUtils {
         error = e;
         retryCount++;
 
+        // eslint-disable-next-line no-console
         console.log('Retrying in 1 second...');
         await new Promise((resolve) => setTimeout(resolve, 1000 * retryCount));
       }

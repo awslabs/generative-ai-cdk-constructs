@@ -477,7 +477,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     const metadataField = 'AMAZON_BEDROCK_METADATA';
 
     this.description = props.description ?? 'CDK deployed Knowledge base'; // even though this prop is optional, if no value is provided it will fail to deploy
-    //this.knowledgeBaseState = props.knowledgeBaseState ?? 'ENABLED';
+    // this.knowledgeBaseState = props.knowledgeBaseState ?? 'ENABLED';
     this.instruction = props.instruction;
     this.name = props.name ?? generatePhysicalNameV2(this, 'KB', { maxLength: 32 });
 
@@ -700,7 +700,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
              * We need to add `bedrock:AssociateThirdPartyKnowledgeBase` if
              * we are deploying Redis or Pinecone data sources
              */
-            //...(this.vectorStoreType === VectorStoreType.REDIS_ENTERPRISE_CLOUD ||
+            // ...(this.vectorStoreType === VectorStoreType.REDIS_ENTERPRISE_CLOUD ||
             ...(this.vectorStoreType === VectorStoreType.PINECONE
               ? ['bedrock:AssociateThirdPartyKnowledgeBase']
               : []),
@@ -901,7 +901,6 @@ function validateModel(foundationModel: BedrockFoundationModel, vectorType: Vect
  */
 function validateVectorType(vectorStore: any, vectorType: VectorType) {
   if (!(vectorStore instanceof VectorCollection) && vectorType == VectorType.BINARY) {
-    console.log(vectorStore);
     throw new Error(
       'Amazon OpenSearch Serverless is currently the only vector store that supports storing binary vectors.',
     );

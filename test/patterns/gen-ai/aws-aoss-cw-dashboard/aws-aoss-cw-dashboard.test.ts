@@ -26,10 +26,6 @@ describe('CloudWatch Aoss Dashboard with default settings', () => {
   let cwDsTestTemplate: Template;
   let cwDsTestConstruct: AossCwDashboard;
 
-  afterAll(() => {
-    console.log('Test completed');
-  });
-
   beforeAll(() => {
     app = new cdk.App();
     cdk.Aspects.of(app).add(new AwsSolutionsChecks());
@@ -42,7 +38,7 @@ describe('CloudWatch Aoss Dashboard with default settings', () => {
   });
 
   test('Dashboard is not null', () => {
-    expect(cwDsTestConstruct.dashboard).not.toBeNull;
+    expect(cwDsTestConstruct.dashboard).not.toBeNull();
   });
 
   test('Dashboard count', () => {
@@ -57,10 +53,6 @@ describe('CloudWatch Aoss Dashboard with one collection monitored', () => {
   let collectionName: string;
   let collectionId: string;
   let defaultDashboardName: string;
-
-  afterAll(() => {
-    console.log('Test completed');
-  });
 
   beforeAll(() => {
     app = new cdk.App();
@@ -83,7 +75,7 @@ describe('CloudWatch Aoss Dashboard with one collection monitored', () => {
   });
 
   test('Dashboard is not null', () => {
-    expect(cwDsTestConstruct.dashboard).not.toBeNull;
+    expect(cwDsTestConstruct.dashboard).not.toBeNull();
   });
 
   test('Dashboard count', () => {
@@ -102,10 +94,6 @@ describe('CloudWatch Aoss Dashboard with existing dashboard', () => {
   let cwDsTestTemplate: Template;
   let cwDsTestConstruct: AossCwDashboard;
   let dashboardName: string;
-
-  afterAll(() => {
-    console.log('Test completed');
-  });
 
   beforeAll(() => {
     app = new cdk.App();
@@ -127,7 +115,7 @@ describe('CloudWatch Aoss Dashboard with existing dashboard', () => {
   });
 
   test('Dashboard is not null', () => {
-    expect(cwDsTestConstruct.dashboard).not.toBeNull;
+    expect(cwDsTestConstruct.dashboard).not.toBeNull();
   });
 
   test('Dashboard count', () => {

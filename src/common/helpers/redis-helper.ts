@@ -56,7 +56,6 @@ export interface RedisProps {
    */
   readonly subnetIds: string [];
 
-
   /**
    * Required. lambda security group which will acces the redis cluster
    *
@@ -69,13 +68,9 @@ export interface RedisProps {
    */
   readonly redisPort?: number;
 
-
 }
 
-
 export function buildRedisCluster(scope: Construct, props: RedisProps): elasticache.CfnCacheCluster {
-
-
   const cacheNodeType = props.cfnCacheClusterProps?.cacheNodeType || 'cache.r6g.xlarge';
   const engine = props.cfnCacheClusterProps?.engine || 'redis';
   const numCacheNodes = props.cfnCacheClusterProps?.numCacheNodes || 1;
@@ -90,7 +85,6 @@ export function buildRedisCluster(scope: Construct, props: RedisProps): elastica
   });
   return redisCulster;
 }
-
 
 // get redis subnet group from existing vpc
 function getRedisSubnetGroup(scope: Construct, props: RedisProps): elasticache.CfnSubnetGroup {
@@ -119,7 +113,6 @@ export function setInboundRules(redisSecurityGroup:ec2.SecurityGroup,
   redisSecurityGroup.connections.allowFrom(sourceSecuritygroup,
     ec2.Port.tcp(redisPort));
 }
-
 
 export function CheckRedisClusterProps(propsObject: RedisProps | any) {
   let errorMessages = '';

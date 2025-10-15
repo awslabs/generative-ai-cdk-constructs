@@ -140,14 +140,11 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
         modelDataDownloadTimeoutInSeconds: this.modelDataDownloadTimeoutInSeconds,
       };
 
-
     const endpointConfig = new sagemaker.CfnEndpointConfig(scope, `EndpointConfig-${id}`, {
       productionVariants: [productionVariant],
     });
 
-
     if (props.asyncInference) {
-
       // build sns topics for success and failure
       const successTopic = this.buildSnsTopic(`success-topic-${id}`, 'Success Topic');
       const failureTopic = this.buildSnsTopic(`failure-topic-${id}`, 'Failure Topic');
@@ -187,7 +184,6 @@ export class CustomSageMakerEndpoint extends SageMakerEndpointBase implements ia
     });
 
     endpoint.addDependency(endpointConfig);
-
 
     this.cfnModel = model;
     this.cfnEndpoint = endpoint;

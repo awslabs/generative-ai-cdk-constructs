@@ -17,7 +17,6 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import { AwsSolutionsChecks } from 'cdk-nag';
 import { VectorCollection, VectorCollectionStandbyReplicas, VectorCollectionType } from '../../../src/cdk-lib/opensearchserverless';
 
-
 function setupStack() {
   const app = new cdk.App();
   cdk.Aspects.of(app).add(new AwsSolutionsChecks());
@@ -52,7 +51,6 @@ describe('OpenSearch Serverless Vector Store', () => {
       app.synth();
       template = Template.fromStack(stack);
     });
-
 
     test('Should have the correct resources', () => {
       template.resourceCountIs('AWS::OpenSearchServerless::Collection', 1);
@@ -95,7 +93,6 @@ describe('OpenSearch Serverless Vector Store', () => {
     });
   });
 
-
   describe('With data access policies', () => {
     let template: Template;
     let app: cdk.App;
@@ -122,7 +119,6 @@ describe('OpenSearch Serverless Vector Store', () => {
       app.synth();
       template = Template.fromStack(stack);
     });
-
 
     test('Should have the correct resources', () => {
       template.resourceCountIs('AWS::OpenSearchServerless::Collection', 1);
@@ -410,7 +406,6 @@ describe('OpenSearch Serverless optional props', () => {
   });
 
   test('Basic Creation with type TIMESERIES', () => {
-
     const collectionName = 'test-aoss-collection';
     const standbyReplicas = VectorCollectionStandbyReplicas.DISABLED;
     const collectionType = VectorCollectionType.TIMESERIES;
@@ -445,7 +440,6 @@ describe('OpenSearch Serverless optional props', () => {
   });
 
   test('Basic Creation with type SEARCH', () => {
-
     const collectionName = 'test-aoss-collection';
     const standbyReplicas = VectorCollectionStandbyReplicas.ENABLED;
     const collectionType = VectorCollectionType.SEARCH;

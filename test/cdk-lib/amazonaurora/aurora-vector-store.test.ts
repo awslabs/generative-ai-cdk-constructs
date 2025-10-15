@@ -106,7 +106,6 @@ describe('Amazon Aurora Vector Store', () => {
     let secret: cdk.aws_secretsmanager.Secret;
 
     beforeAll(() => {
-
       vpc = new cdk.aws_ec2.Vpc(stack, 'TestVpc', {
         maxAzs: 2,
         subnetConfiguration: [

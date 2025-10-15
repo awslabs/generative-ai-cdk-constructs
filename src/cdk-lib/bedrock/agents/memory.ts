@@ -71,8 +71,8 @@ export class Memory {
    * @returns Memory configuration object
    */
   public static sessionSummary(props: SessionSummaryMemoryProps): CfnAgent.MemoryConfigurationProperty {
-    // Do some checks
-    validation.throwIfInvalid(this.validateSessionSummaryMemoryProps, props);
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    validation.throwIfInvalid(Memory.validateSessionSummaryMemoryProps, props);
 
     return {
       enabledMemoryTypes: [MemoryType.SESSION_SUMMARY],

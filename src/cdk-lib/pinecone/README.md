@@ -24,6 +24,7 @@
 This construct library provides a class that defines an existing Pinecone database to be used for a vector store for a Knowledge Base.
 
 ## Table of contents
+
 - [API](#api)
 - [Pinecone Vector Store](#pinecone-vector-store)
 
@@ -32,28 +33,11 @@ See the [API documentation](../../../apidocs/namespaces/pinecone/README.md).
 
 ## Pinecone Vector Store
 
-TypeScript
-
-```ts
-import { pinecone } from '@cdklabs/generative-ai-cdk-constructs';
-
-new pinecone.PineconeVectorStore({
+```typescript fixture=default-bedrock
+new genaicdk.pinecone.PineconeVectorStore({
   connectionString: 'https://your-index-1234567.svc.gcp-starter.pinecone.io',
   credentialsSecretArn: 'arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name',
   textField: 'question',
   metadataField: 'metadata'
 });
-```
-
-Python
-
-```python
-from cdklabs.generative_ai_cdk_constructs import (
-    pinecone
-)
-
-pineconevs = pinecone.PineconeVectorStore(
-            connection_string='https://your-index-1234567.svc.gcp-starter.pinecone.io',
-            credentials_secret_arn='arn:aws:secretsmanager:your-region:123456789876:secret:your-key-name',
-        )
 ```

@@ -183,6 +183,4 @@ describe('Bedrock Batch SFN Construct', () => {
       },
     });
   });
-
-
 });

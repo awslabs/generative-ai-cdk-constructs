@@ -19,4 +19,7 @@ async function main() {
   await generateDLCContainerImages();
 }
 
-main().catch((e) => console.error(e));
+main().catch((e) => {
+  // eslint-disable-next-line no-console
+  console.error(e);
+});

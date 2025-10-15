@@ -105,7 +105,6 @@ export class AgentCollaborator {
    */
   public readonly relayConversationHistory?: boolean;
 
-
   public constructor(props: AgentCollaboratorProps) {
     // Validate Props
     this.validateProps(props);

@@ -16,7 +16,6 @@ import * as appsync from 'aws-cdk-lib/aws-appsync';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Construct } from 'constructs';
 
-
 export interface AppsyncMergedApiProps {
 
   /**
@@ -82,7 +81,6 @@ export interface AppsyncMergedApiProps {
  * @returns App sync merge api
  */
 export function buildMergedAPI(scope: Construct, id: string, props: AppsyncMergedApiProps) {
-
   if (props.existingMergeApi) {
     return props.existingMergeApi;
   } else {
@@ -131,7 +129,6 @@ export function checkAppsyncMergedApiProps(propsObject: AppsyncMergedApiProps | 
     throw new Error(errorMessages);
   }
 }
-
 
 /**
  * @internal This is an internal core function and should not be called directly

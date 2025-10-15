@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 
-import { Arn, ArnFormat, Duration, IResource, Lazy, Resource, Stack } from 'aws-cdk-lib';
+import { Arn, ArnFormat, Duration, IResource, Lazy, Resource, Stack, Aws } from 'aws-cdk-lib';
 import * as bedrock from 'aws-cdk-lib/aws-bedrock';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
@@ -35,6 +35,7 @@ import { OrchestrationType, CustomOrchestration } from './orchestration';
 /**
  * Represents an Agent, either created with CDK or imported.
  */
+
 export interface IAgent extends IResource {
   /**
    * The ARN of the agent.
@@ -577,7 +578,7 @@ export class Agent extends AgentBase {
     if (actionGroup.apiSchema?.s3File) {
       this.role.addToPrincipalPolicy(new iam.PolicyStatement({
         actions: ['s3:GetObject'],
-        resources: [`arn:aws:s3:::${actionGroup.apiSchema.s3File.bucketName}/${actionGroup.apiSchema.s3File.objectKey}`],
+        resources: [`arn:${Aws.PARTITION}:s3:::${actionGroup.apiSchema.s3File.bucketName}/${actionGroup.apiSchema.s3File.objectKey}`],
         conditions: {
           StringEquals: {
             'aws:ResourceAccount': Stack.of(this).account,
@@ -753,7 +754,6 @@ export class Agent extends AgentBase {
    * Check if the action group is valid
    */
   private validateActionGroup = (actionGroup: AgentActionGroup) => {
-    console.log('Validating action group: ', actionGroup.name);
     let errors: string[] = [];
     // Find if there is a conflicting action group name
     if (this.actionGroups?.find(ag => ag.name === actionGroup.name)) {

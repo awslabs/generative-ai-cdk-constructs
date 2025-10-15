@@ -71,7 +71,7 @@ export interface BedrockDataAutomationProps {
    * @default - false
    */
   readonly isStatusRequired?: boolean;
-};
+}
 
 /******************************************************************************
  *                        NEW CONSTRUCT DEFINITION
@@ -137,7 +137,7 @@ export class BedrockDataAutomation extends BaseClass {
     // Set properties and defaults
     // ------------------------------------------------------
     this.powertoolsLayer = lambda.LayerVersion.fromLayerVersionArn(this, 'PowertoolsLayer',
-      `arn:aws:lambda:${cdk.Stack.of(this).region}:017000801446:layer:AWSLambdaPowertoolsPythonV3-python313-x86_64:8`,
+      `arn:${Aws.PARTITION}:lambda:${cdk.Stack.of(this).region}:017000801446:layer:AWSLambdaPowertoolsPythonV3-python313-x86_64:8`,
     );
 
     this.boto3Layer = new PythonLayerVersion(this, 'Boto3Layer', {
@@ -191,7 +191,6 @@ export class BedrockDataAutomation extends BaseClass {
    * @returns The existing bucket if provided, or a newly created S3 bucket.
    */
   private handleS3Bucket(existing_bucket: s3.IBucket | undefined, type: string, hash: string): s3.IBucket {
-
     if (existing_bucket) {
       return existing_bucket;
     } else {

@@ -17,7 +17,6 @@ import * as s3 from 'aws-cdk-lib/aws-s3';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 
-
 /**
  * Properties for creating a BdaBlueprintLambda
  */
@@ -38,9 +37,7 @@ export interface BdaResultsLambdaProps {
  * Lambda function that manages BDA results
  */
 export class BdaResultsambda extends lambda.Function {
-
   constructor(scope: Construct, id: string, props: BdaResultsLambdaProps) {
-
     const role = new iam.Role(
       scope,
       `${id}bdaResults`,
@@ -53,6 +50,7 @@ export class BdaResultsambda extends lambda.Function {
 
       runtime: lambda.Runtime.PYTHON_3_13,
       handler: 'lambda.handler',
+      // eslint-disable-next-line @cdklabs/no-invalid-path
       code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/data_result')),
       layers: props.lambdaLayers,
       description: 'BDA runtime for BDA results',
@@ -79,8 +77,8 @@ export class BdaResultsambda extends lambda.Function {
               'logs:PutLogEvents',
             ],
             resources: [
-              `arn:aws:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/${this.functionName}`,
-              `arn:aws:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/${this.functionName}:*`,
+              `arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/${this.functionName}`,
+              `arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/${this.functionName}:*`,
             ],
           }),
         ],

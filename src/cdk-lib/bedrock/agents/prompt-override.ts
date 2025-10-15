@@ -281,7 +281,6 @@ export class PromptOverrideConfiguration {
           errors.push(`Step ${step.stepType}: Foundation model can only be specified for ROUTING_CLASSIFIER step type`);
         }
       }
-
     });
 
     return errors;

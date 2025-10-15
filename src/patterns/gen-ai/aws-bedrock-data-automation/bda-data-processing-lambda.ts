@@ -43,9 +43,7 @@ export interface BdaDataProcessingLambdaProps {
  * Lambda function that manages BDA data processing
  */
 export class BdaDataProcessingLambda extends lambda.Function {
-
   constructor(scope: Construct, id: string, props: BdaDataProcessingLambdaProps) {
-
     const role = new iam.Role(
       scope,
       `${id}createDataProcessing`,
@@ -57,6 +55,7 @@ export class BdaDataProcessingLambda extends lambda.Function {
     super(scope, id, {
       runtime: lambda.Runtime.PYTHON_3_13,
       handler: 'lambda.handler', // Adjust this based on your actual handler
+      // eslint-disable-next-line @cdklabs/no-invalid-path
       code: lambda.Code.fromAsset(path.join(__dirname, '../../../../lambda/aws-bedrock-data-automation/data_processing')),
       layers: props.lambdaLayers,
       description: 'BDA runtime for BDA data processing',
@@ -86,8 +85,8 @@ export class BdaDataProcessingLambda extends lambda.Function {
               'logs:PutLogEvents',
             ],
             resources: [
-              `arn:aws:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/${this.functionName}`,
-              `arn:aws:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/${this.functionName}:*`,
+              `arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/${this.functionName}`,
+              `arn:${Aws.PARTITION}:logs:${Aws.REGION}:${Aws.ACCOUNT_ID}:log-group:/aws/lambda/${this.functionName}:*`,
             ],
           }),
         ],
@@ -134,7 +133,6 @@ export class BdaDataProcessingLambda extends lambda.Function {
       props.inputBucket.grantReadWrite(this.role);
       props.outputBucket.grantReadWrite(this.role);
     }
-
 
     NagSuppressions.addResourceSuppressions(
       role,

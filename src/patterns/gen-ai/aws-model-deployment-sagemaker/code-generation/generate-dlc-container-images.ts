@@ -33,6 +33,7 @@ const DEEP_LEARNING_CONTAINER_IMAGE_PATH = path.join(
 );
 
 export async function generateDLCContainerImages() {
+  // eslint-disable-next-line no-console
   console.log('Getting DLC container image data');
 
   const output = execSync(
@@ -42,6 +43,7 @@ export async function generateDLCContainerImages() {
   const token = output.toString();
   const repositoryTagData: { [repositoryName: string]: string[] } = {};
   for (const repositoryName of repositories) {
+    // eslint-disable-next-line no-console
     console.log(repositoryName);
 
     const pageSize = 1000;
@@ -64,8 +66,10 @@ export async function generateDLCContainerImages() {
 
       link = response.headers.link;
       if (link) {
+        // eslint-disable-next-line no-console
         console.log(link);
         link = link.substring(1, link.indexOf('>')).split(hostname)[1];
+        // eslint-disable-next-line no-console
         console.log('Link:', link);
       }
     }
@@ -92,6 +96,7 @@ export async function generateDLCContainerImages() {
     tags = Array.from(new Set(tags)).sort();
 
     repositoryTagData[repositoryName] = tags;
+    // eslint-disable-next-line no-console
     console.log(tags);
   }
 
@@ -115,6 +120,7 @@ export async function getRepositories() {
   for (const fileName of fileNames) {
     const [data] = await GenerateUtils.downloadJSON(fileName);
 
+    // eslint-disable-next-line no-console
     console.log('Processing file:', fileName);
     const versions = data.versions || data.inference.versions;
 
@@ -138,6 +144,7 @@ export async function getRepositories() {
     }
   }
 
+  // eslint-disable-next-line no-console
   console.log('Repositories:', new Array(...repositories));
 
   return repositoryNames;

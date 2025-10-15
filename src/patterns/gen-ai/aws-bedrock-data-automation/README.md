@@ -64,30 +64,13 @@ This construct can be integrated with Amazon API Gateway for synchronous REST AP
 
 ## Initializer
 
-TypeScript:
-
 ```typescript
-import { BedrockDataAutomation } from '@cdklabs/generative-ai-cdk-constructs';
-
-const bdaConstruct = new BedrockDataAutomation(this, 'MyBDAConstruct', {
+const bdaConstruct = new genaicdk.BedrockDataAutomation(this, 'MyBDAConstruct', {
   isCustomBDABlueprintRequired: true,
   isBDAProjectRequired: true,
   isBDAInvocationRequired: true,
   isStatusRequired: true
 });
-```
-
-Python:
-
-```python
-from cdklabs.generative_ai_cdk_constructs import BedrockDataAutomation
-
-bda_construct = BedrockDataAutomation(self, "MyBDAConstruct",
-    is_custom_bda_blueprint_required=True,
-    is_bda_project_required=True,
-    is_bda_invocation_required=True,
-    is_status_required=True
-)
 ```
 
 ## Pattern Properties
@@ -131,13 +114,10 @@ To create a new blueprint, either send an event to EventBridge or an API Gateway
 
 ## Option1: Add Amazon EventBridge as a front-end interface to the construct
 
-Typescript
-
-```typescript
+```typescript fixture=default-bda
 import { EventbridgeToLambda } from '@aws-solutions-constructs/aws-eventbridge-lambda';
-import { BedrockDataAutomation } from '@cdklabs/generative-ai-cdk-constructs';
 
-const bdaConstruct = new BedrockDataAutomation(this, 'MyBDAConstruct', {
+const bdaConstruct = new genaicdk.BedrockDataAutomation(this, 'MyBDAConstruct', {
     isCustomBDABlueprintRequired: true,
     isBDAProjectRequired: false,
     isBDAInvocationRequired: false,
@@ -161,41 +141,13 @@ new cdk.CfnOutput(this, 'inputbucketname', { value: bdaConstruct.bdaInputBucket!
 new cdk.CfnOutput(this, 'outputbucketname', { value: bdaConstruct.bdaOutputBucket!.bucketName });
 ```
 
-Python
-
-```python
-from cdklabs.generative_ai_cdk_constructs import BedrockDataAutomation
-from aws_solutions_constructs.aws_eventbridge_lambda import EventbridgeToLambda 
-import aws_cdk.aws_events as events
-
-bda_construct = BedrockDataAutomation(self, "MyBDAConstruct",
-    is_custom_bda_blueprint_required=True,
-    is_bda_project_required=False,
-    is_bda_invocation_required=False,
-    is_status_required=False
-)
-
-blueprint_lambda_function = bda_construct.bda_blueprint_lambda_function
-
-EventbridgeToLambda(self, 'create_blueprint-lambda',
-    existing_lambda_obj=blueprint_lambda_function,
-    event_rule_props=events.RuleProps(
-        event_pattern=events.EventPattern(
-            source=['custom.bedrock.blueprint'],
-            detail_type=['Bedrock Blueprint Request']
-        )
-    )
-)
-```
-
 upload the sample file to s3
 
-```
-aws s3 cp ./{sample_file.pdf} s3://{input-bucket-name}/
+```shell
+$ aws s3 cp ./{sample_file.pdf} s3://{input-bucket-name}/
 ```
 
 Create a bp_event.json file with following event in your project directory.
-
 
 ```json
 {
@@ -253,11 +205,10 @@ OR you can also upload your schema json file and create following event
 }
 ```
 
-
 send event bridge event using below command
 
-```
-aws events put-events --cli-input-json file://bp_event.json
+```shell
+$ aws events put-events --cli-input-json file://bp_event.json
 ```
 
 ## Invoke Construct with S3 event notifications
@@ -334,17 +285,15 @@ rule.add_target(targets.LambdaFunction(
 
 ## Option2:  Add API Gateway as a front-end interface to the construct
 
-```typescript
+```typescript fixture=default-bda
 import { ApiGatewayToLambda } from '@aws-solutions-constructs/aws-apigateway-lambda';
 
-import { BedrockDataAutomation } from '@cdklabs/generative-ai-cdk-constructs';
-
-    const bdaConstruct = new BedrockDataAutomation(this, 'MyBDAConstruct', {
-      isCustomBDABlueprintRequired: true,
-      isBDAProjectRequired: false,
-      isBDAInvocationRequired: false,
-      isStatusRequired: false
-    });
+const bdaConstruct = new genaicdk.BedrockDataAutomation(this, 'MyBDAConstruct', {
+    isCustomBDABlueprintRequired: true,
+    isBDAProjectRequired: false,
+    isBDAInvocationRequired: false,
+    isStatusRequired: false
+});
 
 new ApiGatewayToLambda(this, 'ApiGatewayToLambdaPattern', {
     existingLambdaObj: bdaConstruct.bdaBlueprintLambdaFunction,
@@ -352,27 +301,6 @@ new ApiGatewayToLambda(this, 'ApiGatewayToLambdaPattern', {
         restApiName: 'createCustomBlueprint',
     }
 });
-```
-
-```python
-from cdklabs.generative_ai_cdk_constructs import BedrockDataAutomation
-from aws_solutions_constructs.aws_apigateway_lambda import ApiGatewayToLambda 
-
-bda_construct = BedrockDataAutomation(self, "MyBDAConstruct",
-    is_custom_bda_blueprint_required=True,
-    is_bda_project_required=False,
-    is_bda_invocation_required=False,
-    is_status_required=False
-)
-
-blueprint_lambda_function = bda_construct.bda_blueprint_lambda_function
-
-blueprint_api = ApiGatewayToLambda(self, 'CreateBlueprintApi',
-            existing_lambda_obj=bda_construct.bda_blueprint_lambda_function,
-            api_gateway_props=apigw.RestApiProps(
-                rest_api_name='createBluePrintPython'
-            )    
-        )
 ```
 
 Publish a POST request with parameters in the body. For the detailed list of parameters to pass, please refer to the [documentation](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/bedrock-data-automation.html).
@@ -599,17 +527,17 @@ Typescript
 ```typescript
 import { EventbridgeToLambda } from '@aws-solutions-constructs/aws-eventbridge-lambda';
 
-    const dataResultStatusFunction = bdaConstruct.bdaResultStatusFunction
-    
-    new EventbridgeToLambda(this, 'bdaResult', {
-      existingLambdaObj: dataResultStatusFunction,
-      eventRuleProps: {
-        eventPattern: {
-          source: ['custom.bedrock.blueprint'],
-          detailType: ['Bedrock Result Status'],
-        }
-      },
-    });
+const dataResultStatusFunction = bdaConstruct.bdaResultStatusFunction
+
+new EventbridgeToLambda(this, 'bdaResult', {
+    existingLambdaObj: dataResultStatusFunction,
+    eventRuleProps: {
+    eventPattern: {
+        source: ['custom.bedrock.blueprint'],
+        detailType: ['Bedrock Result Status'],
+    }
+    },
+});
 
 ```
 Python 

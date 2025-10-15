@@ -86,7 +86,6 @@ export interface ICRProviderClass {
   getProvider(scope: Construct): ICRProvider;
 }
 
-
 export function buildCustomResourceProvider(props: CRProviderProps): ICRProviderClass {
   const { providerName, codePath, handler, runtime, layers, vpc, securityGroup } = props;
 

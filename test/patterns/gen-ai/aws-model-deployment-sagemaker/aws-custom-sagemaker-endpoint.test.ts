@@ -21,17 +21,11 @@ import {
 } from '../../../../src/patterns/gen-ai/aws-model-deployment-sagemaker';
 
 describe('CustomSageMakerEndpoint construct no async', () => {
-
   let app: cdk.App;
   let CstTestTemplate: Template;
   let CstTestConstruct: CustomSageMakerEndpoint;
 
-  afterAll(() => {
-    console.log('Test completed');
-  });
-
   beforeAll(() => {
-
     app = new cdk.App();
     cdk.Aspects.of(app).add(new AwsSolutionsChecks());
     const CstTestStack = new cdk.Stack(app, 'undefined', {
@@ -55,12 +49,11 @@ describe('CustomSageMakerEndpoint construct no async', () => {
       maxCapacity: 2,
     });
     CstTestTemplate = Template.fromStack(CstTestStack);
-
   });
 
   test('SageMaker endpoint count', () => {
     CstTestTemplate.resourceCountIs('AWS::SageMaker::Endpoint', 1);
-    expect(CstTestConstruct.cfnEndpoint).not.toBeNull;
+    expect(CstTestConstruct.cfnEndpoint).not.toBeNull();
   });
 
   test('SageMaker endpoint config count', () => {
@@ -79,7 +72,7 @@ describe('CustomSageMakerEndpoint construct no async', () => {
         VolumeSizeInGB: 100,
       }],
     });
-    expect(CstTestConstruct.cfnEndpointConfig).not.toBeNull;
+    expect(CstTestConstruct.cfnEndpointConfig).not.toBeNull();
   });
 
   test('SageMaker model count', () => {
@@ -87,8 +80,8 @@ describe('CustomSageMakerEndpoint construct no async', () => {
   });
 
   test('SageMaker model no async config', () => {
-    expect(CstTestConstruct.successTopic).toBeNull;
-    expect(CstTestConstruct.errorTopic).toBeNull;
+    expect(CstTestConstruct.successTopic).toBeUndefined();
+    expect(CstTestConstruct.errorTopic).toBeUndefined();
   });
 
   test('SageMaker model properties', () => {
@@ -107,22 +100,16 @@ describe('CustomSageMakerEndpoint construct no async', () => {
         Value: 'bgeinf2',
       }],
     });
-    expect(CstTestConstruct.cfnModel).not.toBeNull;
+    expect(CstTestConstruct.cfnModel).not.toBeNull();
   });
 });
 
 describe('CustomSageMakerEndpoint construct async endpoint', () => {
-
   let app: cdk.App;
   let CstTestTemplate: Template;
   let CstTestConstruct: CustomSageMakerEndpoint;
 
-  afterAll(() => {
-    console.log('Test completed');
-  });
-
   beforeAll(() => {
-
     app = new cdk.App();
     cdk.Aspects.of(app).add(new AwsSolutionsChecks());
     const CstTestStack = new cdk.Stack(app, 'undefined', {
@@ -149,12 +136,11 @@ describe('CustomSageMakerEndpoint construct async endpoint', () => {
       },
     });
     CstTestTemplate = Template.fromStack(CstTestStack);
-
   });
 
   test('SageMaker endpoint count', () => {
     CstTestTemplate.resourceCountIs('AWS::SageMaker::Endpoint', 1);
-    expect(CstTestConstruct.cfnEndpoint).not.toBeNull;
+    expect(CstTestConstruct.cfnEndpoint).not.toBeNull();
   });
 
   test('SageMaker endpoint config count', () => {
@@ -190,7 +176,7 @@ describe('CustomSageMakerEndpoint construct async endpoint', () => {
         },
       },
     });
-    expect(CstTestConstruct.cfnEndpointConfig).not.toBeNull;
+    expect(CstTestConstruct.cfnEndpointConfig).not.toBeNull();
   });
 
   test('SageMaker model count', () => {
@@ -198,9 +184,8 @@ describe('CustomSageMakerEndpoint construct async endpoint', () => {
   });
 
   test('SageMaker model async config', () => {
-    console.log(CstTestTemplate.toJSON());
-    expect(CstTestConstruct.successTopic).not.toBeNull;
-    expect(CstTestConstruct.errorTopic).not.toBeNull;
+    expect(CstTestConstruct.successTopic).not.toBeNull();
+    expect(CstTestConstruct.errorTopic).not.toBeNull();
   });
 
   test('SageMaker model properties', () => {
@@ -219,6 +204,6 @@ describe('CustomSageMakerEndpoint construct async endpoint', () => {
         Value: 'bgeinf2',
       }],
     });
-    expect(CstTestConstruct.cfnModel).not.toBeNull;
+    expect(CstTestConstruct.cfnModel).not.toBeNull();
   });
 });

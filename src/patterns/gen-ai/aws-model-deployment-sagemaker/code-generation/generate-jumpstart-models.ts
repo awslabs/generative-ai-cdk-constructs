@@ -80,6 +80,7 @@ const ALLOWED_FRAMEWORKS = [
 ];
 
 export async function generateJumpStartModels() {
+  // eslint-disable-next-line no-console
   console.log('Getting JumpStart models data');
 
   await download_data();
@@ -87,6 +88,7 @@ export async function generateJumpStartModels() {
 }
 
 export async function download_data() {
+  // eslint-disable-next-line no-console
   console.log('Downloading JumpStart models data');
 
   const regions = JumpStartConstants.JUMPSTART_LAUNCHED_REGIONS;
@@ -95,6 +97,7 @@ export async function download_data() {
   const frameworks = new Set<string>();
 
   for (const regionName of regionNames) {
+    // eslint-disable-next-line no-console
     console.log(`Processing region ${regionName}`);
     const regionData = regions[regionName];
     const manifestS3Key = JumpStartConstants.JUMPSTART_DEFAULT_MANIFEST_FILE_S3_KEY;
@@ -123,6 +126,7 @@ export async function download_data() {
 
       const allowedFramework = ALLOWED_FRAMEWORKS.includes(hosting_ecr_specs.framework);
 
+      // eslint-disable-next-line no-console
       console.log(
         `${deprecated ? '[DEPRECATED] ' : ''}${
           !allowedFramework ? '[SKIP:' + hosting_ecr_specs.framework + '] ' : ''
@@ -162,10 +166,12 @@ export async function download_data() {
 
   GenerateUtils.writeFileSyncWithDirs(JUMPSTART_CACHE_PATH, JSON.stringify(models));
 
+  // eslint-disable-next-line no-console
   console.log('Frameworks', Array.from(frameworks));
 }
 
 function generateCode() {
+  // eslint-disable-next-line no-console
   console.log('Generating JumpStart models data');
 
   const data = JSON.parse(fs.readFileSync(JUMPSTART_CACHE_PATH, 'utf8'));

@@ -18,12 +18,12 @@ import {
   aws_stepfunctions_tasks as tasks,
   Duration,
   Stack,
+  Aws,
 } from 'aws-cdk-lib';
 import { NagSuppressions } from 'cdk-nag';
 import { Construct } from 'constructs';
 import { BedrockInferenceJobEventHandler } from './bedrock-inference-job-event-handler';
 import { CreateModelInvocationJobFunction } from './create-model-invocation-job-function';
-
 
 export interface BedrockBatchSfnProps {
   /**
@@ -160,7 +160,7 @@ export class BedrockBatchSfn extends sfn.StateMachineFragment {
             sid: 'Inference',
             actions: ['bedrock:InvokeModel', 'bedrock:CreateModelInvocationJob'],
             resources: [
-              'arn:aws:bedrock:*::foundation-model/*',
+              `arn:${Aws.PARTITION}:bedrock:*::foundation-model/*`,
               Stack.of(this).formatArn({
                 service: 'bedrock',
                 resource: 'inference-profile',
@@ -184,8 +184,6 @@ export class BedrockBatchSfn extends sfn.StateMachineFragment {
         );
       }
       bedrockBatchRole.addManagedPolicy(bedrockBatchPolicy);
-
-
     }
 
     bedrockBatchRole.assumeRolePolicy?.addStatements(
@@ -285,6 +283,5 @@ export class BedrockBatchSfn extends sfn.StateMachineFragment {
 
     this.startState = batchEvaluateMap;
     this.endStates = batchEvaluateMap.endStates;
-
   }
 }

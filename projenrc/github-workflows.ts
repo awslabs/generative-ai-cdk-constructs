@@ -444,7 +444,6 @@ export function runCommitLintWorkflow(project: AwsCdkConstructLibrary) {
  * @param project AwsCdkConstructLibrary
  */
 export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
-
   const CREATE_PATCH_STEP_ID = 'create_patch';
   const PATCH_CREATED_OUTPUT = 'patch_created';
 
@@ -453,7 +452,7 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
     name: 'Code generation',
     runsOn: ['ubuntu-latest'],
     permissions: {
-      idToken: JobPermission.WRITE, //needed to interact with GitHub's OIDC Token endpoint.
+      idToken: JobPermission.WRITE, // needed to interact with GitHub's OIDC Token endpoint.
       contents: JobPermission.READ,
     },
     outputs: {

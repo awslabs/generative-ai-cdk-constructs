@@ -16,13 +16,11 @@ The `Prompt` resource allows you to create a new prompt.
 
 ## Basic Text Prompt
 
-### TypeScript
-
-```ts
+```typescript fixture=default-bedrock
 const cmk = new kms.Key(this, 'cmk', {});
-const claudeModel = BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0;
+const claudeModel = genaicdk.bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0;
 
-const variant1 = PromptVariant.text({
+const variant1 = genaicdk.bedrock.PromptVariant.text({
   variantName: 'variant1',
   model: claudeModel,
   promptVariables: ['topic'],
@@ -34,7 +32,7 @@ const variant1 = PromptVariant.text({
   },
 });
 
-const prompt1 = new Prompt(this, 'prompt1', {
+const prompt1 = new genaicdk.bedrock.Prompt(this, 'prompt1', {
   promptName: 'prompt1',
   description: 'my first prompt',
   defaultVariant: variant1,
@@ -43,56 +41,25 @@ const prompt1 = new Prompt(this, 'prompt1', {
 });
 ```
 
-### Python
-
-```python
-cmk = kms.Key(self, "cmk")
-claude_model = bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_SONNET_V1_0
-
-variant1 = bedrock.PromptVariant.text(
-    variant_name="variant1",
-    model=claude_model,
-    prompt_variables=["topic"],
-    prompt_text="This is my first text prompt. Please summarize our conversation on: {{topic}}.",
-    inference_configuration={
-        "temperature": 1.0,
-        "top_p": 0.999,
-        "maxTokens": 2000,
-    }
-)
-
-prompt = bedrock.Prompt(
-    self,
-    "myprompt",
-    prompt_name="prompt1",
-    description="my first prompt",
-    default_variant=variant1,
-    variants=[variant1],
-    kms_key=cmk
-)
-```
-
 ## Chat Prompt
 
 Use this template type when the model supports the Converse API or the Anthropic Claude Messages API. This allows you to include a System prompt and previous User messages and Assistant messages for context.
 
-### TypeScript
-
-```ts
+```typescript fixture=default-bedrock
 const cmk = new kms.Key(this, 'cmk', {});
 
-const variantChat = PromptVariant.chat({
+const variantChat = genaicdk.bedrock.PromptVariant.chat({
   variantName: 'variant1',
-  model: BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
+  model: genaicdk.bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
   messages: [
-    ChatMessage.userMessage('From now on, you speak Japanese!'),
-    ChatMessage.assistantMessage('Konnichiwa!'),
-    ChatMessage.userMessage('From now on, you speak {{language}}!'),
+    genaicdk.bedrock.ChatMessage.userMessage('From now on, you speak Japanese!'),
+    genaicdk.bedrock.ChatMessage.assistantMessage('Konnichiwa!'),
+    genaicdk.bedrock.ChatMessage.userMessage('From now on, you speak {{language}}!'),
   ],
   system: 'You are a helpful assistant that only speaks the language you`re told.',
   promptVariables: ['language'],
   toolConfiguration: {
-    toolChoice: ToolChoice.AUTO,
+    toolChoice: genaicdk.bedrock.ToolChoice.AUTO,
     tools: [
       {
         toolSpec: {
@@ -117,73 +84,13 @@ const variantChat = PromptVariant.chat({
   },
 });
 
-new Prompt(stack, 'prompt1', {
+new genaicdk.bedrock.Prompt(stack, 'prompt1', {
   promptName: 'prompt-chat',
   description: 'my first chat prompt',
   defaultVariant: variantChat,
   variants: [variantChat],
   kmsKey: cmk,
 });
-```
-
-### Python
-
-```python
-# Create KMS key
-cmk = kms.Key(self, "cmk")
-
-# Create tool specification
-tool_spec = CfnPrompt.ToolSpecificationProperty(
-    name="top_song",
-    description="Get the most popular song played on a radio station.",
-    input_schema=CfnPrompt.ToolInputSchemaProperty(
-        json={
-            "type": "object",
-            "properties": {
-                "sign": {
-                    "type": "string",
-                    "description": "The call sign for the radio station for which you want the most popular song. Example calls signs are WZPZ and WKR."
-                }
-            },
-            "required": ["sign"]
-        }
-    )
-)
-
-# Create tool configuration
-tool_config = bedrock.ToolConfiguration(
-    tool_choice=bedrock.ToolChoice.AUTO,
-    tools=[
-        CfnPrompt.ToolProperty(
-            tool_spec=tool_spec
-        )
-    ]
-)
-
-# Create chat variant
-variant_chat = bedrock.PromptVariant.chat(
-    variant_name="variant1",
-    model=bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
-    messages=[
-        bedrock.ChatMessage.user("From now on, you speak Japanese!"),
-        bedrock.ChatMessage.assistant("Konnichiwa!"),
-        bedrock.ChatMessage.user("From now on, you speak {{language}}!"),
-    ],
-    system="You are a helpful assistant that only speaks the language you're told.",
-    prompt_variables=["language"],
-    tool_configuration=tool_config
-)
-
-# Create prompt
-prompt = bedrock.Prompt(
-    self,
-    "prompt1",
-    prompt_name="prompt-chat",
-    description="my first chat prompt",
-    default_variant=variant_chat,
-    variants=[variant_chat],
-    kms_key=cmk
-)
 ```
 
 ## Prompt properties

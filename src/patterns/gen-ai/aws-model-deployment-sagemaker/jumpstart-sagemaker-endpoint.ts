@@ -69,7 +69,6 @@ export class JumpStartSageMakerEndpoint extends SageMakerEndpointBase {
     const lambdaFunctions: cdk.aws_lambda.DockerImageFunction[] = [];
     this.updateConstructUsageMetricCode( baseProps, scope, lambdaFunctions);
 
-
     this.model = props.model;
     this.instanceType = props.instanceType;
     this.instanceCount = Math.max(1, props.instanceCount ?? 1);

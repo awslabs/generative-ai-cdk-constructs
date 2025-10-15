@@ -57,7 +57,6 @@ export interface LambdaCustomTransformationProps {
  * @see https://docs.aws.amazon.com/bedrock/latest/userguide/kb-chunking-parsing.html#kb-custom-transformation
  */
 export abstract class CustomTransformation {
-
   // ------------------------------------------------------
   // Lambda Transformation Strategy
   // ------------------------------------------------------
@@ -67,7 +66,6 @@ export abstract class CustomTransformation {
    * @see https://github.com/aws-samples/amazon-bedrock-samples/blob/main/knowledge-bases/features-examples/02-optimizing-accuracy-retrieved-results/advanced_chunking_options.ipynb
    */
   public static lambda(props: LambdaCustomTransformationProps): CustomTransformation {
-
     class LambdaCustomTransformation extends CustomTransformation {
       public readonly configuration = {
         intermediateStorage: {
@@ -113,5 +111,4 @@ export abstract class CustomTransformation {
   public abstract configuration: CfnDataSource.CustomTransformationConfigurationProperty;
 
   public abstract generatePolicyStatements(scope: Construct): PolicyStatement[];
-
 }

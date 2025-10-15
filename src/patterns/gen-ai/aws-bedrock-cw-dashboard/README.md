@@ -59,14 +59,8 @@ For a specific model, if input/output tokens cost is specified, a widget with on
 
 Here is a minimal deployable pattern definition:
 
-TypeScript
-
-```typescript
-import { Construct } from 'constructs';
-import { Stack, StackProps, Aws } from 'aws-cdk-lib';
-import { BedrockCwDashboard } from '@cdklabs/generative-ai-cdk-constructs';
-
-const bddashboard = new BedrockCwDashboard(this, 'BedrockDashboardConstruct');
+```typescript fixture=default-bedrock-dashboard
+const bddashboard = new genaicdk.BedrockCwDashboard(this, 'BedrockDashboardConstruct');
 
 // provides monitoring for a specific model
 bddashboard.addModelMonitoring('claude3haiku', 'anthropic.claude-3-haiku-20240307-v1:0');
@@ -85,46 +79,13 @@ bddashboard.addAllModelsMonitoring();
 Optionally, you can also use the [Bedrock models](../../../cdk-lib/bedrock/models.ts) to access the modelId:
 
 ```typescript
-
-import { bedrock, BedrockCwDashboard } from '@cdklabs/generative-ai-cdk-constructs';
-
-...
+const bddashboard = new genaicdk.BedrockCwDashboard(this, 'BedrockDashboardConstruct');
 
 // provides monitoring for a specific model
 bddashboard.addModelMonitoring(
     'claude3haiku', 
-    bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0.modelId
+    genaicdk.bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_HAIKU_V1_0.modelId
 );
-
-...
-
-```
-
-Python
-
-```python
-from constructs import Construct
-from cdklabs.generative_ai_cdk_constructs import BedrockCwDashboard
-
-bddashboard = BedrockCwDashboard(self, 'BedrockDashboardConstruct')
-
-# provides monitoring for a specific model
-bddashboard.add_model_monitoring(
-    model_name: 'claude3haiku',
-    model_id: 'anthropic.claude-3-haiku-20240307-v1:0'
-)
-
-# provides monitoring for a specific model with on-demand pricing calculation
-# pricing details are available here: https://aws.amazon.com/bedrock/pricing/
-bddashboard.add_model_monitoring(
-    model_name: 'claude3haiku',
-    model_id: 'anthropic.claude-3-haiku-20240307-v1:0',
-    input_token_price: 0.00025,
-    output_token_price: 0.00125
-)
-
-# provides monitoring of all models
-bddashboard.add_all_models_monitoring()
 ```
 
 ## Initializer

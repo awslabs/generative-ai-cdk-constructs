@@ -557,7 +557,7 @@ describe('CDK-Agent', () => {
     });
 
     test('Knowledge Bases - Method', () => {
-      //WHEN
+      // WHEN
       const agent = new bedrock.Agent(stack, 'TestAgent', {
         name: 'TestAgent',
         foundationModel: bedrock.BedrockFoundationModel.ANTHROPIC_CLAUDE_3_5_SONNET_V1_0,
@@ -565,7 +565,7 @@ describe('CDK-Agent', () => {
       });
       agent.addKnowledgeBase(myKnowledgeBase);
 
-      //THEN
+      // THEN
       Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::Agent', {
         AgentName: 'TestAgent',
         Instruction: 'This is a test instruction',

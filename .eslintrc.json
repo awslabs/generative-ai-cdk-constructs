@@ -9,7 +9,8 @@
     "@typescript-eslint",
     "import",
     "@stylistic",
-    "license-header"
+    "license-header",
+    "@cdklabs/eslint-plugin"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -165,7 +166,7 @@
       "error"
     ],
     "import/order": [
-      "warn",
+      "error",
       {
         "groups": [
           "builtin",
@@ -184,10 +185,10 @@
       "off"
     ],
     "@typescript-eslint/no-shadow": "error",
-    "@typescript-eslint/no-floating-promises": "error",
-    "no-return-await": [
-      "off"
+    "@typescript-eslint/no-floating-promises": [
+      "error"
     ],
+    "no-return-await": "off",
     "@typescript-eslint/return-await": "error",
     "dot-notation": [
       "error"
@@ -215,12 +216,153 @@
       "error",
       "header.js"
     ],
-    "space-infix-ops": [
+    "@cdklabs/no-core-construct": [
+      "error"
+    ],
+    "@cdklabs/invalid-cfn-imports": [
+      "error"
+    ],
+    "@cdklabs/no-literal-partition": [
+      "error"
+    ],
+    "@cdklabs/no-invalid-path": [
+      "error"
+    ],
+    "@cdklabs/promiseall-no-unbounded-parallelism": [
+      "error"
+    ],
+    "no-throw-literal": [
+      "error"
+    ],
+    "quotes": [
+      "error",
+      "single",
+      {
+        "avoidEscape": true
+      }
+    ],
+    "@stylistic/no-extra-semi": [
+      "error"
+    ],
+    "comma-spacing": [
       "error",
       {
-        "int32Hint": false
+        "before": false,
+        "after": true
       }
-    ]
+    ],
+    "no-multi-spaces": [
+      "error",
+      {
+        "ignoreEOLComments": false
+      }
+    ],
+    "array-bracket-spacing": [
+      "error",
+      "never"
+    ],
+    "array-bracket-newline": [
+      "error",
+      "consistent"
+    ],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "object-curly-newline": [
+      "error",
+      {
+        "multiline": true,
+        "consistent": true
+      }
+    ],
+    "object-property-newline": [
+      "error",
+      {
+        "allowAllPropertiesOnSameLine": true
+      }
+    ],
+    "keyword-spacing": [
+      "error"
+    ],
+    "brace-style": [
+      "error",
+      "1tbs",
+      {
+        "allowSingleLine": true
+      }
+    ],
+    "space-before-blocks": "error",
+    "eol-last": [
+      "error",
+      "always"
+    ],
+    "@stylistic/spaced-comment": [
+      "error",
+      "always",
+      {
+        "exceptions": [
+          "/",
+          "*"
+        ],
+        "markers": [
+          "/"
+        ]
+      }
+    ],
+    "@stylistic/padded-blocks": [
+      "error",
+      {
+        "classes": "never",
+        "blocks": "never",
+        "switches": "never"
+      }
+    ],
+    "no-duplicate-imports": [
+      "error"
+    ],
+    "key-spacing": [
+      "error"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "quote-props": [
+      "error",
+      "consistent-as-needed"
+    ],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1
+      }
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 150,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreComments": true,
+        "ignoreRegExpLiterals": true
+      }
+    ],
+    "no-console": [
+      "error"
+    ],
+    "no-trailing-spaces": [
+      "error"
+    ],
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "CallExpression:matches([callee.name='createHash'], [callee.property.name='createHash']) Literal[value='md5']",
+        "message": "Use the md5hash() function from the core library if you want md5"
+      }
+    ],
+    "@typescript-eslint/unbound-method": "error"
   },
   "overrides": [
     {

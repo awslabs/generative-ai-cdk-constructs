@@ -83,7 +83,6 @@ describe('OpenSearch Serverless Vector Index', () => {
       true,
     );
 
-
     aossVectorIndex.node.addDependency(aossVector.dataAccessPolicy);
 
     testRole = new iam.Role(stack, 'TestRole', {
@@ -95,7 +94,6 @@ describe('OpenSearch Serverless Vector Index', () => {
     app.synth();
     template = Template.fromStack(stack);
   });
-
 
   test('Should have the correct resources', () => {
     template.resourceCountIs('AWS::OpenSearchServerless::Collection', 1);
@@ -196,7 +194,6 @@ describe('OpenSearch Serverless Vector Index with analyzer', () => {
       true,
     );
 
-
     aossVectorIndex.node.addDependency(aossVector.dataAccessPolicy);
 
     testRole = new iam.Role(stack, 'TestRole', {
@@ -209,9 +206,7 @@ describe('OpenSearch Serverless Vector Index with analyzer', () => {
     template = Template.fromStack(stack);
   });
 
-
   test('Should have the correct resources', () => {
-    console.log(template.toJSON());
     template.resourceCountIs('AWS::OpenSearchServerless::Collection', 1);
     template.resourceCountIs('Custom::OpenSearchIndex', 1);
     template.resourceCountIs('AWS::OpenSearchServerless::AccessPolicy', 2);

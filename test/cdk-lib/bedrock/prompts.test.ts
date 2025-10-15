@@ -379,7 +379,7 @@ describe('Prompt', () => {
 
   // --------------------------------------------------------------------------
   test('throws on invalid prompt name', () => {
-    //GIVEN
+    // GIVEN
     new Prompt(stack, 'prompt1', {
       promptName: '-my-prompt',
       description: 'my prompt',
@@ -390,7 +390,7 @@ describe('Prompt', () => {
 
   // --------------------------------------------------------------------------
   test('throws on invalid prompt variant number', () => {
-    //GIVEN
+    // GIVEN
     const variants = [1, 2, 3, 4].map(id =>
       PromptVariant.text({
         variantName: `variant${id}`,
