@@ -15,15 +15,15 @@ import { CfnKnowledgeBase } from 'aws-cdk-lib/aws-bedrock';
 
 export enum SupplementalDataStorageLocationType {
   /**
-     * Contains information about the Amazon S3 location for the extracted images.
-     */
+   * Contains information about the Amazon S3 location for the extracted images.
+   */
   S3 = 'S3',
 }
 
 export interface SupplementalDataStorageS3Config {
   /**
-     * The S3 URI for the storage location
-     */
+   * The S3 URI for the storage location
+   */
   readonly uri: string;
 }
 
@@ -38,10 +38,10 @@ export type SupplementalDataStorageLocationConfig =
  */
 export class SupplementalDataStorageLocation {
   /**
-     * Creates a new S3 supplemental data storage location
-     * @param config The configuration for the storage location
-     * @returns A new SupplementalDataStorageLocation instance
-     */
+   * Creates a new S3 supplemental data storage location
+   * @param config The configuration for the storage location
+   * @returns A new SupplementalDataStorageLocation instance
+   */
   public static s3(config: SupplementalDataStorageS3Config): SupplementalDataStorageLocation {
     return new SupplementalDataStorageLocation(
       SupplementalDataStorageLocationType.S3,
@@ -50,20 +50,20 @@ export class SupplementalDataStorageLocation {
   }
 
   /**
-     * The type of the storage location
-     */
+   * The type of the storage location
+   */
   public readonly type: SupplementalDataStorageLocationType;
 
   /**
-     * The configuration for the storage location
-     */
+   * The configuration for the storage location
+   */
   public readonly locationConfig: SupplementalDataStorageLocationConfig;
 
   /**
-     * Creates a new SupplementalDataStorageLocation
-     * @param type The type of the storage location
-     * @param locationConfig The configuration for the storage location
-     */
+   * Creates a new SupplementalDataStorageLocation
+   * @param type The type of the storage location
+   * @param locationConfig The configuration for the storage location
+   */
   constructor(
     type: SupplementalDataStorageLocationType,
     locationConfig: SupplementalDataStorageLocationConfig,
@@ -73,9 +73,9 @@ export class SupplementalDataStorageLocation {
   }
 
   /**
-     * Renders as Cfn Property
-     * @internal This is an internal core function and should not be called directly.
-     */
+   * Renders as Cfn Property
+   * @internal This is an internal core function and should not be called directly.
+   */
   public __render(): CfnKnowledgeBase.SupplementalDataStorageLocationProperty {
     if (this.type === SupplementalDataStorageLocationType.S3) {
       const s3Config = this.locationConfig as SupplementalDataStorageS3Config;

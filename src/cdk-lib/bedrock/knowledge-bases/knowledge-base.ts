@@ -229,8 +229,8 @@ export abstract class KnowledgeBaseBase extends Resource implements IKnowledgeBa
  *****************************************************************************/
 /**
  * Create a new Service Role for the Knowledge Base.
- * @param scope
- * @returns
+ * @param scope Construct
+ * @returns iam.Role
  */
 export function createKnowledgeBaseServiceRole(scope: Construct): iam.Role {
   return new iam.Role(scope, 'Role', {

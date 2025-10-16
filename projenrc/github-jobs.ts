@@ -30,14 +30,14 @@ export function buildUpgradeMainPRCustomJob() {
     steps: [
       {
         name: 'Checkout',
-        uses: 'actions/checkout@v4',
+        uses: 'actions/checkout@v5',
         with: {
           ref: 'main',
         },
       },
       {
         name: 'Download patch',
-        uses: 'actions/download-artifact@v4',
+        uses: 'actions/download-artifact@v5',
         with: {
           name: 'repo.patch',
           path: '${{ runner.temp }}',
@@ -50,14 +50,14 @@ export function buildUpgradeMainPRCustomJob() {
       {
         name: 'Set git identity',
         run: [
-          'git config user.name "github-actions"',
-          'git config user.email "github-actions@github.com"',
+          'git config user.name "github-actions[bot]"',
+          'git config user.email "41898282+github-actions[bot]@users.noreply.github.com"',
         ].join('\n'),
       },
       {
         name: 'Create Pull Request',
         id: 'create-pr',
-        uses: 'peter-evans/create-pull-request@v6',
+        uses: 'peter-evans/create-pull-request@v7',
         with: {
           'token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
           'commit-message': [
@@ -80,8 +80,8 @@ export function buildUpgradeMainPRCustomJob() {
 
             '*Automatically created by projen via the "upgrade-main" workflow*',
           ].join('\n'),
-          'author': 'github-actions <github-actions@github.com>',
-          'committer': 'github-actions <github-actions@github.com>',
+          'author': 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>',
+          'committer': 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>',
           'signoff': true,
           'labels': 'auto-approve',
         },

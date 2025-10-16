@@ -476,9 +476,9 @@ export class VectorCollection extends VectorCollectionBase {
     cdk.Tags.of(this).add('Type', 'VectorCollection');
   }
   /**
-     * Grants the specified role access to data in the collection.
-     * @param grantee The role to grant access to.
-     */
+   * Grants the specified role access to data in the collection.
+   * @param grantee The role to grant access to.
+   */
   grantDataAccess(grantee: iam.IRole) {
     this.dataAccessPolicyDocument.push({
       Rules: [

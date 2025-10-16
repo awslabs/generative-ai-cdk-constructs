@@ -19,7 +19,7 @@ jobs:
       pull-requests: write
     if: (github.event_name == 'pull_request' || github.event_name == 'pull_request_target')
     steps:
-      - uses: amannn/action-semantic-pull-request@e9fabac35e210fea40ca5b14c0da95a099eff26f
+      - uses: amannn/action-semantic-pull-request@04a8d177d951f6d3dff9f6fbfa336354c60a1112
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -39,7 +39,7 @@ jobs:
       HELP: Contributor statement missing from PR description. Please include the following text in the PR description
     if: (github.event_name == 'pull_request' || github.event_name == 'pull_request_target') && !(github.event.pull_request.user.login == 'amazon-auto' || github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'emerging-tech-cdk-constructs-bot' || github.event.pull_request.user.login == 'generative-ai-cdk-constructs-bot' || github.event.pull_request.user.login == 'github-actions')
     steps:
-      - uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410
+      - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
         with:
           script: |-
             const actual = process.env.PR_BODY.replace(/\r?\n/g, "\n");

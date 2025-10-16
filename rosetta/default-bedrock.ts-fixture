@@ -27,3 +27,7 @@ class MyStack extends cdk.Stack {
     /// here
   }
 }
+
+// Initialize stack1 for examples that need it
+const app = new cdk.App();
+stack1 = new MyStack(app, 'Stack1');
