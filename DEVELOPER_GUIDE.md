@@ -15,10 +15,10 @@ Default region name [None]: us-east-1
 Default output format [None]: json
 ```
 
-- [Node](https://nodejs.org/en) >= v20.9.0
+- [Node](https://nodejs.org/en) >= v22.0.0
 - [AWS CDK](https://github.com/aws/aws-cdk/releases/tag/v2.219.0) >= 2.219.0
 - [Python](https://www.python.org/downloads/) >=3.9
-- [Projen](https://github.com/projen/projen) >= 0.91.5
+- [Projen](https://github.com/projen/projen/releases/tag/v0.98.0) >= 0.98.0
 - [Yarn](https://classic.yarnpkg.com/lang/en/docs/cli/install/) >= 1.22.19
 
 You can use the command below to install the dependencies listed above
@@ -127,6 +127,10 @@ Navigate to the [Generative AI CDK Construct Repository] (https://github.com/aws
 - Ensure all integrations and functionalities are working as expected.
 
 ## Project structure
+
+For each new pattern, ensure:
+- that you export it from the main [index.ts](./src/index.ts) file as a named export to avoid name collisions and ensure that the underlying tools can process correctly the documentation
+- have a single main README.md
 
 ```
 .

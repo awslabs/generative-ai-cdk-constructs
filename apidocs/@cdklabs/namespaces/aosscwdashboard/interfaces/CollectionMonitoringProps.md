@@ -1,0 +1,21 @@
+[**@cdklabs/generative-ai-cdk-constructs**](../../../../README.md)
+
+***
+
+[@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [aosscwdashboard](../README.md) / CollectionMonitoringProps
+
+# Interface: CollectionMonitoringProps
+
+The properties for the CollectionMonitoringProps class.
+
+## Properties
+
+### clientId?
+
+> `readonly` `optional` **clientId**: `string`
+
+***
+
+### period?
+
+> `readonly` `optional` **period**: `Duration`

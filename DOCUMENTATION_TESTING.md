@@ -56,7 +56,7 @@ typescript fixture=default
 Run the documentation verification:
 
 ```bash
-yarn docs:compile
+projen docs:compile
 ```
 
 This will:

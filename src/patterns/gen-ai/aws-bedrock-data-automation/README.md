@@ -64,8 +64,8 @@ This construct can be integrated with Amazon API Gateway for synchronous REST AP
 
 ## Initializer
 
-```typescript
-const bdaConstruct = new genaicdk.BedrockDataAutomation(this, 'MyBDAConstruct', {
+```typescript fixture=default-bda
+const bdaConstruct = new genaicdk.bda.BedrockDataAutomation(this, 'MyBDAConstruct', {
   isCustomBDABlueprintRequired: true,
   isBDAProjectRequired: true,
   isBDAInvocationRequired: true,
@@ -114,10 +114,10 @@ To create a new blueprint, either send an event to EventBridge or an API Gateway
 
 ## Option1: Add Amazon EventBridge as a front-end interface to the construct
 
-```typescript fixture=default-bda
+```text
 import { EventbridgeToLambda } from '@aws-solutions-constructs/aws-eventbridge-lambda';
 
-const bdaConstruct = new genaicdk.BedrockDataAutomation(this, 'MyBDAConstruct', {
+const bdaConstruct = new genaicdk.bda.BedrockDataAutomation(this, 'MyBDAConstruct', {
     isCustomBDABlueprintRequired: true,
     isBDAProjectRequired: false,
     isBDAInvocationRequired: false,
@@ -285,10 +285,10 @@ rule.add_target(targets.LambdaFunction(
 
 ## Option2:  Add API Gateway as a front-end interface to the construct
 
-```typescript fixture=default-bda
+```text
 import { ApiGatewayToLambda } from '@aws-solutions-constructs/aws-apigateway-lambda';
 
-const bdaConstruct = new genaicdk.BedrockDataAutomation(this, 'MyBDAConstruct', {
+const bdaConstruct = new genaicdk.bda.BedrockDataAutomation(this, 'MyBDAConstruct', {
     isCustomBDABlueprintRequired: true,
     isBDAProjectRequired: false,
     isBDAInvocationRequired: false,
@@ -522,10 +522,15 @@ To check the status of a processing job,either send an event to EventBridge or a
 
 ## Option1: Add Amazon EventBridge as a front-end interface to the construct
 
-Typescript
-
-```typescript
+```text
 import { EventbridgeToLambda } from '@aws-solutions-constructs/aws-eventbridge-lambda';
+
+const bdaConstruct = new genaicdk.bda.BedrockDataAutomation(this, 'MyBDAConstruct', {
+    isCustomBDABlueprintRequired: true,
+    isBDAProjectRequired: false,
+    isBDAInvocationRequired: false,
+    isStatusRequired: false
+});
 
 const dataResultStatusFunction = bdaConstruct.bdaResultStatusFunction
 
@@ -540,23 +545,13 @@ new EventbridgeToLambda(this, 'bdaResult', {
 });
 
 ```
-Python 
 
-```python
-EventbridgeToLambda(self, 'data_result_lambda',
-    existing_lambda_obj=bda_construct.bda_result_status_function,
-    event_rule_props=events.RuleProps(
-        event_pattern=events.EventPattern(
-            source=['custom.bedrock.blueprint'],
-            detail_type=['Bedrock Result Status']
-        )
-    )
-)
-```
 Create a bda_result_event.json file using above event and then use following cli command to push the event.
+
 ```
 aws events put-events --cli-input-json file://bda_result_event.json
 ```
+
 invocation_arn is fetched from data processing started job.
 
 ```json
@@ -571,9 +566,10 @@ invocation_arn is fetched from data processing started job.
 }
 
 ```
+
 ## Option2:  Add API Gateway as a front-end interface to the construct
 
-```typescript
+```text
 import { ApiGatewayToLambda } from '@aws-solutions-constructs/aws-apigateway-lambda';
 
 new ApiGatewayToLambda(this, 'ApiGatewayToLambdaPattern', {

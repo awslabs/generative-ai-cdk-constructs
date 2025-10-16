@@ -52,7 +52,7 @@ Here is a minimal deployable pattern definition:
 TypeScript
 
 ```typescript fixture=default-aoss-dashboard
-const bddashboard = new genaicdk.AossCwDashboard(this, 'AossDashboardConstruct', {});
+const bddashboard = new genaicdk.aosscwdashboard.AossCwDashboard(this, 'AossDashboardConstruct', {});
 
 // provides monitoring for a specific collection
 bddashboard.addCollectionMonitoringbyAttributes(
@@ -65,7 +65,7 @@ bddashboard.addCollectionMonitoringbyAttributes(
 
 ## Initializer
 
-```
+```text
 new AossCwDashboard(scope: Construct, id: string, props: AossCwDashboardProps)
 ```
 
