@@ -44,9 +44,9 @@
     md5 "^2.3.0"
 
 "@aws-cdk/cloud-assembly-schema@^48.6.0":
-  version "48.14.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/cloud-assembly-schema/-/cloud-assembly-schema-48.14.0.tgz#ba1a00961451966a79e505a3964f03b7774c95ce"
-  integrity sha512-mo1MaPKsNVh3QSuosREcwIh8TrVZ9deHVLAjzbjkQuTxb/7LGqkf1E5HHxlAt6Z0+z+DZt7dTPIJ92NcR0tjDQ==
+  version "48.15.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/cloud-assembly-schema/-/cloud-assembly-schema-48.15.0.tgz#80a146dbd39dc2092c7512ea0ef25ece47f9cfeb"
+  integrity sha512-hHs3Z5Nh0tUxHjk6myEv5mHqLuHnDcZlM19c01g1W75O24oBOiZjssRGIz/T0QOpxcY0Zu6mFrFCdwDWbZrc6A==
   dependencies:
     jsonschema "~1.4.1"
     semver "^7.7.2"
@@ -1943,10 +1943,10 @@ case@1.6.3, case@^1.6.3:
   resolved "https://registry.yarnpkg.com/case/-/case-1.6.3.tgz#0a4386e3e9825351ca2e6216c60467ff5f1ea1c9"
   integrity sha512-mzDSXIPaFwVDvZAHqZ9VlbyF4yyXRuX6IvB06WvPYkqJVO24kX1PPhv9bfpKNFZyxYFmmgo03HUiD8iklmJYRQ==
 
-cdk-nag@^2.37.52:
-  version "2.37.52"
-  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.37.52.tgz#ab9eb9d606608c2a32c831102cf9fbbf3df50705"
-  integrity sha512-Hf2hYU59zgc2TX3lyHnhkgzkDVdbQMkWbm6uNdVp9Jz+t2fQ0NEzoOJyB1F1JdsjoITrlWGuZHBmATVGC2jbxw==
+cdk-nag@^2.37.53:
+  version "2.37.53"
+  resolved "https://registry.yarnpkg.com/cdk-nag/-/cdk-nag-2.37.53.tgz#c0d67997cef664385ad12cc245c25a217524cc1f"
+  integrity sha512-RT2mj6Jp1XM/kLrvkWp0tdmIYA8z5dcyvLrxuglBw61Dsw2/SodAGdStHI6ADXQP5Fw5SoA5ipszpx836XKrXg==
 
 chalk@^2.4.2:
   version "2.4.2"
@@ -2023,9 +2023,9 @@ codemaker@^1.116.0:
     fs-extra "^10.1.0"
 
 collect-v8-coverage@^1.0.0:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/collect-v8-coverage/-/collect-v8-coverage-1.0.2.tgz#c0b29bcd33bcd0779a1344c2136051e6afd3d9e9"
-  integrity sha512-lHl4d5/ONEbLlJvaJNtsF/Lz+WvB07u2ycqTYbdrq7UypDXailES4valYb2eWiJFxZlVmpGekfqoxQhzyFdT4Q==
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/collect-v8-coverage/-/collect-v8-coverage-1.0.3.tgz#cc1f01eb8d02298cbc9a437c74c70ab4e5210b80"
+  integrity sha512-1L5aqIkwPfiodaMgQunkF1zRhNqifHBmtbbbxcr6yVxxBnliw4TDOW6NxpO8DJLgJ16OT+Y4ztZqP6p/FtXnAw==
 
 color-convert@^1.9.0:
   version "1.9.3"
@@ -2574,9 +2574,9 @@ dunder-proto@^1.0.0, dunder-proto@^1.0.1:
     gopd "^1.2.0"
 
 electron-to-chromium@^1.5.227:
-  version "1.5.235"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.235.tgz#778dac70537ed9e9e0abf25a49cc94b5a23aaa0e"
-  integrity sha512-i/7ntLFwOdoHY7sgjlTIDo4Sl8EdoTjWIaKinYOVfC6bOp71bmwenyZthWHcasxgHDNWbWxvG9M3Ia116zIaYQ==
+  version "1.5.237"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.237.tgz#eacf61cef3f6345d0069ab427585c5a04d7084f0"
+  integrity sha512-icUt1NvfhGLar5lSWH3tHNzablaA5js3HVHacQimfP8ViEBOQv+L7DKEuHdbTZ0SKCO1ogTJTIL1Gwk9S6Qvcg==
 
 emittery@^0.13.1:
   version "0.13.1"
