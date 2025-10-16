@@ -11,8 +11,22 @@
  *  and limitations under the License.
  */
 
-export * from './patterns/gen-ai/aws-model-deployment-sagemaker';
+// We need to export each construct as a named export to avoid name collisions
+// But also so each construct becomes a separate module in the final package.
+// Otherwise, jsii-rosetta doesn't see them as separate modules
 
+// ===================================
+// Patterns
+// ===================================
+export * as sagemaker_deployment from './patterns/gen-ai/aws-model-deployment-sagemaker';
+export * as bedrockcwdashboard from './patterns/gen-ai/aws-bedrock-cw-dashboard';
+export * as aosscwdashboard from './patterns/gen-ai/aws-aoss-cw-dashboard';
+export * as bda from './patterns/gen-ai/aws-bedrock-data-automation';
+export * as bedrock_batch_stepfn from './patterns/gen-ai/aws-bedrock-batch-stepfn';
+
+// ===================================
+// CDK Libraries
+// ===================================
 export * as kendra from './cdk-lib/kendra';
 export * as bedrock from './cdk-lib/bedrock';
 export * as amazonaurora from './cdk-lib/amazonaurora';
@@ -23,10 +37,10 @@ export * as opensearchserverless from './cdk-lib/opensearchserverless';
 export * as opensearch_vectorindex from './cdk-lib/opensearch-vectorindex';
 export * as opensearchmanagedcluster from './cdk-lib/opensearchmanagedcluster';
 export * as auroraDsql from './cdk-lib/aurora-dsql';
+
+// ===================================
+// Common
+// ===================================
 export { version } from './common/helpers/utils';
 export * from './common/base-class/base-class';
 export * from './common/base-class/construct-name-enum';
-export * from './patterns/gen-ai/aws-bedrock-cw-dashboard';
-export * from './patterns/gen-ai/aws-aoss-cw-dashboard';
-export * from './patterns/gen-ai/aws-bedrock-data-automation';
-export * from './patterns/gen-ai/aws-bedrock-batch-stepfn';

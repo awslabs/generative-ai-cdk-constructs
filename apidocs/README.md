@@ -7,8 +7,12 @@
 ## Namespaces
 
 - [amazonaurora](@cdklabs/namespaces/amazonaurora/README.md)
+- [aosscwdashboard](@cdklabs/namespaces/aosscwdashboard/README.md)
 - [auroraDsql](@cdklabs/namespaces/auroraDsql/README.md)
+- [bda](@cdklabs/namespaces/bda/README.md)
 - [bedrock](@cdklabs/namespaces/bedrock/README.md)
+- [bedrock\_batch\_stepfn](@cdklabs/namespaces/bedrock_batch_stepfn/README.md)
+- [bedrockcwdashboard](@cdklabs/namespaces/bedrockcwdashboard/README.md)
 - [kendra](@cdklabs/namespaces/kendra/README.md)
 - [mongodbAtlas](@cdklabs/namespaces/mongodbAtlas/README.md)
 - [neptune](@cdklabs/namespaces/neptune/README.md)
@@ -16,6 +20,7 @@
 - [opensearchmanagedcluster](@cdklabs/namespaces/opensearchmanagedcluster/README.md)
 - [opensearchserverless](@cdklabs/namespaces/opensearchserverless/README.md)
 - [pinecone](@cdklabs/namespaces/pinecone/README.md)
+- [sagemaker\_deployment](@cdklabs/namespaces/sagemaker_deployment/README.md)
 
 ## Enumerations
 
@@ -23,38 +28,11 @@
 
 ## Classes
 
-- [AossCwDashboard](classes/AossCwDashboard.md)
 - [BaseClass](classes/BaseClass.md)
-- [BedrockBatchSfn](classes/BedrockBatchSfn.md)
-- [BedrockCwDashboard](classes/BedrockCwDashboard.md)
-- [BedrockDataAutomation](classes/BedrockDataAutomation.md)
-- [ContainerImage](classes/ContainerImage.md)
-- [CustomSageMakerEndpoint](classes/CustomSageMakerEndpoint.md)
-- [DeepLearningContainerImage](classes/DeepLearningContainerImage.md)
-- [HuggingFaceSageMakerEndpoint](classes/HuggingFaceSageMakerEndpoint.md)
-- [JumpStartModel](classes/JumpStartModel.md)
-- [JumpStartSageMakerEndpoint](classes/JumpStartSageMakerEndpoint.md)
-- [SageMakerEndpointBase](classes/SageMakerEndpointBase.md)
-- [SageMakerInstanceType](classes/SageMakerInstanceType.md)
 
 ## Interfaces
 
-- [AossCwDashboardProps](interfaces/AossCwDashboardProps.md)
-- [AsyncInferenceConfig](interfaces/AsyncInferenceConfig.md)
 - [BaseClassProps](interfaces/BaseClassProps.md)
-- [BedrockBatchSfnProps](interfaces/BedrockBatchSfnProps.md)
-- [BedrockCwDashboardProps](interfaces/BedrockCwDashboardProps.md)
-- [BedrockDataAutomationProps](interfaces/BedrockDataAutomationProps.md)
-- [CollectionMonitoringProps](interfaces/CollectionMonitoringProps.md)
-- [ContainerImageConfig](interfaces/ContainerImageConfig.md)
-- [CustomSageMakerEndpointProps](interfaces/CustomSageMakerEndpointProps.md)
-- [HuggingFaceSageMakerEndpointProps](interfaces/HuggingFaceSageMakerEndpointProps.md)
-- [IInstanceAliase](interfaces/IInstanceAliase.md)
-- [IInstanceValiant](interfaces/IInstanceValiant.md)
-- [IJumpStartModelSpec](interfaces/IJumpStartModelSpec.md)
-- [IndexMonitoringProps](interfaces/IndexMonitoringProps.md)
-- [JumpStartSageMakerEndpointProps](interfaces/JumpStartSageMakerEndpointProps.md)
-- [ModelMonitoringProps](interfaces/ModelMonitoringProps.md)
 
 ## Variables
 

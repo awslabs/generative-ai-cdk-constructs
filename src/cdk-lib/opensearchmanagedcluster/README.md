@@ -23,20 +23,20 @@
 This construct library provides a class that defines an existing OpenSearch managed cluster to be used as a vector store for a Knowledge Base.
 
 ## Table of contents
+
 - [API](#api)
 - [OpenSearch Managed Cluster Vector Store](#opensearch-managed-cluster-vector-store)
 
 ## API
+
 See the [API documentation](../../../apidocs/namespaces/opensearchmanagedcluster/README.md).
 
 ## OpenSearch Managed Cluster Vector Store
 
 TypeScript
 
-```ts
-import { opensearchmanagedcluster } from '@cdklabs/generative-ai-cdk-constructs';
-
-new opensearchmanagedcluster.OpenSearchManagedClusterVectorStore({
+```ts fixture=default-bedrock
+new genaicdk.opensearchmanagedcluster.OpenSearchManagedClusterVectorStore({
   domainArn: 'arn:aws:es:region:account:domain/your-domain',
   domainEndpoint: 'https://your-domain.region.es.amazonaws.com',
   vectorIndexName: 'your-vector-index',
@@ -46,23 +46,4 @@ new opensearchmanagedcluster.OpenSearchManagedClusterVectorStore({
     vectorField: 'vector'
   }
 });
-```
-
-Python
-
-```python
-from cdklabs.generative_ai_cdk_constructs import (
-    opensearchmanagedcluster
-)
-
-opensearchvs = opensearchmanagedcluster.OpenSearchManagedClusterVectorStore(
-    domain_arn='arn:aws:es:region:account:domain/your-domain',
-    domain_endpoint='https://your-domain.region.es.amazonaws.com',
-    vector_index_name='your-vector-index',
-    field_mapping={
-        'metadataField': 'metadata',
-        'textField': 'text',
-        'vectorField': 'vector'
-    }
-)
 ```

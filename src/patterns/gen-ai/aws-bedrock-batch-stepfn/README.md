@@ -58,28 +58,28 @@ must have the following permissions for the models and inference profiles you pl
 Here is a minimal deployable pattern definition:
 
 ```typescript fixture=default-bedrock-batch-stepfn
-const batchBucket = new s3.Bucket(stack, 'BedrockBatchBucket');
+const batchBucket = new s3.Bucket(this, 'BedrockBatchBucket');
 
-const batchPolicy = new iam.ManagedPolicy(stack, 'BatchPolicy', {});
+const batchPolicy = new iam.ManagedPolicy(this, 'BatchPolicy', {});
 
 batchPolicy.addStatements(
   new iam.PolicyStatement({
     sid: 'Inference',
     actions: ['bedrock:InvokeModel', 'bedrock:CreateModelInvocationJob'],
     resources: [
-      `arn:aws:bedrock:${stack.region}::foundation-model/*`,
+      `arn:aws:bedrock:${this.region}::foundation-model/*`,
     ],
   }),
 );
 
-const bedrockBatchSfnFragment = new genaicdk.BedrockBatchSfn(stack, 'AwsBedrockBatchSfn', {
+const bedrockBatchSfnFragment = new genaicdk.bedrock_batch_stepfn.BedrockBatchSfn(this, 'AwsBedrockBatchSfn', {
   bedrockBatchInputBucket: batchBucket,
   bedrockBatchOutputBucket: batchBucket,
   bedrockBatchPolicy: batchPolicy,
-  timeout: Duration.hours(48),
+  timeout: cdk.Duration.hours(48),
 });
 
-const inputState = new sfn.Pass(stack, 'InputState', {
+const inputState = new sfn.Pass(this, 'InputState', {
   parameters: {
     job_name: 'test_job',
     manifest_keys: ['test_key.jsonl'],
@@ -87,9 +87,9 @@ const inputState = new sfn.Pass(stack, 'InputState', {
   },
 });
 
-const outputState = new sfn.Pass(stack, 'OutputState');
+const outputState = new sfn.Pass(this, 'OutputState');
 
-const failState = new sfn.Fail(stack, 'FailState', {
+const failState = new sfn.Fail(this, 'FailState', {
   causePath: sfn.JsonPath.stringAt('$.cause'),
   errorPath: sfn.JsonPath.stringAt('$.error'),
 });
@@ -98,13 +98,13 @@ const chain = inputState
   .next(bedrockBatchSfnFragment)
   .next(outputState);
 
-bedrockBatchSfnFragment.endStates.map((endState) => {
+for (const endState of bedrockBatchSfnFragment.endStates) {
   if (endState instanceof sfn.TaskStateBase) {
     endState.addCatch(failState);
   }
-});
+}
 
-const stateMachine = new sfn.StateMachine(stack, 'StateMachine', {
+const stateMachine = new sfn.StateMachine(this, 'StateMachine', {
   definitionBody: sfn.DefinitionBody.fromChainable(chain),
 });
 ```

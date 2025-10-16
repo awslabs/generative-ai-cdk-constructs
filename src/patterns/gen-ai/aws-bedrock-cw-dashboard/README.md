@@ -60,7 +60,7 @@ For a specific model, if input/output tokens cost is specified, a widget with on
 Here is a minimal deployable pattern definition:
 
 ```typescript fixture=default-bedrock-dashboard
-const bddashboard = new genaicdk.BedrockCwDashboard(this, 'BedrockDashboardConstruct');
+const bddashboard = new genaicdk.bedrockcwdashboard.BedrockCwDashboard(this, 'BedrockDashboardConstruct');
 
 // provides monitoring for a specific model
 bddashboard.addModelMonitoring('claude3haiku', 'anthropic.claude-3-haiku-20240307-v1:0');
@@ -78,8 +78,8 @@ bddashboard.addAllModelsMonitoring();
 
 Optionally, you can also use the [Bedrock models](../../../cdk-lib/bedrock/models.ts) to access the modelId:
 
-```typescript
-const bddashboard = new genaicdk.BedrockCwDashboard(this, 'BedrockDashboardConstruct');
+```typescript fixture=default-bedrock-dashboard
+const bddashboard = new genaicdk.bedrockcwdashboard.BedrockCwDashboard(this, 'BedrockDashboardConstruct');
 
 // provides monitoring for a specific model
 bddashboard.addModelMonitoring(
@@ -90,7 +90,7 @@ bddashboard.addModelMonitoring(
 
 ## Initializer
 
-```
+```text
 new BedrockCwDashboard(scope: Construct, id: string, props: BedrockCwDashboardProps)
 ```
 

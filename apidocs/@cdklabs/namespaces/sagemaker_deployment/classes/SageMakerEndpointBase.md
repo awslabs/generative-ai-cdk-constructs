@@ -1,25 +1,26 @@
-[**@cdklabs/generative-ai-cdk-constructs**](../README.md)
+[**@cdklabs/generative-ai-cdk-constructs**](../../../../README.md)
 
 ***
 
-[@cdklabs/generative-ai-cdk-constructs](../README.md) / BaseClass
+[@cdklabs/generative-ai-cdk-constructs](../../../../README.md) / [sagemaker\_deployment](../README.md) / SageMakerEndpointBase
 
-# Class: BaseClass
+# Abstract Class: SageMakerEndpointBase
 
 ## Extends
 
-- `Construct`
+- [`BaseClass`](../../../../classes/BaseClass.md)
 
 ## Extended by
 
-- [`SageMakerEndpointBase`](../@cdklabs/namespaces/sagemaker_deployment/classes/SageMakerEndpointBase.md)
-- [`BedrockDataAutomation`](../@cdklabs/namespaces/bda/classes/BedrockDataAutomation.md)
+- [`HuggingFaceSageMakerEndpoint`](HuggingFaceSageMakerEndpoint.md)
+- [`JumpStartSageMakerEndpoint`](JumpStartSageMakerEndpoint.md)
+- [`CustomSageMakerEndpoint`](CustomSageMakerEndpoint.md)
 
 ## Constructors
 
 ### Constructor
 
-> **new BaseClass**(`scope`, `id`): `BaseClass`
+> **new SageMakerEndpointBase**(`scope`, `id`): `SageMakerEndpointBase`
 
 #### Parameters
 
@@ -33,11 +34,11 @@
 
 #### Returns
 
-`BaseClass`
+`SageMakerEndpointBase`
 
-#### Overrides
+#### Inherited from
 
-`Construct.constructor`
+[`BaseClass`](../../../../classes/BaseClass.md).[`constructor`](../../../../classes/BaseClass.md#constructor)
 
 ## Properties
 
@@ -46,6 +47,10 @@
 > `readonly` **constructUsageMetric**: `"uksb-1tupboc45"` = `'uksb-1tupboc45'`
 
 construct usage metric , added in template description
+
+#### Inherited from
+
+[`BaseClass`](../../../../classes/BaseClass.md).[`constructUsageMetric`](../../../../classes/BaseClass.md#constructusagemetric)
 
 ***
 
@@ -61,6 +66,10 @@ enable disable xray tracing
 - True
 ```
 
+#### Inherited from
+
+[`BaseClass`](../../../../classes/BaseClass.md).[`enablexray`](../../../../classes/BaseClass.md#enablexray)
+
 ***
 
 ### fieldLogLevel
@@ -68,6 +77,10 @@ enable disable xray tracing
 > **fieldLogLevel**: `FieldLogLevel` = `appsync.FieldLogLevel.ALL`
 
 Default  log config for all constructs
+
+#### Inherited from
+
+[`BaseClass`](../../../../classes/BaseClass.md).[`fieldLogLevel`](../../../../classes/BaseClass.md#fieldloglevel)
 
 ***
 
@@ -83,6 +96,10 @@ enable disable lambda tracing
 - Active
 ```
 
+#### Inherited from
+
+[`BaseClass`](../../../../classes/BaseClass.md).[`lambdaTracing`](../../../../classes/BaseClass.md#lambdatracing)
+
 ***
 
 ### node
@@ -93,7 +110,7 @@ The tree node.
 
 #### Inherited from
 
-`Construct.node`
+[`BaseClass`](../../../../classes/BaseClass.md).[`node`](../../../../classes/BaseClass.md#node)
 
 ***
 
@@ -102,6 +119,10 @@ The tree node.
 > **retention**: `RetentionDays` = `logs.RetentionDays.TEN_YEARS`
 
 Default  log retention config for all constructs
+
+#### Inherited from
+
+[`BaseClass`](../../../../classes/BaseClass.md).[`retention`](../../../../classes/BaseClass.md#retention)
 
 ***
 
@@ -117,6 +138,10 @@ Value will be appended to resources name.
 - _dev
 ```
 
+#### Inherited from
+
+[`BaseClass`](../../../../classes/BaseClass.md).[`stage`](../../../../classes/BaseClass.md#stage)
+
 ***
 
 ### usageMetricMap
@@ -124,6 +149,10 @@ Value will be appended to resources name.
 > `protected` `static` **usageMetricMap**: `Record`\<`string`, `number`\>
 
 Record<string, number> , maps construct name with number of deployments
+
+#### Inherited from
+
+[`BaseClass`](../../../../classes/BaseClass.md).[`usageMetricMap`](../../../../classes/BaseClass.md#usagemetricmap)
 
 ## Methods
 
@@ -135,11 +164,25 @@ Record<string, number> , maps construct name with number of deployments
 
 ##### props
 
-[`BaseClassProps`](../interfaces/BaseClassProps.md)
+[`BaseClassProps`](../../../../interfaces/BaseClassProps.md)
 
 #### Returns
 
 `void`
+
+#### Inherited from
+
+[`BaseClass`](../../../../classes/BaseClass.md).[`addObservabilityToConstruct`](../../../../classes/BaseClass.md#addobservabilitytoconstruct)
+
+***
+
+### createSageMakerRole()
+
+> `protected` **createSageMakerRole**(): `Role`
+
+#### Returns
+
+`Role`
 
 ***
 
@@ -155,7 +198,7 @@ Returns a string representation of this construct.
 
 #### Inherited from
 
-`Construct.toString`
+[`BaseClass`](../../../../classes/BaseClass.md).[`toString`](../../../../classes/BaseClass.md#tostring)
 
 ***
 
@@ -167,7 +210,7 @@ Returns a string representation of this construct.
 
 ##### props
 
-[`BaseClassProps`](../interfaces/BaseClassProps.md)
+[`BaseClassProps`](../../../../interfaces/BaseClassProps.md)
 
 ##### scope
 
@@ -181,6 +224,10 @@ Returns a string representation of this construct.
 
 `void`
 
+#### Inherited from
+
+[`BaseClass`](../../../../classes/BaseClass.md).[`updateConstructUsageMetricCode`](../../../../classes/BaseClass.md#updateconstructusagemetriccode)
+
 ***
 
 ### updateEnvSuffix()
@@ -191,11 +238,15 @@ Returns a string representation of this construct.
 
 ##### props
 
-[`BaseClassProps`](../interfaces/BaseClassProps.md)
+[`BaseClassProps`](../../../../interfaces/BaseClassProps.md)
 
 #### Returns
 
 `void`
+
+#### Inherited from
+
+[`BaseClass`](../../../../classes/BaseClass.md).[`updateEnvSuffix`](../../../../classes/BaseClass.md#updateenvsuffix)
 
 ***
 
@@ -235,4 +286,4 @@ true if `x` is an object created from a class which extends `Construct`.
 
 #### Inherited from
 
-`Construct.isConstruct`
+[`BaseClass`](../../../../classes/BaseClass.md).[`isConstruct`](../../../../classes/BaseClass.md#isconstruct)
