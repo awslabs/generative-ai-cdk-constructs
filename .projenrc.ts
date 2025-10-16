@@ -72,6 +72,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     '@aws-cdk/assert',
     `@aws-cdk/integ-tests-alpha@${CDK_VERSION}-alpha.0`,
     '@cdklabs/eslint-plugin',
+    'eslint-plugin-jsdoc',
   ],
   deps: ['cdk-nag'],
   bundledDeps: ['deepmerge', `@aws-cdk/aws-lambda-python-alpha@${CDK_VERSION}-alpha.0`],
@@ -376,7 +377,7 @@ project.npmignore?.addPatterns(
   '.husky',
 );
 
-project.eslint?.addPlugins('license-header', '@cdklabs/eslint-plugin');
+project.eslint?.addPlugins('license-header', '@cdklabs/eslint-plugin', 'jsdoc');
 project.eslint?.addRules({
   'license-header/header': ['error', 'header.js'],
   '@cdklabs/no-core-construct': ['error'],
@@ -409,6 +410,11 @@ project.eslint?.addRules({
   'eol-last': ['error', 'always'], // require a newline a the end of files
   '@stylistic/spaced-comment': ['error', 'always', { exceptions: ['/', '*'], markers: ['/'] }], // require a whitespace at the beginninng of each comment
   '@stylistic/padded-blocks': ['error', { classes: 'never', blocks: 'never', switches: 'never' }],
+  // JSDoc
+  'jsdoc/require-param-description': ['error'],
+  'jsdoc/require-property-description': ['error'],
+  'jsdoc/require-returns-description': ['error'],
+  'jsdoc/check-alignment': ['error'],
   // Require all imported libraries actually resolve (!!required for import/no-extraneous-dependencies to work!!)
   'import/no-unresolved': ['error'],
   // Require an ordering on all imports

@@ -59,7 +59,7 @@ export function buildMeritBadgerWorkflow(project: AwsCdkConstructLibrary) {
 /**
  * https://github.com/aws/aws-cdk/blob/main/.github/workflows/repo-metrics.yml
  * GitHub action that runs monthly to report on metrics for issues and PRs created last month.
- * @param project
+ * @param project AwsCdkConstructLibrary
  */
 export function buildMonthlyIssuesMetricsWorkflow(project: AwsCdkConstructLibrary) {
   const buildjob: Job = {
@@ -377,7 +377,7 @@ export function runBanditWorkflow(project: AwsCdkConstructLibrary) {
 }
 
 /**
-* https://commitlint.js.org/#/guides-ci-setup
+ * https://commitlint.js.org/#/guides-ci-setup
  * Runs commitlint on the repository.
  * @param project AwsCdkConstructLibrary
  */

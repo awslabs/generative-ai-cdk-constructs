@@ -10,7 +10,8 @@
     "import",
     "@stylistic",
     "license-header",
-    "@cdklabs/eslint-plugin"
+    "@cdklabs/eslint-plugin",
+    "jsdoc"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -317,6 +318,18 @@
         "blocks": "never",
         "switches": "never"
       }
+    ],
+    "jsdoc/require-param-description": [
+      "error"
+    ],
+    "jsdoc/require-property-description": [
+      "error"
+    ],
+    "jsdoc/require-returns-description": [
+      "error"
+    ],
+    "jsdoc/check-alignment": [
+      "error"
     ],
     "no-duplicate-imports": [
       "error"

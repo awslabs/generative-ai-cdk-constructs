@@ -16,6 +16,10 @@ Create a new Service Role for the Knowledge Base.
 
 `Construct`
 
+Construct
+
 ## Returns
 
 `Role`
+
+iam.Role

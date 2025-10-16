@@ -31,11 +31,11 @@ export interface RedisProps {
   readonly cfnCacheClusterProps?: elasticache.CfnCacheClusterProps;
 
   /**
-  * Optional. Existing Redis cluster to cache the generated summary
-  * for subsequent request of same document.
-  *
-  * @default - none
-  */
+   * Optional. Existing Redis cluster to cache the generated summary
+   * for subsequent request of same document.
+   *
+   * @default - none
+   */
   readonly existingRedisCulster?: elasticache.CfnCacheCluster;
 
   /**

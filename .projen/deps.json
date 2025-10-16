@@ -72,6 +72,10 @@
       "type": "build"
     },
     {
+      "name": "eslint-plugin-jsdoc",
+      "type": "build"
+    },
+    {
       "name": "eslint-plugin-license-header",
       "type": "build"
     },
