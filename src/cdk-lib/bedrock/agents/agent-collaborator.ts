@@ -40,13 +40,13 @@ export enum AgentCollaboratorType {
  */
 export enum RelayConversationHistoryType {
   /**
-     * Sending to the collaborator.
-     */
+   * Sending to the collaborator.
+   */
   TO_COLLABORATOR = 'TO_COLLABORATOR',
 
   /**
-     * Disabling relay of conversation history to the collaborator.
-     */
+   * Disabling relay of conversation history to the collaborator.
+   */
   DISABLED = 'DISABLED',
 }
 
@@ -137,10 +137,10 @@ export class AgentCollaborator {
   }
 
   /**
- * Format as CFN properties
- *
- * @internal This is an internal core function and should not be called directly.
- */
+   * Format as CFN properties
+   *
+   * @internal This is an internal core function and should not be called directly.
+   */
   public _render(): CfnAgent.AgentCollaboratorProperty {
     return {
       agentDescriptor: {
@@ -153,12 +153,12 @@ export class AgentCollaborator {
   }
 
   /**
- * Grants the specified principal permissions to get the agent alias and invoke the agent
- * from this collaborator.
- *
- * @param grantee The principal to grant permissions to
- * @returns The Grant object
- */
+   * Grants the specified principal permissions to get the agent alias and invoke the agent
+   * from this collaborator.
+   *
+   * @param grantee The principal to grant permissions to
+   * @returns The Grant object
+   */
   public grant(grantee: IGrantable): Grant {
     const grant1 = this.agentAlias.grantInvoke(grantee);
     const combinedGrant = grant1.combine(this.agentAlias.grantGet(grantee));

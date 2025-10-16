@@ -45,24 +45,24 @@ const CLUSTER_TAG_MAX_LENGTH = 256;
  */
 export interface ICluster extends IResource {
   /**
-     * The ARN of the cluster
-     * @attribute
-     */
+   * The ARN of the cluster
+   * @attribute
+   */
   readonly clusterArn: string;
   /**
-     * The timestamp when the cluster was created, in ISO 8601 format.
-     * @attribute
-     */
+   * The timestamp when the cluster was created, in ISO 8601 format.
+   * @attribute
+   */
   readonly creationTime?: string;
   /**
-     * The id of the cluster.
-     * @attribute
-     */
+   * The id of the cluster.
+   * @attribute
+   */
   readonly clusterId: string;
   /**
-     * The status of the cluster.
-     * @attribute
-     */
+   * The status of the cluster.
+   * @attribute
+   */
   readonly status?: string;
   /*
     * VpcEndpointServiceName of the cluster.
@@ -70,8 +70,8 @@ export interface ICluster extends IResource {
     */
   readonly vpcEndpointServiceName: string;
   /**
-     * Optional KMS encryption key associated with this bucket.
-     */
+   * Optional KMS encryption key associated with this bucket.
+   */
   readonly encryptionKey?: kms.IKey;
   /**
    * Grants IAM actions to the IAM Principal
@@ -96,28 +96,28 @@ export interface ICluster extends IResource {
  */
 export abstract class ClusterBase extends Resource implements ICluster {
   /**
-     * The ARN of the cluster
-     */
+   * The ARN of the cluster
+   */
   public abstract readonly clusterArn: string;
   /**
-     * The timestamp when the cluster was created, in ISO 8601 format.
-     */
+   * The timestamp when the cluster was created, in ISO 8601 format.
+   */
   public abstract readonly creationTime?: string;
   /**
-     * The id of the cluster.
-     */
+   * The id of the cluster.
+   */
   public abstract readonly clusterId: string;
   /**
-     * The status of the cluster.
-     */
+   * The status of the cluster.
+   */
   public abstract readonly status?: string;
   /**
-     * The VpcEndpointServiceName of the cluster.
-     */
+   * The VpcEndpointServiceName of the cluster.
+   */
   public abstract readonly vpcEndpointServiceName: string;
   /**
-     * Optional KMS encryption key associated with this cluster.
-     */
+   * Optional KMS encryption key associated with this cluster.
+   */
   public abstract readonly encryptionKey?: kms.IKey;
 
   constructor(scope: Construct, id: string) {
@@ -168,22 +168,22 @@ export abstract class ClusterBase extends Resource implements ICluster {
  */
 export interface MultiRegionProperties {
   /**
-     * The set of peered clusters that form the multi-Region cluster configuration.
-     *
-     * Each peered cluster represents a database instance in a different Region.
-     * @default - No peered clusters (single region cluster)
-     * @required - No
-    */
+   * The set of peered clusters that form the multi-Region cluster configuration.
+   *
+   * Each peered cluster represents a database instance in a different Region.
+   * @default - No peered clusters (single region cluster)
+   * @required - No
+   */
   readonly clusters?: ICluster[];
   /**
-     * The Region that serves as the witness Region for a multi-Region cluster.
-     *
-     * The witness Region helps maintain cluster consistency and quorum.
-     * The witness Region receives data written to any Read-Write Region
-     * but does not have an endpoint.
-     *
-     * @required - Yes
-    */
+   * The Region that serves as the witness Region for a multi-Region cluster.
+   *
+   * The witness Region helps maintain cluster consistency and quorum.
+   * The witness Region receives data written to any Read-Write Region
+   * but does not have an endpoint.
+   *
+   * @required - Yes
+   */
   readonly witnessRegion: string;
 }
 
@@ -195,30 +195,30 @@ export interface MultiRegionProperties {
  */
 export interface ClusterCustomProps {
   /**
-     * The removal policy for the cluster.
-     * Only RemovalPolicy.DESTROY and RemovalPolicy.RETAIN are allowed.
-     * @default - RemovalPolicy.DESTROY
-     * @required - No
-     */
+   * The removal policy for the cluster.
+   * Only RemovalPolicy.DESTROY and RemovalPolicy.RETAIN are allowed.
+   * @default - RemovalPolicy.DESTROY
+   * @required - No
+   */
   readonly removalPolicy?: RemovalPolicy;
   /**
-     * KMS key to use for the cluster.
-     * @default - A new KMS key is created.
-     * @required - No
-     */
+   * KMS key to use for the cluster.
+   * @default - A new KMS key is created.
+   * @required - No
+   */
   readonly kmsKey?: IKey;
   /**
-     * Defines the structure for multi-Region cluster configurations, containing the witness Region and peered cluster settings.
-     * If not provided, the cluster will be created in the same region as the stack (single region cluster).
-     * @default - No multi-Region cluster configurations.
-     * @required - No
-     */
+   * Defines the structure for multi-Region cluster configurations, containing the witness Region and peered cluster settings.
+   * If not provided, the cluster will be created in the same region as the stack (single region cluster).
+   * @default - No multi-Region cluster configurations.
+   * @required - No
+   */
   readonly multiRegionProperties?: MultiRegionProperties;
   /**
-     * Tags to apply to the cluster.
-     * @default - No tags.
-     * @required - No
-     */
+   * Tags to apply to the cluster.
+   * @default - No tags.
+   * @required - No
+   */
   readonly tags?: Record<string, string>;
 }
 
@@ -230,30 +230,30 @@ export interface ClusterCustomProps {
  */
 export interface ClusterAttributes {
   /**
-     * The ARN of the cluster
-     * @attribute
-     */
+   * The ARN of the cluster
+   * @attribute
+   */
   readonly clusterArn: string;
   /**
-     * The timestamp when the cluster was created, in ISO 8601 format.
-     * @default undefined - No creation time is provided
-     */
+   * The timestamp when the cluster was created, in ISO 8601 format.
+   * @default undefined - No creation time is provided
+   */
   readonly creationTime?: string;
   /**
-     * The status of the cluster.
-     * @default undefined - No status is provided
-     */
+   * The status of the cluster.
+   * @default undefined - No status is provided
+   */
   readonly status?: string;
   /**
-    * VpcEndpointServiceName of the cluster.
-    * @attribute
-    */
+   * VpcEndpointServiceName of the cluster.
+   * @attribute
+   */
   readonly vpcEndpointServiceName: string;
   /**
-     * KMS encryption key associated with this cluster.
-     *
-     * @default - no encryption key
-     */
+   * KMS encryption key associated with this cluster.
+   *
+   * @default - no encryption key
+   */
   readonly encryptionKey?: kms.IKey;
 }
 
@@ -304,9 +304,9 @@ export class Cluster extends ClusterBase {
   // Attributes
   // ------------------------------------------------------
   /**
-     * The ARN of the cluster
-     * @attribute
-    */
+   * The ARN of the cluster
+   * @attribute
+   */
   public readonly clusterArn: string;
   /**
    * The timestamp when the cluster was created, in ISO 8601 format.
@@ -324,9 +324,9 @@ export class Cluster extends ClusterBase {
    */
   public readonly status?: string;
   /**
-  * VpcEndpointServiceName of the cluster.
-  * @attribute
-  */
+   * VpcEndpointServiceName of the cluster.
+   * @attribute
+   */
   public readonly vpcEndpointServiceName: string;
   /**
    * KMS encryption key associated with this cluster.

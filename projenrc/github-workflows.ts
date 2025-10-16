@@ -35,7 +35,7 @@ export function buildMeritBadgerWorkflow(project: AwsCdkConstructLibrary) {
           'github-token': '${{ secrets.PROJEN_GITHUB_TOKEN }}',
           'badges': '[beginning-contributor,repeat-contributor,valued-contributor,admired-contributor,star-contributor,distinguished-contributor]',
           'thresholds': '[0,3,6,13,25,50]',
-          'ignore-usernames': '[emerging-tech-cdk-constructs-bot, generative-ai-cdk-constructs-bot, dependabot[bot], dependabot, amazon-auto, github-actions]',
+          'ignore-usernames': '[emerging-tech-cdk-constructs-bot, generative-ai-cdk-constructs-bot, dependabot[bot], dependabot, amazon-auto, github-actions, github-actions[bot]]',
         },
       },
     ],
@@ -59,7 +59,7 @@ export function buildMeritBadgerWorkflow(project: AwsCdkConstructLibrary) {
 /**
  * https://github.com/aws/aws-cdk/blob/main/.github/workflows/repo-metrics.yml
  * GitHub action that runs monthly to report on metrics for issues and PRs created last month.
- * @param project
+ * @param project AwsCdkConstructLibrary
  */
 export function buildMonthlyIssuesMetricsWorkflow(project: AwsCdkConstructLibrary) {
   const buildjob: Job = {
@@ -194,7 +194,7 @@ export function buildOrtToolkitWorkflow(project: AwsCdkConstructLibrary) {
     steps: [
       {
         name: 'Checkout project',
-        uses: 'actions/checkout@v4',
+        uses: 'actions/checkout@v5',
       },
       {
         name: 'Run GitHub Action for ORT',
@@ -254,10 +254,11 @@ export function runSemGrepWorkflow(project: AwsCdkConstructLibrary) {
       },
       {
         name: 'Store Semgrep as Artifact',
-        uses: 'actions/upload-artifact@v4',
+        uses: 'actions/upload-artifact@v4.6.2',
         with: {
           name: 'semgrep.json',
           path: 'semgrep.json',
+          overwrite: true,
         },
       },
       // `awslabs` has the Advanced Security disabled.
@@ -318,11 +319,11 @@ export function runBanditWorkflow(project: AwsCdkConstructLibrary) {
     steps: [
       {
         name: 'Checkout project',
-        uses: 'actions/checkout@v4',
+        uses: 'actions/checkout@v5',
       },
       {
         name: 'Setup Python',
-        uses: 'actions/setup-python@v5',
+        uses: 'actions/setup-python@v6',
         with: {
           'python-version': '3.x',
         },
@@ -333,10 +334,11 @@ export function runBanditWorkflow(project: AwsCdkConstructLibrary) {
       },
       {
         name: 'Store Bandit as Artifact',
-        uses: 'actions/upload-artifact@v4',
+        uses: 'actions/upload-artifact@v4.6.2',
         with: {
           name: 'bandit-report.html',
           path: 'bandit-report.html',
+          overwrite: true,
         },
       },
       // `awslabs` has the Advanced Security disabled.
@@ -375,7 +377,7 @@ export function runBanditWorkflow(project: AwsCdkConstructLibrary) {
 }
 
 /**
-* https://commitlint.js.org/#/guides-ci-setup
+ * https://commitlint.js.org/#/guides-ci-setup
  * Runs commitlint on the repository.
  * @param project AwsCdkConstructLibrary
  */
@@ -394,16 +396,16 @@ export function runCommitLintWorkflow(project: AwsCdkConstructLibrary) {
     steps: [
       {
         name: 'Checkout project',
-        uses: 'actions/checkout@v4',
+        uses: 'actions/checkout@v5',
         with: {
           'fetch-depth': '0',
         },
       },
       {
         name: 'Setup Node',
-        uses: 'actions/setup-node@v4',
+        uses: 'actions/setup-node@v5',
         with: {
-          'node-version': '20.x',
+          'node-version': '22.x',
         },
       },
       {
@@ -414,11 +416,13 @@ export function runCommitLintWorkflow(project: AwsCdkConstructLibrary) {
         name: 'Validate Current Commit',
         if: "github.event_name == 'push'",
         run: 'npx commitlint --from HEAD~1 --to HEAD --verbose',
+        shell: 'bash',
       },
       {
         name: 'Validate PR commits with commitlint',
         if: "github.event_name == 'pull_request'",
         run: 'npx commitlint --from ${{ github.event.pull_request.head.sha }}~${{ github.event.pull_request.commits }} --to ${{ github.event.pull_request.head.sha }} --verbose',
+        shell: 'bash',
       },
     ],
   };
@@ -464,16 +468,16 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
     steps: [
       {
         name: 'Checkout project',
-        uses: 'actions/checkout@v4',
+        uses: 'actions/checkout@v5',
         with: {
           ref: 'main',
         },
       },
       {
         name: 'Setup Node.js',
-        uses: 'actions/setup-node@v4',
+        uses: 'actions/setup-node@v5',
         with: {
-          'node-version': '20.x',
+          'node-version': '22.x',
         },
       },
       {
@@ -501,14 +505,16 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
           'git add .',
           'git diff --staged --patch --exit-code > .repo.patch || echo "patch_created=true" >> $GITHUB_OUTPUT',
         ].join('\n'),
+        shell: 'bash',
       },
       {
         name: 'Upload patch',
         if: `steps.${CREATE_PATCH_STEP_ID}.outputs.${PATCH_CREATED_OUTPUT}`,
-        uses: 'actions/upload-artifact@v4',
+        uses: 'actions/upload-artifact@v4.6.2',
         with: {
           name: '.repo.patch',
           path: '.repo.patch',
+          overwrite: true,
         },
       },
     ],
@@ -526,14 +532,14 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
     steps: [
       {
         name: 'Checkout',
-        uses: 'actions/checkout@v4',
+        uses: 'actions/checkout@v5',
         with: {
           ref: 'main',
         },
       },
       {
         name: 'Download patch',
-        uses: 'actions/download-artifact@v4',
+        uses: 'actions/download-artifact@v5',
         with: {
           name: '.repo.patch',
           path: '${{ runner.temp }}',
@@ -546,8 +552,8 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
       {
         name: 'Set git identity',
         run: [
-          'git config user.name "github-actions"',
-          'git config user.email "github-actions@github.com"',
+          'git config user.name "github-actions[bot]"',
+          'git config user.email "41898282+github-actions[bot]@users.noreply.github.com"',
         ].join('\n'),
       },
       {
@@ -576,8 +582,8 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
 
             '*Automatically created by projen via the "code-generation" workflow*',
           ].join('\n'),
-          'author': 'github-actions <github-actions@github.com>',
-          'committer': 'github-actions <github-actions@github.com>',
+          'author': 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>',
+          'committer': 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>',
           'signoff': true,
           'labels': 'auto-approve',
         },

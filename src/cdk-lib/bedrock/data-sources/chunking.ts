@@ -135,7 +135,7 @@ export abstract class ChunkingStrategy {
    * For custom chunking, the maximum token chunk size depends on the model.
    * - Amazon Titan Text Embeddings: 8192
    * - Cohere Embed models: 512
-  */
+   */
   public static hierarchical(props: HierarchicalChunkingProps): ChunkingStrategy {
     return {
       configuration: {
@@ -156,7 +156,7 @@ export abstract class ChunkingStrategy {
    * For custom chunking, the maximum token chunk size depends on the model.
    * - Amazon Titan Text Embeddings: 8192
    * - Cohere Embed models: 512
-  */
+   */
   public static semantic(props: CfnDataSource.SemanticChunkingConfigurationProperty): ChunkingStrategy {
     return {
       configuration: {

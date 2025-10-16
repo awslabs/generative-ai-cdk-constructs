@@ -26,10 +26,10 @@ export interface BdaResultsLambdaProps {
    */
   readonly lambdaLayers: lambda.ILayerVersion[];
   /**
-     * The S3 bucket
-     * Output bucket to publish the generated result
-     * by Bedrock Data Automation process.
-     */
+   * The S3 bucket
+   * Output bucket to publish the generated result
+   * by Bedrock Data Automation process.
+   */
   readonly outputBucket: s3.IBucket;
 }
 
