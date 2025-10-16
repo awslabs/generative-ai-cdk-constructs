@@ -101,7 +101,7 @@
     "@mrgrain/jsii-struct-builder": "^0.7.63",
     "@stylistic/eslint-plugin": "^2",
     "@types/jest": "^29.5.14",
-    "@types/node": "^18",
+    "@types/node": "^20",
     "@typescript-eslint/eslint-plugin": "^8",
     "@typescript-eslint/parser": "^8",
     "aws-cdk": "^2",
@@ -117,12 +117,12 @@
     "husky": "^8.0.3",
     "jest": "^29.7.0",
     "jest-junit": "^16",
-    "jsii": "~5.6.0",
+    "jsii": "~5.8.0",
     "jsii-diff": "^1.116.0",
     "jsii-pacmak": "^1.116.0",
-    "jsii-rosetta": "~5.6.0",
+    "jsii-rosetta": "~5.8.0",
     "pinst": "^3.0.0",
-    "projen": "~0.91.5",
+    "projen": "~0.98.0",
     "ts-jest": "^29.4.5",
     "ts-node": "^10.9.2",
     "typedoc": "^0.28.14",
@@ -150,7 +150,7 @@
     "generative-ai"
   ],
   "engines": {
-    "node": ">= 18.12.0 <= 22.x"
+    "node": ">= 20.x <= 24.x"
   },
   "main": "lib/index.js",
   "license": "Apache-2.0",

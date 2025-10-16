@@ -10,7 +10,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout project
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
       - name: Run GitHub Action for ORT
         uses: oss-review-toolkit/ort-ci-github-action@7f23c1f8d169dad430e41df223d3b8409c7a156e
         with:

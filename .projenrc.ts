@@ -49,10 +49,10 @@ const project = new awscdk.AwsCdkConstructLibrary({
   description:
     'AWS Generative AI CDK Constructs is a library for well-architected generative AI patterns.',
   cdkVersion: CDK_VERSION,
-  projenVersion: '~0.91.5',
+  projenVersion: '~0.98.0',
   constructsVersion: '10.3.0',
   defaultReleaseBranch: 'main',
-  jsiiVersion: '~5.6.0',
+  jsiiVersion: '~5.8.0',
   name: '@' + PUBLICATION_NAMESPACE + '/' + PROJECT_NAME,
   projenrcTs: true,
   repositoryUrl: 'https://github.com/' + GITHUB_USER + '/' + PROJECT_NAME,
@@ -76,9 +76,9 @@ const project = new awscdk.AwsCdkConstructLibrary({
   deps: ['cdk-nag'],
   bundledDeps: ['deepmerge', `@aws-cdk/aws-lambda-python-alpha@${CDK_VERSION}-alpha.0`],
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
-  minNodeVersion: '18.12.0', // 'MAINTENANCE' (first LTS)
-  maxNodeVersion: '22.x', // 'CURRENT'
-  workflowNodeVersion: '20.x', // 'ACTIVE'
+  minNodeVersion: '20.x', // 'MAINTENANCE' (first LTS)
+  maxNodeVersion: '24.x', // 'CURRENT'
+  workflowNodeVersion: '22.x', // 'ACTIVE'
 
   npmTokenSecret: 'NPM_TOKEN',
   npmAccess: NpmAccess.PUBLIC,
@@ -180,6 +180,10 @@ project.github?.actions.set(
   'actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11',
 );
 project.github?.actions.set(
+  'actions/checkout@v5',
+  'actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8',
+);
+project.github?.actions.set(
   'actions/download-artifact@v3',
   'actions/download-artifact@b4aefff88e83a2676a730654e1ce3dce61880379',
 ); // https://github.com/projen/projen/issues/3529
@@ -188,8 +192,16 @@ project.github?.actions.set(
   'actions/download-artifact@b4aefff88e83a2676a730654e1ce3dce61880379',
 );
 project.github?.actions.set(
+  'actions/download-artifact@v5',
+  'actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0',
+);
+project.github?.actions.set(
   'actions/github-script@v6',
   'actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410',
+);
+project.github?.actions.set(
+  'actions/github-script@v8',
+  'actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd',
 );
 project.github?.actions.set(
   'actions/setup-dotnet@v3',
@@ -204,6 +216,10 @@ project.github?.actions.set(
   'actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32',
 );
 project.github?.actions.set(
+  'actions/setup-go@v6',
+  'actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00',
+);
+project.github?.actions.set(
   'actions/setup-node@v3',
   'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8',
 ); // https://github.com/projen/projen/issues/3529
@@ -212,12 +228,20 @@ project.github?.actions.set(
   'actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8',
 );
 project.github?.actions.set(
+  'actions/setup-node@v5',
+  'actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444',
+);
+project.github?.actions.set(
   'actions/setup-python@v4',
   'actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d',
 ); // https://github.com/projen/projen/issues/3529
 project.github?.actions.set(
   'actions/setup-python@v5',
   'actions/setup-python@82c7e631bb3cdc910f68e0081d67478d79c6982d',
+);
+project.github?.actions.set(
+  'actions/setup-python@v6',
+  'actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c',
 );
 project.github?.actions.set(
   'actions/setup-java@v3',
@@ -232,6 +256,10 @@ project.github?.actions.set(
   'actions/stale@a20b814fb01b71def3bd6f56e7494d667ddf28da',
 );
 project.github?.actions.set(
+  'actions/stale@v10',
+  'actions/stale@5f858e3efba33a5ca4407a664cc011ad407f2008',
+);
+project.github?.actions.set(
   'actions/upload-artifact@v3',
   'actions/upload-artifact@18bf333cd2249fbbbdb605fd9d9ed57efd7adf34',
 ); // https://github.com/projen/projen/issues/3529
@@ -244,12 +272,20 @@ project.github?.actions.set(
   'actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874',
 );
 project.github?.actions.set(
+  'actions/upload-artifact@v4.6.2',
+  'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02',
+);
+project.github?.actions.set(
   'amannn/action-semantic-pull-request@v5.0.2',
   'amannn/action-semantic-pull-request@01d5fd8a8ebb9aafe902c40c53f0f4744f7381eb',
 );
 project.github?.actions.set(
   'amannn/action-semantic-pull-request@v5.4.0',
   'amannn/action-semantic-pull-request@e9fabac35e210fea40ca5b14c0da95a099eff26f',
+);
+project.github?.actions.set(
+  'amannn/action-semantic-pull-request@v6',
+  'amannn/action-semantic-pull-request@04a8d177d951f6d3dff9f6fbfa336354c60a1112',
 );
 project.github?.actions.set(
   'aws-github-ops/github-merit-badger@main',
@@ -262,6 +298,10 @@ project.github?.actions.set(
 project.github?.actions.set(
   'codecov/codecov-action@v4',
   'codecov/codecov-action@84508663e988701840491b86de86b666e8a86bed',
+);
+project.github?.actions.set(
+  'codecov/codecov-action@v5',
+  'codecov/codecov-action@968872560f81e7bdde9272853e65f2507c0eca7c',
 );
 project.github?.actions.set(
   'github/issue-metrics@v2',
@@ -294,6 +334,10 @@ project.github?.actions.set(
 project.github?.actions.set(
   'peter-evans/create-pull-request@v6',
   'peter-evans/create-pull-request@b1ddad2c994a25fbc81a28b3ec0e368bb2021c50',
+);
+project.github?.actions.set(
+  'peter-evans/create-pull-request@v7',
+  'peter-evans/create-pull-request@4320041ed380b20e97d388d56a7fb4f9b8c20e79',
 );
 project.github?.actions.set(
   'peter-evans/create-pull-request@v7.0.6',
