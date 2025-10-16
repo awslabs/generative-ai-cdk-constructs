@@ -73,6 +73,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
     `@aws-cdk/integ-tests-alpha@${CDK_VERSION}-alpha.0`,
     '@cdklabs/eslint-plugin',
     'eslint-plugin-jsdoc',
+    'eslint-plugin-jest',
   ],
   deps: ['cdk-nag'],
   bundledDeps: ['deepmerge', `@aws-cdk/aws-lambda-python-alpha@${CDK_VERSION}-alpha.0`],
@@ -377,7 +378,7 @@ project.npmignore?.addPatterns(
   '.husky',
 );
 
-project.eslint?.addPlugins('license-header', '@cdklabs/eslint-plugin', 'jsdoc');
+project.eslint?.addPlugins('license-header', '@cdklabs/eslint-plugin', 'jsdoc', 'jest');
 project.eslint?.addRules({
   'license-header/header': ['error', 'header.js'],
   '@cdklabs/no-core-construct': ['error'],
@@ -494,6 +495,16 @@ project.eslint?.addRules({
   }],
   // Too easy to make mistakes
   '@typescript-eslint/unbound-method': 'error',
+  // Overrides for plugin:jest/recommended
+  'jest/expect-expect': 'off',
+  'jest/no-conditional-expect': 'off',
+  'jest/no-done-callback': 'off', // Far too many of these in the codebase.
+  'jest/no-standalone-expect': 'off', // nodeunitShim confuses this check.
+  'jest/valid-expect': 'off', // expect from '@aws-cdk/assert' can take a second argument
+  'jest/valid-title': 'off', // A little over-zealous with test('test foo') being an error.
+  'jest/no-identical-title': 'off', // TEMPORARY - Disabling this until https://github.com/jest-community/eslint-plugin-jest/issues/836 is resolved
+  'jest/no-disabled-tests': 'error', // Skipped tests are easily missed in PR reviews
+  'jest/no-focused-tests': 'error', // Focused tests are easily missed in PR reviews
 });
 
 const packageJson = project.tryFindObjectFile('package.json');

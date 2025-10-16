@@ -11,7 +11,8 @@
     "@stylistic",
     "license-header",
     "@cdklabs/eslint-plugin",
-    "jsdoc"
+    "jsdoc",
+    "jest"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -375,7 +376,16 @@
         "message": "Use the md5hash() function from the core library if you want md5"
       }
     ],
-    "@typescript-eslint/unbound-method": "error"
+    "@typescript-eslint/unbound-method": "error",
+    "jest/expect-expect": "off",
+    "jest/no-conditional-expect": "off",
+    "jest/no-done-callback": "off",
+    "jest/no-standalone-expect": "off",
+    "jest/valid-expect": "off",
+    "jest/valid-title": "off",
+    "jest/no-identical-title": "off",
+    "jest/no-disabled-tests": "error",
+    "jest/no-focused-tests": "error"
   },
   "overrides": [
     {
