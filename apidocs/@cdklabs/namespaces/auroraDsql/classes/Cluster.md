@@ -219,14 +219,6 @@ VpcEndpointServiceName of the cluster.
 
 [`ClusterBase`](ClusterBase.md).[`vpcEndpointServiceName`](ClusterBase.md#vpcendpointservicename)
 
-***
-
-### PROPERTY\_INJECTION\_ID
-
-> `readonly` `static` **PROPERTY\_INJECTION\_ID**: `string` = `'@generative-ai-cdk-constructs.aws-aurora-dsql.Cluster'`
-
-Uniquely identifies this class.
-
 ## Methods
 
 ### \_enableCrossEnvironment()
