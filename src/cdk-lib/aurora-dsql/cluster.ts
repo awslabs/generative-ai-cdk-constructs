@@ -16,7 +16,6 @@ import * as dsql from 'aws-cdk-lib/aws-dsql';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import { IKey } from 'aws-cdk-lib/aws-kms';
-import { propertyInjectable } from 'aws-cdk-lib/core/lib/prop-injectable';
 import { Construct } from 'constructs';
 // Internal libs
 import * as perms from './perms';
@@ -266,11 +265,7 @@ export interface ClusterAttributes {
  * @see https://docs.aws.amazon.com/aurora-dsql/latest/userguide/what-is-aurora-dsql.html
  * @resource AWS::DSQL::Cluster
  */
-@propertyInjectable
 export class Cluster extends ClusterBase {
-  /** Uniquely identifies this class. */
-  public static readonly PROPERTY_INJECTION_ID: string = '@generative-ai-cdk-constructs.aws-aurora-dsql.Cluster';
-
   /**
    * Static Method for importing an existing Aurora DSQL cluster.
    */
