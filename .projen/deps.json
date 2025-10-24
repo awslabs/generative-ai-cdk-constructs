@@ -6,7 +6,7 @@
     },
     {
       "name": "@aws-cdk/integ-tests-alpha",
-      "version": "2.219.0-alpha.0",
+      "version": "2.221.0-alpha.0",
       "type": "build"
     },
     {
@@ -111,12 +111,12 @@
     },
     {
       "name": "jsii-rosetta",
-      "version": "~5.8.0",
+      "version": "~5.9.0",
       "type": "build"
     },
     {
       "name": "jsii",
-      "version": "~5.8.0",
+      "version": "~5.9.0",
       "type": "build"
     },
     {
@@ -125,7 +125,7 @@
     },
     {
       "name": "projen",
-      "version": "~0.98.0",
+      "version": "~0.98.4",
       "type": "build"
     },
     {
@@ -150,7 +150,7 @@
     },
     {
       "name": "@aws-cdk/aws-lambda-python-alpha",
-      "version": "2.219.0-alpha.0",
+      "version": "2.221.0-alpha.0",
       "type": "bundled"
     },
     {
@@ -159,7 +159,7 @@
     },
     {
       "name": "aws-cdk-lib",
-      "version": "^2.219.0",
+      "version": "^2.221.0",
       "type": "peer"
     },
     {
