@@ -30,10 +30,10 @@
   resolved "https://registry.yarnpkg.com/@aws-cdk/asset-node-proxy-agent-v6/-/asset-node-proxy-agent-v6-2.1.0.tgz#6d3c7860354d4856a7e75375f2f0ecab313b4989"
   integrity sha512-7bY3J8GCVxLupn/kNmpPc5VJz8grx+4RKfnnJiO1LG+uxkZfANZG3RMHhE+qQxxwkyQ9/MfPtTpf748UhR425A==
 
-"@aws-cdk/aws-lambda-python-alpha@2.219.0-alpha.0":
-  version "2.219.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-lambda-python-alpha/-/aws-lambda-python-alpha-2.219.0-alpha.0.tgz#aeadb79a636b23ccbaa1fe2e6b938e1e0ebc92e4"
-  integrity sha512-rP1gi6VIZssZVFw34BLLJNxnpHplhp52J/xChjUELs7x2z06Wi7U0yfog0ehHoyD1FCqFXOgTIgYMxHEd68OrQ==
+"@aws-cdk/aws-lambda-python-alpha@2.221.0-alpha.0":
+  version "2.221.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/aws-lambda-python-alpha/-/aws-lambda-python-alpha-2.221.0-alpha.0.tgz#5db232993c9cd1d0347dfd43748710bf9b862376"
+  integrity sha512-LpygiNcK8VbkWmAM45fZNRNUNRNvCBoR37xJc6vZF76807UvaTipblIqroOkaOZqcu5CHT0iEs4pe7Yrk6myMg==
 
 "@aws-cdk/cfnspec@2.68.0":
   version "2.68.0"
@@ -63,10 +63,10 @@
     string-width "^4.2.3"
     table "^6.8.1"
 
-"@aws-cdk/integ-tests-alpha@2.219.0-alpha.0":
-  version "2.219.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/integ-tests-alpha/-/integ-tests-alpha-2.219.0-alpha.0.tgz#620e3532b26d8efe7503c1c619636eab28384172"
-  integrity sha512-5diG0cne6yU97Yv9lCiZN0rv88Vwkdt6mpDUnJ+5vKcsfiWE1d87NDgQL55RTb1eJWIGhzSouAaLd5shvXKAPQ==
+"@aws-cdk/integ-tests-alpha@2.221.0-alpha.0":
+  version "2.221.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/integ-tests-alpha/-/integ-tests-alpha-2.221.0-alpha.0.tgz#d387a5a430a525f6be6804e4f68c5d586ef59912"
+  integrity sha512-ccLfDK0ph2z9IEL59I8L2L20woKhE9ku/ZrIqtPLFvB+x1HkUf9Z4nqKuCnYQdPMxRJ2/OFFn3DNqbmomMeyRA==
 
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.12.13", "@babel/code-frame@^7.27.1":
   version "7.27.1"
@@ -941,23 +941,15 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@jsii/check-node@1.114.1":
-  version "1.114.1"
-  resolved "https://registry.yarnpkg.com/@jsii/check-node/-/check-node-1.114.1.tgz#9ff05988721cdee3d295b80a131e10e449e0571d"
-  integrity sha512-SE9H1xBo4D+y259zRWqbrUnWVzCzxZh8ek2G1u5P+wP1n86GcgU+vz8uhJfGagdWFwW1EMW6t4PkPvbYoQG0yw==
+"@jsii/check-node@1.116.0":
+  version "1.116.0"
+  resolved "https://registry.yarnpkg.com/@jsii/check-node/-/check-node-1.116.0.tgz#f4db6461511f60232aa02bfaf46bd607da49bbae"
+  integrity sha512-Avk6AKggZJcWpDLGH8lb5duyfGIVHCmmeglM3LfmQvKU/zumbRfeg4LvUXGqJflnRB7GAbzbx8iDNo8FMjIWjg==
   dependencies:
     chalk "^4.1.2"
     semver "^7.7.2"
 
-"@jsii/check-node@1.115.0":
-  version "1.115.0"
-  resolved "https://registry.yarnpkg.com/@jsii/check-node/-/check-node-1.115.0.tgz#ac6c67d27ab484d0625e44592bb201514ed9d7b9"
-  integrity sha512-DEcg6DWa7UFgPipR0FqnqWBd9d/zzmTW6fJSUORFhh1USYjYofyCNc76IXxBDdd8gMQYMnvuQ1GTjygLcRjlRA==
-  dependencies:
-    chalk "^4.1.2"
-    semver "^7.7.2"
-
-"@jsii/check-node@1.117.0":
+"@jsii/check-node@1.117.0", "@jsii/check-node@^1.116.0":
   version "1.117.0"
   resolved "https://registry.yarnpkg.com/@jsii/check-node/-/check-node-1.117.0.tgz#44110172f6b4df86c3f0172599c64d2f08ce362c"
   integrity sha512-OtCwbCGGV41O4zuv11aioMFOSUHKm3cVBFmmwsls0ilcgzAKQ5Dk4/gqbzhpissiiDfFZuW+WjXO1lgTm8oRfw==
@@ -965,7 +957,14 @@
     chalk "^4.1.2"
     semver "^7.7.2"
 
-"@jsii/spec@1.117.0", "@jsii/spec@^1.112.0", "@jsii/spec@^1.114.1", "@jsii/spec@^1.115.0":
+"@jsii/spec@1.116.0":
+  version "1.116.0"
+  resolved "https://registry.yarnpkg.com/@jsii/spec/-/spec-1.116.0.tgz#8da502da897f15b46ac969033cea5cbee4738f43"
+  integrity sha512-BqsOMsE7Md6EwaLammXeCOi20GlsA4lAawIrPN0jHeFjZnEqUsiWRXZw+9EG3lTImW9QLVN1cF9kbQ3t3vAXeQ==
+  dependencies:
+    ajv "^8.17.1"
+
+"@jsii/spec@1.117.0", "@jsii/spec@^1.112.0", "@jsii/spec@^1.116.0":
   version "1.117.0"
   resolved "https://registry.yarnpkg.com/@jsii/spec/-/spec-1.117.0.tgz#c2e73ceac03d48504d2f0d0a2fc6b0860ea38656"
   integrity sha512-Uru/sg3RN9Rr0smN3MS5gueeGdQdPHQ9fTVSxEOuzpxr5z1gej51rs73luj1cYPncMryHo+YkygpucCdLiQItg==
@@ -1726,10 +1725,10 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
-aws-cdk-lib@2.219.0:
-  version "2.219.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.219.0.tgz#248431a1a7fe1d5e560b9026f7540d4e847404bd"
-  integrity sha512-Rq1/f3exfFEWee1znNq8yvR1TuRQ4xQZz3JNkliBW9dFwyrDe7l/dmlAf6DVvB3nuiZAaUS+vh4ua1LZ7Ec8kg==
+aws-cdk-lib@2.221.0:
+  version "2.221.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk-lib/-/aws-cdk-lib-2.221.0.tgz#4af28bcaca7464248ed34ef0082158c460bf53ab"
+  integrity sha512-lOS0EnE4NQBW2+/0/qxwDBtGYGt8Fa/lCYsvC2/XTU3vBZ454mKkdI9zWKspZJ+Fo5b2iS1Q7iiSIbQVat2xJA==
   dependencies:
     "@aws-cdk/asset-awscli-v1" "2.2.242"
     "@aws-cdk/asset-node-proxy-agent-v6" "^2.1.0"
@@ -4426,41 +4425,41 @@ jsii-reflect@^1.117.0:
     oo-ascii-tree "^1.117.0"
     yargs "^17.7.2"
 
-jsii-rosetta@~5.8.0:
-  version "5.8.17"
-  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.8.17.tgz#936e7b9726117b38467e74e55f4c445000fb206a"
-  integrity sha512-uZHlbJD09DBvkI0FZG4rJZRCyiokaJ+bmE70JGXRsly3JA+wNdCrS4xSiWcICMdtt6LMrQ6eY6DSSFoPR0aSSQ==
+jsii-rosetta@~5.9.0:
+  version "5.9.11"
+  resolved "https://registry.yarnpkg.com/jsii-rosetta/-/jsii-rosetta-5.9.11.tgz#999a3fa0309db50de3464dca96ee75b0286f93c7"
+  integrity sha512-J0WXTYm6XEq+yyifSA5Wu9H8w3forNU1Efn4kOb8P5FZLDdZHGy5IpX0nWaYejlNMPVwy1ZoLjaJSHADVoul5Q==
   dependencies:
-    "@jsii/check-node" "1.114.1"
-    "@jsii/spec" "^1.114.1"
+    "@jsii/check-node" "^1.116.0"
+    "@jsii/spec" "^1.116.0"
     "@xmldom/xmldom" "^0.9.8"
     chalk "^4"
     commonmark "^0.31.2"
     fast-glob "^3.3.3"
-    jsii "~5.8.0"
-    semver "^7.7.2"
+    jsii "~5.9.1"
+    semver "^7.7.3"
     semver-intersect "^1.5.0"
     stream-json "^1.9.1"
-    typescript "~5.8"
+    typescript "~5.9"
     workerpool "^6.5.1"
     yargs "^17.7.2"
 
-jsii@~5.8.0:
-  version "5.8.21"
-  resolved "https://registry.yarnpkg.com/jsii/-/jsii-5.8.21.tgz#b6c39b6b1ce7944c74878511c0485d6ddb3bec01"
-  integrity sha512-9tPMOKh6XcIYaSRoiaztR96iD2oSE3yp0yZMDlr2ryqvGZKAKZ5Kn/eocGqIBniqx/goPBzqyOlRhPl4P1FICA==
+jsii@~5.9.0, jsii@~5.9.1:
+  version "5.9.10"
+  resolved "https://registry.yarnpkg.com/jsii/-/jsii-5.9.10.tgz#0324c973a9f259b14e78e7018be4cf02ba10a2a8"
+  integrity sha512-5CcN7hMRJArrVWL9RCYlTtKf6ZXO4Oi6NNxtuAyjAESF/uxy8i/maDdR72Ot1r8GlFq2bUFK0nimE3+ZP2UCHA==
   dependencies:
-    "@jsii/check-node" "1.115.0"
-    "@jsii/spec" "^1.115.0"
+    "@jsii/check-node" "1.116.0"
+    "@jsii/spec" "1.116.0"
     case "^1.6.3"
     chalk "^4"
     fast-deep-equal "^3.1.3"
     log4js "^6.9.1"
-    semver "^7.7.2"
+    semver "^7.7.3"
     semver-intersect "^1.5.0"
     sort-json "^2.0.1"
     spdx-license-list "^6.10.0"
-    typescript "~5.8"
+    typescript "~5.9"
     yargs "^17.7.2"
 
 json-buffer@3.0.1:
@@ -5329,7 +5328,7 @@ process-nextick-args@~2.0.0:
   resolved "https://registry.yarnpkg.com/process-nextick-args/-/process-nextick-args-2.0.1.tgz#7820d9b16120cc55ca9ae7792680ae7dba6d7fe2"
   integrity sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==
 
-projen@~0.98.0:
+projen@~0.98.4:
   version "0.98.4"
   resolved "https://registry.yarnpkg.com/projen/-/projen-0.98.4.tgz#7ccf0014b7b2d3ff75dc1a8c406ca3c0029ef989"
   integrity sha512-v3o7ueUV+J6eRUmEZcg1UdmH1t/nRUrY737iugm9f4AH4v7GVGqDEDd4dIa80hCreIUPruXtUBpyl82h8d7NdA==
@@ -6391,15 +6390,10 @@ typedoc@^0.28.14:
     minimatch "^9.0.5"
     yaml "^2.8.1"
 
-typescript@^5.9.3:
+typescript@^5.9.3, typescript@~5.9:
   version "5.9.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.9.3.tgz#5b4f59e15310ab17a216f5d6cf53ee476ede670f"
   integrity sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==
-
-typescript@~5.8:
-  version "5.8.3"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.8.3.tgz#92f8a3e5e3cf497356f4178c34cd65a7f5e8440e"
-  integrity sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==
 
 uc.micro@^2.0.0, uc.micro@^2.1.0:
   version "2.1.0"
