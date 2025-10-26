@@ -965,19 +965,19 @@
     chalk "^4.1.2"
     semver "^7.7.2"
 
-"@jsii/spec@1.117.0", "@jsii/spec@^1.112.0", "@jsii/spec@^1.114.1", "@jsii/spec@^1.115.0":
+"@jsii/spec@1.117.0", "@jsii/spec@^1.114.1", "@jsii/spec@^1.115.0", "@jsii/spec@^1.117.0":
   version "1.117.0"
   resolved "https://registry.yarnpkg.com/@jsii/spec/-/spec-1.117.0.tgz#c2e73ceac03d48504d2f0d0a2fc6b0860ea38656"
   integrity sha512-Uru/sg3RN9Rr0smN3MS5gueeGdQdPHQ9fTVSxEOuzpxr5z1gej51rs73luj1cYPncMryHo+YkygpucCdLiQItg==
   dependencies:
     ajv "^8.17.1"
 
-"@mrgrain/jsii-struct-builder@^0.7.63":
-  version "0.7.63"
-  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.63.tgz#c7c53940b8f9c2c980db331b8a3c78de87663c70"
-  integrity sha512-EDsr8hC2aMwq2WUGLHHMYZFymwo6nhuf+riUihdZ5pOSJh41ZiOyn2J1TRsYn/PXQ2NZCgAK5UVQow8BPIZqlQ==
+"@mrgrain/jsii-struct-builder@^0.7.64":
+  version "0.7.64"
+  resolved "https://registry.yarnpkg.com/@mrgrain/jsii-struct-builder/-/jsii-struct-builder-0.7.64.tgz#20f6aa8f94f79ccbe2d99ed5c626fb46db0ede69"
+  integrity sha512-kWGe4Ob03IFFHpwcEnjj4xxreWbaIsCYS4mPjtanGFzHoldJyJPnAupPAyAJtvjgY5XAsK6h/oIPmkJouvjvYg==
   dependencies:
-    "@jsii/spec" "^1.112.0"
+    "@jsii/spec" "^1.117.0"
 
 "@napi-rs/wasm-runtime@^0.2.11":
   version "0.2.12"
@@ -1294,9 +1294,9 @@
   integrity sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==
 
 "@types/yargs@^17.0.8":
-  version "17.0.33"
-  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-17.0.33.tgz#8c32303da83eec050a84b3c7ae7b9f922d13e32d"
-  integrity sha512-WpxBCKWPLr4xSsHgz511rFJAM+wS28w2zEO1QDNY5zM/S8ok70NNfztH0xwhqKyaK0OHCbN98LDAZuy1ctxDkA==
+  version "17.0.34"
+  resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-17.0.34.tgz#1c2f9635b71d5401827373a01ce2e8a7670ea839"
+  integrity sha512-KExbHVa92aJpw9WDQvzBaGVE2/Pz+pLZQloT2hjL8IqsZnV62rlPOYvNnLmf/L2dyllfVUOVBj64M0z/46eR2A==
   dependencies:
     "@types/yargs-parser" "*"
 
@@ -2840,10 +2840,10 @@ eslint-plugin-jest@^29.0.1:
   dependencies:
     "@typescript-eslint/utils" "^8.0.0"
 
-eslint-plugin-jsdoc@^61.1.7:
-  version "61.1.7"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-61.1.7.tgz#8e2dc304b0939e76ecff6b0cdcbb50050cdd9067"
-  integrity sha512-AqNPHbIVkO39jPR6HOeA2v/DQsNxjtx4d+KaimrbxFDfcXTrEcq85orGIXMthAvtcw93hJGcNl77q2fxbp7Org==
+eslint-plugin-jsdoc@^61.1.8:
+  version "61.1.8"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-61.1.8.tgz#cdc80b54db865fba1c1f103ceadfa1b4c7850ff4"
+  integrity sha512-2496IdYqyH0Anbho+MuL8tKJLT3JCNlJd9Apqpo5vvTwT6wlC5yBVv7nM0PFBGDyl1gxx4QfrF8SApVkCHGzzA==
   dependencies:
     "@es-joy/jsdoccomment" "~0.76.0"
     "@es-joy/resolve.exports" "1.0.0"
@@ -5526,9 +5526,9 @@ requireindex@^1.2.0:
   integrity sha512-L9jEkOi3ASd9PYit2cwRfyppc9NoABujTP8/5gFcbERmo5jUoAKovIC3fsF17pkTnGsrByysqX+Kxd2OTNI1ww==
 
 reserved-identifiers@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/reserved-identifiers/-/reserved-identifiers-1.0.0.tgz#a4878ea2b5130ec2bf5aba40074edcb9704d2623"
-  integrity sha512-h0bP2Katmvf3hv4Z3WtDl4+6xt/OglQ2Xa6TnhZ/Rm9/7IH1crXQqMwD4J2ngKBonVv+fB55zfGgNDAmsevLVQ==
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/reserved-identifiers/-/reserved-identifiers-1.2.0.tgz#d2982cd698e317dd3dced1ee1c52412dbd64fc64"
+  integrity sha512-yE7KUfFvaBFzGPs5H3Ops1RevfUEsDc5Iz65rOwWg4lE8HJSYtle77uul3+573457oHvBKuHYDl/xqUkKpEEdw==
 
 resolve-cwd@^3.0.0:
   version "3.0.0"
