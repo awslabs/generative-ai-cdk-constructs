@@ -58,7 +58,7 @@ enable disable xray tracing
 #### Default
 
 ```ts
-- True
+true
 ```
 
 ***
@@ -80,7 +80,7 @@ enable disable lambda tracing
 #### Default
 
 ```ts
-- Active
+Active
 ```
 
 ***
@@ -114,7 +114,7 @@ Value will be appended to resources name.
 #### Default
 
 ```ts
-- _dev
+_dev
 ```
 
 ***

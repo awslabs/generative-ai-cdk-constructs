@@ -23,7 +23,7 @@ export interface BaseClassProps {
   /**
    * Value will be appended to resources name.
    *
-   * @default - _dev
+   * @default _dev
    */
   readonly stage?: string;
 
@@ -43,7 +43,7 @@ export interface BaseClassProps {
    * Enable observability. Warning: associated cost with the services
    * used. Best practice to enable by default.
    *
-   * @default - true
+   * @default true
    */
   readonly observability?: boolean;
 }
@@ -67,21 +67,21 @@ export class BaseClass extends Construct {
   /**
    * Value will be appended to resources name.
    *
-   * @default - _dev
+   * @default _dev
    */
   stage!: string;
 
   /**
    * enable disable lambda tracing
    *
-   * @default - Active
+   * @default Active
    */
   lambdaTracing: lambda.Tracing = lambda.Tracing.ACTIVE;
 
   /**
    * enable disable xray tracing
    *
-   * @default - True
+   * @default true
    */
   enablexray: boolean = true;
 

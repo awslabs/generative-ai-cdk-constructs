@@ -85,7 +85,7 @@ enable disable xray tracing
 #### Default
 
 ```ts
-- True
+true
 ```
 
 #### Inherited from
@@ -145,7 +145,7 @@ enable disable lambda tracing
 #### Default
 
 ```ts
-- Active
+Active
 ```
 
 #### Inherited from
@@ -199,7 +199,7 @@ Value will be appended to resources name.
 #### Default
 
 ```ts
-- _dev
+_dev
 ```
 
 #### Inherited from
