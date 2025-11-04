@@ -220,7 +220,7 @@
       },
       "go": {
         "moduleName": "github.com/cdklabs/generative-ai-cdk-constructs-go",
-        "packageName": "generative-ai-cdk-constructs"
+        "packageName": "generativeaicdkconstructs"
       }
     },
     "tsc": {

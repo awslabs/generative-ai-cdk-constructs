@@ -106,7 +106,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
   publishToGo: {
     moduleName: `github.com/${PUBLICATION_NAMESPACE}/${PROJECT_NAME}-go`,
-    packageName: PROJECT_NAME,
+    packageName: PROJECT_NAME.replace(/-/g, ''),
   },
   codeCov: true,
   codeCovTokenSecret: 'CODECOV_TOKEN',
@@ -130,7 +130,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   docgen: false,
   licensed: true,
   license: 'Apache-2.0',
-  copyrightPeriod: '2023',
+  copyrightPeriod: '2023-',
   copyrightOwner: 'Amazon.com, Inc. or its affiliates. All Rights Reserved.',
   gitignore: [
     '*.DS_STORE',
