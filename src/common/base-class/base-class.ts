@@ -108,10 +108,10 @@ export class BaseClass extends Construct {
     this.stage = stage;
   }
 
-  /*
-  * update template description with construct usage metric and
-  * add AWS_SDK_UA_APP_ID to user agent on aws sdk.
-  */
+  /**
+   * update template description with construct usage metric and
+   * add AWS_SDK_UA_APP_ID to user agent on aws sdk.
+   */
   protected updateConstructUsageMetricCode(props: BaseClassProps, scope: Construct, lambdaFunctions: lambda.DockerImageFunction[],
   ) {
     const solutionId = `genai_cdk_${version}/${props.constructName}/${props.constructId}`;
@@ -133,8 +133,8 @@ export class BaseClass extends Construct {
 
     const usageMetricMapSerialized = JSON.stringify(BaseClass.usageMetricMap).replace(/[{}]/g, '').replace(/"/g, '');
 
-    // Description format :(usage id :uksb-1tupboc45)(version:0.0.0) (constructs :::{\"C1\":1,\"C2\":5,\"C3\":3,\"C4\":0,\"C5\":0,\"C6\":0,\"C7\":0,\"C8\":0}) ",
-    // where C1,C2, etc are mapped with construct-name-enum and the values shows the number of time stack created/deleted.
+    // Description format: (usage id: uksb-1tupboc45)(version:0.0.0) (constructs: {...})
+    // where construct names are mapped with construct-name-enum and the values show the number of times stack created/deleted.
     Stack.of(scope).templateOptions.description =
     `Description: (${this.constructUsageMetric}) (version:${version}) (tag:${ usageMetricMapSerialized}) `;
   }
