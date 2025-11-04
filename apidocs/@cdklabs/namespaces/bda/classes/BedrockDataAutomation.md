@@ -272,6 +272,9 @@ Returns a string representation of this construct.
 
 > `protected` **updateConstructUsageMetricCode**(`props`, `scope`, `lambdaFunctions`): `void`
 
+update template description with construct usage metric and
+add AWS_SDK_UA_APP_ID to user agent on aws sdk.
+
 #### Parameters
 
 ##### props
