@@ -56,7 +56,7 @@ The document capacity units used for the Gen AI index
 
 ### edition
 
-> `readonly` **edition**: [`Edition`](../namespaces/Kendra/enumerations/Edition.md) = `Kendra.Edition.GEN_AI_ENTERPRISE_EDITION`
+> `readonly` **edition**: [`KendraEdition`](../enumerations/KendraEdition.md) = `KendraEdition.GEN_AI_ENTERPRISE_EDITION`
 
 The edition of the Gen AI index
 

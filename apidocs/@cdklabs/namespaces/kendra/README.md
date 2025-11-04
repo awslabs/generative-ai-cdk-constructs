@@ -8,7 +8,13 @@
 
 ## Namespaces
 
-- [Kendra](namespaces/Kendra/README.md)
+- [~~Kendra~~](namespaces/Kendra/README.md)
+
+## Enumerations
+
+- [KendraEdition](enumerations/KendraEdition.md)
+- [KendraIndexFieldTypes](enumerations/KendraIndexFieldTypes.md)
+- [KendraUserContextPolicy](enumerations/KendraUserContextPolicy.md)
 
 ## Classes
 
