@@ -503,7 +503,12 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
         id: CREATE_PATCH_STEP_ID,
         run: [
           'git add .',
-          'git diff --staged --patch --exit-code > .repo.patch || echo "patch_created=true" >> $GITHUB_OUTPUT',
+          'if git diff --staged --quiet; then',
+          '  echo "No changes detected"',
+          'else',
+          '  git diff --staged --patch > repo.patch',
+          '  echo "patch_created=true" >> $GITHUB_OUTPUT',
+          'fi',
         ].join('\n'),
         shell: 'bash',
       },
@@ -512,8 +517,8 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
         if: `steps.${CREATE_PATCH_STEP_ID}.outputs.${PATCH_CREATED_OUTPUT}`,
         uses: 'actions/upload-artifact@v4.6.2',
         with: {
-          name: '.repo.patch',
-          path: '.repo.patch',
+          name: 'repo.patch',
+          path: 'repo.patch',
           overwrite: true,
         },
       },
@@ -541,13 +546,13 @@ export function buildCodeGenerationWorkflow(project: AwsCdkConstructLibrary) {
         name: 'Download patch',
         uses: 'actions/download-artifact@v5',
         with: {
-          name: '.repo.patch',
+          name: 'repo.patch',
           path: '${{ runner.temp }}',
         },
       },
       {
         name: 'Apply patch',
-        run: '[ -s ${{ runner.temp }}/.repo.patch ] && git apply ${{ runner.temp }}/.repo.patch || echo "Empty patch. Skipping."',
+        run: '[ -s ${{ runner.temp }}/repo.patch ] && git apply ${{ runner.temp }}/repo.patch || echo "Empty patch. Skipping."',
       },
       {
         name: 'Set git identity',

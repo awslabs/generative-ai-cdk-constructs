@@ -38,14 +38,19 @@ jobs:
         id: create_patch
         run: |-
           git add .
-          git diff --staged --patch --exit-code > .repo.patch || echo "patch_created=true" >> $GITHUB_OUTPUT
+          if git diff --staged --quiet; then
+            echo "No changes detected"
+          else
+            git diff --staged --patch > repo.patch
+            echo "patch_created=true" >> $GITHUB_OUTPUT
+          fi
         shell: bash
       - name: Upload patch
         if: steps.create_patch.outputs.patch_created
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
-          name: .repo.patch
-          path: .repo.patch
+          name: repo.patch
+          path: repo.patch
           overwrite: true
   pr:
     name: Create Pull Request
@@ -62,10 +67,10 @@ jobs:
       - name: Download patch
         uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
-          name: .repo.patch
+          name: repo.patch
           path: ${{ runner.temp }}
       - name: Apply patch
-        run: '[ -s ${{ runner.temp }}/.repo.patch ] && git apply ${{ runner.temp }}/.repo.patch || echo "Empty patch. Skipping."'
+        run: '[ -s ${{ runner.temp }}/repo.patch ] && git apply ${{ runner.temp }}/repo.patch || echo "Empty patch. Skipping."'
       - name: Set git identity
         run: |-
           git config user.name "github-actions[bot]"
