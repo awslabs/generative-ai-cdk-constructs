@@ -74,6 +74,10 @@ export class CreateModelInvocationJobFunction extends lambda.Function {
           id: 'AwsSolutions-IAM5',
           reason: 'Wildcards allow create of Bedrock model invocation jobs.',
         },
+        {
+          id: 'AwsSolutions-L1',
+          reason: 'Python 3.13 is the latest stable runtime version available.',
+        },
       ],
       true,
     );
