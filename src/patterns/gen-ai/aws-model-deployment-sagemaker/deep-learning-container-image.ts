@@ -79,6 +79,7 @@ export class DeepLearningContainerImage extends ContainerImage {
   public static readonly HUGGINGFACE_PYTORCH_INFERENCE_NEURONX_2_1_2_TRANSFORMERS4_41_1_NEURONX_PY310_SDK2_19_1_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference-neuronx', '2.1.2-transformers4.41.1-neuronx-py310-sdk2.19.1-ubuntu20.04');
   public static readonly HUGGINGFACE_PYTORCH_INFERENCE_NEURONX_2_1_2_TRANSFORMERS4_43_2_NEURONX_PY310_SDK2_20_0_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference-neuronx', '2.1.2-transformers4.43.2-neuronx-py310-sdk2.20.0-ubuntu20.04');
   public static readonly HUGGINGFACE_PYTORCH_INFERENCE_NEURONX_2_7_1_TRANSFORMERS4_51_3_NEURONX_PY310_SDK2_24_1_UBUNTU22_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference-neuronx', '2.7.1-transformers4.51.3-neuronx-py310-sdk2.24.1-ubuntu22.04');
+  public static readonly HUGGINGFACE_PYTORCH_INFERENCE_NEURONX_2_8_0_TRANSFORMERS4_55_4_NEURONX_PY310_SDK2_26_0_UBUNTU22_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference-neuronx', '2.8.0-transformers4.55.4-neuronx-py310-sdk2.26.0-ubuntu22.04');
   public static readonly HUGGINGFACE_PYTORCH_TGI_INFERENCE_2_0_0_TGI0_6_0_GPU_PY39_CU118_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-tgi-inference', '2.0.0-tgi0.6.0-gpu-py39-cu118-ubuntu20.04');
   public static readonly HUGGINGFACE_PYTORCH_TGI_INFERENCE_2_0_0_TGI0_8_2_GPU_PY39_CU118_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-tgi-inference', '2.0.0-tgi0.8.2-gpu-py39-cu118-ubuntu20.04');
   public static readonly HUGGINGFACE_PYTORCH_TGI_INFERENCE_2_0_1_TGI0_9_3_GPU_PY39_CU118_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-tgi-inference', '2.0.1-tgi0.9.3-gpu-py39-cu118-ubuntu20.04');
@@ -121,6 +122,7 @@ export class DeepLearningContainerImage extends ContainerImage {
   public static readonly HUGGINGFACE_TENSORFLOW_INFERENCE_2_5_3_TRANSFORMERS4_12_3_GPU_PY37_CU112_UBUNTU18_04 = this.fromDeepLearningContainerImage('huggingface-tensorflow-inference', '2.5.3-transformers4.12.3-gpu-py37-cu112-ubuntu18.04');
   public static readonly HUGGINGFACE_TENSORFLOW_INFERENCE_2_6_3_TRANSFORMERS4_17_0_CPU_PY38_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-tensorflow-inference', '2.6.3-transformers4.17.0-cpu-py38-ubuntu20.04');
   public static readonly HUGGINGFACE_TENSORFLOW_INFERENCE_2_6_3_TRANSFORMERS4_17_0_GPU_PY38_CU112_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-tensorflow-inference', '2.6.3-transformers4.17.0-gpu-py38-cu112-ubuntu20.04');
+
 
   public static fromDeepLearningContainerImage(
     repositoryName: string,
