@@ -44,9 +44,48 @@ export interface IKendraGenAiIndex extends IResource {
   readonly role: iam.IRole;
 }
 
+/**
+ * Represents an Amazon Kendra Index Edition.
+ */
+export enum KendraEdition {
+  DEVELOPER_EDITION = 'DEVELOPER_EDITION',
+  ENTERPRISE_EDITION = 'ENTERPRISE_EDITION',
+  GEN_AI_ENTERPRISE_EDITION = 'GEN_AI_ENTERPRISE_EDITION',
+}
+
+/**
+ * Represents an Amazon Kendra Index Field Type.
+ */
+export enum KendraIndexFieldTypes {
+  STRING = 'STRING_VALUE',
+  STRING_LIST = 'STRING_LIST_VALUE',
+  LONG = 'LONG_VALUE',
+  DATE = 'DATE_VALUE',
+}
+
+/**
+ * The different policies available to filter search results based on user context.
+ */
+export enum KendraUserContextPolicy {
+  /** All indexed content is searchable and displayable for all users.
+   * If you want to filter search results on user context, you can use
+   * the attribute filters of _user_id and _group_ids or you can provide
+   * user and group information in UserContext . */
+  ATTRIBUTE_FILTER = 'ATTRIBUTE_FILTER',
+  /**
+   * Enables token-based user access control to filter search results on
+   * user context. All documents with no access control and all documents
+   * accessible to the user will be searchable and displayable.
+   */
+  USER_TOKEN = 'USER_TOKEN',
+}
+
+/**
+ * @deprecated Use KendraEdition instead
+ */
 export namespace Kendra {
   /**
-   * Represents an Amazon Kendra Index Edition.
+   * @deprecated Use KendraEdition instead
    */
   export enum Edition {
     DEVELOPER_EDITION = 'DEVELOPER_EDITION',
@@ -55,7 +94,7 @@ export namespace Kendra {
   }
 
   /**
-   * Represents an Amazon Kendra Index Field Type.
+   * @deprecated Use KendraIndexFieldTypes instead
    */
   export enum IndexFieldTypes {
     STRING = 'STRING_VALUE',
@@ -65,19 +104,10 @@ export namespace Kendra {
   }
 
   /**
-   * The different policies available to filter search results based on user context.
+   * @deprecated Use KendraUserContextPolicy instead
    */
   export enum UserContextPolicy {
-    /** All indexed content is searchable and displayable for all users.
-     * If you want to filter search results on user context, you can use
-     * the attribute filters of _user_id and _group_ids or you can provide
-     * user and group information in UserContext . */
     ATTRIBUTE_FILTER = 'ATTRIBUTE_FILTER',
-    /**
-     * Enables token-based user access control to filter search results on
-     * user context. All documents with no access control and all documents
-     * accessible to the user will be searchable and displayable.
-     */
     USER_TOKEN = 'USER_TOKEN',
   }
 }
@@ -181,7 +211,7 @@ export class KendraGenAiIndex extends KendraGenAiIndexBase {
   /**
    * The edition of the Gen AI index
    */
-  public readonly edition: Kendra.Edition = Kendra.Edition.GEN_AI_ENTERPRISE_EDITION;
+  public readonly edition: KendraEdition = KendraEdition.GEN_AI_ENTERPRISE_EDITION;
   /**
    * The name of the Gen AI index
    */
@@ -273,7 +303,7 @@ export class KendraGenAiIndex extends KendraGenAiIndexBase {
     // ------------------------------------------------------
     this._resource = new kendra.CfnIndex(this, 'GenAiIndex', {
       name: this.name,
-      edition: Kendra.Edition.GEN_AI_ENTERPRISE_EDITION,
+      edition: KendraEdition.GEN_AI_ENTERPRISE_EDITION,
       roleArn: this.role.roleArn,
       serverSideEncryptionConfiguration: props.kmsKey
         ? {
@@ -284,7 +314,7 @@ export class KendraGenAiIndex extends KendraGenAiIndexBase {
         storageCapacityUnits: this.documentCapacityUnits,
         queryCapacityUnits: this.queryCapacityUnits,
       },
-      userContextPolicy: Kendra.UserContextPolicy.ATTRIBUTE_FILTER,
+      userContextPolicy: KendraUserContextPolicy.ATTRIBUTE_FILTER,
     });
 
     this.indexArn = this._resource.attrArn;

@@ -4,30 +4,32 @@
 
 [@cdklabs/generative-ai-cdk-constructs](../../../../../../README.md) / [kendra](../../../README.md) / [Kendra](../README.md) / IndexFieldTypes
 
-# Enumeration: IndexFieldTypes
+# ~~Enumeration: IndexFieldTypes~~
 
-Represents an Amazon Kendra Index Field Type.
+## Deprecated
+
+Use KendraIndexFieldTypes instead
 
 ## Enumeration Members
 
-### DATE
+### ~~DATE~~
 
 > **DATE**: `"DATE_VALUE"`
 
 ***
 
-### LONG
+### ~~LONG~~
 
 > **LONG**: `"LONG_VALUE"`
 
 ***
 
-### STRING
+### ~~STRING~~
 
 > **STRING**: `"STRING_VALUE"`
 
 ***
 
-### STRING\_LIST
+### ~~STRING\_LIST~~
 
 > **STRING\_LIST**: `"STRING_LIST_VALUE"`

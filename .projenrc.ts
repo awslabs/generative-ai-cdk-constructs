@@ -106,7 +106,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
 
   publishToGo: {
     moduleName: `github.com/${PUBLICATION_NAMESPACE}/${PROJECT_NAME}-go`,
-    packageName: PROJECT_NAME,
+    packageName: PROJECT_NAME.replace(/-/g, ''),
   },
   codeCov: true,
   codeCovTokenSecret: 'CODECOV_TOKEN',

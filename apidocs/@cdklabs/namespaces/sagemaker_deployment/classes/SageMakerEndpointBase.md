@@ -63,7 +63,7 @@ enable disable xray tracing
 #### Default
 
 ```ts
-- True
+true
 ```
 
 #### Inherited from
@@ -93,7 +93,7 @@ enable disable lambda tracing
 #### Default
 
 ```ts
-- Active
+Active
 ```
 
 #### Inherited from
@@ -135,7 +135,7 @@ Value will be appended to resources name.
 #### Default
 
 ```ts
-- _dev
+_dev
 ```
 
 #### Inherited from
@@ -205,6 +205,9 @@ Returns a string representation of this construct.
 ### updateConstructUsageMetricCode()
 
 > `protected` **updateConstructUsageMetricCode**(`props`, `scope`, `lambdaFunctions`): `void`
+
+update template description with construct usage metric and
+add AWS_SDK_UA_APP_ID to user agent on aws sdk.
 
 #### Parameters
 

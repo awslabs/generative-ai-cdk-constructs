@@ -34,7 +34,7 @@ used. Best practice to enable by default.
 #### Default
 
 ```ts
-- true
+true
 ```
 
 ***
@@ -48,5 +48,5 @@ Value will be appended to resources name.
 #### Default
 
 ```ts
-- _dev
+_dev
 ```
