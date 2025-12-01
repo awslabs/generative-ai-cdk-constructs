@@ -97,6 +97,10 @@ export class BedrockInferenceJobEventHandler extends Construct implements iam.IG
             batch inference jobs, and report success or failure of tasks to Step Functions which doesn't allow resource
             restriction.`,
         },
+        {
+          id: 'AwsSolutions-L1',
+          reason: 'Python 3.13 is the latest stable runtime version available.',
+        },
       ],
       true,
     );
