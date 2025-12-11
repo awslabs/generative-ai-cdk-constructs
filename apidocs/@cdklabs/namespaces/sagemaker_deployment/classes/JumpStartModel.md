@@ -14052,6 +14052,12 @@
 
 ***
 
+### HUGGINGFACE\_LLM\_QWEN2\_5\_32B\_INSTRUCT\_1\_25\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_32B\_INSTRUCT\_1\_25\_0**: `JumpStartModel`
+
+***
+
 ### HUGGINGFACE\_LLM\_QWEN2\_5\_32B\_INSTRUCT\_1\_3\_0
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_32B\_INSTRUCT\_1\_3\_0**: `JumpStartModel`
@@ -14631,6 +14637,12 @@
 ### HUGGINGFACE\_LLM\_QWEN2\_5\_7B\_INSTRUCT\_1\_24\_0
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_7B\_INSTRUCT\_1\_24\_0**: `JumpStartModel`
+
+***
+
+### HUGGINGFACE\_LLM\_QWEN2\_5\_7B\_INSTRUCT\_1\_25\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_7B\_INSTRUCT\_1\_25\_0**: `JumpStartModel`
 
 ***
 
