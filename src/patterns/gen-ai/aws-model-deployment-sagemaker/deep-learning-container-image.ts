@@ -123,7 +123,6 @@ export class DeepLearningContainerImage extends ContainerImage {
   public static readonly HUGGINGFACE_TENSORFLOW_INFERENCE_2_6_3_TRANSFORMERS4_17_0_CPU_PY38_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-tensorflow-inference', '2.6.3-transformers4.17.0-cpu-py38-ubuntu20.04');
   public static readonly HUGGINGFACE_TENSORFLOW_INFERENCE_2_6_3_TRANSFORMERS4_17_0_GPU_PY38_CU112_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-tensorflow-inference', '2.6.3-transformers4.17.0-gpu-py38-cu112-ubuntu20.04');
 
-
   public static fromDeepLearningContainerImage(
     repositoryName: string,
     tag: string,
