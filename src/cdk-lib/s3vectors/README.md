@@ -68,6 +68,71 @@ Non-filterable metadata keys allow you to enrich vectors with additional context
 
 You can configure the encryption type. You can use the bucket level encryption settings or override the encryption settings for the vector index. If you override the bucket-level settings, you have the option to specify encryption type for the vector index as Server-side encryption with AWS Key Management Service keys (SSE-KMS) or the Server-side encryption with Amazon S3 managed keys (SSE-S3). For more information about setting encryption configuration for vector buckets and indexes, see [Data protection and encryption in S3 Vectors](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-data-encryption.html).
 
+Define a KMS-encrypted bucket:
+
+```ts  fixture=default-bedrock
+const vectorBucket = new genaicdk.s3vectors.VectorBucket(this, 'S3VectorBucket', {
+    encryption: genaicdk.s3vectors.VectorBucketEncryption.KMS,
+});
+```
+
+You can also supply your own key:
+
+```ts  fixture=default-bedrock
+const myKmsKey = new kms.Key(this, 'MyKey');
+
+const vectorBucket = new genaicdk.s3vectors.VectorBucket(this, 'S3VectorBucket', {
+    encryption: genaicdk.s3vectors.VectorBucketEncryption.KMS,
+    encryptionKey: myKmsKey,
+});
+```
+
+### Permissions
+
+A bucket policy will be automatically created for the bucket upon the first call to addToResourcePolicy(statement):
+
+```ts fixture=default-bedrock
+const vectorBucket = new genaicdk.s3vectors.VectorBucket(this, 'S3VectorBucket');
+const result = vectorBucket.addToResourcePolicy(
+  new iam.PolicyStatement({
+    actions: ['s3vectors:GetVector'],
+    resources: [vectorBucket.vectorBucketArn],
+    principals: [new iam.AccountRootPrincipal()],
+  })
+);
+```
+
+The bucket policy can be directly accessed after creation to add statements or adjust the removal policy.
+
+```ts fixture=default-bedrock
+const vectorBucket = new genaicdk.s3vectors.VectorBucket(this, 'S3VectorBucket');
+vectorBucket.policy?.applyRemovalPolicy(cdk.RemovalPolicy.RETAIN);
+```
+
+Most of the time, you won't have to manipulate the bucket policy directly. Instead, buckets have "grant" methods called to give prepackaged sets of permissions to other resources. For example:
+
+```ts fixture=default-bedrock
+declare const myLambda: lambda.Function;
+
+const vectorBucket = new genaicdk.s3vectors.VectorBucket(this, 'S3VectorBucket');
+vectorBucket.grantRead(myLambda);
+```
+
+Will give the Lambda's execution role permissions to read from the bucket.
+
+### Bucket deletion
+
+When a bucket is removed from a stack (or the stack is deleted), the S3 bucket will be removed according to its removal policy (which by default will simply orphan the bucket and leave it in your AWS account). If the removal policy is set to RemovalPolicy.DESTROY, the bucket will be deleted as long as it does not contain any objects.
+
+To override this and force all objects to get deleted during bucket deletion, enable the autoDeleteObjects option.
+
+```ts fixture=default-bedrock
+const vectorBucket = new genaicdk.s3vectors.VectorBucket(this, 'S3VectorBucket', {
+    autoDeleteObjects: true,
+    removalPolicy: cdk.RemovalPolicy.DESTROY,
+});
+```
+
 ## Vector index
 
 Vector indexes are resources within vector buckets that store and organize vector data for efficient similarity search operations. When you create a vector index, you specify the distance metric (Cosine or Euclidean), the number of dimensions that a vector should have, and optionally a list of metadata fields that you want to exclude from filtering during similarity queries.

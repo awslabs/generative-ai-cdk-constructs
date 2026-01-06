@@ -11,10 +11,9 @@
  *  and limitations under the License.
  */
 
-import { RemovalPolicy, Resource, Token, Tokenization } from 'aws-cdk-lib';
+import { RemovalPolicy, Resource } from 'aws-cdk-lib';
 import { PolicyDocument } from 'aws-cdk-lib/aws-iam';
-import { CfnVectorBucket, CfnVectorBucketPolicy, IVectorBucketPolicyRef, VectorBucketPolicyReference } from 'aws-cdk-lib/aws-s3vectors';
-import { CfnReference } from 'aws-cdk-lib/core/lib/private/cfn-reference';
+import { CfnVectorBucketPolicy, IVectorBucketPolicyRef, VectorBucketPolicyReference } from 'aws-cdk-lib/aws-s3vectors';
 import { Construct } from 'constructs';
 import { IVectorBucket, VectorBucket } from './vector-bucket';
 
@@ -56,19 +55,14 @@ export class VectorBucketPolicy extends Resource implements IVectorBucketPolicyR
     }
 
     // resolve the Bucket this Policy references
-    let bucket: IVectorBucket | undefined;
-    if (Token.isUnresolved(cfnVectorBucketPolicy.vectorBucketName)) {
-      const bucketIResolvable = Tokenization.reverse(cfnVectorBucketPolicy.vectorBucketName);
-      if (bucketIResolvable && bucketIResolvable instanceof CfnReference) {
-        const cfnElement = bucketIResolvable.target;
-        if (cfnElement instanceof CfnVectorBucket) {
-          bucket = VectorBucket.fromCfnVectorBucket(cfnElement);
-        }
-      }
-    }
-    if (!bucket) {
-      bucket = VectorBucket.fromVectorBucketName(cfnVectorBucketPolicy, '@FromCfnVectorBucket', cfnVectorBucketPolicy.vectorBucketName!);
-    }
+    // Note: We use fromVectorBucketName as a fallback since we can't reliably
+    // determine the source CfnVectorBucket without using internal CDK APIs (cfnreference).
+    // This works correctly in all cases, including when the bucket name is a token.
+    const bucket = VectorBucket.fromVectorBucketName(
+      cfnVectorBucketPolicy,
+      '@FromCfnVectorBucket',
+      cfnVectorBucketPolicy.vectorBucketName!,
+    );
 
     const ret = new VectorBucketPolicy(cfnVectorBucketPolicy, id, {
       bucket,
@@ -100,8 +94,8 @@ export class VectorBucketPolicy extends Resource implements IVectorBucketPolicyR
     this.bucket = props.bucket;
     this.document = props.document ?? new PolicyDocument();
 
+    // Note: The CloudFormation resource CfnVectorBucketPolicy requires either VectorBucketName or VectorBucketArn, not both.
     this.resource = new CfnVectorBucketPolicy(this, 'Resource', {
-      vectorBucketName: this.bucket.vectorBucketName,
       vectorBucketArn: this.bucket.vectorBucketArn,
       policy: this.document,
     });

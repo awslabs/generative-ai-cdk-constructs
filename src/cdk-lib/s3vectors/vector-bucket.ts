@@ -11,13 +11,13 @@
  *  and limitations under the License.
  */
 
-import { IResource, Resource, Arn, ArnFormat, RemovalPolicy, ResourceProps, ValidationError, CustomResource, Tags, Stack } from 'aws-cdk-lib';
+import { IResource, Resource, Arn, ArnFormat, RemovalPolicy, ResourceProps, ValidationError, CustomResource, Tags, Stack, Fn } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import { CfnVectorBucket, CfnVectorBucketProps } from 'aws-cdk-lib/aws-s3vectors';
-import { AutoDeleteObjectsProvider } from 'aws-cdk-lib/custom-resource-handlers/dist/aws-s3/auto-delete-objects-provider.generated';
 import { Construct } from 'constructs';
 // Internal libs
+import { AutoDeleteProvider } from './auto-delete-provider';
 import * as perms from './perms';
 import { validateStringFieldLength, validateFieldPattern, throwIfInvalid } from './validation-helpers';
 import { VectorBucketPolicy } from './vector-bucket-policy';
@@ -34,7 +34,7 @@ const AUTO_DELETE_OBJECTS_TAG = 'aws:cdk:auto-delete-objects';
 /**
  * What kind of server-side encryption to apply to this bucket
  */
-export enum S3VectorBucketEncryption {
+export enum VectorBucketEncryption {
   /**
    * Server-side encryption with a master key managed by S3.
    */
@@ -87,21 +87,21 @@ export interface IVectorBucket extends IResource {
    * @param indexIds - Restrict the permission to a certain set of indexes (default '*'). Parameter type is `any` but `string[]` should be passed in.
    * @returns An IAM Grant object representing the granted permissions
    */
-  grantRead(grantee: iam.IGrantable, indexIds: any): iam.Grant;
+  grantRead(grantee: iam.IGrantable, indexIds?: any): iam.Grant;
   /**
    * Grants IAM actions to the IAM Principal
    * @param grantee - The IAM principal to grant permissions to
    * @param indexIds - Restrict the permission to a certain set of indexes (default '*'). Parameter type is `any` but `string[]` should be passed in.
    * @returns An IAM Grant object representing the granted permissions
    */
-  grantWrite(grantee: iam.IGrantable, indexIds: any): iam.Grant;
+  grantWrite(grantee: iam.IGrantable, indexIds?: any): iam.Grant;
   /**
    * Grants IAM actions to the IAM Principal to delete the vector bucket and indexes
    * @param grantee - The IAM principal to grant permissions to
    * @param indexIds - Restrict the permission to a certain set of indexes (default '*'). Parameter type is `any` but `string[]` should be passed in.
    * @returns An IAM Grant object representing the granted permissions
    */
-  grantDelete(grantee: iam.IGrantable, indexIds: any): iam.Grant;
+  grantDelete(grantee: iam.IGrantable, indexIds?: any): iam.Grant;
   /**
    * Adds a statement to the resource policy for a principal (i.e.
    * account/role/service) to perform actions on this bucket and/or its
@@ -339,7 +339,7 @@ export interface VectorBucketProps {
    *
    * @default - `KMS` if `encryptionKey` is specified, or `S3_MANAGED` otherwise.
    */
-  readonly encryption?: S3VectorBucketEncryption;
+  readonly encryption?: VectorBucketEncryption;
   /**
    * External KMS key to use for bucket encryption.
    *
@@ -507,7 +507,7 @@ export class VectorBucket extends VectorBucketBase {
     let encryptionKey: kms.IKey | undefined;
     if (cfnVectorBucket.encryptionConfiguration) {
       const encryptionConfiguration = (cfnVectorBucket.encryptionConfiguration as CfnVectorBucket.EncryptionConfigurationProperty);
-      if (encryptionConfiguration.sseType === S3VectorBucketEncryption.KMS && encryptionConfiguration.kmsKeyArn) {
+      if (encryptionConfiguration.sseType === VectorBucketEncryption.KMS && encryptionConfiguration.kmsKeyArn) {
         encryptionKey = kms.Key.fromKeyArn(cfnVectorBucket, 'EncryptionKey', encryptionConfiguration.kmsKeyArn);
       }
     }
@@ -610,7 +610,10 @@ export class VectorBucket extends VectorBucketBase {
       resource: this.physicalName,
     });
     this.creationTime = this.__resource.attrCreationTime;
-    this.vectorBucketName = this.getResourceNameAttribute(this.__resource.ref);
+    // Extract bucket name from ARN to get the actual bucket name (not the ref which can be very long)
+    // ARN format: arn:aws:s3vectors:region:account:bucket/bucket-name
+    // Split by '/' and select index 1 to get the bucket name
+    this.vectorBucketName = Fn.select(1, Fn.split('/', this.vectorBucketArn));
 
     if (props.autoDeleteObjects) {
       if (props.removalPolicy !== RemovalPolicy.DESTROY) {
@@ -640,9 +643,7 @@ export class VectorBucket extends VectorBucketBase {
 
     // Must begin and end with a letter or number
     const validEdgePattern = /^[a-z0-9].*[a-z0-9]$/;
-    if (!validEdgePattern.test(name)) {
-      errors.push('Vector bucket name must begin and end with a letter or number');
-    }
+    errors.push(...validateFieldPattern(name, 'Vector bucket name', validEdgePattern, 'Vector bucket name must begin and end with a letter or number'));
 
     // Validate bucket name length
     errors.push(...validateStringFieldLength({
@@ -665,11 +666,11 @@ export class VectorBucket extends VectorBucketBase {
     encryptionKey?: kms.IKey;
   } {
     // Server-side encryption with Amazon S3 managed keys (SSE-S3) is used by default when encryption type is not specified.
-    const encryptionType = props.encryption ?? S3VectorBucketEncryption.S3_MANAGED;
+    const encryptionType = props.encryption ?? VectorBucketEncryption.S3_MANAGED;
     let encryptionKey = props.encryptionKey;
 
     // KMS
-    if (encryptionType === S3VectorBucketEncryption.KMS) {
+    if (encryptionType === VectorBucketEncryption.KMS) {
       encryptionKey = props.encryptionKey || new kms.Key(this, 'Key', {
         description: `Created by ${this.node.path}`,
         enableKeyRotation: true,
@@ -677,7 +678,7 @@ export class VectorBucket extends VectorBucketBase {
 
       return {
         bucketEncryption: {
-          sseType: S3VectorBucketEncryption.KMS,
+          sseType: VectorBucketEncryption.KMS,
           kmsKeyArn: encryptionKey.keyArn,
         },
         encryptionKey: encryptionKey,
@@ -685,14 +686,14 @@ export class VectorBucket extends VectorBucketBase {
     }
 
     // S3_MANAGED
-    if (encryptionType === S3VectorBucketEncryption.S3_MANAGED) {
+    if (encryptionType === VectorBucketEncryption.S3_MANAGED) {
       if (encryptionKey) {
         throw new Error('Encryption key cannot be specified for S3_MANAGED encryption');
       }
 
       return {
         bucketEncryption: {
-          sseType: S3VectorBucketEncryption.S3_MANAGED,
+          sseType: VectorBucketEncryption.S3_MANAGED,
         },
       };
     }
@@ -705,8 +706,7 @@ export class VectorBucket extends VectorBucketBase {
   }
 
   private _enableAutoDeleteObjects() {
-    const provider = AutoDeleteObjectsProvider.getOrCreateProvider(this, AUTO_DELETE_OBJECTS_RESOURCE_TYPE, {
-      useCfnResponseWrapper: false,
+    const provider = AutoDeleteProvider.getOrCreateProvider(this, AUTO_DELETE_OBJECTS_RESOURCE_TYPE, {
       description: `Lambda function for auto-deleting indexes in ${this.vectorBucketName} S3 vector bucket.`,
     });
 
@@ -724,6 +724,7 @@ export class VectorBucket extends VectorBucketBase {
         // and then delete them
         ...perms.VECTOR_BUCKET_DELETE_ACTIONS,
         ...perms.VECTOR_INDEX_DELETE_ACTIONS,
+        ...perms.VECTOR_DELETE_ACTIONS,
       ],
       resources: [
         this.vectorBucketArn,

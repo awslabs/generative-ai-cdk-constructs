@@ -25,7 +25,7 @@ import { IVectorBucket } from './vector-bucket';
 /**
  * The data type of the vectors to be inserted into the vector index.
  */
-export enum S3VectorIndexDataType {
+export enum VectorIndexDataType {
   /**
    * 32-bit floating-point numbers
    */
@@ -35,7 +35,7 @@ export enum S3VectorIndexDataType {
 /**
  * The distance metric to be used for similarity search
  */
-export enum S3VectorIndexDistanceMetric {
+export enum VectorIndexDistanceMetric {
   /**
    * Measures the straight-line distance between two points in multi-dimensional space.
    * Lower values indicate greater similarity.
@@ -52,15 +52,15 @@ export enum S3VectorIndexDistanceMetric {
  * By default, if you don't specify, all new vectors in Amazon S3 vector indexes
  * use server-side encryption with Amazon S3 managed keys (SSE-S3), specifically AES256.
  */
-export enum S3VectorIndexEncryption {
+export enum VectorIndexEncryption {
   /**
    * Encryption with a master key managed by S3.
    */
-  S3_MANAGED = 's3',
+  S3_MANAGED = 'AES256',
   /**
    * Encryption with a KMS key managed by the user.
    */
-  KMS = 'kms',
+  KMS = 'aws:kms',
 }
 
 /******************************************************************************
@@ -155,7 +155,7 @@ export interface VectorIndexProps {
    * The data type of the vectors to be inserted into the vector index
    * @default - FLOAT_32
    */
-  readonly dataType?: S3VectorIndexDataType;
+  readonly dataType?: VectorIndexDataType;
   /**
    * A dimension is the number of values in a vector. A larger dimension needs more storage.
    *
@@ -167,7 +167,7 @@ export interface VectorIndexProps {
    * The distance metric to be used for similarity search
    * @default - COSINE
    */
-  readonly distanceMetric?: S3VectorIndexDistanceMetric;
+  readonly distanceMetric?: VectorIndexDistanceMetric;
   /**
    * The kind of server-side encryption to apply to this index.
    *
@@ -176,7 +176,7 @@ export interface VectorIndexProps {
    *
    * @default - `KMS` if `encryptionKey` is specified, or `S3_MANAGED` otherwise.
    */
-  readonly encryption?: S3VectorIndexEncryption;
+  readonly encryption?: VectorIndexEncryption;
   /**
    * External KMS key to use for index encryption.
    *
@@ -299,10 +299,10 @@ export class VectorIndex extends VectorIndexBase {
    * @attribute
    */
   public readonly creationTime?: string;
-  public readonly dataType: S3VectorIndexDataType;
+  public readonly dataType: VectorIndexDataType;
   public readonly dimension: number;
-  public readonly distanceMetric: S3VectorIndexDistanceMetric;
-  public readonly encryption: S3VectorIndexEncryption;
+  public readonly distanceMetric: VectorIndexDistanceMetric;
+  public readonly encryption: VectorIndexEncryption;
   public readonly encryptionKey?: kms.IKey;
 
   // ------------------------------------------------------
@@ -321,10 +321,10 @@ export class VectorIndex extends VectorIndexBase {
     // ------------------------------------------------------
     const { encryptionConfiguration, encryptionKey } = this._parseEncryption(props);
     this.encryptionKey = encryptionKey;
-    this.dataType = props.dataType ?? S3VectorIndexDataType.FLOAT_32;
+    this.dataType = props.dataType ?? VectorIndexDataType.FLOAT_32;
     this.dimension = props.dimension;
-    this.distanceMetric = props.distanceMetric ?? S3VectorIndexDistanceMetric.COSINE;
-    this.encryption = props.encryption ?? S3VectorIndexEncryption.KMS;
+    this.distanceMetric = props.distanceMetric ?? VectorIndexDistanceMetric.COSINE;
+    this.encryption = props.encryption ?? VectorIndexEncryption.KMS;
     this.encryptionKey = props.encryptionKey;
     this.vectorBucket = props.vectorBucket;
     const nonFilterableMetadataKeys = props.nonFilterableMetadataKeys ? { nonFilterableMetadataKeys: props.nonFilterableMetadataKeys }
@@ -379,9 +379,7 @@ export class VectorIndex extends VectorIndexBase {
 
     // Must begin and end with a letter or number
     const validEdgePattern = /^[a-z0-9].*[a-z0-9]$/;
-    if (!validEdgePattern.test(name)) {
-      errors.push('Vector index name must begin and end with a letter or number');
-    }
+    errors.push(...validateFieldPattern(name, 'Vector index name', validEdgePattern, 'Vector index name must begin and end with a letter or number'));
 
     // Validate index name length
     errors.push(...validateStringFieldLength({
@@ -441,11 +439,11 @@ export class VectorIndex extends VectorIndexBase {
     encryptionKey?: kms.IKey;
   } {
     // Server-side encryption with Amazon S3 managed keys (SSE-S3) is used by default when encryption type is not specified.
-    const encryptionType = props.encryption ?? S3VectorIndexEncryption.S3_MANAGED;
+    const encryptionType = props.encryption ?? VectorIndexEncryption.S3_MANAGED;
     let encryptionKey = props.encryptionKey;
 
     // KMS
-    if (encryptionType === S3VectorIndexEncryption.KMS) {
+    if (encryptionType === VectorIndexEncryption.KMS) {
       encryptionKey = props.encryptionKey || new kms.Key(this, 'Key', {
         description: `Created by ${this.node.path}`,
         enableKeyRotation: true,
@@ -453,7 +451,7 @@ export class VectorIndex extends VectorIndexBase {
 
       return {
         encryptionConfiguration: {
-          sseType: S3VectorIndexEncryption.KMS,
+          sseType: VectorIndexEncryption.KMS,
           kmsKeyArn: encryptionKey.keyArn,
         },
         encryptionKey: encryptionKey,
@@ -461,14 +459,14 @@ export class VectorIndex extends VectorIndexBase {
     }
 
     // S3_MANAGED
-    if (encryptionType === S3VectorIndexEncryption.S3_MANAGED) {
+    if (encryptionType === VectorIndexEncryption.S3_MANAGED) {
       if (encryptionKey) {
         throw new Error('Encryption key cannot be specified for S3_MANAGED encryption');
       }
 
       return {
         encryptionConfiguration: {
-          sseType: S3VectorIndexEncryption.S3_MANAGED,
+          sseType: VectorIndexEncryption.S3_MANAGED,
         },
       };
     }
