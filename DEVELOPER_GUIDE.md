@@ -66,6 +66,8 @@ All test files can be found in the /test directory under each construct (or core
 | :------------------ | :------------------------------------------- |
 | `npx projen test` | This will run all tests (unit+integration) |
 
+You can also run specific tests with `npx projen test --testPathPattern=<addPathPattern>`. For instance: `npx projen test --testPathPattern=s3vectors`
+
 ---
 ## Testing Your Construct Locally
 

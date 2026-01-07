@@ -265,7 +265,10 @@ export class VectorIndex extends VectorIndexBase {
   public static fromVectorIndexAttributes(scope: Construct, id: string, attrs: VectorIndexAttributes): IVectorIndex {
     // Parse ARN: format is arn:aws:s3vectors:region:account:bucket/{bucket-name}/index/{index-name}
     const arnComponents = Arn.split(attrs.vectorIndexArn, ArnFormat.SLASH_RESOURCE_NAME);
-    const resourcePart = arnComponents.resourceName!;
+    // Combine resource and resourceName to get the full resource part: "bucket/{bucket-name}/index/{index-name}"
+    const resourcePart = arnComponents.resource && arnComponents.resourceName
+      ? `${arnComponents.resource}/${arnComponents.resourceName}`
+      : arnComponents.resourceName;
 
     if (!resourcePart) {
       throw new ValidationError('Vector index ARN resource part is required', scope);
@@ -434,6 +437,43 @@ export class VectorIndex extends VectorIndexBase {
     return errors;
   }
 
+  /**
+   * Grants the S3 Vectors service principal permission to use the KMS key.
+   * This is required for the service to maintain and optimize indexes in background operations.
+   * @see https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-data-encryption.html
+   */
+  private _grantServicePrincipalKeyAccess(key: kms.IKey): void {
+    const stack = Stack.of(this);
+    const servicePrincipal = new iam.ServicePrincipal('indexing.s3vectors.amazonaws.com');
+
+    // Grant the service principal kms:Decrypt permission with conditions
+    key.addToResourcePolicy(new iam.PolicyStatement({
+      sid: 'AllowS3VectorsServicePrincipal',
+      effect: iam.Effect.ALLOW,
+      principals: [servicePrincipal],
+      actions: ['kms:Decrypt'],
+      resources: ['*'],
+      conditions: {
+        ArnLike: {
+          'aws:SourceArn': stack.formatArn({
+            service: 's3vectors',
+            resource: 'bucket',
+            resourceName: '*',
+            arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
+          }),
+        },
+        StringEquals: {
+          'aws:SourceAccount': stack.account,
+        },
+        ForAnyValue: {
+          StringEquals: {
+            'kms:EncryptionContextKeys': ['aws:s3vectors:arn', 'aws:s3vectors:resource-id'],
+          },
+        },
+      },
+    }));
+  }
+
   private _parseEncryption(props: VectorIndexProps): {
     encryptionConfiguration?: s3vectors.CfnIndex.EncryptionConfigurationProperty;
     encryptionKey?: kms.IKey;
@@ -448,6 +488,9 @@ export class VectorIndex extends VectorIndexBase {
         description: `Created by ${this.node.path}`,
         enableKeyRotation: true,
       });
+
+      // Grant the S3 Vectors service principal permission to use the key
+      this._grantServicePrincipalKeyAccess(encryptionKey);
 
       return {
         encryptionConfiguration: {

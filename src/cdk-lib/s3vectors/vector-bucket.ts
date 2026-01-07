@@ -657,6 +657,43 @@ export class VectorBucket extends VectorBucketBase {
   }
 
   /**
+   * Grants the S3 Vectors service principal permission to use the KMS key.
+   * This is required for the service to maintain and optimize indexes in background operations.
+   * @see https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-vectors-data-encryption.html
+   */
+  private _grantServicePrincipalKeyAccess(key: kms.IKey): void {
+    const stack = Stack.of(this);
+    const servicePrincipal = new iam.ServicePrincipal('indexing.s3vectors.amazonaws.com');
+
+    // Grant the service principal kms:Decrypt permission with conditions
+    key.addToResourcePolicy(new iam.PolicyStatement({
+      sid: 'AllowS3VectorsServicePrincipal',
+      effect: iam.Effect.ALLOW,
+      principals: [servicePrincipal],
+      actions: ['kms:Decrypt'],
+      resources: ['*'],
+      conditions: {
+        ArnLike: {
+          'aws:SourceArn': stack.formatArn({
+            service: 's3vectors',
+            resource: 'bucket',
+            resourceName: '*',
+            arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
+          }),
+        },
+        StringEquals: {
+          'aws:SourceAccount': stack.account,
+        },
+        ForAnyValue: {
+          StringEquals: {
+            'kms:EncryptionContextKeys': ['aws:s3vectors:arn', 'aws:s3vectors:resource-id'],
+          },
+        },
+      },
+    }));
+  }
+
+  /**
    *
    * Set up key properties and return the Bucket encryption property from the
    * user's configuration.
@@ -675,6 +712,9 @@ export class VectorBucket extends VectorBucketBase {
         description: `Created by ${this.node.path}`,
         enableKeyRotation: true,
       });
+
+      // Grant the S3 Vectors service principal permission to use the key
+      this._grantServicePrincipalKeyAccess(encryptionKey);
 
       return {
         bucketEncryption: {
