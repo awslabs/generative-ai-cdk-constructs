@@ -99,7 +99,8 @@ def on_delete(
                 if error_code == "ResourceNotFoundException":
                     logger.warning(f"Index {index_name} not found, may have been already deleted")
                 else:
-                    logger.error(f"Error deleting index {index_name}: {e}")
+                    # Log as warning since we're re-raising - the exception will propagate to CloudFormation
+                    logger.warning(f"Error deleting index {index_name}: {e}")
                     raise
 
         logger.info(f"Successfully deleted {deleted_count} indexes from bucket {bucket_name}")
@@ -123,7 +124,8 @@ def on_delete(
                 }
             }
         else:
-            logger.error(f"Error during delete operation: {e}")
+            # Log as warning since we're re-raising - the exception will propagate to CloudFormation
+            logger.warning(f"Error during delete operation: {e}")
             raise
 
 
@@ -149,6 +151,8 @@ def on_event(event: CustomResourceRequest[AutoDeleteProperties], context):
         return response
 
     except Exception as e:
-        logger.error(f"Error processing {request_type} request: {e}", exc_info=True)
+        # Log as warning since we're re-raising - the exception will propagate to CloudFormation
+        # Using exc_info=True to capture full stack trace for debugging
+        logger.warning(f"Error processing {request_type} request: {e}", exc_info=True)
         raise
 
