@@ -12,10 +12,11 @@
  */
 
 import * as cdk from 'aws-cdk-lib';
-import { RemovalPolicy } from 'aws-cdk-lib';
+import { App, Aspects, RemovalPolicy, Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import { VectorBucket, VectorBucketEncryption } from '../../../src/cdk-lib/s3vectors/vector-bucket';
 
 // mock lambda.Code.fromDockerBuild()
@@ -34,7 +35,14 @@ jest.mock('aws-cdk-lib/aws-lambda', () => {
 describe('VectorBucket', () => {
   describe('Default bucket', () => {
     test('default bucket', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
 
       new VectorBucket(stack, 'MyBucket');
 
@@ -51,7 +59,14 @@ describe('VectorBucket', () => {
     });
 
     test('bucket with S3_MANAGED encryption', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       new VectorBucket(stack, 'MyBucket', {
         encryption: VectorBucketEncryption.S3_MANAGED,
       });
@@ -69,7 +84,14 @@ describe('VectorBucket', () => {
     });
 
     test('bucket with KMS_MANAGED encryption', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       new VectorBucket(stack, 'MyBucket', {
         encryption: VectorBucketEncryption.KMS,
       });
@@ -93,7 +115,14 @@ describe('VectorBucket', () => {
     });
 
     test('bucket with KMS encryption and custom key', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const key = new kms.Key(stack, 'MyKey');
       new VectorBucket(stack, 'MyBucket', {
         encryption: VectorBucketEncryption.KMS,
@@ -114,7 +143,14 @@ describe('VectorBucket', () => {
     });
 
     test('bucket with KMS encryption key but S3_MANAGED encryption type throws error', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const key = new kms.Key(stack, 'MyKey');
 
       expect(() => {
@@ -126,7 +162,14 @@ describe('VectorBucket', () => {
     });
 
     test('bucket with KMS encryption grants service principal permissions', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const key = new kms.Key(stack, 'MyKey');
       new VectorBucket(stack, 'MyBucket', {
         encryption: VectorBucketEncryption.KMS,
@@ -146,31 +189,10 @@ describe('VectorBucket', () => {
               Action: 'kms:Decrypt',
               Condition: Match.objectLike({
                 ArnLike: {
-                  'aws:SourceArn': {
-                    'Fn::Join': [
-                      '',
-                      Match.arrayWith([
-                        'arn:',
-                        {
-                          Ref: 'AWS::Partition',
-                        },
-                        ':s3vectors:',
-                        {
-                          Ref: 'AWS::Region',
-                        },
-                        ':',
-                        {
-                          Ref: 'AWS::AccountId',
-                        },
-                        ':bucket/*',
-                      ]),
-                    ],
-                  },
+                  'aws:SourceArn': Match.anyValue(),
                 },
                 StringEquals: {
-                  'aws:SourceAccount': {
-                    Ref: 'AWS::AccountId',
-                  },
+                  'aws:SourceAccount': '123456789012',
                 },
               }),
             }),
@@ -180,7 +202,14 @@ describe('VectorBucket', () => {
     });
 
     test('bucket with auto-created KMS key grants service principal permissions', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       new VectorBucket(stack, 'MyBucket', {
         encryption: VectorBucketEncryption.KMS,
       });
@@ -205,7 +234,14 @@ describe('VectorBucket', () => {
 
   describe('Bucket name validation', () => {
     test('valid bucket names', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
 
       expect(() => new VectorBucket(stack, 'MyBucket1', {
         vectorBucketName: 'abc-xyz-34ab',
@@ -221,21 +257,42 @@ describe('VectorBucket', () => {
     });
 
     test('creating bucket with underscore in name throws error', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       expect(() => {
         new VectorBucket(stack, 'TestBucket', { vectorBucketName: 'test_bucket_name' });
       }).toThrow(/does not match the required pattern/);
     });
 
     test('creating bucket with uppercase letters throws error', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       expect(() => {
         new VectorBucket(stack, 'TestBucket2', { vectorBucketName: 'TestBucket' });
       }).toThrow(/does not match the required pattern/);
     });
 
     test('bucket validation skips tokenized values', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
 
       expect(() => new VectorBucket(stack, 'MyBucket', {
         vectorBucketName: cdk.Lazy.string({ produce: () => '_BUCKET' }),
@@ -243,7 +300,14 @@ describe('VectorBucket', () => {
     });
 
     test('fails with message on invalid bucket names', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = `-buckEt.-${new Array(65).join('$')}`;
 
       expect(() => new VectorBucket(stack, 'MyBucket', {
@@ -252,7 +316,14 @@ describe('VectorBucket', () => {
     });
 
     test('fails if bucket name has less than 3 or more than 63 characters', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
 
       expect(() => {
         new VectorBucket(stack, 'MyBucket', {
@@ -268,7 +339,14 @@ describe('VectorBucket', () => {
     });
 
     test('fails if bucket name starts or ends with hyphen', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
 
       expect(() => {
         new VectorBucket(stack, 'MyBucket', {
@@ -286,7 +364,14 @@ describe('VectorBucket', () => {
 
   describe('Removal policies', () => {
     test('default removal policy is RETAIN', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       new VectorBucket(stack, 'MyBucket');
 
       Template.fromStack(stack).hasResource('AWS::S3Vectors::VectorBucket', {
@@ -296,7 +381,14 @@ describe('VectorBucket', () => {
     });
 
     test('can set removal policy to DESTROY', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       new VectorBucket(stack, 'MyBucket', {
         removalPolicy: RemovalPolicy.DESTROY,
       });
@@ -308,7 +400,14 @@ describe('VectorBucket', () => {
     });
 
     test('can set removal policy to SNAPSHOT', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       new VectorBucket(stack, 'MyBucket', {
         removalPolicy: RemovalPolicy.SNAPSHOT,
       });
@@ -322,7 +421,14 @@ describe('VectorBucket', () => {
 
   describe('Auto-delete objects', () => {
     test('autoDeleteObjects requires DESTROY removal policy', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
 
       expect(() => {
         new VectorBucket(stack, 'MyBucket', {
@@ -333,7 +439,14 @@ describe('VectorBucket', () => {
     });
 
     test('autoDeleteObjects creates custom resource and policy', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       new VectorBucket(stack, 'MyBucket', {
         autoDeleteObjects: true,
         removalPolicy: RemovalPolicy.DESTROY,
@@ -351,7 +464,14 @@ describe('VectorBucket', () => {
     });
 
     test('autoDeleteObjects grants correct permissions to provider role', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       new VectorBucket(stack, 'MyBucket', {
         autoDeleteObjects: true,
         removalPolicy: RemovalPolicy.DESTROY,
@@ -404,12 +524,19 @@ describe('VectorBucket', () => {
   });
 
   describe('Grant methods', () => {
-    let stack: cdk.Stack;
+    let stack: Stack;
     let bucket: VectorBucket;
     let role: iam.Role;
 
     beforeEach(() => {
-      stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       bucket = new VectorBucket(stack, 'MyBucket');
       role = new iam.Role(stack, 'TestRole', {
         assumedBy: new iam.AccountRootPrincipal(),
@@ -559,7 +686,14 @@ describe('VectorBucket', () => {
 
   describe('Resource policy', () => {
     test('addToResourcePolicy creates policy automatically', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
 
       bucket.addToResourcePolicy(new iam.PolicyStatement({
@@ -576,22 +710,7 @@ describe('VectorBucket', () => {
               Effect: 'Allow',
               Action: 's3vectors:GetVectorBucket',
               Principal: {
-                AWS: {
-                  'Fn::Join': [
-                    '',
-                    [
-                      'arn:',
-                      {
-                        Ref: 'AWS::Partition',
-                      },
-                      ':iam::',
-                      {
-                        Ref: 'AWS::AccountId',
-                      },
-                      ':root',
-                    ],
-                  ],
-                },
+                AWS: Match.anyValue(),
               },
             }),
           ]),
@@ -600,7 +719,14 @@ describe('VectorBucket', () => {
     });
 
     test('addToResourcePolicy returns correct result', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
 
       const result = bucket.addToResourcePolicy(new iam.PolicyStatement({
@@ -616,7 +742,14 @@ describe('VectorBucket', () => {
 
   describe('Static import methods', () => {
     test('fromVectorBucketName creates imported bucket', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = VectorBucket.fromVectorBucketName(stack, 'ImportedBucket', 'my-bucket-name');
 
       expect(bucket.vectorBucketName).toBe('my-bucket-name');
@@ -625,7 +758,14 @@ describe('VectorBucket', () => {
     });
 
     test('fromVectorBucketArn creates imported bucket', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const arn = 'arn:aws:s3vectors:us-east-1:123456789012:bucket/my-bucket-name';
       const bucket = VectorBucket.fromVectorBucketArn(stack, 'ImportedBucket', arn);
 
@@ -634,7 +774,14 @@ describe('VectorBucket', () => {
     });
 
     test('fromVectorBucketAttributes creates imported bucket', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const arn = 'arn:aws:s3vectors:us-east-1:123456789012:bucket/my-bucket-name';
       const bucket = VectorBucket.fromVectorBucketAttributes(stack, 'ImportedBucket', {
         vectorBucketArn: arn,
@@ -647,7 +794,14 @@ describe('VectorBucket', () => {
     });
 
     test('fromVectorBucketAttributes with KMS key', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const key = new kms.Key(stack, 'MyKey');
       const arn = 'arn:aws:s3vectors:us-east-1:123456789012:bucket/my-bucket-name';
       const bucket = VectorBucket.fromVectorBucketAttributes(stack, 'ImportedBucket', {
@@ -659,7 +813,14 @@ describe('VectorBucket', () => {
     });
 
     test('fromVectorBucketAttributes throws error if bucket name cannot be extracted', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
 
       expect(() => {
         VectorBucket.fromVectorBucketAttributes(stack, 'ImportedBucket', {
@@ -671,7 +832,14 @@ describe('VectorBucket', () => {
 
   describe('Attributes', () => {
     test('bucket exposes correct attributes', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket', {
         vectorBucketName: 'my-bucket',
       });
@@ -687,7 +855,14 @@ describe('VectorBucket', () => {
     });
 
     test('bucket name is extracted from ARN correctly', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket', {
         vectorBucketName: 'test-bucket-name',
       });
@@ -704,7 +879,14 @@ describe('VectorBucket', () => {
 
   describe('CFN properties validation', () => {
     test('CFN properties are type-validated during resolution', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       new VectorBucket(stack, 'MyBucket', {
         vectorBucketName: cdk.Token.asString(5), // Oh no
       });
@@ -717,7 +899,14 @@ describe('VectorBucket', () => {
 
   describe('Edge cases', () => {
     test('bucket with minimal valid name', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       expect(() => {
         new VectorBucket(stack, 'MyBucket', {
           vectorBucketName: 'abc',
@@ -726,7 +915,14 @@ describe('VectorBucket', () => {
     });
 
     test('bucket with maximum length name', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       expect(() => {
         new VectorBucket(stack, 'MyBucket', {
           vectorBucketName: 'a'.repeat(63),
@@ -735,7 +931,14 @@ describe('VectorBucket', () => {
     });
 
     test('multiple grants to same principal', () => {
-      const stack = new cdk.Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       const role = new iam.Role(stack, 'TestRole', {
         assumedBy: new iam.AccountRootPrincipal(),

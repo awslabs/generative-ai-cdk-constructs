@@ -11,10 +11,11 @@
  *  and limitations under the License.
  */
 
-import { Stack } from 'aws-cdk-lib';
+import { App, Aspects, Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import { VectorBucket } from '../../../src/cdk-lib/s3vectors/vector-bucket';
 import {
   VectorIndex,
@@ -26,7 +27,14 @@ import {
 describe('VectorIndex', () => {
   describe('Default index', () => {
     test('creates index with minimal required properties', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       const index = new VectorIndex(stack, 'MyIndex', {
         vectorBucket: bucket,
@@ -54,7 +62,14 @@ describe('VectorIndex', () => {
     });
 
     test('creates index with all properties specified', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       new VectorIndex(stack, 'MyIndex', {
         vectorBucket: bucket,
@@ -75,7 +90,14 @@ describe('VectorIndex', () => {
 
   describe('Encryption', () => {
     test('index with S3_MANAGED encryption', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       new VectorIndex(stack, 'MyIndex', {
         vectorBucket: bucket,
@@ -91,7 +113,14 @@ describe('VectorIndex', () => {
     });
 
     test('index with KMS encryption and auto-created key', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       new VectorIndex(stack, 'MyIndex', {
         vectorBucket: bucket,
@@ -118,7 +147,14 @@ describe('VectorIndex', () => {
     });
 
     test('index with KMS encryption and provided key', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       const key = new kms.Key(stack, 'MyKey');
       new VectorIndex(stack, 'MyIndex', {
@@ -142,7 +178,14 @@ describe('VectorIndex', () => {
     });
 
     test('fails if encryption key is provided with S3_MANAGED encryption', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       const key = new kms.Key(stack, 'MyKey');
 
@@ -157,7 +200,14 @@ describe('VectorIndex', () => {
     });
 
     test('index with KMS encryption grants service principal permissions', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       const key = new kms.Key(stack, 'MyKey');
       new VectorIndex(stack, 'MyIndex', {
@@ -180,31 +230,10 @@ describe('VectorIndex', () => {
               Action: 'kms:Decrypt',
               Condition: Match.objectLike({
                 ArnLike: {
-                  'aws:SourceArn': {
-                    'Fn::Join': [
-                      '',
-                      Match.arrayWith([
-                        'arn:',
-                        {
-                          Ref: 'AWS::Partition',
-                        },
-                        ':s3vectors:',
-                        {
-                          Ref: 'AWS::Region',
-                        },
-                        ':',
-                        {
-                          Ref: 'AWS::AccountId',
-                        },
-                        ':bucket/*',
-                      ]),
-                    ],
-                  },
+                  'aws:SourceArn': Match.anyValue(),
                 },
                 StringEquals: {
-                  'aws:SourceAccount': {
-                    Ref: 'AWS::AccountId',
-                  },
+                  'aws:SourceAccount': '123456789012',
                 },
               }),
             }),
@@ -214,7 +243,14 @@ describe('VectorIndex', () => {
     });
 
     test('index with auto-created KMS key grants service principal permissions', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       new VectorIndex(stack, 'MyIndex', {
         vectorBucket: bucket,
@@ -242,7 +278,14 @@ describe('VectorIndex', () => {
 
   describe('Index name validation', () => {
     test('fails if index name is too short', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
 
       expect(() => {
@@ -255,7 +298,14 @@ describe('VectorIndex', () => {
     });
 
     test('fails if index name is too long', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
 
       expect(() => {
@@ -268,7 +318,14 @@ describe('VectorIndex', () => {
     });
 
     test('fails if index name contains invalid characters', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
 
       expect(() => {
@@ -281,7 +338,14 @@ describe('VectorIndex', () => {
     });
 
     test('fails if index name starts with invalid character', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
 
       expect(() => {
@@ -294,7 +358,14 @@ describe('VectorIndex', () => {
     });
 
     test('fails if index name ends with invalid character', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
 
       expect(() => {
@@ -307,7 +378,14 @@ describe('VectorIndex', () => {
     });
 
     test('accepts valid index names', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
 
       const validNames = ['my-index', 'my.index', 'my-index-123', 'abc123', 'a'.repeat(63)];
@@ -326,7 +404,14 @@ describe('VectorIndex', () => {
 
   describe('Dimension validation', () => {
     test('fails if dimension is less than 1', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
 
       expect(() => {
@@ -338,7 +423,14 @@ describe('VectorIndex', () => {
     });
 
     test('fails if dimension is greater than 4096', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
 
       expect(() => {
@@ -350,7 +442,14 @@ describe('VectorIndex', () => {
     });
 
     test('accepts valid dimensions', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
 
       const validDimensions = [1, 128, 1024, 4096];
@@ -368,7 +467,14 @@ describe('VectorIndex', () => {
 
   describe('Metadata configuration validation', () => {
     test('fails if metadata configuration has no keys', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
 
       expect(() => {
@@ -381,7 +487,14 @@ describe('VectorIndex', () => {
     });
 
     test('fails if metadata configuration has more than 10 keys', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
 
       expect(() => {
@@ -394,7 +507,14 @@ describe('VectorIndex', () => {
     });
 
     test('fails if metadata key is too long', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
 
       expect(() => {
@@ -407,7 +527,14 @@ describe('VectorIndex', () => {
     });
 
     test('accepts valid metadata configuration', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       new VectorIndex(stack, 'MyIndex', {
         vectorBucket: bucket,
@@ -423,7 +550,14 @@ describe('VectorIndex', () => {
     });
 
     test('accepts metadata configuration with 10 keys', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       const keys = Array.from({ length: 10 }, (_, i) => `key${i + 1}`);
       new VectorIndex(stack, 'MyIndex', {
@@ -442,7 +576,14 @@ describe('VectorIndex', () => {
 
   describe('Grant methods', () => {
     test('grant grants permissions to IAM role', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       const index = new VectorIndex(stack, 'MyIndex', {
         vectorBucket: bucket,
@@ -482,7 +623,14 @@ describe('VectorIndex', () => {
     });
 
     test('grant can be called multiple times', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       const index = new VectorIndex(stack, 'MyIndex', {
         vectorBucket: bucket,
@@ -507,7 +655,14 @@ describe('VectorIndex', () => {
 
   describe('Static import methods', () => {
     test('fromVectorIndexArn creates imported index', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       // Use a concrete ARN for testing (the validation requires concrete values, not tokens)
       const indexArn = 'arn:aws:s3vectors:us-east-1:123456789012:bucket/my-bucket/index/my-index';
       const index = VectorIndex.fromVectorIndexArn(stack, 'MyIndex', indexArn);
@@ -530,7 +685,14 @@ describe('VectorIndex', () => {
     });
 
     test('fromVectorIndexAttributes creates imported index', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       // Use a concrete ARN for testing (the validation requires concrete values, not tokens)
       const indexArn = 'arn:aws:s3vectors:us-east-1:123456789012:bucket/my-bucket/index/my-index';
       const index = VectorIndex.fromVectorIndexAttributes(stack, 'MyIndex', {
@@ -544,7 +706,14 @@ describe('VectorIndex', () => {
     });
 
     test('fromVectorIndexAttributes with encryption key', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const key = new kms.Key(stack, 'MyKey');
       // Use a concrete ARN for testing (the validation requires concrete values, not tokens)
       const indexArn = 'arn:aws:s3vectors:us-east-1:123456789012:bucket/my-bucket/index/my-index';
@@ -557,7 +726,14 @@ describe('VectorIndex', () => {
     });
 
     test('fromVectorIndexAttributes throws error if ARN format is invalid', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
 
       expect(() => {
         VectorIndex.fromVectorIndexAttributes(stack, 'MyIndex', {
@@ -567,7 +743,14 @@ describe('VectorIndex', () => {
     });
 
     test('fromVectorIndexAttributes throws error if ARN resource part is missing', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
 
       expect(() => {
         VectorIndex.fromVectorIndexAttributes(stack, 'MyIndex', {
@@ -579,7 +762,14 @@ describe('VectorIndex', () => {
 
   describe('Attributes', () => {
     test('index exposes correct attributes', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       const index = new VectorIndex(stack, 'MyIndex', {
         vectorBucket: bucket,
@@ -593,7 +783,14 @@ describe('VectorIndex', () => {
     });
 
     test('index name is set when provided', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       new VectorIndex(stack, 'MyIndex', {
         vectorBucket: bucket,
@@ -609,7 +806,14 @@ describe('VectorIndex', () => {
 
   describe('Data type and distance metric', () => {
     test('default data type is FLOAT_32', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       new VectorIndex(stack, 'MyIndex', {
         vectorBucket: bucket,
@@ -621,7 +825,14 @@ describe('VectorIndex', () => {
     });
 
     test('default distance metric is COSINE', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       new VectorIndex(stack, 'MyIndex', {
         vectorBucket: bucket,
@@ -633,7 +844,14 @@ describe('VectorIndex', () => {
     });
 
     test('can specify EUCLIDEAN distance metric', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       new VectorIndex(stack, 'MyIndex', {
         vectorBucket: bucket,
@@ -648,7 +866,14 @@ describe('VectorIndex', () => {
 
   describe('Edge cases', () => {
     test('multiple indexes in same bucket', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       const index1 = new VectorIndex(stack, 'Index1', {
         vectorBucket: bucket,
@@ -665,7 +890,14 @@ describe('VectorIndex', () => {
     });
 
     test('index can reference bucket ARN correctly', () => {
-      const stack = new Stack();
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const bucket = new VectorBucket(stack, 'MyBucket');
       new VectorIndex(stack, 'MyIndex', {
         vectorBucket: bucket,

@@ -11,11 +11,12 @@
  *  and limitations under the License.
  */
 
-import { RemovalPolicy, Stack } from 'aws-cdk-lib';
+import { App, Aspects, RemovalPolicy, Stack } from 'aws-cdk-lib';
 import { Match, Template } from 'aws-cdk-lib/assertions';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { AnyPrincipal, PolicyDocument, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { CfnVectorBucket, CfnVectorBucketPolicy } from 'aws-cdk-lib/aws-s3vectors';
+import { AwsSolutionsChecks } from 'cdk-nag';
 import { VectorBucket } from '../../../src/cdk-lib/s3vectors/vector-bucket';
 import { VectorBucketPolicy } from '../../../src/cdk-lib/s3vectors/vector-bucket-policy';
 
@@ -24,7 +25,14 @@ import { VectorBucketPolicy } from '../../../src/cdk-lib/s3vectors/vector-bucket
 
 describe('VectorBucketPolicy', () => {
   test('default properties', () => {
-    const stack = new Stack();
+    const app = new App();
+    Aspects.of(app).add(new AwsSolutionsChecks());
+    const stack = new Stack(app, 'TestStack', {
+      env: {
+        account: '123456789012',
+        region: 'us-east-1',
+      },
+    });
 
     const myBucket = new VectorBucket(stack, 'MyBucket');
     const myBucketPolicy = new VectorBucketPolicy(stack, 'MyBucketPolicy', {
@@ -63,7 +71,14 @@ describe('VectorBucketPolicy', () => {
   });
 
   test('when specifying a removalPolicy at creation', () => {
-    const stack = new Stack();
+    const app = new App();
+    Aspects.of(app).add(new AwsSolutionsChecks());
+    const stack = new Stack(app, 'TestStack', {
+      env: {
+        account: '123456789012',
+        region: 'us-east-1',
+      },
+    });
 
     const myBucket = new VectorBucket(stack, 'MyBucket');
     const myBucketPolicy = new VectorBucketPolicy(stack, 'MyBucketPolicy', {
@@ -102,7 +117,14 @@ describe('VectorBucketPolicy', () => {
   });
 
   test('when specifying a removalPolicy after creation', () => {
-    const stack = new Stack();
+    const app = new App();
+    Aspects.of(app).add(new AwsSolutionsChecks());
+    const stack = new Stack(app, 'TestStack', {
+      env: {
+        account: '123456789012',
+        region: 'us-east-1',
+      },
+    });
 
     const myBucket = new VectorBucket(stack, 'MyBucket');
     myBucket.addToResourcePolicy(new PolicyStatement({
@@ -138,7 +160,14 @@ describe('VectorBucketPolicy', () => {
   });
 
   test('fails if bucket policy has no actions', () => {
-    const stack = new Stack();
+    const app = new App();
+    Aspects.of(app).add(new AwsSolutionsChecks());
+    const stack = new Stack(app, 'TestStack', {
+      env: {
+        account: '123456789012',
+        region: 'us-east-1',
+      },
+    });
     const myBucket = new VectorBucket(stack, 'MyBucket');
     myBucket.addToResourcePolicy(new PolicyStatement({
       resources: [myBucket.vectorBucketArn],
@@ -151,7 +180,14 @@ describe('VectorBucketPolicy', () => {
   });
 
   test('fails if bucket policy has no IAM principals', () => {
-    const stack = new Stack();
+    const app = new App();
+    Aspects.of(app).add(new AwsSolutionsChecks());
+    const stack = new Stack(app, 'TestStack', {
+      env: {
+        account: '123456789012',
+        region: 'us-east-1',
+      },
+    });
     const myBucket = new VectorBucket(stack, 'MyBucket');
     myBucket.addToResourcePolicy(new PolicyStatement({
       resources: [myBucket.vectorBucketArn],
@@ -164,7 +200,14 @@ describe('VectorBucketPolicy', () => {
   });
 
   describe('fromCfnVectorBucketPolicy()', () => {
-    const stack = new Stack();
+    const app = new App();
+    Aspects.of(app).add(new AwsSolutionsChecks());
+    const stack = new Stack(app, 'TestStack', {
+      env: {
+        account: '123456789012',
+        region: 'us-east-1',
+      },
+    });
 
     test('correctly extracts the Document and Bucket from the L1', () => {
       const cfnBucket = new CfnVectorBucket(stack, 'CfnBucket', {
@@ -184,7 +227,14 @@ describe('VectorBucketPolicy', () => {
     });
 
     test('correctly references a bucket by name', () => {
-      const testStack = new Stack();
+      const testApp = new App();
+      Aspects.of(testApp).add(new AwsSolutionsChecks());
+      const testStack = new Stack(testApp, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const cfnBucketPolicy = bucketPolicyForBucketNamed(testStack, 'hardcoded-name');
       const bucketPolicy = VectorBucketPolicy.fromCfnVectorBucketPolicy(cfnBucketPolicy);
 
@@ -193,7 +243,14 @@ describe('VectorBucketPolicy', () => {
     });
 
     test('should synthesize without errors and create duplicate cfn resource', () => {
-      const testStack = new Stack();
+      const testApp = new App();
+      Aspects.of(testApp).add(new AwsSolutionsChecks());
+      const testStack = new Stack(testApp, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
       const cfnBucketPolicy = new CfnVectorBucketPolicy(testStack, 'TestBucketPolicy', {
         policy: {
           Statement: [
@@ -246,7 +303,14 @@ describe('VectorBucketPolicy', () => {
   });
 
   test('policy document can be provided at construction', () => {
-    const stack = new Stack();
+    const app = new App();
+    Aspects.of(app).add(new AwsSolutionsChecks());
+    const stack = new Stack(app, 'TestStack', {
+      env: {
+        account: '123456789012',
+        region: 'us-east-1',
+      },
+    });
     const bucket = new VectorBucket(stack, 'MyBucket');
     const policyDoc = new PolicyDocument({
       statements: [
@@ -279,7 +343,14 @@ describe('VectorBucketPolicy', () => {
   });
 
   test('default removal policy is DESTROY', () => {
-    const stack = new Stack();
+    const app = new App();
+    Aspects.of(app).add(new AwsSolutionsChecks());
+    const stack = new Stack(app, 'TestStack', {
+      env: {
+        account: '123456789012',
+        region: 'us-east-1',
+      },
+    });
     const bucket = new VectorBucket(stack, 'MyBucket');
     const policyDoc = new PolicyDocument({
       statements: [
@@ -304,7 +375,14 @@ describe('VectorBucketPolicy', () => {
   });
 
   test('can add multiple statements to policy document', () => {
-    const stack = new Stack();
+    const app = new App();
+    Aspects.of(app).add(new AwsSolutionsChecks());
+    const stack = new Stack(app, 'TestStack', {
+      env: {
+        account: '123456789012',
+        region: 'us-east-1',
+      },
+    });
     const bucket = new VectorBucket(stack, 'MyBucket');
     const policy = new VectorBucketPolicy(stack, 'MyPolicy', {
       bucket,
@@ -342,7 +420,14 @@ describe('VectorBucketPolicy', () => {
   });
 
   test('policy can reference index resources', () => {
-    const stack = new Stack();
+    const app = new App();
+    Aspects.of(app).add(new AwsSolutionsChecks());
+    const stack = new Stack(app, 'TestStack', {
+      env: {
+        account: '123456789012',
+        region: 'us-east-1',
+      },
+    });
     const bucket = new VectorBucket(stack, 'MyBucket');
     const policy = new VectorBucketPolicy(stack, 'MyPolicy', {
       bucket,
