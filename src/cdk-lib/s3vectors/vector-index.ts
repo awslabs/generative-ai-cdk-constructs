@@ -11,7 +11,7 @@
  *  and limitations under the License.
  */
 
-import { Arn, ArnFormat, IResource, Resource, Stack, ValidationError } from 'aws-cdk-lib';
+import { Arn, ArnFormat, IResource, Resource, Stack, ValidationError, Fn } from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import * as s3vectors from 'aws-cdk-lib/aws-s3vectors';
@@ -360,7 +360,10 @@ export class VectorIndex extends VectorIndexBase {
     // ------------------------------------------------------
     this.__resource = new s3vectors.CfnIndex(this, 'Resource', cfnProps);
     this.vectorIndexArn = this.__resource.attrIndexArn;
-    this.vectorIndexName = this.getResourceNameAttribute(this.__resource.ref);
+    // Extract index name from ARN to get the actual index name (not the ref which can be very long)
+    // ARN format: arn:aws:s3vectors:region:account:bucket/bucket-name/index/index-name
+    // Split by '/' and select index 3 to get the index name
+    this.vectorIndexName = Fn.select(3, Fn.split('/', this.__resource.attrIndexArn));
     this.creationTime = this.__resource.attrCreationTime;
   }
 
