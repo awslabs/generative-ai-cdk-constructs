@@ -138,7 +138,7 @@ export abstract class VectorIndexBase extends Resource implements IVectorIndex {
  *                        PROPS FOR NEW CONSTRUCT
  *****************************************************************************/
 /**
- * Properties for creating a Aurora DSQL cluster resource
+ * Properties for creating a VectorIndex resource
  */
 export interface VectorIndexProps {
   /**

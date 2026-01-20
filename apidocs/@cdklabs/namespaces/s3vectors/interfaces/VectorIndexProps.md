@@ -6,7 +6,7 @@
 
 # Interface: VectorIndexProps
 
-Properties for creating a Aurora DSQL cluster resource
+Properties for creating a VectorIndex resource
 
 ## Properties
 

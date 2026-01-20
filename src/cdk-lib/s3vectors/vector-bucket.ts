@@ -186,7 +186,6 @@ export abstract class VectorBucketBase extends Resource implements IVectorBucket
         ...perms.VECTOR_READ_ACTIONS,
         ...perms.VECTOR_LIST_ACTIONS,
         ...perms.VECTOR_QUERY_ACTIONS,
-        ...perms.VECTOR_LIST_ACTIONS,
       ])];
 
     return this._internalGrant(
@@ -328,7 +327,7 @@ export abstract class VectorBucketBase extends Resource implements IVectorBucket
  *                        PROPS FOR NEW CONSTRUCT
  *****************************************************************************/
 /**
- * Properties for creating a Aurora DSQL cluster resource
+ * Properties for creating a VectorBucket resource
  */
 export interface VectorBucketProps {
   /**

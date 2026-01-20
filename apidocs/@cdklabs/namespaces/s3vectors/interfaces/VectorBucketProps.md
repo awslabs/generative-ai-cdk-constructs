@@ -6,7 +6,7 @@
 
 # Interface: VectorBucketProps
 
-Properties for creating a Aurora DSQL cluster resource
+Properties for creating a VectorBucket resource
 
 ## Properties
 
