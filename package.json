@@ -96,7 +96,7 @@
   "devDependencies": {
     "@aws-cdk/assert": "^2.68.0",
     "@aws-cdk/integ-tests-alpha": "2.230.0-alpha.0",
-    "@cdklabs/eslint-plugin": "^1.5.0",
+    "@cdklabs/eslint-plugin": "^1.5.1",
     "@commitlint/config-conventional": "^18.6.3",
     "@mrgrain/jsii-struct-builder": "^0.7.64",
     "@stylistic/eslint-plugin": "^2",
