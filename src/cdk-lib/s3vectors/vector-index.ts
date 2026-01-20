@@ -305,7 +305,6 @@ export class VectorIndex extends VectorIndexBase {
   public readonly dataType: VectorIndexDataType;
   public readonly dimension: number;
   public readonly distanceMetric: VectorIndexDistanceMetric;
-  public readonly encryption: VectorIndexEncryption;
   public readonly encryptionKey?: kms.IKey;
 
   // ------------------------------------------------------
@@ -327,8 +326,6 @@ export class VectorIndex extends VectorIndexBase {
     this.dataType = props.dataType ?? VectorIndexDataType.FLOAT_32;
     this.dimension = props.dimension;
     this.distanceMetric = props.distanceMetric ?? VectorIndexDistanceMetric.COSINE;
-    this.encryption = props.encryption ?? VectorIndexEncryption.KMS;
-    this.encryptionKey = props.encryptionKey;
     this.vectorBucket = props.vectorBucket;
     const nonFilterableMetadataKeys = props.nonFilterableMetadataKeys ? { nonFilterableMetadataKeys: props.nonFilterableMetadataKeys }
       : undefined;
@@ -481,8 +478,8 @@ export class VectorIndex extends VectorIndexBase {
     encryptionConfiguration?: s3vectors.CfnIndex.EncryptionConfigurationProperty;
     encryptionKey?: kms.IKey;
   } {
-    // Server-side encryption with Amazon S3 managed keys (SSE-S3) is used by default when encryption type is not specified.
-    const encryptionType = props.encryption ?? VectorIndexEncryption.S3_MANAGED;
+    // Default: KMS if encryptionKey is specified, otherwise S3_MANAGED (SSE-S3).
+    const encryptionType = props.encryption ?? (props.encryptionKey ? VectorIndexEncryption.KMS : VectorIndexEncryption.S3_MANAGED);
     let encryptionKey = props.encryptionKey;
 
     // KMS

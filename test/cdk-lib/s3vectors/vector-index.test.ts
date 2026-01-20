@@ -177,6 +177,45 @@ describe('VectorIndex', () => {
       });
     });
 
+    test('default encryption is S3_MANAGED when neither encryption nor encryptionKey is specified', () => {
+      const app = new App();
+      const stack = new Stack(app, 'TestStack', {
+        env: { account: '123456789012', region: 'us-east-1' },
+      });
+      const bucket = new VectorBucket(stack, 'MyBucket');
+      const index = new VectorIndex(stack, 'MyIndex', {
+        vectorBucket: bucket,
+        dimension: 128,
+      });
+
+      expect(index.encryptionKey).toBeUndefined();
+      Template.fromStack(stack).hasResourceProperties('AWS::S3Vectors::Index', {
+        EncryptionConfiguration: { SseType: 'AES256' },
+      });
+    });
+
+    test('default encryption is KMS when encryptionKey is specified and encryption is not', () => {
+      const app = new App();
+      const stack = new Stack(app, 'TestStack', {
+        env: { account: '123456789012', region: 'us-east-1' },
+      });
+      const bucket = new VectorBucket(stack, 'MyBucket');
+      const key = new kms.Key(stack, 'MyKey');
+      const index = new VectorIndex(stack, 'MyIndex', {
+        vectorBucket: bucket,
+        dimension: 128,
+        encryptionKey: key,
+      });
+
+      expect(index.encryptionKey).toBe(key);
+      Template.fromStack(stack).hasResourceProperties('AWS::S3Vectors::Index', {
+        EncryptionConfiguration: {
+          SseType: 'aws:kms',
+          KmsKeyArn: { 'Fn::GetAtt': ['MyKey6AB29FA6', 'Arn'] },
+        },
+      });
+    });
+
     test('fails if encryption key is provided with S3_MANAGED encryption', () => {
       const app = new App();
       Aspects.of(app).add(new AwsSolutionsChecks());

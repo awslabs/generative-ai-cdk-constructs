@@ -701,8 +701,8 @@ export class VectorBucket extends VectorBucketBase {
     bucketEncryption?: CfnVectorBucket.EncryptionConfigurationProperty;
     encryptionKey?: kms.IKey;
   } {
-    // Server-side encryption with Amazon S3 managed keys (SSE-S3) is used by default when encryption type is not specified.
-    const encryptionType = props.encryption ?? VectorBucketEncryption.S3_MANAGED;
+    // Default: KMS if encryptionKey is specified, otherwise S3_MANAGED (SSE-S3).
+    const encryptionType = props.encryption ?? (props.encryptionKey ? VectorBucketEncryption.KMS : VectorBucketEncryption.S3_MANAGED);
     let encryptionKey = props.encryptionKey;
 
     // KMS

@@ -83,12 +83,6 @@ The timestamp when the vector bucket was created, in ISO 8601 format.
 
 ***
 
-### encryption
-
-> `readonly` **encryption**: [`VectorIndexEncryption`](../enumerations/VectorIndexEncryption.md)
-
-***
-
 ### encryptionKey?
 
 > `readonly` `optional` **encryptionKey**: `IKey`
