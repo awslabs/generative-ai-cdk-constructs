@@ -447,6 +447,8 @@ new bedrock.S3DataSource(this, 'DataSource', {
 });
 ```
 
+The construct will add the grantRead and grantWrite permissions from the S3 Vector bucket to the knowledge base. These permissions will be specifically on the index provided, not all indexes within the vector bucket.
+
 ### Vector Type
 
 The data type for the vectors when using a model to convert text into vector embeddings. Embeddings type may impact the availability of some embeddings models and vector stores. The following vector types are available:
