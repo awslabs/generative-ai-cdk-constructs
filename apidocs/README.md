@@ -20,6 +20,7 @@
 - [opensearchmanagedcluster](@cdklabs/namespaces/opensearchmanagedcluster/README.md)
 - [opensearchserverless](@cdklabs/namespaces/opensearchserverless/README.md)
 - [pinecone](@cdklabs/namespaces/pinecone/README.md)
+- [s3vectors](@cdklabs/namespaces/s3vectors/README.md)
 - [sagemaker\_deployment](@cdklabs/namespaces/sagemaker_deployment/README.md)
 
 ## Enumerations

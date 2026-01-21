@@ -154,6 +154,7 @@ The following constructs are available in the library:
 | [Amazon OpenSearch Serverless Vector Collection](./src/cdk-lib/opensearchserverless/README.md) | CDK L2 Constructs to create a vector collection. | Amazon OpenSearch Vector Index |
 | [Amazon OpenSearch Vector Index](./src/cdk-lib/opensearch-vectorindex/README.md) | CDK L1 Custom Resource to create a vector index. | Amazon OpenSearch Serverless, AWS Lambda |
 | [Amazon Aurora DSQL](./src/cdk-lib/aurora-dsql/README.md) | CDK L2 Constructs for Amazon Aurora DSQL. | Amazon Aurora DSQL |
+| [Amazon S3 Vectors](./src/cdk-lib/s3vectors/) | CDK L2 Constructs for Amazon S3 vectors. | Amazon S3 Vectors |
 
 ## Sample Use Cases
 

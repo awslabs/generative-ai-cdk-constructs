@@ -37,6 +37,7 @@ export * as opensearchserverless from './cdk-lib/opensearchserverless';
 export * as opensearch_vectorindex from './cdk-lib/opensearch-vectorindex';
 export * as opensearchmanagedcluster from './cdk-lib/opensearchmanagedcluster';
 export * as auroraDsql from './cdk-lib/aurora-dsql';
+export * as s3vectors from './cdk-lib/s3vectors';
 
 // ===================================
 // Common
