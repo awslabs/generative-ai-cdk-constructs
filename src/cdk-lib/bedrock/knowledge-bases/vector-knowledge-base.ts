@@ -1110,12 +1110,13 @@ function getStorageConfiguration(params: StorageConfiguration): any {
       };
     case VectorStoreType.S3_VECTORS: {
       const s3VectorStore = params.vectorStore as S3VectorIndex;
+      // S3VectorsConfiguration uses a oneOf: provide EITHER IndexArn (which encodes
+      // bucket and index) OR IndexName+VectorBucketArn. Providing all three causes
+      // "2 subschemas matched instead of one". IndexArn alone is sufficient.
       return {
         type: VectorStoreType.S3_VECTORS,
         s3VectorsConfiguration: {
           indexArn: s3VectorStore.vectorIndexArn,
-          indexName: s3VectorStore.vectorIndexName,
-          vectorBucketArn: s3VectorStore.vectorBucket.vectorBucketArn,
         },
       };
     }

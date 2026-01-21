@@ -519,11 +519,9 @@ describe('VectorKnowledgeBase', () => {
     s3VectorsTemplate.hasResourceProperties('AWS::Bedrock::KnowledgeBase', {
       StorageConfiguration: {
         Type: 'S3_VECTORS',
-        S3VectorsConfiguration: Match.objectLike({
+        S3VectorsConfiguration: {
           IndexArn: Match.anyValue(),
-          IndexName: Match.anyValue(),
-          VectorBucketArn: Match.anyValue(),
-        }),
+        },
       },
     });
   });
