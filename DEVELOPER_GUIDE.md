@@ -16,7 +16,7 @@ Default output format [None]: json
 ```
 
 - [Node](https://nodejs.org/en) >= v22.0.0
-- [AWS CDK](https://github.com/aws/aws-cdk/releases/tag/v2.230.0) >= 2.230.0
+- [AWS CDK](https://github.com/aws/aws-cdk/releases/tag/v2.233.0) >= 2.233.0
 - [Python](https://www.python.org/downloads/) >=3.9
 - [Projen](https://github.com/projen/projen/releases/tag/v0.98.26) >= 0.98.26
 - [Yarn](https://classic.yarnpkg.com/lang/en/docs/cli/install/) >= 1.22.19
@@ -65,6 +65,8 @@ All test files can be found in the /test directory under each construct (or core
 | Action            | Explanation                                |
 | :------------------ | :------------------------------------------- |
 | `npx projen test` | This will run all tests (unit+integration) |
+
+You can also run specific tests with `npx projen test --testPathPattern=<addPathPattern>`. For instance: `npx projen test --testPathPattern=s3vectors`
 
 ---
 ## Testing Your Construct Locally
