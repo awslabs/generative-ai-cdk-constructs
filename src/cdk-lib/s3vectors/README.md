@@ -19,7 +19,7 @@
 | ![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) TypeScript | `@cdklabs/generative-ai-cdk-constructs`                                                               |
 | ![Python Logo](https://docs.aws.amazon.com/cdk/api/latest/img/python32.png) Python             | `cdklabs.generative_ai_cdk_constructs`                                                                |
 | ![.Net](https://docs.aws.amazon.com/cdk/api/latest/img/dotnet32.png) .Net                     | `CdkLabs.GenerativeAICdkConstructs`                                                                    |
-| ![Go](https://docs.aws.amazon.com/cdk/api/latest/img/go32.png) Go                             | `github.com/cdklabs/generative-ai-cdk-constructs-go/generative-ai-cdk-constructs`                      |
+| ![Go](https://docs.aws.amazon.com/cdk/api/latest/img/go32.png) Go                             | `github.com/cdklabs/generative-ai-cdk-constructs-go/generativeaicdkconstructs`                      |
 
 Amazon S3 Vectors delivers purpose-built, cost-optimized vector storage for your semantic search and AI applications. With Amazon S3 level elasticity and durability for storing vector datasets with sub-second query performance, S3 Vectors is ideal for applications that need to build and grow vector indexes. You get a dedicated set of API operations to store, access, and perform similarity queries on vector data without provisioning any infrastructure. S3 Vectors consists of several key components that work together:
 

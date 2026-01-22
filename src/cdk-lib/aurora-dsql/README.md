@@ -19,7 +19,7 @@
 | ![Typescript Logo](https://docs.aws.amazon.com/cdk/api/latest/img/typescript32.png) TypeScript | `@cdklabs/generative-ai-cdk-constructs` |
 | ![Python Logo](https://docs.aws.amazon.com/cdk/api/latest/img/python32.png) Python             | `cdklabs.generative_ai_cdk_constructs`  |
 | ![.Net](https://docs.aws.amazon.com/cdk/api/latest/img/dotnet32.png) .Net                   | `CdkLabs.GenerativeAICdkConstructs`|
-| ![Go](https://docs.aws.amazon.com/cdk/api/latest/img/go32.png) Go                   | `github.com/cdklabs/generative-ai-cdk-constructs-go/generative-ai-cdk-constructs`|
+| ![Go](https://docs.aws.amazon.com/cdk/api/latest/img/go32.png) Go                   | `github.com/cdklabs/generative-ai-cdk-constructs-go/generativeaicdkconstructs`|
 
 Amazon Aurora DSQL is the fastest serverless distributed SQL database with active-active high availability to help ensure your applications are always available. It ensures all reads and writes to any Regional endpoint are strongly consistent and durable. Moreover, its serverless design makes database management effortless, offering virtually unlimited scalability and zero infrastructure management.
 
