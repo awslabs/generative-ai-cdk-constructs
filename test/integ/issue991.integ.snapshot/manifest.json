@@ -393,14 +393,6 @@
             "recommendedValue": true,
             "explanation": "When enabled, stack tags need to be assigned explicitly on a Stack."
           },
-          "@aws-cdk/aws-ecs:enableImdsBlockingDeprecatedFeature": {
-            "recommendedValue": false,
-            "explanation": "When set to true along with canContainersAccessInstanceRole=false in ECS cluster, new updated commands will be added to UserData to block container accessing IMDS. **Applicable to Linux only. IMPORTANT: See [details.](#aws-cdkaws-ecsenableImdsBlockingDeprecatedFeature)**"
-          },
-          "@aws-cdk/aws-ecs:disableEcsImdsBlocking": {
-            "recommendedValue": true,
-            "explanation": "When set to true, CDK synth will throw exception if canContainersAccessInstanceRole is false. **IMPORTANT: See [details.](#aws-cdkaws-ecsdisableEcsImdsBlocking)**"
-          },
           "@aws-cdk/aws-ecs:reduceEc2FargateCloudWatchPermissions": {
             "recommendedValue": true,
             "explanation": "When enabled, we will only grant the necessary permissions when users specify cloudwatch log group through logConfiguration"
@@ -536,6 +528,10 @@
           "@aws-cdk/aws-ecs-patterns:uniqueTargetGroupId": {
             "recommendedValue": true,
             "explanation": "When enabled, ECS patterns will generate unique target group IDs to prevent conflicts during load balancer replacement"
+          },
+          "@aws-cdk/aws-route53-patterns:useDistribution": {
+            "recommendedValue": true,
+            "explanation": "Use the `Distribution` resource instead of `CloudFrontWebDistribution`"
           }
         }
       }
