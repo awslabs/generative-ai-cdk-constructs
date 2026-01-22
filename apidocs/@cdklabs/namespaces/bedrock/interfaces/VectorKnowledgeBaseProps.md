@@ -146,11 +146,12 @@ if vector store is of `VectorCollection` type.
 
 ### vectorStore?
 
-> `readonly` `optional` **vectorStore**: [`ExistingAmazonAuroraVectorStore`](../../amazonaurora/classes/ExistingAmazonAuroraVectorStore.md) \| [`AmazonAuroraVectorStore`](../../amazonaurora/classes/AmazonAuroraVectorStore.md) \| [`MongoDBAtlasVectorStore`](../../mongodbAtlas/classes/MongoDBAtlasVectorStore.md) \| [`VectorCollection`](../../opensearchserverless/classes/VectorCollection.md) \| [`OpenSearchManagedClusterVectorStore`](../../opensearchmanagedcluster/classes/OpenSearchManagedClusterVectorStore.md) \| [`PineconeVectorStore`](../../pinecone/classes/PineconeVectorStore.md)
+> `readonly` `optional` **vectorStore**: [`ExistingAmazonAuroraVectorStore`](../../amazonaurora/classes/ExistingAmazonAuroraVectorStore.md) \| [`AmazonAuroraVectorStore`](../../amazonaurora/classes/AmazonAuroraVectorStore.md) \| [`MongoDBAtlasVectorStore`](../../mongodbAtlas/classes/MongoDBAtlasVectorStore.md) \| [`VectorCollection`](../../opensearchserverless/classes/VectorCollection.md) \| [`OpenSearchManagedClusterVectorStore`](../../opensearchmanagedcluster/classes/OpenSearchManagedClusterVectorStore.md) \| [`PineconeVectorStore`](../../pinecone/classes/PineconeVectorStore.md) \| [`VectorIndex`](../../s3vectors/classes/VectorIndex.md)
 
 The vector store for the knowledge base. Must be either of
-type `VectorCollection`, `RedisEnterpriseVectorStore`,
-`PineconeVectorStore`, `AmazonAuroraVectorStore`, or `MongoDBAtlasVectorStore`.
+type `VectorCollection`, `PineconeVectorStore`, `AmazonAuroraVectorStore`,
+`MongoDBAtlasVectorStore`, `OpenSearchManagedClusterVectorStore`, or
+`VectorIndex` from s3vectors (for S3 Vectors).
 
 #### Default
 

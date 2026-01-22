@@ -30,6 +30,7 @@ import { MongoDBAtlasVectorStore } from '../../../src/cdk-lib/mongodb-atlas';
 import { OpenSearchManagedClusterVectorStore } from '../../../src/cdk-lib/opensearchmanagedcluster';
 import { VectorCollection } from '../../../src/cdk-lib/opensearchserverless';
 import { PineconeVectorStore } from '../../../src/cdk-lib/pinecone';
+import { VectorBucket, VectorIndex } from '../../../src/cdk-lib/s3vectors';
 
 describe('VectorKnowledgeBase', () => {
   let app: cdk.App;
@@ -488,6 +489,61 @@ describe('VectorKnowledgeBase', () => {
     expect(knowledgeBase.role).toBeDefined();
     expect(knowledgeBase.vectorStore).toBe(vectorStore);
     expect(knowledgeBase.name).toBe('TestOpenSearchManagedClusterKnowledgeBase');
+  });
+
+  test('Should correctly initialize with S3 Vectors (VectorIndex from s3vectors)', () => {
+    const s3App = new cdk.App();
+    const s3Stack = new cdk.Stack(s3App, 'S3VectorsTestStack', {
+      env: { account: '123456789012', region: 'us-east-1' },
+    });
+    const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
+    const vectorBucket = new VectorBucket(s3Stack, 'S3VectorBucket');
+    const vectorIndex = new VectorIndex(s3Stack, 'S3VectorIndex', {
+      vectorBucket,
+      dimension: model.vectorDimensions!,
+    });
+
+    const knowledgeBase = new VectorKnowledgeBase(s3Stack, 'S3VectorsKnowledgeBase', {
+      embeddingsModel: model,
+      vectorStore: vectorIndex,
+      instruction: 'Test instruction for S3 Vectors',
+      name: 'TestS3VectorsKnowledgeBase',
+    });
+
+    expect(knowledgeBase.instruction).toBe('Test instruction for S3 Vectors');
+    expect(knowledgeBase.vectorStoreType).toBe(VectorStoreType.S3_VECTORS);
+    expect(knowledgeBase.vectorStore).toBe(vectorIndex);
+    expect(knowledgeBase.name).toBe('TestS3VectorsKnowledgeBase');
+
+    const s3VectorsTemplate = Template.fromStack(s3Stack);
+    s3VectorsTemplate.hasResourceProperties('AWS::Bedrock::KnowledgeBase', {
+      StorageConfiguration: {
+        Type: 'S3_VECTORS',
+        S3VectorsConfiguration: {
+          IndexArn: Match.anyValue(),
+        },
+      },
+    });
+  });
+
+  test('Should throw when S3 VectorIndex dimension does not match embeddings model', () => {
+    const s3App = new cdk.App();
+    const s3Stack = new cdk.Stack(s3App, 'S3VectorsDimensionTestStack', {
+      env: { account: '123456789012', region: 'us-east-1' },
+    });
+    const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1; // 1536 dimensions
+    const vectorBucket = new VectorBucket(s3Stack, 'S3VectorBucket');
+    const vectorIndex = new VectorIndex(s3Stack, 'S3VectorIndex', {
+      vectorBucket,
+      dimension: 1024, // Mismatch: model has 1536
+    });
+
+    expect(() => {
+      new VectorKnowledgeBase(s3Stack, 'S3VectorsKnowledgeBase', {
+        embeddingsModel: model,
+        vectorStore: vectorIndex,
+      });
+    }).toThrow(/S3 vector index dimension \(1024\) must match the embeddings model dimension \(1536\)/);
   });
 
   test('Should correctly initialize with SupplementalDataStorageLocation', () => {

@@ -27,7 +27,7 @@ Amazon Bedrock Knowledge Bases enable you to provide foundation models and agent
 
 ### Create a vector Knowledge Base
 
-A vector index on a vector store is required to create a vector Knowledge Base. This construct currently supports [Amazon OpenSearch Serverless](../../opensearchserverless), [Amazon RDS Aurora PostgreSQL](../../amazonaurora/), [Pinecone](../../pinecone/) . By default, this resource will create an OpenSearch Serverless vector collection and index for each Knowledge Base you create, but you can provide an existing collection and/or index to have more control. For other resources you need to have the vector stores already created and credentials stored in AWS Secrets Manager. For Aurora, the construct provides an option to create a default `AmazonAuroraDefaultVectorStore` construct that will provision the vector store backed by Amazon Aurora for you. To learn more you can read [here](../../amazonaurora/README.md).
+A vector index on a vector store is required to create a vector Knowledge Base. This construct currently supports [Amazon OpenSearch Serverless](../../opensearchserverless), [Amazon RDS Aurora PostgreSQL](../../amazonaurora/), [Pinecone](../../pinecone/), [Amazon OpenSearch Managed Cluster](../../opensearchmanagedcluster/), [MongoDB Atlas](../../mongodb-atlas/), and [Amazon S3 Vectors](../../s3vectors/). By default, this resource will create an OpenSearch Serverless vector collection and index for each Knowledge Base you create, but you can provide an existing collection and/or index to have more control. For other resources you need to have the vector stores already created and credentials stored in AWS Secrets Manager. For Aurora, the construct provides an option to create a default `AmazonAuroraDefaultVectorStore` construct that will provision the vector store backed by Amazon Aurora for you. To learn more you can read [here](../../amazonaurora/README.md). For S3 Vectors, provide a `VectorIndex` from the s3vectors module; the index dimension must match your embeddings model's vector dimensions.
 
 The resource accepts an `instruction` prop that is provided to any Bedrock Agent it is associated with so the agent can decide when to query the Knowledge Base.
 
@@ -43,7 +43,7 @@ The resource accepts an `instruction` prop that is provided to any Bedrock Agent
 | existingRole | iam.IRole | No | Existing IAM role with a policy statement granting permission to invoke the specific embeddings model |
 | indexName | string | No | The name of the vector index (only applicable if vectorStore is of type VectorCollection) |
 | vectorField | string | No | The name of the field in the vector index (only applicable if vectorStore is of type VectorCollection) |
-| vectorStore | VectorCollection \| PineconeVectorStore \| AmazonAuroraVectorStore \| ExistingAmazonAuroraVectorStore | No | The vector store for the knowledge base |
+| vectorStore | VectorCollection \| PineconeVectorStore \| AmazonAuroraVectorStore \| ExistingAmazonAuroraVectorStore \| OpenSearchManagedClusterVectorStore \| MongoDBAtlasVectorStore \| VectorIndex (s3vectors) | No | The vector store for the knowledge base |
 | vectorIndex | VectorIndex | No | The vector index for the OpenSearch Serverless backed knowledge base |
 | knowledgeBaseState | string | No | Specifies whether to use the knowledge base or not when sending an InvokeAgent request |
 | tags | Record<string, string> | No | Tag (KEY-VALUE) bedrock agent resource |
@@ -413,6 +413,42 @@ bedrock.S3DataSource(self, 'DataSource',
     chunking_strategy=bedrock.ChunkingStrategy.FIXED_SIZE
 )
 ```
+
+#### Amazon S3 Vectors
+
+Use [Amazon S3 Vectors](../../s3vectors/) as the vector store by providing a `VectorBucket` and `VectorIndex` from the s3vectors module. The `VectorIndex` dimension must match your embeddings model's vector dimensions.
+
+##### TypeScript
+
+```ts
+import * as s3 from 'aws-cdk-lib/aws-s3';
+import { bedrock, s3vectors } from '@cdklabs/generative-ai-cdk-constructs';
+
+const model = bedrock.BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
+const vectorBucket = new s3vectors.VectorBucket(this, 'VectorBucket');
+const vectorIndex = new s3vectors.VectorIndex(this, 'VectorIndex', {
+  vectorBucket,
+  dimension: model.vectorDimensions!,
+  nonFilterableMetadataKeys: ['AMAZON_BEDROCK_TEXT'],
+});
+
+const kb = new bedrock.VectorKnowledgeBase(this, 'KnowledgeBase', {
+  embeddingsModel: model,
+  vectorStore: vectorIndex,
+  instruction: 'Use this knowledge base to answer questions about product documentation.',
+});
+
+const docBucket = new s3.Bucket(this, 'DocBucket');
+
+new bedrock.S3DataSource(this, 'DataSource', {
+  bucket: docBucket,
+  knowledgeBase: kb,
+  dataSourceName: 'product-docs',
+  chunkingStrategy: bedrock.ChunkingStrategy.fixedSize({ maxTokens: 500, overlapPercentage: 20 }),
+});
+```
+
+The construct will add the grantRead and grantWrite permissions from the S3 Vector bucket to the knowledge base. These permissions will be specifically on the index provided, not all indexes within the vector bucket.
 
 ### Vector Type
 

@@ -31,6 +31,7 @@ import { VectorIndex } from '../../opensearch-vectorindex';
 import { OpenSearchManagedClusterVectorStore } from '../../opensearchmanagedcluster';
 import { VectorCollection } from '../../opensearchserverless';
 import { PineconeVectorStore } from '../../pinecone';
+import { VectorIndex as S3VectorIndex } from '../../s3vectors';
 import { Agent } from '../agents/agent';
 import {
   ConfluenceDataSource,
@@ -92,6 +93,10 @@ export enum VectorStoreType {
    * `NEPTUNE_ANALYTICS` is the vector store for Amazon Neptune Analytics.
    */
   NEPTUNE_ANALYTICS = 'NEPTUNE_ANALYTICS',
+  /**
+   * `S3_VECTORS` is the vector store for Amazon S3 Vectors.
+   */
+  S3_VECTORS = 'S3_VECTORS',
 }
 
 /******************************************************************************
@@ -103,7 +108,8 @@ export enum VectorStoreType {
 interface StorageConfiguration {
   /**
    * The vector store, which can be of `VectorCollection`, `PineconeVectorStore`,
-   * `AmazonAuroraVectorStore`, or `MongoDBAtlasVectorStore` types.
+   * `AmazonAuroraVectorStore`, `MongoDBAtlasVectorStore`, `OpenSearchManagedClusterVectorStore`,
+   * or `S3VectorIndex` (from s3vectors) types.
    */
   vectorStore:
     | VectorCollection
@@ -111,7 +117,8 @@ interface StorageConfiguration {
     | AmazonAuroraVectorStore
     | ExistingAmazonAuroraVectorStore
     | MongoDBAtlasVectorStore
-    | OpenSearchManagedClusterVectorStore;
+    | OpenSearchManagedClusterVectorStore
+    | S3VectorIndex;
 
   /**
    * The type of the vector store.
@@ -331,8 +338,9 @@ export interface VectorKnowledgeBaseProps extends CommonKnowledgeBaseProps {
 
   /**
    * The vector store for the knowledge base. Must be either of
-   * type `VectorCollection`, `RedisEnterpriseVectorStore`,
-   * `PineconeVectorStore`, `AmazonAuroraVectorStore`, or `MongoDBAtlasVectorStore`.
+   * type `VectorCollection`, `PineconeVectorStore`, `AmazonAuroraVectorStore`,
+   * `MongoDBAtlasVectorStore`, `OpenSearchManagedClusterVectorStore`, or
+   * `VectorIndex` from s3vectors (for S3 Vectors).
    *
    * @default - A new OpenSearch Serverless vector collection is created.
    */
@@ -342,7 +350,8 @@ export interface VectorKnowledgeBaseProps extends CommonKnowledgeBaseProps {
     | AmazonAuroraVectorStore
     | ExistingAmazonAuroraVectorStore
     | MongoDBAtlasVectorStore
-    | OpenSearchManagedClusterVectorStore;
+    | OpenSearchManagedClusterVectorStore
+    | S3VectorIndex;
   /**
    * The vector index for the OpenSearch Serverless backed knowledge base.
    * If vectorStore is not of type `VectorCollection`, do not include
@@ -429,7 +438,8 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     | AmazonAuroraVectorStore
     | ExistingAmazonAuroraVectorStore
     | MongoDBAtlasVectorStore
-    | OpenSearchManagedClusterVectorStore;
+    | OpenSearchManagedClusterVectorStore
+    | S3VectorIndex;
 
   /**
    * A description of the knowledge base.
@@ -544,6 +554,10 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
       this.vectorStoreType = VectorStoreType.OPENSEARCH_MANAGED_CLUSTER;
       ({ vectorStore: this.vectorStore, vectorStoreType: this.vectorStoreType } =
         this.handleOpenSearchManagedClusterVectorStore(props));
+    } else if (props.vectorStore instanceof S3VectorIndex) {
+      this.vectorStoreType = VectorStoreType.S3_VECTORS;
+      ({ vectorStore: this.vectorStore, vectorStoreType: this.vectorStoreType } =
+        this.handleS3VectorsVectorStore(props));
     } else {
       this.vectorStoreType = VectorStoreType.OPENSEARCH_SERVERLESS;
       ({ vectorStore: this.vectorStore, vectorStoreType: this.vectorStoreType } =
@@ -557,9 +571,13 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     /**
      * We need to add `secretsmanager:GetSecretValue` to the role
      * of the knowledge base if we use vector stores
-     * other than OpenSearch Serverless.
+     * other than OpenSearch Serverless, OpenSearch Managed Cluster, or S3 Vectors.
      */
-    if (!(this.vectorStore instanceof VectorCollection) && !(this.vectorStore instanceof OpenSearchManagedClusterVectorStore)) {
+    if (
+      !(this.vectorStore instanceof VectorCollection) &&
+      !(this.vectorStore instanceof OpenSearchManagedClusterVectorStore) &&
+      !(this.vectorStore instanceof S3VectorIndex)
+    ) {
       this.role.addToPrincipalPolicy(
         new iam.PolicyStatement({
           actions: ['secretsmanager:GetSecretValue'],
@@ -737,6 +755,9 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     if (this.vectorStoreType === VectorStoreType.AMAZON_AURORA) {
       knowledgeBase.node.addDependency(this.vectorStore);
     }
+    if (this.vectorStoreType === VectorStoreType.S3_VECTORS) {
+      knowledgeBase.node.addDependency(this.vectorStore);
+    }
 
     NagSuppressions.addResourceSuppressions(
       kbCRPolicy,
@@ -844,6 +865,34 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     return {
       vectorStore: vectorStore,
       vectorStoreType: VectorStoreType.MONGO_DB_ATLAS,
+    };
+  }
+
+  /**
+   * Handle S3VectorIndex type of VectorStore.
+   *
+   * @param props - The properties of the KnowledgeBase.
+   * @returns The instance of S3VectorIndex, VectorStoreType.
+   * @internal This is an internal core function and should not be called directly.
+   */
+  private handleS3VectorsVectorStore(props: VectorKnowledgeBaseProps): {
+    vectorStore: S3VectorIndex;
+    vectorStoreType: VectorStoreType;
+  } {
+    const vectorStore = props.vectorStore as S3VectorIndex;
+    // Validate that the S3 vector index dimension matches the embeddings model
+    const expectedDimension = props.embeddingsModel.vectorDimensions;
+    if (expectedDimension != null && vectorStore.dimension !== expectedDimension) {
+      throw new Error(
+        `S3 vector index dimension (${vectorStore.dimension}) must match the embeddings model dimension (${expectedDimension}).`,
+      );
+    }
+    // Grant the KB role read and write access to the vector index
+    vectorStore.vectorBucket.grantRead(this.role, [vectorStore.vectorIndexName]);
+    vectorStore.vectorBucket.grantWrite(this.role, [vectorStore.vectorIndexName]);
+    return {
+      vectorStore: vectorStore,
+      vectorStoreType: VectorStoreType.S3_VECTORS,
     };
   }
 
@@ -1059,6 +1108,18 @@ function getStorageConfiguration(params: StorageConfiguration): any {
           vectorIndexName: params.indexName,
         },
       };
+    case VectorStoreType.S3_VECTORS: {
+      const s3VectorStore = params.vectorStore as S3VectorIndex;
+      // S3VectorsConfiguration uses a oneOf: provide EITHER IndexArn (which encodes
+      // bucket and index) OR IndexName+VectorBucketArn. Providing all three causes
+      // "2 subschemas matched instead of one". IndexArn alone is sufficient.
+      return {
+        type: VectorStoreType.S3_VECTORS,
+        s3VectorsConfiguration: {
+          indexArn: s3VectorStore.vectorIndexArn,
+        },
+      };
+    }
     default:
       throw new Error(`Unsupported vector store type: ${params.vectorStoreType}`);
   }

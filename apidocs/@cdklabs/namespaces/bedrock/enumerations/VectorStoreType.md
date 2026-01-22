@@ -60,3 +60,11 @@ This enum represents the different vector databases that can be used.
 > **PINECONE**: `"PINECONE"`
 
 `PINECONE` is the vector store for Pinecone.
+
+***
+
+### S3\_VECTORS
+
+> **S3\_VECTORS**: `"S3_VECTORS"`
+
+`S3_VECTORS` is the vector store for Amazon S3 Vectors.
