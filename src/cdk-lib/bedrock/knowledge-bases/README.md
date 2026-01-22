@@ -429,6 +429,7 @@ const vectorBucket = new s3vectors.VectorBucket(this, 'VectorBucket');
 const vectorIndex = new s3vectors.VectorIndex(this, 'VectorIndex', {
   vectorBucket,
   dimension: model.vectorDimensions!,
+  nonFilterableMetadataKeys: ['AMAZON_BEDROCK_TEXT'],
 });
 
 const kb = new bedrock.VectorKnowledgeBase(this, 'KnowledgeBase', {
