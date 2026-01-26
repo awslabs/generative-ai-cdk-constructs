@@ -61,6 +61,12 @@ All test files can be found in the /test directory under each construct (or core
 * \*.test.ts files - these are the unit test files. All the unit tests for a construct are in a single file.
 * integ.\*.ts files - these the integration test files. Each integration test gets a separate file.
 
+When adding a new integration test:
+
+- Add the integration test source file to the folder
+- Run `npx projen` to generate the different tasks related to that new integ test `integ:test-name:*`. Integration tests are managed by the `https://www.npmjs.com/package/@aws-cdk/integ-tests-alpha` library
+- Run the new command to generate the snapshot: `npx projen integ:test-name:snapshot`
+- A new folder will be created under `integ/` containing the snapshot for this test
 
 | Action            | Explanation                                |
 | :------------------ | :------------------------------------------- |
@@ -87,6 +93,7 @@ Navigate to the [Generative AI CDK Construct Repository] (https://github.com/aws
   - This command runs npx projen build and generates a .jsii file in your repository.
 
 ### Step 2: Packaging the Constructs
+
 1. Run ```projen package:js```:
     - Execute ```projen package:js```.
       - This command creates a new .tgz package of all constructs in the dist/js folder.
@@ -134,37 +141,42 @@ For each new pattern, ensure:
 - that you export it from the main [index.ts](./src/index.ts) file as a named export to avoid name collisions and ensure that the underlying tools can process correctly the documentation
 - have a single main README.md
 
-```
-.
-|--docs/ (draw.io project containing architecture diagrams for all constructs)
-|--lib/ (Build output)
-|--lambda/ (Lambda functions code)
-|--layers/ (Lambda layers code)
+```md
+|--projenrc/ (Contains additional projen configuration)
+|--docs/ (Contains architecture diagrams for the constructs)
+|--lambda/ (Contains lambdas implementation used by constructs, typically custom resources)
+|--layer/ (Lambda layers used by some constructs)
 |--resources (If you need additional resources packaged with your library)
-|--projenrc (Folder containing utilities for the main projenrc file)
+|--rosetta
+    |--default-<module-name>.ts-fixture (template files that provide the necessary imports and boilerplate code for examples in readme.md)
 |--src/ (Source .ts files)
     |--common/ (Common code reused across constructs)
         |--helpers
             |-- README.md (Documentation for helper functions)
             |-- *-helper.ts (Helper source file)
-    |--patterns/ (Constructs source files are here)
-        |--<gen-ai>
-            |--<pattern-name>
-                |--index.ts (Construct source file)
-                |--README.md (Construct documentation)
-                |--architecture.png (Construct diagram)
-    |--index.ts (Constructs need to be exported from this index.ts file)
-|--test/
-    |--common/ (Common code reused across constructs)
-        |--helpers
-            |-- *-helper.test.ts (Helper source file)
-    |--patterns/
-        |--<gen-ai>
-            |--<pattern-name>
-                |--*.test.ts (construct test files)
-|--use-cases 
-    |--<use case name>
+    |--cdk-lib/ (Constructs source files are here. These constructs are direct abstractions over L1 CDK Constructs, typically L2 Constructs)
+        |--<module-name>
+            |--index.ts (Construct source file)
+            |--README.md (Construct documentation)
+            |--perms.ts (permissions)
+            |--<construct>.ts (various ts source files)
+    |--patterns/gen-ai/ (Constructs source files are here. These constructs are higher level abstractions over L1 CDK Constructs, typically L3 Constructs)
+        |--<module-name>
+            |--index.ts (Construct source file)
+            |--README.md (Construct documentation)
+            |--perms.ts (permissions)
+            |--<construct>.ts (various ts source files)
+    |--index.ts (export constructs)
+|--test/ (Source .ts test files)
+    |--cdk-lib/ (Constructs unit test source files for cdk-lib)
+    |--patterns/gen-ai/ (Constructs unit and integration tests source files are here for patterns)
+        |--<module-name>
+            |--<construct>.test.ts (Construct source test file)
+            |--integ-tests/
+                |--<testname>.integ.ts (Construct source integration test file)
+    |--common (Common utilities source test files)
+    |--integ/ (integration tests source files for cdk-lib constructs)
+        |--<testname>.integ.ts (Construct source integration test file)
 ```
-
 
 &copy; Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
