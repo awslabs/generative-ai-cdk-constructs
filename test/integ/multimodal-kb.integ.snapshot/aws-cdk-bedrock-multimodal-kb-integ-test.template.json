@@ -1,0 +1,1061 @@
+{
+ "Resources": {
+  "SupplementalDataBucket66333900": {
+   "Type": "AWS::S3::Bucket",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "aws-cdk:auto-delete-objects",
+      "Value": "true"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "SupplementalDataBucketPolicy9373345F": {
+   "Type": "AWS::S3::BucketPolicy",
+   "Properties": {
+    "Bucket": {
+     "Ref": "SupplementalDataBucket66333900"
+    },
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:PutBucketPolicy",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "SupplementalDataBucket66333900",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "SupplementalDataBucket66333900",
+             "Arn"
+            ]
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   }
+  },
+  "SupplementalDataBucketAutoDeleteObjectsCustomResource46C7CAE9": {
+   "Type": "Custom::S3AutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Ref": "SupplementalDataBucket66333900"
+    }
+   },
+   "DependsOn": [
+    "SupplementalDataBucketPolicy9373345F"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ]
+   }
+  },
+  "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
+     },
+     "S3Key": "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function for auto-deleting objects in ",
+       {
+        "Ref": "SupplementalDataBucket66333900"
+       },
+       " S3 bucket."
+      ]
+     ]
+    }
+   },
+   "DependsOn": [
+    "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+   ]
+  },
+  "VectorBucket7AA37AC5": {
+   "Type": "AWS::S3Vectors::VectorBucket",
+   "Properties": {
+    "EncryptionConfiguration": {
+     "SseType": "AES256"
+    },
+    "VectorBucketName": "multimodal-nova-test"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "VectorBucketPolicy2F6FF05C": {
+   "Type": "AWS::S3Vectors::VectorBucketPolicy",
+   "Properties": {
+    "Policy": {
+     "Statement": [
+      {
+       "Action": [
+        "s3vectors:PutVectorBucketPolicy",
+        "s3vectors:GetVectorBucketPolicy",
+        "s3vectors:DeleteVectorBucketPolicy",
+        "s3vectors:ListVectorBuckets",
+        "s3vectors:GetVectorBucket",
+        "s3vectors:ListIndexes",
+        "s3vectors:GetIndex",
+        "s3vectors:DeleteVectorBucket",
+        "s3vectors:DeleteIndex",
+        "s3vectors:DeleteVectors"
+       ],
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::GetAtt": [
+          "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsRoleB938443A",
+          "Arn"
+         ]
+        }
+       },
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "VectorBucket7AA37AC5",
+          "VectorBucketArn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "VectorBucket7AA37AC5",
+             "VectorBucketArn"
+            ]
+           },
+           "/index/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "VectorBucketArn": {
+     "Fn::GetAtt": [
+      "VectorBucket7AA37AC5",
+      "VectorBucketArn"
+     ]
+    }
+   }
+  },
+  "VectorBucketAutoDeleteObjectsCustomResource965CD506": {
+   "Type": "Custom::S3VectorsAutoDeleteObjects",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsProviderframeworkonEvent17FF419E",
+      "Arn"
+     ]
+    },
+    "BucketName": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::Split": [
+        "/",
+        {
+         "Fn::GetAtt": [
+          "VectorBucket7AA37AC5",
+          "VectorBucketArn"
+         ]
+        }
+       ]
+      }
+     ]
+    }
+   },
+   "DependsOn": [
+    "VectorBucketPolicy2F6FF05C"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete"
+  },
+  "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsRoleB938443A": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsHandler5A9860AE": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
+     },
+     "S3Key": "d408b8a30775f80ca2cffec1658f174b173fb65096062dad35cda85ce5ebdd2f.zip"
+    },
+    "Description": {
+     "Fn::Join": [
+      "",
+      [
+       "Lambda function for auto-deleting indexes in ",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::GetAtt": [
+             "VectorBucket7AA37AC5",
+             "VectorBucketArn"
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       " S3 vector bucket."
+      ]
+     ]
+    },
+    "Handler": "custom_resources.on_event",
+    "MemorySize": 256,
+    "Role": {
+     "Fn::GetAtt": [
+      "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsRoleB938443A",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.12",
+    "Timeout": 900
+   },
+   "DependsOn": [
+    "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsRoleB938443A"
+   ]
+  },
+  "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsHandlerLogRetention82334C5F": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsHandler5A9860AE"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 7
+   }
+  },
+  "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsProviderframeworkonEventServiceRoleEF07FC98": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsProviderframeworkonEventServiceRoleDefaultPolicy58C7251D": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsHandler5A9860AE",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsHandler5A9860AE",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "lambda:GetFunction",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsHandler5A9860AE",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsProviderframeworkonEventServiceRoleDefaultPolicy58C7251D",
+    "Roles": [
+     {
+      "Ref": "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsProviderframeworkonEventServiceRoleEF07FC98"
+     }
+    ]
+   }
+  },
+  "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsProviderframeworkonEvent17FF419E": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
+     },
+     "S3Key": "07a90cc3efdfc34da22208dcd9d211f06f5b0e01b21e778edc7c3966b1f61d57.zip"
+    },
+    "Description": "AWS CDK resource provider framework - onEvent (aws-cdk-bedrock-multimodal-kb-integ-test/S3VectorsAutoDeleteProvider-Custom::S3VectorsAutoDeleteObjects/Provider)",
+    "Environment": {
+     "Variables": {
+      "USER_ON_EVENT_FUNCTION_ARN": {
+       "Fn::GetAtt": [
+        "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsHandler5A9860AE",
+        "Arn"
+       ]
+      }
+     }
+    },
+    "Handler": "framework.onEvent",
+    "LoggingConfig": {
+     "ApplicationLogLevel": "FATAL",
+     "LogFormat": "JSON"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsProviderframeworkonEventServiceRoleEF07FC98",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs22.x",
+    "Timeout": 900
+   },
+   "DependsOn": [
+    "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsProviderframeworkonEventServiceRoleDefaultPolicy58C7251D",
+    "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsProviderframeworkonEventServiceRoleEF07FC98"
+   ]
+  },
+  "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsProviderframeworkonEventLogRetention30211304": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "S3VectorsAutoDeleteProviderCustomS3VectorsAutoDeleteObjectsProviderframeworkonEvent17FF419E"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 7
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:PutRetentionPolicy",
+        "logs:DeleteRetentionPolicy"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+    "Roles": [
+     {
+      "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+     }
+    ]
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Handler": "index.handler",
+    "Runtime": "nodejs22.x",
+    "Timeout": 900,
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
+     },
+     "S3Key": "2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+   ]
+  },
+  "VectorIndex07C2340B": {
+   "Type": "AWS::S3Vectors::Index",
+   "Properties": {
+    "DataType": "float32",
+    "Dimension": 1024,
+    "DistanceMetric": "cosine",
+    "EncryptionConfiguration": {
+     "SseType": "AES256"
+    },
+    "VectorBucketArn": {
+     "Fn::GetAtt": [
+      "VectorBucket7AA37AC5",
+      "VectorBucketArn"
+     ]
+    }
+   }
+  },
+  "MultimodalKnowledgeBaseRoleBB3DFFF7": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Condition": {
+        "StringEquals": {
+         "aws:SourceAccount": {
+          "Ref": "AWS::AccountId"
+         }
+        },
+        "ArnLike": {
+         "aws:SourceArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:",
+            {
+             "Ref": "AWS::Partition"
+            },
+            ":bedrock:us-east-1:",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":knowledge-base/*"
+           ]
+          ]
+         }
+        }
+       },
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "bedrock.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "RoleName": "AmazonBedrockExecutionRoleForKnowledgeBaseawscdkbdgeBaseB2312263"
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Bedrock Knowledge Base requires wildcard permissions to invoke embedding models",
+       "id": "AwsSolutions-IAM5"
+      }
+     ]
+    }
+   }
+  },
+  "MultimodalKnowledgeBaseRoleDefaultPolicy75A9E8B4": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "bedrock:InvokeModel*",
+        "bedrock:GetFoundationModel"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":bedrock:",
+          {
+           "Ref": "AWS::Region"
+          },
+          "::foundation-model/amazon.nova-2-multimodal-embeddings-v1:0"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "s3:DeleteObject",
+        "s3:ListBucket"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Ref": "SupplementalDataBucket66333900"
+           }
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Ref": "SupplementalDataBucket66333900"
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "s3vectors:GetVectorBucket",
+        "s3vectors:ListVectorBuckets"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "VectorBucket7AA37AC5",
+         "VectorBucketArn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "s3vectors:GetIndex",
+        "s3vectors:ListIndexes",
+        "s3vectors:GetVectors",
+        "s3vectors:ListVectors",
+        "s3vectors:QueryVectors"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "VectorBucket7AA37AC5",
+            "VectorBucketArn"
+           ]
+          },
+          "/index/",
+          {
+           "Fn::Select": [
+            3,
+            {
+             "Fn::Split": [
+              "/",
+              {
+               "Fn::GetAtt": [
+                "VectorIndex07C2340B",
+                "IndexArn"
+               ]
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "s3vectors:CreateVectorBucket",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "VectorBucket7AA37AC5",
+         "VectorBucketArn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "s3vectors:CreateIndex",
+        "s3vectors:PutVectors"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "VectorBucket7AA37AC5",
+            "VectorBucketArn"
+           ]
+          },
+          "/index/",
+          {
+           "Fn::Select": [
+            3,
+            {
+             "Fn::Split": [
+              "/",
+              {
+               "Fn::GetAtt": [
+                "VectorIndex07C2340B",
+                "IndexArn"
+               ]
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "MultimodalKnowledgeBaseRoleDefaultPolicy75A9E8B4",
+    "Roles": [
+     {
+      "Ref": "MultimodalKnowledgeBaseRoleBB3DFFF7"
+     }
+    ]
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Bedrock Knowledge Base requires wildcard permissions to invoke embedding models",
+       "id": "AwsSolutions-IAM5"
+      }
+     ]
+    }
+   }
+  },
+  "MultimodalKnowledgeBaseMyCfnKnowledgeBase31D84D2F": {
+   "Type": "AWS::Bedrock::KnowledgeBase",
+   "Properties": {
+    "KnowledgeBaseConfiguration": {
+     "Type": "VECTOR",
+     "VectorKnowledgeBaseConfiguration": {
+      "EmbeddingModelArn": {
+       "Fn::Join": [
+        "",
+        [
+         "arn:",
+         {
+          "Ref": "AWS::Partition"
+         },
+         ":bedrock:",
+         {
+          "Ref": "AWS::Region"
+         },
+         "::foundation-model/amazon.nova-2-multimodal-embeddings-v1:0"
+        ]
+       ]
+      },
+      "EmbeddingModelConfiguration": {
+       "BedrockEmbeddingModelConfiguration": {
+        "Audio": [
+         {
+          "SegmentationConfiguration": {
+           "FixedLengthDuration": 10
+          }
+         }
+        ],
+        "Dimensions": 1024,
+        "EmbeddingDataType": "FLOAT32",
+        "Video": [
+         {
+          "SegmentationConfiguration": {
+           "FixedLengthDuration": 15
+          }
+         }
+        ]
+       }
+      },
+      "SupplementalDataStorageConfiguration": {
+       "SupplementalDataStorageLocations": [
+        {
+         "S3Location": {
+          "URI": {
+           "Fn::Join": [
+            "",
+            [
+             "s3://",
+             {
+              "Ref": "SupplementalDataBucket66333900"
+             },
+             "/"
+            ]
+           ]
+          }
+         },
+         "SupplementalDataStorageLocationType": "S3"
+        }
+       ]
+      }
+     }
+    },
+    "Name": "KBawscdkbedroowledgeBaseB2312263",
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "MultimodalKnowledgeBaseRoleBB3DFFF7",
+      "Arn"
+     ]
+    },
+    "StorageConfiguration": {
+     "S3VectorsConfiguration": {
+      "IndexArn": {
+       "Fn::GetAtt": [
+        "VectorIndex07C2340B",
+        "IndexArn"
+       ]
+      }
+     },
+     "Type": "S3_VECTORS"
+    }
+   },
+   "DependsOn": [
+    "MultimodalKnowledgeBaseKBCRPolicyCED6DADC",
+    "MultimodalKnowledgeBaseRoleDefaultPolicy75A9E8B4",
+    "MultimodalKnowledgeBaseRoleBB3DFFF7",
+    "VectorIndex07C2340B"
+   ]
+  },
+  "MultimodalKnowledgeBaseKBCRPolicyCED6DADC": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "bedrock:CreateKnowledgeBase",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "bedrock:UpdateKnowledgeBase",
+        "bedrock:DeleteKnowledgeBase",
+        "bedrock:TagResource"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":bedrock:us-east-1:",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":knowledge-base/*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "iam:PassRole",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "MultimodalKnowledgeBaseRoleBB3DFFF7",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "MultimodalKnowledgeBaseKBCRPolicyCED6DADC",
+    "Roles": [
+     {
+      "Ref": "MultimodalKnowledgeBaseRoleBB3DFFF7"
+     }
+    ]
+   },
+   "Metadata": {
+    "cdk_nag": {
+     "rules_to_suppress": [
+      {
+       "reason": "Bedrock CreateKnowledgeBase can't be restricted by resource.",
+       "id": "AwsSolutions-IAM5"
+      }
+     ]
+    }
+   }
+  }
+ },
+ "Outputs": {
+  "KnowledgeBaseId": {
+   "Value": {
+    "Fn::GetAtt": [
+     "MultimodalKnowledgeBaseMyCfnKnowledgeBase31D84D2F",
+     "KnowledgeBaseId"
+    ]
+   }
+  },
+  "VectorBucketName": {
+   "Value": {
+    "Fn::Select": [
+     1,
+     {
+      "Fn::Split": [
+       "/",
+       {
+        "Fn::GetAtt": [
+         "VectorBucket7AA37AC5",
+         "VectorBucketArn"
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  },
+  "SupplementalBucketName": {
+   "Value": {
+    "Ref": "SupplementalDataBucket66333900"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

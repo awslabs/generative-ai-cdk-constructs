@@ -20,6 +20,7 @@ import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 import { AwsSolutionsChecks } from 'cdk-nag';
 import { AmazonAuroraVectorStore } from '../../../src/cdk-lib/amazonaurora';
 import { GraphKnowledgeBase } from '../../../src/cdk-lib/bedrock/knowledge-bases/graph-knowledge-base';
+import { VideoSegmentation, AudioSegmentation } from '../../../src/cdk-lib/bedrock/knowledge-bases/multimodal-config';
 import { SupplementalDataStorageLocation } from '../../../src/cdk-lib/bedrock/knowledge-bases/supplemental-data-storage';
 import {
   VectorKnowledgeBase,
@@ -543,7 +544,9 @@ describe('VectorKnowledgeBase', () => {
         embeddingsModel: model,
         vectorStore: vectorIndex,
       });
-    }).toThrow(/S3 vector index dimension \(1024\) must match the embeddings model dimension \(1536\)/);
+    }).toThrow(
+      /S3 vector index dimension \(1024\) must match the embeddings model dimension \(1536\)/,
+    );
   });
 
   test('Should correctly initialize with SupplementalDataStorageLocation', () => {
@@ -746,5 +749,147 @@ describe('Graph KB - Imported', () => {
     expect(kb.knowledgeBaseArn).toMatch(
       new RegExp('arn:.*:bedrock:us-east-1:123456789012:knowledge-base/OVGH4TEBDH$'),
     );
+  });
+});
+
+describe('Multimodal Configuration', () => {
+  let stack: cdk.Stack;
+
+  beforeEach(() => {
+    const app = new cdk.App();
+    stack = new cdk.Stack(app, 'MultimodalTestStack', {
+      env: { account: '123456789012', region: 'us-east-1' },
+    });
+  });
+
+  test('Should throw error when multimodal config is provided for non-multimodal model', () => {
+    const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
+
+    expect(() => {
+      new VectorKnowledgeBase(stack, 'NonMultimodalKB', {
+        embeddingsModel: model,
+        multimodalConfig: {
+          audio: { segmentation: AudioSegmentation.seconds(5) },
+          video: { segmentation: VideoSegmentation.seconds(5) },
+        },
+      });
+    }).toThrow(
+      'Multimodal configuration can only be specified when using a multimodal embedding model.',
+    );
+  });
+
+  test('Should throw error when supplemental data storage is not provided for multimodal model', () => {
+    const model = BedrockFoundationModel.AMAZON_NOVA2_MULTIMODAL_V1_1024;
+
+    expect(() => {
+      new VectorKnowledgeBase(stack, 'MultimodalKBNoStorage', {
+        embeddingsModel: model,
+      });
+    }).toThrow(
+      'Supplemental data storage locations are required when using multimodal embedding models',
+    );
+  });
+
+  test('Should automatically add default multimodal config for multimodal model', () => {
+    const model = BedrockFoundationModel.AMAZON_NOVA2_MULTIMODAL_V1_1024;
+    const supplementalStorage = SupplementalDataStorageLocation.s3({
+      uri: 's3://test-bucket/multimodal/',
+    });
+
+    new VectorKnowledgeBase(stack, 'MultimodalKB', {
+      embeddingsModel: model,
+      supplementalDataStorageLocations: [supplementalStorage],
+    });
+
+    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::KnowledgeBase', {
+      KnowledgeBaseConfiguration: {
+        VectorKnowledgeBaseConfiguration: {
+          EmbeddingModelConfiguration: {
+            BedrockEmbeddingModelConfiguration: {
+              Audio: [{ Segmentation: { FixedLengthDuration: 5 } }],
+              Video: [{ Segmentation: { FixedLengthDuration: 5 } }],
+            },
+          },
+        },
+      },
+    });
+  });
+
+  test('Should use provided audio config and default video config', () => {
+    const model = BedrockFoundationModel.AMAZON_NOVA2_MULTIMODAL_V1_1024;
+    const supplementalStorage = SupplementalDataStorageLocation.s3({
+      uri: 's3://test-bucket/multimodal/',
+    });
+
+    new VectorKnowledgeBase(stack, 'PartialMultimodalKB', {
+      embeddingsModel: model,
+      supplementalDataStorageLocations: [supplementalStorage],
+      multimodalConfig: {
+        audio: {
+          segmentation: AudioSegmentation.seconds(10),
+        },
+      },
+    });
+
+    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::KnowledgeBase', {
+      KnowledgeBaseConfiguration: {
+        VectorKnowledgeBaseConfiguration: {
+          EmbeddingModelConfiguration: {
+            BedrockEmbeddingModelConfiguration: {
+              Audio: [{ Segmentation: { FixedLengthDuration: 10 } }],
+              Video: [{ Segmentation: { FixedLengthDuration: 5 } }],
+            },
+          },
+        },
+      },
+    });
+  });
+
+  test('Should use provided video config and default audio config', () => {
+    const model = BedrockFoundationModel.AMAZON_NOVA2_MULTIMODAL_V1_1024;
+    const supplementalStorage = SupplementalDataStorageLocation.s3({
+      uri: 's3://test-bucket/multimodal/',
+    });
+
+    new VectorKnowledgeBase(stack, 'PartialMultimodalKB2', {
+      embeddingsModel: model,
+      supplementalDataStorageLocations: [supplementalStorage],
+      multimodalConfig: {
+        video: {
+          segmentation: VideoSegmentation.seconds(15),
+        },
+      },
+    });
+
+    Template.fromStack(stack).hasResourceProperties('AWS::Bedrock::KnowledgeBase', {
+      KnowledgeBaseConfiguration: {
+        VectorKnowledgeBaseConfiguration: {
+          EmbeddingModelConfiguration: {
+            BedrockEmbeddingModelConfiguration: {
+              Audio: [{ Segmentation: { FixedLengthDuration: 5 } }],
+              Video: [{ Segmentation: { FixedLengthDuration: 15 } }],
+            },
+          },
+        },
+      },
+    });
+  });
+
+  test('Should not add multimodal config for non-multimodal model even if not provided', () => {
+    const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
+
+    new VectorKnowledgeBase(stack, 'NonMultimodalKB2', {
+      embeddingsModel: model,
+    });
+
+    const template = Template.fromStack(stack);
+    const resources = template.findResources('AWS::Bedrock::KnowledgeBase');
+    const kbConfig = Object.values(resources)[0].Properties.KnowledgeBaseConfiguration;
+    const bedrockConfig =
+      kbConfig.VectorKnowledgeBaseConfiguration.EmbeddingModelConfiguration
+        .BedrockEmbeddingModelConfiguration;
+
+    expect(bedrockConfig.Audio).toBeUndefined();
+    expect(bedrockConfig.Video).toBeUndefined();
   });
 });

@@ -37,6 +37,12 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 ## Properties
 
+### allowedVectorDimensions?
+
+> `readonly` `optional` **allowedVectorDimensions**: `number`[]
+
+***
+
 ### invokableArn
 
 > `readonly` **invokableArn**: `string`
@@ -62,6 +68,12 @@ The ARN of the Bedrock invokable abstraction.
 *************************************************************************
                            Constructor
 *************************************************************************
+
+***
+
+### multimodal?
+
+> `readonly` `optional` **multimodal**: `boolean`
 
 ***
 

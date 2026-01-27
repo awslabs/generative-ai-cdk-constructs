@@ -1,0 +1,28 @@
+{
+  "version": "48.0.0",
+  "testCases": {
+    "MultimodalKBTest/DefaultTest": {
+      "stacks": [
+        "aws-cdk-bedrock-multimodal-kb-integ-test"
+      ],
+      "regions": [
+        "us-east-1"
+      ],
+      "cdkCommandOptions": {
+        "deploy": {
+          "args": {
+            "rollback": false
+          }
+        },
+        "destroy": {
+          "args": {
+            "force": true
+          }
+        }
+      },
+      "assertionStack": "MultimodalKBTest/DefaultTest/DeployAssert",
+      "assertionStackName": "MultimodalKBTestDefaultTestDeployAssert4EE335DB"
+    }
+  },
+  "minimumCliVersion": "2.1033.0"
+}

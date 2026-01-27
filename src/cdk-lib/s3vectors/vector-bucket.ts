@@ -11,7 +11,19 @@
  *  and limitations under the License.
  */
 
-import { IResource, Resource, Arn, ArnFormat, RemovalPolicy, ResourceProps, ValidationError, CustomResource, Tags, Stack, Fn } from 'aws-cdk-lib';
+import {
+  IResource,
+  Resource,
+  Arn,
+  ArnFormat,
+  RemovalPolicy,
+  ResourceProps,
+  ValidationError,
+  CustomResource,
+  Tags,
+  Stack,
+  Fn,
+} from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import { CfnVectorBucket, CfnVectorBucketProps } from 'aws-cdk-lib/aws-s3vectors';
@@ -19,7 +31,11 @@ import { Construct } from 'constructs';
 // Internal libs
 import { AutoDeleteProvider } from './auto-delete-provider';
 import * as perms from './perms';
-import { validateStringFieldLength, validateFieldPattern, throwIfInvalid } from './validation-helpers';
+import {
+  validateStringFieldLength,
+  validateFieldPattern,
+  throwIfInvalid,
+} from './validation-helpers';
 import { VectorBucketPolicy } from './vector-bucket-policy';
 
 /***
@@ -167,7 +183,9 @@ export abstract class VectorBucketBase extends Resource implements IVectorBucket
   constructor(scope: Construct, id: string, props: ResourceProps = {}) {
     super(scope, id, props);
 
-    this.node.addValidation({ validate: () => this.policy?.document.validateForResourcePolicy() ?? [] });
+    this.node.addValidation({
+      validate: () => this.policy?.document.validateForResourcePolicy() ?? [],
+    });
   }
 
   /**
@@ -178,15 +196,18 @@ export abstract class VectorBucketBase extends Resource implements IVectorBucket
    */
   public grantRead(grantee: iam.IGrantable, indexIds: any = '*'): iam.Grant {
     // Combine the read and list actions for the bucket, removing duplicates since some actions are duplicated
-    const bucketActions = [...new Set([...perms.VECTOR_BUCKET_READ_ACTIONS, ...perms.VECTOR_BUCKET_LIST_ACTIONS])];
-    const indexActions = [...new Set(
-      [
+    const bucketActions = [
+      ...new Set([...perms.VECTOR_BUCKET_READ_ACTIONS, ...perms.VECTOR_BUCKET_LIST_ACTIONS]),
+    ];
+    const indexActions = [
+      ...new Set([
         ...perms.VECTOR_INDEX_READ_ACTIONS,
         ...perms.VECTOR_INDEX_LIST_ACTIONS,
         ...perms.VECTOR_READ_ACTIONS,
         ...perms.VECTOR_LIST_ACTIONS,
         ...perms.VECTOR_QUERY_ACTIONS,
-      ])];
+      ]),
+    ];
 
     return this._internalGrant(
       grantee,
@@ -206,7 +227,9 @@ export abstract class VectorBucketBase extends Resource implements IVectorBucket
   public grantWrite(grantee: iam.IGrantable, indexIds: any = '*'): iam.Grant {
     // Combine the write and create actions for the bucket, removing duplicates since some actions are duplicated
     const bucketActions = [...new Set([...perms.VECTOR_BUCKET_WRITE_ACTIONS])];
-    const indexActions = [...new Set([...perms.VECTOR_INDEX_WRITE_ACTIONS, ...perms.VECTOR_WRITE_ACTIONS])];
+    const indexActions = [
+      ...new Set([...perms.VECTOR_INDEX_WRITE_ACTIONS, ...perms.VECTOR_WRITE_ACTIONS]),
+    ];
 
     return this._internalGrant(
       grantee,
@@ -225,7 +248,9 @@ export abstract class VectorBucketBase extends Resource implements IVectorBucket
    */
   public grantDelete(grantee: iam.IGrantable, indexIds: any = '*'): iam.Grant {
     // Combine the delete and delete actions for the indexes, removing duplicates since some actions are duplicated
-    const indexActions = [...new Set([...perms.VECTOR_INDEX_DELETE_ACTIONS, ...perms.VECTOR_DELETE_ACTIONS])];
+    const indexActions = [
+      ...new Set([...perms.VECTOR_INDEX_DELETE_ACTIONS, ...perms.VECTOR_DELETE_ACTIONS]),
+    ];
 
     return this._internalGrant(
       grantee,
@@ -291,7 +316,7 @@ export abstract class VectorBucketBase extends Resource implements IVectorBucket
     // If indexIds is '*', add the actions to all indexes
     let indexResult: iam.Grant | undefined;
     if (indexActions.length > 0) {
-      if ((typeof indexIds === 'string') && indexIds === '*') {
+      if (typeof indexIds === 'string' && indexIds === '*') {
         const indexArn = `${this.vectorBucketArn}/index/*`;
         indexResult = iam.Grant.addToPrincipalOrResource({
           actions: indexActions,
@@ -311,7 +336,7 @@ export abstract class VectorBucketBase extends Resource implements IVectorBucket
           });
         }
       } else {
-        throw new ValidationError('indexIds must be a string (\'*\') or an array of strings', this);
+        throw new ValidationError("indexIds must be a string ('*') or an array of strings", this);
       }
     }
 
@@ -437,7 +462,11 @@ export class VectorBucket extends VectorBucketBase {
    * @param vectorBucketArn The ARN of the vector bucket.
    * @returns A VectorBucket construct.
    */
-  public static fromVectorBucketArn(scope: Construct, id: string, vectorBucketArn: string): IVectorBucket {
+  public static fromVectorBucketArn(
+    scope: Construct,
+    id: string,
+    vectorBucketArn: string,
+  ): IVectorBucket {
     return VectorBucket.fromVectorBucketAttributes(scope, id, { vectorBucketArn });
   }
 
@@ -449,7 +478,11 @@ export class VectorBucket extends VectorBucketBase {
    * @param vectorBucketName The name of the vector bucket.
    * @returns A VectorBucket construct.
    */
-  public static fromVectorBucketName(scope: Construct, id: string, vectorBucketName: string): IVectorBucket {
+  public static fromVectorBucketName(
+    scope: Construct,
+    id: string,
+    vectorBucketName: string,
+  ): IVectorBucket {
     const vectorBucketArn = Stack.of(scope).formatArn({
       service: 's3vectors',
       resource: 'bucket',
@@ -467,8 +500,15 @@ export class VectorBucket extends VectorBucketBase {
    * @param attrs A `VectorBucketAttributes` object. Can be obtained from a call to
    * `vectorBucket.export()` or manually created.
    */
-  public static fromVectorBucketAttributes(scope: Construct, id: string, attrs: VectorBucketAttributes): IVectorBucket {
-    const bucketName = Arn.split(attrs.vectorBucketArn, ArnFormat.SLASH_RESOURCE_NAME).resourceName!;
+  public static fromVectorBucketAttributes(
+    scope: Construct,
+    id: string,
+    attrs: VectorBucketAttributes,
+  ): IVectorBucket {
+    const bucketName = Arn.split(
+      attrs.vectorBucketArn,
+      ArnFormat.SLASH_RESOURCE_NAME,
+    ).resourceName!;
     if (!bucketName) {
       throw new ValidationError('Bucket name is required', scope);
     }
@@ -505,13 +545,21 @@ export class VectorBucket extends VectorBucketBase {
     // handle the KMS Key if the Bucket references one
     let encryptionKey: kms.IKey | undefined;
     if (cfnVectorBucket.encryptionConfiguration) {
-      const encryptionConfiguration = (cfnVectorBucket.encryptionConfiguration as CfnVectorBucket.EncryptionConfigurationProperty);
-      if (encryptionConfiguration.sseType === VectorBucketEncryption.KMS && encryptionConfiguration.kmsKeyArn) {
-        encryptionKey = kms.Key.fromKeyArn(cfnVectorBucket, 'EncryptionKey', encryptionConfiguration.kmsKeyArn);
+      const encryptionConfiguration =
+        cfnVectorBucket.encryptionConfiguration as CfnVectorBucket.EncryptionConfigurationProperty;
+      if (
+        encryptionConfiguration.sseType === VectorBucketEncryption.KMS &&
+        encryptionConfiguration.kmsKeyArn
+      ) {
+        encryptionKey = kms.Key.fromKeyArn(
+          cfnVectorBucket,
+          'EncryptionKey',
+          encryptionConfiguration.kmsKeyArn,
+        );
       }
     }
 
-    return new class extends VectorBucketBase {
+    return new (class extends VectorBucketBase {
       public readonly vectorBucketArn = cfnVectorBucket.attrVectorBucketArn;
       public readonly creationTime = cfnVectorBucket.attrCreationTime;
       public readonly encryptionKey = encryptionKey;
@@ -524,7 +572,7 @@ export class VectorBucket extends VectorBucketBase {
 
         this.node.defaultChild = cfnVectorBucket;
       }
-    }();
+    })();
   }
 
   // ------------------------------------------------------
@@ -602,12 +650,7 @@ export class VectorBucket extends VectorBucketBase {
     this.__resource.applyRemovalPolicy(props.removalPolicy);
 
     // Get attributes directly from the CloudFormation resource
-    this.vectorBucketArn = this.getResourceArnAttribute(this.__resource.attrVectorBucketArn, {
-      region: '',
-      account: '',
-      service: 's3',
-      resource: this.physicalName,
-    });
+    this.vectorBucketArn = this.__resource.attrVectorBucketArn;
     this.creationTime = this.__resource.attrCreationTime;
     // Extract bucket name from ARN to get the actual bucket name (not the ref which can be very long)
     // ARN format: arn:aws:s3vectors:region:account:bucket/bucket-name
@@ -616,7 +659,10 @@ export class VectorBucket extends VectorBucketBase {
 
     if (props.autoDeleteObjects) {
       if (props.removalPolicy !== RemovalPolicy.DESTROY) {
-        throw new ValidationError('Cannot use \'autoDeleteObjects\' property on a bucket without setting removal policy to \'DESTROY\'.', this);
+        throw new ValidationError(
+          "Cannot use 'autoDeleteObjects' property on a bucket without setting removal policy to 'DESTROY'.",
+          this,
+        );
       }
 
       this._enableAutoDeleteObjects();
@@ -642,15 +688,24 @@ export class VectorBucket extends VectorBucketBase {
 
     // Must begin and end with a letter or number
     const validEdgePattern = /^[a-z0-9].*[a-z0-9]$/;
-    errors.push(...validateFieldPattern(name, 'Vector bucket name', validEdgePattern, 'Vector bucket name must begin and end with a letter or number'));
+    errors.push(
+      ...validateFieldPattern(
+        name,
+        'Vector bucket name',
+        validEdgePattern,
+        'Vector bucket name must begin and end with a letter or number',
+      ),
+    );
 
     // Validate bucket name length
-    errors.push(...validateStringFieldLength({
-      value: name,
-      fieldName: 'Vector bucket name',
-      minLength: 3,
-      maxLength: 63,
-    }));
+    errors.push(
+      ...validateStringFieldLength({
+        value: name,
+        fieldName: 'Vector bucket name',
+        minLength: 3,
+        maxLength: 63,
+      }),
+    );
 
     return errors;
   }
@@ -665,31 +720,33 @@ export class VectorBucket extends VectorBucketBase {
     const servicePrincipal = new iam.ServicePrincipal('indexing.s3vectors.amazonaws.com');
 
     // Grant the service principal kms:Decrypt permission with conditions
-    key.addToResourcePolicy(new iam.PolicyStatement({
-      sid: 'AllowS3VectorsServicePrincipal',
-      effect: iam.Effect.ALLOW,
-      principals: [servicePrincipal],
-      actions: ['kms:Decrypt'],
-      resources: ['*'],
-      conditions: {
-        ArnLike: {
-          'aws:SourceArn': stack.formatArn({
-            service: 's3vectors',
-            resource: 'bucket',
-            resourceName: '*',
-            arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
-          }),
-        },
-        StringEquals: {
-          'aws:SourceAccount': stack.account,
-        },
-        ForAnyValue: {
+    key.addToResourcePolicy(
+      new iam.PolicyStatement({
+        sid: 'AllowS3VectorsServicePrincipal',
+        effect: iam.Effect.ALLOW,
+        principals: [servicePrincipal],
+        actions: ['kms:Decrypt'],
+        resources: ['*'],
+        conditions: {
+          ArnLike: {
+            'aws:SourceArn': stack.formatArn({
+              service: 's3vectors',
+              resource: 'bucket',
+              resourceName: '*',
+              arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
+            }),
+          },
           StringEquals: {
-            'kms:EncryptionContextKeys': ['aws:s3vectors:arn', 'aws:s3vectors:resource-id'],
+            'aws:SourceAccount': stack.account,
+          },
+          ForAnyValue: {
+            StringEquals: {
+              'kms:EncryptionContextKeys': ['aws:s3vectors:arn', 'aws:s3vectors:resource-id'],
+            },
           },
         },
-      },
-    }));
+      }),
+    );
   }
 
   /**
@@ -702,15 +759,19 @@ export class VectorBucket extends VectorBucketBase {
     encryptionKey?: kms.IKey;
   } {
     // Default: KMS if encryptionKey is specified, otherwise S3_MANAGED (SSE-S3).
-    const encryptionType = props.encryption ?? (props.encryptionKey ? VectorBucketEncryption.KMS : VectorBucketEncryption.S3_MANAGED);
+    const encryptionType =
+      props.encryption ??
+      (props.encryptionKey ? VectorBucketEncryption.KMS : VectorBucketEncryption.S3_MANAGED);
     let encryptionKey = props.encryptionKey;
 
     // KMS
     if (encryptionType === VectorBucketEncryption.KMS) {
-      encryptionKey = props.encryptionKey || new kms.Key(this, 'Key', {
-        description: `Created by ${this.node.path}`,
-        enableKeyRotation: true,
-      });
+      encryptionKey =
+        props.encryptionKey ||
+        new kms.Key(this, 'Key', {
+          description: `Created by ${this.node.path}`,
+          enableKeyRotation: true,
+        });
 
       // Grant the S3 Vectors service principal permission to use the key
       this._grantServicePrincipalKeyAccess(encryptionKey);
@@ -745,32 +806,35 @@ export class VectorBucket extends VectorBucketBase {
   }
 
   private _enableAutoDeleteObjects() {
-    const provider = AutoDeleteProvider.getOrCreateProvider(this, AUTO_DELETE_OBJECTS_RESOURCE_TYPE, {
-      description: `Lambda function for auto-deleting indexes in ${this.vectorBucketName} S3 vector bucket.`,
-    });
+    const provider = AutoDeleteProvider.getOrCreateProvider(
+      this,
+      AUTO_DELETE_OBJECTS_RESOURCE_TYPE,
+      {
+        description: `Lambda function for auto-deleting indexes in ${this.vectorBucketName} S3 vector bucket.`,
+      },
+    );
 
     // Use a bucket policy to allow the custom resource to delete
     // indexes in the bucket
-    this.addToResourcePolicy(new iam.PolicyStatement({
-      actions: [
-        // prevent further PutIndex calls
-        ...perms.VECTOR_BUCKET_POLICY_ACTIONS,
-        // list objects
-        ...perms.VECTOR_BUCKET_LIST_ACTIONS,
-        ...perms.VECTOR_BUCKET_READ_ACTIONS,
-        ...perms.VECTOR_INDEX_LIST_ACTIONS,
-        ...perms.VECTOR_INDEX_READ_ACTIONS,
-        // and then delete them
-        ...perms.VECTOR_BUCKET_DELETE_ACTIONS,
-        ...perms.VECTOR_INDEX_DELETE_ACTIONS,
-        ...perms.VECTOR_DELETE_ACTIONS,
-      ],
-      resources: [
-        this.vectorBucketArn,
-        `${this.vectorBucketArn}/index/*`,
-      ],
-      principals: [new iam.ArnPrincipal(provider.roleArn)],
-    }));
+    this.addToResourcePolicy(
+      new iam.PolicyStatement({
+        actions: [
+          // prevent further PutIndex calls
+          ...perms.VECTOR_BUCKET_POLICY_ACTIONS,
+          // list objects
+          ...perms.VECTOR_BUCKET_LIST_ACTIONS,
+          ...perms.VECTOR_BUCKET_READ_ACTIONS,
+          ...perms.VECTOR_INDEX_LIST_ACTIONS,
+          ...perms.VECTOR_INDEX_READ_ACTIONS,
+          // and then delete them
+          ...perms.VECTOR_BUCKET_DELETE_ACTIONS,
+          ...perms.VECTOR_INDEX_DELETE_ACTIONS,
+          ...perms.VECTOR_DELETE_ACTIONS,
+        ],
+        resources: [this.vectorBucketArn, `${this.vectorBucketArn}/index/*`],
+        principals: [new iam.ArnPrincipal(provider.roleArn)],
+      }),
+    );
 
     const customResource = new CustomResource(this, 'AutoDeleteObjectsCustomResource', {
       resourceType: AUTO_DELETE_OBJECTS_RESOURCE_TYPE,

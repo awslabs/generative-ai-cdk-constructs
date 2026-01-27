@@ -8,12 +8,38 @@
 
 ## Properties
 
+### allowedVectorDimensions?
+
+> `readonly` `optional` **allowedVectorDimensions**: `number`[]
+
+List of allowed vector dimensions for this embedding model.
+If undefined or contains only one value, dimensions are fixed.
+If contains multiple values, dimensions are configurable.
+Only applicable to embedding models.
+
+***
+
 ### legacy?
 
 > `readonly` `optional` **legacy**: `boolean`
 
 https://docs.aws.amazon.com/bedrock/latest/userguide/model-lifecycle.html
 A version is marked Legacy when there is a more recent version which provides superior performance. Amazon Bedrock sets an EOL date for Legacy versions.
+
+#### Default
+
+```ts
+- false
+```
+
+***
+
+### multimodal?
+
+> `readonly` `optional` **multimodal**: `boolean`
+
+Whether the embedding model natively supports multimodal content (images, audio, and video).
+Only applicable for embedding models.
 
 #### Default
 

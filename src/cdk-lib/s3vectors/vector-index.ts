@@ -16,7 +16,11 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import * as s3vectors from 'aws-cdk-lib/aws-s3vectors';
 import { Construct } from 'constructs';
-import { throwIfInvalid, validateFieldPattern, validateStringFieldLength } from './validation-helpers';
+import {
+  throwIfInvalid,
+  validateFieldPattern,
+  validateStringFieldLength,
+} from './validation-helpers';
 import { IVectorBucket } from './vector-bucket';
 
 /******************************************************************************
@@ -236,7 +240,11 @@ export class VectorIndex extends VectorIndexBase {
    * @param vectorIndexArn The ARN of the vector index.
    * @returns A VectorIndex construct.
    */
-  public static fromVectorIndexArn(scope: Construct, id: string, vectorIndexArn: string): IVectorIndex {
+  public static fromVectorIndexArn(
+    scope: Construct,
+    id: string,
+    vectorIndexArn: string,
+  ): IVectorIndex {
     return VectorIndex.fromVectorIndexAttributes(scope, id, { vectorIndexArn });
   }
 
@@ -250,7 +258,12 @@ export class VectorIndex extends VectorIndexBase {
    * @param vectorIndexName The name of the vector index.
    * @returns A VectorIndex construct.
    */
-  public static fromVectorIndexName(scope: Construct, id: string, vectorBucketName: string, vectorIndexName: string): IVectorIndex {
+  public static fromVectorIndexName(
+    scope: Construct,
+    id: string,
+    vectorBucketName: string,
+    vectorIndexName: string,
+  ): IVectorIndex {
     const stack = Stack.of(scope);
     // ARN format: arn:aws:s3vectors:region:account:bucket/{bucket-name}/index/{index-name}
     const vectorIndexArn = stack.formatArn({
@@ -262,13 +275,18 @@ export class VectorIndex extends VectorIndexBase {
     return VectorIndex.fromVectorIndexAttributes(scope, id, { vectorIndexArn });
   }
 
-  public static fromVectorIndexAttributes(scope: Construct, id: string, attrs: VectorIndexAttributes): IVectorIndex {
+  public static fromVectorIndexAttributes(
+    scope: Construct,
+    id: string,
+    attrs: VectorIndexAttributes,
+  ): IVectorIndex {
     // Parse ARN: format is arn:aws:s3vectors:region:account:bucket/{bucket-name}/index/{index-name}
     const arnComponents = Arn.split(attrs.vectorIndexArn, ArnFormat.SLASH_RESOURCE_NAME);
     // Combine resource and resourceName to get the full resource part: "bucket/{bucket-name}/index/{index-name}"
-    const resourcePart = arnComponents.resource && arnComponents.resourceName
-      ? `${arnComponents.resource}/${arnComponents.resourceName}`
-      : arnComponents.resourceName;
+    const resourcePart =
+      arnComponents.resource && arnComponents.resourceName
+        ? `${arnComponents.resource}/${arnComponents.resourceName}`
+        : arnComponents.resourceName;
 
     if (!resourcePart) {
       throw new ValidationError('Vector index ARN resource part is required', scope);
@@ -277,7 +295,10 @@ export class VectorIndex extends VectorIndexBase {
     // Extract index name from resource part: "bucket/{bucket-name}/index/{index-name}"
     const indexMatch = resourcePart.match(/^bucket\/[^/]+\/index\/(.+)$/);
     if (!indexMatch || !indexMatch[1]) {
-      throw new ValidationError(`Invalid vector index ARN format. Expected format: arn:Aws.PARTITION:s3vectors:region:account:bucket/{bucket-name}/index/{index-name}, got: ${attrs.vectorIndexArn}`, scope);
+      throw new ValidationError(
+        `Invalid vector index ARN format. Expected format: arn:Aws.PARTITION:s3vectors:region:account:bucket/{bucket-name}/index/{index-name}, got: ${attrs.vectorIndexArn}`,
+        scope,
+      );
     }
 
     const vectorIndexName = indexMatch[1];
@@ -327,7 +348,8 @@ export class VectorIndex extends VectorIndexBase {
     this.dimension = props.dimension;
     this.distanceMetric = props.distanceMetric ?? VectorIndexDistanceMetric.COSINE;
     this.vectorBucket = props.vectorBucket;
-    const nonFilterableMetadataKeys = props.nonFilterableMetadataKeys ? { nonFilterableMetadataKeys: props.nonFilterableMetadataKeys }
+    const nonFilterableMetadataKeys = props.nonFilterableMetadataKeys
+      ? { nonFilterableMetadataKeys: props.nonFilterableMetadataKeys }
       : undefined;
 
     // ------------------------------------------------------
@@ -336,7 +358,10 @@ export class VectorIndex extends VectorIndexBase {
     throwIfInvalid((name) => this._validateVectorIndexName(name), this.physicalName);
     throwIfInvalid((dimension) => this._validateVectorIndexDimension(dimension), this.dimension);
     if (props.nonFilterableMetadataKeys) {
-      throwIfInvalid((keys) => this._validateMetadataConfiguration(keys), props.nonFilterableMetadataKeys);
+      throwIfInvalid(
+        (keys) => this._validateMetadataConfiguration(keys),
+        props.nonFilterableMetadataKeys,
+      );
     }
 
     // ------------------------------------------------------
@@ -382,15 +407,24 @@ export class VectorIndex extends VectorIndexBase {
 
     // Must begin and end with a letter or number
     const validEdgePattern = /^[a-z0-9].*[a-z0-9]$/;
-    errors.push(...validateFieldPattern(name, 'Vector index name', validEdgePattern, 'Vector index name must begin and end with a letter or number'));
+    errors.push(
+      ...validateFieldPattern(
+        name,
+        'Vector index name',
+        validEdgePattern,
+        'Vector index name must begin and end with a letter or number',
+      ),
+    );
 
     // Validate index name length
-    errors.push(...validateStringFieldLength({
-      value: name,
-      fieldName: 'Vector index name',
-      minLength: 3,
-      maxLength: 63,
-    }));
+    errors.push(
+      ...validateStringFieldLength({
+        value: name,
+        fieldName: 'Vector index name',
+        minLength: 3,
+        maxLength: 63,
+      }),
+    );
 
     return errors;
   }
@@ -426,12 +460,14 @@ export class VectorIndex extends VectorIndexBase {
 
     // Validate each key: must be 1 to 63 characters long
     metadataConfiguration.forEach((key, index) => {
-      errors.push(...validateStringFieldLength({
-        value: key,
-        fieldName: `Metadata configuration key at index ${index}`,
-        minLength: 1,
-        maxLength: 63,
-      }));
+      errors.push(
+        ...validateStringFieldLength({
+          value: key,
+          fieldName: `Metadata configuration key at index ${index}`,
+          minLength: 1,
+          maxLength: 63,
+        }),
+      );
     });
 
     return errors;
@@ -447,31 +483,33 @@ export class VectorIndex extends VectorIndexBase {
     const servicePrincipal = new iam.ServicePrincipal('indexing.s3vectors.amazonaws.com');
 
     // Grant the service principal kms:Decrypt permission with conditions
-    key.addToResourcePolicy(new iam.PolicyStatement({
-      sid: 'AllowS3VectorsServicePrincipal',
-      effect: iam.Effect.ALLOW,
-      principals: [servicePrincipal],
-      actions: ['kms:Decrypt'],
-      resources: ['*'],
-      conditions: {
-        ArnLike: {
-          'aws:SourceArn': stack.formatArn({
-            service: 's3vectors',
-            resource: 'bucket',
-            resourceName: '*',
-            arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
-          }),
-        },
-        StringEquals: {
-          'aws:SourceAccount': stack.account,
-        },
-        ForAnyValue: {
+    key.addToResourcePolicy(
+      new iam.PolicyStatement({
+        sid: 'AllowS3VectorsServicePrincipal',
+        effect: iam.Effect.ALLOW,
+        principals: [servicePrincipal],
+        actions: ['kms:Decrypt'],
+        resources: ['*'],
+        conditions: {
+          ArnLike: {
+            'aws:SourceArn': stack.formatArn({
+              service: 's3vectors',
+              resource: 'bucket',
+              resourceName: '*',
+              arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
+            }),
+          },
           StringEquals: {
-            'kms:EncryptionContextKeys': ['aws:s3vectors:arn', 'aws:s3vectors:resource-id'],
+            'aws:SourceAccount': stack.account,
+          },
+          ForAnyValue: {
+            StringEquals: {
+              'kms:EncryptionContextKeys': ['aws:s3vectors:arn', 'aws:s3vectors:resource-id'],
+            },
           },
         },
-      },
-    }));
+      }),
+    );
   }
 
   private _parseEncryption(props: VectorIndexProps): {
@@ -479,15 +517,19 @@ export class VectorIndex extends VectorIndexBase {
     encryptionKey?: kms.IKey;
   } {
     // Default: KMS if encryptionKey is specified, otherwise S3_MANAGED (SSE-S3).
-    const encryptionType = props.encryption ?? (props.encryptionKey ? VectorIndexEncryption.KMS : VectorIndexEncryption.S3_MANAGED);
+    const encryptionType =
+      props.encryption ??
+      (props.encryptionKey ? VectorIndexEncryption.KMS : VectorIndexEncryption.S3_MANAGED);
     let encryptionKey = props.encryptionKey;
 
     // KMS
     if (encryptionType === VectorIndexEncryption.KMS) {
-      encryptionKey = props.encryptionKey || new kms.Key(this, 'Key', {
-        description: `Created by ${this.node.path}`,
-        enableKeyRotation: true,
-      });
+      encryptionKey =
+        props.encryptionKey ||
+        new kms.Key(this, 'Key', {
+          description: `Created by ${this.node.path}`,
+          enableKeyRotation: true,
+        });
 
       // Grant the S3 Vectors service principal permission to use the key
       this._grantServicePrincipalKeyAccess(encryptionKey);

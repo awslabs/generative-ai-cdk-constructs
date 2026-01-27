@@ -93,6 +93,20 @@ query this Knowledge Base.
 
 ***
 
+### multimodalConfig?
+
+> `readonly` `optional` **multimodalConfig**: [`MultimodalConfig`](MultimodalConfig.md)
+
+Configuration for processing multimodal content (audio and video) in the knowledge base.
+
+#### Default
+
+```ts
+- No multimodal configuration
+```
+
+***
+
 ### name?
 
 > `readonly` `optional` **name**: `string`

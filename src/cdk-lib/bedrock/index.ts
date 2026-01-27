@@ -63,6 +63,7 @@ export * from './knowledge-bases/vector-knowledge-base';
 export * from './knowledge-bases/kendra-knowledge-base';
 export * from './knowledge-bases/graph-knowledge-base';
 export * from './knowledge-bases/supplemental-data-storage';
+export * from './knowledge-bases/multimodal-config';
 
 // ===================================
 // Prompts

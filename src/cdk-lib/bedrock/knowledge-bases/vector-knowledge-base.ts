@@ -23,6 +23,7 @@ import {
   KnowledgeBaseBase,
   KnowledgeBaseType,
 } from './knowledge-base';
+import { AudioSegmentation, MultimodalConfig, VideoSegmentation } from './multimodal-config';
 import { SupplementalDataStorageLocation } from './supplemental-data-storage';
 import { generatePhysicalNameV2 } from '../../../common/helpers/utils';
 import { ExistingAmazonAuroraVectorStore, AmazonAuroraVectorStore } from '../../amazonaurora';
@@ -307,6 +308,13 @@ export interface VectorKnowledgeBaseProps extends CommonKnowledgeBaseProps {
   readonly embeddingsModel: BedrockFoundationModel;
 
   /**
+   * Configuration for processing multimodal content (audio and video) in the knowledge base.
+   *
+   * @default - No multimodal configuration
+   */
+  readonly multimodalConfig?: MultimodalConfig;
+
+  /**
    * The supplemental data storage locations for the knowledge base
    */
   readonly supplementalDataStorageLocations?: SupplementalDataStorageLocation[];
@@ -496,10 +504,33 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     // ------------------------------------------------------
 
     validateModel(embeddingsModel, vectorType);
+    validateMultimodalConfig(embeddingsModel, props.multimodalConfig);
     validateVectorIndex(props.vectorStore, props.vectorIndex, props.vectorField, props.indexName);
     if (props.vectorIndex) {
       validateIndexParameters(props.vectorIndex, indexName, vectorField);
     }
+
+    // Multimodal embeddings require supplemental data storage for audio/video content
+    if (embeddingsModel.multimodal && !props.supplementalDataStorageLocations?.length) {
+      throw new Error(
+        'Supplemental data storage locations are required when using multimodal embedding models',
+      );
+    }
+
+    // ------------------------------------------------------
+    // Multimodal Configuration
+    // ------------------------------------------------------
+    // If model is multimodal, use provided audio and video configs or use defaults
+    let multimodalConfig: MultimodalConfig | undefined = embeddingsModel.multimodal
+      ? {
+        audio: props.multimodalConfig?.audio ?? {
+          segmentation: AudioSegmentation.seconds(5),
+        },
+        video: props.multimodalConfig?.video ?? {
+          segmentation: VideoSegmentation.seconds(5),
+        },
+      }
+      : undefined;
 
     // ------------------------------------------------------
     // Role
@@ -508,7 +539,13 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     this.role = props.existingRole ?? createKnowledgeBaseServiceRole(this);
 
     if (!props.existingRole) {
+      // Allow the usage of the embedding model
       embeddingsModel.grantInvoke(this.role);
+
+      // Allow knowledge Base to read/write to Data Storage Location
+      props.supplementalDataStorageLocations?.forEach((location) =>
+        location.grantAccess(this.role),
+      );
 
       // Add CDK Nag suppression for bedrock:InvokeModel* wildcard permission
       NagSuppressions.addResourceSuppressions(
@@ -516,7 +553,8 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
         [
           {
             id: 'AwsSolutions-IAM5',
-            reason: 'Bedrock Knowledge Base requires wildcard permissions to invoke embedding models',
+            reason:
+              'Bedrock Knowledge Base requires wildcard permissions to invoke embedding models',
           },
         ],
         true,
@@ -674,29 +712,32 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     // ------------------------------------------------------
     // L1 Instantiation
     // ------------------------------------------------------
+
+    // Configure supplemental data storage for multimodal content (audio/video)
+    // Required for multimodal embeddings to store and retrieve media files
+    const supplementalDataConfig = props.supplementalDataStorageLocations?.length
+      ? {
+        supplementalDataStorageConfiguration: {
+          supplementalDataStorageLocations: props.supplementalDataStorageLocations.map(
+            (location) => location.__render(),
+          ),
+        },
+      }
+      : {};
+
     const knowledgeBase = new bedrock.CfnKnowledgeBase(this, 'MyCfnKnowledgeBase', {
       knowledgeBaseConfiguration: {
         type: KnowledgeBaseType.VECTOR,
         vectorKnowledgeBaseConfiguration: {
           embeddingModelArn: embeddingsModel.asArn(this),
-          // Used this approach as if property is specified on models that do not
-          // support configurable dimensions CloudFormation throws an error at runtime
           embeddingModelConfiguration: {
-            bedrockEmbeddingModelConfiguration:
-              embeddingsModel.modelId === 'amazon.titan-embed-text-v2:0'
-                ? {
-                  dimensions: embeddingsModel.vectorDimensions,
-                  embeddingDataType: vectorType,
-                }
-                : { embeddingDataType: vectorType },
+            bedrockEmbeddingModelConfiguration: renderEmbeddingConfig(
+              embeddingsModel,
+              vectorType,
+              multimodalConfig,
+            ),
           },
-          ...(props.supplementalDataStorageLocations && props.supplementalDataStorageLocations.length > 0
-            ? {
-              supplementalDataStorageConfiguration: {
-                supplementalDataStorageLocations: props.supplementalDataStorageLocations.map(location => location.__render()),
-              },
-            }
-            : {}),
+          ...supplementalDataConfig,
         },
       },
       name: this.name,
@@ -890,6 +931,8 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     // Grant the KB role read and write access to the vector index
     vectorStore.vectorBucket.grantRead(this.role, [vectorStore.vectorIndexName]);
     vectorStore.vectorBucket.grantWrite(this.role, [vectorStore.vectorIndexName]);
+    vectorStore.vectorBucket.grantDelete(this.role, [vectorStore.vectorIndexName]);
+
     return {
       vectorStore: vectorStore,
       vectorStoreType: VectorStoreType.S3_VECTORS,
@@ -937,6 +980,22 @@ function validateModel(foundationModel: BedrockFoundationModel, vectorType: Vect
   ) {
     throw new Error(
       `The vector type ${vectorType} is not supported by the model ${foundationModel}.`,
+    );
+  }
+}
+
+/**
+ * Validate that multimodal config is only used with multimodal embedding models.
+ *
+ * @internal This is an internal core function and should not be called directly.
+ */
+function validateMultimodalConfig(
+  foundationModel: BedrockFoundationModel,
+  multimodalConfig?: MultimodalConfig,
+) {
+  if (multimodalConfig && !foundationModel.multimodal) {
+    throw new Error(
+      'Multimodal configuration can only be specified when using a multimodal embedding model.',
     );
   }
 }
@@ -1123,4 +1182,39 @@ function getStorageConfiguration(params: StorageConfiguration): any {
     default:
       throw new Error(`Unsupported vector store type: ${params.vectorStoreType}`);
   }
+}
+
+/**
+ * Renders embedding model configuration with multimodal support.
+ * @internal
+ */
+function renderEmbeddingConfig(
+  embeddingModel: BedrockFoundationModel,
+  vectorType: VectorType,
+  multimodalConfig?: MultimodalConfig,
+): bedrock.CfnKnowledgeBase.BedrockEmbeddingModelConfigurationProperty {
+  const embeddingConfig: any = {
+    embeddingDataType: vectorType,
+  };
+
+  // Add multimodal configuration if the embedding model supports it
+  if (embeddingModel.multimodal && multimodalConfig) {
+    if (multimodalConfig.audio?.segmentation) {
+      embeddingConfig.audio = [
+        { segmentationConfiguration: multimodalConfig.audio.segmentation._render() },
+      ];
+    }
+    if (multimodalConfig.video?.segmentation) {
+      embeddingConfig.video = [
+        { segmentationConfiguration: multimodalConfig.video.segmentation._render() },
+      ];
+    }
+  }
+
+  // Add dimensions only when the embedding model supports multiple dimension options
+  if ((embeddingModel.allowedVectorDimensions?.length ?? 0) > 1) {
+    embeddingConfig.dimensions = embeddingModel.vectorDimensions;
+  }
+
+  return embeddingConfig as bedrock.CfnKnowledgeBase.BedrockEmbeddingModelConfigurationProperty;
 }
