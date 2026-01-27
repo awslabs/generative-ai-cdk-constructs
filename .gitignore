@@ -123,6 +123,14 @@ test/integ/kendra-genai.integ.snapshot/manifest.json
 test/integ/kendra-genai.integ.snapshot/**/manifest.json
 test/integ/kendra-genai.integ.snapshot/tree.json
 test/integ/kendra-genai.integ.snapshot/**/tree.json
+test/integ/multimodal-kb.integ.snapshot/asset.*
+test/integ/multimodal-kb.integ.snapshot/**/asset.*
+test/integ/multimodal-kb.integ.snapshot/cdk.out
+test/integ/multimodal-kb.integ.snapshot/**/cdk.out
+test/integ/multimodal-kb.integ.snapshot/manifest.json
+test/integ/multimodal-kb.integ.snapshot/**/manifest.json
+test/integ/multimodal-kb.integ.snapshot/tree.json
+test/integ/multimodal-kb.integ.snapshot/**/tree.json
 test/integ/.tmp
 test/integ/prompt-router.integ.snapshot/asset.*
 test/integ/prompt-router.integ.snapshot/**/asset.*

@@ -87,9 +87,23 @@ export interface BedrockFoundationModelProps {
    */
   readonly vectorDimensions?: number;
   /**
+   * List of allowed vector dimensions for this embedding model.
+   * If undefined or contains only one value, dimensions are fixed.
+   * If contains multiple values, dimensions are configurable.
+   * Only applicable to embedding models.
+   */
+  readonly allowedVectorDimensions?: number[];
+  /**
    * Embeddings models have different supported vector types
    */
   readonly supportedVectorType?: VectorType[];
+  /**
+   * Whether the embedding model natively supports multimodal content (images, audio, and video).
+   * Only applicable for embedding models.
+   *
+   * @default - false
+   */
+  readonly multimodal?: boolean;
 }
 
 /**
@@ -102,33 +116,51 @@ export class BedrockFoundationModel implements IInvokable {
   /****************************************************************************
    *                            AI21
    ***************************************************************************/
-  public static readonly AI21_JAMBA_1_5_LARGE_V1 = new BedrockFoundationModel('ai21.jamba-1-5-large-v1:0', {
-    supportsAgents: true,
-  });
+  public static readonly AI21_JAMBA_1_5_LARGE_V1 = new BedrockFoundationModel(
+    'ai21.jamba-1-5-large-v1:0',
+    {
+      supportsAgents: true,
+    },
+  );
 
-  public static readonly AI21_JAMBA_1_5_MINI_V1 = new BedrockFoundationModel('ai21.jamba-1-5-mini-v1:0', {
-    supportsAgents: true,
-  });
+  public static readonly AI21_JAMBA_1_5_MINI_V1 = new BedrockFoundationModel(
+    'ai21.jamba-1-5-mini-v1:0',
+    {
+      supportsAgents: true,
+    },
+  );
 
-  public static readonly AI21_JAMBA_INSTRUCT_V1 = new BedrockFoundationModel('ai21.jamba-instruct-v1:0', {
-    supportsAgents: true,
-  });
+  public static readonly AI21_JAMBA_INSTRUCT_V1 = new BedrockFoundationModel(
+    'ai21.jamba-instruct-v1:0',
+    {
+      supportsAgents: true,
+    },
+  );
   /****************************************************************************
    *                            AMAZON
    ***************************************************************************/
-  public static readonly AMAZON_TITAN_TEXT_EXPRESS_V1 = new BedrockFoundationModel('amazon.titan-text-express-v1', {
-    supportsAgents: true,
-  });
+  public static readonly AMAZON_TITAN_TEXT_EXPRESS_V1 = new BedrockFoundationModel(
+    'amazon.titan-text-express-v1',
+    {
+      supportsAgents: true,
+    },
+  );
 
-  public static readonly AMAZON_TITAN_PREMIER_V1_0 = new BedrockFoundationModel('amazon.titan-text-premier-v1:0', {
-    supportsAgents: true,
-  });
+  public static readonly AMAZON_TITAN_PREMIER_V1_0 = new BedrockFoundationModel(
+    'amazon.titan-text-premier-v1:0',
+    {
+      supportsAgents: true,
+    },
+  );
 
-  public static readonly AMAZON_NOVA_MICRO_V1 = new BedrockFoundationModel('amazon.nova-micro-v1:0', {
-    supportsAgents: true,
-    supportsCrossRegion: true,
-    optimizedForAgents: true,
-  });
+  public static readonly AMAZON_NOVA_MICRO_V1 = new BedrockFoundationModel(
+    'amazon.nova-micro-v1:0',
+    {
+      supportsAgents: true,
+      supportsCrossRegion: true,
+      optimizedForAgents: true,
+    },
+  );
 
   public static readonly AMAZON_NOVA_LITE_V1 = new BedrockFoundationModel('amazon.nova-lite-v1:0', {
     supportsAgents: true,
@@ -142,11 +174,14 @@ export class BedrockFoundationModel implements IInvokable {
     optimizedForAgents: true,
   });
 
-  public static readonly AMAZON_NOVA_PREMIER_V1 = new BedrockFoundationModel('amazon.nova-premier-v1:0', {
-    supportsAgents: true,
-    supportsCrossRegion: true,
-    optimizedForAgents: true,
-  });
+  public static readonly AMAZON_NOVA_PREMIER_V1 = new BedrockFoundationModel(
+    'amazon.nova-premier-v1:0',
+    {
+      supportsAgents: true,
+      supportsCrossRegion: true,
+      optimizedForAgents: true,
+    },
+  );
 
   /**
    * Amazon Nova Multimodal Embeddings with 3072 dimensions.
@@ -160,6 +195,8 @@ export class BedrockFoundationModel implements IInvokable {
       supportsKnowledgeBase: true,
       vectorDimensions: 3072,
       supportedVectorType: [VectorType.FLOATING_POINT],
+      allowedVectorDimensions: [256, 384, 1024, 3072],
+      multimodal: true,
     },
   );
 
@@ -175,6 +212,8 @@ export class BedrockFoundationModel implements IInvokable {
       supportsKnowledgeBase: true,
       vectorDimensions: 1024,
       supportedVectorType: [VectorType.FLOATING_POINT],
+      allowedVectorDimensions: [256, 384, 1024, 3072],
+      multimodal: true,
     },
   );
 
@@ -190,6 +229,8 @@ export class BedrockFoundationModel implements IInvokable {
       supportsKnowledgeBase: true,
       vectorDimensions: 384,
       supportedVectorType: [VectorType.FLOATING_POINT],
+      allowedVectorDimensions: [256, 384, 1024, 3072],
+      multimodal: true,
     },
   );
 
@@ -205,32 +246,54 @@ export class BedrockFoundationModel implements IInvokable {
       supportsKnowledgeBase: true,
       vectorDimensions: 256,
       supportedVectorType: [VectorType.FLOATING_POINT],
+      allowedVectorDimensions: [256, 384, 1024, 3072],
+      multimodal: true,
     },
   );
 
-  public static readonly TITAN_EMBED_TEXT_V1 = new BedrockFoundationModel('amazon.titan-embed-text-v1', {
-    supportsKnowledgeBase: true,
-    vectorDimensions: 1536,
-    supportedVectorType: [VectorType.FLOATING_POINT],
-  });
+  public static readonly TITAN_EMBED_TEXT_V1 = new BedrockFoundationModel(
+    'amazon.titan-embed-text-v1',
+    {
+      supportsKnowledgeBase: true,
+      vectorDimensions: 1536,
+      supportedVectorType: [VectorType.FLOATING_POINT],
+      allowedVectorDimensions: [1536],
+      multimodal: false,
+    },
+  );
 
-  public static readonly TITAN_EMBED_TEXT_V2_1024 = new BedrockFoundationModel('amazon.titan-embed-text-v2:0', {
-    supportsKnowledgeBase: true,
-    vectorDimensions: 1024,
-    supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
-  });
+  public static readonly TITAN_EMBED_TEXT_V2_1024 = new BedrockFoundationModel(
+    'amazon.titan-embed-text-v2:0',
+    {
+      supportsKnowledgeBase: true,
+      vectorDimensions: 1024,
+      supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
+      allowedVectorDimensions: [256, 512, 1024],
+      multimodal: false,
+    },
+  );
 
-  public static readonly TITAN_EMBED_TEXT_V2_512 = new BedrockFoundationModel('amazon.titan-embed-text-v2:0', {
-    supportsKnowledgeBase: true,
-    vectorDimensions: 512,
-    supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
-  });
+  public static readonly TITAN_EMBED_TEXT_V2_512 = new BedrockFoundationModel(
+    'amazon.titan-embed-text-v2:0',
+    {
+      supportsKnowledgeBase: true,
+      vectorDimensions: 512,
+      supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
+      allowedVectorDimensions: [256, 512, 1024],
+      multimodal: false,
+    },
+  );
 
-  public static readonly TITAN_EMBED_TEXT_V2_256 = new BedrockFoundationModel('amazon.titan-embed-text-v2:0', {
-    supportsKnowledgeBase: true,
-    vectorDimensions: 256,
-    supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
-  });
+  public static readonly TITAN_EMBED_TEXT_V2_256 = new BedrockFoundationModel(
+    'amazon.titan-embed-text-v2:0',
+    {
+      supportsKnowledgeBase: true,
+      vectorDimensions: 256,
+      supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
+      allowedVectorDimensions: [256, 512, 1024],
+      multimodal: false,
+    },
+  );
   /****************************************************************************
    *                            ANTHROPIC
    ***************************************************************************/
@@ -282,11 +345,14 @@ export class BedrockFoundationModel implements IInvokable {
     { supportsAgents: true, supportsCrossRegion: true, optimizedForAgents: true },
   );
 
-  public static readonly ANTHROPIC_CLAUDE_V2_1 = new BedrockFoundationModel('anthropic.claude-v2:1', {
-    supportsAgents: true,
-    legacy: true,
-    optimizedForAgents: true,
-  });
+  public static readonly ANTHROPIC_CLAUDE_V2_1 = new BedrockFoundationModel(
+    'anthropic.claude-v2:1',
+    {
+      supportsAgents: true,
+      legacy: true,
+      optimizedForAgents: true,
+    },
+  );
 
   public static readonly ANTHROPIC_CLAUDE_V2 = new BedrockFoundationModel('anthropic.claude-v2', {
     supportsAgents: true,
@@ -294,26 +360,39 @@ export class BedrockFoundationModel implements IInvokable {
     optimizedForAgents: true,
   });
 
-  public static readonly ANTHROPIC_CLAUDE_INSTANT_V1_2 = new BedrockFoundationModel('anthropic.claude-instant-v1', {
-    supportsAgents: true,
-    legacy: true,
-    optimizedForAgents: true,
-  });
+  public static readonly ANTHROPIC_CLAUDE_INSTANT_V1_2 = new BedrockFoundationModel(
+    'anthropic.claude-instant-v1',
+    {
+      supportsAgents: true,
+      legacy: true,
+      optimizedForAgents: true,
+    },
+  );
 
   /****************************************************************************
    *                            COHERE
    ***************************************************************************/
-  public static readonly COHERE_EMBED_ENGLISH_V3 = new BedrockFoundationModel('cohere.embed-english-v3', {
-    supportsKnowledgeBase: true,
-    vectorDimensions: 1024,
-    supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
-  });
+  public static readonly COHERE_EMBED_ENGLISH_V3 = new BedrockFoundationModel(
+    'cohere.embed-english-v3',
+    {
+      supportsKnowledgeBase: true,
+      vectorDimensions: 1024,
+      supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
+      allowedVectorDimensions: [1024],
+      multimodal: false,
+    },
+  );
 
-  public static readonly COHERE_EMBED_MULTILINGUAL_V3 = new BedrockFoundationModel('cohere.embed-multilingual-v3', {
-    supportsKnowledgeBase: true,
-    vectorDimensions: 1024,
-    supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
-  });
+  public static readonly COHERE_EMBED_MULTILINGUAL_V3 = new BedrockFoundationModel(
+    'cohere.embed-multilingual-v3',
+    {
+      supportsKnowledgeBase: true,
+      vectorDimensions: 1024,
+      supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
+      allowedVectorDimensions: [1024],
+      multimodal: false,
+    },
+  );
   /****************************************************************************
    *                            DEEPSEEK
    ***************************************************************************/
@@ -325,10 +404,13 @@ export class BedrockFoundationModel implements IInvokable {
   /****************************************************************************
    *                            META
    ***************************************************************************/
-  public static readonly META_LLAMA_3_1_8B_INSTRUCT_V1 = new BedrockFoundationModel('meta.llama3-1-8b-instruct-v1:0', {
-    supportsAgents: true,
-    supportsCrossRegion: true,
-  });
+  public static readonly META_LLAMA_3_1_8B_INSTRUCT_V1 = new BedrockFoundationModel(
+    'meta.llama3-1-8b-instruct-v1:0',
+    {
+      supportsAgents: true,
+      supportsCrossRegion: true,
+    },
+  );
 
   public static readonly META_LLAMA_3_1_70B_INSTRUCT_V1 = new BedrockFoundationModel(
     'meta.llama3-1-70b-instruct-v1:0',
@@ -346,15 +428,21 @@ export class BedrockFoundationModel implements IInvokable {
     },
   );
 
-  public static readonly META_LLAMA_3_2_3B_INSTRUCT_V1 = new BedrockFoundationModel('meta.llama3-2-3b-instruct-v1:0', {
-    supportsAgents: true,
-    supportsCrossRegion: true,
-  });
+  public static readonly META_LLAMA_3_2_3B_INSTRUCT_V1 = new BedrockFoundationModel(
+    'meta.llama3-2-3b-instruct-v1:0',
+    {
+      supportsAgents: true,
+      supportsCrossRegion: true,
+    },
+  );
 
-  public static readonly META_LLAMA_3_2_1B_INSTRUCT_V1 = new BedrockFoundationModel('meta.llama3-2-1b-instruct-v1:0', {
-    supportsAgents: true,
-    supportsCrossRegion: true,
-  });
+  public static readonly META_LLAMA_3_2_1B_INSTRUCT_V1 = new BedrockFoundationModel(
+    'meta.llama3-2-1b-instruct-v1:0',
+    {
+      supportsAgents: true,
+      supportsCrossRegion: true,
+    },
+  );
 
   public static readonly META_LLAMA_3_3_70B_INSTRUCT_V1 = new BedrockFoundationModel(
     'meta.llama3-3-70b-instruct-v1:0',
@@ -382,11 +470,14 @@ export class BedrockFoundationModel implements IInvokable {
   /****************************************************************************
    *                            MISTRAL AI
    ***************************************************************************/
-  public static readonly MISTRAL_7B_INSTRUCT_V0 = new BedrockFoundationModel('mistral.mistral-7b-instruct-v0:2', {
-    supportsAgents: true,
-    optimizedForAgents: false,
-    supportsCrossRegion: false,
-  });
+  public static readonly MISTRAL_7B_INSTRUCT_V0 = new BedrockFoundationModel(
+    'mistral.mistral-7b-instruct-v0:2',
+    {
+      supportsAgents: true,
+      optimizedForAgents: false,
+      supportsCrossRegion: false,
+    },
+  );
 
   public static readonly MISTRAL_MIXTRAL_8X7B_INSTRUCT_V0 = new BedrockFoundationModel(
     'mistral.mixtral-8x7b-instruct-v0:1',
@@ -397,29 +488,41 @@ export class BedrockFoundationModel implements IInvokable {
     },
   );
 
-  public static readonly MISTRAL_SMALL_2402_V1 = new BedrockFoundationModel('mistral.mistral-small-2402-v1:0', {
-    supportsAgents: true,
-    optimizedForAgents: false,
-    supportsCrossRegion: false,
-  });
+  public static readonly MISTRAL_SMALL_2402_V1 = new BedrockFoundationModel(
+    'mistral.mistral-small-2402-v1:0',
+    {
+      supportsAgents: true,
+      optimizedForAgents: false,
+      supportsCrossRegion: false,
+    },
+  );
 
-  public static readonly MISTRAL_LARGE_2402_V1 = new BedrockFoundationModel('mistral.mistral-large-2402-v1:0', {
-    supportsAgents: true,
-    optimizedForAgents: false,
-    supportsCrossRegion: false,
-  });
+  public static readonly MISTRAL_LARGE_2402_V1 = new BedrockFoundationModel(
+    'mistral.mistral-large-2402-v1:0',
+    {
+      supportsAgents: true,
+      optimizedForAgents: false,
+      supportsCrossRegion: false,
+    },
+  );
 
-  public static readonly MISTRAL_LARGE_2407_V1 = new BedrockFoundationModel('mistral.mistral-large-2407-v1:0', {
-    supportsAgents: true,
-    optimizedForAgents: false,
-    supportsCrossRegion: false,
-  });
+  public static readonly MISTRAL_LARGE_2407_V1 = new BedrockFoundationModel(
+    'mistral.mistral-large-2407-v1:0',
+    {
+      supportsAgents: true,
+      optimizedForAgents: false,
+      supportsCrossRegion: false,
+    },
+  );
 
-  public static readonly MISTRAL_PIXTRAL_LARGE_2502_V1 = new BedrockFoundationModel('mistral.pixtral-large-2502-v1:0', {
-    supportsAgents: true,
-    optimizedForAgents: false,
-    supportsCrossRegion: true,
-  });
+  public static readonly MISTRAL_PIXTRAL_LARGE_2502_V1 = new BedrockFoundationModel(
+    'mistral.pixtral-large-2502-v1:0',
+    {
+      supportsAgents: true,
+      optimizedForAgents: false,
+      supportsCrossRegion: true,
+    },
+  );
 
   public static fromCdkFoundationModelId(
     modelId: FoundationModelIdentifier,
@@ -443,8 +546,10 @@ export class BedrockFoundationModel implements IInvokable {
   public readonly supportsAgents: boolean;
   public readonly supportsCrossRegion: boolean;
   public readonly vectorDimensions?: number;
+  public readonly allowedVectorDimensions?: number[];
   public readonly supportsKnowledgeBase: boolean;
   public readonly supportedVectorType?: VectorType[];
+  public readonly multimodal?: boolean;
   constructor(value: string, props: BedrockFoundationModelProps = {}) {
     this.modelId = value;
     this.modelArn = Arn.format({
@@ -460,8 +565,10 @@ export class BedrockFoundationModel implements IInvokable {
     this.supportsCrossRegion = props.supportsCrossRegion ?? false;
     this.supportsAgents = props.supportsAgents ?? false;
     this.vectorDimensions = props.vectorDimensions;
+    this.allowedVectorDimensions = props.allowedVectorDimensions;
     this.supportsKnowledgeBase = props.supportsKnowledgeBase ?? false;
     this.supportedVectorType = props.supportedVectorType;
+    this.multimodal = props.multimodal;
   }
 
   toString(): string {

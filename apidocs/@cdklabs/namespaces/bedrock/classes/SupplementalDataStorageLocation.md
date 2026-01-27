@@ -67,6 +67,22 @@ Renders as Cfn Property
 
 ***
 
+### grantAccess()
+
+> **grantAccess**(`grantee`): `Grant` \| `undefined`
+
+#### Parameters
+
+##### grantee
+
+`IGrantable`
+
+#### Returns
+
+`Grant` \| `undefined`
+
+***
+
 ### s3()
 
 > `static` **s3**(`config`): `SupplementalDataStorageLocation`
