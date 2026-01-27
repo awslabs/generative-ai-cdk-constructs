@@ -141,6 +141,62 @@ The ARN of the Bedrock invokable abstraction.
 
 ***
 
+### AMAZON\_NOVA2\_MULTIMODAL\_V1\_1024
+
+> `readonly` `static` **AMAZON\_NOVA2\_MULTIMODAL\_V1\_1024**: `BedrockFoundationModel`
+
+Amazon Nova Multimodal Embeddings with 1024 dimensions.
+Larger dimensions capture more semantic detail but increase storage and compute costs.
+Smaller sizes are more efficient but may miss complex relationships.
+
+#### See
+
+https://docs.aws.amazon.com/nova/latest/userguide/nova-embeddings.html
+
+***
+
+### AMAZON\_NOVA2\_MULTIMODAL\_V1\_256
+
+> `readonly` `static` **AMAZON\_NOVA2\_MULTIMODAL\_V1\_256**: `BedrockFoundationModel`
+
+Amazon Nova Multimodal Embeddings with 256 dimensions.
+Larger dimensions capture more semantic detail but increase storage and compute costs.
+Smaller sizes are more efficient but may miss complex relationships.
+
+#### See
+
+https://docs.aws.amazon.com/nova/latest/userguide/nova-embeddings.html
+
+***
+
+### AMAZON\_NOVA2\_MULTIMODAL\_V1\_3072
+
+> `readonly` `static` **AMAZON\_NOVA2\_MULTIMODAL\_V1\_3072**: `BedrockFoundationModel`
+
+Amazon Nova Multimodal Embeddings with 3072 dimensions.
+Larger dimensions capture more semantic detail but increase storage and compute costs.
+Smaller sizes are more efficient but may miss complex relationships.
+
+#### See
+
+https://docs.aws.amazon.com/nova/latest/userguide/nova-embeddings.html
+
+***
+
+### AMAZON\_NOVA2\_MULTIMODAL\_V1\_384
+
+> `readonly` `static` **AMAZON\_NOVA2\_MULTIMODAL\_V1\_384**: `BedrockFoundationModel`
+
+Amazon Nova Multimodal Embeddings with 384 dimensions.
+Larger dimensions capture more semantic detail but increase storage and compute costs.
+Smaller sizes are more efficient but may miss complex relationships.
+
+#### See
+
+https://docs.aws.amazon.com/nova/latest/userguide/nova-embeddings.html
+
+***
+
 ### AMAZON\_TITAN\_PREMIER\_V1\_0
 
 > `readonly` `static` **AMAZON\_TITAN\_PREMIER\_V1\_0**: `BedrockFoundationModel`
