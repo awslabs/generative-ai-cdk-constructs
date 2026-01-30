@@ -242,18 +242,21 @@ export class BedrockFoundationModel implements IInvokable {
   public static readonly TITAN_EMBED_TEXT_V2_1024 = new BedrockFoundationModel('amazon.titan-embed-text-v2:0', {
     supportsKnowledgeBase: true,
     vectorDimensions: 1024,
+    allowedVectorDimensions: [256, 512, 1024],
     supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
   });
 
   public static readonly TITAN_EMBED_TEXT_V2_512 = new BedrockFoundationModel('amazon.titan-embed-text-v2:0', {
     supportsKnowledgeBase: true,
     vectorDimensions: 512,
+    allowedVectorDimensions: [256, 512, 1024],
     supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
   });
 
   public static readonly TITAN_EMBED_TEXT_V2_256 = new BedrockFoundationModel('amazon.titan-embed-text-v2:0', {
     supportsKnowledgeBase: true,
     vectorDimensions: 256,
+    allowedVectorDimensions: [256, 512, 1024],
     supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
   });
   /****************************************************************************

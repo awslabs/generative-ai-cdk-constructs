@@ -20,7 +20,10 @@ import { Annotations, Match, Template } from 'aws-cdk-lib/assertions';
 import { AwsSolutionsChecks } from 'cdk-nag';
 import { AmazonAuroraVectorStore } from '../../../src/cdk-lib/amazonaurora';
 import { GraphKnowledgeBase } from '../../../src/cdk-lib/bedrock/knowledge-bases/graph-knowledge-base';
-import { VideoSegmentation, AudioSegmentation } from '../../../src/cdk-lib/bedrock/knowledge-bases/multimodal-config';
+import {
+  VideoSegmentation,
+  AudioSegmentation,
+} from '../../../src/cdk-lib/bedrock/knowledge-bases/multimodal-config';
 import { SupplementalDataStorageLocation } from '../../../src/cdk-lib/bedrock/knowledge-bases/supplemental-data-storage';
 import {
   VectorKnowledgeBase,
@@ -806,8 +809,8 @@ describe('Multimodal Configuration', () => {
         VectorKnowledgeBaseConfiguration: {
           EmbeddingModelConfiguration: {
             BedrockEmbeddingModelConfiguration: {
-              Audio: [{ Segmentation: { FixedLengthDuration: 5 } }],
-              Video: [{ Segmentation: { FixedLengthDuration: 5 } }],
+              Audio: [{ SegmentationConfiguration: { FixedLengthDuration: 5 } }],
+              Video: [{ SegmentationConfiguration: { FixedLengthDuration: 5 } }],
             },
           },
         },
@@ -836,8 +839,8 @@ describe('Multimodal Configuration', () => {
         VectorKnowledgeBaseConfiguration: {
           EmbeddingModelConfiguration: {
             BedrockEmbeddingModelConfiguration: {
-              Audio: [{ Segmentation: { FixedLengthDuration: 10 } }],
-              Video: [{ Segmentation: { FixedLengthDuration: 5 } }],
+              Audio: [{ SegmentationConfiguration: { FixedLengthDuration: 10 } }],
+              Video: [{ SegmentationConfiguration: { FixedLengthDuration: 5 } }],
             },
           },
         },
@@ -866,8 +869,8 @@ describe('Multimodal Configuration', () => {
         VectorKnowledgeBaseConfiguration: {
           EmbeddingModelConfiguration: {
             BedrockEmbeddingModelConfiguration: {
-              Audio: [{ Segmentation: { FixedLengthDuration: 5 } }],
-              Video: [{ Segmentation: { FixedLengthDuration: 15 } }],
+              Audio: [{ SegmentationConfiguration: { FixedLengthDuration: 5 } }],
+              Video: [{ SegmentationConfiguration: { FixedLengthDuration: 15 } }],
             },
           },
         },
