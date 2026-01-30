@@ -16,16 +16,16 @@
         }
       }
     },
-    "d408b8a30775f80ca2cffec1658f174b173fb65096062dad35cda85ce5ebdd2f": {
+    "af26cd449080378af0c60deb743aa1505e3a9f384f5fce759d1956bdcc86fff3": {
       "displayName": "S3VectorsAutoDeleteProvider-Custom::S3VectorsAutoDeleteObjects/Handler/Code",
       "source": {
-        "path": "asset.d408b8a30775f80ca2cffec1658f174b173fb65096062dad35cda85ce5ebdd2f",
+        "path": "asset.af26cd449080378af0c60deb743aa1505e3a9f384f5fce759d1956bdcc86fff3",
         "packaging": "zip"
       },
       "destinations": {
-        "current_account-us-east-1-ba198b1a": {
+        "current_account-us-east-1-abfc753e": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
-          "objectKey": "d408b8a30775f80ca2cffec1658f174b173fb65096062dad35cda85ce5ebdd2f.zip",
+          "objectKey": "af26cd449080378af0c60deb743aa1505e3a9f384f5fce759d1956bdcc86fff3.zip",
           "region": "us-east-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
         }
@@ -61,16 +61,16 @@
         }
       }
     },
-    "617094f7ac063889afca65ee694fba5c8a0979af76914abebe44890539cfa06e": {
+    "759a98d94f825358128d70296ce5715ca24085d6c54cb282e167318aa7b993e3": {
       "displayName": "aws-cdk-bedrock-multimodal-kb-integ-test Template",
       "source": {
         "path": "aws-cdk-bedrock-multimodal-kb-integ-test.template.json",
         "packaging": "file"
       },
       "destinations": {
-        "current_account-us-east-1-76096413": {
+        "current_account-us-east-1-b0e13b4a": {
           "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1",
-          "objectKey": "617094f7ac063889afca65ee694fba5c8a0979af76914abebe44890539cfa06e.json",
+          "objectKey": "759a98d94f825358128d70296ce5715ca24085d6c54cb282e167318aa7b993e3.json",
           "region": "us-east-1",
           "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-us-east-1"
         }

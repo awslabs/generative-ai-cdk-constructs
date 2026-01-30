@@ -284,7 +284,7 @@
      "S3Bucket": {
       "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-us-east-1"
      },
-     "S3Key": "d408b8a30775f80ca2cffec1658f174b173fb65096062dad35cda85ce5ebdd2f.zip"
+     "S3Key": "af26cd449080378af0c60deb743aa1505e3a9f384f5fce759d1956bdcc86fff3.zip"
     },
     "Description": {
      "Fn::Join": [
@@ -780,6 +780,53 @@
        "Action": [
         "s3vectors:CreateIndex",
         "s3vectors:PutVectors"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          {
+           "Fn::GetAtt": [
+            "VectorBucket7AA37AC5",
+            "VectorBucketArn"
+           ]
+          },
+          "/index/",
+          {
+           "Fn::Select": [
+            3,
+            {
+             "Fn::Split": [
+              "/",
+              {
+               "Fn::GetAtt": [
+                "VectorIndex07C2340B",
+                "IndexArn"
+               ]
+              }
+             ]
+            }
+           ]
+          }
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "s3vectors:DeleteVectorBucket",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "VectorBucket7AA37AC5",
+         "VectorBucketArn"
+        ]
+       }
+      },
+      {
+       "Action": [
+        "s3vectors:DeleteIndex",
+        "s3vectors:DeleteVectors"
        ],
        "Effect": "Allow",
        "Resource": {
