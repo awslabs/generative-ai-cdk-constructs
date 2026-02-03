@@ -604,7 +604,7 @@ export class VectorBucket extends VectorBucketBase {
     // Get attributes directly from the CloudFormation resource
     this.vectorBucketArn = this.__resource.attrVectorBucketArn;
     this.creationTime = this.__resource.attrCreationTime;
-    
+
     // Extract bucket name from ARN to get the actual bucket name (not the ref which can be very long)
     // ARN format: arn:aws:s3vectors:region:account:bucket/bucket-name
     // Split by '/' and select index 1 to get the bucket name
