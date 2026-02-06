@@ -11,7 +11,9 @@
  *  and limitations under the License.
  */
 
+import { Aws } from 'aws-cdk-lib';
 import { CfnKnowledgeBase } from 'aws-cdk-lib/aws-bedrock';
+import * as iam from 'aws-cdk-lib/aws-iam';
 
 export enum SupplementalDataStorageLocationType {
   /**
@@ -30,8 +32,7 @@ export interface SupplementalDataStorageS3Config {
 /**
  * Union type for all possible location configurations
  */
-export type SupplementalDataStorageLocationConfig =
-    | SupplementalDataStorageS3Config;
+export type SupplementalDataStorageLocationConfig = SupplementalDataStorageS3Config;
 
 /**
  * Represents a supplemental data storage location for images extracted from multimodal documents in your data source.
@@ -43,10 +44,7 @@ export class SupplementalDataStorageLocation {
    * @returns A new SupplementalDataStorageLocation instance
    */
   public static s3(config: SupplementalDataStorageS3Config): SupplementalDataStorageLocation {
-    return new SupplementalDataStorageLocation(
-      SupplementalDataStorageLocationType.S3,
-      config,
-    );
+    return new SupplementalDataStorageLocation(SupplementalDataStorageLocationType.S3, config);
   }
 
   /**
@@ -90,5 +88,21 @@ export class SupplementalDataStorageLocation {
     // This should never happen as we only support S3 for now,
     // but TypeScript requires a return statement for all code paths
     throw new Error(`Unsupported storage location type: ${this.type}`);
+  }
+
+  public grantAccess(grantee: iam.IGrantable): iam.Grant | undefined {
+    if (this.type === SupplementalDataStorageLocationType.S3) {
+      const s3Config = this.locationConfig as SupplementalDataStorageS3Config;
+      const resourceName = s3Config.uri.replace('s3://', '').replace(/\/$/, '');
+      return iam.Grant.addToPrincipal({
+        grantee: grantee,
+        actions: ['s3:GetObject', 's3:PutObject', 's3:DeleteObject', 's3:ListBucket'],
+        resourceArns: [
+          `arn:${Aws.PARTITION}:s3:::${resourceName}`,
+          `arn:${Aws.PARTITION}:s3:::${resourceName}/*`,
+        ],
+      });
+    }
+    return undefined;
   }
 }

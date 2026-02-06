@@ -758,6 +758,69 @@
         }
       ]
     },
+    "integ:multimodal-kb:assert": {
+      "name": "integ:multimodal-kb:assert",
+      "description": "assert the snapshot of integration test 'multimodal-kb'",
+      "steps": [
+        {
+          "exec": "[ -d \"test/integ/multimodal-kb.integ.snapshot\" ] || (echo \"No snapshot available for integration test 'multimodal-kb'. Run 'projen integ:multimodal-kb:deploy' to capture.\" && exit 1)"
+        },
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/multimodal-kb.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/multimodal-kb.integ/assert.cdk.out > /dev/null"
+        },
+        {
+          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/multimodal-kb.integ.snapshot/ test/integ/.tmp/multimodal-kb.integ/assert.cdk.out/"
+        }
+      ]
+    },
+    "integ:multimodal-kb:deploy": {
+      "name": "integ:multimodal-kb:deploy",
+      "description": "deploy integration test 'multimodal-kb' and capture snapshot",
+      "steps": [
+        {
+          "exec": "rm -fr test/integ/.tmp/multimodal-kb.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "cdk deploy --app \"ts-node -P tsconfig.dev.json test/integ/multimodal-kb.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' --require-approval=never -o test/integ/.tmp/multimodal-kb.integ/deploy.cdk.out"
+        },
+        {
+          "exec": "rm -fr test/integ/multimodal-kb.integ.snapshot"
+        },
+        {
+          "exec": "mv test/integ/.tmp/multimodal-kb.integ/deploy.cdk.out test/integ/multimodal-kb.integ.snapshot"
+        },
+        {
+          "spawn": "integ:multimodal-kb:destroy"
+        }
+      ]
+    },
+    "integ:multimodal-kb:destroy": {
+      "name": "integ:multimodal-kb:destroy",
+      "description": "destroy integration test 'multimodal-kb'",
+      "steps": [
+        {
+          "exec": "cdk destroy --app test/integ/multimodal-kb.integ.snapshot '**' --no-version-reporting"
+        }
+      ]
+    },
+    "integ:multimodal-kb:snapshot": {
+      "name": "integ:multimodal-kb:snapshot",
+      "description": "update snapshot for integration test \"multimodal-kb\"",
+      "steps": [
+        {
+          "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/multimodal-kb.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/multimodal-kb.integ.snapshot > /dev/null"
+        }
+      ]
+    },
+    "integ:multimodal-kb:watch": {
+      "name": "integ:multimodal-kb:watch",
+      "description": "watch integration test 'multimodal-kb' (without updating snapshots)",
+      "steps": [
+        {
+          "exec": "cdk watch --app \"ts-node -P tsconfig.dev.json test/integ/multimodal-kb.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata '**' -o test/integ/.tmp/multimodal-kb.integ/deploy.cdk.out"
+        }
+      ]
+    },
     "integ:prompt-router:assert": {
       "name": "integ:prompt-router:assert",
       "description": "assert the snapshot of integration test 'prompt-router'",
@@ -848,6 +911,9 @@
         },
         {
           "spawn": "integ:kendra-genai:snapshot"
+        },
+        {
+          "spawn": "integ:multimodal-kb:snapshot"
         },
         {
           "spawn": "integ:prompt-router:snapshot"
@@ -1009,6 +1075,9 @@
         },
         {
           "spawn": "integ:kendra-genai:assert"
+        },
+        {
+          "spawn": "integ:multimodal-kb:assert"
         },
         {
           "spawn": "integ:prompt-router:assert"

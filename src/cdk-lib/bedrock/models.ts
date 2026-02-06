@@ -87,9 +87,23 @@ export interface BedrockFoundationModelProps {
    */
   readonly vectorDimensions?: number;
   /**
+   * List of allowed vector dimensions for this embedding model.
+   * If undefined or contains only one value, dimensions are fixed.
+   * If contains multiple values, dimensions are configurable.
+   * Only applicable to embedding models.
+   */
+  readonly allowedVectorDimensions?: number[];
+  /**
    * Embeddings models have different supported vector types
    */
   readonly supportedVectorType?: VectorType[];
+  /**
+   * Whether the embedding model natively supports multimodal content (images, audio, and video).
+   * Only applicable for embedding models.
+   *
+   * @default - false
+   */
+  readonly multimodal?: boolean;
 }
 
 /**
@@ -142,11 +156,14 @@ export class BedrockFoundationModel implements IInvokable {
     optimizedForAgents: true,
   });
 
-  public static readonly AMAZON_NOVA_PREMIER_V1 = new BedrockFoundationModel('amazon.nova-premier-v1:0', {
-    supportsAgents: true,
-    supportsCrossRegion: true,
-    optimizedForAgents: true,
-  });
+  public static readonly AMAZON_NOVA_PREMIER_V1 = new BedrockFoundationModel(
+    'amazon.nova-premier-v1:0',
+    {
+      supportsAgents: true,
+      supportsCrossRegion: true,
+      optimizedForAgents: true,
+    },
+  );
 
   /**
    * Amazon Nova Multimodal Embeddings with 3072 dimensions.
@@ -160,6 +177,8 @@ export class BedrockFoundationModel implements IInvokable {
       supportsKnowledgeBase: true,
       vectorDimensions: 3072,
       supportedVectorType: [VectorType.FLOATING_POINT],
+      allowedVectorDimensions: [256, 384, 1024, 3072],
+      multimodal: true,
     },
   );
 
@@ -175,6 +194,8 @@ export class BedrockFoundationModel implements IInvokable {
       supportsKnowledgeBase: true,
       vectorDimensions: 1024,
       supportedVectorType: [VectorType.FLOATING_POINT],
+      allowedVectorDimensions: [256, 384, 1024, 3072],
+      multimodal: true,
     },
   );
 
@@ -190,6 +211,8 @@ export class BedrockFoundationModel implements IInvokable {
       supportsKnowledgeBase: true,
       vectorDimensions: 384,
       supportedVectorType: [VectorType.FLOATING_POINT],
+      allowedVectorDimensions: [256, 384, 1024, 3072],
+      multimodal: true,
     },
   );
 
@@ -205,6 +228,8 @@ export class BedrockFoundationModel implements IInvokable {
       supportsKnowledgeBase: true,
       vectorDimensions: 256,
       supportedVectorType: [VectorType.FLOATING_POINT],
+      allowedVectorDimensions: [256, 384, 1024, 3072],
+      multimodal: true,
     },
   );
 
@@ -217,18 +242,21 @@ export class BedrockFoundationModel implements IInvokable {
   public static readonly TITAN_EMBED_TEXT_V2_1024 = new BedrockFoundationModel('amazon.titan-embed-text-v2:0', {
     supportsKnowledgeBase: true,
     vectorDimensions: 1024,
+    allowedVectorDimensions: [256, 512, 1024],
     supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
   });
 
   public static readonly TITAN_EMBED_TEXT_V2_512 = new BedrockFoundationModel('amazon.titan-embed-text-v2:0', {
     supportsKnowledgeBase: true,
     vectorDimensions: 512,
+    allowedVectorDimensions: [256, 512, 1024],
     supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
   });
 
   public static readonly TITAN_EMBED_TEXT_V2_256 = new BedrockFoundationModel('amazon.titan-embed-text-v2:0', {
     supportsKnowledgeBase: true,
     vectorDimensions: 256,
+    allowedVectorDimensions: [256, 512, 1024],
     supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
   });
   /****************************************************************************
@@ -303,17 +331,27 @@ export class BedrockFoundationModel implements IInvokable {
   /****************************************************************************
    *                            COHERE
    ***************************************************************************/
-  public static readonly COHERE_EMBED_ENGLISH_V3 = new BedrockFoundationModel('cohere.embed-english-v3', {
-    supportsKnowledgeBase: true,
-    vectorDimensions: 1024,
-    supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
-  });
+  public static readonly COHERE_EMBED_ENGLISH_V3 = new BedrockFoundationModel(
+    'cohere.embed-english-v3',
+    {
+      supportsKnowledgeBase: true,
+      vectorDimensions: 1024,
+      supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
+      allowedVectorDimensions: [1024],
+      multimodal: false,
+    },
+  );
 
-  public static readonly COHERE_EMBED_MULTILINGUAL_V3 = new BedrockFoundationModel('cohere.embed-multilingual-v3', {
-    supportsKnowledgeBase: true,
-    vectorDimensions: 1024,
-    supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
-  });
+  public static readonly COHERE_EMBED_MULTILINGUAL_V3 = new BedrockFoundationModel(
+    'cohere.embed-multilingual-v3',
+    {
+      supportsKnowledgeBase: true,
+      vectorDimensions: 1024,
+      supportedVectorType: [VectorType.FLOATING_POINT, VectorType.BINARY],
+      allowedVectorDimensions: [1024],
+      multimodal: false,
+    },
+  );
   /****************************************************************************
    *                            DEEPSEEK
    ***************************************************************************/
@@ -443,8 +481,10 @@ export class BedrockFoundationModel implements IInvokable {
   public readonly supportsAgents: boolean;
   public readonly supportsCrossRegion: boolean;
   public readonly vectorDimensions?: number;
+  public readonly allowedVectorDimensions?: number[];
   public readonly supportsKnowledgeBase: boolean;
   public readonly supportedVectorType?: VectorType[];
+  public readonly multimodal?: boolean;
   constructor(value: string, props: BedrockFoundationModelProps = {}) {
     this.modelId = value;
     this.modelArn = Arn.format({
@@ -460,8 +500,10 @@ export class BedrockFoundationModel implements IInvokable {
     this.supportsCrossRegion = props.supportsCrossRegion ?? false;
     this.supportsAgents = props.supportsAgents ?? false;
     this.vectorDimensions = props.vectorDimensions;
+    this.allowedVectorDimensions = props.allowedVectorDimensions;
     this.supportsKnowledgeBase = props.supportsKnowledgeBase ?? false;
     this.supportedVectorType = props.supportedVectorType;
+    this.multimodal = props.multimodal;
   }
 
   toString(): string {
