@@ -25,7 +25,7 @@ AWS::S3::VectorBucket
 
 ### Constructor
 
-> **new VectorBucket**(`scope`, `id`, `props`): `VectorBucket`
+> **new VectorBucket**(`scope`, `id`, `props?`): `VectorBucket`
 
 #### Parameters
 
@@ -37,7 +37,7 @@ AWS::S3::VectorBucket
 
 `string`
 
-##### props
+##### props?
 
 [`VectorBucketProps`](../interfaces/VectorBucketProps.md) = `{}`
 
@@ -375,7 +375,7 @@ Commonly this is the resource's `ref`.
 
 ### grantDelete()
 
-> **grantDelete**(`grantee`, `indexIds`): `Grant`
+> **grantDelete**(`grantee`, `indexIds?`): `Grant`
 
 Grants IAM actions to the IAM Principal to delete the vector bucket and indexes
 
@@ -387,7 +387,7 @@ Grants IAM actions to the IAM Principal to delete the vector bucket and indexes
 
 The IAM principal to grant permissions to
 
-##### indexIds
+##### indexIds?
 
 `any` = `'*'`
 
@@ -407,7 +407,7 @@ An IAM Grant object representing the granted permissions
 
 ### grantRead()
 
-> **grantRead**(`grantee`, `indexIds`): `Grant`
+> **grantRead**(`grantee`, `indexIds?`): `Grant`
 
 Grants IAM actions to the IAM Principal to read from the vector bucket and indexes
 
@@ -419,7 +419,7 @@ Grants IAM actions to the IAM Principal to read from the vector bucket and index
 
 The IAM principal to grant permissions to
 
-##### indexIds
+##### indexIds?
 
 `any` = `'*'`
 
@@ -439,7 +439,7 @@ An IAM Grant object representing the granted permissions
 
 ### grantWrite()
 
-> **grantWrite**(`grantee`, `indexIds`): `Grant`
+> **grantWrite**(`grantee`, `indexIds?`): `Grant`
 
 Grants IAM actions to the IAM Principal to write to the vector bucket and indexes
 
@@ -451,7 +451,7 @@ Grants IAM actions to the IAM Principal to write to the vector bucket and indexe
 
 The IAM principal to grant permissions to
 
-##### indexIds
+##### indexIds?
 
 `any` = `'*'`
 
