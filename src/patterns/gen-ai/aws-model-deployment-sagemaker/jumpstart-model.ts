@@ -10473,7 +10473,6 @@ export class JumpStartModel {
   public static readonly MODEL_UPSCALING_STABILITYAI_STABLE_DIFFUSION_X4_UPSCALER_FP16_1_1_0 = this.of('MODEL_UPSCALING_STABILITYAI_STABLE_DIFFUSION_X4_UPSCALER_FP16_1_1_0');
   public static readonly MODEL_UPSCALING_STABILITYAI_STABLE_DIFFUSION_X4_UPSCALER_FP16_1_0_0 = this.of('MODEL_UPSCALING_STABILITYAI_STABLE_DIFFUSION_X4_UPSCALER_FP16_1_0_0');
 
-
   public static of(name: string): JumpStartModel {
     return new JumpStartModel(name);
   }
