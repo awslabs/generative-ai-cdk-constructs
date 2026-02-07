@@ -19,7 +19,7 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 ### Constructor
 
-> **new BedrockFoundationModel**(`value`, `props`): `BedrockFoundationModel`
+> **new BedrockFoundationModel**(`value`, `props?`): `BedrockFoundationModel`
 
 #### Parameters
 
@@ -27,7 +27,7 @@ can instantiate a `BedrockFoundationModel` object, e.g: `new BedrockFoundationMo
 
 `string`
 
-##### props
+##### props?
 
 [`BedrockFoundationModelProps`](../interfaces/BedrockFoundationModelProps.md) = `{}`
 
@@ -520,7 +520,7 @@ Returns a string representation of an object.
 
 ### fromCdkFoundationModel()
 
-> `static` **fromCdkFoundationModel**(`modelId`, `props`): `BedrockFoundationModel`
+> `static` **fromCdkFoundationModel**(`modelId`, `props?`): `BedrockFoundationModel`
 
 #### Parameters
 
@@ -528,7 +528,7 @@ Returns a string representation of an object.
 
 `FoundationModel`
 
-##### props
+##### props?
 
 [`BedrockFoundationModelProps`](../interfaces/BedrockFoundationModelProps.md) = `{}`
 
@@ -540,7 +540,7 @@ Returns a string representation of an object.
 
 ### fromCdkFoundationModelId()
 
-> `static` **fromCdkFoundationModelId**(`modelId`, `props`): `BedrockFoundationModel`
+> `static` **fromCdkFoundationModelId**(`modelId`, `props?`): `BedrockFoundationModel`
 
 #### Parameters
 
@@ -548,7 +548,7 @@ Returns a string representation of an object.
 
 `FoundationModelIdentifier`
 
-##### props
+##### props?
 
 [`BedrockFoundationModelProps`](../interfaces/BedrockFoundationModelProps.md) = `{}`
 

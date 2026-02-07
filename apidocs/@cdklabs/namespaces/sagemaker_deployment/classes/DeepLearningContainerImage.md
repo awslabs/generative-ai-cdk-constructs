@@ -686,7 +686,7 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 ### fromAsset()
 
-> `static` **fromAsset**(`directory`, `options`): [`ContainerImage`](ContainerImage.md)
+> `static` **fromAsset**(`directory`, `options?`): [`ContainerImage`](ContainerImage.md)
 
 #### Parameters
 
@@ -694,7 +694,7 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 `string`
 
-##### options
+##### options?
 
 `DockerImageAssetOptions` = `{}`
 
@@ -734,7 +734,7 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 ### fromEcrRepository()
 
-> `static` **fromEcrRepository**(`repository`, `tag`): [`ContainerImage`](ContainerImage.md)
+> `static` **fromEcrRepository**(`repository`, `tag?`): [`ContainerImage`](ContainerImage.md)
 
 #### Parameters
 
@@ -742,7 +742,7 @@ https://github.com/aws/deep-learning-containers/blob/master/available_images.md
 
 `IRepository`
 
-##### tag
+##### tag?
 
 `string` = `'latest'`
 
