@@ -7,3 +7,5 @@
 # Type Alias: SupportedPostgreSQLVersions
 
 > **SupportedPostgreSQLVersions** = *typeof* [`SupportedPostgreSQLVersions`](../variables/SupportedPostgreSQLVersions.md)\[keyof *typeof* [`SupportedPostgreSQLVersions`](../variables/SupportedPostgreSQLVersions.md)\]
+
+List of supported versions of PostgreSQL for Aurora cluster.
