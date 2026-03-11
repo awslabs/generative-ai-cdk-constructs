@@ -268,11 +268,14 @@ describe('VectorIndex', () => {
               },
               Action: 'kms:Decrypt',
               Condition: Match.objectLike({
-                ArnLike: {
+                'ArnLike': {
                   'aws:SourceArn': Match.anyValue(),
                 },
-                StringEquals: {
+                'StringEquals': {
                   'aws:SourceAccount': '123456789012',
+                },
+                'ForAnyValue:StringEquals': {
+                  'kms:EncryptionContextKeys': ['aws:s3vectors:arn', 'aws:s3vectors:resource-id'],
                 },
               }),
             }),
