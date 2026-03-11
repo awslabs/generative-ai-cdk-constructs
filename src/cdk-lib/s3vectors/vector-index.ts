@@ -454,7 +454,7 @@ export class VectorIndex extends VectorIndexBase {
       actions: ['kms:Decrypt'],
       resources: ['*'],
       conditions: {
-        ArnLike: {
+        'ArnLike': {
           'aws:SourceArn': stack.formatArn({
             service: 's3vectors',
             resource: 'bucket',
@@ -462,13 +462,11 @@ export class VectorIndex extends VectorIndexBase {
             arnFormat: ArnFormat.SLASH_RESOURCE_NAME,
           }),
         },
-        StringEquals: {
+        'StringEquals': {
           'aws:SourceAccount': stack.account,
         },
-        ForAnyValue: {
-          StringEquals: {
-            'kms:EncryptionContextKeys': ['aws:s3vectors:arn', 'aws:s3vectors:resource-id'],
-          },
+        'ForAnyValue:StringEquals': {
+          'kms:EncryptionContextKeys': ['aws:s3vectors:arn', 'aws:s3vectors:resource-id'],
         },
       },
     }));
