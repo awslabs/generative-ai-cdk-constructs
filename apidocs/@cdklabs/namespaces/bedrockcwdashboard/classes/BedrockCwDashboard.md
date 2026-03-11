@@ -16,7 +16,7 @@ The BedrockCwDashboard class.
 
 ### Constructor
 
-> **new BedrockCwDashboard**(`scope`, `id`, `props`): `BedrockCwDashboard`
+> **new BedrockCwDashboard**(`scope`, `id`, `props?`): `BedrockCwDashboard`
 
 Constructs a new instance of the BedrockCwDashboard class.
 
@@ -34,7 +34,7 @@ represents the scope for all the resources.
 
 this is a a scope-unique id.
 
-##### props
+##### props?
 
 [`BedrockCwDashboardProps`](../interfaces/BedrockCwDashboardProps.md) = `{}`
 
@@ -88,11 +88,11 @@ Add guardrail monitoring to the dashboard
 
 ### addAllModelsMonitoring()
 
-> **addAllModelsMonitoring**(`props`): `void`
+> **addAllModelsMonitoring**(`props?`): `void`
 
 #### Parameters
 
-##### props
+##### props?
 
 [`ModelMonitoringProps`](../interfaces/ModelMonitoringProps.md) = `{}`
 
@@ -124,7 +124,7 @@ The guardrail to monitor
 
 ### addModelMonitoring()
 
-> **addModelMonitoring**(`modelName`, `modelId`, `props`): `void`
+> **addModelMonitoring**(`modelName`, `modelId`, `props?`): `void`
 
 #### Parameters
 
@@ -136,7 +136,7 @@ The guardrail to monitor
 
 `string`
 
-##### props
+##### props?
 
 [`ModelMonitoringProps`](../interfaces/ModelMonitoringProps.md) = `{}`
 
