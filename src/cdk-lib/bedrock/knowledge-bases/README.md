@@ -621,7 +621,7 @@ class PythonTestStack(Stack):
         docBucket = s3.Bucket(self, 'Bucket')
 
         function = _lambda.Function(self, 'MyFunction',
-            runtime=_lambda.Runtime.PYTHON_3_12,
+            runtime=_lambda.Runtime.PYTHON_3_13,
             handler='index.handler',
             code=_lambda.Code.from_inline('print("Hello, World!")'),
         )

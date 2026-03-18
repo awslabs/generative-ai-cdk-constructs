@@ -22,7 +22,7 @@ const AOSSCRProvider = buildCustomResourceProvider({
   codePath: path.join(
     __dirname, '../../../lambda/opensearch-serverless-custom-resources'),
   handler: 'custom_resources.on_event',
-  runtime: lambda.Runtime.PYTHON_3_12,
+  runtime: lambda.Runtime.PYTHON_3_13,
 });
 
 describe('Custom Resource Provider', () => {
@@ -32,7 +32,7 @@ describe('Custom Resource Provider', () => {
     const template = Template.fromStack(stack);
     template.hasResourceProperties('AWS::Lambda::Function', {
       Handler: 'custom_resources.on_event',
-      Runtime: 'python3.12',
+      Runtime: 'python3.13',
     });
   });
 });

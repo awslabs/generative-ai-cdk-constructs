@@ -34,7 +34,7 @@ const agent2 = new bedrock.Agent(stack, 'Agent2', {
 });
 
 const actionGroupFunction = new Function(stack, 'ActionGroupFunction', {
-  runtime: Runtime.PYTHON_3_12,
+  runtime: Runtime.PYTHON_3_13,
   handler: 'index.lambda_handler',
   code: Code.fromInline(`
   def lambda_handler(event, context):
