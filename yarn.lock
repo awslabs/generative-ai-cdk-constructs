@@ -1680,9 +1680,9 @@ aws-cdk-lib@2.233.0:
     yaml "1.10.2"
 
 aws-cdk@^2:
-  version "2.1111.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.1111.0.tgz#b251b922987554d0e0e43b9e8cce134380d490f0"
-  integrity sha512-69AVF04cxbAhYzmeJYtUF5bs6ruNnH05EQZJfjadk5Lpg+HVaJY2NjG/2qgsMmKrfRgvLet73Ir8ehVlAaaGng==
+  version "2.1112.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.1112.0.tgz#d6093478750d696f394539d05d7dbdefb1e01ad7"
+  integrity sha512-IYUbsd9tpBQRqEO2evWsG+p2ZNa6wG5/sJvmWaqo45V1ep8BW+mrf+jEpFLD9uDPXqRA57EZGVGils7QLbOhNA==
 
 aws-sdk-mock@^5.9.0:
   version "5.9.0"
@@ -2045,9 +2045,9 @@ comment-parser@1.4.1:
   integrity sha512-buhp5kePrmda3vhc5B9t7pUQXAb2Tnd0qgpkIhPhkHXxJpiPJ11H0ZEU0oBpJ2QztSbzG/ZxMj/CHsYJqRHmyg==
 
 commit-and-tag-version@^12:
-  version "12.7.0"
-  resolved "https://registry.yarnpkg.com/commit-and-tag-version/-/commit-and-tag-version-12.7.0.tgz#d893145125e6b6760a82723efc7458ce98cfe953"
-  integrity sha512-uICrirNtf1FvNydqHLrTPsX7zp74pStCJUuenrxlQSwjrriAYeIPIuIl8z7no3fiQEtvQxjJ/A48rMLY5gqOxQ==
+  version "12.7.1"
+  resolved "https://registry.yarnpkg.com/commit-and-tag-version/-/commit-and-tag-version-12.7.1.tgz#8614bb814f55a64e315290aa00903d864145d62f"
+  integrity sha512-18+iV9VMPWQ5rryn1nKprvkwqFMx1eOcEwIprjgyGm8Blhsw7WnsFXgyYLIlBF4uG2fcbbps8P7fBZARvaA0VA==
   dependencies:
     chalk "^2.4.2"
     conventional-changelog "4.0.0"
@@ -2057,7 +2057,7 @@ commit-and-tag-version@^12:
     detect-indent "^6.1.0"
     detect-newline "^3.1.0"
     dotgitignore "^2.1.0"
-    fast-xml-parser "^5.3.4"
+    fast-xml-parser "^5.5.6"
     figures "^3.2.0"
     find-up "^5.0.0"
     git-semver-tags "^5.0.1"
@@ -2522,9 +2522,9 @@ dunder-proto@^1.0.0, dunder-proto@^1.0.1:
     gopd "^1.2.0"
 
 electron-to-chromium@^1.5.263:
-  version "1.5.313"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.313.tgz#193e9ae2c2ab6915acb41e833068381e4ef0b3e4"
-  integrity sha512-QBMrTWEf00GXZmJyx2lbYD45jpI3TUFnNIzJ5BBc8piGUDwMPa1GV6HJWTZVvY/eiN3fSopl7NRbgGp9sZ9LTA==
+  version "1.5.321"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.321.tgz#57a80554e2e7fd65e3689d320f52a64723472d5d"
+  integrity sha512-L2C7Q279W2D/J4PLZLk7sebOILDSWos7bMsMNN06rK482umHUrh/3lM8G7IlHFOYip2oAg5nha1rCMxr/rs6ZQ==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -2973,7 +2973,7 @@ fast-xml-builder@^1.1.4:
   dependencies:
     path-expression-matcher "^1.1.3"
 
-fast-xml-parser@^5.3.4:
+fast-xml-parser@^5.5.6:
   version "5.5.6"
   resolved "https://registry.yarnpkg.com/fast-xml-parser/-/fast-xml-parser-5.5.6.tgz#6fc61f5ae06a55a1f058abd6a4f4b5d3e9972cd0"
   integrity sha512-3+fdZyBRVg29n4rXP0joHthhcHdPUHaIC16cuyyd1iLsuaO6Vea36MPrxgAzbZna8lhvZeRL8Bc9GP56/J9xEw==
@@ -6173,10 +6173,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
-typedoc-plugin-markdown@^4.10.0:
-  version "4.10.0"
-  resolved "https://registry.yarnpkg.com/typedoc-plugin-markdown/-/typedoc-plugin-markdown-4.10.0.tgz#7aef5971383798e671684107d5d67476c9a6fd74"
-  integrity sha512-psrg8Rtnv4HPWCsoxId+MzEN8TVK5jeKCnTbnGAbTBqcDapR9hM41bJT/9eAyKn9C2MDG9Qjh3MkltAYuLDoXg==
+typedoc-plugin-markdown@^4.11.0:
+  version "4.11.0"
+  resolved "https://registry.yarnpkg.com/typedoc-plugin-markdown/-/typedoc-plugin-markdown-4.11.0.tgz#57c29b0aeec2eba41e995670591de63bcf645b80"
+  integrity sha512-2iunh2ALyfyh204OF7h2u0kuQ84xB3jFZtFyUr01nThJkLvR8oGGSSDlyt2gyO4kXhvUxDcVbO0y43+qX+wFbw==
 
 typedoc@^0.28.17:
   version "0.28.17"
