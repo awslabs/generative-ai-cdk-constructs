@@ -12,7 +12,7 @@ Properties for the VectorIndex.
 
 ### analyzer?
 
-> `readonly` `optional` **analyzer**: [`Analyzer`](Analyzer.md)
+> `readonly` `optional` **analyzer?**: [`Analyzer`](Analyzer.md)
 
 The analyzer to use.
 

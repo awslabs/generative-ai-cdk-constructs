@@ -23,7 +23,7 @@ defined in order to initialize a guardrail ref.
 
 ### guardrailVersion?
 
-> `readonly` `optional` **guardrailVersion**: `string`
+> `readonly` `optional` **guardrailVersion?**: `string`
 
 The version of the guardrail.
 
@@ -37,7 +37,7 @@ The version of the guardrail.
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `IKey`
+> `readonly` `optional` **kmsKey?**: `IKey`
 
 The KMS key of the guardrail if custom encryption is configured.
 

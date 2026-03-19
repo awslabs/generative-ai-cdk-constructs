@@ -10,7 +10,7 @@
 
 ### artifactKey?
 
-> `optional` **artifactKey**: `string`
+> `optional` **artifactKey?**: `string`
 
 ***
 
@@ -38,7 +38,7 @@
 
 ### instanceAliases?
 
-> `optional` **instanceAliases**: [`IInstanceAliase`](IInstanceAliase.md)[]
+> `optional` **instanceAliases?**: [`IInstanceAliase`](IInstanceAliase.md)[]
 
 ***
 
@@ -50,7 +50,7 @@
 
 ### instanceVariants?
 
-> `optional` **instanceVariants**: [`IInstanceValiant`](IInstanceValiant.md)[]
+> `optional` **instanceVariants?**: [`IInstanceValiant`](IInstanceValiant.md)[]
 
 ***
 
@@ -62,7 +62,7 @@
 
 ### modelPackageArns?
 
-> `optional` **modelPackageArns**: `object`
+> `optional` **modelPackageArns?**: `object`
 
 #### Index Signature
 
@@ -72,7 +72,7 @@
 
 ### prepackedArtifactKey?
 
-> `optional` **prepackedArtifactKey**: `string`
+> `optional` **prepackedArtifactKey?**: `string`
 
 ***
 

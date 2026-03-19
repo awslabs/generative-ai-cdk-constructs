@@ -22,7 +22,7 @@ The ARN of the cluster
 
 ### creationTime?
 
-> `readonly` `optional` **creationTime**: `string`
+> `readonly` `optional` **creationTime?**: `string`
 
 The timestamp when the cluster was created, in ISO 8601 format.
 
@@ -36,7 +36,7 @@ undefined - No creation time is provided
 
 ### encryptionKey?
 
-> `readonly` `optional` **encryptionKey**: `IKey`
+> `readonly` `optional` **encryptionKey?**: `IKey`
 
 KMS encryption key associated with this cluster.
 
@@ -50,7 +50,7 @@ KMS encryption key associated with this cluster.
 
 ### status?
 
-> `readonly` `optional` **status**: `string`
+> `readonly` `optional` **status?**: `string`
 
 The status of the cluster.
 

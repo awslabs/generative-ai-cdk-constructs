@@ -24,7 +24,7 @@ You can optimize the prompt for specific use cases and models.
 
 ### genAiResource?
 
-> `abstract` `optional` **genAiResource**: `PromptGenAiResourceProperty`
+> `abstract` `optional` **genAiResource?**: `PromptGenAiResourceProperty`
 
 The template configuration.
 
@@ -32,7 +32,7 @@ The template configuration.
 
 ### inferenceConfiguration?
 
-> `abstract` `optional` **inferenceConfiguration**: `PromptInferenceConfigurationProperty`
+> `abstract` `optional` **inferenceConfiguration?**: `PromptInferenceConfigurationProperty`
 
 The inference configuration.
 
@@ -40,7 +40,7 @@ The inference configuration.
 
 ### modelId?
 
-> `abstract` `optional` **modelId**: `string`
+> `abstract` `optional` **modelId?**: `string`
 
 The unique identifier of the model with which to run inference on the prompt.
 

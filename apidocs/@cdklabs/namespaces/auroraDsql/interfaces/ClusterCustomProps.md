@@ -12,7 +12,7 @@ Properties for creating a Aurora DSQL cluster resource
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `IKey`
+> `readonly` `optional` **kmsKey?**: `IKey`
 
 KMS key to use for the cluster.
 
@@ -30,7 +30,7 @@ KMS key to use for the cluster.
 
 ### multiRegionProperties?
 
-> `readonly` `optional` **multiRegionProperties**: [`MultiRegionProperties`](MultiRegionProperties.md)
+> `readonly` `optional` **multiRegionProperties?**: [`MultiRegionProperties`](MultiRegionProperties.md)
 
 Defines the structure for multi-Region cluster configurations, containing the witness Region and peered cluster settings.
 If not provided, the cluster will be created in the same region as the stack (single region cluster).
@@ -49,7 +49,7 @@ If not provided, the cluster will be created in the same region as the stack (si
 
 ### removalPolicy?
 
-> `readonly` `optional` **removalPolicy**: `RemovalPolicy`
+> `readonly` `optional` **removalPolicy?**: `RemovalPolicy`
 
 The removal policy for the cluster.
 Only RemovalPolicy.DESTROY and RemovalPolicy.RETAIN are allowed.
@@ -68,7 +68,7 @@ Only RemovalPolicy.DESTROY and RemovalPolicy.RETAIN are allowed.
 
 ### tags?
 
-> `readonly` `optional` **tags**: `Record`\<`string`, `string`\>
+> `readonly` `optional` **tags?**: `Record`\<`string`, `string`\>
 
 Tags to apply to the cluster.
 

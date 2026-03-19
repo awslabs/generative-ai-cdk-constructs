@@ -14,7 +14,7 @@
 
 ### inferenceConfiguration?
 
-> `readonly` `optional` **inferenceConfiguration**: `PromptModelInferenceConfigurationProperty`
+> `readonly` `optional` **inferenceConfiguration?**: `PromptModelInferenceConfigurationProperty`
 
 Inference configuration for the Text Prompt
 
@@ -44,7 +44,7 @@ as in `{{variable_name}}`.
 
 ### promptVariables?
 
-> `readonly` `optional` **promptVariables**: `string`[]
+> `readonly` `optional` **promptVariables?**: `string`[]
 
 The variables in the prompt template that can be filled in at runtime.
 

@@ -34,19 +34,19 @@
 
 ### any?
 
-> `readonly` `optional` **any**: `any`
+> `readonly` `optional` **any?**: `any`
 
 ***
 
 ### auto?
 
-> `readonly` `optional` **auto**: `any`
+> `readonly` `optional` **auto?**: `any`
 
 ***
 
 ### tool?
 
-> `readonly` `optional` **tool**: `string`
+> `readonly` `optional` **tool?**: `string`
 
 ***
 

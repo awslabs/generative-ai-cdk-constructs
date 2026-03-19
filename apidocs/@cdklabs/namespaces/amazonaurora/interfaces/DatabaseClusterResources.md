@@ -12,7 +12,7 @@ Interface representing the resources required for a database cluster.
 
 ### auroraCluster?
 
-> `readonly` `optional` **auroraCluster**: `DatabaseCluster`
+> `readonly` `optional` **auroraCluster?**: `DatabaseCluster`
 
 The Amazon Aurora RDS cluster.
 

@@ -45,7 +45,7 @@ Pinecone, Redis Enterprise Cloud or Amazon Aurora PostgreSQL.
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 A description of the knowledge base.
 
@@ -77,7 +77,7 @@ different than the stack they were imported into.
 
 ### instruction?
 
-> `readonly` `optional` **instruction**: `string`
+> `readonly` `optional` **instruction?**: `string`
 
 Instructions for agents based on the design and type of information of the
 Knowledge Base. This will impact how Agents interact with the Knowledge Base.

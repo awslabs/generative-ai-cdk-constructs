@@ -14,7 +14,7 @@
 
 ### apiSchema?
 
-> `readonly` `optional` **apiSchema**: [`ApiSchema`](../classes/ApiSchema.md)
+> `readonly` `optional` **apiSchema?**: [`ApiSchema`](../classes/ApiSchema.md)
 
 The API Schema
 
@@ -28,7 +28,7 @@ The API Schema
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 A description of the action group.
 
@@ -42,7 +42,7 @@ A description of the action group.
 
 ### enabled?
 
-> `readonly` `optional` **enabled**: `boolean`
+> `readonly` `optional` **enabled?**: `boolean`
 
 Specifies whether the action group is available for the agent to invoke or
 not when sending an InvokeAgent request.
@@ -57,7 +57,7 @@ true
 
 ### executor?
 
-> `readonly` `optional` **executor**: [`ActionGroupExecutor`](../classes/ActionGroupExecutor.md)
+> `readonly` `optional` **executor?**: [`ActionGroupExecutor`](../classes/ActionGroupExecutor.md)
 
 The action group executor.
 
@@ -71,7 +71,7 @@ The action group executor.
 
 ### forceDelete?
 
-> `readonly` `optional` **forceDelete**: `boolean`
+> `readonly` `optional` **forceDelete?**: `boolean`
 
 Specifies whether to delete the resource even if it's in use.
 
@@ -85,7 +85,7 @@ false
 
 ### functionSchema?
 
-> `readonly` `optional` **functionSchema**: `FunctionSchemaProperty`
+> `readonly` `optional` **functionSchema?**: `FunctionSchemaProperty`
 
 Defines functions that each define parameters that the agent needs to invoke from the user.
 NO L2 yet as this doesn't make much sense IMHO
@@ -102,7 +102,7 @@ The name of the action group.
 
 ### parentActionGroupSignature?
 
-> `readonly` `optional` **parentActionGroupSignature**: [`ParentActionGroupSignature`](../classes/ParentActionGroupSignature.md)
+> `readonly` `optional` **parentActionGroupSignature?**: [`ParentActionGroupSignature`](../classes/ParentActionGroupSignature.md)
 
 The AWS Defined signature for enabling certain capabilities in your agent.
 When this property is specified, you must leave the description, apiSchema,

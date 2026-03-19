@@ -12,7 +12,7 @@ Properties for configuring the vector collection.
 
 ### collectionName?
 
-> `readonly` `optional` **collectionName**: `string`
+> `readonly` `optional` **collectionName?**: `string`
 
 The name of the collection. Must be between 3-32 characters long and contain only
 lowercase letters, numbers, and hyphens.
@@ -27,7 +27,7 @@ lowercase letters, numbers, and hyphens.
 
 ### collectionType?
 
-> `readonly` `optional` **collectionType**: [`VectorCollectionType`](../enumerations/VectorCollectionType.md)
+> `readonly` `optional` **collectionType?**: [`VectorCollectionType`](../enumerations/VectorCollectionType.md)
 
 Type of vector collection
 
@@ -41,7 +41,7 @@ Type of vector collection
 
 ### customAossPolicy?
 
-> `readonly` `optional` **customAossPolicy**: `ManagedPolicy`
+> `readonly` `optional` **customAossPolicy?**: `ManagedPolicy`
 
 A user defined IAM policy that allows API access to the collection.
 
@@ -49,7 +49,7 @@ A user defined IAM policy that allows API access to the collection.
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 Description for the collection
 
@@ -57,7 +57,7 @@ Description for the collection
 
 ### standbyReplicas?
 
-> `readonly` `optional` **standbyReplicas**: [`VectorCollectionStandbyReplicas`](../enumerations/VectorCollectionStandbyReplicas.md)
+> `readonly` `optional` **standbyReplicas?**: [`VectorCollectionStandbyReplicas`](../enumerations/VectorCollectionStandbyReplicas.md)
 
 Indicates whether to use standby replicas for the collection.
 
@@ -71,6 +71,6 @@ VectorCollectionStandbyReplicas.ENABLED
 
 ### tags?
 
-> `readonly` `optional` **tags**: `CfnTag`[]
+> `readonly` `optional` **tags?**: `CfnTag`[]
 
 A list of tags associated with the inference profile.

@@ -14,7 +14,7 @@
 
 ### defaultVariant?
 
-> `readonly` `optional` **defaultVariant**: [`PromptVariant`](../classes/PromptVariant.md)
+> `readonly` `optional` **defaultVariant?**: [`PromptVariant`](../classes/PromptVariant.md)
 
 The Prompt Variant that will be used by default.
 
@@ -28,7 +28,7 @@ The Prompt Variant that will be used by default.
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 A description of what the prompt does.
 
@@ -42,7 +42,7 @@ A description of what the prompt does.
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `IKey`
+> `readonly` `optional` **kmsKey?**: `IKey`
 
 The KMS key that the prompt is encrypted with.
 
@@ -64,7 +64,7 @@ The name of the prompt.
 
 ### variants?
 
-> `readonly` `optional` **variants**: [`PromptVariant`](../classes/PromptVariant.md)[]
+> `readonly` `optional` **variants?**: [`PromptVariant`](../classes/PromptVariant.md)[]
 
 The variants of your prompt. Variants can use different messages, models,
 or configurations so that you can compare their outputs to decide the best

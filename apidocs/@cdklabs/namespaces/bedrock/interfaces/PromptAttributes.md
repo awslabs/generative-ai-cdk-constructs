@@ -14,7 +14,7 @@
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `IKey`
+> `readonly` `optional` **kmsKey?**: `IKey`
 
 Optional KMS encryption key associated with this prompt.
 
@@ -36,7 +36,7 @@ The ARN of the prompt.
 
 ### promptVersion?
 
-> `readonly` `optional` **promptVersion**: `string`
+> `readonly` `optional` **promptVersion?**: `string`
 
 The version of the prompt.
 

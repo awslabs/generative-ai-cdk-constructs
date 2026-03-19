@@ -12,7 +12,7 @@ Properties for creating a new Neptune Graph database
 
 ### deletionProtection?
 
-> `readonly` `optional` **deletionProtection**: `boolean`
+> `readonly` `optional` **deletionProtection?**: `boolean`
 
 Indicates whether the Graph should have deletion protection enabled.
 
@@ -26,7 +26,7 @@ false
 
 ### graphName?
 
-> `readonly` `optional` **graphName**: `string`
+> `readonly` `optional` **graphName?**: `string`
 
 The graph name. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter.
 It cannot end with a hyphen or contain two consecutive hyphens.
@@ -39,7 +39,7 @@ It cannot end with a hyphen or contain two consecutive hyphens.
 
 ### provisionedMemoryNCUs?
 
-> `readonly` `optional` **provisionedMemoryNCUs**: `number`
+> `readonly` `optional` **provisionedMemoryNCUs?**: `number`
 
 The amount of memory (in Neptune Capacity Units m-NCUs) to use for the graph.
 
@@ -53,7 +53,7 @@ The amount of memory (in Neptune Capacity Units m-NCUs) to use for the graph.
 
 ### publicConnectivity?
 
-> `readonly` `optional` **publicConnectivity**: `boolean`
+> `readonly` `optional` **publicConnectivity?**: `boolean`
 
 Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated.
 When the graph is publicly available, its domain name system (DNS) endpoint resolves to the public IP address from the internet.
@@ -70,7 +70,7 @@ true
 
 ### replicaCount?
 
-> `readonly` `optional` **replicaCount**: `number`
+> `readonly` `optional` **replicaCount?**: `number`
 
 The number of replicas in other AZs.
 Replicas are typically only needed for production critical workloads with strict availability requirements.
@@ -86,6 +86,6 @@ Replicas are typically only needed for production critical workloads with strict
 
 ### vectorSearchDimension?
 
-> `readonly` `optional` **vectorSearchDimension**: `number`
+> `readonly` `optional` **vectorSearchDimension?**: `number`
 
 The Dimension used to save vectors.

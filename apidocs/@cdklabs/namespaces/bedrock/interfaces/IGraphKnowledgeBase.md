@@ -18,7 +18,7 @@
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 The description of the knowledge base.
 
@@ -58,7 +58,7 @@ The Neptune Analytics vector store
 
 ### instruction?
 
-> `readonly` `optional` **instruction**: `string`
+> `readonly` `optional` **instruction?**: `string`
 
 A narrative instruction of the knowledge base.
 A Bedrock Agent can use this instruction to determine if it should

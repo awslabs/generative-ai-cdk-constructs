@@ -53,7 +53,7 @@ AWS::S3Vectors::Index
 
 ### creationTime?
 
-> `readonly` `optional` **creationTime**: `string`
+> `readonly` `optional` **creationTime?**: `string`
 
 The timestamp when the vector bucket was created, in ISO 8601 format.
 
@@ -85,7 +85,7 @@ The timestamp when the vector bucket was created, in ISO 8601 format.
 
 ### encryptionKey?
 
-> `readonly` `optional` **encryptionKey**: `IKey`
+> `readonly` `optional` **encryptionKey?**: `IKey`
 
 Optional KMS encryption key associated with this vector index.
 

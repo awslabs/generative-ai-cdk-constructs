@@ -20,7 +20,7 @@ The agent associated to this alias.
 
 ### agentVersion?
 
-> `readonly` `optional` **agentVersion**: `string`
+> `readonly` `optional` **agentVersion?**: `string`
 
 The version of the agent to associate with the agent alias.
 
@@ -34,7 +34,7 @@ The version of the agent to associate with the agent alias.
 
 ### aliasName?
 
-> `readonly` `optional` **aliasName**: `string`
+> `readonly` `optional` **aliasName?**: `string`
 
 The name for the agent alias.
 
@@ -48,6 +48,6 @@ The name for the agent alias.
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 Description for the agent alias.

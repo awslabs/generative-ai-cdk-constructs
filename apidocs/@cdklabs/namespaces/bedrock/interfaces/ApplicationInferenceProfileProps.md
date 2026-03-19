@@ -12,7 +12,7 @@ Properties for creating a ApplicationInferenceProfile.
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 Description of the inference profile.
 
@@ -51,6 +51,6 @@ Usage and costs for requests made to the Regions in the inference profile will b
 
 ### tags?
 
-> `readonly` `optional` **tags**: `CfnTag`[]
+> `readonly` `optional` **tags?**: `CfnTag`[]
 
 A list of tags associated with the inference profile.

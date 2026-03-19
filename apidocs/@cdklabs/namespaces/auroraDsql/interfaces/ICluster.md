@@ -36,7 +36,7 @@ The id of the cluster.
 
 ### creationTime?
 
-> `readonly` `optional` **creationTime**: `string`
+> `readonly` `optional` **creationTime?**: `string`
 
 The timestamp when the cluster was created, in ISO 8601 format.
 
@@ -46,7 +46,7 @@ The timestamp when the cluster was created, in ISO 8601 format.
 
 ### encryptionKey?
 
-> `readonly` `optional` **encryptionKey**: `IKey`
+> `readonly` `optional` **encryptionKey?**: `IKey`
 
 Optional KMS encryption key associated with this bucket.
 
@@ -98,7 +98,7 @@ The stack in which this resource is defined.
 
 ### status?
 
-> `readonly` `optional` **status**: `string`
+> `readonly` `optional` **status?**: `string`
 
 The status of the cluster.
 

@@ -81,7 +81,7 @@ The id of the cluster.
 
 ### creationTime?
 
-> `readonly` `optional` **creationTime**: `string`
+> `readonly` `optional` **creationTime?**: `string`
 
 The timestamp when the cluster was created, in ISO 8601 format.
 
@@ -95,7 +95,7 @@ The timestamp when the cluster was created, in ISO 8601 format.
 
 ### encryptionKey?
 
-> `readonly` `optional` **encryptionKey**: `IKey`
+> `readonly` `optional` **encryptionKey?**: `IKey`
 
 KMS encryption key associated with this cluster.
 
@@ -129,7 +129,7 @@ different than the stack they were imported into.
 
 ### multiRegionProperties?
 
-> `readonly` `optional` **multiRegionProperties**: [`MultiRegionProperties`](../interfaces/MultiRegionProperties.md)
+> `readonly` `optional` **multiRegionProperties?**: [`MultiRegionProperties`](../interfaces/MultiRegionProperties.md)
 
 ***
 
@@ -178,7 +178,7 @@ The stack in which this resource is defined.
 
 ### status?
 
-> `readonly` `optional` **status**: `string`
+> `readonly` `optional` **status?**: `string`
 
 The status of the cluster.
 
@@ -192,7 +192,7 @@ The status of the cluster.
 
 ### tags?
 
-> `readonly` `optional` **tags**: `object`
+> `readonly` `optional` **tags?**: `object`
 
 Tags applied to this cluster resource
 A map of key-value pairs for resource tagging

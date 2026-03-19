@@ -53,7 +53,7 @@ Contains methods and attributes valid for S3 vector indexes either created with 
 
 ### creationTime?
 
-> `abstract` `readonly` `optional` **creationTime**: `string`
+> `abstract` `readonly` `optional` **creationTime?**: `string`
 
 The timestamp when the vector index was created, in ISO 8601 format.
 
@@ -65,7 +65,7 @@ The timestamp when the vector index was created, in ISO 8601 format.
 
 ### encryptionKey?
 
-> `abstract` `readonly` `optional` **encryptionKey**: `IKey`
+> `abstract` `readonly` `optional` **encryptionKey?**: `IKey`
 
 Optional KMS encryption key associated with this vector index.
 

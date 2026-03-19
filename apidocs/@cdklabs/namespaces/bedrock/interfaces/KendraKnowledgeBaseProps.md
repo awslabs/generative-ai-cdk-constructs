@@ -16,7 +16,7 @@ Properties for creating a Kendra Index Knowledge Base.
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 The description of the knowledge base.
 
@@ -34,7 +34,7 @@ The description of the knowledge base.
 
 ### existingRole?
 
-> `readonly` `optional` **existingRole**: `IRole`
+> `readonly` `optional` **existingRole?**: `IRole`
 
 Existing IAM role with policy statements granting appropriate permissions
 to invoke the specific embeddings models.
@@ -50,7 +50,7 @@ specified embeddings model within the Bedrock service.
 
 ### instruction?
 
-> `readonly` `optional` **instruction**: `string`
+> `readonly` `optional` **instruction?**: `string`
 
 A narrative description of the knowledge base.
 
@@ -79,7 +79,7 @@ The Kendra Index to use for the knowledge base.
 
 ### name?
 
-> `readonly` `optional` **name**: `string`
+> `readonly` `optional` **name?**: `string`
 
 The name of the knowledge base.
 

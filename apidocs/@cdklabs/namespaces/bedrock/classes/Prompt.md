@@ -68,7 +68,7 @@ The computed hash of the prompt properties.
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `IKey`
+> `readonly` `optional` **kmsKey?**: `IKey`
 
 The KMS key that the prompt is encrypted with.
 

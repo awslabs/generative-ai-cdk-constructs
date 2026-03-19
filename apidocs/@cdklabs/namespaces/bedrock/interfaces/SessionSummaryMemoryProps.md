@@ -12,7 +12,7 @@ Properties for SessionSummaryConfiguration.
 
 ### maxRecentSessions?
 
-> `readonly` `optional` **maxRecentSessions**: `number`
+> `readonly` `optional` **maxRecentSessions?**: `number`
 
 Maximum number of recent session summaries to include (min 1)
 
@@ -26,7 +26,7 @@ Maximum number of recent session summaries to include (min 1)
 
 ### memoryDurationDays?
 
-> `readonly` `optional` **memoryDurationDays**: `number`
+> `readonly` `optional` **memoryDurationDays?**: `number`
 
 Duration in days for which session summaries are retained (1-365)
 

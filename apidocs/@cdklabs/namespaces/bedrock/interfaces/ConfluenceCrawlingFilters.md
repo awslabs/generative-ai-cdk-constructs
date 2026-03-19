@@ -24,7 +24,7 @@ These filters allow you to include or exclude specific content based on object t
 
 ### excludePatterns?
 
-> `readonly` `optional` **excludePatterns**: `string`[]
+> `readonly` `optional` **excludePatterns?**: `string`[]
 
 Regular expression patterns to exclude content.
 Content matching these patterns will not be crawled, even if it matches an include pattern.
@@ -33,7 +33,7 @@ Content matching these patterns will not be crawled, even if it matches an inclu
 
 ### includePatterns?
 
-> `readonly` `optional` **includePatterns**: `string`[]
+> `readonly` `optional` **includePatterns?**: `string`[]
 
 Regular expression patterns to include content.
 If specified, only content matching these patterns will be crawled.

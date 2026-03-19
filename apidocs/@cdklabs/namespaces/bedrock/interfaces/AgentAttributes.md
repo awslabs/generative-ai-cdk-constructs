@@ -22,7 +22,7 @@ The ARN of the agent.
 
 ### agentVersion?
 
-> `readonly` `optional` **agentVersion**: `string`
+> `readonly` `optional` **agentVersion?**: `string`
 
 The agent version. If no explicit versions have been created,
 leave this  empty to use the DRAFT version. Otherwise, use the
@@ -32,7 +32,7 @@ version number (e.g. 1).
 
 ### kmsKeyArn?
 
-> `readonly` `optional` **kmsKeyArn**: `string`
+> `readonly` `optional` **kmsKeyArn?**: `string`
 
 Optional KMS encryption key associated with this agent
 
@@ -40,7 +40,7 @@ Optional KMS encryption key associated with this agent
 
 ### lastUpdated?
 
-> `readonly` `optional` **lastUpdated**: `string`
+> `readonly` `optional` **lastUpdated?**: `string`
 
 When this agent was last updated.
 

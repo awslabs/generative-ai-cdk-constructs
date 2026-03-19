@@ -18,7 +18,7 @@ The S3 vector bucket that the policy applies to.
 
 ### document?
 
-> `readonly` `optional` **document**: `PolicyDocument`
+> `readonly` `optional` **document?**: `PolicyDocument`
 
 Policy document to apply to the bucket.
 
@@ -32,7 +32,7 @@ Policy document to apply to the bucket.
 
 ### removalPolicy?
 
-> `readonly` `optional` **removalPolicy**: `RemovalPolicy`
+> `readonly` `optional` **removalPolicy?**: `RemovalPolicy`
 
 Policy to apply when the policy is removed from this stack.
 
