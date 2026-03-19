@@ -20,13 +20,13 @@ https://docs.aws.amazon.com/bedrock/latest/userguide/action-handle.html
 
 ### customControl?
 
-> `readonly` `optional` **customControl**: `string`
+> `readonly` `optional` **customControl?**: `string`
 
 ***
 
 ### lambdaFunction?
 
-> `readonly` `optional` **lambdaFunction**: `IFunction`
+> `readonly` `optional` **lambdaFunction?**: `IFunction`
 
 ***
 

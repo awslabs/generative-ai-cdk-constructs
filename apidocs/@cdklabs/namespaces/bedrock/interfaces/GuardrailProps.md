@@ -12,7 +12,7 @@ Properties for creating a Guardrail.
 
 ### blockedInputMessaging?
 
-> `readonly` `optional` **blockedInputMessaging**: `string`
+> `readonly` `optional` **blockedInputMessaging?**: `string`
 
 The message to return when the guardrail blocks a prompt.
 
@@ -26,7 +26,7 @@ The message to return when the guardrail blocks a prompt.
 
 ### blockedOutputsMessaging?
 
-> `readonly` `optional` **blockedOutputsMessaging**: `string`
+> `readonly` `optional` **blockedOutputsMessaging?**: `string`
 
 The message to return when the guardrail blocks a model response.
 
@@ -40,7 +40,7 @@ The message to return when the guardrail blocks a model response.
 
 ### contentFilters?
 
-> `readonly` `optional` **contentFilters**: [`ContentFilter`](ContentFilter.md)[]
+> `readonly` `optional` **contentFilters?**: [`ContentFilter`](ContentFilter.md)[]
 
 The content filters to apply to the guardrail.
 Note, if one of
@@ -49,7 +49,7 @@ Note, if one of
 
 ### contextualGroundingFilters?
 
-> `readonly` `optional` **contextualGroundingFilters**: [`ContextualGroundingFilter`](ContextualGroundingFilter.md)[]
+> `readonly` `optional` **contextualGroundingFilters?**: [`ContextualGroundingFilter`](ContextualGroundingFilter.md)[]
 
 The contextual grounding filters to apply to the guardrail.
 
@@ -57,7 +57,7 @@ The contextual grounding filters to apply to the guardrail.
 
 ### deniedTopics?
 
-> `readonly` `optional` **deniedTopics**: [`Topic`](../classes/Topic.md)[]
+> `readonly` `optional` **deniedTopics?**: [`Topic`](../classes/Topic.md)[]
 
 Up to 30 denied topics to block user inputs or model responses associated with the topic.
 
@@ -65,7 +65,7 @@ Up to 30 denied topics to block user inputs or model responses associated with t
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 The description of the guardrail.
 
@@ -73,7 +73,7 @@ The description of the guardrail.
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `IKey`
+> `readonly` `optional` **kmsKey?**: `IKey`
 
 A custom KMS key to use for encrypting data.
 
@@ -87,7 +87,7 @@ A custom KMS key to use for encrypting data.
 
 ### managedWordListFilters?
 
-> `readonly` `optional` **managedWordListFilters**: [`ManagedWordFilter`](ManagedWordFilter.md)[]
+> `readonly` `optional` **managedWordListFilters?**: [`ManagedWordFilter`](ManagedWordFilter.md)[]
 
 The managed word filters to apply to the guardrail.
 
@@ -103,7 +103,7 @@ The name of the guardrail.
 
 ### piiFilters?
 
-> `readonly` `optional` **piiFilters**: [`PIIFilter`](PIIFilter.md)[]
+> `readonly` `optional` **piiFilters?**: [`PIIFilter`](PIIFilter.md)[]
 
 The PII filters to apply to the guardrail.
 
@@ -111,7 +111,7 @@ The PII filters to apply to the guardrail.
 
 ### regexFilters?
 
-> `readonly` `optional` **regexFilters**: [`RegexFilter`](RegexFilter.md)[]
+> `readonly` `optional` **regexFilters?**: [`RegexFilter`](RegexFilter.md)[]
 
 The regular expression (regex) filters to apply to the guardrail.
 
@@ -119,6 +119,6 @@ The regular expression (regex) filters to apply to the guardrail.
 
 ### wordFilters?
 
-> `readonly` `optional` **wordFilters**: [`WordFilter`](WordFilter.md)[]
+> `readonly` `optional` **wordFilters?**: [`WordFilter`](WordFilter.md)[]
 
 The word filters to apply to the guardrail.

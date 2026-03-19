@@ -20,7 +20,7 @@ Interface to add a new data source to an existing KB.
 
 ### chunkingStrategy?
 
-> `readonly` `optional` **chunkingStrategy**: [`ChunkingStrategy`](../classes/ChunkingStrategy.md)
+> `readonly` `optional` **chunkingStrategy?**: [`ChunkingStrategy`](../classes/ChunkingStrategy.md)
 
 The chunking stategy to use for splitting your documents or content.
 The chunks are then converted to embeddings and written to the vector
@@ -40,7 +40,7 @@ ChunkingStrategy.DEFAULT
 
 ### contextEnrichment?
 
-> `readonly` `optional` **contextEnrichment**: [`ContextEnrichment`](../classes/ContextEnrichment.md)
+> `readonly` `optional` **contextEnrichment?**: [`ContextEnrichment`](../classes/ContextEnrichment.md)
 
 The context enrichment configuration to use.
 
@@ -58,7 +58,7 @@ The context enrichment configuration to use.
 
 ### crawlingRate?
 
-> `readonly` `optional` **crawlingRate**: `number`
+> `readonly` `optional` **crawlingRate?**: `number`
 
 The max rate at which pages are crawled, up to 300 per minute per host.
 Higher values will decrease sync time but increase the load on the host.
@@ -73,7 +73,7 @@ Higher values will decrease sync time but increase the load on the host.
 
 ### crawlingScope?
 
-> `readonly` `optional` **crawlingScope**: [`CrawlingScope`](../enumerations/CrawlingScope.md)
+> `readonly` `optional` **crawlingScope?**: [`CrawlingScope`](../enumerations/CrawlingScope.md)
 
 The scope of the crawling.
 
@@ -87,7 +87,7 @@ The scope of the crawling.
 
 ### customTransformation?
 
-> `readonly` `optional` **customTransformation**: [`CustomTransformation`](../classes/CustomTransformation.md)
+> `readonly` `optional` **customTransformation?**: [`CustomTransformation`](../classes/CustomTransformation.md)
 
 The custom transformation strategy to use.
 
@@ -105,7 +105,7 @@ The custom transformation strategy to use.
 
 ### dataDeletionPolicy?
 
-> `readonly` `optional` **dataDeletionPolicy**: [`DataDeletionPolicy`](../enumerations/DataDeletionPolicy.md)
+> `readonly` `optional` **dataDeletionPolicy?**: [`DataDeletionPolicy`](../enumerations/DataDeletionPolicy.md)
 
 The data deletion policy to apply to the data source.
 
@@ -123,7 +123,7 @@ The data deletion policy to apply to the data source.
 
 ### dataSourceName?
 
-> `readonly` `optional` **dataSourceName**: `string`
+> `readonly` `optional` **dataSourceName?**: `string`
 
 The name of the data source.
 
@@ -141,7 +141,7 @@ The name of the data source.
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 A description of the data source.
 
@@ -159,7 +159,7 @@ A description of the data source.
 
 ### filters?
 
-> `readonly` `optional` **filters**: [`CrawlingFilters`](CrawlingFilters.md)
+> `readonly` `optional` **filters?**: [`CrawlingFilters`](CrawlingFilters.md)
 
 The filters (regular expression patterns) for the crawling.
 If there's a conflict, the exclude pattern takes precedence.
@@ -174,7 +174,7 @@ None
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `IKey`
+> `readonly` `optional` **kmsKey?**: `IKey`
 
 The KMS key to use to encrypt the data source.
 
@@ -192,7 +192,7 @@ The KMS key to use to encrypt the data source.
 
 ### maxPages?
 
-> `readonly` `optional` **maxPages**: `number`
+> `readonly` `optional` **maxPages?**: `number`
 
 The maximum number of pages to crawl. The max number of web pages crawled from your source URLs,
 up to 25,000 pages. If the web pages exceed this limit, the data source sync will fail and
@@ -208,7 +208,7 @@ no web pages will be ingested.
 
 ### parsingStrategy?
 
-> `readonly` `optional` **parsingStrategy**: [`ParsingStrategy`](../classes/ParsingStrategy.md)
+> `readonly` `optional` **parsingStrategy?**: [`ParsingStrategy`](../classes/ParsingStrategy.md)
 
 The parsing strategy to use.
 
@@ -235,7 +235,7 @@ Maximum of 100 URLs.
 
 ### userAgent?
 
-> `readonly` `optional` **userAgent**: `string`
+> `readonly` `optional` **userAgent?**: `string`
 
 The user agent string to use when crawling.
 
@@ -249,7 +249,7 @@ The user agent string to use when crawling.
 
 ### userAgentHeader?
 
-> `readonly` `optional` **userAgentHeader**: `string`
+> `readonly` `optional` **userAgentHeader?**: `string`
 
 The user agent header to use when crawling. A string used for identifying
 the crawler or bot when it accesses a web server. The user agent header value

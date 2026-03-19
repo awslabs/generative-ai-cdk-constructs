@@ -12,7 +12,7 @@ Properties for configuring a Foundation Model parsing strategy.
 
 ### parsingModality?
 
-> `readonly` `optional` **parsingModality**: [`MULTIMODAL`](../enumerations/ParsingModality.md#multimodal)
+> `readonly` `optional` **parsingModality?**: [`MULTIMODAL`](../enumerations/ParsingModality.md#multimodal)
 
 Specifies whether to enable parsing of multimodal data, including both text and/or images.
 
@@ -35,7 +35,7 @@ Currently supported models are Claude 3 Sonnet and Claude 3 Haiku.
 
 ### parsingPrompt?
 
-> `readonly` `optional` **parsingPrompt**: `string`
+> `readonly` `optional` **parsingPrompt?**: `string`
 
 Custom prompt to instruct the parser on how to interpret the document.
 

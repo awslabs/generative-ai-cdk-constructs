@@ -59,7 +59,7 @@ used in the KnowledgeBase construct.
 
 ### metadataField?
 
-> `readonly` `optional` **metadataField**: `string`
+> `readonly` `optional` **metadataField?**: `string`
 
 The field name for the metadata column in the Aurora Vector Store.
 
@@ -71,7 +71,7 @@ The field name for the metadata column in the Aurora Vector Store.
 
 ### primaryKeyField?
 
-> `readonly` `optional` **primaryKeyField**: `string`
+> `readonly` `optional` **primaryKeyField?**: `string`
 
 The primary key field for the Aurora Vector Store table.
 
@@ -83,7 +83,7 @@ The primary key field for the Aurora Vector Store table.
 
 ### schemaName?
 
-> `readonly` `optional` **schemaName**: `string`
+> `readonly` `optional` **schemaName?**: `string`
 
 The schema name for the Aurora Vector Store.
 
@@ -105,7 +105,7 @@ The secret must contain `host`, `port`, `username`,
 
 ### tableName?
 
-> `readonly` `optional` **tableName**: `string`
+> `readonly` `optional` **tableName?**: `string`
 
 The name of the table for the Aurora Vector Store.
 
@@ -117,7 +117,7 @@ The name of the table for the Aurora Vector Store.
 
 ### textField?
 
-> `readonly` `optional` **textField**: `string`
+> `readonly` `optional` **textField?**: `string`
 
 The field name for the text column in the Aurora Vector Store.
 
@@ -129,7 +129,7 @@ The field name for the text column in the Aurora Vector Store.
 
 ### vectorField?
 
-> `readonly` `optional` **vectorField**: `string`
+> `readonly` `optional` **vectorField?**: `string`
 
 The field name for the vector column in the Aurora Vector Store.
 

@@ -10,7 +10,7 @@
 
 ### environment?
 
-> `optional` **environment**: `object`
+> `optional` **environment?**: `object`
 
 #### Index Signature
 
@@ -20,7 +20,7 @@
 
 ### imageUri?
 
-> `optional` **imageUri**: `string`
+> `optional` **imageUri?**: `string`
 
 ***
 

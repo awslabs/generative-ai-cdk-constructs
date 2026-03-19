@@ -52,7 +52,7 @@ A friendly name for the collaborator.
 
 ### relayConversationHistory?
 
-> `readonly` `optional` **relayConversationHistory**: `boolean`
+> `readonly` `optional` **relayConversationHistory?**: `boolean`
 
 Whether to relay conversation history to this collaborator.
 

@@ -12,7 +12,7 @@ The properties for the BedrockCwDashboardProps class.
 
 ### dashboardName?
 
-> `readonly` `optional` **dashboardName**: `string`
+> `readonly` `optional` **dashboardName?**: `string`
 
 Optional A name for the dashboard which will be created.
 If existingDashboard is defined, this value will be ignored.
@@ -28,7 +28,7 @@ If not provided, the construct will create a new dashboard named 'BedrockMetrics
 
 ### existingDashboard?
 
-> `readonly` `optional` **existingDashboard**: `Dashboard`
+> `readonly` `optional` **existingDashboard?**: `Dashboard`
 
 Optional An existing dashboard where metrics will be added to.
 If not provided, the construct will create a new dashboard

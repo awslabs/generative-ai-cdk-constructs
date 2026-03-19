@@ -14,7 +14,7 @@
 
 ### inferenceConfiguration?
 
-> `readonly` `optional` **inferenceConfiguration**: `PromptModelInferenceConfigurationProperty`
+> `readonly` `optional` **inferenceConfiguration?**: `PromptModelInferenceConfigurationProperty`
 
 Inference configuration for the Text Prompt
 
@@ -45,7 +45,7 @@ model, a custom model, or a provisioned model.
 
 ### promptVariables?
 
-> `readonly` `optional` **promptVariables**: `string`[]
+> `readonly` `optional` **promptVariables?**: `string`[]
 
 The variables in the prompt template that can be filled in at runtime.
 
@@ -57,7 +57,7 @@ The variables in the prompt template that can be filled in at runtime.
 
 ### system?
 
-> `readonly` `optional` **system**: `string`
+> `readonly` `optional` **system?**: `string`
 
 Context or instructions for the model to consider before generating a response.
 
@@ -65,7 +65,7 @@ Context or instructions for the model to consider before generating a response.
 
 ### toolConfiguration?
 
-> `readonly` `optional` **toolConfiguration**: [`ToolConfiguration`](ToolConfiguration.md)
+> `readonly` `optional` **toolConfiguration?**: [`ToolConfiguration`](ToolConfiguration.md)
 
 The configuration with available tools to the model and how it must use them.
 

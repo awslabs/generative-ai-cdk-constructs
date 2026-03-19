@@ -100,7 +100,7 @@ true
 
 ### errorTopic?
 
-> `readonly` `optional` **errorTopic**: `Topic`
+> `readonly` `optional` **errorTopic?**: `Topic`
 
 ***
 
@@ -136,7 +136,7 @@ The principal to grant permissions to
 
 ### instanceType?
 
-> `readonly` `optional` **instanceType**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+> `readonly` `optional` **instanceType?**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ***
 
@@ -232,7 +232,7 @@ _dev
 
 ### successTopic?
 
-> `readonly` `optional` **successTopic**: `Topic`
+> `readonly` `optional` **successTopic?**: `Topic`
 
 ***
 

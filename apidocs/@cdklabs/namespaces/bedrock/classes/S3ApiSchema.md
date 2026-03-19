@@ -36,7 +36,7 @@ Class to define an API Schema from an S3 object.
 
 ### inlineSchema?
 
-> `readonly` `optional` **inlineSchema**: `string`
+> `readonly` `optional` **inlineSchema?**: `string`
 
 #### Inherited from
 
@@ -46,7 +46,7 @@ Class to define an API Schema from an S3 object.
 
 ### s3File?
 
-> `readonly` `optional` **s3File**: `Location`
+> `readonly` `optional` **s3File?**: `Location`
 
 #### Inherited from
 

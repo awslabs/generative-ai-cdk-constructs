@@ -12,7 +12,7 @@ Attributes for specifying an imported S3 vector bucket.
 
 ### account?
 
-> `readonly` `optional` **account**: `string`
+> `readonly` `optional` **account?**: `string`
 
 The account this existing bucket belongs to.
 
@@ -26,7 +26,7 @@ The account this existing bucket belongs to.
 
 ### creationTime?
 
-> `readonly` `optional` **creationTime**: `string`
+> `readonly` `optional` **creationTime?**: `string`
 
 The timestamp when the cluster was created, in ISO 8601 format.
 
@@ -40,7 +40,7 @@ undefined - No creation time is provided
 
 ### encryptionKey?
 
-> `readonly` `optional` **encryptionKey**: `IKey`
+> `readonly` `optional` **encryptionKey?**: `IKey`
 
 The encryption key associated with this bucket
 
@@ -54,7 +54,7 @@ The encryption key associated with this bucket
 
 ### region?
 
-> `readonly` `optional` **region**: `string`
+> `readonly` `optional` **region?**: `string`
 
 The region this existing bucket is in.
 Features that require the region (e.g. `bucketWebsiteUrl`) won't fully work

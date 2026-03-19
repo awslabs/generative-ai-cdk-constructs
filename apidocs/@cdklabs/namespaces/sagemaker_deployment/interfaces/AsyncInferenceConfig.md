@@ -16,7 +16,7 @@
 
 ### maxConcurrentInvocationsPerInstance?
 
-> `readonly` `optional` **maxConcurrentInvocationsPerInstance**: `number`
+> `readonly` `optional` **maxConcurrentInvocationsPerInstance?**: `number`
 
 ***
 

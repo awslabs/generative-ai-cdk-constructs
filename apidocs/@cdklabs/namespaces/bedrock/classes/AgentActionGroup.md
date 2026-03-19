@@ -30,7 +30,7 @@
 
 ### apiSchema?
 
-> `readonly` `optional` **apiSchema**: [`ApiSchema`](ApiSchema.md)
+> `readonly` `optional` **apiSchema?**: [`ApiSchema`](ApiSchema.md)
 
 The api schema for this action group (if defined).
 
@@ -38,7 +38,7 @@ The api schema for this action group (if defined).
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 A description of the action group.
 
@@ -54,7 +54,7 @@ Whether this action group is available for the agent to invoke or not.
 
 ### executor?
 
-> `readonly` `optional` **executor**: [`ActionGroupExecutor`](ActionGroupExecutor.md)
+> `readonly` `optional` **executor?**: [`ActionGroupExecutor`](ActionGroupExecutor.md)
 
 The action group executor for this action group (if defined).
 
@@ -62,7 +62,7 @@ The action group executor for this action group (if defined).
 
 ### forceDelete?
 
-> `readonly` `optional` **forceDelete**: `boolean`
+> `readonly` `optional` **forceDelete?**: `boolean`
 
 Whether to delete the resource even if it's in use.
 
@@ -70,7 +70,7 @@ Whether to delete the resource even if it's in use.
 
 ### functionSchema?
 
-> `readonly` `optional` **functionSchema**: `FunctionSchemaProperty`
+> `readonly` `optional` **functionSchema?**: `FunctionSchemaProperty`
 
 The function schema for this action group (if defined).
 
@@ -86,7 +86,7 @@ The name of the action group.
 
 ### parentActionGroupSignature?
 
-> `readonly` `optional` **parentActionGroupSignature**: [`ParentActionGroupSignature`](ParentActionGroupSignature.md)
+> `readonly` `optional` **parentActionGroupSignature?**: [`ParentActionGroupSignature`](ParentActionGroupSignature.md)
 
 The AWS Defined signature (if defined).
 

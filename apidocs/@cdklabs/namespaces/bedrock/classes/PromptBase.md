@@ -69,7 +69,7 @@ different than the stack they were imported into.
 
 ### kmsKey?
 
-> `abstract` `readonly` `optional` **kmsKey**: `IKey`
+> `abstract` `readonly` `optional` **kmsKey?**: `IKey`
 
 Optional KMS encryption key associated with this prompt.
 

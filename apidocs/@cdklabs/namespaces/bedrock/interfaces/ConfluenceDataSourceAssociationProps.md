@@ -29,7 +29,7 @@ for your Confluence instance URL. Secret must start with "AmazonBedrock-".
 
 ### authType?
 
-> `readonly` `optional` **authType**: [`ConfluenceDataSourceAuthType`](../enumerations/ConfluenceDataSourceAuthType.md)
+> `readonly` `optional` **authType?**: [`ConfluenceDataSourceAuthType`](../enumerations/ConfluenceDataSourceAuthType.md)
 
 The supported authentication method to connect to the data source.
 
@@ -43,7 +43,7 @@ ConfluenceDataSourceAuthType.OAUTH2_CLIENT_CREDENTIALS
 
 ### chunkingStrategy?
 
-> `readonly` `optional` **chunkingStrategy**: [`ChunkingStrategy`](../classes/ChunkingStrategy.md)
+> `readonly` `optional` **chunkingStrategy?**: [`ChunkingStrategy`](../classes/ChunkingStrategy.md)
 
 The chunking stategy to use for splitting your documents or content.
 The chunks are then converted to embeddings and written to the vector
@@ -71,7 +71,7 @@ The Confluence host URL or instance URL.
 
 ### contextEnrichment?
 
-> `readonly` `optional` **contextEnrichment**: [`ContextEnrichment`](../classes/ContextEnrichment.md)
+> `readonly` `optional` **contextEnrichment?**: [`ContextEnrichment`](../classes/ContextEnrichment.md)
 
 The context enrichment configuration to use.
 
@@ -89,7 +89,7 @@ The context enrichment configuration to use.
 
 ### customTransformation?
 
-> `readonly` `optional` **customTransformation**: [`CustomTransformation`](../classes/CustomTransformation.md)
+> `readonly` `optional` **customTransformation?**: [`CustomTransformation`](../classes/CustomTransformation.md)
 
 The custom transformation strategy to use.
 
@@ -107,7 +107,7 @@ The custom transformation strategy to use.
 
 ### dataDeletionPolicy?
 
-> `readonly` `optional` **dataDeletionPolicy**: [`DataDeletionPolicy`](../enumerations/DataDeletionPolicy.md)
+> `readonly` `optional` **dataDeletionPolicy?**: [`DataDeletionPolicy`](../enumerations/DataDeletionPolicy.md)
 
 The data deletion policy to apply to the data source.
 
@@ -125,7 +125,7 @@ The data deletion policy to apply to the data source.
 
 ### dataSourceName?
 
-> `readonly` `optional` **dataSourceName**: `string`
+> `readonly` `optional` **dataSourceName?**: `string`
 
 The name of the data source.
 
@@ -143,7 +143,7 @@ The name of the data source.
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 A description of the data source.
 
@@ -161,7 +161,7 @@ A description of the data source.
 
 ### filters?
 
-> `readonly` `optional` **filters**: [`ConfluenceCrawlingFilters`](ConfluenceCrawlingFilters.md)[]
+> `readonly` `optional` **filters?**: [`ConfluenceCrawlingFilters`](ConfluenceCrawlingFilters.md)[]
 
 The filters (regular expression patterns) for the crawling.
 If there's a conflict, the exclude pattern takes precedence.
@@ -176,7 +176,7 @@ None - all your content is crawled.
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `IKey`
+> `readonly` `optional` **kmsKey?**: `IKey`
 
 The KMS key to use to encrypt the data source.
 
@@ -194,7 +194,7 @@ The KMS key to use to encrypt the data source.
 
 ### parsingStrategy?
 
-> `readonly` `optional` **parsingStrategy**: [`ParsingStrategy`](../classes/ParsingStrategy.md)
+> `readonly` `optional` **parsingStrategy?**: [`ParsingStrategy`](../classes/ParsingStrategy.md)
 
 The parsing strategy to use.
 

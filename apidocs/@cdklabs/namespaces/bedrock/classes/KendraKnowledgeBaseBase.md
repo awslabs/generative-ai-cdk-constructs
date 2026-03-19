@@ -46,7 +46,7 @@
 
 ### description?
 
-> `abstract` `readonly` `optional` **description**: `string`
+> `abstract` `readonly` `optional` **description?**: `string`
 
 The description of the knowledge base.
 
@@ -78,7 +78,7 @@ different than the stack they were imported into.
 
 ### instruction?
 
-> `abstract` `readonly` `optional` **instruction**: `string`
+> `abstract` `readonly` `optional` **instruction?**: `string`
 
 A narrative instruction of the knowledge base.
 A Bedrock Agent can use this instruction to determine if it should

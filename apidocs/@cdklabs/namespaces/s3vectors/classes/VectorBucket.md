@@ -66,7 +66,7 @@ the first call to `addToResourcePolicy`.
 
 ### creationTime?
 
-> `readonly` `optional` **creationTime**: `string`
+> `readonly` `optional` **creationTime?**: `string`
 
 The timestamp when the vector bucket was created, in ISO 8601 format.
 
@@ -80,7 +80,7 @@ The timestamp when the vector bucket was created, in ISO 8601 format.
 
 ### encryptionKey?
 
-> `readonly` `optional` **encryptionKey**: `IKey`
+> `readonly` `optional` **encryptionKey?**: `IKey`
 
 KMS encryption key associated with this cluster.
 
@@ -145,7 +145,7 @@ This value will resolve to one of the following:
 
 ### policy?
 
-> `optional` **policy**: [`VectorBucketPolicy`](VectorBucketPolicy.md)
+> `optional` **policy?**: [`VectorBucketPolicy`](VectorBucketPolicy.md)
 
 The resource policy associated with this vector bucket.
 

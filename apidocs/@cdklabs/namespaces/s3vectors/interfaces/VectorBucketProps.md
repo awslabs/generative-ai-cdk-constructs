@@ -12,7 +12,7 @@ Properties for creating a VectorBucket resource
 
 ### autoDeleteObjects?
 
-> `readonly` `optional` **autoDeleteObjects**: `boolean`
+> `readonly` `optional` **autoDeleteObjects?**: `boolean`
 
 Whether all objects should be automatically deleted when the bucket is
 removed from the stack or when the stack is deleted.
@@ -34,7 +34,7 @@ false
 
 ### encryption?
 
-> `readonly` `optional` **encryption**: [`VectorBucketEncryption`](../enumerations/VectorBucketEncryption.md)
+> `readonly` `optional` **encryption?**: [`VectorBucketEncryption`](../enumerations/VectorBucketEncryption.md)
 
 The kind of server-side encryption to apply to this bucket.
 
@@ -49,7 +49,7 @@ encryption key is not specified, a key will automatically be created.
 
 ### encryptionKey?
 
-> `readonly` `optional` **encryptionKey**: `IKey`
+> `readonly` `optional` **encryptionKey?**: `IKey`
 
 External KMS key to use for bucket encryption.
 
@@ -65,7 +65,7 @@ a new KMS key will be created and associated with this bucket.
 
 ### removalPolicy?
 
-> `readonly` `optional` **removalPolicy**: `RemovalPolicy`
+> `readonly` `optional` **removalPolicy?**: `RemovalPolicy`
 
 Policy to apply when the bucket is removed from this stack.
 
@@ -79,7 +79,7 @@ Policy to apply when the bucket is removed from this stack.
 
 ### vectorBucketName?
 
-> `readonly` `optional` **vectorBucketName**: `string`
+> `readonly` `optional` **vectorBucketName?**: `string`
 
 Physical name of this bucket.
 

@@ -28,7 +28,7 @@ The bucket that contains the data source.
 
 ### chunkingStrategy?
 
-> `readonly` `optional` **chunkingStrategy**: [`ChunkingStrategy`](../classes/ChunkingStrategy.md)
+> `readonly` `optional` **chunkingStrategy?**: [`ChunkingStrategy`](../classes/ChunkingStrategy.md)
 
 The chunking stategy to use for splitting your documents or content.
 The chunks are then converted to embeddings and written to the vector
@@ -48,7 +48,7 @@ ChunkingStrategy.DEFAULT
 
 ### contextEnrichment?
 
-> `readonly` `optional` **contextEnrichment**: [`ContextEnrichment`](../classes/ContextEnrichment.md)
+> `readonly` `optional` **contextEnrichment?**: [`ContextEnrichment`](../classes/ContextEnrichment.md)
 
 The context enrichment configuration to use.
 
@@ -66,7 +66,7 @@ The context enrichment configuration to use.
 
 ### customTransformation?
 
-> `readonly` `optional` **customTransformation**: [`CustomTransformation`](../classes/CustomTransformation.md)
+> `readonly` `optional` **customTransformation?**: [`CustomTransformation`](../classes/CustomTransformation.md)
 
 The custom transformation strategy to use.
 
@@ -84,7 +84,7 @@ The custom transformation strategy to use.
 
 ### dataDeletionPolicy?
 
-> `readonly` `optional` **dataDeletionPolicy**: [`DataDeletionPolicy`](../enumerations/DataDeletionPolicy.md)
+> `readonly` `optional` **dataDeletionPolicy?**: [`DataDeletionPolicy`](../enumerations/DataDeletionPolicy.md)
 
 The data deletion policy to apply to the data source.
 
@@ -102,7 +102,7 @@ The data deletion policy to apply to the data source.
 
 ### dataSourceName?
 
-> `readonly` `optional` **dataSourceName**: `string`
+> `readonly` `optional` **dataSourceName?**: `string`
 
 The name of the data source.
 
@@ -120,7 +120,7 @@ The name of the data source.
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 A description of the data source.
 
@@ -138,7 +138,7 @@ A description of the data source.
 
 ### inclusionPrefixes?
 
-> `readonly` `optional` **inclusionPrefixes**: `string`[]
+> `readonly` `optional` **inclusionPrefixes?**: `string`[]
 
 The prefixes of the objects in the bucket that should be included in the data source.
 
@@ -156,7 +156,7 @@ The prefixes of the objects in the bucket that should be included in the data so
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `IKey`
+> `readonly` `optional` **kmsKey?**: `IKey`
 
 The KMS key to use to encrypt the data source.
 
@@ -182,7 +182,7 @@ The knowledge base to associate with the data source.
 
 ### parsingStrategy?
 
-> `readonly` `optional` **parsingStrategy**: [`ParsingStrategy`](../classes/ParsingStrategy.md)
+> `readonly` `optional` **parsingStrategy?**: [`ParsingStrategy`](../classes/ParsingStrategy.md)
 
 The parsing strategy to use.
 

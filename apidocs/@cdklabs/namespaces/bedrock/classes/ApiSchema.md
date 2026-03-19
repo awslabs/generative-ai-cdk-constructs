@@ -39,13 +39,13 @@ Constructor accessible only to extending classes.
 
 ### inlineSchema?
 
-> `readonly` `optional` **inlineSchema**: `string`
+> `readonly` `optional` **inlineSchema?**: `string`
 
 ***
 
 ### s3File?
 
-> `readonly` `optional` **s3File**: `Location`
+> `readonly` `optional` **s3File?**: `Location`
 
 ## Methods
 

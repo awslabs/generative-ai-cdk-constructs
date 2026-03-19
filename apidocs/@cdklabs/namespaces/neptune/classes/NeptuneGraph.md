@@ -142,7 +142,7 @@ The Neptune Graph Identifier.
 
 ### graphName?
 
-> `readonly` `optional` **graphName**: `string`
+> `readonly` `optional` **graphName?**: `string`
 
 ***
 

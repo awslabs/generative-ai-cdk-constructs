@@ -12,10 +12,10 @@ The properties for the CollectionMonitoringProps class.
 
 ### clientId?
 
-> `readonly` `optional` **clientId**: `string`
+> `readonly` `optional` **clientId?**: `string`
 
 ***
 
 ### period?
 
-> `readonly` `optional` **period**: `Duration`
+> `readonly` `optional` **period?**: `Duration`

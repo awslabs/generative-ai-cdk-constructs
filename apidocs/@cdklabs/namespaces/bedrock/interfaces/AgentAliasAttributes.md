@@ -36,6 +36,6 @@ The Id of the agent alias.
 
 ### aliasName?
 
-> `readonly` `optional` **aliasName**: `string`
+> `readonly` `optional` **aliasName?**: `string`
 
 The name of the agent alias.

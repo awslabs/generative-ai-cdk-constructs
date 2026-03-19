@@ -10,7 +10,7 @@
 
 ### asyncInference?
 
-> `readonly` `optional` **asyncInference**: [`AsyncInferenceConfig`](AsyncInferenceConfig.md)
+> `readonly` `optional` **asyncInference?**: [`AsyncInferenceConfig`](AsyncInferenceConfig.md)
 
 ***
 
@@ -28,7 +28,7 @@
 
 ### environment?
 
-> `readonly` `optional` **environment**: `object`
+> `readonly` `optional` **environment?**: `object`
 
 #### Index Signature
 
@@ -38,7 +38,7 @@
 
 ### instanceCount?
 
-> `readonly` `optional` **instanceCount**: `number`
+> `readonly` `optional` **instanceCount?**: `number`
 
 ***
 
@@ -50,19 +50,19 @@
 
 ### maxCapacity?
 
-> `readonly` `optional` **maxCapacity**: `number`
+> `readonly` `optional` **maxCapacity?**: `number`
 
 ***
 
 ### minCapacity?
 
-> `readonly` `optional` **minCapacity**: `number`
+> `readonly` `optional` **minCapacity?**: `number`
 
 ***
 
 ### modelDataDownloadTimeoutInSeconds?
 
-> `readonly` `optional` **modelDataDownloadTimeoutInSeconds**: `number`
+> `readonly` `optional` **modelDataDownloadTimeoutInSeconds?**: `number`
 
 ***
 
@@ -80,22 +80,22 @@
 
 ### role?
 
-> `readonly` `optional` **role**: `Role`
+> `readonly` `optional` **role?**: `Role`
 
 ***
 
 ### startupHealthCheckTimeoutInSeconds?
 
-> `readonly` `optional` **startupHealthCheckTimeoutInSeconds**: `number`
+> `readonly` `optional` **startupHealthCheckTimeoutInSeconds?**: `number`
 
 ***
 
 ### volumeSizeInGb?
 
-> `readonly` `optional` **volumeSizeInGb**: `number`
+> `readonly` `optional` **volumeSizeInGb?**: `number`
 
 ***
 
 ### vpcConfig?
 
-> `readonly` `optional` **vpcConfig**: `VpcConfigProperty`
+> `readonly` `optional` **vpcConfig?**: `VpcConfigProperty`

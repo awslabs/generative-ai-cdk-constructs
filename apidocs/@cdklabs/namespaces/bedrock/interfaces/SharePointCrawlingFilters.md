@@ -15,7 +15,7 @@ the exclusion filter takes precedence and the document isn’t crawled.
 
 ### excludePatterns?
 
-> `readonly` `optional` **excludePatterns**: `string`[]
+> `readonly` `optional` **excludePatterns?**: `string`[]
 
 Optional array of regular expression patterns to exclude specific content.
 Content matching these patterns will be skipped during crawling.
@@ -30,7 +30,7 @@ Content matching these patterns will be skipped during crawling.
 
 ### includePatterns?
 
-> `readonly` `optional` **includePatterns**: `string`[]
+> `readonly` `optional` **includePatterns?**: `string`[]
 
 Optional array of regular expression patterns to include specific content.
 Only content matching these patterns will be crawled.

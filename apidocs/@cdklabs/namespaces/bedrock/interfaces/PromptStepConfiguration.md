@@ -16,7 +16,7 @@ Contains configurations to override a prompt template in one part of an agent se
 
 ### customPromptTemplate?
 
-> `readonly` `optional` **customPromptTemplate**: `string`
+> `readonly` `optional` **customPromptTemplate?**: `string`
 
 The custom prompt template to be used.
 
@@ -34,7 +34,7 @@ https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-placeholders.html
 
 ### foundationModel?
 
-> `readonly` `optional` **foundationModel**: [`IInvokable`](IInvokable.md)
+> `readonly` `optional` **foundationModel?**: [`IInvokable`](IInvokable.md)
 
 The foundation model to use for this specific prompt step.
 This allows using different models for different steps in the agent sequence.
@@ -49,7 +49,7 @@ This allows using different models for different steps in the agent sequence.
 
 ### inferenceConfig?
 
-> `readonly` `optional` **inferenceConfig**: [`InferenceConfiguration`](InferenceConfiguration.md)
+> `readonly` `optional` **inferenceConfig?**: [`InferenceConfiguration`](InferenceConfiguration.md)
 
 The inference configuration parameters to use.
 
@@ -57,7 +57,7 @@ The inference configuration parameters to use.
 
 ### stepEnabled?
 
-> `readonly` `optional` **stepEnabled**: `boolean`
+> `readonly` `optional` **stepEnabled?**: `boolean`
 
 Whether to enable or skip this step in the agent sequence.
 

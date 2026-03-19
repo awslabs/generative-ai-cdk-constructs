@@ -66,7 +66,7 @@ https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-build-graphs
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 The description of the knowledge base.
 
@@ -124,7 +124,7 @@ The vector field mapping configuration.
 
 ### instruction?
 
-> `readonly` `optional` **instruction**: `string`
+> `readonly` `optional` **instruction?**: `string`
 
 A narrative instruction of the knowledge base.
 A Bedrock Agent can use this instruction to determine if it should
@@ -194,7 +194,7 @@ The tree node.
 
 ### notebook?
 
-> `readonly` `optional` **notebook**: [`NeptuneGraphNotebook`](../../neptune/classes/NeptuneGraphNotebook.md)
+> `readonly` `optional` **notebook?**: [`NeptuneGraphNotebook`](../../neptune/classes/NeptuneGraphNotebook.md)
 
 ***
 
