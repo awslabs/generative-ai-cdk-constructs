@@ -196,7 +196,7 @@ An action group defines functions your agent can call. The functions are Lambda 
 
 ```ts
 const actionGroupFunction = new lambda_python.PythonFunction(this, 'ActionGroupFunction', {
-  runtime: lambda.Runtime.PYTHON_3_12,
+  runtime: lambda.Runtime.PYTHON_3_13,
   entry: path.join(__dirname, '../lambda/action-group'),
 });
 
@@ -218,7 +218,7 @@ agent.addActionGroup(actionGroup);
 action_group_function = PythonFunction(
             self,
             "LambdaFunction",
-            runtime=Runtime.PYTHON_3_12,
+            runtime=Runtime.PYTHON_3_13,
             entry="./lambda",
             index="app.py",
             handler="lambda_handler",
@@ -290,7 +290,7 @@ const agent = new bedrock.Agent(this, 'Agent', {
 
 // create a lambda function
 const actionGroupFunction = new lambda_python.PythonFunction(this, 'ActionGroupFunction', {
-  runtime: lambda.Runtime.PYTHON_3_12,
+  runtime: lambda.Runtime.PYTHON_3_13,
   entry: path.join(__dirname, '../lambda/action-group'),
   timeout:cdk.Duration.minutes(2)
 });

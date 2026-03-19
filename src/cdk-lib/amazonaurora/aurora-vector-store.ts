@@ -378,7 +378,7 @@ abstract class BaseAmazonAuroraVectorStore extends Construct {
       securityGroup: lambdaSecurityGroup,
       codePath: path.join(__dirname, '../../../lambda/amazon-aurora-pgvector-custom-resources'),
       handler: 'custom_resources.on_event',
-      runtime: cdk.aws_lambda.Runtime.PYTHON_3_12,
+      runtime: cdk.aws_lambda.Runtime.PYTHON_3_13,
     });
 
     const crProvider = customResource.getProvider(this);

@@ -78,7 +78,7 @@ export class AutoDeleteProvider extends Construct {
     const handler = new lambda.Function(this, 'Handler', {
       code: lambda.Code.fromDockerBuild(lambdaPath),
       handler: 'custom_resources.on_event',
-      runtime: lambda.Runtime.PYTHON_3_12,
+      runtime: lambda.Runtime.PYTHON_3_13,
       role: this.role,
       timeout: cdk.Duration.minutes(15),
       memorySize: 256,

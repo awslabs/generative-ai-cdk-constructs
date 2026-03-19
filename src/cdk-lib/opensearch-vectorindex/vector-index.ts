@@ -285,5 +285,5 @@ export const OpenSearchIndexCRProvider = buildCustomResourceProvider({
   codePath: path.join(
     __dirname, '../../../lambda/opensearch-serverless-custom-resources'),
   handler: 'custom_resources.on_event',
-  runtime: lambda.Runtime.PYTHON_3_12,
+  runtime: lambda.Runtime.PYTHON_3_13,
 });

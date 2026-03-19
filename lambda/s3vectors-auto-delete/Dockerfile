@@ -11,7 +11,7 @@
 # and limitations under the License.
 #
 
-FROM public.ecr.aws/sam/build-python3.12:1
+FROM public.ecr.aws/sam/build-python3.13:1
 
 RUN mkdir /asset
 RUN pip install poetry
