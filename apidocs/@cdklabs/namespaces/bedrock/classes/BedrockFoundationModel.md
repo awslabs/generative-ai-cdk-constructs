@@ -67,7 +67,7 @@ The ARN of the Bedrock invokable abstraction.
 
 ### supportedVectorType?
 
-> `readonly` `optional` **supportedVectorType**: [`VectorType`](../enumerations/VectorType.md)[]
+> `readonly` `optional` **supportedVectorType?**: [`VectorType`](../enumerations/VectorType.md)[]
 
 ***
 
@@ -91,7 +91,7 @@ The ARN of the Bedrock invokable abstraction.
 
 ### vectorDimensions?
 
-> `readonly` `optional` **vectorDimensions**: `number`
+> `readonly` `optional` **vectorDimensions?**: `number`
 
 ***
 

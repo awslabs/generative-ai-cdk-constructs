@@ -10,7 +10,7 @@
 
 ### parser?
 
-> `readonly` `optional` **parser**: `IFunction`
+> `readonly` `optional` **parser?**: `IFunction`
 
 The custom Lambda parser function to use.
 The Lambda parser processes and interprets the raw foundation model output.
@@ -31,7 +31,7 @@ https://docs.aws.amazon.com/bedrock/latest/userguide/lambda-parser.html
 
 ### steps?
 
-> `readonly` `optional` **steps**: [`PromptStepConfigurationCustomParser`](../interfaces/PromptStepConfigurationCustomParser.md)[]
+> `readonly` `optional` **steps?**: [`PromptStepConfigurationCustomParser`](../interfaces/PromptStepConfigurationCustomParser.md)[]
 
 The prompt configurations to override the prompt templates in the agent sequence.
 

@@ -13,7 +13,7 @@ in accordance with your scope.
 
 ### excludePatterns?
 
-> `readonly` `optional` **excludePatterns**: `string`[]
+> `readonly` `optional` **excludePatterns?**: `string`[]
 
 Exclude paths.
 
@@ -21,6 +21,6 @@ Exclude paths.
 
 ### includePatterns?
 
-> `readonly` `optional` **includePatterns**: `string`[]
+> `readonly` `optional` **includePatterns?**: `string`[]
 
 Include patterns.

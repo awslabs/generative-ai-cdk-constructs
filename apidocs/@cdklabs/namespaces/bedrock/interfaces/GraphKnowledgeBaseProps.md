@@ -16,7 +16,7 @@ Properties for creating a Kendra Index Knowledge Base.
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 The description of the knowledge base.
 
@@ -42,7 +42,7 @@ The embeddings model for the knowledge base.
 
 ### existingRole?
 
-> `readonly` `optional` **existingRole**: `IRole`
+> `readonly` `optional` **existingRole?**: `IRole`
 
 Existing IAM role with policy statements granting appropriate permissions
 to invoke the specific embeddings models.
@@ -58,7 +58,7 @@ specified embeddings model within the Bedrock service.
 
 ### fieldMapping?
 
-> `readonly` `optional` **fieldMapping**: [`VectorFieldMapping`](VectorFieldMapping.md)
+> `readonly` `optional` **fieldMapping?**: [`VectorFieldMapping`](VectorFieldMapping.md)
 
 The vector field mapping configuration.
 
@@ -72,7 +72,7 @@ The vector field mapping configuration.
 
 ### graph?
 
-> `readonly` `optional` **graph**: [`INeptuneGraph`](../../neptune/interfaces/INeptuneGraph.md)
+> `readonly` `optional` **graph?**: [`INeptuneGraph`](../../neptune/interfaces/INeptuneGraph.md)
 
 The Neptune Analytics vector store
 
@@ -86,7 +86,7 @@ The Neptune Analytics vector store
 
 ### instruction?
 
-> `readonly` `optional` **instruction**: `string`
+> `readonly` `optional` **instruction?**: `string`
 
 A narrative description of the knowledge base.
 
@@ -107,7 +107,7 @@ query this Knowledge Base.
 
 ### name?
 
-> `readonly` `optional` **name**: `string`
+> `readonly` `optional` **name?**: `string`
 
 The name of the knowledge base.
 

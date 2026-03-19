@@ -10,7 +10,7 @@
 
 ### acceptEula?
 
-> `readonly` `optional` **acceptEula**: `boolean`
+> `readonly` `optional` **acceptEula?**: `boolean`
 
 ***
 
@@ -22,7 +22,7 @@
 
 ### environment?
 
-> `readonly` `optional` **environment**: `object`
+> `readonly` `optional` **environment?**: `object`
 
 #### Index Signature
 
@@ -32,13 +32,13 @@
 
 ### instanceCount?
 
-> `readonly` `optional` **instanceCount**: `number`
+> `readonly` `optional` **instanceCount?**: `number`
 
 ***
 
 ### instanceType?
 
-> `readonly` `optional` **instanceType**: [`SageMakerInstanceType`](../classes/SageMakerInstanceType.md)
+> `readonly` `optional` **instanceType?**: [`SageMakerInstanceType`](../classes/SageMakerInstanceType.md)
 
 ***
 
@@ -50,16 +50,16 @@
 
 ### role?
 
-> `readonly` `optional` **role**: `Role`
+> `readonly` `optional` **role?**: `Role`
 
 ***
 
 ### startupHealthCheckTimeoutInSeconds?
 
-> `readonly` `optional` **startupHealthCheckTimeoutInSeconds**: `number`
+> `readonly` `optional` **startupHealthCheckTimeoutInSeconds?**: `number`
 
 ***
 
 ### vpcConfig?
 
-> `readonly` `optional` **vpcConfig**: `VpcConfigProperty`
+> `readonly` `optional` **vpcConfig?**: `VpcConfigProperty`

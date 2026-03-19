@@ -16,7 +16,7 @@ Properties for a knowledge base
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 The description of the knowledge base.
 
@@ -42,7 +42,7 @@ The embeddings model for the knowledge base
 
 ### existingRole?
 
-> `readonly` `optional` **existingRole**: `IRole`
+> `readonly` `optional` **existingRole?**: `IRole`
 
 Existing IAM role with policy statements granting appropriate permissions
 to invoke the specific embeddings models.
@@ -58,7 +58,7 @@ specified embeddings model within the Bedrock service.
 
 ### indexName?
 
-> `readonly` `optional` **indexName**: `string`
+> `readonly` `optional` **indexName?**: `string`
 
 The name of the vector index.
 If vectorStore is not of type `VectorCollection`,
@@ -74,7 +74,7 @@ do not include this property as it will throw error.
 
 ### instruction?
 
-> `readonly` `optional` **instruction**: `string`
+> `readonly` `optional` **instruction?**: `string`
 
 A narrative description of the knowledge base.
 
@@ -95,7 +95,7 @@ query this Knowledge Base.
 
 ### name?
 
-> `readonly` `optional` **name**: `string`
+> `readonly` `optional` **name?**: `string`
 
 The name of the knowledge base.
 
@@ -107,7 +107,7 @@ The name of the knowledge base.
 
 ### supplementalDataStorageLocations?
 
-> `readonly` `optional` **supplementalDataStorageLocations**: [`SupplementalDataStorageLocation`](../classes/SupplementalDataStorageLocation.md)[]
+> `readonly` `optional` **supplementalDataStorageLocations?**: [`SupplementalDataStorageLocation`](../classes/SupplementalDataStorageLocation.md)[]
 
 The supplemental data storage locations for the knowledge base
 
@@ -115,7 +115,7 @@ The supplemental data storage locations for the knowledge base
 
 ### vectorField?
 
-> `readonly` `optional` **vectorField**: `string`
+> `readonly` `optional` **vectorField?**: `string`
 
 The name of the field in the vector index.
 If vectorStore is not of type `VectorCollection`,
@@ -131,7 +131,7 @@ do not include this property as it will throw error.
 
 ### vectorIndex?
 
-> `readonly` `optional` **vectorIndex**: [`VectorIndex`](../../opensearch_vectorindex/classes/VectorIndex.md)
+> `readonly` `optional` **vectorIndex?**: [`VectorIndex`](../../opensearch_vectorindex/classes/VectorIndex.md)
 
 The vector index for the OpenSearch Serverless backed knowledge base.
 If vectorStore is not of type `VectorCollection`, do not include
@@ -146,7 +146,7 @@ if vector store is of `VectorCollection` type.
 
 ### vectorStore?
 
-> `readonly` `optional` **vectorStore**: [`ExistingAmazonAuroraVectorStore`](../../amazonaurora/classes/ExistingAmazonAuroraVectorStore.md) \| [`AmazonAuroraVectorStore`](../../amazonaurora/classes/AmazonAuroraVectorStore.md) \| [`MongoDBAtlasVectorStore`](../../mongodbAtlas/classes/MongoDBAtlasVectorStore.md) \| [`VectorCollection`](../../opensearchserverless/classes/VectorCollection.md) \| [`OpenSearchManagedClusterVectorStore`](../../opensearchmanagedcluster/classes/OpenSearchManagedClusterVectorStore.md) \| [`PineconeVectorStore`](../../pinecone/classes/PineconeVectorStore.md) \| [`VectorIndex`](../../s3vectors/classes/VectorIndex.md)
+> `readonly` `optional` **vectorStore?**: [`ExistingAmazonAuroraVectorStore`](../../amazonaurora/classes/ExistingAmazonAuroraVectorStore.md) \| [`AmazonAuroraVectorStore`](../../amazonaurora/classes/AmazonAuroraVectorStore.md) \| [`MongoDBAtlasVectorStore`](../../mongodbAtlas/classes/MongoDBAtlasVectorStore.md) \| [`VectorCollection`](../../opensearchserverless/classes/VectorCollection.md) \| [`OpenSearchManagedClusterVectorStore`](../../opensearchmanagedcluster/classes/OpenSearchManagedClusterVectorStore.md) \| [`PineconeVectorStore`](../../pinecone/classes/PineconeVectorStore.md) \| [`VectorIndex`](../../s3vectors/classes/VectorIndex.md)
 
 The vector store for the knowledge base. Must be either of
 type `VectorCollection`, `PineconeVectorStore`, `AmazonAuroraVectorStore`,
@@ -163,7 +163,7 @@ type `VectorCollection`, `PineconeVectorStore`, `AmazonAuroraVectorStore`,
 
 ### vectorType?
 
-> `readonly` `optional` **vectorType**: [`VectorType`](../enumerations/VectorType.md)
+> `readonly` `optional` **vectorType?**: [`VectorType`](../enumerations/VectorType.md)
 
 The vector type to store vector embeddings.
 

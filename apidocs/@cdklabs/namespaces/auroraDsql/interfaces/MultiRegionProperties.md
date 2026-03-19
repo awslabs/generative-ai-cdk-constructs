@@ -12,7 +12,7 @@ Interface for multi-region cluster properties
 
 ### clusters?
 
-> `readonly` `optional` **clusters**: [`ICluster`](ICluster.md)[]
+> `readonly` `optional` **clusters?**: [`ICluster`](ICluster.md)[]
 
 The set of peered clusters that form the multi-Region cluster configuration.
 

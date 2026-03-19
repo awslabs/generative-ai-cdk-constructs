@@ -40,7 +40,7 @@ Class to define a PineconeVectorStore.
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `string`
+> `readonly` `optional` **kmsKey?**: `string`
 
 ***
 
@@ -52,7 +52,7 @@ Class to define a PineconeVectorStore.
 
 ### namespace?
 
-> `readonly` `optional` **namespace**: `string`
+> `readonly` `optional` **namespace?**: `string`
 
 ***
 

@@ -12,7 +12,7 @@ Properties for creating a GenAI Index.
 
 ### documentCapacityUnits?
 
-> `readonly` `optional` **documentCapacityUnits**: `number`
+> `readonly` `optional` **documentCapacityUnits?**: `number`
 
 The document capacity units. Every unit increases the baseline capacity by 20,000 documents.
 E.g. `documentCapacityUnits: 1` means Baseline + 20,000 documents = 40,000 documents
@@ -27,7 +27,7 @@ E.g. `documentCapacityUnits: 1` means Baseline + 20,000 documents = 40,000 docum
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `IKey`
+> `readonly` `optional` **kmsKey?**: `IKey`
 
 The identifier of the AWS KMS customer managed key (CMK) to use
 to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support
@@ -43,7 +43,7 @@ asymmetric CMKs.
 
 ### name?
 
-> `readonly` `optional` **name**: `string`
+> `readonly` `optional` **name?**: `string`
 
 The name of the index.
 
@@ -57,7 +57,7 @@ The name of the index.
 
 ### queryCapacityUnits?
 
-> `readonly` `optional` **queryCapacityUnits**: `number`
+> `readonly` `optional` **queryCapacityUnits?**: `number`
 
 The query capacity units. Every unit increases the baseline capacity by 0.1 QPS.
 E.g. `queryCapacityUnits: 7` means Baseline + 0.1 QPS * 7 = 0.8 QPS

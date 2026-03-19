@@ -12,7 +12,7 @@ Defines the crawling filters for Salesforce data ingestion.
 
 ### excludePatterns?
 
-> `readonly` `optional` **excludePatterns**: `string`[]
+> `readonly` `optional` **excludePatterns?**: `string`[]
 
 Regular expression patterns to exclude specific content.
 
@@ -20,7 +20,7 @@ Regular expression patterns to exclude specific content.
 
 ### includePatterns?
 
-> `readonly` `optional` **includePatterns**: `string`[]
+> `readonly` `optional` **includePatterns?**: `string`[]
 
 Regular expression patterns to include specific content.
 

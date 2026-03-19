@@ -16,7 +16,7 @@ Properties for importing a knowledge base outside of this stack
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 The description of the knowledge base.
 
@@ -74,7 +74,7 @@ The ID of the Neptune Analytics vector store
 
 ### instruction?
 
-> `readonly` `optional` **instruction**: `string`
+> `readonly` `optional` **instruction?**: `string`
 
 Instructions for agents based on the design and type of information of the
 Knowledge Base. This will impact how Agents interact with the Knowledge Base.
@@ -111,7 +111,7 @@ The ID of the knowledge base.
 
 ### knowledgeBaseState?
 
-> `readonly` `optional` **knowledgeBaseState**: `string`
+> `readonly` `optional` **knowledgeBaseState?**: `string`
 
 Specifies whether to use the knowledge base or not when sending an InvokeAgent request.
 

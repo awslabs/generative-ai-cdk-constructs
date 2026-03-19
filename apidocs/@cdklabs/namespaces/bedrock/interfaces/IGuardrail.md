@@ -65,7 +65,7 @@ this will default to "DRAFT"
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `IKey`
+> `readonly` `optional` **kmsKey?**: `IKey`
 
 Optional KMS encryption key associated with this guardrail
 
@@ -73,7 +73,7 @@ Optional KMS encryption key associated with this guardrail
 
 ### lastUpdated?
 
-> `readonly` `optional` **lastUpdated**: `string`
+> `readonly` `optional` **lastUpdated?**: `string`
 
 When this guardrail was last updated.
 

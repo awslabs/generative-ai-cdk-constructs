@@ -113,7 +113,7 @@ The ID of the guardrail.
 
 ### kmsKey?
 
-> `abstract` `readonly` `optional` **kmsKey**: `IKey`
+> `abstract` `readonly` `optional` **kmsKey?**: `IKey`
 
 The KMS key of the guardrail if custom encryption is configured.
 
@@ -125,7 +125,7 @@ The KMS key of the guardrail if custom encryption is configured.
 
 ### lastUpdated?
 
-> `abstract` `readonly` `optional` **lastUpdated**: `string`
+> `abstract` `readonly` `optional` **lastUpdated?**: `string`
 
 When this guardrail was last updated
 

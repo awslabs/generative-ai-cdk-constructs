@@ -36,7 +36,7 @@ Definition of the topic.
 
 ### examples?
 
-> `readonly` `optional` **examples**: `string`[]
+> `readonly` `optional` **examples?**: `string`[]
 
 Representative phrases that refer to the topic.
 

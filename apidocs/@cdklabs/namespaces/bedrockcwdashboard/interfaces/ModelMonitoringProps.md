@@ -12,28 +12,28 @@ The properties for the ModelMonitoringProps class.
 
 ### bucketedStepSize?
 
-> `readonly` `optional` **bucketedStepSize**: `string`
+> `readonly` `optional` **bucketedStepSize?**: `string`
 
 ***
 
 ### imageSize?
 
-> `readonly` `optional` **imageSize**: `string`
+> `readonly` `optional` **imageSize?**: `string`
 
 ***
 
 ### inputTokenPrice?
 
-> `readonly` `optional` **inputTokenPrice**: `number`
+> `readonly` `optional` **inputTokenPrice?**: `number`
 
 ***
 
 ### outputTokenPrice?
 
-> `readonly` `optional` **outputTokenPrice**: `number`
+> `readonly` `optional` **outputTokenPrice?**: `number`
 
 ***
 
 ### period?
 
-> `readonly` `optional` **period**: `Duration`
+> `readonly` `optional` **period?**: `Duration`

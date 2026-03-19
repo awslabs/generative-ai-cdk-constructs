@@ -10,10 +10,10 @@
 
 ### parser?
 
-> `readonly` `optional` **parser**: `IFunction`
+> `readonly` `optional` **parser?**: `IFunction`
 
 ***
 
 ### steps?
 
-> `readonly` `optional` **steps**: [`PromptStepConfigurationCustomParser`](PromptStepConfigurationCustomParser.md)[]
+> `readonly` `optional` **steps?**: [`PromptStepConfigurationCustomParser`](PromptStepConfigurationCustomParser.md)[]

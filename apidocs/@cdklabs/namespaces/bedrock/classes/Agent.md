@@ -68,7 +68,7 @@ The ARN of the agent.
 
 ### agentCollaboration?
 
-> `readonly` `optional` **agentCollaboration**: [`AgentCollaboratorType`](../enumerations/AgentCollaboratorType.md)
+> `readonly` `optional` **agentCollaboration?**: [`AgentCollaboratorType`](../enumerations/AgentCollaboratorType.md)
 
 Agent collaboration type.
 
@@ -76,7 +76,7 @@ Agent collaboration type.
 
 ### agentCollaborators?
 
-> `readonly` `optional` **agentCollaborators**: [`AgentCollaborator`](AgentCollaborator.md)[]
+> `readonly` `optional` **agentCollaborators?**: [`AgentCollaborator`](AgentCollaborator.md)[]
 
 Agent collaborators.
 
@@ -116,7 +116,7 @@ Whether the agent can generate, run, and troubleshoot code when trying to comple
 
 ### customOrchestration?
 
-> `readonly` `optional` **customOrchestration**: [`CustomOrchestration`](../interfaces/CustomOrchestration.md)
+> `readonly` `optional` **customOrchestration?**: [`CustomOrchestration`](../interfaces/CustomOrchestration.md)
 
 Custom orchestration configuration.
 
@@ -124,7 +124,7 @@ Custom orchestration configuration.
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 The description for the agent.
 
@@ -168,7 +168,7 @@ The foundation model used for orchestration by the agent.
 
 ### guardrail?
 
-> `optional` **guardrail**: [`IGuardrail`](../interfaces/IGuardrail.md)
+> `optional` **guardrail?**: [`IGuardrail`](../interfaces/IGuardrail.md)
 
 The guardrail associated with the agent.
 
@@ -184,7 +184,7 @@ How long sessions should be kept open for the agent.
 
 ### instruction?
 
-> `readonly` `optional` **instruction**: `string`
+> `readonly` `optional` **instruction?**: `string`
 
 The instruction used by the agent. This determines how the agent will perform his task.
 
@@ -192,7 +192,7 @@ The instruction used by the agent. This determines how the agent will perform hi
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `IKey`
+> `readonly` `optional` **kmsKey?**: `IKey`
 
 Optional KMS encryption key associated with this agent
 
@@ -212,7 +212,7 @@ The KnowledgeBases associated with the agent.
 
 ### lastUpdated?
 
-> `readonly` `optional` **lastUpdated**: `string`
+> `readonly` `optional` **lastUpdated?**: `string`
 
 When this agent was last updated.
 
@@ -224,7 +224,7 @@ When this agent was last updated.
 
 ### memory?
 
-> `readonly` `optional` **memory**: [`Memory`](Memory.md)
+> `readonly` `optional` **memory?**: [`Memory`](Memory.md)
 
 The memory configuration for the agent.
 
@@ -252,7 +252,7 @@ The tree node.
 
 ### orchestrationType?
 
-> `readonly` `optional` **orchestrationType**: [`OrchestrationType`](../enumerations/OrchestrationType.md)
+> `readonly` `optional` **orchestrationType?**: [`OrchestrationType`](../enumerations/OrchestrationType.md)
 
 The type of orchestration for the agent.
 
@@ -279,7 +279,7 @@ This value will resolve to one of the following:
 
 ### promptOverrideConfiguration?
 
-> `readonly` `optional` **promptOverrideConfiguration**: [`PromptOverrideConfiguration`](PromptOverrideConfiguration.md)
+> `readonly` `optional` **promptOverrideConfiguration?**: [`PromptOverrideConfiguration`](PromptOverrideConfiguration.md)
 
 Overrides some prompt templates in different parts of an agent sequence configuration.
 

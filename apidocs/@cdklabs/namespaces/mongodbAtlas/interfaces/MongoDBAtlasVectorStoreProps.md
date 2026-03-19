@@ -44,7 +44,7 @@ The endpoint URL for MongoDB Atlas
 
 ### endpointServiceName?
 
-> `readonly` `optional` **endpointServiceName**: `string`
+> `readonly` `optional` **endpointServiceName?**: `string`
 
 The name of the endpoint service
 
@@ -60,7 +60,7 @@ The field mapping for MongoDB Atlas
 
 ### textIndexName?
 
-> `readonly` `optional` **textIndexName**: `string`
+> `readonly` `optional` **textIndexName?**: `string`
 
 The name of the text index
 

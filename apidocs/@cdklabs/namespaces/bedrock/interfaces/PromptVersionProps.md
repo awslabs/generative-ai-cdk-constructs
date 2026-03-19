@@ -10,7 +10,7 @@
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 The description of the prompt version.
 

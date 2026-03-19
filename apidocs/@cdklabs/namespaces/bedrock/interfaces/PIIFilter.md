@@ -20,7 +20,7 @@ The action to take when PII is detected.
 
 ### inputAction?
 
-> `readonly` `optional` **inputAction**: [`GuardrailAction`](../enumerations/GuardrailAction.md)
+> `readonly` `optional` **inputAction?**: [`GuardrailAction`](../enumerations/GuardrailAction.md)
 
 The action to take when PII is detected in the input.
 
@@ -28,7 +28,7 @@ The action to take when PII is detected in the input.
 
 ### inputEnabled?
 
-> `readonly` `optional` **inputEnabled**: `boolean`
+> `readonly` `optional` **inputEnabled?**: `boolean`
 
 Whether the PII filter is enabled for input.
 
@@ -36,7 +36,7 @@ Whether the PII filter is enabled for input.
 
 ### outputAction?
 
-> `readonly` `optional` **outputAction**: [`GuardrailAction`](../enumerations/GuardrailAction.md)
+> `readonly` `optional` **outputAction?**: [`GuardrailAction`](../enumerations/GuardrailAction.md)
 
 The action to take when PII is detected in the output.
 
@@ -44,7 +44,7 @@ The action to take when PII is detected in the output.
 
 ### outputEnabled?
 
-> `readonly` `optional` **outputEnabled**: `boolean`
+> `readonly` `optional` **outputEnabled?**: `boolean`
 
 Whether the PII filter is enabled for output.
 

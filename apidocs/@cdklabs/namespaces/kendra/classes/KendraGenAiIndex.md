@@ -108,7 +108,7 @@ The identifier of the index.
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `IKey`
+> `readonly` `optional` **kmsKey?**: `IKey`
 
 The AWS KMS key (CMK) used to encrypt data
 

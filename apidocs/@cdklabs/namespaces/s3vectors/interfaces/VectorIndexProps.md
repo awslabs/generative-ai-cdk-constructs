@@ -12,7 +12,7 @@ Properties for creating a VectorIndex resource
 
 ### dataType?
 
-> `readonly` `optional` **dataType**: [`FLOAT_32`](../enumerations/VectorIndexDataType.md#float_32)
+> `readonly` `optional` **dataType?**: [`FLOAT_32`](../enumerations/VectorIndexDataType.md#float_32)
 
 The data type of the vectors to be inserted into the vector index
 
@@ -37,7 +37,7 @@ Must be an integer between 1 and 4096.
 
 ### distanceMetric?
 
-> `readonly` `optional` **distanceMetric**: [`VectorIndexDistanceMetric`](../enumerations/VectorIndexDistanceMetric.md)
+> `readonly` `optional` **distanceMetric?**: [`VectorIndexDistanceMetric`](../enumerations/VectorIndexDistanceMetric.md)
 
 The distance metric to be used for similarity search
 
@@ -51,7 +51,7 @@ The distance metric to be used for similarity search
 
 ### encryption?
 
-> `readonly` `optional` **encryption**: [`VectorIndexEncryption`](../enumerations/VectorIndexEncryption.md)
+> `readonly` `optional` **encryption?**: [`VectorIndexEncryption`](../enumerations/VectorIndexEncryption.md)
 
 The kind of server-side encryption to apply to this index.
 
@@ -66,7 +66,7 @@ encryption key is not specified, a key will automatically be created.
 
 ### encryptionKey?
 
-> `readonly` `optional` **encryptionKey**: `IKey`
+> `readonly` `optional` **encryptionKey?**: `IKey`
 
 External KMS key to use for index encryption.
 
@@ -82,7 +82,7 @@ a new KMS key will be created and associated with this index.
 
 ### nonFilterableMetadataKeys?
 
-> `readonly` `optional` **nonFilterableMetadataKeys**: `string`[]
+> `readonly` `optional` **nonFilterableMetadataKeys?**: `string`[]
 
 Non-filterable metadata keys allow you to enrich vectors with additional context during storage and retrieval.
 Unlike default metadata keys, these keys can't be used as query filters.
@@ -107,7 +107,7 @@ The vector bucket to use for the vector index
 
 ### vectorIndexName?
 
-> `readonly` `optional` **vectorIndexName**: `string`
+> `readonly` `optional` **vectorIndexName?**: `string`
 
 The name of the vector index
 

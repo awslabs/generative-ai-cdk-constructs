@@ -26,7 +26,7 @@ name of the construct.
 
 ### observability?
 
-> `readonly` `optional` **observability**: `boolean`
+> `readonly` `optional` **observability?**: `boolean`
 
 Enable observability. Warning: associated cost with the services
 used. Best practice to enable by default.
@@ -41,7 +41,7 @@ true
 
 ### stage?
 
-> `readonly` `optional` **stage**: `string`
+> `readonly` `optional` **stage?**: `string`
 
 Value will be appended to resources name.
 

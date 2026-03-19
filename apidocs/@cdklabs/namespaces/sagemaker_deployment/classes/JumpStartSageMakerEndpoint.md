@@ -122,7 +122,7 @@ Default  log config for all constructs
 
 ### instanceType?
 
-> `readonly` `optional` **instanceType**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
+> `readonly` `optional` **instanceType?**: [`SageMakerInstanceType`](SageMakerInstanceType.md)
 
 ***
 

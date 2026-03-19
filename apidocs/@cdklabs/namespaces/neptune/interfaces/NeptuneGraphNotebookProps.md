@@ -20,7 +20,7 @@ The Neptune Analytics Graph this notebook will be connected to
 
 ### instanceType?
 
-> `readonly` `optional` **instanceType**: `InstanceType`
+> `readonly` `optional` **instanceType?**: `InstanceType`
 
 The instance type of the notebook instance
 
@@ -34,7 +34,7 @@ The instance type of the notebook instance
 
 ### volumeSize?
 
-> `readonly` `optional` **volumeSize**: `Size`
+> `readonly` `optional` **volumeSize?**: `Size`
 
 The size of the EBS volume
 

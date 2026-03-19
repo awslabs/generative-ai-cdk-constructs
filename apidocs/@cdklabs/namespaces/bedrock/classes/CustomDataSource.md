@@ -106,7 +106,7 @@ different than the stack they were imported into.
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `IKey`
+> `readonly` `optional` **kmsKey?**: `IKey`
 
 The KMS key to use to encrypt the data source.
 

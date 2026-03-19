@@ -12,7 +12,7 @@ Represents a Prompt, either created with CDK or imported.
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `IKey`
+> `readonly` `optional` **kmsKey?**: `IKey`
 
 Optional KMS encryption key associated with this prompt.
 

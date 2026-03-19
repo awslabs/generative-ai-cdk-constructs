@@ -150,7 +150,7 @@ The computed hash of the guardrail properties.
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `IKey`
+> `readonly` `optional` **kmsKey?**: `IKey`
 
 The KMS key used to encrypt data.
 
@@ -168,7 +168,7 @@ undefined - "Data is encrypted by default with a key that AWS owns and manages f
 
 ### lastUpdated?
 
-> `readonly` `optional` **lastUpdated**: `string`
+> `readonly` `optional` **lastUpdated?**: `string`
 
 When this guardrail was last updated
 

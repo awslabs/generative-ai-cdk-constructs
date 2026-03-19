@@ -22,7 +22,7 @@ Represents a Knowledge Base, either created with CDK or imported, of any type.
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 The description of the knowledge base.
 
@@ -50,7 +50,7 @@ different than the stack they were imported into.
 
 ### instruction?
 
-> `readonly` `optional` **instruction**: `string`
+> `readonly` `optional` **instruction?**: `string`
 
 A narrative instruction of the knowledge base.
 A Bedrock Agent can use this instruction to determine if it should

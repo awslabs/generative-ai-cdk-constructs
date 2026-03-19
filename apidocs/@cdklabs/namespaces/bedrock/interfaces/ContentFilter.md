@@ -12,7 +12,7 @@ Interface to declare a content filter.
 
 ### inputAction?
 
-> `readonly` `optional` **inputAction**: [`GuardrailAction`](../enumerations/GuardrailAction.md)
+> `readonly` `optional` **inputAction?**: [`GuardrailAction`](../enumerations/GuardrailAction.md)
 
 The action to take when content is detected in the input.
 
@@ -20,7 +20,7 @@ The action to take when content is detected in the input.
 
 ### inputEnabled?
 
-> `readonly` `optional` **inputEnabled**: `boolean`
+> `readonly` `optional` **inputEnabled?**: `boolean`
 
 Whether the content filter is enabled for input.
 
@@ -28,7 +28,7 @@ Whether the content filter is enabled for input.
 
 ### inputModalities?
 
-> `readonly` `optional` **inputModalities**: [`ModalityType`](../enumerations/ModalityType.md)[]
+> `readonly` `optional` **inputModalities?**: [`ModalityType`](../enumerations/ModalityType.md)[]
 
 The input modalities to apply the content filter to.
 
@@ -50,7 +50,7 @@ The strength of the content filter to apply to prompts / user input.
 
 ### outputAction?
 
-> `readonly` `optional` **outputAction**: [`GuardrailAction`](../enumerations/GuardrailAction.md)
+> `readonly` `optional` **outputAction?**: [`GuardrailAction`](../enumerations/GuardrailAction.md)
 
 The action to take when content is detected in the output.
 
@@ -58,7 +58,7 @@ The action to take when content is detected in the output.
 
 ### outputEnabled?
 
-> `readonly` `optional` **outputEnabled**: `boolean`
+> `readonly` `optional` **outputEnabled?**: `boolean`
 
 Whether the content filter is enabled for output.
 
@@ -66,7 +66,7 @@ Whether the content filter is enabled for output.
 
 ### outputModalities?
 
-> `readonly` `optional` **outputModalities**: [`ModalityType`](../enumerations/ModalityType.md)[]
+> `readonly` `optional` **outputModalities?**: [`ModalityType`](../enumerations/ModalityType.md)[]
 
 The output modalities to apply the content filter to.
 

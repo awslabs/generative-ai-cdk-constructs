@@ -111,7 +111,7 @@ different than the stack they were imported into.
 
 ### kmsKey?
 
-> `abstract` `readonly` `optional` **kmsKey**: `IKey`
+> `abstract` `readonly` `optional` **kmsKey?**: `IKey`
 
 Optional KMS encryption key associated with this agent
 
@@ -123,7 +123,7 @@ Optional KMS encryption key associated with this agent
 
 ### lastUpdated?
 
-> `abstract` `readonly` `optional` **lastUpdated**: `string`
+> `abstract` `readonly` `optional` **lastUpdated?**: `string`
 
 When this agent was last updated.
 

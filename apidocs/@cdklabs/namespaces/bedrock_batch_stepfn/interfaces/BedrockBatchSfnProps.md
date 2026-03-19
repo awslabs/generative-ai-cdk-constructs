@@ -26,7 +26,7 @@ The S3 bucket where the Bedrock Batch Inference Job stores the output.
 
 ### bedrockBatchPolicy?
 
-> `readonly` `optional` **bedrockBatchPolicy**: `IManagedPolicy`
+> `readonly` `optional` **bedrockBatchPolicy?**: `IManagedPolicy`
 
 IAM policy used for Bedrock batch processing
 
@@ -59,7 +59,7 @@ const bedrockBatchPolicy = new iam.ManagedPolicy(this, 'BedrockBatchPolicy', {
 
 ### inputPath?
 
-> `readonly` `optional` **inputPath**: `string`
+> `readonly` `optional` **inputPath?**: `string`
 
 JSONPath expression to select part of the state to be the input to this state.
 May also be the special value JsonPath. DISCARD, which will cause the effective input to be the empty object {}.
@@ -83,7 +83,7 @@ The entire task input (JSON path '$')
 
 ### resultPath?
 
-> `readonly` `optional` **resultPath**: `string`
+> `readonly` `optional` **resultPath?**: `string`
 
 JSONPath expression to indicate where to inject the state's output
 May also be the special value JsonPath. DISCARD, which will cause the state's input to become its output.
@@ -107,7 +107,7 @@ Replaces the entire input with the result (JSON path '$')
 
 ### timeout?
 
-> `readonly` `optional` **timeout**: `Duration`
+> `readonly` `optional` **timeout?**: `Duration`
 
 The timeout duration for the batch inference job.
 Must be between 24 hours and 1 week (168 hours).

@@ -12,7 +12,7 @@ Properties for creating a CDK managed Bedrock Agent.
 
 ### actionGroups?
 
-> `readonly` `optional` **actionGroups**: [`AgentActionGroup`](../classes/AgentActionGroup.md)[]
+> `readonly` `optional` **actionGroups?**: [`AgentActionGroup`](../classes/AgentActionGroup.md)[]
 
 The Action Groups associated with the agent.
 
@@ -20,7 +20,7 @@ The Action Groups associated with the agent.
 
 ### agentCollaboration?
 
-> `readonly` `optional` **agentCollaboration**: [`AgentCollaboratorType`](../enumerations/AgentCollaboratorType.md)
+> `readonly` `optional` **agentCollaboration?**: [`AgentCollaboratorType`](../enumerations/AgentCollaboratorType.md)
 
 The collaboration type for the agent.
 
@@ -34,7 +34,7 @@ The collaboration type for the agent.
 
 ### agentCollaborators?
 
-> `readonly` `optional` **agentCollaborators**: [`AgentCollaborator`](../classes/AgentCollaborator.md)[]
+> `readonly` `optional` **agentCollaborators?**: [`AgentCollaborator`](../classes/AgentCollaborator.md)[]
 
 Collaborators that this agent will work with.
 
@@ -48,7 +48,7 @@ Collaborators that this agent will work with.
 
 ### codeInterpreterEnabled?
 
-> `readonly` `optional` **codeInterpreterEnabled**: `boolean`
+> `readonly` `optional` **codeInterpreterEnabled?**: `boolean`
 
 Select whether the agent can generate, run, and troubleshoot code when trying to complete a task
 
@@ -62,7 +62,7 @@ Select whether the agent can generate, run, and troubleshoot code when trying to
 
 ### customOrchestration?
 
-> `readonly` `optional` **customOrchestration**: [`CustomOrchestration`](CustomOrchestration.md)
+> `readonly` `optional` **customOrchestration?**: [`CustomOrchestration`](CustomOrchestration.md)
 
 Details of custom orchestration for the agent.
 
@@ -76,7 +76,7 @@ Details of custom orchestration for the agent.
 
 ### description?
 
-> `readonly` `optional` **description**: `string`
+> `readonly` `optional` **description?**: `string`
 
 A description of the agent.
 
@@ -90,7 +90,7 @@ A description of the agent.
 
 ### existingRole?
 
-> `readonly` `optional` **existingRole**: `IRole`
+> `readonly` `optional` **existingRole?**: `IRole`
 
 The existing IAM Role for the agent to use.
 Ensure the role has a trust policy that allows the Bedrock service to assume the role.
@@ -105,7 +105,7 @@ Ensure the role has a trust policy that allows the Bedrock service to assume the
 
 ### forceDelete?
 
-> `readonly` `optional` **forceDelete**: `boolean`
+> `readonly` `optional` **forceDelete?**: `boolean`
 
 Whether to delete the resource even if it's in use.
 
@@ -127,7 +127,7 @@ The foundation model used for orchestration by the agent.
 
 ### guardrail?
 
-> `readonly` `optional` **guardrail**: [`IGuardrail`](IGuardrail.md)
+> `readonly` `optional` **guardrail?**: [`IGuardrail`](IGuardrail.md)
 
 The guardrail that will be associated with the agent.
 
@@ -135,7 +135,7 @@ The guardrail that will be associated with the agent.
 
 ### idleSessionTTL?
 
-> `readonly` `optional` **idleSessionTTL**: `Duration`
+> `readonly` `optional` **idleSessionTTL?**: `Duration`
 
 How long sessions should be kept open for the agent. If no conversation occurs
 during this time, the session expires and Amazon Bedrock deletes any data
@@ -160,7 +160,7 @@ This instruction must have a minimum of 40 characters.
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `IKey`
+> `readonly` `optional` **kmsKey?**: `IKey`
 
 The KMS key of the agent if custom encryption is configured.
 
@@ -174,7 +174,7 @@ The KMS key of the agent if custom encryption is configured.
 
 ### knowledgeBases?
 
-> `readonly` `optional` **knowledgeBases**: [`IKnowledgeBase`](IKnowledgeBase.md)[]
+> `readonly` `optional` **knowledgeBases?**: [`IKnowledgeBase`](IKnowledgeBase.md)[]
 
 The KnowledgeBases associated with the agent.
 
@@ -182,7 +182,7 @@ The KnowledgeBases associated with the agent.
 
 ### memory?
 
-> `readonly` `optional` **memory**: [`Memory`](../classes/Memory.md)
+> `readonly` `optional` **memory?**: [`Memory`](../classes/Memory.md)
 
 The type and configuration of the memory to maintain context across multiple sessions and recall past interactions.
 This can be useful for maintaining continuity in multi-turn conversations and recalling user preferences
@@ -202,7 +202,7 @@ https://docs.aws.amazon.com/bedrock/latest/userguide/agents-memory.html
 
 ### name?
 
-> `readonly` `optional` **name**: `string`
+> `readonly` `optional` **name?**: `string`
 
 The name of the agent.
 
@@ -216,7 +216,7 @@ The name of the agent.
 
 ### orchestrationType?
 
-> `readonly` `optional` **orchestrationType**: [`OrchestrationType`](../enumerations/OrchestrationType.md)
+> `readonly` `optional` **orchestrationType?**: [`OrchestrationType`](../enumerations/OrchestrationType.md)
 
 The type of orchestration to use for the agent.
 
@@ -230,7 +230,7 @@ The type of orchestration to use for the agent.
 
 ### promptOverrideConfiguration?
 
-> `readonly` `optional` **promptOverrideConfiguration**: [`PromptOverrideConfiguration`](../classes/PromptOverrideConfiguration.md)
+> `readonly` `optional` **promptOverrideConfiguration?**: [`PromptOverrideConfiguration`](../classes/PromptOverrideConfiguration.md)
 
 Overrides some prompt templates in different parts of an agent sequence configuration.
 
@@ -244,7 +244,7 @@ Overrides some prompt templates in different parts of an agent sequence configur
 
 ### shouldPrepareAgent?
 
-> `readonly` `optional` **shouldPrepareAgent**: `boolean`
+> `readonly` `optional` **shouldPrepareAgent?**: `boolean`
 
 Specifies whether to automatically update the `DRAFT` version of the agent after
 making changes to the agent. The `DRAFT` version can be continually iterated
@@ -260,7 +260,7 @@ upon during internal development.
 
 ### userInputEnabled?
 
-> `readonly` `optional` **userInputEnabled**: `boolean`
+> `readonly` `optional` **userInputEnabled?**: `boolean`
 
 Select whether the agent can prompt additional information from the user when it does not have
 enough information to respond to an utterance

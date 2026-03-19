@@ -25,7 +25,7 @@ model, a custom model, or a provisioned model.
 
 ### promptVariables?
 
-> `readonly` `optional` **promptVariables**: `string`[]
+> `readonly` `optional` **promptVariables?**: `string`[]
 
 The variables in the prompt template that can be filled in at runtime.
 

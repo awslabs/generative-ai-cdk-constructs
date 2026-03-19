@@ -12,7 +12,7 @@ Interface to define a Contextual Grounding Filter.
 
 ### action?
 
-> `readonly` `optional` **action**: [`GuardrailAction`](../enumerations/GuardrailAction.md)
+> `readonly` `optional` **action?**: [`GuardrailAction`](../enumerations/GuardrailAction.md)
 
 The action to take when contextual grounding is detected.
 
@@ -20,7 +20,7 @@ The action to take when contextual grounding is detected.
 
 ### enabled?
 
-> `readonly` `optional` **enabled**: `boolean`
+> `readonly` `optional` **enabled?**: `boolean`
 
 Whether the contextual grounding filter is enabled.
 

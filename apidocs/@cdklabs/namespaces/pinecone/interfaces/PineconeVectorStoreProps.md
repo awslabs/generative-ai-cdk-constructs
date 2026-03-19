@@ -34,7 +34,7 @@ https://www.pinecone.io/blog/amazon-bedrock-integration/
 
 ### kmsKey?
 
-> `readonly` `optional` **kmsKey**: `string`
+> `readonly` `optional` **kmsKey?**: `string`
 
 If you encrypted your secret, provide the KMS key here so that Bedrock
 can decrypt it.
@@ -51,7 +51,7 @@ The name of the field in which Amazon Bedrock stores metadata about the vector s
 
 ### namespace?
 
-> `readonly` `optional` **namespace**: `string`
+> `readonly` `optional` **namespace?**: `string`
 
 Name space that will be used for writing new data to your Pinecone database.
 

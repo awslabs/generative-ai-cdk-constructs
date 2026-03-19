@@ -36,7 +36,7 @@ Represents the concept of an API Schema for a Bedrock Agent Action Group.
 
 ### inlineSchema?
 
-> `readonly` `optional` **inlineSchema**: `string`
+> `readonly` `optional` **inlineSchema?**: `string`
 
 #### Inherited from
 
@@ -46,7 +46,7 @@ Represents the concept of an API Schema for a Bedrock Agent Action Group.
 
 ### s3File?
 
-> `readonly` `optional` **s3File**: `Location`
+> `readonly` `optional` **s3File?**: `Location`
 
 #### Inherited from
 
