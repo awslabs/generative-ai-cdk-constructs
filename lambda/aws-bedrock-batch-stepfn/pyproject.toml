@@ -20,7 +20,7 @@ build-backend = "hatchling.build"
 [dependency-groups]
 dev = [
     "boto3-stubs-lite[bedrock,s3,stepfunctions]>=1.36.2",
-    "pytest>=8.3.4",
+    "pytest>=9.0.3",
 ]
 
 [tool.hatch.build.targets.wheel]
