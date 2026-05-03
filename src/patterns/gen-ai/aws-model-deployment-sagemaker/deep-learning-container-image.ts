@@ -72,6 +72,8 @@ export class DeepLearningContainerImage extends ContainerImage {
   public static readonly HUGGINGFACE_PYTORCH_INFERENCE_2_6_0_TRANSFORMERS4_49_0_GPU_PY312_CU124_UBUNTU22_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference', '2.6.0-transformers4.49.0-gpu-py312-cu124-ubuntu22.04');
   public static readonly HUGGINGFACE_PYTORCH_INFERENCE_2_6_0_TRANSFORMERS4_51_3_CPU_PY312_UBUNTU22_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference', '2.6.0-transformers4.51.3-cpu-py312-ubuntu22.04');
   public static readonly HUGGINGFACE_PYTORCH_INFERENCE_2_6_0_TRANSFORMERS4_51_3_GPU_PY312_CU124_UBUNTU22_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference', '2.6.0-transformers4.51.3-gpu-py312-cu124-ubuntu22.04');
+  public static readonly HUGGINGFACE_PYTORCH_INFERENCE_2_6_0_TRANSFORMERS5_5_3_CPU_PY312_UBUNTU22_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference', '2.6.0-transformers5.5.3-cpu-py312-ubuntu22.04');
+  public static readonly HUGGINGFACE_PYTORCH_INFERENCE_2_6_0_TRANSFORMERS5_5_3_GPU_PY312_CU124_UBUNTU22_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference', '2.6.0-transformers5.5.3-gpu-py312-cu124-ubuntu22.04');
   public static readonly HUGGINGFACE_PYTORCH_INFERENCE_NEURONX_1_13_0_TRANSFORMERS4_28_1_NEURONX_PY38_SDK2_9_1_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference-neuronx', '1.13.0-transformers4.28.1-neuronx-py38-sdk2.9.1-ubuntu20.04');
   public static readonly HUGGINGFACE_PYTORCH_INFERENCE_NEURONX_1_13_1_TRANSFORMERS4_34_1_NEURONX_PY310_SDK2_15_0_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference-neuronx', '1.13.1-transformers4.34.1-neuronx-py310-sdk2.15.0-ubuntu20.04');
   public static readonly HUGGINGFACE_PYTORCH_INFERENCE_NEURONX_1_13_1_TRANSFORMERS4_36_2_NEURONX_PY310_SDK2_16_1_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-pytorch-inference-neuronx', '1.13.1-transformers4.36.2-neuronx-py310-sdk2.16.1-ubuntu20.04');
@@ -122,6 +124,7 @@ export class DeepLearningContainerImage extends ContainerImage {
   public static readonly HUGGINGFACE_TENSORFLOW_INFERENCE_2_5_3_TRANSFORMERS4_12_3_GPU_PY37_CU112_UBUNTU18_04 = this.fromDeepLearningContainerImage('huggingface-tensorflow-inference', '2.5.3-transformers4.12.3-gpu-py37-cu112-ubuntu18.04');
   public static readonly HUGGINGFACE_TENSORFLOW_INFERENCE_2_6_3_TRANSFORMERS4_17_0_CPU_PY38_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-tensorflow-inference', '2.6.3-transformers4.17.0-cpu-py38-ubuntu20.04');
   public static readonly HUGGINGFACE_TENSORFLOW_INFERENCE_2_6_3_TRANSFORMERS4_17_0_GPU_PY38_CU112_UBUNTU20_04 = this.fromDeepLearningContainerImage('huggingface-tensorflow-inference', '2.6.3-transformers4.17.0-gpu-py38-cu112-ubuntu20.04');
+
 
   public static fromDeepLearningContainerImage(
     repositoryName: string,

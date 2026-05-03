@@ -10944,6 +10944,12 @@
 
 ***
 
+### HUGGINGFACE\_LLM\_NEXAAIDEV\_OCTOPUS\_V2\_2\_0\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_NEXAAIDEV\_OCTOPUS\_V2\_2\_0\_0**: `JumpStartModel`
+
+***
+
 ### HUGGINGFACE\_LLM\_NEXUSFLOW\_STARLING\_LM\_7B\_BETA\_1\_0\_0
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_NEXUSFLOW\_STARLING\_LM\_7B\_BETA\_1\_0\_0**: `JumpStartModel`
@@ -12534,6 +12540,30 @@
 
 ***
 
+### HUGGINGFACE\_LLM\_QWEN2\_5\_14B\_INSTRUCT\_1\_22\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_14B\_INSTRUCT\_1\_22\_0**: `JumpStartModel`
+
+***
+
+### HUGGINGFACE\_LLM\_QWEN2\_5\_14B\_INSTRUCT\_1\_23\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_14B\_INSTRUCT\_1\_23\_0**: `JumpStartModel`
+
+***
+
+### HUGGINGFACE\_LLM\_QWEN2\_5\_14B\_INSTRUCT\_1\_24\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_14B\_INSTRUCT\_1\_24\_0**: `JumpStartModel`
+
+***
+
+### HUGGINGFACE\_LLM\_QWEN2\_5\_14B\_INSTRUCT\_1\_25\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_14B\_INSTRUCT\_1\_25\_0**: `JumpStartModel`
+
+***
+
 ### HUGGINGFACE\_LLM\_QWEN2\_5\_14B\_INSTRUCT\_1\_3\_0
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_14B\_INSTRUCT\_1\_3\_0**: `JumpStartModel`
@@ -12903,6 +12933,30 @@
 ### HUGGINGFACE\_LLM\_QWEN2\_5\_32B\_INSTRUCT\_1\_3\_3
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_32B\_INSTRUCT\_1\_3\_3**: `JumpStartModel`
+
+***
+
+### HUGGINGFACE\_LLM\_QWEN2\_5\_32B\_INSTRUCT\_1\_30\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_32B\_INSTRUCT\_1\_30\_0**: `JumpStartModel`
+
+***
+
+### HUGGINGFACE\_LLM\_QWEN2\_5\_32B\_INSTRUCT\_1\_31\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_32B\_INSTRUCT\_1\_31\_0**: `JumpStartModel`
+
+***
+
+### HUGGINGFACE\_LLM\_QWEN2\_5\_32B\_INSTRUCT\_1\_32\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_32B\_INSTRUCT\_1\_32\_0**: `JumpStartModel`
+
+***
+
+### HUGGINGFACE\_LLM\_QWEN2\_5\_32B\_INSTRUCT\_1\_33\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_32B\_INSTRUCT\_1\_33\_0**: `JumpStartModel`
 
 ***
 
@@ -16455,6 +16509,12 @@
 ### HUGGINGFACE\_NER\_DISTILBERT\_BASE\_UNCASED\_FINETUNED\_CONLL03\_ENGLISH\_2\_0\_9
 
 > `readonly` `static` **HUGGINGFACE\_NER\_DISTILBERT\_BASE\_UNCASED\_FINETUNED\_CONLL03\_ENGLISH\_2\_0\_9**: `JumpStartModel`
+
+***
+
+### HUGGINGFACE\_OD\_MICROSOFT\_TABLE\_TRANSFORMER\_DETECTION\_1\_0\_0
+
+> `readonly` `static` **HUGGINGFACE\_OD\_MICROSOFT\_TABLE\_TRANSFORMER\_DETECTION\_1\_0\_0**: `JumpStartModel`
 
 ***
 
