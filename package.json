@@ -152,7 +152,7 @@
     "generative-ai"
   ],
   "engines": {
-    "node": ">= 20.x <= 24.x"
+    "node": ">= 20.x <= 25.x"
   },
   "main": "lib/index.js",
   "license": "Apache-2.0",

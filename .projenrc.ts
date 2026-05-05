@@ -79,7 +79,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   bundledDeps: ['deepmerge', `@aws-cdk/aws-lambda-python-alpha@${CDK_VERSION}-alpha.0`],
   // Keep synchronized with https://github.com/nodejs/release#release-schedule
   minNodeVersion: '20.x', // 'MAINTENANCE' (first LTS)
-  maxNodeVersion: '24.x', // 'CURRENT'
+  maxNodeVersion: '25.x', // 'CURRENT'
   workflowNodeVersion: '22.x', // 'ACTIVE'
 
   npmTokenSecret: 'NPM_TOKEN',
