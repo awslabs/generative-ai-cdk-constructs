@@ -21,7 +21,7 @@ jobs:
       CI: "true"
     steps:
       - name: Checkout
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Set git identity
@@ -29,15 +29,16 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
       - name: Setup Node.js
-        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+        uses: actions/setup-node@v6
         with:
           node-version: 22.x
+          package-manager-cache: false
       - name: Install dependencies
         run: yarn install --check-files --frozen-lockfile
       - name: release
         run: npx projen release
       - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@968872560f81e7bdde9272853e65f2507c0eca7c
+        uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: coverage
@@ -59,7 +60,7 @@ jobs:
         continue-on-error: true
       - name: Upload artifact
         if: ${{ steps.git_remote.outputs.latest_commit == github.sha }}
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v7
         with:
           name: build-artifact
           path: dist
@@ -78,11 +79,12 @@ jobs:
       issues: write
     if: needs.release.outputs.tag_exists != 'true' && needs.release.outputs.latest_commit == github.sha
     steps:
-      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+      - uses: actions/setup-node@v6
         with:
           node-version: 22.x
+          package-manager-cache: "false"
       - name: Download build artifacts
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        uses: actions/download-artifact@v8
         with:
           name: build-artifact
           path: dist
@@ -100,13 +102,11 @@ jobs:
         shell: bash
       - name: Create Issue
         if: ${{ failure() }}
-        uses: imjohnbo/issue-bot@3daae12aa54d38685d7ff8459fc8a2aee8cea98b
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          labels: gh-workflow-failing
-          title: Publishing v${{ steps.extract-version.outputs.VERSION }} to GitHub Releases failed
-          body: See https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.extract-version.outputs.VERSION }}
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: gh issue create --title "Publishing v$VERSION to GitHub Releases failed" --body "See $RUN_URL" --label "gh-workflow-failing"
   release_npm:
     name: Publish to npm
     needs: release
@@ -117,11 +117,12 @@ jobs:
       issues: write
     if: needs.release.outputs.tag_exists != 'true' && needs.release.outputs.latest_commit == github.sha
     steps:
-      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+      - uses: actions/setup-node@v6
         with:
           node-version: 22.x
+          package-manager-cache: "false"
       - name: Download build artifacts
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        uses: actions/download-artifact@v8
         with:
           name: build-artifact
           path: dist
@@ -129,7 +130,7 @@ jobs:
         run: cd dist && setfacl --restore=permissions-backup.acl
         continue-on-error: true
       - name: Checkout
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        uses: actions/checkout@v6
         with:
           path: .repo
       - name: Install Dependencies
@@ -156,13 +157,11 @@ jobs:
         shell: bash
       - name: Create Issue
         if: ${{ failure() }}
-        uses: imjohnbo/issue-bot@3daae12aa54d38685d7ff8459fc8a2aee8cea98b
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          labels: gh-workflow-failing
-          title: Publishing v${{ steps.extract-version.outputs.VERSION }} to npm failed
-          body: See https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.extract-version.outputs.VERSION }}
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: gh issue create --title "Publishing v$VERSION to npm failed" --body "See $RUN_URL" --label "gh-workflow-failing"
   release_pypi:
     name: Publish to PyPI
     needs: release
@@ -172,14 +171,15 @@ jobs:
       issues: write
     if: needs.release.outputs.tag_exists != 'true' && needs.release.outputs.latest_commit == github.sha
     steps:
-      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+      - uses: actions/setup-node@v6
         with:
           node-version: 22.x
+          package-manager-cache: "false"
       - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
           python-version: 3.x
       - name: Download build artifacts
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        uses: actions/download-artifact@v8
         with:
           name: build-artifact
           path: dist
@@ -187,7 +187,7 @@ jobs:
         run: cd dist && setfacl --restore=permissions-backup.acl
         continue-on-error: true
       - name: Checkout
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        uses: actions/checkout@v6
         with:
           path: .repo
       - name: Install Dependencies
@@ -212,13 +212,11 @@ jobs:
         shell: bash
       - name: Create Issue
         if: ${{ failure() }}
-        uses: imjohnbo/issue-bot@3daae12aa54d38685d7ff8459fc8a2aee8cea98b
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          labels: gh-workflow-failing
-          title: Publishing v${{ steps.extract-version.outputs.VERSION }} to PyPI failed
-          body: See https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.extract-version.outputs.VERSION }}
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: gh issue create --title "Publishing v$VERSION to PyPI failed" --body "See $RUN_URL" --label "gh-workflow-failing"
   release_nuget:
     name: Publish to NuGet Gallery
     needs: release
@@ -228,14 +226,15 @@ jobs:
       issues: write
     if: needs.release.outputs.tag_exists != 'true' && needs.release.outputs.latest_commit == github.sha
     steps:
-      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+      - uses: actions/setup-node@v6
         with:
           node-version: 22.x
+          package-manager-cache: "false"
       - uses: actions/setup-dotnet@v5
         with:
           dotnet-version: 6.x
       - name: Download build artifacts
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        uses: actions/download-artifact@v8
         with:
           name: build-artifact
           path: dist
@@ -243,7 +242,7 @@ jobs:
         run: cd dist && setfacl --restore=permissions-backup.acl
         continue-on-error: true
       - name: Checkout
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        uses: actions/checkout@v6
         with:
           path: .repo
       - name: Install Dependencies
@@ -267,13 +266,11 @@ jobs:
         shell: bash
       - name: Create Issue
         if: ${{ failure() }}
-        uses: imjohnbo/issue-bot@3daae12aa54d38685d7ff8459fc8a2aee8cea98b
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          labels: gh-workflow-failing
-          title: Publishing v${{ steps.extract-version.outputs.VERSION }} to NuGet Gallery failed
-          body: See https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.extract-version.outputs.VERSION }}
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: gh issue create --title "Publishing v$VERSION to NuGet Gallery failed" --body "See $RUN_URL" --label "gh-workflow-failing"
   release_golang:
     name: Publish to GitHub Go Module Repository
     needs: release
@@ -283,14 +280,15 @@ jobs:
       issues: write
     if: needs.release.outputs.tag_exists != 'true' && needs.release.outputs.latest_commit == github.sha
     steps:
-      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
+      - uses: actions/setup-node@v6
         with:
           node-version: 22.x
+          package-manager-cache: "false"
       - uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00
         with:
           go-version: ^1.18.0
       - name: Download build artifacts
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
+        uses: actions/download-artifact@v8
         with:
           name: build-artifact
           path: dist
@@ -298,7 +296,7 @@ jobs:
         run: cd dist && setfacl --restore=permissions-backup.acl
         continue-on-error: true
       - name: Checkout
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        uses: actions/checkout@v6
         with:
           path: .repo
       - name: Install Dependencies
@@ -324,10 +322,8 @@ jobs:
         shell: bash
       - name: Create Issue
         if: ${{ failure() }}
-        uses: imjohnbo/issue-bot@3daae12aa54d38685d7ff8459fc8a2aee8cea98b
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          labels: gh-workflow-failing
-          title: Publishing v${{ steps.extract-version.outputs.VERSION }} to GitHub Go Module Repository failed
-          body: See https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.extract-version.outputs.VERSION }}
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: gh issue create --title "Publishing v$VERSION to GitHub Go Module Repository failed" --body "See $RUN_URL" --label "gh-workflow-failing"

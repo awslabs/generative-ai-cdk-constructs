@@ -100,9 +100,37 @@ The unique identifier of the agent alias.
 
 ***
 
+### node
+
+> `readonly` **node**: `Node`
+
+The tree node.
+
+#### Inherited from
+
+[`AgentAliasBase`](AgentAliasBase.md).[`node`](AgentAliasBase.md#node)
+
+## Accessors
+
 ### env
 
-> `readonly` **env**: `ResourceEnvironment`
+#### Get Signature
+
+> **get** **env**(): `ResourceEnvironment`
+
+The environment this resource belongs to.
+
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
+
+##### Returns
+
+`ResourceEnvironment`
 
 The environment this resource belongs to.
 
@@ -120,21 +148,11 @@ different than the stack they were imported into.
 
 ***
 
-### node
-
-> `readonly` **node**: `Node`
-
-The tree node.
-
-#### Inherited from
-
-[`AgentAliasBase`](AgentAliasBase.md).[`node`](AgentAliasBase.md#node)
-
-***
-
 ### physicalName
 
-> `protected` `readonly` **physicalName**: `string`
+#### Get Signature
+
+> **get** `protected` **physicalName**(): `string`
 
 Returns a string-encoded token that resolves to the physical name that
 should be passed to the CloudFormation resource.
@@ -145,6 +163,10 @@ This value will resolve to one of the following:
 - a concrete name generated automatically during synthesis, in
   cross-environment scenarios.
 
+##### Returns
+
+`string`
+
 #### Inherited from
 
 [`AgentAliasBase`](AgentAliasBase.md).[`physicalName`](AgentAliasBase.md#physicalname)
@@ -153,7 +175,15 @@ This value will resolve to one of the following:
 
 ### stack
 
-> `readonly` **stack**: `Stack`
+#### Get Signature
+
+> **get** **stack**(): `Stack`
+
+The stack in which this resource is defined.
+
+##### Returns
+
+`Stack`
 
 The stack in which this resource is defined.
 
@@ -414,6 +444,37 @@ Returns a string representation of this construct.
 #### Inherited from
 
 [`AgentAliasBase`](AgentAliasBase.md).[`toString`](AgentAliasBase.md#tostring)
+
+***
+
+### with()
+
+> **with**(...`mixins`): `IConstruct`
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+#### Parameters
+
+##### mixins
+
+...`IMixin`[]
+
+The mixins to apply
+
+#### Returns
+
+`IConstruct`
+
+This construct for chaining
+
+#### Inherited from
+
+[`AgentAliasBase`](AgentAliasBase.md).[`with`](AgentAliasBase.md#with)
 
 ***
 

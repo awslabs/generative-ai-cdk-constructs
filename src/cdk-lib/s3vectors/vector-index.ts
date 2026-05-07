@@ -16,6 +16,7 @@ import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import * as s3vectors from 'aws-cdk-lib/aws-s3vectors';
 import { Construct } from 'constructs';
+import { lit } from './literal-string';
 import { throwIfInvalid, validateFieldPattern, validateStringFieldLength } from './validation-helpers';
 import { IVectorBucket } from './vector-bucket';
 
@@ -271,13 +272,13 @@ export class VectorIndex extends VectorIndexBase {
       : arnComponents.resourceName;
 
     if (!resourcePart) {
-      throw new ValidationError('Vector index ARN resource part is required', scope);
+      throw new ValidationError(lit`@aws-cdk/s3vectors:VectorIndex`, 'Vector index ARN resource part is required', scope);
     }
 
     // Extract index name from resource part: "bucket/{bucket-name}/index/{index-name}"
     const indexMatch = resourcePart.match(/^bucket\/[^/]+\/index\/(.+)$/);
     if (!indexMatch || !indexMatch[1]) {
-      throw new ValidationError(`Invalid vector index ARN format. Expected format: arn:Aws.PARTITION:s3vectors:region:account:bucket/{bucket-name}/index/{index-name}, got: ${attrs.vectorIndexArn}`, scope);
+      throw new ValidationError(lit`@aws-cdk/s3vectors:VectorIndex`, `Invalid vector index ARN format. Expected format: arn:Aws.PARTITION:s3vectors:region:account:bucket/{bucket-name}/index/{index-name}, got: ${attrs.vectorIndexArn}`, scope);
     }
 
     const vectorIndexName = indexMatch[1];

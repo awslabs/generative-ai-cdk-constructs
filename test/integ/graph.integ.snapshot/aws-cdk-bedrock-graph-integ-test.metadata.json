@@ -1,0 +1,295 @@
+{
+  "/aws-cdk-bedrock-graph-integ-test": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:21:15)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
+    {
+      "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+      "data": true
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/GraphExplorerUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GraphExplorerUrl"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:55:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...App.synth in aws-cdk-lib...",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:70:5)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...App.synth in aws-cdk-lib...",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:70:5)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/SampleBucket/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SampleBucket7F6F8160"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:27:20)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketAutoDeleteObjects"
+      }
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:27:20)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:27:20)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/NeptuneGraph/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NeptuneGraphAAAEC4F2"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new NeptuneGraph (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/neptune/graph.ts:429:22)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:34:15)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/GraphKnowledgeBase/MyCfnKnowledgeBase": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GraphKnowledgeBaseMyCfnKnowledgeBase7390EE17"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new GraphKnowledgeBase (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/knowledge-bases/graph-knowledge-base.ts:232:22)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:40:12)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/SampleBucket/Policy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SampleBucketPolicy07CB9459"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:27:20)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    },
+    {
+      "type": "aws:cdk:analytics:mixin",
+      "data": {
+        "mixin": "aws-cdk-lib.aws_s3.mixins.BucketPolicyStatements"
+      }
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/SampleBucket/AutoDeleteObjectsCustomResource/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SampleBucketAutoDeleteObjectsCustomResourceAC99DCF6"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Bucket2 in aws-cdk-lib...",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:27:20)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/NeptuneGraph/Notebook/NeptuneNotebookLifecycle": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NeptuneGraphNotebookNeptuneNotebookLifecycle0FC51C74"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new NeptuneGraphNotebook (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/neptune/notebook.ts:95:28)",
+        "NeptuneGraph.createNotebook (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/neptune/graph.ts:363:12)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:38:24)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/NeptuneGraph/Notebook/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NeptuneGraphNotebook18649D05"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new NeptuneGraphNotebook (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/neptune/notebook.ts:141:23)",
+        "NeptuneGraph.createNotebook (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/neptune/graph.ts:363:12)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:38:24)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/NeptuneGraph/Notebook/GraphExplorerEndpoint": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NeptuneGraphNotebookGraphExplorerEndpoint129C2633"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new NeptuneGraphNotebook (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/neptune/notebook.ts:169:5)",
+        "NeptuneGraph.createNotebook (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/neptune/graph.ts:363:12)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:38:24)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/GraphKnowledgeBase/Role/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GraphKnowledgeBaseRole63CCFE39"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Role2 in aws-cdk-lib...",
+        "createKnowledgeBaseServiceRole (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/knowledge-bases/knowledge-base.ts:236:10)",
+        "new GraphKnowledgeBase (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/knowledge-bases/graph-knowledge-base.ts:227:69)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:40:12)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/GraphKnowledgeBase/s3-c8f3d9433200227788ab194071f24c1f418cd2e0d9/DataSource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GraphKnowledgeBases3c8f3d9433200227788ab194071f24c1f418cd2e0d9DataSourceEEC73C16"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new S3DataSource (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/data-sources/s3-data-source.ts:135:23)",
+        "GraphKnowledgeBase.addS3DataSource (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/knowledge-bases/vector-knowledge-base.ts:246:12)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:45:4)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/NeptuneGraph/Notebook/NeptuneNotebookRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NeptuneGraphNotebookNeptuneNotebookRole97EE0C25"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Role2 in aws-cdk-lib...",
+        "new NeptuneGraphNotebook (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/neptune/notebook.ts:126:17)",
+        "NeptuneGraph.createNotebook (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/neptune/graph.ts:363:12)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:38:24)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/GraphKnowledgeBase/Role/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "GraphKnowledgeBaseRoleDefaultPolicy07E30A0C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...Function.addToPrincipal in aws-cdk-lib...",
+        "NeptuneGraph.grant (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/neptune/graph.ts:205:22)",
+        "NeptuneGraph.grantQuery (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/neptune/graph.ts:224:17)",
+        "new GraphKnowledgeBase (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/knowledge-bases/graph-knowledge-base.ts:267:30)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:40:12)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-graph-integ-test/NeptuneGraph/Notebook/NeptuneNotebookRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "NeptuneGraphNotebookNeptuneNotebookRoleDefaultPolicyC90F8B76"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...Function.addToPrincipal in aws-cdk-lib...",
+        "NeptuneGraph.grant (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/neptune/graph.ts:205:22)",
+        "NeptuneGraph.grantFullAccess (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/neptune/graph.ts:217:17)",
+        "new NeptuneGraphNotebook (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/neptune/notebook.ts:136:17)",
+        "NeptuneGraph.createNotebook (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/neptune/graph.ts:363:12)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/graph.integ.ts:38:24)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ]
+}

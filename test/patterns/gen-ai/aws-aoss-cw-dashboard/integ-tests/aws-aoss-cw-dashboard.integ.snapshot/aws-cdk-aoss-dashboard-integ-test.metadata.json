@@ -1,0 +1,54 @@
+{
+  "/aws-cdk-aoss-dashboard-integ-test": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.ts:21:15)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-aoss-dashboard-integ-test/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...App.synth in aws-cdk-lib...",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.ts:54:5)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-aoss-dashboard-integ-test/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...App.synth in aws-cdk-lib...",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.ts:54:5)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-aoss-dashboard-integ-test/test/AossMetricsDashboard/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "testAossMetricsDashboard04771158"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Dashboard2 in aws-cdk-lib...",
+        "new AossCwDashboard (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/patterns/gen-ai/aws-aoss-cw-dashboard/index.ts:102:49)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.ts:28:27)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ]
+}

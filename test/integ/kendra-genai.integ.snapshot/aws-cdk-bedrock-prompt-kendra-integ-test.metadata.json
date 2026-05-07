@@ -1,0 +1,142 @@
+{
+  "/aws-cdk-bedrock-prompt-kendra-integ-test": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/kendra-genai.integ.ts:22:15)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-prompt-kendra-integ-test/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...App.synth in aws-cdk-lib...",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/kendra-genai.integ.ts:53:5)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-prompt-kendra-integ-test/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...App.synth in aws-cdk-lib...",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/kendra-genai.integ.ts:53:5)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-prompt-kendra-integ-test/cmk/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "cmk01DE03DA"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Key2 in aws-cdk-lib...",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/kendra-genai.integ.ts:28:13)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-prompt-kendra-integ-test/index/GenAiIndex": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "indexGenAiIndex279FDB46"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new KendraGenAiIndex (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/kendra/gen-ai-index.ts:304:22)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/kendra-genai.integ.ts:30:15)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-prompt-kendra-integ-test/kb/MyCfnKnowledgeBase": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "kbMyCfnKnowledgeBase70C046CF"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new KendraKnowledgeBase (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/knowledge-bases/kendra-knowledge-base.ts:168:22)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/kendra-genai.integ.ts:37:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-prompt-kendra-integ-test/index/Role/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "indexRoleA34B045F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Role2 in aws-cdk-lib...",
+        "new KendraGenAiIndex (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/kendra/gen-ai-index.ts:253:17)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/kendra-genai.integ.ts:30:15)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-prompt-kendra-integ-test/kb/Role/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "kbRoleCD713A21"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Role2 in aws-cdk-lib...",
+        "createKnowledgeBaseServiceRole (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/knowledge-bases/knowledge-base.ts:236:10)",
+        "new KendraKnowledgeBase (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/knowledge-bases/kendra-knowledge-base.ts:154:69)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/kendra-genai.integ.ts:37:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-prompt-kendra-integ-test/index/Role/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "indexRoleDefaultPolicy2058C891"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new KendraGenAiIndex (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/kendra/gen-ai-index.ts:257:15)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/kendra-genai.integ.ts:30:15)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/aws-cdk-bedrock-prompt-kendra-integ-test/kb/Role/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "kbRoleDefaultPolicy78099AA3"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...WrappedClass.<anonymous> in aws-cdk-lib...",
+        "new KendraKnowledgeBase (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/knowledge-bases/kendra-knowledge-base.ts:157:34)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/kendra-genai.integ.ts:37:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ]
+}

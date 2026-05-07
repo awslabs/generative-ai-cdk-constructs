@@ -1,0 +1,137 @@
+{
+  "/AgentMemoryTest": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/agent-mem.integ.ts:59:15)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentMemoryTest/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...App.synth in aws-cdk-lib...",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/agent-mem.integ.ts:76:5)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentMemoryTest/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...App.synth in aws-cdk-lib...",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/agent-mem.integ.ts:76:5)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentMemoryTest/Agent/AgentResource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AgentAgentResourceD435B430"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new Agent (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/agents/agent.ts:512:23)",
+        "new TestStack (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/agent-mem.integ.ts:34:5)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/agent-mem.integ.ts:59:15)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentMemoryTest/Agent2/AgentResource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "Agent2AgentResource89D2D1CA"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new Agent (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/agents/agent.ts:512:23)",
+        "new TestStack (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/agent-mem.integ.ts:43:5)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/agent-mem.integ.ts:59:15)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentMemoryTest/Agent/Role/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AgentRole9D587F56"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Role2 in aws-cdk-lib...",
+        "new Agent (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/agents/agent.ts:424:19)",
+        "new TestStack (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/agent-mem.integ.ts:34:5)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/agent-mem.integ.ts:59:15)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentMemoryTest/Agent2/Role/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "Agent2Role38FC3F9C"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Role2 in aws-cdk-lib...",
+        "new Agent (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/agents/agent.ts:424:19)",
+        "new TestStack (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/agent-mem.integ.ts:43:5)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/agent-mem.integ.ts:59:15)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentMemoryTest/Agent/Role/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "AgentRoleDefaultPolicyA34CCA36"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...Function.addToPrincipal in aws-cdk-lib...",
+        "BedrockFoundationModel.grantInvokeAllRegions (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/models.ts:513:18)",
+        "CrossRegionInferenceProfile.grantInvoke (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/inference-profiles/cross-region-inference-profile.ts:142:32)",
+        "new Agent (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/agents/agent.ts:523:42)",
+        "new TestStack (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/agent-mem.integ.ts:34:5)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/agent-mem.integ.ts:59:15)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentMemoryTest/Agent2/Role/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "Agent2RoleDefaultPolicy55328F4A"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...Function.addToPrincipal in aws-cdk-lib...",
+        "BedrockFoundationModel.grantInvokeAllRegions (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/models.ts:513:18)",
+        "CrossRegionInferenceProfile.grantInvoke (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/inference-profiles/cross-region-inference-profile.ts:142:32)",
+        "new Agent (/Users/alkrok/Projects/generative-ai-cdk-constructs/src/cdk-lib/bedrock/agents/agent.ts:523:42)",
+        "new TestStack (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/agent-mem.integ.ts:43:5)",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/agent-mem.integ.ts:59:15)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ]
+}

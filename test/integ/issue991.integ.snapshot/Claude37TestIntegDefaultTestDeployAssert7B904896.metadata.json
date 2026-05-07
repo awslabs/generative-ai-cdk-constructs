@@ -1,0 +1,40 @@
+{
+  "/Claude37Test-Integ/DefaultTest/DeployAssert": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new IntegTest in @aws-cdk/integ-tests-alpha...",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/issue991.integ.ts:59:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/Claude37Test-Integ/DefaultTest/DeployAssert/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...App.synth in aws-cdk-lib...",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/issue991.integ.ts:70:5)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/Claude37Test-Integ/DefaultTest/DeployAssert/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...App.synth in aws-cdk-lib...",
+        "<anonymous> (/Users/alkrok/Projects/generative-ai-cdk-constructs/test/integ/issue991.integ.ts:70:5)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ]
+}
