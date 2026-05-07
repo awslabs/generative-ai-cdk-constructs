@@ -17,6 +17,7 @@ import { Match, Template } from 'aws-cdk-lib/assertions';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import * as kms from 'aws-cdk-lib/aws-kms';
 import { AwsSolutionsChecks } from 'cdk-nag';
+import { lit } from '../../../src/cdk-lib/s3vectors/literal-string';
 import { VectorBucket, VectorBucketEncryption } from '../../../src/cdk-lib/s3vectors/vector-bucket';
 
 // mock lambda.Code.fromDockerBuild()
@@ -815,7 +816,7 @@ describe('VectorBucket', () => {
       expect(bucket.encryptionKey).toBe(key);
     });
 
-    test('fromVectorBucketAttributes throws error if bucket name cannot be extracted', () => {
+    test('fromVectorBucketAttributes throws error if ARN is invalid', () => {
       const app = new App();
       Aspects.of(app).add(new AwsSolutionsChecks());
       const stack = new Stack(app, 'TestStack', {
@@ -830,6 +831,22 @@ describe('VectorBucket', () => {
           vectorBucketArn: 'invalid-arn',
         });
       }).toThrow(/ARNs must start with "arn:"/);
+    });
+
+    test('fromVectorBucketAttributes throws error if bucket name cannot be extracted', () => {
+      const app = new App();
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
+
+      expect(() => {
+        VectorBucket.fromVectorBucketAttributes(stack, 'ImportedBucket', {
+          vectorBucketArn: 'arn:aws:s3vectors:us-east-1:123456789012:bucket',
+        });
+      }).toThrow(/Bucket name is required/);
     });
   });
 
@@ -978,6 +995,21 @@ describe('VectorBucket', () => {
       expect(allActions).toContain('s3vectors:CreateVectorBucket');
       expect(allActions).toContain('s3vectors:DeleteVectorBucket');
     });
+  });
+});
+
+describe('lit helper', () => {
+  test('returns the string value from a template literal', () => {
+    const result = lit`@aws-cdk/s3vectors:VectorBucket`;
+    expect(result).toBe('@aws-cdk/s3vectors:VectorBucket');
+  });
+
+  test('throws if template contains variables', () => {
+    const variable = 'test';
+    expect(() => {
+      // @ts-ignore - intentionally passing variables to test error handling
+      lit`something ${variable} else`;
+    }).toThrow(/String literal may not contain any variables/);
   });
 });
 
