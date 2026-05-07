@@ -575,4 +575,24 @@ project.tasks.tryFind('post-compile')?.insertStep(1, {
   exec: 'jsii-rosetta extract --strict',
 });
 
+// Exclude *.metadata.json from integration test snapshot assertions and gitignore.
+// These files contain absolute paths that differ between local machines and CI,
+// causing false assertion failures.
+for (const task of project.tasks.all) {
+  if (task.name.endsWith(':assert')) {
+    const steps = task.steps;
+    for (let i = 0; i < steps.length; i++) {
+      if (steps[i].exec?.startsWith('diff -r')) {
+        task.updateStep(i, {
+          exec: steps[i].exec!.replace('diff -r', 'diff -r -x *.metadata.json'),
+        });
+      }
+    }
+  }
+}
+project.gitignore.addPatterns(
+  'test/**/*.integ.snapshot/*.metadata.json',
+  'test/**/*.integ.snapshot/**/*.metadata.json',
+);
+
 project.synth();

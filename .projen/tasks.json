@@ -202,7 +202,7 @@
           "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/agent-mem.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/agent-mem.integ/assert.cdk.out > /dev/null"
         },
         {
-          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/agent-mem.integ.snapshot/ test/integ/.tmp/agent-mem.integ/assert.cdk.out/"
+          "exec": "diff -r -x *.metadata.json -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/agent-mem.integ.snapshot/ test/integ/.tmp/agent-mem.integ/assert.cdk.out/"
         }
       ]
     },
@@ -265,7 +265,7 @@
           "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp/aws-aoss-cw-dashboard.integ/assert.cdk.out > /dev/null"
         },
         {
-          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/ test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp/aws-aoss-cw-dashboard.integ/assert.cdk.out/"
+          "exec": "diff -r -x *.metadata.json -x asset.* -x cdk.out -x manifest.json -x tree.json test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.integ.snapshot/ test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/.tmp/aws-aoss-cw-dashboard.integ/assert.cdk.out/"
         }
       ]
     },
@@ -328,7 +328,7 @@
           "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/chatprompt.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/chatprompt.integ/assert.cdk.out > /dev/null"
         },
         {
-          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/chatprompt.integ.snapshot/ test/integ/.tmp/chatprompt.integ/assert.cdk.out/"
+          "exec": "diff -r -x *.metadata.json -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/chatprompt.integ.snapshot/ test/integ/.tmp/chatprompt.integ/assert.cdk.out/"
         }
       ]
     },
@@ -391,7 +391,7 @@
           "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/graph.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/graph.integ/assert.cdk.out > /dev/null"
         },
         {
-          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/graph.integ.snapshot/ test/integ/.tmp/graph.integ/assert.cdk.out/"
+          "exec": "diff -r -x *.metadata.json -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/graph.integ.snapshot/ test/integ/.tmp/graph.integ/assert.cdk.out/"
         }
       ]
     },
@@ -454,7 +454,7 @@
           "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/guardrails.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/guardrails.integ/assert.cdk.out > /dev/null"
         },
         {
-          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/guardrails.integ.snapshot/ test/integ/.tmp/guardrails.integ/assert.cdk.out/"
+          "exec": "diff -r -x *.metadata.json -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/guardrails.integ.snapshot/ test/integ/.tmp/guardrails.integ/assert.cdk.out/"
         }
       ]
     },
@@ -517,7 +517,7 @@
           "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/inference-profiles.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/inference-profiles.integ/assert.cdk.out > /dev/null"
         },
         {
-          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/inference-profiles.integ.snapshot/ test/integ/.tmp/inference-profiles.integ/assert.cdk.out/"
+          "exec": "diff -r -x *.metadata.json -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/inference-profiles.integ.snapshot/ test/integ/.tmp/inference-profiles.integ/assert.cdk.out/"
         }
       ]
     },
@@ -580,7 +580,7 @@
           "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/issue747.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/issue747.integ/assert.cdk.out > /dev/null"
         },
         {
-          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/issue747.integ.snapshot/ test/integ/.tmp/issue747.integ/assert.cdk.out/"
+          "exec": "diff -r -x *.metadata.json -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/issue747.integ.snapshot/ test/integ/.tmp/issue747.integ/assert.cdk.out/"
         }
       ]
     },
@@ -643,7 +643,7 @@
           "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/issue991.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/issue991.integ/assert.cdk.out > /dev/null"
         },
         {
-          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/issue991.integ.snapshot/ test/integ/.tmp/issue991.integ/assert.cdk.out/"
+          "exec": "diff -r -x *.metadata.json -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/issue991.integ.snapshot/ test/integ/.tmp/issue991.integ/assert.cdk.out/"
         }
       ]
     },
@@ -706,7 +706,7 @@
           "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/kendra-genai.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/kendra-genai.integ/assert.cdk.out > /dev/null"
         },
         {
-          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/kendra-genai.integ.snapshot/ test/integ/.tmp/kendra-genai.integ/assert.cdk.out/"
+          "exec": "diff -r -x *.metadata.json -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/kendra-genai.integ.snapshot/ test/integ/.tmp/kendra-genai.integ/assert.cdk.out/"
         }
       ]
     },
@@ -769,7 +769,7 @@
           "exec": "cdk synth --app \"ts-node -P tsconfig.dev.json test/integ/prompt-router.integ.ts\" --no-notices --no-version-reporting --no-asset-metadata --no-path-metadata -o test/integ/.tmp/prompt-router.integ/assert.cdk.out > /dev/null"
         },
         {
-          "exec": "diff -r -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/prompt-router.integ.snapshot/ test/integ/.tmp/prompt-router.integ/assert.cdk.out/"
+          "exec": "diff -r -x *.metadata.json -x asset.* -x cdk.out -x manifest.json -x tree.json test/integ/prompt-router.integ.snapshot/ test/integ/.tmp/prompt-router.integ/assert.cdk.out/"
         }
       ]
     },
