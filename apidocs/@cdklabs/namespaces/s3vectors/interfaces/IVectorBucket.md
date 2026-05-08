@@ -254,3 +254,32 @@ Restrict the permission to a certain set of indexes (default '*'). Parameter typ
 `Grant`
 
 An IAM Grant object representing the granted permissions
+
+***
+
+### with()
+
+> **with**(...`mixins`): `IConstruct`
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+
+#### Parameters
+
+##### mixins
+
+...`IMixin`[]
+
+The mixins to apply
+
+#### Returns
+
+`IConstruct`
+
+This construct for chaining
+
+#### Inherited from
+
+`IResource.with`

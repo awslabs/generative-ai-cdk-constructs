@@ -16,9 +16,9 @@ Default output format [None]: json
 ```
 
 - [Node](https://nodejs.org/en) >= v22.0.0
-- [AWS CDK](https://github.com/aws/aws-cdk/releases/tag/v2.233.0) >= 2.233.0
+- [AWS CDK](https://github.com/aws/aws-cdk/releases/tag/v2.253.0) >= 2.253.0
 - [Python](https://www.python.org/downloads/) >=3.9
-- [Projen](https://github.com/projen/projen/releases/tag/v0.98.26) >= 0.98.26
+- [Projen](https://github.com/projen/projen/releases/tag/v0.99.53) >= 0.99.53
 - [Yarn](https://classic.yarnpkg.com/lang/en/docs/cli/install/) >= 1.22.19
 
 You can use the command below to install the dependencies listed above

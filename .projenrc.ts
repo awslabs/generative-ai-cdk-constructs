@@ -29,7 +29,7 @@ import {
 const GITHUB_USER = 'awslabs';
 const PUBLICATION_NAMESPACE = 'cdklabs';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
-const CDK_VERSION: string = '2.233.0';
+const CDK_VERSION: string = '2.253.0';
 
 function camelCaseIt(input: string): string {
   // Hypens and dashes to spaces and then CamelCase...
@@ -49,8 +49,8 @@ const project = new awscdk.AwsCdkConstructLibrary({
   description:
     'AWS Generative AI CDK Constructs is a library for well-architected generative AI patterns.',
   cdkVersion: CDK_VERSION,
-  projenVersion: '~0.98.26',
-  constructsVersion: '10.3.0',
+  projenVersion: '~0.99.53',
+  constructsVersion: '10.5.0',
   defaultReleaseBranch: 'main',
   jsiiVersion: '~5.9.0',
   name: '@' + PUBLICATION_NAMESPACE + '/' + PROJECT_NAME,
@@ -574,5 +574,25 @@ project.tasks.tryFind('post-compile')?.insertStep(1, {
   say: 'Verify documentation examples are correctly compiled',
   exec: 'jsii-rosetta extract --strict',
 });
+
+// Exclude *.metadata.json from integration test snapshot assertions and gitignore.
+// These files contain absolute paths that differ between local machines and CI,
+// causing false assertion failures.
+for (const task of project.tasks.all) {
+  if (task.name.endsWith(':assert')) {
+    const steps = task.steps;
+    for (let i = 0; i < steps.length; i++) {
+      if (steps[i].exec?.startsWith('diff -r')) {
+        task.updateStep(i, {
+          exec: steps[i].exec!.replace('diff -r', 'diff -r -x *.metadata.json'),
+        });
+      }
+    }
+  }
+}
+project.gitignore.addPatterns(
+  'test/**/*.integ.snapshot/*.metadata.json',
+  'test/**/*.integ.snapshot/**/*.metadata.json',
+);
 
 project.synth();

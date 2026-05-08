@@ -18,6 +18,7 @@ import { CfnVectorBucket, CfnVectorBucketProps } from 'aws-cdk-lib/aws-s3vectors
 import { Construct } from 'constructs';
 // Internal libs
 import { AutoDeleteProvider } from './auto-delete-provider';
+import { lit } from './literal-string';
 import * as perms from './perms';
 import { validateStringFieldLength, validateFieldPattern, throwIfInvalid } from './validation-helpers';
 import { VectorBucketPolicy } from './vector-bucket-policy';
@@ -311,7 +312,7 @@ export abstract class VectorBucketBase extends Resource implements IVectorBucket
           });
         }
       } else {
-        throw new ValidationError('indexIds must be a string (\'*\') or an array of strings', this);
+        throw new ValidationError(lit`@aws-cdk/s3vectors:VectorBucket`, 'indexIds must be a string (\'*\') or an array of strings', this);
       }
     }
 
@@ -470,7 +471,7 @@ export class VectorBucket extends VectorBucketBase {
   public static fromVectorBucketAttributes(scope: Construct, id: string, attrs: VectorBucketAttributes): IVectorBucket {
     const bucketName = Arn.split(attrs.vectorBucketArn, ArnFormat.SLASH_RESOURCE_NAME).resourceName!;
     if (!bucketName) {
-      throw new ValidationError('Bucket name is required', scope);
+      throw new ValidationError(lit`@aws-cdk/s3vectors:VectorBucket`, 'Bucket name is required', scope);
     }
     class Import extends VectorBucketBase {
       public readonly vectorBucketArn = attrs.vectorBucketArn;
@@ -616,7 +617,7 @@ export class VectorBucket extends VectorBucketBase {
 
     if (props.autoDeleteObjects) {
       if (props.removalPolicy !== RemovalPolicy.DESTROY) {
-        throw new ValidationError('Cannot use \'autoDeleteObjects\' property on a bucket without setting removal policy to \'DESTROY\'.', this);
+        throw new ValidationError(lit`@aws-cdk/s3vectors:VectorBucket`, 'Cannot use \'autoDeleteObjects\' property on a bucket without setting removal policy to \'DESTROY\'.', this);
       }
 
       this._enableAutoDeleteObjects();
