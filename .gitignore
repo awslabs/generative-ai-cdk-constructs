@@ -148,4 +148,6 @@ test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.int
 !/.github/workflows/bandit.yml
 !/.github/workflows/commitlint.yml
 !/.github/workflows/code-generation.yml
+test/**/*.integ.snapshot/*.metadata.json
+test/**/*.integ.snapshot/**/*.metadata.json
 !/.projenrc.ts

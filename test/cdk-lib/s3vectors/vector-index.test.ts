@@ -800,6 +800,38 @@ describe('VectorIndex', () => {
         });
       }).toThrow(/The `resource` component/);
     });
+
+    test('fromVectorIndexAttributes throws error if ARN has no resource name', () => {
+      const app = new App();
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
+
+      expect(() => {
+        VectorIndex.fromVectorIndexAttributes(stack, 'MyIndex', {
+          vectorIndexArn: 'arn:aws:s3vectors:us-east-1:123456789012:something',
+        });
+      }).toThrow(/Vector index ARN resource part is required/);
+    });
+
+    test('fromVectorIndexAttributes throws error if ARN does not match bucket/index pattern', () => {
+      const app = new App();
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
+
+      expect(() => {
+        VectorIndex.fromVectorIndexAttributes(stack, 'MyIndex', {
+          vectorIndexArn: 'arn:aws:s3vectors:us-east-1:123456789012:something/else',
+        });
+      }).toThrow(/Invalid vector index ARN format/);
+    });
   });
 
   describe('Attributes', () => {

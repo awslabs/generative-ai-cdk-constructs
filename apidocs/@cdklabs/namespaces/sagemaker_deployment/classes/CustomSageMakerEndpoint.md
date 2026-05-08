@@ -381,6 +381,37 @@ add AWS_SDK_UA_APP_ID to user agent on aws sdk.
 
 ***
 
+### with()
+
+> **with**(...`mixins`): `IConstruct`
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+#### Parameters
+
+##### mixins
+
+...`IMixin`[]
+
+The mixins to apply
+
+#### Returns
+
+`IConstruct`
+
+This construct for chaining
+
+#### Inherited from
+
+[`SageMakerEndpointBase`](SageMakerEndpointBase.md).[`with`](SageMakerEndpointBase.md#with)
+
+***
+
 ### isConstruct()
 
 > `static` **isConstruct**(`x`): `x is Construct`

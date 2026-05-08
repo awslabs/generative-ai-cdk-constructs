@@ -1,5 +1,5 @@
 {
-  "version": "48.0.0",
+  "version": "53.0.0",
   "files": {
     "faa95a81ae7d7373f3e1f242268f904eb748d8d0fdd306e8a6fe515a1905a7d6": {
       "displayName": "aws-cdk-bedrock-graph-integ-test/Custom::S3AutoDeleteObjectsCustomResourceProvider Code",

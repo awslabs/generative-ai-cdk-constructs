@@ -112,3 +112,32 @@ account for data recovery and cleanup later (`RemovalPolicy.RETAIN`).
 #### Inherited from
 
 `IResource.applyRemovalPolicy`
+
+***
+
+### with()
+
+> **with**(...`mixins`): `IConstruct`
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+
+#### Parameters
+
+##### mixins
+
+...`IMixin`[]
+
+The mixins to apply
+
+#### Returns
+
+`IConstruct`
+
+This construct for chaining
+
+#### Inherited from
+
+`IResource.with`

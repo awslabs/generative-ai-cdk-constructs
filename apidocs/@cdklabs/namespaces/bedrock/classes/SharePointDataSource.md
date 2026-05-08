@@ -100,26 +100,6 @@ The domain name of your SharePoint instance.
 
 ***
 
-### env
-
-> `readonly` **env**: `ResourceEnvironment`
-
-The environment this resource belongs to.
-
-For resources that are created and managed in a Stack (those created by
-creating new class instances like `new Role()`, `new Bucket()`, etc.), this
-is always the same as the environment of the stack they belong to.
-
-For referenced resources (those obtained from referencing methods like
-`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
-different than the stack they were imported into.
-
-#### Inherited from
-
-[`DataSourceNew`](DataSourceNew.md).[`env`](DataSourceNew.md#env)
-
-***
-
 ### kmsKey?
 
 > `readonly` `optional` **kmsKey?**: `IKey`
@@ -156,9 +136,55 @@ The tree node.
 
 ***
 
+### siteUrls
+
+> `readonly` **siteUrls**: `string`[]
+
+The SharePoint site URL/URLs.
+
+## Accessors
+
+### env
+
+#### Get Signature
+
+> **get** **env**(): `ResourceEnvironment`
+
+The environment this resource belongs to.
+
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
+
+##### Returns
+
+`ResourceEnvironment`
+
+The environment this resource belongs to.
+
+For resources that are created and managed in a Stack (those created by
+creating new class instances like `new Role()`, `new Bucket()`, etc.), this
+is always the same as the environment of the stack they belong to.
+
+For referenced resources (those obtained from referencing methods like
+`Role.fromRoleArn()`, `Bucket.fromBucketName()`, etc.), they might be
+different than the stack they were imported into.
+
+#### Inherited from
+
+[`DataSourceNew`](DataSourceNew.md).[`env`](DataSourceNew.md#env)
+
+***
+
 ### physicalName
 
-> `protected` `readonly` **physicalName**: `string`
+#### Get Signature
+
+> **get** `protected` **physicalName**(): `string`
 
 Returns a string-encoded token that resolves to the physical name that
 should be passed to the CloudFormation resource.
@@ -169,23 +195,27 @@ This value will resolve to one of the following:
 - a concrete name generated automatically during synthesis, in
   cross-environment scenarios.
 
+##### Returns
+
+`string`
+
 #### Inherited from
 
 [`DataSourceNew`](DataSourceNew.md).[`physicalName`](DataSourceNew.md#physicalname)
 
 ***
 
-### siteUrls
-
-> `readonly` **siteUrls**: `string`[]
-
-The SharePoint site URL/URLs.
-
-***
-
 ### stack
 
-> `readonly` **stack**: `Stack`
+#### Get Signature
+
+> **get** **stack**(): `Stack`
+
+The stack in which this resource is defined.
+
+##### Returns
+
+`Stack`
 
 The stack in which this resource is defined.
 
@@ -391,6 +421,37 @@ Returns a string representation of this construct.
 #### Inherited from
 
 [`DataSourceNew`](DataSourceNew.md).[`toString`](DataSourceNew.md#tostring)
+
+***
+
+### with()
+
+> **with**(...`mixins`): `IConstruct`
+
+Applies one or more mixins to this construct.
+
+Mixins are applied in order. The list of constructs is captured at the
+start of the call, so constructs added by a mixin will not be visited.
+Use multiple `with()` calls if subsequent mixins should apply to added
+constructs.
+
+#### Parameters
+
+##### mixins
+
+...`IMixin`[]
+
+The mixins to apply
+
+#### Returns
+
+`IConstruct`
+
+This construct for chaining
+
+#### Inherited from
+
+[`DataSourceNew`](DataSourceNew.md).[`with`](DataSourceNew.md#with)
 
 ***
 

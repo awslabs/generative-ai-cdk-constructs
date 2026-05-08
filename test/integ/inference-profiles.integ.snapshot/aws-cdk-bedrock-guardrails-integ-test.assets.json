@@ -1,5 +1,5 @@
 {
-  "version": "48.0.0",
+  "version": "53.0.0",
   "files": {
     "ea52821b2f897f4747652193704dc57b09f387d548e94159a698de2d27cca5ca": {
       "displayName": "aws-cdk-bedrock-guardrails-integ-test Template",
