@@ -467,6 +467,35 @@ describe('VectorBucket', () => {
       Template.fromStack(stack).hasResource('AWS::S3Vectors::VectorBucket', Match.anyValue());
     });
 
+    test('autoDeleteObjects tag does not use reserved aws: prefix', () => {
+      const app = new App();
+      Aspects.of(app).add(new AwsSolutionsChecks());
+      const stack = new Stack(app, 'TestStack', {
+        env: {
+          account: '123456789012',
+          region: 'us-east-1',
+        },
+      });
+      new VectorBucket(stack, 'MyBucket', {
+        autoDeleteObjects: true,
+        removalPolicy: RemovalPolicy.DESTROY,
+      });
+
+      const template = Template.fromStack(stack);
+      const buckets = template.findResources('AWS::S3Vectors::VectorBucket');
+      const bucket = Object.values(buckets)[0];
+      const tags = bucket.Properties?.Tags ?? [];
+      for (const tag of tags) {
+        expect(tag.Key).not.toMatch(/^aws:/);
+      }
+      // Verify the expected tag key is present
+      expect(tags).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({ Key: 'aws-cdk:auto-delete-objects', Value: 'true' }),
+        ]),
+      );
+    });
+
     test('autoDeleteObjects grants correct permissions to provider role', () => {
       const app = new App();
       Aspects.of(app).add(new AwsSolutionsChecks());
