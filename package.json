@@ -109,7 +109,7 @@
     "aws-sdk-mock": "^5.9.0",
     "commit-and-tag-version": "^12",
     "commitlint": "^18.6.1",
-    "constructs": "10.5.0",
+    "constructs": "10.6.0",
     "eslint": "^9",
     "eslint-import-resolver-typescript": "^3.10.1",
     "eslint-plugin-import": "^2.32.0",
@@ -133,7 +133,7 @@
   },
   "peerDependencies": {
     "aws-cdk-lib": "^2.253.0",
-    "constructs": "^10.5.0"
+    "constructs": "^10.6.0"
   },
   "dependencies": {
     "@aws-cdk/aws-lambda-python-alpha": "2.253.0-alpha.0",
