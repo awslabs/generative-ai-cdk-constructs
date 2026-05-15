@@ -546,6 +546,44 @@ describe('VectorKnowledgeBase', () => {
     }).toThrow(/S3 vector index dimension \(1024\) must match the embeddings model dimension \(1536\)/);
   });
 
+  test('S3 VectorIndex Knowledge Base execution role should have DeleteVectors permission', () => {
+    const s3App = new cdk.App();
+    const s3Stack = new cdk.Stack(s3App, 'S3VectorsPermissionsTestStack', {
+      env: { account: '123456789012', region: 'us-east-1' },
+    });
+    const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
+    const vectorBucket = new VectorBucket(s3Stack, 'S3VectorBucket');
+    const vectorIndex = new VectorIndex(s3Stack, 'S3VectorIndex', {
+      vectorBucket,
+      dimension: model.vectorDimensions!,
+    });
+
+    new VectorKnowledgeBase(s3Stack, 'S3VectorsKnowledgeBase', {
+      embeddingsModel: model,
+      vectorStore: vectorIndex,
+    });
+
+    const s3VectorsTemplate = Template.fromStack(s3Stack);
+
+    // Verify that the execution role has s3vectors:DeleteVectors permission
+    s3VectorsTemplate.hasResourceProperties('AWS::IAM::Policy', {
+      PolicyDocument: {
+        Statement: Match.arrayWith([
+          Match.objectLike({
+            Action: Match.arrayWith(['s3vectors:DeleteVectors']),
+            Effect: 'Allow',
+            // Check the resource is scoped to a specific index
+            Resource: Match.objectLike({
+              'Fn::Join': Match.arrayWith([
+                Match.arrayWith(['/index/']),
+              ]),
+            }),
+          }),
+        ]),
+      },
+    });
+  });
+
   test('Should correctly initialize with SupplementalDataStorageLocation', () => {
     const model = BedrockFoundationModel.TITAN_EMBED_TEXT_V1;
     const vectorStore = new VectorCollection(stack, 'VectorCollection4');
