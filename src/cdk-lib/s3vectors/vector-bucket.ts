@@ -27,7 +27,7 @@ import { VectorBucketPolicy } from './vector-bucket-policy';
  * Constants
  */
 const AUTO_DELETE_OBJECTS_RESOURCE_TYPE = 'Custom::S3VectorsAutoDeleteObjects';
-const AUTO_DELETE_OBJECTS_TAG = 'aws:cdk:auto-delete-objects';
+const AUTO_DELETE_OBJECTS_TAG = 'aws-cdk:auto-delete-objects';
 
 /******************************************************************************
  *                                ENUMS
