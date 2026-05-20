@@ -11,6 +11,7 @@
  *  and limitations under the License.
  */
 
+import * as child_process from 'child_process';
 import * as cdk from 'aws-cdk-lib';
 import * as ec2 from 'aws-cdk-lib/aws-ec2';
 import * as iam from 'aws-cdk-lib/aws-iam';
@@ -29,7 +30,8 @@ export interface CRProviderProps {
   readonly providerName: string;
 
   /**
-   * Path to custom resource provider Lambda code. The package will be built using lambda.Code.fromDockerBuild().
+   * Path to custom resource provider Lambda code. The package will be bundled locally if
+   * pip/poetry are available, otherwise falls back to Docker.
    *
    * @default - None.
    */
@@ -114,7 +116,32 @@ export function buildCustomResourceProvider(props: CRProviderProps): ICRProvider
       });
 
       const customResourceFunction = new lambda.Function(this, 'CustomResourcesFunction', {
-        code: lambda.Code.fromDockerBuild(codePath),
+        code: lambda.Code.fromAsset(codePath, {
+          bundling: {
+            image: runtime.bundlingImage,
+            user: 'root',
+            command: [
+              'bash', '-c',
+              'pip install poetry -q && poetry install -q && poetry build -q && poetry run pip install --upgrade -t /asset-output dist/*.whl -q',
+            ],
+            local: {
+              tryBundle(outputDir: string): boolean {
+                try {
+                  const opts = { cwd: codePath, stdio: 'pipe' as const, shell: true };
+                  const steps = [
+                    () => child_process.spawnSync('pip', ['install', 'poetry', '-q'], opts),
+                    () => child_process.spawnSync('poetry', ['install', '-q'], opts),
+                    () => child_process.spawnSync('poetry', ['build', '-q'], opts),
+                    () => child_process.spawnSync('poetry', ['run', 'pip', 'install', '--upgrade', '-t', outputDir, 'dist/*.whl', '-q'], opts),
+                  ];
+                  return steps.every(step => step().status === 0);
+                } catch {
+                  return false;
+                }
+              },
+            },
+          },
+        }),
         handler,
         runtime,
         layers,
