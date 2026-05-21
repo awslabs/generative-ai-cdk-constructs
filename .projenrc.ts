@@ -593,6 +593,8 @@ for (const task of project.tasks.all) {
 project.gitignore.addPatterns(
   'test/**/*.integ.snapshot/*.metadata.json',
   'test/**/*.integ.snapshot/**/*.metadata.json',
+  'lambda/**/dist/',
+  'lambda/**/poetry.lock',
 );
 
 project.synth();
