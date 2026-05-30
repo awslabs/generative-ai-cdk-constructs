@@ -134,6 +134,9 @@ def create_mapping(
     precision: str,
     distance_type: str,
     metadata_management: Sequence[MetadataManagementField],
+    engine: str = "faiss",
+    algorithm_name: str = "hnsw",
+    algorithm_parameters: dict | None = None,
 ) -> dict:
     mapping = {
         "properties": {
@@ -142,10 +145,10 @@ def create_mapping(
                 "dimension": dimensions,
                 "data_type": precision,
                 "method": {
-                    "engine": "faiss",
+                    "engine": engine,
                     "space_type": distance_type,
-                    "name": "hnsw",
-                    "parameters": {},
+                    "name": algorithm_name,
+                    "parameters": algorithm_parameters or {},
                 },
             },
             "id": {
@@ -163,11 +166,15 @@ def create_mapping(
     return mapping
 
 
-def create_setting(analyzer: AnalyzerProperties | None) -> dict:
+def create_setting(
+    analyzer: AnalyzerProperties | None,
+    number_of_shards: int = 2,
+    ef_search: int = 512,
+) -> dict:
     setting = {
         "index": {
-            "number_of_shards": "2",
-            "knn.algo_param": {"ef_search": "512"},
+            "number_of_shards": str(number_of_shards),
+            "knn.algo_param": {"ef_search": str(ef_search)},
             "knn": "true",
         },
     }
@@ -219,13 +226,21 @@ def handle_create(
     distance_type: str,
     metadata_management: Sequence[MetadataManagementField],
     analyzer: AnalyzerProperties | None,
+    engine: str = "faiss",
+    algorithm_name: str = "hnsw",
+    algorithm_parameters: dict | None = None,
+    number_of_shards: int = 2,
+    ef_search: int = 512,
 ):
     if client.indices.exists(index=index_name):
         raise ValueError(f"Index {index_name} already exists")
 
     try:
-        mapping = create_mapping(vector_field, dimensions, precision, distance_type, metadata_management)
-        setting = create_setting(analyzer)
+        mapping = create_mapping(
+            vector_field, dimensions, precision, distance_type, metadata_management,
+            engine=engine, algorithm_name=algorithm_name, algorithm_parameters=algorithm_parameters,
+        )
+        setting = create_setting(analyzer, number_of_shards=number_of_shards, ef_search=ef_search)
         create_index(client, index_name, mapping, setting)
     except Exception as e:
         logger.error(f"Error creating index {index_name}")
