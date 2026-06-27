@@ -301,15 +301,18 @@ export abstract class VectorBucketBase extends Resource implements IVectorBucket
           resource: this,
         });
       } else if (Array.isArray(indexIds)) {
+        // Grant per index and combine the results so the returned Grant
+        // references every index ARN, not just the last one in the array.
         for (const indexId of indexIds) {
           const indexArn = `${this.vectorBucketArn}/index/${indexId}`;
 
-          indexResult = iam.Grant.addToPrincipalOrResource({
+          const indexGrant = iam.Grant.addToPrincipalOrResource({
             actions: indexActions,
             grantee: grantee,
             resourceArns: [indexArn],
             resource: this,
           });
+          indexResult = indexResult ? indexResult.combine(indexGrant) : indexGrant;
         }
       } else {
         throw new ValidationError(lit`@aws-cdk/s3vectors:VectorBucket`, 'indexIds must be a string (\'*\') or an array of strings', this);
@@ -320,6 +323,11 @@ export abstract class VectorBucketBase extends Resource implements IVectorBucket
       this.encryptionKey?.grant(grantee, ...keyActions);
     }
 
+    // Combine the bucket and index grants so the returned Grant represents all
+    // permissions granted (bucket + indexes), not only the bucket statement.
+    if (bucketResult && indexResult) {
+      return bucketResult.combine(indexResult);
+    }
     return bucketResult ?? indexResult ?? iam.Grant.drop(grantee, 'No actions to grant');
   }
 }

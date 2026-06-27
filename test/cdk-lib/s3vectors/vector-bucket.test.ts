@@ -623,6 +623,23 @@ describe('VectorBucket', () => {
       });
     });
 
+    test('returned Grant references every specified index ARN, not just the last', () => {
+      // The returned Grant object is used by callers for dependency wiring
+      // (grant.applyBefore(...), grant.assertSuccess(), inspecting statements).
+      // It must represent ALL index ARNs that were granted - not only the last
+      // index in the array, and not only the bucket statement.
+      const grant = bucket.grantRead(role, ['index1', 'index2']);
+
+      const resources = JSON.stringify(
+        [...grant.principalStatements, ...grant.resourceStatements].map(
+          (statement) => stack.resolve(statement.toStatementJson()).Resource,
+        ),
+      );
+
+      expect(resources).toContain('/index/index1');
+      expect(resources).toContain('/index/index2');
+    });
+
     test('grantWrite grants write permissions', () => {
       bucket.grantWrite(role);
 
