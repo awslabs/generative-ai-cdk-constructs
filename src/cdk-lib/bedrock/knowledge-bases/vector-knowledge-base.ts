@@ -890,6 +890,7 @@ export class VectorKnowledgeBase extends VectorKnowledgeBaseBase {
     // Grant the KB role read and write access to the vector index
     vectorStore.vectorBucket.grantRead(this.role, [vectorStore.vectorIndexName]);
     vectorStore.vectorBucket.grantWrite(this.role, [vectorStore.vectorIndexName]);
+    vectorStore.vectorBucket.grantDelete(this.role, [vectorStore.vectorIndexName]);
     return {
       vectorStore: vectorStore,
       vectorStoreType: VectorStoreType.S3_VECTORS,
