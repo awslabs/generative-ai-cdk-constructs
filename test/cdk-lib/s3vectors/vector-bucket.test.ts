@@ -623,22 +623,45 @@ describe('VectorBucket', () => {
       });
     });
 
-    test('returned Grant references every specified index ARN, not just the last', () => {
-      // The returned Grant object is used by callers for dependency wiring
-      // (grant.applyBefore(...), grant.assertSuccess(), inspecting statements).
-      // It must represent ALL index ARNs that were granted - not only the last
-      // index in the array, and not only the bucket statement.
-      const grant = bucket.grantRead(role, ['index1', 'index2']);
+    // The returned Grant object is used by callers for dependency wiring
+    // (grant.applyBefore(...), grant.assertSuccess(), inspecting statements).
+    // It must represent ALL index ARNs that were granted - not only the last
+    // index in the array - AND the bucket statement, which is the second half
+    // of the fix (bucketResult.combine(indexResult)). grantDelete is the exact
+    // "last index only" scenario from the bug title, so all three grant methods
+    // exercise the multi-index combine path here.
+    test.each([
+      ['grantRead', (g: iam.IGrantable, ids: string[]) => bucket.grantRead(g, ids)],
+      ['grantWrite', (g: iam.IGrantable, ids: string[]) => bucket.grantWrite(g, ids)],
+      ['grantDelete', (g: iam.IGrantable, ids: string[]) => bucket.grantDelete(g, ids)],
+    ] as const)(
+      '%s returns a Grant referencing every index ARN and the bucket ARN, not just the last index',
+      (_name, grantFn) => {
+        const grant = grantFn(role, ['index1', 'index2']);
 
-      const resources = JSON.stringify(
-        [...grant.principalStatements, ...grant.resourceStatements].map(
-          (statement) => stack.resolve(statement.toStatementJson()).Resource,
-        ),
-      );
+        const resolved = [
+          ...grant.principalStatements,
+          ...grant.resourceStatements,
+        ].map((statement) => stack.resolve(statement.toStatementJson()).Resource);
+        const resources = JSON.stringify(resolved);
 
-      expect(resources).toContain('/index/index1');
-      expect(resources).toContain('/index/index2');
-    });
+        // Every specified index ARN is present - not just the last one.
+        expect(resources).toContain('/index/index1');
+        expect(resources).toContain('/index/index2');
+
+        // The bucket statement survives the combine. Index ARNs are built from
+        // the bucket ARN (Fn::Join of the VectorBucketArn GetAtt + "/index/..."),
+        // so a plain "VectorBucketArn" match alone would also pass from an index
+        // statement. Assert a standalone bucket resource exists - one that
+        // references VectorBucketArn WITHOUT the "/index/" suffix.
+        expect(resources).toContain('VectorBucketArn');
+        const bucketOnly = resolved.some((resource) => {
+          const asString = JSON.stringify(resource);
+          return asString.includes('VectorBucketArn') && !asString.includes('/index/');
+        });
+        expect(bucketOnly).toBe(true);
+      },
+    );
 
     test('grantWrite grants write permissions', () => {
       bucket.grantWrite(role);
