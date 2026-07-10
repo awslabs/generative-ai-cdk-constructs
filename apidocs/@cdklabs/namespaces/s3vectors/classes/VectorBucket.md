@@ -289,6 +289,36 @@ silently, which may be confusing.
 
 ***
 
+### applyCrossStackReferenceStrength()
+
+> **applyCrossStackReferenceStrength**(`strength`): `void`
+
+Override the cross-stack reference strength for this resource.
+
+When set, any cross-stack reference to this resource will use the specified
+mechanism instead of the global default determined by the
+`@aws-cdk/core:defaultCrossStackReferences` context key. This is useful for
+selectively weakening specific references to avoid the "deadly embrace" problem
+without changing the app-wide default.
+
+#### Parameters
+
+##### strength
+
+`ReferenceStrength`
+
+The reference strength to use for this resource.
+
+#### Returns
+
+`void`
+
+#### Inherited from
+
+[`VectorBucketBase`](VectorBucketBase.md).[`applyCrossStackReferenceStrength`](VectorBucketBase.md#applycrossstackreferencestrength)
+
+***
+
 ### applyRemovalPolicy()
 
 > **applyRemovalPolicy**(`policy`): `void`
