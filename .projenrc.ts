@@ -578,14 +578,21 @@ project.tasks.tryFind('post-compile')?.insertStep(1, {
 // Exclude *.metadata.json from integration test snapshot assertions and gitignore.
 // These files contain absolute paths that differ between local machines and CI,
 // causing false assertion failures.
+// Projen >=0.101 emits the diff step as execArgs instead of a single exec string.
 for (const task of project.tasks.all) {
   if (task.name.endsWith(':assert')) {
     const steps = task.steps;
     for (let i = 0; i < steps.length; i++) {
-      if (steps[i].exec?.startsWith('diff -r')) {
+      const step = steps[i];
+      if (step.exec?.startsWith('diff -r')) {
         task.updateStep(i, {
-          exec: steps[i].exec!.replace('diff -r', 'diff -r -x *.metadata.json'),
+          exec: step.exec.replace('diff -r', 'diff -r -x *.metadata.json'),
         });
+      } else if (step.execArgs?.[0] === 'diff' && !step.execArgs.includes('*.metadata.json')) {
+        const args = [...step.execArgs];
+        const rIndex = args.indexOf('-r');
+        args.splice(rIndex >= 0 ? rIndex + 1 : 1, 0, '-x', '*.metadata.json');
+        task.updateStep(i, { execArgs: args });
       }
     }
   }
