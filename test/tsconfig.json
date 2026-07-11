@@ -4,7 +4,8 @@
   "compilerOptions": {
     "noEmit": true,
     "rootDir": "..",
-    "stripInternal": true
+    "stripInternal": true,
+    "isolatedModules": true
   },
   "include": [
     "**/*.ts"
