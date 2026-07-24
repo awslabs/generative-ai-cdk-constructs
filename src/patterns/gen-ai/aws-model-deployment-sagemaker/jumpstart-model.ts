@@ -7692,6 +7692,7 @@ export class JumpStartModel {
   public static readonly META_TEXTGENERATION_LLAMA_GUARD_7B_1_2_0 = this.of('META_TEXTGENERATION_LLAMA_GUARD_7B_1_2_0');
   public static readonly META_TEXTGENERATION_LLAMA_GUARD_7B_1_1_0 = this.of('META_TEXTGENERATION_LLAMA_GUARD_7B_1_1_0');
   public static readonly META_TEXTGENERATION_LLAMA_GUARD_7B_1_0_0 = this.of('META_TEXTGENERATION_LLAMA_GUARD_7B_1_0_0');
+  public static readonly META_VLM_LLAMA_3_2_11B_VISION_2_3_3 = this.of('META_VLM_LLAMA_3_2_11B_VISION_2_3_3');
   public static readonly META_VLM_LLAMA_3_2_11B_VISION_2_3_2 = this.of('META_VLM_LLAMA_3_2_11B_VISION_2_3_2');
   public static readonly META_VLM_LLAMA_3_2_11B_VISION_2_3_1 = this.of('META_VLM_LLAMA_3_2_11B_VISION_2_3_1');
   public static readonly META_VLM_LLAMA_3_2_11B_VISION_2_3_0 = this.of('META_VLM_LLAMA_3_2_11B_VISION_2_3_0');
@@ -7721,6 +7722,7 @@ export class JumpStartModel {
   public static readonly META_VLM_LLAMA_3_2_11B_VISION_2_0_0 = this.of('META_VLM_LLAMA_3_2_11B_VISION_2_0_0');
   public static readonly META_VLM_LLAMA_3_2_11B_VISION_1_0_1 = this.of('META_VLM_LLAMA_3_2_11B_VISION_1_0_1');
   public static readonly META_VLM_LLAMA_3_2_11B_VISION_1_0_0 = this.of('META_VLM_LLAMA_3_2_11B_VISION_1_0_0');
+  public static readonly META_VLM_LLAMA_3_2_11B_VISION_INSTRUCT_2_19_2 = this.of('META_VLM_LLAMA_3_2_11B_VISION_INSTRUCT_2_19_2');
   public static readonly META_VLM_LLAMA_3_2_11B_VISION_INSTRUCT_2_19_1 = this.of('META_VLM_LLAMA_3_2_11B_VISION_INSTRUCT_2_19_1');
   public static readonly META_VLM_LLAMA_3_2_11B_VISION_INSTRUCT_2_19_0 = this.of('META_VLM_LLAMA_3_2_11B_VISION_INSTRUCT_2_19_0');
   public static readonly META_VLM_LLAMA_3_2_11B_VISION_INSTRUCT_2_18_1 = this.of('META_VLM_LLAMA_3_2_11B_VISION_INSTRUCT_2_18_1');
@@ -7777,6 +7779,7 @@ export class JumpStartModel {
   public static readonly META_VLM_LLAMA_3_2_11B_VISION_INSTRUCT_2_0_0 = this.of('META_VLM_LLAMA_3_2_11B_VISION_INSTRUCT_2_0_0');
   public static readonly META_VLM_LLAMA_3_2_11B_VISION_INSTRUCT_1_0_1 = this.of('META_VLM_LLAMA_3_2_11B_VISION_INSTRUCT_1_0_1');
   public static readonly META_VLM_LLAMA_3_2_11B_VISION_INSTRUCT_1_0_0 = this.of('META_VLM_LLAMA_3_2_11B_VISION_INSTRUCT_1_0_0');
+  public static readonly META_VLM_LLAMA_3_2_90B_VISION_2_3_2 = this.of('META_VLM_LLAMA_3_2_90B_VISION_2_3_2');
   public static readonly META_VLM_LLAMA_3_2_90B_VISION_2_3_1 = this.of('META_VLM_LLAMA_3_2_90B_VISION_2_3_1');
   public static readonly META_VLM_LLAMA_3_2_90B_VISION_2_3_0 = this.of('META_VLM_LLAMA_3_2_90B_VISION_2_3_0');
   public static readonly META_VLM_LLAMA_3_2_90B_VISION_2_2_13 = this.of('META_VLM_LLAMA_3_2_90B_VISION_2_2_13');
@@ -7861,6 +7864,7 @@ export class JumpStartModel {
   public static readonly META_VLM_LLAMA_3_2_90B_VISION_INSTRUCT_2_0_0 = this.of('META_VLM_LLAMA_3_2_90B_VISION_INSTRUCT_2_0_0');
   public static readonly META_VLM_LLAMA_3_2_90B_VISION_INSTRUCT_1_0_1 = this.of('META_VLM_LLAMA_3_2_90B_VISION_INSTRUCT_1_0_1');
   public static readonly META_VLM_LLAMA_3_2_90B_VISION_INSTRUCT_1_0_0 = this.of('META_VLM_LLAMA_3_2_90B_VISION_INSTRUCT_1_0_0');
+  public static readonly META_VLM_LLAMA_GUARD_3_11B_VISION_2_2_2 = this.of('META_VLM_LLAMA_GUARD_3_11B_VISION_2_2_2');
   public static readonly META_VLM_LLAMA_GUARD_3_11B_VISION_2_2_1 = this.of('META_VLM_LLAMA_GUARD_3_11B_VISION_2_2_1');
   public static readonly META_VLM_LLAMA_GUARD_3_11B_VISION_2_2_0 = this.of('META_VLM_LLAMA_GUARD_3_11B_VISION_2_2_0');
   public static readonly META_VLM_LLAMA_GUARD_3_11B_VISION_2_1_13 = this.of('META_VLM_LLAMA_GUARD_3_11B_VISION_2_1_13');

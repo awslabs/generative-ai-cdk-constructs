@@ -46104,6 +46104,12 @@
 
 ***
 
+### META\_VLM\_LLAMA\_3\_2\_11B\_VISION\_2\_3\_3
+
+> `readonly` `static` **META\_VLM\_LLAMA\_3\_2\_11B\_VISION\_2\_3\_3**: `JumpStartModel`
+
+***
+
 ### META\_VLM\_LLAMA\_3\_2\_11B\_VISION\_INSTRUCT\_1\_0\_0
 
 > `readonly` `static` **META\_VLM\_LLAMA\_3\_2\_11B\_VISION\_INSTRUCT\_1\_0\_0**: `JumpStartModel`
@@ -46221,6 +46227,12 @@
 ### META\_VLM\_LLAMA\_3\_2\_11B\_VISION\_INSTRUCT\_2\_19\_1
 
 > `readonly` `static` **META\_VLM\_LLAMA\_3\_2\_11B\_VISION\_INSTRUCT\_2\_19\_1**: `JumpStartModel`
+
+***
+
+### META\_VLM\_LLAMA\_3\_2\_11B\_VISION\_INSTRUCT\_2\_19\_2
+
+> `readonly` `static` **META\_VLM\_LLAMA\_3\_2\_11B\_VISION\_INSTRUCT\_2\_19\_2**: `JumpStartModel`
 
 ***
 
@@ -46605,6 +46617,12 @@
 ### META\_VLM\_LLAMA\_3\_2\_90B\_VISION\_2\_3\_1
 
 > `readonly` `static` **META\_VLM\_LLAMA\_3\_2\_90B\_VISION\_2\_3\_1**: `JumpStartModel`
+
+***
+
+### META\_VLM\_LLAMA\_3\_2\_90B\_VISION\_2\_3\_2
+
+> `readonly` `static` **META\_VLM\_LLAMA\_3\_2\_90B\_VISION\_2\_3\_2**: `JumpStartModel`
 
 ***
 
@@ -47091,6 +47109,12 @@
 ### META\_VLM\_LLAMA\_GUARD\_3\_11B\_VISION\_2\_2\_1
 
 > `readonly` `static` **META\_VLM\_LLAMA\_GUARD\_3\_11B\_VISION\_2\_2\_1**: `JumpStartModel`
+
+***
+
+### META\_VLM\_LLAMA\_GUARD\_3\_11B\_VISION\_2\_2\_2
+
+> `readonly` `static` **META\_VLM\_LLAMA\_GUARD\_3\_11B\_VISION\_2\_2\_2**: `JumpStartModel`
 
 ***
 
