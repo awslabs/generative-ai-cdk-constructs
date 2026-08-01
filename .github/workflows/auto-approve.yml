@@ -18,7 +18,8 @@ jobs:
       pull-requests: write
     if: contains(github.event.pull_request.labels.*.name, 'auto-approve')
     steps:
-      - uses: hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363
+      - id: auto_fb3f2046
+        uses: hmarr/auto-approve-action@f0939ea97e9205ef24d872e76833fa908a770363
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           review-message: Auto approved automated PR

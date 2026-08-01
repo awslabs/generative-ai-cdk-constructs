@@ -21,14 +21,18 @@ jobs:
     if: (github.actor != 'dependabot[bot]')
     steps:
       - name: Checkout project
+        id: checkout_project
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
       - name: Setup Python
+        id: setup_python
         uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c
         with:
           python-version: 3.x
       - name: Run Bandit
+        id: run_bandit
         run: pip install bandit && bandit --recursive --format html --output bandit-report.html --exit-zero .
       - name: Store Bandit as Artifact
+        id: store_bandit_as_artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: bandit-report.html

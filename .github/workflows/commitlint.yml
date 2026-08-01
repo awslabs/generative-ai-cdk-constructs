@@ -17,20 +17,25 @@ jobs:
     if: (github.actor != 'dependabot[bot]')
     steps:
       - name: Checkout project
+        id: checkout_project
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           fetch-depth: "0"
       - name: Setup Node
+        id: setup_node
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         with:
           node-version: 22.x
       - name: Install CommitLint
+        id: install_commitlint
         run: npm install -g @commitlint/config-conventional commitlint
       - name: Validate Current Commit
+        id: validate_current_commit
         if: github.event_name == 'push'
         run: npx commitlint --from HEAD~1 --to HEAD --verbose
         shell: bash
       - name: Validate PR commits with commitlint
+        id: validate_pr_commits_with_commitlint
         if: github.event_name == 'pull_request'
         run: npx commitlint --from ${{ github.event.pull_request.head.sha }}~${{ github.event.pull_request.commits }} --to ${{ github.event.pull_request.head.sha }} --verbose
         shell: bash

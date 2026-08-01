@@ -16,16 +16,20 @@ jobs:
       patch_created: ${{ steps.create_patch.outputs.patch_created }}
     steps:
       - name: Checkout project
+        id: checkout_project
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           ref: main
       - name: Setup Node.js
+        id: setup_node_js
         uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444
         with:
           node-version: 22.x
       - name: Install dependencies
+        id: install_dependencies
         run: yarn install --check-files --frozen-lockfile
       - name: Setup AWS credentials
+        id: setup_aws_credentials
         uses: aws-actions/configure-aws-credentials@e3dd6a429d7300a6a4c196c26e071d42e0343502
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN_TO_ASSUME }}
@@ -33,6 +37,7 @@ jobs:
           role-duration-seconds: 7200
           mask-aws-account-id: true
       - name: Run code generation
+        id: run_code_generation
         run: npx projen generate-models-containers
       - name: Find mutations
         id: create_patch
@@ -46,6 +51,7 @@ jobs:
           fi
         shell: bash
       - name: Upload patch
+        id: upload_patch
         if: steps.create_patch.outputs.patch_created
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
@@ -61,17 +67,21 @@ jobs:
     if: ${{ needs.generate.outputs.patch_created }}
     steps:
       - name: Checkout
+        id: checkout
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
         with:
           ref: main
       - name: Download patch
+        id: download_patch
         uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
           name: repo.patch
           path: ${{ runner.temp }}
       - name: Apply patch
+        id: apply_patch
         run: '[ -s ${{ runner.temp }}/repo.patch ] && git apply ${{ runner.temp }}/repo.patch || echo "Empty patch. Skipping."'
       - name: Set git identity
+        id: set_git_identity
         run: |-
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
