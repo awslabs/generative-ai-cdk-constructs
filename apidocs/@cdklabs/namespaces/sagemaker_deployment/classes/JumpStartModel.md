@@ -13446,6 +13446,12 @@
 
 ***
 
+### HUGGINGFACE\_LLM\_QWEN2\_5\_14B\_INSTRUCT\_1\_29\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_14B\_INSTRUCT\_1\_29\_0**: `JumpStartModel`
+
+***
+
 ### HUGGINGFACE\_LLM\_QWEN2\_5\_14B\_INSTRUCT\_1\_3\_0
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_14B\_INSTRUCT\_1\_3\_0**: `JumpStartModel`
@@ -13869,6 +13875,12 @@
 ### HUGGINGFACE\_LLM\_QWEN2\_5\_32B\_INSTRUCT\_1\_36\_0
 
 > `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_32B\_INSTRUCT\_1\_36\_0**: `JumpStartModel`
+
+***
+
+### HUGGINGFACE\_LLM\_QWEN2\_5\_32B\_INSTRUCT\_1\_37\_0
+
+> `readonly` `static` **HUGGINGFACE\_LLM\_QWEN2\_5\_32B\_INSTRUCT\_1\_37\_0**: `JumpStartModel`
 
 ***
 
@@ -17679,6 +17691,12 @@
 ### HUGGINGFACE\_OD\_MICROSOFT\_TABLE\_TRANSFORMER\_DETECTION\_1\_0\_3
 
 > `readonly` `static` **HUGGINGFACE\_OD\_MICROSOFT\_TABLE\_TRANSFORMER\_DETECTION\_1\_0\_3**: `JumpStartModel`
+
+***
+
+### HUGGINGFACE\_OD\_NVIDIA\_LOCATEANYTHING\_3B\_1\_0\_0
+
+> `readonly` `static` **HUGGINGFACE\_OD\_NVIDIA\_LOCATEANYTHING\_3B\_1\_0\_0**: `JumpStartModel`
 
 ***
 
