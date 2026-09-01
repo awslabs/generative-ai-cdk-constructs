@@ -68,7 +68,6 @@ const project = new awscdk.AwsCdkConstructLibrary({
     '@mrgrain/jsii-struct-builder',
     'typedoc',
     'typedoc-plugin-markdown',
-    'aws-sdk-mock',
     '@aws-cdk/assert',
     `@aws-cdk/integ-tests-alpha@${CDK_VERSION}-alpha.0`,
     '@cdklabs/eslint-plugin',
