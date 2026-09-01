@@ -29,7 +29,7 @@ import {
 const GITHUB_USER = 'awslabs';
 const PUBLICATION_NAMESPACE = 'cdklabs';
 const PROJECT_NAME = 'generative-ai-cdk-constructs';
-const CDK_VERSION: string = '2.261.0';
+const CDK_VERSION: string = '2.267.0';
 
 function camelCaseIt(input: string): string {
   // Hypens and dashes to spaces and then CamelCase...
@@ -49,7 +49,7 @@ const project = new awscdk.AwsCdkConstructLibrary({
   description:
     'AWS Generative AI CDK Constructs is a library for well-architected generative AI patterns.',
   cdkVersion: CDK_VERSION,
-  projenVersion: '~v0.101.8',
+  projenVersion: '~v0.103.13',
   constructsVersion: '10.6.0',
   defaultReleaseBranch: 'main',
   jsiiVersion: '~5.9.0',
@@ -574,23 +574,30 @@ project.tasks.tryFind('post-compile')?.insertStep(1, {
   exec: 'jsii-rosetta extract --strict',
 });
 
-// Exclude *.metadata.json from integration test snapshot assertions and gitignore.
-// These files contain absolute paths that differ between local machines and CI,
-// causing false assertion failures.
+// Exclude snapshot artifacts with machine-specific paths from assertions and gitignore.
 // Projen >=0.101 emits the diff step as execArgs instead of a single exec string.
+const snapshotPathExclusions = ['*.metadata.json', 'validation-report.json'];
 for (const task of project.tasks.all) {
   if (task.name.endsWith(':assert')) {
     const steps = task.steps;
     for (let i = 0; i < steps.length; i++) {
       const step = steps[i];
       if (step.exec?.startsWith('diff -r')) {
-        task.updateStep(i, {
-          exec: step.exec.replace('diff -r', 'diff -r -x *.metadata.json'),
-        });
-      } else if (step.execArgs?.[0] === 'diff' && !step.execArgs.includes('*.metadata.json')) {
+        let exec = step.exec;
+        for (const pattern of snapshotPathExclusions) {
+          if (!exec.includes(pattern)) {
+            exec = exec.replace('diff -r', `diff -r -x ${pattern}`);
+          }
+        }
+        task.updateStep(i, { exec });
+      } else if (step.execArgs?.[0] === 'diff') {
         const args = [...step.execArgs];
         const rIndex = args.indexOf('-r');
-        args.splice(rIndex >= 0 ? rIndex + 1 : 1, 0, '-x', '*.metadata.json');
+        for (const pattern of snapshotPathExclusions) {
+          if (!args.includes(pattern)) {
+            args.splice(rIndex >= 0 ? rIndex + 1 : 1, 0, '-x', pattern);
+          }
+        }
         task.updateStep(i, { execArgs: args });
       }
     }
@@ -599,6 +606,7 @@ for (const task of project.tasks.all) {
 project.gitignore.addPatterns(
   'test/**/*.integ.snapshot/*.metadata.json',
   'test/**/*.integ.snapshot/**/*.metadata.json',
+  'test/**/*.integ.snapshot/validation-report.json',
   'lambda/**/dist/',
   'lambda/**/poetry.lock',
 );

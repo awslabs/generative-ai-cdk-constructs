@@ -151,6 +151,7 @@ test/patterns/gen-ai/aws-aoss-cw-dashboard/integ-tests/aws-aoss-cw-dashboard.int
 !/.github/workflows/code-generation.yml
 test/**/*.integ.snapshot/*.metadata.json
 test/**/*.integ.snapshot/**/*.metadata.json
+test/**/*.integ.snapshot/validation-report.json
 lambda/**/dist/
 lambda/**/poetry.lock
 !/.projenrc.ts
