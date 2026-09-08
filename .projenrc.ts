@@ -530,6 +530,12 @@ project.addTask('generate-models-containers', {
       exec: 'npm run generate',
     },
     {
+      // Keep generated sources aligned with eslint so code-generation PRs
+      // do not open with formatting-only diffs that self-mutation later reverts.
+      say: 'Lint-fix generated model and DLC source files',
+      exec: 'npx eslint --fix src/patterns/gen-ai/aws-model-deployment-sagemaker/deep-learning-container-image.ts src/patterns/gen-ai/aws-model-deployment-sagemaker/jumpstart-model.ts',
+    },
+    {
       say: 'Generate the new apidocs',
       spawn: 'post-compile',
     },

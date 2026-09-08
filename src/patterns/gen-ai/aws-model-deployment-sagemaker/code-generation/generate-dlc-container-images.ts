@@ -189,7 +189,7 @@ import { Construct } from 'constructs';
 import { ContainerImage, ContainerImageConfig } from './container-image';
 
 export class DeepLearningContainerImage extends ContainerImage {
-${imagesStr}
+${imagesStr.trimEnd()}
 
   public static fromDeepLearningContainerImage(
     repositoryName: string,

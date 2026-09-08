@@ -291,7 +291,7 @@ export interface IJumpStartModelSpec {
 }
 
 export class JumpStartModel {
-${modelsStr}
+${modelsStr.trimEnd()}
 
   public static of(name: string): JumpStartModel {
     return new JumpStartModel(name);
@@ -307,7 +307,8 @@ ${modelsStr}
 
     return json[this.name];
   }
-}`;
+}
+`;
 
   GenerateUtils.writeFileSyncWithDirs(
     JUMPSTART_MODELS_PATH,
