@@ -107,7 +107,7 @@
     "@typescript-eslint/parser": "^8",
     "aws-cdk": "^2",
     "aws-cdk-lib": "2.267.0",
-    "commit-and-tag-version": "^12",
+    "commit-and-tag-version": "^13",
     "commitlint": "^18.6.1",
     "constructs": "10.6.0",
     "eslint": "^9",
@@ -128,7 +128,7 @@
     "ts-jest": "^29.4.12",
     "ts-node": "^10.9.2",
     "typedoc": "^0.28.20",
-    "typedoc-plugin-markdown": "^4.13.0",
+    "typedoc-plugin-markdown": "^4.13.1",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
