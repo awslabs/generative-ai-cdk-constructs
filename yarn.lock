@@ -42,9 +42,9 @@
     semver "^7.8.5"
 
 "@aws-cdk/cloud-assembly-schema@^54.11.0":
-  version "54.24.0"
-  resolved "https://registry.yarnpkg.com/@aws-cdk/cloud-assembly-schema/-/cloud-assembly-schema-54.24.0.tgz#ad24c3de22e695a1579ecc4c2f9d46e8c8ed86ec"
-  integrity sha512-9sH1pBpWuqZR/9rYAveNi62B/jDrc9BNOL83alD/wtIUSbRkg1aj6JX2r1cSugQwLBjCizQscQZgAb5wWnTTMg==
+  version "54.25.0"
+  resolved "https://registry.yarnpkg.com/@aws-cdk/cloud-assembly-schema/-/cloud-assembly-schema-54.25.0.tgz#06c03ed8877e59902c20da339a422de3863883e9"
+  integrity sha512-aZkzPqWLg1Oozm53NeyrBZPguTq3e6v7NpQ3QOGULj0IIrodLzGPM7fmAvjcJcHzjtuZU9IP1gIY92nKIM+Bvw==
   dependencies:
     jsonschema "^1.5.0"
     semver "^7.8.5"
@@ -1749,9 +1749,9 @@ aws-cdk-lib@2.267.0:
     yaml "1.10.3"
 
 aws-cdk@^2:
-  version "2.1142.0"
-  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.1142.0.tgz#d69b9dd3a30118ef903f3c471f5afe401be88036"
-  integrity sha512-gNOeii+avTJmOwfR8tVgraZ5A2EBC/529EXg7e+yBp8Zl608dAv5CtFRoJt8QoKiruiCwYr4HF6ClNAse/NkSg==
+  version "2.1143.0"
+  resolved "https://registry.yarnpkg.com/aws-cdk/-/aws-cdk-2.1143.0.tgz#56e90684394233c4614ffa5e8b863400ca4cd403"
+  integrity sha512-bTbgEmNuN6UMDAyhGFWOAnriafSu7j0cAjaFKRw1/WEs6RE5g062D2v2+YE8Dw6qw7RgNGQPH5Nv47TsK5kZSQ==
 
 babel-jest@^29.7.0:
   version "29.7.0"
@@ -1826,10 +1826,10 @@ balanced-match@^4.0.2:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-4.0.4.tgz#bfb10662feed8196a2c62e7c68e17720c274179a"
   integrity sha512-BLrgEcRTwX2o6gGxGOCNyMvGSp35YofuYzw9h1IMTRmKqttAZZVU67bdb9Pr2vUHA8+j3i2tJfjO6C6+4myGTA==
 
-baseline-browser-mapping@^2.11.23:
-  version "2.11.25"
-  resolved "https://registry.yarnpkg.com/baseline-browser-mapping/-/baseline-browser-mapping-2.11.25.tgz#88b942ce372bdf2d6a2652136bbf7826c65c77be"
-  integrity sha512-gMmEShwwq7FJqMwvfRwvCl00v4kN+KOfJqXn+f4nrufak5gNHJOksd/60Dvjuz7sI8Y5WiSFBa8FEYr+zoyqCw==
+baseline-browser-mapping@^2.11.25:
+  version "2.11.26"
+  resolved "https://registry.yarnpkg.com/baseline-browser-mapping/-/baseline-browser-mapping-2.11.26.tgz#01bf6774efb3fbb9de20afc6b923ab85c7d230a6"
+  integrity sha512-GLQdD3y6UF8iVuMJl5fHgE4jdn/ua7n+toKfLgNlg3BqQtOZjpy68T8Tup8/wGWZCDlm7KMg7tPb4MPn7oN0TQ==
 
 brace-expansion@^1.1.7:
   version "1.1.21"
@@ -1854,14 +1854,14 @@ braces@^3.0.3:
     fill-range "^7.1.1"
 
 browserslist@^4.24.0:
-  version "4.29.0"
-  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.29.0.tgz#e50e72c30c4b5f7ec894c09feb6ed525167f5344"
-  integrity sha512-3GSvyjvDI4Dur1Meg2BekJquu5uF+9R9a1+5M1Mde192eZoXbeXjzgOsgqPS2V8D5wrrip0gR5Hf/GhWQ9ZzaA==
+  version "4.29.1"
+  resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.29.1.tgz#f723071987a4f094177d94e01f6dc6e7493b972c"
+  integrity sha512-AUdjuRyCNGUYtqpqfTmWyM4fXay8yIQhmLnvYe/THMGfT9B/34X7xQd3ifKxwyNPPpowVBjLb+64BN9Rn1mizw==
   dependencies:
-    baseline-browser-mapping "^2.11.23"
+    baseline-browser-mapping "^2.11.25"
     caniuse-lite "^1.0.30001810"
-    electron-to-chromium "^1.5.427"
-    node-releases "^2.0.55"
+    electron-to-chromium "^1.5.438"
+    node-releases "^2.0.57"
     update-browserslist-db "^1.3.3"
 
 bs-logger@^0.2.6:
@@ -1934,9 +1934,9 @@ camelcase@^6.2.0, camelcase@^6.3.0:
   integrity sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==
 
 caniuse-lite@^1.0.30001810:
-  version "1.0.30001810"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001810.tgz#4970b477dea3278374de9bc43aa8f5d39fc3cda2"
-  integrity sha512-TITQPUkaz+aVk5GL6NhOdwk1aEaNTSDPsGFWrTuhKGtjTF70jL/Oht2W4c6rXUe5fu7Ie19VIahAXHIIiWWNeg==
+  version "1.0.30001812"
+  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001812.tgz#55b32ed819d120b384149a4f9fd59d179ce008f9"
+  integrity sha512-qN+QNNBr93TCmFrmte0bBCjSDMuRvt78VlHT99qIGPszm4QsqCX8lnyWUFkHi8B7ZBAPq8SH+UqyXNy/odMdng==
 
 case@1.6.3, case@^1.6.3:
   version "1.6.3"
@@ -2428,10 +2428,10 @@ dunder-proto@^1.0.0, dunder-proto@^1.0.1:
     es-errors "^1.3.0"
     gopd "^1.2.0"
 
-electron-to-chromium@^1.5.427:
-  version "1.5.435"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.435.tgz#4d08b6db66256df8e3b7b87c873ec50cc372e386"
-  integrity sha512-hwZNgb6JmRlmQX/L0yojyu6upuvtR7iGS1hB/9nc7I9vCsvekahqh3noFeXUBRirv9+Hk7E6v/LFz4CW6FvpWA==
+electron-to-chromium@^1.5.438:
+  version "1.5.439"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.439.tgz#d14ad21f157ee83b77d1e46fc031776eec9013c9"
+  integrity sha512-qu6QIPXhsb+CRcAiTMNjR4A1y/7tCYKkKjr5CZXRVih6qkDf79peZ2BpEU3qoDBNCRrcy3Mra3X9nG5oruuA7Q==
 
 emittery@^0.13.1:
   version "0.13.1"
@@ -4566,10 +4566,10 @@ node-int64@^0.4.0:
   resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
   integrity sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==
 
-node-releases@^2.0.55:
-  version "2.0.56"
-  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.56.tgz#fff6a4093fe05d994a2a5e415eee5fcef874e6dc"
-  integrity sha512-x0InOIyzgdk+eyaWaRJFH5snEtiImgBgblZ2CyPrLmqqcuMQkEvcDPHbzqbD8eDsSeJbVOjn+crzyzHaM4D+/A==
+node-releases@^2.0.57:
+  version "2.0.57"
+  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.57.tgz#47827d34b86a98b4b7afacc1222878c286b6ef2d"
+  integrity sha512-kQK9LGGFiHtrWiNhZtA7Qbw17AQz+dmsEKODRIVTXA9+e5MS/2gZEBhYJt13GrAz5/IOZKddH/0Z3TP/Zgo+yw==
 
 normalize-package-data@^2.5.0:
   version "2.5.0"
@@ -5579,10 +5579,10 @@ ts-api-utils@^2.5.0:
   resolved "https://registry.yarnpkg.com/ts-api-utils/-/ts-api-utils-2.5.0.tgz#4acd4a155e22734990a5ed1fe9e97f113bcb37c1"
   integrity sha512-OJ/ibxhPlqrMM0UiNHJ/0CKQkoKF243/AEmplt3qpRgkW8VG7IfOS41h7V8TjITqdByHzrjcS/2si+y4lIh8NA==
 
-ts-jest@^29.4.12:
-  version "29.4.12"
-  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-29.4.12.tgz#c34cd91f02d364e9286d2c016843315fd0efff76"
-  integrity sha512-Ov6ClY53Fflh6BGAnY2DlTq1hYDrTycz2PVTXBWFW2CU+9zrEqAp9fWdGXl42EXO5RLSFAcAZ2JFKbP+zBTFfw==
+ts-jest@^29.4.13:
+  version "29.4.13"
+  resolved "https://registry.yarnpkg.com/ts-jest/-/ts-jest-29.4.13.tgz#5c25941fb571a36781580f544c2f79355336374b"
+  integrity sha512-rUQG+Ar95cNQf//KvsSjvabLpCTbwk+vKGWkAgiKFugqVwmOpGR7n7xa3S68/AB21Wn0KNhIAVxmxrUsz0L1AQ==
   dependencies:
     bs-logger "^0.2.6"
     fast-json-stable-stringify "^2.1.0"

@@ -125,7 +125,7 @@
     "jsii-rosetta": "~5.9.0",
     "pinst": "^3.0.0",
     "projen": "~v0.103.13",
-    "ts-jest": "^29.4.12",
+    "ts-jest": "^29.4.13",
     "ts-node": "^10.9.2",
     "typedoc": "^0.28.20",
     "typedoc-plugin-markdown": "^4.13.1",
